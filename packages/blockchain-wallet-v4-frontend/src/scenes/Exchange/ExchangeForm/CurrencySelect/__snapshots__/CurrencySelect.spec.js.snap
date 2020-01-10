@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Exchange CurrencySelct should render correctly 1`] = `
-<CurrencySelect__CurrencyRow
+<Styled(styled.div)
   height="32px"
   spaced={true}
 >
-  <Layout__Cell
+  <styled.div
     data-e2e="exchangeSourceCurrency"
   >
     <Field
@@ -31,14 +31,14 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
       name="source"
       onChange={[Function]}
     />
-  </Layout__Cell>
+  </styled.div>
   <TooltipHost
     id="exchange.changeinput"
   >
-    <Layout__Cell
+    <styled.div
       size="small"
     >
-      <CurrencySelect__CoinSwapIcon
+      <Styled(Icon)
         cursor={true}
         data-e2e="exchangeSwitchTargets"
         disabled={false}
@@ -47,9 +47,9 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
         size="24px"
         weight={500}
       />
-    </Layout__Cell>
+    </styled.div>
   </TooltipHost>
-  <Layout__Cell
+  <styled.div
     data-e2e="exchangeTargetCurrency"
   >
     <Field
@@ -75,6 +75,6 @@ exports[`Exchange CurrencySelct should render correctly 1`] = `
       name="target"
       onChange={[Function]}
     />
-  </Layout__Cell>
-</CurrencySelect__CurrencyRow>
+  </styled.div>
+</Styled(styled.div)>
 `;

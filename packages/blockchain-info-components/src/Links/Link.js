@@ -42,7 +42,7 @@ Link.propTypes = {
 Link.defaultProps = {
   weight: 500,
   size: '16px',
-  color: 'brand-secondary',
+  color: 'blue600',
   uppercase: false,
   capitalize: false,
   bold: false

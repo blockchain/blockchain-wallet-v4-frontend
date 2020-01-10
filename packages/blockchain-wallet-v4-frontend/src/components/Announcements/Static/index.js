@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   padding: 12px 25px 12px 26px;
   align-items: center;
   justify-content: space-between;
-  background: ${props => props.theme['blue500']};
+  background: ${props => props.theme.blue500};
   overflow: hidden;
   ${media.tablet`
     display: none;

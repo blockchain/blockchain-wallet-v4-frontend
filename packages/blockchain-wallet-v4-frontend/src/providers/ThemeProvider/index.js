@@ -11,7 +11,8 @@ const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],
   themeName => {
     const oldTheme = Palette(themeName)
-    return { theme: merge(theme, oldTheme) }
+    const newTheme = merge(theme, oldTheme)
+    return { theme: newTheme }
   }
 )
 

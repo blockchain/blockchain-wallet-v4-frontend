@@ -68,6 +68,16 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/index.ts'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/')
+    }
+  },
   module: {
     rules: [
       {
@@ -78,6 +88,7 @@ module.exports = {
           'babel-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
@@ -123,21 +134,21 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
-    new UnusedFilesWebpackPlugin({
-      globOptions: {
-        cwd: PATHS.src,
-        ignore: [
-          `**/__mocks__/**`,
-          `**/*.spec.*`,
-          `index.prod.js`,
-          `utils/**`,
-          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
-          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
-          'assets/locales/defaultMessages.json',
-          'assets/locales/whitelists/whitelist_en.json'
-        ]
-      }
-    }),
+    // new UnusedFilesWebpackPlugin({
+    //   globOptions: {
+    //     cwd: PATHS.src,
+    //     ignore: [
+    //       `**/__mocks__/**`,
+    //       `**/*.spec.*`,
+    //       `index.prod.js`,
+    //       `utils/**`,
+    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
+    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
+    //       'assets/locales/defaultMessages.json',
+    //       'assets/locales/whitelists/whitelist_en.json'
+    //     ]
+    //   }
+    // }),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)

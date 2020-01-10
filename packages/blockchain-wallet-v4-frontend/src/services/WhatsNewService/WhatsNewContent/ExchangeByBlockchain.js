@@ -22,7 +22,7 @@ const DarkText = styled(Text).attrs({
   `};
 `
 const PrimaryText = styled(Text).attrs({
-  color: 'brand-primary',
+  color: 'blue900',
   size: '16px'
 })`
   display: inline;
@@ -41,7 +41,7 @@ const GetStartedButton = styled(Button).attrs({
 export const ExchangeByBlockchain = ({ kycNotFinished, verifyIdentity }) => (
   <Container>
     <Row marginBottom='10px'>
-      <Text color='brand-primary' size='24px' weight={600}>
+      <Text color='blue900' size='24px' weight={600}>
         <FormattedMessage
           defaultMessage="Trading your crypto doesn't mean trading away control."
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trading_your_crypto'

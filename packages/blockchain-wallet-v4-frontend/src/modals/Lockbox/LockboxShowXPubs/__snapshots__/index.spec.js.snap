@@ -14,7 +14,7 @@ exports[`LockboxShowXPubs Modal should match snapshot 1`] = `
     />
   </Component>
   <Component>
-    <LockboxShowXPubs__WarningBanner
+    <styled.
       type="warning"
     >
       <Component
@@ -27,85 +27,85 @@ exports[`LockboxShowXPubs Modal should match snapshot 1`] = `
           values={Object {}}
         />
       </Component>
-    </LockboxShowXPubs__WarningBanner>
-    <LockboxShowXPubs__Tabs>
-      <LockboxShowXPubs__Tab
+    </styled.>
+    <styled.div>
+      <styled.div
         className="active"
         key="btc"
         onClick={[Function]}
       >
-        <LockboxShowXPubs__TabIcon
+        <styled.
           color="btc"
           name="btc-circle-filled"
           size="28px"
         />
-        <LockboxShowXPubs__TabHeader>
+        <styled.>
           <span>
             BTC
           </span>
-        </LockboxShowXPubs__TabHeader>
-      </LockboxShowXPubs__Tab>
-      <LockboxShowXPubs__Tab
+        </styled.>
+      </styled.div>
+      <styled.div
         className=""
         key="eth"
         onClick={[Function]}
       >
-        <LockboxShowXPubs__TabIcon
+        <styled.
           color="eth"
           name="eth-circle-filled"
           size="28px"
         />
-        <LockboxShowXPubs__TabHeader>
+        <styled.>
           <span>
             ETH
           </span>
-        </LockboxShowXPubs__TabHeader>
-      </LockboxShowXPubs__Tab>
-      <LockboxShowXPubs__Tab
+        </styled.>
+      </styled.div>
+      <styled.div
         className=""
         key="bch"
         onClick={[Function]}
       >
-        <LockboxShowXPubs__TabIcon
+        <styled.
           color="bch"
           name="bch-circle-filled"
           size="28px"
         />
-        <LockboxShowXPubs__TabHeader>
+        <styled.>
           <span>
             BCH
           </span>
-        </LockboxShowXPubs__TabHeader>
-      </LockboxShowXPubs__Tab>
-      <LockboxShowXPubs__Tab
+        </styled.>
+      </styled.div>
+      <styled.div
         className=""
         key="xlm"
         onClick={[Function]}
       >
-        <LockboxShowXPubs__TabIcon
+        <styled.
           color="xlm"
           name="xlm-circle-filled"
           size="28px"
         />
-        <LockboxShowXPubs__TabHeader>
+        <styled.>
           <span>
             XLM
           </span>
-        </LockboxShowXPubs__TabHeader>
-      </LockboxShowXPubs__Tab>
-    </LockboxShowXPubs__Tabs>
-    <LockboxShowXPubs__Content>
-      <LockboxShowXPubs__XPubText
+        </styled.>
+      </styled.div>
+    </styled.div>
+    <styled.div>
+      <styled.
         size="12px"
         weight="300"
       >
         btcX
-      </LockboxShowXPubs__XPubText>
+      </styled.>
       <QRCodeWrapper
         size={150}
         value="btcX"
       />
-    </LockboxShowXPubs__Content>
+    </styled.div>
   </Component>
   <Component
     align="right"

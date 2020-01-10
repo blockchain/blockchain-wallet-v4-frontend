@@ -95,7 +95,7 @@ const Register = props => {
         <Header>
           <Text
             size='20px'
-            color='brand-primary'
+            color='blue900'
             weight={600}
             capitalize
             data-e2e='signupHeader'

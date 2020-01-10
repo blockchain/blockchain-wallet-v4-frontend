@@ -70,7 +70,7 @@ const TierRow = styled(Row)`
 const SwapText = styled(Text)`
   margin-bottom: 10px;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     text-decoration: none;
   }
 `
@@ -127,7 +127,7 @@ const IdentityVerification = () => {
     <Wrapper>
       <LinkContainer to='/swap'>
         <GoBackLink>
-          <Icon name='chevron-down-large' color='brand-secondary' />
+          <Icon name='chevron-down-large' color='blue600' />
         </GoBackLink>
       </LinkContainer>
       <Container>

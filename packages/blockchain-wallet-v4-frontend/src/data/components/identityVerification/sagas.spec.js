@@ -10,7 +10,7 @@ import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selector
 import { getUserData, getUserTiers } from 'data/modules/profile/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas'
-import sagas, { logLocation, noCampaignDataError } from './sagas'
+import sagas, { logLocation, noCampaignDataError } from './sagas.ts'
 
 const api = {
   fetchKycConfig: jest.fn(),

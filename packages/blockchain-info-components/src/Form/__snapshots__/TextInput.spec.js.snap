@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextInput component default renders correctly 1`] = `
-<TextInput__BaseTextInput
-  borderColor="red"
+<styled.input
+  borderColor="grey100"
+  bordercolor="red600"
   disabled={false}
   height="48px"
   minHeight="48px"

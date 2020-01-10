@@ -1,4 +1,6 @@
-export default {
+import { DefaultTheme } from 'styled-components'
+
+const DarkTheme: DefaultTheme = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
   whiteFade400: 'rgba(255, 255, 255, 0.4)',
@@ -63,12 +65,13 @@ export default {
   xlm: '#797979',
   // OLD - AVOID USE \\
   // Brand
-  'brand-primary': '#0D3578',
-  'brand-secondary': '#0C6CF2',
-  'brand-tertiary': '#537787',
-  'brand-quaternary': '#4f5254',
   'brand-yellow': '#665227',
   'brand-yellow-lighter': '#7F735A',
+  'logo-primary': '#153A62',
+  'logo-secondary': '#799EB2',
+  'logo-tertiary': '#3558A8',
+  'logo-quaternary': '#B2D5E5',
+  'logo-quinary': '#10ADE4',
   // Exchange
   exchangeNight: '#0A0D10',
   exchangeTurquoise: '#42F1B8',
@@ -99,10 +102,8 @@ export default {
   // Blues
   purple: '#0D3578',
   'deep-blue': '#0D3578',
-  blue: '#0c6cf2',
-  // Colors
-  red: '#651D1E',
-  orange: '#F28B24',
   // Service Announcements
   info: '#2C5687'
 }
+
+export default DarkTheme

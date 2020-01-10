@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-class App extends React.PureComponent {
+class App extends React.PureComponent<{ store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any }> {
   render () {
     const {
       store,
@@ -63,7 +63,7 @@ class App extends React.PureComponent {
       persistor,
       isAuthenticated,
       supportedCoins
-    } = this.props
+    }: { store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any } = this.props
     return (
       <Provider store={store}>
         <TranslationsProvider>
@@ -157,8 +157,8 @@ class App extends React.PureComponent {
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
-                      <Redirect from='/' to='/login' />
-                    )}
+                        <Redirect from='/' to='/login' />
+                      )}
                   </Switch>
                 </ConnectedRouter>
                 <AnalyticsTracker />

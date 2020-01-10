@@ -52,7 +52,7 @@ const LearnMoreContainer = styled(Link)`
 `
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
 `
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -70,7 +70,7 @@ const Welcome = props => {
         <Row>
           <Column>
             <div>
-              <CoinHeader size='24px' weight={500} color='brand-primary'>
+              <CoinHeader size='24px' weight={500} color='blue900'>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.newcoinwallet'
                   defaultMessage='Your {coin} Wallet'
@@ -160,11 +160,7 @@ const Welcome = props => {
                       defaultMessage='Learn More'
                     />
                   </LearnMoreText>
-                  <Icon
-                    name='arrow-right'
-                    color='brand-secondary'
-                    size='18px'
-                  />
+                  <Icon name='arrow-right' color='blue600' size='18px' />
                 </LearnMoreLink>
               </LearnMoreContainer>
             )}

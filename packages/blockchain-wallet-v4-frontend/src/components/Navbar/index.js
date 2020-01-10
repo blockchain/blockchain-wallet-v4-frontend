@@ -18,13 +18,13 @@ export const NavbarNavItemTextLink = styled(Link)`
   .icon,
   .settings {
     transition: color 0.3s;
-    color: ${props => transparentize(0.3, props.theme['white'])};
+    color: ${props => transparentize(0.3, props.theme.white)};
   }
   &.active,
   &:hover {
     .icon,
     .settings {
-      color: ${props => props.theme['white']};
+      color: ${props => props.theme.white};
     }
   }
 `

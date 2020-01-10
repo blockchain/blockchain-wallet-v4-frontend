@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EmailRequired component renders correctly 1`] = `
-<EmailRequired__Wrapper>
+<styled.div>
   <Image
     color="auto"
     height="auto"
@@ -48,7 +48,7 @@ exports[`EmailRequired component renders correctly 1`] = `
       <Link
         bold={false}
         capitalize={false}
-        color="brand-secondary"
+        color="blue600"
         size="18px"
         uppercase={false}
         weight={500}
@@ -61,5 +61,5 @@ exports[`EmailRequired component renders correctly 1`] = `
       </Link>
     </withRouter(LinkContainer)>
   </TextGroup>
-</EmailRequired__Wrapper>
+</styled.div>
 `;

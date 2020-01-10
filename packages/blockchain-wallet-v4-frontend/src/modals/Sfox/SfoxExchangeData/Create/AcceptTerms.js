@@ -89,7 +89,7 @@ const AcceptTermsContainer = styled.div`
   font-size: 12px;
   font-weight: 500;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     text-decoration: none;
   }
 `

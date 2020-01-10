@@ -53,7 +53,7 @@ const Content = styled.div`
   width: 100%;
   overflow: scroll;
   height: calc(100% - 60px);
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 `
 
 class TrayRightContainer extends React.PureComponent {

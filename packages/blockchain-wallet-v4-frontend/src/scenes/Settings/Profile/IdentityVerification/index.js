@@ -73,7 +73,7 @@ const Row = styled.div`
 const SwapText = styled(Text)`
   margin-bottom: 10px;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     text-decoration: none;
   }
 `

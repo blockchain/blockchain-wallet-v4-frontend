@@ -64,7 +64,7 @@ export const RatesBox = ({
         </RateText>
       </TotalBalanceWrapper>
       <RateWrapper>
-        <RateText color='brand-primary'>1 {sourceCoinTicker} =</RateText>
+        <RateText color='blue900'>1 {sourceCoinTicker} =</RateText>
         <RateText>
           <StringDisplay>
             {sourceToTargetRate.map(rate => `${rate} ${targetCoinTicker}`)}

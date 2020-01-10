@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextAreaInput component default renders correctly 1`] = `
-<TextAreaInput__BaseTextAreaInput
-  borderColor="red"
+<styled.textarea
+  borderColor="grey100"
+  bordercolor="red600"
   resize={true}
 />
 `;

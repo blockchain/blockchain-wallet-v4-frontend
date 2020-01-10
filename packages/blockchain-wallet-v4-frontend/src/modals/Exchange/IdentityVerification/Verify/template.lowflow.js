@@ -240,7 +240,7 @@ const Verify = ({
                   <TooltipHost id='identityverification.headerhelper'>
                     <TooltipIcon
                       name='question-in-circle-filled'
-                      color='brand-primary'
+                      color='blue900'
                       size='24px'
                     />
                   </TooltipHost>

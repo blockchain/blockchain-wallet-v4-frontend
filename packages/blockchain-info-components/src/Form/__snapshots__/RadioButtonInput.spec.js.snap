@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RadioButtonInput component default renders correctly 1`] = `
-<RadioButtonInput__Wrapper>
-  <RadioButtonInput__BaseRadioButtonInput
+<styled.div>
+  <styled.input
     checked={true}
     data-e2e={
       Array [
@@ -13,10 +13,10 @@ exports[`RadioButtonInput component default renders correctly 1`] = `
     name="test"
     props={Object {}}
   />
-  <RadioButtonInput__Label>
+  <styled.label>
     <span>
       test
     </span>
-  </RadioButtonInput__Label>
-</RadioButtonInput__Wrapper>
+  </styled.label>
+</styled.div>
 `;

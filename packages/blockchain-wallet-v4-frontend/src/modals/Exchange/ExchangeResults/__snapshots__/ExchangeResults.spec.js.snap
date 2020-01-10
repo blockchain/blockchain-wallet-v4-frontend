@@ -4,11 +4,11 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -30,13 +30,13 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="EXPIRED"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -56,69 +56,69 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="error"
             marginRight="4px"
           />
           <OrderStatus
             status="EXPIRED"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange"
             id="modals.exchangeresults.exchangecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Receive"
             id="modals.exchangeresults.receivecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
-            <ExchangeResults__StrikeThrough>
+            <styled.s>
               0.1337 ETH
-            </ExchangeResults__StrikeThrough>
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-    </ExchangeResults__SummaryWrapper>
+            </styled.s>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+    </Styled(styled.div)>
     <Link
       bold={false}
       capitalize={false}
-      color="brand-secondary"
+      color="blue600"
       href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
       size="16px"
       target="_blank"
@@ -153,11 +153,11 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -179,13 +179,13 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="FAILED"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -205,69 +205,69 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="error"
             marginRight="4px"
           />
           <OrderStatus
             status="FAILED"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange"
             id="modals.exchangeresults.exchangecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Receive"
             id="modals.exchangeresults.receivecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
-            <ExchangeResults__StrikeThrough>
+            <styled.s>
               0.1337 ETH
-            </ExchangeResults__StrikeThrough>
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-    </ExchangeResults__SummaryWrapper>
+            </styled.s>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+    </Styled(styled.div)>
     <Link
       bold={false}
       capitalize={false}
-      color="brand-secondary"
+      color="blue600"
       href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
       size="16px"
       target="_blank"
@@ -302,11 +302,11 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -328,8 +328,8 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -349,64 +349,64 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="success"
             marginRight="4px"
           />
           <OrderStatus
             status="FINISHED"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Deposited"
             id="modals.exchangeresults.depositedcoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Received"
             id="modals.exchangeresults.coinreceived"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total Value"
             id="modals.exchangeresults.value"
@@ -418,28 +418,28 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
             id="modals.exchangeresults.valuenotcie"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
            1000 USD
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange rate"
             id="modals.exchangeresults.rate"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           1 BTC = 0.06 ETH
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;
@@ -448,11 +448,11 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -474,13 +474,13 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="PENDING_DEPOSIT"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -500,91 +500,91 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="brand-yellow"
             marginRight="4px"
           />
           <OrderStatus
             status="PENDING_DEPOSIT"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange"
             id="modals.exchangeresults.exchangecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Receive"
             id="modals.exchangeresults.receivecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total Value"
             id="modals.exchangeresults.value"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           ~ 1000 USD
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange rate"
             id="modals.exchangeresults.rate"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           1 BTC = 0.06 ETH
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;
@@ -593,11 +593,11 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -619,13 +619,13 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="PENDING_EXECUTION"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -645,91 +645,91 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="brand-yellow"
             marginRight="4px"
           />
           <OrderStatus
             status="PENDING_EXECUTION"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange"
             id="modals.exchangeresults.exchangecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Receive"
             id="modals.exchangeresults.receivecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total Value"
             id="modals.exchangeresults.value"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           ~ 1000 USD
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange rate"
             id="modals.exchangeresults.rate"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           1 BTC = 0.06 ETH
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;
@@ -738,11 +738,11 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -764,13 +764,13 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="PENDING_REFUND"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -790,60 +790,60 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="brand-yellow"
             marginRight="4px"
           />
           <OrderStatus
             status="PENDING_REFUND"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Broadcast"
             id="modals.exchangeresults.broadcastcoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total to be refunded"
             id="modals.exchangeresults.totaltoberefunded"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           ~ 0.1336
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;
@@ -852,11 +852,11 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -878,13 +878,13 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="PENDING_WITHDRAWAL"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -904,91 +904,91 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="brand-yellow"
             marginRight="4px"
           />
           <OrderStatus
             status="PENDING_WITHDRAWAL"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange"
             id="modals.exchangeresults.exchangecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Receive"
             id="modals.exchangeresults.receivecoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total Value"
             id="modals.exchangeresults.value"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           ~ 1000 USD
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Exchange rate"
             id="modals.exchangeresults.rate"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
           1 BTC = 0.06 ETH
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;
@@ -997,11 +997,11 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
 <Modal
   size="small"
 >
-  <ExchangeResults__Header />
+  <Styled(ModalHeader) />
   <ModalBody
     loading={false}
   >
-    <ExchangeResults__CoinIconTitle>
+    <Styled(Styled(Text))>
       <Icon
         color="btc"
         cursor={false}
@@ -1023,13 +1023,13 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         size="42px"
         weight={400}
       />
-    </ExchangeResults__CoinIconTitle>
-    <ExchangeResults__SummaryNote>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Text))>
       <OrderNote
         status="REFUNDED"
       />
-    </ExchangeResults__SummaryNote>
-    <ExchangeResults__OrderRow>
+    </Styled(Styled(Text))>
+    <Styled(Styled(Styled(Text)))>
       <Text
         altFont={false}
         capitalize={false}
@@ -1049,60 +1049,60 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         />
       </Text>
       ede39566-1f0d-4e48-96fa-b558b70e46b7
-    </ExchangeResults__OrderRow>
-    <ExchangeResults__SummaryWrapper>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+    </Styled(Styled(Styled(Text)))>
+    <Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Status"
             id="modals.exchangeresults.status"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <Styled(Styled(Text))
           color="gray-5"
         >
-          <ExchangeResults__StatusCircle
+          <styled.div
             color="brand-yellow"
             marginRight="4px"
           />
           <OrderStatus
             status="REFUNDED"
           />
-        </ExchangeResults__SummaryExchangeAmount>
-      </Exchange__LargeTableRow>
-      <Exchange__LargeTableRow>
-        <Exchange__ExchangeText>
+        </Styled(Styled(Text))>
+      </Styled(styled.div)>
+      <Styled(styled.div)>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Broadcast"
             id="modals.exchangeresults.broadcastcoin"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeAmounts>
-          <ExchangeResults__SummaryExchangeAmount
+        </Styled(Text)>
+        <styled.div>
+          <Styled(Styled(Text))
             color="gray-5"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
-          </ExchangeResults__SummaryExchangeAmount>
-        </Exchange__ExchangeAmounts>
-      </Exchange__LargeTableRow>
-      <ExchangeResults__MidTableRow>
-        <Exchange__ExchangeText>
+          </Styled(Styled(Text))>
+        </styled.div>
+      </Styled(styled.div)>
+      <Styled(Styled(styled.div))>
+        <Styled(Text)>
           <FormattedMessage
             defaultMessage="Total refunded"
             id="modals.exchangeresults.totalrefunded"
             values={Object {}}
           />
-        </Exchange__ExchangeText>
-        <Exchange__ExchangeText
+        </Styled(Text)>
+        <Styled(Text)
           weight={400}
         >
            0.1336
-        </Exchange__ExchangeText>
-      </ExchangeResults__MidTableRow>
-    </ExchangeResults__SummaryWrapper>
+        </Styled(Text)>
+      </Styled(Styled(styled.div))>
+    </Styled(styled.div)>
   </ModalBody>
 </Modal>
 `;

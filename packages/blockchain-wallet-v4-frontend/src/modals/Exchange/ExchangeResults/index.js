@@ -54,7 +54,7 @@ const CoinIconTitle = styled(Title)`
     width: 30px;
     height: 30px;
     border-radius: 15px;
-    background: ${props => props.theme['white']};
+    background: ${props => props.theme.white};
     justify-content: center;
     align-items: center;
     margin: 0px -6px;
@@ -89,7 +89,7 @@ const SummaryExchangeAmount = styled(ExchangeAmount)`
   justify-content: flex-end;
 `
 const StrikeThrough = styled.s`
-  color: ${props => props.theme['brand-tertiary']};
+  color: ${props => props.theme.blue200};
 `
 
 const { RESULTS_MODAL, STATES } = model.components.exchangeHistory

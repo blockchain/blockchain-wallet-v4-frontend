@@ -18,7 +18,7 @@ const CoinSwapIcon = styled(Icon)`
     props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme['brand-secondary']};
+      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
   }
 `
 

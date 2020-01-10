@@ -238,7 +238,7 @@ const Success = props => {
           ) : (
             <Image name='checkmark-green' width='56px' height='56px' />
           )}
-          <Title size='20px' weight={600} color='brand-primary'>
+          <Title size='20px' weight={600} color='blue900'>
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.title'

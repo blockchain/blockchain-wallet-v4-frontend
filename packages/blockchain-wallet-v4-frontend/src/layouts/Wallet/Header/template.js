@@ -36,7 +36,7 @@ const NavbarNavItemSpacer = styled(NavbarNavItem)`
 const NavbarNavItemWithText = styled(NavbarNavItem)`
   padding: 0 26px;
   margin: 0;
-  border-left: 1px solid ${props => transparentize(0.9, props.theme['white'])};
+  border-left: 1px solid ${props => transparentize(0.9, props.theme.white)};
   &:last-child {
     padding-right: 0;
   }

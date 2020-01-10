@@ -1,4 +1,6 @@
-export default {
+import { DefaultTheme } from 'styled-components'
+
+const Default = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
   whiteFade400: 'rgba(255, 255, 255, 0.4)',
@@ -63,10 +65,6 @@ export default {
   xlm: '#121D33',
   // OLD - AVOID USE \\
   // Brand
-  'brand-primary': '#0D3578',
-  'brand-secondary': '#0C6CF2',
-  'brand-tertiary': '#BBDBFC',
-  'brand-quaternary': '#ECF5FE',
   'brand-yellow': '#FFB266',
   'brand-yellow-lighter': '#FFE6CC',
   'logo-primary': '#153A62',
@@ -104,10 +102,9 @@ export default {
   // Blues
   purple: '#4C18BA',
   'deep-blue': '#144699',
-  blue: '#0C6CF2',
-  // Colors
-  red: '#D93B30',
-  orange: '#F28B24',
   // Service Announcements
   info: '#4A90E2'
 }
+
+export type IDefaultTheme = typeof Default
+export default Default

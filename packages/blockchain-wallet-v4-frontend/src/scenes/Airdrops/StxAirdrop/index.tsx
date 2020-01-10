@@ -1,6 +1,9 @@
 import { Box } from '../AirdropInfo'
+import { CampaignInfoType, TagsType } from 'data/types'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { KycStatesType } from 'data/components/identityVerification/types'
+import { LinkDispatchPropsType } from '..'
 import { StxShare, StxStatus } from './model'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -22,7 +25,7 @@ const StatusContainer = styled.div`
 const Date = styled.div`
   height: 100%;
   padding-left: 20px;
-  border-left: 1px solid ${props => props.theme['grey000']};
+  border-left: 1px solid ${props => props.theme.grey000};
 
   > div:first-child {
     margin-bottom: 4px;
@@ -40,7 +43,13 @@ const OverflowFooterText = styled(Text)`
   `};
 `
 
-const StxAirdrop = props => {
+export type Props = {
+  userCampaignsInfoResponseList: Array<CampaignInfoType>,
+  kycState: KycStatesType,
+  tags: TagsType
+}
+
+const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
   return (
     <Box>
       <div>

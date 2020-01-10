@@ -4,17 +4,17 @@ exports[`User Exists modal Renders correctly 1`] = `
 <Modal
   size="medium"
 >
-  <UserExists__Header>
+  <Styled(ModalHeader)>
     <FormattedMessage
       defaultMessage="Oops! Looks like we have this email already"
       id="modals.userexists.title"
       values={Object {}}
     />
-  </UserExists__Header>
+  </Styled(ModalHeader)>
   <ModalBody
     loading={false}
   >
-    <UserExists__Row
+    <Styled(Text)
       size="14px"
       weight={400}
     >
@@ -27,8 +27,8 @@ exports[`User Exists modal Renders correctly 1`] = `
           }
         }
       />
-    </UserExists__Row>
-    <UserExists__Row
+    </Styled(Text)>
+    <Styled(Text)
       size="14px"
       weight={400}
     >
@@ -37,8 +37,8 @@ exports[`User Exists modal Renders correctly 1`] = `
         id="modals.userexists.kycnotcomplete"
         values={Object {}}
       />
-    </UserExists__Row>
-    <UserExists__Row
+    </Styled(Text)>
+    <Styled(Text)
       size="14px"
       weight={400}
     >
@@ -47,9 +47,9 @@ exports[`User Exists modal Renders correctly 1`] = `
         id="modals.userexists.kyccomplete"
         values={Object {}}
       />
-    </UserExists__Row>
+    </Styled(Text)>
   </ModalBody>
-  <UserExists__Footer>
+  <Styled(ModalFooter)>
     <withRouter(LinkContainer)
       to="/security-center"
     >
@@ -72,6 +72,6 @@ exports[`User Exists modal Renders correctly 1`] = `
         />
       </Button>
     </withRouter(LinkContainer)>
-  </UserExists__Footer>
+  </Styled(ModalFooter)>
 </Modal>
 `;

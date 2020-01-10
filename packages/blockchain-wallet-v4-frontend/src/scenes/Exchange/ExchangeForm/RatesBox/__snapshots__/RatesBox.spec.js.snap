@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = `
-<RatesBox__RatesWrapper>
-  <Exchange__LargeTableRow>
-    <RatesBox__TotalBalanceWrapper>
-      <RatesBox__RateText>
+<Styled(styled.div)>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(Text)>
         <FormattedMessage
           defaultMessage="{sourceCoinTicker} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalanceavailable"
@@ -14,49 +14,49 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 1`] = 
             }
           }
         />
-      </RatesBox__RateText>
-      <RatesBox__RateText>
-        <RatesBox__Row>
-          <RatesBox__RateText
+      </Styled(Text)>
+      <Styled(Text)>
+        <styled.div>
+          <Styled(Text)
             color="success"
           >
             $1000.00
              
-          </RatesBox__RateText>
+          </Styled(Text)>
           <span>
              
           </span>
-          <RatesBox__RateText>
+          <Styled(Text)>
              
-          </RatesBox__RateText>
-        </RatesBox__Row>
-      </RatesBox__RateText>
-    </RatesBox__TotalBalanceWrapper>
-    <RatesBox__RateWrapper>
-      <RatesBox__RateText
-        color="brand-primary"
+          </Styled(Text)>
+        </styled.div>
+      </Styled(Text)>
+    </styled.div>
+    <styled.div>
+      <Styled(Text)
+        color="blue900"
       >
         1 
          =
-      </RatesBox__RateText>
-      <RatesBox__RateText>
+      </Styled(Text)>
+      <Styled(Text)>
         <StringDisplayContainer
           skeletonHeight="14px"
           skeletonWidth="60px"
         >
           <Component />
         </StringDisplayContainer>
-      </RatesBox__RateText>
-    </RatesBox__RateWrapper>
-  </Exchange__LargeTableRow>
-</RatesBox__RatesWrapper>
+      </Styled(Text)>
+    </styled.div>
+  </Styled(styled.div)>
+</Styled(styled.div)>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = `
-<RatesBox__RatesWrapper>
-  <Exchange__LargeTableRow>
-    <RatesBox__TotalBalanceWrapper>
-      <RatesBox__RateText>
+<Styled(styled.div)>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(Text)>
         <FormattedMessage
           defaultMessage="{sourceCoinTicker} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalanceavailable"
@@ -66,49 +66,49 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 2`] = 
             }
           }
         />
-      </RatesBox__RateText>
-      <RatesBox__RateText>
-        <RatesBox__Row>
-          <RatesBox__RateText
+      </Styled(Text)>
+      <Styled(Text)>
+        <styled.div>
+          <Styled(Text)
             color="success"
           >
             $1000.00
              
-          </RatesBox__RateText>
+          </Styled(Text)>
           <span>
              
           </span>
-          <RatesBox__RateText>
+          <Styled(Text)>
              
-          </RatesBox__RateText>
-        </RatesBox__Row>
-      </RatesBox__RateText>
-    </RatesBox__TotalBalanceWrapper>
-    <RatesBox__RateWrapper>
-      <RatesBox__RateText
-        color="brand-primary"
+          </Styled(Text)>
+        </styled.div>
+      </Styled(Text)>
+    </styled.div>
+    <styled.div>
+      <Styled(Text)
+        color="blue900"
       >
         1 
          =
-      </RatesBox__RateText>
-      <RatesBox__RateText>
+      </Styled(Text)>
+      <Styled(Text)>
         <StringDisplayContainer
           skeletonHeight="14px"
           skeletonWidth="60px"
         >
           <Component />
         </StringDisplayContainer>
-      </RatesBox__RateText>
-    </RatesBox__RateWrapper>
-  </Exchange__LargeTableRow>
-</RatesBox__RatesWrapper>
+      </Styled(Text)>
+    </styled.div>
+  </Styled(styled.div)>
+</Styled(styled.div)>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = `
-<RatesBox__RatesWrapper>
-  <Exchange__LargeTableRow>
-    <RatesBox__TotalBalanceWrapper>
-      <RatesBox__RateText>
+<Styled(styled.div)>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(Text)>
         <FormattedMessage
           defaultMessage="{sourceCoinTicker} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalanceavailable"
@@ -118,49 +118,49 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 3`] = 
             }
           }
         />
-      </RatesBox__RateText>
-      <RatesBox__RateText>
-        <RatesBox__Row>
-          <RatesBox__RateText
+      </Styled(Text)>
+      <Styled(Text)>
+        <styled.div>
+          <Styled(Text)
             color="success"
           >
             $1000.00
              
-          </RatesBox__RateText>
+          </Styled(Text)>
           <span>
              
           </span>
-          <RatesBox__RateText>
+          <Styled(Text)>
              
-          </RatesBox__RateText>
-        </RatesBox__Row>
-      </RatesBox__RateText>
-    </RatesBox__TotalBalanceWrapper>
-    <RatesBox__RateWrapper>
-      <RatesBox__RateText
-        color="brand-primary"
+          </Styled(Text)>
+        </styled.div>
+      </Styled(Text)>
+    </styled.div>
+    <styled.div>
+      <Styled(Text)
+        color="blue900"
       >
         1 
          =
-      </RatesBox__RateText>
-      <RatesBox__RateText>
+      </Styled(Text)>
+      <Styled(Text)>
         <StringDisplayContainer
           skeletonHeight="14px"
           skeletonWidth="60px"
         >
           <Component />
         </StringDisplayContainer>
-      </RatesBox__RateText>
-    </RatesBox__RateWrapper>
-  </Exchange__LargeTableRow>
-</RatesBox__RatesWrapper>
+      </Styled(Text)>
+    </styled.div>
+  </Styled(styled.div)>
+</Styled(styled.div)>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = `
-<RatesBox__RatesWrapper>
-  <Exchange__LargeTableRow>
-    <RatesBox__TotalBalanceWrapper>
-      <RatesBox__RateText>
+<Styled(styled.div)>
+  <Styled(styled.div)>
+    <styled.div>
+      <Styled(Text)>
         <FormattedMessage
           defaultMessage="{sourceCoinTicker} available for Swap"
           id="scenes.exchange.exchangeform.summary.totalbalanceavailable"
@@ -170,40 +170,40 @@ exports[`Exchange RatesBox should render correct rates for sourceToTarget 4`] = 
             }
           }
         />
-      </RatesBox__RateText>
-      <RatesBox__RateText>
-        <RatesBox__Row>
-          <RatesBox__RateText
+      </Styled(Text)>
+      <Styled(Text)>
+        <styled.div>
+          <Styled(Text)
             color="success"
           >
             $1000.00
              
-          </RatesBox__RateText>
+          </Styled(Text)>
           <span>
              
           </span>
-          <RatesBox__RateText>
+          <Styled(Text)>
              
-          </RatesBox__RateText>
-        </RatesBox__Row>
-      </RatesBox__RateText>
-    </RatesBox__TotalBalanceWrapper>
-    <RatesBox__RateWrapper>
-      <RatesBox__RateText
-        color="brand-primary"
+          </Styled(Text)>
+        </styled.div>
+      </Styled(Text)>
+    </styled.div>
+    <styled.div>
+      <Styled(Text)
+        color="blue900"
       >
         1 
          =
-      </RatesBox__RateText>
-      <RatesBox__RateText>
+      </Styled(Text)>
+      <Styled(Text)>
         <StringDisplayContainer
           skeletonHeight="14px"
           skeletonWidth="60px"
         >
           <Component />
         </StringDisplayContainer>
-      </RatesBox__RateText>
-    </RatesBox__RateWrapper>
-  </Exchange__LargeTableRow>
-</RatesBox__RatesWrapper>
+      </Styled(Text)>
+    </styled.div>
+  </Styled(styled.div)>
+</Styled(styled.div)>
 `;

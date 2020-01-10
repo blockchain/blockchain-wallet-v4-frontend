@@ -1,6 +1,5 @@
-import * as actions from '../../actions'
+import { actions, model } from 'data'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { model } from 'data'
 import { testSaga } from 'redux-saga-test-plan'
 import btcTransactionsSagas, { logLocation } from './sagas'
 

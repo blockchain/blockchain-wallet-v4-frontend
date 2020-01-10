@@ -3,6 +3,7 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
+import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
@@ -21,7 +22,7 @@ const TypeWrapper = styled.div`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 
-export const Type = ({ campaignName }) => {
+export const Type = ({ campaignName }: CampaignInfoType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return (
@@ -65,7 +66,7 @@ export const Type = ({ campaignName }) => {
   }
 }
 
-export const Status = ({ campaignName, campaignState, userCampaignState }) => {
+export const Status = ({ campaignName, campaignState, userCampaignState }: CampaignInfoType) => {
   // Special case for BLOCKSTACK campaign
   // See convo: https://blockc.slack.com/archives/GSAK5CKD5/p1578309118000200
   if (campaignName === 'BLOCKSTACK') {
@@ -111,7 +112,7 @@ export const Status = ({ campaignName, campaignState, userCampaignState }) => {
   }
 }
 
-export const To = ({ campaignName, userCampaignState }) => {
+export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (
@@ -119,16 +120,16 @@ export const To = ({ campaignName, userCampaignState }) => {
           My Stellar Wallet
         </Text>
       ) : (
-        <Text>-</Text>
-      )
+          <Text>-</Text>
+        )
     case 'BLOCKSTACK':
       return userCampaignState === 'REWARD_RECEIVED' ? (
         <Text size='14px' weight={500}>
           My Blockstack Wallet
         </Text>
       ) : (
-        <Text>-</Text>
-      )
+          <Text>-</Text>
+        )
     default:
       return <Text>-</Text>
   }

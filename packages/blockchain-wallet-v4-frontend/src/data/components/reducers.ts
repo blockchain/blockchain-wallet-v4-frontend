@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
+import { identityVerificationReducer } from './identityVerification/reducers'
 import coinify from './coinify/reducers'
 import exchange from './exchange/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
-import identityVerification from './identityVerification/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
@@ -18,11 +18,11 @@ import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 
-export default combineReducers({
+const componentReducer = combineReducers({
+  identityVerification: identityVerificationReducer,
   coinify,
   exchange,
   exchangeHistory,
-  identityVerification,
   layoutWallet,
   lockbox,
   manageAddresses,
@@ -38,3 +38,5 @@ export default combineReducers({
   uploadDocuments,
   veriff
 })
+
+export default componentReducer

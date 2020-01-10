@@ -58,14 +58,14 @@ const ColumnRight = styled(Column)`
 const Pulse = ({ theme }) => {
   return keyframes`
     0% {
-      box-shadow: 0 0 0 0 ${theme['blue']};
+      box-shadow: 0 0 0 0 ${theme.blue600};
       opacity: 1;
     }
     30%{
       opacity: 0.7;
     }
     100% {
-      box-shadow: 0 0 0 32px ${theme['blue']};
+      box-shadow: 0 0 0 32px ${theme.blue600};
       opacity: 0;
     }
   `
@@ -73,7 +73,7 @@ const Pulse = ({ theme }) => {
 
 const GlobalJoyrideStyles = createGlobalStyle`
   .react-joyride__spotlight {
-    background-color: ${({ theme }) => theme['blue']} !important;
+    background-color: ${({ theme }) => theme.blue600} !important;
     opacity: 0.25 !important;
     border-radius: 50% !important;
     animation: ${props => Pulse(props)} 1.4s infinite;

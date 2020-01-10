@@ -34,8 +34,8 @@ const HelperTip = styled(TooltipHost)`
   top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme['orange']} !important;
-  background-color: ${props => props.theme['white']};
+  color: ${props => props.theme.orange} !important;
+  background-color: ${props => props.theme.white};
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
@@ -60,7 +60,7 @@ const ExchangeNavItem = props => (
     {props.isExchangeAccountLinked && (
       <HelperTipContainer>
         <HelperTip id='exchangeSideNavConnected'>
-          <TooltipIcon color='blue' name='info' />
+          <TooltipIcon color='blue600' name='info' />
         </HelperTip>
       </HelperTipContainer>
     )}
@@ -171,7 +171,7 @@ const Navigation = props => {
           </Destination>
           <HelperTipContainer>
             <HelperTip id='lockboxRequired'>
-              <TooltipIcon color='blue' name='info' />
+              <TooltipIcon color='blue600' name='info' />
             </HelperTip>
           </HelperTipContainer>
         </MenuItem>
@@ -200,7 +200,7 @@ const Navigation = props => {
                   <Destination>{coin.displayName}</Destination>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='orange' size='12' weight={500} uppercase>
+                      <Text color='orange600' size='12' weight={500} uppercase>
                         <FormattedMessage
                           id='layouts.wallet.menuleft.navigation.transactions.new'
                           defaultMessage='New'

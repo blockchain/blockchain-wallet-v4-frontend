@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PhoneNumberBox renders correctly 1`] = `
-<PhoneNumberBox__Container>
-  <PhoneNumberBox___StyledIntlTelInput
-    _css={
+<styled.div>
+  <mockConstructor
+    css={
       Array [
         "intl-tel-input",
         "form-control",
@@ -23,5 +23,5 @@ exports[`PhoneNumberBox renders correctly 1`] = `
     }
     utilsScript="libphonenumber.js"
   />
-</PhoneNumberBox__Container>
+</styled.div>
 `;

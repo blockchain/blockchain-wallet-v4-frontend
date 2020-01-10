@@ -17,11 +17,11 @@ const AdsButton = styled(Button)`
   transition: background 0.3s;
   line-height: normal;
   span > span:not(:first-child) {
-    color: ${props => props.theme['blue']};
+    color: ${props => props.theme.blue600};
   }
   &:hover {
     span:first-child {
-      color: ${props => props.theme['grey800']};
+      color: ${props => props.theme.grey800};
     }
   }
 `
@@ -60,7 +60,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
               id='layouts.wallet.menuleft.footer.bitcoingames2'
               defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
             />
-            <ArrowIcon name='arrow-right' color='blue' />
+            <ArrowIcon name='arrow-right' color='blue600' />
           </ButtonText>
         </Link>
       </AdsButton>

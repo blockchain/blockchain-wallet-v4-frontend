@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import alertsReducer from './alerts/reducers'
 import analyticsReducer from './analytics/reducers'
@@ -41,5 +42,8 @@ const rootReducer = {
   [paths.walletOptionsPath]: coreReducers.walletOptions,
   [paths.kvStorePath]: coreReducers.kvStore
 }
+
+const combinedReducer = combineReducers(rootReducer)
+export type RootState = ReturnType<typeof combinedReducer>
 
 export default rootReducer

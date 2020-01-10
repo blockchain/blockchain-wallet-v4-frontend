@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 170px;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 
   & > :first-child {
     margin-bottom: 20px;

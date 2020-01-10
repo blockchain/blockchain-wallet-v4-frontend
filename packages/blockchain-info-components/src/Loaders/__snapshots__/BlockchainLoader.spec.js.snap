@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BlockchainLoader component default renders correctly 1`] = `
-<BlockchainLoader__Wrapper
+<styled.div
   height="10px"
   width="10px"
 >
-  <BlockchainLoader__Container>
-    <BlockchainLoader__Square1 />
-    <BlockchainLoader__Square2 />
-    <BlockchainLoader__Square3 />
-    <BlockchainLoader__Square4 />
-    <BlockchainLoader__Square5 />
-    <BlockchainLoader__Square6 />
-    <BlockchainLoader__Square7 />
-    <BlockchainLoader__Square8 />
-    <BlockchainLoader__Square9 />
-    <BlockchainLoader__Square10 />
-    <BlockchainLoader__Square11 />
-    <BlockchainLoader__Square12 />
-    <BlockchainLoader__Square13 />
-    <BlockchainLoader__Square14 />
-    <BlockchainLoader__Square15 />
-    <BlockchainLoader__Square16 />
-    <BlockchainLoader__Square17 />
-    <BlockchainLoader__Square18 />
-    <BlockchainLoader__Square19 />
-    <BlockchainLoader__Square20 />
-    <BlockchainLoader__Square21 />
-    <BlockchainLoader__Square22 />
-    <BlockchainLoader__Square23 />
-    <BlockchainLoader__Square24 />
-    <BlockchainLoader__Square25 />
-  </BlockchainLoader__Container>
-</BlockchainLoader__Wrapper>
+  <styled.div>
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+    <Styled(Styled(styled.div)) />
+  </styled.div>
+</styled.div>
 `;

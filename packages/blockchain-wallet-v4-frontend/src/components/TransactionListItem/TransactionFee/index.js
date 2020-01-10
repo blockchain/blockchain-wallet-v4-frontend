@@ -42,7 +42,7 @@ class TransactionFee extends React.PureComponent {
             </ComboDisplay>
           ),
           Failure: () => (
-            <Text size='12px' weight={400} color='red'>
+            <Text size='12px' weight={400} color='red600'>
               <FormattedMessage
                 id='scenes.transactions.bitcoin.content.pages.listitem.fee.error'
                 defaultMessage='Failed to retrieve fee!'

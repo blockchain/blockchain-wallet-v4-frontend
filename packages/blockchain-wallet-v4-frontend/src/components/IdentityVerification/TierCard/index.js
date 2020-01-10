@@ -194,6 +194,7 @@ export const TierCard = ({
         {tierData.state === TIERS_STATES.NONE && (
           <ActionButton
             jumbo
+            className='actionButton'
             fullwidth
             nature='primary'
             onClick={verifyIdentity}
@@ -211,6 +212,7 @@ export const TierCard = ({
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (
           <ActionButton
+            className='actionButton'
             jumbo
             fullwidth
             nature='primary'

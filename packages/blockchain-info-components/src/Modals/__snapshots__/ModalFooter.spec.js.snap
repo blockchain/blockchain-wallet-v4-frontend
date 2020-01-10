@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalFooter component default renders correctly 1`] = `
-<ModalFooter__Wrapper>
-  <ModalFooter__Footer
+<styled.div>
+  <styled.div
     alignment="flex-start"
   />
-</ModalFooter__Wrapper>
+</styled.div>
 `;

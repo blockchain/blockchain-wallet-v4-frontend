@@ -4,7 +4,6 @@ import * as C from 'services/AlertService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
-  // AIRDROP_ERROR_MODAL,
   BAD_CODE_ERROR,
   EMAIL_STEPS,
   FLOW_TYPES,
@@ -19,9 +18,10 @@ import {
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
-import { head, isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4'
-import profileSagas from 'data/modules/profile/sagas'
+import profileSagas from '../../modules/profile/sagas'
 
 export const logLocation = 'components/identityVerification/sagas'
 export const invalidNumberError = 'Failed to update mobile number'
@@ -82,7 +82,7 @@ export default ({ api, coreSagas }) => {
     try {
       yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(A.registerUserCampaign())
+      yield put(A.registerUserCampaign(false))
       // Buffer for tagging user
       const wallet = yield select(selectors.core.wallet.getWallet)
       if (Types.Wallet.isDoubleEncrypted(wallet)) {
@@ -178,8 +178,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const initializeStep = function * () {
-    const steps = (yield select(S.getSteps)).getOrElse([])
-    return yield put(A.setVerificationStep(head(steps)))
+    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
+    return yield put(A.setVerificationStep(steps[0]))
   }
 
   const goToPrevStep = function * () {
@@ -349,7 +349,7 @@ export default ({ api, coreSagas }) => {
   const fetchStates = function * ({ payload }) {
     const { isCoinify } = payload
     try {
-      let stateList = []
+      let stateList: Array<StateType> = []
       yield put(A.setStatesLoading())
       if (isCoinify) {
         const coinifySupportList = yield call(api.getCoinifyStates)
@@ -357,6 +357,7 @@ export default ({ api, coreSagas }) => {
         mapObjIndexed((s, key) => {
           stateList.push({
             name: getStateNameFromAbbreviation(key),
+            // @ts-ignore
             scopes: s.supported ? ['KYC'] : []
           })
         }, coinifySupportList.US.states)

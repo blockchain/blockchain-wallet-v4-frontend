@@ -57,7 +57,7 @@ class CoinifyBuyViaCard extends React.PureComponent {
         <ModalBody>
           <Container>
             <IconContainer>
-              <Icon name='cart-filled' size='72px' color='brand-secondary' />
+              <Icon name='cart-filled' size='72px' color='blue600' />
             </IconContainer>
             <Text size='22px' weight={600}>
               <FormattedMessage

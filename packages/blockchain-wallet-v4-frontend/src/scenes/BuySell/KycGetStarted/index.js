@@ -21,7 +21,7 @@ const GetStartedContainer = styled.div`
   width: 650px;
   box-sizing: border-box;
   height: ${props => props.height};
-  border: 1px solid ${props => props.theme['brand-quaternary']};
+  border: 1px solid ${props => props.theme.blue000};
   border-radius: 3px;
   background-image: ${props => props.url};
   background-repeat: no-repeat;
@@ -128,7 +128,7 @@ const KycGetStarted = props => {
           <GetStartedHeader
             size='26px'
             weight={500}
-            color='brand-primary'
+            color='blue900'
             width='300px'
           >
             <FormattedMessage

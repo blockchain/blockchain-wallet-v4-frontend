@@ -22,7 +22,7 @@ const ToggleIcon = styled(Icon)`
   transition: color 0.3s;
   &:hover {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
   }
 `
 const RightCol = styled.div`

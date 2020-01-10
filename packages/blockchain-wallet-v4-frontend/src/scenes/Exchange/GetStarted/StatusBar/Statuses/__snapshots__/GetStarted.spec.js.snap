@@ -4,7 +4,7 @@ exports[`GetStarted renders correctly 1`] = `
 <withRouter(LinkContainer)
   to="/swap/profile"
 >
-  <GetStarted__ActionButton>
+  <styled.button>
     <Component
       color="white"
       data-e2e="swapGetStarted"
@@ -17,6 +17,6 @@ exports[`GetStarted renders correctly 1`] = `
         values={Object {}}
       />
     </Component>
-  </GetStarted__ActionButton>
+  </styled.button>
 </withRouter(LinkContainer)>
 `;
