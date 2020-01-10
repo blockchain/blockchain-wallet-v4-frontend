@@ -2,8 +2,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
-// from 'data' not working with jest
-import { actions, actionTypes, model, selectors } from '../../../data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   BAD_CODE_ERROR,
   EMAIL_STEPS,
