@@ -1,40 +1,5 @@
 import * as AT from './actionTypes'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
-import { STEPS } from './model'
-
-export type UserCampaignState =
-  | 'FAILED'
-  | 'REWARD_RECEIVED'
-  | 'TASK_FINISHED'
-  | 'REWARD_SEND'
-  | 'REGISTERED'
-  | 'NONE'
-
-export type CampaignState = 'NONE' | 'STARTED' | 'ENDED'
-
-export type TagsType = {
-  [key in CampaignsType]: {
-    'x-campaign-address': string
-  }
-}
-
-export type CampaignTransaction = {
-  fiatCurrency: string
-  fiatValue: number
-  withdrawalCurrency: string
-  withdrawalQuantity: number
-}
-
-export interface CampaignType {
-  attributes: {
-    'x-campaign-reject-reason': string
-  }
-  campaignName: CampaignsType
-  campaignState: CampaignState
-  updatedAt?: string
-  userCampaignState: UserCampaignState
-  userCampaignTransactionResponseList: Array<CampaignTransaction>
-}
 
 export type EmailSmsStepType = 'edit' | 'verify'
 

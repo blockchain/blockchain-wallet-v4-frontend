@@ -86,6 +86,9 @@ workflows:
       - lint:
           requires:
             - npm_install
+      - test:
+          requires:
+            - npm_install
       - codechecks:
           requires:
             - npm_install

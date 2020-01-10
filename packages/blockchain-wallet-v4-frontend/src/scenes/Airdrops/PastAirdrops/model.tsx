@@ -3,7 +3,7 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
-import { CampaignType } from 'data/types'
+import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
@@ -22,7 +22,7 @@ const TypeWrapper = styled.div`
 // userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
 // userCampaignTransactionResponseList: []
 
-export const Type = ({ campaignName }: CampaignType) => {
+export const Type = ({ campaignName }: CampaignInfoType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return (
@@ -66,7 +66,7 @@ export const Type = ({ campaignName }: CampaignType) => {
   }
 }
 
-export const Status = ({ campaignName, campaignState, userCampaignState }: CampaignType) => {
+export const Status = ({ campaignName, campaignState, userCampaignState }: CampaignInfoType) => {
   // Special case for BLOCKSTACK campaign
   // See convo: https://blockc.slack.com/archives/GSAK5CKD5/p1578309118000200
   if (campaignName === 'BLOCKSTACK') {
@@ -112,7 +112,7 @@ export const Status = ({ campaignName, campaignState, userCampaignState }: Campa
   }
 }
 
-export const To = ({ campaignName, userCampaignState }: CampaignType) => {
+export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (

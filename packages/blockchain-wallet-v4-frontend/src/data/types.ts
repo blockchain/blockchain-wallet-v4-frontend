@@ -5,4 +5,5 @@ import { ComponentsActionTypes } from './components/types'
 export type AppActionTypes = ComponentsActionTypes
 
 export * from './components/types'
+export * from './modules/types'
 // Import via `import { AppActionTypes } from 'data/types'`

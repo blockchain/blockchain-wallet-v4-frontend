@@ -6,7 +6,7 @@ import {
   SuccessCartridge
 } from '../AirdropInfo/model'
 import { Button, Link } from 'blockchain-info-components'
-import { CampaignType } from 'data/types'
+import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType } from '..'
 import { model } from 'data'
@@ -47,7 +47,7 @@ export const StxStatus = ({
   identityVerificationActions
 }: Props & LinkDispatchPropsType) => {
   const blockstackCampaign = userCampaignsInfoResponseList.find(
-    (campaign: CampaignType) => campaign.campaignName === 'BLOCKSTACK'
+    (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
 
   if (

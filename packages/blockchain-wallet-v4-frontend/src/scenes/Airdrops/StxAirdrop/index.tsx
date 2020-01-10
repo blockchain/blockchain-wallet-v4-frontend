@@ -1,5 +1,5 @@
 import { Box } from '../AirdropInfo'
-import { CampaignType, TagsType } from 'data/types'
+import { CampaignInfoType, TagsType } from 'data/types'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { KycStatesType } from 'data/components/identityVerification/types'
@@ -44,7 +44,7 @@ const OverflowFooterText = styled(Text)`
 `
 
 export type Props = {
-  userCampaignsInfoResponseList: Array<CampaignType>,
+  userCampaignsInfoResponseList: Array<CampaignInfoType>,
   kycState: KycStatesType,
   tags: TagsType
 }
