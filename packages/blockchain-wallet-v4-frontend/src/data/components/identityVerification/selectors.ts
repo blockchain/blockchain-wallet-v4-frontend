@@ -4,11 +4,15 @@ import { RootState } from '../../rootReducer'
 export const getVerificationStep = (state: RootState) =>
   state.components.identityVerification.verificationStep
 
-export const getSmsStep = path([
-  'components',
-  'identityVerification',
-  'smsStep'
-])
+// @Leora
+// export const getSmsStep = path([
+//   'components',
+//   'identityVerification',
+//   'smsStep'
+// ])
+export const getSmsStep = (state: RootState) =>
+  state.components.identityVerification.smsStep
+
 export const getEmailStep = path([
   'components',
   'identityVerification',
