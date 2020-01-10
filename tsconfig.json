@@ -13,9 +13,10 @@
     "strict": true,
     "target": "es6",
     "paths": {
+      "blockchain-wallet-v4": ["blockchain-wallet-v4/src/"],
+      "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
       "data": ["blockchain-wallet-v4-frontend/src/data/"],
       "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
-      "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
       "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
       "providers/*": ["blockchain-wallet-v4-frontend/src/providers/*"],
       "services/*": ["blockchain-wallet-v4-frontend/src/services/*"]
