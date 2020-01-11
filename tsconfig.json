@@ -27,6 +27,5 @@
     "packages/blockchain-wallet-v4/src/",
     "index.d.ts",
     "styled.d.ts"
-  ],
-  "exclude": ["node_modules"]
+  ]
 }
