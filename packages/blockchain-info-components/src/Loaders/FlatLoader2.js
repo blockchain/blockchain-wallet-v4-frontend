@@ -66,7 +66,7 @@ FlatLoader2.propTypes = {
 FlatLoader2.defaultProps = {
   width: '45px',
   height: '50px',
-  color: 'brand-secondary'
+  color: 'blue600'
 }
 
 export default FlatLoader2

@@ -52,7 +52,7 @@ const LockboxOpen = styled(TextGroup)`
   *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
 `
 

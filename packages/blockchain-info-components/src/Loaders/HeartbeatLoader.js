@@ -52,7 +52,7 @@ HeartbeatLoader.propTypes = {
 HeartbeatLoader.defaultProps = {
   width: '40px',
   height: '40px',
-  color: 'brand-secondary'
+  color: 'blue600'
 }
 
 export default HeartbeatLoader

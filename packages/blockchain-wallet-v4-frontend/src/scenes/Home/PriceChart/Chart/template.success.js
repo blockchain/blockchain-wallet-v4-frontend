@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   }
   svg {
     .highcharts-background {
-      fill: ${props => props.theme['white']} !important;
+      fill: ${props => props.theme.white} !important;
     }
   }
   .highcharts-tooltip span {
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
     opacity: 1;
     padding: 4px 6px;
     border-radius: 4px;
-    color: ${props => props.theme['white']};
+    color: ${props => props.theme.white};
     background: ${props => props.theme[props.coin.toLowerCase()]};
     transition: opacity 0.3s;
   }

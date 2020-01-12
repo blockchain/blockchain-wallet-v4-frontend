@@ -42,7 +42,7 @@ const LinkItem = styled(TabMenuItem)`
       top: 39px;
       left: 0;
       width: 100%;
-      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+      border-bottom: 4px solid ${props => props.theme.blue600};
     }
   }
 `

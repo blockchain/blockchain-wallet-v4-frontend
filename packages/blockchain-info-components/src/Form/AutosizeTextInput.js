@@ -18,7 +18,7 @@ const BaseTextInput = styled(AutosizeInput).attrs({
   font-size: 14px;
   font-weight: 400;
   color: ${props => props.theme['gray-6']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;

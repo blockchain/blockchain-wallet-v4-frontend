@@ -53,13 +53,13 @@ const Control = styled.div`
   margin: 0 10px;
   border-radius: 5px;
   background-color: ${props =>
-    props.active ? props.theme['brand-secondary'] : props.theme['gray-4']};
+    props.active ? props.theme.blue600 : props.theme['gray-4']};
   cursor: pointer;
   z-index: ;
 `
 const Arrow = styled(Icon).attrs({
-  name: 'down-arrow',
-  size: '24px',
+  name: 'chevron-down',
+  size: '34px',
   weight: 700,
   color: 'gray-6'
 })`
@@ -73,7 +73,7 @@ const Arrow = styled(Icon).attrs({
   z-index: 1;
 
   &:hover {
-    color: ${Color('brand-secondary')}!important;
+    color: ${Color('blue600')}!important;
   }
 `
 

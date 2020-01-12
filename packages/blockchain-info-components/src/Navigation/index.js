@@ -390,7 +390,7 @@ const dropdownMap = {
 }
 
 const MobileMenuContainer = styled.div`
-  background: ${Color('brand-primary')};
+  background: ${Color('blue900')};
   height: auto;
   position: absolute;
   display: flex;

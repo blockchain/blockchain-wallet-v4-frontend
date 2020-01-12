@@ -9,7 +9,7 @@ const Circle = styled.div`
   align-items: center;
   width: 74px;
   height: 74px;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   border: 2px solid ${props => props.theme['gray-2']};
   border-radius: 74px;
   &.active {

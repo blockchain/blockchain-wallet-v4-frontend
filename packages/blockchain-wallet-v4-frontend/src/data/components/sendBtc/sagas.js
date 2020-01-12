@@ -152,7 +152,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(actions.modals.showModal('BitPayInvoiceExpired'))
     yield put(
       actions.analytics.logEvent([
         ...TRANSACTION_EVENTS.BITPAY_FAILURE,

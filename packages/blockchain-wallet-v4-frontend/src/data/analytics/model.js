@@ -20,6 +20,9 @@ export const AB_TESTS = {}
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
+export const COINIFY_EVENTS = {
+  CONTINUE_COINIFY_CLICK: ['coinify', 'buy_sell_page', 'continue_coinify_click']
+}
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'

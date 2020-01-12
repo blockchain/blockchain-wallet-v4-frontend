@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 30%;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 
   & > :first-child {
     margin-bottom: 20px;
@@ -36,7 +36,7 @@ const Circle = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  border: 1px solid ${props => props.theme['brand-primary']};
+  border: 1px solid ${props => props.theme.blue900};
   box-sizing: border-box;
   overflow: hidden;
 `
@@ -52,9 +52,9 @@ const Step1 = props => (
   <Wrapper>
     <Circle>
       {props.status === 'active' ? (
-        <AnimatedIcon name='send' size='40px' color='brand-primary' />
+        <AnimatedIcon name='send' size='40px' color='blue900' />
       ) : (
-        <Icon name='send' size='40px' color='brand-primary' />
+        <Icon name='send' size='40px' color='blue900' />
       )}
     </Circle>
     <Text size='13px' weight={500} capitalize>

@@ -19,7 +19,7 @@ export const TooltipBody = styled.div`
   position: relative;
   width: 100%;
   max-width: 256px;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border-radius: 8px;
   box-shadow: 0 4px 32px rgba(5, 24, 61, 0.4);
   padding: 32px;
@@ -36,7 +36,7 @@ export const TooltipBody = styled.div`
   }
 `
 export const TooltipContent = styled.div`
-  color: ${props => props.theme['white']};
+  color: ${props => props.theme.white};
   margin-bottom: 24px;
   text-align: center;
 `
@@ -47,7 +47,7 @@ export const TooltipFooter = styled.div`
     props.isLastStep ? 'flex-end' : 'space-between'};
   align-content: center;
   align-items: center;
-  color: ${props => props.theme['white']};
+  color: ${props => props.theme.white};
 `
 
 export const StepIcon = styled(Icon)`
@@ -72,11 +72,11 @@ export const StepContent = styled(Text)`
 
 export const CloseTourIcon = styled(Icon)`
   &:hover {
-    color: ${({ theme }) => theme['grey600']};
+    color: ${({ theme }) => theme.grey600};
   }
 
   &:active {
-    color: ${({ theme }) => theme['grey800']};
+    color: ${({ theme }) => theme.grey800};
   }
 `
 

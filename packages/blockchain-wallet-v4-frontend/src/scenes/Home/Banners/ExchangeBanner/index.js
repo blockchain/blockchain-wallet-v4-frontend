@@ -47,7 +47,7 @@ const Column = styled.div`
 `
 const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['exchangeTurquoise']};
-  background: ${props => props.theme['green900']};
+  background: ${props => props.theme.green900};
   color: ${props => props.theme['exchangeTurquoise']};
   margin-left: 0px;
   margin-right: 20px;

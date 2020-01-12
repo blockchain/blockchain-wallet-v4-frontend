@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
+import React from 'react'
+import styled from 'styled-components'
 
-import { keysIn } from 'ramda'
-import Layout from '../components/layout'
 import { Icon } from '../../src'
+import { keysIn } from 'ramda'
 import IcomoonMap from '../../src/Icons/Icomoon'
+import Layout from '../components/layout'
 
 const IconWrapper = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const Code = styled.div`
   display: block;
   width: 100%;
   height: 25px;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #cdcdcd;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
@@ -56,26 +56,31 @@ const IconComponent = props => {
 }
 
 const IconLayout = props => {
-  return (
-    <IconWrapper>
-      {props.children}
-    </IconWrapper>
-  )
+  return <IconWrapper>{props.children}</IconWrapper>
 }
 
 const iconKeys = keysIn(IcomoonMap)
 
 storiesOf('Icons', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
-  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('All icons (icomoon)', () =>
+  .addDecorator(story => <Layout>{story()}</Layout>)
+  .addDecorator((story, context) =>
+    withInfo({ text: 'Documentation', inline: true })(story)(context)
+  )
+  .add('All icons (icomoon)', () => (
     <IconLayout>
-      { iconKeys.map((value, index) => {
+      {iconKeys.map((value, index) => {
         return <IconComponent key={index} name={value} size='40px' />
       })}
-    </IconLayout>)
+    </IconLayout>
+  ))
   .add('Icon', () => <Icon name='mobile' />)
   .add('Icon with size', () => <Icon name='mobile' size='54px' />)
-  .add('Icon with weight', () => <Icon name='mobile' size='54px' weight={700} />)
-  .add('Icon with color', () => <Icon name='mobile' size='54px' color='brand-primary' />)
-  .add('Icon with cursor', () => <Icon name='mobile' size='54px' color='brand-primary' cursor />)
+  .add('Icon with weight', () => (
+    <Icon name='mobile' size='54px' weight={700} />
+  ))
+  .add('Icon with color', () => (
+    <Icon name='mobile' size='54px' color='blue900' />
+  ))
+  .add('Icon with cursor', () => (
+    <Icon name='mobile' size='54px' color='blue900' cursor />
+  ))

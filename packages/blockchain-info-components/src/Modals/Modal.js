@@ -14,7 +14,7 @@ const ModalBackground = styled.div`
   justify-content: center;
   align-items: flex-start;
   background-color: ${props =>
-    props.theme['black'] && transparentize(0.5, props.theme['black'])};
+    props.theme.black && transparentize(0.5, props.theme.black)};
   z-index: 1040;
 
   @media (min-width: 768px) {
@@ -28,7 +28,7 @@ const BaseModal = styled.div`
   width: 100%;
   margin-top: 60px;
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   box-shadow: none;
   border-radius: 8px;
 
@@ -36,8 +36,7 @@ const BaseModal = styled.div`
     width: ${props => props.width};
     margin-top: initial;
     box-shadow: 0 5px 15px
-      ${props =>
-        props.theme['black'] && transparentize(0.5, props.theme['black'])};
+      ${props => props.theme.black && transparentize(0.5, props.theme.black)};
   }
 `
 

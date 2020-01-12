@@ -34,6 +34,7 @@ import {
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
 import { Row } from 'components/Send'
+import BitPayCTA from 'components/BitPayCTA'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import QRCodeCapture from 'components/QRCodeCapture'
 
@@ -187,6 +188,9 @@ const FirstStep = props => {
             )}
           </Row>
         </FormItem>
+      </FormGroup>
+      <FormGroup>
+        <BitPayCTA coin='BCH' />
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>

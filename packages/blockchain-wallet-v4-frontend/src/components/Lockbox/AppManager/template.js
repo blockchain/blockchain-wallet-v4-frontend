@@ -51,8 +51,7 @@ const InstallButton = styled(Button)`
   height: 40px;
   width: 40px;
   &:hover {
-    background-color: ${props =>
-      !props.disabled && props.theme['brand-quaternary']};
+    background-color: ${props => !props.disabled && props.theme.blue000};
   }
 `
 const UninstallButton = styled(Button)`

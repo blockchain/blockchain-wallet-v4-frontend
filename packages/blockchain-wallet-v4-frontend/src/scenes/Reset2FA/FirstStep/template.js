@@ -40,7 +40,7 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.reset2fa.firststep.reset'
             defaultMessage='Reset 2FA'

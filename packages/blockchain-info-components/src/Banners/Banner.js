@@ -43,7 +43,7 @@ const selectStyle = type => {
     case 'warning':
       return { color: 'error', uppercase: true, icon: 'alert-filled' }
     case 'alert':
-      return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
+      return { color: 'blue600', uppercase: false, icon: 'bell' }
     case 'caution':
       return { color: 'brand-yellow', uppercase: false, icon: 'alert-filled' }
     case 'white':
@@ -51,7 +51,7 @@ const selectStyle = type => {
     case 'informational':
       return { color: 'gray-5', uppercase: false, icon: null }
     default:
-      return { color: 'brand-secondary', uppercase: false, icon: null }
+      return { color: 'blue600', uppercase: false, icon: null }
   }
 }
 

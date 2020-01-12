@@ -125,7 +125,7 @@ const Column = styled.div`
 
 const NavBadge = styled.span`
   color: white;
-  background-color: ${Color('brand-secondary')};
+  background-color: ${Color('blue600')};
   padding: 0.25rem;
   margin-left: 0.75rem;
   font-size: 0.625rem;
@@ -398,7 +398,7 @@ class Footer extends PureComponent {
               </Column>
 
               <Column>
-                <BlueLogo name='blue-logo' height='44px' />
+                <BlueLogo name='blockchain-icon' height='44px' />
                 <Copyright>
                   © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
                 </Copyright>

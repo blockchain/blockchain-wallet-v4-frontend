@@ -1,9 +1,9 @@
 import { Field } from 'redux-form'
 import { Form, SelectBoxBankAccountType, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { Image, Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
+import { Text } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -24,9 +24,6 @@ const InputContainer = styled.div`
   button {
     margin-top: 0px;
   }
-`
-const CheckImage = styled(Image)`
-  width: 100%;
 `
 
 class AddManually extends Component {
@@ -62,7 +59,7 @@ class AddManually extends Component {
                 defaultMessage='Bank Account Information'
               />
             </Text>
-            <CheckImage name='check-helper' />
+            {/* <CheckImage name='check-helper' /> */}
             <Field
               name='routingNumber'
               component={TextBox}

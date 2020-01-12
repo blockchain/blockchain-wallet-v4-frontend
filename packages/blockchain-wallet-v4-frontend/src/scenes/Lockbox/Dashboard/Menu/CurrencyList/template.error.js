@@ -22,7 +22,7 @@ const Refresh = styled.div`
   width: 180px;
   .link {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
   }
 `
 

@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Lockbox Balances Component should prompt user to use Chrome if coin is not saved 1`] = `
-<Lockbox__Wrapper>
-  <Lockbox__IconBox
+<styled.div>
+  <styled.div
     coin="btc"
   >
     <Component
       color="white"
       size="32px"
     />
-  </Lockbox__IconBox>
+  </styled.div>
   <Component
     size="12px"
     weight={400}
@@ -24,20 +24,20 @@ exports[`Lockbox Balances Component should prompt user to use Chrome if coin is 
       }
     />
   </Component>
-</Lockbox__Wrapper>
+</styled.div>
 `;
 
 exports[`Lockbox Balances Component should prompt user to user to add coin if not saved and browser Chrome 1`] = `
-<Lockbox__Wrapper>
-  <Lockbox__IconBox
+<styled.div>
+  <styled.div
     coin="btc"
   >
     <Component
       color="white"
       size="32px"
     />
-  </Lockbox__IconBox>
-  <Lockbox__Balance>
+  </styled.div>
+  <styled.div>
     <Connect(FiatDisplayContainer)
       coin="BTC"
       size="14px"
@@ -48,21 +48,21 @@ exports[`Lockbox Balances Component should prompt user to user to add coin if no
       size="13px"
       weight={400}
     />
-  </Lockbox__Balance>
-</Lockbox__Wrapper>
+  </styled.div>
+</styled.div>
 `;
 
 exports[`Lockbox Balances Component should render and match default snapshot 1`] = `
-<Lockbox__Wrapper>
-  <Lockbox__IconBox
+<styled.div>
+  <styled.div
     coin="btc"
   >
     <Component
       color="white"
       size="32px"
     />
-  </Lockbox__IconBox>
-  <Lockbox__Balance>
+  </styled.div>
+  <styled.div>
     <Connect(FiatDisplayContainer)
       coin="BTC"
       size="14px"
@@ -73,6 +73,6 @@ exports[`Lockbox Balances Component should render and match default snapshot 1`]
       size="13px"
       weight={400}
     />
-  </Lockbox__Balance>
-</Lockbox__Wrapper>
+  </styled.div>
+</styled.div>
 `;

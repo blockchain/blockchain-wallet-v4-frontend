@@ -37,6 +37,7 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
+import { BitpayInformational, BitpayInvoiceExpired } from './BitPay'
 import {
   CoinifyBuyViaCard,
   CoinifyDeleteBank,
@@ -75,7 +76,6 @@ import {
   XlmReserveLearn
 } from './Xlm'
 import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
-import BitPayExpired from './BitPayExpired'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
@@ -85,7 +85,8 @@ const Modals = () => (
     <AddBtcWallet />
     <AirdropClaim />
     <AirdropSuccess />
-    <BitPayExpired />
+    <BitpayInvoiceExpired />
+    <BitpayInformational />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />

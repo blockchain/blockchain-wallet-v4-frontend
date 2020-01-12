@@ -20,7 +20,7 @@ const General = () => {
   return (
     <Wrapper>
       <Banner type='alert'>
-        <Text color='brand-secondary' size='14px'>
+        <Text color='blue600' size='14px'>
           <FormattedMessage
             id='scenes.settings.general.explain'
             defaultMessage='Use your Wallet ID to log in using our web client,'

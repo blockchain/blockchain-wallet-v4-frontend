@@ -8,7 +8,7 @@ const Container = styled.div`
   width: 100%;
   height: auto;
   z-index: ${props => props.zIndex || 'initial'};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 `
 const Error = styled.label`
   position: absolute;

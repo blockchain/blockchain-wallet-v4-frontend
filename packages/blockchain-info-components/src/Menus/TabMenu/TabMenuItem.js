@@ -11,7 +11,7 @@ const BaseTabMenuItem = styled.span`
   font-size: 14px;
   text-align: center;
   color: ${props =>
-    props.selected ? props.theme['brand-secondary'] : props.theme['gray-3']};
+    props.selected ? props.theme.blue600 : props.theme['gray-3']};
   cursor: pointer;
 
   &:not(:last-child) {
@@ -30,7 +30,7 @@ const BaseTabMenuItem = styled.span`
       top: 39px;
       left: 0;
       width: 100%;
-      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
+      border-bottom: 4px solid ${props => props.theme.blue600};
     }
   }
   @media (max-width: 480px) {

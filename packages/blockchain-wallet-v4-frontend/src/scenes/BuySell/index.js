@@ -3,7 +3,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { getData, getFields } from './selectors'
-import { hasAccount } from 'services/ExchangeService'
 import { includes, isNil, length, path, prop } from 'ramda'
 import { TabMenuBuySellStatus } from 'components/Form'
 import CoinifyCheckout from './CoinifyCheckout'
@@ -15,6 +14,7 @@ import styled from 'styled-components'
 import KycGetStarted from './KycGetStarted'
 import PromoCards from './PromoCards'
 
+const { COINIFY_EVENTS } = model.analytics
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
@@ -133,6 +133,7 @@ class BuySellContainer extends React.PureComponent {
 
   handleShowCoinify = () => {
     this.setState({ showCoinifyView: true })
+    this.props.analyticsActions.logEvent(COINIFY_EVENTS.CONTINUE_COINIFY_CLICK)
   }
 
   /**
@@ -147,12 +148,21 @@ class BuySellContainer extends React.PureComponent {
     const hasTokenOrTrades =
       !isNil(path(['coinify', 'offline_token'], buySell)) || showSFOXTrades
 
-    if (hasTokenOrTrades && this.state.showCoinifyView) {
+    // show checkout if user has coinify api token AND has either
+    // 1) clicked through Exchange promotion cards as an EU user
+    // OR
+    // 2) is not an EU user
+    if (
+      hasTokenOrTrades &&
+      (this.state.showCoinifyView ||
+        !includes(prop('countryCode', value), exchangeFunnelCountries))
+    ) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
         ),
-        partner: 'coinify'
+        partner: 'coinify',
+        showCheckoutMenu: true
       }
     }
 
@@ -164,7 +174,8 @@ class BuySellContainer extends React.PureComponent {
         component: (
           <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />
         ),
-        partner: 'coinify'
+        partner: 'coinify',
+        showCheckoutMenu: false
       }
     }
 
@@ -175,7 +186,8 @@ class BuySellContainer extends React.PureComponent {
           handleShowCoinify={this.handleShowCoinify}
         />
       ),
-      partner: ''
+      partner: '',
+      showCheckoutMenu: false
     }
   }
 
@@ -197,8 +209,7 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        {hasAccount(path(['component', 'props', 'value'], view)) &&
-        this.state.showCoinifyView ? (
+        {prop('showCheckoutMenu', view) && (
           <Menu>
             <Field
               name='status'
@@ -206,7 +217,7 @@ class BuySellContainer extends React.PureComponent {
               partner={prop('partner', view)}
             />
           </Menu>
-        ) : null}
+        )}
         <CheckoutWrapper>{prop('component', view)}</CheckoutWrapper>
       </Wrapper>
     )
@@ -220,13 +231,14 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   coinifyActions: bindActionCreators(actions.components.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

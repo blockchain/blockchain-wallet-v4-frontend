@@ -28,7 +28,7 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
@@ -92,8 +92,8 @@ const Dropdown = props => {
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedComponent}</Button>
         <DropdownIcon
-          name='down-arrow'
-          size='12px'
+          name='chevron-down'
+          size='18px'
           data-e2e='dropdownToggleButton'
         />
       </ButtonContainer>
@@ -102,7 +102,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'brand-secondary',
+  color: 'blue600',
   toggled: false,
   selectedValue: 0,
   uppercase: true,

@@ -64,13 +64,13 @@ const WelcomePax = props => {
         <Row>
           <Column>
             <div>
-              <Text size='24px' weight={500} color='brand-primary'>
+              <Text size='24px' weight={500} color='blue900'>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.pax.title1'
                   defaultMessage='A Digital US Dollar in'
                 />
               </Text>
-              <Text size='24px' weight={500} color='brand-primary'>
+              <Text size='24px' weight={500} color='blue900'>
                 <FormattedMessage
                   id='scenes.transaction.content.empty.pax.title2'
                   defaultMessage='Your Wallet'
@@ -90,7 +90,7 @@ const WelcomePax = props => {
         </Row>
         <Row>
           <SubTextGroup inline>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='14px' weight={500} color='blue900'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact1.1'
                 defaultMessage='Store Value'
@@ -104,7 +104,7 @@ const WelcomePax = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup inline>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='14px' weight={500} color='blue900'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact2.1'
                 defaultMessage='Send'
@@ -118,7 +118,7 @@ const WelcomePax = props => {
             </Text>
           </SubTextGroup>
           <SubTextGroup inline>
-            <Text size='14px' weight={500} color='brand-primary'>
+            <Text size='14px' weight={500} color='blue900'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.pax.fact3.1'
                 defaultMessage='Trade'

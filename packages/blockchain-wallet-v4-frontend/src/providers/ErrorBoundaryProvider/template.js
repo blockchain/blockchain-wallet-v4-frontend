@@ -49,11 +49,11 @@ const ErrorBoundary = props => {
     >
       <ModalHeader closeButton={false}>
         <TitleGroup inline>
-          <Icon name='alert-filled' size='28px' color='brand-primary' />
+          <Icon name='alert-filled' size='28px' color='blue900' />
           <Text
             weight={400}
             size={'22px'}
-            color='brand-primary'
+            color='blue900'
             style={{ paddingLeft: '8px' }}
           >
             <FormattedMessage

@@ -29,7 +29,7 @@ const GetStartedButton = styled(Button).attrs({
 export const USDPax = () => (
   <Container>
     <Row marginBottom='10px'>
-      <Text color='brand-primary' size='24px' weight={600}>
+      <Text color='blue900' size='24px' weight={600}>
         <FormattedMessage
           defaultMessage='A Digital US Dollar in Your Wallet'
           id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one'

@@ -92,8 +92,8 @@ const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
               </Text>
               <Text color='white' size='18px' weight={500}>
                 <FormattedMessage
-                  id='modals.onboarding.linktoexchangeaccount.loading.subtitle'
-                  defaultMessage='A new browser tab will open shortly where you can complete accounting linking.'
+                  id='modals.onboarding.linktoexchangeaccount.loading.sub'
+                  defaultMessage='A new browser tab will open shortly where you can complete account linking.'
                 />
               </Text>
             </Status>

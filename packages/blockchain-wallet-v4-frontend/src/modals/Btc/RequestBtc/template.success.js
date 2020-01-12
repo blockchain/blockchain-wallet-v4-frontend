@@ -34,7 +34,7 @@ const BannerContainer = styled.div`
   *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
 `
 const ContinueButton = styled(Button)`
@@ -55,7 +55,7 @@ const ChangeViewContainer = styled(TextGroup)`
 `
 const MakeRequestLinkText = styled(Text)`
   cursor: pointer;
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
 `
 
 const FirstStep = props => {

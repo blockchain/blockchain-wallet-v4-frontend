@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HighFlow should render correctly 1`] = `
-<IdentityVerification__IdentityVerificationForm>
+<Styled(styled.form)>
   <FooterShadowWrapper
     fields={
       <Context.Consumer>
@@ -43,5 +43,5 @@ exports[`HighFlow should render correctly 1`] = `
       </ForwardRef>
     }
   />
-</IdentityVerification__IdentityVerificationForm>
+</Styled(styled.form)>
 `;

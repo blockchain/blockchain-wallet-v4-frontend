@@ -38,7 +38,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <Content>
           <IconColumn>
-            <Icon size='24px' name='info' color='orange' />
+            <Icon size='24px' name='info' color='orange600' />
           </IconColumn>
           <ContentColumn>
             <Text size='14px' weight='600' data-e2e='runningLowMessage'>
@@ -775,7 +775,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <Content>
           <IconColumn>
-            <SkipWalletTourIcon size='24px' name='bell' color='orange' />
+            <SkipWalletTourIcon size='24px' name='bell' color='orange600' />
           </IconColumn>
           <ContentColumn>
             <Text size='14px' weight='600' data-e2e='skipWalletTourAlert'>

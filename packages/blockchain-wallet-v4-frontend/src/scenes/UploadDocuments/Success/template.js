@@ -31,14 +31,14 @@ const Wrapper = styled.div`
 const UploadDocumentsSuccess = ({ reference }) => (
   <Wrapper>
     <CheckCircleIcon />
-    <Text color='brand-primary' size='24px'>
+    <Text color='blue900' size='24px'>
       <FormattedMessage
         id='scenes.uploaddoc.success.success'
         defaultMessage='Success!'
       />
     </Text>
     <TextGroup inline>
-      <Text color='brand-primary' size='16px' weight={400}>
+      <Text color='blue900' size='16px' weight={400}>
         <FormattedMessage
           id='scenes.uploaddoc.success.reference'
           defaultMessage='Reference '
@@ -46,7 +46,7 @@ const UploadDocumentsSuccess = ({ reference }) => (
       </Text>
       <Text>{reference}</Text>
     </TextGroup>
-    <SuccessText color='brand-primary' size='20px' weight={400}>
+    <SuccessText color='blue900' size='20px' weight={400}>
       <FormattedMessage
         id='scenes.uploaddoc.success.explanation'
         defaultMessage='We have received your files. A Blockchain Team Member 

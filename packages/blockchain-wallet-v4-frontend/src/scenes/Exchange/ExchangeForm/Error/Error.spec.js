@@ -163,17 +163,6 @@ describe('Exchange Error', () => {
     expect(wrapper.find(ReserveOverflowMessage)).toHaveLength(1)
   })
 
-  it(`should not show error if error is set to ${NO_VALUE_ERROR}`, () => {
-    const wrapper = shallow(<Error error={NO_VALUE_ERROR} showError={true} />)
-    expect(
-      wrapper
-        .find('Error__ErrorRow')
-        .children()
-        .first()
-        .text()
-    ).toBe('< />')
-  })
-
   it(`should show NoAdviceMessage if error is unknown`, () => {
     const wrapper = shallow(
       <Error error={NO_VALUE_ERROR + 'unknown'} showError={true} />

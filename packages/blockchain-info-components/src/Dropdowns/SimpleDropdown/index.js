@@ -49,7 +49,7 @@ class SimpleDropdown extends React.PureComponent {
 }
 
 SimpleDropdown.defaultProps = {
-  color: 'brand-secondary',
+  color: 'blue600',
   opened: false,
   selectedValue: 0,
   uppercase: true,

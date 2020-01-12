@@ -16,9 +16,8 @@ import TargetFiatAmount from '../../../scenes/Exchange/ExchangeForm/Summary/Targ
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  border: 0px;
-  padding: 0px;
-  padding-bottom: 0px;
+  border: 0;
+  padding: 0;
   > :last-child {
     margin-bottom: 0;
   }
@@ -34,7 +33,7 @@ const CoinIconTitle = styled(Title)`
     width: 30px;
     height: 30px;
     border-radius: 15px;
-    background: ${props => props.theme['white']};
+    background: ${props => props.theme.white};
     justify-content: center;
     align-items: center;
     margin: 0px -6px;
@@ -112,7 +111,7 @@ const OrderInfoBox = styled.div`
   `}
   &:hover {
     * {
-      color: ${props => props.theme['brand-secondary']};
+      color: ${props => props.theme.blue600};
     }
   }
 `
@@ -149,7 +148,7 @@ const ExchangeConfirm = ({
           color={prop('colorCode', sourceCoinModel)}
           name={path(['icons', 'circleFilled'], sourceCoinModel)}
         />
-        <Icon size='12px' name='thick-arrow-right' />
+        <Icon size='14px' name='arrow-right' />
         <Icon
           size='42px'
           color={prop('colorCode', targetCoinModel)}
@@ -160,7 +159,7 @@ const ExchangeConfirm = ({
         <TargetFiatAmount
           targetAmount={Remote.of(targetAmount)}
           targetCoin={prop('coinCode', targetCoinModel)}
-          color='brand-primary'
+          color='blue900'
           weight={400}
           size='42px'
         />
@@ -172,7 +171,7 @@ const ExchangeConfirm = ({
         >
           {`${sourceAmount} ${prop('coinTicker', sourceCoinModel)}`}
         </CoinButton>
-        <FromToIcon name='short-right-arrow' />
+        <FromToIcon name='arrow-right' />
         <CoinButton
           coin={prop('colorCode', targetCoinModel)}
           data-e2e='exchangeConfirmTargetValue'
@@ -187,7 +186,7 @@ const ExchangeConfirm = ({
             defaultMessage='Order Info'
           />
         </Text>
-        <Icon name='down-arrow' weight={600} size='14px' color='gray-3' />
+        <Icon name='chevron-down' weight={600} size='20px' color='gray-3' />
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary

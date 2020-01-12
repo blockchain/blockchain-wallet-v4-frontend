@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ExchangeByBlockchain renders correctly with button 1`] = `
-<WhatsNew__Container>
-  <WhatsNew__Row
+<styled.div>
+  <styled.div
     marginBottom="10px"
   >
     <text
-      color="brand-primary"
+      color="blue900"
       size="24px"
       weight={600}
     >
@@ -16,11 +16,11 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         values={Object {}}
       />
     </text>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+  </styled.div>
+  <styled.div
     marginBottom="24px"
   >
-    <ExchangeByBlockchain__DarkText
+    <styled.text
       size="14px"
     >
       <FormattedMessage
@@ -28,107 +28,107 @@ exports[`ExchangeByBlockchain renders correctly with button 1`] = `
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="24px"
   >
-    <ExchangeByBlockchain__DarkText>
+    <styled.text>
       <FormattedMessage
         defaultMessage="Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swap_enables_trade"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="8px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Low fees"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.low_fees"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Great news! Get the best prices without having to leave the security of your Wallet."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.best_prices"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="8px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Higher Limits"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higher_limits"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Like to trade big? Get access to limits of up to $25,000 per day."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trade_big"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="32px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Easy to use"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.easy_to_use"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Get started in just a few steps."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.get_started"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row>
-    <ExchangeByBlockchain__GetStartedButton>
+    </styled.text>
+  </styled.div>
+  <styled.div>
+    <styled.button>
       <FormattedMessage
         defaultMessage="Get Started"
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.started"
         values={Object {}}
       />
-    </ExchangeByBlockchain__GetStartedButton>
-  </WhatsNew__Row>
-</WhatsNew__Container>
+    </styled.button>
+  </styled.div>
+</styled.div>
 `;
 
 exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
-<WhatsNew__Container>
-  <WhatsNew__Row
+<styled.div>
+  <styled.div
     marginBottom="10px"
   >
     <text
-      color="brand-primary"
+      color="blue900"
       size="24px"
       weight={600}
     >
@@ -138,11 +138,11 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         values={Object {}}
       />
     </text>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+  </styled.div>
+  <styled.div
     marginBottom="24px"
   >
-    <ExchangeByBlockchain__DarkText
+    <styled.text
       size="14px"
     >
       <FormattedMessage
@@ -150,100 +150,100 @@ exports[`ExchangeByBlockchain renders correctly with exchange link 1`] = `
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.november2018"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="24px"
   >
-    <ExchangeByBlockchain__DarkText>
+    <styled.text>
       <FormattedMessage
         defaultMessage="Swap enables you to trade crypto with the best prices and quick settlement, all while maintaining full control of your funds."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swap_enables_trade"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="8px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Low fees"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.low_fees"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Great news! Get the best prices without having to leave the security of your Wallet."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.best_prices"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="8px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Higher Limits"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.higher_limits"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Like to trade big? Get access to limits of up to $25,000 per day."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.trade_big"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row
+    </styled.text>
+  </styled.div>
+  <styled.div
     marginBottom="32px"
   >
-    <ExchangeByBlockchain__DarkText>
-      <ExchangeByBlockchain__PrimaryText>
+    <styled.text>
+      <styled.text>
         <FormattedMessage
           defaultMessage="Easy to use"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.easy_to_use"
           values={Object {}}
         />
-      </ExchangeByBlockchain__PrimaryText>
-      <ExchangeByBlockchain__DarkText
+      </styled.text>
+      <styled.text
         hideOnMobile={true}
       >
          - 
-      </ExchangeByBlockchain__DarkText>
+      </styled.text>
       <FormattedMessage
         defaultMessage="Get started in just a few steps."
         id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.get_started"
         values={Object {}}
       />
-    </ExchangeByBlockchain__DarkText>
-  </WhatsNew__Row>
-  <WhatsNew__Row>
+    </styled.text>
+  </styled.div>
+  <styled.div>
     <withRouter(LinkContainer)
       to="/swap"
     >
-      <ExchangeByBlockchain__GetStartedButton>
+      <styled.button>
         <FormattedMessage
           defaultMessage="Swap Now"
           id="layouts.wallet.trayright.whatsnew.whatsnewcontent.exchangebyblockchain.swapnow"
           values={Object {}}
         />
-      </ExchangeByBlockchain__GetStartedButton>
+      </styled.button>
     </withRouter(LinkContainer)>
-  </WhatsNew__Row>
-</WhatsNew__Container>
+  </styled.div>
+</styled.div>
 `;

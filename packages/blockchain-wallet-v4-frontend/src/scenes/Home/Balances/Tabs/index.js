@@ -30,7 +30,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 3px ${props => props.theme['brand-secondary']};
+    border-bottom: solid 3px ${props => props.theme.blue600};
   }
   > * {
     color: ${props => props.theme['gray-2']};
@@ -42,7 +42,7 @@ const Tab = styled.div`
       transform: scaleX(1);
     }
     > * {
-      color: ${props => props.theme['brand-primary']};
+      color: ${props => props.theme.blue900};
     }
   }
 `

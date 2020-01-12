@@ -10,12 +10,6 @@ export default ({ coreSagas }) => {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, action.payload)
-      // TODO: deprecate when partners stop using confirmation codes
-      if (action.payload.confirmationCode) {
-        yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
-      } else {
-        yield put(actions.alerts.displaySuccess(C.EMAIL_UPDATE_SUCCESS_LINK))
-      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateEmail', e))
       yield put(actions.alerts.displayError(C.EMAIL_UPDATE_ERROR))

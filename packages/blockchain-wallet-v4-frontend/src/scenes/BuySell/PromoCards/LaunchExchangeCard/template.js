@@ -9,7 +9,7 @@ const Box = styled.div`
   position: relative;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  border: 1px solid ${props => props.theme['grey000']};
+  border: 1px solid ${props => props.theme.grey000};
   width: 17.5rem;
   height: 15.5rem;
   margin-top: 2rem;
@@ -45,7 +45,7 @@ const LaunchExchangeCard = props => {
   return (
     <BoxWrapper>
       <StyledBox noMargin={noMargin}>
-        <Icon name='exchange-logo' size='30px' color='black' />
+        <Icon name='blockchain-logo' size='30px' color='black' />
         <Text
           size='20px'
           color='grey800'
@@ -77,7 +77,7 @@ const LaunchExchangeCard = props => {
         </Text>
 
         <Wrapper
-          href={`${exchangeUrl}&utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
+          href={`${exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=buy_sell_linked`}
           rel='noopener noreferrer'
           target='_blank'
           onClick={isExchangeAccountLinked ? handleLinkedWalletLinkout : null}
