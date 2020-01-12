@@ -3,8 +3,9 @@ import { assoc, assocPath, compose, merge } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4'
 
 import { INITIAL_TIERS } from './model'
+import { ProfileActionTypes, ProfileState } from './types'
 
-const INITIAL_STATE = {
+const INITIAL_STATE: ProfileState = {
   apiToken: Remote.NotAsked,
   campaign: {},
   exchangeOnboarding: {
@@ -18,49 +19,52 @@ const INITIAL_STATE = {
   userTiers: Remote.of(INITIAL_TIERS)
 }
 
-export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
-
-  switch (type) {
+export function profileReducer (
+  state = INITIAL_STATE,
+  action: ProfileActionTypes
+): ProfileState {
+  switch (action.type) {
     case AT.FETCH_USER_DATA_SUCCESS:
+      // @ts-ignore
+      // FIXME: TypeScript getOrElse
       const oldValues = state.userData.getOrElse({})
-      return assoc(
-        'userData',
-        Remote.Success(merge(oldValues, payload.userData)),
-        state
-      )
+      return {
+        ...state,
+        userData: Remote.Success(merge(oldValues, action.payload.userData))
+      }
+    // @Leora please finish these and alphabetize
     case AT.FETCH_USER_DATA_LOADING:
       return assoc('userData', Remote.Loading, state)
     case AT.FETCH_USER_DATA_FAILURE:
-      return assoc('userData', Remote.Failure(payload.error), state)
+      return assoc('userData', Remote.Failure(action.payload.error), state)
     case AT.FETCH_USER_CAMPAIGNS_SUCCESS:
       return assoc(
         'userCampaigns',
-        Remote.Success(payload.userCampaigns),
+        Remote.Success(action.payload.userCampaigns),
         state
       )
     case AT.FETCH_USER_CAMPAIGNS_LOADING:
       return assoc('userCampaigns', Remote.Loading, state)
     case AT.FETCH_USER_CAMPAIGNS_FAILURE:
-      return assoc('userCampaigns', Remote.Failure(payload.error), state)
+      return assoc('userCampaigns', Remote.Failure(action.payload.error), state)
     case AT.FETCH_TIERS_SUCCESS:
-      return assoc('userTiers', Remote.Success(payload.userTiers), state)
+      return assoc('userTiers', Remote.Success(action.payload.userTiers), state)
     case AT.FETCH_TIERS_LOADING:
       return assoc('userTiers', Remote.Loading, state)
     case AT.FETCH_TIERS_FAILURE:
-      return assoc('userTiers', Remote.Failure(payload.error), state)
+      return assoc('userTiers', Remote.Failure(action.payload.error), state)
     case AT.SET_API_TOKEN_NOT_ASKED:
       return assoc('apiToken', Remote.NotAsked, state)
     case AT.SET_API_TOKEN_SUCCESS:
-      return assoc('apiToken', Remote.Success(payload.token), state)
+      return assoc('apiToken', Remote.Success(action.payload.token), state)
     case AT.SET_API_TOKEN_LOADING:
       return assoc('apiToken', Remote.Loading, state)
     case AT.SET_API_TOKEN_FAILURE:
-      return assoc('apiToken', Remote.Failure(payload.e), state)
+      return assoc('apiToken', Remote.Failure(action.payload.error), state)
     case AT.LINK_FROM_EXCHANGE_ACCOUNT_SUCCESS:
       return assocPath(
         ['exchangeOnboarding', 'linkFromExchangeAccountStatus'],
-        Remote.Success(payload.data),
+        Remote.Success(action.payload.data),
         state
       )
     case AT.LINK_FROM_EXCHANGE_ACCOUNT_LOADING:
@@ -72,23 +76,31 @@ export default (state = INITIAL_STATE, action) => {
     case AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE:
       return assocPath(
         ['exchangeOnboarding', 'linkFromExchangeAccountStatus'],
-        Remote.Failure(payload.e),
+        Remote.Failure(action.payload.error),
         state
       )
     case AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK:
       return assocPath(
         ['exchangeOnboarding', 'linkToExchangeAccountDeeplink'],
-        payload.deeplink,
+        action.payload.deeplink,
         state
       )
     case AT.LINK_TO_EXCHANGE_ACCOUNT_RESET:
-      return compose(
-        assocPath(
-          ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
-          Remote.NotAsked
-        ),
-        assocPath(['exchangeOnboarding', 'linkToExchangeAccountDeeplink'], null)
-      )(state)
+      // return compose(
+      //   assocPath(
+      //     ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
+      //     Remote.NotAsked
+      //   ),
+      //   assocPath(['exchangeOnboarding', 'linkToExchangeAccountDeeplink'], null)
+      // )(state)
+      return {
+        ...state,
+        exchangeOnboarding: {
+          ...state.exchangeOnboarding,
+          linkFromExchangeAccountStatus: Remote.NotAsked,
+          linkToExchangeAccountDeeplink: Remote.NotAsked
+        }
+      }
     case AT.LINK_TO_EXCHANGE_ACCOUNT_LOADING:
       return assocPath(
         ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
@@ -98,19 +110,19 @@ export default (state = INITIAL_STATE, action) => {
     case AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS:
       return assocPath(
         ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
-        Remote.Success(payload),
+        Remote.Success(),
         state
       )
     case AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE:
       return assocPath(
         ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
-        Remote.Failure(payload.e),
+        Remote.Failure(action.payload.error),
         state
       )
     case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS:
       return assocPath(
         ['exchangeOnboarding', 'shareWalletAddressesWithExchange'],
-        Remote.Success(payload.data),
+        Remote.Success(action.payload.data),
         state
       )
     case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_LOADING:
@@ -122,12 +134,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE:
       return assocPath(
         ['exchangeOnboarding', 'shareWalletAddressesWithExchange'],
-        Remote.Failure(payload.e),
+        Remote.Failure(action.payload.error),
         state
       )
     case AT.SET_CAMPAIGN:
-      return assoc('campaign', payload.campaign, state)
+      return assoc('campaign', action.payload.campaign, state)
     default:
       return state
   }
 }
+
+export default profileReducer
