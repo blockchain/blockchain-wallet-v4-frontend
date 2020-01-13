@@ -9,6 +9,7 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -61,7 +62,8 @@ const LinkFromExchangeAccount = ({
   emailVerified,
   linkFromExchangeAccountStatus,
   userTiers
-}) => {
+}: Props) => {
+  // @ts-ignore
   const { current } = userTiers.getOrElse({}) || {}
   return (
     <ModalStyled size='small' dataE2e='infoModalLinkFromExchangeAccount'>
@@ -161,13 +163,13 @@ const LinkFromExchangeAccount = ({
                         </Text>
                       </TextGroup>
                     ) : (
-                      <Text color='white' weight={500}>
-                        <FormattedMessage
-                          id='modals.onboarding.linkfromexchange.no_email'
-                          defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
-                        />
-                      </Text>
-                    )}
+                        <Text color='white' weight={500}>
+                          <FormattedMessage
+                            id='modals.onboarding.linkfromexchange.no_email'
+                            defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
+                          />
+                        </Text>
+                      )}
                   </Status>
                   {email && (
                     <Button

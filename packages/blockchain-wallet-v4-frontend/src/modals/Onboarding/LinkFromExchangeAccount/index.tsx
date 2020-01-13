@@ -1,12 +1,33 @@
-import { bindActionCreators, compose } from 'redux'
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
+import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { UserTiersType } from 'data/types'
+import LinkFromExchangeAccount from './template'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
-import { actions, selectors } from 'data'
-import LinkFromExchangeAccount from './template'
+type OwnPropsType = {
+  close: () => void,
+  linkId: string
+}
 
-class LinkFromExchangeAccountContainer extends React.PureComponent {
+export type LinkStatePropsType = {
+  email: string,
+  emailVerified: boolean,
+  linkFromExchangeAccountStatus: any,
+  userTiers: RemoteData<any, UserTiersType>
+}
+
+export type LinkDispatchPropsType = {
+  actions: typeof actions.modules.profile & {
+    resendVerifyEmail: () => void
+  }
+}
+
+export type Props = OwnPropsType & LinkStatePropsType & LinkDispatchPropsType
+
+class LinkFromExchangeAccountContainer extends React.PureComponent<Props> {
   componentDidMount () {
     const { linkId } = this.props
     this.props.actions.linkFromExchangeAccount(linkId)
@@ -28,7 +49,7 @@ const mapStateToProps = state => ({
   userTiers: selectors.modules.profile.getUserTiers(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   actions: bindActionCreators(
     {
       ...actions.modules.profile,
@@ -38,12 +59,10 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-const enhance = compose(
+export default compose<any>(
   modalEnhancer('LinkFromExchangeAccount'),
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
-)
-
-export default enhance(LinkFromExchangeAccountContainer)
+)(LinkFromExchangeAccountContainer)

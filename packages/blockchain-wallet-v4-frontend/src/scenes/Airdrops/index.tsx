@@ -36,7 +36,7 @@ type LinkStatePropsType = {
 
 export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification,
-  profileActions: typeof actions.modules.profileActions
+  profileActions: typeof actions.modules.profile
 }
 
 export type Props = LinkStatePropsType & LinkDispatchPropsType

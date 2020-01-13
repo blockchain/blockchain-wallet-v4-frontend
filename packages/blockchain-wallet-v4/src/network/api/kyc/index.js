@@ -103,7 +103,7 @@ export default ({
     authorizedGet({
       url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/kyc/tiers'
+      endPoint: '/kyc/tierss'
     })
 
   const selectTier = selectedTier =>

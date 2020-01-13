@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { assoc, assocPath, compose, merge } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import { INITIAL_TIERS } from './model'
 import { ProfileActionTypes, ProfileState } from './types'
@@ -16,7 +16,7 @@ const INITIAL_STATE: ProfileState = {
   },
   userData: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
-  userTiers: Remote.of(INITIAL_TIERS)
+  userTiers: Remote.Success(INITIAL_TIERS)
 }
 
 export function profileReducer (
@@ -98,7 +98,7 @@ export function profileReducer (
         exchangeOnboarding: {
           ...state.exchangeOnboarding,
           linkFromExchangeAccountStatus: Remote.NotAsked,
-          linkToExchangeAccountDeeplink: Remote.NotAsked
+          linkToExchangeAccountDeeplink: null
         }
       }
     case AT.LINK_TO_EXCHANGE_ACCOUNT_LOADING:
@@ -110,7 +110,7 @@ export function profileReducer (
     case AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS:
       return assocPath(
         ['exchangeOnboarding', 'linkToExchangeAccountStatus'],
-        Remote.Success(),
+        Remote.Success('true'),
         state
       )
     case AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE:

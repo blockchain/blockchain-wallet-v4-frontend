@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { AxiosError } from 'axios'
 import { CampaignsType } from 'data/components/types'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 
@@ -47,6 +48,13 @@ export type LimitType = {
   daily: string
   type: 'CRYPTO' | 'FIAT'
 }
+
+export type LinkFromExchangeAccountFailureType =
+  | 'Invalid link id'
+  | 'Link is not valid'
+  | 'Failed to find the user'
+  | 'User is already linked'
+  | 'Wallet user is already linked with another account'
 
 export type TagsType = {
   [key in CampaignsType]?: CampaignAttributeType
@@ -128,7 +136,7 @@ export interface ProfileState {
   }
   userCampaigns: RemoteData<string, UserCampaignsType>
   userData: RemoteData<string, UserDataType>
-  userTiers: RemoteData<any, UserTiersType>
+  userTiers: RemoteData<string, UserTiersType>
 }
 
 // Actions
@@ -190,7 +198,7 @@ interface LinkFromExchangeAccountAction {
 interface LinkFromExchangeAccountFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
-    error: string
+    error: AxiosError<LinkFromExchangeAccountFailureType>
   }
   type: typeof AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE
 }
@@ -199,7 +207,7 @@ interface LinkFromExchangeAccountLoadingAction {
 }
 interface LinkFromExchangeAccountSuccessAction {
   payload: {
-    data: any
+    data: 'User is successfully linked'
   }
   type: typeof AT.LINK_FROM_EXCHANGE_ACCOUNT_SUCCESS
 }

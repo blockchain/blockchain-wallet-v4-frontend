@@ -2,6 +2,8 @@ declare module 'blockchain-info-components' {
   import { DefaultTheme } from 'styled-components'
 
   // type-coverage:ignore-next-line
+  export function BlockchainLoader(...args: any): any
+  // type-coverage:ignore-next-line
   export function Button(...args: any): any
   // type-coverage:ignore-next-line
   export function FontGlobalStyles(...args: any): any
@@ -10,7 +12,15 @@ declare module 'blockchain-info-components' {
   // type-coverage:ignore-next-line
   export function IconGlobalStyles(...args: any): any
   // type-coverage:ignore-next-line
+  export function Image(...args: any): any
+  // type-coverage:ignore-next-line
   export function Link(...args: any): any
+  // type-coverage:ignore-next-line
+  export function Modal(...args: any): any
+  // type-coverage:ignore-next-line
+  export function ModalBody(...args: any): any
+  // type-coverage:ignore-next-line
+  export function ModalHeader(...args: any): any
   // type-coverage:ignore-next-line
   export function Palette(theme: string): DefaultTheme
   // type-coverage:ignore-next-line
@@ -25,6 +35,8 @@ declare module 'blockchain-info-components' {
   export function TableRow(...args): any
   // type-coverage:ignore-next-line
   export function Text(...args: any): any
+  // type-coverage:ignore-next-line
+  export function TextGroup(...args: any): any
 }
 declare module 'daggy' {
   import {
@@ -40,10 +52,7 @@ declare module 'daggy' {
     Success: ['data']
   }
 
-  export function taggedSum(
-    typename: string,
-    constructor: IConstructor
-  ): {
+  class Remote {
     '@@type': 'Remote'
     Failure: <E>(error: E) => RemoteFailure<E>
     Loading: RemoteLoading
@@ -53,4 +62,6 @@ declare module 'daggy' {
     prototype: any
     toString: () => void
   }
+
+  export function taggedSum(typename: string, constructor: IConstructor): Remote
 }

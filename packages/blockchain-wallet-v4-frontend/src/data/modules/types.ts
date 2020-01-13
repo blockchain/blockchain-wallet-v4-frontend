@@ -1,7 +1,7 @@
-// import { ProfileActionTypes } from './profile/types'
+import { ProfileActionTypes } from './profile/types'
 
 // All relative ActionTypes should go here
-// export type ModuleActionTypes =
-// export type ModuleActionTypes = ProfileActionTypes
+// export type ModuleActionTypes = ProfileActionTypes | etc
+export type ModuleActionTypes = ProfileActionTypes
 
 export * from './profile/types'
