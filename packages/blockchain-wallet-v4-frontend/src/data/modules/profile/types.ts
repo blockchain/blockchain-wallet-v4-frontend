@@ -122,7 +122,7 @@ export interface ProfileState {
   campaign: {}
   exchangeOnboarding: {
     linkFromExchangeAccountStatus: RemoteData<string, string>
-    linkToExchangeAccountDeeplink: null
+    linkToExchangeAccountDeeplink: string | null
     linkToExchangeAccountStatus: RemoteData<string, string>
     shareWalletAddressesWithExchange: RemoteData<string, string>
   }
@@ -148,6 +148,9 @@ interface FetchTiersSuccessAction {
     userTiers: UserTiersType
   }
   type: typeof AT.FETCH_TIERS_SUCCESS
+}
+interface FetchUser {
+  type: typeof AT.FETCH_USER
 }
 interface FetchUserCampaignsFailureAction {
   // FIXME: TypeScript error: Error?
@@ -256,6 +259,9 @@ interface SetLinkToExchangeAccountDeeplinkAction {
   }
   type: typeof AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK
 }
+interface ShareWalletAddressesWithExchange {
+  type: typeof AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE
+}
 interface ShareWalletAddressWithExchangeFailureAction {
   // FIXME: TypeScript e: Error?
   payload: {
@@ -278,6 +284,7 @@ export type ProfileActionTypes =
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction
+  | FetchUser
   | FetchUserCampaignsFailureAction
   | FetchUserCampaignsLoadingAction
   | FetchUserCampaignsSuccessAction
@@ -299,6 +306,7 @@ export type ProfileActionTypes =
   | SetApiTokenSuccessAction
   | SetCampaignAction
   | SetLinkToExchangeAccountDeeplinkAction
+  | ShareWalletAddressesWithExchange
   | ShareWalletAddressWithExchangeFailureAction
   | ShareWalletAddressWithExchangeLoadingAction
   | ShareWalletAddressWithExchangeSuccessAction
