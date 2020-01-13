@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
+import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
@@ -31,7 +32,7 @@ export const MainTitle = styled(Text)`
 
 type LinkStatePropsType = {
   data: any,
-  hasEmail: boolean
+  hasEmail: boolean,
 }
 
 export type LinkDispatchPropsType = {
@@ -101,7 +102,7 @@ class Airdrops extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: lift((userData, campaignData) => ({
     ...userData,
     ...campaignData

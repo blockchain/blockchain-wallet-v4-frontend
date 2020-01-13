@@ -1,13 +1,11 @@
+import * as C from 'services/AlertService'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { actions, selectors } from 'data'
+import { contains } from 'ramda'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { promptForSecondPassword } from 'services/SagaService'
 import { select } from 'redux-saga/effects'
-
-import * as actions from '../../actions'
-import * as C from 'services/AlertService'
-import * as selectors from '../../selectors.js'
-import { contains } from 'ramda'
 import settingsSagas, {
   ipRestrictionError,
   logLocation,

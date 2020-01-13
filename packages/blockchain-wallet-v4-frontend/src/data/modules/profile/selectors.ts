@@ -17,9 +17,10 @@ import {
   propEq
 } from 'ramda'
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
+import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
-export const getUserData = path(['profile', 'userData'])
+export const getUserData = (state: RootState) => state.profile.userData
 export const getUserId = compose(
   lift(prop('id')),
   getUserData
@@ -71,6 +72,7 @@ export const isUserVerified = compose(
 )
 export const isSilverOrAbove = compose(
   lte(1),
+  // @ts-ignore
   path(['data', 'current']),
   lift(path(['tiers'])),
   getUserData
@@ -121,9 +123,11 @@ export const userFlowSupported = isInvitedToKyc
 
 export const getApiToken = path(['profile', 'apiToken'])
 
+// @ts-ignore
 export const isAuthenticated = state => getApiToken(state).map(prop('isActive'))
 
 export const getAuthCredentials = state => ({
+  // @ts-ignore
   token: getApiToken(state).getOrElse(''),
   email: selectors.core.settings.getEmail(state).getOrElse(''),
   guid: selectors.core.wallet.getGuid(state)
@@ -138,8 +142,8 @@ export const closeToTier1Limit = state =>
       path([0, 'state'], tiers) === TIERS_STATES.VERIFIED &&
       path([1, 'state'], tiers) === TIERS_STATES.NONE &&
       pathOr(0, [0, 'limits', 'annual'], tiers)[0].limits.annual *
-        CLOSE_TO_AMOUNT <
-        pathOr(0, ['limits', 'annual'], userData)
+      CLOSE_TO_AMOUNT <
+      pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
 
 export const getLinkFromExchangeAccountStatus = path([
