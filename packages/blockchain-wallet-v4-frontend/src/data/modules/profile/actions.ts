@@ -5,124 +5,129 @@ export const clearSession = () => ({
   type: AT.CLEAR_SESSION
 })
 
-// @Leora please add (parameters): ProfileActionTypes
-// to all action creators in reducers
 export const fetchTiersFailure = (error): ProfileActionTypes => ({
   type: AT.FETCH_TIERS_FAILURE,
   payload: { error }
 })
-export const fetchTiersLoading = () => ({
+export const fetchTiersLoading = (): ProfileActionTypes => ({
   type: AT.FETCH_TIERS_LOADING
 })
-export const fetchTiersSuccess = userTiers => ({
+export const fetchTiersSuccess = (userTiers): ProfileActionTypes => ({
   type: AT.FETCH_TIERS_SUCCESS,
   payload: { userTiers }
 })
-
+// event, not used by reducer, not yet typed
 export const fetchUserCampaigns = () => ({
   type: AT.FETCH_USER_CAMPAIGNS
 })
-export const fetchUserCampaignsFailure = error => ({
+export const fetchUserCampaignsFailure = (error): ProfileActionTypes => ({
   type: AT.FETCH_USER_CAMPAIGNS_FAILURE,
   payload: { error }
 })
-export const fetchUserCampaignsLoading = () => ({
+export const fetchUserCampaignsLoading = (): ProfileActionTypes => ({
   type: AT.FETCH_USER_CAMPAIGNS_LOADING
 })
-export const fetchUserCampaignsSuccess = userCampaigns => ({
+export const fetchUserCampaignsSuccess = (
+  userCampaigns
+): ProfileActionTypes => ({
   type: AT.FETCH_USER_CAMPAIGNS_SUCCESS,
   payload: { userCampaigns }
 })
 
-export const fetchUser = () => ({
+export const fetchUser = (): ProfileActionTypes => ({
   type: AT.FETCH_USER
 })
-export const fetchUserDataFailure = error => ({
+export const fetchUserDataFailure = (error): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_FAILURE,
   payload: { error }
 })
-export const fetchUserDataLoading = () => ({
+export const fetchUserDataLoading = (): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_LOADING
 })
-export const fetchUserDataSuccess = userData => ({
+export const fetchUserDataSuccess = (userData): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_SUCCESS,
   payload: { userData }
 })
 
-export const linkFromExchangeAccount = linkId => ({
+export const linkFromExchangeAccount = (linkId): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT,
   payload: { linkId }
 })
-export const linkFromExchangeAccountFailure = error => ({
+export const linkFromExchangeAccountFailure = (error): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE,
   payload: { error }
 })
-export const linkFromExchangeAccountLoading = () => ({
+export const linkFromExchangeAccountLoading = (): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT_LOADING
 })
-export const linkFromExchangeAccountSuccess = data => ({
+export const linkFromExchangeAccountSuccess = (data): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT_SUCCESS,
   payload: { data }
 })
 
-export const linkToExchangeAccount = utmCampaign => ({
+export const linkToExchangeAccount = (utmCampaign): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT,
   payload: { utmCampaign }
 })
-export const linkToExchangeAccountFailure = error => ({
+export const linkToExchangeAccountFailure = (error): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
   payload: { error }
 })
-export const linkToExchangeAccountLoading = () => ({
+export const linkToExchangeAccountLoading = (): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_LOADING
 })
-export const linkToExchangeAccountSuccess = () => ({
+export const linkToExchangeAccountSuccess = (): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS
 })
-export const linkToExchangeAccountReset = () => ({
+export const linkToExchangeAccountReset = (): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_RESET
 })
 
-export const setApiTokenFailure = error => ({
+export const setApiTokenFailure = (error): ProfileActionTypes => ({
   type: AT.SET_API_TOKEN_FAILURE,
   payload: { error }
 })
-export const setApiTokenLoading = () => ({
+export const setApiTokenLoading = (): ProfileActionTypes => ({
   type: AT.SET_API_TOKEN_LOADING
 })
-export const setApiTokenNotAsked = () => ({
+export const setApiTokenNotAsked = (): ProfileActionTypes => ({
   type: AT.SET_API_TOKEN_NOT_ASKED
 })
-export const setApiTokenSuccess = token => ({
+export const setApiTokenSuccess = (token): ProfileActionTypes => ({
   type: AT.SET_API_TOKEN_SUCCESS,
   payload: { token }
 })
 
-export const setCampaign = campaign => ({
+export const setCampaign = (campaign): ProfileActionTypes => ({
   type: AT.SET_CAMPAIGN,
   payload: { campaign }
 })
 
-export const setLinkToExchangeAccountDeepLink = deeplink => ({
+export const setLinkToExchangeAccountDeepLink = (
+  deeplink
+): ProfileActionTypes => ({
   type: AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK,
   payload: { deeplink }
 })
-
+// event, not used by reducer, not yet typed
 export const signIn = () => ({
   type: AT.SIGN_IN
 })
-
-export const shareWalletAddressesWithExchange = () => ({
+export const shareWalletAddressesWithExchange = (): ProfileActionTypes => ({
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE
 })
-export const shareWalletAddressesWithExchangeLoading = () => ({
+export const shareWalletAddressesWithExchangeLoading = (): ProfileActionTypes => ({
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_LOADING
 })
-export const shareWalletAddressesWithExchangeSuccess = data => ({
+export const shareWalletAddressesWithExchangeSuccess = (
+  data
+): ProfileActionTypes => ({
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_SUCCESS,
   payload: { data }
 })
-export const shareWalletAddressesWithExchangeFailure = error => ({
+export const shareWalletAddressesWithExchangeFailure = (
+  error
+): ProfileActionTypes => ({
   type: AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE_FAILURE,
   payload: { error }
 })
