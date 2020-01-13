@@ -1,48 +1,28 @@
-import { path } from 'ramda'
 import { RootState } from '../../rootReducer'
 
 export const getVerificationStep = (state: RootState) =>
   state.components.identityVerification.verificationStep
 
-// @Leora
-// export const getSmsStep = path([
-//   'components',
-//   'identityVerification',
-//   'smsStep'
-// ])
 export const getSmsStep = (state: RootState) =>
   state.components.identityVerification.smsStep
 
-export const getEmailStep = path([
-  'components',
-  'identityVerification',
-  'emailStep'
-])
+export const getEmailStep = (state: RootState) =>
+  state.components.identityVerification.emailStep
 
-export const getSupportedCountries = path([
-  'components',
-  'identityVerification',
-  'supportedCountries'
-])
+export const getSupportedCountries = (state: RootState) =>
+  state.components.identityVerification.supportedCountries
 
-export const getSupportedDocuments = path([
-  'components',
-  'identityVerification',
-  'supportedDocuments'
-])
+export const getSupportedDocuments = (state: RootState) =>
+  state.components.identityVerification.supportedDocuments
 
-export const getStates = path(['components', 'identityVerification', 'states'])
+export const getStates = (state: RootState) =>
+  state.components.identityVerification.states
 
-export const getKycFlowConfig = path([
-  'components',
-  'identityVerification',
-  'flowConfig'
-])
+export const getKycFlowConfig = (state: RootState) =>
+  state.components.identityVerification.flowConfig
 
-export const getPreIdvData = path([
-  'components',
-  'identityVerification',
-  'preIdvData'
-])
+export const getPreIdvData = (state: RootState) =>
+  state.components.identityVerification.preIdvData
 
-export const getSteps = path(['components', 'identityVerification', 'steps'])
+export const getSteps = (state: RootState) =>
+  state.components.identityVerification.steps
