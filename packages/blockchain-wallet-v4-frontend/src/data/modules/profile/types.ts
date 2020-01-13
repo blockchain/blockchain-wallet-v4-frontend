@@ -129,7 +129,10 @@ export interface ProfileState {
   apiToken: RemoteData<string, string>
   campaign: {}
   exchangeOnboarding: {
-    linkFromExchangeAccountStatus: RemoteData<string, string>
+    linkFromExchangeAccountStatus: RemoteData<
+      AxiosError<LinkFromExchangeAccountFailureType>,
+      string
+    >
     linkToExchangeAccountDeeplink: string | null
     linkToExchangeAccountStatus: RemoteData<string, string>
     shareWalletAddressesWithExchange: RemoteData<string, string>
