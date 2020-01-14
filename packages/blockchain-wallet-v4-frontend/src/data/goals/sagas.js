@@ -31,7 +31,7 @@ import {
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
 import bip21 from 'bip21'
-import profileSagas from 'data/modules/profile/sagas'
+import profileSagas from 'data/modules/profile/sagas.ts'
 
 const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 

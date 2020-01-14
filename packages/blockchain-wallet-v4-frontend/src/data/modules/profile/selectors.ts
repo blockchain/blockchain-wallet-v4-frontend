@@ -25,7 +25,8 @@ export const getUserId = compose(
   lift(prop('id')),
   getUserData
 )
-export const getUserCampaigns = path(['profile', 'userCampaigns'])
+export const getUserCampaigns = (state: RootState) =>
+  state.profile.userCampaigns
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData
@@ -142,8 +143,8 @@ export const closeToTier1Limit = state =>
       path([0, 'state'], tiers) === TIERS_STATES.VERIFIED &&
       path([1, 'state'], tiers) === TIERS_STATES.NONE &&
       pathOr(0, [0, 'limits', 'annual'], tiers)[0].limits.annual *
-      CLOSE_TO_AMOUNT <
-      pathOr(0, ['limits', 'annual'], userData)
+        CLOSE_TO_AMOUNT <
+        pathOr(0, ['limits', 'annual'], userData)
   )(getUserData(state), getTiers(state))
 
 export const getLinkFromExchangeAccountStatus = path([

@@ -1,5 +1,5 @@
 import addressesBch from './addressesBch/sagas'
-import profile from './profile/sagas'
+import profile from './profile/sagas.ts'
 import rates from './rates/sagas'
 import securityCenter from './securityCenter/sagas'
 import settings from './settings/sagas'

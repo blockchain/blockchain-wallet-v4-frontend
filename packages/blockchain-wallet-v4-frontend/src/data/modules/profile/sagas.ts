@@ -24,6 +24,7 @@ import {
   tail
 } from 'ramda'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
+import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4'
 import moment from 'moment'
@@ -81,7 +82,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.kvStore.userCredentials.getLifetimeToken
       )).getOrElse(null)
       if (!userId || !lifetimeToken) {
-        yield call(createUser)
+        // yield call(createUser)
         return yield put(
           A.fetchUserDataSuccess({
             state: USER_ACTIVATION_STATES.NONE,
@@ -186,10 +187,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const clearSession = function * () {
     if (renewSessionTask) {
+      // @ts-ignore
       yield cancel(renewSessionTask)
       renewSessionTask = null
     }
     if (renewUserTask) {
+      // @ts-ignore
       yield cancel(renewUserTask)
       renewUserTask = null
     }
@@ -322,6 +325,7 @@ export default ({ api, coreSagas, networks }) => {
         A.fetchTiersSuccess(
           compose(
             tail,
+            // @ts-ignore
             sortBy(prop('index'))
           )(tiersData.tiers)
         )

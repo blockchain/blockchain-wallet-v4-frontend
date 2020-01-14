@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
 import { ProfileActionTypes } from './types'
 
 export const clearSession = () => ({
@@ -20,7 +21,9 @@ export const fetchTiersSuccess = (userTiers): ProfileActionTypes => ({
 export const fetchUserCampaigns = () => ({
   type: AT.FETCH_USER_CAMPAIGNS
 })
-export const fetchUserCampaignsFailure = (error): ProfileActionTypes => ({
+export const fetchUserCampaignsFailure = (
+  error: NabuApiErrorType
+): ProfileActionTypes => ({
   type: AT.FETCH_USER_CAMPAIGNS_FAILURE,
   payload: { error }
 })

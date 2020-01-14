@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
 import { CampaignsType } from 'data/components/types'
+import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 
 // Types
@@ -137,8 +138,8 @@ export interface ProfileState {
     linkToExchangeAccountStatus: RemoteData<string, string>
     shareWalletAddressesWithExchange: RemoteData<string, string>
   }
-  userCampaigns: RemoteData<string, UserCampaignsType>
-  userData: RemoteData<string, UserDataType>
+  userCampaigns: RemoteData<NabuApiErrorType, UserCampaignsType>
+  userData: RemoteData<NabuApiErrorType, UserDataType>
   userTiers: RemoteData<string, UserTiersType>
 }
 
@@ -166,7 +167,7 @@ interface FetchUser {
 interface FetchUserCampaignsFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
-    error: string
+    error: NabuApiErrorType
   }
   type: typeof AT.FETCH_USER_CAMPAIGNS_FAILURE
 }
@@ -180,9 +181,8 @@ interface FetchUserCampaignsSuccessAction {
   type: typeof AT.FETCH_USER_CAMPAIGNS_SUCCESS
 }
 interface FetchUserDataFailureAction {
-  // FIXME: TypeScript error: Error?
   payload: {
-    error: string
+    error: NabuApiErrorType
   }
   type: typeof AT.FETCH_USER_DATA_FAILURE
 }

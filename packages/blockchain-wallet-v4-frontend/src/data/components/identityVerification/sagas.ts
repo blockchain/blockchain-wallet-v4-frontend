@@ -31,7 +31,7 @@ export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const { TIERS } = model.profile
   const {
     getCampaignData,
@@ -42,7 +42,8 @@ export default ({ api, coreSagas }) => {
     syncUserWithWallet
   } = profileSagas({
     api,
-    coreSagas
+    coreSagas,
+    networks
   })
 
   const registerUserCampaign = function * (payload) {

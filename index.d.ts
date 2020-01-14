@@ -2,44 +2,45 @@ declare module 'blockchain-info-components' {
   import { DefaultTheme } from 'styled-components'
 
   // type-coverage:ignore-next-line
-  export function BlockchainLoader (...args: any): any
+  export function BlockchainLoader(...args: any): any
   // type-coverage:ignore-next-line
-  export function Button (...args: any): any
+  export function Button(...args: any): any
   // type-coverage:ignore-next-line
-  export function FontGlobalStyles (...args: any): any
+  export function FontGlobalStyles(...args: any): any
   // type-coverage:ignore-next-line
-  export function Icon (...args: any): any
+  export function Icon(...args: any): any
   // type-coverage:ignore-next-line
-  export function IconGlobalStyles (...args: any): any
+  export function IconGlobalStyles(...args: any): any
   // type-coverage:ignore-next-line
-  export function Image (...args: any): any
+  export function Image(...args: any): any
   // type-coverage:ignore-next-line
-  export function Link (...args: any): any
+  export function Link(...args: any): any
   // type-coverage:ignore-next-line
-  export function Modal (...args: any): any
+  export function Modal(...args: any): any
   // type-coverage:ignore-next-line
-  export function ModalBody (...args: any): any
+  export function ModalBody(...args: any): any
   // type-coverage:ignore-next-line
-  export function ModalHeader (...args: any): any
+  export function ModalHeader(...args: any): any
   // type-coverage:ignore-next-line
-  export function Palette (theme: string): DefaultTheme
+  export function Palette(theme: string): DefaultTheme
   // type-coverage:ignore-next-line
-  export function SkeletonRectangle (...args: any): any
+  export function SkeletonRectangle(...args: any): any
   // type-coverage:ignore-next-line
-  export function Table (...args): any
+  export function Table(...args): any
   // type-coverage:ignore-next-line
-  export function TableCell (...args): any
+  export function TableCell(...args): any
   // type-coverage:ignore-next-line
-  export function TableHeader (...args): any
+  export function TableHeader(...args): any
   // type-coverage:ignore-next-line
-  export function TableRow (...args): any
+  export function TableRow(...args): any
   // type-coverage:ignore-next-line
-  export function Text (...args: any): any
+  export function Text(...args: any): any
   // type-coverage:ignore-next-line
-  export function TextGroup (...args: any): any
+  export function TextGroup(...args: any): any
 }
 declare module 'daggy' {
   import {
+    cata,
     RemoteFailure,
     RemoteLoading,
     RemoteNotAsked,
@@ -63,5 +64,5 @@ declare module 'daggy' {
     toString: () => void
   }
 
-  export function taggedSum (typename: string, constructor: IConstructor): Remote
+  export function taggedSum(typename: string, constructor: IConstructor): Remote
 }
