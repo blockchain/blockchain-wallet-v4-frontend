@@ -23,7 +23,7 @@ export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'components/coinify/sagas'
 
 export default ({ api, coreSagas, networks }) => {
-  const coinifySignup = function* () {
+  const coinifySignup = function * () {
     try {
       yield put(A.coinifyLoading())
       const country = yield select(S.getCoinifyCountry)
@@ -59,13 +59,13 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkIfFirstTrade = function* () {
+  const checkIfFirstTrade = function * () {
     // TODO: subject to change - this implemtation is for sending KYC docs upon first trade
     const trades = yield select(selectors.core.data.coinify.getTrades)
     if (length(trades) === 0) yield call(sendCoinifyKYC)
   }
 
-  const checkCountryState = function* () {
+  const checkCountryState = function * () {
     const nabuStateCode = (yield select(
       selectors.modules.profile.getUserStateCode
     )).getOrFail('no state code')
@@ -88,7 +88,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const buy = function* (payload) {
+  const buy = function * (payload) {
     try {
       yield call(checkIfFirstTrade)
       yield call(checkCountryState)
@@ -125,7 +125,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const prepareAddress = function* () {
+  const prepareAddress = function * () {
     try {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
@@ -149,7 +149,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sell = function* () {
+  const sell = function * () {
     try {
       yield call(checkIfFirstTrade)
       yield call(checkCountryState)
@@ -213,7 +213,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const initialized = function* (action) {
+  const initialized = function * (action) {
     try {
       const { type } = action.payload
       const level = yield select(selectors.core.data.coinify.getLevel)
@@ -261,7 +261,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const handleChange = function* (action) {
+  const handleChange = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -427,7 +427,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fromISX = function* (action) {
+  const fromISX = function * (action) {
     const status = action.payload
     try {
       const tradeR = yield select(selectors.core.data.coinify.getTrade)
@@ -450,7 +450,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const deleteBankAccount = function* (payload) {
+  const deleteBankAccount = function * (payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
       const quote = yield select(selectors.core.data.coinify.getQuote)
@@ -464,7 +464,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const finishTrade = function* (data) {
+  const finishTrade = function * (data) {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
@@ -485,7 +485,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const cancelTrade = function* (data) {
+  const cancelTrade = function * (data) {
     const trade = data.payload
     try {
       yield put(A.setCancelTradeId(trade.id))
@@ -497,7 +497,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const cancelSubscription = function* (data) {
+  const cancelSubscription = function * (data) {
     const id = path(['payload', 'id'], data)
     try {
       yield put(A.coinifyLoading())
@@ -510,7 +510,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const initializePayment = function* () {
+  const initializePayment = function * () {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
@@ -532,7 +532,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sendCoinifyKYC = function* () {
+  const sendCoinifyKYC = function * () {
     try {
       const coinifyUserR = yield select(
         selectors.core.kvStore.buySell.getCoinifyUser
@@ -544,7 +544,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchCoinifyData = function* () {
+  const fetchCoinifyData = function * () {
     try {
       yield put(actions.core.data.coinify.fetchTrades())
       yield put(actions.core.data.coinify.getKyc())
@@ -556,7 +556,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const compareKyc = function* () {
+  const compareKyc = function * () {
     try {
       const tier2DataR = yield select(selectors.modules.profile.getTier, 2)
       const tier2State = prop('state', tier2DataR.getOrElse(null))
@@ -579,7 +579,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const cancelISX = function* () {
+  const cancelISX = function * () {
     const tradeR = yield select(selectors.core.data.coinify.getTrade)
     const trade = tradeR.getOrElse({})
     if (prop('state', trade) === 'awaiting_transfer_in') {
