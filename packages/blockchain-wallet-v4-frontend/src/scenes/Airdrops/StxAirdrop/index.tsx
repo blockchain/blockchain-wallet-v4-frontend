@@ -7,7 +7,6 @@ import { LinkDispatchPropsType } from '..'
 import { StxShare, StxStatus } from './model'
 import React from 'react'
 import styled from 'styled-components'
-import { propEq } from 'ramda'
 
 const Header = styled.div`
   display: flex;
@@ -32,103 +31,58 @@ const Date = styled.div`
   }
 `
 
-const CompletedWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 280px;
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
-  background-color: ${props => props.theme.stx};
-  color: ${props => props.theme.white};
-`
-const TextParagraph = styled(Text)`
-  margin-bottom: 16px;
-`
-
 export type Props = {
   userCampaignsInfoResponseList: Array<CampaignInfoType>,
   kycState: KycStatesType,
   tags: TagsType
 }
 
-const CompletedStxInfo = () => (
-  <CompletedWrapper>
-    <Header style={{ marginBottom: '16px' }}>
-      <Text size='20px' color='white' weight={600}>
-        <FormattedMessage
-          id='scenes.airdrops.blockstack.wallet.title'
-          defaultMessage='My Blockstack Wallet'
-        />
-      </Text>
-    </Header>
-    <Text size='14px' color='white' weight={700}>
-      <FormattedMessage
-        id='scenes.airdrops.blockstack.wallet.q1'
-        defaultMessage='Where are my Stacks?'
-      />
-    </Text>
-    <TextParagraph size='13px' color='white' weight={500}>
-      <FormattedMessage
-        id='scenes.airdrops.blockstack.wallet.a1'
-        defaultMessage='Your Stacks (STX) are saved in your Blockchain Wallet.'
-      />
-    </TextParagraph>
-    <TextParagraph size='13px' color='white' weight={500}>
-      <FormattedMessage
-        id='scenes.airdrops.blockstack.wallet.a2'
-        defaultMessage='Please note the balance is currently non-transferable.'
-      />
-    </TextParagraph>
-    <Text size='13px' color='white' weight={500}>
-      <FormattedMessage
-        id='scenes.airdrops.blockstack.wallet.a3'
-        defaultMessage='Learn more about this and future wallet support for STX'
-      />
-      {' '}
-      <Link
-        href='https://support.blockchain.com/hc/en-us/articles/360038745191'
-        target='_blank'
-        size='13px'
-        color='white'
-        weight={500}
-        style={{ textDecoration: 'underline' }}
-      >
-        <FormattedMessage
-          id='scenes.airdrops.blockstack.wallet.here'
-          defaultMessage='here'
-        />
-      </Link>
-      {'.'}
-    </Text>
-  </CompletedWrapper>
-)
-
 const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
-  const blockstackCampaign = props.userCampaignsInfoResponseList.find(
+  const stxCampaign = props.userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
-  return propEq('userCampaignState','NONE', blockstackCampaign) ? null : (
-    propEq('userCampaignState','REWARD_RECEIVED', blockstackCampaign) ? (
-      <CompletedStxInfo />
-    ) : (
-      <Box>
-        <div>
-          <Header>
-            <Icon name='stx' color='stx' size='32px' />
-            <Text
-              size='20px'
-              color='grey800'
-              weight={600}
-              style={{ marginLeft: '16px' }}
-            >
+  const receivedAirdrop = stxCampaign && stxCampaign.userCampaignState === 'REWARD_RECEIVED'
+
+  return stxCampaign && stxCampaign.userCampaignState !== 'NONE' ? (
+    <Box>
+      <div>
+        <Header>
+          <Icon name='stx' color='stx' size='32px' />
+          <Text
+            size='20px'
+            color='grey800'
+            weight={600}
+            style={{ marginLeft: '16px' }}
+          >
+            {receivedAirdrop ? (
               <FormattedMessage
-                id='scenes.airdrops.blockstack'
+                id='scenes.airdrops.stx.wallet.title'
+                defaultMessage='My Blockstack Wallet'
+              />
+            ) : (
+              <FormattedMessage
+                id='scenes.airdrops.stx'
                 defaultMessage='Blockstack'
               />
+            )}
+          </Text>
+        </Header>
+        {receivedAirdrop ? (
+          <>
+            <Text color='grey800' size='14px' weight={700} style={{ margin: '16px 0 4px' }}>
+              <FormattedMessage
+                id='scenes.airdrops.stx.wallet.q1'
+                defaultMessage='Where are my Stacks?'
+              />
             </Text>
-          </Header>
+            <Text size='13px' color='grey600' weight={500}>
+              <FormattedMessage
+                id='scenes.airdrops.stx.wallet.a1'
+                defaultMessage='Your Stacks (STX) are saved in your Blockchain Wallet.'
+              />
+            </Text>
+          </>
+        ) : (
           <Text
             size='12px'
             color='grey600'
@@ -152,10 +106,25 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
               />
             </Link>
           </Text>
-          <StatusContainer>
-            <div>
-              <StxStatus {...props} />
-            </div>
+        )}
+        <StatusContainer>
+          <div>
+            <StxStatus {...props} />
+          </div>
+          {receivedAirdrop ? (
+            <Date>
+              <Text size='16px' color='grey800' weight={600}>
+                {stxCampaign.userCampaignTransactionResponseList.length && stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity}
+                {' STX'}
+              </Text>
+              <Text size='12px' color='grey600' weight={500}>
+                <FormattedMessage
+                  id='scenes.airdrop.stx.wallet'
+                  defaultMessage='My Blockstack Wallet'
+                />
+              </Text>
+            </Date>
+          ) : (
             <Date>
               <Text size='16px' color='grey800' weight={600}>
                 <FormattedMessage
@@ -170,14 +139,37 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
                 />
               </Text>
             </Date>
-          </StatusContainer>
-          <div style={{ marginTop: '26px' }}>
+          )}
+        </StatusContainer>
+        <div style={{ marginTop: '26px' }}>
+          {receivedAirdrop ? (
+            <Text size='12px' color='grey600' weight={500}>
+              <FormattedMessage
+                id='scenes.airdrop.stx.wallet.balance'
+                defaultMessage='Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
+              />
+              {' '}
+              <Link
+                href='https://support.blockchain.com/hc/en-us/articles/360038745191'
+                target='_blank'
+                size='12px'
+                weight={500}
+                style={{ textDecoration: 'underline' }}
+              >
+                <FormattedMessage
+                  id='scenes.airdrops.blockstack.wallet.here'
+                  defaultMessage='here'
+                />
+              </Link>
+              {'.'}
+            </Text>
+          ) : (
             <StxShare {...props} />
-          </div>
+          )}
         </div>
-      </Box>
-    )
-  )
+      </div>
+    </Box>
+  ) : null
 }
 
 export default StxAirdrop
