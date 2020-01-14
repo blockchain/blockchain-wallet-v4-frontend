@@ -55,7 +55,7 @@ export interface IdentityVerificationState {
   preIdvData: RemoteData<string, PreIdvDataType>
   smsStep: RemoteData<string, EmailSmsStepType>
   states: RemoteData<string, StateType>
-  steps: RemoteData<string, any>
+  steps: RemoteData<string, Array<StepsType>>
   supportedCountries: RemoteData<string, Array<CountryType>>
   supportedDocuments: RemoteData<string, Array<DocumentType>>
   verificationStep: StepsType | null

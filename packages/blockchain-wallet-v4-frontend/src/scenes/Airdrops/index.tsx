@@ -32,7 +32,7 @@ export const MainTitle = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  data: RemoteData<string, UserDataType & UserCampaignsType>,
+  data: RemoteData<NabuApiErrorType, UserDataType & UserCampaignsType>,
   hasEmail: boolean,
   userData: RemoteData<NabuApiErrorType, UserDataType>
 }
@@ -63,7 +63,7 @@ class Airdrops extends React.PureComponent<Props> {
         </Text>
       )
     })
-    const PastAirdrops = data.cata<string, UserDataType & UserCampaignsType>({
+    const PastAirdrops = data.cata<NabuApiErrorType, UserDataType & UserCampaignsType>({
       Success: val => <PastAirdropsSuccess {...val} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,

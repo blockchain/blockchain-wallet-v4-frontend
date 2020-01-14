@@ -184,8 +184,10 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const goToPrevStep = function * () {
-    const steps = (yield select(S.getSteps)).getOrElse([])
-    const currentStep = yield select(S.getVerificationStep)
+    const stepsR = S.getSteps(yield select())
+    const steps = stepsR.getOrElse<Array<StepsType>, any[]>([])
+    const currentStep = S.getVerificationStep(yield select())
+    if (!currentStep) return
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex - 1]
 
