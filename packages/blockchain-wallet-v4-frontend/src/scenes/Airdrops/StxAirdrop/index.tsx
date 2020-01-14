@@ -1,11 +1,9 @@
 import { Box } from '../AirdropInfo'
 import { CampaignInfoType, TagsType } from 'data/types'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { KycStatesType } from 'data/components/identityVerification/types'
 import { LinkDispatchPropsType } from '..'
-import { StxShare, StxStatus } from './model'
-import media from 'services/ResponsiveService'
+import { StxDateOrAmount, StxHeader, StxInfo, StxShare, StxStatus } from './model'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -22,26 +20,6 @@ const StatusContainer = styled.div`
     width: 50%;
   }
 `
-const Date = styled.div`
-  height: 100%;
-  padding-left: 20px;
-  border-left: 1px solid ${props => props.theme.grey000};
-
-  > div:first-child {
-    margin-bottom: 4px;
-  }
-`
-const OverflowFooterText = styled(Text)`
-  position: absolute;
-  margin-left: -16px;
-  bottom: -52px;
-  line-height: 1.5;
-
-  ${media.laptop`
-    padding-bottom: 12px;
-    bottom: -50px;
-  `};
-`
 
 export type Props = {
   userCampaignsInfoResponseList: Array<CampaignInfoType>,
@@ -50,6 +28,12 @@ export type Props = {
 }
 
 const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
+  const stxCampaign = props.userCampaignsInfoResponseList.find(
+    (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
+  )
+
+  if (!stxCampaign) return null
+
   return (
     <Box>
       <div>
@@ -61,63 +45,20 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
             weight={600}
             style={{ marginLeft: '16px' }}
           >
-            <FormattedMessage
-              id='scenes.airdrops.blockstack'
-              defaultMessage='Blockstack'
-            />
+            <StxHeader stxCampaign={stxCampaign} />
           </Text>
         </Header>
-        <Text
-          size='12px'
-          color='grey600'
-          weight={500}
-          lineHeight='1.5'
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedHTMLMessage
-            id='scenes.airdrop.stx.stxinfo1'
-            defaultMessage='Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
-          />{' '}
-          <Link
-            href='https://blockstack.org/try-blockstack'
-            target='_blank'
-            rel='noopener noreferrer'
-            size='12px'
-          >
-            <FormattedHTMLMessage
-              id='scenes.airdrop.stx.learnmore'
-              defaultMessage='Learn more'
-            />
-          </Link>
-        </Text>
+
+        <StxInfo stxCampaign={stxCampaign} />
         <StatusContainer>
           <div>
             <StxStatus {...props} />
           </div>
-          <Date>
-            <Text size='16px' color='grey800' weight={600}>
-              <FormattedMessage
-                id='scenes.airdrop.stx.feb'
-                defaultMessage='Feb. 2020'
-              />
-            </Text>
-            <Text size='12px' color='grey600' weight={500}>
-              <FormattedMessage
-                id='scenes.airdrop.stx.date'
-                defaultMessage='Airdrop Date'
-              />
-            </Text>
-          </Date>
+          <StxDateOrAmount stxCampaign={stxCampaign} />
         </StatusContainer>
         <div style={{ marginTop: '26px' }}>
           <StxShare {...props} />
         </div>
-        <OverflowFooterText size='12px' color='grey600'>
-          <FormattedMessage
-            id='scenes.airdrop.stx.regulatory'
-            defaultMessage="* For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
-          />
-        </OverflowFooterText>
       </div>
     </Box>
   )
