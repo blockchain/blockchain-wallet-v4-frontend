@@ -1,4 +1,5 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { BigNumber } from 'bignumber.js'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '../StxAirdrop'
 import { Status, To, Type } from './model'
@@ -13,6 +14,9 @@ import React from 'react'
 
 const getQuantity = (amt, currency) => {
   switch (currency) {
+    case 'STX':
+      // TODO: use Exchange converter once implemented
+      return new BigNumber(amt).dividedBy(10000000).toString()
     case 'XLM':
       return Exchange.convertXlmToXlm({
         value: amt,
