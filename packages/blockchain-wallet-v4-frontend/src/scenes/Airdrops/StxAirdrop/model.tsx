@@ -5,6 +5,7 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
+import { BigNumber } from 'bignumber.js'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
@@ -13,6 +14,7 @@ import { model } from 'data'
 import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
+
 
 const { KYC_STATES } = model.profile
 
@@ -105,15 +107,20 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   }
 }
 
+const calcStxAmount = (stxCampaign) => {
+  let stxAmount = stxCampaign.userCampaignTransactionResponseList.length && stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
+  if (!stxAmount) return
+  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
+}
+
 export const StxDateOrAmount = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
       return null
     case 'REWARD_RECEIVED':
       return <DateOrAmount>
-        <Text size='16px' color='grey800' weight={600}>
-          {stxCampaign.userCampaignTransactionResponseList.length && stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity}
-          {' STX'}
+        <Text size='14px' color='grey800' weight={600}>
+          {calcStxAmount(stxCampaign)}
         </Text>
         <Text size='12px' color='grey600' weight={500}>
           <FormattedMessage
