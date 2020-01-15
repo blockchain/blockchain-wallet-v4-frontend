@@ -43,34 +43,31 @@ const getOrElse = function<A, DV> (
   }
 }
 
-export type RemoteNotAsked = {
+export type RemoteType = {
+  cata: typeof cata
+  getOrElse: typeof getOrElse
+}
+
+export type RemoteNotAsked = RemoteType & {
   readonly '@@tag': 'RemoteNotAsked'
   readonly '@@values': []
-  cata: typeof cata
-  getOrElse: typeof getOrElse
 }
 
-export type RemoteLoading = {
+export type RemoteLoading = RemoteType & {
   readonly '@@tag': 'RemoteLoading'
   readonly '@@values': []
-  cata: typeof cata
-  getOrElse: typeof getOrElse
 }
 
-export type RemoteFailure<E> = {
+export type RemoteFailure<E> = RemoteType & {
   readonly '@@tag': 'RemoteFailure'
   readonly '@@values': [E]
-  cata: typeof cata
   readonly error: E
-  getOrElse: typeof getOrElse
 }
 
-export type RemoteSuccess<A> = {
+export type RemoteSuccess<A> = RemoteType & {
   readonly '@@tag': 'RemoteSuccess'
   readonly '@@values': [A]
-  cata: typeof cata
   readonly data: A
-  getOrElse: typeof getOrElse
 }
 
 export type RemoteData<E, A> =
