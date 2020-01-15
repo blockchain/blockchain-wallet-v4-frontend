@@ -3,7 +3,7 @@ import { CampaignInfoType, TagsType } from 'data/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { KycStatesType } from 'data/components/identityVerification/types'
 import { LinkDispatchPropsType } from '..'
-import { StxDateOrAmount, StxHeader, StxInfo, StxShare, StxStatus } from './model'
+import { StxDateOrAmount, StxFooterCta, StxHeader, StxInfo, StxStatus } from './model'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -57,7 +57,7 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
           <StxDateOrAmount stxCampaign={stxCampaign} />
         </StatusContainer>
         <div style={{ marginTop: '26px' }}>
-          <StxShare {...props} />
+          <StxFooterCta {...props} />
         </div>
       </div>
     </Box>
