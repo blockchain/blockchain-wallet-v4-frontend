@@ -1,9 +1,8 @@
 import * as AT from './actionTypes'
-import { assoc, assocPath, compose, merge } from 'ramda'
+import { merge } from 'ramda'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import { INITIAL_TIERS } from './model'
-import { P } from 'Object/_api'
 import { ProfileActionTypes, ProfileState } from './types'
 
 const INITIAL_STATE: ProfileState = {
