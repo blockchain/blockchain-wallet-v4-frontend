@@ -12,8 +12,20 @@ class TranslationsProvider extends React.Component {
     messages: {}
   }
 
+  // ⚠️ HACK ALERT ⚠️
+  // Since email auth/magic links invalidate themselves when rendered more than once,
+  // updating the default language (english) to the users actual language causes
+  // the authorize and verify email pages to re-render which will then invalidate
+  // the links.  Users are then unable to log into their wallets. This is a hack
+  // to prevent the language update to cause a re-render on these pages. The downside
+  // is that these pages will never be translated.
   componentDidUpdate (prevProps) {
-    if (this.props.locale !== prevProps.locale) {
+    const urlHash = window.location.hash
+    if (
+      this.props.locale !== prevProps.locale &&
+      !urlHash.includes('authorize-approve') &&
+      !urlHash.includes('verify-email')
+    ) {
       this.initLocale()
     }
   }

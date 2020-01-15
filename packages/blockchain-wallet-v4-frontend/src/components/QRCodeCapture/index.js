@@ -43,9 +43,13 @@ class QRCodeCaptureContainer extends React.PureComponent {
     if (isBitPay) {
       address = data
     } else {
-      const decoded = bip21.decode(data, coin)
-      address = prop('address', decoded)
-      options = prop('options', decoded)
+      try {
+        const decoded = bip21.decode(data, coin)
+        address = prop('address', decoded)
+        options = prop('options', decoded)
+      } catch (e) {
+        throw Error('invalid_bip21')
+      }
     }
 
     return {
@@ -56,9 +60,9 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcAddress (data) {
-    const coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
-
+    let coinInfo
     try {
+      coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
       const { currency, btcRates } = this.props
       const { amount, message } = coinInfo.options
       const fiat = Exchange.convertBtcToFiat({
@@ -100,8 +104,9 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBchAddress (data) {
-    const coinInfo = this.getAddressOrBitPayInvoice('bitcoincash', data)
+    let coinInfo
     try {
+      coinInfo = this.getAddressOrBitPayInvoice('bitcoincash', data)
       const { amount, message } = coinInfo.options
       this.props.formActions.change(
         BCH_FORM,

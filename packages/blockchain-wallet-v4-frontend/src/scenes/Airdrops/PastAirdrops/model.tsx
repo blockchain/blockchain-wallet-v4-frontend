@@ -57,7 +57,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
             style={{ marginRight: '8px' }}
           />
           <Text size='14px' weight={500}>
-            Blockstack
+            Blockstack (STX)
           </Text>
         </TypeWrapper>
       )
