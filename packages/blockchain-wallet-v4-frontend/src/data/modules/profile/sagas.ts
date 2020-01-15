@@ -269,7 +269,15 @@ export default ({ api, coreSagas, networks }) => {
 
   const updateUser = function * ({ payload }) {
     const { data } = payload
-    const user = yield select(S.getUserData)
+    const userR = S.getUserData(yield select())
+    const user = userR.getOrElse({
+      id: undefined,
+      address: undefined,
+      mobile: undefined,
+      mobileVerified: undefined,
+      state: undefined,
+      kycState: undefined
+    })
     const {
       id,
       address,
