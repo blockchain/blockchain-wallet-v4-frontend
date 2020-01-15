@@ -1,3 +1,4 @@
+import { BigNumber } from 'bignumber.js'
 import {
   BlueCartridge,
   CustomCartridge,
@@ -5,7 +6,6 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
-import { BigNumber } from 'bignumber.js'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
@@ -64,6 +64,7 @@ export const StxHeader = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) =>
 export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
+    case 'REWARD_RECEIVED':
       return <>
         <Text color='grey800' size='14px' weight={700} style={{ margin: '16px 0 4px' }}>
           <FormattedMessage
@@ -78,8 +79,6 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
           />
         </Text>
       </>
-    // Maybe design will have new design when state switches to REWARD_RECEIVED
-    // case 'REWARD_RECEIVED:
     default:
       return <Text
         size='12px'
@@ -260,7 +259,7 @@ export const StxStatus = ({
   }
 }
 
-export const StxShare = ({ tags, kycState, userCampaignsInfoResponseList }: Props) => {
+export const StxFooterCta = ({ tags, kycState, userCampaignsInfoResponseList }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -268,6 +267,7 @@ export const StxShare = ({ tags, kycState, userCampaignsInfoResponseList }: Prop
   if (stxCampaign) {
     switch (stxCampaign.userCampaignState) {
       case 'TASK_FINISHED':
+      case 'REWARD_RECEIVED':
         return <Text size='12px' color='grey600' weight={500}>
           <FormattedMessage
             id='scenes.airdrop.stx.wallet.balance'
@@ -288,9 +288,21 @@ export const StxShare = ({ tags, kycState, userCampaignsInfoResponseList }: Prop
           </Link>
           {'.'}
         </Text>
-
-      // Maybe design will have new design when state switches to REWARD_RECEIVED
-      // case 'REWARD_RECEIVED:
+      case 'FAILED':
+        return (
+          <Link
+            href='https://support.blockchain.com'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            <Button nature='light' fullwidth>
+              <FormattedMessage
+                id='scenes.airdrop.stx.contactsupport'
+                defaultMessage='Contact Support'
+              />
+            </Button>
+          </Link>
+        )
     }
   }
 
