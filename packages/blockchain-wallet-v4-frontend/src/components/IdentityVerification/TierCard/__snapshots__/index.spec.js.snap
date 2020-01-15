@@ -473,15 +473,11 @@ exports[`TierCard renders null w/o showBanner 1`] = `
       jumbo={true}
       nature="primary"
     >
-      <span
-        data-e2e="unlockSilverBtn"
-      >
-        <FormattedMessage
-          defaultMessage="Unlock Silver"
-          id="components.identityverification.tiercard.silvercta"
-          values={Object {}}
-        />
-      </span>
+      <FormattedMessage
+        defaultMessage="Continue"
+        id="components.identityverification.tiercard.continue"
+        values={Object {}}
+      />
     </Styled(Button)>
   </styled.div>
 </styled.div>

@@ -1,3 +1,4 @@
+import { BigNumber } from 'bignumber.js'
 import {
   BlueCartridge,
   CustomCartridge,
@@ -5,7 +6,6 @@ import {
   GreyCartridge,
   SuccessCartridge
 } from '../AirdropInfo/model'
-import { BigNumber } from 'bignumber.js'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
