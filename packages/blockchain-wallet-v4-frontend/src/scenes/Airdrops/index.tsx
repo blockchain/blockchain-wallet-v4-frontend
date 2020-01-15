@@ -1,9 +1,11 @@
 import { actions, selectors } from 'data'
-import { AppActionTypes } from 'data/types'
+import { AppActionTypes, NabuApiErrorType, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
+import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
@@ -30,13 +32,14 @@ export const MainTitle = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  data: any,
-  hasEmail: boolean
+  data: RemoteData<NabuApiErrorType, UserDataType & UserCampaignsType>,
+  hasEmail: boolean,
+  userData: RemoteData<NabuApiErrorType, UserDataType>
 }
 
 export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification,
-  profileActions: typeof actions.modules.profileActions
+  profileActions: typeof actions.modules.profile
 }
 
 export type Props = LinkStatePropsType & LinkDispatchPropsType
@@ -48,7 +51,8 @@ class Airdrops extends React.PureComponent<Props> {
 
   render () {
     const { data, hasEmail } = this.props
-    const AirdropCards = data.cata({
+
+    const AirdropCards = data.cata<NabuApiErrorType, UserDataType & UserCampaignsType>({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
@@ -59,7 +63,7 @@ class Airdrops extends React.PureComponent<Props> {
         </Text>
       )
     })
-    const PastAirdrops = data.cata({
+    const PastAirdrops = data.cata<NabuApiErrorType, UserDataType & UserCampaignsType>({
       Success: val => <PastAirdropsSuccess {...val} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,
@@ -101,7 +105,7 @@ class Airdrops extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: lift((userData, campaignData) => ({
     ...userData,
     ...campaignData
@@ -109,6 +113,7 @@ const mapStateToProps = state => ({
     selectors.modules.profile.getUserData(state),
     selectors.modules.profile.getUserCampaigns(state)
   ),
+  userData: selectors.modules.profile.getUserData(state),
   hasEmail: selectors.core.settings
     .getEmail(state)
     .map(Boolean)

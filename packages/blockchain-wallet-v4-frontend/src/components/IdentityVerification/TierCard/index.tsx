@@ -1,4 +1,4 @@
-import { all, head, path, propEq, toLower } from 'ramda'
+import { all, path, propEq, toLower } from 'ramda'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
@@ -13,6 +13,7 @@ import media from 'services/ResponsiveService'
 
 import { ctas, headers, limits, messages, status } from './services'
 import { TIERS } from './model'
+import { UserDataType, UserTiersType } from 'data/types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -71,7 +72,7 @@ const Row = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${props => props.width || '100%'};
+  width: ${(props: { width?: string }) => props.width || '100%'};
   &:first-child {
     margin-right: 20px;
     border-right: 1px solid ${props => props.theme['gray-1']};
@@ -105,28 +106,43 @@ export const ActionButton = styled(Button)`
 
 const { TIERS_STATES } = model.profile
 
+type LinkDispatchPropsType = {
+  goToSwap: () => void,
+  verifyIdentity: typeof actions.components.identityVerification
+}
+
+type OwnProps = {
+  column: boolean,
+  emailVerified: boolean,
+  mobileVerified: boolean,
+  userData: UserDataType,
+  userTiers: UserTiersType,
+  tier: 1 | 2
+}
+
+type Props = LinkDispatchPropsType & OwnProps
+
 export const TierCard = ({
+  column,
+  emailVerified,
+  goToSwap,
+  mobileVerified,
+  tier,
   userData,
   userTiers,
-  emailVerified,
-  mobileVerified,
   verifyIdentity,
-  column,
-  tier,
-  goToSwap
-}) => {
-  const tierData = head(userTiers.filter(propEq('index', tier)))
+}: Props) => {
+  const tierData = userTiers.find((userTier) => userTier.index === tier)
+  if (!tierData) return null
+  const limitType: 'daily' | 'annual' = TIERS[tier].limit.toLowerCase()
   const tierFiatLimit =
     Exchange.getSymbol(tierData.limits.currency) +
-    Currency.formatFiat(
-      tierData.limits[toLower(path([tier, 'limit'], TIERS))],
-      0
-    )
+    Currency.formatFiat(tierData.limits[limitType], 0)
   const tierLimit = limits[path([tier, 'limit'], TIERS)]
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
   const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
 
-  const tierStarted = path(['tiers', 'selected'], userData) >= tier
+  const tierStarted = userData.tiers.selected >= tier
 
   let className = ''
   if (column) className += ' column'
@@ -170,7 +186,7 @@ export const TierCard = ({
               </Text>
             </Column>
             <Column>
-              {path([tier, 'requirements'], TIERS).map((requirement, i) => (
+              {TIERS[tier].requirements.map((requirement, i) => (
                 <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
                   {messages[requirement.name]}
                   {requirement.complete({
@@ -179,13 +195,13 @@ export const TierCard = ({
                     mobileVerified,
                     emailVerified
                   }) && (
-                    <Icon
-                      style={{ marginLeft: '5px' }}
-                      color='success'
-                      size='12px'
-                      name='check'
-                    />
-                  )}
+                      <Icon
+                        style={{ marginLeft: '5px' }}
+                        color='success'
+                        size='12px'
+                        name='check'
+                      />
+                    )}
                 </TextGroup>
               ))}
             </Column>
@@ -206,8 +222,8 @@ export const TierCard = ({
                 defaultMessage='Continue'
               />
             ) : (
-              ctas[path([tier, 'level'], TIERS)]
-            )}
+                ctas[path([tier, 'level'], TIERS)]
+              )}
           </ActionButton>
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (

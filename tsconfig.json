@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "baseUrl": "./packages",
     "jsx": "react",
     "module": "es6",

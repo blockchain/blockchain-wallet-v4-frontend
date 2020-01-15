@@ -186,10 +186,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const clearSession = function * () {
     if (renewSessionTask) {
+      // @ts-ignore
       yield cancel(renewSessionTask)
       renewSessionTask = null
     }
     if (renewUserTask) {
+      // @ts-ignore
       yield cancel(renewUserTask)
       renewUserTask = null
     }
@@ -267,7 +269,15 @@ export default ({ api, coreSagas, networks }) => {
 
   const updateUser = function * ({ payload }) {
     const { data } = payload
-    const user = (yield select(S.getUserData)).getOrElse({})
+    const userR = S.getUserData(yield select())
+    const user = userR.getOrElse({
+      id: undefined,
+      address: undefined,
+      mobile: undefined,
+      mobileVerified: undefined,
+      state: undefined,
+      kycState: undefined
+    })
     const {
       id,
       address,
@@ -322,6 +332,7 @@ export default ({ api, coreSagas, networks }) => {
         A.fetchTiersSuccess(
           compose(
             tail,
+            // @ts-ignore
             sortBy(prop('index'))
           )(tiersData.tiers)
         )

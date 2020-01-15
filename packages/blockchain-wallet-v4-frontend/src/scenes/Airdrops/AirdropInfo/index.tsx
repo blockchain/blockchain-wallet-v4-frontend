@@ -1,5 +1,7 @@
 import { AirdropInfoButton, AirdropInfoCopy, AirdropInfoHeader } from './model'
 import { Icon } from 'blockchain-info-components'
+import { KycStatesType } from 'data/types'
+import { LinkDispatchPropsType } from '..'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -26,7 +28,11 @@ const AirdropBox = styled(Box)`
   background-repeat: no-repeat;
 `
 
-const AirdropInfo = props => {
+export type Props = {
+  kycState: KycStatesType
+}
+
+const AirdropInfo = (props: Props & LinkDispatchPropsType) => {
   return (
     <AirdropBox>
       <Icon name='parachute' color='green600' size='32px' />

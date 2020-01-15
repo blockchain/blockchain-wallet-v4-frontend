@@ -267,6 +267,11 @@ describe('update user saga', () => {
     return expectSaga(updateUser, {
       payload: { data: updateData }
     })
+      .withState({
+        profile: {
+          userData: Remote.of(stubUserData)
+        }
+      })
       .provide([
         [select(S.getUserData), Remote.of(stubUserData)],
         [call.fn(fetchUser), stubUserData]
@@ -293,6 +298,11 @@ describe('update user saga', () => {
     return expectSaga(updateUser, {
       payload: { data: updateData }
     })
+      .withState({
+        profile: {
+          userData: Remote.of(stubUserData)
+        }
+      })
       .provide([
         [select(S.getUserData), Remote.of(stubUserData)],
         [call.fn(fetchUser), {}]

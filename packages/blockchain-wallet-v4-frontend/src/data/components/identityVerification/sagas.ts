@@ -31,7 +31,7 @@ export const emailExistsError = 'User with this email already exists'
 export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const { TIERS } = model.profile
   const {
     getCampaignData,
@@ -42,7 +42,8 @@ export default ({ api, coreSagas }) => {
     syncUserWithWallet
   } = profileSagas({
     api,
-    coreSagas
+    coreSagas,
+    networks
   })
 
   const registerUserCampaign = function * (payload) {
@@ -183,8 +184,10 @@ export default ({ api, coreSagas }) => {
   }
 
   const goToPrevStep = function * () {
-    const steps = (yield select(S.getSteps)).getOrElse([])
-    const currentStep = yield select(S.getVerificationStep)
+    const stepsR = S.getSteps(yield select())
+    const steps = stepsR.getOrElse<Array<StepsType>, any[]>([])
+    const currentStep = S.getVerificationStep(yield select())
+    if (!currentStep) return
     const currentStepIndex = steps.indexOf(currentStep)
     const step = steps[currentStepIndex - 1]
 

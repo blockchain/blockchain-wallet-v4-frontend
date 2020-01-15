@@ -10,14 +10,25 @@ const userTiers = INITIAL_TIERS
 
 describe('TierCard', () => {
   it('renders null w/o showBanner', () => {
-    const component = shallow(<TierCard tier={1} userTiers={userTiers} />)
+    const component = shallow(
+      <TierCard
+        tier={1}
+        userTiers={userTiers}
+        userData={{ tiers: { selected: 1 } }}
+      />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 
   it('renders correctly with column view', () => {
     const component = shallow(
-      <TierCard tier={2} userTiers={userTiers} column />
+      <TierCard
+        tier={2}
+        userTiers={userTiers}
+        userData={{ tiers: { selected: 1 } }}
+        column
+      />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
@@ -62,7 +73,12 @@ describe('TierCard', () => {
     const tiers = assocPath([1, 'state'], TIERS_STATES.VERIFIED, userTiers)
     const goToSwap = jest.fn()
     const component = shallow(
-      <TierCard tier={1} userTiers={tiers} goToSwap={goToSwap} />
+      <TierCard
+        tier={1}
+        userData={{ tiers: { selected: 1 } }}
+        userTiers={tiers}
+        goToSwap={goToSwap}
+      />
     )
     const button = component.find('.actionButton')
     expect(button).toHaveLength(1)
@@ -73,7 +89,13 @@ describe('TierCard', () => {
 
   it('should no button if tier state is neither none nor verified', () => {
     const tiers = assocPath([1, 'state'], TIERS_STATES.PENDING, userTiers)
-    const component = shallow(<TierCard tier={1} userTiers={tiers} />)
+    const component = shallow(
+      <TierCard
+        userData={{ tiers: { selected: 1 } }}
+        tier={1}
+        userTiers={tiers}
+      />
+    )
     expect(component.find('.actionButton')).toHaveLength(0)
   })
 })

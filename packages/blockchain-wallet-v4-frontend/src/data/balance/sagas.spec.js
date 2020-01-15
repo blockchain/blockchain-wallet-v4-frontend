@@ -1,6 +1,4 @@
-import * as actions from '../actions'
-import * as actionTypes from '../actionTypes'
-import * as selectors from '../selectors.js'
+import { actions, actionTypes, selectors } from 'data'
 import {
   getBchBalance,
   getBtcBalance,
