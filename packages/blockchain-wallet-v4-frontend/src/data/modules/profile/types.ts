@@ -108,19 +108,26 @@ export type UserDataType = {
   settings: null
   state: UserActivationStateType
   tags: Array<TagsType>
+  tiers: {
+    current: 0 | 1 | 2
+    next: 0 | 1 | 2
+    selected: 0 | 1 | 2
+  }
   userName?: string
   walletAddresses: {}
   walletGuid: string
 }
 
 export type UserTierType = {
-  annual: string
-  currency: string
-  daily: string
-  index: 1 | 2
-  name: 'Tier 1' | 'Tier 2'
+  index: 0 | 1 | 2
+  limits: {
+    annual: string
+    currency: string
+    daily: string
+    type: 'CRYPTO' | 'FIAT'
+  }
+  name: 'Tier 0' | 'Tier 1' | 'Tier 2'
   state: TierStateType
-  type: 'CRYPTO' | 'FIAT'
 }
 
 export type UserTiersType = Array<UserTierType>
