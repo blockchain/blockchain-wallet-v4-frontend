@@ -1,7 +1,7 @@
 import { Box } from 'components/Box'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 
 interface Props {
 
@@ -10,7 +10,7 @@ interface State {
 
 }
 
-class BorrowPax extends Component<Props, State> {
+class BorrowPax extends PureComponent<Props, State> {
   state = {}
 
   render () {

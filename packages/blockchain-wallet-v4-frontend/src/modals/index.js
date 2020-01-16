@@ -76,6 +76,7 @@ import {
   XlmReserveLearn
 } from './Xlm'
 import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
+import Borrow from './Borrow'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
@@ -87,6 +88,7 @@ const Modals = () => (
     <AirdropSuccess />
     <BitpayInvoiceExpired />
     <BitpayInformational />
+    <Borrow />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />

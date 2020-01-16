@@ -1,7 +1,8 @@
 import * as AT from './actionTypes'
-import { insert, last, merge, remove, update } from 'ramda'
+import { insert, merge, remove, update } from 'ramda'
+import { ModalsState } from './types'
 
-const INITIAL_STATE = []
+const INITIAL_STATE: ModalsState = []
 
 const modals = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
@@ -22,7 +23,7 @@ const modals = (state = INITIAL_STATE, action) => {
       return update(lastIndex, payload, state)
     }
     case AT.UPDATE_MODAL: {
-      const lastModal = last(state)
+      const lastModal = state[state.length - 1]
       const updatedModal = merge(lastModal, payload)
       return update(lastIndex, updatedModal, state)
     }

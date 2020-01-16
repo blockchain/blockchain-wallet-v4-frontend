@@ -1,11 +1,14 @@
+import { actions } from 'data'
+import { bindActionCreators, Dispatch } from 'redux'
 import { Box } from 'components/Box'
 import { Button, Text } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 interface Props {
-
+  modalActions: typeof actions.modals
 }
 interface State {
 
@@ -31,7 +34,7 @@ const HorizontalBorder = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-class InitBorrowForm extends Component<Props, State> {
+class InitBorrowForm extends PureComponent<Props, State> {
   state = {}
 
   render () {
@@ -50,7 +53,7 @@ class InitBorrowForm extends Component<Props, State> {
           </Text>
           <div>selectbox</div>
         </div>
-        <Button style={{ marginTop: '16px' }} nature='primary' fullwidth>
+        <Button style={{ marginTop: '16px' }} nature='primary' fullwidth onClick={() => this.props.modalActions.showModal('BORROW_MODAL')}>
           <FormattedMessage id='scenes.initborrow.borrow' defaultMessage='Borrow USD Pax' />
         </Button>
       </CustomBox>
@@ -58,4 +61,8 @@ class InitBorrowForm extends Component<Props, State> {
   }
 }
 
-export default InitBorrowForm
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(InitBorrowForm)

@@ -1,9 +1,9 @@
-import { Box, Container } from 'components/Box'
+import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -26,7 +26,7 @@ export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
 
-class Borrow extends Component<Props, State> {
+class Borrow extends PureComponent<Props, State> {
 	state = {}
 
 	render () {
