@@ -1,4 +1,5 @@
 import { AirdropInfoButton, AirdropInfoCopy, AirdropInfoHeader } from './model'
+import { Box } from 'components/Box'
 import { Icon } from 'blockchain-info-components'
 import { KycStatesType } from 'data/types'
 import { LinkDispatchPropsType } from '..'
@@ -7,14 +8,6 @@ import styled from 'styled-components'
 
 const Footer = styled.div`
   margin-top: 16px;
-`
-
-export const Box = styled.div`
-  position: relative;
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
-  width: 280px;
 `
 
 const AirdropBox = styled(Box)`

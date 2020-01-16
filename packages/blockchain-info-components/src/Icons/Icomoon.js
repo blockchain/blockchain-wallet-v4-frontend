@@ -68,6 +68,7 @@ export default {
   pending: '\\e915',
   phone: '\\e96c',
   'phone-regular': '\\e985',
+  pie: '\\e911',
   plus: '\\ea0a',
   present: '\\e96d',
   'question-in-circle': '\\e96e',

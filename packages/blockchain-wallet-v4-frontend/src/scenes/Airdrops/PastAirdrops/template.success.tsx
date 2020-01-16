@@ -1,5 +1,5 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { BigNumber } from 'bignumber.js'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '../StxAirdrop'
 import { Status, To, Type } from './model'

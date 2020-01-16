@@ -1,4 +1,4 @@
-import { Container } from './template.success'
+import { Container } from 'components/Box'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
 
