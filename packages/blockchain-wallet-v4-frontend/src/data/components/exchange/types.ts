@@ -7,12 +7,12 @@ import { String } from 'index'
 // @PHIL limts are repetitive, should this be explicit for every one?
 
 export type LimitsType = {
-  annual: AnnualType,
-  balanceMax: BalanceMaxType,
+  annual: AnnualType
+  balanceMax: BalanceMaxType
   daily: DailyType
-  maxFiatLimit: MaxFiatLimitType,
-  maxOrder: MaxOrderType,
-  minOrder: MinOrderType,
+  maxFiatLimit: MaxFiatLimitType
+  maxOrder: MaxOrderType
+  minOrder: MinOrderType
   weekly: WeeklyType
 }
 
@@ -35,8 +35,8 @@ export type MaxPossibleOrderType = {
 }
 
 export type AmountType = {
-  available: string,
-  limit: string,
+  available: string
+  limit: string
   used: string
 }
 
@@ -71,16 +71,16 @@ export type BalanceMaxType = {
 }
 
 export type SourceFeeType = {
-  isSourceErc20: boolean,
+  isSourceErc20: boolean
   mempoolFees: {
     limits: {
-      max: number,
+      max: number
       min: number
     }
-    priority: number,
+    priority: number
     regular: number
   }
-  source: string,
+  source: string
   sourceFiat: string
   target: string
 }
@@ -88,12 +88,12 @@ export type SourceFeeType = {
 // State
 export interface ExchangeState {
   limits: RemoteData<string, Currencies<LimitsType>>
-  max: null | AmountType,
-  min: null | AmountType,
-  showError: boolean,
+  max: null | AmountType
+  min: null | AmountType
+  showError: boolean
   // @PHIL not sure about this one
-// targetFee: RemoteData<string, array>
-  sourceFee: SourceFeeType,
+  // targetFee: RemoteData<string, array>
+  sourceFee: SourceFeeType
   txError: string | null
 }
 
@@ -138,7 +138,7 @@ interface FetchTargetFeesSuccess {
 
 interface SetMinMax {
   paylaod: {
-    max: AmountType,
+    max: AmountType
     min: AmountType
   }
   type: typeof AT.SET_MIN_MAX
