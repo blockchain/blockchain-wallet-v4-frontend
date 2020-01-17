@@ -5,11 +5,11 @@ import React from 'react'
 import styled from 'styled-components'
 import Transition from 'react-transition-group/Transition'
 
-export const duration = 500
+export const duration = 400
 
 const defaultStyle = {
   transition: `right ${duration}ms`,
-  right: '0px'
+  right: '-480px'
 }
 
 const transitionStyles = {
@@ -18,15 +18,14 @@ const transitionStyles = {
 }
 
 const FlyoutModal = styled(Modal)`
-  right: 0px;
-  font-weight: 400;
+  border-radius: 0px;
   overflow: hidden;
   position: absolute;
   width: 480px;
   height: 100vh;
   color: ${props => props.theme['gray-5']};
   ${media.mobile`
-  width: 100%;
+    width: 100%;
     height: calc(100vh - 60px):
     padding-top: 20px;
     padding-bottom: 20px;
@@ -38,19 +37,16 @@ type OwnProps = {
   position: number,
   total: number,
   onClose: () => void,
-  'data-e2e': E2EType
+  'data-e2e': E2EType,
+  userClickedOutside: boolean
 }
 
 class Flyout extends React.PureComponent<OwnProps> {
-  handleClickOutside () {
-    this.props.onClose()
-  }
-
   render () {
     const { children, ...rest } = this.props
 
     return (
-      <Transition in={this.props.in} timeout={0}>
+      <Transition in={this.props.in && !this.props.userClickedOutside} timeout={0}>
         {status => (
           <FlyoutModal
             {...rest}

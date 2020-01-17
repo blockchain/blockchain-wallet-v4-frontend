@@ -1,10 +1,9 @@
+import { actions, selectors } from 'data'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
-
-import { actions, selectors } from 'data'
 
 const mapDispatchToProps = dispatch => ({
   close: compose(
@@ -37,6 +36,8 @@ const enhance = connect(
 export default (type, options = {}) => Component =>
   enhance(
     class Modal extends PureComponent {
+      state = {}
+
       handleClick = e => {
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (
@@ -44,7 +45,15 @@ export default (type, options = {}) => Component =>
           !this.props.disableOutsideClose &&
           equals(modalContainer.children[0], e.target)
         ) {
-          this.props.close()
+          if (options.transition) {
+            this.setState({ userClickedOutside: true })
+            setTimeout(() => {
+              this.props.close()
+              this.setState({ userClickedOutside: false })
+            }, options.transition)
+          } else {
+            this.props.close()
+          }
         }
       }
 
@@ -79,6 +88,7 @@ export default (type, options = {}) => Component =>
                   ref={this.node}
                   position={modals.indexOf(modal) + 1}
                   total={modals.length}
+                  {...this.state}
                   {...modal.options}
                   {...modal.props}
                   {...rest}

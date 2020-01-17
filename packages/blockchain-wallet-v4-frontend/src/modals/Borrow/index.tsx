@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 interface Props {
   close: () => void,
   position: number,
+  userClickedOutside: boolean,
   total: number
 }
 
@@ -13,7 +14,7 @@ class Borrow extends PureComponent<Props> {
 
   componentDidMount () {
     /* eslint-disable */
-    // this.setState({ show: true })
+    this.setState({ show: true })
     /* eslint-enable */
   }
 
@@ -24,12 +25,13 @@ class Borrow extends PureComponent<Props> {
 
   render () {
     const { position, total } = this.props
+
     return (
-      <Flyout position={position} in={this.state.show} onClose={this.handleClose} data-e2e='borrowModal' total={total}>
+      <Flyout position={position} in={this.state.show} userClickedOutside={this.props.userClickedOutside} onClose={this.handleClose} data-e2e='borrowModal' total={total}>
         Here
       </Flyout>
     )
   }
 }
 
-export default modalEnhancer('BORROW_MODAL')(Borrow)
+export default modalEnhancer('BORROW_MODAL', { transition: duration })(Borrow)
