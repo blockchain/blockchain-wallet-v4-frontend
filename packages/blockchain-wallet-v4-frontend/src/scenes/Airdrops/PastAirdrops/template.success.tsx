@@ -1,5 +1,5 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { BigNumber } from 'bignumber.js'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '../StxAirdrop'
 import { Status, To, Type } from './model'
@@ -91,8 +91,8 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
                     </TableCell>
                     <TableCell width='18%'>
                       <Text size='14px' weight={500}>
-                        {campaign.updatedAt
-                          ? new Date(campaign.updatedAt).toLocaleDateString()
+                        {campaignTransaction.withdrawalAt
+                          ? new Date(campaignTransaction.withdrawalAt).toLocaleDateString()
                           : '-'}
                       </Text>
                     </TableCell>
