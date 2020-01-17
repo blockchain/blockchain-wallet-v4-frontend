@@ -13,14 +13,6 @@ const TypeWrapper = styled.div`
   display: flex;
   align-items: center;
 `
-// TypeScript🔮
-// attributes: {}
-// campaignEndDate: null
-// campaignName: "BLOCKSTACK", "SUNRIVER", "POWER_PAX"
-// campaignState: "NONE", "STARTED", "ENDED"
-// updatedAt: "2019-11-28T11:08:41.927Z"
-// userCampaignState: "NONE", "REGISTERED", "TASK_FINISHED", "REWARD_SEND", "REWARD_RECEIVED", "FAILED"
-// userCampaignTransactionResponseList: []
 
 export const Type = ({ campaignName }: CampaignInfoType) => {
   switch (campaignName) {
