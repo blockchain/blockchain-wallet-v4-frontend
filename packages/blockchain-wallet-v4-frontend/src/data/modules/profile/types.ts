@@ -84,7 +84,7 @@ export type UserCampaignState =
   | 'FAILED'
   | 'REWARD_RECEIVED'
   | 'TASK_FINISHED'
-  | 'REWARD_SEND'
+  | 'REWARD_SENT'
   | 'REGISTERED'
   | 'NONE'
 

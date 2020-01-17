@@ -230,7 +230,7 @@ export const StxStatus = ({
                 />
               </BlueCartridge>
             )
-          case 'REWARD_SEND':
+          case 'REWARD_SENT':
           case 'REGISTERED':
             return stxCampaign.attributes['x-campaign-reject-reason'] ? (
               <ErrorCartridge>
