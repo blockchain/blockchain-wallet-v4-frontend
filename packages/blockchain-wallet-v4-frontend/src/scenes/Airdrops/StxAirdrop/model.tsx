@@ -247,8 +247,9 @@ export const StxStatus = ({
                   />
                 </SuccessCartridge>
               )
+          default:
+            return null
         }
-        break
       } else {
         return null
       }
