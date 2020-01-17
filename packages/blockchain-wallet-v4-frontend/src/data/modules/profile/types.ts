@@ -29,7 +29,7 @@ export type CampaignInfoType = {
   campaignName: CampaignsType
   campaignState: CampaignState
   updatedAt: string
-  userCampaignState: UserCampaignState
+  userCampaignState?: UserCampaignState
   userCampaignTransactionResponseList: Array<
     UserCampaignTransactionResponseType
   >
