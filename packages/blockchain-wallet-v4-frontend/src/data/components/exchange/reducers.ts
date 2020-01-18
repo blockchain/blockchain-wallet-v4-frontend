@@ -1,5 +1,4 @@
-import * as AT from 'data/components/exchange/actionTypes'
-import { assoc, compose } from 'ramda'
+import * as AT from './actionTypes'
 import { ExchangeActionTypes, ExchangeState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 

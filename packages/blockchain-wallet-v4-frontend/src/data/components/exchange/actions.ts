@@ -1,10 +1,12 @@
 import * as AT from './actionTypes'
 import { ExchangeActionTypes } from './types'
 
-export const setStep = (step): ExchangeActionTypes => ({
-  type: AT.SET_STEP,
-  payload: { step }
-})
+// @PHIL Don't see this action being used anywhere. There is a set step reducer, but I don't see it anything called
+// step in the state
+// export const setStep = (step): ExchangeActionTypes => ({
+//   type: AT.SET_STEP,
+//   payload: { step }
+// })
 export const initialize = requestedValues => ({
   type: AT.INITIALIZE,
   payload: { requestedValues }

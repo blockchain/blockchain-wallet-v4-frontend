@@ -7,13 +7,13 @@ import { String } from 'index'
 // @PHIL limts are repetitive, should this be explicit for every one?
 
 export type LimitsType = {
-  annual: LimitDurationType,
-  balanceMax: BalanceMaxType,
-  daily: LimitDurationType,
-  maxFiatLimit: MaxFiatLimitType,
-  maxOrder: OrderType,
-  maxPossibleOrder: OrderType,
-  minOrder: OrderType,
+  annual: LimitDurationType
+  balanceMax: BalanceMaxType
+  daily: LimitDurationType
+  maxFiatLimit: MaxFiatLimitType
+  maxOrder: OrderType
+  maxPossibleOrder: OrderType
+  minOrder: OrderType
   weekly: LimitDurationType
 }
 
@@ -114,13 +114,13 @@ interface SetSourceFee {
   type: typeof AT.SET_SOURCE_FEE
 }
 
-interface SetStep {
-  // @PHIL not sure what the data type for step is
-  // payload: {
-  //     step:
-  // }
-  type: typeof AT.SET_STEP
-}
+// interface SetStep {
+//   // @PHIL not sure what the data type for step is, I don't think it's being used
+//   payload: {
+//       step: any
+//   }
+//   type: typeof AT.SET_STEP
+// }
 
 interface SetTxError {
   payload: {
@@ -140,6 +140,6 @@ export type ExchangeActionTypes =
   | SetMinMax
   | SetShowError
   | SetSourceFee
-  | SetStep
+  //  SetStep |
   | SetTxError
   | ShowConfirmation
