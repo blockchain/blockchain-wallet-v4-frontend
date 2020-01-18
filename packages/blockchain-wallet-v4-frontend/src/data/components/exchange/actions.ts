@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
+import { ExchangeActionTypes } from './types'
 
-export const setStep = step => ({
+export const setStep = (step): ExchangeActionTypes => ({
   type: AT.SET_STEP,
   payload: { step }
 })
@@ -36,18 +37,18 @@ export const swapBaseAndCounter = () => ({
 export const updateLimits = () => ({
   type: AT.UPDATE_LIMITS
 })
-export const fetchLimitsLoading = () => ({
+export const fetchLimitsLoading = (): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
-export const fetchLimitsSuccess = limits => ({
+export const fetchLimitsSuccess = (limits): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: { limits }
 })
-export const fetchLimitsError = error => ({
+export const fetchLimitsError = (error): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_ERROR,
   payload: { error }
 })
-export const setMinMax = (min, max) => ({
+export const setMinMax = (min, max): ExchangeActionTypes => ({
   type: AT.SET_MIN_MAX,
   payload: { min, max }
 })
@@ -57,35 +58,21 @@ export const useMin = () => ({
 export const useMax = () => ({
   type: AT.USE_MAX
 })
-export const fetchTargetFees = () => ({
-  type: AT.FETCH_TARGET_FEES
-})
-export const fetchTargetFeesLoading = () => ({
-  type: AT.FETCH_TARGET_FEES_LOADING
-})
-export const fetchTargetFeesSuccess = fee => ({
-  type: AT.FETCH_TARGET_FEES_SUCCESS,
-  payload: { fee }
-})
-export const fetchTargetFeesError = error => ({
-  type: AT.FETCH_TARGET_FEES_ERROR,
-  payload: { error }
-})
 export const setSourceFee = fee => ({
   type: AT.SET_SOURCE_FEE,
   payload: { fee }
 })
-export const setShowError = showError => ({
+export const setShowError = (showError): ExchangeActionTypes => ({
   type: AT.SET_SHOW_ERROR,
   payload: { showError }
 })
 export const recheckLatestTx = () => ({
   type: AT.RECHECK_LATEST_TX
 })
-export const setTxError = error => ({
+export const setTxError = (error): ExchangeActionTypes => ({
   type: AT.SET_TX_ERROR,
   payload: { error }
 })
-export const showConfirmation = () => ({
+export const showConfirmation = (): ExchangeActionTypes => ({
   type: AT.SHOW_CONFIRMATION
 })

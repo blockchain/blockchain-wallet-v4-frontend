@@ -7,28 +7,17 @@ import { String } from 'index'
 // @PHIL limts are repetitive, should this be explicit for every one?
 
 export type LimitsType = {
-  annual: AnnualType
-  balanceMax: BalanceMaxType
-  daily: DailyType
-  maxFiatLimit: MaxFiatLimitType
-  maxOrder: MaxOrderType
-  minOrder: MinOrderType
-  weekly: WeeklyType
+  annual: LimitDurationType,
+  balanceMax: BalanceMaxType,
+  daily: LimitDurationType,
+  maxFiatLimit: MaxFiatLimitType,
+  maxOrder: OrderType,
+  maxPossibleOrder: OrderType,
+  minOrder: OrderType,
+  weekly: LimitDurationType
 }
 
-export type MinOrderType = {
-  amount: string
-  fiat: boolean
-  symbol: string
-}
-
-export type MaxOrderType = {
-  amount: string
-  fiat: boolean
-  symbol: string
-}
-
-export type MaxPossibleOrderType = {
+export type OrderType = {
   amount: string
   fiat: boolean
   symbol: string
@@ -40,19 +29,7 @@ export type AmountType = {
   used: string
 }
 
-export type DailyType = {
-  amount: AmountType
-  fiat: boolean
-  symbol: string
-}
-
-export type WeeklyType = {
-  amount: AmountType
-  fiat: boolean
-  symbol: string
-}
-
-export type AnnualType = {
+export type LimitDurationType = {
   amount: AmountType
   fiat: boolean
   symbol: string
@@ -80,9 +57,9 @@ export type SourceFeeType = {
     priority: number
     regular: number
   }
-  source: string
+  source: number | string
   sourceFiat: string
-  target: string
+  target: number | string
 }
 
 // State
@@ -91,8 +68,6 @@ export interface ExchangeState {
   max: null | AmountType
   min: null | AmountType
   showError: boolean
-  // @PHIL not sure about this one
-  // targetFee: RemoteData<string, array>
   sourceFee: SourceFeeType
   txError: string | null
 }
@@ -102,42 +77,24 @@ export interface ExchangeState {
 
 interface FetchLimitsError {
   payload: {
-    e: string
+    error: string
   }
-  type: typeof AT.EXCHANGE.FETCH_LIMITS_ERROR
+  type: typeof AT.FETCH_LIMITS_ERROR
 }
 
 interface FetchLimitsLoading {
-  type: AT.EXCHANGE.FETCH_LIMITS_LOADING
+  type: typeof AT.FETCH_LIMITS_LOADING
 }
 
 interface FetchLimitsSuccess {
-  paylod: {
+  payload: {
     limits: Currencies<LimitsType>
   }
-  type: typeof AT.EXCHANGE.FETCH_LIMITS_SUCCESS
-}
-
-interface FetchTargetFeesError {
-  payload: {
-    e: string
-  }
-  type: typeof AT.FETCH_TARGET_FEES_ERROR
-}
-
-interface FetchTargetFeesLoading {
-  type: typeof AT.FETCH_TARGET_FEES_LOADING
-}
-// @PHIL see above in state as well, target fee is an empty array in the wallet
-interface FetchTargetFeesSuccess {
-  payload: {
-    fee: string
-  }
-  type: typeof AT.FETCH_TARGET_FEES_SUCCESS
+  type: typeof AT.FETCH_LIMITS_SUCCESS
 }
 
 interface SetMinMax {
-  paylaod: {
+  payload: {
     max: AmountType
     min: AmountType
   }
@@ -147,7 +104,7 @@ interface SetShowError {
   payload: {
     showError: boolean
   }
-  type: typeof AT.EXCHANGE.SET_SHOW_ERROR
+  type: typeof AT.SET_SHOW_ERROR
 }
 
 interface SetSourceFee {
@@ -167,7 +124,7 @@ interface SetStep {
 
 interface SetTxError {
   payload: {
-    e: string
+    error: string
   }
   type: typeof AT.SET_TX_ERROR
 }
@@ -176,13 +133,10 @@ interface ShowConfirmation {
   type: typeof AT.SHOW_CONFIRMATION
 }
 
-export type ExchangeActionType =
+export type ExchangeActionTypes =
   | FetchLimitsError
   | FetchLimitsLoading
   | FetchLimitsSuccess
-  | FetchTargetFeesError
-  | FetchTargetFeesLoading
-  | FetchTargetFeesSuccess
   | SetMinMax
   | SetShowError
   | SetSourceFee
