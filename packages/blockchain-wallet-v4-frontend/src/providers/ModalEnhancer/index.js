@@ -38,6 +38,18 @@ export default (type, options = {}) => Component =>
     class Modal extends PureComponent {
       state = {}
 
+      handleClose = () => {
+        if (options.transition) {
+          this.setState({ userClickedOutside: true })
+          setTimeout(() => {
+            this.props.close()
+            this.setState({ userClickedOutside: false })
+          }, options.transition)
+        } else {
+          this.props.close()
+        }
+      }
+
       handleClick = e => {
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (
@@ -45,22 +57,14 @@ export default (type, options = {}) => Component =>
           !this.props.disableOutsideClose &&
           equals(modalContainer.children[0], e.target)
         ) {
-          if (options.transition) {
-            this.setState({ userClickedOutside: true })
-            setTimeout(() => {
-              this.props.close()
-              this.setState({ userClickedOutside: false })
-            }, options.transition)
-          } else {
-            this.props.close()
-          }
+          this.handleClose()
         }
       }
 
       onKeyPressed = evt => {
         const event = evt || window.event
         if (event.keyCode === 27 && !options.preventEscapeClose) {
-          this.props.close()
+          this.handleClose()
         }
       }
 

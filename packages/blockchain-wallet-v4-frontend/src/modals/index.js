@@ -77,6 +77,7 @@ import {
 } from './Xlm'
 import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
 import Borrow from './Borrow'
+import Faq from './Faq'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
@@ -101,6 +102,7 @@ const Modals = () => (
     <EthAirdrop />
     <ExchangeConfirm />
     <ExchangeResults />
+    <Faq />
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />

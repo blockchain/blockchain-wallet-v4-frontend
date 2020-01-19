@@ -14,7 +14,6 @@ import Modals from 'modals'
 import Page from './Page'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 import Tooltips from 'components/Tooltips'
-import TrayRight from './TrayRight'
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,7 +63,6 @@ const WalletLayout = props => {
         </Nav>
         <Container>
           <MenuLeft location={location} />
-          <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Top>
               <MenuTop />

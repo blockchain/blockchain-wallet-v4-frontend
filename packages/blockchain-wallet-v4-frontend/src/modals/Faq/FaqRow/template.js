@@ -1,4 +1,4 @@
-import { Faq, FaqContent, FaqHeader } from './../FaqItem'
+import { Faq, FaqContent, FaqHeader } from '../FaqItem'
 import PropTypes from 'prop-types'
 import React from 'react'
 

@@ -1,16 +1,47 @@
 import { any, assoc, contains, curry, filter, map, path, toLower } from 'ramda'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import React from 'react'
-
 import { getData } from './selectors'
+import { injectIntl } from 'react-intl'
+import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import { selectors } from 'data'
 import Faq from './template.js'
 import FaqContent from './FaqContent'
+import Flyout, { duration } from 'components/Flyout'
+import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
 
-class FaqContainer extends React.PureComponent {
+type OwnPropsType = {
+  position: number,
+  close: () => void,
+  total: number,
+  userClickedOutside: boolean
+}
+
+type LinkStatePropsType = {
+  data: any,
+  canTrade: RemoteData<any, boolean>
+}
+
+type IntlType = {
+  intl: {
+    messages: {}
+  }
+}
+
+type Props = OwnPropsType & LinkStatePropsType & IntlType
+
+class FaqContainer extends React.PureComponent<Props> {
+  state = { show: false }
+
+  componentDidMount () {
+    /* eslint-disable */
+    this.setState({ show: true })
+    /* eslint-enable */
+  }
+
   render () {
-    const { data, canTrade, handleTrayRightToggle } = this.props
+    const { data, canTrade } = this.props
     const { search } = data
 
     const partner = canTrade.cata({
@@ -26,10 +57,11 @@ class FaqContainer extends React.PureComponent {
         return contains(
           toLower(search),
           toLower(
-            this.context.intl.messages[x.props.id] || x.props.defaultMessage
+            this.props.intl.messages[x.props.id] || x.props.defaultMessage
           )
         )
       } else if (path(['props', 'children'], x)) {
+        // @ts-ignore
         return any(containsRecursive(search), path(['props', 'children'], x))
       } else {
         return false
@@ -46,7 +78,9 @@ class FaqContainer extends React.PureComponent {
       if (search) {
         const filteredGroupQuestions = filter(
           q =>
+            // @ts-ignore
             containsRecursive(search, q.question) ||
+            // @ts-ignore
             containsRecursive(search, q.answer) ||
             containsRecursive(search, contentPart.groupTitleMsg)
         )(contentPart.groupQuestions)
@@ -58,12 +92,14 @@ class FaqContainer extends React.PureComponent {
 
     const whitelistedContent = filter(whitelistContent, FaqContent)
     const filteredContent = map(filterContent, whitelistedContent)
+    const { position, total, close, userClickedOutside } = this.props
 
     return (
-      <Faq
-        filteredContent={filteredContent}
-        handleTrayRightToggle={handleTrayRightToggle}
-      />
+      <Flyout in={this.state.show} onClose={close} position={position} total={total} userClickedOutside={userClickedOutside} data-e2e='faqModal'>
+        <Faq
+          filteredContent={filteredContent}
+        />
+      </Flyout>
     )
   }
 }
@@ -73,11 +109,12 @@ const mapStateToProps = state => ({
   canTrade: selectors.exchange.getCanTrade(state)
 })
 
-FaqContainer.contextTypes = {
-  intl: PropTypes.object.isRequired
-}
+const enhance = compose<any>(
+  modalEnhancer('FAQ_MODAL', { transition: duration }),
+  connect(
+    mapStateToProps
+  ),
+  injectIntl
+)
 
-export default connect(
-  mapStateToProps,
-  undefined
-)(FaqContainer)
+export default enhance(FaqContainer)

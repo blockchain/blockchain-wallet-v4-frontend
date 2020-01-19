@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import FaqRow from './../FaqRow'
+import FaqRow from '../FaqRow'
 
 const Wrapper = styled.div`
   margin-bottom: 20px;

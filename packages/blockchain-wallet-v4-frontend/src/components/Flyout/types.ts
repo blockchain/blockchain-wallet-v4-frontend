@@ -1,2 +1,2 @@
 // export type E2EType = 'borrowModal' | 'xyzModal'
-export type E2EType = 'borrowModal'
+export type E2EType = 'borrowModal' | 'faqModal'

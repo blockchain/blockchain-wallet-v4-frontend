@@ -1,4 +1,4 @@
-import FaqRow from './template.js'
+import FaqRow from './template'
 import React from 'react'
 
 class FaqRowContainer extends React.PureComponent {

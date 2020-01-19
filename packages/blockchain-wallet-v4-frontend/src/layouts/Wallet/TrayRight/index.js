@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
-import Faq from './Faq'
+// import Faq from './Faq'
 import media from 'services/ResponsiveService'
 import WhatsNew from './WhatsNew'
 
@@ -104,7 +104,7 @@ class TrayRightContainer extends React.PureComponent {
           <Icon size='20px' name='close' cursor onClick={this.handleClose} />
         </Header>
         <Content>
-          {content === 'faq' && <Faq />}
+          {/* {content === 'faq' && <Faq />} */}
           {content === 'whatsnew' && <WhatsNew />}
         </Content>
       </AnimationWrapper>

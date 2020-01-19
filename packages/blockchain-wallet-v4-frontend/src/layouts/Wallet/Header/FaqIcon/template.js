@@ -32,7 +32,7 @@ const FaqLink = styled(Link)`
 `
 
 const FaqIcon = props => {
-  const { handleClick, highlighted } = props
+  const { handleClick } = props
 
   return (
     <TooltipHost id='faq.tooltip'>
@@ -41,7 +41,6 @@ const FaqIcon = props => {
         weight={500}
         color='white'
         onClick={handleClick}
-        highlighted={highlighted}
         data-e2e='faqLink'
       >
         <NavbarIcon
