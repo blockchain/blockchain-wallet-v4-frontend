@@ -5,13 +5,12 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.components.layoutWallet.getTrayContent,
     selectors.core.kvStore.whatsNew.getLastViewed,
     selectors.core.settings.getCountryCode,
     selectors.modules.profile.getUserKYCState,
     selectors.core.kvStore.whatsNew.getState
   ],
-  (content, lastViewedR, countryR, kycStateR, whatsNewKvStoreR) => {
+  (lastViewedR, countryR, kycStateR, whatsNewKvStoreR) => {
     const transform = (lastViewed, country, kycState, whatsNewKvStore) => {
       const announcements = filterAnnouncements(
         lastViewed,

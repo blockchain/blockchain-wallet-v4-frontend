@@ -28,9 +28,8 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-const WalletTour = ({ onRightTrayClose, onTakeTour }) => {
+const WalletTour = ({ onTakeTour }) => {
   const onTakeWalletTour = () => {
-    onRightTrayClose()
     onTakeTour()
   }
   return (
@@ -67,10 +66,6 @@ const WalletTour = ({ onRightTrayClose, onTakeTour }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onRightTrayClose: bindActionCreators(
-    actions.components.layoutWallet.layoutWalletTrayCloseClicked,
-    dispatch
-  ),
   onTakeTour: bindActionCreators(
     actions.components.onboarding.takeWalletTourClicked,
     dispatch
