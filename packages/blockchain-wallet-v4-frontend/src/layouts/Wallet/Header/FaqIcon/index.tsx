@@ -12,14 +12,14 @@ type LinkDispatchPropsType = {
 }
 
 class FaqIconContainer extends React.PureComponent<LinkDispatchPropsType> {
-  onFaqClick = () => {
+  handleClick = () => {
     this.props.modalActions.showModal('FAQ_MODAL')
     this.props.analyticsActions.logEvent(GENERAL_EVENTS.VIEW_WHATS_NEW)
   }
   render () {
     return (
       <FaqIcon
-        handleClick={this.onFaqClick}
+        onClick={this.handleClick}
       />
     )
   }

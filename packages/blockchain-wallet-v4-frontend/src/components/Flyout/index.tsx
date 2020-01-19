@@ -19,7 +19,7 @@ const transitionStyles = {
 
 const FlyoutModal = styled(Modal)`
   border-radius: 0px;
-  overflow: hidden;
+  overflow: auto;
   position: absolute;
   width: 480px;
   height: 100vh;

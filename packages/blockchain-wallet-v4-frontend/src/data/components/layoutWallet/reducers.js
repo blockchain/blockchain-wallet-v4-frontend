@@ -14,11 +14,6 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.LAYOUT_WALLET_HEADER_FAQ_CLICKED: {
-      return state.trayContent !== 'faq' || !state.trayOpened
-        ? merge(state, { trayOpened: true, trayContent: 'faq' })
-        : merge(state, { trayOpened: false, trayContent: '' })
-    }
     case AT.LAYOUT_WALLET_HEADER_WHATSNEW_CLICKED: {
       return state.trayContent !== 'whatsnew' || !state.trayOpened
         ? merge(state, { trayOpened: true, trayContent: 'whatsnew' })
