@@ -65,8 +65,8 @@ const AutoDisconnection = props => {
         </Header>
         <Copy>
           <FormattedMessage
-            id='modals.autodisconnection.foryoursafety'
-            defaultMessage="You've been inactive for {duration} minutes. For your safety, you'll be logged out of your wallet shortly."
+            id='modals.autodisconnection.foryoursafety1'
+            defaultMessage="You've been inactive for {duration} minutes. For your safety, you'll be logged out of your Wallet shortly."
             values={{ duration: duration }}
           />
         </Copy>
