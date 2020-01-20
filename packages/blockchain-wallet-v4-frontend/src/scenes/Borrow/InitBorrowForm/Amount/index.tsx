@@ -44,7 +44,7 @@ export class Amount extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps) => ({
+const mapStateToProps = (state) => ({
   balanceR: getBalance(state)
 })
 

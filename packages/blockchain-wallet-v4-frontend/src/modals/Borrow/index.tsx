@@ -1,3 +1,4 @@
+import BorrowForm from './BorrowForm'
 import Flyout, { duration } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -28,7 +29,7 @@ class Borrow extends PureComponent<Props> {
 
     return (
       <Flyout position={position} in={this.state.show} userClickedOutside={this.props.userClickedOutside} onClose={this.handleClose} data-e2e='borrowModal' total={total}>
-        Here
+        <BorrowForm />
       </Flyout>
     )
   }

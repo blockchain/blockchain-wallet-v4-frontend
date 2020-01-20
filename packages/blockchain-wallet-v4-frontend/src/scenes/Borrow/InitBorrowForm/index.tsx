@@ -54,7 +54,7 @@ class InitBorrowForm extends PureComponent<Props> {
           <Field
             component={SelectBoxCoin}
             name='coin'
-            // make type borrow?
+            // TODO: Borrow - make type: borrow
             type='send'
           />
         </div>
