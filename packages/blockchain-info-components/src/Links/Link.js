@@ -1,5 +1,5 @@
 import { keysIn } from 'ramda'
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'

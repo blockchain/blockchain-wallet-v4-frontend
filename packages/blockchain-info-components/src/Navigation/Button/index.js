@@ -1,4 +1,4 @@
-import { Color } from '../../Colors'
+import { Color } from '../../Colors/index.ts'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
 import React from 'react'

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Icon } from '../../Icons'
 import { keysIn } from 'ramda'
-import { Palette } from '../../Colors'
+import { Palette } from '../../Colors/index.ts'
 
 const Wrapper = styled.div`
   display: inline-flex;
