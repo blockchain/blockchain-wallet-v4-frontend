@@ -1,4 +1,4 @@
-import { any, propOr } from 'ramda'
+import { any, includes, propOr } from 'ramda'
 import { connect } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 import React from 'react'
@@ -23,8 +23,8 @@ class TranslationsProvider extends React.Component {
     const urlHash = window.location.hash
     if (
       this.props.locale !== prevProps.locale &&
-      !urlHash.includes('authorize-approve') &&
-      !urlHash.includes('verify-email')
+      !includes('authorize-approve', urlHash) &&
+      !includes('verify-email', urlHash)
     ) {
       this.initLocale()
     }

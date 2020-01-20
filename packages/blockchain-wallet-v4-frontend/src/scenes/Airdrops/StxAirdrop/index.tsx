@@ -32,7 +32,8 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
 
-  if (!stxCampaign) return null
+  // do not show card if user did not sign up for airdrop
+  if (!stxCampaign || !stxCampaign.userCampaignState || stxCampaign.userCampaignState === 'NONE') return null
 
   return (
     <Box>
