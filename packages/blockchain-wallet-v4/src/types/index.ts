@@ -37,3 +37,5 @@ export {
   Options,
   KVStoreEntry
 }
+
+export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'

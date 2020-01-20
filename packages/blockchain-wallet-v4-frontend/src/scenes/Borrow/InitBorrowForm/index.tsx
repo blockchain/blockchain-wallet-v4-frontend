@@ -1,31 +1,33 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Box } from 'components/Box'
 import { Button, Text } from 'blockchain-info-components'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { RootState } from 'data/rootReducer'
+import Amount from './Amount'
 import React, { PureComponent } from 'react'
+import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
 
-interface Props {
+type LinkDispatchPropsType = {
   modalActions: typeof actions.modals
 }
-interface State {
-
+type LinkStatePropsType = {
+  values: {
+    coin: CoinType
+  }
 }
+
+type Props = LinkDispatchPropsType & LinkStatePropsType
 
 const CustomBox = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `
-
-const Amount = styled(Text)`
-  font-size: 32px;
-  font-weight: 600;
-  margin-top: 8px;
-  color: ${props => props.theme.grey800};
-`;
 
 const HorizontalBorder = styled.div`
   width: 100%;
@@ -34,7 +36,7 @@ const HorizontalBorder = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-class InitBorrowForm extends PureComponent<Props, State> {
+class InitBorrowForm extends PureComponent<Props> {
   state = {}
 
   render () {
@@ -44,14 +46,17 @@ class InitBorrowForm extends PureComponent<Props, State> {
           <Text size='14px' color='grey600' weight={600}>
             <FormattedMessage id='scenes.initborrow.youcan' defaultMessage='You can borrow' />
           </Text>
-          <Amount>
-            $X
-        </Amount>
+          <Amount {...this.props.values} />
           <HorizontalBorder />
           <Text size='14px' color='grey600' weight={600}>
             <FormattedMessage id='scenes.initborrow.collateral' defaultMessage='Collateral' />
           </Text>
-          <div>selectbox</div>
+          <Field
+            component={SelectBoxCoin}
+            name='coin'
+            // make type borrow?
+            type='send'
+          />
         </div>
         <Button style={{ marginTop: '16px' }} nature='primary' fullwidth onClick={() => this.props.modalActions.showModal('BORROW_MODAL')}>
           <FormattedMessage id='scenes.initborrow.borrow' defaultMessage='Borrow USD Pax' />
@@ -61,8 +66,17 @@ class InitBorrowForm extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  values: selectors.form.getFormValues('initBorrow')(state)
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(InitBorrowForm)
+const enhance = compose<any>(
+  reduxForm({ form: 'initBorrow', initialValues: { coin: 'BTC' } }),
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(InitBorrowForm)
