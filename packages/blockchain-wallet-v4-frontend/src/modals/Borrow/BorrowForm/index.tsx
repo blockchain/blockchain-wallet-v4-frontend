@@ -1,9 +1,9 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Form, FormLabel, NumberBox } from 'components/Form'
+import { Form, FormLabel, NumberBox, SelectBoxBtcAddresses } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { Text, TextGroup } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -37,12 +37,13 @@ const MaxAmountContainer = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
-  padding: 4px;
-  width: 50%;
+  width: 45%;
 `
 
-const MaxAmount = styled(FiatDisplay)`
-  color: ${props => props.theme.blue600};
+const InlineText = styled(Text)`
+  * {
+    display: inline-flex;
+  }
 `
 
 export class BorrowForm extends Component<Props, State> {
@@ -62,13 +63,21 @@ export class BorrowForm extends Component<Props, State> {
           <AmountFieldContainer>
             <CustomField component={NumberBox} name='amount' autoFocus />
             <MaxAmountContainer>
-              <Text color='grey600' weight={600} size='12px'>
+              <InlineText color='grey600' weight={600} size='12px'>
                 <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
-                <MaxAmount size='12px' weight={600} coin='BTC'>1</MaxAmount>
-                <>USD Pax</>
-              </Text>
+                <br />
+                <FiatDisplay cursor='pointer' color='blue600' size='12px' weight={600} coin='BTC'>1</FiatDisplay>
+                {' '}USD Pax
+              </InlineText>
             </MaxAmountContainer>
           </AmountFieldContainer>
+          <CustomFormLabel>
+            <Text color='grey600' weight={600} size='14px'>
+              <FormattedMessage id='modals.borrow.collateralfrom' defaultMessage='Send collateral from' />
+            </Text>
+          </CustomFormLabel>
+          {/* TODO: Borrow - handle other coins */}
+          <Field component={SelectBoxBtcAddresses} includeAll={false} />
         </Form>
       </Wrapper>
     )
