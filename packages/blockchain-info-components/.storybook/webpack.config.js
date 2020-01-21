@@ -1,4 +1,7 @@
 module.exports = {
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json']
+  },
   module: {
     rules: [
       {
@@ -7,7 +10,8 @@ module.exports = {
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      }
+      },
+      { test: /\.tsx?$/, loader: 'ts-loader' }
     ]
   }
 }

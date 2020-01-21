@@ -1,4 +1,4 @@
-import { Color } from '../Colors'
+import { Color } from '../Colors/index.ts'
 import { Icon } from '../Icons'
 import PropTypes from 'prop-types'
 import React from 'react'

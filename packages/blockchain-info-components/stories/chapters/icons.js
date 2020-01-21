@@ -1,12 +1,11 @@
+import { Icon, IconGlobalStyles } from '../../src'
+import { keysIn } from 'ramda'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
-import React from 'react'
-import styled from 'styled-components'
-
-import { Icon } from '../../src'
-import { keysIn } from 'ramda'
 import IcomoonMap from '../../src/Icons/Icomoon'
 import Layout from '../components/layout'
+import React from 'react'
+import styled from 'styled-components'
 
 const IconWrapper = styled.div`
   display: flex;
@@ -62,7 +61,14 @@ const IconLayout = props => {
 const iconKeys = keysIn(IcomoonMap)
 
 storiesOf('Icons', module)
-  .addDecorator(story => <Layout>{story()}</Layout>)
+  .addDecorator(story => (
+    <Layout>
+      <>
+        {story()}
+        <IconGlobalStyles />
+      </>
+    </Layout>
+  ))
   .addDecorator((story, context) =>
     withInfo({ text: 'Documentation', inline: true })(story)(context)
   )
