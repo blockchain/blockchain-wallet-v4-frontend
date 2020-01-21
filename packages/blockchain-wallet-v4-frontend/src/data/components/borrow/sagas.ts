@@ -65,11 +65,11 @@ export default ({
 
     const initialValues = {
       collateral: defaultAccountR.getOrElse(),
-      maxCollateral,
       maxCollateralCounter
     }
 
     yield put(initialize('borrowForm', initialValues))
+    yield put(A.setPaymentSuccess(payment.value()))
   }
 
   const maxCollateralClick = function * () {

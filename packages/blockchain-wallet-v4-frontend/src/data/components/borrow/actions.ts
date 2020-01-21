@@ -27,3 +27,21 @@ export const initializeBorrow = (coin: CoinType) => ({
 export const handleMaxCollateralClick = () => ({
   type: AT.MAX_COLLATERAL_CLICK
 })
+
+export const setPaymentFailure = (error): BorrowActionTypes => ({
+  type: AT.SET_PAYMENT_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const setPaymentLoading = (): BorrowActionTypes => ({
+  type: AT.SET_PAYMENT_LOADING
+})
+
+export const setPaymentSuccess = (payment): BorrowActionTypes => ({
+  type: AT.SET_PAYMENT_SUCCESS,
+  payload: {
+    payment
+  }
+})

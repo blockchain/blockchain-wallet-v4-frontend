@@ -1,56 +1,22 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowFormValuesType } from 'data/types'
+import { BorrowFormValuesType, PaymentType } from 'data/types'
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
-import { Form, FormLabel, NumberBox, SelectBoxBtcAddresses } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { maximumAmount } from './validation'
-import { Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { reduxForm } from 'redux-form'
+import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import Success from './template.success'
 
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
 
 type LinkStatePropsType = {
+  paymentR: RemoteData<string | Error, PaymentType>,
   values: BorrowFormValuesType
 }
 
 type Props = LinkDispatchPropsType & LinkStatePropsType
-
-const Wrapper = styled.div`
-  padding: 40px;
-  background: ${props => props.theme.grey000};
-`
-
-const CustomFormLabel = styled(FormLabel)`
-  display: block;
-  margin-top: 24px;
-`
-
-const CustomField = styled(Field)`
-  width: 50%;
-`
-
-const AmountFieldContainer = styled.div`
-  display: flex;
-`
-
-const MaxAmountContainer = styled.div`
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  width: 45%;
-`
-
-const InlineText = styled(Text)`
-  * {
-    display: inline-flex;
-  }
-`
 
 export class BorrowForm extends Component<Props> {
   state = {}
@@ -60,44 +26,21 @@ export class BorrowForm extends Component<Props> {
   }
 
   render () {
-    const { borrowActions, values } = this.props
-    const maxAmount = values ? values.maxCollateral : 0
+    const { borrowActions, paymentR, values } = this.props
 
     return (
-      <Wrapper>
-        {/* TODO: Borrow - make dynamic */}
-        <Text color='grey900' size='24px' weight={600}><FormattedMessage id='modals.borrow.borrowusd' defaultMessage='Borrow USD' /></Text>
-        <Form>
-          <CustomFormLabel>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage id='modals.borrow.iwanttoborrow' defaultMessage='I want to borrow' />
-            </Text>
-          </CustomFormLabel>
-          <AmountFieldContainer>
-            <CustomField component={NumberBox} errorBottom name='principal' autofocus max={maxAmount} validate={[maximumAmount]} />
-            <MaxAmountContainer>
-              <InlineText color='grey600' weight={500} size='12px'>
-                <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
-                <br />
-                <FiatDisplay onClick={() => borrowActions.handleMaxCollateralClick()} cursor='pointer' color='blue600' size='12px' weight={500} coin='BTC'>{maxAmount}</FiatDisplay>
-                {' '}USD Pax
-              </InlineText>
-            </MaxAmountContainer>
-          </AmountFieldContainer>
-          <CustomFormLabel>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage id='modals.borrow.collateralfrom' defaultMessage='Send collateral from' />
-            </Text>
-          </CustomFormLabel>
-          {/* TODO: Borrow - handle other coins */}
-          <Field component={SelectBoxBtcAddresses} includeAll={false} name='collateral' />
-        </Form>
-      </Wrapper>
+      paymentR.cata({
+        Success: (val) => <Success {...val} {...this.props} />,
+        Failure: () => 'Oops something went wrong.',
+        Loading: () => 'Loading',
+        NotAsked: () => 'Loading'
+      })
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state): LinkStatePropsType => ({
+  paymentR: selectors.components.borrow.getPayment(state),
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 

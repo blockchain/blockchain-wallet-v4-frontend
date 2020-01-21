@@ -3,7 +3,8 @@ import { BorrowActionTypes, BorrowState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: BorrowState = {
-  offers: Remote.NotAsked
+  offers: Remote.NotAsked,
+  payment: Remote.NotAsked
 }
 
 export function borrowReducer (
@@ -20,6 +21,21 @@ export function borrowReducer (
       return {
         ...state,
         offers: Remote.Failure(action.payload.error)
+      }
+    case AT.SET_PAYMENT_FAILURE:
+      return {
+        ...state,
+        payment: Remote.Failure(action.payload.error)
+      }
+    case AT.SET_PAYMENT_LOADING:
+      return {
+        ...state,
+        payment: Remote.Loading
+      }
+    case AT.SET_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        payment: Remote.Success(action.payload.payment)
       }
     default:
       return state
