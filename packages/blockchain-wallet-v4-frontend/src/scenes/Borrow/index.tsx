@@ -1,3 +1,6 @@
+import { actions } from 'data'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
@@ -6,9 +9,11 @@ import InitBorrowForm from './InitBorrowForm'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-interface Props {
-
+type LinkDispatchPropsType = {
+	borrowActions: typeof actions.components.borrow
 }
+
+type Props = LinkDispatchPropsType
 interface State {
 
 }
@@ -28,6 +33,10 @@ export const MainTitle = styled(Text)`
 
 class Borrow extends PureComponent<Props, State> {
 	state = {}
+
+	componentDidMount () {
+		this.props.borrowActions.fetchBorrowOffers()
+	}
 
 	render () {
 		return (
@@ -55,4 +64,8 @@ class Borrow extends PureComponent<Props, State> {
 	}
 }
 
-export default Borrow
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+	borrowActions: bindActionCreators(actions.components.borrow, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(Borrow)

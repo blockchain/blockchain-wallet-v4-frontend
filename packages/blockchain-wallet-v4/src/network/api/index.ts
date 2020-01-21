@@ -2,6 +2,7 @@ import analytics from './analytics'
 import apiAuthorize from './apiAuthorize'
 import bch from './bch'
 import bitpay from './bitpay'
+import borrow from './borrow'
 import btc from './btc'
 import coinify from './coinify'
 import delegate from './delegate'
@@ -20,13 +21,13 @@ import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
 
-export default ({
+const api = ({
   options,
   apiKey,
   getAuthCredentials,
   reauthenticate,
   networks
-} = {}) => {
+}: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
@@ -41,6 +42,12 @@ export default ({
     ...analytics({ rootUrl, ...http }),
     ...bch({ rootUrl, apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
+    ...borrow({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put
+    }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coinify({ coinifyUrl, ...http }),
     ...delegate({ rootUrl, apiUrl, ...http }),
@@ -72,3 +79,7 @@ export default ({
     ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
   }
 }
+
+export default api
+
+export type APIType = ReturnType<typeof borrow>

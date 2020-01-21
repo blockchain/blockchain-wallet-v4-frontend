@@ -1,16 +1,38 @@
+import * as A from './actions'
+import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { BorrowActionTypes } from './types'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { BorrowFormValuesType } from './types'
+import { call, put, select } from 'redux-saga/effects'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { initialize } from 'redux-form'
 import { nth } from 'ramda'
-import { put, select } from 'redux-saga/effects'
-import { selectors } from 'data'
 
-export default ({ api, coreSagas, networks }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const fetchBorrowOffers = function * () {
+    try {
+      yield put(A.fetchBorrowOffersLoading())
+      const offers = yield call(api.getOffers)
+      // yield put(A.fetchBorrowOffersSuccess(offers))
+    } catch (e) {
+      yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
   const initializeBorrow = function * ({
     payload
-  }: BorrowActionTypes): ReturnType<typeof initializeBorrow> {
-    let payment
+  }: ReturnType<typeof A.initializeBorrow>) {
     let defaultAccountR
+    let payment
+    let rates
 
     switch (payload.coin) {
       case 'BTC':
@@ -27,18 +49,46 @@ export default ({ api, coreSagas, networks }) => {
         defaultAccountR = accountsR.map(nth(defaultIndex))
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         payment = yield payment.fee('priority')
+        // TODO: Borrow - get rates from nabu?
+        const ratesR = yield select(selectors.core.data.btc.getRates)
+        rates = ratesR.getOrElse({})
         break
     }
 
+    const maxCollateral = payment.value().effectiveBalance
+    const maxCollateralCounter = Exchange.convertBtcToFiat({
+      value: maxCollateral,
+      fromUnit: 'SAT',
+      toCurrency: 'USD',
+      rates: rates
+    }).value
+
     const initialValues = {
       collateral: defaultAccountR.getOrElse(),
-      maxCollateral: payment.value().effectiveBalance
+      maxCollateral,
+      maxCollateralCounter
     }
 
     yield put(initialize('borrowForm', initialValues))
   }
 
+  const maxCollateralClick = function * () {
+    const values: BorrowFormValuesType = yield select(
+      selectors.form.getFormValues('borrowForm')
+    )
+
+    yield put(
+      actions.form.change(
+        'borrowForm',
+        'principal',
+        values.maxCollateralCounter
+      )
+    )
+  }
+
   return {
-    initializeBorrow
+    fetchBorrowOffers,
+    initializeBorrow,
+    maxCollateralClick
   }
 }

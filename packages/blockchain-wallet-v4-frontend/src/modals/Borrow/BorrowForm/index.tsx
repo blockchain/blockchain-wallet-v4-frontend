@@ -1,9 +1,11 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { BorrowFormValuesType } from 'data/types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormLabel, NumberBox, SelectBoxBtcAddresses } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
+import { maximumAmount } from './validation'
 import { Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
@@ -14,9 +16,7 @@ type LinkDispatchPropsType = {
 }
 
 type LinkStatePropsType = {
-  values?: {
-    maxCollateral: number
-  }
+  values: BorrowFormValuesType
 }
 
 type Props = LinkDispatchPropsType & LinkStatePropsType
@@ -60,7 +60,7 @@ export class BorrowForm extends Component<Props> {
   }
 
   render () {
-    const { values } = this.props
+    const { borrowActions, values } = this.props
     const maxAmount = values ? values.maxCollateral : 0
 
     return (
@@ -74,12 +74,12 @@ export class BorrowForm extends Component<Props> {
             </Text>
           </CustomFormLabel>
           <AmountFieldContainer>
-            <CustomField component={NumberBox} name='principal' autofocus max={maxAmount} />
+            <CustomField component={NumberBox} errorBottom name='principal' autofocus max={maxAmount} validate={[maximumAmount]} />
             <MaxAmountContainer>
               <InlineText color='grey600' weight={500} size='12px'>
                 <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
                 <br />
-                <FiatDisplay cursor='pointer' color='blue600' size='12px' weight={500} coin='BTC'>{maxAmount}</FiatDisplay>
+                <FiatDisplay onClick={() => borrowActions.handleMaxCollateralClick()} cursor='pointer' color='blue600' size='12px' weight={500} coin='BTC'>{maxAmount}</FiatDisplay>
                 {' '}USD Pax
               </InlineText>
             </MaxAmountContainer>
