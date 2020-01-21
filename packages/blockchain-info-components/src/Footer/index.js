@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie'
 import React, { PureComponent } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { Color } from '../Colors'
+import { Color } from '../Colors/index.ts'
 import { Image } from '../Images'
 import { Select } from './Select'
 import Link from '../Navigation/Link'

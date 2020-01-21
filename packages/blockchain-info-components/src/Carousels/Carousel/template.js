@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Color } from '../../Colors'
+import { Color } from '../../Colors/index.ts'
 import { Icon } from '../../Icons'
 
 const Wrapper = styled.div`

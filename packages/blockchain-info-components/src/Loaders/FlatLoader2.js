@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 
 const stretchFrames = keyframes`
   0%, 40%, 100% { transform: scaleY(0.4); }  

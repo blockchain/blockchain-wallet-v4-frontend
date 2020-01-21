@@ -1,4 +1,4 @@
-import { Color } from '../Colors'
+import { Color } from '../Colors/index.ts'
 import { FormattedMessage, IntlProvider } from 'react-intl'
 import { Image } from '../Images'
 import { trackEvent } from './Events'
