@@ -7,7 +7,7 @@ const spinFrames = keyframes`
   to {transform: rotate(360deg);}
 `
 const spinAnimation = css`
-  animation: ${spinFrames} 2s infinite linear;
+  animation: ${spinFrames} 1.25s infinite linear;
 `
 const Wrapper = styled.div`
   position: relative;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   border: 8px solid ${props => props.theme.blue200};
   border-radius: 50%;
   overflow: hidden;
-  border-top-color: ${props => props.theme.blue000};
+  border-top-color: ${props => props.theme.blue600};
   ${spinAnimation};
 `
 

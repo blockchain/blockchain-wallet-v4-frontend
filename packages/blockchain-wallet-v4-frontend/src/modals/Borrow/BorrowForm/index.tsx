@@ -4,6 +4,7 @@ import { BorrowFormValuesType, PaymentType } from 'data/types'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
 
@@ -32,8 +33,8 @@ export class BorrowForm extends Component<Props> {
       paymentR.cata({
         Success: (val) => <Success {...val} {...this.props} />,
         Failure: () => 'Oops something went wrong.',
-        Loading: () => 'Loading',
-        NotAsked: () => 'Loading'
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />
       })
     )
   }

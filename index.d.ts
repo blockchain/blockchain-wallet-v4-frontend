@@ -37,10 +37,11 @@ declare module 'blockchain-info-components' {
   export function Text(...args: any): any
   // type-coverage:ignore-next-line
   export function TextGroup(...args: any): any
+  // type-coverage:ignore-next-line
+  export function SpinningLoader(...args: any): any
 }
 declare module 'daggy' {
   import {
-    cata,
     RemoteFailure,
     RemoteLoading,
     RemoteNotAsked,
