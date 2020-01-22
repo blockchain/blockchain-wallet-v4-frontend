@@ -3,11 +3,12 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType } from './types'
+import { BorrowFormValuesType, PaymentType } from './types'
 import { call, put, select } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { initialize } from 'redux-form'
+import { FormAction, initialize } from 'redux-form'
 import { nth } from 'ramda'
+import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({
   api,
@@ -18,26 +19,64 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const createBorrow = function * () {
-    const paymentR = S.getPayment(yield select())
-    const payment = paymentR.getOrElse({})
+  const createBorrow = function* () {
+    try {
+      yield put(actions.form.startSubmit('borrowForm'))
+      const paymentR = S.getPayment(yield select())
+      let payment = coreSagas.payment.btc.create({
+        payment: paymentR.getOrElse(<PaymentType>{}),
+        network: networks.btc
+      })
 
-    // const offerR = S.getOffer(yield select())
-    // const offer = offerR.getOrFail(NO_OFFER_EXISTS)
+      payment = yield payment.amount(546, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.to('1PEP3UNaohnHqVbUNLFFycUJ3ShQxa5NbD')
 
-    // const request = {
-    //  offerId: offer.offerId,
-    //  principalAmount: offer.principalAmount
-    // }
-
-    // const loan = yield call(api.createLoan, request)
-    // payment = yield payment.amount(convert loan amount)
-
-    // ask for second password
-    // sign and publish payment
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      // sign and publish payment
+      yield put(actions.form.stopSubmit('borrowForm'))
+    } catch (e) {
+      yield put(actions.form.stopSubmit('borrowForm'))
+    }
   }
 
-  const fetchBorrowOffers = function * () {
+  const _createMaxCounter = function* (payment: PaymentType) {
+    const coin = S.getCoinType(yield select())
+    const ratesR = yield select(S.getRates)
+    const rates = ratesR.getOrElse({})
+    const balance = payment.value().effectiveBalance
+
+    switch (coin) {
+      case 'BTC':
+        return Exchange.convertBtcToFiat({
+          value: balance,
+          fromUnit: 'SAT',
+          toCurrency: 'USD',
+          rates: rates
+        }).value
+    }
+  }
+
+  const _createPayment = function* (index: number) {
+    let payment
+    const coin = S.getCoinType(yield select())
+
+    switch (coin) {
+      case 'BTC':
+        payment = coreSagas.payment.btc.create({
+          network: networks.btc
+        })
+        payment = yield payment.init()
+        payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
+        payment = yield payment.fee('priority')
+    }
+
+    return payment
+  }
+
+  const fetchBorrowOffers = function* () {
     try {
       yield put(A.fetchBorrowOffersLoading())
       const offers = yield call(api.getOffers)
@@ -47,19 +86,35 @@ export default ({
     }
   }
 
-  const initializeBorrow = function * ({
+  const formChanged = function* (action: FormAction) {
+    const form = action.meta.form
+    if (form !== 'borrowForm') return
+    const coin = S.getCoinType(yield select())
+
+    let payment
+
+    switch (action.meta.field) {
+      case 'collateral':
+        yield put(A.setPaymentLoading())
+        switch (coin) {
+          case 'BTC':
+            payment = yield call(_createPayment, action.payload.index)
+        }
+        const maxCollateralCounter = yield call(_createMaxCounter, payment)
+
+        yield put(actions.form.change('borrowForm', 'maxCollateralCounter', maxCollateralCounter))
+        yield put(A.setPaymentSuccess(payment.value()))
+    }
+  }
+
+  const initializeBorrow = function* ({
     payload
   }: ReturnType<typeof A.initializeBorrow>) {
     let defaultAccountR
-    let payment
-    let rates
+    let payment: PaymentType = <PaymentType>{}
 
     switch (payload.coin) {
       case 'BTC':
-        payment = coreSagas.payment.btc.create({
-          network: networks.btc
-        })
-        payment = yield payment.init()
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
@@ -67,21 +122,11 @@ export default ({
           selectors.core.wallet.getDefaultAccountIndex
         )
         defaultAccountR = accountsR.map(nth(defaultIndex))
-        payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.fee('priority')
-        // TODO: Borrow - get rates from nabu?
-        const ratesR = yield select(selectors.core.data.btc.getRates)
-        rates = ratesR.getOrElse({})
+        payment = yield call(_createPayment, defaultIndex)
         break
     }
 
-    const maxCollateral = payment.value().effectiveBalance
-    const maxCollateralCounter = Exchange.convertBtcToFiat({
-      value: maxCollateral,
-      fromUnit: 'SAT',
-      toCurrency: 'USD',
-      rates: rates
-    }).value
+    const maxCollateralCounter = yield call(_createMaxCounter, payment)
 
     const initialValues = {
       collateral: defaultAccountR.getOrElse(),
@@ -92,7 +137,7 @@ export default ({
     yield put(A.setPaymentSuccess(payment.value()))
   }
 
-  const maxCollateralClick = function * () {
+  const maxCollateralClick = function* () {
     const values: BorrowFormValuesType = yield select(
       selectors.form.getFormValues('borrowForm')
     )
@@ -107,7 +152,9 @@ export default ({
   }
 
   return {
+    createBorrow,
     fetchBorrowOffers,
+    formChanged,
     initializeBorrow,
     maxCollateralClick
   }

@@ -1,5 +1,6 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field } from 'redux-form'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, FormLabel, NumberBox, SelectBoxBtcAddresses } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType } from '.'
@@ -7,7 +8,7 @@ import { maximumAmount } from './validation'
 import { PaymentType } from 'data/components/borrow/types'
 import { Summary } from '../Summary'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { FormEventHandler } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -56,16 +57,11 @@ const InlineText = styled(Text)`
   }
 `
 
-type OwnProps = {
-  // handleSubmit: (e: FormEventHandler) => void,
-  onSubmit: (e: FormEventHandler) => void
-}
+type Props = LinkDispatchPropsType & PaymentType
 
-type Props = OwnProps & LinkDispatchPropsType & PaymentType
-
-const Success: React.FC<Props> = (props) => {
+const Success: React.FC<InjectedFormProps & Props> = (props) => {
   return (
-    <CustomForm onSubmit={props.onSubmit}>
+    <CustomForm onSubmit={props.handleSubmit}>
       <Top>
         {/* TODO: Borrow - make dynamic */}
         <Text color='grey900' size='24px' weight={600}><FormattedMessage id='modals.borrow.borrowusd' defaultMessage='Borrow USD' /></Text>
@@ -75,7 +71,7 @@ const Success: React.FC<Props> = (props) => {
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
-          <CustomField component={NumberBox} errorBottom name='principal' autofocus max={props.effectiveBalance} validate={[maximumAmount]} />
+          <CustomField component={NumberBox} data-e2e='principalInput' name='principal' validate={[maximumAmount]} />
           <MaxAmountContainer>
             <InlineText color='grey600' weight={500} size='12px'>
               <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
@@ -96,10 +92,10 @@ const Success: React.FC<Props> = (props) => {
       <Bottom>
         <Summary />
         <div>
-          <Button nature='primary'>
-            <Text size='16px' weight={600} color='white'>
+          <Button nature='primary' type='submit' disabled={props.submitting}>
+            {props.submitting ? <HeartbeatLoader height='16px' width='16px' color='white' /> : <Text size='16px' weight={600} color='white'>
               <FormattedMessage id='modals.borrow.collateralform.create' defaultMessage='Create Loan' />
-            </Text>
+            </Text>}
           </Button>
         </div>
       </Bottom>
@@ -107,4 +103,6 @@ const Success: React.FC<Props> = (props) => {
   )
 }
 
-export default Success
+const enhance = compose<any>(reduxForm({ form: 'borrowForm', destroyOnUnmount: false }))
+
+export default enhance(Success)

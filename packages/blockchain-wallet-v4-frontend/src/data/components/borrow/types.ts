@@ -29,10 +29,11 @@ export type UTXOType = {
 }
 
 export type PaymentType = {
-  change: string
-  coins: Array<UTXOType>
-  effectiveBalance: number
-  fee: number
+  amount: (n: number) => PaymentType,
+  change: string,
+  coins: Array<UTXOType>,
+  effectiveBalance: number,
+  fee: number,
   fees: {
     limits: {
       max: number
@@ -40,20 +41,24 @@ export type PaymentType = {
     }
     priority: number
     regular: number
-  }
-  from: Array<string>
-  fromAccountIdx: number
+  },
+  from: Array<string>,
+  fromAccountIdx: number,
   fromType:
-    | 'ACCOUNT'
-    | 'LEGACY'
-    | 'WATCH_ONLY'
-    | 'EXTERNAL'
-    | 'LOCKBOX'
-    | 'ADDRESS'
+  | 'ACCOUNT'
+  | 'LEGACY'
+  | 'WATCH_ONLY'
+  | 'EXTERNAL'
+  | 'LOCKBOX'
+  | 'ADDRESS',
+  sign: (pw: string) => PaymentType,
+  to: (address: string) => PaymentType,
+  value: () => PaymentType
 }
 
 // State
 export interface BorrowState {
+  coin: CoinType,
   offers: RemoteData<NabuApiErrorType, Array<OfferType>>
   payment: RemoteData<string | Error, PaymentType>
 }

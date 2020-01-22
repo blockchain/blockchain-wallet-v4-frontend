@@ -2997,6 +2997,14 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/redux-form@7.4.2":
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-7.4.2.tgz#0b42f18876dc9e715952a7cf8c74b2bcbf149001"
+  integrity sha512-iLXN0GkJ2d77sG9XLxtHCvPn+1T51fP8KWYJfGx2c8s6T0HJCGX170NiQfj2cXRvXIhuAKVc0qZeo5XmBmDZDg==
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0 || ^4.0.0"
+
 "@types/source-list-map@*":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
@@ -16198,7 +16206,7 @@ redux@4.0.1, redux@^4.0.1:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"
 
-redux@^4.0.4:
+"redux@^3.6.0 || ^4.0.0", redux@^4.0.4:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"
   integrity sha512-VSz1uMAH24DM6MF72vcojpYPtrTUu3ByVWfPL1nPfVRb5mZVTve5GnNCUV53QM/BZ66xfWrm0CTWoM+Xlz8V1w==

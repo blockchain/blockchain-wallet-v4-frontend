@@ -8,6 +8,8 @@ declare module 'blockchain-info-components' {
   // type-coverage:ignore-next-line
   export function FontGlobalStyles(...args: any): any
   // type-coverage:ignore-next-line
+  export function HeartbeatLoader(...args: any): any
+  // type-coverage:ignore-next-line
   export function Icon(...args: any): any
   // type-coverage:ignore-next-line
   export function IconGlobalStyles(...args: any): any

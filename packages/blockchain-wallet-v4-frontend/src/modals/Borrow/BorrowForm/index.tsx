@@ -2,7 +2,6 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { BorrowFormValuesType, PaymentType } from 'data/types'
 import { connect } from 'react-redux'
-import { reduxForm } from 'redux-form'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import Loading from './template.loading'
 import React, { Component } from 'react'
@@ -26,9 +25,8 @@ export class BorrowForm extends Component<Props> {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('here')
+  handleSubmit = () => {
+    this.props.borrowActions.createBorrow()
   }
 
   render () {
@@ -55,7 +53,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 const enhance = compose<any>(
-  reduxForm({ form: 'borrowForm' }),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

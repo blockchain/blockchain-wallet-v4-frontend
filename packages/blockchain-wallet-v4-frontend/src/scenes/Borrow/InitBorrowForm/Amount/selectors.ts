@@ -1,6 +1,8 @@
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
+const { INVALID_COIN_TYPE } = model.components.borrow
 
 export type ValuesType = {
   coin: CoinType
@@ -13,6 +15,6 @@ export const getBalance = state => {
     case 'BTC':
       return selectors.core.data.btc.getBalance(state)
     default:
-      return Remote.Failure('Invalid coin type')
+      return Remote.Failure(INVALID_COIN_TYPE)
   }
 }
