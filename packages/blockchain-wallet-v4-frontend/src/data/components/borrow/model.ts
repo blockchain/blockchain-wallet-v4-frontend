@@ -1,0 +1,1 @@
+export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'

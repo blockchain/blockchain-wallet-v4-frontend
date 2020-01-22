@@ -26,12 +26,17 @@ export class BorrowForm extends Component<Props> {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault()
+    console.log('here')
+  }
+
   render () {
-    const { borrowActions, paymentR, values } = this.props
+    const { paymentR } = this.props
 
     return (
       paymentR.cata({
-        Success: (val) => <Success {...val} {...this.props} />,
+        Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />,
         Failure: () => 'Oops something went wrong.',
         Loading: () => <Loading />,
         NotAsked: () => <Loading />

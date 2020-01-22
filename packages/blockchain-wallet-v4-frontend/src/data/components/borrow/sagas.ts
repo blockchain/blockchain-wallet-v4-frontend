@@ -1,4 +1,5 @@
 import * as A from './actions'
+import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -17,6 +18,25 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const createBorrow = function * () {
+    const paymentR = S.getPayment(yield select())
+    const payment = paymentR.getOrElse({})
+
+    // const offerR = S.getOffer(yield select())
+    // const offer = offerR.getOrFail(NO_OFFER_EXISTS)
+
+    // const request = {
+    //  offerId: offer.offerId,
+    //  principalAmount: offer.principalAmount
+    // }
+
+    // const loan = yield call(api.createLoan, request)
+    // payment = yield payment.amount(convert loan amount)
+
+    // ask for second password
+    // sign and publish payment
+  }
+
   const fetchBorrowOffers = function * () {
     try {
       yield put(A.fetchBorrowOffersLoading())

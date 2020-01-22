@@ -7,10 +7,10 @@ import { maximumAmount } from './validation'
 import { PaymentType } from 'data/components/borrow/types'
 import { Summary } from '../Summary'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React from 'react'
+import React, { FormEventHandler } from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -56,39 +56,42 @@ const InlineText = styled(Text)`
   }
 `
 
-type Props = LinkDispatchPropsType & PaymentType
+type OwnProps = {
+  // handleSubmit: (e: FormEventHandler) => void,
+  onSubmit: (e: FormEventHandler) => void
+}
+
+type Props = OwnProps & LinkDispatchPropsType & PaymentType
 
 const Success: React.FC<Props> = (props) => {
   return (
-    <Wrapper>
+    <CustomForm onSubmit={props.onSubmit}>
       <Top>
         {/* TODO: Borrow - make dynamic */}
         <Text color='grey900' size='24px' weight={600}><FormattedMessage id='modals.borrow.borrowusd' defaultMessage='Borrow USD' /></Text>
-        <Form>
-          <CustomFormLabel>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage id='modals.borrow.iwanttoborrow' defaultMessage='I want to borrow' />
-            </Text>
-          </CustomFormLabel>
-          <AmountFieldContainer>
-            <CustomField component={NumberBox} errorBottom name='principal' autofocus max={props.effectiveBalance} validate={[maximumAmount]} />
-            <MaxAmountContainer>
-              <InlineText color='grey600' weight={500} size='12px'>
-                <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
-                <br />
-                <FiatDisplay onClick={() => props.borrowActions.handleMaxCollateralClick()} cursor='pointer' color='blue600' size='12px' weight={500} coin='BTC'>{props.effectiveBalance}</FiatDisplay>
-                {' '}USD Pax
+        <CustomFormLabel>
+          <Text color='grey600' weight={500} size='14px'>
+            <FormattedMessage id='modals.borrow.iwanttoborrow' defaultMessage='I want to borrow' />
+          </Text>
+        </CustomFormLabel>
+        <AmountFieldContainer>
+          <CustomField component={NumberBox} errorBottom name='principal' autofocus max={props.effectiveBalance} validate={[maximumAmount]} />
+          <MaxAmountContainer>
+            <InlineText color='grey600' weight={500} size='12px'>
+              <FormattedMessage id='modals.borrow.canborrow' defaultMessage='You can borrow up to' />
+              <br />
+              <FiatDisplay onClick={() => props.borrowActions.handleMaxCollateralClick()} cursor='pointer' color='blue600' size='12px' weight={500} coin='BTC'>{props.effectiveBalance}</FiatDisplay>
+              {' '}USD Pax
               </InlineText>
-            </MaxAmountContainer>
-          </AmountFieldContainer>
-          <CustomFormLabel>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage id='modals.borrow.collateralfrom' defaultMessage='Send collateral from' />
-            </Text>
-          </CustomFormLabel>
-          {/* TODO: Borrow - handle other coins */}
-          <Field component={SelectBoxBtcAddresses} includeAll={false} name='collateral' />
-        </Form>
+          </MaxAmountContainer>
+        </AmountFieldContainer>
+        <CustomFormLabel>
+          <Text color='grey600' weight={500} size='14px'>
+            <FormattedMessage id='modals.borrow.collateralfrom' defaultMessage='Send collateral from' />
+          </Text>
+        </CustomFormLabel>
+        {/* TODO: Borrow - handle other coins */}
+        <Field component={SelectBoxBtcAddresses} includeAll={false} name='collateral' />
       </Top>
       <Bottom>
         <Summary />
@@ -100,7 +103,7 @@ const Success: React.FC<Props> = (props) => {
           </Button>
         </div>
       </Bottom>
-    </Wrapper>
+    </CustomForm>
   )
 }
 

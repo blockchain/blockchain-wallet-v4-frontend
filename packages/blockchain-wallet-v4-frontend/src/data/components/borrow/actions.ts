@@ -2,6 +2,10 @@ import * as AT from './actionTypes'
 import { BorrowActionTypes } from './types'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 
+export const createBorrow = () => ({
+  type: AT.CREATE_BORROW
+})
+
 export const fetchBorrowOffers = () => ({
   type: AT.FETCH_BORROW_OFFERS
 })
