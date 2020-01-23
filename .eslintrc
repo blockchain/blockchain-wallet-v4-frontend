@@ -34,6 +34,19 @@
         "typescript-sort-keys/interface": 2,
         "no-unused-vars": 0
       }
+    },
+    {
+      "files": [
+        "*.tsx"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "typescript-sort-keys"
+      ],
+      "rules": {
+        "typescript-sort-keys/interface": 2,
+        "no-unused-vars": 0
+      }
     }
   ],
   "env": {

@@ -23,6 +23,11 @@ export function borrowReducer (
         ...state,
         offers: Remote.Failure(action.payload.error)
       }
+    case AT.FETCH_BORROW_OFFERS_SUCCESS:
+      return {
+        ...state,
+        offers: Remote.Success(action.payload.offers)
+      }
     case AT.INITIALIZE_BORROW:
       return {
         ...state,

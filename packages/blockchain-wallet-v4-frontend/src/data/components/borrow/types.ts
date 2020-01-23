@@ -4,13 +4,50 @@ import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 
 // Types
-export type OfferType = {}
+export type OfferType = {
+  callTerms: {
+    callTriggerRatio: number
+    liquidationHardRatio: number
+    marginTopupTime: number
+    minutesBeforeLiquidation: number
+  }
+  id: string
+  status: 'OPEN'
+  terms: {
+    collateralCcy: CoinType
+    collateralRatio: number
+    durationHours: number
+    format: 'FLEX'
+    interestRate: number
+    maxYieldingAmount: {
+      symbol: CoinType
+      value: number
+    }
+    minPrincipalAmount: {
+      symbol: CoinType
+      value: number
+    }
+    principalCcy: CoinType
+  }
+}
 
 export type BorrowFormValuesType = {
   collateral: any
   maxCollateral?: number
   maxCollateralCounter?: string
+  offer: OfferType
   principal: string
+}
+
+// TODO: move to ticker
+export type RatesType = {
+  [key in string]: {
+    '15m': number
+    buy: number
+    last: number
+    sell: number
+    symbol: '$'
+  }
 }
 
 // TODO: move to payments
@@ -29,11 +66,11 @@ export type UTXOType = {
 }
 
 export type PaymentType = {
-  amount: (n: number) => PaymentType,
-  change: string,
-  coins: Array<UTXOType>,
-  effectiveBalance: number,
-  fee: number,
+  amount: (n: number) => PaymentType
+  change: string
+  coins: Array<UTXOType>
+  effectiveBalance: number
+  fee: number
   fees: {
     limits: {
       max: number
@@ -41,24 +78,24 @@ export type PaymentType = {
     }
     priority: number
     regular: number
-  },
-  from: Array<string>,
-  fromAccountIdx: number,
+  }
+  from: Array<string>
+  fromAccountIdx: number
   fromType:
-  | 'ACCOUNT'
-  | 'LEGACY'
-  | 'WATCH_ONLY'
-  | 'EXTERNAL'
-  | 'LOCKBOX'
-  | 'ADDRESS',
-  sign: (pw: string) => PaymentType,
-  to: (address: string) => PaymentType,
+    | 'ACCOUNT'
+    | 'LEGACY'
+    | 'WATCH_ONLY'
+    | 'EXTERNAL'
+    | 'LOCKBOX'
+    | 'ADDRESS'
+  sign: (pw: string) => PaymentType
+  to: (address: string) => PaymentType
   value: () => PaymentType
 }
 
 // State
 export interface BorrowState {
-  coin: CoinType,
+  coin: CoinType
   offers: RemoteData<NabuApiErrorType, Array<OfferType>>
   payment: RemoteData<string | Error, PaymentType>
 }
@@ -73,6 +110,12 @@ interface FetchBorrowOffersFailureAction {
 
 interface FetchBorrowOffersLoadingAction {
   type: typeof AT.FETCH_BORROW_OFFERS_LOADING
+}
+interface FetchBorrowOffersSuccessAction {
+  payload: {
+    offers: Array<OfferType>
+  }
+  type: typeof AT.FETCH_BORROW_OFFERS_SUCCESS
 }
 interface InitializeBorrowAction {
   payload: {
@@ -102,6 +145,7 @@ interface SetPaymentSuccess {
 export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
+  | FetchBorrowOffersSuccessAction
   | InitializeBorrowAction
   | SetPaymentFailure
   | SetPaymentLoading

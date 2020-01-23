@@ -6,6 +6,8 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { NabuApiErrorType, OfferType } from 'data/types'
+import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import { RootState } from 'data/rootReducer'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
@@ -16,7 +18,8 @@ type LinkDispatchPropsType = {
   modalActions: typeof actions.modals
 }
 type LinkStatePropsType = {
-  values: {
+  offersR: RemoteData<NabuApiErrorType, Array<OfferType>>
+  values?: {
     coin: CoinType
   }
 }
@@ -32,24 +35,41 @@ const CustomBox = styled(Box)`
 const HorizontalBorder = styled.div`
   width: 100%;
   height: 1px;
-  margin: 16px auto; 
+  margin: 16px auto;
   background-color: ${props => props.theme.grey000};
 `
 
 class InitBorrowForm extends PureComponent<Props> {
   state = {}
 
+  isDisabled = () => {
+    const offers = this.props.offersR.getOrElse([])
+    const values = this.props.values
+
+    if (!values) return true
+    const offer = offers.find(
+      offer => offer.terms.collateralCcy === values.coin
+    )
+    return !offer
+  }
+
   render () {
     return (
       <CustomBox>
         <div>
           <Text size='14px' color='grey600' weight={600}>
-            <FormattedMessage id='scenes.initborrow.youcan' defaultMessage='You can borrow' />
+            <FormattedMessage
+              id='scenes.initborrow.youcan'
+              defaultMessage='You can borrow'
+            />
           </Text>
           <Amount {...this.props.values} />
           <HorizontalBorder />
           <Text size='14px' color='grey600' weight={600}>
-            <FormattedMessage id='scenes.initborrow.collateral' defaultMessage='Collateral' />
+            <FormattedMessage
+              id='scenes.initborrow.collateral'
+              defaultMessage='Collateral'
+            />
           </Text>
           <Field
             component={SelectBoxCoin}
@@ -58,8 +78,17 @@ class InitBorrowForm extends PureComponent<Props> {
             type='send'
           />
         </div>
-        <Button style={{ marginTop: '16px' }} nature='primary' fullwidth onClick={() => this.props.modalActions.showModal('BORROW_MODAL')}>
-          <FormattedMessage id='scenes.initborrow.borrow' defaultMessage='Borrow USD Pax' />
+        <Button
+          disabled={this.isDisabled()}
+          style={{ marginTop: '16px' }}
+          nature='primary'
+          fullwidth
+          onClick={() => this.props.modalActions.showModal('BORROW_MODAL')}
+        >
+          <FormattedMessage
+            id='scenes.initborrow.borrow'
+            defaultMessage='Borrow USD Pax'
+          />
         </Button>
       </CustomBox>
     )
@@ -67,6 +96,7 @@ class InitBorrowForm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  offersR: selectors.components.borrow.getOffers(state),
   values: selectors.form.getFormValues('initBorrow')(state)
 })
 
@@ -76,7 +106,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const enhance = compose<any>(
   reduxForm({ form: 'initBorrow', initialValues: { coin: 'BTC' } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(InitBorrowForm)

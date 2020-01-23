@@ -1,8 +1,10 @@
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowFormValuesType, PaymentType } from 'data/types'
 import { connect } from 'react-redux'
+import { getData } from './selectors'
+import { OfferType, PaymentType, RatesType } from 'data/types'
 import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
@@ -11,9 +13,14 @@ export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
 
+export type SuccessStateType = {
+  offers: Array<OfferType>
+  payment: PaymentType
+  rates: RatesType
+}
+
 type LinkStatePropsType = {
-  paymentR: RemoteData<string | Error, PaymentType>,
-  values: BorrowFormValuesType
+  data: RemoteData<string | Error, SuccessStateType>
 }
 
 type Props = LinkDispatchPropsType & LinkStatePropsType
@@ -25,27 +32,30 @@ export class BorrowForm extends Component<Props> {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
+  handleRefresh = () => {
+    this.props.borrowActions.initializeBorrow('BTC')
+  }
+
   handleSubmit = () => {
     this.props.borrowActions.createBorrow()
   }
 
   render () {
-    const { paymentR } = this.props
+    const { data } = this.props
 
-    return (
-      paymentR.cata({
-        Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />,
-        Failure: () => 'Oops something went wrong.',
-        Loading: () => <Loading />,
-        NotAsked: () => <Loading />
-      })
-    )
+    return data.cata({
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  paymentR: selectors.components.borrow.getPayment(state),
-  values: selectors.form.getFormValues('borrowForm')(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -53,7 +63,10 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 const enhance = compose<any>(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(BorrowForm)

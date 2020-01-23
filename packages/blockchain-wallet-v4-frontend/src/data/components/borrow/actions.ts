@@ -21,6 +21,13 @@ export const fetchBorrowOffersFailure = (error): BorrowActionTypes => ({
   }
 })
 
+export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
+  type: AT.FETCH_BORROW_OFFERS_SUCCESS,
+  payload: {
+    offers
+  }
+})
+
 export const handleMaxCollateralClick = () => ({
   type: AT.MAX_COLLATERAL_CLICK
 })
@@ -32,7 +39,9 @@ export const initializeBorrow = (coin: CoinType) => ({
   }
 })
 
-export const setPaymentFailure = (error): BorrowActionTypes => ({
+export const setPaymentFailure = (
+  error: string | Error
+): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_FAILURE,
   payload: {
     error
