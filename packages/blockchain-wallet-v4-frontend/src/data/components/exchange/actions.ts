@@ -1,12 +1,7 @@
 import * as AT from './actionTypes'
-import { ExchangeActionTypes } from './types'
+import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { ExchangeActionTypes, LimitAmountType, LimitsType } from './types'
 
-// @PHIL Don't see this action being used anywhere. There is a set step reducer, but I don't see it anything called
-// step in the state
-// export const setStep = (step): ExchangeActionTypes => ({
-//   type: AT.SET_STEP,
-//   payload: { step }
-// })
 export const initialize = requestedValues => ({
   type: AT.INITIALIZE,
   payload: { requestedValues }
@@ -42,15 +37,20 @@ export const updateLimits = () => ({
 export const fetchLimitsLoading = (): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
-export const fetchLimitsSuccess = (limits): ExchangeActionTypes => ({
+export const fetchLimitsSuccess = (
+  limits: Currencies<LimitsType>
+): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: { limits }
 })
-export const fetchLimitsError = (error): ExchangeActionTypes => ({
+export const fetchLimitsError = (error: string): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_ERROR,
   payload: { error }
 })
-export const setMinMax = (min, max): ExchangeActionTypes => ({
+export const setMinMax = (
+  min: LimitAmountType,
+  max: LimitAmountType
+): ExchangeActionTypes => ({
   type: AT.SET_MIN_MAX,
   payload: { min, max }
 })
@@ -64,14 +64,14 @@ export const setSourceFee = fee => ({
   type: AT.SET_SOURCE_FEE,
   payload: { fee }
 })
-export const setShowError = (showError): ExchangeActionTypes => ({
+export const setShowError = (showError: boolean): ExchangeActionTypes => ({
   type: AT.SET_SHOW_ERROR,
   payload: { showError }
 })
 export const recheckLatestTx = () => ({
   type: AT.RECHECK_LATEST_TX
 })
-export const setTxError = (error): ExchangeActionTypes => ({
+export const setTxError = (error: string): ExchangeActionTypes => ({
   type: AT.SET_TX_ERROR,
   payload: { error }
 })

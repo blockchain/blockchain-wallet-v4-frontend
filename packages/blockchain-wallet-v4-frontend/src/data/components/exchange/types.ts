@@ -4,20 +4,19 @@ import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import { String } from 'index'
 
 // Types
-// @PHIL limts are repetitive, should this be explicit for every one?
 
 export type LimitsType = {
   annual: LimitDurationType
-  balanceMax: BalanceMaxType
+  balanceMax: LimitAmountType
   daily: LimitDurationType
-  maxFiatLimit: MaxFiatLimitType
-  maxOrder: OrderType
-  maxPossibleOrder: OrderType
-  minOrder: OrderType
+  maxFiatLimit: LimitAmountType
+  maxOrder: LimitAmountType
+  maxPossibleOrder: LimitAmountType
+  minOrder: LimitAmountType
   weekly: LimitDurationType
 }
 
-export type OrderType = {
+export type LimitAmountType = {
   amount: string
   fiat: boolean
   symbol: string
@@ -31,18 +30,6 @@ export type AmountType = {
 
 export type LimitDurationType = {
   amount: AmountType
-  fiat: boolean
-  symbol: string
-}
-
-export type MaxFiatLimitType = {
-  amount: string
-  fiat: boolean
-  symbol: string
-}
-
-export type BalanceMaxType = {
-  amount: string
   fiat: boolean
   symbol: string
 }
@@ -65,8 +52,8 @@ export type SourceFeeType = {
 // State
 export interface ExchangeState {
   limits: RemoteData<string, Currencies<LimitsType>>
-  max: null | AmountType
-  min: null | AmountType
+  max: null | LimitAmountType
+  min: null | LimitAmountType
   showError: boolean
   sourceFee: SourceFeeType
   txError: string | null
@@ -95,8 +82,8 @@ interface FetchLimitsSuccess {
 
 interface SetMinMax {
   payload: {
-    max: AmountType
-    min: AmountType
+    max: LimitAmountType | null
+    min: LimitAmountType | null
   }
   type: typeof AT.SET_MIN_MAX
 }
@@ -113,15 +100,6 @@ interface SetSourceFee {
   }
   type: typeof AT.SET_SOURCE_FEE
 }
-
-// interface SetStep {
-//   // @PHIL not sure what the data type for step is, I don't think it's being used
-//   payload: {
-//       step: any
-//   }
-//   type: typeof AT.SET_STEP
-// }
-
 interface SetTxError {
   payload: {
     error: string
@@ -140,6 +118,5 @@ export type ExchangeActionTypes =
   | SetMinMax
   | SetShowError
   | SetSourceFee
-  //  SetStep |
   | SetTxError
   | ShowConfirmation
