@@ -9,6 +9,10 @@ export default ({ api, coreSagas, networks }) => {
   return function * borrowSaga () {
     yield takeLatest(AT.CREATE_BORROW, borrowSagas.createBorrow)
     yield takeLatest(AT.FETCH_BORROW_OFFERS, borrowSagas.fetchBorrowOffers)
+    yield takeLatest(
+      AT.FETCH_USER_BORROW_HISTORY,
+      borrowSagas.fetchUserBorrowHistory
+    )
     yield takeLatest(AT.INITIALIZE_BORROW, borrowSagas.initializeBorrow)
     yield takeLatest(AT.MAX_COLLATERAL_CLICK, borrowSagas.maxCollateralClick)
     yield takeEvery(actionTypes.CHANGE, borrowSagas.formChanged)

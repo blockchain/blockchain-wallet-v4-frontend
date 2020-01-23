@@ -95,6 +95,7 @@ export type PaymentType = {
 
 // State
 export interface BorrowState {
+  borrowHistory: RemoteData<NabuApiErrorType, any>
   coin: CoinType
   offers: RemoteData<NabuApiErrorType, Array<OfferType>>
   payment: RemoteData<string | Error, PaymentType>
@@ -116,6 +117,22 @@ interface FetchBorrowOffersSuccessAction {
     offers: Array<OfferType>
   }
   type: typeof AT.FETCH_BORROW_OFFERS_SUCCESS
+}
+interface FetchUserBorrowHistoryFailureAction {
+  payload: {
+    error: NabuApiErrorType
+  }
+  type: typeof AT.FETCH_USER_BORROW_HISTORY_FAILURE
+}
+
+interface FetchUserBorrowHistoryLoadingAction {
+  type: typeof AT.FETCH_USER_BORROW_HISTORY_LOADING
+}
+interface FetchUserBorrowHistorySuccessAction {
+  payload: {
+    borrowHistory: any
+  }
+  type: typeof AT.FETCH_USER_BORROW_HISTORY_SUCCESS
 }
 interface InitializeBorrowAction {
   payload: {
@@ -146,6 +163,9 @@ export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
   | FetchBorrowOffersSuccessAction
+  | FetchUserBorrowHistoryFailureAction
+  | FetchUserBorrowHistoryLoadingAction
+  | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
   | SetPaymentFailure
   | SetPaymentLoading

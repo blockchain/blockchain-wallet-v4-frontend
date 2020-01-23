@@ -8,6 +8,9 @@ export const getPayment = (state: RootState) => state.components.borrow.payment
 
 export const getOffers = (state: RootState) => state.components.borrow.offers
 
+export const getBorrowHistory = (state: RootState) =>
+  state.components.borrow.borrowHistory
+
 export const getRates = (state: RootState) => {
   const coinType = getCoinType(state)
 

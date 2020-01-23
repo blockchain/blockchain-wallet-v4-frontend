@@ -13,7 +13,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
   ) =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: '/user/e4d5f3cb-3416-4507-8f71-8ad5e11a86b0/loans',
+      endPoint: '/user/53d0ec26-2e0c-4cf5-aa94-f5822b21270f/loans',
       contentType: 'application/json',
       data: {
         offerId,
@@ -21,8 +21,15 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
       }
     })
 
+  const getUserBorrowHistory = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/user/53d0ec26-2e0c-4cf5-aa94-f5822b21270f/loans'
+    })
+
   return {
     createLoan,
-    getOffers
+    getOffers,
+    getUserBorrowHistory
   }
 }

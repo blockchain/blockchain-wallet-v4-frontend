@@ -28,6 +28,30 @@ export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
   }
 })
 
+export const fetchUserBorrowHistory = () => ({
+  type: AT.FETCH_USER_BORROW_HISTORY
+})
+
+export const fetchUserBorrowHistoryLoading = (): BorrowActionTypes => ({
+  type: AT.FETCH_USER_BORROW_HISTORY_LOADING
+})
+
+export const fetchUserBorrowHistoryFailure = (error): BorrowActionTypes => ({
+  type: AT.FETCH_USER_BORROW_HISTORY_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchUserBorrowHistorySuccess = (
+  borrowHistory
+): BorrowActionTypes => ({
+  type: AT.FETCH_USER_BORROW_HISTORY_SUCCESS,
+  payload: {
+    borrowHistory
+  }
+})
+
 export const handleMaxCollateralClick = () => ({
   type: AT.MAX_COLLATERAL_CLICK
 })

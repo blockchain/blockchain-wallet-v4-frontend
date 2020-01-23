@@ -38,7 +38,7 @@ export default ({
 
       const loan = yield call(api.createLoan, offer.id, {
         symbol: offer.terms.principalCcy,
-        value: '100.00'
+        value: values.principal
       })
 
       // console.log(loan)
@@ -109,6 +109,16 @@ export default ({
       yield put(A.fetchBorrowOffersSuccess(offers))
     } catch (e) {
       yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
+  const fetchUserBorrowHistory = function * () {
+    try {
+      yield put(A.fetchUserBorrowHistoryLoading())
+      const offers = yield call(api.getUserBorrowHistory)
+      yield put(A.fetchUserBorrowHistorySuccess(offers))
+    } catch (e) {
+      yield put(A.fetchUserBorrowHistoryFailure(e))
     }
   }
 
@@ -194,6 +204,7 @@ export default ({
   return {
     createBorrow,
     fetchBorrowOffers,
+    fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
     maxCollateralClick
