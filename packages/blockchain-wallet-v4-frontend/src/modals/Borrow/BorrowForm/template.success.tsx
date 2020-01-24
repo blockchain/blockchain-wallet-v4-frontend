@@ -1,22 +1,25 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import {
+  CheckBox,
   Form,
+  FormItem,
   FormLabel,
   NumberBox,
   SelectBoxBtcAddresses
 } from 'components/Form'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
-import { maximumAmount } from './validation'
+import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from '../Summary'
+import Terms from 'components/Terms'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -74,11 +77,18 @@ const InlineText = styled(Text)`
   }
 `
 
+const TermsFormItem = styled(FormItem)`
+  display: flex;
+  align-items: center;
+`
+
 type LinkStatePropsType = {
   values: BorrowFormValuesType
 }
 
 type Props = SuccessStateType & LinkDispatchPropsType & LinkStatePropsType
+
+const checkboxShouldBeChecked = value => (value ? undefined : true)
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
   const offer = props.offers.find(
@@ -115,7 +125,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             component={NumberBox}
             data-e2e='principalInput'
             name='principal'
-            validate={[maximumAmount]}
+            validate={[maximumAmount, minimumAmount]}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey400' size='14px' weight={600}>
@@ -163,15 +173,36 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           <>
             <Summary
               {...props}
+              {...props.values}
               collateral={0}
               displayName={displayName}
               offer={offer}
             />
+            {/* <div>
+              <TermsFormItem>
+                <Field
+                  name='blockchain-loan-agreement'
+                  validate={[checkboxShouldBeChecked]}
+                  component={CheckBox}
+                  data-e2e='blockchain-loan-agreement'
+                />
+                <Terms company='blockchain-loan-agreement' />
+              </TermsFormItem>
+              <TermsFormItem>
+                <Field
+                  name='blockchain-loan-transfer'
+                  validate={[checkboxShouldBeChecked]}
+                  component={CheckBox}
+                  data-e2e='blockchain-loan-transfer'
+                />
+                <Terms company='blockchain-loan-transfer' amount={props.values} />
+              </TermsFormItem>
+            </div> */}
             <div>
               <Button
                 nature='primary'
                 type='submit'
-                disabled={props.submitting}
+                disabled={props.submitting || props.invalid}
               >
                 {props.submitting ? (
                   <HeartbeatLoader height='16px' width='16px' color='white' />

@@ -44,14 +44,11 @@ const Value = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
-const ColValue = styled(Value)`
-  margin-top: 6px;
-`
-
 const BottomRow = styled.div`
   display: flex;
   margin-top: 20px;
 `
+
 const Column = styled.div`
   width: 33.333%;
   border-left: 1px solid ${props => props.theme.grey000};
@@ -62,6 +59,10 @@ const Column = styled.div`
     padding-left: 24px;
     padding-right: 24px;
   }
+`
+
+const ColValue = styled(Value)`
+  margin-top: 6px;
 `
 
 const Summary: React.FC<Props> = props => {

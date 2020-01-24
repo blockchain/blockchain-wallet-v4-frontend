@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
-import { String } from 'index'
+import { RemoteDataType } from 'data/types'
 
 // Types
 
@@ -56,7 +55,7 @@ export type SourceFeeType =
 
 // State
 export interface ExchangeState {
-  limits: RemoteData<string, Currencies<LimitsType>>
+  limits: RemoteDataType<string, Currencies<LimitsType>>
   max: null | LimitAmountType
   min: null | LimitAmountType
   showError: boolean
