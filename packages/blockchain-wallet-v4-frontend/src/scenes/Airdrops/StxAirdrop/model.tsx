@@ -5,7 +5,7 @@ import {
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
-} from '../AirdropInfo/model'
+} from 'components/Cartridge'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
@@ -15,12 +15,11 @@ import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
-
 const { KYC_STATES } = model.profile
 
 const BlueCartridgeCTA = styled(CustomCartridge)`
   cursor: pointer;
-  background-color: ${(props) => props.theme.blue600};
+  background-color: ${props => props.theme.blue600};
   font-weight: 600;
 `
 
@@ -45,19 +44,27 @@ const Ended = () => {
   )
 }
 
-export const StxHeader = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
+export const StxHeader = ({
+  stxCampaign
+}: {
+  stxCampaign: CampaignInfoType
+}) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
     case 'REWARD_RECEIVED':
-      return <FormattedMessage
-        id='scenes.airdrops.stx.wallet.title'
-        defaultMessage='My Blockstack Wallet'
-      />
+      return (
+        <FormattedMessage
+          id='scenes.airdrops.stx.wallet.title'
+          defaultMessage='My Blockstack Wallet'
+        />
+      )
     default:
-      return <FormattedMessage
-        id='scenes.airdrops.stx'
-        defaultMessage='Blockstack'
-      />
+      return (
+        <FormattedMessage
+          id='scenes.airdrops.stx'
+          defaultMessage='Blockstack'
+        />
+      )
   }
 }
 
@@ -65,84 +72,106 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
     case 'REWARD_RECEIVED':
-      return <>
-        <Text color='grey800' size='14px' weight={700} style={{ margin: '16px 0 4px' }}>
-          <FormattedMessage
-            id='scenes.airdrops.stx.wallet.q1'
-            defaultMessage='Where are my Stacks?'
-          />
-        </Text>
-        <Text size='13px' color='grey600' weight={500}>
-          <FormattedMessage
-            id='scenes.airdrops.stx.wallet.a1'
-            defaultMessage='Your Stacks (STX) are saved in your Blockchain Wallet.'
-          />
-        </Text>
-      </>
+      return (
+        <>
+          <Text
+            color='grey800'
+            size='14px'
+            weight={700}
+            style={{ margin: '16px 0 4px' }}
+          >
+            <FormattedMessage
+              id='scenes.airdrops.stx.wallet.q1'
+              defaultMessage='Where are my Stacks?'
+            />
+          </Text>
+          <Text size='13px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.airdrops.stx.wallet.a1'
+              defaultMessage='Your Stacks (STX) are saved in your Blockchain Wallet.'
+            />
+          </Text>
+        </>
+      )
     default:
-      return <Text
-        size='12px'
-        color='grey600'
-        weight={500}
-        lineHeight='1.5'
-        style={{ marginTop: '16px' }}
-      >
-        <FormattedMessage
-          id='scenes.airdrop.stx.stxinfo1'
-          defaultMessage='Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
-        />{' '}
-        <Link
-          href='https://blockstack.org/try-blockstack'
-          target='_blank'
-          rel='noopener noreferrer'
+      return (
+        <Text
           size='12px'
+          color='grey600'
+          weight={500}
+          lineHeight='1.5'
+          style={{ marginTop: '16px' }}
         >
           <FormattedMessage
-            id='scenes.airdrop.stx.learnmore'
-            defaultMessage='Learn more'
-          />
-        </Link>
-      </Text>
+            id='scenes.airdrop.stx.stxinfo1'
+            defaultMessage='Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
+          />{' '}
+          <Link
+            href='https://blockstack.org/try-blockstack'
+            target='_blank'
+            rel='noopener noreferrer'
+            size='12px'
+          >
+            <FormattedMessage
+              id='scenes.airdrop.stx.learnmore'
+              defaultMessage='Learn more'
+            />
+          </Link>
+        </Text>
+      )
   }
 }
 
-const calcStxAmount = (stxCampaign) => {
-  let stxAmount = stxCampaign.userCampaignTransactionResponseList.length && stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
+const calcStxAmount = stxCampaign => {
+  let stxAmount =
+    stxCampaign.userCampaignTransactionResponseList.length &&
+    stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
   if (!stxAmount) return
-  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
+  return new BigNumber(stxAmount)
+    .dividedBy(10000000)
+    .toString()
+    .concat(' STX')
 }
 
-export const StxDateOrAmount = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
+export const StxDateOrAmount = ({
+  stxCampaign
+}: {
+  stxCampaign: CampaignInfoType
+}) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
       return null
     case 'REWARD_RECEIVED':
-      return <DateOrAmount>
-        <Text size='14px' color='grey800' weight={600}>
-          {calcStxAmount(stxCampaign)}
-        </Text>
-        <Text size='12px' color='grey600' weight={500}>
-          <FormattedMessage
-            id='scenes.airdrop.stx.wallet'
-            defaultMessage='My Blockstack Wallet'
-          />
-        </Text>
-      </DateOrAmount>
+      return (
+        <DateOrAmount>
+          <Text size='14px' color='grey800' weight={600}>
+            {calcStxAmount(stxCampaign)}
+          </Text>
+          <Text size='12px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.airdrop.stx.wallet'
+              defaultMessage='My Blockstack Wallet'
+            />
+          </Text>
+        </DateOrAmount>
+      )
     default:
-      return <DateOrAmount>
-        <Text size='16px' color='grey800' weight={600}>
-          <FormattedMessage
-            id='scenes.airdrop.stx.jan'
-            defaultMessage='Jan. 2020'
-          />
-        </Text>
-        <Text size='12px' color='grey600' weight={500}>
-          <FormattedMessage
-            id='scenes.airdrop.stx.date'
-            defaultMessage='Airdrop Date'
-          />
-        </Text>
-      </DateOrAmount>
+      return (
+        <DateOrAmount>
+          <Text size='16px' color='grey800' weight={600}>
+            <FormattedMessage
+              id='scenes.airdrop.stx.jan'
+              defaultMessage='Jan. 2020'
+            />
+          </Text>
+          <Text size='12px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='scenes.airdrop.stx.date'
+              defaultMessage='Airdrop Date'
+            />
+          </Text>
+        </DateOrAmount>
+      )
   }
 }
 
@@ -157,7 +186,8 @@ export const StxStatus = ({
 
   if (
     kycState !== KYC_STATES.VERIFIED &&
-    stxCampaign && stxCampaign.campaignState === 'ENDED'
+    stxCampaign &&
+    stxCampaign.campaignState === 'ENDED'
   ) {
     return <Ended />
   }
@@ -240,13 +270,13 @@ export const StxStatus = ({
                 />
               </ErrorCartridge>
             ) : (
-                <SuccessCartridge>
-                  <FormattedMessage
-                    id='scenes.airdrop.stx.claimed'
-                    defaultMessage='Claimed'
-                  />
-                </SuccessCartridge>
-              )
+              <SuccessCartridge>
+                <FormattedMessage
+                  id='scenes.airdrop.stx.claimed'
+                  defaultMessage='Claimed'
+                />
+              </SuccessCartridge>
+            )
           default:
             return null
         }
@@ -260,7 +290,11 @@ export const StxStatus = ({
   }
 }
 
-export const StxFooterCta = ({ tags, kycState, userCampaignsInfoResponseList }: Props) => {
+export const StxFooterCta = ({
+  tags,
+  kycState,
+  userCampaignsInfoResponseList
+}: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -269,26 +303,27 @@ export const StxFooterCta = ({ tags, kycState, userCampaignsInfoResponseList }: 
     switch (stxCampaign.userCampaignState) {
       case 'TASK_FINISHED':
       case 'REWARD_RECEIVED':
-        return <Text size='12px' color='grey600' weight={500}>
-          <FormattedMessage
-            id='scenes.airdrop.stx.wallet.balance'
-            defaultMessage='Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
-          />
-          {' '}
-          <Link
-            href='https://support.blockchain.com/hc/en-us/articles/360038745191'
-            target='_blank'
-            size='12px'
-            weight={500}
-            style={{ textDecoration: 'underline' }}
-          >
+        return (
+          <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
-              id='scenes.airdrops.blockstack.wallet.here'
-              defaultMessage='here'
-            />
-          </Link>
-          {'.'}
-        </Text>
+              id='scenes.airdrop.stx.wallet.balance'
+              defaultMessage='Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
+            />{' '}
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360038745191'
+              target='_blank'
+              size='12px'
+              weight={500}
+              style={{ textDecoration: 'underline' }}
+            >
+              <FormattedMessage
+                id='scenes.airdrops.blockstack.wallet.here'
+                defaultMessage='here'
+              />
+            </Link>
+            {'.'}
+          </Text>
+        )
       case 'FAILED':
         return (
           <Link
@@ -334,7 +369,7 @@ export const StxFooterCta = ({ tags, kycState, userCampaignsInfoResponseList }: 
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button nature='light' fullwidth >
+          <Button nature='light' fullwidth>
             <FormattedMessage
               id='scenes.airdrop.stx.share'
               defaultMessage='Share'
@@ -342,19 +377,19 @@ export const StxFooterCta = ({ tags, kycState, userCampaignsInfoResponseList }: 
           </Button>
         </Link>
       ) : (
-          <Link
-            href='https://blockstack.org/try-blockstack'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Button nature='light' fullwidth >
-              <FormattedMessage
-                id='scenes.airdrop.stx.learnmore'
-                defaultMessage='Learn More'
-              />
-            </Button>
-          </Link>
-        )
+        <Link
+          href='https://blockstack.org/try-blockstack'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          <Button nature='light' fullwidth>
+            <FormattedMessage
+              id='scenes.airdrop.stx.learnmore'
+              defaultMessage='Learn More'
+            />
+          </Button>
+        </Link>
+      )
     default:
       return null
   }

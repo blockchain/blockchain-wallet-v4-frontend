@@ -12,7 +12,7 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
-  balanceR: RemoteDataType<string, number>
+  balanceR: RemoteDataType<string, { totalBalance: string }>
 }
 
 type Props = OwnProps & LinkStatePropsType
@@ -35,9 +35,9 @@ export class Amount extends Component<Props> {
       <Wrapper>
         {this.props.balanceR.cata({
           Success: val => (
-            <FiatDisplay size='32px' weight={600} coin={this.props.coin}>
-              {val}
-            </FiatDisplay>
+            <Text weight={600} size='32px'>
+              {val.totalBalance}
+            </Text>
           ),
           Failure: e => <Text weight={600}>{e}</Text>,
           NotAsked: () => <Content>...</Content>,

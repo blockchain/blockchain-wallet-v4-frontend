@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
 import { NabuApiErrorType, OfferType, RemoteDataType } from 'data/types'
+import { OrangeCartridge } from 'components/Cartridge'
 import { RootState } from 'data/rootReducer'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
@@ -32,11 +33,24 @@ const CustomBox = styled(Box)`
   justify-content: space-between;
 `
 
+const CustomFormLabel = styled(FormLabel)`
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+`
+
 const HorizontalBorder = styled.div`
   width: 100%;
   height: 1px;
-  margin: 16px auto;
+  margin: 16px auto 8px auto;
   background-color: ${props => props.theme.grey000};
+`
+
+const CustomOrangeCartridge = styled<{ show: boolean }>(OrangeCartridge)`
+  opacity: ${props => (props.show ? 1 : 0)};
 `
 
 class InitBorrowForm extends PureComponent<Props> {
@@ -66,14 +80,22 @@ class InitBorrowForm extends PureComponent<Props> {
           <Amount {...this.props.values} />
           <HorizontalBorder />
           <FormGroup>
-            <FormLabel>
+            <CustomFormLabel>
               <Text size='14px' color='grey600' weight={600}>
                 <FormattedMessage
                   id='scenes.initborrow.collateral'
                   defaultMessage='Collateral'
                 />
               </Text>
-            </FormLabel>
+              <CustomOrangeCartridge
+                show={!!this.props.values && this.props.values.coin !== 'BTC'}
+              >
+                <FormattedMessage
+                  id='scenes.initborrow.comingsoon'
+                  defaultMessage='Coming Soon'
+                />
+              </CustomOrangeCartridge>
+            </CustomFormLabel>
             <Field
               component={SelectBoxCoin}
               name='coin'
