@@ -1,8 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import {
+  CoinType,
+  OfferType,
+  PaymentType,
+  RatesType,
+  RemoteDataType
+} from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { OfferType, PaymentType, RatesType, RemoteDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { Component } from 'react'
@@ -13,6 +19,7 @@ export type LinkDispatchPropsType = {
 }
 
 export type SuccessStateType = {
+  coin: CoinType
   offers: Array<OfferType>
   payment: PaymentType
   rates: RatesType

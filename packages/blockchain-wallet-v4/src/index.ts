@@ -38,3 +38,4 @@ export {
 
 export * from './network/types'
 export * from './remote/types'
+export * from './types/index'

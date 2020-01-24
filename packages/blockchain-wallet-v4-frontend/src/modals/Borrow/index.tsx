@@ -4,10 +4,10 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
 interface Props {
-  close: () => void,
-  position: number,
-  userClickedOutside: boolean,
+  close: () => void
+  position: number
   total: number
+  userClickedOutside: boolean
 }
 
 class Borrow extends PureComponent<Props> {
@@ -28,7 +28,14 @@ class Borrow extends PureComponent<Props> {
     const { position, total } = this.props
 
     return (
-      <Flyout position={position} in={this.state.show} userClickedOutside={this.props.userClickedOutside} onClose={this.handleClose} data-e2e='borrowModal' total={total}>
+      <Flyout
+        position={position}
+        in={this.state.show}
+        userClickedOutside={this.props.userClickedOutside}
+        onClose={this.handleClose}
+        data-e2e='borrowModal'
+        total={total}
+      >
         <BorrowForm />
       </Flyout>
     )

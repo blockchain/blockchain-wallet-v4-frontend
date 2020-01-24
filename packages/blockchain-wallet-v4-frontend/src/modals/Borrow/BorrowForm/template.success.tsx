@@ -1,8 +1,4 @@
-import {
-  BorrowFormValuesType,
-  OfferType,
-  PaymentType
-} from 'data/components/borrow/types'
+import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
@@ -17,7 +13,6 @@ import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumAmount } from './validation'
 import { selectors } from 'data'
-import { values } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
@@ -50,10 +45,20 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   width: 50%;
+  > input {
+    padding-left: 50px;
+  }
 `
 
 const AmountFieldContainer = styled.div`
   display: flex;
+  position: relative;
+`
+
+const PrincipalCcyAbsolute = styled.div`
+  position: absolute;
+  top: 16px;
+  left: 12px;
 `
 
 const MaxAmountContainer = styled.div`
@@ -76,6 +81,12 @@ type LinkStatePropsType = {
 type Props = SuccessStateType & LinkDispatchPropsType & LinkStatePropsType
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
+  const offer = props.offers.find(
+    offer =>
+      offer.terms.collateralCcy === props.coin &&
+      offer.terms.principalCcy === 'PAX'
+  )
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
@@ -96,11 +107,18 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            // @ts-ignore
+            autoFocus
             component={NumberBox}
             data-e2e='principalInput'
             name='principal'
             validate={[maximumAmount]}
           />
+          <PrincipalCcyAbsolute>
+            <Text color='grey400' size='14px' weight={600}>
+              USD
+            </Text>
+          </PrincipalCcyAbsolute>
           <MaxAmountContainer>
             <InlineText color='grey600' weight={500} size='12px'>
               <FormattedMessage
@@ -138,26 +156,38 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         />
       </Top>
       <Bottom>
-        <Summary
-          rates={props.rates}
-          collateral={0}
-          principal={props.values.principal}
-          offer={props.offers[0]}
-        />
-        <div>
-          <Button nature='primary' type='submit' disabled={props.submitting}>
-            {props.submitting ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
-            ) : (
-              <Text size='16px' weight={600} color='white'>
-                <FormattedMessage
-                  id='modals.borrow.collateralform.create'
-                  defaultMessage='Create Loan'
-                />
-              </Text>
-            )}
-          </Button>
-        </div>
+        {offer ? (
+          <>
+            <Summary
+              rates={props.rates}
+              collateral={0}
+              principal={props.values.principal}
+              offer={offer}
+            />
+            <div>
+              <Button
+                nature='primary'
+                type='submit'
+                disabled={props.submitting}
+              >
+                {props.submitting ? (
+                  <HeartbeatLoader height='16px' width='16px' color='white' />
+                ) : (
+                  <Text size='16px' weight={600} color='white'>
+                    <FormattedMessage
+                      id='modals.borrow.collateralform.create'
+                      defaultMessage='Create Loan'
+                    />
+                  </Text>
+                )}
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Text color='grey700' weight={600} size='16px'>
+            There is no loan offer for {props.coin} to USD PAX
+          </Text>
+        )}
       </Bottom>
     </CustomForm>
   )

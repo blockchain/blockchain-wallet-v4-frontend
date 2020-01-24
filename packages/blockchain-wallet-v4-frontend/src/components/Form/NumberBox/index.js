@@ -31,6 +31,7 @@ const NumberBox = field => {
       <NumberInput
         {...field.input}
         errorState={errorState}
+        autoFocus={field.autoFocus}
         placeholder={field.placeholder}
         data-e2e={field['data-e2e']}
       />

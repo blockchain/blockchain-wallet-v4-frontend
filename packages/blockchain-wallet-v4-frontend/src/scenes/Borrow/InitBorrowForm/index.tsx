@@ -6,6 +6,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { FormGroup, FormLabel } from 'components/Form'
 import { NabuApiErrorType, OfferType, RemoteDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Amount from './Amount'
@@ -58,24 +59,28 @@ class InitBorrowForm extends PureComponent<Props> {
         <div>
           <Text size='14px' color='grey600' weight={600}>
             <FormattedMessage
-              id='scenes.initborrow.youcan'
-              defaultMessage='You can borrow'
+              id='scenes.initborrow.youcanborrow'
+              defaultMessage='You can borrow up to'
             />
           </Text>
           <Amount {...this.props.values} />
           <HorizontalBorder />
-          <Text size='14px' color='grey600' weight={600}>
-            <FormattedMessage
-              id='scenes.initborrow.collateral'
-              defaultMessage='Collateral'
+          <FormGroup>
+            <FormLabel>
+              <Text size='14px' color='grey600' weight={600}>
+                <FormattedMessage
+                  id='scenes.initborrow.collateral'
+                  defaultMessage='Collateral'
+                />
+              </Text>
+            </FormLabel>
+            <Field
+              component={SelectBoxCoin}
+              name='coin'
+              // TODO: Borrow - make type: borrow
+              type='send'
             />
-          </Text>
-          <Field
-            component={SelectBoxCoin}
-            name='coin'
-            // TODO: Borrow - make type: borrow
-            type='send'
-          />
+          </FormGroup>
         </div>
         <Button
           disabled={this.isDisabled()}
