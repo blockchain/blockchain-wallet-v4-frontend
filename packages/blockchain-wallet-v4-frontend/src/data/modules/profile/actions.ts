@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
+import { NabuApiErrorType } from 'data/types'
 import { ProfileActionTypes } from './types'
 
 export const clearSession = () => ({

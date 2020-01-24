@@ -1,8 +1,6 @@
 import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
-import { CampaignsType } from 'data/components/types'
-import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { CampaignsType, NabuApiErrorType, RemoteDataType } from 'data/types'
 
 // Types
 
@@ -134,20 +132,20 @@ export type UserTiersType = Array<UserTierType>
 
 // State
 export interface ProfileState {
-  apiToken: RemoteData<string, string>
+  apiToken: RemoteDataType<string, string>
   campaign: {}
   exchangeOnboarding: {
-    linkFromExchangeAccountStatus: RemoteData<
+    linkFromExchangeAccountStatus: RemoteDataType<
       AxiosError<LinkFromExchangeAccountFailureType>,
       string
     >
     linkToExchangeAccountDeeplink: string | null
-    linkToExchangeAccountStatus: RemoteData<string, string>
-    shareWalletAddressesWithExchange: RemoteData<string, string>
+    linkToExchangeAccountStatus: RemoteDataType<string, string>
+    shareWalletAddressesWithExchange: RemoteDataType<string, string>
   }
-  userCampaigns: RemoteData<NabuApiErrorType, UserCampaignsType>
-  userData: RemoteData<NabuApiErrorType, UserDataType>
-  userTiers: RemoteData<string, UserTiersType>
+  userCampaigns: RemoteDataType<NabuApiErrorType, UserCampaignsType>
+  userData: RemoteDataType<NabuApiErrorType, UserDataType>
+  userTiers: RemoteDataType<string, UserTiersType>
 }
 
 // Actions
