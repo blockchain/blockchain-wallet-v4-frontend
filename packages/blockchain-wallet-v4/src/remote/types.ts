@@ -1,5 +1,5 @@
 const cata = function<E, A> (
-  this: RemoteData<E, A>,
+  this: RemoteDataType<E, A>,
   obj: {
     Failure: (error: E) => E | React.ReactNode
     Loading: () => React.ReactNode
@@ -24,7 +24,7 @@ const cata = function<E, A> (
 }
 
 const getOrElse = function<A, DV> (
-  this: RemoteData<any, A>,
+  this: RemoteDataType<any, A>,
   defaultValue: DV
 ): DV | A {
   switch (this['@@tag']) {
@@ -70,7 +70,7 @@ export type RemoteSuccess<A> = RemoteType & {
   readonly data: A
 }
 
-export type RemoteData<E, A> =
+export type RemoteDataType<E, A> =
   | RemoteNotAsked
   | RemoteLoading
   | RemoteFailure<E>

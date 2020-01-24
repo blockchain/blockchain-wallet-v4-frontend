@@ -1,10 +1,9 @@
 import { actions, selectors } from 'data'
-import { AppActionTypes, NabuApiErrorType, UserCampaignsType, UserDataType } from 'data/types'
+import { AppActionTypes, NabuApiErrorType, RemoteDataType, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
@@ -32,9 +31,9 @@ export const MainTitle = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  data: RemoteData<NabuApiErrorType, UserDataType & UserCampaignsType>,
+  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>,
   hasEmail: boolean,
-  userData: RemoteData<NabuApiErrorType, UserDataType>
+  userData: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 
 export type LinkDispatchPropsType = {
@@ -52,7 +51,7 @@ class Airdrops extends React.PureComponent<Props> {
   render () {
     const { data, hasEmail } = this.props
 
-    const AirdropCards = data.cata<NabuApiErrorType, UserDataType & UserCampaignsType>({
+    const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
@@ -63,7 +62,7 @@ class Airdrops extends React.PureComponent<Props> {
         </Text>
       )
     })
-    const PastAirdrops = data.cata<NabuApiErrorType, UserDataType & UserCampaignsType>({
+    const PastAirdrops = data.cata({
       Success: val => <PastAirdropsSuccess {...val} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,

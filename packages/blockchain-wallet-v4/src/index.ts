@@ -6,7 +6,7 @@ import * as coreReducers from './redux/reducers'
 import * as coreSelectors from './redux/selectors'
 import * as crypto from './walletCrypto'
 import * as Exchange from './exchange'
-import * as Network from './network/index.ts'
+import * as Network from './network'
 import * as pairing from './pairing'
 import * as paths from './redux/paths'
 import * as transactions from './transactions'
@@ -35,3 +35,6 @@ export {
   Remote,
   utils
 }
+
+export * from './network/types'
+export * from './remote/types'

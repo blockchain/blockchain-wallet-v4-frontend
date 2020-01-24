@@ -1,8 +1,7 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
-import { UserTiersType } from 'data/types'
+import { RemoteDataType, UserTiersType } from 'data/types'
 import LinkFromExchangeAccount from './template'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
@@ -16,7 +15,7 @@ export type LinkStatePropsType = {
   email: string,
   emailVerified: boolean,
   linkFromExchangeAccountStatus: any,
-  userTiers: RemoteData<any, UserTiersType>
+  userTiers: RemoteDataType<any, UserTiersType>
 }
 
 export type LinkDispatchPropsType = {
