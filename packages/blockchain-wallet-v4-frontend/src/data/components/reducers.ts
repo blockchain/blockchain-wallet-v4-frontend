@@ -1,8 +1,8 @@
 import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
+import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import coinify from './coinify/reducers'
-import exchange from './exchange/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
@@ -23,7 +23,7 @@ const componentReducer = combineReducers({
   identityVerification: identityVerificationReducer,
   borrow: borrowReducer,
   coinify,
-  exchange,
+  exchange: exchangeReducer,
   exchangeHistory,
   layoutWallet,
   lockbox,
