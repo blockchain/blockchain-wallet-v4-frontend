@@ -6,21 +6,7 @@ const INITIAL_STATE: ExchangeState = {
   limits: Remote.NotAsked,
   min: null,
   max: null,
-  // @PHIL how to solve for default state for all these, 15-28
-  sourceFee: {
-    isSourceErc20: false,
-    mempoolFees: {
-      limits: {
-        max: 0,
-        min: 0
-      },
-      priority: 0,
-      regular: 0
-    },
-    source: 0,
-    sourceFiat: '',
-    target: 0
-  },
+  sourceFee: { source: 0, target: 0 },
   showError: false,
   txError: null
 }

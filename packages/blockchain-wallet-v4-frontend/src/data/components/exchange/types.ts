@@ -34,20 +34,25 @@ export type LimitDurationType = {
   symbol: string
 }
 
-export type SourceFeeType = {
-  isSourceErc20: boolean
-  mempoolFees: {
-    limits: {
-      max: number
-      min: number
+export type SourceFeeType =
+  | {
+      isSourceErc20: boolean
+      mempoolFees: {
+        limits: {
+          max: number
+          min: number
+        }
+        priority: number
+        regular: number
+      }
+      source: number | string
+      sourceFiat: string
+      target: number | string
     }
-    priority: number
-    regular: number
-  }
-  source: number | string
-  sourceFiat: string
-  target: number | string
-}
+  | {
+      source: number
+      target: number
+    }
 
 // State
 export interface ExchangeState {
