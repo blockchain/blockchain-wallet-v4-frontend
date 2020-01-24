@@ -43,7 +43,10 @@ const getOrElse = function<A, DV> (
   }
 }
 
-const getOrFail = function<A, EV> (this: RemoteData<any, A>, errorValue: EV): A {
+const getOrFail = function<A, EV> (
+  this: RemoteDataType<any, A>,
+  errorValue: EV
+): A {
   switch (this['@@tag']) {
     case 'RemoteNotAsked': {
       throw errorValue

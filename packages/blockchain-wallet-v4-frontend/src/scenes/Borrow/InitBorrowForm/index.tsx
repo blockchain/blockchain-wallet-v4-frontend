@@ -6,8 +6,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { NabuApiErrorType, OfferType } from 'data/types'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { NabuApiErrorType, OfferType, RemoteDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
@@ -18,7 +17,7 @@ type LinkDispatchPropsType = {
   modalActions: typeof actions.modals
 }
 type LinkStatePropsType = {
-  offersR: RemoteData<NabuApiErrorType, Array<OfferType>>
+  offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   values?: {
     coin: CoinType
   }

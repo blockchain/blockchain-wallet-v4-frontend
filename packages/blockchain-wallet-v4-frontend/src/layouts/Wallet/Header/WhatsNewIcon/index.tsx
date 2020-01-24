@@ -2,12 +2,12 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { RemoteDataType } from 'data/types'
 import React from 'react'
 import WhatsNewIcon from './template'
 
 type LinkStatePropsType = {
-  data: RemoteData<string, { numOfNewAnnouncements: number }>
+  data: RemoteDataType<string, { numOfNewAnnouncements: number }>
 }
 
 type LinkDispatchPropsType = {
@@ -41,7 +41,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

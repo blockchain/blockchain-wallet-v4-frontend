@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { injectIntl } from 'react-intl'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { RemoteDataType } from 'data/types'
 import { selectors } from 'data'
 import Faq from './template.js'
 import FaqContent from './FaqContent'
@@ -12,15 +12,15 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
 type OwnPropsType = {
-  position: number,
-  close: () => void,
-  total: number,
+  close: () => void
+  position: number
+  total: number
   userClickedOutside: boolean
 }
 
 type LinkStatePropsType = {
-  data: any,
-  canTrade: RemoteData<any, boolean>
+  canTrade: RemoteDataType<any, boolean>
+  data: any
 }
 
 type IntlType = {
@@ -95,10 +95,15 @@ class FaqContainer extends React.PureComponent<Props> {
     const { position, total, close, userClickedOutside } = this.props
 
     return (
-      <Flyout in={this.state.show} onClose={close} position={position} total={total} userClickedOutside={userClickedOutside} data-e2e='faqModal'>
-        <Faq
-          filteredContent={filteredContent}
-        />
+      <Flyout
+        in={this.state.show}
+        onClose={close}
+        position={position}
+        total={total}
+        userClickedOutside={userClickedOutside}
+        data-e2e='faqModal'
+      >
+        <Faq filteredContent={filteredContent} />
       </Flyout>
     )
   }
@@ -111,9 +116,7 @@ const mapStateToProps = state => ({
 
 const enhance = compose<any>(
   modalEnhancer('FAQ_MODAL', { transition: duration }),
-  connect(
-    mapStateToProps
-  ),
+  connect(mapStateToProps),
   injectIntl
 )
 

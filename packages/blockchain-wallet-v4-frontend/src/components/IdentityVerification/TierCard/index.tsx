@@ -1,19 +1,17 @@
-import { all, path, propEq, toLower } from 'ramda'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, model } from 'data'
+import { all, path, propEq, toLower } from 'ramda'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { getData } from './selectors'
-import media from 'services/ResponsiveService'
-
+import { connect } from 'react-redux'
 import { ctas, headers, limits, messages, status } from './services'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { FormattedMessage } from 'react-intl'
+import { getData } from './selectors'
 import { TIERS } from './model'
 import { UserDataType, UserTiersType } from 'data/types'
+import media from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -107,17 +105,17 @@ export const ActionButton = styled(Button)`
 const { TIERS_STATES } = model.profile
 
 type LinkDispatchPropsType = {
-  goToSwap: () => void,
+  goToSwap: () => void
   verifyIdentity: typeof actions.components.identityVerification
 }
 
 type OwnProps = {
-  column: boolean,
-  emailVerified: boolean,
-  mobileVerified: boolean,
-  userData: UserDataType,
-  userTiers: UserTiersType,
+  column: boolean
+  emailVerified: boolean
+  mobileVerified: boolean
   tier: 1 | 2
+  userData: UserDataType
+  userTiers: UserTiersType
 }
 
 type Props = LinkDispatchPropsType & OwnProps
@@ -130,9 +128,9 @@ export const TierCard = ({
   tier,
   userData,
   userTiers,
-  verifyIdentity,
+  verifyIdentity
 }: Props) => {
-  const tierData = userTiers.find((userTier) => userTier.index === tier)
+  const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
   const limitType: 'daily' | 'annual' = TIERS[tier].limit.toLowerCase()
   const tierFiatLimit =
@@ -195,13 +193,13 @@ export const TierCard = ({
                     mobileVerified,
                     emailVerified
                   }) && (
-                      <Icon
-                        style={{ marginLeft: '5px' }}
-                        color='success'
-                        size='12px'
-                        name='check'
-                      />
-                    )}
+                    <Icon
+                      style={{ marginLeft: '5px' }}
+                      color='success'
+                      size='12px'
+                      name='check'
+                    />
+                  )}
                 </TextGroup>
               ))}
             </Column>
@@ -222,8 +220,8 @@ export const TierCard = ({
                 defaultMessage='Continue'
               />
             ) : (
-                ctas[path([tier, 'level'], TIERS)]
-              )}
+              ctas[path([tier, 'level'], TIERS)]
+            )}
           </ActionButton>
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (

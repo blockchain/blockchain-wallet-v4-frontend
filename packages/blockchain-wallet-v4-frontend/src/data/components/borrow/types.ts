@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { NabuApiErrorType } from 'blockchain-wallet-v4/src/network/types'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { NabuApiErrorType, RemoteDataType } from 'data/types'
 
 // Types
 export type OfferType = {
@@ -95,10 +94,10 @@ export type PaymentType = {
 
 // State
 export interface BorrowState {
-  borrowHistory: RemoteData<NabuApiErrorType, any>
+  borrowHistory: RemoteDataType<NabuApiErrorType, any>
   coin: CoinType
-  offers: RemoteData<NabuApiErrorType, Array<OfferType>>
-  payment: RemoteData<string | Error, PaymentType>
+  offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
+  payment: RemoteDataType<string | Error, PaymentType>
 }
 
 // Actions

@@ -2,8 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { OfferType, PaymentType, RatesType } from 'data/types'
-import { RemoteData } from 'blockchain-wallet-v4/src/remote/types'
+import { OfferType, PaymentType, RatesType, RemoteDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { Component } from 'react'
@@ -20,7 +19,7 @@ export type SuccessStateType = {
 }
 
 type LinkStatePropsType = {
-  data: RemoteData<string | Error, SuccessStateType>
+  data: RemoteDataType<string | Error, SuccessStateType>
 }
 
 type Props = LinkDispatchPropsType & LinkStatePropsType
