@@ -5,7 +5,8 @@ import {
   OfferType,
   PaymentType,
   RatesType,
-  RemoteDataType
+  RemoteDataType,
+  SupportedCoinsType
 } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
@@ -23,6 +24,7 @@ export type SuccessStateType = {
   offers: Array<OfferType>
   payment: PaymentType
   rates: RatesType
+  supportedCoins: SupportedCoinsType
 }
 
 type LinkStatePropsType = {

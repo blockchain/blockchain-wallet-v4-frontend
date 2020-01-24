@@ -11,6 +11,7 @@ import styled from 'styled-components'
 
 type Props = {
   collateral: number
+  displayName: string
   offer: OfferType
   principal?: string
   rates: RatesType
@@ -68,6 +69,8 @@ const Summary: React.FC<Props> = props => {
     ? props.rates[props.offer.terms.principalCcy].last
     : props.rates['USD'].last
 
+  const principalDisplayName = props.displayName
+
   return (
     <div>
       <Text color='grey900' weight={600}>
@@ -82,16 +85,15 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {formatFiat(props.principal || 0)} {props.offer.terms.principalCcy}
+            {formatFiat(props.principal || 0)} {principalDisplayName}
           </Value>
         </Row>
         <Row>
           <Title>
-            {props.offer.terms.collateralCcy} to{' '}
-            {props.offer.terms.principalCcy} Rate
+            {props.offer.terms.collateralCcy} to {principalDisplayName} Rate
           </Title>
           <Value>
-            {rate} {props.offer.terms.principalCcy}
+            {rate} {principalDisplayName}
           </Value>
         </Row>
         <Row>
@@ -108,7 +110,7 @@ const Summary: React.FC<Props> = props => {
                   props.offer.terms.interestRate * Number(props.principal)
                 )
               : formatFiat(0)}{' '}
-            {props.offer.terms.principalCcy}
+            {principalDisplayName}
           </Value>
         </Row>
         <Row>

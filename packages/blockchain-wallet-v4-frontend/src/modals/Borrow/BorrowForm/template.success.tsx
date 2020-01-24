@@ -87,6 +87,8 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
       offer.terms.principalCcy === 'PAX'
   )
 
+  const displayName = props.supportedCoins['PAX'].displayName
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
@@ -94,7 +96,8 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         <Text color='grey900' size='24px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
-            defaultMessage='Borrow USD'
+            defaultMessage='Borrow {displayName}'
+            values={{ displayName }}
           />
         </Text>
         <CustomFormLabel>
@@ -136,7 +139,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               >
                 {props.payment.effectiveBalance}
               </FiatDisplay>{' '}
-              USD Pax
+              {displayName}
             </InlineText>
           </MaxAmountContainer>
         </AmountFieldContainer>
@@ -159,9 +162,9 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         {offer ? (
           <>
             <Summary
-              rates={props.rates}
+              {...props}
               collateral={0}
-              principal={props.values.principal}
+              displayName={displayName}
               offer={offer}
             />
             <div>
@@ -185,7 +188,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           </>
         ) : (
           <Text color='grey700' weight={600} size='16px'>
-            There is no loan offer for {props.coin} to USD PAX
+            There is no loan offer for {props.coin} to {displayName}
           </Text>
         )}
       </Bottom>
