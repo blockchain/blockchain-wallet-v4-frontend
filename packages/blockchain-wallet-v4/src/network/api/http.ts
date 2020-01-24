@@ -8,12 +8,9 @@ axios.defaults.timeout = Infinity
 interface RequestConfig extends AxiosRequestConfig {
   contentType?: string
   endPoint?: string
+  ignoreQueryParams?: boolean
   sessionToken?: string
   url?: string
-}
-
-interface GetConfig extends RequestConfig {
-  ignoreQueryParams: boolean
 }
 
 type Header = {
@@ -21,7 +18,14 @@ type Header = {
   ['Content-Type']: string
 }
 
-export default ({ apiKey }: { apiKey: string }) => {
+export type HTTPService = {
+  get: <T>(options: Partial<RequestConfig>) => Promise<T>
+  patch: <T>(options: Partial<RequestConfig>) => Promise<T>
+  post: <T>(options: Partial<RequestConfig>) => Promise<T>
+  put: <T>(options: Partial<RequestConfig>) => Promise<T>
+}
+
+export default ({ apiKey }: { apiKey: string }): HTTPService => {
   const encodeData = (data: any, contentType: string) => {
     const defaultData = {
       api_code: apiKey,
@@ -43,7 +47,7 @@ export default ({ apiKey }: { apiKey: string }) => {
     return headers
   }
 
-  const request = ({
+  const request = <T>({
     cancelToken,
     contentType = 'application/x-www-form-urlencoded',
     data,
@@ -53,9 +57,9 @@ export default ({ apiKey }: { apiKey: string }) => {
     sessionToken,
     url,
     ...options
-  }: RequestConfig) =>
+  }: RequestConfig): Promise<T> =>
     axios
-      .request({
+      .request<T>({
         url: `${url}${endPoint}`,
         method,
         data: encodeData(data, contentType),
@@ -71,25 +75,25 @@ export default ({ apiKey }: { apiKey: string }) => {
       })
       .then(prop('data'))
 
-  const get = ({
+  const get = <T>({
     ignoreQueryParams,
     endPoint,
     data,
     ...options
-  }: Partial<GetConfig>) =>
-    request({
+  }: Partial<RequestConfig>) =>
+    request<T>({
       ...options,
       method: 'GET',
       endPoint: ignoreQueryParams
         ? endPoint
         : `${endPoint}?${encodeData(data, 'application/x-www-form-urlencoded')}`
     })
-  const post = (options: Partial<RequestConfig>) =>
-    request({ method: 'POST', ...options })
-  const put = (options: Partial<RequestConfig>) =>
-    request({ method: 'PUT', ...options })
-  const patch = (options: Partial<RequestConfig>) =>
-    request({ method: 'PATCH', ...options })
+  const post = <T>(options: Partial<RequestConfig>) =>
+    request<T>({ method: 'POST', ...options })
+  const put = <T>(options: Partial<RequestConfig>) =>
+    request<T>({ method: 'PUT', ...options })
+  const patch = <T>(options: Partial<RequestConfig>) =>
+    request<T>({ method: 'PATCH', ...options })
 
   return {
     get,
