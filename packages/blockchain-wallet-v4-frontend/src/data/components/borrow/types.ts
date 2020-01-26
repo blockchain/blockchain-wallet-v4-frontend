@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { NabuApiErrorType, RemoteDataType } from 'data/types'
+import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
 
 // Types
 export type OfferType = {

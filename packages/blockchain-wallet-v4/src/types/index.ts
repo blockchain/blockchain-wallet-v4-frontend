@@ -39,3 +39,7 @@ export {
 }
 
 export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'
+export * from '../redux/walletOptions/types'
+export * from '../network/types'
+export * from '../remote/types'
+export * from '../types/index'

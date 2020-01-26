@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { RemoteDataType } from 'data/types'
+import { RemoteDataType } from 'core/types'
 
 // Types
 

@@ -1,15 +1,9 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import {
-  CoinType,
-  OfferType,
-  PaymentType,
-  RatesType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'data/types'
+import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { OfferType, PaymentType, RatesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { Component } from 'react'

@@ -2,7 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { RemoteDataType } from 'data/types'
+import { RemoteDataType } from 'core/types'
 import React from 'react'
 import WhatsNewIcon from './template'
 

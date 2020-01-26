@@ -193,6 +193,7 @@ const EmailAddress = props => {
               color='blue600'
               weight={400}
               onClick={props.handleChangeEmailView}
+              data-e2e='changeYourEmailLink'
             >
               <FormattedMessage
                 id='scenes.security.email.upateform.changetext'

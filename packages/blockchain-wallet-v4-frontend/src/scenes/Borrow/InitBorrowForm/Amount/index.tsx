@@ -1,9 +1,8 @@
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { getBalance } from './selectors'
-import { RemoteDataType } from 'data/types'
+import { RemoteDataType } from 'core/types'
 import { Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 

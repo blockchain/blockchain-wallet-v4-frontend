@@ -1,15 +1,11 @@
 import { actions, selectors } from 'data'
-import {
-  AppActionTypes,
-  NabuApiErrorType,
-  RemoteDataType,
-  UserCampaignsType,
-  UserDataType
-} from 'data/types'
+import { AppActionTypes, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
+import { NabuApiErrorType, RemoteDataType } from 'core/types'
+
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
