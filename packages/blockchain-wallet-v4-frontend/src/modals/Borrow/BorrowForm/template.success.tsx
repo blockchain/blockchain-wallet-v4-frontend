@@ -26,6 +26,7 @@ const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
+
 const Padded = styled.div`
   padding: 40px;
 `
@@ -120,8 +121,6 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
-            // @ts-ignore
-            autoFocus
             component={NumberBox}
             data-e2e='principalInput'
             name='principal'

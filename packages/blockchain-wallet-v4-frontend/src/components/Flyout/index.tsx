@@ -5,7 +5,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Transition from 'react-transition-group/Transition'
 
-export const duration = 400
+export const duration = 500
 
 const defaultStyle = {
   transition: `right ${duration}ms`,
@@ -33,11 +33,11 @@ const FlyoutModal = styled(Modal)`
 `
 
 type OwnProps = {
-  in: boolean,
-  position: number,
-  total: number,
-  onClose: () => void,
-  'data-e2e': E2EType,
+  'data-e2e': E2EType
+  in: boolean
+  onClose: () => void
+  position: number
+  total: number
   userClickedOutside: boolean
 }
 
@@ -46,7 +46,10 @@ class Flyout extends React.PureComponent<OwnProps> {
     const { children, ...rest } = this.props
 
     return (
-      <Transition in={this.props.in && !this.props.userClickedOutside} timeout={0}>
+      <Transition
+        in={this.props.in && !this.props.userClickedOutside}
+        timeout={0}
+      >
         {status => (
           <FlyoutModal
             {...rest}
