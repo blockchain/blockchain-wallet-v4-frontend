@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { RemoteDataType } from 'data/types'
+import { RemoteDataType } from 'core/types'
 
 export type EmailSmsStepType = 'edit' | 'verify'
 

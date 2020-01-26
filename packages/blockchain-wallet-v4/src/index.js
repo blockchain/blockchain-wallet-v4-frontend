@@ -35,6 +35,3 @@ export {
   Remote,
   utils
 }
-
-export * from './network/types'
-export * from './remote/types'

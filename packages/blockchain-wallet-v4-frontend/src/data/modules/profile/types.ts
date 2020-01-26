@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
-import { CampaignsType, NabuApiErrorType, RemoteDataType } from 'data/types'
+import { CampaignsType } from 'data/types'
+import { NabuApiErrorType, RemoteDataType } from 'core/types'
 
 // Types
 
