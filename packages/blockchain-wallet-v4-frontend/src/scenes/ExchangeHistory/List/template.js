@@ -30,7 +30,7 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
 `
 const Container = styled.div`
   width: 100%;
-  & :first-child {
+  &:first-child {
     margin-bottom: 20px;
   }
 `
