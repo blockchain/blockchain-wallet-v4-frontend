@@ -1,6 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, model } from 'data'
-import { all, path, propEq, toLower } from 'ramda'
+import { all, any, path, propEq, toLower } from 'ramda'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { ctas, headers, limits, messages, status } from './services'
@@ -10,7 +10,7 @@ import { getData } from './selectors'
 import { TIERS } from './model'
 import { UserDataType, UserTiersType } from 'data/types'
 import media from 'services/ResponsiveService'
-import React from 'react'
+import React, { Dispatch } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -106,13 +106,14 @@ const { TIERS_STATES } = model.profile
 
 type LinkDispatchPropsType = {
   goToSwap: () => void
-  verifyIdentity: typeof actions.components.identityVerification
+  verifyIdentity: () => void
 }
 
 type OwnProps = {
   column: boolean
   emailVerified: boolean
   mobileVerified: boolean
+  outsideOfProfile: boolean
   tier: 1 | 2
   userData: UserDataType
   userTiers: UserTiersType
@@ -248,13 +249,16 @@ TierCard.defaultProps = {
   outsideOfProfile: false
 }
 
-const mapDispatchToProps = (dispatch, { tier }) => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<any>,
+  { tier }: OwnProps
+): LinkDispatchPropsType => ({
   verifyIdentity: () =>
     dispatch(actions.components.identityVerification.verifyIdentity(tier)),
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 
-export default connect(
+export default connect<{}, LinkDispatchPropsType, OwnProps>(
   getData,
   mapDispatchToProps
 )(TierCard)

@@ -15,6 +15,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
+import BorrowCoinDropdown from './BorrowCoinDropdown'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
@@ -161,11 +162,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           </Text>
         </CustomFormLabel>
         {/* TODO: Borrow - handle other coins */}
-        <Field
-          component={SelectBoxBtcAddresses}
-          includeAll={false}
-          name='collateral'
-        />
+        <BorrowCoinDropdown {...props} />
       </Top>
       <Bottom>
         {offer ? (
