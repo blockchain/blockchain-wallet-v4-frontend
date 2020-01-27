@@ -1,20 +1,19 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import { CheckBox, Form, FormItem, FormLabel, NumberBox } from 'components/Form'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { Form, FormItem, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import BorrowCoinDropdown from './BorrowCoinDropdown'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from '../Summary'
-import Terms from 'components/Terms'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -24,11 +23,12 @@ const CustomForm = styled(Form)`
 
 const Padded = styled.div`
   padding: 40px;
+  ${media.tablet`
+    padding: 20px;
+  `}
 `
 
-const Top = styled(Padded)`
-  background: ${props => props.theme.grey000};
-`
+const Top = styled(Padded)``
 
 const Bottom = styled(Padded)`
   display: flex;
@@ -43,7 +43,6 @@ const CustomFormLabel = styled(FormLabel)`
 `
 
 const CustomField = styled(Field)`
-  width: 50%;
   > input {
     padding-left: 50px;
   }
@@ -61,10 +60,9 @@ const PrincipalCcyAbsolute = styled.div`
 `
 
 const MaxAmountContainer = styled.div`
-  justify-content: center;
   align-items: center;
   display: flex;
-  width: 45%;
+  margin-top: 40px;
 `
 
 const InlineText = styled(Text)`
@@ -102,18 +100,47 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <Text color='grey900' size='24px' weight={600}>
+        <Text color='grey900' size='20px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
             defaultMessage='Borrow {displayName}'
             values={{ displayName }}
           />
         </Text>
+        <MaxAmountContainer>
+          <InlineText color='grey600' weight={500} size='12px'>
+            <FormattedMessage
+              id='modals.borrow.canborrow'
+              defaultMessage='You can borrow up to'
+            />
+            <br />
+            <FiatDisplay
+              onClick={() => props.borrowActions.handleMaxCollateralClick()}
+              cursor='pointer'
+              color='blue600'
+              size='12px'
+              weight={500}
+              coin='BTC'
+            >
+              {props.payment.effectiveBalance}
+            </FiatDisplay>{' '}
+            {displayName}
+          </InlineText>
+        </MaxAmountContainer>
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.borrow.iwanttoborrow'
-              defaultMessage='I want to borrow'
+              id='modals.borrow.collateralfrom'
+              defaultMessage='Send collateral from'
+            />
+          </Text>
+        </CustomFormLabel>
+        <BorrowCoinDropdown {...props} />
+        <CustomFormLabel>
+          <Text color='grey600' weight={500} size='14px'>
+            <FormattedMessage
+              id='modals.borrow.enterloanamt'
+              defaultMessage='Enter loan amount'
             />
           </Text>
         </CustomFormLabel>
@@ -129,36 +156,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               USD
             </Text>
           </PrincipalCcyAbsolute>
-          <MaxAmountContainer>
-            <InlineText color='grey600' weight={500} size='12px'>
-              <FormattedMessage
-                id='modals.borrow.canborrow'
-                defaultMessage='You can borrow up to'
-              />
-              <br />
-              <FiatDisplay
-                onClick={() => props.borrowActions.handleMaxCollateralClick()}
-                cursor='pointer'
-                color='blue600'
-                size='12px'
-                weight={500}
-                coin='BTC'
-              >
-                {props.payment.effectiveBalance}
-              </FiatDisplay>{' '}
-              {displayName}
-            </InlineText>
-          </MaxAmountContainer>
         </AmountFieldContainer>
-        <CustomFormLabel>
-          <Text color='grey600' weight={500} size='14px'>
-            <FormattedMessage
-              id='modals.borrow.collateralfrom'
-              defaultMessage='Send collateral from'
-            />
-          </Text>
-        </CustomFormLabel>
-        <BorrowCoinDropdown {...props} />
       </Top>
       <Bottom>
         {offer ? (
@@ -170,42 +168,6 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               displayName={displayName}
               offer={offer}
             />
-            <div>
-              <TermsFormItem>
-                <Field
-                  name='blockchain-loan-agreement'
-                  validate={[checkboxShouldBeChecked]}
-                  component={CheckBox}
-                  hideErrors
-                  data-e2e='blockchain-loan-agreement'
-                >
-                  <Terms company='blockchain-loan-agreement' />
-                </Field>
-              </TermsFormItem>
-              <TermsFormItem>
-                <Field
-                  name='blockchain-loan-transfer'
-                  validate={[checkboxShouldBeChecked]}
-                  component={CheckBox}
-                  hideErrors
-                  data-e2e='blockchain-loan-transfer'
-                >
-                  <Terms
-                    company='blockchain-loan-transfer'
-                    amount={coinToString({
-                      value: props.values.principal
-                        ? (Number(props.values.principal) /
-                            (props.rates[offer.terms.principalCcy]
-                              ? props.rates[offer.terms.principalCcy].last
-                              : props.rates['USD'].last)) *
-                          offer.terms.collateralRatio
-                        : 0,
-                      unit: { symbol: offer.terms.collateralCcy }
-                    })}
-                  />
-                </Field>
-              </TermsFormItem>
-            </div>
             <div>
               <Button
                 nature='primary'
