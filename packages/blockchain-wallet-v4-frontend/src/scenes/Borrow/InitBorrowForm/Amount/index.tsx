@@ -2,6 +2,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { getBalance } from './selectors'
 import { RemoteDataType } from 'core/types'
+import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -47,8 +48,10 @@ export class Amount extends Component<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   balanceR: getBalance(state)
 })
 
-export default connect(mapStateToProps)(Amount)
+export default connect<LinkStatePropsType, {}, OwnProps>(mapStateToProps)(
+  Amount
+)

@@ -20,7 +20,7 @@ type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
-  values?: {
+  values: {
     coin: CoinType
   }
 }
