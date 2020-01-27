@@ -92,7 +92,6 @@ const FirstStep = props => {
     submitting,
     pristine,
     handleFeePerByteToggle,
-    handleToToggle,
     handleSubmit,
     handleBitPayInvoiceExpiration,
     ...rest
@@ -461,7 +460,6 @@ FirstStep.propTypes = {
   regularFeePerByte: PropTypes.number.isRequired,
   priorityFeePerByte: PropTypes.number.isRequired,
   handleFeePerByteToggle: PropTypes.func.isRequired,
-  handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string
 }
