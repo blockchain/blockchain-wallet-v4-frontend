@@ -43,20 +43,22 @@ const Label = styled.label`
     content: '';
     min-width: 12px;
     min-height: 12px;
-    margin-right: 5px;
+    margin-right: 8px;
     background: white;
     border-radius: 2px;
     transition: background 0.2s;
     border: 1px solid ${props => props.theme.blue600};
   }
   &:after {
-    content: '\\e95d';
+    content: '\\e910';
     font-family: 'icomoon', sans-serif;
     position: absolute;
     color: ${props => props.theme.white};
     font-weight: 600;
-    font-size: 10px;
+    font-size: 8px;
     left: 2px;
+    top: 50%;
+    margin-top: -5px;
   }
 `
 

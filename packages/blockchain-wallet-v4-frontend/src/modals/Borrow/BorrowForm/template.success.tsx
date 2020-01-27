@@ -1,13 +1,7 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
-import {
-  CheckBox,
-  Form,
-  FormItem,
-  FormLabel,
-  NumberBox,
-  SelectBoxBtcAddresses
-} from 'components/Form'
+import { CheckBox, Form, FormItem, FormLabel, NumberBox } from 'components/Form'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -82,6 +76,10 @@ const InlineText = styled(Text)`
 const TermsFormItem = styled(FormItem)`
   display: flex;
   align-items: center;
+  margin-bottom: 16px;
+  .Container {
+    height: auto;
+  }
 `
 
 type LinkStatePropsType = {
@@ -104,7 +102,6 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        {/* TODO: Borrow - make dynamic */}
         <Text color='grey900' size='24px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
@@ -161,7 +158,6 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        {/* TODO: Borrow - handle other coins */}
         <BorrowCoinDropdown {...props} />
       </Top>
       <Bottom>
@@ -174,26 +170,42 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               displayName={displayName}
               offer={offer}
             />
-            {/* <div>
+            <div>
               <TermsFormItem>
                 <Field
                   name='blockchain-loan-agreement'
                   validate={[checkboxShouldBeChecked]}
                   component={CheckBox}
+                  hideErrors
                   data-e2e='blockchain-loan-agreement'
-                />
-                <Terms company='blockchain-loan-agreement' />
+                >
+                  <Terms company='blockchain-loan-agreement' />
+                </Field>
               </TermsFormItem>
               <TermsFormItem>
                 <Field
                   name='blockchain-loan-transfer'
                   validate={[checkboxShouldBeChecked]}
                   component={CheckBox}
+                  hideErrors
                   data-e2e='blockchain-loan-transfer'
-                />
-                <Terms company='blockchain-loan-transfer' amount={props.values} />
+                >
+                  <Terms
+                    company='blockchain-loan-transfer'
+                    amount={coinToString({
+                      value: props.values.principal
+                        ? (Number(props.values.principal) /
+                            (props.rates[offer.terms.principalCcy]
+                              ? props.rates[offer.terms.principalCcy].last
+                              : props.rates['USD'].last)) *
+                          offer.terms.collateralRatio
+                        : 0,
+                      unit: { symbol: offer.terms.collateralCcy }
+                    })}
+                  />
+                </Field>
               </TermsFormItem>
-            </div> */}
+            </div>
             <div>
               <Button
                 nature='primary'

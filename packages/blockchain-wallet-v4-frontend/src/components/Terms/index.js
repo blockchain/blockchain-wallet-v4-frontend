@@ -185,7 +185,7 @@ const Terms = props => {
     case 'blockchain-loan-agreement':
       return (
         <TermsContainer>
-          <Text size='14px' weight={500} color='grey600'>
+          <Text size='13px' weight={500} color='grey600'>
             <FormattedMessage
               id='scenes.borrow.terms.read'
               defaultMessage='I have read and agreed to the'
@@ -195,7 +195,7 @@ const Terms = props => {
           <Link
             href='https://www.blockchain.com/legal/terms'
             target='_blank'
-            size='14px'
+            size='13px'
             weight={500}
             data-e2e='blockchainTermsLink'
           >
@@ -209,7 +209,7 @@ const Terms = props => {
     case 'blockchain-loan-transfer':
       return (
         <TermsContainer>
-          <Text size='14px' weight={500} color='grey600'>
+          <Text size='13px' weight={500} color='grey600'>
             <FormattedHTMLMessage
               id='scenes.borrow.transferterms.read'
               defaultMessage='By accepting this, you agree to transfer <b>{amount}</b> from your wallet to Blockchain.com. The BTC amount will be returned after the loan is repaid in full.'
@@ -221,7 +221,7 @@ const Terms = props => {
     default:
       return (
         <TermsContainer>
-          <Text size='12px' weight={400}>
+          <Text size='12px' weight={500}>
             <FormattedMessage
               id='scenes.register.registerform.blockchain.read'
               defaultMessage='I have read and agreed to the'
@@ -241,7 +241,7 @@ const Terms = props => {
             />
           </Link>
           &nbsp;
-          <Text size='12px' weight={400}>
+          <Text size='12px' weight={500}>
             &
           </Text>
           &nbsp;
