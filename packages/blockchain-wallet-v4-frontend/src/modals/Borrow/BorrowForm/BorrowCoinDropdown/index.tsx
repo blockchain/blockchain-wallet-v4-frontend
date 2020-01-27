@@ -22,9 +22,7 @@ export type OwnProps = {
   supportedCoins: SupportedCoinsType
 }
 
-type SuccessStateType = {
-  elements: Array<any>
-}
+type SuccessStateType = Array<AccountTypes>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
@@ -45,9 +43,6 @@ const AccountContainer = styled.div`
   flex-direction: column;
   margin-left: 12px;
   width: 100%;
-  > div {
-    min-height: 0;
-  }
   .bc__single-value {
     position: relative;
     top: 0;
@@ -72,7 +67,7 @@ const FiatContainer = styled.div`
 export class BorrowCoinDropdown extends Component<Props> {
   state = {}
 
-  renderElements = values => {
+  renderElements = (values: SuccessStateType) => {
     return [
       {
         group: '',
@@ -93,9 +88,7 @@ export class BorrowCoinDropdown extends Component<Props> {
       <DisplayContainer>
         <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
-          <Text size='16px' weight={500} color='grey800'>
-            {children}
-          </Text>
+          {children}
           <AmountContainer>
             <CoinDisplay
               coin={props.value.coin}
@@ -134,6 +127,8 @@ export class BorrowCoinDropdown extends Component<Props> {
             component={SelectBox}
             elements={this.renderElements(values)}
             templateDisplay={this.renderDisplay}
+            hideIndicator={values.length <= 1}
+            openMenuOnClick={values.length > 1}
             searchEnabled={false}
             includeAll={false}
             name='collateral'
