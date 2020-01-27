@@ -235,6 +235,7 @@ exports[`TierCard renders correctly with column view 1`] = `
       fullwidth={true}
       jumbo={true}
       nature="primary"
+      onClick={[Function]}
     >
       <span
         data-e2e="unlockGoldBtn"
@@ -472,6 +473,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
       fullwidth={true}
       jumbo={true}
       nature="primary"
+      onClick={[Function]}
     >
       <FormattedMessage
         defaultMessage="Continue"

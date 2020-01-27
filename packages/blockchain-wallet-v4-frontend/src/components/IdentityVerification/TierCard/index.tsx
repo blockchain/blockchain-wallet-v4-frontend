@@ -1,6 +1,7 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, model } from 'data'
-import { all, any, path, propEq, toLower } from 'ramda'
+import { all, any, path, propEq } from 'ramda'
+import { bindActionCreators } from 'redux'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { ctas, headers, limits, messages, status } from './services'
@@ -10,7 +11,7 @@ import { getData } from './selectors'
 import { TIERS } from './model'
 import { UserDataType, UserTiersType } from 'data/types'
 import media from 'services/ResponsiveService'
-import React, { Dispatch } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -106,14 +107,13 @@ const { TIERS_STATES } = model.profile
 
 type LinkDispatchPropsType = {
   goToSwap: () => void
-  verifyIdentity: () => void
+  identityVerificationActions: typeof actions.components.identityVerification
 }
 
 type OwnProps = {
   column: boolean
   emailVerified: boolean
   mobileVerified: boolean
-  outsideOfProfile: boolean
   tier: 1 | 2
   userData: UserDataType
   userTiers: UserTiersType
@@ -129,7 +129,7 @@ export const TierCard = ({
   tier,
   userData,
   userTiers,
-  verifyIdentity
+  identityVerificationActions
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
@@ -212,7 +212,7 @@ export const TierCard = ({
             className='actionButton'
             fullwidth
             nature='primary'
-            onClick={verifyIdentity}
+            onClick={() => identityVerificationActions.verifyIdentity(tier)}
             data-e2e={`continueKycTier${tier}Btn`}
           >
             {tierStarted ? (
@@ -245,20 +245,13 @@ export const TierCard = ({
   )
 }
 
-TierCard.defaultProps = {
-  outsideOfProfile: false
-}
-
-const mapDispatchToProps = (
-  dispatch: Dispatch<any>,
-  { tier }: OwnProps
-): LinkDispatchPropsType => ({
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(tier)),
+const mapDispatchToProps = dispatch => ({
+  identityVerificationActions: () =>
+    bindActionCreators(actions.components.identityVerification, dispatch),
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 
-export default connect<{}, LinkDispatchPropsType, OwnProps>(
+export default connect<any, any, any>(
   getData,
   mapDispatchToProps
 )(TierCard)

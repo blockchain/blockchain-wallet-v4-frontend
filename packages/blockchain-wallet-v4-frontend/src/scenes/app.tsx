@@ -56,7 +56,13 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-class App extends React.PureComponent<{ store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any }> {
+class App extends React.PureComponent<{
+  history: any
+  isAuthenticated: boolean
+  persistor: any
+  store: any
+  supportedCoins: any
+}> {
   render () {
     const {
       store,
@@ -64,7 +70,13 @@ class App extends React.PureComponent<{ store: any, history: any, persistor: any
       persistor,
       isAuthenticated,
       supportedCoins
-    }: { store: any, history: any, persistor: any, isAuthenticated: boolean, supportedCoins: any } = this.props
+    }: {
+      history: any
+      isAuthenticated: boolean
+      persistor: any
+      store: any
+      supportedCoins: any
+    } = this.props
     return (
       <Provider store={store}>
         <TranslationsProvider>
@@ -120,7 +132,6 @@ class App extends React.PureComponent<{ store: any, history: any, persistor: any
                     <WalletLayout path='/borrow' component={Borrow} />
                     <WalletLayout path='/swap' component={Exchange} exact />
                     <WalletLayout path='/exchange' component={TheExchange} />
-                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
                       path='/security-center'
                       component={SecurityCenter}
@@ -159,8 +170,8 @@ class App extends React.PureComponent<{ store: any, history: any, persistor: any
                     {isAuthenticated ? (
                       <Redirect from='/' to='/home' />
                     ) : (
-                        <Redirect from='/' to='/login' />
-                      )}
+                      <Redirect from='/' to='/login' />
+                    )}
                   </Switch>
                 </ConnectedRouter>
                 <AnalyticsTracker />
@@ -183,4 +194,4 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 
-export default connect(mapStateToProps)(App)
+export default connect<any, any, any>(mapStateToProps)(App)
