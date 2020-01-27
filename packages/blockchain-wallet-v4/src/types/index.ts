@@ -39,6 +39,19 @@ export {
 }
 
 export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'
+
+export type BtcAccountType = {
+  balance: number
+  coin: 'BTC'
+  index: number
+  label: string
+  network: 'mainnet' | 'testnet'
+  type: 'ACCOUNT'
+  xpub: string
+}
+
+export type AccountTypes = BtcAccountType
+
 export * from '../redux/walletOptions/types'
 export * from '../network/types'
 export * from '../remote/types'

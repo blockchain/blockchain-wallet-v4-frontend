@@ -52,6 +52,4 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   balanceR: getBalance(state)
 })
 
-export default connect<LinkStatePropsType, {}, OwnProps>(mapStateToProps)(
-  Amount
-)
+export default connect(mapStateToProps)(Amount)
