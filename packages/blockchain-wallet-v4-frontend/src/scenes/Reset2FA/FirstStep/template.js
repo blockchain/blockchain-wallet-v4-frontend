@@ -64,7 +64,7 @@ const FirstStep = props => {
       <FirstStepForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel for='guid'>
+            <FormLabel htmlFor='guid'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.firststepform.walletid'
                 defaultMessage='Wallet ID'
@@ -97,7 +97,7 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='email'>
+            <FormLabel htmlFor='email'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.firststepform.email'
                 defaultMessage='Registered Email'
@@ -118,7 +118,7 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='newEmail'>
+            <FormLabel htmlFor='newEmail'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.newEmail'
                 defaultMessage='New Email (Optional)'

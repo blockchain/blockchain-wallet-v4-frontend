@@ -55,7 +55,7 @@ const Reminder = props => {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel for='email'>
+            <FormLabel htmlFor='email'>
               <FormattedMessage
                 id='scenes.reminder.email'
                 defaultMessage='Email'
@@ -71,7 +71,7 @@ const Reminder = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='code'>
+            <FormLabel htmlFor='code'>
               <FormattedMessage
                 id='scenes.reminder.captcha'
                 defaultMessage='Captcha'

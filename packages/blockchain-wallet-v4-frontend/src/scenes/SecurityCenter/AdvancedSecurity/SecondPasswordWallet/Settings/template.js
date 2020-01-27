@@ -155,7 +155,7 @@ const Settings = props => {
             </TextGroup>
             <FormGroup>
               <FormItem>
-                <FormLabel for='secondPassword'>
+                <FormLabel htmlFor='secondPassword'>
                   <FormattedMessage
                     id='scenes.securitysettings.advanced.secondpasswordwallet.settings.label2'
                     defaultMessage='Second Password'
@@ -169,7 +169,7 @@ const Settings = props => {
                 />
               </FormItem>
               <FormItem style={{ 'margin-top': '10px' }}>
-                <FormLabel for='secondPasswordConfirmation'>
+                <FormLabel htmlFor='secondPasswordConfirmation'>
                   <FormattedMessage
                     id='scenes.securitysettings.advanced.secondpasswordwallet.settings.explain'
                     defaultMessage='Confirm Second Password'

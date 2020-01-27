@@ -124,7 +124,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendbtc.firststep.currency'
               defaultMessage='Currency'
@@ -138,7 +138,7 @@ const FirstStep = props => {
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel for='from'>
+          <FormLabel htmlFor='from'>
             <FormattedMessage
               id='modals.sendbtc.firststep.fromwallet'
               defaultMessage='From'
@@ -196,7 +196,7 @@ const FirstStep = props => {
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='to'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
               id='modals.sendbtc.firststep.towallet'
               defaultMessage='To'
@@ -250,7 +250,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='amount'>
+          <FormLabel htmlFor='amount'>
             <FormattedMessage
               id='modals.sendbtc.firststep.sendamount'
               defaultMessage='Amount'

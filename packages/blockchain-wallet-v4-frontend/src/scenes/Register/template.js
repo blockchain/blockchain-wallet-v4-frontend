@@ -119,7 +119,7 @@ const Register = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='email'>
+              <FormLabel htmlFor='email'>
                 <FormattedMessage
                   id='scenes.register.email'
                   defaultMessage='Email'
@@ -137,7 +137,7 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.register.password'
                   defaultMessage='Password'
@@ -180,7 +180,7 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='confirmationPassword'>
+              <FormLabel htmlFor='confirmationPassword'>
                 <FormattedMessage
                   id='scenes.register.confirmpassword'
                   defaultMessage='Confirm Password'

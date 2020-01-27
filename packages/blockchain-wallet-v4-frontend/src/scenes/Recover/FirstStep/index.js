@@ -56,7 +56,7 @@ const FirstStep = props => {
         </TextGroup>
         <FormGroup>
           <FormItem>
-            <MnemonicLabel for='mnemonic'>
+            <MnemonicLabel htmlFor='mnemonic'>
               <FormattedMessage
                 id='scenes.recover.firststep.mnemonic'
                 defaultMessage='Your Backup Phrase'
