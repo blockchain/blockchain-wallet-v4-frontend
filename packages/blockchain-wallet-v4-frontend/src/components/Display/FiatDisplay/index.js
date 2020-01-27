@@ -39,7 +39,13 @@ FiatDisplayContainer.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coin, ownProps.children, ownProps.currency),
+  data: getData(
+    state,
+    ownProps.coin,
+    ownProps.children,
+    ownProps.currency,
+    ownProps.rates
+  ),
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
 })
 

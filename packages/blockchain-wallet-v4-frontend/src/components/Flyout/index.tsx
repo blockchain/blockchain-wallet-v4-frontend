@@ -26,8 +26,7 @@ const FlyoutModal = styled(Modal)`
   color: ${props => props.theme['gray-5']};
   ${media.mobile`
     width: 100%;
-    height: calc(100vh - 60px):
-    padding-top: 20px;
+    height: calc(100vh - 80px);
     padding-bottom: 20px;
   `};
 `

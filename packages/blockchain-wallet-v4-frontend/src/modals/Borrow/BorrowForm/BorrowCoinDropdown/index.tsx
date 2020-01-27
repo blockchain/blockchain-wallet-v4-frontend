@@ -35,16 +35,38 @@ type Props = OwnProps & LinkStatePropsType
 const DisplayContainer = styled.div`
   display: flex;
   padding: 16px 12px;
+  width: 100%;
+  align-items: center;
 `
 
 const AccountContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 12px;
+  width: 100%;
+  > div {
+    min-height: 0;
+  }
+  .bc__single-value {
+    position: relative;
+    top: 0;
+    transform: initial;
+  }
+  input {
+    height: 0;
+  }
 `
 
 const AmountContainer = styled.div`
-  margin-top: 6px;
+  margin-top: 4px;
+  display: flex;
+`
+
+const FiatContainer = styled.div`
+  display: flex;
+  font-size: 12px;
+  color: ${props => props.theme.grey400};
 `
 
 export class BorrowCoinDropdown extends Component<Props> {
@@ -75,12 +97,29 @@ export class BorrowCoinDropdown extends Component<Props> {
             {children}
           </Text>
           <AmountContainer>
-            <CoinDisplay coin={props.value.coin}>
+            <CoinDisplay
+              coin={props.value.coin}
+              size='12px'
+              weight={500}
+              color='grey800'
+            >
               {props.value.balance}
             </CoinDisplay>
-            <FiatDisplay coin={props.value.coin}>
-              {props.value.balance}
-            </FiatDisplay>
+            <div style={{ width: '8px' }} />
+            <FiatContainer>
+              (
+              <FiatDisplay
+                coin={props.value.coin}
+                size='12px'
+                weight={500}
+                color='grey400'
+                currency='USD'
+                rates={this.props.rates}
+              >
+                {props.value.balance}
+              </FiatDisplay>
+              )
+            </FiatContainer>
           </AmountContainer>
         </AccountContainer>
       </DisplayContainer>

@@ -194,4 +194,4 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 
-export default connect<any, any, any>(mapStateToProps)(App)
+export default connect(mapStateToProps)(App)
