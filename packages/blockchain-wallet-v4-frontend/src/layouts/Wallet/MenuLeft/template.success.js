@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import Balances from './Balances'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
@@ -42,6 +43,7 @@ const Overflow = styled.div`
 
 const MenuLeft = props => (
   <Container toggled={props.menuOpened}>
+    <Balances />
     <Overflow>
       <Navigation {...props} />
       <Footer {...props} />

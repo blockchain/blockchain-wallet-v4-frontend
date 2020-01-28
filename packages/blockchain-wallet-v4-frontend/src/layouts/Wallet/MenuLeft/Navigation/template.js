@@ -75,8 +75,7 @@ const Navigation = props => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM,
-    supportedCoins.STX
+    supportedCoins.XLM
   ]
 
   return (
@@ -180,6 +179,7 @@ const Navigation = props => {
       {values(
         mapObjIndexed(
           (coin, i) =>
+            coin &&
             coin.txListAppRoute &&
             coin.invited && (
               <LinkContainer

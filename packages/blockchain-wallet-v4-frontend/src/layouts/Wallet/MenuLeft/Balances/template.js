@@ -15,40 +15,43 @@ import WatchOnlyBalance from './WatchOnlyBalance'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  position: relative;
-
-  @media (min-width: 850px) {
-    align-items: center;
-  }
+  flex-direction: column;
+  width: 100%;
+  margin: 6px 0 16px;
+  padding-left: 16px;
 `
-const BalanceText = styled(Text)`
+const TitleText = styled(Text)`
   margin-right: 8px;
-  font-size: 14px;
-  @media (max-width: 767px) {
-    font-size: 14px;
-  }
+  font-size: 12px;
+  font-weight: 500;
+  color: ${props => props.theme.grey600};
+  line-height: 150%;
 `
 const BalanceDropdown = styled.div`
-  margin: -2px -10px 0 0;
+  width: 100%;
+  min-width: 100%;
   > div > ul {
-    right: 8px;
-    padding: 0;
     position: absolute;
+    right: -88px;
+    top: 28px;
+    padding: 0;
   }
   > div > div > div > div {
-    font-weight: 400;
-    color: ${props => props.theme.blue900};
+    color: ${props => props.theme.black};
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 135%;
   }
   > div > div > span:last-child {
-    top: 0;
-    right: 14px;
-    font-size: 15px;
-    font-weight: 600;
     position: relative;
+    top: -10px;
+    right: -85px;
+    font-size: 30px;
+    font-weight: 600;
+    color: ${props => props.theme.blue600};
+    border: 1px solid ${props => props.theme.grey100};
+    border-radius: 5px;
+    padding-left: 0 !important;
   }
 `
 
@@ -90,13 +93,13 @@ const getBalanceMessage = (coinOrRoute, supportedCoins) => {
   }
 }
 
-const Success = props => {
+const Balances = props => {
   const { coinOrRoute, supportedCoins } = props
   return (
     <Wrapper>
-      <BalanceText weight={500} data-e2e='totalBalance' color='gray-3'>
+      <TitleText data-e2e='totalBalance'>
         {getBalanceMessage(coinOrRoute, supportedCoins)}
-      </BalanceText>
+      </TitleText>
       <BalanceDropdown>
         <ComponentDropdown
           down
@@ -116,4 +119,4 @@ const Success = props => {
   )
 }
 
-export default Success
+export default Balances

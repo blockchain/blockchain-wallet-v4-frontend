@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { getData } from './selectors'
-import Template from './template'
+import Balances from './template'
 
-class Balance extends React.PureComponent {
+class BalancesContainer extends React.PureComponent {
   render () {
     const { path, supportedCoins } = this.props
     const coins = append('LOCKBOX', keys(supportedCoins))
@@ -16,7 +16,7 @@ class Balance extends React.PureComponent {
       )
     )
     return (
-      <Template
+      <Balances
         coinOrRoute={coinOrRoute || 'TOTAL'}
         supportedCoins={supportedCoins}
       />
@@ -26,4 +26,4 @@ class Balance extends React.PureComponent {
 
 const mapStateToProps = state => getData(state)
 
-export default connect(mapStateToProps)(Balance)
+export default connect(mapStateToProps)(BalancesContainer)

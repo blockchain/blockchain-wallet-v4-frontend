@@ -25,8 +25,8 @@ const ActionButton = styled(IconButton)`
   position: relative;
   border: none;
   background-color: transparent;
-  margin-left: 4px;
-  margin-right: 8px;
+  margin-left: 6px;
+  margin-right: 10px;
 
   & > span {
     color: ${props => props.theme.whiteFade700};
@@ -105,7 +105,7 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => (
       disabled={!requestAvailable}
       name='request'
       onClick={() => showModal('REQUEST')}
-      style={{ marginLeft: '6px' }}
+      style={{ marginLeft: '8px' }}
       width='70px'
     >
       <RequestSpotlight className='wallet-intro-tour-step-2' />
