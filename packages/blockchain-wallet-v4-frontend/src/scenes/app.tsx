@@ -162,6 +162,7 @@ class App extends React.PureComponent<{
                               path={coin.txListAppRoute}
                               component={Transactions}
                               coin={coin.coinCode}
+                              key={coin.coinCode}
                             />
                           ),
                         supportedCoins
