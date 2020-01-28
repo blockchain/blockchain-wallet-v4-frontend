@@ -1,15 +1,19 @@
 import { FormattedMessage } from 'react-intl'
 import { map } from 'ramda'
 import React from 'react'
+import styled from 'styled-components'
 
-import {
-  BalancesWrapper,
-  Header,
-  HeaderText,
-  Wrapper
-} from 'components/Balances'
-import { Icon } from 'blockchain-info-components'
+import { BalancesWrapper, Header, Wrapper } from 'components/Balances'
+import { Icon, Text } from 'blockchain-info-components'
 import Balance from './Balance'
+
+const Title = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+`
 
 const Template = props => {
   const { supportedCoins } = props
@@ -24,13 +28,17 @@ const Template = props => {
   return (
     <Wrapper>
       <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
-        <HeaderText size='14px'>
-          <Icon name='wallet' size='12px' style={{ marginRight: '10px' }} />
+        <Title>
+          <Icon
+            name='wallet-filled'
+            size='22px'
+            style={{ marginRight: '14px' }}
+          />
           <FormattedMessage
             id='layouts.wallet.menutop.balance.walletbalance.wallet'
             defaultMessage='Wallet'
           />
-        </HeaderText>
+        </Title>
         <Icon
           name='caret'
           size='10px'

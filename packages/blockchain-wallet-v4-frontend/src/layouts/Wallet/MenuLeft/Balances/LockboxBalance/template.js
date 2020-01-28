@@ -1,32 +1,37 @@
-import React from 'react'
-
-import {
-  BalancesWrapper,
-  Header,
-  HeaderText,
-  Wrapper
-} from 'components/Balances'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
+
+import { BalancesWrapper, Header, Wrapper } from 'components/Balances'
+import { Icon, Text } from 'blockchain-info-components'
+
 import BchLockboxBalance from './BchLockboxBalance'
 import BtcLockboxBalance from './BtcLockboxBalance'
 import EthLockboxBalance from './EthLockboxBalance'
 import XlmLockboxBalance from './XlmLockboxBalance'
 
+const Title = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+`
+
 const Template = props => (
   <Wrapper>
     <Header onClick={props.handleToggle} data-e2e='balanceDropdown-lockbox'>
-      <HeaderText size='14px'>
+      <Title>
         <Icon
-          name='lock'
+          name='hardware'
           size='21px'
-          style={{ marginRight: '5px', marginLeft: '-5px' }}
+          style={{ marginRight: '16px', marginLeft: '0px' }}
         />
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.Lockbox'
-          defaultMessage='Lockbox'
+          id='layouts.wallet.menutop.balance.walletbalance.hardware'
+          defaultMessage='Hardware'
         />
-      </HeaderText>
+      </Title>
       <Icon
         name='caret'
         size='10px'

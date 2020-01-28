@@ -32,9 +32,10 @@ const BalanceDropdown = styled.div`
   min-width: 100%;
   > div > ul {
     position: absolute;
-    right: -88px;
+    right: -98px;
     top: 28px;
     padding: 0;
+    width: 240px;
   }
   > div > div > div > div {
     color: ${props => props.theme.black};
