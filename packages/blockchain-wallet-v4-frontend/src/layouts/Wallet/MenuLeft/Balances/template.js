@@ -8,7 +8,6 @@ import Balance from './WalletBalance/Balance'
 import CurrencySwitch from './CurrencySwitch'
 import LockboxBalance from './LockboxBalance'
 import LockboxTotalBalance from './LockboxBalance/TotalBalance'
-import PendingBalance from './PendingBalance'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
@@ -110,7 +109,6 @@ const Balances = props => {
           components={[
             <WalletBalance />,
             <LockboxBalance />,
-            <PendingBalance />,
             <WatchOnlyBalance />,
             <CurrencySwitch />
           ]}
