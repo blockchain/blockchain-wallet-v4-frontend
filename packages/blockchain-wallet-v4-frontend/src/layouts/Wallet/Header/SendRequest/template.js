@@ -4,7 +4,6 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { IconButton, Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -18,11 +17,38 @@ const Wrapper = styled.div`
     margin-top: 0;
   }
 `
+const Divider = styled.div`
+  height: 18px;
+  border-left: 1px solid ${props => props.theme.whiteFade400};
+`
 const ActionButton = styled(IconButton)`
   position: relative;
-  > span {
-    color: ${props => props.theme.blue900};
+  border: none;
+  background-color: transparent;
+  margin-left: 4px;
+  margin-right: 8px;
+
+  & > span {
+    color: ${props => props.theme.whiteFade700};
+    font-size: 20px;
   }
+  & > div > span {
+    color: ${props => props.theme.whiteFade700};
+    font-size: 14px;
+  }
+
+  &:hover {
+    background-color: transparent;
+    color: ${props => props.theme.whiteFade900};
+
+    & > span {
+      color: ${props => props.theme.whiteFade900};
+    }
+    & > div > span {
+      color: ${props => props.theme.whiteFade900};
+    }
+  }
+
   ${media.mobile`
     padding: 10px 10px;
     div:last-of-type {
@@ -55,15 +81,15 @@ const ButtonText = styled(Text)`
   margin-left: 6px;
 `
 
-const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
+const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => (
   <Wrapper>
+    <Divider />
     <ActionButton
-      name='send'
-      disabled={!sendAvailable}
-      onClick={() => showModal('SEND')}
-      min='100px'
       data-e2e='sendButton'
-      height='48px'
+      disabled={!sendAvailable}
+      name='send'
+      onClick={() => showModal('SEND')}
+      width='70px'
     >
       <SendSpotlight className='wallet-intro-tour-step-3' />
       <ButtonText size='16px' weight={600} color='blue900'>
@@ -73,14 +99,14 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
         />
       </ButtonText>
     </ActionButton>
+    <Divider />
     <ActionButton
-      style={spacing('ml-15')}
+      data-e2e='requestButton'
       disabled={!requestAvailable}
       name='request'
       onClick={() => showModal('REQUEST')}
-      min='100px'
-      data-e2e='requestButton'
-      height='48px'
+      style={{ marginLeft: '6px' }}
+      width='70px'
     >
       <RequestSpotlight className='wallet-intro-tour-step-2' />
       <ButtonText size='16px' weight={600} color='blue900'>
@@ -93,10 +119,10 @@ const Actions = ({ showModal, sendAvailable, requestAvailable }) => (
   </Wrapper>
 )
 
-Actions.propTypes = {
+SendRequest.propTypes = {
   sendAvailable: PropTypes.bool.isRequired,
   requestAvailable: PropTypes.bool.isRequired,
   showModal: PropTypes.func.isRequired
 }
 
-export default Actions
+export default SendRequest

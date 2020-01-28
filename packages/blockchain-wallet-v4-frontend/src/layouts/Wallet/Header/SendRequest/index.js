@@ -5,9 +5,9 @@ import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Actions from './template'
+import SendRequest from './template'
 
-class ActionsContainer extends React.PureComponent {
+class SendRequestContainer extends React.PureComponent {
   showModal = type => {
     const {
       coin,
@@ -33,7 +33,7 @@ class ActionsContainer extends React.PureComponent {
   render () {
     const { sendAvailable, requestAvailable } = this.props
     return (
-      <Actions
+      <SendRequest
         sendAvailable={sendAvailable}
         requestAvailable={requestAvailable}
         showModal={this.showModal}
@@ -49,4 +49,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   getData,
   mapDispatchToProps
-)(ActionsContainer)
+)(SendRequestContainer)

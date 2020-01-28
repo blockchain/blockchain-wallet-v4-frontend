@@ -9,7 +9,6 @@ import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import Header from './Header'
 import Menu from 'scenes/Transactions/Menu'
 import MenuLeft from './MenuLeft'
-import MenuTop from './MenuTop'
 import Modals from 'modals'
 import Page from './Page'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
@@ -44,9 +43,6 @@ const Content = styled.div`
     width: 100%;
   }
 `
-const Top = styled.div`
-  width: 100%;
-`
 
 // TODO: @header issue
 // change this so that pages control their own scroll
@@ -66,9 +62,6 @@ const WalletLayout = props => {
           <MenuLeft location={location} />
           <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
-            <Top>
-              <MenuTop />
-            </Top>
             {location.pathname.includes('/transactions') && (
               <Menu coin={coin} />
             )}
