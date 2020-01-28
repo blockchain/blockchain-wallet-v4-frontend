@@ -28,7 +28,9 @@ const Padded = styled.div`
   `}
 `
 
-const Top = styled(Padded)``
+const Top = styled(Padded)`
+  padding-bottom: 0px;
+`
 
 const Bottom = styled(Padded)`
   display: flex;
@@ -169,6 +171,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               <Button
                 nature='primary'
                 type='submit'
+                data-e2e='borrowSubmit'
                 disabled={props.submitting || props.invalid}
               >
                 {props.submitting ? (

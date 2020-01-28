@@ -45,27 +45,6 @@ const Value = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
-const BottomRow = styled.div`
-  display: flex;
-  margin-top: 20px;
-`
-
-const Column = styled.div`
-  width: 33.333%;
-  border-left: 1px solid ${props => props.theme.grey000};
-  &:first-child {
-    border-left: 0;
-  }
-  &:nth-child(2) {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-`
-
-const ColValue = styled(Value)`
-  margin-top: 6px;
-`
-
 const fiatDisplayName = (coin: CoinType) => {
   switch (coin) {
     case 'PAX':
@@ -147,28 +126,24 @@ const Summary: React.FC<Props> = props => {
             )
           </Value>
         </Row>
-        <BottomRow>
-          <Column>
-            <Title>
-              <FormattedMessage
-                id='modals.borrow.summary.collateralization'
-                defaultMessage='Collateralization'
-              />
-            </Title>
-            <ColValue>
-              {(props.offer.terms.collateralRatio * 100).toFixed(0)}%
-            </ColValue>
-          </Column>
-          <Column>
-            <Title>
-              <FormattedMessage
-                id='modals.borrow.summary.loanterm'
-                defaultMessage='Loan Term'
-              />
-            </Title>
-            <ColValue>{props.offer.terms.format}</ColValue>
-          </Column>
-        </BottomRow>
+        <Row>
+          <Title>
+            <FormattedMessage
+              id='modals.borrow.summary.collateralization'
+              defaultMessage='Collateralization'
+            />
+          </Title>
+          <Value>{(props.offer.terms.collateralRatio * 100).toFixed(0)}%</Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage
+              id='modals.borrow.summary.loanterm'
+              defaultMessage='Loan Term'
+            />
+          </Title>
+          <Value>{props.offer.terms.format}</Value>
+        </Row>
       </Table>
     </div>
   )
