@@ -3,8 +3,10 @@ import { map } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BalancesWrapper, Header, Wrapper } from 'components/Balances'
+import { Header, Wrapper } from 'components/Balances'
 import { Icon, Text } from 'blockchain-info-components'
+
+import { BalancesWrapper } from '../model'
 import Balance from './Balance'
 
 const Title = styled(Text)`

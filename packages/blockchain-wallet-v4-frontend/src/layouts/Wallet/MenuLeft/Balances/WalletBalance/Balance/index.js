@@ -4,8 +4,9 @@ import { includes, toLower } from 'ramda'
 import React from 'react'
 
 import { actions, selectors } from 'data'
+
 import { getData } from './selectors'
-import { LoadingBalance } from 'components/Balances'
+import { LoadingBalance } from '../../model'
 import Error from './template.error'
 import Success from './template.success'
 

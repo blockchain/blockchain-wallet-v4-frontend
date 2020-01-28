@@ -1,26 +1,33 @@
-import React from 'react'
-
-import {
-  BalancesWrapper,
-  Header,
-  HeaderText,
-  Wrapper
-} from 'components/Balances'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
-import BchWatchOnlyBalance from './BchWatchOnlyBalance'
-import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
+import React from 'react'
+import styled from 'styled-components'
+
+import { Header, Wrapper } from 'components/Balances'
+
+import { Icon, Text } from 'blockchain-info-components'
+import BchWatchOnlyBalance from './Bch'
+import BtcWatchOnlyBalance from './Btc'
+
+import { BalancesWrapper } from '../model'
+
+const Title = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+`
 
 const Template = props => (
   <Wrapper>
     <Header onClick={props.handleToggle}>
-      <HeaderText size='14px'>
-        <Icon name='forbidden' size='12px' style={{ marginRight: '10px' }} />
+      <Title>
+        <Icon name='forbidden' size='18px' style={{ marginRight: '16px' }} />
         <FormattedMessage
           id='layouts.wallet.menutop.balance.walletbalance.nonspendable'
           defaultMessage='Non-Spendable'
         />
-      </HeaderText>
+      </Title>
       <Icon
         name='caret'
         size='10px'

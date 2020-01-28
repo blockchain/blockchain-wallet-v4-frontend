@@ -1,11 +1,11 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { prop } from 'ramda'
 import React from 'react'
-import Template from './template'
 
-const key = 'wallet'
+import { actions, selectors } from 'data'
+
+import Template from './template'
 
 class WalletBalanceContainer extends React.PureComponent {
   render () {
@@ -14,14 +14,14 @@ class WalletBalanceContainer extends React.PureComponent {
       totalBalancesDropdown,
       supportedCoins
     } = this.props
-    const isActive = prop(key, totalBalancesDropdown)
+    const isActive = prop('wallet', totalBalancesDropdown)
     return (
       <Template
         isActive={isActive}
         supportedCoins={supportedCoins}
         handleToggle={() =>
           preferencesActions.setTotalBalancesDropdown({
-            key,
+            key: 'wallet',
             val: !isActive
           })
         }

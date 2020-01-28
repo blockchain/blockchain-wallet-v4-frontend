@@ -4,23 +4,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
-
-export const BalancesWrapper = styled.div`
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s;
-  &.active {
-    max-height: ${props => React.Children.count(props.children) * 20}px;
-  }
-`
-
-export const HeaderText = styled(Text)`
-  display: flex;
-  flex-direction: row;
-`
 
 const CoinBalanceMain = styled.div`
   display: inline-flex;
@@ -37,6 +24,24 @@ const CoinBalanceMain = styled.div`
 const CoinBalanceSwitchable = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+const BalanceSkeleton = styled.div`
+  margin-top: 4px;
+`
+const CoinSkeletonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const BalancesWrapper = styled.div`
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+  &.active {
+    max-height: ${props => React.Children.count(props.children) * 20}px;
+  }
 `
 
 export const CoinBalanceWrapper = props => {
@@ -79,15 +84,6 @@ export const CoinBalanceWrapper = props => {
     </LinkContainer>
   )
 }
-
-const BalanceSkeleton = styled.div`
-  margin-top: 4px;
-`
-const CoinSkeletonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
 
 export const LoadingBalance = props => {
   return props.large ? (

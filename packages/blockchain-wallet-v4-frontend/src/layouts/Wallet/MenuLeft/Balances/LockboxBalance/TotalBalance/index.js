@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { getTotalBalance } from 'components/Balances/lockbox/selectors'
 import React from 'react'
 
-import { LoadingBalance } from 'components/Balances'
+import { LoadingBalance } from '../../model'
 import Error from './template.error'
 import Success from './template.success'
 

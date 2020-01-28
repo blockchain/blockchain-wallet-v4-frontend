@@ -1,12 +1,12 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getBchWatchOnlyBalance, getBtcWatchOnlyBalance } from './selectors'
 import { gt, prop } from 'ramda'
 import React from 'react'
-import Template from './template'
 
-const key = 'watchOnly'
+import { actions, selectors } from 'data'
+
+import { getBchWatchOnlyBalance, getBtcWatchOnlyBalance } from './selectors'
+import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
@@ -18,14 +18,14 @@ class Balance extends React.PureComponent {
     } = this.props
     const totalWatchOnlyBalance =
       btcWatchOnlyBalance.getOrElse(0) + bchWatchOnlyBalance.getOrElse(0)
-    const isActive = prop(key, totalBalancesDropdown)
+    const isActive = prop('watchOnly', totalBalancesDropdown)
     return (
       gt(totalWatchOnlyBalance, 0) && (
         <Template
           isActive={isActive}
           handleToggle={() =>
             preferencesActions.setTotalBalancesDropdown({
-              key,
+              key: 'watchOnly',
               val: !isActive
             })
           }

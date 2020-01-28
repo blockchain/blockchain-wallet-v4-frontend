@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import { CoinBalanceWrapper } from 'components/Balances'
+import { CoinBalanceWrapper } from '../../model'
 
 const Success = props => {
   const { balance, coin, coinTicker, large } = props
