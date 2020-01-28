@@ -1,4 +1,5 @@
 declare module 'blockchain-info-components' {
+  import { StatelessComponent, CSSProperties } from 'react'
   import { DefaultTheme } from 'styled-components'
 
   // type-coverage:ignore-next-line
@@ -34,13 +35,19 @@ declare module 'blockchain-info-components' {
   // type-coverage:ignore-next-line
   export function TableRow(...args): any
   // type-coverage:ignore-next-line
-  export function Text(...args: any): any
+  export const Text: StatelessComponent<{
+    color?: keyof DefaultTheme
+    size?: string
+    weight?: number
+    style?: CSSProperties
+    uppercase?: boolean
+    lineHeight?: string
+  }>
   // type-coverage:ignore-next-line
   export function TextGroup(...args: any): any
 }
 declare module 'daggy' {
   import {
-    cata,
     RemoteFailure,
     RemoteLoading,
     RemoteNotAsked,
