@@ -3,6 +3,7 @@ import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { OfferType, RatesType } from 'data/types'
 import { Text } from 'blockchain-info-components'
@@ -65,12 +66,19 @@ const ColValue = styled(Value)`
   margin-top: 6px;
 `
 
-const Summary: React.FC<Props> = props => {
-  const rate = props.rates[props.offer.terms.principalCcy]
-    ? props.rates[props.offer.terms.principalCcy].last
-    : props.rates['USD'].last
+const fiatDisplayName = (coin: CoinType) => {
+  switch (coin) {
+    case 'PAX':
+      return 'USD'
+    default:
+      return 'USD'
+  }
+}
 
+const Summary: React.FC<Props> = props => {
+  const fiatName = fiatDisplayName(props.offer.terms.principalCcy)
   const principalDisplayName = props.displayName
+  const rate = props.rates[fiatName].last
 
   return (
     <div>
@@ -91,10 +99,10 @@ const Summary: React.FC<Props> = props => {
         </Row>
         <Row>
           <Title>
-            {props.offer.terms.collateralCcy} to {principalDisplayName} Rate
+            {props.offer.terms.collateralCcy} to {fiatName} Rate
           </Title>
           <Value>
-            {rate} {principalDisplayName}
+            {rate} {fiatName}
           </Value>
         </Row>
         <Row>

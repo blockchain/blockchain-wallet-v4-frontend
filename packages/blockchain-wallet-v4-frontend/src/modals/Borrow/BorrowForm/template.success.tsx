@@ -65,19 +65,12 @@ const MaxAmountContainer = styled.div`
   margin-top: 40px;
 `
 
-const InlineText = styled(Text)`
-  * {
-    display: inline-flex;
-  }
-`
-
-const TermsFormItem = styled(FormItem)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  .Container {
-    height: auto;
-  }
+const FiatContainer = styled.div`
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background-color: ${props => props.theme.grey000};
 `
 
 type LinkStatePropsType = {
@@ -85,8 +78,6 @@ type LinkStatePropsType = {
 }
 
 type Props = SuccessStateType & LinkDispatchPropsType & LinkStatePropsType
-
-const checkboxShouldBeChecked = value => (value ? undefined : true)
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
   const offer = props.offers.find(
@@ -108,24 +99,30 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           />
         </Text>
         <MaxAmountContainer>
-          <InlineText color='grey600' weight={500} size='12px'>
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.borrow.canborrow'
               defaultMessage='You can borrow up to'
-            />
-            <br />
-            <FiatDisplay
+            />{' '}
+            <FiatContainer
               onClick={() => props.borrowActions.handleMaxCollateralClick()}
-              cursor='pointer'
-              color='blue600'
-              size='12px'
-              weight={500}
-              coin='BTC'
             >
-              {props.payment.effectiveBalance}
-            </FiatDisplay>{' '}
-            {displayName}
-          </InlineText>
+              <FiatDisplay
+                cursor='pointer'
+                color='blue600'
+                size='14px'
+                weight={500}
+                coin='BTC'
+              >
+                {props.payment.effectiveBalance}
+              </FiatDisplay>
+            </FiatContainer>{' '}
+            {displayName}{' '}
+            <FormattedMessage
+              id='modals.borrow.basedonwallet'
+              defaultMessage="based on the selected Wallet's balance."
+            />
+          </Text>
         </MaxAmountContainer>
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
