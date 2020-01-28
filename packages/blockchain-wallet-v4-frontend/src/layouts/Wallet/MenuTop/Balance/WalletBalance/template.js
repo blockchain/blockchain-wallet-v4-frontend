@@ -41,7 +41,11 @@ const Template = props => {
         {map(
           coin =>
             coin.invited && (
-              <Balance coin={coin.coinCode} coinTicker={coin.coinTicker} />
+              <Balance
+                coin={coin.coinCode}
+                coinTicker={coin.coinTicker}
+                key={coin.coinCode}
+              />
             ),
           coinOrder
         )}

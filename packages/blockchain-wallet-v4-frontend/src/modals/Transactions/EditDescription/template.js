@@ -39,7 +39,7 @@ const EditTxDescription = props => {
           <ModalBody>
             <FormGroup>
               <FormItem data-e2e='editTransactionDescriptionInput'>
-                <Label for='description'>
+                <Label htmlFor='description'>
                   <FormattedMessage
                     id='modals.edittransactiondesc.description'
                     defaultMessage='Description'

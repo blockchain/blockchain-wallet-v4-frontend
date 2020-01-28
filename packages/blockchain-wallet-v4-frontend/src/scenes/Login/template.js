@@ -145,7 +145,7 @@ const Login = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='guid'>
+              <FormLabel htmlFor='guid'>
                 <FormattedMessage
                   id='scenes.login.guid'
                   defaultMessage='Wallet ID'
@@ -230,7 +230,7 @@ const Login = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.login.password'
                   defaultMessage='Password'
@@ -269,7 +269,7 @@ const Login = props => {
           {authType > 0 && (
             <FormGroup>
               <FormItem>
-                <FormLabel for='code'>
+                <FormLabel htmlFor='code'>
                   {authType === 1 && (
                     <FormattedMessage
                       id='scenes.login.yubikey'
