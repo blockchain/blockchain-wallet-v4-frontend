@@ -35,6 +35,13 @@ const CoinSkeletonWrapper = styled.div`
   justify-content: space-between;
 `
 
+const CoinNameText = styled(Text)`
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 150%;
+  color: ${props => props.theme.grey800};
+`
+
 export const BalancesWrapper = styled.div`
   max-height: 0;
   overflow: hidden;
@@ -69,9 +76,9 @@ export const CoinBalanceWrapper = props => {
   ) : (
     <LinkContainer to={`/${toLower(props.coin)}/transactions`}>
       <CoinBalanceSwitchable>
-        <Text size='12px' weight={400}>
+        <CoinNameText>
           {props.coinTicker ? props.coinTicker : props.coin}
-        </Text>
+        </CoinNameText>
         <SwitchableDisplay
           size='12px'
           weight={500}

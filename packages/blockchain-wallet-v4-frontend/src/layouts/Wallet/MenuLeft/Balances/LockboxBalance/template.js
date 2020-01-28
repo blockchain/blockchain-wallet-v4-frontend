@@ -14,6 +14,7 @@ import XlmLockboxBalance from './XlmLockboxBalance'
 const Title = styled(Text)`
   display: flex;
   flex-direction: row;
+  color: ${props => props.theme.grey800};
   font-weight: 600;
   font-size: 16px;
   line-height: 150%;
@@ -24,6 +25,7 @@ const Template = props => (
     <Header onClick={props.handleToggle} data-e2e='balanceDropdown-lockbox'>
       <Title>
         <Icon
+          color='grey400'
           name='hardware'
           size='21px'
           style={{ marginRight: '16px', marginLeft: '0px' }}
@@ -34,6 +36,7 @@ const Template = props => (
         />
       </Title>
       <Icon
+        color='grey600'
         name='caret'
         size='10px'
         className={props.isActive ? 'active' : ''}

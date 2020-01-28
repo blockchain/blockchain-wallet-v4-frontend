@@ -12,6 +12,7 @@ import Balance from './Balance'
 const Title = styled(Text)`
   display: flex;
   flex-direction: row;
+  color: ${props => props.theme.grey800};
   font-weight: 600;
   font-size: 16px;
   line-height: 150%;
@@ -32,6 +33,7 @@ const Template = props => {
       <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
         <Title>
           <Icon
+            color='grey400'
             name='wallet-filled'
             size='22px'
             style={{ marginRight: '14px' }}
@@ -42,6 +44,7 @@ const Template = props => {
           />
         </Title>
         <Icon
+          color='grey600'
           name='caret'
           size='10px'
           className={props.isActive ? 'active' : ''}
