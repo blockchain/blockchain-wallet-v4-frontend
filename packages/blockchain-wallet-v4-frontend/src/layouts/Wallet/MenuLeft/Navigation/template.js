@@ -126,14 +126,15 @@ const Navigation = props => {
               defaultMessage='Airdrops'
             />
           </Destination>
-          <NewCartridge>
-            <Text color='green600' size='12' weight={600} uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.airdrop.active'
-                defaultMessage='Active'
-              />
-            </Text>
-          </NewCartridge>
+          {/* UNCOMMENT WHEN AIRDROPS ARE IN PROGRESS */}
+          {/* <NewCartridge> */}
+          {/*  <Text color='green600' size='12' weight={600} uppercase> */}
+          {/*    <FormattedMessage */}
+          {/*      id='layouts.wallet.menuleft.navigation.airdrop.active' */}
+          {/*      defaultMessage='Active' */}
+          {/*    /> */}
+          {/*  </Text> */}
+          {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
       {props.isExchangeAccountLinked ? (

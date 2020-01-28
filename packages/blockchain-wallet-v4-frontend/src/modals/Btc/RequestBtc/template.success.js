@@ -83,7 +83,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendbitcoin.firststep.coin'
               defaultMessage='Currency:'
@@ -99,7 +99,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
-          <FormLabel for='to'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
               id='modals.requestbtc.to'
               defaultMessage='Receive To:'
@@ -128,7 +128,7 @@ const FirstStep = props => {
         <React.Fragment>
           <FormGroup>
             <FormItem>
-              <FormLabel for='amount'>
+              <FormLabel htmlFor='amount'>
                 <FormattedMessage
                   id='modals.requestbtc.requestlink.amount'
                   defaultMessage='Amount:'
@@ -145,7 +145,7 @@ const FirstStep = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='message'>
+              <FormLabel htmlFor='message'>
                 <FormattedMessage
                   id='modals.requestbtc.requestlink.description'
                   defaultMessage='Description:'

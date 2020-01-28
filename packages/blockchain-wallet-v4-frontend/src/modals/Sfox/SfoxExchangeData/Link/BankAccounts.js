@@ -51,7 +51,7 @@ class BankAccounts extends Component {
           </HolderText>
           <FormGroup inline>
             <FormItem>
-              <FormLabel for='accountHolderFirst'>
+              <FormLabel htmlFor='accountHolderFirst'>
                 <FormattedMessage
                   id='sfoxexchangedata.link.accountholderfirstname'
                   defaultMessage='First Name'
@@ -64,7 +64,7 @@ class BankAccounts extends Component {
               />
             </FormItem>
             <FormItem>
-              <FormLabel for='accountHolderLast'>
+              <FormLabel htmlFor='accountHolderLast'>
                 <FormattedMessage
                   id='sfoxexchangedata.link.accountholderlastname'
                   defaultMessage='Last Name'

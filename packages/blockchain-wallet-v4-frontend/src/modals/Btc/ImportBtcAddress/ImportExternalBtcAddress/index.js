@@ -44,7 +44,7 @@ class ImportExternalBtcAddress extends React.PureComponent {
         </div>
         <FormGroup>
           <FormItem width={'100%'}>
-            <Label for='addrOrPriv'>
+            <Label htmlFor='addrOrPriv'>
               <FormattedMessage
                 id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoineither'
                 defaultMessage='Enter bitcoin address or private key'
@@ -69,7 +69,7 @@ class ImportExternalBtcAddress extends React.PureComponent {
             </Row>
           </FormItem>
           <FormItem width={'100%'}>
-            <Label for='addrOrPriv'>
+            <Label htmlFor='addrOrPriv'>
               <FormattedMessage
                 id='modals.importbtcaddress.importexternalbitcoinaddress.label'
                 defaultMessage='Enter a label (optional)'
@@ -85,7 +85,7 @@ class ImportExternalBtcAddress extends React.PureComponent {
             </Row>
           </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'}>
-            <Label for='wallets'>
+            <Label htmlFor='wallets'>
               <FormattedMessage
                 id='modals.importbtcaddress.importexternalbitcoinaddress.transfer'
                 defaultMessage='Transfer funds to an existing wallet (optional)'

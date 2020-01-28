@@ -46,7 +46,7 @@ const AddBtcWallet = ({
           <ModalBody>
             <FormGroup>
               <FormItem>
-                <Label for='wallet'>
+                <Label htmlFor='wallet'>
                   <FormattedMessage
                     id='modals.addbitcoinwallet.wallet'
                     defaultMessage='Wallet Name'
