@@ -2,7 +2,8 @@ import {
   AccountTypes,
   CoinType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedCoinsType,
+  SupportedCoinType
 } from 'core/types'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
@@ -10,6 +11,7 @@ import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
@@ -30,11 +32,18 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkStatePropsType
 
-const DisplayContainer = styled.div`
+const DisplayContainer = styled.div<{
+  coinType: SupportedCoinType
+  isItem: boolean
+}>`
   display: flex;
-  padding: 16px 12px;
   width: 100%;
   align-items: center;
+  box-sizing: border-box;
+  padding: ${props => (props.isItem ? '6px 6px 0px 6px' : '16px 12px')};
+  > span {
+    color: ${props => props.theme[props.coinType.colorCode]} !important;
+  }
 `
 
 const AccountContainer = styled.div`
@@ -43,6 +52,7 @@ const AccountContainer = styled.div`
   flex-direction: column;
   margin-left: 12px;
   width: 100%;
+  cursor: pointer;
   .bc__single-value {
     position: relative;
     top: 0;
@@ -83,17 +93,19 @@ export class BorrowCoinDropdown extends Component<Props> {
     const coinType = this.props.supportedCoins[props.value.coin]
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
+    const isItem = !children
 
     return (
-      <DisplayContainer>
+      <DisplayContainer coinType={coinType} isItem={isItem}>
         <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
-          {children}
+          {children || props.value.label}
           <AmountContainer>
             <CoinDisplay
               coin={props.value.coin}
               size='12px'
               weight={500}
+              cursor='pointer'
               color='grey800'
             >
               {props.value.balance}
@@ -107,6 +119,7 @@ export class BorrowCoinDropdown extends Component<Props> {
                 weight={500}
                 color='grey400'
                 currency='USD'
+                cursor='pointer'
                 rates={this.props.rates}
               >
                 {props.value.balance}
@@ -127,10 +140,10 @@ export class BorrowCoinDropdown extends Component<Props> {
             component={SelectBox}
             elements={this.renderElements(values)}
             templateDisplay={this.renderDisplay}
+            templateItem={this.renderDisplay}
             hideIndicator={values.length <= 1}
             openMenuOnClick={values.length > 1}
             searchEnabled={false}
-            includeAll={false}
             name='collateral'
           />
         )
