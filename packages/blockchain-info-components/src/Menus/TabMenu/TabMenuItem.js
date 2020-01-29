@@ -28,10 +28,11 @@ const BaseTabMenuItem = styled.span`
 `
 
 const TabMenuItem = props => {
-  const { children, selected, ...rest } = props
+  const { children, selected, className, ...rest } = props
+  const isSelectedOrActive = selected || className === 'active'
 
   return (
-    <BaseTabMenuItem selected={selected} {...rest}>
+    <BaseTabMenuItem selected={isSelectedOrActive} {...rest}>
       {children}
     </BaseTabMenuItem>
   )

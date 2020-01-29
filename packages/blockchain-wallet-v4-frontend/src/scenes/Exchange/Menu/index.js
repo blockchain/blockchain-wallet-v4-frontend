@@ -6,25 +6,17 @@ import { getData } from './selectors'
 import { LinkContainer } from 'react-router-bootstrap'
 import Announcements from 'components/Announcements'
 import HorizontalMenu from 'components/HorizontalMenu'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const LinkItem = styled(TabMenuItem)`
-  &.active {
-    & :after {
-      position: absolute;
-      content: '';
-      top: 37px;
-      left: 0;
-      width: 100%;
-      border-bottom: 4px solid ${props => props.theme.blue600};
-      z-index: 99;
-    }
-  }
-`
 const SupportButton = styled(Button)`
   margin-left: auto;
   height: 38px;
+  ${media.laptop`
+    margin-left: 0;
+    margin-top: 8px;
+  `}
 `
 
 export const Menu = ({ showGetStarted, showHelpModal }) =>
@@ -34,7 +26,7 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
       <HorizontalMenu>
         <TabMenu>
           <LinkContainer to='/swap' exact>
-            <LinkItem
+            <TabMenuItem
               activeClassName='active'
               data-e2e='exchangeTabMenuExchange'
             >
@@ -42,10 +34,10 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
                 id='scenes.exchange.menutop.swap'
                 defaultMessage='Swap'
               />
-            </LinkItem>
+            </TabMenuItem>
           </LinkContainer>
           <LinkContainer to='/swap/history'>
-            <LinkItem
+            <TabMenuItem
               activeClassName='active'
               data-e2e='exchangeTabMenuOrderHistory'
             >
@@ -53,15 +45,15 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
                 id='scenes.exchange.menutop.history'
                 defaultMessage='Order History'
               />
-            </LinkItem>
+            </TabMenuItem>
           </LinkContainer>
-          <SupportButton nature='primary' onClick={showHelpModal}>
-            <FormattedMessage
-              id='scenes.exchange.menutop.need_help'
-              defaultMessage='Need Help?'
-            />
-          </SupportButton>
         </TabMenu>
+        <SupportButton nature='primary' onClick={showHelpModal}>
+          <FormattedMessage
+            id='scenes.exchange.menutop.need_help'
+            defaultMessage='Need Help?'
+          />
+        </SupportButton>
       </HorizontalMenu>
     </React.Fragment>
   ) : (

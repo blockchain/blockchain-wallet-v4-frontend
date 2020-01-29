@@ -2,11 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 8px 30px;
+  width: calc(100% - 30px);
+  padding: 8px 0px;
+  margin-left: 8px;
   box-sizing: border-box;
   background-color: ${props => props.theme.white};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+
+  @media (max-width: 991px) {
+    width: 100%;
+    margin-left: 0px;
+  }
 `
 const Container = styled.div`
   display: flex;
