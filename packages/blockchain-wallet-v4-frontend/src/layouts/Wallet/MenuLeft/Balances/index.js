@@ -39,18 +39,22 @@ const BalanceDropdown = styled.div`
     width: initial;
   }
   > div > div > div > div {
-    color: ${props => props.theme.black};
+    color: ${props => props.theme.grey800};
     font-weight: 600;
     font-size: 24px;
     line-height: 135%;
   }
   > div > div > span:last-child {
     position: absolute;
-    top: -6px;
-    right: 24px;
-    font-size: 26px;
-    color: ${props => props.theme.grey400};
+    top: 0;
+    right: 22px;
+    font-size: 22px;
+    color: ${props => props.theme.grey500};
+    border: 1px solid ${props => props.theme.grey100};
+    border-radius: 4px;
+    padding: 0;
     &:hover {
+      border: 1px solid ${props => props.theme.blue600};
       color: ${props => props.theme.blue600};
     }
   }

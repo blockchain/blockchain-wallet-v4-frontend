@@ -50,7 +50,7 @@ const NavbarStyled = styled(Navbar)`
 `
 const NavbarMenuStyled = styled(NavbarMenu)`
   width: 100%;
-  margin-left: 30px;
+  margin-left: 42px;
 `
 
 const Header = props => {

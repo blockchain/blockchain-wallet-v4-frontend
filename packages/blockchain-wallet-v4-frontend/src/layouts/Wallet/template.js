@@ -7,7 +7,6 @@ import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import Header from './Header'
-import Menu from 'scenes/Transactions/Menu'
 import MenuLeft from './MenuLeft'
 import Modals from 'modals'
 import Page from './Page'
@@ -38,6 +37,7 @@ const Content = styled.div`
   align-items: flex-start;
   width: calc(100% - 250px);
   background-color: ${props => props.theme.white};
+  padding: 8px 30px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -47,7 +47,7 @@ const Content = styled.div`
 // TODO: @header issue
 // change this so that pages control their own scroll
 const WalletLayout = props => {
-  const { coin, location, children } = props
+  const { children, location } = props
 
   return (
     <Wrapper>
@@ -62,9 +62,6 @@ const WalletLayout = props => {
           <MenuLeft location={location} />
           <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
-            {location.pathname.includes('/transactions') && (
-              <Menu coin={coin} />
-            )}
             {location.pathname.includes('/swap') && (
               <ExchangeMenu
                 historySelected={location.pathname.includes('/swap/history')}
