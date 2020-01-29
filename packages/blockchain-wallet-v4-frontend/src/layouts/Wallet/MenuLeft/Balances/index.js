@@ -11,6 +11,7 @@ import WalletBalance from './WalletBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -29,10 +30,13 @@ const BalanceDropdown = styled.div`
   min-width: 100%;
   > div > ul {
     position: absolute;
-    right: -98px;
     top: 28px;
+    right: 12px;
     padding: 0;
-    width: 240px;
+    width: 230px;
+  }
+  > div > div {
+    width: initial;
   }
   > div > div > div > div {
     color: ${props => props.theme.black};
@@ -41,15 +45,14 @@ const BalanceDropdown = styled.div`
     line-height: 135%;
   }
   > div > div > span:last-child {
-    position: relative;
-    top: -10px;
-    right: -85px;
-    font-size: 30px;
-    font-weight: 600;
-    color: ${props => props.theme.blue600};
-    border: 1px solid ${props => props.theme.grey100};
-    border-radius: 5px;
-    padding-left: 0 !important;
+    position: absolute;
+    top: -6px;
+    right: 24px;
+    font-size: 26px;
+    color: ${props => props.theme.grey400};
+    &:hover {
+      color: ${props => props.theme.blue600};
+    }
   }
 `
 

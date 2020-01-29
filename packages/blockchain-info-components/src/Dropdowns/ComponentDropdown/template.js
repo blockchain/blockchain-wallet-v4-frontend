@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   display: inline-flex;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
+  width: 100%;
 `
 const ButtonContainer = styled.div`
   display: inline-flex;
