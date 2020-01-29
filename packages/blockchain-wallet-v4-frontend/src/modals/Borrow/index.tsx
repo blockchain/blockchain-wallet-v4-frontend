@@ -36,7 +36,7 @@ class Borrow extends PureComponent<Props> {
         data-e2e='borrowModal'
         total={total}
       >
-        <BorrowForm />
+        <BorrowForm {...this.props} />
       </Flyout>
     )
   }

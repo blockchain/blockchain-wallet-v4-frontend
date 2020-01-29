@@ -1,13 +1,17 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { BorrowMinMaxType, OfferType, PaymentType, RatesType } from 'data/types'
 import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { OfferType, PaymentType, RatesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
+
+export type OwnProps = {
+  offer: OfferType
+}
 
 export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
@@ -15,7 +19,7 @@ export type LinkDispatchPropsType = {
 
 export type SuccessStateType = {
   coin: CoinType
-  offers: Array<OfferType>
+  limits: BorrowMinMaxType
   payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType
@@ -25,17 +29,21 @@ type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 
-type Props = LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 export class BorrowForm extends Component<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.borrowActions.initializeBorrow('BTC')
+    this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
+  }
+
+  componentWillUnmount () {
+    this.props.borrowActions.setOffer(null)
   }
 
   handleRefresh = () => {
-    this.props.borrowActions.initializeBorrow('BTC')
+    this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
   }
 
   handleSubmit = () => {

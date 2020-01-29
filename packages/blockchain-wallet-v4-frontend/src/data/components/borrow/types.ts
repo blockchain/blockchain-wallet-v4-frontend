@@ -37,6 +37,13 @@ export type BorrowFormValuesType = {
   principal: string
 }
 
+export type BorrowMinMaxType = {
+  maxCrypto: number
+  maxFiat: number
+  minCrypto: number
+  minFiat: number
+}
+
 // TODO: move to ticker
 export type RatesType = {
   [key in string]: {
@@ -95,6 +102,8 @@ export type PaymentType = {
 export interface BorrowState {
   borrowHistory: RemoteDataType<NabuApiErrorType, any>
   coin: CoinType
+  limits: BorrowMinMaxType
+  offer: OfferType | null
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
 }
@@ -135,22 +144,37 @@ interface FetchUserBorrowHistorySuccessAction {
 interface InitializeBorrowAction {
   payload: {
     coin: CoinType
+    offer: OfferType
   }
   type: typeof AT.INITIALIZE_BORROW
 }
 
-interface SetPaymentFailure {
+interface SetLimitsAction {
+  payload: {
+    limits: BorrowMinMaxType
+  }
+  type: typeof AT.SET_LIMITS
+}
+
+interface SetOfferAction {
+  payload: {
+    offer: OfferType | null
+  }
+  type: typeof AT.SET_OFFER
+}
+
+interface SetPaymentFailureAction {
   payload: {
     error: string | Error
   }
   type: typeof AT.SET_PAYMENT_FAILURE
 }
 
-interface SetPaymentLoading {
+interface SetPaymentLoadingAction {
   type: typeof AT.SET_PAYMENT_LOADING
 }
 
-interface SetPaymentSuccess {
+interface SetPaymentSuccessAction {
   payload: {
     payment: PaymentType
   }
@@ -165,6 +189,8 @@ export type BorrowActionTypes =
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
-  | SetPaymentFailure
-  | SetPaymentLoading
-  | SetPaymentSuccess
+  | SetLimitsAction
+  | SetOfferAction
+  | SetPaymentFailureAction
+  | SetPaymentLoadingAction
+  | SetPaymentSuccessAction

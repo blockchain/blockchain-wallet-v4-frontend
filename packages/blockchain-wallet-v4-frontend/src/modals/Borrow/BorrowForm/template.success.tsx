@@ -3,9 +3,9 @@ import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { Form, FormItem, FormLabel, NumberBox } from 'components/Form'
+import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, SuccessStateType } from '.'
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import BorrowCoinDropdown from './BorrowCoinDropdown'
@@ -79,15 +79,12 @@ type LinkStatePropsType = {
   values: BorrowFormValuesType
 }
 
-type Props = SuccessStateType & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
-  const offer = props.offers.find(
-    offer =>
-      offer.terms.collateralCcy === props.coin &&
-      offer.terms.principalCcy === 'PAX'
-  )
-
   const displayName = props.supportedCoins['PAX'].displayName
 
   return (
@@ -115,8 +112,10 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
                 size='14px'
                 weight={500}
                 coin='BTC'
+                currency='USD'
+                rates={props.rates}
               >
-                {props.payment.effectiveBalance}
+                {props.limits.maxCrypto}
               </FiatDisplay>
             </FiatContainer>{' '}
             {displayName}{' '}
@@ -158,40 +157,33 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         </AmountFieldContainer>
       </Top>
       <Bottom>
-        {offer ? (
-          <>
-            <Summary
-              {...props}
-              {...props.values}
-              collateral={0}
-              displayName={displayName}
-              offer={offer}
-            />
-            <div>
-              <Button
-                nature='primary'
-                type='submit'
-                data-e2e='borrowSubmit'
-                disabled={props.submitting || props.invalid}
-              >
-                {props.submitting ? (
-                  <HeartbeatLoader height='16px' width='16px' color='white' />
-                ) : (
-                  <Text size='16px' weight={600} color='white'>
-                    <FormattedMessage
-                      id='modals.borrow.collateralform.create'
-                      defaultMessage='Create Loan'
-                    />
-                  </Text>
-                )}
-              </Button>
-            </div>
-          </>
-        ) : (
-          <Text color='grey700' weight={600} size='16px'>
-            There is no loan offer for {props.coin} to {displayName}
-          </Text>
-        )}
+        <>
+          <Summary
+            {...props}
+            {...props.values}
+            collateral={0}
+            displayName={displayName}
+          />
+          <div>
+            <Button
+              nature='primary'
+              type='submit'
+              data-e2e='borrowSubmit'
+              disabled={props.submitting || props.invalid}
+            >
+              {props.submitting ? (
+                <HeartbeatLoader height='16px' width='16px' color='white' />
+              ) : (
+                <Text size='16px' weight={600} color='white'>
+                  <FormattedMessage
+                    id='modals.borrow.collateralform.create'
+                    defaultMessage='Create Loan'
+                  />
+                </Text>
+              )}
+            </Button>
+          </div>
+        </>
       </Bottom>
     </CustomForm>
   )

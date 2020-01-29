@@ -10,6 +10,7 @@ import { FormAction, initialize } from 'redux-form'
 import { NO_OFFER_EXISTS } from './model'
 import { nth } from 'ramda'
 import { promptForSecondPassword } from 'services/SagaService'
+import BigNumber from 'bignumber.js'
 
 export default ({
   api,
@@ -34,7 +35,9 @@ export default ({
 
       const offersR = S.getOffers(yield select())
       const offers = offersR.getOrFail(NO_OFFER_EXISTS)
-      const offer = offers[0]
+      const coin = S.getCoinType(yield select())
+      const offer = offers.find(offer => offer.terms.collateralCcy === coin)
+      if (!offer) throw new Error(NO_OFFER_EXISTS)
 
       const loan = yield call(api.createLoan, offer.id, {
         symbol: offer.terms.principalCcy,
@@ -68,20 +71,48 @@ export default ({
     }
   }
 
-  const _createMaxCounter = function * (payment: PaymentType) {
-    const coin = S.getCoinType(yield select())
-    const ratesR = yield select(S.getRates)
-    const rates = ratesR.getOrElse({})
-    const balance = payment.value().effectiveBalance
+  const _createLimits = function * (payment: PaymentType) {
+    try {
+      const coin = S.getCoinType(yield select())
+      const offer = S.getOffer(yield select())
+      const ratesR = yield select(S.getRates)
+      const rates = ratesR.getOrElse({})
+      const balance = payment.value().effectiveBalance
 
-    switch (coin) {
-      case 'BTC':
-        return Exchange.convertBtcToFiat({
-          value: balance,
-          fromUnit: 'SAT',
-          toCurrency: 'USD',
-          rates: rates
-        }).value
+      if (!offer) throw new Error(NO_OFFER_EXISTS)
+
+      let adjustedBalance = new BigNumber(balance)
+        .dividedBy(offer.terms.collateralRatio)
+        .toNumber()
+
+      let maxFiat
+      let maxCrypto
+      switch (coin) {
+        case 'BTC':
+          maxFiat = Exchange.convertBtcToFiat({
+            value: adjustedBalance,
+            fromUnit: 'SAT',
+            toCurrency: 'USD',
+            rates: rates
+          }).value
+          maxCrypto = Exchange.convertBtcToBtc({
+            value: adjustedBalance,
+            fromUnit: 'SAT',
+            toUnit: 'SAT',
+            rates: rates
+          }).value
+      }
+
+      yield put(
+        A.setLimits({
+          maxFiat: Number(maxFiat),
+          maxCrypto: Number(maxCrypto),
+          minFiat: 0,
+          minCrypto: 0
+        })
+      )
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
     }
   }
 
@@ -136,7 +167,7 @@ export default ({
           case 'BTC':
             payment = yield call(_createPayment, action.payload.index)
         }
-        const maxCollateralCounter = yield call(_createMaxCounter, payment)
+        const maxCollateralCounter = yield call(_createLimits, payment)
 
         yield put(
           actions.form.change(
@@ -155,6 +186,7 @@ export default ({
     let defaultAccountR
     let payment: PaymentType = <PaymentType>{}
     yield put(A.setPaymentLoading())
+    yield put(A.setOffer(payload.offer))
 
     try {
       switch (payload.coin) {
@@ -170,14 +202,11 @@ export default ({
           break
       }
 
-      const maxCollateralCounter = yield call(_createMaxCounter, payment)
-      const offersR = S.getOffers(yield select())
-      const offers = offersR.getOrFail(NO_OFFER_EXISTS)
+      const maxCollateralCounter = yield call(_createLimits, payment)
 
       const initialValues = {
         collateral: defaultAccountR.getOrElse(),
-        maxCollateralCounter,
-        offer: offers[0]
+        maxCollateralCounter
       }
 
       yield put(initialize('borrowForm', initialValues))
@@ -188,17 +217,9 @@ export default ({
   }
 
   const maxCollateralClick = function * () {
-    const values: BorrowFormValuesType = yield select(
-      selectors.form.getFormValues('borrowForm')
-    )
+    const limits = S.getLimits(yield select())
 
-    yield put(
-      actions.form.change(
-        'borrowForm',
-        'principal',
-        values.maxCollateralCounter
-      )
-    )
+    yield put(actions.form.change('borrowForm', 'principal', limits.maxFiat))
   }
 
   return {

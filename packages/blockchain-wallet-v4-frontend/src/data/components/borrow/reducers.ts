@@ -5,6 +5,13 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 const INITIAL_STATE: BorrowState = {
   borrowHistory: Remote.NotAsked,
   coin: 'BTC',
+  limits: {
+    maxFiat: 0,
+    minFiat: 0,
+    maxCrypto: 0,
+    minCrypto: 0
+  },
+  offer: null,
   offers: Remote.NotAsked,
   payment: Remote.NotAsked
 }
@@ -48,6 +55,16 @@ export function borrowReducer (
       return {
         ...state,
         coin: action.payload.coin
+      }
+    case AT.SET_LIMITS:
+      return {
+        ...state,
+        limits: action.payload.limits
+      }
+    case AT.SET_OFFER:
+      return {
+        ...state,
+        offer: action.payload.offer
       }
     case AT.SET_PAYMENT_FAILURE:
       return {

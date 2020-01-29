@@ -1,17 +1,15 @@
 import { BorrowFormValuesType } from 'data/types'
+import { Props } from './template.success'
 import BigNumber from 'bignumber.js'
 // import { FormattedMessage } from 'react-intl'
 // import React from 'react'
 
 export const maximumAmount = (
   value: string,
-  allValues: BorrowFormValuesType
+  allValues: BorrowFormValuesType,
+  props: Props
 ) => {
-  if (allValues.maxCollateralCounter !== undefined) {
-    return new BigNumber(allValues.maxCollateralCounter).isLessThan(
-      Number(value)
-    )
-  }
+  return new BigNumber(props.limits.maxFiat).isLessThan(Number(value))
 }
 
 export const minimumAmount = (

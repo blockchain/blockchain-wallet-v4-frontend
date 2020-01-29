@@ -56,15 +56,25 @@ const CustomOrangeCartridge = styled<{ show: boolean }>(OrangeCartridge)`
 class InitBorrowForm extends PureComponent<Props> {
   state = {}
 
-  isDisabled = () => {
+  getOfferForCoin = () => {
     const offers = this.props.offersR.getOrElse([])
     const values = this.props.values
 
-    if (!values) return true
+    if (!values) return null
     const offer = offers.find(
       offer => offer.terms.collateralCcy === values.coin
     )
+    return offer
+  }
+
+  isDisabled = () => {
+    const offer = this.getOfferForCoin()
     return !offer
+  }
+
+  initBorrow = () => {
+    const offer = this.getOfferForCoin()
+    this.props.modalActions.showModal('BORROW_MODAL', { offer })
   }
 
   render () {
@@ -109,7 +119,7 @@ class InitBorrowForm extends PureComponent<Props> {
           style={{ marginTop: '16px' }}
           nature='primary'
           fullwidth
-          onClick={() => this.props.modalActions.showModal('BORROW_MODAL')}
+          onClick={this.initBorrow}
         >
           <FormattedMessage
             id='scenes.initborrow.borrow'

@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { BorrowActionTypes } from './types'
+import { BorrowActionTypes, BorrowMinMaxType, OfferType } from './types'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 
 export const createBorrow = () => ({
@@ -56,10 +56,25 @@ export const handleMaxCollateralClick = () => ({
   type: AT.MAX_COLLATERAL_CLICK
 })
 
-export const initializeBorrow = (coin: CoinType) => ({
+export const initializeBorrow = (coin: CoinType, offer: OfferType) => ({
   type: AT.INITIALIZE_BORROW,
   payload: {
-    coin
+    coin,
+    offer
+  }
+})
+
+export const setLimits = (limits: BorrowMinMaxType): BorrowActionTypes => ({
+  type: AT.SET_LIMITS,
+  payload: {
+    limits
+  }
+})
+
+export const setOffer = (offer: OfferType | null): BorrowActionTypes => ({
+  type: AT.SET_OFFER,
+  payload: {
+    offer
   }
 })
 
