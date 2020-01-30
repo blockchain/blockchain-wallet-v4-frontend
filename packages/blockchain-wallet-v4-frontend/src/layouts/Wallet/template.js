@@ -1,16 +1,14 @@
 import { replace } from 'ramda'
-import React from 'react'
-import styled from 'styled-components'
-
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import ExchangeMenu from 'scenes/Exchange/Menu'
 import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import Modals from 'modals'
 import Page from './Page'
+import React from 'react'
 import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
+import styled from 'styled-components'
 import Tooltips from 'components/Tooltips'
 import TrayRight from './TrayRight'
 
@@ -62,11 +60,6 @@ const WalletLayout = props => {
           <MenuLeft location={location} />
           <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
-            {location.pathname.includes('/swap') && (
-              <ExchangeMenu
-                historySelected={location.pathname.includes('/swap/history')}
-              />
-            )}
             {location.pathname.includes('/settings/addresses') && (
               <SettingsAddressesMenu location={location} />
             )}

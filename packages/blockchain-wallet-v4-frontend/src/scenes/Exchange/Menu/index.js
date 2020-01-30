@@ -10,6 +10,10 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+const Wrapper = styled.div`
+  position: sticky;
+`
+
 const SupportButton = styled(Button)`
   margin-left: auto;
   height: 38px;
@@ -21,7 +25,7 @@ const SupportButton = styled(Button)`
 
 export const Menu = ({ showGetStarted, showHelpModal }) =>
   !showGetStarted ? (
-    <React.Fragment>
+    <Wrapper>
       <Announcements type='service' alertArea='swap' />
       <HorizontalMenu>
         <TabMenu>
@@ -55,7 +59,7 @@ export const Menu = ({ showGetStarted, showHelpModal }) =>
           />
         </SupportButton>
       </HorizontalMenu>
-    </React.Fragment>
+    </Wrapper>
   ) : (
     <div />
   )

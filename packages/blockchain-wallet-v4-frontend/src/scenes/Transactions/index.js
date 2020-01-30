@@ -14,7 +14,8 @@ import CoinIntroduction from './CoinIntroduction'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
 
-const Wrapper = styled.div`
+// TODO: layout - make wrapper generic?
+const Wrapper = styled(LazyLoadContainer)`
   width: 100%;
   height: 100%;
   display: flex;
@@ -23,6 +24,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   box-sizing: border-box;
   padding: 15px 30px;
+  overflow: auto;
 `
 const PageTitle = styled.div`
   display: flex;
@@ -34,19 +36,8 @@ const PageTitle = styled.div`
     margin-right: 14px;
   }
 `
-const TransactionsWrapper = styled(LazyLoadContainer)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  box-sizing: border-box;
-  width: 100%;
-`
 const Header = styled.div`
-  position: sticky;
   width: 100%;
-  padding-bottom: 24px;
-  border-bottom: 1px solid ${props => props.theme.grey100};
 `
 const StatsContainer = styled.div`
   display: flex;
@@ -117,7 +108,7 @@ class TransactionsContainer extends React.PureComponent {
         <CoinIntroduction coin={coin} />
       )
     ) : (
-      <Wrapper>
+      <Wrapper onLazyLoad={this.handleLoadMore}>
         <Header>
           <PageTitle>
             <Icon size='36px' color={colorCode} name={icons.circleFilled} />
@@ -137,22 +128,20 @@ class TransactionsContainer extends React.PureComponent {
               </Text>
             </ChartContainer>
           </StatsContainer>
-          <TransactionFilters coin={coin} />
         </Header>
-        <TransactionsWrapper onLazyLoad={this.handleLoadMore}>
-          {pages.map((value, index) => (
-            <TransactionList
-              buySellPartner={buySellPartner}
-              coin={coin}
-              currency={currency}
-              data={value}
-              key={index}
-              onArchive={this.handleArchive}
-              onLoadMore={this.handleLoadMore}
-              onRefresh={this.handleRefresh}
-            />
-          ))}
-        </TransactionsWrapper>
+        <TransactionFilters coin={coin} />
+        {pages.map((value, index) => (
+          <TransactionList
+            buySellPartner={buySellPartner}
+            coin={coin}
+            currency={currency}
+            data={value}
+            key={index}
+            onArchive={this.handleArchive}
+            onLoadMore={this.handleLoadMore}
+            onRefresh={this.handleRefresh}
+          />
+        ))}
       </Wrapper>
     )
   }
