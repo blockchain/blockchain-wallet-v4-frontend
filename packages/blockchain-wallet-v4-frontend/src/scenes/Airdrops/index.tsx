@@ -17,8 +17,7 @@ import Success from './template.success'
 export const Wrapper = styled.div`
   width: 100%;
   margin: 12px 30px;
-  padding-top: 24px;
-  border-top: 1px solid ${(props) => props.theme.blue100};
+  padding-top: 8px;
 `
 export const Header = styled.div`
   margin-bottom: 40px;
