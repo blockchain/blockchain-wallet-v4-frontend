@@ -1,6 +1,10 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import React from 'react'
+
+import { actions, selectors } from 'data'
+
 import {
   currentUserTier,
   getAvailability,
@@ -9,24 +13,23 @@ import {
   getDomains,
   getTags
 } from './selectors'
-import PropTypes from 'prop-types'
-import React from 'react'
 import Welcome from './template'
 import WelcomePax from './template.pax'
 import WelcomeStx from './template.stx'
 
-class CoinWelcomeContainer extends React.PureComponent {
+class CoinIntroductionContainer extends React.PureComponent {
   render () {
     const {
       availability,
       coin,
       currentUserTier,
       domains,
+      handleRequest,
+      modalActions,
       partner,
       supportedCoins,
       ...rest
     } = this.props
-    const { modalActions } = rest
     const currentCoin = supportedCoins[coin]
 
     switch (currentCoin.coinCode) {
@@ -75,11 +78,11 @@ const mapDispatchToProps = dispatch => ({
   onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
-CoinWelcomeContainer.propTypes = {
+CoinIntroductionContainer.propTypes = {
   coin: PropTypes.string.isRequired
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CoinWelcomeContainer)
+)(CoinIntroductionContainer)

@@ -8,7 +8,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import Menu from './template'
 
-class MenuContainer extends React.PureComponent {
+class TransactionFiltersContainer extends React.PureComponent {
   onShowPrivateKey = () => {
     const { coin, modalActions } = this.props
 
@@ -55,11 +55,11 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-MenuContainer.propTypes = {
+TransactionFiltersContainer.propTypes = {
   coin: PropTypes.string.isRequired
 }
 
 export default connect(
   getData,
   mapDispatchToProps
-)(MenuContainer)
+)(TransactionFiltersContainer)

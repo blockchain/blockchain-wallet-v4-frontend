@@ -51,26 +51,24 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
-const coinSelectorMap = (state, coin) => {
-  const erc20List = selectors.core.walletOptions
-    .getErc20CoinList(state)
-    .getOrFail()
-  if (includes(coin, erc20List)) {
+const coinSelectorMap = (state, coin, isCoinErc20) => {
+  if (isCoinErc20) {
     return state =>
       selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   return selectors.core.common[toLower(coin)].getWalletTransactions
 }
 
-export const getData = (state, coin) =>
+export const getData = (state, coin, isCoinErc20) =>
   createSelector(
     [
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap(state, coin),
+      coinSelectorMap(state, coin, isCoinErc20),
       selectors.core.kvStore.buySell.getMetadata,
-      selectors.core.settings.getCurrency
+      selectors.core.settings.getCurrency,
+      () => selectors.core.walletOptions.getCoinModel(state, coin)
     ],
-    (userSearch, pages, buySellMetadata, currencyR) => {
+    (userSearch, pages, buySellMetadata, currencyR, coinModelR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
@@ -78,15 +76,14 @@ export const getData = (state, coin) =>
         pages && !isEmpty(pages)
           ? pages.map(map(filterTransactions(status, search)))
           : []
-      const partnerData = prop('value', buySellMetadata.getOrElse())
-      const currency = currencyR.getOrElse('')
 
       return {
-        currency: currency,
+        coinModel: coinModelR.getOrElse({}),
+        currency: currencyR.getOrElse(''),
         pages: filteredPages,
         empty: all(empty)(filteredPages),
         search: search.length > 0 || status !== '',
-        buySellPartner: hasAccount(partnerData)
+        buySellPartner: hasAccount(prop('value', buySellMetadata.getOrElse()))
       }
     }
   )(state)
