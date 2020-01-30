@@ -11,10 +11,10 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
 import CoinIntroduction from './CoinIntroduction'
-import Header from './Header'
+import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
 
-const Wrapper = styled(LazyLoadContainer)`
+const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -34,7 +34,20 @@ const PageTitle = styled.div`
     margin-right: 14px;
   }
 `
-
+const TransactionsWrapper = styled(LazyLoadContainer)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+`
+const Header = styled.div`
+  position: sticky;
+  width: 100%;
+  padding-bottom: 24px;
+  border-bottom: 1px solid ${props => props.theme.grey100};
+`
 const StatsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -97,49 +110,49 @@ class TransactionsContainer extends React.PureComponent {
     } = this.props
     const { colorCode, displayName, icons } = coinModel
 
-    return (
-      <Wrapper onLazyLoad={this.handleLoadMore}>
-        {empty ? (
-          search ? (
-            <EmptyTx />
-          ) : (
-            <CoinIntroduction coin={coin} />
-          )
-        ) : (
-          <>
-            <PageTitle>
-              <Icon size='36px' color={colorCode} name={icons.circleFilled} />
-              <Text color='grey800' size='32px' weight={600}>
-                {displayName}
+    return empty ? (
+      search ? (
+        <EmptyTx />
+      ) : (
+        <CoinIntroduction coin={coin} />
+      )
+    ) : (
+      <Wrapper>
+        <Header>
+          <PageTitle>
+            <Icon size='36px' color={colorCode} name={icons.circleFilled} />
+            <Text color='grey800' size='32px' weight={600}>
+              {displayName}
+            </Text>
+          </PageTitle>
+          <StatsContainer>
+            <BalanceContainer>
+              <Text color='grey400' weight={500} size='16px'>
+                Wallet Balance
               </Text>
-            </PageTitle>
-            <StatsContainer>
-              <BalanceContainer>
-                <Text color='grey400' weight={500} size='16px'>
-                  Bitcoin Wallet Balance
-                </Text>
-              </BalanceContainer>
-              <ChartContainer>
-                <Text color='grey400' weight={500} size='16px'>
-                  Current Price
-                </Text>
-              </ChartContainer>
-            </StatsContainer>
-            <Header coin={coin} />
-            {pages.map((value, index) => (
-              <TransactionList
-                buySellPartner={buySellPartner}
-                coin={coin}
-                currency={currency}
-                data={value}
-                key={index}
-                onArchive={this.handleArchive}
-                onLoadMore={this.handleLoadMore}
-                onRefresh={this.handleRefresh}
-              />
-            ))}
-          </>
-        )}
+            </BalanceContainer>
+            <ChartContainer>
+              <Text color='grey400' weight={500} size='16px'>
+                Current Price
+              </Text>
+            </ChartContainer>
+          </StatsContainer>
+          <TransactionFilters coin={coin} />
+        </Header>
+        <TransactionsWrapper onLazyLoad={this.handleLoadMore}>
+          {pages.map((value, index) => (
+            <TransactionList
+              buySellPartner={buySellPartner}
+              coin={coin}
+              currency={currency}
+              data={value}
+              key={index}
+              onArchive={this.handleArchive}
+              onLoadMore={this.handleLoadMore}
+              onRefresh={this.handleRefresh}
+            />
+          ))}
+        </TransactionsWrapper>
       </Wrapper>
     )
   }

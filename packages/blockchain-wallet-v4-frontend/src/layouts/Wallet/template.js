@@ -22,8 +22,8 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   position: relative;
+  height: 100%;
   width: 100%;
-  height: calc(100% - 60px);
 `
 const Nav = styled.div`
   flex: 0 0 60px;
