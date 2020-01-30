@@ -12,6 +12,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   position: sticky;
+  width: 100%;
 `
 
 const SupportButton = styled(Button)`
