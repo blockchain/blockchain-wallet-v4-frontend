@@ -43,6 +43,12 @@ const ReportingIcon = styled(Icon)`
   width: 40px;
   margin-right: 10px;
 `
+const SearchField = styled(Field)`
+  > div > span {
+    top: 14px;
+    font-size: 18px;
+  }
+`
 const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
 const TX_EXPORT_COINS = ['BTC', 'BCH']
 
@@ -114,19 +120,19 @@ const TransactionFilters = ({
       )}
       {includes(coin, TX_EXPORT_COINS) && (
         <ReportingIcon
-          name='request'
-          size='24px'
+          color='grey400'
           cursor
-          color='gray-2'
-          onClick={handleClickReporting}
           data-e2e='generateTxReport'
+          name='download'
+          onClick={handleClickReporting}
+          size='20px'
         />
       )}
-      <Field
+      <SearchField
         component={TextBox}
         data-e2e='transactionsMenuSearchBox'
-        height='40px'
-        icon='search'
+        height='45px'
+        icon='magnifier'
         name='search'
         placeholder='Search'
       />

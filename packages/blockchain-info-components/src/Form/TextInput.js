@@ -49,6 +49,7 @@ const InputIcon = styled(Icon)`
   position: absolute;
   top: 12px;
   left: 12px;
+  color: ${props => props.theme['grey400']};
 `
 const selectBorderColor = state => {
   switch (state) {

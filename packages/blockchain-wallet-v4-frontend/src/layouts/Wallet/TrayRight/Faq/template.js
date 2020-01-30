@@ -66,7 +66,7 @@ const Faq = props => (
     </ContentHeader>
     <Search>
       <Field name='search' component={TextBox} />
-      <Icon name='search' size='20px' weight={400} color='gray-3' />
+      <Icon name='magnifier' size='20px' weight={400} color='gray-3' />
     </Search>
     <Content>
       {props.filteredContent.length > 0 &&

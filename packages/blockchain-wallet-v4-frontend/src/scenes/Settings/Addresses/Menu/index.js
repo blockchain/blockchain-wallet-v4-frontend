@@ -69,7 +69,7 @@ const MenuTop = () => (
       </TabMenu>
       <Search data-e2e='walletSettingsSearch'>
         <Field name='search' height='40px' component={TextBox} />
-        <SearchIcon name='search' size='20px' />
+        <SearchIcon name='magnifier' size='20px' />
       </Search>
     </Container>
   </HorizontalMenu>
