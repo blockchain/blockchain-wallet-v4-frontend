@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   min-height: 600px;
@@ -57,16 +57,18 @@ export const ExchangeScene = ({
     Success: userCreated => (
       <Wrapper>
         {userCreated ? (
-          <Container>
-            <Column>
-              <Exchange
-                from={path(['state', 'from'], location)}
-                to={path(['state', 'to'], location)}
-                fix={path(['state', 'fix'], location)}
-                amount={path(['state', 'amount'], location)}
-              />
-            </Column>
-          </Container>
+          <>
+            <Container>
+              <Column>
+                <Exchange
+                  from={path(['state', 'from'], location)}
+                  to={path(['state', 'to'], location)}
+                  fix={path(['state', 'fix'], location)}
+                  amount={path(['state', 'amount'], location)}
+                />
+              </Column>
+            </Container>
+          </>
         ) : (
           <GetStarted />
         )}

@@ -10,12 +10,19 @@ import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 
 const { WALLET_TX_SEARCH } = model.form
 
+// TODO: layout - make horizontal menu
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: -15px;
   width: 100%;
+  padding-bottom: 12px;
+  background-color: ${props => props.theme.white};
+  border-bottom: 1px solid ${props => props.theme.grey000};
+  z-index: 1;
 `
 const Search = styled.div`
   position: relative;
