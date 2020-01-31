@@ -8,6 +8,7 @@ import EmailRequired from 'components/EmailRequired'
 import Exchange from './ExchangeContainer'
 import GetStarted from './GetStarted'
 import media from 'services/ResponsiveService'
+import Menu from './Menu'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,7 +17,6 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 600px;
 `
 
 const Container = styled.section`
@@ -58,6 +58,7 @@ export const ExchangeScene = ({
       <Wrapper>
         {userCreated ? (
           <>
+            <Menu />
             <Container>
               <Column>
                 <Exchange
