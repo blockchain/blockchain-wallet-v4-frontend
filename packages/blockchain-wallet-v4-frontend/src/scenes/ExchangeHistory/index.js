@@ -2,10 +2,17 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { Menu } from '../Exchange/Menu'
 import Error from './template.error'
 import Loading from './template.loading'
 import React from 'react'
+import styled from 'styled-components'
 import Success from './template.success'
+
+const Wrapper = styled.div`
+  display: block;
+  width: 100%;
+`
 
 class ExchangeHistoryContainer extends React.PureComponent {
   componentDidMount () {
@@ -29,7 +36,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
   }
 
   render () {
-    return this.props.data.cata({
+    const Content = this.props.data.cata({
       Success: value => (
         <Success {...value} onScrollPastFinish={this.onScrollPastFinish} />
       ),
@@ -37,6 +44,13 @@ class ExchangeHistoryContainer extends React.PureComponent {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
+
+    return (
+      <Wrapper>
+        <Menu />
+        {Content}
+      </Wrapper>
+    )
   }
 }
 

@@ -10,6 +10,14 @@ import { TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 const { WALLET_TX_SEARCH } = model.form
 
+const Wrapper = styled.div`
+  background-color: ${props => props.theme.white};
+  position: sticky;
+  width: 100%;
+  z-index: 1;
+  top: 0;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -34,45 +42,41 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-const LinkItem = styled(TabMenuItem)`
-  &.active {
-    & :after {
-      position: absolute;
-      content: '';
-      top: 39px;
-      left: 0;
-      width: 100%;
-      border-bottom: 4px solid ${props => props.theme.blue600};
-    }
-  }
-`
 const MenuTop = () => (
-  <HorizontalMenu>
-    <Container>
-      <TabMenu>
-        <LinkContainer to='/settings/addresses/btc' activeClassName='active'>
-          <LinkItem data-e2e='btcWalletSettingsLink'>
-            <FormattedMessage
-              id='scenes.settings.addresses.menutop.btc'
-              defaultMessage='Bitcoin'
-            />
-          </LinkItem>
-        </LinkContainer>
-        <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
-          <LinkItem data-e2e='bchWalletSettingsLink'>
-            <FormattedMessage
-              id='scenes.settings.addresses.menutop.bch'
-              defaultMessage='Bitcoin Cash'
-            />
-          </LinkItem>
-        </LinkContainer>
-      </TabMenu>
-      <Search data-e2e='walletSettingsSearch'>
-        <Field name='search' height='40px' component={TextBox} />
-        <SearchIcon name='magnifier' size='20px' />
-      </Search>
-    </Container>
-  </HorizontalMenu>
+  <Wrapper>
+    <HorizontalMenu>
+      <Container>
+        <TabMenu>
+          <LinkContainer to='/settings/addresses/btc'>
+            <TabMenuItem
+              activeClassName='active'
+              data-e2e='btcWalletSettingsLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.btc'
+                defaultMessage='Bitcoin'
+              />
+            </TabMenuItem>
+          </LinkContainer>
+          <LinkContainer to='/settings/addresses/bch'>
+            <TabMenuItem
+              activeClassName='active'
+              data-e2e='bchWalletSettingsLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.bch'
+                defaultMessage='Bitcoin Cash'
+              />
+            </TabMenuItem>
+          </LinkContainer>
+        </TabMenu>
+        <Search data-e2e='walletSettingsSearch'>
+          <Field name='search' height='40px' component={TextBox} />
+          <SearchIcon name='magnifier' size='20px' />
+        </Search>
+      </Container>
+    </HorizontalMenu>
+  </Wrapper>
 )
 
 export default reduxForm({

@@ -7,7 +7,6 @@ import MenuLeft from './MenuLeft'
 import Modals from 'modals'
 import Page from './Page'
 import React from 'react'
-import SettingsAddressesMenu from 'scenes/Settings/Addresses/Menu'
 import styled from 'styled-components'
 import Tooltips from 'components/Tooltips'
 import TrayRight from './TrayRight'
@@ -60,9 +59,6 @@ const WalletLayout = props => {
           <MenuLeft location={location} />
           <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
-            {location.pathname.includes('/settings/addresses') && (
-              <SettingsAddressesMenu location={location} />
-            )}
             {location.pathname.includes('/settings/profile') && (
               <ExchangeProfileMenu />
             )}
