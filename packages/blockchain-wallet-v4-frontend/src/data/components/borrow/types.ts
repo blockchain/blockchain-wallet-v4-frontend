@@ -70,8 +70,17 @@ export type UTXOType = {
   }
 }
 
+export type FromType =
+  | 'ACCOUNT'
+  | 'LEGACY'
+  | 'WATCH_ONLY'
+  | 'EXTERNAL'
+  | 'LOCKBOX'
+  | 'ADDRESS'
+
 export type PaymentType = {
-  amount: (n: number) => PaymentType
+  amount: (n: number, addressType: FromType) => PaymentType
+  build: () => PaymentType
   change: string
   coins: Array<UTXOType>
   effectiveBalance: number
@@ -86,13 +95,7 @@ export type PaymentType = {
   }
   from: Array<string>
   fromAccountIdx: number
-  fromType:
-    | 'ACCOUNT'
-    | 'LEGACY'
-    | 'WATCH_ONLY'
-    | 'EXTERNAL'
-    | 'LOCKBOX'
-    | 'ADDRESS'
+  fromType: FromType
   sign: (pw: string) => PaymentType
   to: (address: string) => PaymentType
   value: () => PaymentType

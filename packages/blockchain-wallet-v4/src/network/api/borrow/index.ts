@@ -1,30 +1,35 @@
 import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { LoanType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
-  const getOffers = () =>
+  const getOffers = (): Array<LoanType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/lending/offers'
     })
 
   const createLoan = (
+    collateralWithdrawAddress: string,
     offerId: string,
-    principalAmount: { symbol: CoinType; value: string }
-  ) =>
+    principalAmount: { symbol: CoinType; value: string },
+    principalWithdrawAddress: string
+  ): LoanType =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: '/user/53d0ec26-2e0c-4cf5-aa94-f5822b21270f/loans',
+      endPoint: '/user/loans',
       contentType: 'application/json',
       data: {
+        collateralWithdrawAddress,
         offerId,
-        principalAmount
+        principalAmount,
+        principalWithdrawAddress
       }
     })
 
   const getUserBorrowHistory = () =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/user/53d0ec26-2e0c-4cf5-aa94-f5822b21270f/loans'
+      endPoint: '/user/loans'
     })
 
   return {

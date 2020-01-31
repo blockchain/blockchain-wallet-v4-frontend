@@ -7,6 +7,7 @@ import { BorrowFormValuesType, PaymentType } from './types'
 import { call, put, select } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormAction, initialize } from 'redux-form'
+import { LoanType } from 'core/types'
 import { NO_OFFER_EXISTS } from './model'
 import { nth } from 'ramda'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -25,7 +26,7 @@ export default ({
     try {
       yield put(actions.form.startSubmit('borrowForm'))
       const paymentR = S.getPayment(yield select())
-      let payment = coreSagas.payment.btc.create({
+      let payment: PaymentType = coreSagas.payment.btc.create({
         payment: paymentR.getOrElse(<PaymentType>{}),
         network: networks.btc
       })
@@ -39,23 +40,41 @@ export default ({
       const offer = offers.find(offer => offer.terms.collateralCcy === coin)
       if (!offer) throw new Error(NO_OFFER_EXISTS)
 
-      const loan = yield call(api.createLoan, offer.id, {
-        symbol: offer.terms.principalCcy,
-        value: values.principal
-      })
+      // TODO: Borrow - make dynamic
+      const principalWithdrawAddressR = yield select(
+        selectors.core.data.eth.getDefaultAddress
+      )
+      const principalWithdrawAddress = principalWithdrawAddressR.getOrFail(
+        'NO_PRINCIPAL_WITHDRAW_ADDRESS'
+      )
+
+      // TODO: Borrow - make dynamic
+      const collateralWithdrawAddressR = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        payment.value().fromAccountIdx,
+        yield select()
+      )
+      const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
+        'NO_COLLATERAL_WITHDRAW_ADDRESS'
+      )
+
+      const loan: LoanType = yield call(
+        api.createLoan,
+        collateralWithdrawAddress,
+        offer.id,
+        {
+          symbol: offer.terms.principalCcy,
+          value: values.principal
+        },
+        principalWithdrawAddress
+      )
 
       // console.log(loan)
-
-      // const request = {
-      //  offerId: offer.offerId,
-      //  principalAmount: offer.principalAmount
-      // }
-
       // const loan = yield call(api.createLoan, request)
       // payment = yield payment.amount(convert loan amount to rate from offer)
       // payment = yield payment.to(loan.depositAddresses)
       payment = yield payment.amount(546, ADDRESS_TYPES.ADDRESS)
-      payment = yield payment.to('1PEP3UNaohnHqVbUNLFFycUJ3ShQxa5NbD')
+      payment = yield payment.to(loan.collateral.depositAddresses[coin])
 
       payment = yield payment.build()
       // ask for second password
