@@ -2,6 +2,7 @@ import { replace } from 'ramda'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import Header from './Header'
+import media from 'services/ResponsiveService'
 import MenuLeft from './MenuLeft'
 import Modals from 'modals'
 import Page from './Page'
@@ -33,11 +34,11 @@ const Content = styled.div`
   align-items: flex-start;
   width: calc(100% - 250px);
   background-color: ${props => props.theme.white};
-  padding: 8px 30px;
-
-  @media (max-width: 768px) {
+  padding: 16px 30px;
+  ${media.mobile`
+    padding: 8px 16px;
     width: 100%;
-  }
+  `}
 `
 
 const WalletLayout = props => {
