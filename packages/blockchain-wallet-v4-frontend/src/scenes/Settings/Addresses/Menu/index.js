@@ -1,13 +1,14 @@
+import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
-import styled from 'styled-components'
-
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
 import { model } from 'data'
 import { TextBox } from 'components/Form'
+import { withRouter } from 'react-router-dom'
 import HorizontalMenu from 'components/HorizontalMenu'
+import React from 'react'
+import styled from 'styled-components'
 const { WALLET_TX_SEARCH } = model.form
 
 const Wrapper = styled.div`
@@ -79,6 +80,11 @@ const MenuTop = () => (
   </Wrapper>
 )
 
-export default reduxForm({
-  form: WALLET_TX_SEARCH
-})(MenuTop)
+const enhance = compose(
+  withRouter,
+  reduxForm({
+    form: WALLET_TX_SEARCH
+  })
+)
+
+export default enhance(MenuTop)
