@@ -1,7 +1,6 @@
 import { replace } from 'ramda'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import ExchangeProfileMenu from 'scenes/Settings/Profile/Menu'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import Modals from 'modals'
@@ -41,8 +40,6 @@ const Content = styled.div`
   }
 `
 
-// TODO: @header issue
-// change this so that pages control their own scroll
 const WalletLayout = props => {
   const { children, location } = props
 
@@ -59,9 +56,6 @@ const WalletLayout = props => {
           <MenuLeft location={location} />
           <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
-            {location.pathname.includes('/settings/profile') && (
-              <ExchangeProfileMenu />
-            )}
             <Page>{children}</Page>
           </Content>
         </Container>

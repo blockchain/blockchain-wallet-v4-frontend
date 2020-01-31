@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import DataError from 'components/DataError'
 import IdentityVerification from './IdentityVerification'
+import Menu from './Menu'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -34,6 +35,7 @@ export const Profile = ({ data, fetchUser }) =>
     Success: ({ userData, userTiers }) => (
       <Wrapper>
         <Container>
+          <Menu />
           <IdentityVerification userData={userData} userTiers={userTiers} />
         </Container>
       </Wrapper>

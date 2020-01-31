@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  width: calc(100% - 30px);
+  width: 100%;
   padding: 8px 0px;
-  margin-left: 8px;
   box-sizing: border-box;
   background-color: ${props => props.theme.white};
   border-bottom: 1px solid ${props => props.theme['gray-1']};

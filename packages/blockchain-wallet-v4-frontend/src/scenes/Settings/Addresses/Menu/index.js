@@ -4,20 +4,13 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { model } from 'data'
+import { StickyHeader } from 'components/Layout'
 import { TextBox } from 'components/Form'
 import { withRouter } from 'react-router-dom'
 import HorizontalMenu from 'components/HorizontalMenu'
 import React from 'react'
 import styled from 'styled-components'
 const { WALLET_TX_SEARCH } = model.form
-
-const Wrapper = styled.div`
-  background-color: ${props => props.theme.white};
-  position: sticky;
-  width: 100%;
-  z-index: 1;
-  top: 0;
-`
 
 const Container = styled.div`
   display: flex;
@@ -44,7 +37,7 @@ const SearchIcon = styled(Icon)`
   right: 10px;
 `
 const MenuTop = () => (
-  <Wrapper>
+  <StickyHeader>
     <HorizontalMenu>
       <Container>
         <TabMenu>
@@ -77,7 +70,7 @@ const MenuTop = () => (
         </Search>
       </Container>
     </HorizontalMenu>
-  </Wrapper>
+  </StickyHeader>
 )
 
 const enhance = compose(
