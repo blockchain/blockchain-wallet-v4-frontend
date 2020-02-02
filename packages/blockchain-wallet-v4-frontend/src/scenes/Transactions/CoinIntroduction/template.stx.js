@@ -4,9 +4,6 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  padding-top: 50px;
-`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,109 +62,107 @@ const Welcome = props => {
   const { currentCoin, currentKYCState, currentTags, onboardingActions } = props
 
   return (
-    <Wrapper>
-      <Container>
-        <Row>
-          <Column>
-            <div>
-              <CoinHeader size='24px' weight={500} color='blue900'>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.newcoinwallet'
-                  defaultMessage='Your {coin} Wallet'
-                  values={{ coin: currentCoin.coinTicker }}
-                />
-              </CoinHeader>
-              <Content weight={400} color='grey900'>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.stxnew'
-                  defaultMessage='Blockstack apps protect your digital rights and are powered by the {displayName} ({coinCode}) blockchain.'
-                  values={{
-                    displayName: currentCoin.displayName,
-                    coinCode: currentCoin.coinCode
-                  }}
-                />
-              </Content>
-              <Content weight={600} color='grey900'>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.freestx'
-                  defaultMessage='Complete your profile and get $10 for free.'
-                />
-              </Content>
-              <CTAContainer>
-                {currentTags[currentCoin.campaign] ? (
-                  <Button nature='success'>
-                    <Icon
-                      name='parachute'
-                      color='white'
-                      size='16px'
-                      style={{ marginRight: '8px' }}
-                    />
-                    <FormattedMessage
-                      id='scenes.transaction.content.empty.airdropready'
-                      defaultMessage='Airdrop Ready'
-                    />
-                  </Button>
-                ) : currentKYCState === 'NONE' ? (
-                  <Button
-                    nature='primary'
-                    onClick={() =>
-                      onboardingActions.upgradeForAirdropSubmitClicked(
-                        currentCoin.campaign
-                      )
-                    }
-                  >
-                    <FormattedMessage
-                      id='scenes.transaction.content.empty.completeprofile'
-                      defaultMessage='Complete Profile'
-                    />
-                  </Button>
-                ) : (
-                  <Button nature='warning'>
-                    <FormattedMessage
-                      id='scenes.transaction.content.empty.ineligibleforairdrop'
-                      defaultMessage='Ineligible for Airdrop'
-                    />
-                  </Button>
-                )}
-              </CTAContainer>
-            </div>
-          </Column>
-          <Column width='75%'>
-            <Icon
-              name={currentCoin.icons.circleFilled}
-              color={currentCoin.colorCode}
-              size='84px'
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column>
-            {currentCoin.learnMoreLink && (
-              <LearnMoreContainer
-                href={currentCoin.learnMoreLink}
-                target='_blank'
-              >
-                <Text size='15px'>
-                  <FormattedMessage
-                    id='scenes.transaction.content.empty.getstarted.explanation'
-                    defaultMessage="We've put together a page explaining all of this."
+    <Container>
+      <Row>
+        <Column>
+          <div>
+            <CoinHeader size='24px' weight={500} color='blue900'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.newcoinwallet'
+                defaultMessage='Your {coin} Wallet'
+                values={{ coin: currentCoin.coinTicker }}
+              />
+            </CoinHeader>
+            <Content weight={400} color='grey900'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.stxnew'
+                defaultMessage='Blockstack apps protect your digital rights and are powered by the {displayName} ({coinCode}) blockchain.'
+                values={{
+                  displayName: currentCoin.displayName,
+                  coinCode: currentCoin.coinCode
+                }}
+              />
+            </Content>
+            <Content weight={600} color='grey900'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.freestx'
+                defaultMessage='Complete your profile and get $10 for free.'
+              />
+            </Content>
+            <CTAContainer>
+              {currentTags[currentCoin.campaign] ? (
+                <Button nature='success'>
+                  <Icon
+                    name='parachute'
+                    color='white'
+                    size='16px'
+                    style={{ marginRight: '8px' }}
                   />
-                </Text>
-                <LearnMoreLink>
-                  <LearnMoreText size='15px'>
-                    <FormattedMessage
-                      id='scenes.transaction.content.empty.getstarted.learnmore'
-                      defaultMessage='Learn More'
-                    />
-                  </LearnMoreText>
-                  <Icon name='arrow-right' color='blue600' size='18px' />
-                </LearnMoreLink>
-              </LearnMoreContainer>
-            )}
-          </Column>
-        </Row>
-      </Container>
-    </Wrapper>
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.airdropready'
+                    defaultMessage='Airdrop Ready'
+                  />
+                </Button>
+              ) : currentKYCState === 'NONE' ? (
+                <Button
+                  nature='primary'
+                  onClick={() =>
+                    onboardingActions.upgradeForAirdropSubmitClicked(
+                      currentCoin.campaign
+                    )
+                  }
+                >
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.completeprofile'
+                    defaultMessage='Complete Profile'
+                  />
+                </Button>
+              ) : (
+                <Button nature='warning'>
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.ineligibleforairdrop'
+                    defaultMessage='Ineligible for Airdrop'
+                  />
+                </Button>
+              )}
+            </CTAContainer>
+          </div>
+        </Column>
+        <Column width='75%'>
+          <Icon
+            name={currentCoin.icons.circleFilled}
+            color={currentCoin.colorCode}
+            size='84px'
+          />
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          {currentCoin.learnMoreLink && (
+            <LearnMoreContainer
+              href={currentCoin.learnMoreLink}
+              target='_blank'
+            >
+              <Text size='15px'>
+                <FormattedMessage
+                  id='scenes.transaction.content.empty.getstarted.explanation'
+                  defaultMessage="We've put together a page explaining all of this."
+                />
+              </Text>
+              <LearnMoreLink>
+                <LearnMoreText size='15px'>
+                  <FormattedMessage
+                    id='scenes.transaction.content.empty.getstarted.learnmore'
+                    defaultMessage='Learn More'
+                  />
+                </LearnMoreText>
+                <Icon name='arrow-right' color='blue600' size='18px' />
+              </LearnMoreLink>
+            </LearnMoreContainer>
+          )}
+        </Column>
+      </Row>
+    </Container>
   )
 }
 

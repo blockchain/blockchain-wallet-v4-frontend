@@ -7,9 +7,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  padding-top: 50px;
-`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -98,114 +95,112 @@ const Welcome = props => {
   const { availability, currentCoin, handleRequest, partner } = props
 
   return (
-    <Wrapper>
-      <Container>
-        <Row>
-          <Column>
-            <div>
-              <Text size='24px' weight={500} color='blue900'>
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.newcoinwallet'
-                  defaultMessage='Your {coin} Wallet'
-                  values={{ coin: currentCoin.coinTicker }}
-                />
-              </Text>
-              {getContent(currentCoin)}
-            </div>
-          </Column>
-          <Column>
-            <Icon
-              name={currentCoin.icons.circleFilled}
-              color={currentCoin.colorCode}
-              size='112px'
-            />
-          </Column>
-        </Row>
-        <Row>
-          <Column style={{ paddingRight: '20px' }}>
-            {partner ? (
-              <LinkContainer to='/buy-sell'>
-                <FooterButton
-                  nature='primary'
-                  fullwidth
-                  disabled={!availability.exchange}
-                >
-                  <FormattedMessage
-                    id='scenes.transaction.content.empty.newcoinbuy'
-                    defaultMessage='Buy {coin}'
-                    values={{ coin: currentCoin.coinTicker }}
-                  />
-                </FooterButton>
-              </LinkContainer>
-            ) : (
+    <Container>
+      <Row>
+        <Column>
+          <div>
+            <Text size='24px' weight={500} color='blue900'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.newcoinwallet'
+                defaultMessage='Your {coin} Wallet'
+                values={{ coin: currentCoin.coinTicker }}
+              />
+            </Text>
+            {getContent(currentCoin)}
+          </div>
+        </Column>
+        <Column>
+          <Icon
+            name={currentCoin.icons.circleFilled}
+            color={currentCoin.colorCode}
+            size='112px'
+          />
+        </Column>
+      </Row>
+      <Row>
+        <Column style={{ paddingRight: '20px' }}>
+          {partner ? (
+            <LinkContainer to='/buy-sell'>
               <FooterButton
                 nature='primary'
-                onClick={handleRequest}
-                fullwidth
-                disabled={!availability.request}
-              >
-                <FormattedMessage
-                  id='scenes.transaction.content.empty.getstarted.newcoinrequest'
-                  defaultMessage='Get {coin}'
-                  values={{ coin: currentCoin.coinTicker }}
-                />
-              </FooterButton>
-            )}
-          </Column>
-          <Column style={{ paddingLeft: '20px' }}>
-            <LinkContainer
-              to={{
-                pathname: '/swap',
-                state: {
-                  from: currentCoin.coinTicker === 'BTC' ? 'ETH' : 'BTC',
-                  to: currentCoin.coinTicker,
-                  amount: '0',
-                  fix: model.rates.FIX_TYPES.BASE_IN_FIAT
-                }
-              }}
-            >
-              <FooterButton
-                nature='empty-secondary'
                 fullwidth
                 disabled={!availability.exchange}
               >
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.getstarted.newcoinswap'
-                  defaultMessage='Swap {coin}'
+                  id='scenes.transaction.content.empty.newcoinbuy'
+                  defaultMessage='Buy {coin}'
                   values={{ coin: currentCoin.coinTicker }}
                 />
               </FooterButton>
             </LinkContainer>
-          </Column>
-        </Row>
-        <Row>
-          <Column>
-            {currentCoin.learnMoreLink && (
-              <LearnMoreContainer
-                href={currentCoin.learnMoreLink}
-                target='_blank'
-              >
-                <Text size='15px'>
+          ) : (
+            <FooterButton
+              nature='primary'
+              onClick={handleRequest}
+              fullwidth
+              disabled={!availability.request}
+            >
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.newcoinrequest'
+                defaultMessage='Get {coin}'
+                values={{ coin: currentCoin.coinTicker }}
+              />
+            </FooterButton>
+          )}
+        </Column>
+        <Column style={{ paddingLeft: '20px' }}>
+          <LinkContainer
+            to={{
+              pathname: '/swap',
+              state: {
+                from: currentCoin.coinTicker === 'BTC' ? 'ETH' : 'BTC',
+                to: currentCoin.coinTicker,
+                amount: '0',
+                fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+              }
+            }}
+          >
+            <FooterButton
+              nature='empty-secondary'
+              fullwidth
+              disabled={!availability.exchange}
+            >
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.newcoinswap'
+                defaultMessage='Swap {coin}'
+                values={{ coin: currentCoin.coinTicker }}
+              />
+            </FooterButton>
+          </LinkContainer>
+        </Column>
+      </Row>
+      <Row>
+        <Column>
+          {currentCoin.learnMoreLink && (
+            <LearnMoreContainer
+              href={currentCoin.learnMoreLink}
+              target='_blank'
+            >
+              <Text size='15px'>
+                <FormattedMessage
+                  id='scenes.transaction.content.empty.getstarted.explanation'
+                  defaultMessage="We've put together a page explaining all of this."
+                />
+              </Text>
+              <LearnMoreLink>
+                <LearnMoreText size='15px'>
                   <FormattedMessage
-                    id='scenes.transaction.content.empty.getstarted.explanation'
-                    defaultMessage="We've put together a page explaining all of this."
+                    id='scenes.transaction.content.empty.getstarted.learnmore'
+                    defaultMessage='Learn More'
                   />
-                </Text>
-                <LearnMoreLink>
-                  <LearnMoreText size='15px'>
-                    <FormattedMessage
-                      id='scenes.transaction.content.empty.getstarted.learnmore'
-                      defaultMessage='Learn More'
-                    />
-                  </LearnMoreText>
-                  <Icon name='arrow-right' color='blue600' size='18px' />
-                </LearnMoreLink>
-              </LearnMoreContainer>
-            )}
-          </Column>
-        </Row>
-      </Container>
-    </Wrapper>
+                </LearnMoreText>
+                <Icon name='arrow-right' color='blue600' size='18px' />
+              </LearnMoreLink>
+            </LearnMoreContainer>
+          )}
+        </Column>
+      </Row>
+    </Container>
   )
 }
 

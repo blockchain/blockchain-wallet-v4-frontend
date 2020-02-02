@@ -102,9 +102,13 @@ class TransactionsContainer extends React.PureComponent {
 
     return empty ? (
       search ? (
-        <EmptyTx />
+        <SceneWrapper centerContent>
+          <EmptyTx />
+        </SceneWrapper>
       ) : (
-        <CoinIntroduction coin={coin} />
+        <SceneWrapper centerContent>
+          <CoinIntroduction coin={coin} />
+        </SceneWrapper>
       )
     ) : (
       <SceneWrapper>
