@@ -10,22 +10,21 @@ import EmptyTx from 'components/EmptyTx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
+import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
 
-// TODO: layout - make wrapper generic?
-const Wrapper = styled(LazyLoadContainer)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  box-sizing: border-box;
-  padding: 15px 30px;
-  overflow: auto;
-`
+// const Wrapper = styled(LazyLoadContainer)`
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+//   box-sizing: border-box;
+//   overflow: auto;
+// `
 const PageTitle = styled.div`
   display: flex;
   flex-direction: row;
@@ -108,41 +107,43 @@ class TransactionsContainer extends React.PureComponent {
         <CoinIntroduction coin={coin} />
       )
     ) : (
-      <Wrapper onLazyLoad={this.handleLoadMore}>
-        <Header>
-          <PageTitle>
-            <Icon size='36px' color={colorCode} name={icons.circleFilled} />
-            <Text color='grey800' size='32px' weight={600}>
-              {displayName}
-            </Text>
-          </PageTitle>
-          <StatsContainer>
-            <BalanceContainer>
-              <Text color='grey400' weight={500} size='16px'>
-                Wallet Balance
+      <SceneWrapper>
+        <LazyLoadContainer onLazyLoad={this.handleLoadMore}>
+          <Header>
+            <PageTitle>
+              <Icon size='36px' color={colorCode} name={icons.circleFilled} />
+              <Text color='grey800' size='32px' weight={600}>
+                {displayName}
               </Text>
-            </BalanceContainer>
-            <ChartContainer>
-              <Text color='grey400' weight={500} size='16px'>
-                Current Price
-              </Text>
-            </ChartContainer>
-          </StatsContainer>
-        </Header>
-        <TransactionFilters coin={coin} />
-        {pages.map((value, index) => (
-          <TransactionList
-            buySellPartner={buySellPartner}
-            coin={coin}
-            currency={currency}
-            data={value}
-            key={index}
-            onArchive={this.handleArchive}
-            onLoadMore={this.handleLoadMore}
-            onRefresh={this.handleRefresh}
-          />
-        ))}
-      </Wrapper>
+            </PageTitle>
+            <StatsContainer>
+              <BalanceContainer>
+                <Text color='grey400' weight={500} size='16px'>
+                  Wallet Balance
+                </Text>
+              </BalanceContainer>
+              <ChartContainer>
+                <Text color='grey400' weight={500} size='16px'>
+                  Current Price
+                </Text>
+              </ChartContainer>
+            </StatsContainer>
+          </Header>
+          <TransactionFilters coin={coin} />
+          {pages.map((value, index) => (
+            <TransactionList
+              buySellPartner={buySellPartner}
+              coin={coin}
+              currency={currency}
+              data={value}
+              key={index}
+              onArchive={this.handleArchive}
+              onLoadMore={this.handleLoadMore}
+              onRefresh={this.handleRefresh}
+            />
+          ))}
+        </LazyLoadContainer>
+      </SceneWrapper>
     )
   }
 }

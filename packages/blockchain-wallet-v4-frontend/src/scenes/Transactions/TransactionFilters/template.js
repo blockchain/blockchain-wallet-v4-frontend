@@ -2,28 +2,15 @@ import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { includes } from 'ramda'
+import { model } from 'data'
+import { StickyHeader } from 'components/Layout'
+import { TabMenuTransactionStatus, TextBox } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
 import React from 'react'
 import styled from 'styled-components'
 
-import { model } from 'data'
-import { TabMenuTransactionStatus, TextBox } from 'components/Form'
-
 const { WALLET_TX_SEARCH } = model.form
 
-// TODO: layout - make horizontal menu
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: -15px;
-  width: 100%;
-  padding-bottom: 12px;
-  background-color: ${props => props.theme.white};
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  z-index: 1;
-`
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -74,77 +61,79 @@ const TransactionFilters = ({
   onShowEthPrivateKeyLegacy,
   isLegacyEthAddr
 }) => (
-  <Container>
-    <Field
-      name='status'
-      statuses={['', 'sent', 'received', 'transferred']}
-      component={TabMenuTransactionStatus}
-    />
-    <Search>
-      {includes(coin, PRIVATE_KEY_EXPORT_COINS) && (
-        <EthPrivateKeysWrapper>
-          {isLegacyEthAddr ? (
-            <ComponentDropdown
-              down
-              forceSelected
-              color={'gray-5'}
-              selectedComponent={<EthPrivateKeys />}
-              components={[
-                <ExportEthPrivateKeyText
-                  size='small'
-                  onClick={onShowPrivateKey}
-                >
-                  <FormattedMessage
-                    id='scenes.transactions.export.ethkey'
-                    defaultMessage='Export Private Key'
-                  />
-                </ExportEthPrivateKeyText>,
-                <ExportEthPrivateKeyText
-                  size='small'
-                  onClick={onShowEthPrivateKeyLegacy}
-                >
-                  <FormattedMessage
-                    id='scenes.transactions.export.ethkeyarchived'
-                    defaultMessage='Export Archived Private Key'
-                  />
-                </ExportEthPrivateKeyText>
-              ]}
-            />
-          ) : (
-            <Link
-              size={'12px'}
-              weight={400}
-              onClick={onShowPrivateKey}
-              data-e2e='exportPrivateKeyLink'
-            >
-              <FormattedMessage
-                id='scenes.transactions.export.ethkey'
-                defaultMessage='Export Private Key'
-              />
-            </Link>
-          )}
-        </EthPrivateKeysWrapper>
-      )}
-      {includes(coin, TX_EXPORT_COINS) && (
-        <ReportingIcon
-          color='grey400'
-          cursor
-          data-e2e='generateTxReport'
-          name='download'
-          onClick={handleClickReporting}
-          size='20px'
-        />
-      )}
-      <SearchField
-        component={TextBox}
-        data-e2e='transactionsMenuSearchBox'
-        height='45px'
-        icon='magnifier'
-        name='search'
-        placeholder='Search'
+  <StickyHeader>
+    <HorizontalMenu>
+      <Field
+        name='status'
+        statuses={['', 'sent', 'received', 'transferred']}
+        component={TabMenuTransactionStatus}
       />
-    </Search>
-  </Container>
+      <Search>
+        {includes(coin, PRIVATE_KEY_EXPORT_COINS) && (
+          <EthPrivateKeysWrapper>
+            {isLegacyEthAddr ? (
+              <ComponentDropdown
+                down
+                forceSelected
+                color={'gray-5'}
+                selectedComponent={<EthPrivateKeys />}
+                components={[
+                  <ExportEthPrivateKeyText
+                    size='small'
+                    onClick={onShowPrivateKey}
+                  >
+                    <FormattedMessage
+                      id='scenes.transactions.export.ethkey'
+                      defaultMessage='Export Private Key'
+                    />
+                  </ExportEthPrivateKeyText>,
+                  <ExportEthPrivateKeyText
+                    size='small'
+                    onClick={onShowEthPrivateKeyLegacy}
+                  >
+                    <FormattedMessage
+                      id='scenes.transactions.export.ethkeyarchived'
+                      defaultMessage='Export Archived Private Key'
+                    />
+                  </ExportEthPrivateKeyText>
+                ]}
+              />
+            ) : (
+              <Link
+                size={'12px'}
+                weight={400}
+                onClick={onShowPrivateKey}
+                data-e2e='exportPrivateKeyLink'
+              >
+                <FormattedMessage
+                  id='scenes.transactions.export.ethkey'
+                  defaultMessage='Export Private Key'
+                />
+              </Link>
+            )}
+          </EthPrivateKeysWrapper>
+        )}
+        {includes(coin, TX_EXPORT_COINS) && (
+          <ReportingIcon
+            color='grey400'
+            cursor
+            data-e2e='generateTxReport'
+            name='download'
+            onClick={handleClickReporting}
+            size='20px'
+          />
+        )}
+        <SearchField
+          component={TextBox}
+          data-e2e='transactionsMenuSearchBox'
+          height='45px'
+          icon='magnifier'
+          name='search'
+          placeholder='Search'
+        />
+      </Search>
+    </HorizontalMenu>
+  </StickyHeader>
 )
 
 export default reduxForm({
