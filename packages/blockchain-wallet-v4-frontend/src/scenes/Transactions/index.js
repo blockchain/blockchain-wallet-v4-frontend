@@ -15,16 +15,6 @@ import CoinIntroduction from './CoinIntroduction'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
 
-// const Wrapper = styled(LazyLoadContainer)`
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: flex-start;
-//   box-sizing: border-box;
-//   overflow: auto;
-// `
 const PageTitle = styled.div`
   display: flex;
   flex-direction: row;
@@ -100,17 +90,7 @@ class TransactionsContainer extends React.PureComponent {
     } = this.props
     const { colorCode, displayName, icons } = coinModel
 
-    return empty ? (
-      search ? (
-        <SceneWrapper centerContent>
-          <EmptyTx />
-        </SceneWrapper>
-      ) : (
-        <SceneWrapper centerContent>
-          <CoinIntroduction coin={coin} />
-        </SceneWrapper>
-      )
-    ) : (
+    return (
       <SceneWrapper>
         <LazyLoadContainer onLazyLoad={this.handleLoadMore}>
           <Header>
@@ -134,18 +114,30 @@ class TransactionsContainer extends React.PureComponent {
             </StatsContainer>
           </Header>
           <TransactionFilters coin={coin} />
-          {pages.map((value, index) => (
-            <TransactionList
-              buySellPartner={buySellPartner}
-              coin={coin}
-              currency={currency}
-              data={value}
-              key={index}
-              onArchive={this.handleArchive}
-              onLoadMore={this.handleLoadMore}
-              onRefresh={this.handleRefresh}
-            />
-          ))}
+          {empty ? (
+            search ? (
+              <SceneWrapper centerContent>
+                <EmptyTx />
+              </SceneWrapper>
+            ) : (
+              <SceneWrapper centerContent>
+                <CoinIntroduction coin={coin} />
+              </SceneWrapper>
+            )
+          ) : (
+            pages.map((value, index) => (
+              <TransactionList
+                buySellPartner={buySellPartner}
+                coin={coin}
+                currency={currency}
+                data={value}
+                key={index}
+                onArchive={this.handleArchive}
+                onLoadMore={this.handleLoadMore}
+                onRefresh={this.handleRefresh}
+              />
+            ))
+          )}
         </LazyLoadContainer>
       </SceneWrapper>
     )
