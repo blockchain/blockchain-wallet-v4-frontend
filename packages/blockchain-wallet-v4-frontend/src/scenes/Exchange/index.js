@@ -3,6 +3,7 @@ import { BlockchainLoader } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { path } from 'ramda'
+import { SceneWrapper } from 'components/Layout'
 import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
 import Exchange from './ExchangeContainer'
@@ -12,13 +13,6 @@ import Menu from './Menu'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-
 const Container = styled.section`
   overflow: auto;
   display: flex;
@@ -26,7 +20,6 @@ const Container = styled.section`
   justify-content: flex-start;
   align-items: start;
   width: 100%;
-  padding: 30px;
   box-sizing: border-box;
   @media (min-width: 992px) {
     flex-direction: row;
@@ -34,7 +27,6 @@ const Container = styled.section`
 
   ${media.mobile`
     align-items: center;
-    padding: 10px;
   `};
 `
 const Column = styled.div`
@@ -55,7 +47,7 @@ export const ExchangeScene = ({
 
   return userCreated.cata({
     Success: userCreated => (
-      <Wrapper>
+      <SceneWrapper>
         {userCreated ? (
           <>
             <Menu />
@@ -73,17 +65,17 @@ export const ExchangeScene = ({
         ) : (
           <GetStarted />
         )}
-      </Wrapper>
+      </SceneWrapper>
     ),
     Loading: () => (
-      <Wrapper>
+      <SceneWrapper>
         <BlockchainLoader width='200px' height='200px' />
-      </Wrapper>
+      </SceneWrapper>
     ),
     NotAsked: () => (
-      <Wrapper>
+      <SceneWrapper>
         <BlockchainLoader width='200px' height='200px' />
-      </Wrapper>
+      </SceneWrapper>
     ),
     Failure: () => <DataError onClick={fetchUser} />
   })

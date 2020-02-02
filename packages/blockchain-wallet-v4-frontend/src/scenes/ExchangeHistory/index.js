@@ -3,16 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { Menu } from '../Exchange/Menu'
+import { SceneWrapper } from 'components/Layout'
 import Error from './template.error'
 import Loading from './template.loading'
 import React from 'react'
-import styled from 'styled-components'
 import Success from './template.success'
-
-const Wrapper = styled.div`
-  display: block;
-  width: 100%;
-`
 
 class ExchangeHistoryContainer extends React.PureComponent {
   componentDidMount () {
@@ -46,10 +41,10 @@ class ExchangeHistoryContainer extends React.PureComponent {
     })
 
     return (
-      <Wrapper>
+      <SceneWrapper>
         <Menu />
         {Content}
-      </Wrapper>
+      </SceneWrapper>
     )
   }
 }
