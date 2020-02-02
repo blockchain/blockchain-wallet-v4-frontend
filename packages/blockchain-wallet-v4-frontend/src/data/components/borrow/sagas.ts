@@ -34,10 +34,8 @@ export default ({
         selectors.form.getFormValues('borrowForm')
       )
 
-      const offersR = S.getOffers(yield select())
-      const offers = offersR.getOrFail(NO_OFFER_EXISTS)
+      const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
-      const offer = offers.find(offer => offer.terms.collateralCcy === coin)
       if (!offer) throw new Error(NO_OFFER_EXISTS)
 
       // TODO: Borrow - make dynamic

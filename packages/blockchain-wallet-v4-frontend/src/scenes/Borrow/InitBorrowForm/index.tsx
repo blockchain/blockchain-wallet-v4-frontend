@@ -62,7 +62,9 @@ class InitBorrowForm extends PureComponent<Props> {
 
     if (!values) return null
     const offer = offers.find(
-      offer => offer.terms.collateralCcy === values.coin
+      offer =>
+        offer.terms.collateralCcy === values.coin &&
+        offer.terms.principalCcy === 'PAX'
     )
     return offer
   }
