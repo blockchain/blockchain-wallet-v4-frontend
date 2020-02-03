@@ -106,7 +106,7 @@ const Modal = props => {
 Modal.propTypes = {
   position: PropTypes.number,
   total: PropTypes.number,
-  size: PropTypes.oneOf(['small', 'medium', 'large', 'xlarge', ''])
+  size: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge', ''])
 }
 
 export default Modal

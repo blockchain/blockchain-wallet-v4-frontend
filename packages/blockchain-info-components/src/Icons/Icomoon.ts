@@ -1,4 +1,4 @@
-export default {
+const IcoMoon = {
   'alert-filled': '\\e900',
   'arrow-down': '\\e91d',
   'arrow-down-circle': '\\e935',
@@ -91,3 +91,5 @@ export default {
   xlm: '\\e930',
   'xlm-circle-filled': '\\e91f'
 }
+export type IcoMoonType = typeof IcoMoon
+export default IcoMoon

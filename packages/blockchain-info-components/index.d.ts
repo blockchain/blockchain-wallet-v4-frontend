@@ -1,22 +1,88 @@
 import { StatelessComponent, CSSProperties } from 'react'
 import { DefaultTheme } from 'styled-components'
+import { IcoMoonType } from './src/Icons/Icomoon'
+import { ImageType } from './src/Images/Images'
 
-export function BlockchainLoader(...args: any): any
-export function Button(...args: any): any
-export function FontGlobalStyles(...args: any): any
-export function Icon(...args: any): any
-export function IconGlobalStyles(...args: any): any
-export function Image(...args: any): any
-export function Link(...args: any): any
-export function Modal(...args: any): any
-export function ModalBody(...args: any): any
-export function ModalHeader(...args: any): any
+//Blockchain Loader is done
+export const BlockchainLoader: StatelessComponent<{
+  width?: string
+  height?: string
+}>
+//Button is done
+export const Button: StatelessComponent<{
+  nature?:
+    | 'copy'
+    | 'dark'
+    | 'empty-secondary'
+    | 'empty'
+    | 'gray-3'
+    | 'light'
+    | 'primary'
+    | 'purple'
+    | 'received'
+    | 'secondary'
+    | 'sent'
+    | 'success'
+    | 'transferred'
+    | 'warning'
+    | 'white-transparent'
+  fullwidth?: boolean
+  disabled?: boolean
+  rounded?: boolean
+  bold?: boolean
+  small?: boolean
+  uppercase?: boolean
+  capitalize?: boolean
+  width?: string
+  padding?: string
+  margin?: string
+  jumbo?: boolean
+}>
+//Done
+export const FontGlobalStyles: StatelessComponent<{}>
+//done
+export const Icon: StatelessComponent<{
+  name?: keyof IcoMoonType
+  weight?: number
+  size?: string
+  curson?: boolean
+}>
+//done
+export const IconGlobalStyles: StatelessComponent<{}>
+//done
+export const Image: StatelessComponent<{
+  name?: keyof ImageType
+  width?: string
+  height?: string
+  color?: string
+}>
+//done
+export const Link: StatelessComponent<{
+  weight?: number
+  size?: string
+  color?: keyof DefaultTheme
+  uppercase?: boolean
+  capitalize: boolean
+  bold?: boolean
+}>
+
+export const Modal: StatelessComponent<{
+  size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+  position?: number
+  total?: number
+  width?: number
+  isLast?: boolean
+}>
+export const ModalBody: StatelessComponent<{
+  loading?: boolean
+}>
+export const ModalHeader: StatelessComponent<{}>
 export function Palette(theme: string): DefaultTheme
-export function SkeletonRectangle(...args: any): any
-export function Table(...args): any
-export function TableCell(...args): any
-export function TableHeader(...args): any
-export function TableRow(...args): any
+export const SkeletonRectangle: StatelessComponent<{}>
+export const Table: StatelessComponent<{}>
+export const TableCell: StatelessComponent<{}>
+export const TableHeader: StatelessComponent<{}>
+export const TableRow: StatelessComponent<{}>
 export const Text: StatelessComponent<{
   color?: keyof DefaultTheme
   size?: string
@@ -24,5 +90,13 @@ export const Text: StatelessComponent<{
   style?: CSSProperties
   uppercase?: boolean
   lineHeight?: string
+  capitazlie?: boolean
+  italic?: boolean
+  altFont?: boolean
+  cursor?: string
+  opacity?: string
+  //display - flexrow or block?
+  //font family
+  // cursor
 }>
-export function TextGroup(...args: any): any
+export const TextGroup: StatelessComponent<{}>
