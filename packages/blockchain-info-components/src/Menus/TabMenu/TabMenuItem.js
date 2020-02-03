@@ -11,6 +11,7 @@ const BaseTabMenuItem = styled.span`
   font-size: 14px;
   text-align: center;
   border-radius: 8px;
+  white-space: nowrap;
   margin: 2px;
   color: ${props =>
     props.selected ? props.theme.blue600 : props.theme.grey400};
