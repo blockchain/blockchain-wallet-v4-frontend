@@ -27,6 +27,7 @@ const Nav = styled.div`
   background-color: ${props => props.theme.blue900};
 `
 const Content = styled.div`
+  box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;

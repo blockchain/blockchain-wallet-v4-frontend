@@ -22,8 +22,9 @@ const BaseTabMenuItem = styled.span`
     color: ${props.theme.blue600};
   `}
 
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     font-size: 13px;
+    padding: 10px 16px;
   }
 `
 

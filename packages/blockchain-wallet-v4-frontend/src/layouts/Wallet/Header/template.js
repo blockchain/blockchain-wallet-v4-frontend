@@ -24,14 +24,18 @@ import WhatsNewIcon from './WhatsNewIcon'
 const BlockchainLogoImage = styled(Image)`
   width: 200px;
   display: block;
-  margin-left: 6px;
-  @media (min-width: 768px) {
-    height: 20px;
-    margin-left: 0;
-  }
+  height: 20px;
+  margin-left: 0;
+  ${media.tablet`
+    width: 160px;
+    margin-left: 6px;
+  `}
 `
 const NavbarNavItemSpacer = styled(NavbarNavItem)`
   margin-right: 12px;
+  ${media.tablet`
+    margin-right: 8px;
+  `}
 `
 const NavbarNavItemWithText = styled(NavbarNavItem)`
   padding: 0 26px;
@@ -43,6 +47,7 @@ const NavbarNavItemWithText = styled(NavbarNavItem)`
   ${media.tablet`
     padding: 0px;
     border-left: 0px;
+    margin-right: 8px;
   `}
 `
 const NavbarStyled = styled(Navbar)`
@@ -51,6 +56,10 @@ const NavbarStyled = styled(Navbar)`
 const NavbarMenuStyled = styled(NavbarMenu)`
   width: 100%;
   margin-left: 42px;
+  ${media.tablet`
+    margin-left: 16px;
+    overflow-x: scroll;
+  `}
 `
 
 const Header = props => {

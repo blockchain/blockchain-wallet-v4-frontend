@@ -6,6 +6,7 @@ import { model } from 'data'
 import { StickyHeader } from 'components/Layout'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,9 +20,12 @@ const Search = styled.div`
   align-items: center;
   width: 300px;
 
-  @media (max-width: 1265px) {
+  ${media.laptop`
     width: inherit;
-  }
+  `}
+  ${media.tablet`
+    margin-top: 8px;
+  `}
 `
 const EthPrivateKeysWrapper = styled.div`
   display: flex;

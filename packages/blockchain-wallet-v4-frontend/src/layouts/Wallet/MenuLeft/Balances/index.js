@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   width: 100%;
   margin: 6px 0 16px;
   padding-left: 16px;
+  box-sizing: border-box;
 `
 const TitleText = styled(Text)`
   margin-right: 8px;
