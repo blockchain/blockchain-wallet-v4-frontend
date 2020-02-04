@@ -53,6 +53,7 @@ export type BtcAccountType = {
 export type AccountTypes = BtcAccountType
 
 export * from '../redux/walletOptions/types'
+export * from '../network/api/borrow/types'
 export * from '../network/types'
 export * from '../remote/types'
 export * from '../types/index'

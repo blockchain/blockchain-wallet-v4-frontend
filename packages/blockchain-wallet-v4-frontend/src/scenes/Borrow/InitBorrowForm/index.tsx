@@ -2,12 +2,16 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Box } from 'components/Box'
 import { Button, Text } from 'blockchain-info-components'
-import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
+import {
+  CoinType,
+  NabuApiErrorType,
+  OfferType,
+  RemoteDataType
+} from 'core/types'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
-import { OfferType } from 'data/types'
 import { OrangeCartridge } from 'components/Cartridge'
 import { RootState } from 'data/rootReducer'
 import Amount from './Amount'

@@ -1,8 +1,8 @@
-import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { LoanType } from './types'
+import { CoinType } from 'core/types'
+import { LoanType, OfferType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
-  const getOffers = (): Array<LoanType> =>
+  const getOffers = (): Array<OfferType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/lending/offers'
@@ -26,7 +26,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
       }
     })
 
-  const getUserBorrowHistory = () =>
+  const getUserBorrowHistory = (): Array<LoanType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/user/loans'

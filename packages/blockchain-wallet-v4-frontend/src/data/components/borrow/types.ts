@@ -1,33 +1,12 @@
 import * as AT from './actionTypes'
-import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
+import {
+  CoinType,
+  NabuApiErrorType,
+  OfferType,
+  RemoteDataType
+} from 'core/types'
 
 // Types
-export type OfferType = {
-  callTerms: {
-    callTriggerRatio: number
-    liquidationHardRatio: number
-    marginTopupTime: number
-    minutesBeforeLiquidation: number
-  }
-  id: string
-  status: 'OPEN'
-  terms: {
-    collateralCcy: CoinType
-    collateralRatio: number
-    durationHours: number
-    format: 'FLEX'
-    interestRate: number
-    maxYieldingAmount: {
-      symbol: CoinType
-      value: number
-    }
-    minPrincipalAmount: {
-      symbol: CoinType
-      value: number
-    }
-    principalCcy: CoinType
-  }
-}
 
 export type BorrowFormValuesType = {
   collateral: any

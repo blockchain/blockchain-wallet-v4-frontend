@@ -3,9 +3,9 @@ import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType } from 'core/types'
+import { CoinType, OfferType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { OfferType, RatesType } from 'data/types'
+import { RatesType } from 'data/types'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'

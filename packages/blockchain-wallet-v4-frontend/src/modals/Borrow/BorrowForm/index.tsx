@@ -1,7 +1,12 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, OfferType, PaymentType, RatesType } from 'data/types'
-import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
+import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
+import {
+  CoinType,
+  OfferType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import DataError from 'components/DataError'
