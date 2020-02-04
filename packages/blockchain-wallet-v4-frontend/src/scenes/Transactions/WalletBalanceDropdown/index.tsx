@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData } from './selectors'
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'core/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -80,7 +80,7 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   coinBalance = (selectProps) => {
-    return this.isTotalBalanceType(selectProps) ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : selectProps.value.balance
+    return this.isTotalBalanceType(selectProps) ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : selectProps.value ? selectProps.value.balance : 0
   }
 
 
@@ -94,34 +94,19 @@ export class WalletBalanceDropdown extends Component<Props> {
 
     return (
       <DisplayContainer coinType={coinType}>
-        <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
           {children && children.length && children[1]}
-          <Text weight={500} color='grey400'>{this.isTotalBalanceType(props) ? this.props.coin : props.value.label} <FormattedMessage id='scenes.transactions.walletbalancedropdown.balance' defaultMessage='Balance' /></Text>
+          <Text weight={500} color='grey400'>{this.isTotalBalanceType(props) ? this.props.coin : props.value ? props.value.label : ''} <FormattedMessage id='scenes.transactions.walletbalancedropdown.balance' defaultMessage='Balance' /></Text>
           <AmountContainer>
-            <CoinDisplay
+            <FiatDisplay
               coin={this.props.coin}
-              size='12px'
+              size='24px'
               weight={500}
               cursor='pointer'
               color='grey800'
             >
               {balance}
-            </CoinDisplay>
-            <div style={{ width: '8px' }} />
-            <FiatContainer>
-              (
-              <FiatDisplay
-                coin={this.props.coin}
-                size='12px'
-                weight={500}
-                color='grey400'
-                cursor='pointer'
-              >
-                {balance}
-              </FiatDisplay>
-              )
-            </FiatContainer>
+            </FiatDisplay>
           </AmountContainer>
         </AccountContainer>
       </DisplayContainer>
@@ -135,7 +120,7 @@ export class WalletBalanceDropdown extends Component<Props> {
     return (
       <DisplayContainer coinType={coinType} isItem>
         <AccountContainer isItem>
-          {this.isTotalBalanceType(props) ? props.label : props.value.label}
+          {this.isTotalBalanceType(props) ? props.label : props.value ? props.value.label : ''}
           <AmountContainer>
             <CoinDisplay
               coin={this.props.coin}
