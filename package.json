@@ -48,6 +48,11 @@
     "*.ts": [
       "prettier --write",
       "eslint --fix",
+      "git add"
+    ],
+    "*.tsx": [
+      "prettier --write",
+      "eslint --fix",
       "stylelint",
       "git add"
     ],

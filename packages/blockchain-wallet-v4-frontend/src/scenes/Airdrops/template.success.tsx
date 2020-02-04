@@ -1,3 +1,5 @@
+import { CampaignInfoType, KycStatesType, TagsType } from 'data/types'
+import { LinkDispatchPropsType } from '.'
 import AirdropInfo from './AirdropInfo'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -22,7 +24,14 @@ export const Container = styled.div`
   `};
 `
 
-const Success = (props) => {
+export type Props = {
+  kycState: KycStatesType
+  tags: TagsType
+  userCampaignsInfoResponseList: Array<CampaignInfoType>
+  userDoesNotExistYet?: boolean
+}
+
+const Success = (props: Props & LinkDispatchPropsType) => {
   return (
     <Container>
       <AirdropInfo {...props} />
