@@ -31,13 +31,12 @@ export const MainTitle = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>,
-  hasEmail: boolean,
-  userData: RemoteDataType<NabuApiErrorType, UserDataType>
+  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>
+  hasEmail: boolean
 }
 
 export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification,
+  identityVerificationActions: typeof actions.components.identityVerification
   profileActions: typeof actions.modules.profile
 }
 
@@ -55,22 +54,40 @@ class Airdrops extends React.PureComponent<Props> {
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Failure: e => (
-        <Text size='16px' weight={500}>
-          Oops. Something went wrong and we don't know why.{' '}
-          <b>Here's the error: {e.type}</b>
-        </Text>
-      )
+      Failure: e =>
+        e.type === 'INVALID_CREDENTIALS' ? (
+          <Success
+            {...this.props}
+            userDoesNotExistYet
+            userCampaignsInfoResponseList={[]}
+            kycState='NONE'
+            tags={{}}
+          />
+        ) : (
+          <Text size='16px' weight={500}>
+            Oops. Something went wrong and we don't know why.{' '}
+            <b>Here's the error: {e.type}</b>
+          </Text>
+        )
     })
     const PastAirdrops = data.cata({
       Success: val => <PastAirdropsSuccess {...val} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,
-      Failure: () => (
-        <Text size='16px' weight={500}>
-          Oops. Something went wrong and we don't know why.
-        </Text>
-      )
+      Failure: e =>
+        e.type === 'INVALID_CREDENTIALS' ? (
+          <Text weight={500} size='12px'>
+            <FormattedMessage
+              id='scenes.airdrops.upgradetoview'
+              defaultMessage='Please upgrade to view past airdrops.'
+            />
+          </Text>
+        ) : (
+          <Text size='16px' weight={500}>
+            Oops. Something went wrong and we don't know why.{' '}
+            <b>Here's the error: {e.type}</b>
+          </Text>
+        )
     })
     if (!hasEmail) return <EmailRequired />
     return (
@@ -112,14 +129,15 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     selectors.modules.profile.getUserData(state),
     selectors.modules.profile.getUserCampaigns(state)
   ),
-  userData: selectors.modules.profile.getUserData(state),
   hasEmail: selectors.core.settings
     .getEmail(state)
     .map(Boolean)
     .getOrElse(false)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>): LinkDispatchPropsType => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<AppActionTypes>
+): LinkDispatchPropsType => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

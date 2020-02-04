@@ -1,7 +1,7 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '../StxAirdrop'
+import { Props } from '../template.success'
 import { Status, To, Type } from './model'
 import {
   Table,
@@ -92,7 +92,9 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
                     <TableCell width='18%'>
                       <Text size='14px' weight={500}>
                         {campaignTransaction.withdrawalAt
-                          ? new Date(campaignTransaction.withdrawalAt).toLocaleDateString()
+                          ? new Date(
+                              campaignTransaction.withdrawalAt
+                            ).toLocaleDateString()
                           : '-'}
                       </Text>
                     </TableCell>
@@ -115,27 +117,27 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
               }
             )
           ) : (
-              // No campaign transactions but show some info anyway
-              <TableRow>
-                <TableCell width='18%'>
-                  <Type {...campaign} />
-                </TableCell>
-                <TableCell width='18%'>
-                  <Status {...campaign} />
-                </TableCell>
-                <TableCell width='18%'>
-                  <Text size='14px' weight={500}>
-                    -
+            // No campaign transactions but show some info anyway
+            <TableRow>
+              <TableCell width='18%'>
+                <Type {...campaign} />
+              </TableCell>
+              <TableCell width='18%'>
+                <Status {...campaign} />
+              </TableCell>
+              <TableCell width='18%'>
+                <Text size='14px' weight={500}>
+                  -
                 </Text>
-                </TableCell>
-                <TableCell width='18%'>
-                  <To {...campaign} />
-                </TableCell>
-                <TableCell width='28%'>
-                  <Text>-</Text>
-                </TableCell>
-              </TableRow>
-            )
+              </TableCell>
+              <TableCell width='18%'>
+                <To {...campaign} />
+              </TableCell>
+              <TableCell width='28%'>
+                <Text>-</Text>
+              </TableCell>
+            </TableRow>
+          )
         })}
       </Table>
     </div>
