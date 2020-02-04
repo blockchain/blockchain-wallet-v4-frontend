@@ -108,12 +108,12 @@ export const ActionButton = styled(Button)`
 const { TIERS_STATES } = model.profile
 
 type LinkDispatchPropsType = {
-  goToSwap: () => void,
+  goToSwap: () => void
   identityVerificationActions: typeof actions.components.identityVerification
 }
 
 type OwnProps = {
-  column: boolean,
+  column: boolean
   emailVerified: boolean
   mobileVerified: boolean
   userData: UserDataType
@@ -196,13 +196,13 @@ export const TierCard = ({
                     mobileVerified,
                     emailVerified
                   }) && (
-                      <Icon
-                        style={{ marginLeft: '5px' }}
-                        color="success"
-                        size="12px"
-                        name="check"
-                      />
-                    )}
+                    <Icon
+                      style={{ marginLeft: '5px' }}
+                      color="success"
+                      size="12px"
+                      name="check"
+                    />
+                  )}
                 </TextGroup>
               ))}
             </Column>
@@ -223,8 +223,8 @@ export const TierCard = ({
                 defaultMessage="Continue"
               />
             ) : (
-                ctas[path([tier, 'level'], TIERS)]
-              )}
+              ctas[path([tier, 'level'], TIERS)]
+            )}
           </ActionButton>
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (
@@ -248,7 +248,10 @@ export const TierCard = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 

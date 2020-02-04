@@ -76,11 +76,23 @@ export const Modal: StatelessComponent<{
 export const ModalBody: StatelessComponent<{
   loading?: boolean
 }>
-export const ModalHeader: StatelessComponent<{}>
+export const ModalHeader: StatelessComponent<{
+  closeButton?: boolean
+  //this is supposed to be a function
+  onClose?: any
+  icon?: keyof IcoMoonType
+}>
 export function Palette(theme: string): DefaultTheme
-export const SkeletonRectangle: StatelessComponent<{}>
+export const SkeletonRectangle: StatelessComponent<{
+  width: string
+  height: string
+  bgColor: keyof DefaultTheme
+}>
 export const Table: StatelessComponent<{}>
-export const TableCell: StatelessComponent<{}>
+export const TableCell: StatelessComponent<{
+  width: string
+  hideMobile: boolean
+}>
 export const TableHeader: StatelessComponent<{}>
 export const TableRow: StatelessComponent<{}>
 export const Text: StatelessComponent<{
@@ -99,4 +111,7 @@ export const Text: StatelessComponent<{
   //font family
   // cursor
 }>
-export const TextGroup: StatelessComponent<{}>
+export const TextGroup: StatelessComponent<{
+  nowrap: boolean
+  inline: boolean
+}>
