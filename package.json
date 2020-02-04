@@ -42,6 +42,7 @@
     "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
+      "stylelint",
       "git add"
     ],
     "*.json": [
@@ -54,7 +55,7 @@
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:lint": "prettier './packages/*/src/**/*.js' --loglevel error --write && eslint './packages/*/src/**/*.js' --fix && stylelint './packages/*/src/**/*.js'",
+    "ci:lint": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write && eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,ts,tsx}'",
     "ci:test:build": "yarn wsrun --serial test:build",
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
