@@ -14,6 +14,7 @@ import {
   prepend,
   prop,
   reduce,
+  // @ts-ignore
   sequence,
   set,
   sort
@@ -41,7 +42,17 @@ const allImportedAddresses = {
   ]
 }
 
-export const getData = (state, ownProps) => {
+export const getData = (
+  state,
+  ownProps: {
+    exclude?: Array<string>
+    excludeHDWallets?: boolean
+    excludeImported?: boolean
+    excludeLockbox?: boolean
+    includeAll?: boolean
+    includeExchangeAddress?: boolean
+  }
+) => {
   const {
     exclude = [],
     excludeHDWallets,
@@ -62,6 +73,7 @@ export const getData = (state, ownProps) => {
     }
     return label
   }
+  // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
@@ -88,12 +100,14 @@ export const getData = (state, ownProps) => {
             .map(toGroup('Imported Addresses'))
             .map(x =>
               set(
+                // @ts-ignore
                 compose(
                   lensIndex(0),
                   lensProp('options')
                 ),
                 sort(
                   descend(path(['value', 'balance'])),
+                  // @ts-ignore
                   prop('options', head(x))
                 ),
                 x
@@ -110,6 +124,7 @@ export const getData = (state, ownProps) => {
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
+      // @ts-ignore
       const data = reduce(concat, [], [b1, b2, b3, b4])
       if (includeAll) {
         return { data: prepend(allWallets, data) }

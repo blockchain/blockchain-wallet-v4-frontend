@@ -1,19 +1,19 @@
+import { actions, model } from 'data'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { path, toLower } from 'ramda'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
-import { actions } from 'data'
-import { Icon, Text } from 'blockchain-info-components'
-import EmptyTx from 'components/EmptyTx'
-import LazyLoadContainer from 'components/LazyLoadContainer'
-
 import { getData } from './selectors'
+import { Icon, Text } from 'blockchain-info-components'
+import { path, toLower } from 'ramda'
+import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
+import EmptyTx from 'components/EmptyTx'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import React from 'react'
+import styled from 'styled-components'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
+import WalletBalanceDropdown from './WalletBalanceDropdown'
 
 const PageTitle = styled.div`
   display: flex;
@@ -32,28 +32,52 @@ const StatsContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 150px;
   margin: 24px 0;
 `
-const BalanceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 33%;
-  padding: 12px;
-  border: 1px solid ${props => props.theme.grey100};
-  border-radius: 8px;
-`
-const ChartContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-basis: 66%;
-  margin-left: 35px;
-  padding: 12px;
-  border: 1px solid ${props => props.theme.grey100};
-  border-radius: 8px;
-`
+// const BalanceContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   flex-basis: 33%;
+//   padding: 12px;
+//   border: 1px solid ${props => props.theme.grey100};
+//   border-radius: 8px;
+// `
+// const ChartContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   flex-basis: 66%;
+//   margin-left: 35px;
+//   padding: 12px;
+//   border: 1px solid ${props => props.theme.grey100};
+//   border-radius: 8px;
+// `
+type OwnProps = {
+  buySellPartner: 'coinify' | 'sfox',
+  // FIXME: TypeScript use CoinType
+  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM',
+  // FIXME: TypeScript use SupportedCoinType
+  coinModel: any,
+  // FIXME: TypeScript use CurrencyType
+  currency: any,
+  empty: boolean,
+  pages: Array<any>,
+  search: string
+}
 
-class TransactionsContainer extends React.PureComponent {
+type LinkStatePropsType = {
+  data: any
+}
+
+type LinkDispatchPropsType = {
+  fetchData: () => void,
+  initTxs: () => void,
+  loadMoreTxs: () => void,
+  setAddressArchived: (string) => void
+}
+
+type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
+
+class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
   }
@@ -101,16 +125,12 @@ class TransactionsContainer extends React.PureComponent {
               </Text>
             </PageTitle>
             <StatsContainer>
-              <BalanceContainer>
-                <Text color='grey400' weight={500} size='16px'>
-                  Wallet Balance
-                </Text>
-              </BalanceContainer>
-              <ChartContainer>
+              <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
+              {/* <ChartContainer>
                 <Text color='grey400' weight={500} size='16px'>
                   Current Price
                 </Text>
-              </ChartContainer>
+              </ChartContainer> */}
             </StatsContainer>
           </Header>
           <TransactionFilters coin={coin} />
@@ -120,24 +140,24 @@ class TransactionsContainer extends React.PureComponent {
                 <EmptyTx />
               </SceneWrapper>
             ) : (
-              <SceneWrapper centerContent>
-                <CoinIntroduction coin={coin} />
-              </SceneWrapper>
-            )
+                <SceneWrapper centerContent>
+                  <CoinIntroduction coin={coin} />
+                </SceneWrapper>
+              )
           ) : (
-            pages.map((value, index) => (
-              <TransactionList
-                buySellPartner={buySellPartner}
-                coin={coin}
-                currency={currency}
-                data={value}
-                key={index}
-                onArchive={this.handleArchive}
-                onLoadMore={this.handleLoadMore}
-                onRefresh={this.handleRefresh}
-              />
-            ))
-          )}
+              pages.map((value, index) => (
+                <TransactionList
+                  buySellPartner={buySellPartner}
+                  coin={coin}
+                  currency={currency}
+                  data={value}
+                  key={index}
+                  onArchive={this.handleArchive}
+                  onLoadMore={this.handleLoadMore}
+                  onRefresh={this.handleRefresh}
+                />
+              ))
+            )}
         </LazyLoadContainer>
       </SceneWrapper>
     )
@@ -165,17 +185,21 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         actions.components[`${toLower(coin)}Transactions`].initialized()
       ),
     loadMoreTxs: () =>
-      dispatch(actions.components[[`${toLower(coin)}Transactions`]].loadMore()),
+      dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     setAddressArchived: address =>
       dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }
 
-TransactionsContainer.propTypes = {
-  coin: PropTypes.string.isRequired
-}
+const enhance = compose(
+  reduxForm({
+    form: model.form.WALLET_TX_SEARCH,
+    initialValues: { source: 'all' }
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionsContainer)
+export default enhance(TransactionsContainer)

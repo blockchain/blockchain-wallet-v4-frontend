@@ -11,7 +11,7 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
-  legacyEthAddress: null | boolean
+  legacyEthAddr: null | boolean
 }
 
 type LinkDispatchPropsType = {
@@ -20,7 +20,7 @@ type LinkDispatchPropsType = {
   btcActions: typeof actions.components.btcTransactions
 }
 
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
 
 class TransactionFiltersContainer extends React.PureComponent<Props> {
   onShowPrivateKey = () => {
@@ -42,7 +42,7 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const isLegacyEthAddr = this.props.coin === 'ETH' && this.props.legacyEthAddress
+    const isLegacyEthAddr = this.props.coin === 'ETH' && this.props.legacyEthAddr
 
     return <Menu
       coin={this.props.coin}
@@ -54,7 +54,7 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   legacyEthAddr: selectors.core.kvStore.eth
     .getLegacyAccountAddress(state)
     .getOrElse(null)

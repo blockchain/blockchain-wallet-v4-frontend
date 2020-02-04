@@ -1,17 +1,13 @@
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
-import { compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { includes } from 'ramda'
-import { model } from 'data'
 import { StickyHeader } from 'components/Layout'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-
-const { WALLET_TX_SEARCH } = model.form
 
 const Search = styled.div`
   position: relative;
@@ -141,7 +137,4 @@ const TransactionFilters = ({
     </StickyHeader>
   )
 
-export default compose<any>(reduxForm({
-  form: WALLET_TX_SEARCH,
-  initialValues: { source: 'all' }
-}))(TransactionFilters)
+export default TransactionFilters
