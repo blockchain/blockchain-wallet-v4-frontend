@@ -22,7 +22,7 @@ export const Container = styled.div`
   `};
 `
 
-const Success = (props) => {
+const Success = props => {
   return (
     <Container>
       <AirdropInfo {...props} />

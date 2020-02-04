@@ -15,9 +15,9 @@ type LinkStatePropsType = {
 }
 
 type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals,
-  bchActions: typeof actions.components.bchTransactions,
+  bchActions: typeof actions.components.bchTransactions
   btcActions: typeof actions.components.btcTransactions
+  modalActions: typeof actions.modals
 }
 
 type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
@@ -42,15 +42,18 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const isLegacyEthAddr = this.props.coin === 'ETH' && this.props.legacyEthAddr
+    const isLegacyEthAddr =
+      this.props.coin === 'ETH' && this.props.legacyEthAddr
 
-    return <Menu
-      coin={this.props.coin}
-      handleClickReporting={this.handleClickReporting}
-      onShowPrivateKey={this.onShowPrivateKey}
-      onShowEthPrivateKeyLegacy={this.onShowEthPrivateKeyLegacy}
-      isLegacyEthAddr={isLegacyEthAddr}
-    />
+    return (
+      <Menu
+        coin={this.props.coin}
+        handleClickReporting={this.handleClickReporting}
+        onShowPrivateKey={this.onShowPrivateKey}
+        onShowEthPrivateKeyLegacy={this.onShowEthPrivateKeyLegacy}
+        isLegacyEthAddr={isLegacyEthAddr}
+      />
+    )
   }
 }
 

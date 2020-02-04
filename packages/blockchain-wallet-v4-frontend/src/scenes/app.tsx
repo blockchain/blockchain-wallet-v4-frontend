@@ -56,13 +56,13 @@ const GlobalStyle = createGlobalStyle`
 `
 
 class App extends React.PureComponent<{
-  store: any
   history: any
-  persistor: any
   isAuthenticated: boolean
+  persistor: any
+  store: any
   supportedCoins: any
 }> {
-  render() {
+  render () {
     const {
       store,
       history,
@@ -70,10 +70,10 @@ class App extends React.PureComponent<{
       isAuthenticated,
       supportedCoins
     }: {
-      store: any
       history: any
-      persistor: any
       isAuthenticated: boolean
+      persistor: any
+      store: any
       supportedCoins: any
     } = this.props
     return (
@@ -84,74 +84,74 @@ class App extends React.PureComponent<{
               <MediaContextProvider>
                 <ConnectedRouter history={history}>
                   <Switch>
-                    <PublicLayout path="/login" component={Login} />
-                    <PublicLayout path="/logout" component={Logout} />
-                    <PublicLayout path="/help" component={Help} />
-                    <PublicLayout path="/recover" component={Recover} />
-                    <PublicLayout path="/reminder" component={Reminder} />
-                    <PublicLayout path="/reset-2fa" component={Reset2FA} />
+                    <PublicLayout path='/login' component={Login} />
+                    <PublicLayout path='/logout' component={Logout} />
+                    <PublicLayout path='/help' component={Help} />
+                    <PublicLayout path='/recover' component={Recover} />
+                    <PublicLayout path='/reminder' component={Reminder} />
+                    <PublicLayout path='/reset-2fa' component={Reset2FA} />
                     <PublicLayout
-                      path="/mobile-login"
+                      path='/mobile-login'
                       component={MobileLogin}
                     />
                     <PublicLayout
-                      path="/reset-two-factor"
+                      path='/reset-two-factor'
                       component={Reset2FAToken}
                     />
                     <PublicLayout
-                      path="/verify-email"
+                      path='/verify-email'
                       component={VerifyEmailToken}
                     />
-                    <PublicLayout path="/signup" component={Register} />
+                    <PublicLayout path='/signup' component={Register} />
                     <PublicLayout
-                      path="/authorize-approve"
+                      path='/authorize-approve'
                       component={AuthorizeLogin}
                     />
                     <PublicLayout
-                      path="/upload-document/success"
+                      path='/upload-document/success'
                       component={UploadDocumentsSuccess}
                       exact
                     />
                     <PublicLayout
-                      path="/upload-document/:token"
+                      path='/upload-document/:token'
                       component={UploadDocuments}
                     />
-                    <PublicLayout path="/wallet" component={Login} />
-                    <WalletLayout path="/home" component={Home} />
-                    <WalletLayout path="/buy-sell" component={BuySell} />
+                    <PublicLayout path='/wallet' component={Login} />
+                    <WalletLayout path='/home' component={Home} />
+                    <WalletLayout path='/buy-sell' component={BuySell} />
                     <WalletLayout
-                      path="/swap/history"
+                      path='/swap/history'
                       component={ExchangeHistory}
                     />
                     <WalletLayout
-                      path="/swap/profile"
+                      path='/swap/profile'
                       component={ExchangeProfile}
                     />
-                    <WalletLayout path="/airdrops" component={Airdrops} />
-                    <WalletLayout path="/swap" component={Exchange} exact />
-                    <WalletLayout path="/exchange" component={TheExchange} />
-                    <WalletLayout path="/airdrops" component={Airdrops} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
+                    <WalletLayout path='/swap' component={Exchange} exact />
+                    <WalletLayout path='/exchange' component={TheExchange} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
                     <WalletLayout
-                      path="/security-center"
+                      path='/security-center'
                       component={SecurityCenter}
                     />
                     <WalletLayout
-                      path="/settings/preferences"
+                      path='/settings/preferences'
                       component={Preferences}
                     />
                     <WalletLayout
-                      path="/settings/profile"
+                      path='/settings/profile'
                       component={Profile}
                     />
                     <WalletLayout
-                      path="/settings/addresses"
+                      path='/settings/addresses'
                       component={Addresses}
                     />
                     <WalletLayout
-                      path="/settings/general"
+                      path='/settings/general'
                       component={General}
                     />
-                    <WalletLayout path="/lockbox" component={Lockbox} />
+                    <WalletLayout path='/lockbox' component={Lockbox} />
                     {values(
                       map(
                         coin =>
@@ -169,9 +169,9 @@ class App extends React.PureComponent<{
                       )
                     )}
                     {isAuthenticated ? (
-                      <Redirect from="/" to="/home" />
+                      <Redirect from='/' to='/home' />
                     ) : (
-                      <Redirect from="/" to="/login" />
+                      <Redirect from='/' to='/login' />
                     )}
                   </Switch>
                 </ConnectedRouter>

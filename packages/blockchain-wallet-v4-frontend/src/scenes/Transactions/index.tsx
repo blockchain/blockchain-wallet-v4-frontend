@@ -52,15 +52,15 @@ const StatsContainer = styled.div`
 //   border-radius: 8px;
 // `
 type OwnProps = {
-  buySellPartner: 'coinify' | 'sfox',
+  buySellPartner: 'coinify' | 'sfox'
   // FIXME: TypeScript use CoinType
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM',
+  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
   // FIXME: TypeScript use SupportedCoinType
-  coinModel: any,
+  coinModel: any
   // FIXME: TypeScript use CurrencyType
-  currency: any,
-  empty: boolean,
-  pages: Array<any>,
+  currency: any
+  empty: boolean
+  pages: Array<any>
   search: string
 }
 
@@ -69,9 +69,9 @@ type LinkStatePropsType = {
 }
 
 type LinkDispatchPropsType = {
-  fetchData: () => void,
-  initTxs: () => void,
-  loadMoreTxs: () => void,
+  fetchData: () => void
+  initTxs: () => void
+  loadMoreTxs: () => void
   setAddressArchived: (string) => void
 }
 
@@ -140,24 +140,24 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 <EmptyTx />
               </SceneWrapper>
             ) : (
-                <SceneWrapper centerContent>
-                  <CoinIntroduction coin={coin} />
-                </SceneWrapper>
-              )
+              <SceneWrapper centerContent>
+                <CoinIntroduction coin={coin} />
+              </SceneWrapper>
+            )
           ) : (
-              pages.map((value, index) => (
-                <TransactionList
-                  buySellPartner={buySellPartner}
-                  coin={coin}
-                  currency={currency}
-                  data={value}
-                  key={index}
-                  onArchive={this.handleArchive}
-                  onLoadMore={this.handleLoadMore}
-                  onRefresh={this.handleRefresh}
-                />
-              ))
-            )}
+            pages.map((value, index) => (
+              <TransactionList
+                buySellPartner={buySellPartner}
+                coin={coin}
+                currency={currency}
+                data={value}
+                key={index}
+                onArchive={this.handleArchive}
+                onLoadMore={this.handleLoadMore}
+                onRefresh={this.handleRefresh}
+              />
+            ))
+          )}
         </LazyLoadContainer>
       </SceneWrapper>
     )

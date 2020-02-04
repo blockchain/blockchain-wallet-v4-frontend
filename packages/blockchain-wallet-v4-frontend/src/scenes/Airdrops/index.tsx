@@ -27,13 +27,13 @@ export const MainTitle = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>,
-  hasEmail: boolean,
+  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>
+  hasEmail: boolean
   userData: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 
 export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification,
+  identityVerificationActions: typeof actions.components.identityVerification
   profileActions: typeof actions.modules.profile
 }
 
@@ -115,7 +115,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>): LinkDispatchPropsType => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<AppActionTypes>
+): LinkDispatchPropsType => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
