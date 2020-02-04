@@ -1,8 +1,8 @@
 import { Box } from '../AirdropInfo'
-import { CampaignInfoType, TagsType } from 'data/types'
+import { CampaignInfoType } from 'data/types'
 import { Icon, Text } from 'blockchain-info-components'
-import { KycStatesType } from 'data/components/identityVerification/types'
 import { LinkDispatchPropsType } from '..'
+import { Props } from '../template.success'
 import {
   StxDateOrAmount,
   StxFooterCta,
@@ -27,13 +27,9 @@ const StatusContainer = styled.div`
   }
 `
 
-export type Props = {
-  kycState: KycStatesType
-  tags: TagsType
-  userCampaignsInfoResponseList: Array<CampaignInfoType>
-}
-
 const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
+  if (props.userDoesNotExistYet === true) return null
+
   const stxCampaign = props.userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )

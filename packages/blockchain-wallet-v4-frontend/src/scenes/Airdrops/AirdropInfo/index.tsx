@@ -1,7 +1,7 @@
 import { AirdropInfoButton, AirdropInfoCopy, AirdropInfoHeader } from './model'
 import { Icon } from 'blockchain-info-components'
-import { KycStatesType } from 'data/types'
 import { LinkDispatchPropsType } from '..'
+import { Props } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -27,10 +27,6 @@ const AirdropBox = styled(Box)`
   /* stylelint-enable */
   background-repeat: no-repeat;
 `
-
-export type Props = {
-  kycState: KycStatesType
-}
 
 const AirdropInfo = (props: Props & LinkDispatchPropsType) => {
   return (
