@@ -9,6 +9,7 @@ import media from 'services/ResponsiveService'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 // FIXME: TypeScript use CoinType and SupportedCoinType
 export type OwnProps = {
@@ -18,32 +19,32 @@ export type OwnProps = {
 
 type LinkStatePropsType = {
   // FIXME: TypeScript use AccountTypes
-  data: RemoteDataType<string | Error, { data: Array<any> }>
+  data: RemoteDataType<string | Error, { addressData: { data: Array<any> }, balanceData: number }>
 }
 
 type Props = OwnProps & LinkStatePropsType
 
 const Wrapper = styled.div`
-  width: 300px;
+  width: 320px;
   z-index: 2;
 `
 // FIXME: TypeScript use SupportedCoinsType
-const DisplayContainer = styled.div<{ coinType: any, isItem: boolean }>`
+const DisplayContainer = styled.div<{ isItem?: boolean, coinType: any }>`
   display: flex;
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '6px 6px 0px 6px' : '16px 12px')};
+  padding: ${props => (props.isItem ? '6px 6px 0px 0px' : '16px 4px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
 `
 
-const AccountContainer = styled.div`
+const AccountContainer = styled.div<{ isItem?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-left: 12px;
+  margin-left: ${props => props.isItem ? '0px' : '12px'};
   width: 100%;
   cursor: pointer;
   .bc__single-value {
@@ -75,13 +76,14 @@ export class WalletBalanceDropdown extends Component<Props> {
     const coinType = this.props.coinModel
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
-    const isItem = !children
+    const balance = props.value === 'all' ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : props.value.balance
 
     return (
-      <DisplayContainer coinType={coinType} isItem={isItem}>
+      <DisplayContainer coinType={coinType}>
         <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
-          {children || props.value.label}
+          {children && children.length && children[1]}
+          <Text weight={500} color='grey400'>{props.value === 'all' ? this.props.coin : props.value.label} <FormattedMessage id='scenes.transactions.walletbalancedropdown.balance' defaultMessage='Balance' /></Text>
           <AmountContainer>
             <CoinDisplay
               coin={this.props.coin}
@@ -90,7 +92,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               cursor='pointer'
               color='grey800'
             >
-              {props.value.balance}
+              {balance}
             </CoinDisplay>
             <div style={{ width: '8px' }} />
             <FiatContainer>
@@ -102,7 +104,45 @@ export class WalletBalanceDropdown extends Component<Props> {
                 color='grey400'
                 cursor='pointer'
               >
-                {props.value.balance}
+                {balance}
+              </FiatDisplay>
+              )
+            </FiatContainer>
+          </AmountContainer>
+        </AccountContainer>
+      </DisplayContainer>
+    )
+  }
+
+  renderItem = (props: { value, label }) => {
+    const coinType = this.props.coinModel
+    const balance = props.value === 'all' ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : props.value.balance
+
+    return (
+      <DisplayContainer coinType={coinType} isItem>
+        <AccountContainer isItem>
+          {props.value === 'all' ? props.label : props.value.label}
+          <AmountContainer>
+            <CoinDisplay
+              coin={this.props.coin}
+              size='12px'
+              weight={500}
+              cursor='pointer'
+              color='grey800'
+            >
+              {balance}
+            </CoinDisplay>
+            <div style={{ width: '8px' }} />
+            <FiatContainer>
+              (
+              <FiatDisplay
+                coin={this.props.coin}
+                size='12px'
+                weight={500}
+                color='grey400'
+                cursor='pointer'
+              >
+                {balance}
               </FiatDisplay>
               )
             </FiatContainer>
@@ -113,21 +153,23 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   render () {
+    console.log(this.props.data)
+
     return this.props.data.cata({
       Success: values => {
         return (
           <Wrapper>
             <Field
               component={SelectBox}
-              elements={values.data}
+              elements={values.addressData.data}
               grouped
-              hideIndicator={values.data.length <= 1}
-              openMenuOnClick={values.data.length > 1}
-              options={values.data}
+              hideIndicator={values.addressData.data.length <= 1}
+              openMenuOnClick={values.addressData.data.length > 1}
+              options={values.addressData.data}
               name='source'
               searchEnabled={false}
               templateDisplay={this.renderDisplay}
-              templateItem={this.renderDisplay}
+              templateItem={this.renderItem}
             />
           </Wrapper>
         )

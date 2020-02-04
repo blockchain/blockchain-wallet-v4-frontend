@@ -19,8 +19,6 @@ const Search = styled.div`
 
   ${media.laptop`
     width: inherit;
-  `}
-  ${media.tablet`
     margin-top: 8px;
   `}
 `
