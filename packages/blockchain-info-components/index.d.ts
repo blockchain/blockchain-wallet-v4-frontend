@@ -1,7 +1,7 @@
 import { StatelessComponent, CSSProperties } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
-import { ImageType } from './src/Images/Images'
+// import { ImageType } from './src/Images/Images'
 
 //Blockchain Loader is done
 export const BlockchainLoader: StatelessComponent<{
@@ -16,6 +16,7 @@ export const Button: StatelessComponent<{
     | 'empty-secondary'
     | 'empty'
     | 'gray-3'
+    | 'green'
     | 'light'
     | 'primary'
     | 'purple'
@@ -37,6 +38,10 @@ export const Button: StatelessComponent<{
   padding?: string
   margin?: string
   jumbo?: boolean
+  height?: string
+  className?: string
+  onClick?: Function
+  style?: object
 }>
 //Done
 export const FontGlobalStyles: StatelessComponent<{}>
@@ -46,15 +51,18 @@ export const Icon: StatelessComponent<{
   weight?: number
   size?: string
   curson?: boolean
+  color?: string
+  style?: object
 }>
 //done
 export const IconGlobalStyles: StatelessComponent<{}>
 //done
 export const Image: StatelessComponent<{
-  name?: keyof ImageType
+  name?: string
   width?: string
   height?: string
   color?: string
+  size?: string
 }>
 //done
 export const Link: StatelessComponent<{
@@ -62,8 +70,12 @@ export const Link: StatelessComponent<{
   size?: string
   color?: keyof DefaultTheme
   uppercase?: boolean
-  capitalize: boolean
+  capitalize?: boolean
   bold?: boolean
+  href?: string
+  target?: string
+  rel?: string
+  style?: object
 }>
 
 export const Modal: StatelessComponent<{
@@ -72,6 +84,7 @@ export const Modal: StatelessComponent<{
   total?: number
   width?: number
   isLast?: boolean
+  dataE2e?: string
 }>
 export const ModalBody: StatelessComponent<{
   loading?: boolean
@@ -84,14 +97,16 @@ export const ModalHeader: StatelessComponent<{
 }>
 export function Palette(theme: string): DefaultTheme
 export const SkeletonRectangle: StatelessComponent<{
-  width: string
-  height: string
-  bgColor: keyof DefaultTheme
+  width?: string
+  height?: string
+  bgColor?: keyof DefaultTheme
 }>
-export const Table: StatelessComponent<{}>
+export const Table: StatelessComponent<{
+  style?: object
+}>
 export const TableCell: StatelessComponent<{
-  width: string
-  hideMobile: boolean
+  width?: string
+  hideMobile?: boolean
 }>
 export const TableHeader: StatelessComponent<{}>
 export const TableRow: StatelessComponent<{}>
@@ -112,6 +127,7 @@ export const Text: StatelessComponent<{
   // cursor
 }>
 export const TextGroup: StatelessComponent<{
-  nowrap: boolean
-  inline: boolean
+  nowrap?: boolean
+  inline?: boolean
+  style?: object
 }>
