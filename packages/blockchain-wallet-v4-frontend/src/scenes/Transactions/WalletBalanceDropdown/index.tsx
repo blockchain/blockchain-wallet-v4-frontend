@@ -71,19 +71,33 @@ const FiatContainer = styled.div`
 export class WalletBalanceDropdown extends Component<Props> {
   state = {}
 
+  isBtcTypeCoin = () => {
+    return this.props.coin === 'BTC' || this.props.coin === 'BCH'
+  }
+
+  isTotalBalanceType = (selectProps) => {
+    return selectProps.value === 'all' || !this.isBtcTypeCoin()
+  }
+
+  coinBalance = (selectProps) => {
+    return this.isTotalBalanceType(selectProps) ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : selectProps.value.balance
+  }
+
+
+
   // FIXME: TypeScript use value: { AccountTypes }
   renderDisplay = (props: { value }, children) => {
     const coinType = this.props.coinModel
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
-    const balance = props.value === 'all' ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : props.value.balance
+    const balance = this.coinBalance(props)
 
     return (
       <DisplayContainer coinType={coinType}>
         <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
           {children && children.length && children[1]}
-          <Text weight={500} color='grey400'>{props.value === 'all' ? this.props.coin : props.value.label} <FormattedMessage id='scenes.transactions.walletbalancedropdown.balance' defaultMessage='Balance' /></Text>
+          <Text weight={500} color='grey400'>{this.isTotalBalanceType(props) ? this.props.coin : props.value.label} <FormattedMessage id='scenes.transactions.walletbalancedropdown.balance' defaultMessage='Balance' /></Text>
           <AmountContainer>
             <CoinDisplay
               coin={this.props.coin}
@@ -116,12 +130,12 @@ export class WalletBalanceDropdown extends Component<Props> {
 
   renderItem = (props: { value, label }) => {
     const coinType = this.props.coinModel
-    const balance = props.value === 'all' ? this.props.data.getOrElse({ balanceData: 0 }).balanceData : props.value.balance
+    const balance = this.coinBalance(props)
 
     return (
       <DisplayContainer coinType={coinType} isItem>
         <AccountContainer isItem>
-          {props.value === 'all' ? props.label : props.value.label}
+          {this.isTotalBalanceType(props) ? props.label : props.value.label}
           <AmountContainer>
             <CoinDisplay
               coin={this.props.coin}
@@ -153,8 +167,6 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   render () {
-    console.log(this.props.data)
-
     return this.props.data.cata({
       Success: values => {
         return (
