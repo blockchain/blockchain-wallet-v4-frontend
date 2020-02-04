@@ -58,7 +58,7 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
 `
 
 const AmountContainer = styled.div`
-  margin-top: 4px;
+  margin-top: 8px;
   display: flex;
 `
 
@@ -88,8 +88,6 @@ export class WalletBalanceDropdown extends Component<Props> {
   // FIXME: TypeScript use value: { AccountTypes }
   renderDisplay = (props: { value }, children) => {
     const coinType = this.props.coinModel
-    const icon = coinType.icons.circleFilled
-    const color = coinType.colorCode
     const balance = this.coinBalance(props)
 
     return (
