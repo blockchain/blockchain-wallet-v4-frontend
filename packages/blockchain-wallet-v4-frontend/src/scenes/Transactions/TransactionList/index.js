@@ -35,13 +35,13 @@ const TransactionsWrapper = styled.div`
 `
 
 const Loading = () => (
-  <LoadingSkeleton height='450px' width='100%;' bgColor='white'>
+  <LoadingSkeleton height='450px' width='100%' bgColor='white'>
     <LoadingTxSkeleton>
       <SkeletonRectangle width='50%' height='30px' bgColor='gray-1' />
       <SkeletonRectangle
         width='calc(100% - 30px)'
         height='80px'
-        bgColor='gray-1'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
     <LoadingTxSkeleton>
@@ -49,7 +49,7 @@ const Loading = () => (
       <SkeletonRectangle
         width='calc(100% - 30px)'
         height='80px'
-        bgColor='gray-1'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
     <LoadingTxSkeleton>
@@ -57,7 +57,7 @@ const Loading = () => (
       <SkeletonRectangle
         width='calc(100% - 30px)'
         height='80px'
-        bgColor='gray-1'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
   </LoadingSkeleton>

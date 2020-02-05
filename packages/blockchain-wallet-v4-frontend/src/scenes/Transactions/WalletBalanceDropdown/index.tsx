@@ -3,10 +3,9 @@ import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
-import { Text } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import media from 'services/ResponsiveService'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
@@ -27,10 +26,6 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkStatePropsType
 
-const Wrapper = styled.div`
-  width: 320px;
-  z-index: 2;
-`
 // FIXME: TypeScript use SupportedCoinsType
 const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   display: flex;
@@ -172,25 +167,23 @@ export class WalletBalanceDropdown extends Component<Props> {
     return this.props.data.cata({
       Success: values => {
         return (
-          <Wrapper>
-            <Field
-              component={SelectBox}
-              elements={values.addressData.data}
-              grouped
-              hideIndicator={values.addressData.data.length <= 1}
-              openMenuOnClick={values.addressData.data.length > 1}
-              options={values.addressData.data}
-              name='source'
-              searchEnabled={false}
-              templateDisplay={this.renderDisplay}
-              templateItem={this.renderItem}
-            />
-          </Wrapper>
+          <Field
+            component={SelectBox}
+            elements={values.addressData.data}
+            grouped
+            hideIndicator={values.addressData.data.length <= 1}
+            openMenuOnClick={values.addressData.data.length > 1}
+            options={values.addressData.data}
+            name='source'
+            searchEnabled={false}
+            templateDisplay={this.renderDisplay}
+            templateItem={this.renderItem}
+          />
         )
       },
       Failure: e => <Text>{typeof e === 'string' ? e : e.message}</Text>,
-      Loading: () => <Text size='24px'>...</Text>,
-      NotAsked: () => <Text size='24px'>...</Text>
+      Loading: () => <SkeletonRectangle height='120px' width='320px' />,
+      NotAsked: () => <SkeletonRectangle height='120px' width='320px' />
     })
   }
 }

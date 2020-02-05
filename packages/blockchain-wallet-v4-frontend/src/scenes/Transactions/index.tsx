@@ -7,6 +7,7 @@ import { path, toLower } from 'ramda'
 import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
 import CoinIntroduction from './CoinIntroduction'
+import CoinPerformance from './CoinPerformance'
 import EmptyTx from 'components/EmptyTx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import React from 'react'
@@ -31,26 +32,22 @@ const Header = styled.div`
 const StatsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   margin: 24px 0;
+
+  & > :first-child {
+    width: 320px;
+    min-width: 320px;
+    z-index: 2;
+    margin-right: 30px;
+  }
+
+  & > :last-child {
+    flex-grow: 1;
+  }
 `
-// const BalanceContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex-basis: 33%;
-//   padding: 12px;
-//   border: 1px solid ${props => props.theme.grey100};
-//   border-radius: 8px;
-// `
-// const ChartContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   flex-basis: 66%;
-//   margin-left: 35px;
-//   padding: 12px;
-//   border: 1px solid ${props => props.theme.grey100};
-//   border-radius: 8px;
-// `
+
 type OwnProps = {
   buySellPartner: 'coinify' | 'sfox'
   // FIXME: TypeScript use CoinType
@@ -126,11 +123,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </PageTitle>
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
-              {/* <ChartContainer>
-                <Text color='grey400' weight={500} size='16px'>
-                  Current Price
-                </Text>
-              </ChartContainer> */}
+              <CoinPerformance coin={coin} />
             </StatsContainer>
           </Header>
           <TransactionFilters coin={coin} />
