@@ -60,6 +60,7 @@ export default ({
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
 
+      // TODO: Borrow - make dynamic
       const loan: LoanType = yield call(
         api.createLoan,
         collateralWithdrawAddress,
@@ -68,7 +69,9 @@ export default ({
           symbol: offer.terms.principalCcy,
           value: values.principal
         },
-        principalWithdrawAddress
+        {
+          PAX: principalWithdrawAddress
+        }
       )
 
       // console.log(loan)

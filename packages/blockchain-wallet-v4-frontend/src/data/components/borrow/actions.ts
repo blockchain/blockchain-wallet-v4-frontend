@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { BorrowActionTypes, BorrowMinMaxType } from './types'
-import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 
 export const createBorrow = () => ({
   type: AT.CREATE_BORROW
@@ -44,7 +44,7 @@ export const fetchUserBorrowHistoryFailure = (error): BorrowActionTypes => ({
 })
 
 export const fetchUserBorrowHistorySuccess = (
-  borrowHistory
+  borrowHistory: Array<LoanType>
 ): BorrowActionTypes => ({
   type: AT.FETCH_USER_BORROW_HISTORY_SUCCESS,
   payload: {

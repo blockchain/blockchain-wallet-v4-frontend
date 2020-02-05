@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
+import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
 import React, { PureComponent } from 'react'
@@ -58,6 +59,7 @@ class Borrow extends PureComponent<Props, State> {
           <BorrowPax />
           <InitBorrowForm />
         </Container>
+        <BorrowHistory />
       </Wrapper>
     )
   }

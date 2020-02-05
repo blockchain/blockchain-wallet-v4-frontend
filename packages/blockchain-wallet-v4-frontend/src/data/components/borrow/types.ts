@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
+  LoanType,
   NabuApiErrorType,
   OfferType,
   RemoteDataType
@@ -82,7 +83,7 @@ export type PaymentType = {
 
 // State
 export interface BorrowState {
-  borrowHistory: RemoteDataType<NabuApiErrorType, any>
+  borrowHistory: RemoteDataType<NabuApiErrorType, Array<LoanType>>
   coin: CoinType
   limits: BorrowMinMaxType
   offer: OfferType | null
@@ -119,7 +120,7 @@ interface FetchUserBorrowHistoryLoadingAction {
 }
 interface FetchUserBorrowHistorySuccessAction {
   payload: {
-    borrowHistory: any
+    borrowHistory: Array<LoanType>
   }
   type: typeof AT.FETCH_USER_BORROW_HISTORY_SUCCESS
 }

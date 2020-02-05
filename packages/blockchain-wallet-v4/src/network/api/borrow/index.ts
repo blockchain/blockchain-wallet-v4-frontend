@@ -12,7 +12,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
     collateralWithdrawAddress: string,
     offerId: string,
     principalAmount: { symbol: CoinType; value: string },
-    principalWithdrawAddress: string
+    principalWithdrawAddresses: { [key in CoinType]?: string }
   ): LoanType =>
     authorizedPost({
       url: nabuUrl,
@@ -22,7 +22,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
         collateralWithdrawAddress,
         offerId,
         principalAmount,
-        principalWithdrawAddress
+        principalWithdrawAddresses
       }
     })
 
