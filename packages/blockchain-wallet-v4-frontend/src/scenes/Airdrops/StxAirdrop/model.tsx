@@ -11,7 +11,7 @@ import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType } from '..'
 import { model } from 'data'
-import { Props } from '.'
+import { Props } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
 
