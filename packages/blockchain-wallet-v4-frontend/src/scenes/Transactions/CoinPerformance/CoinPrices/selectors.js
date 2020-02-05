@@ -16,8 +16,8 @@ export const getData = createDeepEqualSelector(
       return {
         currency,
         priceChange,
-        pricePercentageChange,
-        priceCurrent
+        priceCurrent,
+        pricePercentageChange
       }
     }
 

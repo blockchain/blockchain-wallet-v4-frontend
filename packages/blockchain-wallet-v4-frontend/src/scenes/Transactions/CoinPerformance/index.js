@@ -8,9 +8,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-content: space-between;
-  max-width: 1000px;
-  height: 120px;
-  max-height: 120px;
   border: 1px solid ${props => props.theme.grey100};
   border-radius: 4px;
 

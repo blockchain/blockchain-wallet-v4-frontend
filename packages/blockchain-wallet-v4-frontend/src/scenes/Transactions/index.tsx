@@ -34,6 +34,8 @@ const StatsContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  height: 120px;
+  max-height: 120px;
   margin: 24px 0;
 
   & > :first-child {
@@ -45,6 +47,7 @@ const StatsContainer = styled.div`
 
   & > :last-child {
     flex-grow: 1;
+    max-width: 1000px;
   }
 `
 

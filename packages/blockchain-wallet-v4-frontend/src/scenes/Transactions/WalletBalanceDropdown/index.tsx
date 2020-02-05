@@ -1,3 +1,4 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -20,11 +21,30 @@ type LinkStatePropsType = {
   // FIXME: TypeScript use AccountTypes
   data: RemoteDataType<
     string | Error,
-    { addressData: { data: Array<any> }; balanceData: number }
+    {
+      addressData: { data: Array<any> }
+      balanceData: number
+      currencySymbol: string
+      priceChangeFiat: number
+      priceChangePercentage: number
+    }
   >
 }
 
 type Props = OwnProps & LinkStatePropsType
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  border: 1px solid ${props => props.theme.grey100};
+  border-radius: 4px;
+
+  & > :last-child {
+    margin: -10px 0 0 25px;
+    z-index: 10;
+  }
+`
 
 // FIXME: TypeScript use SupportedCoinsType
 const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
@@ -65,6 +85,40 @@ const FiatContainer = styled.div`
   font-size: 12px;
   color: ${props => props.theme.grey400};
 `
+
+const CoinSelect = styled(SelectBox)`
+  .bc__control {
+    border: 0 !important;
+  }
+`
+
+const PriceChangeText = styled(Text)`
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  color: ${props => props.theme.grey400};
+`
+const PriceChangeColoredText = styled.span<{ priceChangeFiat: number }>`
+  font-weight: 600;
+  color: ${props =>
+    props.priceChangeFiat >= 0 ? props.theme.green400 : props.theme.red500};
+`
+
+const buildPercentageChange = (
+  currencySymbol,
+  priceChangeFiat,
+  priceChangePercentage
+) => {
+  let priceFormatted
+  if (priceChangeFiat < 0) {
+    priceFormatted = `-${currencySymbol}${Currency.formatFiat(
+      priceChangeFiat
+    ).substring(1)}`
+  } else {
+    priceFormatted = currencySymbol + Currency.formatFiat(priceChangeFiat)
+  }
+  return `${priceFormatted} (${Currency.formatFiat(priceChangePercentage)}%)`
+}
 
 export class WalletBalanceDropdown extends Component<Props> {
   state = {}
@@ -166,19 +220,40 @@ export class WalletBalanceDropdown extends Component<Props> {
   render () {
     return this.props.data.cata({
       Success: values => {
+        const {
+          addressData,
+          currencySymbol,
+          priceChangeFiat,
+          priceChangePercentage
+        } = values
         return (
-          <Field
-            component={SelectBox}
-            elements={values.addressData.data}
-            grouped
-            hideIndicator={values.addressData.data.length <= 1}
-            openMenuOnClick={values.addressData.data.length > 1}
-            options={values.addressData.data}
-            name='source'
-            searchEnabled={false}
-            templateDisplay={this.renderDisplay}
-            templateItem={this.renderItem}
-          />
+          <Wrapper>
+            <Field
+              component={CoinSelect}
+              elements={addressData.data}
+              grouped
+              hideIndicator={addressData.data.length <= 1}
+              openMenuOnClick={addressData.data.length > 1}
+              options={addressData.data}
+              name='source'
+              searchEnabled={false}
+              templateDisplay={this.renderDisplay}
+              templateItem={this.renderItem}
+            />
+            <PriceChangeText>
+              <PriceChangeColoredText priceChangeFiat={priceChangeFiat}>
+                {buildPercentageChange(
+                  currencySymbol,
+                  priceChangeFiat,
+                  priceChangePercentage
+                )}
+              </PriceChangeColoredText>{' '}
+              <FormattedMessage
+                id='scenes.transactions.performance.prices.day'
+                defaultMessage='today'
+              />
+            </PriceChangeText>
+          </Wrapper>
         )
       },
       Failure: e => <Text>{typeof e === 'string' ? e : e.message}</Text>,
