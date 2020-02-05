@@ -14,11 +14,8 @@ const BaseBrand = styled.div`
   }
   ${media.tablet`
     padding-left: 15px;
-    img {
-      height: 14px;
-    }
     > span:first-child {
-      display: block;
+      display: flex;
     }
   `}
 `

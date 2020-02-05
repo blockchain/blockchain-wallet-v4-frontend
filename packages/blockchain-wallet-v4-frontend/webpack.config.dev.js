@@ -70,7 +70,8 @@ module.exports = {
       data: path.resolve(__dirname, 'src/data/index.ts'),
       layouts: path.resolve(__dirname, 'src/layouts/'),
       providers: path.resolve(__dirname, 'src/providers/'),
-      services: path.resolve(__dirname, 'src/services/')
+      services: path.resolve(__dirname, 'src/services/'),
+      utils: path.resolve(__dirname, 'src/utils/')
     }
   },
   module: {

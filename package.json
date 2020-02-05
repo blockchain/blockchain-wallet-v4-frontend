@@ -39,18 +39,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "stylelint",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ],
-    "*.tsx": [
+    "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
       "stylelint",
@@ -66,7 +55,7 @@
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:lint": "prettier './packages/*/src/**/*.js' --loglevel error --write && eslint './packages/*/src/**/*.js' --fix && stylelint './packages/*/src/**/*.js'",
+    "ci:lint": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write && eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,ts,tsx}'",
     "ci:test:build": "yarn wsrun --serial test:build",
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
@@ -79,17 +68,17 @@
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun --exclude-missing link:resolved:paths",
-    "lint": "eslint --cache './packages/*/src/**/*.js'",
-    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
-    "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
-    "lint:css": "stylelint './packages/*/src/**/*.js'",
-    "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
-    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "lint": "eslint --cache './packages/*/src/**/*.{js,ts,tsx}'",
+    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.{js,ts,tsx}'",
+    "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}'",
+    "lint:css": "stylelint './packages/*/src/**/*.{js,ts,tsx}s'",
+    "lint:fix": "eslint './packages/*/src/**/*.{js,ts,tsx}' --fix",
+    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}'",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
-    "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
-    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
+    "prettier": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write",
+    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
+    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
+    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
     "report": "npx istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",

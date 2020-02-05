@@ -4,45 +4,37 @@ import styled from 'styled-components'
 
 const BaseTabMenuItem = styled.span`
   position: relative;
-  padding: 6px 8px;
+  padding: 12px 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   font-size: 14px;
   text-align: center;
+  border-radius: 8px;
+  white-space: nowrap;
+  margin: 2px;
   color: ${props =>
-    props.selected ? props.theme.blue600 : props.theme['gray-3']};
+    props.selected ? props.theme.blue600 : props.theme.grey400};
   cursor: pointer;
+  ${props =>
+    props.selected &&
+    `
+    background-color: ${props.theme.white};
+    color: ${props.theme.blue600};
+  `}
 
-  &:not(:last-child) {
-    margin-right: 15px;
-  }
-
-  &:hover {
-    color: ${props => props.theme['gray-5']};
-  }
-
-  &.active {
-    color: ${props => props.theme['gray-5']};
-    & :after {
-      position: absolute;
-      content: '';
-      top: 39px;
-      left: 0;
-      width: 100%;
-      border-bottom: 4px solid ${props => props.theme.blue600};
-    }
-  }
-  @media (max-width: 480px) {
+  @media (max-width: 767px) {
     font-size: 13px;
+    padding: 10px 16px;
   }
 `
 
 const TabMenuItem = props => {
-  const { children, selected, ...rest } = props
+  const { children, selected, className, ...rest } = props
+  const isSelectedOrActive = selected || className === 'active'
 
   return (
-    <BaseTabMenuItem selected={selected} {...rest}>
+    <BaseTabMenuItem selected={isSelectedOrActive} {...rest}>
       {children}
     </BaseTabMenuItem>
   )

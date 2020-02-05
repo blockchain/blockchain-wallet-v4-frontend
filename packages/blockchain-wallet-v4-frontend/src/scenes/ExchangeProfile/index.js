@@ -2,41 +2,23 @@ import { actions } from 'data'
 import { BlockchainLoader } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { SceneWrapper } from 'components/Layout'
 import DataError from 'components/DataError'
 import IdentityVerification from './IdentityVerification'
 import React from 'react'
-import styled from 'styled-components'
-
-const Wrapper = styled.section`
-  width: 100%;
-`
-const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-const Container = styled.div`
-  padding: 30px;
-  width: 100%;
-  box-sizing: border-box;
-`
 
 const Loading = () => (
-  <LoadingWrapper>
-    <BlockchainLoader />
-  </LoadingWrapper>
+  <SceneWrapper centerContent>
+    <BlockchainLoader width='200px' height='200px' />
+  </SceneWrapper>
 )
 
 export const Profile = ({ data, fetchUser }) =>
   data.cata({
     Success: () => (
-      <Wrapper>
-        <Container>
-          <IdentityVerification />
-        </Container>
-      </Wrapper>
+      <SceneWrapper>
+        <IdentityVerification />
+      </SceneWrapper>
     ),
     NotAsked: () => <Loading />,
     Loading: () => <Loading />,

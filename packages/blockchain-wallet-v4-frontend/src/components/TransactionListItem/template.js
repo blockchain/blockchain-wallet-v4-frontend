@@ -31,7 +31,7 @@ const TransactionRowContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   box-shadow: none;
-  padding: 25px 25px 0;
+  padding: 16px 16px 0;
   box-sizing: border-box;
   transition: box-shadow 0.3s;
   &.active {
@@ -44,7 +44,7 @@ const TransactionRow = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 25px;
+  padding-bottom: 16px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const DetailsRow = styled.div`
