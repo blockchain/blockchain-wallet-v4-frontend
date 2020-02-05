@@ -89,60 +89,6 @@ const Terms = props => {
           </Link>
         </TermsContainer>
       )
-    case 'sfox':
-      return (
-        <TermsContainer>
-          <Text size='12px' weight={400}>
-            <FormattedMessage
-              id='buysellexchangedata.create.accept.terms'
-              defaultMessage="I accept Blockchain's "
-            />
-          </Text>
-          <span>&nbsp;</span>
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.blockchain.com/terms/index.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.bc.sfox.tos'
-              defaultMessage='Terms of Service'
-            />
-          </Link>
-          <span>,</span>
-          <span>&nbsp;</span>
-          <Text size='12px' weight={400}>
-            {`SFOX's`}
-          </Text>
-          <span>&nbsp;</span>
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.sfox.com/terms.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.sfox.tos'
-              defaultMessage='Terms of Service'
-            />
-          </Link>
-          <span>&nbsp;</span>
-          {`&`}
-          &nbsp;
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.sfox.com/privacy.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.sfox.privacypolicy'
-              defaultMessage='Privacy Policy.'
-            />
-          </Link>
-        </TermsContainer>
-      )
     case 'blockchain-kyc':
       return (
         <TermsContainer>
