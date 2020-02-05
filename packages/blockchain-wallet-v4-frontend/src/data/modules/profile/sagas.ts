@@ -518,6 +518,7 @@ export default ({ api, coreSagas, networks }) => {
     signIn,
     syncUserWithWallet,
     updateUser,
-    updateUserAddress
+    updateUserAddress,
+    waitForUserData
   }
 }

@@ -4,7 +4,7 @@ import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { BorrowFormValuesType, PaymentType } from './types'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormAction, initialize } from 'redux-form'
 import { LoanType } from 'core/types'
@@ -12,6 +12,7 @@ import { NO_OFFER_EXISTS } from './model'
 import { nth } from 'ramda'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
+import profileSagas from '../../../data/modules/profile/sagas'
 
 export default ({
   api,
@@ -22,6 +23,9 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const waitForUserData = profileSagas({ api, coreSagas, networks })
+    .waitForUserData
+
   const createBorrow = function * () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
@@ -163,6 +167,7 @@ export default ({
   const fetchUserBorrowHistory = function * () {
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
+      yield call(waitForUserData)
       const offers = yield call(api.getUserBorrowHistory)
       yield put(A.fetchUserBorrowHistorySuccess(offers))
     } catch (e) {
