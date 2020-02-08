@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { BorrowActionTypes, BorrowMinMaxType } from './types'
+import { BorrowActionTypes, BorrowMinMaxType, BorrowStepsType } from './types'
 import { CoinType, LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 
 export const createBorrow = () => ({
@@ -95,5 +95,12 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
     payment
+  }
+})
+
+export const setStep = (step: BorrowStepsType): BorrowActionTypes => ({
+  type: AT.SET_STEP,
+  payload: {
+    step
   }
 })

@@ -25,3 +25,5 @@ export const getRates = (state: RootState) => {
       throw new Error(INVALID_COIN_TYPE)
   }
 }
+
+export const getStep = (state: RootState) => state.components.borrow.step

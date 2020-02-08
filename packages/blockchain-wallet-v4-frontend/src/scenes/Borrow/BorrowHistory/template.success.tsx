@@ -1,13 +1,14 @@
 import { FormattedMessage } from 'react-intl'
-import { Status, Value } from './model'
-import { SuccessStateType } from '.'
 import {
+  Link,
   Table,
   TableCell,
   TableHeader,
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { LinkDispatchPropsType, SuccessStateType } from '.'
+import { Status, Value } from './model'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -18,6 +19,9 @@ export const History = styled.div`
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
+const ViewDetailsCell = styled(TableCell)`
+  justify-content: flex-end;
+`
 
 function Success (props: SuccessStateType): ReactElement {
   return (
@@ -26,10 +30,10 @@ function Success (props: SuccessStateType): ReactElement {
         <FormattedMessage id='scenes.borrow.history' defaultMessage='History' />
       </MainTitle>
 
-      <div style={{ minWidth: '500px', paddingBottom: '45px' }}>
-        <Table style={{ minWidth: '500px' }}>
+      <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
+        <Table style={{ minWidth: '800px' }}>
           <TableHeader>
-            <TableCell width='22%'>
+            <TableCell width='20%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.created'
@@ -37,7 +41,7 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='22%'>
+            <TableCell width='15%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.status'
@@ -45,7 +49,7 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='22%'>
+            <TableCell width='15%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.collateral'
@@ -53,7 +57,7 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='34%'>
+            <TableCell width='15%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.amount'
@@ -61,17 +65,25 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
+            <TableCell width='15%'>
+              <Text size='12px' weight={500}>
+                <FormattedMessage
+                  id='scenes.borrow.history.outstanding'
+                  defaultMessage='Outstanding'
+                />
+              </Text>
+            </TableCell>
           </TableHeader>
           {props.borrowHistory.map(loan => {
             return (
               <TableRow>
-                <TableCell width='22%'>
+                <TableCell width='20%'>
                   <Value>{moment(loan.openedAt).format('lll')}</Value>
                 </TableCell>
-                <TableCell width='22%'>
+                <TableCell width='15%'>
                   <Status {...loan} />
                 </TableCell>
-                <TableCell width='22%'>
+                <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     {
@@ -82,7 +94,7 @@ function Success (props: SuccessStateType): ReactElement {
                     BTC
                   </Value>
                 </TableCell>
-                <TableCell width='22%'>
+                <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     {
@@ -93,6 +105,13 @@ function Success (props: SuccessStateType): ReactElement {
                     PAX
                   </Value>
                 </TableCell>
+                <TableCell width='15%'>-</TableCell>
+                <ViewDetailsCell
+                  width='20%'
+                  onClick={() => props.showLoanDetails(loan)}
+                >
+                  <Link size='14px'>View Details</Link>
+                </ViewDetailsCell>
               </TableRow>
             )
           })}

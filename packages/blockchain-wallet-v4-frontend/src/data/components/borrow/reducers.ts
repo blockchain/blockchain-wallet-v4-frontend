@@ -13,7 +13,8 @@ const INITIAL_STATE: BorrowState = {
   },
   offer: null,
   offers: Remote.NotAsked,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  step: 'CHECKOUT'
 }
 
 export function borrowReducer (
@@ -80,6 +81,11 @@ export function borrowReducer (
       return {
         ...state,
         payment: Remote.Success(action.payload.payment)
+      }
+    case AT.SET_STEP:
+      return {
+        ...state,
+        step: action.payload.step
       }
     default:
       return state

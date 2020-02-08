@@ -81,6 +81,8 @@ export type PaymentType = {
   value: () => PaymentType
 }
 
+export type BorrowStepsType = 'CHECKOUT' | 'DETAILS'
+
 // State
 export interface BorrowState {
   borrowHistory: RemoteDataType<NabuApiErrorType, Array<LoanType>>
@@ -89,6 +91,7 @@ export interface BorrowState {
   offer: OfferType | null
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
+  step: 'CHECKOUT' | 'DETAILS'
 }
 
 // Actions
@@ -164,6 +167,13 @@ interface SetPaymentSuccessAction {
   type: typeof AT.SET_PAYMENT_SUCCESS
 }
 
+interface SetStepAction {
+  payload: {
+    step: BorrowStepsType
+  }
+  type: typeof AT.SET_STEP
+}
+
 export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
@@ -177,3 +187,4 @@ export type BorrowActionTypes =
   | SetPaymentFailureAction
   | SetPaymentLoadingAction
   | SetPaymentSuccessAction
+  | SetStepAction

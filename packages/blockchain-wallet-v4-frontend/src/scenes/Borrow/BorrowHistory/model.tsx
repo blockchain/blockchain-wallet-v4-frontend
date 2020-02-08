@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 export const Value = styled(Text)<{ size?: string }>`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: ${props => props.theme.grey800};
 `

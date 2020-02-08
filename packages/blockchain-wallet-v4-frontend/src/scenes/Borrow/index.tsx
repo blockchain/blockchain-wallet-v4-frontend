@@ -3,6 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
+import { SceneWrapper } from 'components/Layout'
 import { Text } from 'blockchain-info-components'
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
@@ -17,12 +18,6 @@ type LinkDispatchPropsType = {
 type Props = LinkDispatchPropsType
 interface State {}
 
-export const Wrapper = styled.div`
-  width: 100%;
-  margin: 0px 30px;
-  padding-top: 24px;
-  border-top: 1px solid ${props => props.theme.grey000};
-`
 export const Header = styled.div`
   margin-bottom: 40px;
 `
@@ -40,7 +35,7 @@ class Borrow extends PureComponent<Props, State> {
 
   render () {
     return (
-      <Wrapper>
+      <SceneWrapper>
         <Header>
           <MainTitle size='32px' color='grey800' weight={600}>
             <FormattedMessage
@@ -60,7 +55,7 @@ class Borrow extends PureComponent<Props, State> {
           <InitBorrowForm />
         </Container>
         <BorrowHistory />
-      </Wrapper>
+      </SceneWrapper>
     )
   }
 }
