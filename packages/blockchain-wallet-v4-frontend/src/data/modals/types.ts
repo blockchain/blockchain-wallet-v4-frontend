@@ -1,6 +1,11 @@
 import * as AT from './actionTypes'
 
-export type ModalNamesType = 'BORROW_MODAL' | 'FAQ_MODAL' | 'WHATS_NEW_MODAL'
+export type ModalNamesType =
+  | 'BORROW_MODAL'
+  | 'FAQ_MODAL'
+  | 'ShowEthPrivateKey'
+  | 'ShowXlmPrivateKey'
+  | 'WHATS_NEW_MODAL'
 
 export type ModalType = {
   options: any

@@ -16,6 +16,7 @@ export default {
   'birthday-cake-light': '\\e986',
   'bitpay-logo': '\\e924',
   'blockchain-logo': '\\e919',
+  borrow: '\\e944',
   btc: '\\e97c',
   'btc-circle': '\\e98a',
   'btc-circle-filled': '\\e906',

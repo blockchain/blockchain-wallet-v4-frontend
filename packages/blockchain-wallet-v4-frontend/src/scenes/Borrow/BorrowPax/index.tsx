@@ -24,7 +24,7 @@ class BorrowPax extends PureComponent<Props, State> {
   render () {
     return (
       <CustomBox>
-        <Icon name='pie' color='blue600' size='32px' />
+        <Icon name='borrow' color='blue600' size='32px' />
         <Text
           size='20px'
           color='grey800'

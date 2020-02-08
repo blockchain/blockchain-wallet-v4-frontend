@@ -26,7 +26,16 @@ export type LoanType = {
     notional: MoneyType
     withdrawAddress: { [key in CoinType]: string }
   }
-  status: 'PENDING_EXECUTION'
+  status:
+    | 'OPEN'
+    | 'CLOSED'
+    | 'PENDING_EXECUTION'
+    | 'PENDING_COLLATERAL_DEPOSIT'
+    | 'PENDING_PRINCIPAL_WITHDRAW'
+    | 'PENDING_CLOSE'
+    | 'ON_CALL'
+    | 'LIQUIDATED'
+    | 'FAILED'
 }
 
 export type OfferType = {

@@ -158,7 +158,7 @@ const Navigation = props => {
       {props.invitations.borrow && (
         <LinkContainer to='/borrow' activeClassName='active'>
           <MenuItem data-e2e='borrowLink'>
-            <MenuIcon name='pie' size='20px' />
+            <MenuIcon name='borrow' size='20px' />
             <Destination>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.borrow'
