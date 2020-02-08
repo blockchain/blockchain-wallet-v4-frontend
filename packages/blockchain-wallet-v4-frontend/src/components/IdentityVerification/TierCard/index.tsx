@@ -246,7 +246,10 @@ export const TierCard = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 

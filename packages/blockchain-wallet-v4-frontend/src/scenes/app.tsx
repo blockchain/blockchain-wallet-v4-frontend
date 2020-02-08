@@ -2,7 +2,7 @@ import { connect, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { createGlobalStyle } from 'styled-components'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
-import { map, values } from 'ramda'
+import { has, map, values } from 'ramda'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Redirect, Switch } from 'react-router-dom'
@@ -162,6 +162,7 @@ class App extends React.PureComponent<{
                               path={coin.txListAppRoute}
                               component={Transactions}
                               coin={coin.coinCode}
+                              isCoinErc20={has('contractAddress', coin)}
                               key={coin.coinCode}
                             />
                           ),

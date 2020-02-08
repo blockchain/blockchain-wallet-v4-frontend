@@ -1,6 +1,7 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { SceneWrapper } from 'components/Layout'
 import { TOUR_STEPS, TourTooltip } from './model'
 import Balances from './Balances'
 import Banners from './Banners'
@@ -12,14 +13,6 @@ import styled, { createGlobalStyle, keyframes } from 'styled-components'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 25px;
-  @media (min-width: 992px) {
-    padding: 15px 30px;
-  }
-`
 const ColumnWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -103,7 +96,7 @@ const Home = props => {
     }
   }
   return (
-    <Wrapper>
+    <SceneWrapper>
       <Banners />
       <ColumnWrapper>
         <ColumnLeft>
@@ -128,7 +121,7 @@ const Home = props => {
         {...props.Joyride}
       />
       <GlobalJoyrideStyles />
-    </Wrapper>
+    </SceneWrapper>
   )
 }
 

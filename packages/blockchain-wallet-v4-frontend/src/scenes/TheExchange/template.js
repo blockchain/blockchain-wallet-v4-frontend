@@ -1,19 +1,14 @@
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { SceneWrapper } from 'components/Layout'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  padding-top: 20px;
-`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  margin: 0 auto 25px;
   width: 666px;
   ${media.tablet`
     flex-direction: column;
@@ -24,7 +19,6 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-top: 46px;
   &:first-child {
     align-items: flex-end;
   }
@@ -92,7 +86,7 @@ const FooterButton = styled(Button)`
 `
 
 const Exchange = ({ onSignup }) => (
-  <Wrapper>
+  <SceneWrapper centerContent>
     <Container>
       <Row>
         <Column>
@@ -167,7 +161,7 @@ const Exchange = ({ onSignup }) => (
         </Column>
       </Row>
     </Container>
-  </Wrapper>
+  </SceneWrapper>
 )
 
 export default Exchange
