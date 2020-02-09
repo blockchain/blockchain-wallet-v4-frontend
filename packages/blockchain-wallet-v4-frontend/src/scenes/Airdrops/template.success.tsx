@@ -25,9 +25,9 @@ export const Container = styled.div`
 `
 
 export type Props = {
-  kycState: KycStatesType,
-  tags: TagsType,
-  userCampaignsInfoResponseList: Array<CampaignInfoType>,
+  kycState: KycStatesType
+  tags: TagsType
+  userCampaignsInfoResponseList: Array<CampaignInfoType>
   userDoesNotExistYet?: boolean
 }
 

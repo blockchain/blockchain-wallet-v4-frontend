@@ -108,17 +108,17 @@ export const ActionButton = styled(Button)`
 const { TIERS_STATES } = model.profile
 
 type LinkDispatchPropsType = {
-  goToSwap: () => void,
+  goToSwap: () => void
   identityVerificationActions: typeof actions.components.identityVerification
 }
 
 type OwnProps = {
-  column: boolean,
+  column: boolean
   emailVerified: boolean
   mobileVerified: boolean
+  tier: 1 | 2
   userData: UserDataType
   userTiers: UserTiersType
-  tier: 1 | 2
 }
 
 type Props = LinkDispatchPropsType & OwnProps
@@ -152,35 +152,35 @@ export const TierCard = ({
   return (
     <Wrapper className={className}>
       {tier === 2 && (
-        <Announcement uppercase weight={500} size="18px" color="white">
+        <Announcement uppercase weight={500} size='18px' color='white'>
           <FormattedMessage
-            id="components.identityverification.tiercard.getfreecrypto"
-            defaultMessage="Get Free Crypto"
+            id='components.identityverification.tiercard.getfreecrypto'
+            defaultMessage='Get Free Crypto'
           />
         </Announcement>
       )}
       <Container>
-        <Header color="marketing-primary" uppercase>
+        <Header color='marketing-primary' uppercase>
           {headers[path([tier, 'level'], TIERS)]}
         </Header>
         <Content>
           <Row>
             <Column>
-              <Text size="32px" weight={600} color="marketing-secondary">
+              <Text size='32px' weight={600} color='marketing-secondary'>
                 {tierFiatLimit}
               </Text>
               <Text
-                size="14px"
+                size='14px'
                 weight={500}
-                color="textBlack"
+                color='textBlack'
                 style={{ marginTop: '8px' }}
               >
                 {tierLimit}
               </Text>
               <Text
-                size="14px"
+                size='14px'
                 weight={500}
-                color="gray-3"
+                color='gray-3'
                 style={{ marginTop: '7px' }}
               >
                 {tierStatus}
@@ -196,13 +196,13 @@ export const TierCard = ({
                     mobileVerified,
                     emailVerified
                   }) && (
-                      <Icon
-                        style={{ marginLeft: '5px' }}
-                        color="success"
-                        size="12px"
-                        name="check"
-                      />
-                    )}
+                    <Icon
+                      style={{ marginLeft: '5px' }}
+                      color='success'
+                      size='12px'
+                      name='check'
+                    />
+                  )}
                 </TextGroup>
               ))}
             </Column>
@@ -211,34 +211,34 @@ export const TierCard = ({
         {tierData.state === TIERS_STATES.NONE && (
           <ActionButton
             jumbo
-            className="actionButton"
+            className='actionButton'
             fullwidth
-            nature="primary"
+            nature='primary'
             onClick={() => identityVerificationActions.verifyIdentity(tier)}
             data-e2e={`continueKycTier${tier}Btn`}
           >
             {tierStarted ? (
               <FormattedMessage
-                id="components.identityverification.tiercard.continue"
-                defaultMessage="Continue"
+                id='components.identityverification.tiercard.continue'
+                defaultMessage='Continue'
               />
             ) : (
-                ctas[path([tier, 'level'], TIERS)]
-              )}
+              ctas[path([tier, 'level'], TIERS)]
+            )}
           </ActionButton>
         )}
         {tierData.state === TIERS_STATES.VERIFIED && (
           <ActionButton
-            className="actionButton"
+            className='actionButton'
             jumbo
             fullwidth
-            nature="primary"
+            nature='primary'
             onClick={goToSwap}
-            data-e2e="swapNowBtn"
+            data-e2e='swapNowBtn'
           >
             <FormattedMessage
-              id="components.identityverification.tiercard.swap_now"
-              defaultMessage="Swap Now"
+              id='components.identityverification.tiercard.swap_now'
+              defaultMessage='Swap Now'
             />
           </ActionButton>
         )}
@@ -248,7 +248,10 @@ export const TierCard = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 

@@ -50,9 +50,9 @@ const Header = styled.div`
   background-color: ${props => props.theme['gray-1']};
 `
 const Content = styled.div`
+  height: 100%;
   width: 100%;
   overflow: scroll;
-  height: calc(100% - 60px);
   background-color: ${props => props.theme.white};
 `
 

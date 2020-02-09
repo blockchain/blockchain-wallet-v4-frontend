@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { SceneWrapper } from 'components/Layout'
 import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
@@ -14,12 +15,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
 
-export const Wrapper = styled.div`
-  width: 100%;
-  margin: 12px 30px;
-  padding-top: 24px;
-  border-top: 1px solid ${props => props.theme.blue100};
-`
 export const Header = styled.div`
   margin-bottom: 40px;
 `
@@ -92,7 +87,7 @@ class Airdrops extends React.PureComponent<Props> {
     })
     if (!hasEmail) return <EmailRequired />
     return (
-      <Wrapper>
+      <SceneWrapper>
         <Header>
           <MainTitle size='32px' color='grey800' weight={600}>
             <FormattedMessage
@@ -117,7 +112,7 @@ class Airdrops extends React.PureComponent<Props> {
           </MainTitle>
         </History>
         {PastAirdrops}
-      </Wrapper>
+      </SceneWrapper>
     )
   }
 }

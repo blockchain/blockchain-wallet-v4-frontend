@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components'
 
 export function BlockchainLoader(...args: any): any
 export function Button(...args: any): any
+export function ComponentDropdown(...args): any
 export function FontGlobalStyles(...args: any): any
 export function Icon(...args: any): any
 export function IconGlobalStyles(...args: any): any
@@ -24,5 +25,6 @@ export const Text: StatelessComponent<{
   style?: CSSProperties
   uppercase?: boolean
   lineHeight?: string
+  onClick?: () => void
 }>
 export function TextGroup(...args: any): any

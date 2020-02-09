@@ -9,11 +9,7 @@ const WhatsNewLink = styled(Link)`
   position: relative;
   padding: 5px;
   border-radius: 4px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    ${props => (props.highlighted ? '0.2' : '0')}
+  background-color: z
   );
 `
 const NotificationBadge = styled.div`

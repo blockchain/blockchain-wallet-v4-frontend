@@ -12,10 +12,14 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
+    border-radius: 4px;
+    box-shadow: initial;
+    border: 1px solid ${props => props.theme.grey100};
     background-color: ${props => props.theme.white};
   }
 
   .bc__menu-list {
+    border-radius: 4px;
     padding: 0;
   }
 

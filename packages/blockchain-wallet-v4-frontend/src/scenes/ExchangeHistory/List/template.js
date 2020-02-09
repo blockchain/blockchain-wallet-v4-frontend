@@ -9,7 +9,6 @@ import {
 } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import media from 'services/ResponsiveService'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -21,12 +20,7 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 30px;
   box-sizing: border-box;
-
-  ${media.mobile`
-    padding: 10px
-  `};
 `
 const Container = styled.div`
   width: 100%;

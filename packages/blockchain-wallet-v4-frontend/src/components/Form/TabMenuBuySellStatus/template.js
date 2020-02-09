@@ -11,23 +11,11 @@ import {
   Text
 } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  @media (min-width: 992px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-`
 const PartnerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  width: 100%;
   @media (max-width: 992px) {
     display: none;
   }
@@ -40,7 +28,7 @@ const TabMenuBuySellStatus = props => {
   const { handleClick, partner, value } = props
 
   return (
-    <Wrapper>
+    <>
       <TabMenu>
         <TabMenuItem
           className={value === 'buy' ? 'active' : ''}
@@ -83,7 +71,7 @@ const TabMenuBuySellStatus = props => {
           </PartnerLink>
         </PartnerWrapper>
       )}
-    </Wrapper>
+    </>
   )
 }
 
