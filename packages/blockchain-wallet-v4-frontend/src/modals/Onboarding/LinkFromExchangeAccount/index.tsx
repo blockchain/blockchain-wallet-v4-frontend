@@ -8,14 +8,14 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
 type OwnPropsType = {
-  close: () => void,
+  close: () => void
   linkId: string
 }
 
 export type LinkStatePropsType = {
-  email: string,
-  emailVerified: boolean,
-  linkFromExchangeAccountStatus: any,
+  email: string
+  emailVerified: boolean
+  linkFromExchangeAccountStatus: any
   userTiers: RemoteDataType<any, UserTiersType>
 }
 

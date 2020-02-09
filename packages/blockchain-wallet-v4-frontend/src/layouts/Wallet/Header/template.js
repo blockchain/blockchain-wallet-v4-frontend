@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-import { transparentize } from 'polished'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -18,44 +17,61 @@ import FaqIcon from './FaqIcon'
 import media from 'services/ResponsiveService'
 import RefreshIcon from './RefreshIcon'
 import SecurityCenter from './SecurityCenter'
+import SendRequest from './SendRequest'
 import Settings from './Settings'
 import WhatsNewIcon from './WhatsNewIcon'
 
 const BlockchainLogoImage = styled(Image)`
-  height: 16px;
+  width: 200px;
   display: block;
-  margin-left: 10px;
-  @media (min-width: 768px) {
-    height: 20px;
-    margin-left: 0;
-  }
+  height: 20px;
+  margin-left: 0;
+  ${media.tablet`
+    width: 160px;
+    margin-left: 6px;
+  `}
 `
 const NavbarNavItemSpacer = styled(NavbarNavItem)`
   margin-right: 12px;
+  ${media.tablet`
+    margin-right: 8px;
+  `}
 `
 const NavbarNavItemWithText = styled(NavbarNavItem)`
   padding: 0 26px;
   margin: 0;
-  border-left: 1px solid ${props => transparentize(0.9, props.theme.white)};
+  border-left: 1px solid ${props => props.theme.whiteFade400};
   &:last-child {
     padding-right: 0;
   }
   ${media.tablet`
     padding: 0px;
     border-left: 0px;
+    margin-right: 8px;
+  `}
+`
+const NavbarStyled = styled(Navbar)`
+  background-color: ${props => props.theme.grey900};
+`
+const NavbarMenuStyled = styled(NavbarMenu)`
+  width: 100%;
+  margin-left: 42px;
+  ${media.tablet`
+    margin-left: 16px;
+    overflow-x: scroll;
   `}
 `
 
 const Header = props => {
   const { handleToggle, ...rest } = props
   return (
-    <React.Fragment>
-      <Navbar height='60px'>
+    <>
+      <NavbarStyled height='60px'>
         <NavbarHeader>
           <NavbarBrand>
             <Icon
               name='hamburger-menu'
-              color='white'
+              color='whiteFade600'
               size='16px'
               onClick={handleToggle}
             />
@@ -64,7 +80,8 @@ const Header = props => {
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>
-        <NavbarMenu>
+        <NavbarMenuStyled>
+          <SendRequest />
           <NavbarNav>
             <NavbarNavItem>
               <WhatsNewIcon />
@@ -82,11 +99,11 @@ const Header = props => {
               <Settings {...rest} />
             </NavbarNavItemWithText>
           </NavbarNav>
-        </NavbarMenu>
-      </Navbar>
+        </NavbarMenuStyled>
+      </NavbarStyled>
       <Announcements type='service' alertArea='wallet' />
       <Announcements type='static' />
-    </React.Fragment>
+    </>
   )
 }
 

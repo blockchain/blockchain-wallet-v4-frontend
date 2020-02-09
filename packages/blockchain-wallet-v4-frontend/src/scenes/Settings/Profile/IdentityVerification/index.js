@@ -60,6 +60,7 @@ const Row = styled.div`
   &:not(:last-child) {
     max-width: 416px;
     margin-right: 40px;
+    margin-top: 16px;
   }
 
   @media (min-width: 1200px) {

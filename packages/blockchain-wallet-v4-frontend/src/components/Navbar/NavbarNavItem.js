@@ -11,8 +11,8 @@ const BaseNavItem = styled.li`
   }
 
   ${media.tablet`
-    margin-right: 2px !important;
-    min-width: 24px;
+    min-width: 26px;
+    > a  > span,
     > div > a  > span {
       font-size: 18px;
     }

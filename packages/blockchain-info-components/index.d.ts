@@ -3,12 +3,10 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 // import { ImageType } from './src/Images/Images'
 
-//Blockchain Loader is done
 export const BlockchainLoader: StatelessComponent<{
   width?: string
   height?: string
 }>
-//Button is done
 export const Button: StatelessComponent<{
   nature?:
     | 'copy'
@@ -43,9 +41,7 @@ export const Button: StatelessComponent<{
   onClick?: Function
   style?: object
 }>
-//Done
 export const FontGlobalStyles: StatelessComponent<{}>
-//done
 export const Icon: StatelessComponent<{
   name?: keyof IcoMoonType
   weight?: number
@@ -54,9 +50,7 @@ export const Icon: StatelessComponent<{
   color?: string
   style?: object
 }>
-//done
 export const IconGlobalStyles: StatelessComponent<{}>
-//done
 export const Image: StatelessComponent<{
   name?: string
   width?: string
@@ -64,7 +58,6 @@ export const Image: StatelessComponent<{
   color?: string
   size?: string
 }>
-//done
 export const Link: StatelessComponent<{
   weight?: number
   size?: string
@@ -77,7 +70,6 @@ export const Link: StatelessComponent<{
   rel?: string
   style?: object
 }>
-
 export const Modal: StatelessComponent<{
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
   position?: number
@@ -91,8 +83,7 @@ export const ModalBody: StatelessComponent<{
 }>
 export const ModalHeader: StatelessComponent<{
   closeButton?: boolean
-  //this is supposed to be a function
-  onClose?: any
+  onClose?: () => void
   icon?: keyof IcoMoonType
 }>
 export function Palette(theme: string): DefaultTheme
@@ -122,9 +113,6 @@ export const Text: StatelessComponent<{
   altFont?: boolean
   cursor?: string
   opacity?: string
-  //display - flexrow or block?
-  //font family
-  // cursor
 }>
 export const TextGroup: StatelessComponent<{
   nowrap?: boolean

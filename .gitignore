@@ -30,17 +30,20 @@ dist/
 lib/
 
 # Package Files
+# Components Package
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules
 packages/blockchain-info-components/storybook-static
+packages/blockchain-info-components/package-lock.json
+# Core Package
 packages/blockchain-wallet-v4/lib
 packages/blockchain-wallet-v4/node_modules
+packages/blockchain-wallet-v4/package-lock.json
+# Frontend Package
 packages/blockchain-wallet-v4-frontend/.awcache
 packages/blockchain-wallet-v4-frontend/build
 packages/blockchain-wallet-v4-frontend/dist
 packages/blockchain-wallet-v4-frontend/node_modules
-packages/blockchain-info-components/package-lock.json
-packages/blockchain-wallet-v4/package-lock.json
 packages/blockchain-wallet-v4-frontend/package-lock.json
 packages/blockchain-wallet-v4-frontend/src/assets/locales/defaultMessages.json
 packages/blockchain-wallet-v4-frontend/src/assets/locales/whitelists
