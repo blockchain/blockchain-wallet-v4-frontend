@@ -38,17 +38,19 @@ export const Button: StatelessComponent<{
   jumbo?: boolean
   height?: string
   className?: string
-  onClick?: Function
+  onClick?: () => void
   style?: object
 }>
+export function ComponentDropdown(...args): any
 export const FontGlobalStyles: StatelessComponent<{}>
 export const Icon: StatelessComponent<{
   name?: keyof IcoMoonType
   weight?: number
   size?: string
-  curson?: boolean
+  cursor?: boolean
   color?: string
   style?: object
+  onClick?: () => void
 }>
 export const IconGlobalStyles: StatelessComponent<{}>
 export const Image: StatelessComponent<{
@@ -69,6 +71,7 @@ export const Link: StatelessComponent<{
   target?: string
   rel?: string
   style?: object
+  onClick?: () => void
 }>
 export const Modal: StatelessComponent<{
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
@@ -113,6 +116,7 @@ export const Text: StatelessComponent<{
   altFont?: boolean
   cursor?: string
   opacity?: string
+  onClick?: () => void
 }>
 export const TextGroup: StatelessComponent<{
   nowrap?: boolean
