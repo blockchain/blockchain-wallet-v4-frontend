@@ -3,6 +3,7 @@ import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
@@ -13,7 +14,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
-import Summary from '../Summary'
+import Summary from './Summary'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -21,18 +22,11 @@ const CustomForm = styled(Form)`
   flex-direction: column;
 `
 
-const Padded = styled.div`
-  padding: 40px;
-  ${media.tablet`
-    padding: 20px;
-  `}
-`
-
-const Top = styled(Padded)`
+const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
 `
 
-const Bottom = styled(Padded)`
+const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -85,6 +79,7 @@ export type Props = OwnProps &
   LinkStatePropsType
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
+  // TODO: Borrow - handle other coins
   const displayName = props.supportedCoins['PAX'].displayName
 
   return (

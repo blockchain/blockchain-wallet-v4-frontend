@@ -64,6 +64,13 @@ export const initializeBorrow = (coin: CoinType, offer: OfferType) => ({
   }
 })
 
+export const setCoin = (coin: CoinType): BorrowActionTypes => ({
+  type: AT.SET_COIN,
+  payload: {
+    coin
+  }
+})
+
 export const setLimits = (limits: BorrowMinMaxType): BorrowActionTypes => ({
   type: AT.SET_LIMITS,
   payload: {

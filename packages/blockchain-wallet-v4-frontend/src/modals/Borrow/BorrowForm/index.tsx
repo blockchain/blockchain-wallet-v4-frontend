@@ -36,7 +36,7 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-export class BorrowForm extends Component<Props> {
+class BorrowForm extends Component<Props> {
   state = {}
 
   componentDidMount () {
@@ -77,7 +77,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const enhance = compose<any>(
+const enhance = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps

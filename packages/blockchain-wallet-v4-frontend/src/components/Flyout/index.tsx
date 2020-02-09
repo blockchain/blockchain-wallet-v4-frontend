@@ -31,6 +31,13 @@ const FlyoutModal = styled(Modal)`
   `};
 `
 
+export const FlyoutWrapper = styled.div`
+  padding: 40px;
+  ${media.tablet`
+    padding: 20px;
+  `}
+`
+
 type OwnProps = {
   'data-e2e': E2EType
   in: boolean

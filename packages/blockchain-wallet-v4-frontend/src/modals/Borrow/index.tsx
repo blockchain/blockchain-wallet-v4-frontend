@@ -4,6 +4,7 @@ import { BorrowStepsType } from 'data/types'
 import { connect } from 'react-redux'
 import { LoanType, OfferType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import BorrowDetails from './BorrowDetails'
 import BorrowForm from './BorrowForm'
 import Flyout, { duration } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -57,9 +58,11 @@ class Borrow extends PureComponent<Props> {
         data-e2e='borrowModal'
         total={total}
       >
-        {this.props.step === 'CHECKOUT' && <BorrowForm {...this.props} />}
+        {this.props.step === 'CHECKOUT' && (
+          <BorrowForm offer={this.props.offer!} />
+        )}
         {this.props.step === 'DETAILS' && (
-          <div>{JSON.stringify(this.props.loan)}</div>
+          <BorrowDetails loan={this.props.loan!} />
         )}
       </Flyout>
     )

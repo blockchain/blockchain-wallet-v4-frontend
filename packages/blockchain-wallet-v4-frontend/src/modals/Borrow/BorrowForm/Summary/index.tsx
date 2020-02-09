@@ -6,6 +6,7 @@ import {
 import { CoinType, OfferType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { RatesType } from 'data/types'
+import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -20,29 +21,6 @@ type Props = {
 
 const Table = styled.div`
   margin-top: 16px;
-`
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  &:first-child {
-    border-top: 1px solid ${props => props.theme.grey000};
-  }
-`
-
-const Title = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.grey600};
-`
-
-const Value = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.grey800};
 `
 
 const fiatDisplayName = (coin: CoinType) => {
@@ -65,7 +43,7 @@ const Summary: React.FC<Props> = props => {
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
-        <Row>
+        <TableRow>
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.amount'
@@ -75,16 +53,16 @@ const Summary: React.FC<Props> = props => {
           <Value>
             {formatFiat(props.principal || 0)} {principalDisplayName}
           </Value>
-        </Row>
-        <Row>
+        </TableRow>
+        <TableRow>
           <Title>
             {props.offer.terms.collateralCcy} to {fiatName} Rate
           </Title>
           <Value>
             {rate} {fiatName}
           </Value>
-        </Row>
-        <Row>
+        </TableRow>
+        <TableRow>
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.intrateandamount'
@@ -100,8 +78,8 @@ const Summary: React.FC<Props> = props => {
               : formatFiat(0)}{' '}
             {principalDisplayName}
           </Value>
-        </Row>
-        <Row>
+        </TableRow>
+        <TableRow>
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.collateral'
@@ -125,8 +103,8 @@ const Summary: React.FC<Props> = props => {
             })}
             )
           </Value>
-        </Row>
-        <Row>
+        </TableRow>
+        <TableRow>
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.collateralization'
@@ -134,8 +112,8 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>{(props.offer.terms.collateralRatio * 100).toFixed(0)}%</Value>
-        </Row>
-        <Row>
+        </TableRow>
+        <TableRow>
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.loanterm'
@@ -143,7 +121,7 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>{props.offer.terms.format}</Value>
-        </Row>
+        </TableRow>
       </Table>
     </div>
   )

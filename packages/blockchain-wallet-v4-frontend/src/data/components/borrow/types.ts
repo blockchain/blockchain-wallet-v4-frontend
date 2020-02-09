@@ -135,6 +135,13 @@ interface InitializeBorrowAction {
   type: typeof AT.INITIALIZE_BORROW
 }
 
+interface SetCoinAction {
+  payload: {
+    coin: CoinType
+  }
+  type: typeof AT.SET_COIN
+}
+
 interface SetLimitsAction {
   payload: {
     limits: BorrowMinMaxType
@@ -182,6 +189,7 @@ export type BorrowActionTypes =
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
+  | SetCoinAction
   | SetLimitsAction
   | SetOfferAction
   | SetPaymentFailureAction
