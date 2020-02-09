@@ -8,7 +8,8 @@ type Props = OwnProps & SuccessStateType
 const Header: React.FC<Props> = props => {
   return (
     <Text color='grey900' size='20px' weight={600}>
-      {props.loan.status === 'PENDING_EXECUTION' ? (
+      {props.loan.status === 'PENDING_EXECUTION' ||
+      props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
         <FormattedMessage
           id='modals.borrow.newloan'
           defaultMessage='New Loan'

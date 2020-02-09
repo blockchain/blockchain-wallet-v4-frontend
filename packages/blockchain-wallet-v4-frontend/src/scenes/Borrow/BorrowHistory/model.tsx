@@ -24,9 +24,8 @@ export const Status = (props: LoanType) => {
     case 'OPEN':
       return <GreenValue>Open</GreenValue>
     case 'PENDING_EXECUTION':
-      return <OrangeValue>Pending</OrangeValue>
     case 'PENDING_COLLATERAL_DEPOSIT':
-      return <OrangeValue>Pending Collateral Deposit</OrangeValue>
+      return <OrangeValue>Pending</OrangeValue>
     case 'PENDING_PRINCIPAL_WITHDRAW':
       return <OrangeValue>Pending Principal Withdraw</OrangeValue>
     case 'ON_CALL':

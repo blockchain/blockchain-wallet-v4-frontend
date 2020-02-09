@@ -12,7 +12,8 @@ const Success: React.FC<Props> = props => {
   return (
     <FlyoutWrapper>
       <Header {...props} />
-      {props.loan.status === 'PENDING_EXECUTION' ? (
+      {props.loan.status === 'PENDING_EXECUTION' ||
+      props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
         <NewLoanInfo {...props} />
       ) : (
         <Info {...props} />
