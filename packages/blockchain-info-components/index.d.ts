@@ -1,4 +1,4 @@
-import { StatelessComponent, CSSProperties } from 'react'
+import { StatelessComponent, PureComponent, CSSProperties } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 // import { ImageType } from './src/Images/Images'
@@ -41,7 +41,23 @@ export const Button: StatelessComponent<{
   onClick?: () => void
   style?: object
 }>
+
 export function ComponentDropdown(...args): any
+// export const ComponentDropdown: PureComponent<{
+//   color?: string
+//   toggleOnClassback?: boolean
+//   opened?: boolean
+//   uppercase?: boolean
+//   down?: boolean
+//   forceSelected?: boolean
+//   ComponentDropdownState?: {
+//     toggled: boolean
+//     selectedComponent:
+//   }
+//   onClick?: () => void
+//   callback?: () => void
+// }>
+
 export const FontGlobalStyles: StatelessComponent<{}>
 export const Icon: StatelessComponent<{
   name?: keyof IcoMoonType
