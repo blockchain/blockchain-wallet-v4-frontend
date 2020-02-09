@@ -84,6 +84,7 @@ export default {
   'stack-of-coins': '\\e972',
   stx: '\\e932',
   'sync-regular': '\\e93d',
+  timer: '\\e945',
   trash: '\\e951',
   twitter: '\\e916',
   user: '\\e955',

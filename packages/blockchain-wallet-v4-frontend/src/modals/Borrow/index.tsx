@@ -58,11 +58,11 @@ class Borrow extends PureComponent<Props> {
         data-e2e='borrowModal'
         total={total}
       >
-        {this.props.step === 'CHECKOUT' && (
-          <BorrowForm offer={this.props.offer!} />
+        {this.props.step === 'CHECKOUT' && this.props.offer && (
+          <BorrowForm offer={this.props.offer} />
         )}
-        {this.props.step === 'DETAILS' && (
-          <BorrowDetails loan={this.props.loan!} />
+        {this.props.step === 'DETAILS' && this.props.loan && (
+          <BorrowDetails loan={this.props.loan} />
         )}
       </Flyout>
     )
