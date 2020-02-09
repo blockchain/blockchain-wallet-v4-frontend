@@ -50,10 +50,7 @@ export function ComponentDropdown(...args): any
 //   uppercase?: boolean
 //   down?: boolean
 //   forceSelected?: boolean
-//   ComponentDropdownState?: {
-//     toggled: boolean
-//     selectedComponent:
-//   }
+//   selectedComponent:
 //   onClick?: () => void
 //   callback?: () => void
 // }>
