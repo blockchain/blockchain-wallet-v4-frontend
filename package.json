@@ -38,8 +38,10 @@
     "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "stylelint",
       "git add"
+    ],
+    "*.{js,tsx}": [
+      "stylelint"
     ],
     "*.json": [
       "prettier --write",
@@ -66,7 +68,7 @@
     "lint": "eslint --cache './packages/*/src/**/*.{js,ts,tsx}'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.{js,ts,tsx}'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}'",
-    "lint:css": "stylelint './packages/*/src/**/*.{js,ts,tsx}s'",
+    "lint:css": "stylelint './packages/*/src/**/*.{js,tsx}'",
     "lint:fix": "eslint './packages/*/src/**/*.{js,ts,tsx}' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}'",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
