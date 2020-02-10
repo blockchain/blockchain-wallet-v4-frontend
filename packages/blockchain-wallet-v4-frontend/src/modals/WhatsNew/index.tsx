@@ -10,8 +10,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 type OwnPropsType = {
-  position: number,
   close: () => void,
+  position: number,
   total: number,
   userClickedOutside: boolean
 }

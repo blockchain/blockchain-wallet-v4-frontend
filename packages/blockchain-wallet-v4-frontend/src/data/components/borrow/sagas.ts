@@ -6,9 +6,9 @@ import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { BorrowFormValuesType, PaymentType } from './types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { fiatDisplayName, getAmount, NO_OFFER_EXISTS } from './model'
 import { FormAction, initialize } from 'redux-form'
 import { LoanType } from 'core/types'
-import { NO_OFFER_EXISTS } from './model'
 import { nth } from 'ramda'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
@@ -60,7 +60,8 @@ export default ({
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
 
-      // TODO: Borrow - make dynamic
+      const amount = getAmount(values.collateralCryptoAmt || 0, coin)
+
       const loan: LoanType = yield call(
         api.createLoan,
         collateralWithdrawAddress,
@@ -74,23 +75,16 @@ export default ({
         }
       )
 
-      // console.log(loan)
-      // const loan = yield call(api.createLoan, request)
-      // payment = yield payment.amount(convert loan amount to rate from offer)
-      // payment = yield payment.to(loan.depositAddresses)
-      payment = yield payment.amount(546, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.amount(amount, ADDRESS_TYPES.ADDRESS)
       payment = yield payment.to(loan.collateral.depositAddresses[coin])
 
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
-      // sign and publish payment
-      // console.log(values)
-      // console.log(payment)
+      payment = yield payment.publish()
       yield put(actions.form.stopSubmit('borrowForm'))
     } catch (e) {
-      // console.log(e)
       yield put(actions.form.stopSubmit('borrowForm'))
     }
   }
@@ -182,10 +176,20 @@ export default ({
     const form = action.meta.form
     if (form !== 'borrowForm') return
     const coin = S.getCoinType(yield select())
+    const offer = S.getOffer(yield select())
+    if (!offer) return
+    const ratesR = S.getRates(yield select())
+    const rates = ratesR.getOrElse({})
+    const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
 
     let payment
 
     switch (action.meta.field) {
+      case 'principal':
+        const principal = Number(action.payload)
+        const c = (principal / rate) * offer.terms.collateralRatio
+        yield put(actions.form.change('borrowForm', 'collateralCryptoAmt', c))
+        break
       case 'collateral':
         yield put(A.setPaymentLoading())
         switch (coin) {

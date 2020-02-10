@@ -1,11 +1,12 @@
+import { BorrowFormValuesType, RatesType } from 'data/types'
 import {
   coinToString,
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, OfferType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { RatesType } from 'data/types'
+import { model } from 'data'
+import { OfferType } from 'core/types'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -17,20 +18,14 @@ type Props = {
   offer: OfferType
   principal?: string
   rates: RatesType
+  values: BorrowFormValuesType
 }
 
 const Table = styled.div`
   margin-top: 16px;
 `
 
-const fiatDisplayName = (coin: CoinType) => {
-  switch (coin) {
-    case 'PAX':
-      return 'USD'
-    default:
-      return 'USD'
-  }
-}
+const { fiatDisplayName } = model.components.borrow
 
 const Summary: React.FC<Props> = props => {
   const fiatName = fiatDisplayName(props.offer.terms.principalCcy)
@@ -88,9 +83,8 @@ const Summary: React.FC<Props> = props => {
           </Title>
           <Value>
             {coinToString({
-              value: props.principal
-                ? (Number(props.principal) / rate) *
-                  props.offer.terms.collateralRatio
+              value: props.values.collateralCryptoAmt
+                ? props.values.collateralCryptoAmt
                 : 0,
               unit: { symbol: props.offer.terms.collateralCcy }
             })}{' '}

@@ -5,6 +5,7 @@ import { getData } from './selectors'
 import { LoanType, NabuApiErrorType, RemoteDataType } from 'core/types'
 import { Text } from 'blockchain-info-components'
 import { UserDataType } from 'data/types'
+import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
 
@@ -36,8 +37,8 @@ class BorrowHistory extends Component<Props> {
         <Success {...val} showLoanDetails={this.showLoanDetails} />
       ),
       Failure: e => <Text>{e.description}</Text>,
-      Loading: () => <div />,
-      NotAsked: () => <div />
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

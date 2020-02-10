@@ -71,7 +71,7 @@ const CollateralizationBar: React.FC<Props> = props => {
   const max = Math.ceil(
     offer.terms.collateralRatio * PADDING + offer.terms.collateralRatio
   )
-  const currentRatio = 4
+  const currentRatio = props.loan.collateralisationRatio
   const currentColor =
     currentRatio >= offer.terms.collateralRatio
       ? 'green600'

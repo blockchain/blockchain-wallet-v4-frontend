@@ -1,6 +1,9 @@
 import { INVALID_COIN_TYPE } from './model'
+import { RatesType } from './types'
+import { RemoteDataType } from 'core/types'
 import { RootState } from '../../rootReducer'
 import { selectors } from 'data'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 export const getCoinType = (state: RootState) => state.components.borrow.coin
 
@@ -15,14 +18,16 @@ export const getOffer = (state: RootState) => state.components.borrow.offer
 export const getBorrowHistory = (state: RootState) =>
   state.components.borrow.borrowHistory
 
-export const getRates = (state: RootState) => {
+export const getRates = (
+  state: RootState
+): RemoteDataType<string | Error, RatesType> => {
   const coinType = getCoinType(state)
 
   switch (coinType) {
     case 'BTC':
       return selectors.core.data.btc.getRates(state)
     default:
-      throw new Error(INVALID_COIN_TYPE)
+      throw Remote.Failure(INVALID_COIN_TYPE)
   }
 }
 

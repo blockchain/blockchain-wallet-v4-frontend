@@ -11,6 +11,7 @@ import {
 
 export type BorrowFormValuesType = {
   collateral: any
+  collateralCryptoAmt?: number
   maxCollateral?: number
   maxCollateralCounter?: string
   offer: OfferType
@@ -76,6 +77,7 @@ export type PaymentType = {
   from: Array<string>
   fromAccountIdx: number
   fromType: FromType
+  publish: () => PaymentType
   sign: (pw: string) => PaymentType
   to: (address: string) => PaymentType
   value: () => PaymentType
