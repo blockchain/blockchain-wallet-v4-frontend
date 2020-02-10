@@ -7,17 +7,17 @@ export const getMetadata = path([kvStorePath, BUYSELL])
 export const getSfoxTrades = state =>
   getMetadata(state).map(pathOr([], ['value', 'sfox', 'trades']))
 
-export const getSfoxUser = state =>
-  getMetadata(state).map(path(['value', 'sfox', 'user']))
+// export const getSfoxUser = state =>
+//   getMetadata(state).map(path(['value', 'sfox', 'user']))
 
-export const getSfoxJumio = state =>
-  getMetadata(state).map(path(['value', 'sfox', 'jumio']))
+// export const getSfoxJumio = state =>
+//   getMetadata(state).map(path(['value', 'sfox', 'jumio']))
 
-export const getSfoxPhoneCall = state =>
-  getMetadata(state).map(path(['value', 'sfox', 'phone_call']))
+// export const getSfoxPhoneCall = state =>
+//   getMetadata(state).map(path(['value', 'sfox', 'phone_call']))
 
-export const getSfoxHasSeenShutdown = state =>
-  getMetadata(state).map(path(['value', 'sfox', 'has_seen_shutdown']))
+// export const getSfoxHasSeenShutdown = state =>
+//   getMetadata(state).map(path(['value', 'sfox', 'has_seen_shutdown']))
 
 export const getCoinifyUser = state =>
   getMetadata(state).map(path(['value', 'coinify', 'user']))
