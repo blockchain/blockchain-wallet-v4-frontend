@@ -6,6 +6,7 @@ import {
 } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
+import { ImageType } from './src/Images/Images'
 
 export const BlockchainLoader: StatelessComponent<{
   width?: string
@@ -71,7 +72,7 @@ export const Icon: StatelessComponent<{
 }>
 export const IconGlobalStyles: StatelessComponent<{}>
 export const Image: StatelessComponent<{
-  name: string
+  name: keyof ImageType
   width?: string
   height?: string
   color?: string
