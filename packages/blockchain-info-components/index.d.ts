@@ -6,7 +6,6 @@ import {
 } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
-// import { ImageType } from './src/Images/Images'
 
 export const BlockchainLoader: StatelessComponent<{
   width?: string
@@ -44,7 +43,7 @@ export const Button: StatelessComponent<{
   height?: string
   className?: string
   onClick?: () => void
-  style?: object
+  style?: CSSProperties
 }>
 
 export const ComponentDropdown: React.ComponentClass<{
@@ -55,7 +54,7 @@ export const ComponentDropdown: React.ComponentClass<{
   uppercase?: boolean
   down?: boolean
   forceSelected?: boolean
-  selectedComponent: JSX.Element
+  selectedComponent?: JSX.Element
   onClick?: () => void
   callback?: () => void
 }>
@@ -67,7 +66,7 @@ export const Icon: StatelessComponent<{
   size?: string
   cursor?: boolean
   color?: string
-  style?: object
+  style?: CSSProperties
   onClick?: () => void
 }>
 export const IconGlobalStyles: StatelessComponent<{}>
@@ -139,5 +138,5 @@ export const Text: StatelessComponent<{
 export const TextGroup: StatelessComponent<{
   nowrap?: boolean
   inline?: boolean
-  style?: object
+  style?: CSSProperties
 }>
