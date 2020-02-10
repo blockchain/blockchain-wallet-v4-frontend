@@ -57,7 +57,7 @@ export function ComponentDropdown(...args): any
 
 export const FontGlobalStyles: StatelessComponent<{}>
 export const Icon: StatelessComponent<{
-  name?: keyof IcoMoonType
+  name: keyof IcoMoonType
   weight?: number
   size?: string
   cursor?: boolean
@@ -67,7 +67,7 @@ export const Icon: StatelessComponent<{
 }>
 export const IconGlobalStyles: StatelessComponent<{}>
 export const Image: StatelessComponent<{
-  name?: string
+  name: string
   width?: string
   height?: string
   color?: string
@@ -83,7 +83,7 @@ export const Link: StatelessComponent<{
   href?: string
   target?: string
   rel?: string
-  style?: object
+  style?: CSSProperties
   onClick?: () => void
 }>
 export const Modal: StatelessComponent<{
@@ -109,7 +109,7 @@ export const SkeletonRectangle: StatelessComponent<{
   bgColor?: keyof DefaultTheme
 }>
 export const Table: StatelessComponent<{
-  style?: object
+  style?: CSSProperties
 }>
 export const TableCell: StatelessComponent<{
   width?: string
