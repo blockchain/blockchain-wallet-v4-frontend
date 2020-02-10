@@ -59,7 +59,7 @@ const Summary: React.FC<Props> = props => {
             {props.offer.terms.collateralCcy} to {fiatName} Rate
           </Title>
           <Value>
-            {rate} {fiatName}
+            {formatFiat(rate)} {fiatName}
           </Value>
         </TableRow>
         <TableRow>
