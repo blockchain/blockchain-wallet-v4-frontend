@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 
   & > :first-child {
     flex-basis: 45%;
-    padding: 16px 20px;
+    padding: 14px 20px;
     margin-right: 35px;
   }
 
