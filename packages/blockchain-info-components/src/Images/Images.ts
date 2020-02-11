@@ -103,7 +103,7 @@ import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
 
-export default {
+const Images = {
   'airdrop-enrolled': airdropEnrolled,
   'airdrop-welcome-banner': airdropWelcomeBanner,
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
@@ -208,3 +208,6 @@ export default {
   'warning-circle-filled': warningCircleFilled,
   yubikey: yubikey
 }
+
+export type ImageType = typeof Images
+export default Images

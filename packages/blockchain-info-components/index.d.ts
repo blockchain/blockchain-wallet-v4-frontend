@@ -1,25 +1,141 @@
-import { StatelessComponent, CSSProperties } from 'react'
+import {
+  StatelessComponent,
+  PureComponent,
+  CSSProperties,
+  ComponentElement
+} from 'react'
 import { DefaultTheme } from 'styled-components'
+import { IcoMoonType } from './src/Icons/Icomoon'
+import { ImageType } from './src/Images/Images'
 
-export function BlockchainLoader(...args: any): any
-export function Button(...args: any): any
-export function ComponentDropdown(...args): any
-export function FontGlobalStyles(...args: any): any
-export function HeartbeatLoader(...args: any): any
-export function Icon(...args: any): any
-export function IconGlobalStyles(...args: any): any
-export function Image(...args: any): any
-export function Link(...args: any): any
-export function Modal(...args: any): any
-export function ModalBody(...args: any): any
-export function ModalHeader(...args: any): any
+export const BlockchainLoader: StatelessComponent<{
+  width?: string
+  height?: string
+}>
+export const Button: StatelessComponent<
+  {
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'empty-secondary'
+      | 'empty'
+      | 'gray-3'
+      | 'green'
+      | 'light'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-transparent'
+    fullwidth?: boolean
+    disabled?: boolean
+    rounded?: boolean
+    bold?: boolean
+    small?: boolean
+    uppercase?: boolean
+    capitalize?: boolean
+    width?: string
+    padding?: string
+    margin?: string
+    jumbo?: boolean
+    height?: string
+    className?: string
+    onClick?: () => void
+    style?: CSSProperties
+  } & React.ButtonHTMLAttributes<{}>
+>
+
+export const ComponentDropdown: React.ComponentClass<{
+  components: Array<JSX.Element>
+  color?: string
+  toggleOnClassback?: boolean
+  opened?: boolean
+  uppercase?: boolean
+  down?: boolean
+  forceSelected?: boolean
+  selectedComponent?: JSX.Element
+  onClick?: () => void
+  callback?: () => void
+}>
+
+export const FontGlobalStyles: StatelessComponent<{}>
+export const HeartbeatLoader: StatelessComponent<{
+  width?: string
+  height?: string
+  color?: keyof DefaultTheme
+}>
+export const Icon: StatelessComponent<{
+  name: keyof IcoMoonType
+  weight?: number
+  size?: string
+  cursor?: boolean
+  color?: string
+  style?: CSSProperties
+  onClick?: () => void
+}>
+export const IconGlobalStyles: StatelessComponent<{}>
+export const Image: StatelessComponent<{
+  name: keyof ImageType
+  width?: string
+  height?: string
+  color?: string
+  size?: string
+}>
+export const Link: StatelessComponent<{
+  weight?: number
+  size?: string
+  color?: keyof DefaultTheme
+  uppercase?: boolean
+  capitalize?: boolean
+  bold?: boolean
+  href?: string
+  target?: string
+  rel?: string
+  style?: CSSProperties
+  onClick?: () => void
+}>
+export const Modal: StatelessComponent<{
+  size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+  type?: 'tray' | 'flyout'
+  position?: number
+  total?: number
+  width?: number
+  isLast?: boolean
+  dataE2e?: string
+  style?: CSSProperties
+}>
+export const ModalBody: StatelessComponent<{
+  loading?: boolean
+}>
+export const ModalHeader: StatelessComponent<{
+  closeButton?: boolean
+  onClose?: () => void
+  icon?: keyof IcoMoonType
+}>
 export function Palette(theme: string): DefaultTheme
-export function SkeletonRectangle(...args: any): any
-export function SpinningLoader(...args: any): any
-export function Table(...args): any
-export function TableCell(...args): any
-export function TableHeader(...args): any
-export function TableRow(...args): any
+export const SkeletonRectangle: StatelessComponent<{
+  width?: string
+  height?: string
+  bgColor?: keyof DefaultTheme
+}>
+export const SpinningLoader: StatelessComponent<{
+  width?: string
+  height?: string
+}>
+export const Table: StatelessComponent<{
+  style?: CSSProperties
+}>
+export const TableCell: StatelessComponent<{
+  onClick?: () => void
+  width?: string
+  hideMobile?: boolean
+}>
+export const TableHeader: StatelessComponent<{}>
+export const TableRow: StatelessComponent<{}>
 export const Text: StatelessComponent<{
   color?: keyof DefaultTheme
   size?: string
@@ -27,6 +143,15 @@ export const Text: StatelessComponent<{
   style?: CSSProperties
   uppercase?: boolean
   lineHeight?: string
+  capitazlie?: boolean
+  italic?: boolean
+  altFont?: boolean
+  cursor?: string
+  opacity?: string
   onClick?: () => void
 }>
-export function TextGroup(...args: any): any
+export const TextGroup: StatelessComponent<{
+  nowrap?: boolean
+  inline?: boolean
+  style?: CSSProperties
+}>

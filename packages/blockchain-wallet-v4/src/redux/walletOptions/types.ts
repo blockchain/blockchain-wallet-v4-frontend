@@ -1,4 +1,5 @@
 import { CoinType } from '../../types'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 
 export type SupportedCoinType = {
   availability: {
@@ -18,9 +19,9 @@ export type SupportedCoinType = {
   displayName: string
   hasLockboxSupport: boolean
   icons: {
-    circle: string
-    circleFilled: string
-    default: string
+    circle: keyof IcoMoonType
+    circleFilled: keyof IcoMoonType
+    default: keyof IcoMoonType
   }
   learnMoreLink: string
   minConfirmations: number
