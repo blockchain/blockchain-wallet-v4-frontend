@@ -143,7 +143,7 @@ export const TierCard = ({
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
   const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
 
-  const tierStarted = userData.tiers.selected >= tier
+  const tierStarted = userData.tiers && userData.tiers.selected >= tier
 
   let className = ''
   if (column) className += ' column'
