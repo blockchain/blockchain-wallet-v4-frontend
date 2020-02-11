@@ -41,7 +41,8 @@ const PriceChangeText = styled(Text)`
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.theme.grey400};
+  white-space: nowrap;
+  color: ${props => props.theme.grey600};
 `
 const PriceChangeColoredText = styled.span`
   font-weight: 600;
