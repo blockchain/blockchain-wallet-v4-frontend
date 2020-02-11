@@ -1,7 +1,12 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Box } from 'components/Box'
-import { Button, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   CoinType,
   NabuApiErrorType,
@@ -92,6 +97,9 @@ class InitBorrowForm extends PureComponent<Props> {
               id='scenes.initborrow.youcanborrow'
               defaultMessage='You can borrow up to'
             />
+            <TooltipHost id='borrow.amount.tooltip'>
+              <TooltipIcon name='info' size='12px' />
+            </TooltipHost>
           </Text>
           <Amount {...this.props.values} />
           <HorizontalBorder />

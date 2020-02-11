@@ -165,7 +165,7 @@ const ShapeshiftTradeDetails = props => {
                 />
               </Text>
               <TooltipHost id='exchangedetails.exchangetooltip'>
-                <TooltipIcon name='question-in-circle' />
+                <TooltipIcon name='info' />
               </TooltipHost>
             </TableCell>
             <TableCell>
@@ -183,7 +183,7 @@ const ShapeshiftTradeDetails = props => {
                 />
               </Text>
               <TooltipHost id='exchangedetails.feetooltip'>
-                <TooltipIcon name='question-in-circle' />
+                <TooltipIcon name='info' />
               </TooltipHost>
             </TableCell>
             <TableCell>

@@ -18,7 +18,7 @@ const SignMessage = props => (
         defaultMessage='Sign Message'
       />
       <TooltipHost id='signmessage.label.tooltip'>
-        <TooltipIcon name='question-in-circle' />
+        <TooltipIcon name='info' />
       </TooltipHost>
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>

@@ -1,9 +1,10 @@
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { getBalance } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
@@ -12,7 +13,15 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
-  balanceR: RemoteDataType<string, { totalBalance: string }>
+  data: RemoteDataType<
+    string,
+    {
+      balance: number
+      max: number
+      offers: Array<OfferType>
+      values: { coin: CoinType }
+    }
+  >
 }
 
 type Props = OwnProps & LinkStatePropsType
@@ -33,11 +42,16 @@ export class Amount extends Component<Props> {
   render () {
     return (
       <Wrapper>
-        {this.props.balanceR.cata({
+        {this.props.data.cata({
           Success: val => (
-            <Text weight={600} size='32px'>
-              {val.totalBalance}
-            </Text>
+            <FiatDisplay
+              weight={600}
+              size='32px'
+              coin={val.values.coin}
+              currency='USD'
+            >
+              {val.max}
+            </FiatDisplay>
           ),
           Failure: e => <Text weight={600}>{e}</Text>,
           NotAsked: () => <Content>...</Content>,
@@ -49,7 +63,7 @@ export class Amount extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  balanceR: getBalance(state)
+  data: getBalance(state)
 })
 
 export default connect(mapStateToProps)(Amount)

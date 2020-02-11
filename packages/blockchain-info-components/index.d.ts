@@ -155,3 +155,8 @@ export const TextGroup: StatelessComponent<{
   inline?: boolean
   style?: CSSProperties
 }>
+export const TooltipHost: StatelessComponent<{ id: string }>
+export const TooltipIcon: StatelessComponent<{
+  name: keyof IcoMoonType
+  size?: string
+}>

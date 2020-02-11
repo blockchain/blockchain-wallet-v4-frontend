@@ -159,7 +159,7 @@ class SfoxTradeDetails extends React.PureComponent {
                     defaultMessage='Trading Fee'
                   />
                   <TooltipHost id='tradingfee.tooltip'>
-                    <TooltipIcon name='question-in-circle' />
+                    <TooltipIcon name='info' />
                   </TooltipHost>
                 </Text>
               </ToolTipWrapper>
