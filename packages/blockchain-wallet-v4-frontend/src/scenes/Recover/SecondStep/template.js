@@ -64,7 +64,7 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.recover.secondstep.funds'
             defaultMessage='Recover Funds'
@@ -73,7 +73,7 @@ const SecondStep = props => {
       </Header>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel for='email'>
+          <FormLabel htmlFor='email'>
             <FormattedMessage
               id='scenes.recover.secondstep.email'
               defaultMessage='New Email'
@@ -86,7 +86,7 @@ const SecondStep = props => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel for='password'>
+          <FormLabel htmlFor='password'>
             <FormattedMessage
               id='scenes.recover.secondstep.password'
               defaultMessage='Password'
@@ -103,7 +103,7 @@ const SecondStep = props => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel for='confirmationPassword'>
+          <FormLabel htmlFor='confirmationPassword'>
             <FormattedMessage
               id='scenes.recover.secondstep.confirmapassword'
               defaultMessage='Confirm Password'

@@ -15,9 +15,12 @@ import {
   Wrapper
 } from 'components/MenuLeft'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-
-import ThePitLink from '../ThePitLink'
+import {
+  Link,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 
 const HelperTipContainer = styled.div`
   position: relative;
@@ -31,8 +34,8 @@ const HelperTip = styled(TooltipHost)`
   top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme['orange']} !important;
-  background-color: ${props => props.theme['white']};
+  color: ${props => props.theme.orange} !important;
+  background-color: ${props => props.theme.white};
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
@@ -40,6 +43,29 @@ export const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
+
+const ExchangeNavItem = props => (
+  <>
+    <MenuIcon
+      name='blockchain-logo'
+      style={{ marginLeft: '-2px' }}
+      size='26px'
+    />
+    <Destination style={{ marginLeft: '2px' }}>
+      <FormattedMessage
+        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
+        defaultMessage='Exchange'
+      />
+    </Destination>
+    {props.isExchangeAccountLinked && (
+      <HelperTipContainer>
+        <HelperTip id='exchangeSideNavConnected'>
+          <TooltipIcon color='blue600' name='info' />
+        </HelperTip>
+      </HelperTipContainer>
+    )}
+  </>
+)
 
 const Navigation = props => {
   const { ...rest } = props
@@ -49,8 +75,7 @@ const Navigation = props => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM,
-    supportedCoins.STX
+    supportedCoins.XLM
   ]
 
   return (
@@ -82,7 +107,7 @@ const Navigation = props => {
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />
-          <MenuIcon name='thick-arrow-switch' size='24px' />
+          <MenuIcon name='arrow-switch-thick' size='24px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.swap'
@@ -101,17 +126,36 @@ const Navigation = props => {
               defaultMessage='Airdrops'
             />
           </Destination>
-          <NewCartridge>
-            <Text color='green600' size='12' weight={600} uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.airdrop.active'
-                defaultMessage='Active'
-              />
-            </Text>
-          </NewCartridge>
+          {/* UNCOMMENT WHEN AIRDROPS ARE IN PROGRESS */}
+          {/* <NewCartridge> */}
+          {/*  <Text color='green600' size='12' weight={600} uppercase> */}
+          {/*    <FormattedMessage */}
+          {/*      id='layouts.wallet.menuleft.navigation.airdrop.active' */}
+          {/*      defaultMessage='Active' */}
+          {/*    /> */}
+          {/*  </Text> */}
+          {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      <ThePitLink {...props} />
+      {props.isExchangeAccountLinked ? (
+        <Link
+          href={`${props.exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
+          rel='noopener noreferrer'
+          target='_blank'
+          style={{ width: '100%' }}
+        >
+          <MenuItem data-e2e='exchangeLink'>
+            <ExchangeNavItem {...props} />
+          </MenuItem>
+        </Link>
+      ) : (
+        <LinkContainer to='/exchange' activeClassName='active'>
+          <MenuItem data-e2e='exchangeLink'>
+            <ExchangeNavItem {...props} />
+          </MenuItem>
+        </LinkContainer>
+      )}
+
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon
@@ -119,7 +163,7 @@ const Navigation = props => {
             style={{ paddingLeft: '2px' }}
             size='24px'
           />
-          <Destination>
+          <Destination style={{ marginLeft: '-2px' }}>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.hardware'
               defaultMessage='Hardware'
@@ -127,7 +171,7 @@ const Navigation = props => {
           </Destination>
           <HelperTipContainer>
             <HelperTip id='lockboxRequired'>
-              <TooltipIcon color='blue' name='info' />
+              <TooltipIcon color='blue600' name='info' />
             </HelperTip>
           </HelperTipContainer>
         </MenuItem>
@@ -136,6 +180,7 @@ const Navigation = props => {
       {values(
         mapObjIndexed(
           (coin, i) =>
+            coin &&
             coin.txListAppRoute &&
             coin.invited && (
               <LinkContainer
@@ -156,7 +201,7 @@ const Navigation = props => {
                   <Destination>{coin.displayName}</Destination>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='orange' size='12' weight={500} uppercase>
+                      <Text color='orange600' size='12' weight={500} uppercase>
                         <FormattedMessage
                           id='layouts.wallet.menuleft.navigation.transactions.new'
                           defaultMessage='New'

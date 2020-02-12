@@ -17,10 +17,12 @@ const injectAuthCredentials = curry(
     )(getAuthCredentials()).catch(error => {
       // 🚨!
       // 401 status means access token expired
-      // BAD_2FA type means 2fa required by PIT
+      // BAD_2FA type means 2fa required by Exchange
       // There may be other errors that are status 401 that should be whitelisted
       // Otherwise yield api call can return reauth actionType (@EVENT.PROFILE.SIGN_IN)
       if (error.status !== 401 || error.type === 'BAD_2FA') throw error
+      if (error.status !== 401 || error.type === 'INVALID_CREDENTIALS')
+        throw error
 
       return reauthenticate()
     })

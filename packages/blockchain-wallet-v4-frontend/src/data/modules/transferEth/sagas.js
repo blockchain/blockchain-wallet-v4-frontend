@@ -1,6 +1,6 @@
-import * as actions from '../../actions.js'
 import * as C from 'services/AlertService'
 import * as selectors from './selectors'
+import { actions } from 'data'
 import { call, put, select } from 'redux-saga/effects'
 import { promptForSecondPassword } from 'services/SagaService'
 

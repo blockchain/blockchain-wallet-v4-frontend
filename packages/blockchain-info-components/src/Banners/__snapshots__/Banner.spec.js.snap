@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Banner component type alert renders correctly 1`] = `
-<Banner__Container
-  color="brand-secondary"
+<styled.div
+  color="blue600"
 >
   <Icon
-    color="brand-secondary"
+    color="blue600"
     cursor={false}
     name="bell"
     size="18px"
     weight={400}
   />
-  <Banner__BannerContent
-    color="brand-secondary"
+  <Styled(Text)
+    color="blue600"
     size="12px"
     uppercase={false}
     weight={500}
   >
     ALERT
-  </Banner__BannerContent>
-</Banner__Container>
+  </Styled(Text)>
+</styled.div>
 `;
 
 exports[`Banner component type caution renders correctly 1`] = `
-<Banner__Container
+<styled.div
   color="brand-yellow"
   width="130%"
 >
@@ -34,34 +34,34 @@ exports[`Banner component type caution renders correctly 1`] = `
     size="18px"
     weight={400}
   />
-  <Banner__BannerContent
+  <Styled(Text)
     color="brand-yellow"
     size="12px"
     uppercase={false}
     weight={500}
   >
     ALERT
-  </Banner__BannerContent>
-</Banner__Container>
+  </Styled(Text)>
+</styled.div>
 `;
 
 exports[`Banner component type standard renders correctly 1`] = `
-<Banner__Container
-  color="brand-secondary"
+<styled.div
+  color="blue600"
 >
-  <Banner__BannerContent
-    color="brand-secondary"
+  <Styled(Text)
+    color="blue600"
     size="12px"
     uppercase={false}
     weight={500}
   >
     STANDARD
-  </Banner__BannerContent>
-</Banner__Container>
+  </Styled(Text)>
+</styled.div>
 `;
 
 exports[`Banner component type success renders correctly 1`] = `
-<Banner__Container
+<styled.div
   color="success"
 >
   <Icon
@@ -71,19 +71,19 @@ exports[`Banner component type success renders correctly 1`] = `
     size="18px"
     weight={400}
   />
-  <Banner__BannerContent
+  <Styled(Text)
     color="success"
     size="12px"
     uppercase={false}
     weight={500}
   >
     SUCCESS
-  </Banner__BannerContent>
-</Banner__Container>
+  </Styled(Text)>
+</styled.div>
 `;
 
 exports[`Banner component type warning renders correctly 1`] = `
-<Banner__Container
+<styled.div
   color="error"
 >
   <Icon
@@ -93,13 +93,13 @@ exports[`Banner component type warning renders correctly 1`] = `
     size="18px"
     weight={400}
   />
-  <Banner__BannerContent
+  <Styled(Text)
     color="error"
     size="12px"
     uppercase={true}
     weight={500}
   >
     WARNING
-  </Banner__BannerContent>
-</Banner__Container>
+  </Styled(Text)>
+</styled.div>
 `;

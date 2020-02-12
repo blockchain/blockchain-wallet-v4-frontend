@@ -70,7 +70,7 @@ const FiatConverter = props => {
   const BORDER_COLOR = 'gray-1'
   const HEIGHT = '72px'
   const FONT_SIZE = '18px'
-  const FONT_COLOR = checkoutError ? 'error' : 'brand-primary'
+  const FONT_COLOR = checkoutError ? 'error' : 'blue900'
 
   return (
     <Wrapper>

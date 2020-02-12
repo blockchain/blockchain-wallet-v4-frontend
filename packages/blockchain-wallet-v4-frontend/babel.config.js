@@ -3,8 +3,7 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
-    'babel-plugin-styled-components',
-    ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
+    ['module-resolver', { root: ['./src'] }],
     ['react-intl', { messagesDir: './build/extractedMessages' }]
   ],
   ignore: [],
@@ -17,8 +16,7 @@ module.exports = {
       plugins: [
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
-        'babel-plugin-styled-components',
-        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
+        ['module-resolver', { root: ['./src'] }],
         ['react-intl', { messagesDir: './build/extractedMessages' }]
       ]
     },
@@ -30,8 +28,7 @@ module.exports = {
       plugins: [
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
-        'babel-plugin-styled-components',
-        ['module-resolver', { root: ['./src'], alias: { data: './src/data' } }],
+        ['module-resolver', { root: ['./src'] }],
         'react-hot-loader/babel'
       ]
     }

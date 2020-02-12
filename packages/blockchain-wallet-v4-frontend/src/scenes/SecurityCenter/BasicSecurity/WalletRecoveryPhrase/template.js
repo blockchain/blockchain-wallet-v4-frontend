@@ -140,7 +140,7 @@ const WalletRecoveryPhrase = props => {
       {nextStepToggled && (
         <SecurityTipContainer>
           <Text
-            color='brand-primary'
+            color='blue900'
             size='14px'
             weight={500}
             style={{ marginBottom: '4px' }}

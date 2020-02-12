@@ -5,7 +5,7 @@ import coinify from './coinify/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
-import identityVerification from './identityVerification/sagas'
+import identityVerification from './identityVerification/sagas.ts'
 import importBtcAddress from './importBtcAddress/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
@@ -38,7 +38,7 @@ export default ({ api, coreSagas, networks }) => ({
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
-  identityVerification: identityVerification({ api, coreSagas }),
+  identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),

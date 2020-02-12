@@ -96,7 +96,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
-          <FormLabel for='coin'>
+          <FormLabel HtmlFor='coin'>
             <FormattedMessage
               id='modals.sendether.firststep.currency'
               defaultMessage='Currency'
@@ -110,7 +110,7 @@ const FirstStep = props => {
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel for='from'>
+          <FormLabel HtmlFor='from'>
             <FormattedMessage
               id='modals.sendEther.firststep.fromwallet'
               defaultMessage='From'
@@ -148,7 +148,7 @@ const FirstStep = props => {
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='to'>
+          <FormLabel HtmlFor='to'>
             <FormattedMessage
               id='modals.sendeth.firststep.tocoin'
               defaultMessage='To'
@@ -165,7 +165,7 @@ const FirstStep = props => {
               exclude={[from.label]}
               openMenuOnClick={false}
               includeAll={false}
-              includePitAddress
+              includeExchangeAddress
               isCreatable
               noOptionsMessage={() => null}
               isValidNewOption={() => false}
@@ -187,7 +187,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='amount'>
+          <FormLabel HtmlFor='amount'>
             <FormattedMessage
               id='modals.sendeth.firststep.sendamount'
               defaultMessage='Amount'
@@ -217,7 +217,7 @@ const FirstStep = props => {
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='description'>
+          <FormLabel HtmlFor='description'>
             <FormattedMessage
               id='modals.sendeth.firststep.desc'
               defaultMessage='Description'

@@ -1,19 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CheckBoxInput component default renders correctly 1`] = `
-<CheckBoxInput__Wrapper>
-  <CheckBoxInput__BaseCheckBoxInput
+<styled.div>
+  <styled.input
     checked={true}
     disabled="false"
     id="terms"
   />
-  <CheckBoxInput__Label
+  <styled.label
     data-e2e="termsLabel"
     htmlFor="terms"
   >
     <span>
       test
     </span>
-  </CheckBoxInput__Label>
-</CheckBoxInput__Wrapper>
+  </styled.label>
+</styled.div>
 `;

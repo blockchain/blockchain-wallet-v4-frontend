@@ -102,7 +102,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendxlm.firststep.currency'
               defaultMessage='Currency'
@@ -116,7 +116,7 @@ const FirstStep = props => {
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel for='from'>
+          <FormLabel htmlFor='from'>
             <FormattedMessage
               id='modals.sendxlm.firststep.fromwallet'
               defaultMessage='From'
@@ -156,7 +156,7 @@ const FirstStep = props => {
           )}
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='to'>
+              <FormLabel htmlFor='to'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.sendto'
                   defaultMessage='To'
@@ -172,7 +172,7 @@ const FirstStep = props => {
                   exclude={[from.label]}
                   openMenuOnClick={false}
                   includeAll={false}
-                  includePitAddress
+                  includeExchangeAddress
                   isCreatable
                   noOptionsMessage={() => null}
                   isValidNewOption={() => false}
@@ -186,7 +186,7 @@ const FirstStep = props => {
           </FormGroup>
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='amount'>
+              <FormLabel htmlFor='amount'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.sendamountto'
                   defaultMessage='Amount'
@@ -207,7 +207,7 @@ const FirstStep = props => {
           {error && <ErrorBanner error={error} />}
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='memo'>
+              <FormLabel htmlFor='memo'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.txmemo'
                   defaultMessage='Memo'
@@ -250,7 +250,7 @@ const FirstStep = props => {
                     size='11px'
                     weight={700}
                     altFont
-                    color='red'
+                    color='red600'
                   >
                     <FormattedMessage
                       id='modals.sendxlm.firststep.sendtoexchangelearn'
@@ -264,7 +264,7 @@ const FirstStep = props => {
 
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel for='description'>
+              <FormLabel htmlFor='description'>
                 <FormattedMessage
                   id='modals.sendxlm.firststep.desc'
                   defaultMessage='Description'

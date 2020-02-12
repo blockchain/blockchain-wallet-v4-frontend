@@ -16,9 +16,8 @@ const InfoLink = styled(Link)`
 `
 const InfoIcon = styled(Icon)`
   display: inline-block;
-  transform: rotate(270deg);
   margin-left: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
 `
 const InfoImage = styled(Image)`
@@ -46,12 +45,12 @@ const Notifications = ({
             href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
             target='_blank'
           >
-            <Text color='brand-secondary' size='12px' weight={300}>
+            <Text color='blue600' size='12px' weight={300}>
               <FormattedMessage
                 id='scenes.exchange.exchangeform.notifications.paxlearnmore'
                 defaultMessage='Learn more'
               />
-              <InfoIcon name='down-arrow-filled' color='brand-secondary' />
+              <InfoIcon name='chevron-right-large' color='blue600' />
             </Text>
           </InfoLink>
         </Note>
@@ -75,12 +74,12 @@ const Notifications = ({
               href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-'
               target='_blank'
             >
-              <ExchangeText color='brand-secondary'>
+              <ExchangeText color='blue600'>
                 <FormattedMessage
                   id='scenes.exchange.exchangeform.notifications.kyclearnmore'
                   defaultMessage='Learn more'
                 />
-                <InfoIcon name='down-arrow-filled' color='brand-secondary' />
+                <InfoIcon name='chevron-right-large' color='blue600' />
               </ExchangeText>
             </InfoLink>
           </ExchangeText>

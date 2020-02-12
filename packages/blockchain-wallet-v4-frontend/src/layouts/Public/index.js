@@ -1,5 +1,4 @@
 import { Route } from 'react-router-dom'
-import AirdropCallout from './AirdropCallout'
 import Alerts from 'components/Alerts'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import ExternalLinks from './ExternalLinks'
@@ -10,7 +9,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme['brand-primary']};
+  background-color: ${props => props.theme.blue900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -63,7 +62,6 @@ class PublicLayoutContainer extends React.PureComponent {
                 <ContentContainer>
                   <Spacer />
                   <ComponentContainer>
-                    <AirdropCallout {...rest} />
                     <Component {...matchProps} />
                     <ExternalLinks />
                   </ComponentContainer>

@@ -101,8 +101,10 @@ describe('sendXlm sagas', () => {
       saga.next().put(A.paymentUpdatedLoading())
     })
 
-    it('should fetch pit addresses', () => {
-      saga.next().put(actions.components.send.fetchPaymentsAccountPit('XLM'))
+    it('should fetch exchange addresses', () => {
+      saga
+        .next()
+        .put(actions.components.send.fetchPaymentsAccountExchange('XLM'))
     })
 
     it('should create payment', () => {

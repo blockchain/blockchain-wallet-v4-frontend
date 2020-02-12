@@ -22,9 +22,7 @@ const Rectangle = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${props =>
-    props.status === 'disabled'
-      ? props.theme['gray-2']
-      : props.theme['brand-primary']};
+    props.status === 'disabled' ? props.theme['gray-2'] : props.theme.blue900};
   animation-play-state: ${props =>
     props.status === 'active' ? 'running' : 'paused'};
   ${animation};

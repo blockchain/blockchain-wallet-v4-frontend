@@ -15,6 +15,7 @@ import {
 } from 'redux-form'
 import {
   equals,
+  hasPath,
   identity,
   includes,
   is,
@@ -37,7 +38,7 @@ export default ({ coreSagas, networks }) => {
     try {
       const { amount, description, from, payPro, to } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('BCH'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('BCH'))
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
       })
@@ -129,7 +130,7 @@ export default ({ coreSagas, networks }) => {
 
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(actions.modals.showModal('BitPayInvoiceExpired'))
     yield put(
       actions.analytics.logEvent([
         ...TRANSACTION_EVENTS.BITPAY_FAILURE,
@@ -218,7 +219,9 @@ export default ({ coreSagas, networks }) => {
             case equals(toType, ADDRESS_TYPES.LOCKBOX):
               payment = yield payment.to(value.xpub, toType)
               break
-            case !isNil(tryParsePayPro()):
+            // ensure 'r' exists, otherwise its just a BCH address in cash addr format
+            case !isNil(tryParsePayPro()) &&
+              hasPath(['options', 'r'], payProInvoice):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:

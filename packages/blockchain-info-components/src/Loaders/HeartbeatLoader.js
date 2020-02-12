@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 
 const bounceFrames = keyframes`
   0%, 100% { transform: scale(0.0); }
@@ -52,7 +52,7 @@ HeartbeatLoader.propTypes = {
 HeartbeatLoader.defaultProps = {
   width: '40px',
   height: '40px',
-  color: 'brand-secondary'
+  color: 'blue600'
 }
 
 export default HeartbeatLoader

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Icon component default renders correctly 1`] = `
-<Icon__BaseIcon
+<styled.span
   color="gray-5"
   cursorEnabled={false}
   size="16px"

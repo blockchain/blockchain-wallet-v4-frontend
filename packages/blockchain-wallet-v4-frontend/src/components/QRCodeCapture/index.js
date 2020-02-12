@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { isEmpty, isNil, replace, toUpper } from 'ramda'
+import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
 import bip21 from 'bip21'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -36,11 +36,35 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
+  getAddressOrBitPayInvoice (coin, data) {
+    const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
+    let address, options
+
+    if (isBitPay) {
+      address = data
+    } else {
+      try {
+        const decoded = bip21.decode(data, coin)
+        address = prop('address', decoded)
+        options = prop('options', decoded)
+      } catch (e) {
+        throw Error('invalid_bip21')
+      }
+    }
+
+    return {
+      address,
+      isBitPay,
+      options
+    }
+  }
+
   handleScanBtcAddress (data) {
+    let coinInfo
     try {
-      const { address, options } = bip21.decode(data)
+      coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
       const { currency, btcRates } = this.props
-      const { amount, message } = options
+      const { amount, message } = coinInfo.options
       const fiat = Exchange.convertBtcToFiat({
         value: amount,
         fromUnit: 'BTC',
@@ -51,7 +75,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.props.formActions.change(
         BTC_FORM,
         'to',
-        this.createNewValue(address)
+        this.createNewValue(coinInfo.address)
       )
       this.props.formActions.change(BTC_FORM, 'description', message)
       this.props.formActions.change(BTC_FORM, 'amount', {
@@ -60,7 +84,10 @@ class QRCodeCaptureContainer extends React.PureComponent {
       })
     } catch (e) {
       try {
-        if (utils.btc.isValidBtcAddress(data, this.props.network)) {
+        if (
+          utils.btc.isValidBtcAddress(data, this.props.network) ||
+          coinInfo.isBitPay
+        ) {
           this.props.formActions.change(
             BTC_FORM,
             'to',
@@ -77,13 +104,14 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBchAddress (data) {
+    let coinInfo
     try {
-      const { address, options } = bip21.decode(data, 'bitcoincash')
-      const { amount, message } = options
+      coinInfo = this.getAddressOrBitPayInvoice('bitcoincash', data)
+      const { amount, message } = coinInfo.options
       this.props.formActions.change(
         BCH_FORM,
         'to',
-        this.createNewValue(address)
+        this.createNewValue(coinInfo.address)
       )
       this.props.formActions.change(BCH_FORM, 'amount', amount)
       this.props.formActions.change(BCH_FORM, 'description', message)
@@ -99,7 +127,10 @@ class QRCodeCaptureContainer extends React.PureComponent {
           return
         }
         // try legacy addr
-        if (utils.btc.isValidBtcAddress(data, this.props.network)) {
+        if (
+          utils.btc.isValidBtcAddress(data, this.props.network) ||
+          coinInfo.isBitPay
+        ) {
           this.props.formActions.change(
             BCH_FORM,
             'to',

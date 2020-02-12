@@ -47,7 +47,7 @@ export default ({ api, coreSagas, networks }) => {
         payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('BTC'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
@@ -152,7 +152,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('BitPayExpired'))
+    yield put(actions.modals.showModal('BitPayInvoiceExpired'))
     yield put(
       actions.analytics.logEvent([
         ...TRANSACTION_EVENTS.BITPAY_FAILURE,

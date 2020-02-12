@@ -48,7 +48,7 @@ const ImportBtcAddress = props => {
     <Modal size='large' position={position}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='up-arrow-in-circle' onClose={close}>
+          <ModalHeader icon='arrow-up-circle' onClose={close}>
             <FormattedMessage
               id='modals.importbtcaddress.title'
               defaultMessage='Import Existing Bitcoin Address'

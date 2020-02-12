@@ -8,7 +8,7 @@ const Wrapper = styled.div`
     margin-bottom: 10px;
   }
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
   }
 `
 

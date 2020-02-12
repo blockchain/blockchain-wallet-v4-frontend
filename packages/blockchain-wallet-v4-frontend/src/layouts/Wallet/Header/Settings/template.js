@@ -21,10 +21,10 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: 40px;
   right: 0;
-  z-index: 3;
+  z-index: 4;
   padding: 8px;
   border-radius: 4px;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   box-shadow: 0px 0px 16px rgba(18, 29, 51, 0.25);
 `
 const DropdownMenuItem = styled(MenuItem)`
@@ -41,7 +41,7 @@ const DropdownMenuArrow = styled.div`
       pointingDirection: 'top',
       width: '16px',
       height: '8px',
-      foregroundColor: props.theme['white']
+      foregroundColor: props.theme.white
     })
   }}
   ${media.tablet`

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import './favicons'
 import configureStore from 'store'
 
-import App from 'scenes/app.js'
+import App from 'scenes/app.tsx'
 import Error from './index.error'
 
 const renderApp = (Component, store, history, persistor) => {
@@ -21,8 +21,8 @@ const renderApp = (Component, store, history, persistor) => {
   render(App, store, history, persistor)
 
   if (module.hot) {
-    module.hot.accept('./scenes/app.js', () =>
-      render(require('./scenes/app.js').default, store, history, persistor)
+    module.hot.accept('./scenes/app.tsx', () =>
+      render(require('./scenes/app.tsx').default, store, history, persistor)
     )
   }
 }

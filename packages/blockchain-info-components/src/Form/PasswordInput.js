@@ -17,7 +17,7 @@ const BasePasswordInput = styled.input.attrs({
   font-size: 20px;
   font-weight: 500;
   color: ${props => props.theme['gray-6']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
@@ -26,7 +26,7 @@ const BasePasswordInput = styled.input.attrs({
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-radius: 4px;
   &::-webkit-input-placeholder {
-    color: ${props => props.theme['grey100']};
+    color: ${props => props.theme.grey100};
   }
   &:disabled {
     cursor: not-allowed;

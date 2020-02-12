@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import Balances from './Balances'
 import Footer from './Footer'
 import Navigation from './Navigation'
 
@@ -16,7 +17,7 @@ export const Container = styled.div`
   padding: 8px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   transition: left 0.3s ease-in-out;
   z-index: 11;
   ::-webkit-scrollbar {
@@ -42,6 +43,7 @@ const Overflow = styled.div`
 
 const MenuLeft = props => (
   <Container toggled={props.menuOpened}>
+    <Balances />
     <Overflow>
       <Navigation {...props} />
       <Footer {...props} />

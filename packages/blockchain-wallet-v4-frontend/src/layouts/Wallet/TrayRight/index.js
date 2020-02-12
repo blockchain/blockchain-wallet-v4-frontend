@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { contains } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import onClickOutside from 'react-onclickoutside'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
@@ -20,7 +21,7 @@ const AnimationWrapper = styled.div`
   height: calc(100vh - 60px);
   transition: right 0.4s linear;
   box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
-  z-index: 20;
+  z-index: 3;
 
   @media (max-width: 991px) {
     width: calc(50%);
@@ -49,10 +50,10 @@ const Header = styled.div`
   background-color: ${props => props.theme['gray-1']};
 `
 const Content = styled.div`
+  height: 100%;
   width: 100%;
   overflow: scroll;
-  height: calc(100% - 60px);
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 `
 
 class TrayRightContainer extends React.PureComponent {
@@ -64,11 +65,11 @@ class TrayRightContainer extends React.PureComponent {
       !trayContainer.contains(e.target) &&
       !contains(e.target.id, blacklist)
     ) {
-      this.handleClose()
+      this.handleClickOutside()
     }
   }
 
-  handleClose = () => {
+  handleClickOutside = () => {
     if (this.props.data.opened) {
       this.props.actions.layoutWalletTrayCloseClicked()
     }
@@ -100,7 +101,12 @@ class TrayRightContainer extends React.PureComponent {
               />
             )}
           </Text>
-          <Icon size='20px' name='close' cursor onClick={this.handleClose} />
+          <Icon
+            size='20px'
+            name='close'
+            cursor
+            onClick={this.handleClickOutside}
+          />
         </Header>
         <Content>
           {content === 'faq' && <Faq />}
@@ -119,7 +125,11 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
+const clickOutsideConfig = {
+  handleClickOutside: () => TrayRightContainer.handleClickOutside
+}
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TrayRightContainer)
+)(onClickOutside(TrayRightContainer), clickOutsideConfig)

@@ -43,13 +43,18 @@ function ChangeEmailSteps (props) {
               nature='primary'
               onClick={props.handleEmailChangeSubmit}
               disabled={props.invalid}
+              data-e2e='changeEmailButton'
             >
               <FormattedMessage
                 id='scenes.preferences.email.settings.updateform.change'
                 defaultMessage='Change'
               />
             </Button>
-            <Button nature='empty' onClick={props.handleEmailChangeCancel}>
+            <Button
+              nature='empty'
+              onClick={props.handleEmailChangeCancel}
+              data-e2e='cancelEmailChange'
+            >
               <FormattedMessage
                 id='scenes.preferences.email.settings.updateform.cancel'
                 defaultMessage='Cancel'

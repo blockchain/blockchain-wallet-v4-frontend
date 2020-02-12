@@ -22,7 +22,7 @@ const Container = styled.div`
     height: 48px;
     font-size: 16px;
     border-radius: 4px;
-    border: 1px solid ${props => props.theme['grey100']};
+    border: 1px solid ${props => props.theme.grey100};
     color: ${props => props.theme['gray-6']};
     ::-webkit-input-placeholder {
       opacity: 0.35;

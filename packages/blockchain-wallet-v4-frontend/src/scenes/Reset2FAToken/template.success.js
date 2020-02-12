@@ -16,7 +16,7 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Image name='blue-logo' width='50px' height='50px' />
+      <Image name='blockchain-icon' width='50px' height='50px' />
       {declined ? (
         <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
           <FormattedMessage

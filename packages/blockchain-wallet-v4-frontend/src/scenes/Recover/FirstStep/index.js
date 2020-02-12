@@ -38,7 +38,7 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.recover.firststep.funds'
             defaultMessage='Recover Funds'
@@ -56,7 +56,7 @@ const FirstStep = props => {
         </TextGroup>
         <FormGroup>
           <FormItem>
-            <MnemonicLabel for='mnemonic'>
+            <MnemonicLabel htmlFor='mnemonic'>
               <FormattedMessage
                 id='scenes.recover.firststep.mnemonic'
                 defaultMessage='Your Backup Phrase'

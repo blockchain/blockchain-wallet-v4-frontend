@@ -34,6 +34,7 @@ const TextBox = field => {
     disableSpellcheck,
     errorBottom,
     height,
+    icon,
     input,
     maxLength,
     meta,
@@ -57,6 +58,7 @@ const TextBox = field => {
         disableSpellcheck={disableSpellcheck}
         errorState={errorState}
         height={height}
+        icon={icon}
         initial={initial}
         maxLength={maxLength}
         noLastPass={noLastPass}

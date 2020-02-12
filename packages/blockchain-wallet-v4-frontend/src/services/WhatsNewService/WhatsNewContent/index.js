@@ -7,7 +7,7 @@ import WalletTour from './WalletTour'
 
 const Announcements = [
   {
-    content: <WalletTour />,
+    content: <WalletTour key={3} />,
     date: new Date('September 9 2019'),
     restrictByCountry: [],
     restrictByUserKyc: [],
@@ -15,13 +15,13 @@ const Announcements = [
       equals(false, propOr(false, 'hasSkippedWalletTour', whatsNewKvStore))
   },
   {
-    content: <USDPax />,
+    content: <USDPax key={2} />,
     date: new Date('April 30 2019'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
   {
-    content: <ExchangeByBlockchain />,
+    content: <ExchangeByBlockchain key={1} />,
     date: new Date('Nov 1 2018'),
     restrictByCountry: [],
     restrictByUserKyc: []

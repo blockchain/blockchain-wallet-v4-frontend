@@ -27,14 +27,14 @@ require.ensure(
   'zxcvbn'
 )
 const validStrongPassword = password => {
-  return password !== undefined && window.zxcvbn(password).score > 1
-    ? undefined
-    : () => (
-        <FormattedMessage
-          id='scenes.securitysettings.advanced.walletpassword.invalidstrongpassword'
-          defaultMessage='Your password is not strong enough'
-        />
-      )
+  return password !== undefined && window.zxcvbn(password).score > 1 ? (
+    undefined
+  ) : (
+    <FormattedMessage
+      id='scenes.securitysettings.advanced.walletpassword.weakpassword'
+      defaultMessage='Your password is too weak'
+    />
+  )
 }
 
 const ButtonWrapper = styled.div`
@@ -82,7 +82,7 @@ const Settings = props => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItemSpaced>
-              <FormLabel for='currentPassword'>
+              <FormLabel htmlFor='currentPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.current'
                   defaultMessage='Current Password:'
@@ -97,7 +97,7 @@ const Settings = props => {
               />
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
-              <FormLabel for='newPassword'>
+              <FormLabel htmlFor='newPassword'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.new'
                   defaultMessage='New Password:'
@@ -118,7 +118,7 @@ const Settings = props => {
               />
             </FormItemSpaced>
             <FormItemSpaced style={{ marginTop: '12px' }}>
-              <FormLabel for='walletPasswordConfirmation'>
+              <FormLabel htmlFor='walletPasswordConfirmation'>
                 <FormattedMessage
                   id='scenes.securitysettings.advanced.walletpassword.settings.confirm'
                   defaultMessage='Confirm Password:'

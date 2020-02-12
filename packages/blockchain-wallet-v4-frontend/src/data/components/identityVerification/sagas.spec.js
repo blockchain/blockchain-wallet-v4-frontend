@@ -10,7 +10,7 @@ import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selector
 import { getUserData, getUserTiers } from 'data/modules/profile/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas'
-import sagas, { logLocation, noCampaignDataError } from './sagas'
+import sagas, { logLocation, noCampaignDataError } from './sagas.ts'
 
 const api = {
   fetchKycConfig: jest.fn(),
@@ -115,22 +115,36 @@ describe('goToPrevStep saga', () => {
   const steps = ['personal', 'mobile']
   it('should direct user to prev step if it is available', () =>
     expectSaga(goToPrevStep)
+      .withState({
+        components: {
+          identityVerification: {
+            steps: Remote.of(steps),
+            verificationStep: steps[1]
+          }
+        }
+      })
       .provide([
         [select(S.getVerificationStep), steps[1]],
         [select(S.getSteps), Remote.of(steps)]
       ])
-      .select(S.getSteps)
-      .select(S.getVerificationStep)
+      .select()
       .put(A.setVerificationStep(steps[0]))
       .run())
   it('should close all modals if there is no prev step', () =>
     expectSaga(goToPrevStep)
+      .withState({
+        components: {
+          identityVerification: {
+            steps: Remote.of(steps),
+            verificationStep: steps[0]
+          }
+        }
+      })
       .provide([
         [select(S.getVerificationStep), steps[0]],
         [select(S.getSteps), Remote.of(steps)]
       ])
-      .select(S.getSteps)
-      .select(S.getVerificationStep)
+      .select()
       .put(actions.modals.closeAllModals())
       .run())
 })

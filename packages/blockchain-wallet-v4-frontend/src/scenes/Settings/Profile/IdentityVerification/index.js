@@ -60,6 +60,7 @@ const Row = styled.div`
   &:not(:last-child) {
     max-width: 416px;
     margin-right: 40px;
+    margin-top: 16px;
   }
 
   @media (min-width: 1200px) {
@@ -73,13 +74,9 @@ const Row = styled.div`
 const SwapText = styled(Text)`
   margin-bottom: 10px;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     text-decoration: none;
   }
-`
-
-const SwapTextAirdropContent = styled(SwapText)`
-  margin-top: 20px;
 `
 
 const TierWrapper = styled.div`
@@ -157,17 +154,11 @@ const IdentityVerification = ({ userData, userTiers }) => {
                   </SwapText>
                   <SwapText size='14px'>
                     <FormattedMessage
-                      id='scenes.profile.idv.swaplimit.airdropdisclaimer'
-                      defaultMessage="Gold verification is under review, once verified you'll be able to use Swap and trade up to {tier2Limit}."
+                      id='scenes.profile.idv.swaplimit.airdropdisclaimer1'
+                      defaultMessage="Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
                       values={{ tier2Limit: formattedTier2Limit }}
                     />
                   </SwapText>
-                  <SwapTextAirdropContent size='14px'>
-                    <FormattedHTMLMessage
-                      id='scenes.profile.idv.swaplimit.future.airdrops'
-                      defaultMessage="Our <a href='https://blog.blockchain.com/2019/07/15/airdrops-adoption-whats-ahead/' target='_blank'>Stellar (XLM) airdrop</a> is currently winding down. Get gold verified to be eligible for future crypto airdrops!"
-                    />
-                  </SwapTextAirdropContent>
                 </>
               )}
             </LearnMoreContainer>

@@ -498,7 +498,7 @@ export const kycHeaderHelper = status => {
       }
     case PENDING:
       return {
-        color: 'brand-primary',
+        color: 'blue900',
         text: (
           <FormattedMessage
             id='scenes.buy_sell.coinify.kyc.header.pending'

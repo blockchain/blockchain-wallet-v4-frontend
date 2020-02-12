@@ -52,7 +52,7 @@ const LockboxOpen = styled(TextGroup)`
   *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
 `
 
@@ -78,7 +78,7 @@ const RequestBch = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendbch.coin'
               defaultMessage='Currency:'
@@ -94,7 +94,7 @@ const RequestBch = props => {
       </FormGroup>
       <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
-          <FormLabel for='to'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
               id='modals.requestbch.firststep.receive'
               defaultMessage='Receive To:'

@@ -18,12 +18,12 @@ const BaseSelectInput = styled.select`
   color: ${props => props.theme['gray-6']};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border: 1px solid ${props => props.theme['gray-2']};
   margin-left: ${props => (props.inline ? '5px' : '0px')};
   &:active,
   &:focus {
-    border: 1px solid ${props => props.theme['brand-secondary']};
+    border: 1px solid ${props => props.theme.blue600};
   }
 `
 

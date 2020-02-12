@@ -13,7 +13,7 @@ const Success = props => {
       <Text
         size='36px'
         weight={400}
-        color='brand-primary'
+        color='blue900'
         data-e2e={props['data-e2e']}
       >
         {fiat}

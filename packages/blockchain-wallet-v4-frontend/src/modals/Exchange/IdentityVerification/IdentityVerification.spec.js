@@ -35,12 +35,12 @@ import {
   getSteps,
   getSupportedCountries,
   getVerificationStep
-} from 'data/components/identityVerification/selectors'
+} from 'data/components/identityVerification/selectors.ts'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
 import { ModalHeader } from 'blockchain-info-components'
 import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
 import IdentityVerification from './index'
-import identityVerificationReducer from 'data/components/identityVerification/reducers'
+import identityVerificationReducer from 'data/components/identityVerification/reducers.ts'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 import modalsReducer from 'data/modals/reducers'
 import profileReducer from 'data/modules/profile/reducers'
@@ -59,7 +59,7 @@ jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
-jest.mock('data/components/identityVerification/selectors')
+jest.mock('data/components/identityVerification/selectors.ts')
 jest.mock('data/components/coinify/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/data/coinify/selectors')
 

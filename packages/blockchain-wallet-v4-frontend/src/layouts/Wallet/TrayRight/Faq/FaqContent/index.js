@@ -40,7 +40,7 @@ const FaqContent = [
               to='/swap'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage
@@ -263,7 +263,7 @@ const FaqContent = [
               to='/swap'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage
@@ -879,7 +879,7 @@ const FaqContent = [
               to='/security-center'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage
@@ -926,7 +926,7 @@ const FaqContent = [
               to='/security-center'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <span>&nbsp;</span>
@@ -961,7 +961,7 @@ const FaqContent = [
               to='/security-center'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage
@@ -979,7 +979,7 @@ const FaqContent = [
               to='/settings/preferences'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage
@@ -1344,7 +1344,7 @@ const FaqContent = [
               to='/security-center'
               style={{
                 textDecoration: 'none',
-                color: Color('brand-secondary')
+                color: Color('blue600')
               }}
             >
               <FormattedMessage

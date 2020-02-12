@@ -36,7 +36,7 @@ const Empty = () => (
   <Wrapper>
     <Transactions>
       <Text size='24px' weight={400} capitalize>
-        <ExchangeIcon name='thick-arrow-switch' size='24px' />
+        <ExchangeIcon name='arrow-switch-thick' size='24px' />
         <FormattedMessage
           id='scenes.exchangehistory.empty.history'
           defaultMessage='Your order history'

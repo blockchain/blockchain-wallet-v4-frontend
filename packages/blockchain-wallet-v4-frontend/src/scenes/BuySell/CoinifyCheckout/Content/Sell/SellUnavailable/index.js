@@ -46,7 +46,7 @@ export default () => (
         href='https://support.blockchain.com/hc/en-us/articles/360000062126-How-do-I-create-a-sell-trade-'
         target='_blank'
       >
-        <Text size='13px' weight={500} color='brand-secondary'>
+        <Text size='13px' weight={500} color='blue600'>
           <FormattedMessage
             id='scenes.buysell.coinify.sellunavailable.learnmore'
             defaultMessage='Learn More'

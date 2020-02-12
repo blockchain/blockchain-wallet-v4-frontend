@@ -3,8 +3,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const Webpack = require('webpack')
+const path = require('path')
 const PATHS = require('./../../config/paths')
 
 let envConfig = {}
@@ -25,6 +26,17 @@ module.exports = {
     publicPath: '/',
     crossOriginLoading: 'anonymous'
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      utils: path.resolve(__dirname, 'src/utils/')
+    }
+  },
   stats: 'verbose',
   module: {
     rules: [
@@ -35,6 +47,7 @@ module.exports = {
           'babel-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
@@ -94,10 +107,11 @@ module.exports = {
     ...(runBundleAnalyzer ? [new BundleAnalyzerPlugin({})] : [])
   ],
   optimization: {
+    concatenateModules: true,
     namedModules: true,
     minimizer: [
-      new UglifyJSPlugin({
-        uglifyOptions: {
+      new TerserPlugin({
+        terserOptions: {
           warnings: false,
           compress: {
             keep_fnames: true
@@ -126,18 +140,18 @@ module.exports = {
           chunks: 'initial',
           name: 'vendor',
           priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        },
+        frontend: {
+          chunks: 'initial',
+          name: 'frontend',
+          priority: -11,
+          reuseExistingChunk: true,
           test: function(module) {
-            // ensure other packages in mono repo don't get put into vendor bundle
             return (
               module.resource &&
-              module.resource.indexOf('blockchain-wallet-v4-frontend/src') ===
-                -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-info-components/src'
-              ) === -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-wallet-v4/src'
-              ) === -1
+              module.resource.indexOf('blockchain-wallet-v4-frontend/src') !==
+                -1
             )
           }
         }

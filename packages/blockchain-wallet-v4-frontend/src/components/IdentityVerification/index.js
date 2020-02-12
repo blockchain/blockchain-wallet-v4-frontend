@@ -88,7 +88,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
   }
 `
 
@@ -110,7 +110,7 @@ export const EmailHelper = styled.span`
     props.error ? props.theme['error'] : props.theme['gray-3']};
   a {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
   }
 `
 export const CenteredWrapper = styled.div`
@@ -157,14 +157,12 @@ export const FieldMimic = styled.div`
 export const IdentityVerificationForm = styled(Form)`
   height: 100%;
   label[for='${props => props.activeField}'] {
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
   label[for='${props => props.activeField}'] + div {
     .bc__control, input {
       border: 1px solid ${props =>
-        props.activeFieldError
-          ? props.theme.error
-          : props.theme['brand-primary']};
+        props.activeFieldError ? props.theme.error : props.theme.blue900};
     }
   }
 `
@@ -226,7 +224,7 @@ export const Label = styled.label`
 `
 
 export const BackButton = styled(Button)`
-  color: ${props => props.theme['white']};
+  color: ${props => props.theme.white};
   background-color: ${props => props.theme['gray-2']};
   border-color: ${props => props.theme['gray-2']};
 `

@@ -163,7 +163,7 @@ export class Summary extends React.PureComponent {
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <AmountHeader color='brand-primary' weight={500}>
+          <AmountHeader color='blue900' weight={500}>
             <FormattedMessage
               id='scenes.exchange.exchangeform.summary.to'
               defaultMessage='Receive'
@@ -174,7 +174,7 @@ export class Summary extends React.PureComponent {
               <TargetFiatAmount
                 targetAmount={targetAmount}
                 targetCoin={targetCoin}
-                color='brand-primary'
+                color='blue900'
                 weight={500}
               />
             </SummaryExchangeAmount>

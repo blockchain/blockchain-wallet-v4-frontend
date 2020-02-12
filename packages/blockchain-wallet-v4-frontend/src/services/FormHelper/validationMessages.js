@@ -125,22 +125,22 @@ export const PasswordsDoNotMatch = () => (
     defaultMessage='Passwords do not match'
   />
 )
-export const PitRequires2FAMessage = () => (
+export const ExchangeRequires2FAMessage = () => (
   <>
     <FormattedMessage
-      id='formhelper.pitrequires2fa'
-      defaultMessage='The PIT requires 2FA for deposits.'
+      id='formhelper.exchange.require2fa'
+      defaultMessage='Exchange deposits require 2FA.'
     />
     <Link
-      href='https://pit.blockchain.com/trade/login'
+      href='https://exchange.blockchain.com/trade/login'
       target='_blank'
       rel='noopener noreferrer'
       size='12px'
     >
       {' '}
       <FormattedMessage
-        id='formhelper.gotothepit'
-        defaultMessage='Take me to The PIT.'
+        id='formhelper.exchange.learnmore'
+        defaultMessage='Learn more.'
       />
     </Link>
   </>
@@ -172,12 +172,6 @@ export const RequiredNumberMessage = () => (
   <FormattedMessage
     id='formhelper.requirednumber'
     defaultMessage='Invalid number'
-  />
-)
-export const RequiredPhraseMessage = () => (
-  <FormattedMessage
-    id='formhelper.requiredphrase'
-    defaultMessage='Incorrect phrase'
   />
 )
 export const RequiredSSNMessage = () => (

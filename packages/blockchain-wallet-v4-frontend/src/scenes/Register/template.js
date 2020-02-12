@@ -23,8 +23,7 @@ import {
 } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
-import LinkAccount from '../LinkAccount'
-import PitCallout from './PitCallout'
+import LinkExchangeAccount from './LinkExchangeAccount'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
@@ -91,12 +90,12 @@ const Register = props => {
 
   return (
     <SignupWrapper>
-      {isLinkAccountGoal && <LinkAccount />}
+      {isLinkAccountGoal && <LinkExchangeAccount />}
       <PublicWrapper>
         <Header>
           <Text
             size='20px'
-            color='brand-primary'
+            color='blue900'
             weight={600}
             capitalize
             data-e2e='signupHeader'
@@ -120,7 +119,7 @@ const Register = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='email'>
+              <FormLabel htmlFor='email'>
                 <FormattedMessage
                   id='scenes.register.email'
                   defaultMessage='Email'
@@ -138,7 +137,7 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.register.password'
                   defaultMessage='Password'
@@ -181,7 +180,7 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='confirmationPassword'>
+              <FormLabel htmlFor='confirmationPassword'>
                 <FormattedMessage
                   id='scenes.register.confirmpassword'
                   defaultMessage='Confirm Password'
@@ -232,7 +231,6 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
-      <PitCallout {...props} />
     </SignupWrapper>
   )
 }

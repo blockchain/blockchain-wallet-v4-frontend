@@ -20,7 +20,7 @@ const Message = styled(Text)`
   font-weight: 400;
 `
 const FaqIcon = styled(Icon)`
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
   font-size: 24px;
   display: flex;
   width: 24px;

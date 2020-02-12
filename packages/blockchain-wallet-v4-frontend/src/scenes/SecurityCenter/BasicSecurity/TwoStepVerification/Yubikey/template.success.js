@@ -45,12 +45,12 @@ const YubikeyInput = styled.input`
   font-weight: 400;
   line-height: 1.42;
   color: ${props => props.theme['gray-6']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme['grey100']};
+  border: 1px solid ${props => props.theme.grey100};
 
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};

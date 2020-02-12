@@ -1,22 +1,9 @@
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { withRouter } from 'react-router-dom'
 import HorizontalMenu from 'components/HorizontalMenu'
 import React from 'react'
-import styled from 'styled-components'
-
-const LinkItem = styled(TabMenuItem)`
-  &.active {
-    & :after {
-      position: absolute;
-      content: '';
-      top: 34px;
-      left: 0;
-      width: 100%;
-      border-bottom: 4px solid ${props => props.theme['brand-secondary']};
-    }
-  }
-`
 
 class MenuContainer extends React.PureComponent {
   render () {
@@ -28,24 +15,24 @@ class MenuContainer extends React.PureComponent {
             activeClassName='active'
             data-e2e='securityCenterBasicLink'
           >
-            <LinkItem>
+            <TabMenuItem>
               <FormattedMessage
                 id='scenes.securitycenter.menu.basic'
                 defaultMessage='Basic'
               />
-            </LinkItem>
+            </TabMenuItem>
           </LinkContainer>
           <LinkContainer
             to='/security-center/advanced'
             activeClassName='active'
             data-e2e='securityCenterAdvancedLink'
           >
-            <LinkItem>
+            <TabMenuItem>
               <FormattedMessage
                 id='scenes.securitycenter.menu.advanced'
                 defaultMessage='Advanced'
               />
-            </LinkItem>
+            </TabMenuItem>
           </LinkContainer>
         </TabMenu>
       </HorizontalMenu>
@@ -53,4 +40,4 @@ class MenuContainer extends React.PureComponent {
   }
 }
 
-export default MenuContainer
+export default withRouter(MenuContainer)
