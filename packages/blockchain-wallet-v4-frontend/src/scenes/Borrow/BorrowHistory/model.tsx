@@ -6,6 +6,7 @@ import styled from 'styled-components'
 export const Value = styled(Text)<{ size?: string }>`
   font-size: 14px;
   font-weight: 500;
+  white-space: nowrap;
   color: ${props => props.theme.grey800};
 `
 
@@ -27,7 +28,7 @@ export const Status = (props: LoanType) => {
     case 'PENDING_COLLATERAL_DEPOSIT':
       return <OrangeValue>Pending</OrangeValue>
     case 'PENDING_PRINCIPAL_WITHDRAW':
-      return <OrangeValue>Pending Principal Withdraw</OrangeValue>
+      return <OrangeValue>Pending Principal</OrangeValue>
     case 'ON_CALL':
       return <Value>On Call</Value>
     case 'CLOSED':

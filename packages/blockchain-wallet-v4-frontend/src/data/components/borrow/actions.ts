@@ -78,13 +78,6 @@ export const setLimits = (limits: BorrowMinMaxType): BorrowActionTypes => ({
   }
 })
 
-export const setOffer = (offer: OfferType | null): BorrowActionTypes => ({
-  type: AT.SET_OFFER,
-  payload: {
-    offer
-  }
-})
-
 export const setPaymentFailure = (
   error: string | Error
 ): BorrowActionTypes => ({
@@ -105,9 +98,20 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
   }
 })
 
-export const setStep = (step: BorrowStepsType): BorrowActionTypes => ({
+export const setStep = (
+  payload:
+    | { offer: OfferType; step: 'CHECKOUT' }
+    | { loan: LoanType; step: 'DETAILS' }
+): BorrowActionTypes => ({
   type: AT.SET_STEP,
-  payload: {
-    step
-  }
+  payload:
+    payload.step === 'CHECKOUT'
+      ? {
+          step: payload.step,
+          offer: payload.offer
+        }
+      : {
+          step: payload.step,
+          loan: payload.loan
+        }
 })

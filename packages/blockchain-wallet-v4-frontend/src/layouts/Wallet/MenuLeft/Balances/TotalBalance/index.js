@@ -69,12 +69,12 @@ class TotalBalance extends React.PureComponent {
       ),
       Loading: () => (
         <BalanceSkeleton>
-          <SkeletonRectangle width='120px' height='26px' bgColor='gray-1' />
+          <SkeletonRectangle width='120px' height='24px' bgColor='gray-1' />
         </BalanceSkeleton>
       ),
       NotAsked: () => (
         <BalanceSkeleton>
-          <SkeletonRectangle width='120px' height='26px' bgColor='gray-1' />
+          <SkeletonRectangle width='120px' height='24px' bgColor='gray-1' />
         </BalanceSkeleton>
       )
     })

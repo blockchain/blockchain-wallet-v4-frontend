@@ -60,7 +60,7 @@ export default ({
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
 
-      const amount = getAmount(values.collateralCryptoAmt || 0, coin)
+      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
 
       const loan: LoanType = yield call(
         api.createLoan,
@@ -75,8 +75,11 @@ export default ({
         }
       )
 
-      payment = yield payment.amount(amount, ADDRESS_TYPES.ADDRESS)
-      payment = yield payment.to(loan.collateral.depositAddresses[coin])
+      payment = yield payment.amount(Number(amount))
+      payment = yield payment.to(
+        loan.collateral.depositAddresses[coin],
+        ADDRESS_TYPES.ADDRESS
+      )
 
       payment = yield payment.build()
       // ask for second password
@@ -84,8 +87,13 @@ export default ({
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(actions.form.stopSubmit('borrowForm'))
+      yield put(
+        actions.alerts.displaySuccess(
+          'Borrow successfully created. Collateral deposited.'
+        )
+      )
     } catch (e) {
-      yield put(actions.form.stopSubmit('borrowForm'))
+      yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
     }
   }
 
@@ -215,7 +223,6 @@ export default ({
     let defaultAccountR
     let payment: PaymentType = <PaymentType>{}
     yield put(A.setPaymentLoading())
-    yield put(A.setOffer(payload.offer))
 
     try {
       switch (payload.coin) {

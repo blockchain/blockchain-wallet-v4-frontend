@@ -11,6 +11,8 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
 type LinkStatePropsType = {
+  loan?: LoanType
+  offer?: OfferType
   step: BorrowStepsType
 }
 
@@ -19,8 +21,6 @@ type LinkDispatchPropsType = {
 }
 type OwnProps = {
   close: () => void
-  loan?: LoanType
-  offer?: OfferType
   position: number
   total: number
   userClickedOutside: boolean
@@ -37,10 +37,6 @@ class Borrow extends PureComponent<Props> {
     /* eslint-enable */
   }
 
-  componentWillUnmount () {
-    this.props.borrowActions.setStep('CHECKOUT')
-  }
-
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
@@ -48,7 +44,6 @@ class Borrow extends PureComponent<Props> {
 
   render () {
     const { position, total } = this.props
-
     return (
       <Flyout
         position={position}
@@ -70,6 +65,8 @@ class Borrow extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  loan: selectors.components.borrow.getLoan(state),
+  offer: selectors.components.borrow.getOffer(state),
   step: selectors.components.borrow.getStep(state)
 })
 

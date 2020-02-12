@@ -25,6 +25,7 @@ import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
 
 type LinkDispatchPropsType = {
+  borrowActions: typeof actions.components.borrow
   modalActions: typeof actions.modals
 }
 type LinkStatePropsType = {
@@ -85,7 +86,9 @@ class InitBorrowForm extends PureComponent<Props> {
 
   initBorrow = () => {
     const offer = this.getOfferForCoin()
-    this.props.modalActions.showModal('BORROW_MODAL', { offer })
+    if (!offer) return
+    this.props.borrowActions.setStep({ step: 'CHECKOUT', offer })
+    this.props.modalActions.showModal('BORROW_MODAL')
   }
 
   render () {
@@ -151,6 +154,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  borrowActions: bindActionCreators(actions.components.borrow, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -60,7 +60,7 @@ export type FromType =
   | 'ADDRESS'
 
 export type PaymentType = {
-  amount: (n: number, addressType: FromType) => PaymentType
+  amount: (n: number) => PaymentType
   build: () => PaymentType
   change: string
   coins: Array<UTXOType>
@@ -79,7 +79,7 @@ export type PaymentType = {
   fromType: FromType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (address: string) => PaymentType
+  to: (address: string, addressType: FromType) => PaymentType
   value: () => PaymentType
 }
 
@@ -90,7 +90,8 @@ export interface BorrowState {
   borrowHistory: RemoteDataType<NabuApiErrorType, Array<LoanType>>
   coin: CoinType
   limits: BorrowMinMaxType
-  offer: OfferType | null
+  loan?: LoanType
+  offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
   step: 'CHECKOUT' | 'DETAILS'
@@ -151,13 +152,6 @@ interface SetLimitsAction {
   type: typeof AT.SET_LIMITS
 }
 
-interface SetOfferAction {
-  payload: {
-    offer: OfferType | null
-  }
-  type: typeof AT.SET_OFFER
-}
-
 interface SetPaymentFailureAction {
   payload: {
     error: string | Error
@@ -177,9 +171,15 @@ interface SetPaymentSuccessAction {
 }
 
 interface SetStepAction {
-  payload: {
-    step: BorrowStepsType
-  }
+  payload:
+    | {
+        offer?: OfferType
+        step: 'CHECKOUT'
+      }
+    | {
+        loan?: LoanType
+        step: 'DETAILS'
+      }
   type: typeof AT.SET_STEP
 }
 
@@ -193,7 +193,6 @@ export type BorrowActionTypes =
   | InitializeBorrowAction
   | SetCoinAction
   | SetLimitsAction
-  | SetOfferAction
   | SetPaymentFailureAction
   | SetPaymentLoadingAction
   | SetPaymentSuccessAction

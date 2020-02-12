@@ -11,7 +11,8 @@ const INITIAL_STATE: BorrowState = {
     maxCrypto: 0,
     minCrypto: 0
   },
-  offer: null,
+  offer: undefined,
+  loan: undefined,
   offers: Remote.NotAsked,
   payment: Remote.NotAsked,
   step: 'CHECKOUT'
@@ -63,11 +64,6 @@ export function borrowReducer (
         ...state,
         limits: action.payload.limits
       }
-    case AT.SET_OFFER:
-      return {
-        ...state,
-        offer: action.payload.offer
-      }
     case AT.SET_PAYMENT_FAILURE:
       return {
         ...state,
@@ -84,9 +80,24 @@ export function borrowReducer (
         payment: Remote.Success(action.payload.payment)
       }
     case AT.SET_STEP:
-      return {
-        ...state,
-        step: action.payload.step
+      switch (action.payload.step) {
+        case 'CHECKOUT': {
+          return {
+            ...state,
+            step: action.payload.step,
+            offer: action.payload.offer
+          }
+        }
+        case 'DETAILS': {
+          return {
+            ...state,
+            step: action.payload.step,
+            loan: action.payload.loan
+          }
+        }
+        default: {
+          return state
+        }
       }
     default:
       return state

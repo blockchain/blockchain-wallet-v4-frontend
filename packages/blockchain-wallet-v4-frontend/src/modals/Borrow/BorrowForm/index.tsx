@@ -43,10 +43,6 @@ class BorrowForm extends Component<Props> {
     this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
   }
 
-  componentWillUnmount () {
-    this.props.borrowActions.setOffer(null)
-  }
-
   handleRefresh = () => {
     this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
   }

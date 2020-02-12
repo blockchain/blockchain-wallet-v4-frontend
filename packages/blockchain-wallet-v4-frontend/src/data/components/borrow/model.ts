@@ -52,5 +52,6 @@ export const getAmount = (value: number, coin: CoinType) => {
   switch (coin) {
     case 'BTC':
       return Exchange.convertBtcToBtc({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+        .value
   }
 }

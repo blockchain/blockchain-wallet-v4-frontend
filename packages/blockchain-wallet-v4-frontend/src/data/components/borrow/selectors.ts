@@ -11,6 +11,8 @@ export const getPayment = (state: RootState) => state.components.borrow.payment
 
 export const getLimits = (state: RootState) => state.components.borrow.limits
 
+export const getLoan = (state: RootState) => state.components.borrow.loan
+
 export const getOffers = (state: RootState) => state.components.borrow.offers
 
 export const getOffer = (state: RootState) => state.components.borrow.offer
