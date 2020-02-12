@@ -87,11 +87,7 @@ export default ({
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(
-        actions.alerts.displaySuccess(
-          'Borrow successfully created. Collateral deposited.'
-        )
-      )
+      yield put(A.setStep({ step: 'DETAILS', loan }))
     } catch (e) {
       yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
     }
