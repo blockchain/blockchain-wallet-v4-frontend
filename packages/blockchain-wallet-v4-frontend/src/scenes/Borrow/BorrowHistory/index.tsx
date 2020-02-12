@@ -2,16 +2,25 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { LoanType, NabuApiErrorType, RemoteDataType } from 'core/types'
+import {
+  LoanType,
+  NabuApiErrorType,
+  OfferType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
+import { RatesType, UserDataType } from 'data/types'
 import { Text } from 'blockchain-info-components'
-import { UserDataType } from 'data/types'
 import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
 
 export type SuccessStateType = {
   borrowHistory: Array<LoanType>
+  offers: Array<OfferType>
+  rates: RatesType
   showLoanDetails: (loan: LoanType) => void
+  supportedCoins: SupportedCoinsType
   userData: UserDataType
 }
 type LinkStatePropsType = {

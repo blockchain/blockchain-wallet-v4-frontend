@@ -53,7 +53,8 @@ const CurrentBackground = styled(Current)`
   left: 0;
 `
 
-type Props = OwnProps & SuccessStateType & { offer: OfferType }
+type Props = OwnProps &
+  SuccessStateType & { offer: OfferType; showPercentages?: boolean }
 
 const PADDING = 0.363636
 const {
@@ -91,19 +92,25 @@ const CollateralizationBar: React.FC<Props> = props => {
       />
       <CurrentBackground width={currentWidth + 0.01} color={'white'} />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
-        <Percentage color='red600'>
-          {percentageFormatter(offer.callTerms.liquidationHardRatio)}
-        </Percentage>
+        {props.showPercentages && (
+          <Percentage color='red600'>
+            {percentageFormatter(offer.callTerms.liquidationHardRatio)}
+          </Percentage>
+        )}
       </Line>
       <Line position={offer.callTerms.callTriggerRatio / max}>
-        <Percentage color='orange600'>
-          {percentageFormatter(offer.callTerms.callTriggerRatio)}
-        </Percentage>
+        {props.showPercentages && (
+          <Percentage color='orange600'>
+            {percentageFormatter(offer.callTerms.callTriggerRatio)}
+          </Percentage>
+        )}
       </Line>
       <Line position={offer.terms.collateralRatio / max}>
-        <Percentage color='green600'>
-          {percentageFormatter(offer.terms.collateralRatio)}
-        </Percentage>
+        {props.showPercentages && (
+          <Percentage color='green600'>
+            {percentageFormatter(offer.terms.collateralRatio)}
+          </Percentage>
+        )}
       </Line>
     </Bar>
   )

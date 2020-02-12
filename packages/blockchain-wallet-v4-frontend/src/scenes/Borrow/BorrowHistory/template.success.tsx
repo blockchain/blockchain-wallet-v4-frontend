@@ -9,6 +9,7 @@ import {
 } from 'blockchain-info-components'
 import { Status, Value } from './model'
 import { SuccessStateType } from '.'
+import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -19,6 +20,16 @@ export const History = styled.div`
 `
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
+`
+const CollateralizationTableCell = styled(TableCell)`
+  align-items: center;
+`
+const CollateralizationBarWrapper = styled.div`
+  width: 60%;
+  margin-left: 12px;
+  div {
+    margin: 0px;
+  }
 `
 const ViewDetailsCell = styled(TableCell)`
   justify-content: flex-end;
@@ -38,15 +49,15 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='15%'>
+            <TableCell width='30%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.status'
-                  defaultMessage='Status'
+                  defaultMessage='Status/Collateralization'
                 />
               </Text>
             </TableCell>
-            <TableCell width='15%'>
+            <TableCell width='12%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.collateral'
@@ -54,7 +65,7 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='15%'>
+            <TableCell width='12%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.amount'
@@ -62,7 +73,7 @@ function Success (props: SuccessStateType): ReactElement {
                 />
               </Text>
             </TableCell>
-            <TableCell width='15%'>
+            <TableCell width='12%'>
               <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='scenes.borrow.history.outstanding'
@@ -72,15 +83,26 @@ function Success (props: SuccessStateType): ReactElement {
             </TableCell>
           </TableHeader>
           {props.borrowHistory.map(loan => {
+            const offer = props.offers.find(offer => offer.id === loan.offerId)
+
             return (
               <TableRow>
                 <TableCell width='20%'>
                   <Value>{moment(loan.openedAt).format('lll')}</Value>
                 </TableCell>
-                <TableCell width='15%'>
+                <CollateralizationTableCell width='30%'>
                   <Status {...loan} />
-                </TableCell>
-                <TableCell width='15%'>
+                  {offer && (
+                    <CollateralizationBarWrapper>
+                      <CollateralizationBar
+                        {...props}
+                        loan={loan}
+                        offer={offer}
+                      />
+                    </CollateralizationBarWrapper>
+                  )}
+                </CollateralizationTableCell>
+                <TableCell width='12%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     {
@@ -91,7 +113,7 @@ function Success (props: SuccessStateType): ReactElement {
                     BTC
                   </Value>
                 </TableCell>
-                <TableCell width='15%'>
+                <TableCell width='12%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     {
@@ -102,9 +124,9 @@ function Success (props: SuccessStateType): ReactElement {
                     PAX
                   </Value>
                 </TableCell>
-                <TableCell width='15%'>-</TableCell>
+                <TableCell width='12%'>-</TableCell>
                 <ViewDetailsCell
-                  width='20%'
+                  width='14%'
                   onClick={() => props.showLoanDetails(loan)}
                 >
                   <Link size='14px'>View Details</Link>

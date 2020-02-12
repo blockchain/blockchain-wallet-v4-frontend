@@ -73,7 +73,7 @@ const Info: React.FC<Props> = props => {
           defaultMessage='Collateralization'
         />
       </Text>
-      <CollateralizationBar {...props} />
+      <CollateralizationBar {...props} showPercentages />
       <CollateralWarning {...props} />
     </>
   )
