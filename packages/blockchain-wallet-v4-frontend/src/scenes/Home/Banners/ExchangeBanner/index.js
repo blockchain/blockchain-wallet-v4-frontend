@@ -1,7 +1,6 @@
 import { actions, model } from 'data'
 import { bindActionCreators } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
-import { Cartridge } from '@blockchain-com/components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -16,7 +15,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-image: url('/img/starfield-banner-bg.png');
+  background-color: ${props => props.theme.grey900};
   background-size: cover;
   border-radius: 8px;
   overflow: hidden;
@@ -45,16 +44,7 @@ const Column = styled.div`
     margin-bottom: 4px;
   }
 `
-const NewCartridge = styled(Cartridge)`
-  border: 1px solid ${props => props.theme['exchangeTurquoise']};
-  background: ${props => props.theme.green900};
-  color: ${props => props.theme['exchangeTurquoise']};
-  margin-left: 0px;
-  margin-right: 20px;
-  border-radius: 4px;
-  width: 56px;
-  height: 14px;
-`
+
 const Copy = styled(Text)`
   display: flex;
   align-items: center;
@@ -78,12 +68,6 @@ const ExchangeBanner = ({ analyticsActions }) => {
   return (
     <Wrapper>
       <Row>
-        <NewCartridge>
-          <FormattedMessage
-            id='scenes.home.banners.exchangebanner.new'
-            defaultMessage='New'
-          />
-        </NewCartridge>
         <Column>
           <Copy color='white' size='20px' weight={500}>
             <FormattedMessage
@@ -91,7 +75,7 @@ const ExchangeBanner = ({ analyticsActions }) => {
               defaultMessage='We built our own exchange that links to your Wallet.'
             />
           </Copy>
-          <Copy color='white' size='20px' weight={500}>
+          <Copy color='whiteFade700' size='14px' weight={500}>
             <FormattedMessage
               id='scenes.home.banners.exchangebanner.content3'
               defaultMessage='Instantly access more cryptos and deposit/withdraw cash.'
@@ -106,7 +90,7 @@ const ExchangeBanner = ({ analyticsActions }) => {
           analyticsActions.logEvent(EXCHANGE_EVENTS.BANNER_GET_STARTED)
         }
       >
-        <BannerButton jumbo nature='exchangeTurquoise'>
+        <BannerButton jumbo nature='primary'>
           <FormattedMessage
             id='scenes.home.banners.exchangebanner.getstarted'
             defaultMessage='Get Started'
