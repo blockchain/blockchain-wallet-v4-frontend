@@ -1,3 +1,4 @@
+import { model } from 'data'
 import { OwnProps, SuccessStateType } from '..'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -54,6 +55,10 @@ const CurrentBackground = styled(Current)`
 type Props = OwnProps & SuccessStateType
 
 const PADDING = 0.363636
+const {
+  getCollateralizationColor,
+  getCollateralizationDisplayName
+} = model.components.borrow
 
 const percentageFormatter = (n: number) => {
   return (
@@ -72,17 +77,18 @@ const CollateralizationBar: React.FC<Props> = props => {
     offer.terms.collateralRatio * PADDING + offer.terms.collateralRatio
   )
   const currentRatio = props.loan.collateralisationRatio
-  const currentColor =
-    currentRatio >= offer.terms.collateralRatio
-      ? 'green600'
-      : currentRatio >= offer.callTerms.callTriggerRatio
-      ? 'orange600'
-      : 'red600'
+  const currentCollateralStatus = getCollateralizationDisplayName(
+    currentRatio,
+    offer
+  )
   const currentWidth = currentRatio >= max ? 1 : currentRatio / max
 
   return (
     <Bar>
-      <Current width={currentWidth} color={currentColor} />
+      <Current
+        width={currentWidth}
+        color={getCollateralizationColor(currentCollateralStatus)}
+      />
       <CurrentBackground width={currentWidth + 0.01} color={'white'} />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         <Percentage color='red600'>

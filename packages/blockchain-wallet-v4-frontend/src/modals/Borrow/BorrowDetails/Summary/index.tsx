@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { LoanType } from 'core/types'
+import { model } from 'data'
 import { OwnProps, SuccessStateType } from '..'
 import { Status } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { TableRow, Title, Value } from 'components/Borrow'
@@ -14,10 +14,20 @@ const Table = styled.div`
   margin-top: 16px;
 `
 
+const {
+  getCollateralizationColor,
+  getCollateralizationDisplayName
+} = model.components.borrow
+
 const Summary: React.FC<Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
   const offer = props.offers.find(offer => offer.id === props.loan.offerId)
+  if (!offer) return null
+  const currentCollateralStatus = getCollateralizationDisplayName(
+    props.loan.collateralisationRatio,
+    offer
+  )
 
   return (
     <div>
@@ -66,7 +76,7 @@ const Summary: React.FC<Props> = props => {
               defaultMessage='Collateralization'
             />
           </Title>
-          <Value>
+          <Value color={getCollateralizationColor(currentCollateralStatus)}>
             {Number(props.loan.collateralisationRatio * 100).toFixed(0)}%
           </Value>
         </TableRow>

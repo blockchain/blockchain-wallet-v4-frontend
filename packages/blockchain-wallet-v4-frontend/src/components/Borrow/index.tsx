@@ -21,5 +21,6 @@ export const Title = styled(Text)`
 export const Value = styled(Text)`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.grey800};
+  color: ${props =>
+    props.color ? props.theme[props.color] : props.theme.grey800};
 `
