@@ -19,9 +19,15 @@ const BaseTabMenuItem = styled.span`
   ${props =>
     props.selected &&
     `
+    border-radius: 6px;
     background-color: ${props.theme.white};
     color: ${props.theme.blue600};
+    box-shadow: 0px 4px 8px rgba(5, 24, 61, 0.1);
   `}
+
+  &:hover {
+    color: ${props => props.theme.grey600};
+  }
 
   @media (max-width: 767px) {
     font-size: 13px;
