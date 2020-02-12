@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TimeFilters component renders correctly 1`] = `
-<template__Wrapper>
-  <template__FilterContainer
+<styled.div>
+  <styled.text
     data-e2e="priceChartDay"
     onClick={[Function]}
     selected={false}
@@ -12,8 +12,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.day"
       values={Object {}}
     />
-  </template__FilterContainer>
-  <template__FilterContainer
+  </styled.text>
+  <styled.text
     data-e2e="priceChartWeek"
     onClick={[Function]}
     selected={false}
@@ -23,8 +23,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.week"
       values={Object {}}
     />
-  </template__FilterContainer>
-  <template__FilterContainer
+  </styled.text>
+  <styled.text
     data-e2e="priceChartMonth"
     onClick={[Function]}
     selected={true}
@@ -34,8 +34,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.month"
       values={Object {}}
     />
-  </template__FilterContainer>
-  <template__FilterContainer
+  </styled.text>
+  <styled.text
     data-e2e="priceChartYear"
     onClick={[Function]}
     selected={false}
@@ -45,8 +45,8 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.year"
       values={Object {}}
     />
-  </template__FilterContainer>
-  <template__FilterContainer
+  </styled.text>
+  <styled.text
     data-e2e="priceChartAll"
     onClick={[Function]}
     selected={false}
@@ -56,6 +56,6 @@ exports[`TimeFilters component renders correctly 1`] = `
       id="scenes.priceindexseries.timefilters.all"
       values={Object {}}
     />
-  </template__FilterContainer>
-</template__Wrapper>
+  </styled.text>
+</styled.div>
 `;

@@ -26,7 +26,7 @@ export const MenuItem = styled.button`
   font-weight: 500;
   width: 100%;
   transition: background 0.3s;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: 0;
@@ -41,21 +41,21 @@ export const MenuItem = styled.button`
   }
   .destination {
     white-space: nowrap;
-    color: ${props => props.theme['grey600']};
+    color: ${props => props.theme.grey600};
   }
   &:hover {
-    background: ${props => props.theme['blue000']};
+    background: ${props => props.theme.blue000};
   }
   &.active {
-    background: ${props => props.theme['blue100']};
+    background: ${props => props.theme.blue100};
   }
   &:active {
-    background: ${props => props.theme['blue200']};
+    background: ${props => props.theme.blue200};
   }
   &:hover,
   &.active {
     .icon {
-      color: ${props => props.theme['blue']};
+      color: ${props => props.theme.blue600};
     }
     .destination {
       color: ${props => props.theme['deep-blue']};
@@ -63,18 +63,18 @@ export const MenuItem = styled.button`
   }
   &.airdrop {
     &:hover {
-      background: ${props => props.theme['green000']};
+      background: ${props => props.theme.green000};
     }
     &.active {
-      background: ${props => props.theme['green100']};
+      background: ${props => props.theme.green100};
     }
     &:active {
-      background: ${props => props.theme['green200']};
+      background: ${props => props.theme.green200};
     }
     &:hover,
     &.active {
       .icon {
-        color: ${props => props.theme['green600']};
+        color: ${props => props.theme.green600};
       }
       .destination {
         color: ${props => props.theme['green800']};
@@ -90,7 +90,7 @@ export const MenuItem = styled.button`
       background: ${props =>
         props.colorCode && transparentize(0.85, props.theme[props.colorCode])};
       .destination {
-        color: ${props => props.theme['grey600']};
+        color: ${props => props.theme.grey600};
       }
     }
     &.active,
@@ -98,7 +98,7 @@ export const MenuItem = styled.button`
       background: ${props =>
         props.colorCode && transparentize(0.75, props.theme[props.colorCode])};
       .destination {
-        color: ${props => props.theme['grey800']};
+        color: ${props => props.theme.grey800};
       }
     }
   }
@@ -130,13 +130,13 @@ export const SubMenuItem = styled.li`
   &.active {
     & > * {
       font-weight: 500;
-      color: ${props => props.theme['blue']};
+      color: ${props => props.theme.blue600};
     }
   }
 
   &:hover {
     & > * {
-      color: ${props => props.theme['blue']};
+      color: ${props => props.theme.blue600};
     }
   }
 `

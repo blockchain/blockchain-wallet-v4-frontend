@@ -34,7 +34,7 @@ const Row = styled.div`
   }
 `
 const Icon = styled(FasExclamationCircle).attrs({ size: '28px' })`
-  fill: ${props => props.theme['white']};
+  fill: ${props => props.theme.white};
 `
 
 export const UnderReview = () => (

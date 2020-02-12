@@ -12,15 +12,19 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
-    background-color: ${props => props.theme['white']};
+    border-radius: 4px;
+    box-shadow: initial;
+    border: 1px solid ${props => props.theme.grey100};
+    background-color: ${props => props.theme.white};
   }
 
   .bc__menu-list {
+    border-radius: 4px;
     padding: 0;
   }
 
   .bc__placeholder {
-    color: ${props => props.theme['grey100']};
+    color: ${props => props.theme.grey100};
     & + div {
       width: 100%;
       z-index: 2;
@@ -55,7 +59,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     .bc__control {
       box-shadow: none;
       color: ${props.theme['gray-5']};
-      background-color: ${props.theme['white']};
+      background-color: ${props.theme.white};
       cursor: pointer;
       min-height: 48px;
       border-radius: 4px;
@@ -99,25 +103,25 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       cursor: pointer;
       font-size: 14px;
       color: ${props.theme['gray-5']};
-      background-color: ${props.theme['white']};
+      background-color: ${props.theme.white};
       &.bc__option--is-focused {
-        background-color: ${props.theme['white']};
-        color: ${props.theme['brand-primary']};
+        background-color: ${props.theme.white};
+        color: ${props.theme.blue900};
       }
       &.bc__option--is-selected {
-        color: ${props.theme['brand-primary']};
-        background-color: ${props.theme['white']};
+        color: ${props.theme.blue900};
+        background-color: ${props.theme.white};
         &:hover {
-          color: ${props.theme['brand-primary']};
+          color: ${props.theme.blue900};
         }
         * {
-          color: ${props.theme['brand-primary']};
+          color: ${props.theme.blue900};
         }
       }
       &:hover {
-        background-color: ${props.theme['white']};
+        background-color: ${props.theme.white};
         * {
-          color: ${props.theme['brand-primary']};
+          color: ${props.theme.blue900};
         }
       }
       * {

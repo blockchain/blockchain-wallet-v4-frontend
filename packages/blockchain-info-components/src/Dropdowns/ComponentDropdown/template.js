@@ -4,12 +4,13 @@ import styled from 'styled-components'
 
 import { Icon } from '../../Icons'
 import { keysIn } from 'ramda'
-import { Palette } from '../../Colors'
+import { Palette } from '../../Colors/index.ts'
 
 const Wrapper = styled.div`
   display: inline-flex;
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
+  width: 100%;
 `
 const ButtonContainer = styled.div`
   display: inline-flex;
@@ -28,12 +29,11 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['gray-1']};
-  border-radius: 4px;
-  bottom: 0px;
+  background-color: ${props => props.theme.white};
+  border-radius: 8px;
+  bottom: 0;
   box-sizing: border-box;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
@@ -42,7 +42,7 @@ const DropdownList = styled.ul`
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin: 2px 0px;
+  margin: 2px 0;
   min-width: 20px;
   overflow: auto;
   padding: 5px;
@@ -62,7 +62,6 @@ const DropdownItem = styled.li`
   font-size: 14px;
   font-weight: 400;
   text-align: left;
-  text-size-adjust: 100%;
   white-space: nowrap;
 `
 
@@ -92,8 +91,8 @@ const Dropdown = props => {
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedComponent}</Button>
         <DropdownIcon
-          name='down-arrow'
-          size='12px'
+          name={toggled ? 'chevron-up' : 'chevron-down'}
+          size='18px'
           data-e2e='dropdownToggleButton'
         />
       </ButtonContainer>
@@ -102,7 +101,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: 'brand-secondary',
+  color: 'blue600',
   toggled: false,
   selectedValue: 0,
   uppercase: true,

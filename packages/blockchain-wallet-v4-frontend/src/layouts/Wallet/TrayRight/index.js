@@ -50,10 +50,10 @@ const Header = styled.div`
   background-color: ${props => props.theme['gray-1']};
 `
 const Content = styled.div`
+  height: 100%;
   width: 100%;
   overflow: scroll;
-  height: calc(100% - 60px);
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 `
 
 class TrayRightContainer extends React.PureComponent {
@@ -65,11 +65,11 @@ class TrayRightContainer extends React.PureComponent {
       !trayContainer.contains(e.target) &&
       !contains(e.target.id, blacklist)
     ) {
-      this.handleClose()
+      this.handleClickOutside()
     }
   }
 
-  handleClose = () => {
+  handleClickOutside = () => {
     if (this.props.data.opened) {
       this.props.actions.layoutWalletTrayCloseClicked()
     }
@@ -101,7 +101,12 @@ class TrayRightContainer extends React.PureComponent {
               />
             )}
           </Text>
-          <Icon size='20px' name='close' cursor onClick={this.handleClose} />
+          <Icon
+            size='20px'
+            name='close'
+            cursor
+            onClick={this.handleClickOutside}
+          />
         </Header>
         <Content>
           {content === 'faq' && <Faq />}
@@ -121,7 +126,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const clickOutsideConfig = {
-  handleClickOutside: () => TrayRightContainer.handleClose
+  handleClickOutside: () => TrayRightContainer.handleClickOutside
 }
 
 export default connect(

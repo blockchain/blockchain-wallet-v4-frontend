@@ -129,7 +129,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="22px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -158,7 +158,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="22px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -186,7 +186,7 @@ const Success = props => {
                       size="13px"
                     />
                   ) : (
-                    <Icon name="close-filled" color="error" size="13px" />
+                    <Icon name="close" color="error" size="22px" />
                   )}
                   &nbsp;
                   <Text size="14px">
@@ -234,11 +234,11 @@ const Success = props => {
       ) : (
         <Fragment>
           {requestDenied ? (
-            <Icon name='close-filled' color='error' size='40px' />
+            <Icon name='close' color='error' size='52px' />
           ) : (
             <Image name='checkmark-green' width='56px' height='56px' />
           )}
-          <Title size='20px' weight={600} color='brand-primary'>
+          <Title size='20px' weight={600} color='blue900'>
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.title'

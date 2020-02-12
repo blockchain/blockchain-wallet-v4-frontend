@@ -8,21 +8,7 @@
           "lockbox": {},
           "public": {},
           "swap": {},
-          "wallet": {
-            "id": "blockchain-rebrand",
-            "type": "info",
-            "icon": "",
-            "hideType": "dismiss",
-            "header": {
-              "en": "We're now Blockchain.com"
-            },
-            "action": {
-              "title": {
-                "en": "Learn more"
-              },
-              "link": "https://medium.com/blockchain/ushering-in-a-new-era-with-a-new-name-blockchain-com-17101e1bc198"
-            }
-          }
+          "wallet": {}
         }
       },
       "ads": {
@@ -152,29 +138,6 @@
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/pax/transactions"
-        },
-        "STX": {
-          "campaign": "BLOCKSTACK",
-          "coinCode": "STX",
-          "coinTicker": "STX",
-          "colorCode": "stx",
-          "displayName": "Stacks",
-          "hasLockboxSupport": false,
-          "availability": {
-            "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": false,
-            "syncToPit": false
-          },
-          "icons": {
-            "default": "stx",
-            "circle": "stx",
-            "circleFilled": "stx"
-          },
-          "showNewTagSidenav": true,
-          "txListAppRoute": "/stx/transactions"
         },
         "XLM": {
           "airdrop": {

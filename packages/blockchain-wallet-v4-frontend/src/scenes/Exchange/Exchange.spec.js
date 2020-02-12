@@ -7,6 +7,7 @@ import React from 'react'
 import toJson from 'enzyme-to-json'
 
 jest.mock('blockchain-info-components', () => ({
+  Banner: 'Banner',
   BlockchainLoader: 'BlockchainLoader',
   Button: 'Button',
   FlatLoader: 'FlatLoader',

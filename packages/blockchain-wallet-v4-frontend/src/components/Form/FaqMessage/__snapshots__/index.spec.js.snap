@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FooterShadowWrapper renders correctly 1`] = `
-<FaqMessage__Container
+<styled.div
   className="cn"
 >
-  <FaqMessage__FaqIcon />
-  <FaqMessage__Title>
+  <Styled(Icon) />
+  <Styled(Text)>
     <div />
-  </FaqMessage__Title>
-  <FaqMessage__Message>
+  </Styled(Text)>
+  <Styled(Text)>
     <div />
-  </FaqMessage__Message>
-</FaqMessage__Container>
+  </Styled(Text)>
+</styled.div>
 `;

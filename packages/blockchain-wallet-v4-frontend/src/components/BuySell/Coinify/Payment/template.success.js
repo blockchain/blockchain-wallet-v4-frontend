@@ -63,10 +63,10 @@ const Payment = props => {
     <PaymentForm>
       <PaymentContainer>
         <StepTransition prev Component={BackButton}>
-          <Icon name='left-arrow' size='20px' color='brand-secondary' cursor />
+          <Icon name='arrow-left' size='24px' color='blue600' cursor />
         </StepTransition>
         <PaymentHeaderContainer>
-          <HeaderText weight={500} color='brand-primary'>
+          <HeaderText weight={500} color='blue900'>
             <FormattedMessage
               id='components.buysell.coinify.payment.header'
               defaultMessage='Select a Payment Method'

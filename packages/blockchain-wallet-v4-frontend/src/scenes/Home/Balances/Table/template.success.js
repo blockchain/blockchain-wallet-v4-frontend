@@ -28,7 +28,7 @@ const HomeBalanceAmount = styled(Text)`
   padding: 10px 20px;
   font-size: 22px;
   font-weight: 400;
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
 `
 
 const TxLink = styled(LinkContainer)`

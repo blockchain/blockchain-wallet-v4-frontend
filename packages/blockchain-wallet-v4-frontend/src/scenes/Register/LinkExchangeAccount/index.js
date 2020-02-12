@@ -20,7 +20,7 @@ const Footer = styled(InnerWrapper)`
   display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-top: 1px solid ${props => props.theme['grey100']};
+  border-top: 1px solid ${props => props.theme.grey100};
   > div {
     margin-left: 8px;
   }
@@ -49,7 +49,7 @@ const LinkExchangeAccount = () => {
     <InfoWrapper>
       <InnerWrapper>
         <Header>
-          <Text size='20px' color='brand-primary' weight={700}>
+          <Text size='20px' color='blue900' weight={700}>
             <FormattedMessage
               id='scenes.linkaccount.authorize1'
               defaultMessage='Authorize Exchange to connect to your Blockchain Wallet'
@@ -100,7 +100,7 @@ const LinkExchangeAccount = () => {
       <Footer>
         <Image name='blockchain-icon' height='42px' />
         <div style={{ marginLeft: '16px' }}>
-          <Text size='20px' color='brand-primary' weight={600}>
+          <Text size='20px' color='blue900' weight={600}>
             Exchange
           </Text>
           <Text

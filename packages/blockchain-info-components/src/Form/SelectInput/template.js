@@ -11,10 +11,14 @@ const StyledSelect = styled(Select)`
   font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
-    background-color: ${props => props.theme['white']};
+    border-radius: 4px;
+    box-shadow: initial;
+    border: 1px solid ${props => props.theme.grey100};
+    background-color: ${props => props.theme.white};
   }
 
   .bc__menu-list {
+    border-radius: 4px;
     padding: 0;
   }
 
@@ -34,13 +38,13 @@ const StyledSelect = styled(Select)`
   }
 
   .bc__placeholder {
-    color: ${props => props.theme['grey100']};
+    color: ${props => props.theme.grey100};
   }
 
   .bc__control {
     box-shadow: none;
     color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
     cursor: pointer;
     min-height: ${props => props.height};
     border-radius: 4px;
@@ -73,25 +77,25 @@ const StyledSelect = styled(Select)`
     cursor: pointer;
     font-size: 14px;
     color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
     &.bc__option--is-focused {
-      background-color: ${props => props.theme['white']};
-      color: ${props => props.theme['brand-primary']};
+      background-color: ${props => props.theme.white};
+      color: ${props => props.theme.blue900};
     }
     &.bc__option--is-selected {
-      color: ${props => props.theme['brand-primary']};
-      background-color: ${props => props.theme['white']};
+      color: ${props => props.theme.blue900};
+      background-color: ${props => props.theme.white};
       &:hover {
-        color: ${props => props.theme['brand-primary']};
+        color: ${props => props.theme.blue900};
       }
       * {
-        color: ${props => props.theme['brand-primary']};
+        color: ${props => props.theme.blue900};
       }
     }
     &:hover {
-      background-color: ${props => props.theme['white']};
+      background-color: ${props => props.theme.white};
       * {
-        color: ${props => props.theme['brand-primary']};
+        color: ${props => props.theme.blue900};
       }
     }
     * {

@@ -35,7 +35,7 @@ const LowBalanceWarning = props => {
           <Text
             size='14px'
             weight={500}
-            color='orange'
+            color='orange600'
             data-e2e='runningLowMessage'
           >
             <FormattedMessage

@@ -140,8 +140,8 @@ const Announcement = props => {
         )}
         {hideType === 'collapse' && (
           <ActionIcon
-            name={collapsed ? 'down-arrow' : 'up-arrow'}
-            size='14px'
+            name={collapsed ? 'chevron-down' : 'chevron-up'}
+            size='24px'
             weight={600}
             color='white'
             onClick={() => toggleCollapse(id, collapsed)}

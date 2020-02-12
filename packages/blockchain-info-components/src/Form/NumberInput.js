@@ -15,7 +15,7 @@ const BaseNumberInput = styled.input.attrs({
   font-weight: 500;
   color: ${props =>
     props.color ? props.theme[props.color] : props.theme['gray-5']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;

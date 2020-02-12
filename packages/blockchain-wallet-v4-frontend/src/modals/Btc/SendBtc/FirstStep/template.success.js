@@ -57,6 +57,7 @@ import {
   validBtcAddress,
   validBtcPrivateKey
 } from 'services/FormHelper'
+import BitPayCTA from 'components/BitPayCTA'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import PriorityFeeLink from './PriorityFeeLink'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -91,7 +92,6 @@ const FirstStep = props => {
     submitting,
     pristine,
     handleFeePerByteToggle,
-    handleToToggle,
     handleSubmit,
     handleBitPayInvoiceExpiration,
     ...rest
@@ -123,7 +123,7 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'40%'}>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.sendbtc.firststep.currency'
               defaultMessage='Currency'
@@ -137,7 +137,7 @@ const FirstStep = props => {
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel for='from'>
+          <FormLabel htmlFor='from'>
             <FormattedMessage
               id='modals.sendbtc.firststep.fromwallet'
               defaultMessage='From'
@@ -195,7 +195,7 @@ const FirstStep = props => {
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='to'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
               id='modals.sendbtc.firststep.towallet'
               defaultMessage='To'
@@ -244,9 +244,12 @@ const FirstStep = props => {
           </Row>
         </FormItem>
       </FormGroup>
+      <FormGroup>
+        <BitPayCTA coin='BTC' />
+      </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='amount'>
+          <FormLabel htmlFor='amount'>
             <FormattedMessage
               id='modals.sendbtc.firststep.sendamount'
               defaultMessage='Amount'
@@ -457,7 +460,6 @@ FirstStep.propTypes = {
   regularFeePerByte: PropTypes.number.isRequired,
   priorityFeePerByte: PropTypes.number.isRequired,
   handleFeePerByteToggle: PropTypes.func.isRequired,
-  handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string
 }

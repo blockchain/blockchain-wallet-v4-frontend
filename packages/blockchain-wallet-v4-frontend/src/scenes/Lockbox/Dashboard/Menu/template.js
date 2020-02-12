@@ -11,7 +11,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   width: 100%;
   position: fixed;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   z-index: 99;
 `
 const TitleBar = styled.div`
@@ -43,7 +43,7 @@ const SearchContainer = styled.div`
     border: none;
     cursor: text;
     box-shadow: none;
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
   }
   .bc__placeholder {
     font-size: 13px;
@@ -69,7 +69,7 @@ const SearchLabel = styled.div`
     font-size: 14px;
     color: ${props =>
       props.theme[toLower(props.background)]
-        ? props.theme['white']
+        ? props.theme.white
         : props.theme['gray-5']};
   }
 `

@@ -127,7 +127,7 @@ const Login = props => {
       <PublicWrapper>
         <Modals />
         <Header>
-          <Text size='20px' color='brand-primary' weight={600} capitalize>
+          <Text size='20px' color='blue900' weight={600} capitalize>
             <FormattedMessage
               id='scenes.login.welcome'
               defaultMessage='Welcome back!'
@@ -147,7 +147,7 @@ const Login = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='guid'>
+              <FormLabel htmlFor='guid'>
                 <FormattedMessage
                   id='scenes.login.guid'
                   defaultMessage='Wallet ID'
@@ -232,7 +232,7 @@ const Login = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.login.password'
                   defaultMessage='Password'
@@ -271,7 +271,7 @@ const Login = props => {
           {authType > 0 && (
             <FormGroup>
               <FormItem>
-                <FormLabel for='code'>
+                <FormLabel htmlFor='code'>
                   {authType === 1 && (
                     <FormattedMessage
                       id='scenes.login.yubikey'

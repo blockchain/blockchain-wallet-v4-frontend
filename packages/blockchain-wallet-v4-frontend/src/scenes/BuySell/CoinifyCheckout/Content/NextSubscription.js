@@ -7,7 +7,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const NextRecurringWrapper = styled.div`
-  background: ${props => props.theme['brand-quaternary']};
+  background: ${props => props.theme.blue000};
   padding: 20px;
   display: flex;
   flex-direction: column;

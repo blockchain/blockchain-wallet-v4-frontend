@@ -1,10 +1,9 @@
+import { keysIn } from 'ramda'
+import { Palette } from '../../src/Colors/index.ts'
+import { storiesOf } from '@storybook/react'
+import Layout from '../components/layout'
 import React from 'react'
 import styled from 'styled-components'
-import { storiesOf } from '@storybook/react'
-
-import { keysIn } from 'ramda'
-import Layout from '../components/layout'
-import { Palette } from '../../src/Colors'
 
 const ColorLayout = styled.div`
   display: flex;
@@ -32,20 +31,20 @@ const Code = styled.div`
   display: block;
   width: 100%;
   height: 50px;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #cdcdcd;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
 `
 
-const PaletteLayout = (props) => {
+const PaletteLayout = props => {
   const palette = Palette(props.theme)
   const keys = keysIn(palette)
 
   return (
     <ColorLayout>
-      { keys.map(function (key, index) {
+      {keys.map(function (key, index) {
         return (
           <Container key={index}>
             <Sample bgColor={palette[key]} />
@@ -67,18 +66,20 @@ const ColorGridRow = styled.tr`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-top: 1px solid #EFEFEF;
-  border-bottom: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
+  border-top: 1px solid #efefef;
+  border-bottom: 1px ${props => (props.last ? 'solid' : 'none')} #efefef;
 `
 const ColorGridCell = styled.td`
   flex-basis: 20%;
   font-size: 18px;
   text-transform: uppercase;
   text-align: center;
-  border-left: 1px solid #EFEFEF;
-  border-right: 1px ${props => props.last ? 'solid' : 'none'} #EFEFEF;
-  background-color: ${props => props.color ? props.color : 'white'};
-  &:first-child { flex-basis: 40%; }
+  border-left: 1px solid #efefef;
+  border-right: 1px ${props => (props.last ? 'solid' : 'none')} #efefef;
+  background-color: ${props => (props.color ? props.color : 'white')};
+  &:first-child {
+    flex-basis: 40%;
+  }
 `
 
 const PaletteGrid = props => {
@@ -90,13 +91,25 @@ const PaletteGrid = props => {
       <ColorGridBody>
         <ColorGridRow>
           <ColorGridCell>&nbsp;</ColorGridCell>
-          {themes.map((theme, index) => <ColorGridCell key={index} last={index === themes.length - 1}>{theme}</ColorGridCell>) }
+          {themes.map((theme, index) => (
+            <ColorGridCell key={index} last={index === themes.length - 1}>
+              {theme}
+            </ColorGridCell>
+          ))}
         </ColorGridRow>
-        { keys.map((key, indexRow) => {
+        {keys.map((key, indexRow) => {
           return (
             <ColorGridRow key={indexRow} last={indexRow === keys.length - 1}>
               <ColorGridCell>{key}</ColorGridCell>
-              {themes.map((theme, indexCell) => <ColorGridCell key={indexCell} last={indexCell === themes.length - 1} color={Palette(theme)[key]}>&nbsp;</ColorGridCell>) }
+              {themes.map((theme, indexCell) => (
+                <ColorGridCell
+                  key={indexCell}
+                  last={indexCell === themes.length - 1}
+                  color={Palette(theme)[key]}
+                >
+                  &nbsp;
+                </ColorGridCell>
+              ))}
             </ColorGridRow>
           )
         })}
@@ -106,7 +119,7 @@ const PaletteGrid = props => {
 }
 
 storiesOf('Colors', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
+  .addDecorator(story => <Layout>{story()}</Layout>)
   .add('All colors', () => <PaletteGrid />)
   .add('Theme Default', () => <PaletteLayout theme='default' />)
   .add('Theme Complement', () => <PaletteLayout theme='complement' />)

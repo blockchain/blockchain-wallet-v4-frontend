@@ -60,6 +60,7 @@ const Row = styled.div`
   &:not(:last-child) {
     max-width: 416px;
     margin-right: 40px;
+    margin-top: 16px;
   }
 
   @media (min-width: 1200px) {
@@ -73,7 +74,7 @@ const Row = styled.div`
 const SwapText = styled(Text)`
   margin-bottom: 10px;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     text-decoration: none;
   }
 `

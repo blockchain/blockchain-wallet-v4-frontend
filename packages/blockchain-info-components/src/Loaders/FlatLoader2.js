@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 
 const stretchFrames = keyframes`
   0%, 40%, 100% { transform: scaleY(0.4); }  
@@ -66,7 +66,7 @@ FlatLoader2.propTypes = {
 FlatLoader2.defaultProps = {
   width: '45px',
   height: '50px',
-  color: 'brand-secondary'
+  color: 'blue600'
 }
 
 export default FlatLoader2

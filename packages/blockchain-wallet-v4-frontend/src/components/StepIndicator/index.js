@@ -28,7 +28,7 @@ const Steps = styled.div`
     position: absolute;
     transition: width 0.3s, height 0.3s;
     width: ${props => props.width * 100}%;
-    background: ${props => props.theme['brand-primary']};
+    background: ${props => props.theme.blue900};
   }
   ${media.mobile`
     border-bottom: 0;
@@ -43,7 +43,7 @@ const Steps = styled.div`
       width: 8px;
       bottom: initial;
       height: ${props => props.width * 100}%;
-      background: ${props => props.theme['brand-primary']};
+      background: ${props => props.theme.blue900};
     `}}
   `};
 `
@@ -57,7 +57,7 @@ const Step = styled.span`
   overflow: hidden;
   text-align: center;
   white-space: nowrap;
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
   ${media.tablet`
     margin: 0 20px;
   `};

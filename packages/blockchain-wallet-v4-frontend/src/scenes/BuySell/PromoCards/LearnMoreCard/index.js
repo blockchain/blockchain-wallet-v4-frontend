@@ -9,7 +9,7 @@ const Box = styled.div`
   position: relative;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  border: 1px solid ${props => props.theme['grey000']};
+  border: 1px solid ${props => props.theme.grey000};
   width: 17.5rem;
   height: 15.5rem;
   margin-top: 2rem;

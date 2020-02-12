@@ -30,7 +30,7 @@ const ExportKeysText = styled(Text)`
 `
 
 const ClickableText = styled(Text)`
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
   cursor: pointer;
 `
 const AppManagerLink = styled(ClickableText)`

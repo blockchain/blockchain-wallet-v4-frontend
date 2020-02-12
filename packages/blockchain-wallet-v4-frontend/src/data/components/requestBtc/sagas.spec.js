@@ -1,7 +1,6 @@
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
-
-import * as actions from '../../actions.js'
 import * as C from 'services/AlertService'
+import { actions } from 'data'
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas.js'
 
 const requestBtcSagas = sagas({ networks: 'btc' })

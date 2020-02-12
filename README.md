@@ -1,8 +1,9 @@
 [![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Known Vulnerabilities](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Codechecks](https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true)](https://codechecks.io)
 
 # Blockchain Wallet v4
 Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
@@ -120,6 +121,7 @@ which will give you a list of available node instances you can connect to. Click
 We are snapshot testing UI some components. Here are the commands to update them when necessary:
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages
@@ -133,6 +135,16 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-wallet-v4/index.html`
  * `coverage/blockchain-wallet-v4-frontend/index.html`
 Simply open the `index.html` file in your browser to view.
+
+## TypeScript
+TypeScript is supported and should be used when adding new code. It's also recommended to replace legacy JS with TS when time allows.
+
+### TS Coverage
+We are using [Codechecks](https://www.codechecks.io/) and [Typecov](https://github.com/codechecks/typecov) for coverage reporting. Coverage is automatically analyzed for PRs and the following command is available.
+* `yarn codechecks`
+
+### Typecov
+It is recommended that you install the VSCode plugin for Typecov reporting so you can see any (no pun intended) errors inline. You can find that [here](https://marketplace.visualstudio.com/items?itemName=york-yao.vscode-type-coverage)
 
 ## Code Bundle Analysis/Reports
 To visualize and interact with the tree of the production code bundles files:

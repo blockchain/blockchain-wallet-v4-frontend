@@ -1,5 +1,10 @@
 {
-  "extends": ["standard", "prettier", "prettier/react", "prettier/standard"],
+  "extends": [
+    "standard",
+    "prettier",
+    "prettier/react",
+    "prettier/standard"
+  ],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -8,7 +13,29 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react", "jest", "json", "sort-imports-es6-autofix"],
+  "plugins": [
+    "babel",
+    "react",
+    "jest",
+    "json",
+    "sort-imports-es6-autofix",
+    "@typescript-eslint"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.{ts,tsx}"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "typescript-sort-keys"
+      ],
+      "rules": {
+        "typescript-sort-keys/interface": 2,
+        "no-unused-vars": 0
+      }
+    }
+  ],
   "env": {
     "browser": true,
     "jest": true,
@@ -24,13 +51,22 @@
   },
   "rules": {
     "camelcase": 0,
-    "generator-star-spacing": ["error", { "before": true, "after": true }],
+    "generator-star-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
     "jest/no-disabled-tests": 1,
     "jest/no-focused-tests": 2,
     "jest/no-identical-title": 2,
     "jest/prefer-to-have-length": 0,
     "jest/valid-expect": 2,
-    "jsx-quotes": [2, "prefer-single"],
+    "jsx-quotes": [
+      2,
+      "prefer-single"
+    ],
     "new-cap": 0,
     "no-alert": 2,
     "no-case-declarations": 0,
@@ -69,7 +105,9 @@
     "space-before-function-paren": 2,
     "sort-imports-es6-autofix/sort-imports-es6": [
       "error",
-      { "ignoreCase": true }
+      {
+        "ignoreCase": true
+      }
     ],
     "strict": 0
   }

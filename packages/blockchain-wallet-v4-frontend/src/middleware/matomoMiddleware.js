@@ -19,7 +19,8 @@ const TYPE_WHITELIST = [
   '@CORE.SET_EMAIL_VERIFIED',
   '@EVENT.KYC.INITIALIZE_VERIFICATION',
   '@EVENT.KYC.UPDATE_EMAIL',
-  'LOG_ERROR_MSG',
+  // Removing because https://blockc.slack.com/archives/CFE6HGEJD/p1578311066001100
+  // 'LOG_ERROR_MSG',
   'SHOW_MODAL'
 ]
 

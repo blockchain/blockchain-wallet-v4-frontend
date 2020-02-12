@@ -9,7 +9,7 @@ import {
 import { call, put, select } from 'redux-saga/effects'
 import { head, includes, prop, propEq, toLower } from 'ramda'
 import { Types, utils } from 'blockchain-wallet-v4/src'
-import profileSagas from 'data/modules/profile/sagas'
+import profileSagas from 'data/modules/profile/sagas.ts'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

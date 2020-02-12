@@ -3,43 +3,25 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { getData, getFields } from './selectors'
-import { hasAccount } from 'services/ExchangeService'
 import { includes, isNil, length, path, prop } from 'ramda'
+import { SceneWrapper } from 'components/Layout'
 import { TabMenuBuySellStatus } from 'components/Form'
 import CoinifyCheckout from './CoinifyCheckout'
 import HorizontalMenu from 'components/HorizontalMenu'
+import KycGetStarted from './KycGetStarted'
 import Loading from 'components/BuySell/Loading'
+import PromoCards from './PromoCards'
 import React from 'react'
 import styled from 'styled-components'
-
-import KycGetStarted from './KycGetStarted'
-import PromoCards from './PromoCards'
 
 const { COINIFY_EVENTS } = model.analytics
 const { KYC_MODAL } = model.components.identityVerification
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`
-const CheckoutWrapper = styled.div`
-  width: 100%;
   font-size: 13px;
-  font-weight: 400;
-  padding: 30px 30px;
   box-sizing: border-box;
-  height: calc(100% - 56px);
-  color: ${props => props.theme['gray-5']};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   flex-direction: row;
   display: flex;
-  @media (min-height: 800px) {
-    height: 70%;
-  }
-  @media (max-width: 480px) {
-    padding: 20px;
-  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
@@ -162,7 +144,8 @@ class BuySellContainer extends React.PureComponent {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
         ),
-        partner: 'coinify'
+        partner: 'coinify',
+        showCheckoutMenu: true
       }
     }
 
@@ -174,7 +157,8 @@ class BuySellContainer extends React.PureComponent {
         component: (
           <KycGetStarted onSubmit={this.onSubmit} {...this.props} {...value} />
         ),
-        partner: 'coinify'
+        partner: 'coinify',
+        showCheckoutMenu: false
       }
     }
 
@@ -185,7 +169,8 @@ class BuySellContainer extends React.PureComponent {
           handleShowCoinify={this.handleShowCoinify}
         />
       ),
-      partner: ''
+      partner: '',
+      showCheckoutMenu: false
     }
   }
 
@@ -206,9 +191,8 @@ class BuySellContainer extends React.PureComponent {
     })
 
     return (
-      <Wrapper>
-        {hasAccount(path(['component', 'props', 'value'], view)) &&
-        this.state.showCoinifyView ? (
+      <SceneWrapper>
+        {prop('showCheckoutMenu', view) && (
           <Menu>
             <Field
               name='status'
@@ -216,9 +200,9 @@ class BuySellContainer extends React.PureComponent {
               partner={prop('partner', view)}
             />
           </Menu>
-        ) : null}
-        <CheckoutWrapper>{prop('component', view)}</CheckoutWrapper>
-      </Wrapper>
+        )}
+        <Wrapper>{prop('component', view)}</Wrapper>
+      </SceneWrapper>
     )
   }
 }

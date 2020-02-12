@@ -17,7 +17,7 @@ const Error = styled(Text)`
   display: block;
   font-size: 13px;
   a {
-    color: ${props => props.theme['brand-secondary']};
+    color: ${props => props.theme.blue600};
     cursor: pointer;
   }
   ${media.mobile`

@@ -1,5 +1,4 @@
-import * as actions from '../../actions'
-import * as selectors from '../../selectors.js'
+import { actions, selectors } from 'data'
 import { coreSagasFactory } from 'blockchain-wallet-v4/src'
 import { testSaga } from 'redux-saga-test-plan'
 import moment from 'services/MomentHelper'

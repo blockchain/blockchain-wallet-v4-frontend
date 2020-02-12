@@ -44,7 +44,7 @@ const MobileLogin = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.mobilelogin.title'
             defaultMessage='Login with Your Mobile App'

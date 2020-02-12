@@ -8,9 +8,9 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  height: calc(100% - 60px);
-  overflow-y: auto;
+  height: 100%;
   width: 100%;
+  overflow-y: auto;
   > div {
     box-sizing: border-box;
   }

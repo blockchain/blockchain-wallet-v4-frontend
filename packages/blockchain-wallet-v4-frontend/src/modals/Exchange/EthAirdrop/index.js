@@ -62,13 +62,13 @@ class EthAirdrop extends React.PureComponent {
                 'eth-airdrop2': '2x'
               }}
             />
-            <Text size='28px' weight={300} color='brand-primary'>
+            <Text size='28px' weight={300} color='blue900'>
               <FormattedMessage
                 id='modals.exchange.ethairdrop.success'
                 defaultMessage='Success!'
               />
             </Text>
-            <Text size='14px' weight={300} color='brand-primary'>
+            <Text size='14px' weight={300} color='blue900'>
               <FormattedMessage
                 id='modals.exchange.ethairdrop.firstorder'
                 defaultMessage='Your first USD Pax order has been placed!'

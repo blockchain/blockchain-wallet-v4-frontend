@@ -8,7 +8,7 @@ import Transition from 'react-transition-group/Transition'
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   @media (min-width: 768px) {
     width: 450px;
     border-radius: 8px;
@@ -24,7 +24,7 @@ const Container = styled.div`
   min-height: 65px;
   padding: 15px 10px;
   box-sizing: border-box;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   border-left: 6px solid ${props => props.theme[props.color]};
   border-radius: 8px;
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
@@ -58,7 +58,7 @@ const selectColor = (type, coin) => {
     case 'warn':
       return 'orange'
     default:
-      return propOr('brand-secondary', 'colorCode', coin)
+      return propOr('blue600', 'colorCode', coin)
   }
 }
 

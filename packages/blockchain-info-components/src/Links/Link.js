@@ -1,5 +1,5 @@
 import { keysIn } from 'ramda'
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -42,7 +42,7 @@ Link.propTypes = {
 Link.defaultProps = {
   weight: 500,
   size: '16px',
-  color: 'brand-secondary',
+  color: 'blue600',
   uppercase: false,
   capitalize: false,
   bold: false

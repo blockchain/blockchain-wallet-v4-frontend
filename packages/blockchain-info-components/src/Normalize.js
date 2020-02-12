@@ -1,6 +1,6 @@
 // https://github.com/necolas/normalize.css
 //
-import { Color } from './Colors'
+import { Color } from './Colors/index.ts'
 
 const Normalize8 = `
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */

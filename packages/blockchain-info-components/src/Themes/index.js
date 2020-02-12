@@ -1,4 +1,4 @@
-import { Palette } from '../Colors'
+import { Palette } from '../Colors/index.ts'
 import { ThemeProvider } from 'styled-components'
 import PropTypes from 'prop-types'
 import React from 'react'

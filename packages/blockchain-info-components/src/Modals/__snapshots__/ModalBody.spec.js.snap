@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModalBody component default renders correctly 1`] = `
-<ModalBody__BaseModalBody>
-  <ModalBody__SplashScreen
+<styled.div>
+  <styled.div
     displayed={true}
   >
     <BlockchainLoader
       height="150px"
       width="150px"
     />
-  </ModalBody__SplashScreen>
-</ModalBody__BaseModalBody>
+  </styled.div>
+</styled.div>
 `;

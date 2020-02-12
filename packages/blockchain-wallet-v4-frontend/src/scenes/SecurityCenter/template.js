@@ -61,7 +61,7 @@ const Circle = styled.div`
   height: 50px;
   min-width: 50px;
   background-color: white;
-  border: 5px solid ${props => props.theme['brand-primary']};
+  border: 5px solid ${props => props.theme.blue900};
   transition: background-color 0.4s, border 0.4s;
   border-radius: 50px;
   ${media.mobile`

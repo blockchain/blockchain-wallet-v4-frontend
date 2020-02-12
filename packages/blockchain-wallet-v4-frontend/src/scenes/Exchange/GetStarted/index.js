@@ -42,7 +42,7 @@ const CarouselImgCss = css`
   top: 80px;
   width: 304px;
   transition: opacity 0.4s ease-in-out;
-  background: ${({ theme }) => theme['white']};
+  background: ${({ theme }) => theme.white};
   z-index: 2;
 
   ${media.laptop`
@@ -61,8 +61,8 @@ const NextButton = styled.div`
   &.slick-next {
     height: 48px;
     width: 48px;
-    border-bottom: 2px solid ${props => props.theme['brand-secondary']};
-    border-right: 2px solid ${props => props.theme['brand-secondary']};
+    border-bottom: 2px solid ${props => props.theme.blue600};
+    border-right: 2px solid ${props => props.theme.blue600};
     transform: rotate(-45deg);
     right: -80px;
     border-bottom-right-radius: 8px;
@@ -78,8 +78,8 @@ const PrevButton = styled.div`
   &.slick-prev {
     height: 48px;
     width: 48px;
-    border-bottom: 2px solid ${props => props.theme['brand-secondary']};
-    border-left: 2px solid ${props => props.theme['brand-secondary']};
+    border-bottom: 2px solid ${props => props.theme.blue600};
+    border-left: 2px solid ${props => props.theme.blue600};
     transform: rotate(45deg);
     left: -80px;
     border-bottom-left-radius: 8px;
@@ -121,7 +121,7 @@ const CarouselWrapper = styled(Column)`
   }
 
   .slick-slider > ul > li.slick-active > a > div {
-    background: ${({ theme }) => theme['brand-secondary']};
+    background: ${({ theme }) => theme.blue600};
   }
 
   .slick-dots li button:before {
@@ -150,7 +150,7 @@ const Container = styled(Column)`
 
 const Title = styled(Text)`
   margin-bottom: 10px;
-  color: ${({ theme }) => theme['brand-primary']};
+  color: ${({ theme }) => theme.blue900};
 `
 
 const BodyText = styled(Text)`
@@ -204,7 +204,7 @@ const PlacementDiv = styled.div`
   top: 0;
   width: 50%;
   height: 100%;
-  background: ${({ theme }) => theme['white']};
+  background: ${({ theme }) => theme.white};
   z-index: 1;
 
   ${media.laptop`

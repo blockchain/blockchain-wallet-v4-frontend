@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InProgress renders correctly 1`] = `
-<InProgress__ActionButton>
+<styled.button>
   <Component
     color="white"
     size="16px"
@@ -13,5 +13,5 @@ exports[`InProgress renders correctly 1`] = `
       values={Object {}}
     />
   </Component>
-</InProgress__ActionButton>
+</styled.button>
 `;

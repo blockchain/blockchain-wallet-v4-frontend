@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { actions, model } from 'data'
+import { checkHasWebcam } from 'utils/helpers'
 import { getData, getPreIdvData } from './selectors'
-import { hasWebcam } from 'utils/helpers'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 import DataError from 'components/DataError'
 import SiftScience from 'components/SiftScience'
@@ -17,6 +17,7 @@ const { FLOW_TYPES, KYC_PROVIDERS } = model.components.identityVerification
 
 class VerifyContainer extends React.PureComponent {
   state = {
+    hasWebcam: false,
     showVeriff: false
   }
 
@@ -24,6 +25,13 @@ class VerifyContainer extends React.PureComponent {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
     actions.checkKycFlow()
+    checkHasWebcam().then(res => {
+      this.setState({ hasWebcam: res })
+    })
+  }
+
+  hideKycProvider = () => {
+    this.setState({ showVeriff: false })
   }
 
   showKycProvider = kycProvider => {
@@ -68,7 +76,8 @@ class VerifyContainer extends React.PureComponent {
         return (
           <MediaContextConsumer>
             {({ mobile }) =>
-              (flowType === FLOW_TYPES.HIGH && mobile) || !hasWebcam ? (
+              (flowType === FLOW_TYPES.HIGH && mobile) ||
+              !this.state.hasWebcam ? (
                 <HighFlow
                   email={email}
                   deeplink={deeplink}
@@ -80,6 +89,7 @@ class VerifyContainer extends React.PureComponent {
                 <LowFlow
                   supportedDocuments={docTypes}
                   showVeriff={this.state.showVeriff}
+                  hideKycProvider={this.hideKycProvider}
                   handleSubmit={() => this.showKycProvider(kycProvider)}
                   needsDocResubmit={needsDocResubmit}
                   onClose={onClose}
