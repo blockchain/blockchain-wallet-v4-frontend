@@ -15,15 +15,20 @@ const {
   getCollateralAmtRequired
 } = model.components.borrow
 
-const Container = styled.div<{ bgColor: string }>`
+const Container = styled.div<{ bgColor: string; borderColor?: string }>`
   display: flex;
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 40px;
   background-color: ${props => props.theme[props.bgColor]};
+  border: 1px solid ${props => props.theme[props.borderColor || props.bgColor]};
 
   .orange900 {
     color: ${props => props.theme.orange900};
+  }
+
+  .green600 {
+    color: ${props => props.theme.green600};
   }
 
   .grey900 {
@@ -105,6 +110,25 @@ const CollateralWarning: React.FC<Props> = props => {
                 />
               </Text>
             </CustomButton>
+          </div>
+        </Container>
+      )
+    case 'safe':
+      return (
+        <Container bgColor='white' borderColor='grey100'>
+          <CustomIcon name='info' color='grey400' />
+          <div>
+            <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
+              <FormattedHTMLMessage
+                id='scenes.borrow.warning.risky'
+                defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
+                values={{
+                  currentRatio: percentageFormatter(
+                    props.loan.collateralisationRatio
+                  )
+                }}
+              />
+            </Text>
           </div>
         </Container>
       )

@@ -11,7 +11,7 @@ type Props = OwnProps & SuccessStateType
 const Success: React.FC<Props> = props => {
   // debugging
   // props.loan.status = 'OPEN'
-  // props.loan.collateralisationRatio = 1.12
+  // props.loan.collateralisationRatio = 1.3
 
   const offer = props.offers.find(offer => offer.id === props.loan.offerId)
   if (!offer) return null
