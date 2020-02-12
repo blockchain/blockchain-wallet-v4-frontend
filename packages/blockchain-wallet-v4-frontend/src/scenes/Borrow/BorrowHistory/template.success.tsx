@@ -27,10 +27,6 @@ const ViewDetailsCell = styled(TableCell)`
 function Success (props: SuccessStateType): ReactElement {
   return (
     <History>
-      <MainTitle size='24px' color='grey800' weight={600}>
-        <FormattedMessage id='scenes.borrow.history' defaultMessage='History' />
-      </MainTitle>
-
       <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
         <Table style={{ minWidth: '800px' }}>
           <TableHeader>
