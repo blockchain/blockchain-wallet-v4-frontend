@@ -7,14 +7,15 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { Status, Value } from './model'
+import { SuccessStateType } from '.'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 export const History = styled.div`
   margin-top: 72px;
+  max-width: 1200px;
 `
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;

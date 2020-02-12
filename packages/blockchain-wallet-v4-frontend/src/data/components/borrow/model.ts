@@ -1,4 +1,4 @@
-import { CoinType, OfferType } from 'core/types'
+import { CoinType, LoanType, OfferType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
@@ -18,17 +18,24 @@ export const getCollateralizationColor = (
   }
 }
 
+export const getCollateralAmtRequired = (loan: LoanType, offer: OfferType) => {
+  return (
+    (offer.terms.collateralRatio - loan.collateralisationRatio) *
+    Number(loan.principal.amount[0].value)
+  )
+}
+
 export const getCollateralizationDisplayName = (
   currentCollateral: number,
   offer: OfferType
 ) => {
   switch (true) {
-    case currentCollateral >= offer.terms.collateralRatio:
-      return 'safe'
-    case currentCollateral >= offer.callTerms.callTriggerRatio:
+    case currentCollateral <= offer.callTerms.liquidationHardRatio:
+      return 'unsafe'
+    case currentCollateral <= offer.callTerms.callTriggerRatio:
       return 'risky'
     default:
-      return 'unsafe'
+      return 'safe'
   }
 }
 

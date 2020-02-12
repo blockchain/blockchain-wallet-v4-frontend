@@ -9,6 +9,13 @@ import Summary from './Summary'
 type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<Props> = props => {
+  // debugging
+  // props.loan.status = 'OPEN'
+  // props.loan.collateralisationRatio = 1.12
+
+  const offer = props.offers.find(offer => offer.id === props.loan.offerId)
+  if (!offer) return null
+
   return (
     <FlyoutWrapper>
       <Header {...props} />
@@ -16,9 +23,9 @@ const Success: React.FC<Props> = props => {
       props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
         <NewLoanInfo {...props} />
       ) : (
-        <Info {...props} />
+        <Info {...props} offer={offer} />
       )}
-      <Summary {...props} />
+      <Summary {...props} offer={offer} />
     </FlyoutWrapper>
   )
 }

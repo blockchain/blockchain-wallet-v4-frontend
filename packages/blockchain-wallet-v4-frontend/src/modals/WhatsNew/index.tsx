@@ -10,9 +10,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 type OwnPropsType = {
-  close: () => void,
-  position: number,
-  total: number,
+  close: () => void
+  position: number
+  total: number
   userClickedOutside: boolean
 }
 
@@ -54,13 +54,18 @@ class WhatsNewContainer extends React.PureComponent<Props> {
     const { show } = this.state
     const { announcements, ...rest } = this.props
     return (
-      <Flyout {...rest} onClose={this.props.close} in={show} data-e2e='whatsNewModal'>
+      <Flyout
+        {...rest}
+        onClose={this.props.close}
+        in={show}
+        data-e2e='whatsNewModal'
+      >
         <Container>
           {!prop('length', announcements) ? (
             <EmptyContent />
           ) : (
-              announcements.map(prop('content'))
-            )}
+            announcements.map(prop('content'))
+          )}
         </Container>
       </Flyout>
     )

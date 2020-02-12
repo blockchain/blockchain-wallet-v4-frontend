@@ -7,7 +7,7 @@ import React from 'react'
 const { GENERAL_EVENTS } = model.analytics
 
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics,
+  analyticsActions: typeof actions.analytics
   modalActions: typeof actions.modals
 }
 
@@ -17,11 +17,7 @@ class FaqIconContainer extends React.PureComponent<LinkDispatchPropsType> {
     this.props.analyticsActions.logEvent(GENERAL_EVENTS.VIEW_WHATS_NEW)
   }
   render () {
-    return (
-      <FaqIcon
-        onClick={this.handleClick}
-      />
-    )
+    return <FaqIcon onClick={this.handleClick} />
   }
 }
 

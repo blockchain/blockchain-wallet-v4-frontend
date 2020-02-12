@@ -2,9 +2,7 @@ import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-interface Props {
-
-}
+interface Props {}
 
 const Wrapper = styled.div`
   width: 100%;

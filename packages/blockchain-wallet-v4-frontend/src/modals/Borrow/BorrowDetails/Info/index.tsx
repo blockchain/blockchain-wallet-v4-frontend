@@ -1,8 +1,10 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
+import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
 import { Text } from 'blockchain-info-components'
 import CollateralizationBar from '../CollateralizationBar'
+import CollateralWarning from '../CollateralWarning'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
@@ -22,7 +24,7 @@ const AmountsHeader = styled(Text)`
   color: ${props => props.theme.grey600};
 `
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & { offer: OfferType }
 
 const Info: React.FC<Props> = props => {
   const principalDisplayName =
@@ -72,6 +74,7 @@ const Info: React.FC<Props> = props => {
         />
       </Text>
       <CollateralizationBar {...props} />
+      <CollateralWarning {...props} />
     </>
   )
 }

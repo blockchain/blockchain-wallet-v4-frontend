@@ -1,4 +1,5 @@
 import { model } from 'data'
+import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -52,7 +53,7 @@ const CurrentBackground = styled(Current)`
   left: 0;
 `
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & { offer: OfferType }
 
 const PADDING = 0.363636
 const {
@@ -60,7 +61,7 @@ const {
   getCollateralizationDisplayName
 } = model.components.borrow
 
-const percentageFormatter = (n: number) => {
+export const percentageFormatter = (n: number) => {
   return (
     Number(n * 100).toLocaleString(undefined, {
       minimumFractionDigits: 0,
@@ -70,8 +71,7 @@ const percentageFormatter = (n: number) => {
 }
 
 const CollateralizationBar: React.FC<Props> = props => {
-  const offer = props.offers.find(offer => offer.id === props.loan.offerId)
-  if (!offer) return null
+  const { offer } = props
 
   const max = Math.ceil(
     offer.terms.collateralRatio * PADDING + offer.terms.collateralRatio
