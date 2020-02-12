@@ -11,14 +11,15 @@ const WhatsNewLink = styled(Link)`
 `
 const NotificationBadge = styled.div`
   border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border: 1px solid ${props => props.theme.blue600};
+  width: 16px;
+  height: 16px;
   text-align: center;
-  background-color: ${props => props.theme.white};
+  color: white;
+  border: 2px solid ${props => props.theme.grey900};
+  background-color: ${props => props.theme.blue600};
   position: absolute;
-  bottom: 15px;
-  left: 14px;
+  bottom: 16px;
+  left: 16px;
   font-size: 12px;
 `
 

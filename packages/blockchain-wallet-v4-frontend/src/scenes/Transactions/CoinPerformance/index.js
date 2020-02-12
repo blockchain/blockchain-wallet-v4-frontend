@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-content: space-between;
   border: 1px solid ${props => props.theme.grey100};
-  border-radius: 4px;
+  border-radius: 8px;
 
   & > :first-child {
     flex-basis: 45%;

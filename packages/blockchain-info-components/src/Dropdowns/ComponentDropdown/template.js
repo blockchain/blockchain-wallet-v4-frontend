@@ -30,11 +30,10 @@ const DropdownIcon = styled(Icon)`
 const DropdownList = styled.ul`
   background-clip: padding-box;
   background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme['gray-1']};
-  border-radius: 4px;
+  border-radius: 8px;
   bottom: 0;
   box-sizing: border-box;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
