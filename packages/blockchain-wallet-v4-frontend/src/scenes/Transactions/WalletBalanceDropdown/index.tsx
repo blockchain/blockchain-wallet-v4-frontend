@@ -38,7 +38,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-content: flex-start;
   border: 1px solid ${props => props.theme.grey100};
-  border-radius: 4px;
+  border-radius: 8px;
 `
 
 // FIXME: TypeScript use SupportedCoinsType
@@ -51,6 +51,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
+  background-color: none;
 `
 
 const AccountContainer = styled.div<{ isItem?: boolean }>`
@@ -87,6 +88,12 @@ const CoinSelect = styled(SelectBox)`
   }
   .bc__control .bc__value-container {
     padding: 0px;
+  }
+
+  .bc__indicators {
+    align-items: flex-start;
+    padding-top: 8px;
+    padding-right: 8px;
   }
 `
 
