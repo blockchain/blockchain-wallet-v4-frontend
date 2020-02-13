@@ -122,6 +122,7 @@
     "qs": "6.7.0",
     "ramda": "0.26.1",
     "react": "16.8.6",
+    "react-addons-css-transition-group": "15.6.2",
     "react-animations": "1.0.0",
     "react-copy-to-clipboard": "5.0.1",
     "react-csv": "1.1.1",

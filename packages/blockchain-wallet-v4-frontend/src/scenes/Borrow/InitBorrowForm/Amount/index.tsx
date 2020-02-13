@@ -14,7 +14,7 @@ type OwnProps = {
 
 type LinkStatePropsType = {
   data: RemoteDataType<
-    string,
+    Error | string,
     {
       balance: number
       max: number
@@ -53,7 +53,9 @@ export class Amount extends Component<Props> {
               {val.max}
             </FiatDisplay>
           ),
-          Failure: e => <Text weight={600}>{e}</Text>,
+          Failure: e => (
+            <Text weight={600}>{typeof e === 'object' ? e.message : e}</Text>
+          ),
           NotAsked: () => <Content>...</Content>,
           Loading: () => <Content>...</Content>
         })}

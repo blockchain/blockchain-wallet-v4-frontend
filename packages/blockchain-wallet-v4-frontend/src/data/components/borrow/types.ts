@@ -83,7 +83,7 @@ export type PaymentType = {
   value: () => PaymentType
 }
 
-export type BorrowStepsType = 'CHECKOUT' | 'DETAILS'
+export type BorrowStepsType = 'CHECKOUT' | 'DETAILS' | 'ADD_COLLATERAL'
 
 // State
 export interface BorrowState {
@@ -94,7 +94,7 @@ export interface BorrowState {
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
-  step: 'CHECKOUT' | 'DETAILS'
+  step: BorrowStepsType
 }
 
 // Actions
@@ -179,6 +179,9 @@ interface SetStepAction {
     | {
         loan?: LoanType
         step: 'DETAILS'
+      }
+    | {
+        step: 'ADD_COLLATERAL'
       }
   type: typeof AT.SET_STEP
 }

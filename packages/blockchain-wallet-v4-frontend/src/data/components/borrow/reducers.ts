@@ -96,7 +96,10 @@ export function borrowReducer (
           }
         }
         default: {
-          return state
+          return {
+            ...state,
+            step: action.payload.step
+          }
         }
       }
     default:
