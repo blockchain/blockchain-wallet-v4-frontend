@@ -1,8 +1,11 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
+import { RemoteDataType } from 'core/types'
+import { RootState } from 'data/rootReducer'
+import { routerActions } from 'connected-react-router'
 import { SceneWrapper } from 'components/Layout'
 import { Text } from 'blockchain-info-components'
 import BorrowHistory from './BorrowHistory'
@@ -11,11 +14,15 @@ import InitBorrowForm from './InitBorrowForm'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
+type LinkStatePropsType = {
+  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
+}
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
+  routerActions: typeof actions.router
 }
 
-type Props = LinkDispatchPropsType
+type Props = LinkDispatchPropsType & LinkStatePropsType
 interface State {}
 
 export const Header = styled.div`
@@ -29,6 +36,10 @@ class Borrow extends PureComponent<Props, State> {
   state = {}
 
   componentDidMount () {
+    if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
+      this.props.routerActions.push('/home')
+    }
+
     this.props.borrowActions.fetchBorrowOffers()
     this.props.borrowActions.fetchUserBorrowHistory()
   }
@@ -60,11 +71,16 @@ class Borrow extends PureComponent<Props, State> {
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  invitationsR: selectors.core.settings.getInvitations(state)
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  borrowActions: bindActionCreators(actions.components.borrow, dispatch)
+  borrowActions: bindActionCreators(actions.components.borrow, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Borrow)
