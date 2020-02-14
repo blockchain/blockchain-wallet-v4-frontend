@@ -2,18 +2,21 @@ import { E2EType } from './types'
 import { Modal } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import React from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import styled from 'styled-components'
 import Transition from 'react-transition-group/Transition'
+// TODO: use only ReactCSSTransitionGroup
 
 export const duration = 500
+export const width = 480
 
 const defaultStyle = {
   transition: `right ${duration}ms`,
-  right: '-480px'
+  right: `-${width}px`
 }
 
 const transitionStyles = {
-  entering: { right: '-480px' },
+  entering: { right: `-${width}px` },
   entered: { right: '0px' }
 }
 
@@ -21,7 +24,7 @@ const FlyoutModal = styled(Modal)`
   border-radius: 0px;
   overflow: auto;
   position: absolute;
-  width: 480px;
+  width: ${width}px;
   height: 100vh;
   color: ${props => props.theme['gray-5']};
   ${media.mobile`
@@ -31,7 +34,55 @@ const FlyoutModal = styled(Modal)`
   `};
 `
 
+const FlyoutChildren = styled.div<{ direction: 'left' | 'right' }>`
+  .flyout-children-enter {
+    top: 0;
+    ${props =>
+      props.direction === 'left' &&
+      `
+      left: 99%;
+    `}
+    ${props =>
+      props.direction === 'right' &&
+      `
+      left: -99%;
+    `}
+    opacity: 0.01;
+    position: absolute;
+  }
+
+  .flyout-children-enter.flyout-children-enter-active {
+    opacity: 1;
+    left: 0;
+    transition: left ${duration}ms, opacity ${duration}ms;
+  }
+
+  .flyout-children-leave {
+    position: absolute;
+    opacity: 1;
+    left: 0;
+    top: 0;
+  }
+
+  .flyout-children-leave.flyout-children-leave-active {
+    ${props =>
+      props.direction === 'left' &&
+      `
+      left: -99%;
+    `}
+    ${props =>
+      props.direction === 'right' &&
+      `
+      left: 99%;
+    `}
+    opacity: 0.01;
+    transition: left ${duration}ms, opacity ${duration}ms;
+  }
+`
+
 export const FlyoutWrapper = styled.div`
+  width: 100%;
+  box-sizing: border-box;
   padding: 40px;
   ${media.tablet`
     padding: 20px;
@@ -40,6 +91,7 @@ export const FlyoutWrapper = styled.div`
 
 type OwnProps = {
   'data-e2e': E2EType
+  direction?: 'left' | 'right'
   in: boolean
   onClose: () => void
   position: number
@@ -62,7 +114,15 @@ class Flyout extends React.PureComponent<OwnProps> {
             type={'flyout'}
             style={{ ...defaultStyle, ...transitionStyles[status] }}
           >
-            {children}
+            <FlyoutChildren direction={this.props.direction || 'left'}>
+              <ReactCSSTransitionGroup
+                transitionName='flyout-children'
+                transitionEnterTimeout={duration}
+                transitionLeaveTimeout={duration}
+              >
+                {children}
+              </ReactCSSTransitionGroup>
+            </FlyoutChildren>
           </FlyoutModal>
         )}
       </Transition>

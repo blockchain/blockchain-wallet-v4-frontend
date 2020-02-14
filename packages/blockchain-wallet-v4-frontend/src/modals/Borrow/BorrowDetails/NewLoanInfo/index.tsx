@@ -1,10 +1,9 @@
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { OwnProps, SuccessStateType } from '..'
+import { Props } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
-
-type Props = OwnProps & SuccessStateType
 
 const Wrapper = styled.div`
   margin-top: 40px;

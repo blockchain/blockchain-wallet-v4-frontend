@@ -1,12 +1,12 @@
 import { FlyoutWrapper } from 'components/Flyout'
-import { OwnProps, SuccessStateType } from '.'
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import Header from './Header'
 import Info from './Info'
 import NewLoanInfo from './NewLoanInfo'
 import React from 'react'
 import Summary from './Summary'
 
-type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Success: React.FC<Props> = props => {
   // debugging

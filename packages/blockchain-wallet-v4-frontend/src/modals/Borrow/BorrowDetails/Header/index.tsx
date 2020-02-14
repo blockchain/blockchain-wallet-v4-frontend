@@ -1,9 +1,8 @@
 import { FormattedMessage } from 'react-intl'
 import { OwnProps, SuccessStateType } from '..'
+import { Props } from '../template.success'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
-
-type Props = OwnProps & SuccessStateType
 
 const Header: React.FC<Props> = props => {
   return (

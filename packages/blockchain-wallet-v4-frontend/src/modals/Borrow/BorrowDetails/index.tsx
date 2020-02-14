@@ -10,6 +10,7 @@ import {
 } from 'core/types'
 import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
+import Loading from './template.loading'
 import React, { Component } from 'react'
 import Success from './template.success'
 
@@ -43,8 +44,8 @@ class BorrowDetails extends Component<Props> {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: e => (typeof e === 'object' ? e.message : e),
-      Loading: () => <div>Loading</div>,
-      NotAsked: () => <div>Loading</div>
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }

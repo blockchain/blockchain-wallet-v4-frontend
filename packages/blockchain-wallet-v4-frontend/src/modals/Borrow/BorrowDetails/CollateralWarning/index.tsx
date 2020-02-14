@@ -5,10 +5,9 @@ import { model } from 'data'
 import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
 import { percentageFormatter } from '../CollateralizationBar'
+import { Props } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
-
-type Props = OwnProps & SuccessStateType & { offer: OfferType }
 
 const {
   getCollateralizationDisplayName,
@@ -43,7 +42,7 @@ const CustomButton = styled(Button)`
   margin-top: 16px;
 `
 
-const CollateralWarning: React.FC<Props> = props => {
+const CollateralWarning: React.FC<Props & { offer: OfferType }> = props => {
   const { offer } = props
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
@@ -66,7 +65,15 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton nature='primary'>
+            <CustomButton
+              onClick={() =>
+                props.borrowActions.setStep({
+                  step: 'ADD_COLLATERAL',
+                  loan: props.loan
+                })
+              }
+              nature='primary'
+            >
               <Text color='white' size='14px' weight={600}>
                 <FormattedMessage
                   id='scenes.borrow.addcollateral'
@@ -102,7 +109,15 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton nature='primary'>
+            <CustomButton
+              onClick={() =>
+                props.borrowActions.setStep({
+                  step: 'ADD_COLLATERAL',
+                  loan: props.loan
+                })
+              }
+              nature='primary'
+            >
               <Text color='white' size='14px' weight={600}>
                 <FormattedMessage
                   id='scenes.borrow.addcollateral'
@@ -129,6 +144,22 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
+            <CustomButton
+              onClick={() =>
+                props.borrowActions.setStep({
+                  step: 'ADD_COLLATERAL',
+                  loan: props.loan
+                })
+              }
+              nature='primary'
+            >
+              <Text color='white' size='14px' weight={600}>
+                <FormattedMessage
+                  id='scenes.borrow.addcollateral'
+                  defaultMessage='Add Collateral'
+                />
+              </Text>
+            </CustomButton>
           </div>
         </Container>
       )

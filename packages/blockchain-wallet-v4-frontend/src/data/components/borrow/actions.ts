@@ -102,6 +102,7 @@ export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
     | { loan: LoanType; step: 'DETAILS' }
+    | { loan: LoanType; step: 'ADD_COLLATERAL' }
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:

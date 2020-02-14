@@ -2,6 +2,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
+import { Props } from '../template.success'
 import { Text } from 'blockchain-info-components'
 import CollateralizationBar from '../CollateralizationBar'
 import CollateralWarning from '../CollateralWarning'
@@ -24,9 +25,7 @@ const AmountsHeader = styled(Text)`
   color: ${props => props.theme.grey600};
 `
 
-type Props = OwnProps & SuccessStateType & { offer: OfferType }
-
-const Info: React.FC<Props> = props => {
+const Info: React.FC<Props & { offer: OfferType }> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
   const collateralSatoshi = Exchange.convertBtcToBtc({
