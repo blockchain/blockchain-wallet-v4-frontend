@@ -10,6 +10,10 @@ export const createBorrow = () => ({
   type: AT.CREATE_BORROW
 })
 
+export const destroy = () => ({
+  type: AT.DESTROY_BORROW
+})
+
 export const fetchBorrowOffers = () => ({
   type: AT.FETCH_BORROW_OFFERS
 })

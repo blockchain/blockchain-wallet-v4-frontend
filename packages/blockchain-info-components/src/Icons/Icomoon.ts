@@ -74,6 +74,7 @@ const IcoMoon = {
   pie: '\\e911',
   plus: '\\ea0a',
   present: '\\e96d',
+  'qr-code': '\\e946',
   'question-in-circle': '\\e96e',
   'question-in-circle-filled': '\\e909',
   refresh: '\\e90a',

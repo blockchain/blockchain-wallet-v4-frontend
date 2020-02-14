@@ -13,6 +13,7 @@ export default ({ api, coreSagas, networks }) => {
       borrowSagas.amtCollateralRequiredClick
     )
     yield takeLatest(AT.CREATE_BORROW, borrowSagas.createBorrow)
+    yield takeLatest(AT.DESTROY_BORROW, borrowSagas.destroyBorrow)
     yield takeLatest(AT.FETCH_BORROW_OFFERS, borrowSagas.fetchBorrowOffers)
     yield takeLatest(
       AT.FETCH_USER_BORROW_HISTORY,

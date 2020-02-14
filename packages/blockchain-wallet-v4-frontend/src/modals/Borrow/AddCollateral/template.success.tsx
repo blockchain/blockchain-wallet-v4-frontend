@@ -1,15 +1,22 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
 import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,6 +26,7 @@ const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `
 
 const Top = styled(FlyoutWrapper)`
@@ -32,7 +40,7 @@ const TopText = styled(Text)`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 100%;
 `
 
@@ -64,6 +72,28 @@ const MaxAmountContainer = styled.div`
   margin-top: 40px;
 `
 
+const QRCodeContainer = styled.div`
+  cursor: pointer;
+`
+const QRTitle = styled.div`
+  display: flex;
+  margin: 24px 0;
+`
+const QRCodeBox = styled.div`
+  display: flex;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.grey000};
+`
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+const Note = styled.div`
+  margin-top: 24px;
+  margin-left: 24px;
+`
+
 const FiatContainer = styled.div`
   cursor: pointer;
   display: inline-block;
@@ -79,7 +109,8 @@ type LinkStatePropsType = {
 export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType &
-  LinkStatePropsType
+  LinkStatePropsType &
+  State & { onCopyAddress: () => void; onToggleQrCode: () => void }
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
   return (
@@ -156,29 +187,101 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
+        <QRCodeContainer>
+          <QRTitle onClick={() => props.onToggleQrCode()}>
+            <Icon
+              name='qr-code'
+              color='blue600'
+              style={{ marginRight: '12px' }}
+            />
+            <Text size='14px' color='blue600' weight={500}>
+              <FormattedMessage
+                id='modals.borrow.addcollateral.send'
+                defaultMessage='Send additional collateral from external wallet'
+              />
+            </Text>
+          </QRTitle>
+          {props.showQrCode && (
+            <QRCodeBox>
+              <QRCodeWrapper
+                value={
+                  props.loan.collateral.depositAddresses[
+                    props.offer.terms.collateralCcy
+                  ]
+                }
+                size={160}
+              />
+              <div style={{ width: '100%' }}>
+                <IconContainer>
+                  <Icon
+                    onClick={() => props.onToggleQrCode()}
+                    name='close'
+                    color='grey600'
+                  />
+                </IconContainer>
+                <Note>
+                  <Text size='12px' weight={600} color='grey700'>
+                    Note
+                  </Text>
+                  <Text
+                    size='12px'
+                    weight={500}
+                    color='grey600'
+                    style={{ marginTop: '4px', marginBottom: '24px' }}
+                  >
+                    <FormattedMessage
+                      id='modals.borrow.addcollateralform.sendcollateral'
+                      defaultMessage='You can send any amount of {ccy} to this address.'
+                      values={{
+                        ccy: props.offer.terms.collateralCcy
+                      }}
+                    />
+                  </Text>
+                  {props.isAddrCopied ? (
+                    <TooltipHost id='copied'>
+                      <Button nature='light'>
+                        <FormattedMessage
+                          id='modals.borrow.addcollateralform.copy'
+                          defaultMessage='Copy Address'
+                        />
+                      </Button>
+                    </TooltipHost>
+                  ) : (
+                    <Button
+                      nature='light'
+                      onClick={() => props.onCopyAddress()}
+                    >
+                      <FormattedMessage
+                        id='modals.borrow.addcollateralform.copy'
+                        defaultMessage='Copy Address'
+                      />
+                    </Button>
+                  )}
+                </Note>
+              </div>
+            </QRCodeBox>
+          )}
+        </QRCodeContainer>
       </Top>
       <Bottom>
-        <>
-          <div>
-            <Button
-              nature='primary'
-              type='submit'
-              data-e2e='addCollateralSubmit'
-              disabled={props.submitting || props.invalid}
-            >
-              {props.submitting ? (
-                <HeartbeatLoader height='16px' width='16px' color='white' />
-              ) : (
-                <Text size='16px' weight={600} color='white'>
-                  <FormattedMessage
-                    id='modals.borrow.addcollateralform.addcollateral'
-                    defaultMessage='Add Collateral'
-                  />
-                </Text>
-              )}
-            </Button>
-          </div>
-        </>
+        <Button
+          nature='primary'
+          type='submit'
+          data-e2e='addCollateralSubmit'
+          disabled={props.submitting || props.invalid}
+          fullwidth
+        >
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <Text size='16px' weight={600} color='white'>
+              <FormattedMessage
+                id='modals.borrow.addcollateralform.addcollateral'
+                defaultMessage='Add Collateral'
+              />
+            </Text>
+          )}
+        </Button>
       </Bottom>
     </CustomForm>
   )

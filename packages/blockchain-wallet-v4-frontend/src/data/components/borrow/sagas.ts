@@ -207,6 +207,10 @@ export default ({
     return payment
   }
 
+  const destroyBorrow = function * () {
+    yield put(actions.form.destroy('borrowForm'))
+  }
+
   const fetchBorrowOffers = function * () {
     try {
       yield put(A.fetchBorrowOffersLoading())
@@ -318,6 +322,7 @@ export default ({
     addCollateral,
     amtCollateralRequiredClick,
     createBorrow,
+    destroyBorrow,
     fetchBorrowOffers,
     fetchUserBorrowHistory,
     formChanged,

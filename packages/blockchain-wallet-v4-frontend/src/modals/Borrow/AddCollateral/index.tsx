@@ -37,12 +37,16 @@ type LinkStatePropsType = {
 }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-
-class BorrowForm extends Component<Props> {
-  state = {}
+export type State = { isAddrCopied: boolean; showQrCode: boolean }
+class BorrowForm extends Component<Props, State> {
+  state = { isAddrCopied: false, showQrCode: false }
 
   componentDidMount () {
     this.props.borrowActions.initializeBorrow('BTC')
+  }
+
+  componentWillUnmount () {
+    this.props.borrowActions.destroy()
   }
 
   handleRefresh = () => {
@@ -53,12 +57,41 @@ class BorrowForm extends Component<Props> {
     this.props.borrowActions.addCollateral()
   }
 
+  copyAddress = () => {
+    var input = document.createElement('input')
+    // TODO - Borrow make dynamic
+    input.setAttribute(
+      'value',
+      this.props.loan.collateral.depositAddresses['BTC']
+    )
+    document.body.appendChild(input)
+    input.select()
+    var result = document.execCommand('copy')
+    document.body.removeChild(input)
+    this.setState({ isAddrCopied: true })
+    setTimeout(() => {
+      this.setState({ isAddrCopied: false })
+    }, 2000)
+    return result
+  }
+
+  toggleQrCode = () => {
+    this.setState({ showQrCode: !this.state.showQrCode })
+  }
+
   render () {
     const { data } = this.props
 
     return data.cata({
       Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+        <Success
+          {...val}
+          {...this.props}
+          {...this.state}
+          onSubmit={this.handleSubmit}
+          onCopyAddress={this.copyAddress}
+          onToggleQrCode={this.toggleQrCode}
+        />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
