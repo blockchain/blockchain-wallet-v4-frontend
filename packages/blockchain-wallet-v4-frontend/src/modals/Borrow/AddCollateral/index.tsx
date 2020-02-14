@@ -50,7 +50,7 @@ class BorrowForm extends Component<Props> {
   }
 
   handleSubmit = () => {
-    this.props.borrowActions.addCollateral(this.props.loan)
+    this.props.borrowActions.addCollateral()
   }
 
   render () {

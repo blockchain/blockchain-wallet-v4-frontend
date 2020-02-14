@@ -10,6 +10,7 @@ import {
   fiatDisplayName,
   getAmount,
   getCollateralAmtRequired,
+  NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
 import { FormAction, initialize } from 'redux-form'
@@ -31,12 +32,9 @@ export default ({
   const waitForUserData = profileSagas({ api, coreSagas, networks })
     .waitForUserData
 
-  const addCollateral = function * ({
-    payload
-  }: ReturnType<typeof A.addCollateral>) {
+  const addCollateral = function * () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
-      const { loan } = payload
       const paymentR = S.getPayment(yield select())
       let payment: PaymentType = coreSagas.payment.btc.create({
         payment: paymentR.getOrElse(<PaymentType>{}),
@@ -46,14 +44,17 @@ export default ({
         selectors.form.getFormValues('borrowForm')
       )
 
+      const loan = S.getLoan(yield select())
       const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
+
       if (!offer) throw new Error(NO_OFFER_EXISTS)
+      if (!loan) throw new Error(NO_LOAN_EXISTS)
 
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({})
-      // TODO: Borrow use offer for displayName
-      const rate = rates[fiatDisplayName('PAX')].last
+      const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
+
       const cryptoAmt = Number(values.additionalCollateral) / rate
       const amount: string = getAmount(cryptoAmt || 0, coin)
 
@@ -65,7 +66,6 @@ export default ({
 
       payment = yield payment.build()
       // ask for second password
-
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
