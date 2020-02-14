@@ -18,7 +18,7 @@ type Props = {
   offer: OfferType
   principal?: string
   rates: RatesType
-  values: BorrowFormValuesType
+  values?: BorrowFormValuesType
 }
 
 const Table = styled.div`
@@ -31,6 +31,8 @@ const Summary: React.FC<Props> = props => {
   const fiatName = fiatDisplayName(props.offer.terms.principalCcy)
   const principalDisplayName = props.displayName
   const rate = props.rates[fiatName].last
+
+  if (!props.values) return null
 
   return (
     <div>

@@ -7,6 +7,11 @@ export default ({ api, coreSagas, networks }) => {
   const borrowSagas = sagas({ api, coreSagas, networks })
 
   return function * borrowSaga () {
+    yield takeLatest(AT.ADD_COLLATERAL, borrowSagas.addCollateral)
+    yield takeLatest(
+      AT.AMT_COLLATERAL_REQUIRED_CLICK,
+      borrowSagas.amtCollateralRequiredClick
+    )
     yield takeLatest(AT.CREATE_BORROW, borrowSagas.createBorrow)
     yield takeLatest(AT.FETCH_BORROW_OFFERS, borrowSagas.fetchBorrowOffers)
     yield takeLatest(

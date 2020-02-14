@@ -84,6 +84,7 @@ function Success (props: SuccessStateType): ReactElement {
           </TableHeader>
           {props.borrowHistory.map(loan => {
             const offer = props.offers.find(offer => offer.id === loan.offerId)
+            if (!offer) return
 
             return (
               <TableRow>
@@ -127,7 +128,7 @@ function Success (props: SuccessStateType): ReactElement {
                 <TableCell width='12%'>-</TableCell>
                 <ViewDetailsCell
                   width='14%'
-                  onClick={() => props.showLoanDetails(loan)}
+                  onClick={() => props.showLoanDetails(loan, offer)}
                 >
                   <Link size='14px'>View Details</Link>
                 </ViewDetailsCell>

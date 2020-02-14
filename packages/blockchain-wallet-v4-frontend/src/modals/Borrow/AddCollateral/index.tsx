@@ -1,45 +1,85 @@
 import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
+import {
+  CoinType,
+  LoanType,
+  OfferType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
 import { connect } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { LoanType } from 'core/types'
+import { getData } from './selectors'
+import DataError from 'components/DataError'
+import Loading from './template.loading'
 import React, { Component } from 'react'
+import Success from './template.success'
 
-type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-}
-type OwnProps = {
+export type OwnProps = {
   loan: LoanType
 }
-type Props = OwnProps & LinkDispatchPropsType
-type State = {}
 
-export class AddCollateral extends Component<Props, State> {
+export type LinkDispatchPropsType = {
+  borrowActions: typeof actions.components.borrow
+}
+
+export type SuccessStateType = {
+  coin: CoinType
+  limits: BorrowMinMaxType
+  offer: OfferType
+  payment: PaymentType
+  rates: RatesType
+  supportedCoins: SupportedCoinsType
+}
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+
+class BorrowForm extends Component<Props> {
   state = {}
 
+  componentDidMount () {
+    this.props.borrowActions.initializeBorrow('BTC')
+  }
+
+  handleRefresh = () => {
+    this.props.borrowActions.initializeBorrow('BTC')
+  }
+
+  handleSubmit = () => {
+    this.props.borrowActions.addCollateral(this.props.loan)
+  }
+
   render () {
-    return (
-      <FlyoutWrapper
-        onClick={() =>
-          this.props.borrowActions.setStep({
-            step: 'DETAILS',
-            loan: this.props.loan
-          })
-        }
-      >
-        Go Back
-      </FlyoutWrapper>
-    )
+    const { data } = this.props
+
+    return data.cata({
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = state => ({})
+const mapStateToProps = (state): LinkStatePropsType => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddCollateral)
+const enhance = compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
+
+export default enhance(BorrowForm)

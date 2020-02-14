@@ -6,7 +6,12 @@ import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { BorrowFormValuesType, PaymentType } from './types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatDisplayName, getAmount, NO_OFFER_EXISTS } from './model'
+import {
+  fiatDisplayName,
+  getAmount,
+  getCollateralAmtRequired,
+  NO_OFFER_EXISTS
+} from './model'
 import { FormAction, initialize } from 'redux-form'
 import { LoanType } from 'core/types'
 import { nth } from 'ramda'
@@ -25,6 +30,51 @@ export default ({
 }) => {
   const waitForUserData = profileSagas({ api, coreSagas, networks })
     .waitForUserData
+
+  const addCollateral = function * ({
+    payload
+  }: ReturnType<typeof A.addCollateral>) {
+    try {
+      yield put(actions.form.startSubmit('borrowForm'))
+      const { loan } = payload
+      const paymentR = S.getPayment(yield select())
+      let payment: PaymentType = coreSagas.payment.btc.create({
+        payment: paymentR.getOrElse(<PaymentType>{}),
+        network: networks.btc
+      })
+      const values: BorrowFormValuesType = yield select(
+        selectors.form.getFormValues('borrowForm')
+      )
+
+      const offer = S.getOffer(yield select())
+      const coin = S.getCoinType(yield select())
+      if (!offer) throw new Error(NO_OFFER_EXISTS)
+
+      const ratesR = S.getRates(yield select())
+      const rates = ratesR.getOrElse({})
+      // TODO: Borrow use offer for displayName
+      const rate = rates[fiatDisplayName('PAX')].last
+      const cryptoAmt = Number(values.additionalCollateral) / rate
+      const amount: string = getAmount(cryptoAmt || 0, coin)
+
+      payment = yield payment.amount(Number(amount))
+      payment = yield payment.to(
+        loan.collateral.depositAddresses[coin],
+        ADDRESS_TYPES.ADDRESS
+      )
+
+      payment = yield payment.build()
+      // ask for second password
+
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+      yield put(actions.form.stopSubmit('borrowForm'))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
+    } catch (e) {
+      yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
+    }
+  }
 
   const createBorrow = function * () {
     try {
@@ -87,7 +137,7 @@ export default ({
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
       yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
     }
@@ -100,25 +150,27 @@ export default ({
       const ratesR = yield select(S.getRates)
       const rates = ratesR.getOrElse({})
       const balance = payment.value().effectiveBalance
+      const step = S.getStep(yield select())
 
       if (!offer) throw new Error(NO_OFFER_EXISTS)
 
       let adjustedBalance = new BigNumber(balance)
         .dividedBy(offer.terms.collateralRatio)
         .toNumber()
+      const value = step === 'CHECKOUT' ? adjustedBalance : balance
 
       let maxFiat
       let maxCrypto
       switch (coin) {
         case 'BTC':
           maxFiat = Exchange.convertBtcToFiat({
-            value: adjustedBalance,
+            value,
             fromUnit: 'SAT',
             toCurrency: 'USD',
             rates: rates
           }).value
           maxCrypto = Exchange.convertBtcToBtc({
-            value: adjustedBalance,
+            value,
             fromUnit: 'SAT',
             toUnit: 'SAT',
             rates: rates
@@ -185,7 +237,6 @@ export default ({
     const ratesR = S.getRates(yield select())
     const rates = ratesR.getOrElse({})
     const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
-
     let payment
 
     switch (action.meta.field) {
@@ -254,7 +305,18 @@ export default ({
     yield put(actions.form.change('borrowForm', 'principal', limits.maxFiat))
   }
 
+  const amtCollateralRequiredClick = function * () {
+    const offer = S.getOffer(yield select())
+    const loan = S.getLoan(yield select())
+    if (!loan || !offer) return
+    const amt = getCollateralAmtRequired(loan, offer)
+
+    yield put(actions.form.change('borrowForm', 'principal', amt))
+  }
+
   return {
+    addCollateral,
+    amtCollateralRequiredClick,
     createBorrow,
     fetchBorrowOffers,
     fetchUserBorrowHistory,

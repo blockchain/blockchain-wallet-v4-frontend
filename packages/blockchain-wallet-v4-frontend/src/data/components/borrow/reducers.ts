@@ -88,16 +88,11 @@ export function borrowReducer (
             offer: action.payload.offer
           }
         }
-        case 'DETAILS': {
-          return {
-            ...state,
-            step: action.payload.step,
-            loan: action.payload.loan
-          }
-        }
         default: {
           return {
             ...state,
+            offer: action.payload.offer,
+            loan: action.payload.loan,
             step: action.payload.step
           }
         }

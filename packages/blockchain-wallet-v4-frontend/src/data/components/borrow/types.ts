@@ -10,6 +10,7 @@ import {
 // Types
 
 export type BorrowFormValuesType = {
+  additionalCollateral?: string
   collateral: any
   collateralCryptoAmt?: number
   maxCollateral?: number
@@ -133,7 +134,6 @@ interface FetchUserBorrowHistorySuccessAction {
 interface InitializeBorrowAction {
   payload: {
     coin: CoinType
-    offer: OfferType
   }
   type: typeof AT.INITIALIZE_BORROW
 }
@@ -177,10 +177,13 @@ interface SetStepAction {
         step: 'CHECKOUT'
       }
     | {
-        loan?: LoanType
+        loan: LoanType
+        offer: OfferType
         step: 'DETAILS'
       }
     | {
+        loan: LoanType
+        offer: OfferType
         step: 'ADD_COLLATERAL'
       }
   type: typeof AT.SET_STEP

@@ -18,7 +18,7 @@ export type OwnProps = {
   loan: LoanType
 }
 export type SuccessStateType = {
-  offers: Array<OfferType>
+  offer: OfferType
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }

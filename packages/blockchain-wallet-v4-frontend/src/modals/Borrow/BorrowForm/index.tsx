@@ -40,11 +40,11 @@ class BorrowForm extends Component<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
+    this.props.borrowActions.initializeBorrow('BTC')
   }
 
   handleRefresh = () => {
-    this.props.borrowActions.initializeBorrow('BTC', this.props.offer)
+    this.props.borrowActions.initializeBorrow('BTC')
   }
 
   handleSubmit = () => {

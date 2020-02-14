@@ -2,6 +2,13 @@ import * as AT from './actionTypes'
 import { BorrowActionTypes, BorrowMinMaxType, BorrowStepsType } from './types'
 import { CoinType, LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 
+export const addCollateral = (loan: LoanType) => ({
+  type: AT.ADD_COLLATERAL,
+  payload: {
+    loan
+  }
+})
+
 export const createBorrow = () => ({
   type: AT.CREATE_BORROW
 })
@@ -52,15 +59,18 @@ export const fetchUserBorrowHistorySuccess = (
   }
 })
 
+export const handleAddCollateralRequiredClick = () => ({
+  type: AT.AMT_COLLATERAL_REQUIRED_CLICK
+})
+
 export const handleMaxCollateralClick = () => ({
   type: AT.MAX_COLLATERAL_CLICK
 })
 
-export const initializeBorrow = (coin: CoinType, offer: OfferType) => ({
+export const initializeBorrow = (coin: CoinType) => ({
   type: AT.INITIALIZE_BORROW,
   payload: {
-    coin,
-    offer
+    coin
   }
 })
 
@@ -101,8 +111,8 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
-    | { loan: LoanType; step: 'DETAILS' }
-    | { loan: LoanType; step: 'ADD_COLLATERAL' }
+    | { loan: LoanType; offer: OfferType; step: 'DETAILS' }
+    | { loan: LoanType; offer: OfferType; step: 'ADD_COLLATERAL' }
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:
@@ -113,6 +123,7 @@ export const setStep = (
         }
       : {
           step: payload.step,
-          loan: payload.loan
+          loan: payload.loan,
+          offer: payload.offer
         }
 })

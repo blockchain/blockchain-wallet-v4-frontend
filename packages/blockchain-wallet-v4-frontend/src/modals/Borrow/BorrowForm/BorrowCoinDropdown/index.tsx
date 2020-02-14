@@ -90,6 +90,7 @@ export class BorrowCoinDropdown extends Component<Props> {
   }
 
   renderDisplay = (props: { value: AccountTypes }, children) => {
+    if (!props.value) return
     const coinType = this.props.supportedCoins[props.value.coin]
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode

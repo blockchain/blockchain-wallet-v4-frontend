@@ -42,7 +42,7 @@ const CustomButton = styled(Button)`
   margin-top: 16px;
 `
 
-const CollateralWarning: React.FC<Props & { offer: OfferType }> = props => {
+const CollateralWarning: React.FC<Props> = props => {
   const { offer } = props
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
@@ -69,7 +69,8 @@ const CollateralWarning: React.FC<Props & { offer: OfferType }> = props => {
               onClick={() =>
                 props.borrowActions.setStep({
                   step: 'ADD_COLLATERAL',
-                  loan: props.loan
+                  loan: props.loan,
+                  offer: props.offer
                 })
               }
               nature='primary'
@@ -113,7 +114,8 @@ const CollateralWarning: React.FC<Props & { offer: OfferType }> = props => {
               onClick={() =>
                 props.borrowActions.setStep({
                   step: 'ADD_COLLATERAL',
-                  loan: props.loan
+                  loan: props.loan,
+                  offer: props.offer
                 })
               }
               nature='primary'
@@ -148,7 +150,8 @@ const CollateralWarning: React.FC<Props & { offer: OfferType }> = props => {
               onClick={() =>
                 props.borrowActions.setStep({
                   step: 'ADD_COLLATERAL',
-                  loan: props.loan
+                  loan: props.loan,
+                  offer: props.offer
                 })
               }
               nature='primary'

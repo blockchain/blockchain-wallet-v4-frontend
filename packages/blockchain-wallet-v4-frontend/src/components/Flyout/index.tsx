@@ -35,6 +35,8 @@ const FlyoutModal = styled(Modal)`
 `
 
 const FlyoutChildren = styled.div<{ direction: 'left' | 'right' }>`
+  height: 100%;
+
   .flyout-children-enter {
     top: 0;
     ${props =>

@@ -19,7 +19,7 @@ export type SuccessStateType = {
   borrowHistory: Array<LoanType>
   offers: Array<OfferType>
   rates: RatesType
-  showLoanDetails: (loan: LoanType) => void
+  showLoanDetails: (loan: LoanType, offer: OfferType) => void
   supportedCoins: SupportedCoinsType
   userData: UserDataType
 }
@@ -35,8 +35,8 @@ type Props = LinkStatePropsType & LinkDispatchPropsType
 class BorrowHistory extends Component<Props> {
   state = {}
 
-  showLoanDetails = (loan: LoanType) => {
-    this.props.borrowActions.setStep({ step: 'DETAILS', loan })
+  showLoanDetails = (loan: LoanType, offer: OfferType) => {
+    this.props.borrowActions.setStep({ step: 'DETAILS', loan, offer })
     this.props.modalActions.showModal('BORROW_MODAL')
   }
 

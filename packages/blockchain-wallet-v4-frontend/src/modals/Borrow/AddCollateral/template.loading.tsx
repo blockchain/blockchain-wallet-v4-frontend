@@ -18,7 +18,7 @@ const Loading: React.FC<Props> = () => {
     <Wrapper>
       <SpinningLoader />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
-        Gathering Info...
+        Getting Ready...
       </Text>
     </Wrapper>
   )

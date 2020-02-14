@@ -1,5 +1,5 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -7,14 +7,13 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { maximumAmount, minimumAmount } from './validation'
-import { selectors } from 'data'
-import BorrowCoinDropdown from './BorrowCoinDropdown'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import media from 'services/ResponsiveService'
+import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { model, selectors } from 'data'
+import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import React from 'react'
 import styled from 'styled-components'
-import Summary from './Summary'
+
+const { getCollateralAmtRequired } = model.components.borrow
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -24,6 +23,10 @@ const CustomForm = styled(Form)`
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
+`
+const TopText = styled(Text)`
+  display: flex;
+  align-items: center;
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -79,44 +82,47 @@ export type Props = OwnProps &
   LinkStatePropsType
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
-  // TODO: Borrow - handle other coins
-  const displayName = props.supportedCoins['PAX'].displayName
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <Text color='grey900' size='20px' weight={600}>
-          <FormattedMessage
-            id='modals.borrow.borrowusd'
-            defaultMessage='Borrow {displayName}'
-            values={{ displayName }}
+        <TopText color='grey900' size='20px' weight={600}>
+          <Icon
+            cursor
+            style={{ marginRight: '24px' }}
+            name='arrow-left'
+            size='20px'
+            color='grey600'
+            onClick={() =>
+              props.borrowActions.setStep({
+                step: 'DETAILS',
+                loan: props.loan,
+                offer: props.offer
+              })
+            }
           />
-        </Text>
+          <FormattedMessage
+            id='modals.borrow.addingcollateral'
+            defaultMessage='Adding Collateral'
+          />
+        </TopText>
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.borrow.canborrow'
-              defaultMessage='You can borrow up to'
+              id='modals.borrow.needtoadd'
+              defaultMessage='You need to add'
             />{' '}
             <FiatContainer
-              onClick={() => props.borrowActions.handleMaxCollateralClick()}
+              onClick={() =>
+                props.borrowActions.handleAddCollateralRequiredClick()
+              }
             >
-              <FiatDisplay
-                cursor='pointer'
-                color='blue600'
-                size='14px'
-                weight={500}
-                coin='BTC'
-                currency='USD'
-                rates={props.rates}
-              >
-                {props.limits.maxCrypto}
-              </FiatDisplay>
+              <Text cursor='pointer' color='blue600' size='14px' weight={500}>
+                {'$' + getCollateralAmtRequired(props.loan, props.offer)}
+              </Text>
             </FiatContainer>{' '}
-            {displayName}{' '}
             <FormattedMessage
-              id='modals.borrow.basedonwallet'
-              defaultMessage="based on the selected Wallet's balance."
+              id='modals.borrow.additionalcollateral'
+              defaultMessage='of additional collateral to avoid being liquidated.'
             />
           </Text>
         </MaxAmountContainer>
@@ -132,16 +138,16 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.borrow.enterloanamt'
-              defaultMessage='Enter loan amount'
+              id='modals.borrow.enteradditional'
+              defaultMessage='Enter additional collateral'
             />
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e='principalInput'
-            name='principal'
+            data-e2e='additionalCollateralInput'
+            name='additionalCollateral'
             validate={[maximumAmount, minimumAmount]}
           />
           <PrincipalCcyAbsolute>
@@ -153,17 +159,11 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
       </Top>
       <Bottom>
         <>
-          <Summary
-            {...props}
-            {...props.values}
-            collateral={0}
-            displayName={displayName}
-          />
           <div>
             <Button
               nature='primary'
               type='submit'
-              data-e2e='borrowSubmit'
+              data-e2e='addCollateralSubmit'
               disabled={props.submitting || props.invalid}
             >
               {props.submitting ? (
@@ -171,8 +171,8 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
               ) : (
                 <Text size='16px' weight={600} color='white'>
                   <FormattedMessage
-                    id='modals.borrow.collateralform.create'
-                    defaultMessage='Create Loan'
+                    id='modals.borrow.addcollateralform.addcollateral'
+                    defaultMessage='Add Collateral'
                   />
                 </Text>
               )}

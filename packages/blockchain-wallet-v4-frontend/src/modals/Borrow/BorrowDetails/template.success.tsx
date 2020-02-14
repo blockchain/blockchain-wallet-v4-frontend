@@ -13,8 +13,7 @@ const Success: React.FC<Props> = props => {
   // props.loan.status = 'OPEN'
   // props.loan.collateralisationRatio = 1.3
 
-  const offer = props.offers.find(offer => offer.id === props.loan.offerId)
-  if (!offer) return null
+  if (!props.offer) return null
 
   return (
     <FlyoutWrapper>
@@ -23,9 +22,9 @@ const Success: React.FC<Props> = props => {
       props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
         <NewLoanInfo {...props} />
       ) : (
-        <Info {...props} offer={offer} />
+        <Info {...props} />
       )}
-      <Summary {...props} offer={offer} />
+      <Summary {...props} />
     </FlyoutWrapper>
   )
 }

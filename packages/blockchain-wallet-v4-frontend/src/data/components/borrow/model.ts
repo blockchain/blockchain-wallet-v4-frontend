@@ -28,7 +28,7 @@ export const getCollateralAmtRequired = (loan: LoanType, offer: OfferType) => {
   return (
     (offer.terms.collateralRatio - loan.collateralisationRatio) *
     Number(loan.principal.amount[0].value)
-  )
+  ).toFixed(2)
 }
 
 export const getCollateralizationDisplayName = (
