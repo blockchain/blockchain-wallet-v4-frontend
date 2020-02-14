@@ -223,7 +223,7 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendeth.firststep.description'>
-              <TooltipIcon name='question-in-circle' size='12px' />
+              <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </FormLabel>
           <Field

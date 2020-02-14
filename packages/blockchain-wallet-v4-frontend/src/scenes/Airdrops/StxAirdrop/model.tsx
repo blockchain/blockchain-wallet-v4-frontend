@@ -5,7 +5,7 @@ import {
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
-} from '../AirdropInfo/model'
+} from 'components/Cartridge'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'

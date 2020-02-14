@@ -26,7 +26,8 @@ export {
   BlockchainLoader,
   FlatLoader,
   FlatLoader2,
-  HeartbeatLoader
+  HeartbeatLoader,
+  SpinningLoader
 } from './Loaders'
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'

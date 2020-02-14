@@ -1,5 +1,6 @@
 import * as activityList from './activityList/actions'
 import * as bchTransactions from './bchTransactions/actions'
+import * as borrow from './borrow/actions'
 import * as btcTransactions from './btcTransactions/actions'
 import * as coinify from './coinify/actions'
 import * as ethTransactions from './ethTransactions/actions'
@@ -35,6 +36,7 @@ import * as xlmTransactions from './xlmTransactions/actions'
 export {
   activityList,
   bchTransactions,
+  borrow,
   btcTransactions,
   coinify,
   ethTransactions,

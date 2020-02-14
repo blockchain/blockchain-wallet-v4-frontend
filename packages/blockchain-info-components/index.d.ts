@@ -12,40 +12,42 @@ export const BlockchainLoader: StatelessComponent<{
   width?: string
   height?: string
 }>
-export const Button: StatelessComponent<{
-  nature?:
-    | 'copy'
-    | 'dark'
-    | 'empty-secondary'
-    | 'empty'
-    | 'gray-3'
-    | 'green'
-    | 'light'
-    | 'primary'
-    | 'purple'
-    | 'received'
-    | 'secondary'
-    | 'sent'
-    | 'success'
-    | 'transferred'
-    | 'warning'
-    | 'white-transparent'
-  fullwidth?: boolean
-  disabled?: boolean
-  rounded?: boolean
-  bold?: boolean
-  small?: boolean
-  uppercase?: boolean
-  capitalize?: boolean
-  width?: string
-  padding?: string
-  margin?: string
-  jumbo?: boolean
-  height?: string
-  className?: string
-  onClick?: () => void
-  style?: CSSProperties
-}>
+export const Button: StatelessComponent<
+  {
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'empty-secondary'
+      | 'empty'
+      | 'gray-3'
+      | 'green'
+      | 'light'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-transparent'
+    fullwidth?: boolean
+    disabled?: boolean
+    rounded?: boolean
+    bold?: boolean
+    small?: boolean
+    uppercase?: boolean
+    capitalize?: boolean
+    width?: string
+    padding?: string
+    margin?: string
+    jumbo?: boolean
+    height?: string
+    className?: string
+    onClick?: () => void
+    style?: CSSProperties
+  } & React.ButtonHTMLAttributes<{}>
+>
 
 export const ComponentDropdown: React.ComponentClass<{
   components: Array<JSX.Element>
@@ -61,6 +63,11 @@ export const ComponentDropdown: React.ComponentClass<{
 }>
 
 export const FontGlobalStyles: StatelessComponent<{}>
+export const HeartbeatLoader: StatelessComponent<{
+  width?: string
+  height?: string
+  color?: keyof DefaultTheme
+}>
 export const Icon: StatelessComponent<{
   name: keyof IcoMoonType
   weight?: number
@@ -93,11 +100,13 @@ export const Link: StatelessComponent<{
 }>
 export const Modal: StatelessComponent<{
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+  type?: 'tray' | 'flyout'
   position?: number
   total?: number
   width?: number
   isLast?: boolean
   dataE2e?: string
+  style?: CSSProperties
 }>
 export const ModalBody: StatelessComponent<{
   loading?: boolean
@@ -113,10 +122,15 @@ export const SkeletonRectangle: StatelessComponent<{
   height?: string
   bgColor?: keyof DefaultTheme
 }>
+export const SpinningLoader: StatelessComponent<{
+  width?: string
+  height?: string
+}>
 export const Table: StatelessComponent<{
   style?: CSSProperties
 }>
 export const TableCell: StatelessComponent<{
+  onClick?: () => void
   width?: string
   hideMobile?: boolean
 }>
@@ -140,4 +154,9 @@ export const TextGroup: StatelessComponent<{
   nowrap?: boolean
   inline?: boolean
   style?: CSSProperties
+}>
+export const TooltipHost: StatelessComponent<{ id: string }>
+export const TooltipIcon: StatelessComponent<{
+  name: keyof IcoMoonType
+  size?: string
 }>

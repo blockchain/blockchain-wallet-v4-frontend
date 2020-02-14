@@ -280,7 +280,7 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendbtc.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' size='12px' />
+              <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </FormLabel>
           {!isPayPro ? (

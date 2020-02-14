@@ -1,4 +1,4 @@
-import { Box } from '../AirdropInfo'
+import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType } from '..'
@@ -56,7 +56,6 @@ const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
             <StxHeader stxCampaign={stxCampaign} />
           </Text>
         </Header>
-
         <StxInfo stxCampaign={stxCampaign} />
         <StatusContainer>
           <div>

@@ -6,7 +6,8 @@ import {
   BlockchainLoader,
   FlatLoader,
   FlatLoader2,
-  HeartbeatLoader
+  HeartbeatLoader,
+  SpinningLoader
 } from '../../src'
 import Layout from '../components/layout'
 
@@ -31,3 +32,4 @@ storiesOf('Loaders', module)
     <HeartbeatLoader width='100px' height='30px' />
   ))
   .add('HeartbeatLoader with color', () => <HeartbeatLoader color='red600' />)
+  .add('Spinning loader', () => <SpinningLoader />)

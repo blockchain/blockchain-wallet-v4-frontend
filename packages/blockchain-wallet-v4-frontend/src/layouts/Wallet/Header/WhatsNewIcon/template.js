@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -25,14 +24,10 @@ const NotificationBadge = styled.div`
 `
 
 const WhatsNewIcon = props => {
-  const { handleClick, numOfNewAnnouncements = 0, highlighted } = props
+  const { onClick, numOfNewAnnouncements = 0 } = props
   return (
     <TooltipHost id='whatsnew.tooltip'>
-      <WhatsNewLink
-        onClick={handleClick}
-        highlighted={highlighted}
-        data-e2e='notificationsLink'
-      >
+      <WhatsNewLink onClick={onClick} data-e2e='notificationsLink'>
         {numOfNewAnnouncements > 0 ? (
           <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
         ) : null}
@@ -46,11 +41,6 @@ const WhatsNewIcon = props => {
       </WhatsNewLink>
     </TooltipHost>
   )
-}
-
-WhatsNewIcon.propTypes = {
-  handleClick: PropTypes.func,
-  numOfNewAnnouncements: PropTypes.number
 }
 
 export default WhatsNewIcon
