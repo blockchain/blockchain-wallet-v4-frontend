@@ -7,8 +7,8 @@ export const getMetadata = path([kvStorePath, BUYSELL])
 export const getSfoxTrades = state =>
   getMetadata(state).map(pathOr([], ['value', 'sfox', 'trades']))
 
-// export const getSfoxUser = state =>
-//   getMetadata(state).map(path(['value', 'sfox', 'user']))
+export const getSfoxUser = state =>
+  getMetadata(state).map(path(['value', 'sfox', 'user']))
 
 // export const getSfoxJumio = state =>
 //   getMetadata(state).map(path(['value', 'sfox', 'jumio']))
