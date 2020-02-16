@@ -36,7 +36,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
       <Table style={{ minWidth: '500px' }}>
         <TableHeader>
           <TableCell width='18%'>
-            <Text size='12px' weight={500}>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
                 id='scenes.pastairdrops.type'
                 defaultMessage='Type'
@@ -44,7 +44,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
           <TableCell width='18%'>
-            <Text size='12px' weight={500}>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
                 id='scenes.pastairdrops.status'
                 defaultMessage='Status'
@@ -52,7 +52,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
           <TableCell width='18%'>
-            <Text size='12px' weight={500}>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
                 id='scenes.pastairdrops.date'
                 defaultMessage='Date'
@@ -60,7 +60,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
           <TableCell width='18%'>
-            <Text size='12px' weight={500}>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
                 id='scenes.pastairdrops.to'
                 defaultMessage='To'
@@ -68,7 +68,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
           <TableCell width='28%'>
-            <Text size='12px' weight={500}>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
                 id='scenes.pastairdrops.amount'
                 defaultMessage='Amount'

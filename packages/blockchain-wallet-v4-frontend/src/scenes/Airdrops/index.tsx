@@ -21,7 +21,6 @@ export const Header = styled.div`
 export const History = styled.div`
   margin-top: 120px;
 `
-
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `

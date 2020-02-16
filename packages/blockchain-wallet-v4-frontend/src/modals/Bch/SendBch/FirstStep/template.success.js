@@ -224,7 +224,7 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendBch.firststep.share_tooltip'>
-              <TooltipIcon name='question-in-circle' size='12px' />
+              <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </FormLabel>
           {!isPayPro ? (

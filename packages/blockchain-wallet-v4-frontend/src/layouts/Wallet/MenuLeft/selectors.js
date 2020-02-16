@@ -14,6 +14,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.kvStore.whatsNew.getHasSkippedTour,
     selectors.core.settings.getCountryCode,
+    selectors.core.settings.getInvitations,
     selectors.core.walletOptions.getAdsBlacklist,
     selectors.core.walletOptions.getAdsUrl,
     selectors.modules.profile.getUserKYCState
@@ -28,11 +29,12 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     hasSkippedTourR,
     countryCodeR,
+    invitationsR,
     adsBlacklistR,
     adsUrlR,
     userKYCState
   ) => {
-    const transform = (canTrade, lockboxDevices, countryCode) => {
+    const transform = (canTrade, lockboxDevices, countryCode, invitations) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
         adsUrl: adsUrlR.getOrElse(''),
@@ -40,6 +42,7 @@ export const getData = createDeepEqualSelector(
         countryCode,
         hasRunWalletTour: walletTourVisibility === STATUS.FINISHED,
         hasSkippedTour: hasSkippedTourR.getOrElse(false),
+        invitations,
         firstLogin,
         lockboxDevices,
         lockboxOpened,
@@ -49,6 +52,11 @@ export const getData = createDeepEqualSelector(
       }
     }
 
-    return lift(transform)(canTradeR, lockboxDevicesR, countryCodeR)
+    return lift(transform)(
+      canTradeR,
+      lockboxDevicesR,
+      countryCodeR,
+      invitationsR
+    )
   }
 )

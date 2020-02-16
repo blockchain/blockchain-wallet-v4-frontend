@@ -26,7 +26,8 @@ const FiatDisplay = props => {
     color,
     cursor,
     mobileSize,
-    className
+    className,
+    ...rest
   } = props
 
   return (
@@ -38,6 +39,7 @@ const FiatDisplay = props => {
         color={color}
         cursor={cursor}
         data-e2e={coin + 'FiatAmt'}
+        {...rest}
       >
         {children}
       </FiatText>

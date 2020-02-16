@@ -131,7 +131,7 @@ const Terms = props => {
     default:
       return (
         <TermsContainer>
-          <Text size='12px' weight={400}>
+          <Text size='12px' weight={500}>
             <FormattedMessage
               id='scenes.register.registerform.blockchain.read'
               defaultMessage='I have read and agreed to the'
@@ -151,7 +151,7 @@ const Terms = props => {
             />
           </Link>
           &nbsp;
-          <Text size='12px' weight={400}>
+          <Text size='12px' weight={500}>
             &
           </Text>
           &nbsp;

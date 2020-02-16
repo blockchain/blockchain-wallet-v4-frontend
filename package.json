@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.27.10",
+  "version": "4.28.0",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -27,13 +27,9 @@
   "workspaces": [
     "packages/*"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged && node ./scripts/commitHook.js",
       "pre-push": "yarn test"
     }
@@ -42,8 +38,10 @@
     "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "stylelint",
       "git add"
+    ],
+    "*.{js,tsx}": [
+      "stylelint"
     ],
     "*.json": [
       "prettier --write",
@@ -55,12 +53,11 @@
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:lint": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write && eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,ts,tsx}'",
+    "ci:lint": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write && eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,tsx}'",
     "ci:test:build": "yarn wsrun --serial test:build",
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env yarn wsrun clean && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf node_modules",
-    "commit": "git cz --gpg-sign",
     "coverage": "cross-env rimraf coverage && yarn wsrun coverage && yarn run report",
     "coverage:components": "cross-env rimraf coverage && yarn workspace blockchain-info-components coverage && yarn run report",
     "coverage:core": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4 coverage && yarn run report",
@@ -71,7 +68,7 @@
     "lint": "eslint --cache './packages/*/src/**/*.{js,ts,tsx}'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.{js,ts,tsx}'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}'",
-    "lint:css": "stylelint './packages/*/src/**/*.{js,ts,tsx}s'",
+    "lint:css": "stylelint './packages/*/src/**/*.{js,tsx}'",
     "lint:fix": "eslint './packages/*/src/**/*.{js,ts,tsx}' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}'",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
@@ -112,6 +109,8 @@
     "@babel/preset-env": "7.6.2",
     "@babel/preset-react": "7.0.0",
     "@codechecks/client": "0.1.10",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
     "@storybook/addon-actions": "4.1.9",
     "@storybook/addon-info": "4.1.9",
     "@storybook/addon-links": "4.1.9",
@@ -140,7 +139,6 @@
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "chalk": "2.4.2",
     "clean-webpack-plugin": "3.0.0",
-    "commitizen": "3.1.1",
     "copy-webpack-plugin": "5.0.4",
     "coveralls": "3.0.6",
     "cross-env": "6.0.0",

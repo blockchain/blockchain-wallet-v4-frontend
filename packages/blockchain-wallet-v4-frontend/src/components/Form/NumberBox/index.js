@@ -15,7 +15,7 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -18px;
+  top: ${props => (props.errorBottom ? '48px' : '-18px')};
   right: 0;
   height: 15px;
 `
@@ -31,6 +31,7 @@ const NumberBox = field => {
       <NumberInput
         {...field.input}
         errorState={errorState}
+        autoFocus={field.autoFocus}
         placeholder={field.placeholder}
         data-e2e={field['data-e2e']}
       />

@@ -9,7 +9,6 @@ import Page from './Page'
 import React from 'react'
 import styled from 'styled-components'
 import Tooltips from 'components/Tooltips'
-import TrayRight from './TrayRight'
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,7 +55,6 @@ const WalletLayout = props => {
         </Nav>
         <Container>
           <MenuLeft location={location} />
-          <TrayRight />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Page>{children}</Page>
           </Content>

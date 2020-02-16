@@ -32,7 +32,7 @@ const BalanceDropdown = styled.div`
   > div > ul {
     position: absolute;
     top: 28px;
-    right: 12px;
+    right: 2px;
     padding: 0;
     width: 230px;
   }

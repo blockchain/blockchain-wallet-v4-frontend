@@ -38,12 +38,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-content: flex-start;
   border: 1px solid ${props => props.theme.grey100};
-  border-radius: 4px;
-
-  & > :last-child {
-    margin: -10px 0 0 25px;
-    z-index: 10;
-  }
+  border-radius: 8px;
 `
 
 // FIXME: TypeScript use SupportedCoinsType
@@ -56,6 +51,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
+  background-color: none;
 `
 
 const AccountContainer = styled.div<{ isItem?: boolean }>`
@@ -90,13 +86,24 @@ const CoinSelect = styled(SelectBox)`
   .bc__control {
     border: 0 !important;
   }
+  .bc__control .bc__value-container {
+    padding: 0px;
+  }
+
+  .bc__indicators {
+    align-items: flex-start;
+    padding-top: 8px;
+    padding-right: 8px;
+  }
 `
 
 const PriceChangeText = styled(Text)`
+  margin-top: 8px;
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.theme.grey400};
+  white-space: nowrap;
+  color: ${props => props.theme.grey600};
 `
 const PriceChangeColoredText = styled.span<{ priceChangeFiat: number }>`
   font-weight: 600;
@@ -143,6 +150,15 @@ export class WalletBalanceDropdown extends Component<Props> {
   renderDisplay = (props: { value }, children) => {
     const coinType = this.props.coinModel
     const balance = this.coinBalance(props)
+    const {
+      currencySymbol,
+      priceChangeFiat,
+      priceChangePercentage
+    } = this.props.data.getOrElse({
+      currencySymbol: '$',
+      priceChangeFiat: 0,
+      priceChangePercentage: 0
+    })
 
     return (
       <DisplayContainer coinType={coinType}>
@@ -170,6 +186,19 @@ export class WalletBalanceDropdown extends Component<Props> {
               {balance}
             </FiatDisplay>
           </AmountContainer>
+          <PriceChangeText>
+            <PriceChangeColoredText priceChangeFiat={priceChangeFiat}>
+              {buildPercentageChange(
+                currencySymbol,
+                priceChangeFiat,
+                priceChangePercentage
+              )}
+            </PriceChangeColoredText>{' '}
+            <FormattedMessage
+              id='scenes.transactions.performance.prices.day'
+              defaultMessage='today'
+            />
+          </PriceChangeText>
         </AccountContainer>
       </DisplayContainer>
     )
@@ -220,12 +249,7 @@ export class WalletBalanceDropdown extends Component<Props> {
   render () {
     return this.props.data.cata({
       Success: values => {
-        const {
-          addressData,
-          currencySymbol,
-          priceChangeFiat,
-          priceChangePercentage
-        } = values
+        const { addressData } = values
         return (
           <Wrapper>
             <Field
@@ -240,19 +264,6 @@ export class WalletBalanceDropdown extends Component<Props> {
               templateDisplay={this.renderDisplay}
               templateItem={this.renderItem}
             />
-            <PriceChangeText>
-              <PriceChangeColoredText priceChangeFiat={priceChangeFiat}>
-                {buildPercentageChange(
-                  currencySymbol,
-                  priceChangeFiat,
-                  priceChangePercentage
-                )}
-              </PriceChangeColoredText>{' '}
-              <FormattedMessage
-                id='scenes.transactions.performance.prices.day'
-                defaultMessage='today'
-              />
-            </PriceChangeText>
           </Wrapper>
         )
       },

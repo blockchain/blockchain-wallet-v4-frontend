@@ -35,6 +35,10 @@ const ExportEthPrivateKeyText = styled(Text)`
 const ReportingIcon = styled(Icon)`
   width: 40px;
   margin-right: 10px;
+
+  &:hover {
+    color: ${props => props.theme.grey600};
+  }
 `
 const SearchField = styled<any>(Field)`
   > div > span {

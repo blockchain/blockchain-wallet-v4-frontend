@@ -289,7 +289,7 @@ const TransactionListItem = ({
                       defaultMessage='(Change Address)'
                     />
                     <TooltipHost id='txlist.change.tooltip'>
-                      <TooltipIcon name='question-in-circle' />
+                      <TooltipIcon name='info' />
                     </TooltipHost>
                   </React.Fragment>
                 )}

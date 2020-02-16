@@ -43,9 +43,30 @@ const getOrElse = function<A, DV> (
   }
 }
 
+const getOrFail = function<A, EV> (
+  this: RemoteDataType<any, A>,
+  errorValue: EV
+): A {
+  switch (this['@@tag']) {
+    case 'RemoteNotAsked': {
+      throw errorValue
+    }
+    case 'RemoteLoading': {
+      throw errorValue
+    }
+    case 'RemoteFailure': {
+      throw errorValue
+    }
+    case 'RemoteSuccess': {
+      return this.data
+    }
+  }
+}
+
 export type RemoteType = {
   cata: typeof cata
   getOrElse: typeof getOrElse
+  getOrFail: typeof getOrFail
 }
 
 export type RemoteNotAsked = RemoteType & {

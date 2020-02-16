@@ -1,5 +1,9 @@
 import { Button, Text } from 'blockchain-info-components'
-import { Cartridge } from '@blockchain-com/components'
+import {
+  ErrorCartridge,
+  GreyCartridge,
+  SuccessCartridge
+} from 'components/Cartridge'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import React from 'react'
@@ -10,31 +14,6 @@ const { KYC_STATES } = model.profile
 const Copy = styled(Text)`
   margin-top: 8px;
   line-height: 1.5;
-`
-export const CustomCartridge = styled(Cartridge)`
-  text-transform: none;
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-size: 14px;
-  margin-left: 0px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-`
-export const GreyCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.grey000};
-  color: ${props => props.theme.grey600};
-`
-export const BlueCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme['blue000']};
-  color: ${props => props.theme['blue600']};
-`
-export const ErrorCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red600};
-`
-export const SuccessCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.green000};
-  color: ${props => props.theme.green600};
 `
 
 export const AirdropInfoHeader = ({ kycState }) => {
