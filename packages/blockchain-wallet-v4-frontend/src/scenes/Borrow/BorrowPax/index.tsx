@@ -47,7 +47,12 @@ class BorrowPax extends PureComponent<Props, State> {
             defaultMessage='Get USD Pax directly from your Blockchain Wallet, use your bitcoin as collateral. You need to be Gold level to benefit from this new offering.'
           />
         </Text>
-        <Button style={{ marginTop: '16px' }} nature='light' fullwidth>
+        <Button
+          style={{ marginTop: '16px' }}
+          nature='light'
+          fullwidth
+          data-e2e='paxLearnMore'
+        >
           <FormattedMessage
             id='scenes.borrow.learnmore'
             defaultMessage='Learn More'

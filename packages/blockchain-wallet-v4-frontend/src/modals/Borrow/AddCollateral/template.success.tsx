@@ -239,7 +239,10 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
                   </Text>
                   {props.isAddrCopied ? (
                     <TooltipHost id='copied'>
-                      <Button nature='light'>
+                      <Button
+                        nature='light'
+                        data-e2e='addCollateralCopyAddress'
+                      >
                         <FormattedMessage
                           id='modals.borrow.addcollateralform.copy'
                           defaultMessage='Copy Address'
@@ -250,6 +253,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
                     <Button
                       nature='light'
                       onClick={() => props.onCopyAddress()}
+                      data-e2e='addCollateralCopyAddress'
                     >
                       <FormattedMessage
                         id='modals.borrow.addcollateralform.copy'

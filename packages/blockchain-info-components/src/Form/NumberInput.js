@@ -32,6 +32,7 @@ const BaseNumberInput = styled.input.attrs({
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
     margin: 0;
   }
 `

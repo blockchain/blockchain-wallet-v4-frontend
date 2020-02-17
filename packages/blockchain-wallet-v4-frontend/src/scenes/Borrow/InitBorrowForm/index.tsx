@@ -137,6 +137,7 @@ class InitBorrowForm extends PureComponent<Props> {
           nature='primary'
           fullwidth
           onClick={this.initBorrow}
+          data-e2e='initBorrowPax'
         >
           <FormattedMessage
             id='scenes.initborrow.borrow'

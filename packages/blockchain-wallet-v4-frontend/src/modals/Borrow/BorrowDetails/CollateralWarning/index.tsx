@@ -66,6 +66,7 @@ const CollateralWarning: React.FC<Props> = props => {
               />
             </Text>
             <CustomButton
+              data-e2e='goToStepAddCollateral'
               onClick={() =>
                 props.borrowActions.setStep({
                   step: 'ADD_COLLATERAL',
@@ -111,6 +112,7 @@ const CollateralWarning: React.FC<Props> = props => {
               />
             </Text>
             <CustomButton
+              data-e2e='goToStepAddCollateral'
               onClick={() =>
                 props.borrowActions.setStep({
                   step: 'ADD_COLLATERAL',

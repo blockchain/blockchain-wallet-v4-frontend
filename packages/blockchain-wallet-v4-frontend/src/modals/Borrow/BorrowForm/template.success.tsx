@@ -160,6 +160,14 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             displayName={displayName}
           />
           <div>
+            <Button nature='empty' data-e2e='borrowCancel'>
+              <Text size='16px' weight={600} color='blue600'>
+                <FormattedMessage
+                  id='modals.borrow.collateralform.cancel'
+                  defaultMessage='Cancel'
+                />
+              </Text>
+            </Button>
             <Button
               nature='primary'
               type='submit'

@@ -137,6 +137,7 @@ export const AirdropInfoButton = ({
           fullwidth
           onClick={() => identityVerificationActions.verifyIdentity(2)}
           style={{ marginTop: '32px' }}
+          data-e2e='upgradeNow'
         >
           <FormattedMessage
             id='scenes.airdrops.success.upgradenow'

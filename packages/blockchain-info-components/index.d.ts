@@ -14,6 +14,7 @@ export const BlockchainLoader: StatelessComponent<{
 }>
 export const Button: StatelessComponent<
   {
+    'data-e2e': string
     nature?:
       | 'copy'
       | 'dark'
