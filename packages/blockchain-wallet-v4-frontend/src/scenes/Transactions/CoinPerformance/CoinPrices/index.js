@@ -1,6 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { connect } from 'react-redux'
-import { Exchange } from 'blockchain-wallet-v4'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import React from 'react'

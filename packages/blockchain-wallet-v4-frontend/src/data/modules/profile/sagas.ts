@@ -25,7 +25,7 @@ import {
 } from 'ramda'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'

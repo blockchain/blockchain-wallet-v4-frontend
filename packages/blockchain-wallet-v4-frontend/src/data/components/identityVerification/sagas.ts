@@ -20,7 +20,7 @@ import { computeSteps } from './services'
 import { getStateNameFromAbbreviation } from 'services/LocalesService'
 import { isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
 import { StateType, StepsType } from './types'
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 import profileSagas from '../../modules/profile/sagas'
 
 export const logLocation = 'components/identityVerification/sagas'
