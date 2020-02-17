@@ -172,8 +172,7 @@ export default ({
           maxCrypto = Exchange.convertBtcToBtc({
             value,
             fromUnit: 'SAT',
-            toUnit: 'SAT',
-            rates: rates
+            toUnit: 'SAT'
           }).value
       }
 

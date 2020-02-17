@@ -1,7 +1,6 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
 import { Props } from '../template.success'
 import { Text } from 'blockchain-info-components'
 import CollateralizationBar from '../CollateralizationBar'

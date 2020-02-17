@@ -1,4 +1,5 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import { CurrenciesType } from 'core/exchange/currencies'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -54,7 +55,7 @@ export const getData = (state, ownProps: OwnProps) => {
     addressData,
     balanceData,
     coinRates,
-    currency,
+    currency: keyof CurrenciesType,
     priceIndexSeries
   ) => {
     const { value } = Exchange.convertCoinToCoin({
@@ -73,6 +74,7 @@ export const getData = (state, ownProps: OwnProps) => {
     // @ts-ignore
     let yesterdayPrice = prop('price', nth(23, priceIndexSeries))
     const yesterdayValue = Exchange.convertCoinToFiat(value, coin, currency, {
+      ...priceIndexSeries,
       [currency]: {
         last: yesterdayPrice
       }
