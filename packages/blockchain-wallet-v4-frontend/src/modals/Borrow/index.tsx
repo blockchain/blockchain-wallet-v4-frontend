@@ -2,12 +2,12 @@ import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { BorrowStepsType } from 'data/types'
 import { connect } from 'react-redux'
-import { LoanType, OfferType, RemoteDataType } from 'core/types'
+import { LoanType, OfferType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import AddCollateral from './AddCollateral'
 import BorrowDetails from './BorrowDetails'
 import BorrowForm from './BorrowForm'
-import Flyout, { duration } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
@@ -71,19 +71,28 @@ class Borrow extends PureComponent<Props, State> {
         total={total}
       >
         {this.props.step === 'CHECKOUT' && this.props.offer && (
-          <BorrowForm offer={this.props.offer} handleClose={this.handleClose} />
+          <FlyoutChild>
+            <BorrowForm
+              offer={this.props.offer}
+              handleClose={this.handleClose}
+            />
+          </FlyoutChild>
         )}
         {this.props.step === 'DETAILS' && this.props.loan && (
-          <BorrowDetails
-            loan={this.props.loan}
-            handleClose={this.handleClose}
-          />
+          <FlyoutChild>
+            <BorrowDetails
+              loan={this.props.loan}
+              handleClose={this.handleClose}
+            />
+          </FlyoutChild>
         )}
         {this.props.step === 'ADD_COLLATERAL' && this.props.loan && (
-          <AddCollateral
-            loan={this.props.loan}
-            handleClose={this.handleClose}
-          />
+          <FlyoutChild>
+            <AddCollateral
+              loan={this.props.loan}
+              handleClose={this.handleClose}
+            />
+          </FlyoutChild>
         )}
       </Flyout>
     )

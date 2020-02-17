@@ -8,6 +8,7 @@ import Transition from 'react-transition-group/Transition'
 // TODO: use only ReactCSSTransitionGroup
 
 export const duration = 500
+export const slide = 500
 export const width = 480
 
 const defaultStyle = {
@@ -56,7 +57,7 @@ const FlyoutChildren = styled.div<{ direction: 'left' | 'right' }>`
   .flyout-children-enter.flyout-children-enter-active {
     opacity: 1;
     left: 0;
-    transition: left ${duration}ms, opacity ${duration}ms;
+    transition: left ${slide}ms, opacity ${slide}ms;
   }
 
   .flyout-children-leave {
@@ -78,7 +79,7 @@ const FlyoutChildren = styled.div<{ direction: 'left' | 'right' }>`
       left: 99%;
     `}
     opacity: 0.01;
-    transition: left ${duration}ms, opacity ${duration}ms;
+    transition: left ${slide}ms, opacity ${slide}ms;
   }
 `
 
@@ -89,6 +90,11 @@ export const FlyoutWrapper = styled.div`
   ${media.tablet`
     padding: 20px;
   `}
+`
+
+export const FlyoutChild = styled.div`
+  height: 100%;
+  width: 100%;
 `
 
 type OwnProps = {
@@ -119,9 +125,10 @@ class Flyout extends React.PureComponent<OwnProps> {
             <FlyoutChildren direction={this.props.direction || 'left'}>
               <ReactCSSTransitionGroup
                 transitionName='flyout-children'
-                transitionEnterTimeout={duration}
-                transitionLeaveTimeout={duration}
+                transitionEnterTimeout={slide}
+                transitionLeaveTimeout={slide}
               >
+                {/* Child must be wrapped in FlyoutChild for transitioning to work */}
                 {children}
               </ReactCSSTransitionGroup>
             </FlyoutChildren>
