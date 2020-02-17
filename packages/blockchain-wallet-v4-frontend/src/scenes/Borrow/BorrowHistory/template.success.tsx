@@ -14,10 +14,6 @@ import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-export const History = styled.div`
-  margin-top: 72px;
-  max-width: 1200px;
-`
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
@@ -37,107 +33,105 @@ const ViewDetailsCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   return (
-    <History>
-      <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
-        <Table style={{ minWidth: '800px' }}>
-          <TableHeader>
-            <TableCell width='20%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage
-                  id='scenes.borrow.history.created'
-                  defaultMessage='Created'
-                />
-              </Text>
-            </TableCell>
-            <TableCell width='30%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage
-                  id='scenes.borrow.history.status'
-                  defaultMessage='Status/Collateralization'
-                />
-              </Text>
-            </TableCell>
-            <TableCell width='12%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage
-                  id='scenes.borrow.history.collateral'
-                  defaultMessage='Collateral'
-                />
-              </Text>
-            </TableCell>
-            <TableCell width='12%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage
-                  id='scenes.borrow.history.amount'
-                  defaultMessage='Loan Amount'
-                />
-              </Text>
-            </TableCell>
-            <TableCell width='12%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage
-                  id='scenes.borrow.history.outstanding'
-                  defaultMessage='Outstanding'
-                />
-              </Text>
-            </TableCell>
-          </TableHeader>
-          {props.borrowHistory.map(loan => {
-            const offer = props.offers.find(offer => offer.id === loan.offerId)
-            if (!offer) return
+    <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
+      <Table style={{ minWidth: '800px' }}>
+        <TableHeader>
+          <TableCell width='20%'>
+            <Text size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.history.created'
+                defaultMessage='Created'
+              />
+            </Text>
+          </TableCell>
+          <TableCell width='30%'>
+            <Text size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.history.status'
+                defaultMessage='Status/Collateralization'
+              />
+            </Text>
+          </TableCell>
+          <TableCell width='12%'>
+            <Text size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.history.collateral'
+                defaultMessage='Collateral'
+              />
+            </Text>
+          </TableCell>
+          <TableCell width='12%'>
+            <Text size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.history.amount'
+                defaultMessage='Loan Amount'
+              />
+            </Text>
+          </TableCell>
+          <TableCell width='12%'>
+            <Text size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.history.outstanding'
+                defaultMessage='Outstanding'
+              />
+            </Text>
+          </TableCell>
+        </TableHeader>
+        {props.borrowHistory.map(loan => {
+          const offer = props.offers.find(offer => offer.id === loan.offerId)
+          if (!offer) return
 
-            return (
-              <TableRow>
-                <TableCell width='20%'>
-                  <Value>{moment(loan.openedAt).format('lll')}</Value>
-                </TableCell>
-                <CollateralizationTableCell width='30%'>
-                  <Status {...loan} />
-                  {offer && (
-                    <CollateralizationBarWrapper>
-                      <CollateralizationBar
-                        {...props}
-                        loan={loan}
-                        offer={offer}
-                      />
-                    </CollateralizationBarWrapper>
-                  )}
-                </CollateralizationTableCell>
-                <TableCell width='12%'>
-                  {/* TODO: Borrow - loop over all amounts in the future */}
-                  <Value>
-                    {
-                      loan.collateral.amounts.find(
-                        amount => amount.symbol === 'BTC'
-                      )!.value
-                    }{' '}
-                    BTC
-                  </Value>
-                </TableCell>
-                <TableCell width='12%'>
-                  {/* TODO: Borrow - loop over all amounts in the future */}
-                  <Value>
-                    {
-                      loan.principal.amount.find(
-                        amount => amount.symbol === 'PAX'
-                      )!.value
-                    }{' '}
-                    PAX
-                  </Value>
-                </TableCell>
-                <TableCell width='12%'>-</TableCell>
-                <ViewDetailsCell
-                  width='14%'
-                  onClick={() => props.showLoanDetails(loan, offer)}
-                >
-                  <Link size='14px'>View Details</Link>
-                </ViewDetailsCell>
-              </TableRow>
-            )
-          })}
-        </Table>
-      </div>
-    </History>
+          return (
+            <TableRow>
+              <TableCell width='20%'>
+                <Value>{moment(loan.openedAt).format('lll')}</Value>
+              </TableCell>
+              <CollateralizationTableCell width='30%'>
+                <Status {...loan} />
+                {offer && (
+                  <CollateralizationBarWrapper>
+                    <CollateralizationBar
+                      {...props}
+                      loan={loan}
+                      offer={offer}
+                    />
+                  </CollateralizationBarWrapper>
+                )}
+              </CollateralizationTableCell>
+              <TableCell width='12%'>
+                {/* TODO: Borrow - loop over all amounts in the future */}
+                <Value>
+                  {
+                    loan.collateral.amounts.find(
+                      amount => amount.symbol === 'BTC'
+                    )!.value
+                  }{' '}
+                  BTC
+                </Value>
+              </TableCell>
+              <TableCell width='12%'>
+                {/* TODO: Borrow - loop over all amounts in the future */}
+                <Value>
+                  {
+                    loan.principal.amount.find(
+                      amount => amount.symbol === 'PAX'
+                    )!.value
+                  }{' '}
+                  PAX
+                </Value>
+              </TableCell>
+              <TableCell width='12%'>-</TableCell>
+              <ViewDetailsCell
+                width='14%'
+                onClick={() => props.showLoanDetails(loan, offer)}
+              >
+                <Link size='14px'>View Details</Link>
+              </ViewDetailsCell>
+            </TableRow>
+          )
+        })}
+      </Table>
+    </div>
   )
 }
 
