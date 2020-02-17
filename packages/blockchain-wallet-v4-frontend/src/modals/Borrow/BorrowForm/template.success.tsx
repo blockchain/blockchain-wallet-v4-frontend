@@ -167,6 +167,11 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             data-e2e='principalInput'
             name='principal'
             validate={[maximumAmount, minimumAmount]}
+            {...{
+              errorBottom: true,
+              errorLeft: true,
+              errorIcon: 'alert-filled'
+            }}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey400' size='14px' weight={600}>
