@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { ExchangeActionTypes, LimitAmountType, LimitsType } from './types'
 
 export const initialize = requestedValues => ({
@@ -38,7 +37,7 @@ export const fetchLimitsLoading = (): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
 export const fetchLimitsSuccess = (
-  limits: Currencies<LimitsType>
+  limits: Array<LimitsType>
 ): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: { limits }

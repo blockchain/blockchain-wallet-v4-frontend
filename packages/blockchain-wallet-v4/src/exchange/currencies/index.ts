@@ -26,7 +26,7 @@ import TWD from './TWD'
 import USD from './USD'
 import XLM from './XLM'
 
-export {
+const Currencies = {
   EUR,
   USD,
   BCH,
@@ -55,3 +55,6 @@ export {
   THB,
   TWD
 }
+
+export type CurrenciesType = typeof Currencies
+export default Currencies
