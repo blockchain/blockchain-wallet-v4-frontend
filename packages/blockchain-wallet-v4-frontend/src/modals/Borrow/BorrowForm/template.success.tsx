@@ -1,5 +1,5 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -24,6 +24,13 @@ const CustomForm = styled(Form)`
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
+`
+
+const TopText = styled(Text)`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -69,6 +76,16 @@ const FiatContainer = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  > button {
+    height: 48px !important;
+    width: 45% !important;
+    padding: 15px !important;
+  }
+`
+
 type LinkStatePropsType = {
   values?: BorrowFormValuesType
 }
@@ -85,13 +102,20 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <Text color='grey900' size='20px' weight={600}>
+        <TopText color='grey900' size='20px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
             defaultMessage='Borrow {displayName}'
             values={{ displayName }}
           />
-        </Text>
+          <Icon
+            onClick={props.handleClose}
+            cursor
+            name='close'
+            size='20px'
+            color='grey600'
+          />
+        </TopText>
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -159,8 +183,12 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             collateral={0}
             displayName={displayName}
           />
-          <div>
-            <Button nature='empty' data-e2e='borrowCancel'>
+          <ButtonContainer>
+            <Button
+              nature='empty'
+              data-e2e='borrowCancel'
+              onClick={props.handleClose}
+            >
               <Text size='16px' weight={600} color='blue600'>
                 <FormattedMessage
                   id='modals.borrow.collateralform.cancel'
@@ -185,7 +213,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
                 </Text>
               )}
             </Button>
-          </div>
+          </ButtonContainer>
         </>
       </Bottom>
     </CustomForm>

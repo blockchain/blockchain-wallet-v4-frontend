@@ -22,7 +22,7 @@ type LinkStatePropsType = {
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
-type OwnProps = {
+export type OwnProps = {
   close: () => void
   position: number
   total: number
@@ -71,13 +71,19 @@ class Borrow extends PureComponent<Props, State> {
         total={total}
       >
         {this.props.step === 'CHECKOUT' && this.props.offer && (
-          <BorrowForm offer={this.props.offer} />
+          <BorrowForm offer={this.props.offer} handleClose={this.handleClose} />
         )}
         {this.props.step === 'DETAILS' && this.props.loan && (
-          <BorrowDetails loan={this.props.loan} />
+          <BorrowDetails
+            loan={this.props.loan}
+            handleClose={this.handleClose}
+          />
         )}
         {this.props.step === 'ADD_COLLATERAL' && this.props.loan && (
-          <AddCollateral loan={this.props.loan} />
+          <AddCollateral
+            loan={this.props.loan}
+            handleClose={this.handleClose}
+          />
         )}
       </Flyout>
     )

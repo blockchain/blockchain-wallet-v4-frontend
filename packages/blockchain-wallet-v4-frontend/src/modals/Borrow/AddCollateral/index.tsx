@@ -16,6 +16,7 @@ import React, { Component } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {
+  handleClose: () => void
   loan: LoanType
 }
 

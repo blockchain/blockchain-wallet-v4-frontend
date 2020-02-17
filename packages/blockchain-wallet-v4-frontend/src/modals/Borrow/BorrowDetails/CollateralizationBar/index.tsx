@@ -1,5 +1,5 @@
+import { LoanType, OfferType } from 'core/types'
 import { model } from 'data'
-import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -53,8 +53,11 @@ const CurrentBackground = styled(Current)`
   left: 0;
 `
 
-type Props = OwnProps &
-  SuccessStateType & { offer: OfferType; showPercentages?: boolean }
+type Props = SuccessStateType & {
+  loan: LoanType
+  offer: OfferType
+  showPercentages?: boolean
+}
 
 const PADDING = 0.363636
 const {
