@@ -128,7 +128,7 @@ class Flyout extends React.PureComponent<OwnProps> {
                 transitionEnterTimeout={slide}
                 transitionLeaveTimeout={slide}
               >
-                {/* Child must be wrapped in FlyoutChild for transitioning to work */}
+                {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
                 {children}
               </ReactCSSTransitionGroup>
             </FlyoutChildren>
