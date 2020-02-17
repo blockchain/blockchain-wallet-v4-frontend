@@ -57,6 +57,7 @@ const AccountContainer = styled.div`
     position: relative;
     top: 0;
     transform: initial;
+    margin: 0;
   }
   input {
     height: 0;
