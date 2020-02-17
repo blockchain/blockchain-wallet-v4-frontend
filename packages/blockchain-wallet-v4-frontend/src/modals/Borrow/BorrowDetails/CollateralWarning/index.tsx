@@ -148,6 +148,25 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
+            {/* TODO - Borrow: Remove before prod release */}
+            <CustomButton
+              data-e2e='goToStepAddCollateral'
+              onClick={() =>
+                props.borrowActions.setStep({
+                  step: 'ADD_COLLATERAL',
+                  loan: props.loan,
+                  offer: props.offer
+                })
+              }
+              nature='primary'
+            >
+              <Text color='white' size='14px' weight={600}>
+                <FormattedMessage
+                  id='scenes.borrow.addcollateral'
+                  defaultMessage='Add Collateral'
+                />
+              </Text>
+            </CustomButton>
           </div>
         </Container>
       )

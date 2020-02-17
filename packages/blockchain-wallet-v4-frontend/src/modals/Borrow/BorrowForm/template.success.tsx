@@ -65,7 +65,7 @@ const PrincipalCcyAbsolute = styled.div`
 const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
-  margin-top: 40px;
+  margin-top: 16px;
 `
 
 const FiatContainer = styled.div`
