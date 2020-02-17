@@ -69,7 +69,7 @@ const PrincipalCcyAbsolute = styled.div`
 const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
-  margin-top: 40px;
+  margin-top: 16px;
 `
 
 const QRCodeContainer = styled.div`
@@ -180,6 +180,11 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             data-e2e='additionalCollateralInput'
             name='additionalCollateral'
             validate={[maximumAmount, minimumAmount]}
+            {...{
+              errorBottom: true,
+              errorLeft: true,
+              errorIcon: 'alert-filled'
+            }}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey400' size='14px' weight={600}>

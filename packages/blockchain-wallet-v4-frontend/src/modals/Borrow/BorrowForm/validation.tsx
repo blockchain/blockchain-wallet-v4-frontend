@@ -1,15 +1,22 @@
 import { BorrowFormValuesType } from 'data/types'
+import { FormattedMessage } from 'react-intl'
 import { Props } from './template.success'
 import BigNumber from 'bignumber.js'
-// import { FormattedMessage } from 'react-intl'
-// import React from 'react'
+import React from 'react'
 
 export const maximumAmount = (
   value: string,
   allValues: BorrowFormValuesType,
   props: Props
 ) => {
-  return new BigNumber(props.limits.maxFiat).isLessThan(Number(value))
+  return new BigNumber(props.limits.maxFiat).isLessThan(Number(value)) ? (
+    <FormattedMessage
+      id='borrow.validation.abovemax'
+      defaultMessage='The amount you entered is above the maximum amount.'
+    />
+  ) : (
+    false
+  )
 }
 
 export const minimumAmount = (
@@ -17,5 +24,12 @@ export const minimumAmount = (
   allValues: BorrowFormValuesType
 ) => {
   if (!value) return true
-  return new BigNumber(0).isGreaterThanOrEqualTo(value)
+  return new BigNumber(0).isGreaterThanOrEqualTo(value) ? (
+    <FormattedMessage
+      id='borrow.validation.belowmin'
+      defaultMessage='The amount you entered is below the minimum amount.'
+    />
+  ) : (
+    false
+  )
 }

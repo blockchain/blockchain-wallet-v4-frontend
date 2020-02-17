@@ -73,7 +73,7 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: small ? 'blue600' : 'gray-6',
         backgroundColor: 'white',
-        borderColor: 'gray-2',
+        borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
     case 'empty-secondary':

@@ -53,9 +53,11 @@ export class Amount extends Component<Props> {
               {val.max}
             </FiatDisplay>
           ),
-          Failure: e => (
-            <Text weight={600}>{typeof e === 'object' ? e.message : e}</Text>
-          ),
+          Failure: e => {
+            return (
+              <Text weight={600}>{typeof e === 'object' ? e.message : e}</Text>
+            )
+          },
           NotAsked: () => <Content>...</Content>,
           Loading: () => <Content>...</Content>
         })}

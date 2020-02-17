@@ -4,7 +4,7 @@ exports[`Button component default renders correctly 1`] = `
 <styled.button
   backgroundColor="white"
   bold={false}
-  borderColor="gray-2"
+  borderColor="grey000"
   capitalize={false}
   color="gray-6"
   disabled={false}

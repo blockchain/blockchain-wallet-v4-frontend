@@ -1,6 +1,6 @@
+import { LoanType, OfferType } from 'core/types'
 import { model } from 'data'
-import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
+import { SuccessStateType } from '..'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -26,7 +26,7 @@ const Line = styled.div<{ position: number }>`
     position: relative;
     display: block;
     height: 24px;
-    border-right: 2px dashed ${props => props.theme.grey400};
+    border-right: 2px dashed ${props => props.theme.greyFade400};
   }
 `
 const Percentage = styled(Text)`
@@ -53,8 +53,11 @@ const CurrentBackground = styled(Current)`
   left: 0;
 `
 
-type Props = OwnProps &
-  SuccessStateType & { offer: OfferType; showPercentages?: boolean }
+type Props = SuccessStateType & {
+  loan: LoanType
+  offer: OfferType
+  showPercentages?: boolean
+}
 
 const PADDING = 0.363636
 const {

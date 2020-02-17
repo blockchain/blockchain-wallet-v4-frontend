@@ -139,7 +139,8 @@ export default ({
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
-      yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
+      const error = typeof e === 'object' ? e.description : e
+      yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
     }
   }
 

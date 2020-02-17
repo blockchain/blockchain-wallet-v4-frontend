@@ -1,5 +1,5 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -24,6 +24,13 @@ const CustomForm = styled(Form)`
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
+`
+
+const TopText = styled(Text)`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Bottom = styled(FlyoutWrapper)`
@@ -58,7 +65,7 @@ const PrincipalCcyAbsolute = styled.div`
 const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
-  margin-top: 40px;
+  margin-top: 16px;
 `
 
 const FiatContainer = styled.div`
@@ -67,6 +74,27 @@ const FiatContainer = styled.div`
   padding: 4px 8px;
   border-radius: 20px;
   background-color: ${props => props.theme.grey000};
+`
+
+const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
+  margin-bottom: 16px;
+`
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  > button {
+    height: 48px !important;
+    width: 45% !important;
+    padding: 15px !important;
+  }
 `
 
 type LinkStatePropsType = {
@@ -85,13 +113,20 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <Text color='grey900' size='20px' weight={600}>
+        <TopText color='grey900' size='20px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
             defaultMessage='Borrow {displayName}'
             values={{ displayName }}
           />
-        </Text>
+          <Icon
+            onClick={props.handleClose}
+            cursor
+            name='close'
+            size='20px'
+            color='grey600'
+          />
+        </TopText>
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -143,6 +178,11 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             data-e2e='principalInput'
             name='principal'
             validate={[maximumAmount, minimumAmount]}
+            {...{
+              errorBottom: true,
+              errorLeft: true,
+              errorIcon: 'alert-filled'
+            }}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey400' size='14px' weight={600}>
@@ -160,31 +200,47 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             displayName={displayName}
           />
           <div>
-            <Button nature='empty' data-e2e='borrowCancel'>
-              <Text size='16px' weight={600} color='blue600'>
-                <FormattedMessage
-                  id='modals.borrow.collateralform.cancel'
-                  defaultMessage='Cancel'
+            {props.error && (
+              <ErrorText>
+                <Icon
+                  name='alert-filled'
+                  color='red600'
+                  style={{ marginRight: '4px' }}
                 />
-              </Text>
-            </Button>
-            <Button
-              nature='primary'
-              type='submit'
-              data-e2e='borrowSubmit'
-              disabled={props.submitting || props.invalid}
-            >
-              {props.submitting ? (
-                <HeartbeatLoader height='16px' width='16px' color='white' />
-              ) : (
-                <Text size='16px' weight={600} color='white'>
+                Error: {props.error}
+              </ErrorText>
+            )}
+            <ButtonContainer>
+              <Button
+                nature='empty'
+                data-e2e='borrowCancel'
+                onClick={props.handleClose}
+              >
+                <Text size='16px' weight={600} color='blue600'>
                   <FormattedMessage
-                    id='modals.borrow.collateralform.create'
-                    defaultMessage='Create Loan'
+                    id='modals.borrow.collateralform.cancel'
+                    defaultMessage='Cancel'
                   />
                 </Text>
-              )}
-            </Button>
+              </Button>
+              <Button
+                nature='primary'
+                type='submit'
+                data-e2e='borrowSubmit'
+                disabled={props.submitting || props.invalid}
+              >
+                {props.submitting ? (
+                  <HeartbeatLoader height='16px' width='16px' color='white' />
+                ) : (
+                  <Text size='16px' weight={600} color='white'>
+                    <FormattedMessage
+                      id='modals.borrow.collateralform.create'
+                      defaultMessage='Create Loan'
+                    />
+                  </Text>
+                )}
+              </Button>
+            </ButtonContainer>
           </div>
         </>
       </Bottom>

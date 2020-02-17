@@ -13,7 +13,13 @@ import { RatesType, UserDataType } from 'data/types'
 import { Text } from 'blockchain-info-components'
 import Loading from './template.loading'
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import Success from './template.success'
+
+const History = styled.div`
+  margin-top: 72px;
+  max-width: 1200px;
+`
 
 export type SuccessStateType = {
   borrowHistory: Array<LoanType>
@@ -41,14 +47,18 @@ class BorrowHistory extends Component<Props> {
   }
 
   render () {
-    return this.props.data.cata({
-      Success: val => (
-        <Success {...val} showLoanDetails={this.showLoanDetails} />
-      ),
-      Failure: e => <Text>{e.description}</Text>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    return (
+      <History>
+        {this.props.data.cata({
+          Success: val => (
+            <Success {...val} showLoanDetails={this.showLoanDetails} />
+          ),
+          Failure: e => <Text>{e.description}</Text>,
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />
+        })}
+      </History>
+    )
   }
 }
 
