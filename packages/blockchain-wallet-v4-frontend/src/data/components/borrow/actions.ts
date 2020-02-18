@@ -75,11 +75,15 @@ export const initializeBorrow = (coin: CoinType) => ({
   }
 })
 
-export const initializeCloseLoan = (coin: CoinType) => ({
-  type: AT.INITIALIZE_CLOSE_LOAN,
+export const initializeRepayLoan = (coin: CoinType) => ({
+  type: AT.INITIALIZE_REPAY_LOAN,
   payload: {
     coin
   }
+})
+
+export const repayLoan = () => ({
+  type: AT.REPAY_LOAN
 })
 
 export const setCoin = (coin: CoinType): BorrowActionTypes => ({

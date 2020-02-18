@@ -80,6 +80,17 @@ const PrincipalCcyAbsolute = styled.div`
   left: 12px;
 `
 
+const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
+  margin-bottom: 16px;
+`
+
 type LinkStatePropsType = {
   values?: BorrowFormValuesType
 }
@@ -125,7 +136,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           <div>
             <AmountsHeader>
               <FormattedMessage
-                id='scenes.borrow.endborrow.amount'
+                id='scenes.borrow.repayloan.amount'
                 defaultMessage='Borrow Amount'
               />
             </AmountsHeader>
@@ -136,7 +147,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           <div>
             <AmountsHeader>
               <FormattedMessage
-                id='scenes.borrow.endborrow.collateral'
+                id='scenes.borrow.repayloan.collateral'
                 defaultMessage='Collateral Value'
               />
             </AmountsHeader>
@@ -154,16 +165,16 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.endborrow.repayfrom'
+              id='modals.repayloan.repayfrom'
               defaultMessage='Repay from'
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} coin='PAX' name='principal' />
+        <BorrowCoinDropdown {...props} coin='PAX' name='repay-principal' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.endborrow.repayamount'
+              id='modals.repayloan.repayamount'
               defaultMessage='Repay amount'
             />
           </Text>
@@ -188,10 +199,20 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         </AmountFieldContainer>
       </Top>
       <Bottom>
+        {props.error && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            Error: {props.error}
+          </ErrorText>
+        )}
         <Button
           nature='primary'
           type='submit'
-          data-e2e='endBorrowSubmit'
+          data-e2e='repayLoanSubmit'
           disabled={props.submitting || props.invalid}
           fullwidth
         >
@@ -200,7 +221,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           ) : (
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id='modals.borrow.endborrow.repay'
+                id='modals.borrow.repayloan.repay'
                 defaultMessage='Complete Repayment'
               />
             </Text>
@@ -212,11 +233,11 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('endBorrowForm')(state)
+  values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
 const enhance = compose<any>(
-  reduxForm({ form: 'endBorrowForm', destroyOnUnmount: false }),
+  reduxForm({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
 

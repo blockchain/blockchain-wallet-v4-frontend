@@ -12,7 +12,6 @@ export type LoanType = {
     depositAddresses: { [key in CoinType]: string }
     mark: MoneyType
     notional: MoneyType
-    withdrawAddress: { [key in CoinType]: string }
   }
   collateralisationRatio: number
   expiration: Date
@@ -21,7 +20,7 @@ export type LoanType = {
   openedAt: Date
   principal: {
     amount: Array<MoneyType>
-    depositAddresses: { [key in CoinType]: string }
+    depositAddress: { [key in CoinType]: string }
     mark: MoneyType
     notional: MoneyType
     withdrawAddress: { [key in CoinType]: string }

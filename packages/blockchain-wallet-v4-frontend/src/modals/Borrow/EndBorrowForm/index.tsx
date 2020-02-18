@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { BorrowMinMaxType, RatesType } from 'data/types'
+import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
@@ -22,6 +22,7 @@ export type OwnProps = {
 }
 export type SuccessStateType = {
   limits: BorrowMinMaxType
+  payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -37,13 +38,25 @@ class EndBorrowForm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.borrowActions.initializeCloseLoan('PAX')
+    this.props.borrowActions.initializeRepayLoan('PAX')
+  }
+
+  handleRefresh = () => {
+    this.props.borrowActions.initializeRepayLoan('PAX')
+  }
+
+  handleSubmit = () => {
+    this.props.borrowActions.repayLoan()
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <DataError message={{ message: e }} />,
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
+      Failure: e => (
+        <DataError message={{ message: e }} onClick={this.handleRefresh} />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

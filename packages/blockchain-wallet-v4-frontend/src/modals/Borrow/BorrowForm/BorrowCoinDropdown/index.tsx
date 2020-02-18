@@ -19,7 +19,7 @@ import styled from 'styled-components'
 
 export type OwnProps = {
   coin: CoinType
-  name: 'collateral' | 'principal'
+  name: 'collateral' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }

@@ -61,5 +61,8 @@ export const getAmount = (value: number, coin: CoinType) => {
     case 'BTC':
       return Exchange.convertBtcToBtc({ value, fromUnit: 'BTC', toUnit: 'SAT' })
         .value
+    case 'PAX':
+      return Exchange.convertPaxToPax({ value, fromUnit: 'PAX', toUnit: 'WEI' })
+        .value
   }
 }

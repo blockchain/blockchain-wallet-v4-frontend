@@ -36,6 +36,10 @@ export type RatesType = {
   }
 }
 
+export type RepayLoanForm = {
+  amount?: string
+}
+
 // TODO: move to payments
 export type UTXOType = {
   address: string
@@ -79,7 +83,7 @@ export type PaymentType = {
   fromType: FromType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (address: string, addressType: FromType) => PaymentType
+  to: (address: string, addressType?: FromType) => PaymentType
   value: () => PaymentType
 }
 
@@ -141,11 +145,11 @@ interface InitializeBorrowAction {
   type: typeof AT.INITIALIZE_BORROW
 }
 
-interface InitializeCloseLoanAction {
+interface InitializeRepayLoanAction {
   payload: {
     coin: CoinType
   }
-  type: typeof AT.INITIALIZE_CLOSE_LOAN
+  type: typeof AT.INITIALIZE_REPAY_LOAN
 }
 
 interface SetCoinAction {
@@ -202,7 +206,7 @@ export type BorrowActionTypes =
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
-  | InitializeCloseLoanAction
+  | InitializeRepayLoanAction
   | SetCoinAction
   | SetLimitsAction
   | SetPaymentFailureAction
