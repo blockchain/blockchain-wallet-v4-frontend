@@ -84,7 +84,11 @@ export type PaymentType = {
   value: () => PaymentType
 }
 
-export type BorrowStepsType = 'CHECKOUT' | 'DETAILS' | 'ADD_COLLATERAL'
+export type BorrowStepsType =
+  | 'CHECKOUT'
+  | 'DETAILS'
+  | 'ADD_COLLATERAL'
+  | 'END_BORROW'
 
 // State
 export interface BorrowState {
@@ -179,12 +183,7 @@ interface SetStepAction {
     | {
         loan: LoanType
         offer: OfferType
-        step: 'DETAILS'
-      }
-    | {
-        loan: LoanType
-        offer: OfferType
-        step: 'ADD_COLLATERAL'
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'END_BORROW'
       }
   type: typeof AT.SET_STEP
 }

@@ -11,15 +11,15 @@ import {
 import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Loading from './template.loading'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
   loan: LoanType
+  offer: OfferType
 }
 export type SuccessStateType = {
-  offer: OfferType
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -31,7 +31,7 @@ export type LinkDispatchPropsType = {
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class BorrowDetails extends Component<Props> {
+class BorrowDetails extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {

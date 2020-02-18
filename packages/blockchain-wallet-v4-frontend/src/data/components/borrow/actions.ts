@@ -112,8 +112,11 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
-    | { loan: LoanType; offer: OfferType; step: 'DETAILS' }
-    | { loan: LoanType; offer: OfferType; step: 'ADD_COLLATERAL' }
+    | {
+        loan: LoanType
+        offer: OfferType
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'END_BORROW'
+      }
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:

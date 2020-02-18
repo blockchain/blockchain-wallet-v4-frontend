@@ -18,6 +18,7 @@ export const Button: StatelessComponent<
     nature?:
       | 'copy'
       | 'dark'
+      | 'dark-grey'
       | 'empty-secondary'
       | 'empty'
       | 'gray-3'
