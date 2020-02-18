@@ -11,15 +11,15 @@ import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
 
 export type OwnProps = {
   coin: CoinType
+  name: 'collateral' | 'principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -75,7 +75,7 @@ const FiatContainer = styled.div`
   color: ${props => props.theme.grey400};
 `
 
-export class BorrowCoinDropdown extends Component<Props> {
+export class BorrowCoinDropdown extends PureComponent<Props> {
   state = {}
 
   renderElements = (values: SuccessStateType) => {
@@ -146,11 +146,15 @@ export class BorrowCoinDropdown extends Component<Props> {
             hideIndicator={values.length <= 1}
             openMenuOnClick={values.length > 1}
             searchEnabled={false}
-            name='collateral'
+            name={this.props.name}
           />
         )
       },
-      Failure: e => <Text>{typeof e === 'string' ? e : e.message}</Text>,
+      Failure: e => (
+        <Text>
+          {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
+        </Text>
+      ),
       Loading: () => <Text size='24px'>...</Text>,
       NotAsked: () => <Text size='24px'>...</Text>
     })

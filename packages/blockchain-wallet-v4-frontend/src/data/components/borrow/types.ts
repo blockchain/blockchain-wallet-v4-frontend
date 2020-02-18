@@ -14,7 +14,6 @@ export type BorrowFormValuesType = {
   collateral: any
   collateralCryptoAmt?: number
   maxCollateral?: number
-  maxCollateralCounter?: string
   offer: OfferType
   principal: string
 }
@@ -142,6 +141,13 @@ interface InitializeBorrowAction {
   type: typeof AT.INITIALIZE_BORROW
 }
 
+interface InitializeCloseLoanAction {
+  payload: {
+    coin: CoinType
+  }
+  type: typeof AT.INITIALIZE_CLOSE_LOAN
+}
+
 interface SetCoinAction {
   payload: {
     coin: CoinType
@@ -196,6 +202,7 @@ export type BorrowActionTypes =
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
+  | InitializeCloseLoanAction
   | SetCoinAction
   | SetLimitsAction
   | SetPaymentFailureAction

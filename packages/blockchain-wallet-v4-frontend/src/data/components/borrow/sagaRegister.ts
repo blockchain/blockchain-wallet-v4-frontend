@@ -20,6 +20,7 @@ export default ({ api, coreSagas, networks }) => {
       borrowSagas.fetchUserBorrowHistory
     )
     yield takeLatest(AT.INITIALIZE_BORROW, borrowSagas.initializeBorrow)
+    yield takeLatest(AT.INITIALIZE_CLOSE_LOAN, borrowSagas.initializeCloseLoan)
     yield takeLatest(AT.MAX_COLLATERAL_CLICK, borrowSagas.maxCollateralClick)
     yield takeEvery(actionTypes.CHANGE, borrowSagas.formChanged)
   }

@@ -1,10 +1,5 @@
 {
-  "extends": [
-    "standard",
-    "prettier",
-    "prettier/react",
-    "prettier/standard"
-  ],
+  "extends": ["standard", "prettier", "prettier/react", "prettier/standard"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -23,13 +18,9 @@
   ],
   "overrides": [
     {
-      "files": [
-        "*.{ts,tsx}"
-      ],
+      "files": ["*.{ts,tsx}"],
       "parser": "@typescript-eslint/parser",
-      "plugins": [
-        "typescript-sort-keys"
-      ],
+      "plugins": ["typescript-sort-keys"],
       "rules": {
         "typescript-sort-keys/interface": 2,
         "no-unused-vars": 0
@@ -63,10 +54,7 @@
     "jest/no-identical-title": 2,
     "jest/prefer-to-have-length": 0,
     "jest/valid-expect": 2,
-    "jsx-quotes": [
-      2,
-      "prefer-single"
-    ],
+    "jsx-quotes": [2, "prefer-single"],
     "new-cap": 0,
     "no-alert": 2,
     "no-case-declarations": 0,

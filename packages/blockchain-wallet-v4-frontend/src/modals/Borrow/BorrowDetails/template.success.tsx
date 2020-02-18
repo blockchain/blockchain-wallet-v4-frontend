@@ -38,7 +38,7 @@ const Success: React.FC<Props> = props => {
         )}
         <Summary {...props} />
       </FlyoutWrapper>
-      <FlyoutWrapper>
+      <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <Button
           fullwidth
           nature='dark-grey'

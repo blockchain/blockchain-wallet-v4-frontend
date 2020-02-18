@@ -60,7 +60,7 @@ class BorrowForm extends PureComponent<Props, State> {
 
   copyAddress = () => {
     var input = document.createElement('input')
-    // TODO - Borrow make dynamic
+    // TODO: Borrow make dynamic
     input.setAttribute(
       'value',
       this.props.loan.collateral.depositAddresses['BTC']

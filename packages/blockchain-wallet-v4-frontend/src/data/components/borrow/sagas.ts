@@ -14,8 +14,9 @@ import {
   NO_OFFER_EXISTS
 } from './model'
 import { FormAction, initialize } from 'redux-form'
+import { head, nth } from 'ramda'
 import { LoanType } from 'core/types'
-import { nth } from 'ramda'
+
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import profileSagas from '../../../data/modules/profile/sagas'
@@ -168,12 +169,25 @@ export default ({
             value,
             fromUnit: 'SAT',
             toCurrency: 'USD',
-            rates: rates
+            rates
           }).value
           maxCrypto = Exchange.convertBtcToBtc({
             value,
             fromUnit: 'SAT',
             toUnit: 'SAT'
+          }).value
+          break
+        case 'PAX':
+          maxFiat = Exchange.convertPaxToFiat({
+            value,
+            fromUnit: 'WEI',
+            toCurrency: 'USD',
+            rates
+          }).value
+          maxCrypto = Exchange.convertPaxToPax({
+            value,
+            fromUnit: 'WEI',
+            toUnit: 'PAX'
           }).value
       }
 
@@ -190,7 +204,7 @@ export default ({
     }
   }
 
-  const _createPayment = function * (index: number) {
+  const _createPayment = function * (index?: number) {
     let payment
     const coin = S.getCoinType(yield select())
 
@@ -202,6 +216,13 @@ export default ({
         payment = yield payment.init()
         payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
         payment = yield payment.fee('priority')
+        break
+      case 'PAX':
+        payment = coreSagas.payment.eth.create({
+          network: networks.eth
+        })
+        payment = yield payment.init({ isErc20: true, coin })
+        payment = yield payment.from()
     }
 
     return payment
@@ -255,15 +276,8 @@ export default ({
           case 'BTC':
             payment = yield call(_createPayment, action.payload.index)
         }
-        const maxCollateralCounter = yield call(_createLimits, payment)
+        yield call(_createLimits, payment)
 
-        yield put(
-          actions.form.change(
-            'borrowForm',
-            'maxCollateralCounter',
-            maxCollateralCounter
-          )
-        )
         yield put(A.setPaymentSuccess(payment.value()))
     }
   }
@@ -289,15 +303,43 @@ export default ({
           break
       }
 
-      const maxCollateralCounter = yield call(_createLimits, payment)
+      yield call(_createLimits, payment)
 
       const initialValues = {
-        collateral: defaultAccountR.getOrElse(),
-        maxCollateralCounter
+        collateral: defaultAccountR.getOrElse()
       }
 
       yield put(initialize('borrowForm', initialValues))
       yield put(A.setPaymentSuccess(payment.value()))
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
+    }
+  }
+
+  const initializeCloseLoan = function * ({
+    payload
+  }: ReturnType<typeof A.initializeCloseLoan>) {
+    let defaultAccountR
+    let payment: PaymentType = <PaymentType>{}
+    yield put(A.setPaymentLoading())
+
+    try {
+      switch (payload.coin) {
+        case 'PAX':
+          const erc20AccountR = yield select(
+            selectors.core.common.eth.getErc20AccountBalances,
+            'PAX'
+          )
+          defaultAccountR = erc20AccountR.map(head)
+          payment = yield call(_createPayment)
+          break
+      }
+
+      const initialValues = {
+        principal: defaultAccountR.getOrElse()
+      }
+
+      yield put(initialize('endBorrowForm', initialValues))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
     }
@@ -327,6 +369,7 @@ export default ({
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
+    initializeCloseLoan,
     maxCollateralClick
   }
 }
