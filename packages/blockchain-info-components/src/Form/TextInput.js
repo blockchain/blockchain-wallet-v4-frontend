@@ -20,13 +20,15 @@ const BaseTextInput = styled.input.attrs({
   font-size: 16px;
   font-weight: 500;
   color: ${props => props.theme['gray400']};
-  background-color: ${props => props.theme.white};
+  background-color: ${({ bgColor, theme }) =>
+    bgColor ? theme[bgColor] : theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  border: ${({ borderColor, borderNone, theme }) =>
+    borderNone ? 'initial' : '1px solid ' + theme[borderColor]};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-radius: 4px;
 

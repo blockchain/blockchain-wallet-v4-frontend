@@ -184,11 +184,11 @@ const Terms = props => {
       )
     default:
       return (
-        <TermsContainer>
-          <Text size='12px' weight={500}>
+        <TermsContainer style={{ paddingLeft: '4px', margin: '8px 0' }}>
+          <Text color='grey800' size='12px' weight={500}>
             <FormattedMessage
-              id='scenes.register.registerform.blockchain.read'
-              defaultMessage='I have read and agreed to the'
+              id='scenes.register.registerform.blockchain.read_1'
+              defaultMessage='By creating an account, you agree to Blockchain’s'
             />
           </Text>
           <span>&nbsp;</span>
@@ -205,7 +205,7 @@ const Terms = props => {
             />
           </Link>
           &nbsp;
-          <Text size='12px' weight={500}>
+          <Text color='grey800' size='12px' weight={500}>
             &
           </Text>
           &nbsp;
