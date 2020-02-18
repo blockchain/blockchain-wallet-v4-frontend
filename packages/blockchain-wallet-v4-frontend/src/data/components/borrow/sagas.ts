@@ -383,7 +383,7 @@ export default ({
       const amount: string = getAmount(Number(values.amount) || 0, coin)
 
       payment = yield payment.amount(Number(amount))
-      payment = yield payment.to(loan.principal.depositAddress[coin])
+      payment = yield payment.to(loan.principal.depositAddresses[coin])
       // sign payment
       yield put(
         actions.form.stopSubmit('repayLoanForm', {
