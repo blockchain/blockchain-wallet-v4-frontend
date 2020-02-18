@@ -1,13 +1,12 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import {
-  CheckBox,
   Form,
   FormGroup,
   FormLabel,
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
 import {
@@ -45,9 +44,6 @@ const GoBackLink = styled(Link)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const checkboxShouldBeChecked = value =>
-  value ? undefined : 'You must agree to the terms and conditions'
-
 const validStrongPassword = value =>
   value !== undefined && window.zxcvbn(value).score > 1
     ? undefined
@@ -80,6 +76,8 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='email'
             validate={[required, validEmail]}
             component={TextBox}
@@ -93,6 +91,8 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='password'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
@@ -110,19 +110,15 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
             component={PasswordBox}
           />
         </FormGroup>
         <FormGroup>
-          <Field
-            name='terms'
-            validate={[checkboxShouldBeChecked]}
-            component={CheckBox}
-          >
-            <Terms />
-          </Field>
+          <Terms recovery />
         </FormGroup>
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>

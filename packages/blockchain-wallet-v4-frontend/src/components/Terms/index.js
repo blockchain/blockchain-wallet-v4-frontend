@@ -10,7 +10,7 @@ const TermsContainer = styled.div`
   }
 `
 const Terms = props => {
-  const { company } = props
+  const { company, recovery } = props
   switch (company) {
     case 'shapeshift':
       return (
@@ -185,12 +185,21 @@ const Terms = props => {
     default:
       return (
         <TermsContainer style={{ paddingLeft: '4px', margin: '8px 0' }}>
-          <Text color='grey800' size='12px' weight={500}>
-            <FormattedMessage
-              id='scenes.register.registerform.blockchain.read_1'
-              defaultMessage='By creating an account, you agree to Blockchain’s'
-            />
-          </Text>
+          {recovery ? (
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.registerform.blockchain.read-recovery'
+                defaultMessage='By recovering an account, you agree to Blockchain’s'
+              />
+            </Text>
+          ) : (
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.registerform.blockchain.read_1'
+                defaultMessage='By creating an account, you agree to Blockchain’s'
+              />
+            </Text>
+          )}
           <span>&nbsp;</span>
           <Link
             href='https://www.blockchain.com/legal/terms'
