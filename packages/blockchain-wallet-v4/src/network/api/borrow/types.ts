@@ -20,10 +20,10 @@ export type LoanType = {
   openedAt: Date
   principal: {
     amount: Array<MoneyType>
-    depositAddress: { [key in CoinType]: string }
+    depositAddresses: { [key in CoinType]: string }
     mark: MoneyType
     notional: MoneyType
-    withdrawAddress: { [key in CoinType]: string }
+    withdrawAddresses: { [key in CoinType]: string }
   }
   status:
     | 'OPEN'
