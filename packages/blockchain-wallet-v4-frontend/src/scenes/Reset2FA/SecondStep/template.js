@@ -54,6 +54,8 @@ const SecondStep = props => {
           />
         </CaptchaText>
         <Field
+          bgColor='grey000'
+          borderNone
           name='code'
           autoFocus
           validate={[required]}

@@ -3,6 +3,7 @@
 exports[`PasswordBox renders correctly 1`] = `
 <styled.div>
   <mockConstructor
+    borderNone={null}
     errorState="initial"
   />
 </styled.div>

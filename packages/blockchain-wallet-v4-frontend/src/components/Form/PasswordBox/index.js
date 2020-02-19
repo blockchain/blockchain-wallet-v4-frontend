@@ -29,11 +29,13 @@ const PasswordBox = field => {
     input,
     showPasswordScore,
     disabled,
+    bgColor,
+    borderNone,
     borderColor,
     noLastPass,
     passwordScore
   } = field
-  const { touched, error, active } = meta
+  const { touched, error, active, invalid } = meta
   const errorState = getErrorState(meta)
   const scoreVisible = showPasswordScore ? input.value.length > 0 : false
 
@@ -43,6 +45,10 @@ const PasswordBox = field => {
         {...input}
         disabled={disabled}
         active={active}
+        bgColor={bgColor}
+        borderNone={
+          borderNone ? (invalid && touched ? null : borderNone) : null
+        }
         controlledBorderColor={borderColor}
         errorState={errorState}
         data-e2e={field['data-e2e']}
