@@ -26,7 +26,8 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
   getAllBalances,
   getBchBalance,
-  getBtcBalance
+  getBtcBalance,
+  getXlmBalance
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
@@ -86,6 +87,18 @@ export default ({ api }) => {
     yield put(actions.router.push('/login'))
   }
 
+  const defineSendXlmGoal = function * (pathname, search) {
+    // /#/open/xlm?address={address}&amount={amount}
+    const params = new URLSearchParams(search)
+    const address = params.get('address')
+    const amount = params.get('amount')
+    const memo = params.get('memo')
+
+    yield put(actions.goals.saveGoal('xlmPayment', { address, amount, memo }))
+    yield put(actions.router.push('/wallet'))
+    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+  }
+
   const defineSendCryptoGoal = function * (pathname, search) {
     // special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
@@ -143,6 +156,8 @@ export default ({ api }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
+    if (startsWith('xlm', pathname))
+      return yield call(defineSendXlmGoal, pathname, search)
     if (startsWith('link-account', pathname))
       return yield call(defineLinkAccountGoal, search)
     if (startsWith('referral', pathname))
@@ -302,6 +317,35 @@ export default ({ api }) => {
         description,
         amount: { coin: amount, fiat }
       })
+    )
+  }
+
+  const runSendXlmGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(getXlmBalance)
+
+    const { amount, address, memo } = data
+    const currency = yield select(selectors.core.settings.getCurrency)
+    const xlmRates = yield select(selectors.core.data.xlm.getRates)
+    const fiat = Exchange.convertXlmToFiat({
+      value: amount,
+      fromUnit: 'XLM',
+      toCurrency: currency.getOrElse(null),
+      rates: xlmRates.getOrElse(null)
+    }).value
+    // Goal work
+    yield put(
+      actions.goals.addInitialModal(
+        'xlmPayment',
+        model.components.sendXlm.MODAL,
+        {
+          to: address,
+          amount: { coin: amount, fiat },
+          memo
+        }
+      )
     )
   }
 
@@ -522,7 +566,8 @@ export default ({ api }) => {
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
-      walletTour
+      walletTour,
+      xlmPayment
     } = initialModals
     // Order matters here
     if (linkAccount) {
@@ -538,6 +583,11 @@ export default ({ api }) => {
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    }
+    if (xlmPayment) {
+      return yield put(
+        actions.modals.showModal(xlmPayment.name, xlmPayment.data)
+      )
     }
     if (upgradeForAirdrop) {
       return yield put(
@@ -590,6 +640,9 @@ export default ({ api }) => {
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
+          break
+        case 'xlmPayment':
+          yield call(runSendXlmGoal, goal)
           break
         case 'paymentProtocol':
           yield call(runPaymentProtocolGoal, goal)

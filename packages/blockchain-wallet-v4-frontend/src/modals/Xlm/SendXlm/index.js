@@ -11,7 +11,8 @@ import SendXlm from './template'
 
 class SendXlmContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized()
+    const { amount, memo, to } = this.props
+    this.props.actions.initialized({ amount, memo, to })
   }
 
   componentWillUnmount () {
