@@ -8,5 +8,7 @@ export const getData = (state, ownProps?: OwnProps) => {
   switch (ownProps.coin) {
     case 'BTC':
       return selectors.core.common.btc.getActiveAccountsBalances(state)
+    case 'PAX':
+      return selectors.core.common.eth.getErc20AccountBalances(state, 'PAX')
   }
 }

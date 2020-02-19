@@ -69,6 +69,12 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'gray-6',
         borderColor: 'gray-6'
       }
+    case 'dark-grey':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     case 'empty':
       return {
         color: small ? 'blue600' : 'gray-6',

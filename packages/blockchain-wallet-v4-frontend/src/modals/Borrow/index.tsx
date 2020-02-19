@@ -1,6 +1,5 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowStepsType } from 'data/types'
 import { connect } from 'react-redux'
 import { LoanType, OfferType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -10,14 +9,20 @@ import BorrowForm from './BorrowForm'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
+import RepayLoanForm from './RepayLoanForm'
 
 const { BORROW_STEPS } = model.components.borrow
 
-type LinkStatePropsType = {
-  loan?: LoanType
-  offer?: OfferType
-  step: BorrowStepsType
-}
+type LinkStatePropsType =
+  | {
+      offer: OfferType
+      step: 'CHECKOUT'
+    }
+  | {
+      loan: LoanType
+      offer: OfferType
+      step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
+    }
 
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
@@ -70,28 +75,24 @@ class Borrow extends PureComponent<Props, State> {
         data-e2e='borrowModal'
         total={total}
       >
-        {this.props.step === 'CHECKOUT' && this.props.offer && (
+        {this.props.step === 'CHECKOUT' && (
           <FlyoutChild>
-            <BorrowForm
-              offer={this.props.offer}
-              handleClose={this.handleClose}
-            />
+            <BorrowForm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'DETAILS' && this.props.loan && (
+        {this.props.step === 'DETAILS' && (
           <FlyoutChild>
-            <BorrowDetails
-              loan={this.props.loan}
-              handleClose={this.handleClose}
-            />
+            <BorrowDetails {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'ADD_COLLATERAL' && this.props.loan && (
+        {this.props.step === 'ADD_COLLATERAL' && (
           <FlyoutChild>
-            <AddCollateral
-              loan={this.props.loan}
-              handleClose={this.handleClose}
-            />
+            <AddCollateral {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'REPAY_LOAN' && (
+          <FlyoutChild>
+            <RepayLoanForm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -99,7 +100,7 @@ class Borrow extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   loan: selectors.components.borrow.getLoan(state),
   offer: selectors.components.borrow.getOffer(state),
   step: selectors.components.borrow.getStep(state)
@@ -109,7 +110,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const enhance = compose(
+const enhance = compose<any>(
   modalEnhancer('BORROW_MODAL', { transition: duration }),
   connect(
     mapStateToProps,

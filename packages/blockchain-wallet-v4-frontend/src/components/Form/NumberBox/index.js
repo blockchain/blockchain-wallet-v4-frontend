@@ -39,6 +39,7 @@ const NumberBox = field => {
         errorState={errorState}
         autoFocus={field.autoFocus}
         placeholder={field.placeholder}
+        disabled={field.disabled}
         data-e2e={field['data-e2e']}
       />
       {field.meta.touched && field.meta.error && field.errorIcon && (

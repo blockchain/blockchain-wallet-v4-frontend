@@ -9,7 +9,8 @@ export const NO_LOAN_EXISTS = 'NO_LOAN_EXISTS'
 export const BORROW_STEPS = {
   CHECKOUT: 0,
   DETAILS: 1,
-  ADD_COLLATERAL: 2
+  ADD_COLLATERAL: 2,
+  REPAY_LOAN: 3
 }
 
 export const getCollateralizationColor = (
@@ -59,6 +60,9 @@ export const getAmount = (value: number, coin: CoinType) => {
   switch (coin) {
     case 'BTC':
       return Exchange.convertBtcToBtc({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+        .value
+    case 'PAX':
+      return Exchange.convertPaxToPax({ value, fromUnit: 'PAX', toUnit: 'WEI' })
         .value
   }
 }

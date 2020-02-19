@@ -54,6 +54,7 @@ export function borrowReducer (
         borrowHistory: Remote.Success(action.payload.borrowHistory)
       }
     case AT.INITIALIZE_BORROW:
+    case AT.INITIALIZE_REPAY_LOAN:
     case AT.SET_COIN:
       return {
         ...state,

@@ -14,7 +14,6 @@ export type BorrowFormValuesType = {
   collateral: any
   collateralCryptoAmt?: number
   maxCollateral?: number
-  maxCollateralCounter?: string
   offer: OfferType
   principal: string
 }
@@ -35,6 +34,12 @@ export type RatesType = {
     sell: number
     symbol: '$'
   }
+}
+
+export type RepayLoanFormType = {
+  amount?: string
+  'repay-method': 'principal' | 'collateral'
+  'repay-type': 'full' | 'partial'
 }
 
 // TODO: move to payments
@@ -80,11 +85,15 @@ export type PaymentType = {
   fromType: FromType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (address: string, addressType: FromType) => PaymentType
+  to: (address: string, addressType?: FromType) => PaymentType
   value: () => PaymentType
 }
 
-export type BorrowStepsType = 'CHECKOUT' | 'DETAILS' | 'ADD_COLLATERAL'
+export type BorrowStepsType =
+  | 'CHECKOUT'
+  | 'DETAILS'
+  | 'ADD_COLLATERAL'
+  | 'REPAY_LOAN'
 
 // State
 export interface BorrowState {
@@ -138,6 +147,13 @@ interface InitializeBorrowAction {
   type: typeof AT.INITIALIZE_BORROW
 }
 
+interface InitializeRepayLoanAction {
+  payload: {
+    coin: CoinType
+  }
+  type: typeof AT.INITIALIZE_REPAY_LOAN
+}
+
 interface SetCoinAction {
   payload: {
     coin: CoinType
@@ -179,12 +195,7 @@ interface SetStepAction {
     | {
         loan: LoanType
         offer: OfferType
-        step: 'DETAILS'
-      }
-    | {
-        loan: LoanType
-        offer: OfferType
-        step: 'ADD_COLLATERAL'
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
       }
   type: typeof AT.SET_STEP
 }
@@ -197,6 +208,7 @@ export type BorrowActionTypes =
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction
   | InitializeBorrowAction
+  | InitializeRepayLoanAction
   | SetCoinAction
   | SetLimitsAction
   | SetPaymentFailureAction

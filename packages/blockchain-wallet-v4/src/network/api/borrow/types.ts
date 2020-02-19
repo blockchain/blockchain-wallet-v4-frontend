@@ -12,7 +12,6 @@ export type LoanType = {
     depositAddresses: { [key in CoinType]: string }
     mark: MoneyType
     notional: MoneyType
-    withdrawAddress: { [key in CoinType]: string }
   }
   collateralisationRatio: number
   expiration: Date
@@ -24,7 +23,7 @@ export type LoanType = {
     depositAddresses: { [key in CoinType]: string }
     mark: MoneyType
     notional: MoneyType
-    withdrawAddress: { [key in CoinType]: string }
+    withdrawAddresses: { [key in CoinType]: string }
   }
   status:
     | 'OPEN'

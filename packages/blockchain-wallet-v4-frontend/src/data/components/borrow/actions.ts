@@ -75,6 +75,17 @@ export const initializeBorrow = (coin: CoinType) => ({
   }
 })
 
+export const initializeRepayLoan = (coin: CoinType) => ({
+  type: AT.INITIALIZE_REPAY_LOAN,
+  payload: {
+    coin
+  }
+})
+
+export const repayLoan = () => ({
+  type: AT.REPAY_LOAN
+})
+
 export const setCoin = (coin: CoinType): BorrowActionTypes => ({
   type: AT.SET_COIN,
   payload: {
@@ -112,8 +123,11 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
-    | { loan: LoanType; offer: OfferType; step: 'DETAILS' }
-    | { loan: LoanType; offer: OfferType; step: 'ADD_COLLATERAL' }
+    | {
+        loan: LoanType
+        offer: OfferType
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
+      }
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:

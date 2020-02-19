@@ -1,5 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
@@ -8,8 +9,8 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
+import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -20,6 +21,8 @@ export type OwnProps = {
   offer: OfferType
 }
 export type SuccessStateType = {
+  limits: BorrowMinMaxType
+  payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -31,20 +34,29 @@ export type LinkDispatchPropsType = {
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class BorrowDetails extends PureComponent<Props> {
+class RepayLoan extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    // TODO: Borrow - handle multiple collateral amounts
-    this.props.borrowActions.setCoin(
-      this.props.loan.collateral.amounts[0].symbol
-    )
+    this.props.borrowActions.initializeRepayLoan('PAX')
+  }
+
+  handleRefresh = () => {
+    this.props.borrowActions.initializeRepayLoan('PAX')
+  }
+
+  handleSubmit = () => {
+    this.props.borrowActions.repayLoan()
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => (typeof e === 'object' ? e.message : e),
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
+      Failure: e => (
+        <DataError message={{ message: e }} onClick={this.handleRefresh} />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -62,4 +74,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BorrowDetails)
+)(RepayLoan)

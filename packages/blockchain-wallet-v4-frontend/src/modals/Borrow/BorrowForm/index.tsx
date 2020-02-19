@@ -11,7 +11,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {
@@ -37,7 +37,7 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class BorrowForm extends Component<Props> {
+class BorrowForm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {

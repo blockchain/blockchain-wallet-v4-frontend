@@ -12,12 +12,13 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
   loan: LoanType
+  offer: OfferType
 }
 
 export type LinkDispatchPropsType = {
@@ -27,7 +28,6 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   coin: CoinType
   limits: BorrowMinMaxType
-  offer: OfferType
   payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType
@@ -39,7 +39,7 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 export type State = { isAddrCopied: boolean; showQrCode: boolean }
-class BorrowForm extends Component<Props, State> {
+class BorrowForm extends PureComponent<Props, State> {
   state = { isAddrCopied: false, showQrCode: false }
 
   componentDidMount () {
@@ -60,7 +60,7 @@ class BorrowForm extends Component<Props, State> {
 
   copyAddress = () => {
     var input = document.createElement('input')
-    // TODO - Borrow make dynamic
+    // TODO: Borrow make dynamic
     input.setAttribute(
       'value',
       this.props.loan.collateral.depositAddresses['BTC']

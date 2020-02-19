@@ -3,7 +3,7 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, PaymentType } from './types'
+import { BorrowFormValuesType, PaymentType, RepayLoanFormType } from './types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
@@ -13,9 +13,10 @@ import {
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
-import { FormAction, initialize } from 'redux-form'
+import { FormAction, initialize, touch } from 'redux-form'
+import { head, nth } from 'ramda'
 import { LoanType } from 'core/types'
-import { nth } from 'ramda'
+
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import profileSagas from '../../../data/modules/profile/sagas'
@@ -76,10 +77,20 @@ export default ({
     }
   }
 
+  const amtCollateralRequiredClick = function * () {
+    const offer = S.getOffer(yield select())
+    const loan = S.getLoan(yield select())
+    if (!loan || !offer) return
+    const amt = getCollateralAmtRequired(loan, offer)
+
+    yield put(actions.form.change('borrowForm', 'principal', amt))
+  }
+
   const createBorrow = function * () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
       const paymentR = S.getPayment(yield select())
+      // TODO: Borrow - make dynamic
       let payment: PaymentType = coreSagas.payment.btc.create({
         payment: paymentR.getOrElse(<PaymentType>{}),
         network: networks.btc
@@ -168,12 +179,25 @@ export default ({
             value,
             fromUnit: 'SAT',
             toCurrency: 'USD',
-            rates: rates
+            rates
           }).value
           maxCrypto = Exchange.convertBtcToBtc({
             value,
             fromUnit: 'SAT',
             toUnit: 'SAT'
+          }).value
+          break
+        case 'PAX':
+          maxFiat = Exchange.convertPaxToFiat({
+            value,
+            fromUnit: 'WEI',
+            toCurrency: 'USD',
+            rates
+          }).value
+          maxCrypto = Exchange.convertPaxToPax({
+            value,
+            fromUnit: 'WEI',
+            toUnit: 'PAX'
           }).value
       }
 
@@ -190,7 +214,7 @@ export default ({
     }
   }
 
-  const _createPayment = function * (index: number) {
+  const _createPayment = function * (index?: number) {
     let payment
     const coin = S.getCoinType(yield select())
 
@@ -202,6 +226,13 @@ export default ({
         payment = yield payment.init()
         payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
         payment = yield payment.fee('priority')
+        break
+      case 'PAX':
+        payment = coreSagas.payment.eth.create({
+          network: networks.eth
+        })
+        payment = yield payment.init({ isErc20: true, coin })
+        payment = yield payment.from()
     }
 
     return payment
@@ -255,15 +286,8 @@ export default ({
           case 'BTC':
             payment = yield call(_createPayment, action.payload.index)
         }
-        const maxCollateralCounter = yield call(_createLimits, payment)
+        yield call(_createLimits, payment)
 
-        yield put(
-          actions.form.change(
-            'borrowForm',
-            'maxCollateralCounter',
-            maxCollateralCounter
-          )
-        )
         yield put(A.setPaymentSuccess(payment.value()))
     }
   }
@@ -289,14 +313,52 @@ export default ({
           break
       }
 
-      const maxCollateralCounter = yield call(_createLimits, payment)
+      yield call(_createLimits, payment)
 
       const initialValues = {
-        collateral: defaultAccountR.getOrElse(),
-        maxCollateralCounter
+        collateral: defaultAccountR.getOrElse()
       }
 
       yield put(initialize('borrowForm', initialValues))
+      yield put(A.setPaymentSuccess(payment.value()))
+    } catch (e) {
+      yield put(A.setPaymentFailure(e))
+    }
+  }
+
+  const initializeRepayLoan = function * ({
+    payload
+  }: ReturnType<typeof A.initializeRepayLoan>) {
+    let defaultAccountR
+    let payment: PaymentType = <PaymentType>{}
+    yield put(A.setPaymentLoading())
+
+    try {
+      const loan = S.getLoan(yield select())
+      if (!loan) throw NO_LOAN_EXISTS
+      switch (payload.coin) {
+        case 'PAX':
+          const erc20AccountR = yield select(
+            selectors.core.common.eth.getErc20AccountBalances,
+            'PAX'
+          )
+          defaultAccountR = erc20AccountR.map(head)
+          payment = yield call(_createPayment)
+          break
+      }
+
+      yield call(_createLimits, payment)
+
+      const initialValues = {
+        amount: loan.principal.amount[0].value,
+        'repay-principal': defaultAccountR.getOrElse(),
+        'repay-method': 'principal',
+        'repay-type': 'full'
+      }
+
+      yield put(initialize('repayLoanForm', initialValues))
+      // Touch field for validation
+      yield put(touch('repayLoanForm', 'amount'))
       yield put(A.setPaymentSuccess(payment.value()))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
@@ -309,13 +371,36 @@ export default ({
     yield put(actions.form.change('borrowForm', 'principal', limits.maxFiat))
   }
 
-  const amtCollateralRequiredClick = function * () {
-    const offer = S.getOffer(yield select())
-    const loan = S.getLoan(yield select())
-    if (!loan || !offer) return
-    const amt = getCollateralAmtRequired(loan, offer)
+  const repayLoan = function * () {
+    try {
+      yield put(actions.form.startSubmit('repayLoanForm'))
+      const paymentR = S.getPayment(yield select())
+      // TODO: Borrow - make dynamic
+      let payment: PaymentType = coreSagas.payment.eth.create({
+        payment: paymentR.getOrElse(<PaymentType>{}),
+        network: networks.eth
+      })
+      const values: RepayLoanFormType = yield select(
+        selectors.form.getFormValues('repayLoanForm')
+      )
+      const loan = S.getLoan(yield select())
+      const coin = S.getCoinType(yield select())
+      if (!loan) throw NO_LOAN_EXISTS
 
-    yield put(actions.form.change('borrowForm', 'principal', amt))
+      const amount: string = getAmount(Number(values.amount) || 0, coin)
+
+      payment = yield payment.amount(Number(amount))
+      payment = yield payment.to(loan.principal.depositAddresses[coin])
+      // sign payment
+      yield put(
+        actions.form.stopSubmit('repayLoanForm', {
+          _error: 'Payment not signed'
+        })
+      )
+    } catch (e) {
+      const error = typeof e === 'object' ? e.description : e
+      yield put(actions.form.stopSubmit('repayLoanForm', { _error: error }))
+    }
   }
 
   return {
@@ -327,6 +412,8 @@ export default ({
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
-    maxCollateralClick
+    initializeRepayLoan,
+    maxCollateralClick,
+    repayLoan
   }
 }
