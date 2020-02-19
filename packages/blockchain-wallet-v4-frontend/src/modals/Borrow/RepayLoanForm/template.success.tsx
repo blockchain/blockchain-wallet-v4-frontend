@@ -62,7 +62,7 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   > input {
-    padding-left: 50px;
+    padding-left: 75px;
   }
 `
 
@@ -75,6 +75,11 @@ const PrincipalCcyAbsolute = styled.div`
   position: absolute;
   top: 16px;
   left: 12px;
+`
+
+const InfoContainer = styled.div`
+  display: flex;
+  margin-bottom: 16px;
 `
 
 const ErrorText = styled(Text)`
@@ -217,12 +222,30 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
           />
           <PrincipalCcyAbsolute>
             <Text color='grey400' size='14px' weight={600}>
-              USD
+              {principalDisplayName}
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
       </Top>
       <Bottom>
+        <InfoContainer>
+          <Icon
+            name='info'
+            color='grey600'
+            size='20px'
+            style={{ marginRight: '8px' }}
+          />
+          <Text size='12px' color='grey600' weight={500}>
+            <FormattedMessage
+              id='modals.borrow.repayloan.info'
+              defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
+              values={{
+                principalCcy: props.offer.terms.principalCcy,
+                collateralCcy: props.offer.terms.collateralCcy
+              }}
+            />
+          </Text>
+        </InfoContainer>
         {props.error && (
           <ErrorText>
             <Icon
