@@ -152,7 +152,7 @@ export const Text: StatelessComponent<{
   style?: CSSProperties
   uppercase?: boolean
   lineHeight?: string
-  capitazlie?: boolean
+  capitalize?: boolean
   italic?: boolean
   altFont?: boolean
   cursor?: string

@@ -13,7 +13,7 @@ const BaseTabMenu = styled.div`
 const TabMenu = props => {
   const { children } = props
 
-  return <BaseTabMenu>{children}</BaseTabMenu>
+  return <BaseTabMenu {...props}>{children}</BaseTabMenu>
 }
 
 export default TabMenu
