@@ -10,6 +10,7 @@ import CoinIntroduction from './CoinIntroduction'
 import CoinPerformance from './CoinPerformance'
 import EmptyTx from 'components/EmptyTx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 import TransactionFilters from './TransactionFilters'
@@ -49,6 +50,21 @@ const StatsContainer = styled.div`
     flex-grow: 1;
     max-width: 1000px;
   }
+
+  ${media.tablet`
+    height: auto;
+    max-height: initial;
+    flex-direction: column;
+
+    & > :first-child {
+      width: auto;
+    margin-right: 0px;
+  }
+
+    & > :last-child {
+    margin-top: 24px;
+  }
+  `}
 `
 
 type OwnProps = {

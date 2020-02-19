@@ -14,6 +14,11 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 14px 20px;
 
+  ${media.tablet`
+  align-items: initial;
+    flex-direction: column;
+  `}
+
   & > :last-child {
     margin-left: 100px;
     width: 100%;

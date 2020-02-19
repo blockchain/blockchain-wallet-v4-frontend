@@ -17,7 +17,8 @@ export const getConfig = (coin, currency, data, decimals) => ({
   },
   plotOptions: {
     line: {
-      color: Color(coin.toLowerCase())
+      color: Color(coin.toLowerCase()),
+      lineWidth: 3
     }
   },
   series: [
