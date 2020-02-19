@@ -126,7 +126,7 @@ export const setStep = (
     | {
         loan: LoanType
         offer: OfferType
-        step: 'DETAILS' | 'ADD_COLLATERAL' | 'END_BORROW'
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
       }
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,

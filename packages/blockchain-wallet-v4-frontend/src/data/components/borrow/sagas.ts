@@ -3,7 +3,7 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, PaymentType, RepayLoanForm } from './types'
+import { BorrowFormValuesType, PaymentType, RepayLoanFormType } from './types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
@@ -13,7 +13,7 @@ import {
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
-import { FormAction, initialize } from 'redux-form'
+import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
 import { LoanType } from 'core/types'
 
@@ -334,6 +334,8 @@ export default ({
     yield put(A.setPaymentLoading())
 
     try {
+      const loan = S.getLoan(yield select())
+      if (!loan) throw NO_LOAN_EXISTS
       switch (payload.coin) {
         case 'PAX':
           const erc20AccountR = yield select(
@@ -348,10 +350,15 @@ export default ({
       yield call(_createLimits, payment)
 
       const initialValues = {
-        'repay-principal': defaultAccountR.getOrElse()
+        amount: loan.principal.amount[0].value,
+        'repay-principal': defaultAccountR.getOrElse(),
+        'repay-method': 'principal',
+        'repay-type': 'full'
       }
 
       yield put(initialize('repayLoanForm', initialValues))
+      // Touch field for validation
+      yield put(touch('repayLoanForm', 'amount'))
       yield put(A.setPaymentSuccess(payment.value()))
     } catch (e) {
       yield put(A.setPaymentFailure(e))
@@ -373,7 +380,7 @@ export default ({
         payment: paymentR.getOrElse(<PaymentType>{}),
         network: networks.eth
       })
-      const values: RepayLoanForm = yield select(
+      const values: RepayLoanFormType = yield select(
         selectors.form.getFormValues('repayLoanForm')
       )
       const loan = S.getLoan(yield select())

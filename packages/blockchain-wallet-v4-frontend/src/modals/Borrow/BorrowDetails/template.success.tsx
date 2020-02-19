@@ -45,7 +45,7 @@ const Success: React.FC<Props> = props => {
           data-e2e='endBorrow'
           onClick={() =>
             props.borrowActions.setStep({
-              step: 'END_BORROW',
+              step: 'REPAY_LOAN',
               offer: props.offer,
               loan: props.loan
             })

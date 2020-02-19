@@ -34,7 +34,7 @@ export type LinkDispatchPropsType = {
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class EndBorrowForm extends PureComponent<Props> {
+class RepayLoan extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
@@ -74,4 +74,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EndBorrowForm)
+)(RepayLoan)

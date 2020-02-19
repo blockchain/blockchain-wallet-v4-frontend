@@ -36,8 +36,10 @@ export type RatesType = {
   }
 }
 
-export type RepayLoanForm = {
+export type RepayLoanFormType = {
   amount?: string
+  'repay-method': 'principal' | 'collateral'
+  'repay-type': 'full' | 'partial'
 }
 
 // TODO: move to payments
@@ -91,7 +93,7 @@ export type BorrowStepsType =
   | 'CHECKOUT'
   | 'DETAILS'
   | 'ADD_COLLATERAL'
-  | 'END_BORROW'
+  | 'REPAY_LOAN'
 
 // State
 export interface BorrowState {
@@ -193,7 +195,7 @@ interface SetStepAction {
     | {
         loan: LoanType
         offer: OfferType
-        step: 'DETAILS' | 'ADD_COLLATERAL' | 'END_BORROW'
+        step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
       }
   type: typeof AT.SET_STEP
 }

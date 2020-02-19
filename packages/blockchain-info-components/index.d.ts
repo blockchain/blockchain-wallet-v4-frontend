@@ -128,6 +128,13 @@ export const SpinningLoader: StatelessComponent<{
   width?: string
   height?: string
 }>
+export const TabMenu: StatelessComponent<{}>
+export const TabMenuItem: StatelessComponent<{
+  disabled?: boolean
+  onClick?: () => void
+  selected: boolean
+  width?: string
+}>
 export const Table: StatelessComponent<{
   style?: CSSProperties
 }>

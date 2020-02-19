@@ -10,7 +10,7 @@ export const BORROW_STEPS = {
   CHECKOUT: 0,
   DETAILS: 1,
   ADD_COLLATERAL: 2,
-  END_BORROW: 3
+  REPAY_LOAN: 3
 }
 
 export const getCollateralizationColor = (

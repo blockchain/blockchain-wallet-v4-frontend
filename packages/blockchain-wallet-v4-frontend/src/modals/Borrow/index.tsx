@@ -6,10 +6,10 @@ import { RootState } from 'data/rootReducer'
 import AddCollateral from './AddCollateral'
 import BorrowDetails from './BorrowDetails'
 import BorrowForm from './BorrowForm'
-import EndBorrowForm from './EndBorrowForm'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
+import RepayLoanForm from './RepayLoanForm'
 
 const { BORROW_STEPS } = model.components.borrow
 
@@ -21,7 +21,7 @@ type LinkStatePropsType =
   | {
       loan: LoanType
       offer: OfferType
-      step: 'DETAILS' | 'ADD_COLLATERAL' | 'END_BORROW'
+      step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
     }
 
 type LinkDispatchPropsType = {
@@ -90,9 +90,9 @@ class Borrow extends PureComponent<Props, State> {
             <AddCollateral {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {this.props.step === 'END_BORROW' && (
+        {this.props.step === 'REPAY_LOAN' && (
           <FlyoutChild>
-            <EndBorrowForm {...this.props} handleClose={this.handleClose} />
+            <RepayLoanForm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>

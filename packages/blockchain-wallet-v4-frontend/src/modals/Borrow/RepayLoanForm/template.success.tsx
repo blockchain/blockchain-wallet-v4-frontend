@@ -1,11 +1,4 @@
-import { BorrowFormValuesType } from 'data/components/borrow/types'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -15,11 +8,14 @@ import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
 import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
+import TabMenuPaymentMethod from './TabMenuPaymentMethod'
+import TabMenuPaymentType from './TabMenuPaymentType'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -61,6 +57,7 @@ const Bottom = styled(FlyoutWrapper)`
 const CustomFormLabel = styled(FormLabel)`
   display: block;
   margin-top: 24px;
+  margin-bottom: 8px;
 `
 
 const CustomField = styled(Field)`
@@ -92,7 +89,7 @@ const ErrorText = styled(Text)`
 `
 
 type LinkStatePropsType = {
-  values?: BorrowFormValuesType
+  values?: RepayLoanFormType
 }
 
 export type Props = OwnProps &
@@ -165,6 +162,30 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
+              id='modals.repayloan.chooseamttorepay'
+              defaultMessage='Choose how much you want to repay'
+            />
+          </Text>
+        </CustomFormLabel>
+        <Field name='repay-type' component={TabMenuPaymentType} />
+        <CustomFormLabel>
+          <Text color='grey600' weight={500} size='14px'>
+            <FormattedMessage
+              id='modals.repayloan.choosewaytopay'
+              defaultMessage='How do you want to repay?'
+            />
+          </Text>
+        </CustomFormLabel>
+        <Field
+          name='repay-method'
+          component={TabMenuPaymentMethod}
+          {...{
+            coin: props.offer.terms.principalCcy
+          }}
+        />
+        <CustomFormLabel>
+          <Text color='grey600' weight={500} size='14px'>
+            <FormattedMessage
               id='modals.repayloan.repayfrom'
               defaultMessage='Repay from'
             />
@@ -186,6 +207,9 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             name='amount'
             validate={[maximumAmount, minimumAmount]}
             {...{
+              disabled: props.values
+                ? props.values['repay-type'] === 'full'
+                : false,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'

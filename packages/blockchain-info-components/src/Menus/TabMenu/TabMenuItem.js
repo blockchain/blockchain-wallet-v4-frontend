@@ -12,10 +12,11 @@ const BaseTabMenuItem = styled.span`
   text-align: center;
   border-radius: 8px;
   white-space: nowrap;
+  width: ${props => props.width || 'auto'};
   margin: 2px;
   color: ${props =>
     props.selected ? props.theme.blue600 : props.theme.grey400};
-  cursor: pointer;
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   ${props =>
     props.selected &&
     `
@@ -24,9 +25,10 @@ const BaseTabMenuItem = styled.span`
     color: ${props.theme.blue600};
     box-shadow: 0px 4px 8px rgba(5, 24, 61, 0.1);
   `}
+  transition: color 0.3s, background-color 0.3s;
 
   &:hover {
-    color: ${props => props.theme.grey600};
+    color: ${props => !props.disabled && props.theme.blue600};
   }
 
   @media (max-width: 767px) {
