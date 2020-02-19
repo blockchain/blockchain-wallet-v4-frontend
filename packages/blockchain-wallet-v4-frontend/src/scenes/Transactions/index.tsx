@@ -46,24 +46,20 @@ const StatsContainer = styled.div`
     margin-right: 30px;
   }
 
-  & > :last-child {
-    flex-grow: 1;
-    max-width: 1000px;
-  }
-
   ${media.tablet`
     height: auto;
     max-height: initial;
     flex-direction: column;
+    margin: 12px 0;
 
     & > :first-child {
       width: auto;
-    margin-right: 0px;
-  }
+      margin-right: 0px;
+    }
 
     & > :last-child {
-    margin-top: 24px;
-  }
+      margin-top: 12px;
+    }
   `}
 `
 

@@ -1,11 +1,18 @@
 import { calculateInterval, calculateStart } from 'services/ChartService'
 import { getConfig } from './model'
+import media from 'services/ResponsiveService'
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  margin-left: 100px;
+  width: 100%;
+  ${media.mobile`
+    margin-left: 0px;
+  `}
+
   * {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;

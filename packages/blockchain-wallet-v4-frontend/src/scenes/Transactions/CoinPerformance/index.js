@@ -12,20 +12,13 @@ const Wrapper = styled.div`
   align-items: center;
   border: 1px solid ${props => props.theme.grey100};
   border-radius: 8px;
-  padding: 14px 20px;
+  padding: 14px 15px;
+  width: 100%;
 
   ${media.tablet`
-  align-items: initial;
+    align-items: initial;
     flex-direction: column;
   `}
-
-  & > :last-child {
-    margin-left: 100px;
-    width: 100%;
-    ${media.mobile`
-      margin-left: 0px;
-    `}
-  }
 `
 
 const CoinPerformanceContainer = ({ coin }) => (

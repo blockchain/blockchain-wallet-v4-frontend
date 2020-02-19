@@ -16,9 +16,15 @@ const ErrorWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
 `
+const CustomImage = styled(Image)`
+  width: auto;
+  margin-left: 100px;
+  display: block;
+  flex: 1;
+`
 
 const Loading = () => (
-  <Image name='chart-placeholder' width='450px' height='100px' />
+  <CustomImage name='chart-placeholder' width='450px' height='100px' />
 )
 
 export class CoinPerformanceContainer extends React.PureComponent {

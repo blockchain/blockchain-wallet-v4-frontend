@@ -7,6 +7,7 @@ import { RemoteDataType } from 'core/types'
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import media from 'services/ResponsiveService'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
@@ -37,8 +38,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  border: 1px solid ${props => props.theme.grey100};
-  border-radius: 8px;
+  width: 320px;
+  min-width: 320px;
+  margin-right: 30px;
+  z-index: 2;
+  ${media.tablet`
+    width: auto;
+    margin-right: 0px;
+  `}
 `
 
 // FIXME: TypeScript use SupportedCoinsType
@@ -84,7 +91,7 @@ const FiatContainer = styled.div`
 
 const CoinSelect = styled(SelectBox)`
   .bc__control {
-    border: 0 !important;
+    border-radius: 8px;
   }
   .bc__control .bc__value-container {
     padding: 0px;
@@ -94,6 +101,10 @@ const CoinSelect = styled(SelectBox)`
     align-items: flex-start;
     padding-top: 8px;
     padding-right: 8px;
+  }
+
+  .bc__menu {
+    border-radius: 8px;
   }
 `
 
