@@ -1,5 +1,6 @@
 import CoinChart from './CoinChart'
 import CoinPrices from './CoinPrices'
+import media from 'services/ResponsiveService'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -7,19 +8,18 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-content: space-between;
+  justify-content: space-between;
+  align-items: center;
   border: 1px solid ${props => props.theme.grey100};
   border-radius: 8px;
-
-  & > :first-child {
-    flex-basis: 45%;
-    padding: 14px 20px;
-    margin-right: 35px;
-  }
+  padding: 14px 20px;
 
   & > :last-child {
-    flex-basis: 55%;
-    padding-right: 20px;
+    margin-left: 100px;
+    width: 100%;
+    ${media.mobile`
+      margin-left: 0px;
+    `}
   }
 `
 
