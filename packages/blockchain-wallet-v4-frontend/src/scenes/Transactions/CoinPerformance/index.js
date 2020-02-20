@@ -16,11 +16,8 @@ const Wrapper = styled.div`
   padding: 14px 15px;
   width: 100%;
 
-  ${media.laptop`
-    align-items: initial;
-  `}
-
   ${media.tablet`
+    align-items: initial;
     flex-direction: column;
   `}
 `

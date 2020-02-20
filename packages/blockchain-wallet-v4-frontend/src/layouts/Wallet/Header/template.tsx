@@ -14,7 +14,7 @@ import {
 } from 'components/Navbar'
 import Announcements from 'components/Announcements'
 import FaqIcon from './FaqIcon'
-import media from 'services/ResponsiveService'
+import media, { isMobile, useMedia } from 'services/ResponsiveService'
 import RefreshIcon from './RefreshIcon'
 import SecurityCenter from './SecurityCenter'
 import SendRequest from './SendRequest'
@@ -63,7 +63,10 @@ const NavbarMenuStyled = styled(NavbarMenu)`
 `
 
 const Header = props => {
+  const isTabletL = useMedia('tabletL')
+
   const { handleToggle, ...rest } = props
+
   return (
     <>
       <NavbarStyled height='60px'>
@@ -82,23 +85,25 @@ const Header = props => {
         </NavbarHeader>
         <NavbarMenuStyled>
           <SendRequest />
-          <NavbarNav>
-            <NavbarNavItem>
-              <WhatsNewIcon />
-            </NavbarNavItem>
-            <NavbarNavItem>
-              <RefreshIcon />
-            </NavbarNavItem>
-            <NavbarNavItemSpacer>
-              <FaqIcon />
-            </NavbarNavItemSpacer>
-            <NavbarNavItemWithText>
-              <SecurityCenter {...rest} />
-            </NavbarNavItemWithText>
-            <NavbarNavItemWithText>
-              <Settings {...rest} />
-            </NavbarNavItemWithText>
-          </NavbarNav>
+          {!isTabletL && (
+            <NavbarNav>
+              <NavbarNavItem>
+                <WhatsNewIcon />
+              </NavbarNavItem>
+              <NavbarNavItem>
+                <RefreshIcon />
+              </NavbarNavItem>
+              <NavbarNavItemSpacer>
+                <FaqIcon />
+              </NavbarNavItemSpacer>
+              <NavbarNavItemWithText>
+                <SecurityCenter {...rest} />
+              </NavbarNavItemWithText>
+              <NavbarNavItemWithText>
+                <Settings {...rest} />
+              </NavbarNavItemWithText>
+            </NavbarNav>
+          )}
         </NavbarMenuStyled>
       </NavbarStyled>
       <Announcements type='service' alertArea='wallet' />

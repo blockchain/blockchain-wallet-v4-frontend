@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import React from 'react'
 
 import { actions } from 'data'
-import Header from './template.js'
+import Header from './template'
 
 class HeaderContainer extends React.PureComponent {
   render () {

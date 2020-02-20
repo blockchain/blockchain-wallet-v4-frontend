@@ -21,22 +21,20 @@ const BaseNavbar = styled.div`
 `
 
 const Navbar = props => {
-  const { children, fluid, height, ...rest } = props
+  const { children, height, ...rest } = props
 
   return (
-    <Wrapper fluid={fluid} height={height}>
+    <Wrapper height={height}>
       <BaseNavbar {...rest}>{children}</BaseNavbar>
     </Wrapper>
   )
 }
 
 Navbar.propTypes = {
-  fluid: PropTypes.bool.isRequired,
   height: PropTypes.string.isRequired
 }
 
 Navbar.defaultProps = {
-  fluid: false,
   height: '60px'
 }
 
