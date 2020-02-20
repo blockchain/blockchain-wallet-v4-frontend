@@ -36,7 +36,7 @@ const BaseButton = styled.button.attrs({
   color: ${props => props.theme[props.color]};
   background-color: ${props =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
-  border-radius: ${props => (props.rounded ? '20px' : '4px')};
+  border-radius: ${props => (props.rounded ? '20px' : '8px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
@@ -157,6 +157,12 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'green600',
         borderColor: 'green600'
       }
+    case 'grey800':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     default:
       return {
         color: 'gray-6',
@@ -195,6 +201,7 @@ Button.propTypes = {
     'empty-secondary',
     'empty',
     'gray-3',
+    'grey800',
     'light',
     'primary',
     'purple',

@@ -23,6 +23,7 @@ export const Button: StatelessComponent<
       | 'empty'
       | 'gray-3'
       | 'green'
+      | 'grey800'
       | 'light'
       | 'primary'
       | 'purple'
@@ -38,6 +39,7 @@ export const Button: StatelessComponent<
     rounded?: boolean
     bold?: boolean
     small?: boolean
+    size?: string
     uppercase?: boolean
     capitalize?: boolean
     width?: string
@@ -75,7 +77,7 @@ export const Icon: StatelessComponent<{
   weight?: number
   size?: string
   cursor?: boolean
-  color?: string
+  color?: keyof DefaultTheme
   style?: CSSProperties
   onClick?: () => void
 }>
