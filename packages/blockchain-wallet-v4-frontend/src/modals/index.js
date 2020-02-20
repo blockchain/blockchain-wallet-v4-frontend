@@ -81,6 +81,7 @@ import Faq from './Faq'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
+import Welcome from './Welcome'
 import WhatsNew from './WhatsNew'
 
 const Modals = () => (
@@ -157,6 +158,7 @@ const Modals = () => (
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
+    <Welcome />
     <WhatsNew />
   </div>
 )

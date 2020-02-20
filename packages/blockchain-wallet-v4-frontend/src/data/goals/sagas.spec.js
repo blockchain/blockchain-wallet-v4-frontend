@@ -29,7 +29,7 @@ describe('goals sagas', () => {
     runKycGoal,
     runReferralGoal,
     runSwapUpgradeGoal,
-    runWalletTour,
+    runWelcomeModal,
     waitForUserData,
     showInitialModal
   } = goalsSagas({ api })
@@ -279,9 +279,9 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runWalletTour saga', () => {
-    describe('should not show wallet tour modal if not first login', () => {
-      const saga = testSaga(runWalletTour, {
+  describe('runWelcomeModal saga', () => {
+    describe('should not show wallet welcome modal if not first login', () => {
+      const saga = testSaga(runWelcomeModal, {
         id: mockGoalId,
         data: { firstLogin: false }
       })
@@ -294,7 +294,7 @@ describe('goals sagas', () => {
           .put(
             actions.logs.logInfoMessage(
               mockLogLocation,
-              'runWalletTour',
+              'runWelcomeModal',
               'login success'
             )
           )
