@@ -17,13 +17,15 @@ const BasePasswordInput = styled.input.attrs({
   font-size: 20px;
   font-weight: 500;
   color: ${props => props.theme['gray-6']};
-  background-color: ${props => props.theme.white};
+  background-color: ${({ bgColor, theme }) =>
+    bgColor ? theme[bgColor] : theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  border: ${({ borderColor, borderNone, theme }) =>
+    borderNone ? 'initial' : '1px solid ' + theme[borderColor]};
   border-radius: 4px;
   &::-webkit-input-placeholder {
     color: ${props => props.theme.grey100};
