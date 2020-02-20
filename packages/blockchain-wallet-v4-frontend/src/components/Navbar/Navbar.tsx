@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ height: string }>`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;

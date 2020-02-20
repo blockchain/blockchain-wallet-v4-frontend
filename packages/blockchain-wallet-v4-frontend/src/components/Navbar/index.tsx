@@ -1,7 +1,5 @@
-import { transparentize } from 'polished'
-import styled from 'styled-components'
-
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { transparentize } from 'polished'
 import media from 'services/ResponsiveService'
 import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
@@ -10,6 +8,7 @@ import NavbarIcon from './NavbarIcon'
 import NavbarMenu from './NavbarMenu'
 import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
+import styled from 'styled-components'
 
 export const NavbarNavItemTextLink = styled(Link)`
   display: flex;
@@ -27,12 +26,19 @@ export const NavbarNavItemTextLink = styled(Link)`
       color: ${props => props.theme.white};
     }
   }
+  ${media.tabletL`
+    .icon,
+    .settings {
+      transition: color 0.3s;
+      color: ${props => props.theme.white};
+    }
+  `}
 `
-export const NavbarNavItemTextIcon = styled(Icon)`
+export const NavbarNavItemTextIcon = styled(Icon)<{ className: string }>`
   margin-right: 8px;
 `
-export const NavbarNavItemTextHeader = styled(Text)`
-  ${media.tablet`
+export const NavbarNavItemTextHeader = styled(Text)<{ className: string }>`
+  ${media.tabletL`
     display: none;
   `}
 `
