@@ -46,7 +46,7 @@ const StatsContainer = styled.div`
     margin-right: 30px;
   }
 
-  ${media.tablet`
+  ${media.laptop`
     height: auto;
     max-height: initial;
     flex-direction: column;

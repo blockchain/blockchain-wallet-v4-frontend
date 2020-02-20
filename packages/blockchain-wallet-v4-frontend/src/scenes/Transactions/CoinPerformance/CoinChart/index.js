@@ -18,7 +18,7 @@ const ErrorWrapper = styled.div`
 `
 const CustomImage = styled(Image)`
   width: auto;
-  margin-left: 100px;
+  margin-left: 50px;
   display: block;
   flex: 1;
 `

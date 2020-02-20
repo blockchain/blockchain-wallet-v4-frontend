@@ -7,7 +7,7 @@ import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  margin-left: 100px;
+  margin-left: 50px;
   width: 100%;
   ${media.mobile`
     margin-left: 0px;

@@ -38,14 +38,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  width: 320px;
-  min-width: 320px;
-  margin-right: 30px;
-  z-index: 2;
-  ${media.tablet`
-    width: auto;
-    margin-right: 0px;
-  `}
 `
 
 // FIXME: TypeScript use SupportedCoinsType
