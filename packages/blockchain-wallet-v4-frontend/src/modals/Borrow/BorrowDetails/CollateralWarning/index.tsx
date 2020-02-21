@@ -49,6 +49,24 @@ const CollateralWarning: React.FC<Props> = props => {
     offer
   )
 
+  switch (props.loan.status) {
+    case 'CLOSED':
+    case 'FAILED':
+    case 'LIQUIDATED': {
+      return (
+        <Container bgColor='grey000'>
+          <CustomIcon name='info' color='grey600' />
+          <Text size='14px' weight={500} color='grey800' lineHeight={'20px'}>
+            <FormattedMessage
+              id='scenes.borrow.loanclosed'
+              defaultMessage='This loan is no longer active.'
+            />
+          </Text>
+        </Container>
+      )
+    }
+  }
+
   switch (currentCollateralStatus) {
     case 'unsafe':
       return (

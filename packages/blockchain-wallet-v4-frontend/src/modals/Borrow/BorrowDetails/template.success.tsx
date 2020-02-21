@@ -1,7 +1,6 @@
-import { Button } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import ActionButton from './ActionButton'
 import Header from './Header'
 import Info from './Info'
 import NewLoanInfo from './NewLoanInfo'
@@ -39,23 +38,7 @@ const Success: React.FC<Props> = props => {
         <Summary {...props} />
       </FlyoutWrapper>
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <Button
-          fullwidth
-          nature='dark-grey'
-          data-e2e='endBorrow'
-          onClick={() =>
-            props.borrowActions.setStep({
-              step: 'REPAY_LOAN',
-              offer: props.offer,
-              loan: props.loan
-            })
-          }
-        >
-          <FormattedMessage
-            id='modals.details.borrow.endborrow'
-            defaultMessage='End Borrowing'
-          />
-        </Button>
+        <ActionButton {...props} />
       </FlyoutWrapper>
     </Wrapper>
   )
