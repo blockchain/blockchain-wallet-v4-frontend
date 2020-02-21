@@ -47,6 +47,7 @@ const IcoMoon = {
   'credit-card-filled': '\\e90e',
   dollars: '\\e942',
   download: '\\e911',
+  ellipsis: '\\e947',
   email: '\\e934',
   eth: '\\e97b',
   'eth-circle': '\\e989',

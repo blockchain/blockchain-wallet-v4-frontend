@@ -54,7 +54,7 @@ export const Button: StatelessComponent<
 export const ComponentDropdown: React.ComponentClass<{
   components: Array<JSX.Element>
   color?: string
-  toggleOnClassback?: boolean
+  toggleOnCallback?: boolean
   opened?: boolean
   uppercase?: boolean
   down?: boolean
@@ -152,7 +152,7 @@ export const Text: StatelessComponent<{
   style?: CSSProperties
   uppercase?: boolean
   lineHeight?: string
-  capitazlie?: boolean
+  capitalize?: boolean
   italic?: boolean
   altFont?: boolean
   cursor?: string

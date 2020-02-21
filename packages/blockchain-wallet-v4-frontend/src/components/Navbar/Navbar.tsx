@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ height: string }>`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;
-  background-color: ${props => props.theme.blue700};
+  background-color: ${props => props.theme.grey900};
 `
 
 const BaseNavbar = styled.div`
@@ -21,22 +21,20 @@ const BaseNavbar = styled.div`
 `
 
 const Navbar = props => {
-  const { children, fluid, height, ...rest } = props
+  const { children, height, ...rest } = props
 
   return (
-    <Wrapper fluid={fluid} height={height}>
+    <Wrapper height={height}>
       <BaseNavbar {...rest}>{children}</BaseNavbar>
     </Wrapper>
   )
 }
 
 Navbar.propTypes = {
-  fluid: PropTypes.bool.isRequired,
   height: PropTypes.string.isRequired
 }
 
 Navbar.defaultProps = {
-  fluid: false,
   height: '60px'
 }
 

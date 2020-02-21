@@ -1,7 +1,13 @@
-export const getConfig = (coin, currency, data) => ({
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Color } from 'blockchain-info-components'
+
+export const getConfig = (coin, currency, data, decimals) => ({
   chart: {
-    height: 100,
-    type: 'line'
+    height: 105,
+    type: 'line',
+    data: {
+      dateFormat: 'YYYY/mm/dd'
+    }
   },
   credits: {
     enabled: false
@@ -9,13 +15,33 @@ export const getConfig = (coin, currency, data) => ({
   legend: {
     enabled: false
   },
+  plotOptions: {
+    line: {
+      color: Color(coin.toLowerCase()),
+      lineWidth: 3
+    }
+  },
   series: [
     {
       data: data
     }
   ],
   tooltip: {
-    enabled: false
+    borderColor: 'transparent',
+    borderWidth: 0,
+    borderRadius: 4,
+    valueDecimals: 2,
+    backgroundColor: Color(coin.toLowerCase()),
+    shadow: false,
+    padding: 4,
+    style: {
+      color: Color('white')
+    },
+    xDateFormat: '%b %d, %Y',
+    useHTML: true,
+    pointFormatter: function () {
+      return currency + Currency.formatFiat(this.y, decimals)
+    }
   },
   title: {
     text: null
@@ -24,6 +50,10 @@ export const getConfig = (coin, currency, data) => ({
     visible: false
   },
   xAxis: {
-    visible: false
+    visible: false,
+    minPadding: 0,
+    maxPadding: 0,
+    type: 'datetime',
+    gridLineColor: 'transparent'
   }
 })

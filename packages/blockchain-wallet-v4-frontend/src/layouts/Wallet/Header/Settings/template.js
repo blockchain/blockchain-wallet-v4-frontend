@@ -1,53 +1,21 @@
-import onClickOutside from 'react-onclickoutside'
-import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-
+import { Destination } from 'components/MenuLeft'
+import {
+  DropdownMenu,
+  DropdownMenuArrow,
+  DropdownMenuItem
+} from 'components/Navbar/NavbarDropdown'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { triangle } from 'polished'
-
-import { Destination, MenuItem } from 'components/MenuLeft'
 import {
   NavbarNavItemTextHeader,
   NavbarNavItemTextIcon,
   NavbarNavItemTextLink
 } from 'components/Navbar'
-import media from 'services/ResponsiveService'
+import onClickOutside from 'react-onclickoutside'
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
+import styled from 'styled-components'
 
-const DropdownMenu = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  z-index: 4;
-  padding: 8px;
-  border-radius: 4px;
-  background: ${props => props.theme.white};
-  box-shadow: 0px 0px 16px rgba(18, 29, 51, 0.25);
-`
-const DropdownMenuItem = styled(MenuItem)`
-  white-space: nowrap;
-  padding: 8px 16px;
-  margin-bottom: 0;
-`
-const DropdownMenuArrow = styled.div`
-  position: absolute;
-  top: -8px;
-  right: 64px;
-  ${props => {
-    return triangle({
-      pointingDirection: 'top',
-      width: '16px',
-      height: '8px',
-      foregroundColor: props.theme.white
-    })
-  }}
-  ${media.tablet`
-    right: 8px;
-  `}
-`
 const DropdownSeparator = styled.div`
   height: 1px;
   width: 24px;

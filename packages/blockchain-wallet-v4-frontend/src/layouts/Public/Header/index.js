@@ -13,6 +13,9 @@ import LoginOrCreate from './LoginOrCreate'
 import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
+const NavbarStyled = styled(Navbar)`
+  background-color: ${props => props.theme.blue700};
+`
 const BlockchainLogoImage = styled(Image)`
   width: 200px;
   display: block;
@@ -36,7 +39,7 @@ const PublicNavbarNavItem = styled(NavbarNavItem)`
 const Header = () => {
   return (
     <React.Fragment>
-      <Navbar height='90px'>
+      <NavbarStyled height='90px'>
         <NavbarBrand>
           <PublicBrand>
             <Link href='https://www.blockchain.com'>
@@ -62,7 +65,7 @@ const Header = () => {
             </PublicNavbarNavItem>
           </NavbarNav>
         </NavbarMenu>
-      </Navbar>
+      </NavbarStyled>
       <Announcements type='service' alertArea='public' />
     </React.Fragment>
   )
