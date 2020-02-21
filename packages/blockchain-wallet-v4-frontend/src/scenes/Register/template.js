@@ -136,6 +136,7 @@ const Register = ({
                 component={TextBox}
                 disabled={!isSupportedBrowser}
                 data-e2e='signupEmail'
+                noLastPass
               />
             </FormItem>
           </FormGroup>
