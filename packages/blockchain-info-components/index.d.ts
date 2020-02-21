@@ -33,21 +33,21 @@ export const Button: StatelessComponent<
       | 'transferred'
       | 'warning'
       | 'white-transparent'
-    fullwidth?: boolean
-    disabled?: boolean
-    rounded?: boolean
     bold?: boolean
-    small?: boolean
-    uppercase?: boolean
     capitalize?: boolean
-    width?: string
-    padding?: string
-    margin?: string
-    jumbo?: boolean
-    height?: string
     className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
     onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    small?: boolean
     style?: CSSProperties
+    uppercase?: boolean
+    width?: string
   } & React.ButtonHTMLAttributes<{}>
 >
 

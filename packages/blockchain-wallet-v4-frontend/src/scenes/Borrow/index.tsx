@@ -3,10 +3,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
-import { RemoteDataType } from 'core/types'
+import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { SceneWrapper } from 'components/Layout'
 import { Text } from 'blockchain-info-components'
+import { UserDataType } from 'data/types'
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
@@ -15,14 +16,18 @@ import styled from 'styled-components'
 
 type LinkStatePropsType = {
   invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
+  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
+  identityVerificationActions: typeof actions.components.identityVerification
   routerActions: typeof actions.router
 }
 
-type Props = LinkDispatchPropsType & LinkStatePropsType
-interface State {}
+export type Props = LinkDispatchPropsType & LinkStatePropsType
+export type State = {
+  isDisabled: boolean
+}
 
 export const Header = styled.div`
   margin-bottom: 40px;
@@ -32,7 +37,7 @@ export const MainTitle = styled(Text)`
 `
 
 class Borrow extends PureComponent<Props, State> {
-  state = {}
+  state: State = { isDisabled: true }
 
   componentDidMount () {
     if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
@@ -40,6 +45,28 @@ class Borrow extends PureComponent<Props, State> {
     }
 
     this.props.borrowActions.fetchBorrowOffers()
+    this.checkUserData()
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    if (
+      this.props.userDataR.getOrElse(null) !==
+      prevProps.userDataR.getOrElse(null)
+    ) {
+      this.checkUserData()
+    }
+  }
+
+  checkUserData = () => {
+    const userData = this.props.userDataR.getOrElse({
+      tiers: { current: 0 }
+    })
+    const tier = userData.tiers ? userData.tiers.current : 0
+    const isDisabled = tier < 2
+    /* eslint-disable */
+    this.setState({ isDisabled })
+    /* eslint-enable */
+    if (isDisabled) return
     this.props.borrowActions.fetchUserBorrowHistory()
   }
 
@@ -61,8 +88,8 @@ class Borrow extends PureComponent<Props, State> {
           </Text>
         </Header>
         <Container>
-          <BorrowPax />
-          <InitBorrowForm />
+          <BorrowPax {...this.state} {...this.props} />
+          <InitBorrowForm {...this.state} {...this.props} />
         </Container>
         <BorrowHistory />
       </SceneWrapper>
@@ -70,12 +97,17 @@ class Borrow extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  invitationsR: selectors.core.settings.getInvitations(state)
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  invitationsR: selectors.core.settings.getInvitations(state),
+  userDataR: selectors.modules.profile.getUserData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch),
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
