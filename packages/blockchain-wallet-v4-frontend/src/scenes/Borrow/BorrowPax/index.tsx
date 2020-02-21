@@ -1,5 +1,11 @@
 import { Box } from 'components/Box'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Link,
+  SkeletonRectangle,
+  Text
+} from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Props, State } from '..'
 import React, { PureComponent } from 'react'
@@ -49,18 +55,38 @@ class BorrowPax extends PureComponent<Props & State> {
           </Text>
         </div>
         {this.props.isDisabled ? (
-          <Button
-            nature='primary'
-            data-e2e='verifyIdentityBorrow'
-            onClick={() =>
-              this.props.identityVerificationActions.verifyIdentity(2)
-            }
-          >
-            <FormattedMessage
-              id='scenes.borrow.verifyid'
-              defaultMessage='Upgrade Now'
-            />
-          </Button>
+          this.props.userDataR.cata({
+            Success: () => (
+              <Button
+                nature='primary'
+                data-e2e='verifyIdentityBorrow'
+                onClick={() =>
+                  this.props.identityVerificationActions.verifyIdentity(2)
+                }
+              >
+                <FormattedMessage
+                  id='scenes.borrow.verifyid'
+                  defaultMessage='Upgrade Now'
+                />
+              </Button>
+            ),
+            Failure: () => (
+              <Link
+                style={{ width: '100%' }}
+                target='_blank'
+                href='https://support.blockchain.com/'
+              >
+                <Button fullwidth nature='primary' data-e2e='contactSupport'>
+                  <FormattedMessage
+                    id='scenes.borrow.support'
+                    defaultMessage='Contact Support'
+                  />
+                </Button>
+              </Link>
+            ),
+            Loading: () => <SkeletonRectangle width='100%' height='40px' />,
+            NotAsked: () => <SkeletonRectangle width='100%' height='40px' />
+          })
         ) : (
           <Button
             style={{ marginTop: '16px' }}

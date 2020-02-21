@@ -45,11 +45,23 @@ class Borrow extends PureComponent<Props, State> {
     }
 
     this.props.borrowActions.fetchBorrowOffers()
+    this.checkUserData()
+  }
 
+  componentDidUpdate (prevProps: Props) {
+    if (
+      this.props.userDataR.getOrElse(null) !==
+      prevProps.userDataR.getOrElse(null)
+    ) {
+      this.checkUserData()
+    }
+  }
+
+  checkUserData = () => {
     const userData = this.props.userDataR.getOrElse({
       tiers: { current: 0 }
     })
-    const tier = userData.tiers.current
+    const tier = userData.tiers ? userData.tiers.current : 0
     const isDisabled = tier < 2
     /* eslint-disable */
     this.setState({ isDisabled })
@@ -77,7 +89,7 @@ class Borrow extends PureComponent<Props, State> {
         </Header>
         <Container>
           <BorrowPax {...this.state} {...this.props} />
-          <InitBorrowForm {...this.state} />
+          <InitBorrowForm {...this.state} {...this.props} />
         </Container>
         <BorrowHistory />
       </SceneWrapper>

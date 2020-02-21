@@ -55,7 +55,9 @@ export class Amount extends Component<Props> {
           ),
           Failure: e => {
             return (
-              <Text weight={600}>{typeof e === 'object' ? e.message : e}</Text>
+              <Content>
+                {typeof e === 'object' ? (e.message ? e.message : 'N/A') : e}
+              </Content>
             )
           },
           NotAsked: () => <Content>...</Content>,
