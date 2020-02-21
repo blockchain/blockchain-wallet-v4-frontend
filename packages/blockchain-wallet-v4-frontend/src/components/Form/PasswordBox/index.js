@@ -72,7 +72,9 @@ const PasswordBox = field => {
           >
             {error}
           </Error>
-          <WarningIcon name='alert-filled' color='red600' size='20px' />
+          {noLastPass && (
+            <WarningIcon name='alert-filled' color='red600' size='20px' />
+          )}
         </>
       )}
     </Container>
