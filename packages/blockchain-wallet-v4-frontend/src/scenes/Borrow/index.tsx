@@ -37,7 +37,7 @@ export const MainTitle = styled(Text)`
 `
 
 class Borrow extends PureComponent<Props, State> {
-  state: State = { isDisabled: false }
+  state: State = { isDisabled: true }
 
   componentDidMount () {
     if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
