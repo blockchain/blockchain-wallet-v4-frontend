@@ -75,6 +75,10 @@ const BalanceDropdown = styled.div`
       right: initial;
       border: 0px;
       color: ${props => props.theme.white};
+      &:hover {
+        border: 0px;
+        color: ${props => props.theme.white};
+      }
     `}
   }
 `
