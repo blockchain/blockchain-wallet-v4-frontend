@@ -1,3 +1,4 @@
+import { equals, length } from 'ramda'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -20,18 +21,23 @@ const BaseTextInput = styled.input.attrs({
   font-size: 16px;
   font-weight: 500;
   color: ${props => props.theme['gray400']};
-  background-color: ${({ bgColor, theme }) =>
-    bgColor ? theme[bgColor] : theme.white};
+  background-color: ${({ bgColor, hasValue, isValid, theme }) =>
+    hasValue && isValid ? theme.white : theme[bgColor]};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: ${({ borderColor, borderNone, theme }) =>
-    borderNone ? 'initial' : '1px solid ' + theme[borderColor]};
+  border: ${({ borderColor, hasValue, isValid, theme }) =>
+    hasValue ? (isValid ? `1px solid ${theme[borderColor]}` : 'none') : 'none'};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-radius: 4px;
 
+  &:focus {
+    background-color: ${({ theme }) => theme.white};
+    border: 1px solid
+      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+  }
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
@@ -63,6 +69,32 @@ const selectBorderColor = state => {
       return 'success'
     default:
       return 'grey100'
+  }
+}
+
+const selectFocusBorderColor = state => {
+  switch (state) {
+    case 'initial':
+      return 'blue600'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'blue600'
+  }
+}
+
+const selectBackgroundColor = state => {
+  switch (state) {
+    case 'initial':
+      return 'grey000'
+    case 'invalid':
+      return 'red000'
+    case 'valid':
+      return 'success'
+    default:
+      return 'grey000'
   }
 }
 
@@ -98,15 +130,36 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const { disabled, errorState, icon, iconSize, ...rest } = this.props
+    const {
+      controlledBgColor,
+      controlledBorderColor,
+      controlledFocusBorderColor,
+      disabled,
+      errorState,
+      icon,
+      iconSize,
+      value,
+      ...rest
+    } = this.props
+    const hasValue = !equals(length(value), 0)
+    const isValid = !equals(errorState, 'invalid')
+    const bgColor = selectBackgroundColor(controlledBgColor || errorState)
+    const borderColor = selectBorderColor(controlledBorderColor || errorState)
+    const focusedBorderColor = selectFocusBorderColor(
+      controlledFocusBorderColor || errorState
+    )
 
     return (
       <Container>
         {icon && <InputIcon name={icon} size={iconSize} />}
         <BaseTextInput
-          borderColor={selectBorderColor(errorState)}
+          bgColor={bgColor}
+          borderColor={borderColor}
           disabled={disabled}
           data-e2e={this.props['data-e2e']}
+          focusedBorderColor={focusedBorderColor}
+          hasValue={hasValue}
+          isValid={isValid}
           icon={icon}
           onKeyDown={this.onKeyPressed}
           ref={this.refInput}
