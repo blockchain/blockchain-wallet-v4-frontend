@@ -18,7 +18,6 @@ import {
 } from 'components/Navbar'
 import { NavLink } from 'react-router-dom'
 import { useOnClickOutside } from 'services/HooksService'
-import Balances from '../MenuLeft/Balances'
 import media from 'services/ResponsiveService'
 import React, { useRef, useState } from 'react'
 import SecurityCenter from './SecurityCenter'
@@ -29,8 +28,6 @@ import styled from 'styled-components'
 type Props = {
   handleToggle: () => void
 } & LinkDispatchPropsType
-
-const Spacer = styled.div``
 
 const NavbarContainer = styled.div`
   background-color: ${props => props.theme.grey900};
@@ -55,16 +52,6 @@ const BlockchainLogoImage = styled(Image)`
 `
 
 const NavbarStyled = styled(Navbar)``
-
-const NavbarBottomStyled = styled(Navbar)`
-  width: auto;
-  margin: 0 26px;
-  box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.whiteFade100};
-  ${media.tablet`
-    margin: 0 15px;
-  `}
-`
 
 const NavbarMenuStyled = styled(NavbarMenu)`
   width: 100%;
@@ -98,7 +85,7 @@ const Small: React.FC<Props> = props => {
           </NavbarBrand>
         </NavbarHeader>
         <NavbarMenuStyled>
-          <Spacer />
+          <SendRequest />
           <NavbarNav>
             <NavbarNavItemWithText>
               <SecurityCenter />
@@ -159,10 +146,6 @@ const Small: React.FC<Props> = props => {
           </NavbarNav>
         </NavbarMenuStyled>
       </NavbarStyled>
-      <NavbarBottomStyled height='60px'>
-        <Balances />
-        <SendRequest />
-      </NavbarBottomStyled>
     </NavbarContainer>
   )
 }

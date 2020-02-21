@@ -1,11 +1,10 @@
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import { ComponentDropdown, Text } from 'blockchain-info-components'
-
+import { FormattedMessage } from 'react-intl'
 import CurrencySwitch from './CurrencySwitch'
 import LockboxBalance from './LockboxBalance'
+import media, { useMedia } from 'services/ResponsiveService'
+import React from 'react'
+import styled from 'styled-components'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
 import WatchOnlyBalance from './WatchOnlyBalance'
@@ -18,6 +17,10 @@ const Wrapper = styled.div`
   margin: 6px 0 16px;
   padding-left: 16px;
   box-sizing: border-box;
+  ${media.tablet`
+    padding-left: 0px;
+    margin: 0px;
+  `}
 `
 const TitleText = styled(Text)`
   margin-right: 8px;
@@ -35,6 +38,11 @@ const BalanceDropdown = styled.div`
     right: 2px;
     padding: 0;
     width: 230px;
+    ${media.tablet`
+      right: initial;
+      top: 38px;
+      z-index: 12;
+    `}
   }
   > div > div {
     width: initial;
@@ -44,13 +52,16 @@ const BalanceDropdown = styled.div`
     font-weight: 600;
     font-size: 24px;
     line-height: 135%;
+    ${media.tablet`
+      color: ${props => props.theme.white};
+    `}
   }
   > div > div > span:last-child {
     position: absolute;
     top: 0;
     right: 22px;
     font-size: 22px;
-    color: ${props => props.theme.grey500};
+    color: ${props => props.theme.grey400};
     border: 1px solid ${props => props.theme.grey100};
     border-radius: 4px;
     padding: 0;
@@ -58,32 +69,45 @@ const BalanceDropdown = styled.div`
       border: 1px solid ${props => props.theme.blue600};
       color: ${props => props.theme.blue600};
     }
+
+    ${media.tablet`
+      position: static;
+      right: initial;
+      border: 0px;
+      color: ${props => props.theme.white};
+    `}
   }
 `
 
-const BalancesContainer = () => (
-  <Wrapper>
-    <TitleText data-e2e='totalBalance'>
-      <FormattedMessage
-        id='scenes.wallet.menutop.balance.totalbalance'
-        defaultMessage='Total Balance'
-      />
-    </TitleText>
-    <BalanceDropdown>
-      <ComponentDropdown
-        down
-        forceSelected
-        toggleOnCallback={false}
-        selectedComponent={<TotalBalance large />}
-        components={[
-          <WalletBalance />,
-          <LockboxBalance />,
-          <WatchOnlyBalance />,
-          <CurrencySwitch />
-        ]}
-      />
-    </BalanceDropdown>
-  </Wrapper>
-)
+const BalancesContainer = () => {
+  const isTablet = useMedia('tablet')
+
+  return (
+    <Wrapper>
+      {!isTablet && (
+        <TitleText data-e2e='totalBalance'>
+          <FormattedMessage
+            id='scenes.wallet.menutop.balance.totalbalance'
+            defaultMessage='Total Balance'
+          />
+        </TitleText>
+      )}
+      <BalanceDropdown>
+        <ComponentDropdown
+          down
+          forceSelected
+          toggleOnCallback={false}
+          selectedComponent={<TotalBalance large />}
+          components={[
+            <WalletBalance />,
+            <LockboxBalance />,
+            <WatchOnlyBalance />,
+            <CurrencySwitch />
+          ]}
+        />
+      </BalanceDropdown>
+    </Wrapper>
+  )
+}
 
 export default BalancesContainer

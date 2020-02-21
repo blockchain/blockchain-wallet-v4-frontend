@@ -54,7 +54,7 @@ export const Button: StatelessComponent<
 export const ComponentDropdown: React.ComponentClass<{
   components: Array<JSX.Element>
   color?: string
-  toggleOnClassback?: boolean
+  toggleOnCallback?: boolean
   opened?: boolean
   uppercase?: boolean
   down?: boolean

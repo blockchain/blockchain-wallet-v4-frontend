@@ -1,25 +1,27 @@
 import { useMedia } from 'services/ResponsiveService'
 import Announcements from 'components/Announcements'
 import Large from './template.large'
-import PropTypes from 'prop-types'
+import Medium from './template.medium'
 import React from 'react'
 import Small from './template.small'
 
 const Header = props => {
   const isTabletL = useMedia('tabletL')
-  const { handleToggle, ...rest } = props
+  const isTablet = useMedia('tablet')
 
   return (
     <>
-      {isTabletL ? <Small {...rest} /> : <Large {...rest} />}
+      {isTablet ? (
+        <Small {...props} />
+      ) : isTabletL ? (
+        <Medium {...props} />
+      ) : (
+        <Large {...props} />
+      )}
       <Announcements type='service' alertArea='wallet' />
       <Announcements type='static' />
     </>
   )
-}
-
-Header.propTypes = {
-  handleToggle: PropTypes.func.isRequired
 }
 
 export default Header

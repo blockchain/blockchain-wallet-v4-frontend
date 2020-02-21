@@ -6,7 +6,7 @@ const Wrapper = styled.div<{ height: string }>`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;
-  background-color: ${props => props.theme.blue700};
+  background-color: ${props => props.theme.grey900};
 `
 
 const BaseNavbar = styled.div`

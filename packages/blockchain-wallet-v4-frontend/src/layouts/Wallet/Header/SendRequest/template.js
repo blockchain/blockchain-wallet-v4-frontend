@@ -25,8 +25,12 @@ const ActionButton = styled(IconButton)`
   position: relative;
   border: none;
   background-color: transparent;
-  margin-left: 6px;
-  margin-right: 10px;
+  margin: 0px 6px;
+
+  &:last-child {
+    margin-right: 0px;
+    padding-right: 0px;
+  }
 
   & > span {
     color: ${props => props.theme.whiteFade700};
@@ -48,6 +52,29 @@ const ActionButton = styled(IconButton)`
       color: ${props => props.theme.whiteFade900};
     }
   }
+
+  ${media.tabletL`
+    & > span {
+      color: ${props => props.theme.white};
+      font-size: 20px;
+    }
+    & > div > span {
+      color: ${props => props.theme.white};
+      font-size: 14px;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: ${props => props.theme.white};
+
+      & > span {
+        color: ${props => props.theme.white};
+      }
+      & > div > span {
+        color: ${props => props.theme.white};
+      }
+    }
+  `}
 
   ${media.mobile`
     padding: 10px 10px;
@@ -105,7 +132,6 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => (
       disabled={!requestAvailable}
       name='request'
       onClick={() => showModal('REQUEST')}
-      style={{ marginLeft: '8px' }}
       width='70px'
     >
       <RequestSpotlight className='wallet-intro-tour-step-2' />
