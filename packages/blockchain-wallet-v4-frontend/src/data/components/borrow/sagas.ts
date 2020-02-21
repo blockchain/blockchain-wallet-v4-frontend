@@ -391,12 +391,12 @@ export default ({
 
       payment = yield payment.amount(Number(amount))
       payment = yield payment.to(loan.principal.depositAddresses[coin])
-      // sign payment
-      yield put(
-        actions.form.stopSubmit('repayLoanForm', {
-          _error: 'Payment not signed'
-        })
-      )
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+      yield put(actions.form.stopSubmit('repayLoanForm'))
     } catch (e) {
       const error = typeof e === 'object' ? e.description : e
       yield put(actions.form.stopSubmit('repayLoanForm', { _error: error }))

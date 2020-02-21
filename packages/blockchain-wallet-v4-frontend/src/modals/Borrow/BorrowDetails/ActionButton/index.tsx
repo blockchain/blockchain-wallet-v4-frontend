@@ -5,24 +5,7 @@ import React from 'react'
 
 const ActionButton: React.FC<Props> = props => {
   switch (props.loan.status) {
-    case 'CLOSED':
-    case 'LIQUIDATED':
-    case 'FAILED': {
-      return (
-        <Button
-          fullwidth
-          nature='light'
-          data-e2e='closeBorrowDetails'
-          onClick={() => props.handleClose()}
-        >
-          <FormattedMessage
-            id='modals.details.borrow.close'
-            defaultMessage='Close'
-          />
-        </Button>
-      )
-    }
-    default: {
+    case 'OPEN':
       return (
         <Button
           fullwidth
@@ -39,6 +22,20 @@ const ActionButton: React.FC<Props> = props => {
           <FormattedMessage
             id='modals.details.borrow.endborrow'
             defaultMessage='End Borrowing'
+          />
+        </Button>
+      )
+    default: {
+      return (
+        <Button
+          fullwidth
+          nature='light'
+          data-e2e='closeBorrowDetails'
+          onClick={() => props.handleClose()}
+        >
+          <FormattedMessage
+            id='modals.details.borrow.close'
+            defaultMessage='Close'
           />
         </Button>
       )
