@@ -15,11 +15,6 @@ export const setWalletTourVisibility = visibility => ({
   payload: visibility
 })
 
-export const skipWalletTourClicked = startTourCallback => ({
-  payload: { startTourCallback },
-  type: AT.SKIP_WALLET_TOUR_CLICKED
-})
-
 export const swapGetStartedSubmitClicked = () => ({
   type: AT.SWAP_GET_STARTED_SUBMIT_CLICKED
 })

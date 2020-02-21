@@ -517,18 +517,18 @@ export default ({ api }) => {
     }
   }
 
-  const runWalletTour = function * (goal) {
+  const runWelcomeModal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
     const { firstLogin } = data
     if (firstLogin) {
-      yield put(actions.goals.addInitialModal('walletTour', 'WalletTour'))
+      yield put(actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL'))
     } else {
       yield put(
         actions.logs.logInfoMessage(
           logLocation,
-          'runWalletTour',
+          'runWelcomeModal',
           'login success'
         )
       )
@@ -566,7 +566,7 @@ export default ({ api }) => {
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
-      walletTour,
+      welcomeModal,
       xlmPayment
     } = initialModals
     // Order matters here
@@ -617,8 +617,8 @@ export default ({ api }) => {
     if (airdropClaim) {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
-    if (walletTour) {
-      yield put(actions.modals.showModal(walletTour.name, walletTour.data))
+    if (welcomeModal) {
+      yield put(actions.modals.showModal(welcomeModal.name))
       return yield put(
         actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_OFFERED)
       )
@@ -668,8 +668,8 @@ export default ({ api }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
-        case 'walletTour':
-          yield call(runWalletTour, goal)
+        case 'welcomeModal':
+          yield call(runWelcomeModal, goal)
           break
       }
       yield put(actions.goals.initialModalDisplayed)
@@ -699,7 +699,7 @@ export default ({ api }) => {
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,
-    runWalletTour,
+    runWelcomeModal,
     runReferralGoal,
     runSendBtcGoal,
     runUpgradeForAirdropGoal,

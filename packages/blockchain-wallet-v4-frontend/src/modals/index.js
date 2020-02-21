@@ -16,7 +16,7 @@ import {
   LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
-  WalletTour
+  Welcome
 } from './Onboarding'
 import {
   AirdropError,
@@ -152,11 +152,11 @@ const Modals = () => (
     <UpgradeForAirdrop />
     <UpgradeWallet />
     <UserExists />
-    <WalletTour />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
+    <Welcome />
     <WhatsNew />
   </div>
 )

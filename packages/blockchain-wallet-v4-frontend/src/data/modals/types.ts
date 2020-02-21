@@ -5,6 +5,7 @@ export type ModalNamesType =
   | 'FAQ_MODAL'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'
+  | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
 
 export type ModalType = {
