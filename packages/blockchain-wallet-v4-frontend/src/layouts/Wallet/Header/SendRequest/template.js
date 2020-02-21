@@ -4,7 +4,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { IconButton, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import media, { useMedia } from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -108,42 +108,45 @@ const ButtonText = styled(Text)`
   margin-left: 6px;
 `
 
-const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => (
-  <Wrapper>
-    <Divider />
-    <ActionButton
-      data-e2e='sendButton'
-      disabled={!sendAvailable}
-      name='send'
-      onClick={() => showModal('SEND')}
-      width='70px'
-    >
-      <SendSpotlight className='wallet-intro-tour-step-3' />
-      <ButtonText size='16px' weight={600} color='blue900'>
-        <FormattedMessage
-          id='layouts.wallet.menutop.send'
-          defaultMessage='Send'
-        />
-      </ButtonText>
-    </ActionButton>
-    <Divider />
-    <ActionButton
-      data-e2e='requestButton'
-      disabled={!requestAvailable}
-      name='request'
-      onClick={() => showModal('REQUEST')}
-      width='70px'
-    >
-      <RequestSpotlight className='wallet-intro-tour-step-2' />
-      <ButtonText size='16px' weight={600} color='blue900'>
-        <FormattedMessage
-          id='layouts.wallet.menutop.request'
-          defaultMessage='Request'
-        />
-      </ButtonText>
-    </ActionButton>
-  </Wrapper>
-)
+const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
+  const isTablet = useMedia('tablet')
+  return (
+    <Wrapper>
+      {isTablet && <Divider />}
+      <ActionButton
+        data-e2e='sendButton'
+        disabled={!sendAvailable}
+        name='send'
+        onClick={() => showModal('SEND')}
+        width='70px'
+      >
+        <SendSpotlight className='wallet-intro-tour-step-3' />
+        <ButtonText size='16px' weight={600} color='blue900'>
+          <FormattedMessage
+            id='layouts.wallet.menutop.send'
+            defaultMessage='Send'
+          />
+        </ButtonText>
+      </ActionButton>
+      <Divider />
+      <ActionButton
+        data-e2e='requestButton'
+        disabled={!requestAvailable}
+        name='request'
+        onClick={() => showModal('REQUEST')}
+        width='70px'
+      >
+        <RequestSpotlight className='wallet-intro-tour-step-2' />
+        <ButtonText size='16px' weight={600} color='blue900'>
+          <FormattedMessage
+            id='layouts.wallet.menutop.request'
+            defaultMessage='Request'
+          />
+        </ButtonText>
+      </ActionButton>
+    </Wrapper>
+  )
+}
 
 SendRequest.propTypes = {
   sendAvailable: PropTypes.bool.isRequired,
