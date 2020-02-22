@@ -123,7 +123,7 @@ export default ({
 
       const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
 
-      const loan: LoanType = yield call(
+      const response: { loan: LoanType } = yield call(
         api.createLoan,
         collateralWithdrawAddress,
         offer.id,
@@ -135,6 +135,8 @@ export default ({
           PAX: principalWithdrawAddress
         }
       )
+
+      const { loan } = response
 
       payment = yield payment.amount(Number(amount))
       payment = yield payment.to(
@@ -150,7 +152,7 @@ export default ({
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
-      const error = typeof e === 'object' ? e.description : e
+      const error = typeof e === 'object' ? JSON.stringify(e) : e
       yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
     }
   }

@@ -13,7 +13,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
     offerId: string,
     principalAmount: { symbol: CoinType; value: string },
     principalWithdrawAddresses: { [key in CoinType]?: string }
-  ): LoanType =>
+  ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/user/loans',
