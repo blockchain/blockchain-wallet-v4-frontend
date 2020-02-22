@@ -56,20 +56,23 @@ class BorrowPax extends PureComponent<Props & State> {
         </div>
         {this.props.isDisabled ? (
           this.props.userDataR.cata({
-            Success: () => (
-              <Button
-                nature='primary'
-                data-e2e='verifyIdentityBorrow'
-                onClick={() =>
-                  this.props.identityVerificationActions.verifyIdentity(2)
-                }
-              >
-                <FormattedMessage
-                  id='scenes.borrow.verifyid'
-                  defaultMessage='Upgrade Now'
-                />
-              </Button>
-            ),
+            Success: val => {
+              return (
+                <Button
+                  nature='primary'
+                  data-e2e='verifyIdentityBorrow'
+                  disabled={val.kycState !== 'NONE'}
+                  onClick={() =>
+                    this.props.identityVerificationActions.verifyIdentity(2)
+                  }
+                >
+                  <FormattedMessage
+                    id='scenes.borrow.verifyid'
+                    defaultMessage='Upgrade Now'
+                  />
+                </Button>
+              )
+            },
             Failure: () => (
               <Link
                 style={{ width: '100%' }}
