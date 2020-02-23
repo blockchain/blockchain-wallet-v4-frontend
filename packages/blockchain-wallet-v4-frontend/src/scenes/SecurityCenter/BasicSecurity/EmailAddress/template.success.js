@@ -190,9 +190,10 @@ const EmailAddress = props => {
               />
             </EmailButton>
             <ChangeEmailText
-              color='brand-secondary'
+              color='blue600'
               weight={400}
               onClick={props.handleChangeEmailView}
+              data-e2e='changeYourEmailLink'
             >
               <FormattedMessage
                 id='scenes.security.email.upateform.changetext'
@@ -203,7 +204,7 @@ const EmailAddress = props => {
         ) : null}
         {uiHelper() && verified ? (
           <Text
-            color='brand-secondary'
+            color='blue600'
             size='13px'
             style={{ cursor: 'pointer' }}
             onClick={props.handleChangeEmailView}

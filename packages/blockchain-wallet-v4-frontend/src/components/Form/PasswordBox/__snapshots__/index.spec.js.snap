@@ -1,9 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PasswordBox renders correctly 1`] = `
-<PasswordBox__Container>
+<styled.div>
   <mockConstructor
+    borderNone={null}
     errorState="initial"
   />
-</PasswordBox__Container>
+</styled.div>
 `;

@@ -19,6 +19,7 @@ class SecondStepContainer extends React.PureComponent {
           coin='BCH'
           handleSubmit={actions.sendBchSecondStepSubmitClicked}
           handleBack={actions.sendBchSecondStepCancelClicked}
+          handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
         />
       ),
       Failure: message => <Error>{message}</Error>,

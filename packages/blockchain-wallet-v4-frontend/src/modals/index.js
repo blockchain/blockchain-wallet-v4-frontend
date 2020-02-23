@@ -12,8 +12,8 @@ import {
   AirdropClaim,
   AirdropSuccess,
   CoinifyUpgrade,
-  LinkFromPitAccount,
-  LinkToPitAccount,
+  LinkFromExchangeAccount,
+  LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
   WalletTour
@@ -37,6 +37,7 @@ import {
   TwoStepSetup,
   TwoStepYubico
 } from './Settings'
+import { BitpayInformational, BitpayInvoiceExpired } from './BitPay'
 import {
   CoinifyBuyViaCard,
   CoinifyDeleteBank,
@@ -74,22 +75,22 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import {
-  SfoxEnterMicroDeposits,
-  SfoxExchangeData,
-  SfoxTradeDetails
-} from './Sfox'
-import BitPayExpired from './BitPayExpired'
+import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
+import Borrow from './Borrow'
+import Faq from './Faq'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
+import WhatsNew from './WhatsNew'
 
 const Modals = () => (
   <div>
     <AddBtcWallet />
     <AirdropClaim />
     <AirdropSuccess />
-    <BitPayExpired />
+    <BitpayInvoiceExpired />
+    <BitpayInformational />
+    <Borrow />
     <AutoDisconnection />
     <CoinifyBuyViaCard />
     <CoinifyDeleteBank />
@@ -102,6 +103,7 @@ const Modals = () => (
     <EthAirdrop />
     <ExchangeConfirm />
     <ExchangeResults />
+    <Faq />
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
@@ -110,8 +112,8 @@ const Modals = () => (
     <LockboxFirmware disableOutsideClose />
     <LockboxSetup disableOutsideClose />
     <LockboxShowXPubs />
-    <LinkFromPitAccount disableOutsideClose />
-    <LinkToPitAccount disableOutsideClose />
+    <LinkFromExchangeAccount disableOutsideClose />
+    <LinkToExchangeAccount disableOutsideClose />
     <MobileNumberChange />
     <MobileNumberVerify />
     <Onfido />
@@ -137,7 +139,6 @@ const Modals = () => (
     <ShowXPub />
     <SfoxExchangeData />
     <SfoxTradeDetails />
-    <SfoxEnterMicroDeposits />
     <AirdropError />
     <Support />
     <SwapGetStarted />
@@ -156,6 +157,7 @@ const Modals = () => (
     <XlmReserveLearn />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
+    <WhatsNew />
   </div>
 )
 

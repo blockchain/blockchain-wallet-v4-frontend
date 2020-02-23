@@ -30,7 +30,7 @@ const ExportKeysText = styled(Text)`
 `
 
 const ClickableText = styled(Text)`
-  color: ${props => props.theme['brand-secondary']};
+  color: ${props => props.theme.blue600};
   cursor: pointer;
 `
 const AppManagerLink = styled(ClickableText)`
@@ -218,7 +218,7 @@ const PairDeviceStep = props => {
               data-place='right'
               style={{ marginTop: '3px' }}
             >
-              <TooltipIcon name='question-in-circle' />
+              <TooltipIcon name='info' />
             </Tooltip>
           </ExportKeysText>
         )}

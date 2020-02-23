@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import { getRemotePropType } from 'utils/proptypes'
 
@@ -30,7 +30,7 @@ class StringDisplayContainer extends React.PureComponent {
         {children.cata({
           Success: value => value,
           Failure: error => (
-            <Text size='12px' weight={400} color='red' className='error'>
+            <Text size='12px' weight={400} color='red600' className='error'>
               {propOr(defaultError, 'message', error)}
             </Text>
           ),

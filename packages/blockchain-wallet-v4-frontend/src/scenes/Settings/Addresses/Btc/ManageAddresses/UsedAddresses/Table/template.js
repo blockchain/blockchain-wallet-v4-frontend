@@ -43,7 +43,7 @@ const UsedTable = ({ children }) => (
           />
         </Text>
         <TooltipHost id='settingsBtcUsedBalace'>
-          <TooltipIcon name='question-in-circle' />
+          <TooltipIcon name='info' />
         </TooltipHost>
       </TableCell>
     </TableHeader>

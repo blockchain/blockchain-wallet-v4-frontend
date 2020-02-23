@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -9,35 +8,26 @@ const WhatsNewLink = styled(Link)`
   position: relative;
   padding: 5px;
   border-radius: 4px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    ${props => (props.highlighted ? '0.2' : '0')}
-  );
 `
 const NotificationBadge = styled.div`
   border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border: 1px solid ${props => props.theme['brand-secondary']};
+  width: 16px;
+  height: 16px;
   text-align: center;
-  background-color: ${props => props.theme['white']};
+  color: white;
+  border: 2px solid ${props => props.theme.grey900};
+  background-color: ${props => props.theme.blue600};
   position: absolute;
-  bottom: 15px;
-  left: 14px;
+  bottom: 16px;
+  left: 16px;
   font-size: 12px;
 `
 
 const WhatsNewIcon = props => {
-  const { handleClick, numOfNewAnnouncements = 0, highlighted } = props
+  const { onClick, numOfNewAnnouncements = 0 } = props
   return (
     <TooltipHost id='whatsnew.tooltip'>
-      <WhatsNewLink
-        onClick={handleClick}
-        highlighted={highlighted}
-        data-e2e='notificationsLink'
-      >
+      <WhatsNewLink onClick={onClick} data-e2e='notificationsLink'>
         {numOfNewAnnouncements > 0 ? (
           <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
         ) : null}
@@ -51,11 +41,6 @@ const WhatsNewIcon = props => {
       </WhatsNewLink>
     </TooltipHost>
   )
-}
-
-WhatsNewIcon.propTypes = {
-  handleClick: PropTypes.func,
-  numOfNewAnnouncements: PropTypes.number
 }
 
 export default WhatsNewIcon

@@ -32,18 +32,17 @@ const PaymentOption = styled.div`
   border-radius: 4px;
   width: 130px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   opacity: ${props => (props.disabled ? 0.3 : 1)};
   margin-right: ${props => props.marginRight};
   :hover {
-    background-color: ${props =>
-      !props.disabled && props.theme['brand-secondary']};
+    background-color: ${props => !props.disabled && props.theme.blue600};
     label {
       > span {
-        color: ${props => !props.disabled && props.theme['white']};
+        color: ${props => !props.disabled && props.theme.white};
       }
       > div {
-        color: ${props => !props.disabled && props.theme['white']};
+        color: ${props => !props.disabled && props.theme.white};
       }
     }
   }
@@ -55,11 +54,11 @@ const OptionLabel = styled.label`
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 `
 const PaymentIcon = styled(Icon)`
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
   cursor: ${props => props.disabled && 'not-allowed'};
 `
 const PaymentText = styled(Text)`
-  color: ${props => props.theme['brand-primary']};
+  color: ${props => props.theme.blue900};
 `
 
 const PaymentRadioCard = ({ handlePaymentClick, disabled }) => (

@@ -38,7 +38,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <Content>
           <IconColumn>
-            <Icon size='24px' name='info' color='orange' />
+            <Icon size='24px' name='info' color='orange600' />
           </IconColumn>
           <ContentColumn>
             <Text size='14px' weight='600' data-e2e='runningLowMessage'>
@@ -567,8 +567,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.NEW_ADDRESS_GENERATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.new_address_generate_error'
-          defaultMessage='Failed to generate new address.'
+          id='components.alerts.address_generate_error'
+          defaultMessage='Failed to generate new address'
         />
       )
     case C.NEW_WALLET_CREATE_SUCCESS:
@@ -581,8 +581,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.PAYMENT_RECEIVED_BCH:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.payment_received_bch'
-          defaultMessage="You've just received a Bitcoin cash payment"
+          id='components.alerts.payment_bch_received'
+          defaultMessage="You've just received a Bitcoin Cash payment"
         />
       )
     case C.PAYMENT_RECEIVED_BTC:
@@ -609,8 +609,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
     case C.PAYMENT_RECEIVED_XLM:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.payment_received_xlm'
-          defaultMessage="You've just received a stellar payment"
+          id='components.alerts.payment_xlm_received'
+          defaultMessage="You've just received a Stellar payment"
         />
       )
     case C.PBKDF2_UPDATE_SUCCESS:
@@ -775,7 +775,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <Content>
           <IconColumn>
-            <SkipWalletTourIcon size='24px' name='bell' color='orange' />
+            <SkipWalletTourIcon size='24px' name='bell' color='orange600' />
           </IconColumn>
           <ContentColumn>
             <Text size='14px' weight='600' data-e2e='skipWalletTourAlert'>

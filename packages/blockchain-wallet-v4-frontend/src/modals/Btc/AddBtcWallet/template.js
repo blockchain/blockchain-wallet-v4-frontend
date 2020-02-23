@@ -37,7 +37,7 @@ const AddBtcWallet = ({
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='up-arrow-in-circle' onClose={close}>
+          <ModalHeader icon='arrow-up-circle' onClose={close}>
             <FormattedMessage
               id='modals.addbitcoinwallet.title'
               defaultMessage='Add New Bitcoin Wallet'
@@ -46,7 +46,7 @@ const AddBtcWallet = ({
           <ModalBody>
             <FormGroup>
               <FormItem>
-                <Label for='wallet'>
+                <Label htmlFor='wallet'>
                   <FormattedMessage
                     id='modals.addbitcoinwallet.wallet'
                     defaultMessage='Wallet Name'

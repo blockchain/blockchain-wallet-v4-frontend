@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table component renders correctly 1`] = `
-<Table__Wrapper>
+<styled.div>
   <span>
     Default
   </span>
-</Table__Wrapper>
+</styled.div>
 `;

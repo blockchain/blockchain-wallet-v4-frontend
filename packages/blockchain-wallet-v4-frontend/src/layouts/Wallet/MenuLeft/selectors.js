@@ -5,7 +5,6 @@ import { STATUS } from 'react-joyride/lib'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.preferences.getShowThePitPulse,
     selectors.components.layoutWallet.getMenuOpened,
     selectors.components.layoutWallet.getLockboxOpened,
     selectors.components.onboarding.getWalletTourVisibility,
@@ -15,12 +14,12 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.kvStore.whatsNew.getHasSkippedTour,
     selectors.core.settings.getCountryCode,
+    selectors.core.settings.getInvitations,
     selectors.core.walletOptions.getAdsBlacklist,
     selectors.core.walletOptions.getAdsUrl,
     selectors.modules.profile.getUserKYCState
   ],
   (
-    showThePitPulse,
     menuOpened,
     lockboxOpened,
     walletTourVisibility,
@@ -30,11 +29,12 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     hasSkippedTourR,
     countryCodeR,
+    invitationsR,
     adsBlacklistR,
     adsUrlR,
     userKYCState
   ) => {
-    const transform = (canTrade, lockboxDevices, countryCode) => {
+    const transform = (canTrade, lockboxDevices, countryCode, invitations) => {
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
         adsUrl: adsUrlR.getOrElse(''),
@@ -42,16 +42,21 @@ export const getData = createDeepEqualSelector(
         countryCode,
         hasRunWalletTour: walletTourVisibility === STATUS.FINISHED,
         hasSkippedTour: hasSkippedTourR.getOrElse(false),
+        invitations,
         firstLogin,
         lockboxDevices,
         lockboxOpened,
         menuOpened,
         pathname,
-        showThePitPulse,
         userKYCState: userKYCState.getOrElse(null)
       }
     }
 
-    return lift(transform)(canTradeR, lockboxDevicesR, countryCodeR)
+    return lift(transform)(
+      canTradeR,
+      lockboxDevicesR,
+      countryCodeR,
+      invitationsR
+    )
   }
 )

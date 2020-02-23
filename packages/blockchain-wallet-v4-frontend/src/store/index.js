@@ -4,7 +4,7 @@ import {
   createWalletApi,
   HorizonStreamingService,
   Socket
-} from 'blockchain-wallet-v4/src/network'
+} from 'blockchain-wallet-v4/src/network/index.ts'
 import { applyMiddleware, compose, createStore } from 'redux'
 import {
   autoDisconnection,

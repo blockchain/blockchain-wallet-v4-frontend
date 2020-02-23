@@ -13,19 +13,19 @@ export const HomeBalanceTable = styled.div`
 export const HomeBalanceRow = styled.div`
   flex: auto;
   display: flex;
-  padding: 10px 20px;
+  padding: 20px 0px;
   flex-direction: column;
   justify-content: center;
   &:first-child {
     flex: 1;
     display: block;
-    padding: 15px 30px;
+    padding: 15px 0px;
   }
   &:not(:last-child) {
     border-bottom: 1px solid ${props => props.theme['gray-1']};
   }
   @media (max-width: 480px) {
-    padding: 15px 30px;
+    padding: 15px 0px;
   }
 `
 
@@ -39,12 +39,13 @@ const Coin = styled.div`
   align-items: center;
 `
 const CoinName = styled(Text)`
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 500;
+  color: ${props => props.theme.grey800};
 `
 const CoinIcon = styled(Icon)`
   font-size: 32px;
-  margin-right: 10px;
+  margin-right: 16px;
 `
 const Amount = styled.div`
   display: flex;
@@ -70,7 +71,7 @@ export const HomeCoinBalanceCell = props => {
           size='16px'
           cursor='pointer'
           mobileSize='16px'
-          color='brand-primary'
+          color='blue900'
           weight={400}
           data-e2e={coin + 'FiatBalance'}
         >

@@ -13,7 +13,7 @@ const CustomSelectBox = styled(SelectBox)`
     border-left: none;
   }
   .bc__control {
-    background-color: ${props => props.theme['white']};
+    background-color: ${props => props.theme.white};
     cursor: ${props => props.disabled && 'not-allowed'};
     border: 1px solid ${props => props.theme[props.borderColor]};
     border-left: none;
@@ -31,9 +31,7 @@ const CustomSelectBox = styled(SelectBox)`
     > .bc__indicators {
       > .bc__dropdown-indicator {
         color: ${props =>
-          props.disabled
-            ? props.theme['gray-2']
-            : props.theme['brand-secondary']};
+          props.disabled ? props.theme['gray-2'] : props.theme.blue600};
       }
       > .bc__indicator-separator {
         display: none;

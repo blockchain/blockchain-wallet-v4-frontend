@@ -55,13 +55,15 @@ const Reminder = props => {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel for='email'>
+            <FormLabel htmlFor='email'>
               <FormattedMessage
                 id='scenes.reminder.email'
                 defaultMessage='Email'
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='email'
               autoFocus
               validate={[required, validEmail]}
@@ -71,13 +73,15 @@ const Reminder = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='code'>
+            <FormLabel htmlFor='code'>
               <FormattedMessage
                 id='scenes.reminder.captcha'
                 defaultMessage='Captcha'
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='code'
               validate={[required]}
               component={CaptchaBox}
@@ -139,7 +143,7 @@ const Reminder = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.reminder.reminder'
             defaultMessage='Wallet ID Reminder'

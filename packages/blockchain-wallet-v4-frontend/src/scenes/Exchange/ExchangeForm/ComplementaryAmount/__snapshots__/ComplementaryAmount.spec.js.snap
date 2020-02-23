@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate failure 1`] = `
-<ComplementaryAmount__ComplementaryAmountContainer>
+<styled.div>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
     skeletonHeight="24px"
@@ -9,11 +9,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate fa
   >
     <Component />
   </StringDisplayContainer>
-</ComplementaryAmount__ComplementaryAmountContainer>
+</styled.div>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate loading 1`] = `
-<ComplementaryAmount__ComplementaryAmountContainer>
+<styled.div>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
     skeletonHeight="24px"
@@ -21,11 +21,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate lo
   >
     <Component />
   </StringDisplayContainer>
-</ComplementaryAmount__ComplementaryAmountContainer>
+</styled.div>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate notAsked 1`] = `
-<ComplementaryAmount__ComplementaryAmountContainer>
+<styled.div>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
     skeletonHeight="24px"
@@ -33,11 +33,11 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate no
   >
     <Component />
   </StringDisplayContainer>
-</ComplementaryAmount__ComplementaryAmountContainer>
+</styled.div>
 `;
 
 exports[`Exchange RatesBox should render correct rates for sourceToTargetRate success 1`] = `
-<ComplementaryAmount__ComplementaryAmountContainer>
+<styled.div>
   <StringDisplayContainer
     data-e2e="exchangeComplementaryAmount"
     skeletonHeight="24px"
@@ -45,5 +45,5 @@ exports[`Exchange RatesBox should render correct rates for sourceToTargetRate su
   >
     <Component />
   </StringDisplayContainer>
-</ComplementaryAmount__ComplementaryAmountContainer>
+</styled.div>
 `;

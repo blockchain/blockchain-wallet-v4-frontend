@@ -46,7 +46,7 @@ const QRCode = props => {
             defaultMessage='Scan QR Code'
           />
           <TooltipHost id='qrcode.tooltip'>
-            <TooltipIcon name='question-in-circle' />
+            <TooltipIcon name='info' />
           </TooltipHost>
         </Text>
         <QRCodeContainer>

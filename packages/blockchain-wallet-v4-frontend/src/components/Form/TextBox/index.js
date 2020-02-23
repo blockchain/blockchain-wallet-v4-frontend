@@ -27,6 +27,8 @@ const TextBox = field => {
   const {
     autoComplete,
     autoFocus,
+    bgColor,
+    borderNone,
     borderRightNone,
     center,
     className,
@@ -34,13 +36,14 @@ const TextBox = field => {
     disableSpellcheck,
     errorBottom,
     height,
+    icon,
     input,
     maxLength,
     meta,
     noLastPass,
     placeholder
   } = field
-  const { initial, active, touched, error, warning } = meta
+  const { initial, active, invalid, touched, error, warning } = meta
   const errorState = getErrorState(meta)
 
   return (
@@ -50,6 +53,10 @@ const TextBox = field => {
         active={active}
         autoComplete={autoComplete}
         autoFocus={autoFocus}
+        bgColor={bgColor}
+        borderNone={
+          borderNone ? (invalid && touched ? null : borderNone) : null
+        }
         borderRightNone={borderRightNone}
         center={center}
         data-e2e={field['data-e2e']}
@@ -57,6 +64,7 @@ const TextBox = field => {
         disableSpellcheck={disableSpellcheck}
         errorState={errorState}
         height={height}
+        icon={icon}
         initial={initial}
         maxLength={maxLength}
         noLastPass={noLastPass}

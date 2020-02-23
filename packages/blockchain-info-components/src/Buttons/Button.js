@@ -69,18 +69,24 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'gray-6',
         borderColor: 'gray-6'
       }
+    case 'dark-grey':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     case 'empty':
       return {
-        color: small ? 'brand-secondary' : 'gray-6',
+        color: small ? 'blue600' : 'gray-6',
         backgroundColor: 'white',
-        borderColor: 'gray-2',
+        borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
     case 'empty-secondary':
       return {
-        color: 'brand-secondary',
+        color: 'blue600',
         backgroundColor: 'white',
-        borderColor: 'brand-secondary'
+        borderColor: 'blue600'
       }
     case 'gray':
       return {
@@ -90,21 +96,21 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'light':
       return {
-        color: 'brand-secondary',
+        color: 'blue600',
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
-    case 'pitTurquoise':
+    case 'exchangeTurquoise':
       return {
-        color: 'pitNight',
-        backgroundColor: 'pitTurquoise',
-        borderColor: 'pitTurquoise'
+        color: 'exchangeNight',
+        backgroundColor: 'exchangeTurquoise',
+        borderColor: 'exchangeTurquoise'
       }
     case 'primary':
       return {
         color: 'white',
-        backgroundColor: 'brand-secondary',
-        borderColor: 'brand-secondary'
+        backgroundColor: 'blue600',
+        borderColor: 'blue600'
       }
     case 'purple':
       return {
@@ -115,8 +121,8 @@ const selectColor = (nature, disabled, small) => {
     case 'secondary':
       return {
         color: 'white',
-        backgroundColor: 'brand-primary',
-        borderColor: 'brand-primary'
+        backgroundColor: 'blue900',
+        borderColor: 'blue900'
       }
     case 'received':
       return {
@@ -144,6 +150,11 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'white',
         borderColor: 'white'
+      }
+    case 'white-blue-transparent':
+      return {
+        color: 'white',
+        borderColor: 'blue400'
       }
     case 'green':
       return {

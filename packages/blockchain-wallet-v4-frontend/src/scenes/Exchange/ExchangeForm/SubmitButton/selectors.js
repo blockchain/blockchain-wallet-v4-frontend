@@ -2,7 +2,7 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { getCurrentPairAmounts } from '../selectors'
 import { model, selectors } from 'data'
 import { prop, take } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const { EXCHANGE_FORM } = model.components.exchange
 const {

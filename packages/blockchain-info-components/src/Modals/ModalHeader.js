@@ -57,8 +57,8 @@ const ModalHeader = props => {
       </Header>
       {closeButton && (
         <Icon
-          name='close-bold'
-          size='16px'
+          name='close'
+          size='24px'
           weight={400}
           color='gray-5'
           data-e2e='modalCloseButton'

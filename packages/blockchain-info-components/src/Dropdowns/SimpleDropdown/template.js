@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { Icon } from '../../Icons'
 import { keysIn } from 'ramda'
-import { Palette } from '../../Colors'
+import { Palette } from '../../Colors/index.ts'
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -36,7 +36,7 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
@@ -100,14 +100,14 @@ const Dropdown = props => {
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
-        <DropdownIcon name='down-arrow-filled' size='8px' />
+        <DropdownIcon name='chevron-down-large' size='12px' />
       </ButtonContainer>
     </Wrapper>
   )
 }
 
 Dropdown.defaultProps = {
-  color: 'brand-secondary',
+  color: 'blue600',
   toggled: false,
   selectedValue: 0,
   uppercase: true,

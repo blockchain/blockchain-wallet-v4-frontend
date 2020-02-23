@@ -1,7 +1,7 @@
 import { map, pathOr } from 'ramda'
 
 import { selectors } from 'data'
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 
 const getDefaultIdx = state =>
   Types.HDWallet.selectDefaultAccountIdx(

@@ -37,7 +37,7 @@ const DownloadButton = styled(Button)`
   margin: 30px 0 20px;
 `
 const DismissText = styled(Text)`
-  color: ${props => props.theme['blue']};
+  color: ${props => props.theme.blue600};
   &:hover {
     cursor: pointer;
   }

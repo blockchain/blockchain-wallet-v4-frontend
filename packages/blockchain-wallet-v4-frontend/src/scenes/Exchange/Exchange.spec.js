@@ -1,5 +1,5 @@
 import { ExchangeScene } from './index'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { shallow } from 'enzyme'
 import DataError from 'components/DataError'
 import ExchangeContainer from './ExchangeContainer'
@@ -7,6 +7,7 @@ import React from 'react'
 import toJson from 'enzyme-to-json'
 
 jest.mock('blockchain-info-components', () => ({
+  Banner: 'Banner',
   BlockchainLoader: 'BlockchainLoader',
   Button: 'Button',
   FlatLoader: 'FlatLoader',

@@ -218,7 +218,7 @@ const AcceptTerms = props => {
                   </Text>
                   <Text
                     size='12px'
-                    color='brand-secondary'
+                    color='blue600'
                     cursor='pointer'
                     weight={600}
                     onClick={props.editEmail}

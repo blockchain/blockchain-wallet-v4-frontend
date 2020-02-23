@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 25px;
 `
 const Header = styled(Text)`
   margin: 15px 0 5px;

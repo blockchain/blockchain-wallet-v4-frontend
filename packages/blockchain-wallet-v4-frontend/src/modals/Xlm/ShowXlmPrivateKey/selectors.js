@@ -1,4 +1,4 @@
-import { Exchange } from 'blockchain-wallet-v4'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = state => {

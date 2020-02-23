@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RadioButton renders correctly 1`] = `
-<RadioButton__Wrapper>
-  <RadioButton__Container>
+<styled.div>
+  <styled.div>
     <mockConstructor
       errorState="initial"
       props={
@@ -11,6 +11,6 @@ exports[`RadioButton renders correctly 1`] = `
         }
       }
     />
-  </RadioButton__Container>
-</RadioButton__Wrapper>
+  </styled.div>
+</styled.div>
 `;

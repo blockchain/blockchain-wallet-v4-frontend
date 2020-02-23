@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import {
   Button,
+  Icon,
   Image,
   Modal,
   ModalBody,
@@ -140,7 +141,7 @@ const WalletTour = props => {
             </Row>
             <Row>
               <BuySell>
-                <Image name='intro-cart' width='32px' height='32px' />
+                <Icon name='cart-filled' color='blue600' size='32px' />
                 <Text weight={500}>
                   <FormattedMessage
                     id='modals.wallet.tour.buy-sell'

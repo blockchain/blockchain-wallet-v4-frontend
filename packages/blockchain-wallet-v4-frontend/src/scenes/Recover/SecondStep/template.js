@@ -1,13 +1,12 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import {
-  CheckBox,
   Form,
   FormGroup,
   FormLabel,
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
 import {
@@ -45,9 +44,6 @@ const GoBackLink = styled(Link)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const checkboxShouldBeChecked = value =>
-  value ? undefined : 'You must agree to the terms and conditions'
-
 const validStrongPassword = value =>
   value !== undefined && window.zxcvbn(value).score > 1
     ? undefined
@@ -64,7 +60,7 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.recover.secondstep.funds'
             defaultMessage='Recover Funds'
@@ -73,26 +69,30 @@ const SecondStep = props => {
       </Header>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel for='email'>
+          <FormLabel htmlFor='email'>
             <FormattedMessage
               id='scenes.recover.secondstep.email'
               defaultMessage='New Email'
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='email'
             validate={[required, validEmail]}
             component={TextBox}
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel for='password'>
+          <FormLabel htmlFor='password'>
             <FormattedMessage
               id='scenes.recover.secondstep.password'
               defaultMessage='Password'
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='password'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
@@ -103,26 +103,22 @@ const SecondStep = props => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel for='confirmationPassword'>
+          <FormLabel htmlFor='confirmationPassword'>
             <FormattedMessage
               id='scenes.recover.secondstep.confirmapassword'
               defaultMessage='Confirm Password'
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
+            borderNone
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
             component={PasswordBox}
           />
         </FormGroup>
         <FormGroup>
-          <Field
-            name='terms'
-            validate={[checkboxShouldBeChecked]}
-            component={CheckBox}
-          >
-            <Terms />
-          </Field>
+          <Terms recovery />
         </FormGroup>
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>

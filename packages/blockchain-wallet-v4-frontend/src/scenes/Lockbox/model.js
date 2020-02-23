@@ -7,11 +7,11 @@ const TooltipBody = styled.div`
   position: relative;
   min-width: 300px;
   max-width: 400px;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   border-radius: 4px;
 `
 const TooltipContent = styled.div`
-  color: ${props => props.theme['white']};
+  color: ${props => props.theme.white};
   padding: 20px;
 `
 const TooltipFooter = styled.div`
@@ -21,7 +21,7 @@ const TooltipFooter = styled.div`
     props.isLastStep ? 'flex-end' : 'space-between'};
   align-content: center;
   align-items: center;
-  color: ${props => props.theme['white']};
+  color: ${props => props.theme.white};
   padding: 6px 20px 20px;
 `
 const StepChangeWrapper = styled.div`

@@ -4,8 +4,9 @@ import {
   HeartbeatLoader,
   Text
 } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
+import { find, has, propEq } from 'ramda'
 import {
-  CheckBox,
   Form,
   FormGroup,
   FormItem,
@@ -13,8 +14,6 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
-import { find, has, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import {
   required,
@@ -23,8 +22,7 @@ import {
 } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
-import LinkAccount from '../LinkAccount'
-import PitCallout from './PitCallout'
+import LinkExchangeAccount from './LinkExchangeAccount'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
@@ -72,8 +70,6 @@ const PasswordTip = styled(Text)`
   margin-top: 4px;
 `
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-const checkboxShouldBeChecked = value =>
-  value ? undefined : 'You must agree to the terms and conditions'
 const validStrongPassword = value =>
   value !== undefined && window.zxcvbn(value).score > 1
     ? undefined
@@ -84,26 +80,31 @@ const validStrongPassword = value =>
         />
       )
 
-const Register = props => {
-  const { busy, goals, handleSubmit, invalid, password, passwordLength } = props
+const Register = ({
+  busy,
+  goals,
+  handleSubmit,
+  invalid,
+  password,
+  passwordLength
+}) => {
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
 
   return (
     <SignupWrapper>
-      {isLinkAccountGoal && <LinkAccount />}
+      {isLinkAccountGoal && <LinkExchangeAccount />}
       <PublicWrapper>
         <Header>
           <Text
             size='20px'
-            color='brand-primary'
+            color='grey800'
             weight={600}
-            capitalize
             data-e2e='signupHeader'
           >
             <FormattedMessage
-              id='scenes.register.createawallet'
-              defaultMessage='Create a Wallet'
+              id='scenes.register.createaccount'
+              defaultMessage='Create an Account'
             />
           </Text>
         </Header>
@@ -120,15 +121,17 @@ const Register = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='email'>
+              <FormLabel htmlFor='email'>
                 <FormattedMessage
-                  id='scenes.register.email'
-                  defaultMessage='Email'
+                  id='scenes.register.youremail'
+                  defaultMessage='Your Email'
                 />
               </FormLabel>
               <Field
                 name='email'
                 autoFocus
+                bgColor='grey000'
+                borderNone
                 validate={[required, validEmail]}
                 component={TextBox}
                 disabled={!isSupportedBrowser}
@@ -138,20 +141,22 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.register.password'
                   defaultMessage='Password'
                 />
               </FormLabel>
               <Field
-                name='password'
-                validate={[required, validStrongPassword]}
+                bgColor='grey000'
+                borderNone
                 component={PasswordBox}
-                showPasswordScore
-                passwordScore={passwordScore}
                 disabled={!isSupportedBrowser}
                 data-e2e='signupPassword'
+                name='password'
+                validate={[required, validStrongPassword]}
+                showPasswordScore
+                passwordScore={passwordScore}
               />
             </FormItem>
             {passwordLength > 0 && (
@@ -181,13 +186,15 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='confirmationPassword'>
+              <FormLabel htmlFor='confirmationPassword'>
                 <FormattedMessage
                   id='scenes.register.confirmpassword'
                   defaultMessage='Confirm Password'
                 />
               </FormLabel>
               <Field
+                bgColor='grey000'
+                borderNone
                 name='confirmationPassword'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}
@@ -198,15 +205,7 @@ const Register = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Field
-                name='terms'
-                validate={[checkboxShouldBeChecked]}
-                component={CheckBox}
-                disabled={!isSupportedBrowser}
-                data-e2e='signupTermsCheckbox'
-              >
-                <Terms />
-              </Field>
+              <Terms style={{ width: '397px' }} />
             </FormItem>
           </FormGroup>
           <FormGroup>
@@ -215,7 +214,7 @@ const Register = props => {
               nature='primary'
               fullwidth
               disabled={busy || invalid}
-              height='56px'
+              height='48px'
               data-e2e='signupButton'
             >
               {busy ? (
@@ -223,8 +222,8 @@ const Register = props => {
               ) : (
                 <Text color='white' size='16px' weight={600}>
                   <FormattedMessage
-                    id='scenes.register.createmywallet'
-                    defaultMessage='Create My Wallet'
+                    id='scenes.register.continue'
+                    defaultMessage='Continue'
                   />
                 </Text>
               )}
@@ -232,7 +231,6 @@ const Register = props => {
           </FormGroup>
         </RegisterForm>
       </PublicWrapper>
-      <PitCallout {...props} />
     </SignupWrapper>
   )
 }

@@ -1,4 +1,4 @@
-import { Color } from '../Colors'
+import { Color } from '../Colors/index.ts'
 import { FormattedMessage, IntlProvider } from 'react-intl'
 import { Image } from '../Images'
 import { trackEvent } from './Events'
@@ -390,7 +390,7 @@ const dropdownMap = {
 }
 
 const MobileMenuContainer = styled.div`
-  background: ${Color('brand-primary')};
+  background: ${Color('blue900')};
   height: auto;
   position: absolute;
   display: flex;

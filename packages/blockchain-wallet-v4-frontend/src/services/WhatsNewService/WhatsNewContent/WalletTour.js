@@ -28,15 +28,14 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-const WalletTour = ({ onRightTrayClose, onTakeTour }) => {
+const WalletTour = ({ onTakeTour }) => {
   const onTakeWalletTour = () => {
-    onRightTrayClose()
     onTakeTour()
   }
   return (
     <Container>
       <Row marginBottom='10px'>
-        <Text color='brand-primary' size='24px' weight={600}>
+        <Text color='blue900' size='24px' weight={600}>
           <FormattedMessage
             defaultMessage='Wallet Tour'
             id='layouts.wallet.trayright.whatsnew.whatsnewcontent.wallet.tour'
@@ -67,10 +66,6 @@ const WalletTour = ({ onRightTrayClose, onTakeTour }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onRightTrayClose: bindActionCreators(
-    actions.components.layoutWallet.layoutWalletTrayCloseClicked,
-    dispatch
-  ),
   onTakeTour: bindActionCreators(
     actions.components.onboarding.takeWalletTourClicked,
     dispatch

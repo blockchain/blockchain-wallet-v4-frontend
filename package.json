@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.25.6",
+  "version": "4.28.4",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -27,23 +27,21 @@
   "workspaces": [
     "packages/*"
   ],
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged && node ./scripts/commitHook.js",
       "pre-push": "yarn test"
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "stylelint",
       "git add"
+    ],
+    "*.{js,tsx}": [
+      "stylelint"
     ],
     "*.json": [
       "prettier --write",
@@ -55,12 +53,11 @@
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:lint": "prettier './packages/*/src/**/*.js' --loglevel error --write && eslint './packages/*/src/**/*.js' --fix && stylelint './packages/*/src/**/*.js'",
+    "ci:lint": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write && eslint './packages/*/src/**/*.{js,ts,tsx}' --fix && stylelint './packages/*/src/**/*.{js,tsx}'",
     "ci:test:build": "yarn wsrun --serial test:build",
     "ci:test:core:components": "yarn wsrun --serial --exclude-missing ci:test",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env yarn wsrun clean && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf node_modules",
-    "commit": "git cz --gpg-sign",
     "coverage": "cross-env rimraf coverage && yarn wsrun coverage && yarn run report",
     "coverage:components": "cross-env rimraf coverage && yarn workspace blockchain-info-components coverage && yarn run report",
     "coverage:core": "cross-env rimraf coverage && yarn workspace blockchain-wallet-v4 coverage && yarn run report",
@@ -68,17 +65,17 @@
     "debug:prod": "yarn workspace blockchain-wallet-v4-frontend debug:prod",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun --exclude-missing link:resolved:paths",
-    "lint": "eslint --cache './packages/*/src/**/*.js'",
-    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
-    "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
-    "lint:css": "stylelint './packages/*/src/**/*.js'",
-    "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
-    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "lint": "eslint --cache './packages/*/src/**/*.{js,ts,tsx}'",
+    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.{js,ts,tsx}'",
+    "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}'",
+    "lint:css": "stylelint './packages/*/src/**/*.{js,tsx}'",
+    "lint:fix": "eslint './packages/*/src/**/*.{js,ts,tsx}' --fix",
+    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}'",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations",
-    "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
-    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
+    "prettier": "prettier './packages/*/src/**/*.{js,ts,tsx}' --loglevel error --write",
+    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
+    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
+    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.{js,ts,tsx}' --list-different --loglevel error --write",
     "report": "npx istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
@@ -111,12 +108,24 @@
     "@babel/polyfill": "7.6.0",
     "@babel/preset-env": "7.6.2",
     "@babel/preset-react": "7.0.0",
+    "@codechecks/client": "0.1.10",
+    "@commitlint/cli": "8.3.5",
+    "@commitlint/config-conventional": "8.3.4",
     "@storybook/addon-actions": "4.1.9",
     "@storybook/addon-info": "4.1.9",
     "@storybook/addon-links": "4.1.9",
     "@storybook/cli": "4.1.9",
     "@storybook/react": "4.1.9",
     "@storybook/storybook-deployer": "2.8.1",
+    "@types/axios": "0.14.0",
+    "@types/ramda": "0.26.39",
+    "@types/react": "16.9.17",
+    "@types/react-redux": "6.0.9",
+    "@types/redux": "3.6.0",
+    "@types/redux-form": "7.4.2",
+    "@types/styled-components": "4.0.3",
+    "@typescript-eslint/eslint-plugin": "2.13.0",
+    "@typescript-eslint/parser": "2.13.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",
@@ -125,12 +134,10 @@
     "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-react-html-attrs": "2.1.0",
     "babel-plugin-react-intl": "4.1.19",
-    "babel-plugin-styled-components": "1.10.6",
     "bs58": "4.0.1",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "chalk": "2.4.2",
     "clean-webpack-plugin": "3.0.0",
-    "commitizen": "3.1.1",
     "copy-webpack-plugin": "5.0.4",
     "coveralls": "3.0.6",
     "cross-env": "6.0.0",
@@ -151,6 +158,7 @@
     "eslint-plugin-react": "7.13.0",
     "eslint-plugin-sort-imports-es6-autofix": "0.5.0",
     "eslint-plugin-standard": "4.0.0",
+    "eslint-plugin-typescript-sort-keys": "0.5.0",
     "express": "4.17.1",
     "file-loader": "4.2.0",
     "generate-changelog": "1.8.0",
@@ -181,8 +189,12 @@
     "stylelint-config-recommended": "2.2.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-processor-styled-components": "1.7.0",
+    "terser-webpack-plugin": "2.3.2",
     "thread-loader": "2.1.3",
-    "uglifyjs-webpack-plugin": "2.2.0",
+    "ts-jest": "24.2.0",
+    "ts-loader": "6.2.1",
+    "typecov": "0.2.1",
+    "typescript": "3.7.4",
     "unused-files-webpack-plugin": "3.4.0",
     "webpack": "4.41.0",
     "webpack-bundle-analyzer": "3.5.2",

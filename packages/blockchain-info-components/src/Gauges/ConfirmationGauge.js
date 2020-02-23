@@ -14,7 +14,7 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid ${props => props.theme['black']};
+  border: 1px solid ${props => props.theme.black};
   box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
 `

@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
@@ -54,19 +54,25 @@ module.exports = {
     fs: 'empty'
   },
   entry: {
-    app: [
-      '@babel/polyfill',
-      'react-hot-loader/patch',
-      'webpack-dev-server/client?http://localhost:8080',
-      'webpack/hot/only-dev-server',
-      PATHS.src + '/index.js'
-    ]
+    app: ['@babel/polyfill', PATHS.src + '/index.js']
   },
   output: {
+    pathinfo: false,
     path: PATHS.appBuild,
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/',
     crossOriginLoading: 'anonymous'
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
+    alias: {
+      components: path.resolve(__dirname, 'src/components/'),
+      data: path.resolve(__dirname, 'src/data/index.ts'),
+      layouts: path.resolve(__dirname, 'src/layouts/'),
+      providers: path.resolve(__dirname, 'src/providers/'),
+      services: path.resolve(__dirname, 'src/services/'),
+      utils: path.resolve(__dirname, 'src/utils/')
+    }
   },
   module: {
     rules: [
@@ -74,10 +80,20 @@ module.exports = {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
-          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 8, // number of cores on intel i5
+              workerParallelJobs: 32,
+              workerNodeArgs: ['--max-old-space-size=2048'],
+              poolRespawn: false,
+              poolParallelJobs: 32
+            }
+          },
           'babel-loader'
         ]
       },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         use: {
@@ -120,24 +136,25 @@ module.exports = {
       }
     ]
   },
+  devtool: 'inline-source-map',
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
-    new UnusedFilesWebpackPlugin({
-      globOptions: {
-        cwd: PATHS.src,
-        ignore: [
-          `**/__mocks__/**`,
-          `**/*.spec.*`,
-          `index.prod.js`,
-          `utils/**`,
-          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
-          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
-          'assets/locales/defaultMessages.json',
-          'assets/locales/whitelists/whitelist_en.json'
-        ]
-      }
-    }),
+    // new UnusedFilesWebpackPlugin({
+    //   globOptions: {
+    //     cwd: PATHS.src,
+    //     ignore: [
+    //       `**/__mocks__/**`,
+    //       `**/*.spec.*`,
+    //       `index.prod.js`,
+    //       `utils/**`,
+    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
+    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
+    //       'assets/locales/defaultMessages.json',
+    //       'assets/locales/whitelists/whitelist_en.json'
+    //     ]
+    //   }
+    // }),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
@@ -158,8 +175,8 @@ module.exports = {
   optimization: {
     namedModules: true,
     minimizer: [
-      new UglifyJSPlugin({
-        uglifyOptions: {
+      new TerserPlugin({
+        terserOptions: {
           warnings: false,
           compress: {
             warnings: false,
@@ -189,18 +206,18 @@ module.exports = {
           chunks: 'initial',
           name: 'vendor',
           priority: -10,
+          test: /[\\/]node_modules[\\/]/
+        },
+        frontend: {
+          chunks: 'initial',
+          name: 'frontend',
+          priority: -11,
+          reuseExistingChunk: true,
           test: function(module) {
-            // ensure other packages in mono repo don't get put into vendor bundle
             return (
               module.resource &&
               module.resource.indexOf('blockchain-wallet-v4-frontend/src') ===
-                -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-info-components/src'
-              ) === -1 &&
-              module.resource.indexOf(
-                'node_modules/blockchain-wallet-v4/src'
-              ) === -1
+                -1
             )
           }
         }
@@ -231,11 +248,11 @@ module.exports = {
           coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
+          exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           root: envConfig.ROOT_URL,
-          thePit: envConfig.THE_PIT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
           webSocket: envConfig.WEB_SOCKET_URL

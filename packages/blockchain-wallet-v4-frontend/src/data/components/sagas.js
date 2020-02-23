@@ -1,11 +1,12 @@
 import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
+import borrow from './borrow/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import coinify from './coinify/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
-import identityVerification from './identityVerification/sagas'
+import identityVerification from './identityVerification/sagas.ts'
 import importBtcAddress from './importBtcAddress/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
@@ -32,13 +33,14 @@ import xlmTransactions from './xlmTransactions/sagas'
 export default ({ api, coreSagas, networks }) => ({
   activityList: activityList(),
   bchTransactions: bchTransactions(),
+  borrow: borrow({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
   coinify: coinify({ api, coreSagas }),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
-  identityVerification: identityVerification({ api, coreSagas }),
+  identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),

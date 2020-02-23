@@ -1,9 +1,10 @@
+import { useMedia } from 'services/ResponsiveService'
+import Balances from './Balances'
+import Footer from './Footer'
+import Navigation from './Navigation'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-
-import Footer from './Footer'
-import Navigation from './Navigation'
 
 export const Container = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ export const Container = styled.div`
   padding: 8px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme['white']};
+  background: ${props => props.theme.white};
   transition: left 0.3s ease-in-out;
   z-index: 11;
   ::-webkit-scrollbar {
@@ -40,14 +41,19 @@ const Overflow = styled.div`
   height: 100%;
 `
 
-const MenuLeft = props => (
-  <Container toggled={props.menuOpened}>
-    <Overflow>
-      <Navigation {...props} />
-      <Footer {...props} />
-    </Overflow>
-  </Container>
-)
+const MenuLeft = props => {
+  const isTablet = useMedia('tablet')
+
+  return (
+    <Container toggled={props.menuOpened}>
+      {!isTablet && <Balances />}
+      <Overflow>
+        <Navigation {...props} />
+        <Footer {...props} />
+      </Overflow>
+    </Container>
+  )
+}
 
 MenuLeft.propTypes = {
   toggled: PropTypes.bool.isRequired

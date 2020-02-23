@@ -9,12 +9,12 @@ import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 12px 25px 12px 24px;
+  padding: 8px 25px 8px 26px;
   align-items: center;
   justify-content: space-between;
-  background: ${props => props.theme['marketing-primary']};
+  background: ${props => props.theme.blue600};
   overflow: hidden;
-  ${media.mobile`
+  ${media.tablet`
     display: none;
   `};
 `

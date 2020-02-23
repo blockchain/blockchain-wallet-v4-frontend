@@ -40,7 +40,7 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='brand-primary' weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
             id='scenes.reset2fa.firststep.reset'
             defaultMessage='Reset 2FA'
@@ -64,13 +64,15 @@ const FirstStep = props => {
       <FirstStepForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel for='guid'>
+            <FormLabel htmlFor='guid'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.firststepform.walletid'
                 defaultMessage='Wallet ID'
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               autoFocus
               component={TextBox}
               disableSpellcheck
@@ -97,13 +99,15 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='email'>
+            <FormLabel htmlFor='email'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.firststepform.email'
                 defaultMessage='Registered Email'
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='email'
               validate={[required, validEmail]}
               component={TextBox}
@@ -118,13 +122,15 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='newEmail'>
+            <FormLabel htmlFor='newEmail'>
               <FormattedMessage
                 id='scenes.reset2fa.firststep.newEmail'
                 defaultMessage='New Email (Optional)'
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='newEmail'
               validate={[validNullableEmail]}
               component={TextBox}

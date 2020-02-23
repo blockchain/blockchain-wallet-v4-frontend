@@ -6,13 +6,14 @@ const BaseTabMenu = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  border-radius: 8px;
+  background-color: ${props => props.theme.grey000};
 `
 
 const TabMenu = props => {
   const { children } = props
 
-  return <BaseTabMenu>{children}</BaseTabMenu>
+  return <BaseTabMenu {...props}>{children}</BaseTabMenu>
 }
 
 export default TabMenu

@@ -21,7 +21,7 @@ const RequestHeader = styled(ModalHeader)`
   border-bottom: 0;
   padding-bottom: 0;
   > div:first-child * {
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
 `
 

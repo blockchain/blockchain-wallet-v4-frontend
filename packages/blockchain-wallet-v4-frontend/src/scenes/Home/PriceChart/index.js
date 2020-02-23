@@ -16,8 +16,8 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   width: 100%;
-  height: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '574px' : '450px')};
-  border-radius: 4px;
+  height: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '542px' : '450px')};
+  border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
 `

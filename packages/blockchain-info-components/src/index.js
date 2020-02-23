@@ -3,7 +3,7 @@ export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Badge } from './Badges'
 export { Banner } from './Banners'
 export { Carousel } from './Carousels'
-export { Color, Palette } from './Colors'
+export { Color, Palette } from './Colors/index.ts'
 export { SimpleDropdown, ComponentDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge, SecurityGauge } from './Gauges'
 export {
@@ -26,7 +26,8 @@ export {
   BlockchainLoader,
   FlatLoader,
   FlatLoader2,
-  HeartbeatLoader
+  HeartbeatLoader,
+  SpinningLoader
 } from './Loaders'
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'

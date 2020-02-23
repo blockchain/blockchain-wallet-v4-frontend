@@ -1,6 +1,7 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { SceneWrapper } from 'components/Layout'
 import { TOUR_STEPS, TourTooltip } from './model'
 import Balances from './Balances'
 import Banners from './Banners'
@@ -12,14 +13,6 @@ import styled, { createGlobalStyle, keyframes } from 'styled-components'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 25px;
-  @media (min-width: 992px) {
-    padding: 15px 30px;
-  }
-`
 const ColumnWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -58,14 +51,14 @@ const ColumnRight = styled(Column)`
 const Pulse = ({ theme }) => {
   return keyframes`
     0% {
-      box-shadow: 0 0 0 0 ${theme['blue']};
+      box-shadow: 0 0 0 0 ${theme.blue600};
       opacity: 1;
     }
     30%{
       opacity: 0.7;
     }
     100% {
-      box-shadow: 0 0 0 32px ${theme['blue']};
+      box-shadow: 0 0 0 32px ${theme.blue600};
       opacity: 0;
     }
   `
@@ -73,7 +66,7 @@ const Pulse = ({ theme }) => {
 
 const GlobalJoyrideStyles = createGlobalStyle`
   .react-joyride__spotlight {
-    background-color: ${({ theme }) => theme['blue']} !important;
+    background-color: ${({ theme }) => theme.blue600} !important;
     opacity: 0.25 !important;
     border-radius: 50% !important;
     animation: ${props => Pulse(props)} 1.4s infinite;
@@ -95,19 +88,15 @@ const GlobalJoyrideStyles = createGlobalStyle`
 `
 
 const Home = props => {
-  const { onboardingActions, preferencesActions, showWalletTour } = props
+  const { onboardingActions, showWalletTour } = props
 
   const handleTourCallbacks = data => {
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
       onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
     }
-    // PIT tooltip seen
-    if (data.index === 5) {
-      preferencesActions.hideThePitPulse()
-    }
   }
   return (
-    <Wrapper>
+    <SceneWrapper>
       <Banners />
       <ColumnWrapper>
         <ColumnLeft>
@@ -132,7 +121,7 @@ const Home = props => {
         {...props.Joyride}
       />
       <GlobalJoyrideStyles />
-    </Wrapper>
+    </SceneWrapper>
   )
 }
 

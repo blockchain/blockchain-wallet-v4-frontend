@@ -19,7 +19,7 @@ const DropdownWrapper = styled.div`
   position: relative;
   width: 60%;
   height: auto;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
 `
 
 const DetailTable = styled.div`

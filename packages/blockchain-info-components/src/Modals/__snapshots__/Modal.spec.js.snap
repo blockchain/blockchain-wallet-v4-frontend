@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Modal component default renders correctly 1`] = `
-<Modal__ModalBackground
+<styled.div
   isLast={true}
   position={1}
 >
-  <Modal__BaseModal
+  <styled.div
     closeButton={true}
     data-e2e="modal"
     isLast={true}
@@ -14,5 +14,5 @@ exports[`Modal component default renders correctly 1`] = `
     total={1}
     width="600px"
   />
-</Modal__ModalBackground>
+</styled.div>
 `;

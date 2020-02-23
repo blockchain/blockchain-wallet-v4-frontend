@@ -9,6 +9,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import { CountdownTimer } from 'components/Form'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -56,9 +57,11 @@ const Success = props => {
     description,
     fee,
     fromAddress,
+    handleBitPayInvoiceExpiration,
     handleSubmit,
     handleBack,
     isLegacy,
+    payPro,
     submitting,
     toAddress,
     total
@@ -66,6 +69,14 @@ const Success = props => {
 
   return (
     <React.Fragment>
+      {payPro && (
+        <CountdownTimer
+          expiryDate={payPro.expiration}
+          handleExpiry={handleBitPayInvoiceExpiration}
+          hideTooltip
+          payProInvoice
+        />
+      )}
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
@@ -86,7 +97,7 @@ const Success = props => {
             />
           </Text>
           <TextTo size='16px' weight={400} data-e2e='bchToAddress'>
-            {toAddress}
+            {payPro ? `BitPay[${payPro.merchant}]` : toAddress}
           </TextTo>
         </LargeTableRow>
         {description && (

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": "./packages",
+    "jsx": "react",
+    "module": "es6",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noResolve": false,
+    "outDir": "./dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es6",
+    "paths": {
+      "core/*": ["blockchain-wallet-v4/src/*"],
+      "blockchain-wallet-v4": ["blockchain-wallet-v4/src/"],
+      "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
+      "data": ["blockchain-wallet-v4-frontend/src/data/"],
+      "data/*": ["blockchain-wallet-v4-frontend/src/data/*"],
+      "layouts/*": ["blockchain-wallet-v4-frontend/src/layouts/*"],
+      "providers/*": ["blockchain-wallet-v4-frontend/src/providers/*"],
+      "services/*": ["blockchain-wallet-v4-frontend/src/services/*"],
+      "utils/*": ["blockchain-wallet-v4-frontend/src/utils/*"]
+    }
+  },
+  "include": [
+    "packages/blockchain-wallet-v4-frontend/src/",
+    "packages/blockchain-wallet-v4/src/",
+    "index.d.ts",
+    "styled.d.ts"
+  ]
+}

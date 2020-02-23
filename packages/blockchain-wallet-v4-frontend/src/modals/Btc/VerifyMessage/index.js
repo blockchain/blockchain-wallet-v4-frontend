@@ -118,7 +118,7 @@ class VerifyMessage extends React.PureComponent {
             defaultMessage='Verify Message'
           />
           <TooltipHost id='verifyMessage'>
-            <TooltipIcon name='question-in-circle' />
+            <TooltipIcon name='info' />
           </TooltipHost>
         </ModalHeader>
         <ModalBody>

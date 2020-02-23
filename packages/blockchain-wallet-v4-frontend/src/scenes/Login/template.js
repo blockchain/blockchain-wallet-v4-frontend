@@ -22,7 +22,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { required, validWalletId } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
-import LinkAccount from '../LinkAccount'
+import LinkAccount from '../Register/LinkExchangeAccount'
 import Modals from 'modals'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -125,7 +125,7 @@ const Login = props => {
       <PublicWrapper>
         <Modals />
         <Header>
-          <Text size='20px' color='brand-primary' weight={600} capitalize>
+          <Text size='20px' color='blue900' weight={600} capitalize>
             <FormattedMessage
               id='scenes.login.welcome'
               defaultMessage='Welcome back!'
@@ -145,13 +145,15 @@ const Login = props => {
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel for='guid'>
+              <FormLabel htmlFor='guid'>
                 <FormattedMessage
                   id='scenes.login.guid'
                   defaultMessage='Wallet ID'
                 />
               </FormLabel>
               <Field
+                bgColor='grey000'
+                borderNone
                 borderColor={guidError ? 'invalid' : undefined}
                 component={TextBox}
                 data-e2e='loginGuid'
@@ -230,13 +232,15 @@ const Login = props => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel for='password'>
+              <FormLabel htmlFor='password'>
                 <FormattedMessage
                   id='scenes.login.password'
                   defaultMessage='Password'
                 />
               </FormLabel>
               <Field
+                bgColor='grey000'
+                borderNone
                 name='password'
                 validate={[required]}
                 component={PasswordBox}
@@ -269,7 +273,7 @@ const Login = props => {
           {authType > 0 && (
             <FormGroup>
               <FormItem>
-                <FormLabel for='code'>
+                <FormLabel htmlFor='code'>
                   {authType === 1 && (
                     <FormattedMessage
                       id='scenes.login.yubikey'
@@ -322,7 +326,7 @@ const Login = props => {
               type='submit'
               nature='primary'
               fullwidth
-              height='56px'
+              height='48px'
               disabled={submitting || invalid || busy || !password}
               data-e2e='loginButton'
             >

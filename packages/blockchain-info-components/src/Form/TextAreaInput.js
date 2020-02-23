@@ -8,7 +8,7 @@ const BaseTextAreaInput = styled.textarea`
   box-sizing: border-box;
   font-size: 14px;
   color: ${props => props.theme['gray-6']};
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
@@ -16,7 +16,7 @@ const BaseTextAreaInput = styled.textarea`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   resize: ${props => (props.resize ? 'initial' : 'none')};
-  border: 1px solid ${props => props.theme['grey100']};
+  border: 1px solid ${props => props.theme.grey100};
   border-radius: 4px;
 
   &::-webkit-input-placeholder {

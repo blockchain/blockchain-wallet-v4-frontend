@@ -1,9 +1,9 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
+import { Color, Palette } from '../../src/Colors/index.ts'
 import { SimpleDropdown } from '../../src/Dropdowns'
-import { Color, Palette } from '../../src/Colors'
 
 const BasePage = styled.div`
   font-family: -apple-system, '.SFNSText-Regular', 'San Francisco', Roboto,

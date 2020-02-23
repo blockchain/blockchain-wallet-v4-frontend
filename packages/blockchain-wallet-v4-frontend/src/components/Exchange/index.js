@@ -64,7 +64,7 @@ export const ExchangeAmount = styled(Text)`
   font-weight: 500;
   font-size: 17px;
   line-height: 20px;
-  color: ${props => props.theme[props.color || 'brand-primary']};
+  color: ${props => props.theme[props.color || 'blue900']};
 `
 export const SubExchangeAmount = styled(ExchangeAmount)`
   margin-top: 2px;

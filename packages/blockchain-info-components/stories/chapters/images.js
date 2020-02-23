@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import { keysIn } from 'ramda'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
-import { keysIn } from 'ramda'
+import React from 'react'
+import styled from 'styled-components'
 
-import Layout from '../components/layout'
 import { Image } from '../../src'
 import Images from '../../src/Images/Images'
+import Layout from '../components/layout'
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const Code = styled.div`
   display: block;
   width: 100%;
   height: 50px;
-  border: 1px solid #CDCDCD;
+  border: 1px solid #cdcdcd;
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
@@ -58,24 +58,27 @@ const ImageComponent = props => {
 }
 
 const ImageLayout = props => {
-  return (
-    <ImageWrapper>
-      {props.children}
-    </ImageWrapper>
-  )
+  return <ImageWrapper>{props.children}</ImageWrapper>
 }
 
 const imageKeys = keysIn(Images)
 
 storiesOf('Images', module)
-  .addDecorator(story => (<Layout>{story()}</Layout>))
-  .addDecorator((story, context) => withInfo({ text: 'Documentation', inline: true })(story)(context))
-  .add('All images', () =>
+  .addDecorator(story => <Layout>{story()}</Layout>)
+  .addDecorator((story, context) =>
+    withInfo({ text: 'Documentation', inline: true })(story)(context)
+  )
+  .add('All images', () => (
     <ImageLayout>
-      { imageKeys.map((value, index) => {
+      {imageKeys.map((value, index) => {
         return <ImageComponent key={index} name={value} />
       })}
-    </ImageLayout>)
-  .add('Image', () => <Image name='blockchain-blue' />)
-  .add('Image width width', () => <Image name='blockchain-blue' width='750px' />)
-  .add('Image width height', () => <Image name='blockchain-blue' height='50px' />)
+    </ImageLayout>
+  ))
+  .add('Image', () => <Image name='blockchain-logo' />)
+  .add('Image width width', () => (
+    <Image name='blockchain-logo' width='750px' />
+  ))
+  .add('Image width height', () => (
+    <Image name='blockchain-logo' height='50px' />
+  ))

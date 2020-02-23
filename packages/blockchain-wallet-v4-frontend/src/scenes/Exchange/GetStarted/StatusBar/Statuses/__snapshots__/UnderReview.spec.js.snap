@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UnderReview renders correctly 1`] = `
-<UnderReview__Wrapper>
-  <UnderReview__Row>
-    <UnderReview__Icon />
+<styled.div>
+  <styled.div>
+    <Styled(FasExclamationCircle) />
     <text
       color="white"
       size="14px"
@@ -15,7 +15,7 @@ exports[`UnderReview renders correctly 1`] = `
         values={Object {}}
       />
     </text>
-  </UnderReview__Row>
+  </styled.div>
   <text
     size="14px"
     weight={400}
@@ -26,5 +26,5 @@ exports[`UnderReview renders correctly 1`] = `
       values={Object {}}
     />
   </text>
-</UnderReview__Wrapper>
+</styled.div>
 `;

@@ -14,32 +14,37 @@ export default ({ api }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const fetchPaymentsAccountPit = function * (action) {
+  const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
       yield call(waitForUserData)
-      const isPitAccountLinked = (yield select(
-        selectors.modules.profile.isPitAccountLinked
+      const isExchangeAccountLinked = (yield select(
+        selectors.modules.profile.isExchangeAccountLinked
       )).getOrElse(false)
-      if (!isPitAccountLinked) throw new Error('Wallet is not linked to PIT')
-      yield put(A.fetchPaymentsAccountPitLoading(currency))
-      const data = yield call(api.getPaymentsAccountPit, currency)
-      yield put(A.fetchPaymentsAccountPitSuccess(currency, data))
+      if (!isExchangeAccountLinked)
+        throw new Error('Wallet is not linked to Exchange')
+      yield put(A.fetchPaymentsAccountExchangeLoading(currency))
+      const data = yield call(api.getPaymentsAccountExchange, currency)
+      yield put(A.fetchPaymentsAccountExchangeSuccess(currency, data))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, 'fetchPaymentsAccountPit', e)
+        actions.logs.logErrorMessage(
+          logLocation,
+          'fetchPaymentsAccountExchange',
+          e
+        )
       )
       if (e.type === BAD_2FA) {
         yield put(
-          A.fetchPaymentsAccountPitSuccess(currency, { address: e.type })
+          A.fetchPaymentsAccountExchangeSuccess(currency, { address: e.type })
         )
       } else {
-        yield put(A.fetchPaymentsAccountPitFailure(currency, e))
+        yield put(A.fetchPaymentsAccountExchangeFailure(currency, e))
       }
     }
   }
 
   return {
-    fetchPaymentsAccountPit
+    fetchPaymentsAccountExchange
   }
 }

@@ -1,4 +1,4 @@
-import { Color } from '../../Colors'
+import { Color } from '../../Colors/index.ts'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
 import React from 'react'
@@ -22,14 +22,14 @@ const DefaultButton = styled('button', 'input[type=submit]')`
     props.outline
       ? props.bgColor
         ? '2px solid ' + props.bgColor
-        : `2px solid ${Color('brand-secondary')}`
+        : `2px solid ${Color('blue600')}`
       : 'transparent'};
   background-color: ${props =>
     props.outline
       ? 'transparent'
       : props.bgColor
       ? props.bgColor
-      : Color('brand-secondary')};
+      : Color('blue600')};
   line-height: ${props => (props.outline ? '2rem' : '2.5rem')};
   &:hover {
     transform: scale(0.95);

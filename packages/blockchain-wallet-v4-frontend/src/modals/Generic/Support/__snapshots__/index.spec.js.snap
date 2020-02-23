@@ -4,10 +4,10 @@ exports[`Support modal component matches snapshot 1`] = `
 <Modal
   size="small"
 >
-  <Support__Body
+  <styled.div
     data-e2e="swapGetStarted"
   >
-    <Support__Title
+    <Styled(Text)
       size="20px"
     >
       <FormattedHTMLMessage
@@ -15,19 +15,19 @@ exports[`Support modal component matches snapshot 1`] = `
         id="modals.support.need_some_help"
         values={Object {}}
       />
-    </Support__Title>
-    <Support__Message>
+    </Styled(Text)>
+    <Styled(Text)>
       <FormattedMessage
         defaultMessage="Our Blockchain Support Team is standing by."
         id="modals.support.our_support"
         values={Object {}}
       />
-    </Support__Message>
-    <Support__FooterLink
+    </Styled(Text)>
+    <Styled(Link)
       href="https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000180551"
       target="_blank"
     >
-      <Support__FooterButton
+      <Styled(Button)
         fullwidth={true}
         nature="primary"
         size="20px"
@@ -37,11 +37,11 @@ exports[`Support modal component matches snapshot 1`] = `
           id="modals.support.contact_support"
           values={Object {}}
         />
-      </Support__FooterButton>
-    </Support__FooterLink>
-    <Support__BottomImage
+      </Styled(Button)>
+    </Styled(Link)>
+    <Styled(Image)
       name="identity-verification"
     />
-  </Support__Body>
+  </styled.div>
 </Modal>
 `;

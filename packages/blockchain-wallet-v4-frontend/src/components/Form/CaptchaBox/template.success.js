@@ -50,18 +50,15 @@ const getErrorState = meta => {
 }
 
 const CaptchaBox = field => {
+  const { bgColor, borderNone, meta } = field
+  const { invalid, touched } = meta
   const errorState = getErrorState(field.meta)
 
   return (
     <Wrapper>
       <Image src={field.captchaUrl} />
       <RefreshLink onClick={field.fetchNewCaptcha} size='11px' weight={400}>
-        <RefreshIcon
-          name='refresh'
-          color='brand-secondary'
-          size='11px'
-          weight={600}
-        />
+        <RefreshIcon name='refresh' color='blue600' size='11px' weight={600} />
         <FormattedMessage
           id='scenes.reset2fa.thirdstep.newCaptcha'
           defaultMessage='Refresh'
@@ -70,7 +67,14 @@ const CaptchaBox = field => {
         />
       </RefreshLink>
       <Container>
-        <TextInput {...field.input} errorState={errorState} />
+        <TextInput
+          bgColor={bgColor}
+          borderNone={
+            borderNone ? (invalid && touched ? null : borderNone) : null
+          }
+          {...field.input}
+          errorState={errorState}
+        />
         {field.meta.touched && field.meta.error && (
           <Error size='12px' weight={500} color='error'>
             {field.meta.error}

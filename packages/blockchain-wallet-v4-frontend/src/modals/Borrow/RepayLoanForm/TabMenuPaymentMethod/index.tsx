@@ -1,0 +1,44 @@
+import { CoinType } from 'core/types'
+import { FormattedMessage } from 'react-intl'
+import { TabMenu, TabMenuItem, TooltipHost } from 'blockchain-info-components'
+import { WrappedFieldProps } from 'redux-form'
+import React from 'react'
+
+type Props = WrappedFieldProps
+
+const TabMenuPaymentMethod: React.FC<Props & { coin: CoinType }> = props => {
+  const handleClick = (value: 'principal' | 'collateral') => {
+    props.input.onChange(value)
+  }
+
+  return (
+    <TabMenu>
+      <TabMenuItem
+        width='50%'
+        selected={props.input.value === 'principal'}
+        onClick={() => handleClick('principal')}
+      >
+        <FormattedMessage
+          id='modals.borrow.repayloan.principalrepayment'
+          defaultMessage='Send {coin}'
+          values={{ coin: props.coin }}
+        />
+      </TabMenuItem>
+      <TabMenuItem
+        disabled
+        width='50%'
+        selected={props.input.value === 'collateral'}
+        // onClick={() => handleClick('collateral')}
+      >
+        <TooltipHost id='coming-soon'>
+          <FormattedMessage
+            id='modals.borrow.repayloan.collateralrepayment'
+            defaultMessage='Sell Collateral'
+          />
+        </TooltipHost>
+      </TabMenuItem>
+    </TabMenu>
+  )
+}
+
+export default TabMenuPaymentMethod

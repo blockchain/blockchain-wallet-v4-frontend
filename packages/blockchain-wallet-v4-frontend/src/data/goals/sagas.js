@@ -13,6 +13,7 @@ import {
 import {
   anyPass,
   equals,
+  includes,
   map,
   path,
   pathOr,
@@ -22,11 +23,16 @@ import {
   values
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { getAllBalances, getBtcBalance } from 'data/balance/sagas'
+import {
+  getAllBalances,
+  getBchBalance,
+  getBtcBalance,
+  getXlmBalance
+} from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
 import bip21 from 'bip21'
-import profileSagas from 'data/modules/profile/sagas'
+import profileSagas from 'data/modules/profile/sagas.ts'
 
 const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
@@ -81,18 +87,39 @@ export default ({ api }) => {
     yield put(actions.router.push('/login'))
   }
 
-  const defineSendBtcGoal = function * (pathname, search) {
-    // Special case to handle bitcoin bip21 link integration
+  const defineSendXlmGoal = function * (pathname, search) {
+    // /#/open/xlm?address={address}&amount={amount}
+    const params = new URLSearchParams(search)
+    const address = params.get('address')
+    const amount = params.get('amount')
+    const memo = params.get('memo')
+
+    yield put(actions.goals.saveGoal('xlmPayment', { address, amount, memo }))
+    yield put(actions.router.push('/wallet'))
+    yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
+  }
+
+  const defineSendCryptoGoal = function * (pathname, search) {
+    // special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
-    const bip21Payload = bip21.decode(decodedPayload)
+    const isBchPayPro = includes('bitcoincash', decodedPayload)
+    // bip21 doesnt like special chars in protocol links
+    const bip21Payload = isBchPayPro
+      ? bip21.decode(decodedPayload.replace('web+', ''), 'bitcoincash')
+      : bip21.decode(decodedPayload)
+
     // check for BitPay payment protocol
     if (path(['options', 'r'], bip21Payload)) {
       const r = pathOr({}, ['options', 'r'], bip21Payload)
-      const data = { r }
+      const data = {
+        coin: isBchPayPro ? 'BCH' : 'BTC',
+        r
+      }
       yield put(actions.goals.saveGoal('paymentProtocol', data))
       yield put(actions.router.push('/wallet'))
       yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
     } else {
+      // TODO: BCH payments?
       const { address } = bip21Payload
       const { amount, message } = bip21Payload.options || {}
       const data = { address, amount, description: message }
@@ -129,13 +156,16 @@ export default ({ api }) => {
   }
 
   const defineDeepLinkGoals = function * (pathname, search) {
+    if (startsWith('xlm', pathname))
+      return yield call(defineSendXlmGoal, pathname, search)
     if (startsWith('link-account', pathname))
       return yield call(defineLinkAccountGoal, search)
     if (startsWith('referral', pathname))
       return yield call(defineReferralGoal, search)
     if (startsWith('kyc', pathname)) return yield call(defineKycGoal, search)
-    if (startsWith('bitcoin', pathname))
-      return yield call(defineSendBtcGoal, pathname, search)
+    // crypto send / bitpay links
+    if (includes('bitcoin', pathname))
+      return yield call(defineSendCryptoGoal, pathname, search)
     if (startsWith('log-level', pathname))
       return yield call(defineLogLevel, search)
     yield call(defineActionGoal, pathname, search)
@@ -151,48 +181,44 @@ export default ({ api }) => {
 
   const runPaymentProtocolGoal = function * (goal) {
     const { id, data } = goal
+    const { coin, r } = data
+    let coinRate, paymentCryptoAmount, paymentFiatAmount
+
     yield put(actions.goals.deleteGoal(id))
-    // TODO: pass coin type once more deeplink types are supported
     yield put(
       actions.analytics.logEvent([
         ...TRANSACTION_EVENTS.BITPAY_URL_DEEPLINK,
-        'BTC'
+        coin
       ])
     )
 
-    yield call(getBtcBalance)
-    const { r } = data
+    if (equals('BTC', coin)) {
+      yield call(getBtcBalance)
+      coinRate = yield select(selectors.core.data.btc.getRates)
+    } else {
+      yield call(getBchBalance)
+      coinRate = yield select(selectors.core.data.bch.getRates)
+    }
+
     const invoiceId = r.split('/i/')[1]
     const currency = yield select(selectors.core.settings.getCurrency)
-    const btcRates = yield select(selectors.core.data.btc.getRates)
 
     try {
       const rawPaymentRequest = yield call(
         api.getRawPaymentRequest,
         invoiceId,
-        'BTC'
+        coin
       )
       const paymentRequest = yield call(parsePaymentRequest, rawPaymentRequest)
       const { instructions } = paymentRequest
-      const expired = new Date() > new Date(paymentRequest.expires)
+
+      if (new Date() > new Date(paymentRequest.expires)) {
+        return yield put(actions.modals.showModal('BitPayInvoiceExpired'))
+      }
 
       const tx = path([0, 'outputs', 0], instructions)
       const satoshiAmount = tx.amount
       const address = tx.address
-
-      const amount = Exchange.convertBtcToBtc({
-        value: satoshiAmount,
-        fromUnit: 'SAT',
-        toUnit: 'BTC'
-      }).value
-
-      const fiat = Exchange.convertBtcToFiat({
-        value: amount,
-        fromUnit: 'BTC',
-        toCurrency: currency.getOrElse(null),
-        rates: btcRates.getOrElse(null)
-      }).value
-
       const merchant = paymentRequest.memo.split('for merchant ')[1]
       const payPro = {
         expiration: paymentRequest.expires,
@@ -200,22 +226,61 @@ export default ({ api }) => {
         merchant
       }
 
-      if (expired) {
-        return yield put(actions.modals.showModal('BitPayExpired'))
-      }
-
-      yield put(
-        actions.goals.addInitialModal(
-          'payment',
-          model.components.sendBtc.MODAL,
-          {
-            to: address,
-            amount: { coin: amount, fiat },
-            description: merchant,
-            payPro
-          }
+      if (equals('BTC', coin)) {
+        paymentCryptoAmount = Exchange.convertBtcToBtc({
+          value: satoshiAmount,
+          fromUnit: 'SAT',
+          toUnit: 'BTC'
+        }).value
+        paymentFiatAmount = Exchange.convertBtcToFiat({
+          value: paymentCryptoAmount,
+          fromUnit: 'BTC',
+          toCurrency: currency.getOrElse(null),
+          rates: coinRate.getOrElse(null)
+        }).value
+        yield put(
+          actions.goals.addInitialModal(
+            'payment',
+            model.components.sendBtc.MODAL,
+            {
+              to: address,
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              payPro
+            }
+          )
         )
-      )
+      } else {
+        paymentCryptoAmount = Exchange.convertBchToBch({
+          value: satoshiAmount,
+          fromUnit: 'SAT',
+          toUnit: 'BCH'
+        }).value
+        paymentFiatAmount = Exchange.convertBchToFiat({
+          value: paymentCryptoAmount,
+          fromUnit: 'BCH',
+          toCurrency: currency.getOrElse(null),
+          rates: coinRate.getOrElse(null)
+        }).value
+        yield put(
+          actions.goals.addInitialModal(
+            'payment',
+            model.components.sendBch.MODAL,
+            {
+              to: address,
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              payPro
+            }
+          )
+        )
+      }
     } catch (e) {
       yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
       yield put(
@@ -255,11 +320,44 @@ export default ({ api }) => {
     )
   }
 
+  const runSendXlmGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    yield call(getXlmBalance)
+
+    const { amount, address, memo } = data
+    const currency = yield select(selectors.core.settings.getCurrency)
+    const xlmRates = yield select(selectors.core.data.xlm.getRates)
+    const fiat = Exchange.convertXlmToFiat({
+      value: amount,
+      fromUnit: 'XLM',
+      toCurrency: currency.getOrElse(null),
+      rates: xlmRates.getOrElse(null)
+    }).value
+    // Goal work
+    yield put(
+      actions.goals.addInitialModal(
+        'xlmPayment',
+        model.components.sendXlm.MODAL,
+        {
+          to: address,
+          amount: { coin: amount, fiat },
+          memo
+        }
+      )
+    )
+  }
+
   const runLinkAccountGoal = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
-      actions.goals.addInitialModal('linkAccount', 'LinkFromPitAccount', data)
+      actions.goals.addInitialModal(
+        'linkAccount',
+        'LinkFromExchangeAccount',
+        data
+      )
     )
   }
 
@@ -419,37 +517,6 @@ export default ({ api }) => {
     }
   }
 
-  const runRegisterForBlockstackAirdropGoal = function * (goal) {
-    try {
-      const { id } = goal
-      yield put(actions.goals.deleteGoal(id))
-      yield call(waitForUserData)
-      const { current } = (yield select(
-        selectors.modules.profile.getUserTiers
-      )).getOrElse({ current: 0 }) || { current: 0 }
-      const blockstackTag = (yield select(
-        selectors.modules.profile.getBlockstackTag
-      )).getOrElse(false)
-      if (!blockstackTag && current === TIERS[2]) {
-        const campaign = (yield select(
-          selectors.core.walletOptions.getStxCampaign
-        )).getOrElse('BLOCKSTACK')
-        yield put(actions.modules.profile.setCampaign({ name: campaign }))
-        yield put(
-          actions.components.identityVerification.registerUserCampaign()
-        )
-      }
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'runRegisterForBlockstackAirdropGoal',
-          e
-        )
-      )
-    }
-  }
-
   const runWalletTour = function * (goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -499,7 +566,8 @@ export default ({ api }) => {
       swapGetStarted,
       swapUpgrade,
       upgradeForAirdrop,
-      walletTour
+      walletTour,
+      xlmPayment
     } = initialModals
     // Order matters here
     if (linkAccount) {
@@ -515,6 +583,11 @@ export default ({ api }) => {
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
+    }
+    if (xlmPayment) {
+      return yield put(
+        actions.modals.showModal(xlmPayment.name, xlmPayment.data)
+      )
     }
     if (upgradeForAirdrop) {
       return yield put(
@@ -568,6 +641,9 @@ export default ({ api }) => {
         case 'payment':
           yield call(runSendBtcGoal, goal)
           break
+        case 'xlmPayment':
+          yield call(runSendXlmGoal, goal)
+          break
         case 'paymentProtocol':
           yield call(runPaymentProtocolGoal, goal)
           break
@@ -595,8 +671,6 @@ export default ({ api }) => {
         case 'walletTour':
           yield call(runWalletTour, goal)
           break
-        case 'registerForBlockstackAirdrop':
-          yield call(runRegisterForBlockstackAirdropGoal, goal)
       }
       yield put(actions.goals.initialModalDisplayed)
     } catch (error) {
@@ -613,7 +687,7 @@ export default ({ api }) => {
 
   return {
     defineActionGoal,
-    defineSendBtcGoal,
+    defineSendCryptoGoal,
     defineReferralGoal,
     defineDeepLinkGoals,
     defineGoals,

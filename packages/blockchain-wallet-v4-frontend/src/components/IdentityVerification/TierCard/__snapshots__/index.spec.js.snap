@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TierCard renders correctly with column view 1`] = `
-<TierCard__Wrapper
+<styled.div
   className=" column"
 >
-  <TierCard__Announcement
+  <Styled(Text)
     color="white"
     size="18px"
     uppercase={true}
@@ -15,9 +15,9 @@ exports[`TierCard renders correctly with column view 1`] = `
       id="components.identityverification.tiercard.getfreecrypto"
       values={Object {}}
     />
-  </TierCard__Announcement>
-  <TierCard__Container>
-    <TierCard__Header
+  </Styled(Text)>
+  <styled.div>
+    <Styled(Text)
       color="marketing-primary"
       uppercase={true}
     >
@@ -26,10 +26,10 @@ exports[`TierCard renders correctly with column view 1`] = `
         id="components.identityverification.tiercard.gold"
         values={Object {}}
       />
-    </TierCard__Header>
-    <TierCard__Content>
-      <TierCard__Row>
-        <TierCard__Column>
+    </Styled(Text)>
+    <styled.div>
+      <styled.div>
+        <styled.div>
           <Text
             altFont={false}
             capitalize={false}
@@ -107,8 +107,8 @@ exports[`TierCard renders correctly with column view 1`] = `
               }
             />
           </Text>
-        </TierCard__Column>
-        <TierCard__Column>
+        </styled.div>
+        <styled.div>
           <TextGroup
             inline={true}
             key="0"
@@ -226,16 +226,19 @@ exports[`TierCard renders correctly with column view 1`] = `
               weight={400}
             />
           </TextGroup>
-        </TierCard__Column>
-      </TierCard__Row>
-    </TierCard__Content>
-    <TierCard__ActionButton
+        </styled.div>
+      </styled.div>
+    </styled.div>
+    <Styled(Button)
+      className="actionButton"
+      data-e2e="continueKycTier2Btn"
       fullwidth={true}
       jumbo={true}
       nature="primary"
+      onClick={[Function]}
     >
       <span
-        data-e2e="unlockGold"
+        data-e2e="unlockGoldBtn"
       >
         <FormattedMessage
           defaultMessage="Unlock Gold 🥇"
@@ -243,17 +246,17 @@ exports[`TierCard renders correctly with column view 1`] = `
           values={Object {}}
         />
       </span>
-    </TierCard__ActionButton>
-  </TierCard__Container>
-</TierCard__Wrapper>
+    </Styled(Button)>
+  </styled.div>
+</styled.div>
 `;
 
 exports[`TierCard renders null w/o showBanner 1`] = `
-<TierCard__Wrapper
+<styled.div
   className=""
 >
-  <TierCard__Container>
-    <TierCard__Header
+  <styled.div>
+    <Styled(Text)
       color="marketing-primary"
       uppercase={true}
     >
@@ -262,10 +265,10 @@ exports[`TierCard renders null w/o showBanner 1`] = `
         id="components.identityverification.tiercard.silver"
         values={Object {}}
       />
-    </TierCard__Header>
-    <TierCard__Content>
-      <TierCard__Row>
-        <TierCard__Column>
+    </Styled(Text)>
+    <styled.div>
+      <styled.div>
+        <styled.div>
           <Text
             altFont={false}
             capitalize={false}
@@ -343,8 +346,8 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               }
             />
           </Text>
-        </TierCard__Column>
-        <TierCard__Column>
+        </styled.div>
+        <styled.div>
           <TextGroup
             inline={true}
             key="0"
@@ -461,24 +464,23 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               />
             </Text>
           </TextGroup>
-        </TierCard__Column>
-      </TierCard__Row>
-    </TierCard__Content>
-    <TierCard__ActionButton
+        </styled.div>
+      </styled.div>
+    </styled.div>
+    <Styled(Button)
+      className="actionButton"
+      data-e2e="continueKycTier1Btn"
       fullwidth={true}
       jumbo={true}
       nature="primary"
+      onClick={[Function]}
     >
-      <span
-        data-e2e="unlockSilver"
-      >
-        <FormattedMessage
-          defaultMessage="Unlock Silver"
-          id="components.identityverification.tiercard.silvercta"
-          values={Object {}}
-        />
-      </span>
-    </TierCard__ActionButton>
-  </TierCard__Container>
-</TierCard__Wrapper>
+      <FormattedMessage
+        defaultMessage="Continue"
+        id="components.identityverification.tiercard.continue"
+        values={Object {}}
+      />
+    </Styled(Button)>
+  </styled.div>
+</styled.div>
 `;

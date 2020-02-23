@@ -182,7 +182,7 @@ export const status = (tier, userTiers, time) => {
 
 export const ctas = {
   SILVER: (
-    <span data-e2e='unlockSilver'>
+    <span data-e2e='unlockSilverBtn'>
       <FormattedMessage
         id='components.identityverification.tiercard.silvercta'
         defaultMessage='Unlock Silver'
@@ -190,7 +190,7 @@ export const ctas = {
     </span>
   ),
   GOLD: (
-    <span data-e2e='unlockGold'>
+    <span data-e2e='unlockGoldBtn'>
       <FormattedMessage
         id='components.identityverification.tiercard.goldctamedal'
         defaultMessage='Unlock Gold 🥇'

@@ -24,6 +24,7 @@ const ItemWrapper = styled.div`
 `
 const Action = styled(Text)`
   cursor: pointer;
+  font-weight: 500;
   &:hover {
     text-decoration: underline;
   }
@@ -45,11 +46,12 @@ const EmailReminder = props => {
   return (
     <React.Fragment>
       <ItemWrapper>
-        <Icon name='email' color='white' weight={600} />
+        <Icon name='email' color='white' size='24px' />
         <Text
           style={{ marginLeft: '12px', marginBottom: '1px' }}
           color='white'
           size='14px'
+          weight={500}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder'
@@ -61,6 +63,7 @@ const EmailReminder = props => {
           color='white'
           size='14px'
           className={emailReminded ? 'active' : ''}
+          weight={500}
         >
           <FormattedMessage
             id='layouts.wallet.header.announcements.emailreminder.emailsent'

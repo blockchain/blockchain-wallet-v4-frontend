@@ -19,18 +19,6 @@ describe('walletOptions selectors', () => {
     expect(selectors.getEthTxFuse(successState)).toEqual(Remote.of(600))
   })
 
-  it('getAnnouncements should return correct announcements', () => {
-    const expected = {
-      public: {},
-      wallet: {},
-      lockbox: {},
-      swap: {}
-    }
-    expect(selectors.getAnnouncements(successState)).toEqual(
-      Remote.of(expected)
-    )
-  })
-
   it('getCoinAvailability should return correct btc availability', () => {
     const expected = {
       send: true,

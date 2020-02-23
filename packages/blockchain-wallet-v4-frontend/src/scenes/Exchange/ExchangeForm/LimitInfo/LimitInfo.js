@@ -28,12 +28,10 @@ const Group = styled.div`
 const TierLink = styled(Link)`
   display: flex;
   flex-direction: row;
-  align-items: cener;
 `
 const TierIcon = styled(Icon)`
-  transform: rotate(270deg);
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
 `
 
@@ -96,26 +94,26 @@ export const LimitAction = ({
   if (upgradeRequired)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color='brand-secondary'>
+        <LimitText color='blue600'>
           <FormattedMessage
             id='scenes.exchange.exchangeform.limit_info.continue'
             defaultMessage='Continue'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
 
   if (nextTierAvailable)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color='brand-secondary'>
+        <LimitText color='blue600'>
           <FormattedMessage
             id='scenes.exchange.exchangeform.limit_info.upgrade'
             defaultMessage='Upgrade'
           />
         </LimitText>
-        <TierIcon name='down-arrow-filled' color='brand-secondary' />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
   if (lastTierInReview)
@@ -129,7 +127,7 @@ export const LimitAction = ({
               values={{ level: levelName[path([nextTier, 'level'], TIERS)] }}
             />
           </LimitText>
-          <TierIcon name='down-arrow-filled' color='btc' />
+          <TierIcon name='chevron-right-large' color='btc' />
         </TierLink>
       </LinkContainer>
     )
@@ -161,7 +159,7 @@ export class LimitInfo extends React.PureComponent {
     return (
       <LimitRow>
         <Group>
-          <LimitText color='brand-primary'>
+          <LimitText color='blue900'>
             <FormattedMessage
               id='scenes.exchange.exchangeform.limit_info.level'
               defaultMessage='{level}'

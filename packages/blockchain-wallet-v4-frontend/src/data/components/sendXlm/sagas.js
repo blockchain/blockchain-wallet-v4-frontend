@@ -28,8 +28,10 @@ export default ({ api, coreSagas }) => {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
+      const to = path(['payload', 'to'], action)
+      const memo = path(['payload', 'memo'], action)
       yield put(A.paymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountPit('XLM'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange('XLM'))
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
@@ -43,11 +45,22 @@ export default ({ api, coreSagas }) => {
       ))
         .map(head)
         .getOrElse({})
+      if (to) {
+        payment = yield payment.to(to)
+      }
+      if (memo) {
+        payment = yield payment.memo(memo)
+      }
+      const prepareTo = to => {
+        return to ? { value: { value: to, label: to } } : null
+      }
       const initialValues = {
         coin: 'XLM',
         fee: defaultFee,
         from: defaultAccount,
-        memoType: INITIAL_MEMO_TYPE
+        memo: memo,
+        memoType: INITIAL_MEMO_TYPE,
+        to: prepareTo(to)
       }
       yield put(initialize(FORM, initialValues))
       yield put(touch(FORM, 'memo', 'memoType'))
@@ -100,7 +113,7 @@ export default ({ api, coreSagas }) => {
           yield put(A.sendXlmCheckDestinationAccountExists(address))
           // check if destination is an exchange
           yield put(A.sendXlmCheckIfDestinationIsExchange(address))
-          // PIT address split on : is [address, memo]
+          // Exchange address split on : is [address, memo]
           if (splitValue.length > 1) {
             const memo = last(splitValue)
             yield put(actions.form.change(FORM, 'memo', memo))

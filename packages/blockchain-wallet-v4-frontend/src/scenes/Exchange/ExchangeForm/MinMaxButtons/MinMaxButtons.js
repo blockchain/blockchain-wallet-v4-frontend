@@ -17,7 +17,7 @@ export const MinMaxButton = styled(Button)`
   justify-content: space-between;
   border-color: ${props => props.theme['gray-2']};
   > * {
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
     font-weight: 500;
   }
 `

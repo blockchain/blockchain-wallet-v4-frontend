@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { Text } from 'blockchain-info-components'
 import IntlTelInput from 'react-intl-tel-input'
 
@@ -22,7 +22,7 @@ const Container = styled.div`
     height: 48px;
     font-size: 16px;
     border-radius: 4px;
-    border: 1px solid ${props => props.theme['grey100']};
+    border: 1px solid ${props => props.theme.grey100};
     color: ${props => props.theme['gray-6']};
     ::-webkit-input-placeholder {
       opacity: 0.35;

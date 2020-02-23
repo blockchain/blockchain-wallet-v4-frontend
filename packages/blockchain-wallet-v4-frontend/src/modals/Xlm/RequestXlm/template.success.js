@@ -40,7 +40,7 @@ const BannerContainer = styled.div`
   *.link {
     cursor: pointer;
     text-decoration: underline;
-    color: ${props => props.theme['brand-primary']};
+    color: ${props => props.theme.blue900};
   }
 `
 
@@ -62,7 +62,7 @@ const RequestXlm = ({
     <Form onSubmit={handleSubmit}>
       <FormGroup>
         <FormItem data-e2e='currencySelectDropdown'>
-          <FormLabel for='coin'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
               id='modals.requestxlm.coin'
               defaultMessage='Currency:'
@@ -78,7 +78,7 @@ const RequestXlm = ({
       </FormGroup>
       <FormGroup>
         <FormItem data-e2e='receiveToWalletDropdown'>
-          <FormLabel for='to'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
               id='modals.requestxlm.firststep.receive'
               defaultMessage='Receive To:'

@@ -21,7 +21,7 @@ const BaseRadioButtonInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${props => props.theme['brand-secondary']};
+        background: ${props => props.theme.blue600};
       }
     }
   }
@@ -46,7 +46,7 @@ const Label = styled.label`
     background: white;
     border-radius: 2px;
     transition: background 0.2s;
-    border: 1px solid ${props => props.theme['brand-secondary']};
+    border: 1px solid ${props => props.theme.blue600};
   }
 `
 

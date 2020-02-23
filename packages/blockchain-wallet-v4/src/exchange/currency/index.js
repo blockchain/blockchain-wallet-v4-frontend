@@ -1,8 +1,8 @@
-import * as Currencies from '../currencies'
 import { BigNumber } from 'bignumber.js'
 import { compose, curry, flip, is, prop, sequence } from 'ramda'
 import { view } from 'ramda-lens'
 import BigRational from 'big-rational'
+import Currencies from '../currencies'
 import Maybe from 'data.maybe'
 import Type from '../../types/Type'
 
