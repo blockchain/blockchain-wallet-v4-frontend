@@ -391,7 +391,7 @@ export default ({
 
       const amount: string = getAmount(Number(values.amount) || 0, coin)
 
-      payment = yield payment.amount(Number(amount))
+      payment = yield payment.amount(amount)
       payment = yield payment.to(loan.principal.depositAddresses[coin])
       payment = yield payment.build()
       // ask for second password
@@ -400,7 +400,7 @@ export default ({
       payment = yield payment.publish()
       yield put(actions.form.stopSubmit('repayLoanForm'))
     } catch (e) {
-      const error = typeof e === 'object' ? e.description : e
+      const error = typeof e === 'object' ? JSON.stringify(e) : e
       yield put(actions.form.stopSubmit('repayLoanForm', { _error: error }))
     }
   }
