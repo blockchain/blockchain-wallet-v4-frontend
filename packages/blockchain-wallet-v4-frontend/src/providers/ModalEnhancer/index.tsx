@@ -2,7 +2,7 @@ import { actions, selectors } from 'data'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
-import { ModalType } from 'data/types'
+import { ModalNamesType, ModalType } from 'data/types'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
@@ -49,7 +49,7 @@ const enhance = connect(
   mapDispatchToProps
 )
 
-export default (type, options: OptionsType = {}) => Component =>
+export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
   enhance(
     class Modal extends PureComponent<Props> {
       state = {}
