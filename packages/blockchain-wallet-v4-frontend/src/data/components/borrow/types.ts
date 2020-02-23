@@ -66,7 +66,7 @@ export type FromType =
   | 'ADDRESS'
 
 export type PaymentType = {
-  amount: (n: number) => PaymentType
+  amount: (n: number | string) => PaymentType
   build: () => PaymentType
   change: string
   coins: Array<UTXOType>

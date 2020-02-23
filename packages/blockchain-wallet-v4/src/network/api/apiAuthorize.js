@@ -23,6 +23,7 @@ const injectAuthCredentials = curry(
       if (error.status !== 401 || error.type === 'BAD_2FA') throw error
       if (error.status !== 401 || error.type === 'INVALID_CREDENTIALS')
         throw error
+      if (error.status !== 401 || error.type === 'UNKNOWN_USER') throw error
 
       return reauthenticate()
     })

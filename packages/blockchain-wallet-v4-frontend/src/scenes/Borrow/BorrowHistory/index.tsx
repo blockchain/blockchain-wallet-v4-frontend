@@ -55,7 +55,7 @@ class BorrowHistory extends Component<Props> {
           ),
           Failure: e => <Text>{e.description}</Text>,
           Loading: () => <Loading />,
-          NotAsked: () => <Loading />
+          NotAsked: () => null
         })}
       </History>
     )

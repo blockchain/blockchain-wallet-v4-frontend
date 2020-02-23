@@ -26,6 +26,7 @@ const PriceText = styled(Text)`
   margin: 5px 0;
 `
 const LoadingWrapper = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

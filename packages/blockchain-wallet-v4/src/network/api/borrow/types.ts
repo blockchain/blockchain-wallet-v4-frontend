@@ -17,7 +17,7 @@ export type LoanType = {
   expiration: Date
   loanId: string
   offerId: string
-  openedAt: Date
+  openedAt: string
   principal: {
     amount: Array<MoneyType>
     depositAddresses: { [key in CoinType]: string }

@@ -24,6 +24,9 @@ import React, { PureComponent } from 'react'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
 
+type OwnProps = {
+  isDisabled: boolean
+}
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
   modalActions: typeof actions.modals
@@ -35,7 +38,7 @@ type LinkStatePropsType = {
   }
 }
 
-type Props = LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 const CustomBox = styled(Box)`
   display: flex;
@@ -81,7 +84,7 @@ class InitBorrowForm extends PureComponent<Props> {
 
   isDisabled = () => {
     const offer = this.getOfferForCoin()
-    return !offer
+    return !offer || this.props.isDisabled
   }
 
   initBorrow = () => {
