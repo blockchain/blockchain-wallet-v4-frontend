@@ -179,6 +179,7 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             name='principal'
             validate={[maximumAmount, minimumAmount]}
             {...{
+              autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'
