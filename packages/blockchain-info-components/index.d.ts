@@ -45,6 +45,7 @@ export const Button: StatelessComponent<
     onClick?: () => void
     padding?: string
     rounded?: boolean
+    size?: string
     small?: boolean
     style?: CSSProperties
     uppercase?: boolean
