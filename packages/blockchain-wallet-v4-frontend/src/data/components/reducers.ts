@@ -2,6 +2,7 @@ import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
+import { simpleBuyReducer } from './simpleBuy/reducers'
 import coinify from './coinify/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
@@ -37,6 +38,7 @@ const componentReducer = combineReducers({
   sendEth,
   sendXlm,
   signMessage,
+  simpleBuy: simpleBuyReducer,
   uploadDocuments,
   veriff
 })

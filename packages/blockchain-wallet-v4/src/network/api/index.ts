@@ -17,6 +17,7 @@ import rates from './rates'
 import settings from './settings'
 import sfox from './sfox'
 import shapeShift from './shapeShift'
+import simpleBuy from './simpleBuy'
 import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
@@ -73,6 +74,7 @@ const api = ({
     ...sfox(),
     ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
+    ...simpleBuy({ nabuUrl, ...http }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),
@@ -82,4 +84,4 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow>
+export type APIType = ReturnType<typeof borrow> & ReturnType<typeof simpleBuy>

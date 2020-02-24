@@ -2,7 +2,7 @@ import { CurrenciesType } from '../../../types'
 import { PairType } from './types'
 
 export default ({ nabuUrl, get }) => {
-  const getPairs = (
+  const getSBPairs = (
     currency: keyof CurrenciesType
   ): { pairs: Array<PairType> } =>
     get({
@@ -11,6 +11,6 @@ export default ({ nabuUrl, get }) => {
     })
 
   return {
-    getPairs
+    getSBPairs
   }
 }

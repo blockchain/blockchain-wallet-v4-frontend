@@ -1,4 +1,5 @@
-import { compose, Dispatch } from 'redux'
+import { actions } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
@@ -8,7 +9,9 @@ import React, { PureComponent } from 'react'
 
 type OwnProps = ModalPropsType
 type SuccessStateType = {}
-type LinkDispatchPropsType = {}
+type LinkDispatchPropsType = {
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
 type LinkStatePropsType = {}
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
@@ -20,6 +23,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.simpleBuyActions.fetchSBPairs('USD')
   }
 
   handleClose = () => {
@@ -45,7 +49,9 @@ class SimpleBuy extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({})
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+})
 
 const enhance = compose(
   ModalEnhancer('SIMPLE_BUY_MODAL', { transition: duration }),
