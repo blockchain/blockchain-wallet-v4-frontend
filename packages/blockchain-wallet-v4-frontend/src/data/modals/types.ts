@@ -6,6 +6,7 @@ export type ModalNamesType =
   | 'LinkFromExchangeAccount'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'
+  | 'SIMPLE_BUY_MODAL'
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
 

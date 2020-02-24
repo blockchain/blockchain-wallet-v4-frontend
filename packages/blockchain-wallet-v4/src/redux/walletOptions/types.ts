@@ -23,8 +23,10 @@ export type SupportedCoinType = {
     circleFilled: keyof IcoMoonType
     default: keyof IcoMoonType
   }
+  invited?: boolean
   learnMoreLink: string
   minConfirmations: number
+  showNewTagSidenav: boolean
   txExplorerBaseUrl: string
   txListAppRoute: string
 }

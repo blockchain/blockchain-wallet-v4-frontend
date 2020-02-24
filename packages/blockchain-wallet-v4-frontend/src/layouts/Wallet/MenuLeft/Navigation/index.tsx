@@ -1,25 +1,39 @@
+import { actions, selectors } from 'data'
+import { bind, concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
-import { concat, prop } from 'ramda'
 import { connect } from 'react-redux'
+import { KycStateType } from 'data/types'
+import { SupportedCoinsType } from 'core/types'
+import Navigation from './template'
 import React from 'react'
 
-import { actions, selectors } from 'data'
-import Navigation from './template'
+type OwnProps = {
+  invitations: { [key in string]: boolean }
+  userKYCState: KycStateType
+}
 
-class NavigationContainer extends React.PureComponent {
+type LinkDispatchPropsType = {
+  actions: typeof actions.components.layoutWallet
+  analyticsActions: typeof actions.analytics
+  modalActions: typeof actions.modals
+  preferencesActions: typeof actions.preferences
+}
+
+type LinkStatePropsType = {
+  domains: { [key in string]: string }
+  isExchangeAccountLinked: boolean
+  supportedCoins: SupportedCoinsType
+}
+
+export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+
+class NavigationContainer extends React.PureComponent<Props> {
   render () {
-    const {
-      actions,
-      analyticsActions,
-      domains,
-      userKYCState,
-      ...props
-    } = this.props
+    const { domains } = this.props
 
     return (
       <Navigation
-        {...props}
-        handleCloseMenu={actions.layoutWalletMenuCloseClicked}
+        {...this.props}
         exchangeUrl={concat(prop('exchange', domains), '/trade')}
       />
     )
@@ -38,6 +52,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

@@ -1,4 +1,4 @@
-import { E2EType } from './types'
+import { FlyoutE2EType } from './types'
 import { Modal } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -98,7 +98,7 @@ export const FlyoutChild = styled.div`
 `
 
 type OwnProps = {
-  'data-e2e': E2EType
+  'data-e2e': FlyoutE2EType
   direction?: 'left' | 'right'
   in: boolean
   onClose: () => void

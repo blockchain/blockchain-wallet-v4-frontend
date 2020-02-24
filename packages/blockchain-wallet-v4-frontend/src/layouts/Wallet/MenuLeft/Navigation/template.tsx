@@ -1,10 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import { mapObjIndexed, toLower, values } from 'ramda'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import { Cartridge } from '@blockchain-com/components'
 import {
   CoinIcon,
@@ -14,6 +7,8 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
+import { CoinType, SupportedCoinType } from 'core/types'
+import { FormattedMessage } from 'react-intl'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 import {
   Link,
@@ -21,6 +16,12 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import { mapObjIndexed, toLower, values } from 'ramda'
+import { Props } from '.'
+import PropTypes from 'prop-types'
+import React from 'react'
+import styled from 'styled-components'
 
 const HelperTipContainer = styled.div`
   position: relative;
@@ -34,7 +35,7 @@ const HelperTip = styled(TooltipHost)`
   top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme.orange} !important;
+  color: ${props => props.theme.orange600} !important;
   background-color: ${props => props.theme.white};
   letter-spacing: 1px;
   margin-left: auto;
@@ -43,6 +44,10 @@ export const NewCartridge = styled(Cartridge)`
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
 `
+
+type OwnProps = {
+  exchangeUrl: string
+}
 
 const ExchangeNavItem = props => (
   <>
@@ -67,7 +72,7 @@ const ExchangeNavItem = props => (
   </>
 )
 
-const Navigation = props => {
+const Navigation = (props: OwnProps & Props) => {
   const { ...rest } = props
   const { supportedCoins } = rest
   const coinOrder = [
@@ -91,19 +96,22 @@ const Navigation = props => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      <SpotlightLinkContainer to='/buy-sell' activeClassName='active'>
-        <MenuItem data-e2e='buyAndSellLink'>
-          <JoyrideSpotlight className='wallet-intro-tour-step-5' />
-          <MenuIcon name='cart-filled' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.buysell'
-              defaultMessage='Buy & Sell'
-              className='destination'
-            />
-          </Destination>
-        </MenuItem>
-      </SpotlightLinkContainer>
+      {/* <SpotlightLinkContainer to="/buy-sell" activeClassName="active"> */}
+      <MenuItem
+        data-e2e='buyAndSellLink'
+        onClick={() => props.modalActions.showModal('SIMPLE_BUY_MODAL')}
+      >
+        <JoyrideSpotlight className='wallet-intro-tour-step-5' />
+        <MenuIcon name='cart-filled' size='24px' />
+        <Destination>
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.buysell'
+            defaultMessage='Buy & Sell'
+            className='destination'
+          />
+        </Destination>
+      </MenuItem>
+      {/* </SpotlightLinkContainer> */}
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />
@@ -199,7 +207,7 @@ const Navigation = props => {
       <Separator />
       {values(
         mapObjIndexed(
-          (coin, i) =>
+          (coin: SupportedCoinType, i) =>
             coin &&
             coin.txListAppRoute &&
             coin.invited && (

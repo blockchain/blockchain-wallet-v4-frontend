@@ -168,6 +168,7 @@ export const TextGroup: StatelessComponent<{
 }>
 export const TooltipHost: StatelessComponent<{ id: string }>
 export const TooltipIcon: StatelessComponent<{
+  color?: keyof DefaultTheme
   name: keyof IcoMoonType
   size?: string
 }>
