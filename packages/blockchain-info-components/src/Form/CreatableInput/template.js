@@ -4,6 +4,8 @@ import CreatableSelect from 'react-select/lib/Creatable'
 import React from 'react'
 import styled from 'styled-components'
 
+import { selectBorderColor } from '../helper'
+
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;
   font-weight: 500;
@@ -147,19 +149,6 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   `}
 `
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 const MultiValueContainer = props => {
   return (

@@ -1,6 +1,13 @@
-import { equals, length } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
+
+import {
+  hasValue,
+  isValid,
+  selectBackgroundColor,
+  selectBorderColor,
+  selectFocusBorderColor
+} from './helper'
 
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
@@ -44,45 +51,6 @@ const BasePasswordInput = styled.input.attrs({
   }
 `
 
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
-
-const selectFocusBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'blue600'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'blue600'
-  }
-}
-
-const selectBackgroundColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey000'
-    case 'invalid':
-      return 'red000'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey000'
-  }
-}
-
 class PasswordInput extends React.Component {
   componentDidUpdate (prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
@@ -96,21 +64,17 @@ class PasswordInput extends React.Component {
 
   render () {
     const { active, errorState, value, ...rest } = this.props
-    const hasValue = !equals(length(value), 0)
-    const isValid = !equals(errorState, 'invalid')
-    const bgColor = selectBackgroundColor(errorState)
-    const borderColor = selectBorderColor(errorState)
-    const focusedBorderColor = selectFocusBorderColor(errorState)
 
     return (
       <BasePasswordInput
         ref={this.refInput}
-        bgColor={bgColor}
-        borderColor={borderColor}
+        bgColor={selectBackgroundColor(errorState)}
+        borderColor={selectBorderColor(errorState)}
         data-e2e={this.props['data-e2e']}
-        focusedBorderColor={focusedBorderColor}
-        hasValue={hasValue}
-        isValid={isValid}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        hasValue={hasValue(value)}
+        isValid={isValid(errorState)}
+        value={value}
         {...rest}
       />
     )

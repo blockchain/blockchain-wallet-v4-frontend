@@ -3,6 +3,8 @@ import React from 'react'
 import ReactDatetime from 'react-datetime'
 import styled from 'styled-components'
 
+import { selectBorderColor } from '../helper'
+
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
   width: ${props => (props.fullwidth ? '100%' : '150px')};
@@ -262,19 +264,6 @@ const BaseDateInput = styled(ReactDatetime)`
     cursor: default;
   }
 `
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 const DateInput = props => {
   const { errorState, ...rest } = props

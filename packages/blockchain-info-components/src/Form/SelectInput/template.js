@@ -4,6 +4,8 @@ import React from 'react'
 import Select, { components } from 'react-select'
 import styled from 'styled-components'
 
+import { selectBorderColor } from '../helper'
+
 const StyledSelect = styled(Select)`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -156,19 +158,6 @@ const IndicatorSeparator = props => {
   return props.selectProps.hideIndicator ? null : (
     <components.IndicatorSeparator {...props} />
   )
-}
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
 }
 
 const SelectInput = props => {
