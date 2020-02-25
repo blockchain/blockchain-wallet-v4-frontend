@@ -23,7 +23,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
-    this.props.simpleBuyActions.fetchSBPairs('USD')
   }
 
   handleClose = () => {

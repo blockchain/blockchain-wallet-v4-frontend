@@ -1,7 +1,38 @@
 import * as AT from './actionTypes'
-import { CurrenciesType, NabuApiErrorType } from 'core/types'
-import { PairType } from 'core/network/api/simpleBuy/types'
+import {
+  CurrenciesType,
+  FiatEligibleType,
+  NabuApiErrorType,
+  PairType
+} from 'core/types'
 import { SimpleBuyActionTypes } from './types'
+
+export const fetchSBFiatEligible = (currency: keyof CurrenciesType) => ({
+  type: AT.FETCH_SB_FIAT_ELIGIBLE,
+  currency
+})
+
+export const fetchSBFiatEligibleFailure = (
+  error: NabuApiErrorType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBFiatEligibleLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_FIAT_ELIGIBLE_LOADING
+})
+
+export const fetchSBFiatEligibleSuccess = (
+  fiatEligible: FiatEligibleType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS,
+  payload: {
+    fiatEligible
+  }
+})
 
 export const fetchSBPairs = (currency: keyof CurrenciesType) => ({
   type: AT.FETCH_SB_PAIRS,

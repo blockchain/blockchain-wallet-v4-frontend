@@ -5,3 +5,9 @@ export type PairType = {
   buyMin: string
   pair: PairsType
 }
+
+export type FiatEligibleType = {
+  eligible: boolean
+  paymentAccountEligible: boolean
+  simpleBuyTradingEligible: boolean
+}
