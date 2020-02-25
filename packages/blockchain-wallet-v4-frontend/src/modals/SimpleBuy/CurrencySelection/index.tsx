@@ -1,9 +1,9 @@
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType } from '../index'
 import { RootState } from 'data/rootReducer'
 import { SBCurrencySelectFormType } from 'data/types'
@@ -12,7 +12,7 @@ import { TextBox } from 'components/Form'
 import Currencies, {
   CurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 type OwnProps = {
@@ -41,6 +41,9 @@ const CurrencyBox = styled.div`
   border-radius: 12px;
   border: 1px solid ${props => props.theme.grey100};
   margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const Seperator = styled.div`
@@ -48,6 +51,15 @@ const Seperator = styled.div`
   height: 2px;
   margin: 40px 0;
   background-color: ${props => props.theme.grey000};
+`
+
+const ButtonContainer = styled.div`
+  position: sticky;
+  background-color: ${props => props.theme.white};
+  padding-bottom: 20px;
+  margin-top: 20px;
+  bottom: 0px;
+  left: 0px;
 `
 
 const searchHasMatch = (
@@ -65,9 +77,34 @@ const searchHasMatch = (
   return false
 }
 
+const CurrencyBoxComponent = (props: {
+  cur: CurrenciesType[keyof CurrenciesType]
+  selectedCurrency: keyof CurrenciesType | null
+  setSelectedCurrency: (string) => void
+}) => {
+  return (
+    <CurrencyBox onClick={() => props.setSelectedCurrency(props.cur.code)}>
+      <div>
+        <Text size='16px' color='grey800' weight={600}>
+          {props.cur.displayName}
+        </Text>
+        <Text size='14px' color='grey800' weight={500}>
+          {props.cur.code}
+        </Text>
+      </div>
+      {props.selectedCurrency === props.cur.code && (
+        <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
+      )}
+    </CurrencyBox>
+  )
+}
+
 const CurrencySelection: React.FC<
   InjectedFormProps<{}, Props> & Props & LinkStatePropsType
 > = props => {
+  const [selectedCurrency, setSelectedCurrency] = useState<
+    keyof CurrenciesType | null
+  >(null)
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
@@ -93,23 +130,20 @@ const CurrencySelection: React.FC<
           defaultMessage='Select the local currency for your wallet'
         />
       </SubTitleText>
-      <Form>
+      <Form
+        onSubmit={() => props.settingsActions.updateCurrency(selectedCurrency)}
+      >
         <Field name='search' component={TextBox} />
         {recommendedCurrencies.map(currency => {
           const cur: CurrenciesType[keyof CurrenciesType] = Currencies[currency]
 
           if (!searchHasMatch(cur, props.values)) return
           return (
-            <CurrencyBox
-              onClick={() => props.settingsActions.updateCurrency(cur.code)}
-            >
-              <Text size='16px' color='grey800' weight={600}>
-                {cur.displayName}
-              </Text>
-              <Text size='14px' color='grey800' weight={500}>
-                {cur.code}
-              </Text>
-            </CurrencyBox>
+            <CurrencyBoxComponent
+              cur={cur}
+              setSelectedCurrency={setSelectedCurrency}
+              selectedCurrency={selectedCurrency}
+            />
           )
         })}
         {!props.values && <Seperator />}
@@ -122,18 +156,27 @@ const CurrencySelection: React.FC<
             if (!searchHasMatch(cur, props.values)) return
 
             return (
-              <CurrencyBox
-                onClick={() => props.settingsActions.updateCurrency(cur.code)}
-              >
-                <Text size='16px' color='grey800' weight={600}>
-                  {cur.displayName}
-                </Text>
-                <Text size='14px' color='grey800' weight={500}>
-                  {cur.code}
-                </Text>
-              </CurrencyBox>
+              <CurrencyBoxComponent
+                cur={cur}
+                setSelectedCurrency={setSelectedCurrency}
+                selectedCurrency={selectedCurrency}
+              />
             )
           })}
+        <ButtonContainer>
+          <Button
+            fullwidth
+            disabled={!selectedCurrency}
+            nature='primary'
+            data-e2e='currencySelectNext'
+            type='submit'
+          >
+            <FormattedMessage
+              id='modals.simplebuy.next'
+              defaultMessage='Next'
+            />
+          </Button>
+        </ButtonContainer>
       </Form>
     </FlyoutWrapper>
   )
