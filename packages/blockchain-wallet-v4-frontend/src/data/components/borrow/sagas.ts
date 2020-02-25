@@ -33,6 +33,16 @@ export default ({
   const waitForUserData = profileSagas({ api, coreSagas, networks })
     .waitForUserData
 
+  const errorHandler = e => {
+    return typeof e === 'object'
+      ? e.description
+        ? e.description
+        : e.message
+        ? e.message
+        : JSON.stringify(e)
+      : e
+  }
+
   const addCollateral = function * () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
@@ -73,7 +83,8 @@ export default ({
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
-      yield put(actions.form.stopSubmit('borrowForm', { _error: e }))
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
     }
   }
 
@@ -152,7 +163,7 @@ export default ({
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
-      const error = typeof e === 'object' ? JSON.stringify(e) : e
+      const error = errorHandler(e)
       yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
     }
   }
