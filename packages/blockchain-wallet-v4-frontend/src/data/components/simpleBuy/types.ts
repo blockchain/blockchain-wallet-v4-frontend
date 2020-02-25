@@ -1,13 +1,25 @@
 import * as AT from './actionTypes'
-import { CurrenciesType, NabuApiErrorType, RemoteDataType } from 'core/types'
-import { FiatEligibleType, PairType } from 'core/network/api/simpleBuy/types'
+import {
+  CurrenciesType,
+  FiatEligibleType,
+  NabuApiErrorType,
+  RemoteDataType,
+  SBPairType
+} from 'core/types'
 
 // Types
+export type SBCurrencySelectFormType = {
+  search: string
+}
+export enum SimpleBuyStepType {
+  'CURRENCY_SELECTION'
+}
 
 // State
 export type SimpleBuyState = {
   fiatEligible: RemoteDataType<NabuApiErrorType, FiatEligibleType>
-  pairs: RemoteDataType<NabuApiErrorType, Array<PairType>>
+  pairs: RemoteDataType<NabuApiErrorType, Array<SBPairType>>
+  step: keyof typeof SimpleBuyStepType
 }
 
 // Actions
@@ -55,7 +67,7 @@ interface FetchSBPairsLoading {
 
 interface FetchSBPairsSuccess {
   payload: {
-    pairs: Array<PairType>
+    pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }

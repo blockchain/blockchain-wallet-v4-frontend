@@ -1,6 +1,7 @@
 export default {
   code: 'NZD',
   base: 'CENT',
+  displayName: 'New Zealand Dollar',
   trade: 'NZD',
   units: {
     CENT: {

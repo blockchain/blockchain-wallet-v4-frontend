@@ -1,6 +1,7 @@
 export default {
   code: 'SEK',
   base: 'CENT',
+  displayName: 'Swedish Krona',
   trade: 'SEK',
   units: {
     CENT: {

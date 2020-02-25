@@ -1,23 +1,28 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
+import { SimpleBuyStepType } from 'data/types'
+import CurrencySelection from './CurrencySelection'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
 type OwnProps = ModalPropsType
 type SuccessStateType = {}
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
+  settingsActions: typeof actions.modules.settings
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-type LinkStatePropsType = {}
+type LinkStatePropsType = {
+  step: keyof typeof SimpleBuyStepType
+}
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
+type State = { show: boolean }
 
 class SimpleBuy extends PureComponent<Props, State> {
-  state = { show: false }
+  state: State = { show: false }
 
   componentDidMount () {
     /* eslint-disable */
@@ -40,15 +45,22 @@ class SimpleBuy extends PureComponent<Props, State> {
         in={this.state.show}
         data-e2e='simpleBuyModal'
       >
-        <FlyoutChild>simple buy</FlyoutChild>
+        {this.props.step === 'CURRENCY_SELECTION' && (
+          <FlyoutChild>
+            <CurrencySelection {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({})
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  step: selectors.components.simpleBuy.getStep(state)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

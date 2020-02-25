@@ -1,6 +1,7 @@
 export default {
   base: 'SAT',
   code: 'BCH',
+  displayName: 'Bitcoin Cash',
   trade: 'BCH',
   units: {
     SAT: {

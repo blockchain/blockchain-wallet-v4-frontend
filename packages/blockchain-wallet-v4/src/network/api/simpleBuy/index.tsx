@@ -1,10 +1,10 @@
 import { CurrenciesType } from '../../../types'
-import { FiatEligibleType, PairType } from './types'
+import { FiatEligibleType, SBPairType } from './types'
 
 export default ({ nabuUrl, get }) => {
   const getSBPairs = (
     currency: keyof CurrenciesType
-  ): { pairs: Array<PairType> } =>
+  ): { pairs: Array<SBPairType> } =>
     get({
       url: nabuUrl,
       endPoint: `/simple-buy/pairs?fiatCurrency=${currency}`

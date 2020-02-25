@@ -4,7 +4,8 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
   fiatEligible: Remote.NotAsked,
-  pairs: Remote.NotAsked
+  pairs: Remote.NotAsked,
+  step: 'CURRENCY_SELECTION'
 }
 
 export function simpleBuyReducer (

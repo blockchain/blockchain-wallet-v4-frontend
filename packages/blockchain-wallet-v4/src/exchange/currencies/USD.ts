@@ -1,6 +1,7 @@
 export default {
   code: 'USD',
   base: 'CENT',
+  displayName: 'U.S. Dollar',
   trade: 'USD',
   units: {
     CENT: {

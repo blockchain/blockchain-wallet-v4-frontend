@@ -1,6 +1,7 @@
 export default {
   code: 'CHF',
   base: 'CENT',
+  displayName: 'Swiss Franc',
   trade: 'CHF',
   units: {
     CENT: {

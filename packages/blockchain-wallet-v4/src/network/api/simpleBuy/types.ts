@@ -1,9 +1,9 @@
-export type PairsType = 'BTC-EUR'
+export type SBPairsType = 'BTC-EUR'
 
-export type PairType = {
+export type SBPairType = {
   buyMax: string
   buyMin: string
-  pair: PairsType
+  pair: SBPairsType
 }
 
 export type FiatEligibleType = {

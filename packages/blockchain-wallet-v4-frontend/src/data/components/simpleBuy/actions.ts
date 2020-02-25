@@ -3,7 +3,7 @@ import {
   CurrenciesType,
   FiatEligibleType,
   NabuApiErrorType,
-  PairType
+  SBPairType
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
 
@@ -53,7 +53,7 @@ export const fetchSBPairsLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const fetchSBPairsSuccess = (
-  pairs: Array<PairType>
+  pairs: Array<SBPairType>
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_PAIRS_SUCCESS,
   payload: {
