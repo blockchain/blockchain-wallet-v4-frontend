@@ -176,7 +176,7 @@ const FirstStep = props => {
                 />
                 <QRCodeCapture
                   scanType='xlmAddress'
-                  border={['top', 'bottom', 'right']}
+                  border={['top', 'bottom', 'right', 'left']}
                 />
               </Row>
             </FormItem>
