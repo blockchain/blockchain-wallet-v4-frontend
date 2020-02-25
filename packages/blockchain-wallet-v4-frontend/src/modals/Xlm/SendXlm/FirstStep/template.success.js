@@ -61,9 +61,6 @@ const MemoField = styled.div`
     input {
       border-right: none;
     }
-    div {
-      display: none;
-    }
   }
   & > :last-child {
     flex: 1;
@@ -224,6 +221,7 @@ const FirstStep = props => {
                   component={TextBox}
                   placeholder='Enter text or ID for recipient (optional)'
                   data-e2e='sendXlmMemoText'
+                  noLastPass
                 />
                 <Field
                   name='memoType'
