@@ -130,24 +130,12 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const {
-      controlledBgColor,
-      controlledBorderColor,
-      controlledFocusBorderColor,
-      disabled,
-      errorState,
-      icon,
-      iconSize,
-      value,
-      ...rest
-    } = this.props
+    const { disabled, errorState, icon, iconSize, value, ...rest } = this.props
     const hasValue = !equals(length(value), 0)
     const isValid = !equals(errorState, 'invalid')
-    const bgColor = selectBackgroundColor(controlledBgColor || errorState)
-    const borderColor = selectBorderColor(controlledBorderColor || errorState)
-    const focusedBorderColor = selectFocusBorderColor(
-      controlledFocusBorderColor || errorState
-    )
+    const bgColor = selectBackgroundColor(errorState)
+    const borderColor = selectBorderColor(errorState)
+    const focusedBorderColor = selectFocusBorderColor(errorState)
 
     return (
       <Container>
@@ -163,6 +151,7 @@ class TextInput extends React.Component {
           icon={icon}
           onKeyDown={this.onKeyPressed}
           ref={this.refInput}
+          value={value}
           {...rest}
         />
       </Container>

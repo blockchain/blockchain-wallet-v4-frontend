@@ -95,22 +95,12 @@ class PasswordInput extends React.Component {
   }
 
   render () {
-    const {
-      active,
-      controlledBgColor,
-      controlledBorderColor,
-      controlledFocusBorderColor,
-      errorState,
-      value,
-      ...rest
-    } = this.props
+    const { active, errorState, value, ...rest } = this.props
     const hasValue = !equals(length(value), 0)
     const isValid = !equals(errorState, 'invalid')
-    const bgColor = selectBackgroundColor(controlledBgColor || errorState)
-    const borderColor = selectBorderColor(controlledBorderColor || errorState)
-    const focusedBorderColor = selectFocusBorderColor(
-      controlledFocusBorderColor || errorState
-    )
+    const bgColor = selectBackgroundColor(errorState)
+    const borderColor = selectBorderColor(errorState)
+    const focusedBorderColor = selectFocusBorderColor(errorState)
 
     return (
       <BasePasswordInput

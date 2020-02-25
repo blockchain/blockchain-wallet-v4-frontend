@@ -136,7 +136,6 @@ const Register = ({
                 component={TextBox}
                 disabled={!isSupportedBrowser}
                 data-e2e='signupEmail'
-                noLastPass
               />
             </FormItem>
           </FormGroup>
@@ -156,7 +155,6 @@ const Register = ({
                 data-e2e='signupPassword'
                 name='password'
                 validate={[required, validStrongPassword]}
-                noLastPass
                 showPasswordScore
                 passwordScore={passwordScore}
               />
@@ -200,7 +198,6 @@ const Register = ({
                 name='confirmationPassword'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}
-                noLastPass
                 disabled={!isSupportedBrowser}
                 data-e2e='signupConfirmPassword'
               />
