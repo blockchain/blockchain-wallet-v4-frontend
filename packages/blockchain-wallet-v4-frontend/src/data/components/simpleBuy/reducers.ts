@@ -3,6 +3,7 @@ import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
+  fiatCurrency: null,
   fiatEligible: Remote.NotAsked,
   pairs: Remote.NotAsked,
   step: 'CURRENCY_SELECTION'
@@ -44,6 +45,21 @@ export function simpleBuyReducer (
       return {
         ...state,
         pairs: Remote.Success(action.payload.pairs)
+      }
+    case AT.SET_STEP:
+      switch (action.payload.step) {
+        case 'ELIGIBLE_CHECK':
+          return {
+            ...state,
+            step: action.payload.step,
+            fiatCurrency: action.payload.fiatCurrency
+          }
+        default: {
+          return {
+            ...state,
+            step: action.payload.step
+          }
+        }
       }
     default:
       return state

@@ -12,7 +12,7 @@ import { TextBox } from 'components/Form'
 import Currencies, {
   CurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
-import React, { useState } from 'react'
+import React, { ReactEventHandler, SyntheticEvent, useState } from 'react'
 import styled from 'styled-components'
 
 type OwnProps = {
@@ -108,6 +108,15 @@ const CurrencySelection: React.FC<
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault()
+    props.settingsActions.updateCurrency(selectedCurrency)
+    props.simpleBuyActions.setStep({
+      step: 'ELIGIBLE_CHECK',
+      fiatCurrency: selectedCurrency || 'USD'
+    })
+  }
+
   return (
     <FlyoutWrapper>
       <TopText color='grey900' size='20px' weight={600}>
@@ -130,9 +139,7 @@ const CurrencySelection: React.FC<
           defaultMessage='Select the local currency for your wallet'
         />
       </SubTitleText>
-      <Form
-        onSubmit={() => props.settingsActions.updateCurrency(selectedCurrency)}
-      >
+      <Form onSubmit={handleSubmit}>
         <Field name='search' component={TextBox} />
         {recommendedCurrencies.map(currency => {
           const cur: CurrenciesType[keyof CurrenciesType] = Currencies[currency]

@@ -12,11 +12,13 @@ export type SBCurrencySelectFormType = {
   search: string
 }
 export enum SimpleBuyStepType {
-  'CURRENCY_SELECTION'
+  'CURRENCY_SELECTION',
+  'ELIGIBLE_CHECK'
 }
 
 // State
 export type SimpleBuyState = {
+  fiatCurrency: null | keyof CurrenciesType
   fiatEligible: RemoteDataType<NabuApiErrorType, FiatEligibleType>
   pairs: RemoteDataType<NabuApiErrorType, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
@@ -72,6 +74,18 @@ interface FetchSBPairsSuccess {
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
 
+interface SetStepAction {
+  payload:
+    | {
+        fiatCurrency: keyof CurrenciesType
+        step: 'ELIGIBLE_CHECK'
+      }
+    | {
+        step: 'CURRENCY_SELECTION'
+      }
+  type: typeof AT.SET_STEP
+}
+
 export type SimpleBuyActionTypes =
   | FetchSBFiatEligible
   | FetchSBFiatEligibleFailure
@@ -81,3 +95,4 @@ export type SimpleBuyActionTypes =
   | FetchSBPairsFailure
   | FetchSBPairsLoading
   | FetchSBPairsSuccess
+  | SetStepAction

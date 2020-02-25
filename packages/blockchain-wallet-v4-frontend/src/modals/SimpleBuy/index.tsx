@@ -5,6 +5,7 @@ import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SimpleBuyStepType } from 'data/types'
 import CurrencySelection from './CurrencySelection'
+import EligibleCheck from './EligibleCheck'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -30,6 +31,12 @@ class SimpleBuy extends PureComponent<Props, State> {
     /* eslint-enable */
   }
 
+  componentWillUnmount () {
+    this.props.simpleBuyActions.setStep({
+      step: 'CURRENCY_SELECTION'
+    })
+  }
+
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(() => {
@@ -48,6 +55,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'CURRENCY_SELECTION' && (
           <FlyoutChild>
             <CurrencySelection {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'ELIGIBLE_CHECK' && (
+          <FlyoutChild>
+            <EligibleCheck {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>

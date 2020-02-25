@@ -1,5 +1,8 @@
 import { RootState } from 'data/rootReducer'
 
+export const getFiatCurrency = (state: RootState) =>
+  state.components.simpleBuy.fiatCurrency
+
 export const getSBFiatEligible = (state: RootState) =>
   state.components.simpleBuy.fiatEligible
 
