@@ -59,7 +59,7 @@ import {
 } from './model'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
-import { Exchange, Remote } from 'blockchain-wallet-v4'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'

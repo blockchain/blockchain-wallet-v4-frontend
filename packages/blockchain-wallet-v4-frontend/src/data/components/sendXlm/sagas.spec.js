@@ -90,7 +90,9 @@ describe('sendXlm sagas', () => {
       from: { addr: STUB_ADDRESS },
       coin: 'XLM',
       fee: STUB_FEE,
-      memoType: INITIAL_MEMO_TYPE
+      memoType: INITIAL_MEMO_TYPE,
+      memo: undefined,
+      to: null
     }
 
     const beforeEnd = 'beforeEnd'
@@ -168,6 +170,8 @@ describe('sendXlm sagas', () => {
         const form = path(FORM.split('.'), resultingState.form)
         expect(form.initial).toEqual(form.values)
         expect(form.initial).toEqual({
+          memo: undefined,
+          to: null,
           from: {},
           coin: 'XLM',
           fee: STUB_FEE,

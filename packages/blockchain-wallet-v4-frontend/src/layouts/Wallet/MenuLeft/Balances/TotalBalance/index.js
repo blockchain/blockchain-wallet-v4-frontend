@@ -1,17 +1,10 @@
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { getTotalBalance } from 'components/Balances/total/selectors'
 import { LinkContainer } from 'react-router-bootstrap'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-
-import { getTotalBalance } from 'components/Balances/total/selectors'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
-
-const BalanceSkeleton = styled.div`
-  > div:first-child {
-    margin-bottom: 5px;
-  }
-`
 
 const ErrorWrapper = styled.div`
   display: flex;
@@ -68,14 +61,10 @@ class TotalBalance extends React.PureComponent {
         </ErrorWrapper>
       ),
       Loading: () => (
-        <BalanceSkeleton>
-          <SkeletonRectangle width='170px' height='30px' bgColor='gray-1' />
-        </BalanceSkeleton>
+        <SkeletonRectangle width='120px' height='28px' bgColor='gray-1' />
       ),
       NotAsked: () => (
-        <BalanceSkeleton>
-          <SkeletonRectangle width='170px' height='30px' bgColor='gray-1' />
-        </BalanceSkeleton>
+        <SkeletonRectangle width='120px' height='28px' bgColor='gray-1' />
       )
     })
   }

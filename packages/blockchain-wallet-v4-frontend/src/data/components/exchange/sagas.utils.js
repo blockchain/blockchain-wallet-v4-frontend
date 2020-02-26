@@ -7,7 +7,7 @@ import { actions, actionTypes, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
-import { Exchange } from 'blockchain-wallet-v4'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'

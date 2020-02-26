@@ -2,7 +2,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { includes, lift, prop, toLower } from 'ramda'
 import { selectors } from 'data'
 
-export const getData = (state, coin, amount) => {
+export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const coinLower = toLower(coin)
   const currencyR = selectors.core.settings
     .getSettings(state)
@@ -31,8 +31,8 @@ export const getData = (state, coin, amount) => {
       value,
       fromCoin: coin,
       fromUnit: coin,
-      toCurrency: currency,
-      rates
+      toCurrency: defaultCurrency || currency,
+      rates: defaultRates || rates
     })
   return lift(convert)(currencyR, ratesR)
 }

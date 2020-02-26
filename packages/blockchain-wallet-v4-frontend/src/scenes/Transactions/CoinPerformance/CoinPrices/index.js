@@ -1,6 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { connect } from 'react-redux'
-import { Exchange } from 'blockchain-wallet-v4'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import React from 'react'
@@ -26,6 +26,7 @@ const PriceText = styled(Text)`
   margin: 5px 0;
 `
 const LoadingWrapper = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -41,7 +42,8 @@ const PriceChangeText = styled(Text)`
   font-weight: 500;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.theme.grey400};
+  white-space: nowrap;
+  color: ${props => props.theme.grey600};
 `
 const PriceChangeColoredText = styled.span`
   font-weight: 600;

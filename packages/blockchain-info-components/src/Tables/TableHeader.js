@@ -7,12 +7,9 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 8px 15px;
+  padding: 8px 0px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
-  border-left: 1px solid ${props => props.theme['gray-2']};
-  border-top: 1px solid ${props => props.theme['gray-2']};
-  border-right: 1px solid ${props => props.theme['gray-2']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 
 const TableHeader = ({ children }) => <Wrapper>{children}</Wrapper>

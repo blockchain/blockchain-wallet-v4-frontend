@@ -69,11 +69,17 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'gray-6',
         borderColor: 'gray-6'
       }
+    case 'dark-grey':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     case 'empty':
       return {
         color: small ? 'blue600' : 'gray-6',
         backgroundColor: 'white',
-        borderColor: 'gray-2',
+        borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
     case 'empty-secondary':
@@ -144,6 +150,11 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'white',
         borderColor: 'white'
+      }
+    case 'white-blue-transparent':
+      return {
+        color: 'white',
+        borderColor: 'blue400'
       }
     case 'green':
       return {

@@ -1,6 +1,6 @@
 import { forEachObjIndexed } from 'ramda'
 import { RatesBox } from './RatesBox'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { shallow } from 'enzyme'
 import React from 'react'
 import toJson from 'enzyme-to-json'

@@ -152,6 +152,8 @@ const Login = props => {
                 />
               </FormLabel>
               <Field
+                bgColor='grey000'
+                borderNone
                 borderColor={guidError ? 'invalid' : undefined}
                 component={TextBox}
                 data-e2e='loginGuid'
@@ -237,6 +239,8 @@ const Login = props => {
                 />
               </FormLabel>
               <Field
+                bgColor='grey000'
+                borderNone
                 name='password'
                 validate={[required]}
                 component={PasswordBox}
@@ -322,7 +326,7 @@ const Login = props => {
               type='submit'
               nature='primary'
               fullwidth
-              height='56px'
+              height='48px'
               disabled={submitting || invalid || busy || !password}
               data-e2e='loginButton'
             >

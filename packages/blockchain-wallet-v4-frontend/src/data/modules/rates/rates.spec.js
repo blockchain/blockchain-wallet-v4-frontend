@@ -2,7 +2,7 @@ import { compose, groupBy, head, map, path, prop } from 'ramda'
 
 import { actions, model, selectors } from 'data'
 import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
 import profileReducer from 'data/modules/profile/reducers'
 import ratesReducer from './reducers'

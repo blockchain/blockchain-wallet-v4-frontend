@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -10,12 +9,6 @@ const FaqLink = styled(Link)`
   position: relative;
   padding: 5px 10px;
   border-radius: 4px;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    ${props => (props.highlighted ? '0.2' : '0')}
-  );
 
   ${media.mobile`
     background-color: transparent;
@@ -32,7 +25,7 @@ const FaqLink = styled(Link)`
 `
 
 const FaqIcon = props => {
-  const { handleClick, highlighted } = props
+  const { onClick } = props
 
   return (
     <TooltipHost id='faq.tooltip'>
@@ -40,8 +33,7 @@ const FaqIcon = props => {
         size='14px'
         weight={500}
         color='white'
-        onClick={handleClick}
-        highlighted={highlighted}
+        onClick={onClick}
         data-e2e='faqLink'
       >
         <NavbarIcon
@@ -54,11 +46,6 @@ const FaqIcon = props => {
       </FaqLink>
     </TooltipHost>
   )
-}
-
-FaqIcon.propTypes = {
-  handleClick: PropTypes.func.isRequired,
-  highlighted: PropTypes.bool.isRequired
 }
 
 export default FaqIcon

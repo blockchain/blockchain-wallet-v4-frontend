@@ -19,7 +19,7 @@ import {
   propEq,
   values
 } from 'ramda'
-import { coreSelectors } from 'blockchain-wallet-v4/src'
+import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
   EXCHANGE_FORM,
@@ -27,7 +27,6 @@ import {
   getTargetCoinsPairedToSource
 } from './model'
 import { model, selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4'
 
 export const canUseExchange = state =>
   selectors.modules.profile

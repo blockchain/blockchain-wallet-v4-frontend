@@ -1,7 +1,6 @@
+import { Icon, NumberInput, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
-
-import { NumberInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -15,9 +14,16 @@ const Container = styled.div`
 const Error = styled(Text)`
   position: absolute;
   display: block;
-  top: -18px;
+  top: ${props => (props.errorBottom ? 'initial' : '-18px')};
+  left: ${props => (props.errorLeft ? '0' : 'initial')};
+  bottom: ${props => (props.errorBottom ? '-18px' : 'initial')};
   right: 0;
   height: 15px;
+`
+const CustomIcon = styled(Icon)`
+  position: absolute;
+  right: 12px;
+  top: 14px;
 `
 const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
@@ -31,27 +37,27 @@ const NumberBox = field => {
       <NumberInput
         {...field.input}
         errorState={errorState}
+        autoFocus={field.autoFocus}
         placeholder={field.placeholder}
+        disabled={field.disabled}
         data-e2e={field['data-e2e']}
       />
+      {field.meta.touched && field.meta.error && field.errorIcon && (
+        <CustomIcon name={field.errorIcon} color='error' size='18px' />
+      )}
       {field.meta.touched && field.meta.error && (
         <Error
           size='12px'
           weight={500}
           color='error'
-          errorBottom={field.errorBottom}
           data-e2e='numberBoxError'
+          {...field}
         >
           {field.meta.error}
         </Error>
       )}
       {field.meta.touched && !field.meta.error && field.meta.warning && (
-        <Error
-          size='12px'
-          weight={400}
-          color='sent'
-          errorBottom={field.errorBottom}
-        >
+        <Error size='12px' weight={400} color='sent' {...field}>
           {field.meta.warning}
         </Error>
       )}

@@ -1,4 +1,3 @@
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   any,
@@ -15,6 +14,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { KYC_STATES } from '../../data/modules/profile/model'
 import { Link } from 'blockchain-info-components'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 const { NONE, PENDING, UNDER_REVIEW, VERIFIED, REJECTED, EXPIRED } = KYC_STATES
 

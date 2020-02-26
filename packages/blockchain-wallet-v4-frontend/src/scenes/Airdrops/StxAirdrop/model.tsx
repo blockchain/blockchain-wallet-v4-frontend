@@ -5,7 +5,7 @@ import {
   ErrorCartridge,
   GreyCartridge,
   SuccessCartridge
-} from '../AirdropInfo/model'
+} from 'components/Cartridge'
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
@@ -331,7 +331,7 @@ export const StxFooterCta = ({
             target='_blank'
             rel='noopener noreferrer'
           >
-            <Button nature='light' fullwidth>
+            <Button nature='light' fullwidth data-e2e='contactSupport'>
               <FormattedMessage
                 id='scenes.airdrop.stx.contactsupport'
                 defaultMessage='Contact Support'
@@ -354,7 +354,7 @@ export const StxFooterCta = ({
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button nature='light' fullwidth>
+          <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
               id='scenes.airdrop.stx.learnmore'
               defaultMessage='Learn More'
@@ -369,7 +369,7 @@ export const StxFooterCta = ({
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button nature='light' fullwidth>
+          <Button nature='light' fullwidth data-e2e='stxShare'>
             <FormattedMessage
               id='scenes.airdrop.stx.share'
               defaultMessage='Share'
@@ -382,7 +382,7 @@ export const StxFooterCta = ({
           target='_blank'
           rel='noopener noreferrer'
         >
-          <Button nature='light' fullwidth>
+          <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
               id='scenes.airdrop.stx.learnmore'
               defaultMessage='Learn More'

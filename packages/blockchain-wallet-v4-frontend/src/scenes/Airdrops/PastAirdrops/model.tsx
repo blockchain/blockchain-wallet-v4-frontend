@@ -2,7 +2,7 @@ import {
   BlueCartridge,
   GreyCartridge,
   SuccessCartridge
-} from '../AirdropInfo/model'
+} from 'components/Cartridge'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'

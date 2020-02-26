@@ -12,6 +12,7 @@
     "removeComments": true,
     "sourceMap": true,
     "strict": true,
+    "strictNullChecks": true,
     "target": "es6",
     "paths": {
       "core/*": ["blockchain-wallet-v4/src/*"],

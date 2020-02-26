@@ -62,6 +62,8 @@ const Reminder = props => {
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='email'
               autoFocus
               validate={[required, validEmail]}
@@ -78,6 +80,8 @@ const Reminder = props => {
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
+              borderNone
               name='code'
               validate={[required]}
               component={CaptchaBox}

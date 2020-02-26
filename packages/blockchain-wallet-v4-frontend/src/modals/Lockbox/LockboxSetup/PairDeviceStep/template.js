@@ -218,7 +218,7 @@ const PairDeviceStep = props => {
               data-place='right'
               style={{ marginTop: '3px' }}
             >
-              <TooltipIcon name='question-in-circle' />
+              <TooltipIcon name='info' />
             </Tooltip>
           </ExportKeysText>
         )}

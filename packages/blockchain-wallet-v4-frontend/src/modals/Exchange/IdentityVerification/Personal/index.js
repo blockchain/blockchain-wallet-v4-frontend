@@ -6,7 +6,7 @@ import React from 'react'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
 
 import Loading from './template.loading'

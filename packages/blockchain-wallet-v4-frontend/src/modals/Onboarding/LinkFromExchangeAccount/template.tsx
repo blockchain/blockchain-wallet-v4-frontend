@@ -87,7 +87,13 @@ const LinkFromExchangeAccount = ({
                   />
                 </Text>
               </Status>
-              <Button nature='purple' height='56px' fullwidth onClick={close}>
+              <Button
+                nature='purple'
+                height='56px'
+                fullwidth
+                onClick={close}
+                data-e2e='linkDone'
+              >
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linkfromexchange.successdone'
@@ -122,7 +128,13 @@ const LinkFromExchangeAccount = ({
                   </Text>
                 </TextGroup>
               </Status>
-              <Button nature='purple' height='56px' fullwidth onClick={close}>
+              <Button
+                nature='purple'
+                height='56px'
+                fullwidth
+                onClick={close}
+                data-e2e='linkDone'
+              >
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linkfromexchange.failuredone'
@@ -177,6 +189,7 @@ const LinkFromExchangeAccount = ({
                       height='56px'
                       fullwidth
                       onClick={actions.resendVerifyEmail}
+                      data-e2e='resendEmail'
                     >
                       <Text color='white' size='16px' weight={500}>
                         <FormattedMessage

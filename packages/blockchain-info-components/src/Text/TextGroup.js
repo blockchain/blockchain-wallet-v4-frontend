@@ -19,8 +19,8 @@ const TextGroup = props => {
 }
 
 TextGroup.propTypes = {
-  nowrap: PropTypes.bool.isRequired,
-  inline: PropTypes.bool.isRequired
+  nowrap: PropTypes.bool,
+  inline: PropTypes.bool
 }
 
 TextGroup.defaultProps = {

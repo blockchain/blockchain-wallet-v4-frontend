@@ -191,6 +191,7 @@ const SelectInput = props => {
     onBlur,
     onFocus,
     onKeyDown,
+    openMenuOnClick,
     openMenuOnFocus,
     searchEnabled,
     templateDisplay,
@@ -229,6 +230,7 @@ const SelectInput = props => {
       onChange={handleChange}
       onFocus={onFocus}
       onKeyDown={onKeyDown}
+      openMenuOnClick={openMenuOnClick}
       openMenuOnFocus={openMenuOnFocus}
       options={options}
       placeholder={defaultDisplay}
@@ -240,12 +242,17 @@ const SelectInput = props => {
   )
 }
 
+SelectInput.defaultProps = {
+  openMenuOnClick: true
+}
+
 SelectInput.propTypes = {
   items: PropTypes.array.isRequired,
   selected: PropTypes.object,
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   menuIsOpen: PropTypes.bool,
+  openMenuOnClick: PropTypes.bool,
   openMenuOnFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   errorState: PropTypes.string,

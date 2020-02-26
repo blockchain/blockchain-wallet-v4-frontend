@@ -13,7 +13,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => (props.toggled ? '150%' : 'initial')};

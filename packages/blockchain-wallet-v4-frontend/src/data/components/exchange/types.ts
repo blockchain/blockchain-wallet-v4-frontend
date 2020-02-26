@@ -1,9 +1,7 @@
 import * as AT from './actionTypes'
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { RemoteDataType } from 'core/types'
 
 // Types
-
 export type LimitsType = {
   annual: LimitDurationType
   balanceMax: LimitAmountType
@@ -55,7 +53,7 @@ export type SourceFeeType =
 
 // State
 export interface ExchangeState {
-  limits: RemoteDataType<string, Currencies<LimitsType>>
+  limits: RemoteDataType<string, Array<LimitsType>>
   max: null | LimitAmountType
   min: null | LimitAmountType
   showError: boolean
@@ -79,7 +77,7 @@ interface FetchLimitsLoading {
 
 interface FetchLimitsSuccess {
   payload: {
-    limits: Currencies<LimitsType>
+    limits: Array<LimitsType>
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }

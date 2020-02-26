@@ -29,19 +29,19 @@ const LoginOrCreate = props => {
         <ResponsiveText color='white' weight={500}>
           {isSignup ? (
             <FormattedMessage
-              id='layouts.public.alreadyhave'
-              defaultMessage='Already have a wallet?'
+              id='layouts.public.alreadyhave_1'
+              defaultMessage='Already have a Wallet?'
             />
           ) : (
             <FormattedMessage
-              id='layouts.public.donthave'
-              defaultMessage="Don't have a wallet?"
+              id='layouts.public.donthave_1'
+              defaultMessage="Don't have a Wallet?"
             />
           )}
         </ResponsiveText>
         <Button
-          nature='white-transparent'
-          style={{ minWidth: '42px', marginLeft: '8px', borderWidth: '2px' }}
+          nature='white-blue-transparent'
+          style={{ minWidth: '94px', marginLeft: '22px', borderRadius: '8px' }}
         >
           {isSignup ? (
             <ResponsiveLink

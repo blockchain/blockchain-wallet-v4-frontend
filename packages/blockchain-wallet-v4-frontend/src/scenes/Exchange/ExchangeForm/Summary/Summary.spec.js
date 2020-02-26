@@ -1,5 +1,5 @@
 import { forEachObjIndexed } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { shallow } from 'enzyme'
 import { Summary } from './Summary'
 import React from 'react'

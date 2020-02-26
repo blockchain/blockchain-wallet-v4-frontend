@@ -23,7 +23,7 @@
 // } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 // import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
 // import { getUserId } from 'blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors'
-// import { Remote } from 'blockchain-wallet-v4'
+// import { Remote } from 'blockchain-wallet-v4/src'
 // import TierCard from 'components/IdentityVerification/TierCard'
 
 // import ProfileContainer, { Profile } from './index'

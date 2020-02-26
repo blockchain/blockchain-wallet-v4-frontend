@@ -1,5 +1,5 @@
 import { ExchangeScene } from './index'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { shallow } from 'enzyme'
 import DataError from 'components/DataError'
 import ExchangeContainer from './ExchangeContainer'

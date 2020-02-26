@@ -49,6 +49,9 @@ export default () => {
           yield put(actions.components.exchangeHistory.clearTrades())
           yield put(actions.components.exchangeHistory.fetchNextPage())
           break
+        case contains('/borrow', pathname):
+          yield put(actions.components.borrow.fetchUserBorrowHistory())
+          break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.btc.fetchTransactions('', true))

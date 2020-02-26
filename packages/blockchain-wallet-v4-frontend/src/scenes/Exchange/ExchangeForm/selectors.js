@@ -3,7 +3,7 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { equals, lift, path, prop } from 'ramda'
 import { model, selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import Bowser from 'bowser'
 
 const { EXCHANGE_FORM } = model.components.exchange

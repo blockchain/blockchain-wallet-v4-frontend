@@ -17,7 +17,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 import UnusedAddresses from './template'
 
 const WalletLabelCell = styled.div`
