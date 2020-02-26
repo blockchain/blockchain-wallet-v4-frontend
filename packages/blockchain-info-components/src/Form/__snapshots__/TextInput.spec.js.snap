@@ -5,7 +5,6 @@ exports[`TextInput component default renders correctly 1`] = `
   <styled.input
     bgColor="grey000"
     borderColor="grey100"
-    bordercolor="red600"
     disabled={false}
     focusedBorderColor="blue600"
     hasValue={true}
