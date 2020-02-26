@@ -92,24 +92,6 @@ const Summary: React.FC<Props> = props => {
             )
           </Value>
         </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.summary.collateralization'
-              defaultMessage='Collateralization'
-            />
-          </Title>
-          <Value>{(props.offer.terms.collateralRatio * 100).toFixed(0)}%</Value>
-        </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.summary.loanterm'
-              defaultMessage='Loan Term'
-            />
-          </Title>
-          <Value>{props.offer.terms.format}</Value>
-        </TableRow>
       </Table>
     </div>
   )

@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-import { actions } from 'data'
 import { BorrowActionTypes, BorrowState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 

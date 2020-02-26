@@ -1,20 +1,21 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { CheckBox, Form, FormItem, FormLabel, NumberBox } from 'components/Form'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import BorrowCoinDropdown from './BorrowCoinDropdown'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
+import Terms from 'components/Terms'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -76,6 +77,15 @@ const FiatContainer = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
+const TermsFormItem = styled(FormItem)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  .Container {
+    height: auto;
+  }
+`
+
 const ErrorText = styled(Text)`
   display: inline-flex;
   font-weight: 500;
@@ -105,6 +115,8 @@ export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType &
   LinkStatePropsType
+
+const checkboxShouldBeChecked = value => (value ? undefined : true)
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
   // TODO: Borrow - make dynamic
@@ -200,6 +212,44 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             collateral={0}
             displayName={displayName}
           />
+          <div>
+            <TermsFormItem>
+              <Field
+                name='blockchain-loan-agreement'
+                validate={[checkboxShouldBeChecked]}
+                component={CheckBox}
+                hideErrors
+                data-e2e='blockchain-loan-agreement'
+              >
+                <Terms company='blockchain-loan-agreement' />
+              </Field>
+            </TermsFormItem>
+            <TermsFormItem>
+              <Field
+                name='blockchain-loan-transfer'
+                validate={[checkboxShouldBeChecked]}
+                component={CheckBox}
+                hideErrors
+                data-e2e='blockchain-loan-transfer'
+              >
+                <Terms
+                  company='blockchain-loan-transfer'
+                  amount={coinToString({
+                    value: props.values
+                      ? props.values.principal
+                        ? (Number(props.values.principal) /
+                            (props.rates[props.offer.terms.principalCcy]
+                              ? props.rates[props.offer.terms.principalCcy].last
+                              : props.rates['USD'].last)) *
+                          props.offer.terms.collateralRatio
+                        : 0
+                      : 0,
+                    unit: { symbol: props.offer.terms.collateralCcy }
+                  })}
+                />
+              </Field>
+            </TermsFormItem>
+          </div>
           <div>
             {props.error && (
               <ErrorText>
