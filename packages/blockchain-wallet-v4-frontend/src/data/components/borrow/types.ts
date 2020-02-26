@@ -25,6 +25,13 @@ export type BorrowMinMaxType = {
   minFiat: number
 }
 
+export enum BORROW_STEPS {
+  'CHECKOUT',
+  'DETAILS',
+  'ADD_COLLATERAL',
+  'REPAY_LOAN'
+}
+
 // TODO: move to ticker
 export type RatesType = {
   [key in string]: {
@@ -89,12 +96,6 @@ export type PaymentType = {
   value: () => PaymentType
 }
 
-export type BorrowStepsType =
-  | 'CHECKOUT'
-  | 'DETAILS'
-  | 'ADD_COLLATERAL'
-  | 'REPAY_LOAN'
-
 // State
 export interface BorrowState {
   borrowHistory: RemoteDataType<NabuApiErrorType, Array<LoanType>>
@@ -104,7 +105,7 @@ export interface BorrowState {
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
-  step: BorrowStepsType
+  step: keyof typeof BORROW_STEPS
 }
 
 // Actions
