@@ -3,7 +3,13 @@ import React from 'react'
 import ReactDatetime from 'react-datetime'
 import styled from 'styled-components'
 
-import { selectBorderColor } from '../helper'
+import {
+  hasValue,
+  isValid,
+  selectBackgroundColor,
+  selectBorderColor,
+  selectFocusBorderColor
+} from '../helper'
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
@@ -21,11 +27,23 @@ const BaseDateInput = styled(ReactDatetime)`
     font-size: 16px;
     font-weight: 400;
     color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme.white};
+    background-color: ${({ bgColor, hasValue, isValid, theme }) =>
+      hasValue && isValid ? theme.white : theme[bgColor]};
     background-image: none;
     outline-width: 0;
     user-select: text;
-    border: 1px solid ${props => props.theme[props.borderColor]};
+    border-radius: 8px;
+    border: ${({ borderColor, hasValue, isValid, theme }) =>
+      hasValue
+        ? isValid
+          ? `1px solid ${theme[borderColor]}`
+          : 'none'
+        : 'none'};
+    &:focus {
+      background-color: ${({ theme }) => theme.white};
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    }
   }
 
   .rdtPicker {
@@ -267,9 +285,17 @@ const BaseDateInput = styled(ReactDatetime)`
 
 const DateInput = props => {
   const { errorState, ...rest } = props
-  const borderColor = selectBorderColor(props.errorState)
 
-  return <BaseDateInput borderColor={borderColor} {...rest} />
+  return (
+    <BaseDateInput
+      bgColor={selectBackgroundColor(errorState)}
+      borderColor={selectBorderColor(errorState)}
+      focusedBorderColor={selectFocusBorderColor(errorState)}
+      hasValue={hasValue(props.value)}
+      isValid={isValid(errorState)}
+      {...rest}
+    />
+  )
 }
 
 // Documentation: https://github.com/arqex/react-datetime
