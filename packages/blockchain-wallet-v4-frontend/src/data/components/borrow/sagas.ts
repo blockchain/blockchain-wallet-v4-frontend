@@ -400,6 +400,13 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
+      const response: { loan: LoanType } = yield call(
+        api.closeLoanWithPrincipal,
+        loan,
+        {
+          BTC: collateralWithdrawAddress
+        }
+      )
 
       const amount: string = getAmount(Number(values.amount) || 0, coin)
 
@@ -410,14 +417,6 @@ export default ({
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-      // TODO: Borrow - make dynamic
-      const response: { loan: LoanType } = yield call(
-        api.closeLoanWithPrincipal,
-        loan,
-        {
-          BTC: collateralWithdrawAddress
-        }
-      )
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
       yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
