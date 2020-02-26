@@ -15,7 +15,7 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { LoanType } from 'core/types'
+import { LoanFinancialsType, LoanType } from 'core/types'
 
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
@@ -254,6 +254,22 @@ export default ({
     }
   }
 
+  const fetchLoanFinancials = function * ({
+    payload
+  }: ReturnType<typeof A.fetchLoanFinancials>) {
+    try {
+      const { loan } = payload
+      yield put(A.fetchLoanFinancialsLoading())
+      const financials: LoanFinancialsType = yield call(
+        api.getLoanFinancials,
+        loan.loanId
+      )
+      yield put(A.fetchLoanFinancialsSuccess(financials))
+    } catch (e) {
+      yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
   const fetchUserBorrowHistory = function * () {
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
@@ -432,6 +448,7 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
+    fetchLoanFinancials,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
