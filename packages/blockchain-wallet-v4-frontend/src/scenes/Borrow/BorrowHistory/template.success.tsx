@@ -87,7 +87,7 @@ function Success (props: SuccessStateType): ReactElement {
             if (!offer) return
 
             return (
-              <TableRow>
+              <TableRow key={loan.loanId}>
                 <TableCell width='20%'>
                   <Value>{moment(loan.openedAt).format('lll')}</Value>
                 </TableCell>
