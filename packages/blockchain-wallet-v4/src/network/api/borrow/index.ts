@@ -8,8 +8,25 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
       endPoint: '/lending/offers'
     })
 
+  const getUserBorrowHistory = (): Array<LoanType> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/user/loans'
+    })
+
+  const closeLoanWithPrincipal = (
+    loan: LoanType,
+    collateralWithdrawAddresses: { [key in CoinType]?: string }
+  ): { loan: LoanType } =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/user/loans/${loan.loanId}/close_with_principal`,
+      data: {
+        collateralWithdrawAddresses
+      }
+    })
+
   const createLoan = (
-    collateralWithdrawAddress: string,
     offerId: string,
     principalAmount: { symbol: CoinType; value: string },
     principalWithdrawAddresses: { [key in CoinType]?: string }
@@ -19,22 +36,16 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
       endPoint: '/user/loans',
       contentType: 'application/json',
       data: {
-        collateralWithdrawAddress,
         offerId,
         principalAmount,
         principalWithdrawAddresses
       }
     })
 
-  const getUserBorrowHistory = (): Array<LoanType> =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/user/loans'
-    })
-
   return {
-    createLoan,
     getOffers,
-    getUserBorrowHistory
+    getUserBorrowHistory,
+    closeLoanWithPrincipal,
+    createLoan
   }
 }

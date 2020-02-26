@@ -63,18 +63,10 @@ const Summary: React.FC<Props> = props => {
           <Title>
             <FormattedMessage
               id='modals.borrow.summary.intrateandamount'
-              defaultMessage='Interest Rate / Amount'
+              defaultMessage='Interest Rate'
             />
           </Title>
-          <Value>
-            {props.offer.terms.interestRate * 100}% /{' '}
-            {props.principal
-              ? formatFiat(
-                  props.offer.terms.interestRate * Number(props.principal)
-                )
-              : formatFiat(0)}{' '}
-            {principalDisplayName}
-          </Value>
+          <Value>{props.offer.terms.interestRate * 100}%</Value>
         </TableRow>
         <TableRow>
           <Title>

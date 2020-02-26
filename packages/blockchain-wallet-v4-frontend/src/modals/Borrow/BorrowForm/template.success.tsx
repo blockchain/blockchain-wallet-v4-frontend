@@ -107,7 +107,7 @@ export type Props = OwnProps &
   LinkStatePropsType
 
 const Success: React.FC<InjectedFormProps & Props> = props => {
-  // TODO: Borrow - handle other coins
+  // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
 
   return (

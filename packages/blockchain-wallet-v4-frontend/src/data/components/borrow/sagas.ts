@@ -122,21 +122,10 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
-      // TODO: Borrow - make dynamic
-      const collateralWithdrawAddressR = selectors.core.common.btc.getNextAvailableReceiveAddress(
-        networks.btc,
-        payment.value().fromAccountIdx,
-        yield select()
-      )
-      const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
-        'NO_COLLATERAL_WITHDRAW_ADDRESS'
-      )
-
       const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
 
       const response: { loan: LoanType } = yield call(
         api.createLoan,
-        collateralWithdrawAddress,
         offer.id,
         {
           symbol: offer.terms.principalCcy,
@@ -397,8 +386,27 @@ export default ({
         selectors.form.getFormValues('repayLoanForm')
       )
       const loan = S.getLoan(yield select())
+      const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
       if (!loan) throw NO_LOAN_EXISTS
+      if (!offer) throw NO_OFFER_EXISTS
+
+      // TODO: Borrow - make dynamic
+      const collateralWithdrawAddressR = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        networks.btc,
+        yield select(selectors.core.wallet.getDefaultAccountIndex),
+        yield select()
+      )
+      const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
+        'NO_COLLATERAL_WITHDRAW_ADDRESS'
+      )
+      const response: { loan: LoanType } = yield call(
+        api.closeLoanWithPrincipal,
+        loan,
+        {
+          BTC: collateralWithdrawAddress
+        }
+      )
 
       const amount: string = getAmount(Number(values.amount) || 0, coin)
 
@@ -409,9 +417,11 @@ export default ({
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
+
       yield put(actions.form.stopSubmit('repayLoanForm'))
+      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
     } catch (e) {
-      const error = typeof e === 'object' ? JSON.stringify(e) : e
+      const error = errorHandler(e)
       yield put(actions.form.stopSubmit('repayLoanForm', { _error: error }))
     }
   }

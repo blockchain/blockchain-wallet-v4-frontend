@@ -1,5 +1,6 @@
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { BORROW_STEPS } from 'data/types'
 import { connect } from 'react-redux'
 import { LoanType, OfferType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -10,8 +11,6 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 import RepayLoanForm from './RepayLoanForm'
-
-const { BORROW_STEPS } = model.components.borrow
 
 type LinkStatePropsType =
   | {
@@ -47,7 +46,7 @@ class Borrow extends PureComponent<Props, State> {
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (BORROW_STEPS[this.props.step] > BORROW_STEPS[prevProps.step]) {
       /* eslint-disable */
