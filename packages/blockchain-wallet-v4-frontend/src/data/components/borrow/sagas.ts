@@ -165,7 +165,7 @@ export default ({
             value: amount
           },
           principalWithdrawAddress,
-          paymentError ? 'REQUESTED' : 'FAILED',
+          paymentError ? 'FAILED' : 'REQUESTED',
           'COLLATERAL_DEPOSIT'
         )
       } catch (e) {
@@ -471,7 +471,7 @@ export default ({
             value: amount
           },
           collateralWithdrawAddress,
-          paymentError ? 'REQUESTED' : 'FAILED',
+          paymentError ? 'FAILED' : 'REQUESTED',
           'COLLATERAL_DEPOSIT'
         )
       } catch (e) {
