@@ -472,7 +472,7 @@ export default ({
           },
           collateralWithdrawAddress,
           paymentError ? 'FAILED' : 'REQUESTED',
-          'PRINCIPAL_DEPOSIT'
+          'DEPOSIT_PRINCIPAL_AND_INTEREST'
         )
       } catch (e) {
         // notifyDeposit endpoint failed, do nothing and continue
