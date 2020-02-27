@@ -7,10 +7,10 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   position: absolute;
-  width: 100%;
+  width: 96%;
   height: 3px;
   bottom: 0;
-  left: 0;
+  left: 8px;
 `
 const Bar = styled.div`
   display: inline-flex;
