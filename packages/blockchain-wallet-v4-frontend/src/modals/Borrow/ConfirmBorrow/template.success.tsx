@@ -1,4 +1,5 @@
 import { BorrowFormValuesType } from 'data/types'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { CheckBox, Form, FormItem } from 'components/Form'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
@@ -6,7 +7,6 @@ import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
 import React from 'react'
@@ -26,7 +26,6 @@ const Top = styled(FlyoutWrapper)`
 const TopText = styled(Text)`
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
 `
 
@@ -35,6 +34,17 @@ const Bottom = styled(FlyoutWrapper)`
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+`
+
+const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
+  margin-bottom: 16px;
 `
 
 const TermsFormItem = styled(FormItem)`
@@ -66,7 +76,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText>
+        <TopText color='grey900' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
@@ -81,8 +91,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id='modals.borrow.repayloan'
-            defaultMessage='Repay Loan'
+            id='modals.borrow.confirm'
+            defaultMessage='Confirm Loan'
           />
         </TopText>
         <div>
@@ -125,7 +135,35 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </div>
         <div />
       </Top>
-      <Bottom />
+      <Bottom>
+        {props.error && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            Error: {props.error}
+          </ErrorText>
+        )}
+        <Button
+          nature='primary'
+          type='submit'
+          data-e2e='borrowSubmit'
+          disabled={props.submitting || props.invalid}
+        >
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <Text size='16px' weight={600} color='white'>
+              <FormattedMessage
+                id='modals.borrow.collateralform.continue'
+                defaultMessage='Continue'
+              />
+            </Text>
+          )}
+        </Button>
+      </Bottom>
     </CustomForm>
   )
 }

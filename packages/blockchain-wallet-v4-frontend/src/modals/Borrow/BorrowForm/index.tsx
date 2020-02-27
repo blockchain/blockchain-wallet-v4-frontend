@@ -44,10 +44,6 @@ class BorrowForm extends PureComponent<Props> {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
-  componentWillUnmount () {
-    this.props.borrowActions.destroy()
-  }
-
   handleRefresh = () => {
     this.props.borrowActions.initializeBorrow('BTC')
   }
