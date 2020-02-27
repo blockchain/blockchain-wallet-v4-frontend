@@ -16,6 +16,8 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
 `
 const Error = styled(Text)`
   position: absolute;
