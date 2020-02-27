@@ -1,12 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BORROW_STEPS } from 'data/types'
+import { BorrowSteps } from 'data/types'
 import { connect } from 'react-redux'
 import { LoanType, OfferType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import AddCollateral from './AddCollateral'
 import BorrowDetails from './BorrowDetails'
 import BorrowForm from './BorrowForm'
+import ConfirmBorrow from './ConfirmBorrow'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -15,7 +16,7 @@ import RepayLoanForm from './RepayLoanForm'
 type LinkStatePropsType =
   | {
       offer: OfferType
-      step: 'CHECKOUT'
+      step: 'CHECKOUT' | 'CONFIRM'
     }
   | {
       loan: LoanType
@@ -48,7 +49,7 @@ class Borrow extends PureComponent<Props, State> {
 
   componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
-    if (BORROW_STEPS[this.props.step] > BORROW_STEPS[prevProps.step]) {
+    if (BorrowSteps[this.props.step] > BorrowSteps[prevProps.step]) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
     } else {
@@ -77,6 +78,11 @@ class Borrow extends PureComponent<Props, State> {
         {this.props.step === 'CHECKOUT' && (
           <FlyoutChild>
             <BorrowForm {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CONFIRM' && (
+          <FlyoutChild>
+            <ConfirmBorrow {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'DETAILS' && (

@@ -22,6 +22,7 @@ const CollateralizationTableCell = styled(TableCell)`
 `
 const CollateralizationBarWrapper = styled.div`
   width: 60%;
+  max-width: 150px;
   margin-left: 12px;
   div {
     margin: 0px;

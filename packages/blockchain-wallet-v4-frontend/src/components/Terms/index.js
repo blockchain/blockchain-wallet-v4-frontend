@@ -1,4 +1,4 @@
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -126,6 +126,42 @@ const Terms = props => {
               defaultMessage='Privacy Policy.'
             />
           </Link>
+        </TermsContainer>
+      )
+    case 'blockchain-loan-agreement':
+      return (
+        <TermsContainer>
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedMessage
+              id='scenes.borrow.terms.read'
+              defaultMessage='I have read and agreed to the'
+            />
+          </Text>
+          <span>&nbsp;</span>
+          <Link
+            href='https://www.blockchain.com/legal/terms'
+            target='_blank'
+            size='13px'
+            weight={500}
+            data-e2e='blockchainTermsLink'
+          >
+            <FormattedMessage
+              id='scenes.borrow.terms.default.user'
+              defaultMessage='User Agreement'
+            />
+          </Link>
+        </TermsContainer>
+      )
+    case 'blockchain-loan-transfer':
+      return (
+        <TermsContainer>
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read'
+              defaultMessage='By accepting this, you agree to transfer <b>{amount}</b> from your wallet to Blockchain.com. The BTC amount will be returned after the loan is repaid in full.'
+              values={{ amount: props.amount }}
+            />
+          </Text>
         </TermsContainer>
       )
     default:
