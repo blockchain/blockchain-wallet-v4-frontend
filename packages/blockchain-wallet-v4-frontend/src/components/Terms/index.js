@@ -200,8 +200,8 @@ const Terms = props => {
             data-e2e='blockchainTermsLink'
           >
             <FormattedMessage
-              id='scenes.borrow.terms.default.loan'
-              defaultMessage='Loan Agreement'
+              id='scenes.borrow.terms.default.user'
+              defaultMessage='User Agreement'
             />
           </Link>
         </TermsContainer>

@@ -1,12 +1,15 @@
 import { BorrowFormValuesType } from 'data/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { CheckBox, Form, FormItem } from 'components/Form'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
 import React from 'react'
@@ -20,7 +23,7 @@ const CustomForm = styled(Form)`
 `
 
 const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0px;
+  height: 100%;
 `
 
 const TopText = styled(Text)`
@@ -33,7 +36,21 @@ const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+`
+
+const TermsContainer = styled.div`
+  padding-top: 40px;
+  border-top: 1px solid ${props => props.theme.grey100};
+`
+
+const BasicTerms = styled(Text)`
+  font-weight: 500;
+  line-height: 28px;
+  margin: 40px 0;
+  color: ${props => props.theme.grey600};
+  b {
+    color: ${props => props.theme.grey800};
+  }
 `
 
 const ErrorText = styled(Text)`
@@ -73,6 +90,24 @@ type Props = OwnProps &
   FormProps
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const principalAmt = fiatToString({
+    value: props.values ? Number(props.values.principal) : 0,
+    unit: { symbol: '$' }
+  })
+
+  const collateralAmt = coinToString({
+    value: props.values
+      ? props.values.principal
+        ? (Number(props.values.principal) /
+            (props.rates[props.offer.terms.principalCcy]
+              ? props.rates[props.offer.terms.principalCcy].last
+              : props.rates['USD'].last)) *
+          props.offer.terms.collateralRatio
+        : 0
+      : 0,
+    unit: { symbol: props.offer.terms.collateralCcy }
+  })
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
@@ -95,7 +130,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Confirm Loan'
           />
         </TopText>
-        <div>
+        <BasicTerms>
+          <FormattedHTMLMessage
+            id='modals.borrow.basicterms'
+            defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using <b>{collateralAmt}</b> as your collateral.'
+            values={{
+              principalAmt,
+              collateralAmt
+            }}
+          />
+        </BasicTerms>
+        <TermsContainer>
           <TermsFormItem>
             <Field
               name='blockchain-loan-agreement'
@@ -117,23 +162,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <Terms
                 company='blockchain-loan-transfer'
-                amount={coinToString({
-                  value: props.values
-                    ? props.values.principal
-                      ? (Number(props.values.principal) /
-                          (props.rates[props.offer.terms.principalCcy]
-                            ? props.rates[props.offer.terms.principalCcy].last
-                            : props.rates['USD'].last)) *
-                        props.offer.terms.collateralRatio
-                      : 0
-                    : 0,
-                  unit: { symbol: props.offer.terms.collateralCcy }
-                })}
+                amount={collateralAmt}
               />
             </Field>
           </TermsFormItem>
-        </div>
-        <div />
+        </TermsContainer>
       </Top>
       <Bottom>
         {props.error && (
