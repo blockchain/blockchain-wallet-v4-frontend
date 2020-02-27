@@ -5,10 +5,9 @@ import {
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FormattedMessage } from 'react-intl'
-import { model } from 'data'
 import { OfferType } from 'core/types'
 import { TableRow, Title, Value } from 'components/Borrow'
-import { Text } from 'blockchain-info-components'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -25,12 +24,8 @@ const Table = styled.div`
   margin-top: 16px;
 `
 
-const { fiatDisplayName } = model.components.borrow
-
 const Summary: React.FC<Props> = props => {
-  const fiatName = fiatDisplayName(props.offer.terms.principalCcy)
   const principalDisplayName = props.displayName
-  const rate = props.rates[fiatName].last
 
   if (!props.values) return null
 
@@ -53,14 +48,6 @@ const Summary: React.FC<Props> = props => {
         </TableRow>
         <TableRow>
           <Title>
-            {props.offer.terms.collateralCcy} to {fiatName} Rate
-          </Title>
-          <Value>
-            {formatFiat(rate)} {fiatName}
-          </Value>
-        </TableRow>
-        <TableRow>
-          <Title>
             <FormattedMessage
               id='modals.borrow.summary.intrateandamount'
               defaultMessage='Interest Rate'
@@ -74,6 +61,9 @@ const Summary: React.FC<Props> = props => {
               id='modals.borrow.summary.collateral'
               defaultMessage='Collateral'
             />
+            <TooltipHost id='borrow.collateral.tooltip'>
+              <TooltipIcon name='question-in-circle-filled' />
+            </TooltipHost>
           </Title>
           <Value>
             {coinToString({
@@ -91,24 +81,6 @@ const Summary: React.FC<Props> = props => {
             })}
             )
           </Value>
-        </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.summary.collateralization'
-              defaultMessage='Collateralization'
-            />
-          </Title>
-          <Value>{(props.offer.terms.collateralRatio * 100).toFixed(0)}%</Value>
-        </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.summary.loanterm'
-              defaultMessage='Loan Term'
-            />
-          </Title>
-          <Value>{props.offer.terms.format}</Value>
         </TableRow>
       </Table>
     </div>

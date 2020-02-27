@@ -29,12 +29,12 @@ export const Status = (props: LoanType) => {
       return <OrangeValue>Pending</OrangeValue>
     case 'PENDING_PRINCIPAL_WITHDRAW':
       return <OrangeValue>Pending Principal</OrangeValue>
+    case 'PENDING_CLOSE':
+      return <OrangeValue>Repayment in-progress</OrangeValue>
     case 'ON_CALL':
       return <Value>On Call</Value>
     case 'CLOSED':
       return <Value>Closed</Value>
-    case 'PENDING_CLOSE':
-      return <Value>Pending Close</Value>
     case 'LIQUIDATED':
       return <RedValue>Liquidated</RedValue>
     case 'FAILED':
