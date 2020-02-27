@@ -155,6 +155,7 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
+    | { offer: OfferType; step: 'CONFIRM' }
     | {
         loan: LoanType
         offer: OfferType
@@ -163,7 +164,7 @@ export const setStep = (
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:
-    payload.step === 'CHECKOUT'
+    payload.step === 'CHECKOUT' || payload.step === 'CONFIRM'
       ? {
           step: payload.step,
           offer: payload.offer

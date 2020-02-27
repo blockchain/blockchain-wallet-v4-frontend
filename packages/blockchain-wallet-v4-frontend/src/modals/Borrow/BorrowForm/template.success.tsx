@@ -1,11 +1,10 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { CheckBox, Form, FormItem, FormLabel, NumberBox } from 'components/Form'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
@@ -15,7 +14,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
-import Terms from 'components/Terms'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -77,15 +75,6 @@ const FiatContainer = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-const TermsFormItem = styled(FormItem)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  .Container {
-    height: auto;
-  }
-`
-
 const ErrorText = styled(Text)`
   display: inline-flex;
   font-weight: 500;
@@ -111,14 +100,17 @@ type LinkStatePropsType = {
   values?: BorrowFormValuesType
 }
 
+type FormProps = {
+  onSubmit: () => void
+}
+
 export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType &
-  LinkStatePropsType
+  LinkStatePropsType &
+  FormProps
 
-const checkboxShouldBeChecked = value => (value ? undefined : true)
-
-const Success: React.FC<InjectedFormProps & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
 
@@ -212,87 +204,47 @@ const Success: React.FC<InjectedFormProps & Props> = props => {
             collateral={0}
             displayName={displayName}
           />
-          <div>
-            <TermsFormItem>
-              <Field
-                name='blockchain-loan-agreement'
-                validate={[checkboxShouldBeChecked]}
-                component={CheckBox}
-                hideErrors
-                data-e2e='blockchain-loan-agreement'
-              >
-                <Terms company='blockchain-loan-agreement' />
-              </Field>
-            </TermsFormItem>
-            <TermsFormItem>
-              <Field
-                name='blockchain-loan-transfer'
-                validate={[checkboxShouldBeChecked]}
-                component={CheckBox}
-                hideErrors
-                data-e2e='blockchain-loan-transfer'
-              >
-                <Terms
-                  company='blockchain-loan-transfer'
-                  amount={coinToString({
-                    value: props.values
-                      ? props.values.principal
-                        ? (Number(props.values.principal) /
-                            (props.rates[props.offer.terms.principalCcy]
-                              ? props.rates[props.offer.terms.principalCcy].last
-                              : props.rates['USD'].last)) *
-                          props.offer.terms.collateralRatio
-                        : 0
-                      : 0,
-                    unit: { symbol: props.offer.terms.collateralCcy }
-                  })}
+          {props.error && (
+            <ErrorText>
+              <Icon
+                name='alert-filled'
+                color='red600'
+                style={{ marginRight: '4px' }}
+              />
+              Error: {props.error}
+            </ErrorText>
+          )}
+          <ButtonContainer>
+            <Button
+              nature='empty'
+              data-e2e='borrowCancel'
+              onClick={props.handleClose}
+            >
+              <Text size='16px' weight={600} color='blue600'>
+                <FormattedMessage
+                  id='modals.borrow.collateralform.cancel'
+                  defaultMessage='Cancel'
                 />
-              </Field>
-            </TermsFormItem>
-          </div>
-          <div>
-            {props.error && (
-              <ErrorText>
-                <Icon
-                  name='alert-filled'
-                  color='red600'
-                  style={{ marginRight: '4px' }}
-                />
-                Error: {props.error}
-              </ErrorText>
-            )}
-            <ButtonContainer>
-              <Button
-                nature='empty'
-                data-e2e='borrowCancel'
-                onClick={props.handleClose}
-              >
-                <Text size='16px' weight={600} color='blue600'>
+              </Text>
+            </Button>
+            <Button
+              nature='primary'
+              type='submit'
+              data-e2e='borrowSubmit'
+              disabled={props.submitting || props.invalid}
+            >
+              {props.submitting ? (
+                <HeartbeatLoader height='16px' width='16px' color='white' />
+              ) : (
+                <Text size='16px' weight={600} color='white'>
                   <FormattedMessage
-                    id='modals.borrow.collateralform.cancel'
-                    defaultMessage='Cancel'
+                    id='modals.borrow.collateralform.create'
+                    defaultMessage='Create Loan'
                   />
                 </Text>
-              </Button>
-              <Button
-                nature='primary'
-                type='submit'
-                data-e2e='borrowSubmit'
-                disabled={props.submitting || props.invalid}
-              >
-                {props.submitting ? (
-                  <HeartbeatLoader height='16px' width='16px' color='white' />
-                ) : (
-                  <Text size='16px' weight={600} color='white'>
-                    <FormattedMessage
-                      id='modals.borrow.collateralform.create'
-                      defaultMessage='Create Loan'
-                    />
-                  </Text>
-                )}
-              </Button>
-            </ButtonContainer>
-          </div>
+              )}
+            </Button>
+          </ButtonContainer>
         </>
       </Bottom>
     </CustomForm>
@@ -303,9 +255,9 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
-const enhance = compose<any>(
-  reduxForm({ form: 'borrowForm', destroyOnUnmount: false }),
+const enhance = compose(
+  reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
 
-export default enhance(Success)
+export default enhance(Success) as React.FunctionComponent<Props>

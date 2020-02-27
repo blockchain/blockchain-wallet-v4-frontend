@@ -26,8 +26,9 @@ export type BorrowMinMaxType = {
   minFiat: number
 }
 
-export enum BORROW_STEPS {
+export enum BorrowSteps {
   'CHECKOUT',
+  'CONFIRM',
   'DETAILS',
   'ADD_COLLATERAL',
   'REPAY_LOAN'
@@ -106,7 +107,7 @@ export interface BorrowState {
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
-  step: keyof typeof BORROW_STEPS
+  step: keyof typeof BorrowSteps
 }
 
 // Actions
@@ -208,7 +209,7 @@ interface SetStepAction {
   payload:
     | {
         offer?: OfferType
-        step: 'CHECKOUT'
+        step: 'CHECKOUT' | 'CONFIRM'
       }
     | {
         loan: LoanType

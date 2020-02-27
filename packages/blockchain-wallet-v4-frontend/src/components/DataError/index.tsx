@@ -23,7 +23,10 @@ const Header = styled(Text)`
   margin-bottom: 20px;
 `
 
-const DataErrorContainer = props => {
+const DataError = (props: {
+  message?: { message: string | Error }
+  onClick?: () => void
+}) => {
   return (
     <Wrapper>
       <Empty>
@@ -40,4 +43,4 @@ const DataErrorContainer = props => {
   )
 }
 
-export default DataErrorContainer
+export default DataError

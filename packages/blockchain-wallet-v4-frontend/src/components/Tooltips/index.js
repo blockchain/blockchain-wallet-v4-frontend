@@ -339,6 +339,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This amount does not include the required collateral network fee.'
           />
         </Tooltip>
+        <Tooltip id='borrow.collateral.tooltip'>
+          <FormattedMessage
+            id='borrow.collateral.tooltip.description'
+            defaultMessage='The amount you need to deposit to open this loan.'
+          />
+        </Tooltip>
         <Tooltip id='coming-soon'>
           <FormattedMessage
             id='tooltip.comingsoon'

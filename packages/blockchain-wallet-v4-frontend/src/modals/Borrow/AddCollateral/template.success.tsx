@@ -106,13 +106,18 @@ type LinkStatePropsType = {
   values?: BorrowFormValuesType
 }
 
+type FormProps = {
+  onSubmit: () => void
+}
+
 export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType &
   LinkStatePropsType &
+  FormProps &
   State & { onCopyAddress: () => void; onToggleQrCode: () => void }
 
-const Success: React.FC<InjectedFormProps & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
@@ -300,9 +305,9 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
-const enhance = compose<any>(
-  reduxForm({ form: 'borrowForm', destroyOnUnmount: false }),
+const enhance = compose(
+  reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
 
-export default enhance(Success)
+export default enhance(Success) as React.FunctionComponent<Props>

@@ -97,12 +97,17 @@ type LinkStatePropsType = {
   values?: RepayLoanFormType
 }
 
+type FormProps = {
+  onSubmit: () => void
+}
+
 export type Props = OwnProps &
   SuccessStateType &
   LinkDispatchPropsType &
-  LinkStatePropsType
+  LinkStatePropsType &
+  FormProps
 
-const Success: React.FC<InjectedFormProps & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
   const collateralSatoshi = Exchange.convertBtcToBtc({
@@ -283,9 +288,9 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
-const enhance = compose<any>(
-  reduxForm({ form: 'repayLoanForm', destroyOnUnmount: false }),
+const enhance = compose(
+  reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
 
-export default enhance(Success)
+export default enhance(Success) as React.FunctionComponent<Props>
