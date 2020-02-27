@@ -1,7 +1,35 @@
 import { CoinType } from 'core/types'
-import { LoanType, OfferType } from './types'
+import { LoanType, MoneyType, OfferType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+  const closeLoanWithPrincipal = (
+    loan: LoanType,
+    collateralWithdrawAddresses: { [key in CoinType]?: string }
+  ): { loan: LoanType } =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/user/loans/${loan.loanId}/close_with_principal`,
+      data: {
+        collateralWithdrawAddresses
+      }
+    })
+
+  const createLoan = (
+    offerId: string,
+    principalAmount: MoneyType,
+    principalWithdrawAddresses: { [key in CoinType]?: string }
+  ): { loan: LoanType } =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/user/loans',
+      contentType: 'application/json',
+      data: {
+        offerId,
+        principalAmount,
+        principalWithdrawAddresses
+      }
+    })
+
   const getLoanFinancials = (loanId: string) =>
     authorizedGet({
       url: nabuUrl,
@@ -20,39 +48,30 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: '/user/loans'
     })
 
-  const closeLoanWithPrincipal = (
-    loan: LoanType,
-    collateralWithdrawAddresses: { [key in CoinType]?: string }
+  const notifyLoanDeposit = (
+    loanId: string,
+    amount: MoneyType,
+    dstAddress: string,
+    status: 'REQUESTED' | 'FAILED',
+    type: 'COLLATERAL_DEPOSIT' | 'PRINCIPAL_DEPOSIT'
   ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: `/user/loans/${loan.loanId}/close_with_principal`,
+      endPoint: `/users/loans/${loanId}/deposit`,
       data: {
-        collateralWithdrawAddresses
-      }
-    })
-
-  const createLoan = (
-    offerId: string,
-    principalAmount: { symbol: CoinType; value: string },
-    principalWithdrawAddresses: { [key in CoinType]?: string }
-  ): { loan: LoanType } =>
-    authorizedPost({
-      url: nabuUrl,
-      endPoint: '/user/loans',
-      contentType: 'application/json',
-      data: {
-        offerId,
-        principalAmount,
-        principalWithdrawAddresses
+        amount,
+        dstAddress,
+        status,
+        type
       }
     })
 
   return {
+    closeLoanWithPrincipal,
+    createLoan,
     getLoanFinancials,
     getOffers,
     getUserBorrowHistory,
-    closeLoanWithPrincipal,
-    createLoan
+    notifyLoanDeposit
   }
 }

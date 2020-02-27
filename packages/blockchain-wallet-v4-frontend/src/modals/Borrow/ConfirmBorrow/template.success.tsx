@@ -190,8 +190,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           ) : (
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id='modals.borrow.collateralform.continue'
-                defaultMessage='Continue'
+                id='modals.borrow.confirm.create'
+                defaultMessage='Create Loan'
               />
             </Text>
           )}
