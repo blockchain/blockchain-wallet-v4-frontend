@@ -9,6 +9,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     authorizedPost({
       url: nabuUrl,
       endPoint: `/user/loans/${loan.loanId}/close_with_principal`,
+      contentType: 'application/json',
       data: {
         collateralWithdrawAddresses
       }
