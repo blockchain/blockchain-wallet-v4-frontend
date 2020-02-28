@@ -1,8 +1,8 @@
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
-
-import { Link, Text } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
   & > * {
@@ -157,10 +157,37 @@ const Terms = props => {
         <TermsContainer>
           <Text size='13px' weight={500} color='grey600'>
             <FormattedHTMLMessage
-              id='scenes.borrow.transferterms.read'
-              defaultMessage='By accepting this, you agree to transfer <b>{amount}</b> from your wallet to Blockchain.com. The BTC amount will be returned after the loan is repaid in full.'
-              values={{ amount: props.amount }}
+              id='scenes.borrow.transferterms.read1'
+              defaultMessage='By accepting this, you agree to transfer'
             />
+          </Text>{' '}
+          <CoinDisplay
+            coin={props.coin}
+            size='13px'
+            color='grey700'
+            weight={600}
+          >
+            {props.total}
+          </CoinDisplay>{' '}
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read2'
+              defaultMessage='from your wallet to Blockchain.com. Your'
+            />
+          </Text>{' '}
+          <CoinDisplay
+            coin={props.coin}
+            size='13px'
+            color='grey700'
+            weight={600}
+          >
+            {props.collateralAmt}
+          </CoinDisplay>{' '}
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read3'
+              defaultMessage='collateral will be returned after your loan has been repaid minus any accrued interest and fees.'
+            />{' '}
           </Text>
         </TermsContainer>
       )

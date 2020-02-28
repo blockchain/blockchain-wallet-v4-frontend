@@ -22,7 +22,7 @@ export type LoanType = {
   }
   collateralisationRatio: number
   expiration: Date
-  financials: RemoteDataType<NabuApiErrorType, LoanFinancialsType>
+  financials?: LoanFinancialsType
   loanId: string
   offerId: string
   openedAt: string
