@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { BorrowActionTypes, BorrowMinMaxType } from './types'
+import { BorrowActionTypes, BorrowMinMaxType, PaymentValue } from './types'
 import {
   CoinType,
   LoanFinancialsType,
@@ -118,7 +118,9 @@ export const setPaymentLoading = (): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_LOADING
 })
 
-export const setPaymentSuccess = (payment): BorrowActionTypes => ({
+export const setPaymentSuccess = (
+  payment: PaymentValue
+): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
     payment

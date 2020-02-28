@@ -12,6 +12,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
@@ -50,6 +51,9 @@ const BasicTerms = styled(Text)`
   color: ${props => props.theme.grey600};
   b {
     color: ${props => props.theme.grey800};
+  }
+  * {
+    display: inline;
   }
 `
 
@@ -95,18 +99,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     unit: { symbol: '$' }
   })
 
-  const collateralAmt = coinToString({
-    value: props.values
-      ? props.values.principal
-        ? (Number(props.values.principal) /
-            (props.rates[props.offer.terms.principalCcy]
-              ? props.rates[props.offer.terms.principalCcy].last
-              : props.rates['USD'].last)) *
-          props.offer.terms.collateralRatio
-        : 0
-      : 0,
-    unit: { symbol: props.offer.terms.collateralCcy }
-  })
+  const collateralAmt = props.payment.amount.reduce((x, y) => x + y)
+
+  const networkFee = props.payment.selection ? props.payment.selection.fee : 0
+
+  const total = collateralAmt + networkFee
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -132,13 +129,30 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </TopText>
         <BasicTerms>
           <FormattedHTMLMessage
-            id='modals.borrow.basicterms'
-            defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using <b>{collateralAmt}</b> as your collateral.'
+            id='modals.borrow.basicterms1'
+            defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using'
             values={{
-              principalAmt,
-              collateralAmt
+              principalAmt
             }}
-          />
+          />{' '}
+          <CoinDisplay
+            coin={props.offer.terms.collateralCcy}
+            color='grey800'
+            weight={600}
+          >
+            {collateralAmt}
+          </CoinDisplay>
+          <FormattedMessage
+            id='modals.borrow.basicterms2'
+            defaultMessage='as your collateral. The network fee to send your collateral is'
+          />{' '}
+          <CoinDisplay
+            coin={props.offer.terms.collateralCcy}
+            color='grey800'
+            weight={600}
+          >
+            {networkFee}
+          </CoinDisplay>
         </BasicTerms>
         <TermsContainer>
           <TermsFormItem>
@@ -162,7 +176,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <Terms
                 company='blockchain-loan-transfer'
-                amount={collateralAmt}
+                total={total}
+                collateralAmt={collateralAmt}
+                coin={props.offer.terms.collateralCcy}
               />
             </Field>
           </TermsFormItem>

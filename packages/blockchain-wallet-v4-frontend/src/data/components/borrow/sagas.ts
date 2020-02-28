@@ -4,7 +4,18 @@ import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, PaymentType, RepayLoanFormType } from './types'
+import {
+  BorrowFormValuesType,
+  PaymentType,
+  PaymentValue,
+  RepayLoanFormType
+} from './types'
+import {
+  CoinType,
+  LoanFinancialsType,
+  LoanType,
+  RemoteDataType
+} from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatDisplayName,
@@ -15,10 +26,9 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { LoanFinancialsType, LoanType } from 'core/types'
-
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
+import exchangeSagaUtils from '../exchange/sagas.utils'
 import profileSagas from '../../../data/modules/profile/sagas'
 
 export default ({
@@ -32,6 +42,8 @@ export default ({
 }) => {
   const waitForUserData = profileSagas({ api, coreSagas, networks })
     .waitForUserData
+  const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
+    .calculateProvisionalPayment
 
   const errorHandler = e => {
     return typeof e === 'object'
@@ -47,17 +59,15 @@ export default ({
     try {
       yield put(actions.form.startSubmit('borrowForm'))
       const paymentR = S.getPayment(yield select())
-      let payment: PaymentType = coreSagas.payment.btc.create({
-        payment: paymentR.getOrElse(<PaymentType>{}),
-        network: networks.btc
-      })
+
+      const coin = S.getCoinType(yield select())
+      let payment = _toRawPayment(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
 
       const loan = S.getLoan(yield select())
       const offer = S.getOffer(yield select())
-      const coin = S.getCoinType(yield select())
 
       if (!offer) throw new Error(NO_OFFER_EXISTS)
       if (!loan) throw new Error(NO_LOAN_EXISTS)
@@ -100,18 +110,15 @@ export default ({
   const createBorrow = function * () {
     try {
       yield put(actions.form.startSubmit('borrowForm'))
+      const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      // TODO: Borrow - make dynamic
-      let payment: PaymentType = coreSagas.payment.btc.create({
-        payment: paymentR.getOrElse(<PaymentType>{}),
-        network: networks.btc
-      })
+      let payment = _toRawPayment(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
 
       const offer = S.getOffer(yield select())
-      const coin = S.getCoinType(yield select())
+
       if (!offer) throw new Error(NO_OFFER_EXISTS)
 
       // TODO: Borrow - make dynamic
@@ -260,6 +267,25 @@ export default ({
     return payment
   }
 
+  const _toRawPayment = (
+    coin: CoinType,
+    paymentR: RemoteDataType<string | Error, PaymentValue>
+  ): PaymentType => {
+    switch (coin) {
+      case 'ETH':
+        return coreSagas.payment.eth.create({
+          payment: paymentR.getOrElse(<PaymentType>{}),
+          network: networks.eth
+        })
+      default: {
+        return coreSagas.payment.btc.create({
+          payment: paymentR.getOrElse(<PaymentType>{}),
+          network: networks.btc
+        })
+      }
+    }
+  }
+
   const destroyBorrow = function * () {
     yield put(actions.form.destroy('borrowForm'))
   }
@@ -301,28 +327,34 @@ export default ({
   const formChanged = function * (action: FormAction) {
     const form = action.meta.form
     if (form !== 'borrowForm') return
-    const coin = S.getCoinType(yield select())
     const offer = S.getOffer(yield select())
     if (!offer) return
+    const coin = S.getCoinType(yield select())
     const ratesR = S.getRates(yield select())
     const rates = ratesR.getOrElse({})
     const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
-    let payment
+    const paymentR = S.getPayment(yield select())
+    let payment = _toRawPayment(coin, paymentR)
+    const values: BorrowFormValuesType = yield select(
+      selectors.form.getFormValues('borrowForm')
+    )
 
     switch (action.meta.field) {
       case 'principal':
         const principal = Number(action.payload)
         const c = (principal / rate) * offer.terms.collateralRatio
         yield put(actions.form.change('borrowForm', 'collateralCryptoAmt', c))
+        let provisionalPayment: PaymentValue = yield call(
+          calculateProvisionalPayment,
+          values.collateral,
+          c
+        )
+        yield put(A.setPaymentSuccess(provisionalPayment))
         break
       case 'collateral':
         yield put(A.setPaymentLoading())
-        switch (coin) {
-          case 'BTC':
-            payment = yield call(_createPayment, action.payload.index)
-        }
+        payment = yield call(_createPayment, action.payload.index)
         yield call(_createLimits, payment)
-
         yield put(A.setPaymentSuccess(payment.value()))
     }
   }

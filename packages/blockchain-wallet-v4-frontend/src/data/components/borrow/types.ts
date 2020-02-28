@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 import {
+  AccountTypes,
   CoinType,
-  LoanFinancialsType,
   LoanType,
   NabuApiErrorType,
   OfferType,
@@ -12,7 +12,7 @@ import {
 
 export type BorrowFormValuesType = {
   additionalCollateral?: string
-  collateral: any
+  collateral: AccountTypes
   collateralCryptoAmt?: number
   maxCollateral?: number
   offer: OfferType
@@ -74,9 +74,8 @@ export type FromType =
   | 'LOCKBOX'
   | 'ADDRESS'
 
-export type PaymentType = {
-  amount: (n: number | string) => PaymentType
-  build: () => PaymentType
+export type PaymentValue = {
+  amount: Array<number>
   change: string
   coins: Array<UTXOType>
   effectiveBalance: number
@@ -92,10 +91,21 @@ export type PaymentType = {
   from: Array<string>
   fromAccountIdx: number
   fromType: FromType
+  selection?: {
+    fee: number
+    inputs: Array<UTXOType>
+    outputs: Array<UTXOType>
+  }
+  to?: Array<any>
+}
+
+export type PaymentType = {
+  amount: (n: number | string) => PaymentType
+  build: () => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
   to: (address: string, addressType?: FromType) => PaymentType
-  value: () => PaymentType
+  value: () => PaymentValue
 }
 
 // State
@@ -106,7 +116,7 @@ export interface BorrowState {
   loan?: LoanType
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
-  payment: RemoteDataType<string | Error, PaymentType>
+  payment: RemoteDataType<string | Error, PaymentValue>
   step: keyof typeof BorrowSteps
 }
 
@@ -184,7 +194,7 @@ interface SetPaymentLoadingAction {
 
 interface SetPaymentSuccessAction {
   payload: {
-    payment: PaymentType
+    payment: PaymentValue
   }
   type: typeof AT.SET_PAYMENT_SUCCESS
 }
