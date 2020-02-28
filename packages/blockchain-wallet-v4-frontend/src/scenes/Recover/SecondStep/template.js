@@ -77,7 +77,6 @@ const SecondStep = props => {
           </FormLabel>
           <Field
             bgColor='grey000'
-            borderNone
             name='email'
             validate={[required, validEmail]}
             component={TextBox}
@@ -92,7 +91,6 @@ const SecondStep = props => {
           </FormLabel>
           <Field
             bgColor='grey000'
-            borderNone
             name='password'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
@@ -111,7 +109,6 @@ const SecondStep = props => {
           </FormLabel>
           <Field
             bgColor='grey000'
-            borderNone
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
             component={PasswordBox}

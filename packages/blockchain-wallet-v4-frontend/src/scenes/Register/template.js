@@ -131,7 +131,6 @@ const Register = ({
                 name='email'
                 autoFocus
                 bgColor='grey000'
-                borderNone
                 validate={[required, validEmail]}
                 component={TextBox}
                 disabled={!isSupportedBrowser}
@@ -149,7 +148,6 @@ const Register = ({
               </FormLabel>
               <Field
                 bgColor='grey000'
-                borderNone
                 component={PasswordBox}
                 disabled={!isSupportedBrowser}
                 data-e2e='signupPassword'
@@ -194,7 +192,6 @@ const Register = ({
               </FormLabel>
               <Field
                 bgColor='grey000'
-                borderNone
                 name='confirmationPassword'
                 validate={[required, validatePasswordConfirmation]}
                 component={PasswordBox}

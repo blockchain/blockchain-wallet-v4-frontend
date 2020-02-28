@@ -175,7 +175,7 @@ const FirstStep = props => {
                 />
                 <QRCodeCapture
                   scanType='bchAddress'
-                  border={['top', 'bottom', 'right']}
+                  border={['top', 'bottom', 'right', 'left']}
                 />
               </>
             ) : (

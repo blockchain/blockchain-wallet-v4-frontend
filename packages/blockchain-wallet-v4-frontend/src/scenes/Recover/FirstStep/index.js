@@ -70,7 +70,6 @@ const FirstStep = props => {
             </Text>
             <Field
               bgColor='grey000'
-              borderNone
               autoComplete='off'
               autoFocus
               component={TextBox}

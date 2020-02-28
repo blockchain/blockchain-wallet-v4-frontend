@@ -152,9 +152,6 @@ const Login = props => {
                 />
               </FormLabel>
               <Field
-                bgColor='grey000'
-                borderNone
-                borderColor={guidError ? 'invalid' : undefined}
                 component={TextBox}
                 data-e2e='loginGuid'
                 disabled={!isSupportedBrowser}
@@ -239,12 +236,9 @@ const Login = props => {
                 />
               </FormLabel>
               <Field
-                bgColor='grey000'
-                borderNone
                 name='password'
                 validate={[required]}
                 component={PasswordBox}
-                borderColor={passwordError ? 'invalid' : undefined}
                 disabled={!isSupportedBrowser}
                 data-e2e='loginPassword'
               />
@@ -300,7 +294,6 @@ const Login = props => {
                   component={authType === 1 ? PasswordBox : TextBox}
                   noLastPass
                   autoFocus
-                  borderColor={twoFactorError ? 'invalid' : undefined}
                   data-e2e='loginTwoFactorCode'
                 />
                 {authType === 5 && (
