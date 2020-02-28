@@ -94,10 +94,6 @@ const StyledCreatableSelect = styled(CreatableSelect)`
         background-color: ${theme.white};
         border: 1px solid ${theme[focusedBorderColor]};
       }
-      &:hover{
-        background-color: ${theme.white};
-        border: 1px solid ${theme[focusedBorderColor]};
-      }
       &:disabled {
         cursor: not-allowed;
         background-color: ${theme['gray-1']};

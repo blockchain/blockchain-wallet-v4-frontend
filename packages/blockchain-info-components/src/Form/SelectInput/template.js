@@ -74,11 +74,6 @@ const StyledSelect = styled(Select)`
       border: 1px solid
         ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
-    &:hover {
-      background-color: ${({ theme }) => theme.white};
-      border: 1px solid
-        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
-    }
     &:disabled {
       cursor: not-allowed;
       background-color: ${props => props.theme['gray-1']};
