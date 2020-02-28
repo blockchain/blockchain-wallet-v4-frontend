@@ -30,10 +30,6 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class ConfirmBorrow extends PureComponent<Props> {
   state = {}
 
-  componentWillUnmount () {
-    this.props.borrowActions.destroy()
-  }
-
   handleSubmit = () => {
     this.props.borrowActions.createBorrow()
   }
