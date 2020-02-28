@@ -36,24 +36,24 @@ export const coinifySetProfileBuySell = payload => ({
 })
 
 // SFOX
-export const setSfoxTradesBuySell = payload => ({
-  type: AT.SET_SFOX_TRADES_BUYSELL,
-  payload
-})
-export const setSfoxShutdownHasSeen = () => ({
-  type: AT.SET_SFOX_HAS_SEEN_SHUTDOWN
-})
+// export const setSfoxTradesBuySell = payload => ({
+//   type: AT.SET_SFOX_TRADES_BUYSELL,
+//   payload
+// })
+// export const setSfoxShutdownHasSeen = () => ({
+//   type: AT.SET_SFOX_HAS_SEEN_SHUTDOWN
+// })
 
-export const sfoxSetProfileBuySell = payload => ({
-  type: AT.SFOX_SET_PROFILE_BUYSELL,
-  payload
-})
-export const sfoxSetJumioToken = payload => ({
-  type: AT.SFOX_SET_JUMIO_TOKEN,
-  payload
-})
-export const sfoxSetPhoneCall = payload => ({
-  type: AT.SFOX_SET_PHONE_CALL,
-  payload
-})
-export const wipeExternalSfox = () => ({ type: AT.WIPE_EXTERNAL_SFOX })
+// export const sfoxSetProfileBuySell = payload => ({
+//   type: AT.SFOX_SET_PROFILE_BUYSELL,
+//   payload
+// })
+// export const sfoxSetJumioToken = payload => ({
+//   type: AT.SFOX_SET_JUMIO_TOKEN,
+//   payload
+// })
+// export const sfoxSetPhoneCall = payload => ({
+//   type: AT.SFOX_SET_PHONE_CALL,
+//   payload
+// })
+// export const wipeExternalSfox = () => ({ type: AT.WIPE_EXTERNAL_SFOX })

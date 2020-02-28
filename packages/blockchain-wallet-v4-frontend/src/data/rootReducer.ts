@@ -15,7 +15,6 @@ import qaReducer from './modules/qa/reducers'
 import ratesReducer from './modules/rates/reducers'
 import sessionReducer from './session/reducers'
 import settingsReducer from './modules/settings/reducers'
-import sfoxSignupReducer from './modules/sfox/reducers'
 import wizardReducer from './wizard/reducers'
 
 const rootReducer = {
@@ -34,7 +33,6 @@ const rootReducer = {
   session: sessionReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
-  sfoxSignup: sfoxSignupReducer,
   qa: qaReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,

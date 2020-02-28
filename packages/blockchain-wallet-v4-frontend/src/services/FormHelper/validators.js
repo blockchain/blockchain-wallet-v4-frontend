@@ -1,5 +1,5 @@
 import * as M from './validationMessages'
-import { all, any, concat, equals, path, prop, propOr, takeWhile } from 'ramda'
+import { all, any, equals, path, prop, propOr, takeWhile } from 'ramda'
 import {
   isAlphaNumeric,
   isDOB,
@@ -200,7 +200,6 @@ export const countryUsesZipcode = countryCode => countryCode === 'US'
 
 export const requiredZipCode = (value, allVals) => {
   const countryCode = path(['country', 'code'], allVals)
-  // If country does not have a postal code format it's not required
   if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
   if (!value) return <M.RequiredMessage />
 
@@ -220,9 +219,8 @@ export const onPartnerCountryWhitelist = (
 ) => {
   const country = value && takeWhile(x => x !== '-', value)
   const options = path(['options', 'platforms', 'web'], props)
-  const sfoxCountries = path(['sfox', 'countries'], options)
   const coinifyCountries = path(['coinify', 'countries'], options)
-  const allCountries = countries || concat(sfoxCountries, coinifyCountries)
+  const allCountries = countries || coinifyCountries
   return country && allCountries.includes(country) ? (
     undefined
   ) : (
@@ -232,13 +230,7 @@ export const onPartnerCountryWhitelist = (
 
 export const onPartnerStateWhitelist = (value, allValues, props) => {
   const usState = prop('code', value)
-  const options = path(['options', 'platforms', 'web'], props)
-  const sfoxStates = path(['sfox', 'states'], options)
-  return usState && sfoxStates.includes(usState) ? (
-    undefined
-  ) : (
-    <M.PartnerStateWhitelist />
-  )
+  return usState ? undefined : <M.PartnerStateWhitelist />
 }
 
 export const requireUniqueDeviceName = (value, usedDeviceNames) => {
