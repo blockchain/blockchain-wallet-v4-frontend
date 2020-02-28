@@ -230,7 +230,7 @@ const FirstStep = props => {
                 />
                 <QRCodeCapture
                   scanType='btcAddress'
-                  border={['top', 'bottom', 'right']}
+                  border={['top', 'bottom', 'right', 'left']}
                 />
               </React.Fragment>
             ) : (

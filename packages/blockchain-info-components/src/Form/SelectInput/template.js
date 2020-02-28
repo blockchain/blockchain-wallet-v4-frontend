@@ -4,6 +4,14 @@ import React from 'react'
 import Select, { components } from 'react-select'
 import styled from 'styled-components'
 
+import {
+  hasValue,
+  isValid,
+  selectBackgroundColor,
+  selectBorderColor,
+  selectFocusBorderColor
+} from '../helper'
+
 const StyledSelect = styled(Select)`
   font-weight: 500;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -44,17 +52,25 @@ const StyledSelect = styled(Select)`
   .bc__control {
     box-shadow: none;
     color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme.white};
+    background-color: ${({ bgColor, hasValue, isValid, theme }) =>
+      hasValue && isValid ? theme.white : theme[bgColor]};
     cursor: pointer;
     min-height: ${props => props.height};
-    border-radius: 4px;
-    border: 1px solid ${props => props.theme[props.borderColor]};
-    &:hover {
-      border: 1px solid ${props => props.theme[props.borderColor]};
+    border-radius: 8px;
+    border: ${({ borderColor, hasValue, isValid, theme }) =>
+      hasValue && isValid
+        ? `1px solid ${theme[borderColor]}`
+        : '1px solid transparent'};
+
+    & .bc__control--is-focused {
+      background-color: ${({ theme }) => theme.white};
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
-    &:active {
-      border: 1px solid ${props => props.theme[props.borderColor]};
-      box-shadow: none;
+    & .bc__control--menu-is-open {
+      background-color: ${({ theme }) => theme.white};
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
     &:disabled {
       cursor: not-allowed;
@@ -158,19 +174,6 @@ const IndicatorSeparator = props => {
   )
 }
 
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
-
 const SelectInput = props => {
   const {
     className,
@@ -204,11 +207,11 @@ const SelectInput = props => {
   const defaultValue = grouped
     ? head(filter(x => equals(x.value, defaultItem), groupedOptions))
     : head(filter(x => equals(x.value, defaultItem), options))
-  const borderColor = selectBorderColor(errorState)
 
   return (
     <StyledSelect
-      borderColor={borderColor}
+      bgColor={selectBackgroundColor(errorState)}
+      borderColor={selectBorderColor(errorState)}
       className={className}
       classNamePrefix='bc'
       components={{
@@ -218,12 +221,15 @@ const SelectInput = props => {
         DropdownIndicator,
         IndicatorSeparator
       }}
-      height={height}
+      focusedBorderColor={selectFocusBorderColor(errorState)}
       filterOption={filterOption}
+      hasValue={hasValue(defaultValue) && defaultValue}
+      height={height}
       hideFocusedControl={hideFocusedControl}
       hideIndicator={hideIndicator}
       isDisabled={disabled}
       isSearchable={searchEnabled}
+      isValid={isValid(errorState)}
       menuIsOpen={menuIsOpen}
       menuPlacement={menuPlacement}
       onBlur={onBlur}

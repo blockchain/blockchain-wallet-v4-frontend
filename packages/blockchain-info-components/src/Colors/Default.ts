@@ -50,7 +50,7 @@ const Default = {
   orange700: '#D96716',
   orange800: '#B24400',
   orange900: '#8C2F00',
-  red000: '#FAECEB',
+  red000: '#FFECEB',
   red100: '#F5D9D7',
   red200: '#F0C3C0',
   red300: '#F6A7A1',

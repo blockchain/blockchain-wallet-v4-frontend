@@ -161,8 +161,9 @@ export const IdentityVerificationForm = styled(Form)`
   }
   label[for='${props => props.activeField}'] + div {
     .bc__control, input {
+      background-color: ${({ theme }) => theme.white};
       border: 1px solid ${props =>
-        props.activeFieldError ? props.theme.error : props.theme.blue900};
+        props.activeFieldError ? props.theme.error : props.theme.blue600};
     }
   }
 `

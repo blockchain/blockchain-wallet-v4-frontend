@@ -4,6 +4,14 @@ import CreatableSelect from 'react-select/lib/Creatable'
 import React from 'react'
 import styled from 'styled-components'
 
+import {
+  hasValue,
+  isValid,
+  selectBackgroundColor,
+  selectBorderColor,
+  selectFocusBorderColor
+} from '../helper'
+
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;
   font-weight: 500;
@@ -53,33 +61,47 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   }
 
-  ${props =>
-    !props.isMulti &&
+  ${({
+    bgColor,
+    borderColor,
+    focusedBorderColor,
+    hasValue,
+    isMulti,
+    isValid,
+    theme
+  }) =>
+    !isMulti &&
     `
     .bc__control {
       box-shadow: none;
-      color: ${props.theme['gray-5']};
-      background-color: ${props.theme.white};
+      color: ${theme['gray-5']};
+      background-color: ${hasValue && isValid ? theme.white : theme[bgColor]};;
       cursor: pointer;
       min-height: 48px;
       border-radius: 4px;
-      border: 1px solid ${props.theme[props.borderColor]};
-      &:hover {
-        border: 1px solid ${props.theme[props.borderColor]};
+      border: ${
+        hasValue && isValid
+          ? `1px solid ${theme[borderColor]}`
+          : '1px solid transparent'
+      };
+      &.bc__control--is-focused {
+        background-color: ${theme.white};
+        border: 1px solid ${theme[focusedBorderColor]};
       }
-      &:active {
-        border: 1px solid ${props.theme[props.borderColor]};
-        box-shadow: none;
+      &.bc__control--menu-is-open {
+        background-color: ${theme.white};
+        border: 1px solid ${theme[focusedBorderColor]};
       }
       &:disabled {
         cursor: not-allowed;
-        background-color: ${props.theme['gray-1']};
+        background-color: ${theme['gray-1']};
       }
       .bc__value-container {
         overflow: hidden;
       }
     }
 
+    
     .bc__value-container {
       cursor: text;
       > div {
@@ -102,31 +124,31 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     .bc__option {
       cursor: pointer;
       font-size: 14px;
-      color: ${props.theme['gray-5']};
-      background-color: ${props.theme.white};
+      color: ${theme['gray-5']};
+      background-color: ${theme.white};
       &.bc__option--is-focused {
-        background-color: ${props.theme.white};
-        color: ${props.theme.blue900};
+        background-color: ${theme.white};
+        color: ${theme.blue900};
       }
       &.bc__option--is-selected {
-        color: ${props.theme.blue900};
-        background-color: ${props.theme.white};
+        color: ${theme.blue900};
+        background-color: ${theme.white};
         &:hover {
-          color: ${props.theme.blue900};
+          color: ${theme.blue900};
         }
         * {
-          color: ${props.theme.blue900};
+          color: ${theme.blue900};
         }
       }
       &:hover {
-        background-color: ${props.theme.white};
+        background-color: ${theme.white};
         * {
-          color: ${props.theme.blue900};
+          color: ${theme.blue900};
         }
       }
       * {
         font-weight: 500;
-        color: ${props.theme['gray-5']};
+        color: ${theme['gray-5']};
         transition: color 0.3s;
       }
       > div {
@@ -135,7 +157,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
 
     .bc__single-value {
-      color: ${props.theme['gray-5']};
+      color: ${theme['gray-5']};
     }
   `}
 
@@ -147,19 +169,6 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   `}
 `
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 const MultiValueContainer = props => {
   return (
@@ -199,29 +208,32 @@ const CreatableInput = props => {
     value
   } = props
 
-  const borderColor = selectBorderColor(errorState)
   const flatOptions = !isMulti && flatten(options.map(prop('options')))
   const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
     <StyledCreatableSelect
-      isClearable
-      options={options}
-      isMulti={isMulti}
-      borderColor={borderColor}
-      classNamePrefix='bc'
       autoFocus={autoFocus}
+      bgColor={selectBackgroundColor(errorState)}
+      borderColor={selectBorderColor(errorState)}
+      classNamePrefix='bc'
+      components={getComponents(isMulti)}
+      focusedBorderColor={selectFocusBorderColor(errorState)}
+      hasValue={hasValue(value)}
+      indicatorSeparator={null}
+      inputValue={inputValue}
+      isClearable
+      isMulti={isMulti}
+      isOptionsEmpty={isOptionsEmpty}
+      isValid={isValid(errorState)}
       menuIsOpen={menuIsOpen}
       onBlur={handleBlur}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
       onInputChange={handleInputChange}
       openMenuOnClick={openMenuOnClick}
+      options={options}
       placeholder={placeholder}
-      inputValue={inputValue}
-      indicatorSeparator={null}
-      isOptionsEmpty={isOptionsEmpty}
-      components={getComponents(isMulti)}
       value={value}
       // Components
       noOptionsMessage={noOptionsMessage}
