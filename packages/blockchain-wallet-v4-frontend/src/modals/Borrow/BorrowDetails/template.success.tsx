@@ -3,7 +3,6 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import Header from './Header'
 import Info from './Info'
-import NewLoanInfo from './NewLoanInfo'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -20,7 +19,7 @@ export type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Success: React.FC<Props> = props => {
   // debugging
-  // props.loan.status = 'OPEN'
+  // props.loan.status = 'PENDING_CLOSE'
   // props.loan.collateralisationRatio = 1.3
 
   if (!props.offer) return null
@@ -29,12 +28,7 @@ const Success: React.FC<Props> = props => {
     <Wrapper>
       <FlyoutWrapper>
         <Header {...props} />
-        {props.loan.status === 'PENDING_EXECUTION' ||
-        props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
-          <NewLoanInfo {...props} />
-        ) : (
-          <Info {...props} />
-        )}
+        <Info {...props} />
         <Summary {...props} />
       </FlyoutWrapper>
       <FlyoutWrapper style={{ paddingTop: '0px' }}>

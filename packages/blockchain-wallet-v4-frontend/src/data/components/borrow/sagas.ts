@@ -15,7 +15,7 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { LoanType } from 'core/types'
+import { LoanFinancialsType, LoanType } from 'core/types'
 
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
@@ -122,9 +122,7 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
-      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
-
-      const response: { loan: LoanType } = yield call(
+      let response: { loan: LoanType } = yield call(
         api.createLoan,
         offer.id,
         {
@@ -137,20 +135,41 @@ export default ({
       )
 
       const { loan } = response
+      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
+      const destination = loan.collateral.depositAddresses[coin]
 
-      payment = yield payment.amount(Number(amount))
-      payment = yield payment.to(
-        loan.collateral.depositAddresses[coin],
-        ADDRESS_TYPES.ADDRESS
-      )
+      let paymentError
+      try {
+        payment = yield payment.amount(Number(amount))
+        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
 
-      payment = yield payment.build()
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
-      payment = yield payment.sign(password)
-      payment = yield payment.publish()
+        payment = yield payment.build()
+        // ask for second password
+        const password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+      } catch (e) {
+        paymentError = e
+      }
+
+      try {
+        // notifyDeposit if payment from wallet succeeds or fails
+        response = yield call(
+          api.notifyLoanDeposit,
+          loan.loanId,
+          {
+            symbol: offer.terms.collateralCcy,
+            value: amount
+          },
+          destination,
+          paymentError ? 'FAILED' : 'REQUESTED',
+          'COLLATERAL_DEPOSIT'
+        )
+      } catch (e) {
+        // notifyDeposit endpoint failed, do nothing and continue
+      }
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
@@ -249,6 +268,22 @@ export default ({
       yield put(A.fetchBorrowOffersLoading())
       const offers = yield call(api.getOffers)
       yield put(A.fetchBorrowOffersSuccess(offers))
+    } catch (e) {
+      yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
+  const fetchLoanFinancials = function * ({
+    payload
+  }: ReturnType<typeof A.fetchLoanFinancials>) {
+    try {
+      const { loan } = payload
+      yield put(A.fetchLoanFinancialsLoading())
+      const financials: LoanFinancialsType = yield call(
+        api.getLoanFinancials,
+        loan.loanId
+      )
+      yield put(A.fetchLoanFinancialsSuccess(financials))
     } catch (e) {
       yield put(A.fetchBorrowOffersFailure(e))
     }
@@ -400,7 +435,7 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
-      const response: { loan: LoanType } = yield call(
+      let response: { loan: LoanType } = yield call(
         api.closeLoanWithPrincipal,
         loan,
         {
@@ -409,14 +444,37 @@ export default ({
       )
 
       const amount: string = getAmount(Number(values.amount) || 0, coin)
+      const destination = loan.principal.depositAddresses[coin]
 
-      payment = yield payment.amount(amount)
-      payment = yield payment.to(loan.principal.depositAddresses[coin])
-      payment = yield payment.build()
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
-      payment = yield payment.sign(password)
-      payment = yield payment.publish()
+      let paymentError
+      try {
+        payment = yield payment.amount(amount)
+        payment = yield payment.to(destination)
+        payment = yield payment.build()
+        // ask for second password
+        const password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+      } catch (e) {
+        paymentError = e
+      }
+
+      try {
+        // notifyDeposit if payment from wallet succeeds or fails
+        response = yield call(
+          api.notifyLoanDeposit,
+          loan.loanId,
+          {
+            symbol: offer.terms.principalCcy,
+            value: amount
+          },
+          destination,
+          paymentError ? 'FAILED' : 'REQUESTED',
+          'DEPOSIT_PRINCIPAL_AND_INTEREST'
+        )
+      } catch (e) {
+        // notifyDeposit endpoint failed, do nothing and continue
+      }
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
       yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
@@ -432,6 +490,7 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
+    fetchLoanFinancials,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,

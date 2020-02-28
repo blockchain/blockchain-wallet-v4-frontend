@@ -51,6 +51,7 @@ export default () => {
           break
         case contains('/borrow', pathname):
           yield put(actions.components.borrow.fetchUserBorrowHistory())
+          yield put(actions.components.borrow.fetchOffers())
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))

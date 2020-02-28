@@ -45,8 +45,7 @@ const api = ({
     ...borrow({
       nabuUrl,
       authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put
+      authorizedPost: authorizedHttp.post
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coinify({ coinifyUrl, ...http }),
