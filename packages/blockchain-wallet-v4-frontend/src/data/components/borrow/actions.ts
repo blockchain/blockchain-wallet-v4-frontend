@@ -41,33 +41,6 @@ export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
   }
 })
 
-export const fetchLoanFinancials = (loan: LoanType) => ({
-  type: AT.FETCH_LOAN_FINANCIALS,
-  payload: {
-    loan
-  }
-})
-
-export const fetchLoanFinancialsLoading = (): BorrowActionTypes => ({
-  type: AT.FETCH_LOAN_FINANCIALS_LOADING
-})
-
-export const fetchLoanFinancialsFailure = (error): BorrowActionTypes => ({
-  type: AT.FETCH_LOAN_FINANCIALS_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const fetchLoanFinancialsSuccess = (
-  financials: LoanFinancialsType
-): BorrowActionTypes => ({
-  type: AT.FETCH_LOAN_FINANCIALS_SUCCESS,
-  payload: {
-    financials
-  }
-})
-
 export const fetchUserBorrowHistory = () => ({
   type: AT.FETCH_USER_BORROW_HISTORY
 })

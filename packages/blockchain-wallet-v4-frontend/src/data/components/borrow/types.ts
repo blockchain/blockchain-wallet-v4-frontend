@@ -127,22 +127,6 @@ interface FetchBorrowOffersSuccessAction {
   }
   type: typeof AT.FETCH_BORROW_OFFERS_SUCCESS
 }
-interface FetchLoanFinancialsFailureAction {
-  payload: {
-    error: NabuApiErrorType
-  }
-  type: typeof AT.FETCH_LOAN_FINANCIALS_FAILURE
-}
-
-interface FetchLoanFinancialsLoadingAction {
-  type: typeof AT.FETCH_LOAN_FINANCIALS_LOADING
-}
-interface FetchLoanFinancialsSuccessAction {
-  payload: {
-    financials: LoanFinancialsType
-  }
-  type: typeof AT.FETCH_LOAN_FINANCIALS_SUCCESS
-}
 interface FetchUserBorrowHistoryFailureAction {
   payload: {
     error: NabuApiErrorType
@@ -223,9 +207,6 @@ export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
   | FetchBorrowOffersSuccessAction
-  | FetchLoanFinancialsFailureAction
-  | FetchLoanFinancialsLoadingAction
-  | FetchLoanFinancialsSuccessAction
   | FetchUserBorrowHistoryFailureAction
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction

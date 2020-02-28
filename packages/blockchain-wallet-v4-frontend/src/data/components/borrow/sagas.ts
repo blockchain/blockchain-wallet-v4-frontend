@@ -273,29 +273,12 @@ export default ({
     }
   }
 
-  const fetchLoanFinancials = function * ({
-    payload
-  }: ReturnType<typeof A.fetchLoanFinancials>) {
-    try {
-      const { loan } = payload
-      yield put(A.fetchLoanFinancialsLoading())
-      const financials: LoanFinancialsType = yield call(
-        api.getLoanFinancials,
-        loan.loanId
-      )
-      yield put(A.fetchLoanFinancialsSuccess(financials))
-    } catch (e) {
-      yield put(A.fetchBorrowOffersFailure(e))
-    }
-  }
-
   const fetchUserBorrowHistory = function * () {
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
       yield call(waitForUserData)
-      const loans: Array<LoanType> = yield call(api.getUserBorrowHistory)
-      // console.log(loans)
-      yield all(
+      let loans: Array<LoanType> = yield call(api.getUserBorrowHistory)
+      loans = yield all(
         loans.map(function * (loan) {
           const financials: LoanFinancialsType = yield call(
             api.getLoanFinancials,
@@ -308,7 +291,6 @@ export default ({
           }
         })
       )
-      // console.log(loans)
       yield put(A.fetchUserBorrowHistorySuccess(loans))
     } catch (e) {
       yield put(A.fetchUserBorrowHistoryFailure(e))
@@ -505,7 +487,6 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
-    fetchLoanFinancials,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
