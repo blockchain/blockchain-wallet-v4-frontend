@@ -75,7 +75,7 @@ export type FromType =
   | 'ADDRESS'
 
 export type PaymentValue = {
-  amount: Array<number>
+  amount?: Array<number>
   change: string
   coins: Array<UTXOType>
   effectiveBalance: number

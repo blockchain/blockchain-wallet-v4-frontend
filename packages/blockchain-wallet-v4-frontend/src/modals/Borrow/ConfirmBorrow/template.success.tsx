@@ -1,12 +1,9 @@
 import { BorrowFormValuesType } from 'data/types'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { CheckBox, Form, FormItem } from 'components/Form'
-import {
-  coinToString,
-  fiatToString
-} from 'blockchain-wallet-v4/src/exchange/currency'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
@@ -99,7 +96,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     unit: { symbol: '$' }
   })
 
-  const collateralAmt = props.payment.amount.reduce((x, y) => x + y)
+  const collateralAmt = props.payment.amount
+    ? props.payment.amount.reduce((x, y) => x + y)
+    : 0
 
   const networkFee = props.payment.selection ? props.payment.selection.fee : 0
 
