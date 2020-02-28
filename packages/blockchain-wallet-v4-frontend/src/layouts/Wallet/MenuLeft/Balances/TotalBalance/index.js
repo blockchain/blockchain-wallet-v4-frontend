@@ -53,10 +53,10 @@ class TotalBalance extends React.PureComponent {
           )}
         </>
       ),
-      Failure: error => (
+      Failure: e => (
         <ErrorWrapper>
           <Text size='12px' weight={400} color='red600'>
-            {error}
+            {typeof e === 'object' ? (e.message ? e.message : 'N/A') : e}
           </Text>
         </ErrorWrapper>
       ),

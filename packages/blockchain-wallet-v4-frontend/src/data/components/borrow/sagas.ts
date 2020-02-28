@@ -122,8 +122,6 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
-      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
-
       let response: { loan: LoanType } = yield call(
         api.createLoan,
         offer.id,
@@ -137,14 +135,13 @@ export default ({
       )
 
       const { loan } = response
+      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
+      const destination = loan.collateral.depositAddresses[coin]
 
       let paymentError
       try {
         payment = yield payment.amount(Number(amount))
-        payment = yield payment.to(
-          loan.collateral.depositAddresses[coin],
-          ADDRESS_TYPES.ADDRESS
-        )
+        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
 
         payment = yield payment.build()
         // ask for second password
@@ -164,7 +161,7 @@ export default ({
             symbol: offer.terms.collateralCcy,
             value: amount
           },
-          principalWithdrawAddress,
+          destination,
           paymentError ? 'FAILED' : 'REQUESTED',
           'COLLATERAL_DEPOSIT'
         )
@@ -447,11 +444,12 @@ export default ({
       )
 
       const amount: string = getAmount(Number(values.amount) || 0, coin)
+      const destination = loan.principal.depositAddresses[coin]
 
       let paymentError
       try {
         payment = yield payment.amount(amount)
-        payment = yield payment.to(loan.principal.depositAddresses[coin])
+        payment = yield payment.to(destination)
         payment = yield payment.build()
         // ask for second password
         const password = yield call(promptForSecondPassword)
@@ -470,7 +468,7 @@ export default ({
             symbol: offer.terms.principalCcy,
             value: amount
           },
-          collateralWithdrawAddress,
+          destination,
           paymentError ? 'FAILED' : 'REQUESTED',
           'DEPOSIT_PRINCIPAL_AND_INTEREST'
         )

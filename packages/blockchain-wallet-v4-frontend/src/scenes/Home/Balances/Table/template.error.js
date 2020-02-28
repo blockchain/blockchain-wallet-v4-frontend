@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  margin-bottom: 24px;
 `
 
 export default props => (
