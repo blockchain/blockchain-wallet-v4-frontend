@@ -170,6 +170,7 @@ export default ({
       }
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
@@ -475,6 +476,7 @@ export default ({
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
       yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('repayLoanForm', { _error: error }))
