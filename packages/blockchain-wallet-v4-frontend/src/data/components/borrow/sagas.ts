@@ -2,9 +2,9 @@ import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { BorrowFormValuesType, PaymentType, RepayLoanFormType } from './types'
-import { call, put, select, take } from 'redux-saga/effects'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatDisplayName,
@@ -293,8 +293,23 @@ export default ({
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
       yield call(waitForUserData)
-      const offers = yield call(api.getUserBorrowHistory)
-      yield put(A.fetchUserBorrowHistorySuccess(offers))
+      const loans: Array<LoanType> = yield call(api.getUserBorrowHistory)
+      // console.log(loans)
+      yield all(
+        loans.map(function * (loan) {
+          const financials: LoanFinancialsType = yield call(
+            api.getLoanFinancials,
+            loan.loanId
+          )
+
+          return {
+            ...loan,
+            financials
+          }
+        })
+      )
+      // console.log(loans)
+      yield put(A.fetchUserBorrowHistorySuccess(loans))
     } catch (e) {
       yield put(A.fetchUserBorrowHistoryFailure(e))
     }
