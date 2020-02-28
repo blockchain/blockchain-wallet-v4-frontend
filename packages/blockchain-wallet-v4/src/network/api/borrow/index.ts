@@ -1,29 +1,46 @@
 import { CoinType } from 'core/types'
-import { LoanType, OfferType } from './types'
+import { LoanType, MoneyType, OfferType } from './types'
 
-export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
-  const getOffers = (): Array<OfferType> =>
-    authorizedGet({
+export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+  const closeLoanWithPrincipal = (
+    loan: LoanType,
+    collateralWithdrawAddresses: { [key in CoinType]?: string }
+  ): { loan: LoanType } =>
+    authorizedPost({
       url: nabuUrl,
-      endPoint: '/lending/offers'
+      endPoint: `/user/loans/${loan.loanId}/close_with_principal`,
+      contentType: 'application/json',
+      data: {
+        collateralWithdrawAddresses
+      }
     })
 
   const createLoan = (
-    collateralWithdrawAddress: string,
     offerId: string,
-    principalAmount: { symbol: CoinType; value: string },
+    principalAmount: MoneyType,
     principalWithdrawAddresses: { [key in CoinType]?: string }
-  ): LoanType =>
+  ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/user/loans',
       contentType: 'application/json',
       data: {
-        collateralWithdrawAddress,
         offerId,
         principalAmount,
         principalWithdrawAddresses
       }
+    })
+
+  const getLoanFinancials = (loanId: string) =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/user/loans/${loanId}/financials`
+    })
+
+  const getOffers = (): Array<OfferType> =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/lending/offers'
     })
 
   const getUserBorrowHistory = (): Array<LoanType> =>
@@ -32,9 +49,31 @@ export default ({ nabuUrl, authorizedGet, authorizedPost, authorizedPut }) => {
       endPoint: '/user/loans'
     })
 
+  const notifyLoanDeposit = (
+    loanId: string,
+    amount: MoneyType,
+    dstAddress: string,
+    status: 'REQUESTED' | 'FAILED',
+    type: 'COLLATERAL_DEPOSIT' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+  ): { loan: LoanType } =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/users/loans/${loanId}/deposit`,
+      contentType: 'application/json',
+      data: {
+        amount,
+        dstAddress,
+        status,
+        type
+      }
+    })
+
   return {
+    closeLoanWithPrincipal,
     createLoan,
+    getLoanFinancials,
     getOffers,
-    getUserBorrowHistory
+    getUserBorrowHistory,
+    notifyLoanDeposit
   }
 }

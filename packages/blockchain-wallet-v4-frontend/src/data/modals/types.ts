@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 export type ModalNamesType =
   | 'BORROW_MODAL'
   | 'FAQ_MODAL'
+  | 'LinkFromExchangeAccount'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'
   | 'WHATS_NEW_MODAL'

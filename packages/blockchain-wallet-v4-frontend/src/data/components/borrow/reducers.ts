@@ -38,6 +38,42 @@ export function borrowReducer (
         ...state,
         offers: Remote.Success(action.payload.offers)
       }
+    case AT.FETCH_LOAN_FINANCIALS_LOADING:
+      return state.loan
+        ? {
+            ...state,
+            loan: {
+              ...state.loan,
+              financials: Remote.Loading
+            }
+          }
+        : {
+            ...state
+          }
+    case AT.FETCH_LOAN_FINANCIALS_FAILURE:
+      return state.loan
+        ? {
+            ...state,
+            loan: {
+              ...state.loan,
+              financials: Remote.Failure(action.payload.error)
+            }
+          }
+        : {
+            ...state
+          }
+    case AT.FETCH_LOAN_FINANCIALS_SUCCESS:
+      return state.loan
+        ? {
+            ...state,
+            loan: {
+              ...state.loan,
+              financials: Remote.Success(action.payload.financials)
+            }
+          }
+        : {
+            ...state
+          }
     case AT.FETCH_USER_BORROW_HISTORY_LOADING:
       return {
         ...state,
@@ -82,7 +118,8 @@ export function borrowReducer (
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case 'CHECKOUT': {
+        case 'CHECKOUT':
+        case 'CONFIRM': {
           return {
             ...state,
             step: action.payload.step,

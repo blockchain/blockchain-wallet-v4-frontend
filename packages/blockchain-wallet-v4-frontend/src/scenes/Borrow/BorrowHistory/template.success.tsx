@@ -22,6 +22,7 @@ const CollateralizationTableCell = styled(TableCell)`
 `
 const CollateralizationBarWrapper = styled.div`
   width: 60%;
+  max-width: 150px;
   margin-left: 12px;
   div {
     margin: 0px;
@@ -77,59 +78,64 @@ function Success (props: SuccessStateType): ReactElement {
             </Text>
           </TableCell>
         </TableHeader>
-        {props.borrowHistory.map(loan => {
-          const offer = props.offers.find(offer => offer.id === loan.offerId)
-          if (!offer) return
-
-          return (
-            <TableRow>
-              <TableCell width='20%'>
-                <Value>{moment(loan.openedAt).format('lll')}</Value>
-              </TableCell>
-              <CollateralizationTableCell width='30%'>
-                <Status {...loan} />
-                {offer && (
-                  <CollateralizationBarWrapper>
-                    <CollateralizationBar
-                      {...props}
-                      loan={loan}
-                      offer={offer}
-                    />
-                  </CollateralizationBarWrapper>
-                )}
-              </CollateralizationTableCell>
-              <TableCell width='12%'>
-                {/* TODO: Borrow - loop over all amounts in the future */}
-                <Value>
-                  {
-                    loan.collateral.amounts.find(
-                      amount => amount.symbol === 'BTC'
-                    )!.value
-                  }{' '}
-                  BTC
-                </Value>
-              </TableCell>
-              <TableCell width='12%'>
-                {/* TODO: Borrow - loop over all amounts in the future */}
-                <Value>
-                  {
-                    loan.principal.amount.find(
-                      amount => amount.symbol === 'PAX'
-                    )!.value
-                  }{' '}
-                  PAX
-                </Value>
-              </TableCell>
-              <TableCell width='12%'>-</TableCell>
-              <ViewDetailsCell
-                width='14%'
-                onClick={() => props.showLoanDetails(loan, offer)}
-              >
-                <Link size='14px'>View Details</Link>
-              </ViewDetailsCell>
-            </TableRow>
+        {props.borrowHistory
+          .sort(
+            (a, b) =>
+              moment(b.openedAt).valueOf() - moment(a.openedAt).valueOf()
           )
-        })}
+          .map(loan => {
+            const offer = props.offers.find(offer => offer.id === loan.offerId)
+            if (!offer) return
+
+            return (
+              <TableRow key={loan.loanId}>
+                <TableCell width='20%'>
+                  <Value>{moment(loan.openedAt).format('lll')}</Value>
+                </TableCell>
+                <CollateralizationTableCell width='30%'>
+                  <Status {...loan} />
+                  {offer && (
+                    <CollateralizationBarWrapper>
+                      <CollateralizationBar
+                        {...props}
+                        loan={loan}
+                        offer={offer}
+                      />
+                    </CollateralizationBarWrapper>
+                  )}
+                </CollateralizationTableCell>
+                <TableCell width='12%'>
+                  {/* TODO: Borrow - loop over all amounts in the future */}
+                  <Value>
+                    {
+                      loan.collateral.amounts.find(
+                        amount => amount.symbol === 'BTC'
+                      )!.value
+                    }{' '}
+                    BTC
+                  </Value>
+                </TableCell>
+                <TableCell width='12%'>
+                  {/* TODO: Borrow - loop over all amounts in the future */}
+                  <Value>
+                    {
+                      loan.principal.amount.find(
+                        amount => amount.symbol === 'PAX'
+                      )!.value
+                    }{' '}
+                    PAX
+                  </Value>
+                </TableCell>
+                <TableCell width='12%'>-</TableCell>
+                <ViewDetailsCell
+                  width='14%'
+                  onClick={() => props.showLoanDetails(loan, offer)}
+                >
+                  <Link size='14px'>View Details</Link>
+                </ViewDetailsCell>
+              </TableRow>
+            )
+          })}
       </Table>
     </div>
   )

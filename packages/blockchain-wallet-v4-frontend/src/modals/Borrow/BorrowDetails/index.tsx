@@ -35,10 +35,8 @@ class BorrowDetails extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    // TODO: Borrow - handle multiple collateral amounts
-    this.props.borrowActions.setCoin(
-      this.props.loan.collateral.amounts[0].symbol
-    )
+    this.props.borrowActions.setCoin(this.props.offer.terms.collateralCcy)
+    this.props.borrowActions.fetchLoanFinancials(this.props.loan)
   }
 
   render () {

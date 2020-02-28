@@ -1,6 +1,11 @@
 import * as AT from './actionTypes'
-import { BorrowActionTypes, BorrowMinMaxType, BorrowStepsType } from './types'
-import { CoinType, LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { BorrowActionTypes, BorrowMinMaxType } from './types'
+import {
+  CoinType,
+  LoanFinancialsType,
+  LoanType,
+  OfferType
+} from 'blockchain-wallet-v4/src/types'
 
 export const addCollateral = () => ({
   type: AT.ADD_COLLATERAL
@@ -33,6 +38,33 @@ export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
   type: AT.FETCH_BORROW_OFFERS_SUCCESS,
   payload: {
     offers
+  }
+})
+
+export const fetchLoanFinancials = (loan: LoanType) => ({
+  type: AT.FETCH_LOAN_FINANCIALS,
+  payload: {
+    loan
+  }
+})
+
+export const fetchLoanFinancialsLoading = (): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_FINANCIALS_LOADING
+})
+
+export const fetchLoanFinancialsFailure = (error): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_FINANCIALS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchLoanFinancialsSuccess = (
+  financials: LoanFinancialsType
+): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_FINANCIALS_SUCCESS,
+  payload: {
+    financials
   }
 })
 
@@ -123,6 +155,7 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
+    | { offer: OfferType; step: 'CONFIRM' }
     | {
         loan: LoanType
         offer: OfferType
@@ -131,7 +164,7 @@ export const setStep = (
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:
-    payload.step === 'CHECKOUT'
+    payload.step === 'CHECKOUT' || payload.step === 'CONFIRM'
       ? {
           step: payload.step,
           offer: payload.offer

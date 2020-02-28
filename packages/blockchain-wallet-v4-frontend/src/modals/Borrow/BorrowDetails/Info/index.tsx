@@ -1,13 +1,35 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import { OfferType } from 'core/types'
 import { Props } from '../template.success'
-import { Text } from 'blockchain-info-components'
 import CollateralizationBar from '../CollateralizationBar'
 import CollateralWarning from '../CollateralWarning'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
+
+const Wrapper = styled.div`
+  margin-top: 40px;
+  margin-bottom: 64px;
+`
+const Item = styled.div`
+  margin-bottom: 24px;
+  display: flex;
+`
+const IconWrapper = styled.div<{ bgColor?: keyof DefaultTheme }>`
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 20px;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${props =>
+    props.bgColor ? props.theme[props.bgColor] : props.theme.grey000};
+`
 
 const AmountsContainer = styled.div`
   display: flex;
@@ -33,48 +55,123 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
     toUnit: 'SAT'
   }).value
 
-  return (
-    <>
-      <AmountsContainer>
-        <div>
-          <AmountsHeader>
+  switch (props.loan.status) {
+    case 'PENDING_COLLATERAL_DEPOSIT':
+    case 'PENDING_EXECUTION': {
+      return (
+        <Wrapper>
+          <Item>
+            <IconWrapper bgColor='green600'>
+              <Icon name='check' size='12px' color='white' />
+            </IconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.details.newloan.created'
+                defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
+                values={{ symbol: props.loan.collateral.amounts[0].symbol }}
+              />
+            </Text>
+          </Item>
+          <Item>
+            <IconWrapper>
+              <Icon name='timer' size='18px' color='grey600' />
+            </IconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.details.newloan.waiting'
+                defaultMessage="Waiting on your deposit to be confirmed by the network. You don't need to take any action at this point."
+              />
+            </Text>
+          </Item>
+          <Item>
+            <IconWrapper>
+              <Icon name='wallet' size='18px' color='grey600' />
+            </IconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.details.newloan.receive'
+                defaultMessage='You will receive {value} {symbol} to your Blockchain Wallet once we’ve received your deposit.'
+                values={{
+                  value: props.loan.principal.amount[0].value,
+                  symbol: principalDisplayName
+                }}
+              />
+            </Text>
+          </Item>
+        </Wrapper>
+      )
+    }
+    case 'PENDING_CLOSE':
+      return (
+        <Wrapper>
+          <Item>
+            <IconWrapper bgColor='orange600'>
+              <Icon name='timer' size='18px' color='white' />
+            </IconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.details.info.repayment'
+                defaultMessage='Repayment of your loan is in-progress and is being reviewed by our team.'
+              />
+            </Text>
+          </Item>
+          <Item>
+            <IconWrapper>
+              <Icon name='wallet' size='18px' color='grey600' />
+            </IconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.borrow.details.info.clearance'
+                defaultMessage='Once your principal deposit is cleared by the network and our team, you will receive your collateral.'
+              />
+            </Text>
+          </Item>
+        </Wrapper>
+      )
+    default:
+      return (
+        <>
+          <AmountsContainer>
+            <div>
+              <AmountsHeader>
+                <FormattedMessage
+                  id='scenes.borrow.details.info.amount'
+                  defaultMessage='Borrow Amount'
+                />
+              </AmountsHeader>
+              <Text color='grey800' size='20px' weight={600}>
+                {props.loan.principal.amount[0].value} {principalDisplayName}
+              </Text>
+            </div>
+            <div>
+              <AmountsHeader>
+                <FormattedMessage
+                  id='scenes.borrow.details.info.collateral'
+                  defaultMessage='Collateral Value'
+                />
+              </AmountsHeader>
+              <FiatDisplay
+                color='grey800'
+                size='20px'
+                weight={600}
+                currency='USD'
+                coin={props.loan.collateral.amounts[0].symbol}
+              >
+                {collateralSatoshi}
+              </FiatDisplay>
+            </div>
+          </AmountsContainer>
+          <Text size='16px' color='grey600' weight={600}>
             <FormattedMessage
-              id='scenes.borrow.details.info.amount'
-              defaultMessage='Borrow Amount'
+              id='scenes.borrow.details.info.collateralization'
+              defaultMessage='Collateralization'
             />
-          </AmountsHeader>
-          <Text color='grey800' size='20px' weight={600}>
-            {props.loan.principal.amount[0].value} {principalDisplayName}
           </Text>
-        </div>
-        <div>
-          <AmountsHeader>
-            <FormattedMessage
-              id='scenes.borrow.details.info.collateral'
-              defaultMessage='Collateral Value'
-            />
-          </AmountsHeader>
-          <FiatDisplay
-            color='grey800'
-            size='20px'
-            weight={600}
-            currency='USD'
-            coin={props.loan.collateral.amounts[0].symbol}
-          >
-            {collateralSatoshi}
-          </FiatDisplay>
-        </div>
-      </AmountsContainer>
-      <Text size='16px' color='grey600' weight={600}>
-        <FormattedMessage
-          id='scenes.borrow.details.info.collateralization'
-          defaultMessage='Collateralization'
-        />
-      </Text>
-      <CollateralizationBar {...props} showPercentages />
-      <CollateralWarning {...props} />
-    </>
-  )
+          <CollateralizationBar {...props} showPercentages />
+          <CollateralWarning {...props} />
+        </>
+      )
+  }
 }
 
 export default Info

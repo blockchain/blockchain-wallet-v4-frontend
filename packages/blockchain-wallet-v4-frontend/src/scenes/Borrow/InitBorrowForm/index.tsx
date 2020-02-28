@@ -126,12 +126,7 @@ class InitBorrowForm extends PureComponent<Props> {
                 />
               </CustomOrangeCartridge>
             </CustomFormLabel>
-            <Field
-              component={SelectBoxCoin}
-              name='coin'
-              // TODO: Borrow - make type: borrow
-              type='send'
-            />
+            <Field component={SelectBoxCoin} name='coin' type='send' />
           </FormGroup>
         </div>
         <Button

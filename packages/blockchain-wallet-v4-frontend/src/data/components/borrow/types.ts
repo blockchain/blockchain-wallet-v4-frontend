@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
+  LoanFinancialsType,
   LoanType,
   NabuApiErrorType,
   OfferType,
@@ -23,6 +24,14 @@ export type BorrowMinMaxType = {
   maxFiat: number
   minCrypto: number
   minFiat: number
+}
+
+export enum BorrowSteps {
+  'CHECKOUT',
+  'CONFIRM',
+  'DETAILS',
+  'ADD_COLLATERAL',
+  'REPAY_LOAN'
 }
 
 // TODO: move to ticker
@@ -66,7 +75,7 @@ export type FromType =
   | 'ADDRESS'
 
 export type PaymentType = {
-  amount: (n: number) => PaymentType
+  amount: (n: number | string) => PaymentType
   build: () => PaymentType
   change: string
   coins: Array<UTXOType>
@@ -89,12 +98,6 @@ export type PaymentType = {
   value: () => PaymentType
 }
 
-export type BorrowStepsType =
-  | 'CHECKOUT'
-  | 'DETAILS'
-  | 'ADD_COLLATERAL'
-  | 'REPAY_LOAN'
-
 // State
 export interface BorrowState {
   borrowHistory: RemoteDataType<NabuApiErrorType, Array<LoanType>>
@@ -104,7 +107,7 @@ export interface BorrowState {
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentType>
-  step: BorrowStepsType
+  step: keyof typeof BorrowSteps
 }
 
 // Actions
@@ -123,6 +126,22 @@ interface FetchBorrowOffersSuccessAction {
     offers: Array<OfferType>
   }
   type: typeof AT.FETCH_BORROW_OFFERS_SUCCESS
+}
+interface FetchLoanFinancialsFailureAction {
+  payload: {
+    error: NabuApiErrorType
+  }
+  type: typeof AT.FETCH_LOAN_FINANCIALS_FAILURE
+}
+
+interface FetchLoanFinancialsLoadingAction {
+  type: typeof AT.FETCH_LOAN_FINANCIALS_LOADING
+}
+interface FetchLoanFinancialsSuccessAction {
+  payload: {
+    financials: LoanFinancialsType
+  }
+  type: typeof AT.FETCH_LOAN_FINANCIALS_SUCCESS
 }
 interface FetchUserBorrowHistoryFailureAction {
   payload: {
@@ -190,7 +209,7 @@ interface SetStepAction {
   payload:
     | {
         offer?: OfferType
-        step: 'CHECKOUT'
+        step: 'CHECKOUT' | 'CONFIRM'
       }
     | {
         loan: LoanType
@@ -204,6 +223,9 @@ export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
   | FetchBorrowOffersSuccessAction
+  | FetchLoanFinancialsFailureAction
+  | FetchLoanFinancialsLoadingAction
+  | FetchLoanFinancialsSuccessAction
   | FetchUserBorrowHistoryFailureAction
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction

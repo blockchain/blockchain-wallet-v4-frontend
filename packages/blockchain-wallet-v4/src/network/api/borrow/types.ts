@@ -1,8 +1,15 @@
-import { CoinType } from 'core/types'
+import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
 
 export type MoneyType = {
   symbol: CoinType
   value: string
+}
+
+export type LoanFinancialsType = {
+  collateralForInterest: Array<MoneyType>
+  onCloseCollateralRefund: Array<MoneyType>
+  onCloseCollateralTaken: Array<MoneyType>
+  owedInterest: Array<MoneyType>
 }
 
 export type LoanType = {
@@ -15,9 +22,10 @@ export type LoanType = {
   }
   collateralisationRatio: number
   expiration: Date
+  financials: RemoteDataType<NabuApiErrorType, LoanFinancialsType>
   loanId: string
   offerId: string
-  openedAt: Date
+  openedAt: string
   principal: {
     amount: Array<MoneyType>
     depositAddresses: { [key in CoinType]: string }

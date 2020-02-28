@@ -6,13 +6,6 @@ export const INVALID_COIN_TYPE = 'Invalid coin type'
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'
 export const NO_LOAN_EXISTS = 'NO_LOAN_EXISTS'
 
-export const BORROW_STEPS = {
-  CHECKOUT: 0,
-  DETAILS: 1,
-  ADD_COLLATERAL: 2,
-  REPAY_LOAN: 3
-}
-
 export const getCollateralizationColor = (
   displayName: 'safe' | 'risky' | 'unsafe'
 ) => {

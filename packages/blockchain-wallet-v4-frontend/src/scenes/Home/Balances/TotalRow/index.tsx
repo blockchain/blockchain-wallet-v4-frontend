@@ -33,8 +33,13 @@ class TotalRow extends PureComponent<Props, State> {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: e => (
-        <Text size='12px' weight={600} color='red600'>
-          Error fetching balance
+        <Text
+          size='12px'
+          weight={600}
+          color='red600'
+          style={{ marginBottom: '24px' }}
+        >
+          Error Fetching Balance
         </Text>
       ),
       Loading: () => <Loading />,

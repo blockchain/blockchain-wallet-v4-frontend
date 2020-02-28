@@ -2,10 +2,30 @@ import { actions, selectors } from 'data'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
+import { ModalNamesType, ModalType } from 'data/types'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
-const mapDispatchToProps = dispatch => ({
+type OwnProps = {
+  disableOutsideClose: boolean
+}
+type LinkDispatchPropsType = {
+  close: () => void
+  closeAll: () => void
+  update: () => void
+}
+type LinkStatePropsType = {
+  modals: Array<ModalType>
+}
+
+type OptionsType = {
+  preventEscapeClose?: boolean
+  transition?: number
+}
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+
+const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   close: compose(
     dispatch,
     actions.modals.closeModal
@@ -14,17 +34,13 @@ const mapDispatchToProps = dispatch => ({
     dispatch,
     actions.modals.closeAllModals
   ),
-  replace: compose(
-    dispatch,
-    actions.modals.replaceModal
-  ),
   update: compose(
     dispatch,
     actions.modals.updateModalOptions
   )
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state): LinkStatePropsType => ({
   modals: selectors.modals.getModals(state)
 })
 
@@ -33,9 +49,9 @@ const enhance = connect(
   mapDispatchToProps
 )
 
-export default (type, options = {}) => Component =>
+export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
   enhance(
-    class Modal extends PureComponent {
+    class Modal extends PureComponent<Props> {
       state = {}
 
       handleClose = () => {
@@ -51,6 +67,7 @@ export default (type, options = {}) => Component =>
       }
 
       handleClick = e => {
+        // @ts-ignore
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (
           modalContainer &&
@@ -73,6 +90,7 @@ export default (type, options = {}) => Component =>
         const filtered = modals.filter(m => m.type === type)
         const setRef = node => {
           if (node) {
+            // @ts-ignore
             this.node = node
             node.focus()
           }
@@ -86,9 +104,10 @@ export default (type, options = {}) => Component =>
                 onKeyDown={this.onKeyPressed}
                 onMouseDown={this.handleClick}
                 ref={setRef}
-                tabIndex='0'
+                tabIndex={0}
               >
                 <Component
+                  // @ts-ignore
                   ref={this.node}
                   position={modals.indexOf(modal) + 1}
                   total={modals.length}
