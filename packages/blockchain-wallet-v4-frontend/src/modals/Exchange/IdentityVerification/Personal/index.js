@@ -103,6 +103,7 @@ class PersonalContainer extends React.PureComponent {
     activeFieldError,
     addressRefetchVisible,
     user,
+    simpleBuyInvited,
     supportedCountries,
     states,
     handleSubmit
@@ -137,6 +138,7 @@ class PersonalContainer extends React.PureComponent {
       editEmail={this.editEmail}
       updateEmail={actions.updateEmail}
       sendEmailVerification={actions.sendEmailVerification}
+      simpleBuyInvited={simpleBuyInvited}
       onPromptForEmailVerification={this.onPromptForEmailVerification}
       onAddressSelect={this.selectAddress}
       onCountrySelect={this.onCountryChange}
