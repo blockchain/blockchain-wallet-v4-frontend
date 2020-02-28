@@ -35,7 +35,9 @@ const BaseTextInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: ${({ borderColor, hasValue, isValid, theme }) =>
-    hasValue ? (isValid ? `1px solid ${theme[borderColor]}` : 'none') : 'none'};
+    hasValue && isValid
+      ? `1px solid ${theme[borderColor]}`
+      : '1px solid transparent'};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-radius: 8px;
 

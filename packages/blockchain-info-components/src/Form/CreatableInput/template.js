@@ -80,11 +80,9 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       min-height: 48px;
       border-radius: 4px;
       border: ${
-        hasValue
-          ? isValid
-            ? `1px solid ${theme[borderColor]}`
-            : 'none'
-          : 'none'
+        hasValue && isValid
+          ? `1px solid ${theme[borderColor]}`
+          : '1px solid transparent'
       };
       &.bc__control--is-focused {
         background-color: ${theme.white};

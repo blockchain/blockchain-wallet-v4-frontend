@@ -35,7 +35,9 @@ const BasePasswordInput = styled.input.attrs({
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border-radius: 8px;
   border: ${({ borderColor, hasValue, isValid, theme }) =>
-    hasValue ? (isValid ? `1px solid ${theme[borderColor]}` : 'none') : 'none'};
+    hasValue && isValid
+      ? `1px solid ${theme[borderColor]}`
+      : '1px solid transparent'};
 
   &:focus {
     background-color: ${({ theme }) => theme.white};

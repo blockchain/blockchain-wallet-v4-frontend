@@ -26,7 +26,9 @@ const BaseTextAreaInput = styled.textarea`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   resize: ${props => (props.resize ? 'initial' : 'none')};
   border: ${({ borderColor, hasValue, isValid, theme }) =>
-    hasValue ? (isValid ? `1px solid ${theme[borderColor]}` : 'none') : 'none'};
+    hasValue && isValid
+      ? `1px solid ${theme[borderColor]}`
+      : '1px solid transparent'};
   border-radius: 8px;
 
   &:focus {

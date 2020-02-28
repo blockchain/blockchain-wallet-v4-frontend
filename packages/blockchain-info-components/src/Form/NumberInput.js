@@ -32,7 +32,9 @@ const BaseNumberInput = styled.input.attrs({
   user-select: text;
   border-radius: 8px;
   border: ${({ borderColor, hasValue, isValid, theme }) =>
-    hasValue ? (isValid ? `1px solid ${theme[borderColor]}` : 'none') : 'none'};
+    hasValue && isValid
+      ? `1px solid ${theme[borderColor]}`
+      : '1px solid transparent'};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-top: ${props => (props.borderTopNone ? 'none' : '')};
   cursor: ${props => props.disabled && 'not-allowed'};

@@ -58,11 +58,9 @@ const StyledSelect = styled(Select)`
     min-height: ${props => props.height};
     border-radius: 8px;
     border: ${({ borderColor, hasValue, isValid, theme }) =>
-      hasValue
-        ? isValid
-          ? `1px solid ${theme[borderColor]}`
-          : 'none'
-        : 'none'};
+      hasValue && isValid
+        ? `1px solid ${theme[borderColor]}`
+        : '1px solid transparent'};
 
     & .bc__control--is-focused {
       background-color: ${({ theme }) => theme.white};
