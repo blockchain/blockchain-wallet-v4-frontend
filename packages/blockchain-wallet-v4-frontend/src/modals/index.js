@@ -75,7 +75,7 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import { SfoxExchangeData, SfoxTradeDetails } from './Sfox'
+import { SfoxTradeDetails } from './Sfox'
 import Borrow from './Borrow'
 import Faq from './Faq'
 import Onfido from './Onfido'
@@ -137,7 +137,6 @@ const Modals = () => (
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
-    <SfoxExchangeData />
     <SfoxTradeDetails />
     <AirdropError />
     <Support />

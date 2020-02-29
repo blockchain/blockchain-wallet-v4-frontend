@@ -326,8 +326,6 @@ module.exports = {
           'https://api.staging.sfox.com',
           'https://quotes.sfox.com',
           `https://quotes.staging.sfox.com`,
-          'https://sfox-kyc.s3.amazonaws.com',
-          'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',

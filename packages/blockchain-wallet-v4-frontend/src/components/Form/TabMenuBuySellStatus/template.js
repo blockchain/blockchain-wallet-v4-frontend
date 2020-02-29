@@ -66,15 +66,9 @@ const TabMenuBuySellStatus = props => {
               defaultMessage='Powered by'
             />
           </Text>
-          {partner === 'sfox' ? (
-            <PartnerLink href='https://www.sfox.com' target='_blank'>
-              <Image name='sfox-logo' width='60px' height='25px' />
-            </PartnerLink>
-          ) : (
-            <PartnerLink href='https://www.coinify.com' target='_blank'>
-              <Image name='coinify-logo' width='60px' height='25px' />
-            </PartnerLink>
-          )}
+          <PartnerLink href='https://www.coinify.com' target='_blank'>
+            <Image name='coinify-logo' width='60px' height='25px' />
+          </PartnerLink>
         </PartnerWrapper>
       )}
     </>

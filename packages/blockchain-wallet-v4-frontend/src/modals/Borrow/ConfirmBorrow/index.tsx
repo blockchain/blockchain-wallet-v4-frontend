@@ -3,7 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { OfferType, RemoteDataType } from 'core/types'
-import { RatesType } from 'data/types'
+import { PaymentValue, RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -18,9 +18,10 @@ export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
 export type SuccessStateType = {
+  payment: PaymentValue
   rates: RatesType
 }
-type LinkStatePropsType = {
+export type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 
@@ -28,10 +29,6 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class ConfirmBorrow extends PureComponent<Props> {
   state = {}
-
-  componentWillUnmount () {
-    this.props.borrowActions.destroy()
-  }
 
   handleSubmit = () => {
     this.props.borrowActions.createBorrow()
