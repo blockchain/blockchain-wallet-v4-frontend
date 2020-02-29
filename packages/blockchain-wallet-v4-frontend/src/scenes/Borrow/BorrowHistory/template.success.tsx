@@ -126,7 +126,13 @@ function Success (props: SuccessStateType): ReactElement {
                     PAX
                   </Value>
                 </TableCell>
-                <TableCell width='12%'>-</TableCell>
+                <TableCell width='12%'>
+                  {loan.financials
+                    ? loan.financials.owedInterest[0].value +
+                      ' ' +
+                      loan.financials.owedInterest[0].symbol
+                    : '-'}
+                </TableCell>
                 <ViewDetailsCell
                   width='14%'
                   onClick={() => props.showLoanDetails(loan, offer)}

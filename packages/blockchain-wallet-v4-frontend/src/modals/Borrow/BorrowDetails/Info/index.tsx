@@ -139,7 +139,11 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                   defaultMessage='Borrow Amount'
                 />
               </AmountsHeader>
-              <Text color='grey800' size='20px' weight={600}>
+              <Text
+                color='grey800'
+                size={props.loan.financials ? '14px' : '20px'}
+                weight={600}
+              >
                 {props.loan.principal.amount[0].value} {principalDisplayName}
               </Text>
             </div>
@@ -152,7 +156,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               </AmountsHeader>
               <FiatDisplay
                 color='grey800'
-                size='20px'
+                size={props.loan.financials ? '14px' : '20px'}
                 weight={600}
                 currency='USD'
                 coin={props.loan.collateral.amounts[0].symbol}
@@ -160,6 +164,21 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 {collateralSatoshi}
               </FiatDisplay>
             </div>
+            {props.loan.financials && (
+              <div>
+                <AmountsHeader>
+                  <FormattedMessage
+                    id='scenes.borrow.details.info.outstanding'
+                    defaultMessage='Outstanding'
+                  />
+                </AmountsHeader>
+                <Text color='grey800' size='14px' weight={600}>
+                  {props.loan.financials.owedInterest[0].value +
+                    ' ' +
+                    principalDisplayName}
+                </Text>
+              </div>
+            )}
           </AmountsContainer>
           <Text size='16px' color='grey600' weight={600}>
             <FormattedMessage
