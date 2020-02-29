@@ -1,14 +1,10 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
-import {
-  CoinType,
-  OfferType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { OfferType, RemoteDataType } from 'core/types'
+import { PaymentValue, RatesType } from 'data/types'
+import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -18,58 +14,48 @@ export type OwnProps = {
   handleClose: () => void
   offer: OfferType
 }
-
 export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
-
 export type SuccessStateType = {
-  coin: CoinType
-  limits: BorrowMinMaxType
-  payment: PaymentType
+  payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedCoinsType
 }
-
-type LinkStatePropsType = {
+export type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class BorrowForm extends PureComponent<Props> {
+class ConfirmBorrow extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
-    this.props.borrowActions.initializeBorrow('BTC')
-  }
-
-  handleRefresh = () => {
-    this.props.borrowActions.initializeBorrow('BTC')
-  }
-
   handleSubmit = () => {
-    this.props.borrowActions.setStep({
-      step: 'CONFIRM',
-      offer: this.props.offer
-    })
+    this.props.borrowActions.createBorrow()
   }
 
   render () {
-    const { data } = this.props
-
-    return data.cata({
+    return this.props.data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
       ),
-      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Failure: e => (
+        <DataError
+          onClick={() =>
+            this.props.borrowActions.setStep({
+              step: 'CHECKOUT',
+              offer: this.props.offer
+            })
+          }
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state)
 })
 
@@ -84,4 +70,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(BorrowForm)
+export default enhance(ConfirmBorrow)

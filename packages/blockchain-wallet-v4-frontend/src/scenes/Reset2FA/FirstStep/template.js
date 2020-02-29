@@ -72,7 +72,6 @@ const FirstStep = props => {
             </FormLabel>
             <Field
               bgColor='grey000'
-              borderNone
               autoFocus
               component={TextBox}
               disableSpellcheck
@@ -107,7 +106,6 @@ const FirstStep = props => {
             </FormLabel>
             <Field
               bgColor='grey000'
-              borderNone
               name='email'
               validate={[required, validEmail]}
               component={TextBox}
@@ -130,7 +128,6 @@ const FirstStep = props => {
             </FormLabel>
             <Field
               bgColor='grey000'
-              borderNone
               name='newEmail'
               validate={[validNullableEmail]}
               component={TextBox}

@@ -21,25 +21,25 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
-    case AT.SET_SFOX_TRADES_BUYSELL: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      const setTrades = assocPath(['sfox', 'trades'], payload)
-      return over(valueLens, setTrades, state)
-    }
-    case AT.SET_SFOX_HAS_SEEN_SHUTDOWN: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      return over(
-        valueLens,
-        assocPath(['sfox', 'has_seen_shutdown'], true),
-        state
-      )
-    }
+    // case AT.SET_SFOX_TRADES_BUYSELL: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   const setTrades = assocPath(['sfox', 'trades'], payload)
+    //   return over(valueLens, setTrades, state)
+    // }
+    // case AT.SET_SFOX_HAS_SEEN_SHUTDOWN: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   return over(
+    //     valueLens,
+    //     assocPath(['sfox', 'has_seen_shutdown'], true),
+    //     state
+    //   )
+    // }
     case AT.SET_COINIFY_TRADES_BUYSELL: {
       const valueLens = compose(
         mapped,
@@ -67,34 +67,34 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
 
-    case AT.SFOX_SET_PROFILE_BUYSELL: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      const setAll = compose(
-        assocPath(['sfox', 'account_token'], payload.token),
-        assocPath(['sfox', 'user'], payload.account.id)
-      )
+    // case AT.SFOX_SET_PROFILE_BUYSELL: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   const setAll = compose(
+    //     assocPath(['sfox', 'account_token'], payload.token),
+    //     assocPath(['sfox', 'user'], payload.account.id)
+    //   )
 
-      return over(valueLens, setAll, state)
-    }
-    case AT.SFOX_SET_JUMIO_TOKEN: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      const setJumio = compose(assocPath(['sfox', 'jumio'], payload))
-      return over(valueLens, setJumio, state)
-    }
-    case AT.SFOX_SET_PHONE_CALL: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      const setPhoneCall = compose(assocPath(['sfox', 'phone_call'], payload))
-      return over(valueLens, setPhoneCall, state)
-    }
+    //   return over(valueLens, setAll, state)
+    // }
+    // case AT.SFOX_SET_JUMIO_TOKEN: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   const setJumio = compose(assocPath(['sfox', 'jumio'], payload))
+    //   return over(valueLens, setJumio, state)
+    // }
+    // case AT.SFOX_SET_PHONE_CALL: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   const setPhoneCall = compose(assocPath(['sfox', 'phone_call'], payload))
+    //   return over(valueLens, setPhoneCall, state)
+    // }
     case AT.COINIFY_SET_PROFILE_BUYSELL: {
       const valueLens = compose(
         mapped,
@@ -115,14 +115,14 @@ export default (state = INITIAL_STATE, action) => {
       const wipe = assoc('coinify', { trades: [] })
       return over(valueLens, wipe, state)
     }
-    case AT.WIPE_EXTERNAL_SFOX: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      const wipe = assoc('sfox', { trades: [] })
-      return over(valueLens, wipe, state)
-    }
+    // case AT.WIPE_EXTERNAL_SFOX: {
+    //   const valueLens = compose(
+    //     mapped,
+    //     KVStoreEntry.value
+    //   )
+    //   const wipe = assoc('sfox', { trades: [] })
+    //   return over(valueLens, wipe, state)
+    // }
     default:
       return state
   }

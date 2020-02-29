@@ -19,7 +19,7 @@ exports[`ExchangeScene renders exchange correctly 1`] = `
 `;
 
 exports[`ExchangeScene renders failure correctly 1`] = `
-<DataErrorContainer
+<DataError
   onClick={[MockFunction]}
 />
 `;

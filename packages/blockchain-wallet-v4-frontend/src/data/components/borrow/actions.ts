@@ -1,6 +1,11 @@
 import * as AT from './actionTypes'
-import { BorrowActionTypes, BorrowMinMaxType } from './types'
-import { CoinType, LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { BorrowActionTypes, BorrowMinMaxType, PaymentValue } from './types'
+import {
+  CoinType,
+  LoanFinancialsType,
+  LoanType,
+  OfferType
+} from 'blockchain-wallet-v4/src/types'
 
 export const addCollateral = () => ({
   type: AT.ADD_COLLATERAL
@@ -113,7 +118,9 @@ export const setPaymentLoading = (): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_LOADING
 })
 
-export const setPaymentSuccess = (payment): BorrowActionTypes => ({
+export const setPaymentSuccess = (
+  payment: PaymentValue
+): BorrowActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
     payment
@@ -123,6 +130,7 @@ export const setPaymentSuccess = (payment): BorrowActionTypes => ({
 export const setStep = (
   payload:
     | { offer: OfferType; step: 'CHECKOUT' }
+    | { offer: OfferType; step: 'CONFIRM' }
     | {
         loan: LoanType
         offer: OfferType
@@ -131,7 +139,7 @@ export const setStep = (
 ): BorrowActionTypes => ({
   type: AT.SET_STEP,
   payload:
-    payload.step === 'CHECKOUT'
+    payload.step === 'CHECKOUT' || payload.step === 'CONFIRM'
       ? {
           step: payload.step,
           offer: payload.offer

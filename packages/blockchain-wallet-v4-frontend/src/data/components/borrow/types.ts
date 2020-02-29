@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  AccountTypes,
   CoinType,
   LoanType,
   NabuApiErrorType,
@@ -11,7 +12,7 @@ import {
 
 export type BorrowFormValuesType = {
   additionalCollateral?: string
-  collateral: any
+  collateral: AccountTypes
   collateralCryptoAmt?: number
   maxCollateral?: number
   offer: OfferType
@@ -25,8 +26,9 @@ export type BorrowMinMaxType = {
   minFiat: number
 }
 
-export enum BORROW_STEPS {
+export enum BorrowSteps {
   'CHECKOUT',
+  'CONFIRM',
   'DETAILS',
   'ADD_COLLATERAL',
   'REPAY_LOAN'
@@ -72,9 +74,8 @@ export type FromType =
   | 'LOCKBOX'
   | 'ADDRESS'
 
-export type PaymentType = {
-  amount: (n: number | string) => PaymentType
-  build: () => PaymentType
+export type PaymentValue = {
+  amount?: Array<number>
   change: string
   coins: Array<UTXOType>
   effectiveBalance: number
@@ -90,10 +91,21 @@ export type PaymentType = {
   from: Array<string>
   fromAccountIdx: number
   fromType: FromType
+  selection?: {
+    fee: number
+    inputs: Array<UTXOType>
+    outputs: Array<UTXOType>
+  }
+  to?: Array<any>
+}
+
+export type PaymentType = {
+  amount: (n: number | string) => PaymentType
+  build: () => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
   to: (address: string, addressType?: FromType) => PaymentType
-  value: () => PaymentType
+  value: () => PaymentValue
 }
 
 // State
@@ -104,8 +116,8 @@ export interface BorrowState {
   loan?: LoanType
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
-  payment: RemoteDataType<string | Error, PaymentType>
-  step: keyof typeof BORROW_STEPS
+  payment: RemoteDataType<string | Error, PaymentValue>
+  step: keyof typeof BorrowSteps
 }
 
 // Actions
@@ -182,7 +194,7 @@ interface SetPaymentLoadingAction {
 
 interface SetPaymentSuccessAction {
   payload: {
-    payment: PaymentType
+    payment: PaymentValue
   }
   type: typeof AT.SET_PAYMENT_SUCCESS
 }
@@ -191,7 +203,7 @@ interface SetStepAction {
   payload:
     | {
         offer?: OfferType
-        step: 'CHECKOUT'
+        step: 'CHECKOUT' | 'CONFIRM'
       }
     | {
         loan: LoanType

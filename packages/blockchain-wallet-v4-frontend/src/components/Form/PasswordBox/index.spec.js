@@ -6,6 +6,7 @@ import toJson from 'enzyme-to-json'
 jest.mock('blockchain-info-components', () => {
   return {
     Text: jest.fn(),
+    Icon: jest.fn(),
     PasswordInput: jest.fn()
   }
 })

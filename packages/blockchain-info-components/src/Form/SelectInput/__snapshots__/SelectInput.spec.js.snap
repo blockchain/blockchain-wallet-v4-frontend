@@ -2,6 +2,7 @@
 
 exports[`SelectInput component default renders correctly 1`] = `
 <Styled(StateManager)
+  bgColor="grey000"
   borderColor="grey100"
   classNamePrefix="bc"
   components={
@@ -13,6 +14,8 @@ exports[`SelectInput component default renders correctly 1`] = `
       "ValueContainer": [Function],
     }
   }
+  focusedBorderColor="blue600"
+  isValid={true}
   openMenuOnClick={true}
   options={
     Array [

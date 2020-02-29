@@ -172,7 +172,7 @@ const FirstStep = props => {
             />
             <QRCodeCapture
               scanType='ethAddress'
-              border={['top', 'bottom', 'right']}
+              border={['top', 'bottom', 'right', 'left']}
             />
           </Row>
           {unconfirmedTx && (

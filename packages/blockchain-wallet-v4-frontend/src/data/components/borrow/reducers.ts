@@ -82,7 +82,8 @@ export function borrowReducer (
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case 'CHECKOUT': {
+        case 'CHECKOUT':
+        case 'CONFIRM': {
           return {
             ...state,
             step: action.payload.step,

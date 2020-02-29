@@ -41,6 +41,7 @@ export {
 export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'
 
 export type BtcAccountType = {
+  address?: string | number
   balance: number
   coin: 'BTC'
   index: number

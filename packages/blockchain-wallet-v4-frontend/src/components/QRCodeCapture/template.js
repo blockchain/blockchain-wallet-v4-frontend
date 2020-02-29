@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   height: 48px;
   cursor: pointer;
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: 8px;
   border-top: ${props =>
     props.border.indexOf('top') > -1 && `1px solid ${props.theme['gray-2']}`};
   border-right: ${props =>

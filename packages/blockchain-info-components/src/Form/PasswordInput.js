@@ -1,12 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import {
+  hasValue,
+  isValid,
+  selectBackgroundColor,
+  selectBorderColor,
+  selectFocusBorderColor
+} from './helper'
+
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
   spellCheck: 'false',
   disabled: props => props.disabled,
   'data-lpignore': props => props.noLastPass
 })`
+  position: relative;
   display: block;
   width: 100%;
   height: 48px;
@@ -17,16 +26,24 @@ const BasePasswordInput = styled.input.attrs({
   font-size: 20px;
   font-weight: 500;
   color: ${props => props.theme['gray-6']};
-  background-color: ${({ bgColor, theme }) =>
-    bgColor ? theme[bgColor] : theme.white};
+  background-color: ${({ bgColor, hasValue, isValid, theme }) =>
+    hasValue && isValid ? theme.white : theme[bgColor]};
   background-image: none;
   outline-width: 0;
   user-select: text;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  border: ${({ borderColor, borderNone, theme }) =>
-    borderNone ? 'initial' : '1px solid ' + theme[borderColor]};
-  border-radius: 4px;
+  border-radius: 8px;
+  border: ${({ borderColor, hasValue, isValid, theme }) =>
+    hasValue && isValid
+      ? `1px solid ${theme[borderColor]}`
+      : '1px solid transparent'};
+
+  &:focus {
+    background-color: ${({ theme }) => theme.white};
+    border: 1px solid
+      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+  }
   &::-webkit-input-placeholder {
     color: ${props => props.theme.grey100};
   }
@@ -35,19 +52,6 @@ const BasePasswordInput = styled.input.attrs({
     background-color: ${props => props.theme['gray-1']};
   }
 `
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 class PasswordInput extends React.Component {
   componentDidUpdate (prevProps) {
@@ -61,16 +65,18 @@ class PasswordInput extends React.Component {
   }
 
   render () {
-    const { errorState, ...rest } = this.props
-    const borderColor = selectBorderColor(
-      this.props.controlledBorderColor || errorState
-    )
+    const { active, errorState, value, ...rest } = this.props
 
     return (
       <BasePasswordInput
         ref={this.refInput}
-        borderColor={borderColor}
+        bgColor={selectBackgroundColor(errorState)}
+        borderColor={selectBorderColor(errorState)}
         data-e2e={this.props['data-e2e']}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        hasValue={hasValue(value)}
+        isValid={isValid(errorState)}
+        value={value}
         {...rest}
       />
     )

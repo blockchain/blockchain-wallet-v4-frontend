@@ -74,11 +74,6 @@ describe('kvstore root selectors', () => {
     expect(selectors.getSfoxTrades(noTradesKeyState)).toEqual(expectedResult)
   })
 
-  it('getSfoxUser should return success of metadata sfox user in success state', () => {
-    const expectedResult = Remote.Success('my user id')
-    expect(selectors.getSfoxUser(successState)).toEqual(expectedResult)
-  })
-
   it('getCoinifyTrades should return success of empty array when there\'s no "trades" key in coinify metadata', () => {
     const expectedResult = Remote.Success([])
     expect(selectors.getCoinifyTrades(noTradesKeyState)).toEqual(expectedResult)
@@ -112,11 +107,6 @@ describe('kvstore root selectors', () => {
     expect(selectors.getSfoxTrades(loadingState)).toEqual(expectedResult)
   })
 
-  it('getSfoxUser should return loading of metadata sfox user in loading state', () => {
-    const expectedResult = Remote.Loading
-    expect(selectors.getSfoxUser(loadingState)).toEqual(expectedResult)
-  })
-
   it('getCoinifyTrades should return loading of metadata coinify trades in loading state', () => {
     const expectedResult = Remote.Loading
     expect(selectors.getCoinifyTrades(loadingState)).toEqual(expectedResult)
@@ -143,11 +133,6 @@ describe('kvstore root selectors', () => {
   it('getSfoxTrades should return failure of metadata sfox trades in failure state', () => {
     const expectedResult = Remote.Failure('Metadata buysell selectors failure')
     expect(selectors.getSfoxTrades(failureState)).toEqual(expectedResult)
-  })
-
-  it('getSfoxUser should return failure of metadata sfox user in failure state', () => {
-    const expectedResult = Remote.Failure('Metadata buysell selectors failure')
-    expect(selectors.getSfoxUser(failureState)).toEqual(expectedResult)
   })
 
   it('getCoinifyTrades should return failure of metadata coinify trades in failure state', () => {

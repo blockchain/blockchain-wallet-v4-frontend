@@ -1,8 +1,8 @@
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
-
-import { Link, Text } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
   & > * {
@@ -89,60 +89,6 @@ const Terms = props => {
           </Link>
         </TermsContainer>
       )
-    case 'sfox':
-      return (
-        <TermsContainer>
-          <Text size='12px' weight={400}>
-            <FormattedMessage
-              id='buysellexchangedata.create.accept.terms'
-              defaultMessage="I accept Blockchain's "
-            />
-          </Text>
-          <span>&nbsp;</span>
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.blockchain.com/terms/index.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.bc.sfox.tos'
-              defaultMessage='Terms of Service'
-            />
-          </Link>
-          <span>,</span>
-          <span>&nbsp;</span>
-          <Text size='12px' weight={400}>
-            {`SFOX's`}
-          </Text>
-          <span>&nbsp;</span>
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.sfox.com/terms.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.sfox.tos'
-              defaultMessage='Terms of Service'
-            />
-          </Link>
-          <span>&nbsp;</span>
-          {`&`}
-          &nbsp;
-          <Link
-            size='12px'
-            weight={500}
-            href='https://www.sfox.com/privacy.html'
-            target='_blank'
-          >
-            <FormattedMessage
-              id='components.terms.sfox.privacypolicy'
-              defaultMessage='Privacy Policy.'
-            />
-          </Link>
-        </TermsContainer>
-      )
     case 'blockchain-kyc':
       return (
         <TermsContainer>
@@ -180,6 +126,69 @@ const Terms = props => {
               defaultMessage='Privacy Policy.'
             />
           </Link>
+        </TermsContainer>
+      )
+    case 'blockchain-loan-agreement':
+      return (
+        <TermsContainer>
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedMessage
+              id='scenes.borrow.terms.read'
+              defaultMessage='I have read and agreed to the'
+            />
+          </Text>
+          <span>&nbsp;</span>
+          <Link
+            href='https://www.blockchain.com/legal/terms'
+            target='_blank'
+            size='13px'
+            weight={500}
+            data-e2e='blockchainTermsLink'
+          >
+            <FormattedMessage
+              id='scenes.borrow.terms.default.user'
+              defaultMessage='User Agreement'
+            />
+          </Link>
+        </TermsContainer>
+      )
+    case 'blockchain-loan-transfer':
+      return (
+        <TermsContainer>
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read1'
+              defaultMessage='By accepting this, you agree to transfer'
+            />
+          </Text>{' '}
+          <CoinDisplay
+            coin={props.coin}
+            size='13px'
+            color='grey700'
+            weight={600}
+          >
+            {props.total}
+          </CoinDisplay>{' '}
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read2'
+              defaultMessage='from your wallet to Blockchain.com. Your'
+            />
+          </Text>{' '}
+          <CoinDisplay
+            coin={props.coin}
+            size='13px'
+            color='grey700'
+            weight={600}
+          >
+            {props.collateralAmt}
+          </CoinDisplay>{' '}
+          <Text size='13px' weight={500} color='grey600'>
+            <FormattedHTMLMessage
+              id='scenes.borrow.transferterms.read3'
+              defaultMessage='collateral will be returned after your loan has been repaid minus any accrued interest and fees.'
+            />{' '}
+          </Text>
         </TermsContainer>
       )
     default:
