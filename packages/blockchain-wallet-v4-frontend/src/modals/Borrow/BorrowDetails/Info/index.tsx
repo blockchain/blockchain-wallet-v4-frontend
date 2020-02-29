@@ -1,6 +1,11 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import { OfferType } from 'core/types'
 import { Props } from '../template.success'
 import CollateralizationBar from '../CollateralizationBar'
@@ -34,12 +39,14 @@ const IconWrapper = styled.div<{ bgColor?: keyof DefaultTheme }>`
 const AmountsContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 40px 0;
+  margin: 30px 0;
   > div {
     width: 50%;
   }
 `
 const AmountsHeader = styled(Text)`
+  display: flex;
+  align-items: center;
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 8px;
@@ -139,11 +146,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                   defaultMessage='Borrow Amount'
                 />
               </AmountsHeader>
-              <Text
-                color='grey800'
-                size={props.loan.financials ? '14px' : '20px'}
-                weight={600}
-              >
+              <Text color='grey800' size='20px' weight={600}>
                 {props.loan.principal.amount[0].value} {principalDisplayName}
               </Text>
             </div>
@@ -156,7 +159,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               </AmountsHeader>
               <FiatDisplay
                 color='grey800'
-                size={props.loan.financials ? '14px' : '20px'}
+                size='20px'
                 weight={600}
                 currency='USD'
                 coin={props.loan.collateral.amounts[0].symbol}
@@ -164,22 +167,39 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 {collateralSatoshi}
               </FiatDisplay>
             </div>
-            {props.loan.financials && (
+          </AmountsContainer>
+          {props.loan.financials && (
+            <AmountsContainer>
               <div>
                 <AmountsHeader>
                   <FormattedMessage
                     id='scenes.borrow.details.info.outstanding'
                     defaultMessage='Outstanding'
                   />
+                  <TooltipHost id='borrow.interest.tooltip'>
+                    <TooltipIcon name='info' size='14px' />
+                  </TooltipHost>
                 </AmountsHeader>
-                <Text color='grey800' size='14px' weight={600}>
-                  {props.loan.financials.owedInterest[0].value +
-                    ' ' +
-                    principalDisplayName}
+                <Text
+                  color='grey800'
+                  size='14px'
+                  weight={600}
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  {props.loan.financials.owedInterest[0] &&
+                  props.loan.financials.collateralForInterest[0]
+                    ? props.loan.financials.owedInterest[0].value +
+                      ' ' +
+                      principalDisplayName +
+                      ` (${props.loan.financials.collateralForInterest[0]
+                        .value +
+                        ' ' +
+                        props.loan.financials.collateralForInterest[0].symbol})`
+                    : '-'}
                 </Text>
               </div>
-            )}
-          </AmountsContainer>
+            </AmountsContainer>
+          )}
           <Text size='16px' color='grey600' weight={600}>
             <FormattedMessage
               id='scenes.borrow.details.info.collateralization'
