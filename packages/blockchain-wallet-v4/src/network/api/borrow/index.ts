@@ -58,7 +58,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: `/users/loans/${loanId}/deposit`,
+      endPoint: `/user/loans/${loanId}/deposit`,
       contentType: 'application/json',
       data: {
         amount,

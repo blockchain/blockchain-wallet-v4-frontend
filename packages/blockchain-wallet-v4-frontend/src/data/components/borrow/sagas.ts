@@ -78,18 +78,38 @@ export default ({
 
       const cryptoAmt = Number(values.additionalCollateral) / rate
       const amount: string = getAmount(cryptoAmt || 0, coin)
+      const destination = loan.collateral.depositAddresses[coin]
 
-      payment = yield payment.amount(Number(amount))
-      payment = yield payment.to(
-        loan.collateral.depositAddresses[coin],
-        ADDRESS_TYPES.ADDRESS
-      )
+      let paymentError
+      try {
+        payment = yield payment.amount(Number(amount))
+        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+        payment = yield payment.build()
+        // ask for second password
+        const password = yield call(promptForSecondPassword)
+        payment = yield payment.sign(password)
+        payment = yield payment.publish()
+      } catch (e) {
+        paymentError = e
+      }
 
-      payment = yield payment.build()
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
-      payment = yield payment.sign(password)
-      payment = yield payment.publish()
+      try {
+        // notifyDeposit if payment from wallet succeeds or fails
+        yield call(
+          api.notifyLoanDeposit,
+          loan.loanId,
+          {
+            symbol: offer.terms.collateralCcy,
+            value: amount
+          },
+          destination,
+          paymentError ? 'FAILED' : 'REQUESTED',
+          'COLLATERAL_DEPOSIT'
+        )
+      } catch (e) {
+        // notifyDeposit endpoint failed, do nothing and continue
+      }
+
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
