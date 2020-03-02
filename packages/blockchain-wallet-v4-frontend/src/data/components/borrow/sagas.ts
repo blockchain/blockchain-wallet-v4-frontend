@@ -104,7 +104,7 @@ export default ({
           },
           destination,
           paymentError ? 'FAILED' : 'REQUESTED',
-          'COLLATERAL_DEPOSIT'
+          'DEPOSIT_COLLATERAL'
         )
       } catch (e) {
         // notifyDeposit endpoint failed, do nothing and continue
@@ -190,7 +190,7 @@ export default ({
           },
           destination,
           paymentError ? 'FAILED' : 'REQUESTED',
-          'COLLATERAL_DEPOSIT'
+          'DEPOSIT_COLLATERAL'
         )
       } catch (e) {
         // notifyDeposit endpoint failed, do nothing and continue
