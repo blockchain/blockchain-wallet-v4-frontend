@@ -127,13 +127,15 @@ function Success (props: SuccessStateType): ReactElement {
                   </Value>
                 </TableCell>
                 <TableCell width='12%'>
-                  {loan.financials
-                    ? loan.financials.owedInterest[0]
-                      ? loan.financials.owedInterest[0].value +
-                        ' ' +
-                        loan.financials.owedInterest[0].symbol
-                      : '-'
-                    : '-'}
+                  <Value>
+                    {loan.financials
+                      ? loan.financials.owedInterest[0]
+                        ? loan.financials.owedInterest[0].value +
+                          ' ' +
+                          loan.financials.owedInterest[0].symbol
+                        : '-'
+                      : '-'}
+                  </Value>
                 </TableCell>
                 <ViewDetailsCell
                   width='14%'
