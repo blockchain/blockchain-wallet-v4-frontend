@@ -4,6 +4,7 @@
   "bitpaycta.nowsupporting": "Your {coin} wallet now supports",
   "borrow.amount.tooltip.description": "This amount does not include the required collateral network fee.",
   "borrow.collateral.tooltip.description": "The amount you need to deposit to open this loan.",
+  "borrow.interest.tooltip.description": "Interest will be taken from the collateral deposited on a monthly basis.",
   "buy.accountendingwith": "ending with",
   "buy.output_method.title.buy": "I want to buy",
   "buy.output_method.title.sell": "I want to sell",
