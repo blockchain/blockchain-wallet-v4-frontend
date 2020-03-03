@@ -16,28 +16,29 @@ const Status = props => (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
         defaultMessage='Sent {coin}'
-        values={{ coin: props.coin }}
+        values={{ coin: props.coinTicker }}
       />
     )}
     {props.type === 'received' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.received'
         defaultMessage='Received {coin}'
-        values={{ coin: props.coin }}
+        values={{ coin: props.coinTicker }}
       />
     )}
     {props.type === 'transferred' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.transferred'
         defaultMessage='Transferred {coin}'
-        values={{ coin: props.coin }}
+        values={{ coin: props.coinTicker }}
       />
     )}
   </Text>
 )
 
 Status.propTypes = {
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  coinTicker: PropTypes.string.isRequired
 }
 
 export default Status

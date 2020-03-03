@@ -74,8 +74,8 @@ const WelcomePax = props => {
             </Text>
             <Text weight={400} style={{ marginTop: '16px' }}>
               <FormattedMessage
-                id='scenes.transaction.content.empty.pax.subtitle2'
-                defaultMessage='USD Pax is a crypto asset 100% backed by funds held in regulated US banks. 1 PAX equals 1 US Dollar.'
+                id='scenes.transaction.content.empty.pax.subtitle1'
+                defaultMessage='USD Digital is a crypto asset 100% backed by funds held in regulated US banks. 1 USD-D equals 1 US Dollar.'
               />
             </Text>
           </div>
@@ -144,8 +144,8 @@ const WelcomePax = props => {
             >
               <FooterButton nature='primary' onClick={handleRequest} fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.pax.swapcta'
-                  defaultMessage='Swap for USD PAX Now'
+                  id='scenes.transaction.content.empty.pax.swapcta1'
+                  defaultMessage='Swap for USD Digital Now'
                 />
               </FooterButton>
             </LinkContainer>
@@ -153,8 +153,8 @@ const WelcomePax = props => {
             <LinkContainer to={'/swap/profile'}>
               <FooterButton nature='primary' onClick={handleRequest} fullwidth>
                 <FormattedMessage
-                  id='scenes.transaction.content.empty.pax.signupcta'
-                  defaultMessage='Swap for USD PAX Now'
+                  id='scenes.transaction.content.empty.pax.signupcta1'
+                  defaultMessage='Swap for USD Digital Now'
                 />
               </FooterButton>
             </LinkContainer>

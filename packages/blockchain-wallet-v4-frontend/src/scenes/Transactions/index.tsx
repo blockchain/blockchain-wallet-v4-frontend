@@ -124,7 +124,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       search
     } = this.props
-    const { colorCode, displayName, icons } = coinModel
+    const { colorCode, coinTicker, displayName, icons } = coinModel
 
     return (
       <SceneWrapper>
@@ -157,6 +157,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TransactionList
                 buySellPartner={buySellPartner}
                 coin={coin}
+                coinTicker={coinTicker}
                 currency={currency}
                 data={value}
                 key={index}

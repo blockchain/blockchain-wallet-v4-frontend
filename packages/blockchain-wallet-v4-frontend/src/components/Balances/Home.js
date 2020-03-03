@@ -57,12 +57,12 @@ const Amount = styled.div`
 `
 
 export const HomeCoinBalanceCell = props => {
-  const { balance, coin, coinIcon, coinName } = props
+  const { balance, coin, coinIcon, coinName, color } = props
 
   return (
     <Wrapper>
       <Coin>
-        <CoinIcon color={coin.toLowerCase()} name={coinIcon} />
+        <CoinIcon color={color} name={coinIcon} />
         <CoinName color={'gray-5'}>{coinName}</CoinName>
       </Coin>
       <Amount>

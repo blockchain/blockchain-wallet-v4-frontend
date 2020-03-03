@@ -63,8 +63,8 @@ const Default = {
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
-  pax: '#00522C',
   stx: '#211F6D',
+  'usd-d': '#0C6CF2',
   xlm: '#121D33',
   // OLD - AVOID USE \\
   // Brand

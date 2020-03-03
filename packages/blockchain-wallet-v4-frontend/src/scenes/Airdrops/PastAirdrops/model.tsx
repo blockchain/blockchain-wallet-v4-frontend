@@ -35,7 +35,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
         <TypeWrapper>
           <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
-            USD Pax
+            USD Digital
           </Text>
         </TypeWrapper>
       )

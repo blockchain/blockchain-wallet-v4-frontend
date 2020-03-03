@@ -1,3 +1,4 @@
+// change this file for new USDD icon
 import Icomoon from './Icomoon'
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -20,67 +21,9 @@ const BaseIcon = styled.span`
   }
 `
 
-// ❗️PAX is a multicolor Icon and has multiple paths
-const BaseIconPax = styled.span`
-  display: flex;
-  font-size: ${props => props.size};
-  font-weight: ${props => props.weight};
-  &:before {
-    content: '';
-  }
-  .path {
-    font-family: 'icomoon', sans-serif;
-    font-weight: inherit;
-    font-size: inherit;
-  }
-  .path1:before {
-    content: '\\e929';
-    color: #a2d900;
-  }
-  .path2:before {
-    content: '\\e92a';
-    color: #3d9ccc;
-    margin-left: -1em;
-  }
-  .path3:before {
-    content: '\\e92b';
-    color: #ffd919;
-    margin-left: -1em;
-  }
-  .path4:before {
-    content: '\\e92c';
-    color: #62b247;
-    margin-left: -1em;
-  }
-  .path5:before {
-    content: '\\e92d';
-    color: #009367;
-    margin-left: -1em;
-  }
-  .path6:before {
-    content: '\\e92e';
-    color: #00522c;
-    margin-left: -1em;
-  }
-`
-
 const Icon = props => {
   const { name, cursor, ...rest } = props
   const code = Icomoon[name]
-
-  // ❗️PAX is a multicolor Icon and has multiple paths
-  if (name === 'pax') {
-    return (
-      <BaseIconPax {...rest} code={code} cursorEnabled={cursor}>
-        <span className='path path1' />
-        <span className='path path2' />
-        <span className='path path3' />
-        <span className='path path4' />
-        <span className='path path5' />
-        <span className='path path6' />
-      </BaseIconPax>
-    )
-  }
 
   return <BaseIcon {...rest} code={code} cursorEnabled={cursor} />
 }
