@@ -5,7 +5,6 @@ import { OwnProps, SuccessStateType } from '..'
 import { Status } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
-import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -89,15 +88,6 @@ const Summary: React.FC<Props> = props => {
           <Value>
             {Number(props.offer.terms.interestRate * 100).toFixed(0) + '%'}
           </Value>
-        </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.expires'
-              defaultMessage='Expires'
-            />
-          </Title>
-          <Value>{moment(props.loan.expiration).format('lll')}</Value>
         </TableRow>
       </Table>
     </div>
