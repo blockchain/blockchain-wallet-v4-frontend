@@ -138,8 +138,9 @@ function Success (props: SuccessStateType): ReactElement {
                   </Value>
                 </TableCell>
                 <ViewDetailsCell
-                  width='14%'
+                  data-e2e='viewLoanDetails'
                   onClick={() => props.showLoanDetails(loan, offer)}
+                  width='14%'
                 >
                   <Link size='14px'>View Details</Link>
                 </ViewDetailsCell>

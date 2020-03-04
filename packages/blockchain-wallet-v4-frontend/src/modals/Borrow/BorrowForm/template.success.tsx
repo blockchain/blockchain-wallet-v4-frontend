@@ -1,5 +1,5 @@
 import { BorrowFormValuesType } from 'data/components/borrow/types'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -22,7 +22,7 @@ const CustomForm = styled(Form)`
 `
 
 const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0px;
+  padding-bottom: 0;
 `
 
 const TopText = styled(Text)`
