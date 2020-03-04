@@ -41,6 +41,8 @@ const BaseTextAreaInput = styled.textarea`
   &::-webkit-input-placeholder {
     opacity: 0.4;
     color: ${props => props.theme['gray-3']};
+    font-size: 14px;
+    font-weight: 500;
   }
 `
 

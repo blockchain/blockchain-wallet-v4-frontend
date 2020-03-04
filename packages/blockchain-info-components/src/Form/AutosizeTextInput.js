@@ -28,8 +28,10 @@ const BaseTextInput = styled(AutosizeInput).attrs({
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
 
   &::placeholder {
-    color: ${props => props.theme['gray-3']};
     opacity: 0.4;
+    color: ${props => props.theme['gray-3']};
+    font-size: 14px;
+    font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
