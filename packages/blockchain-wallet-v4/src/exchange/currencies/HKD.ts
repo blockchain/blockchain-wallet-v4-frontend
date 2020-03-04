@@ -1,6 +1,7 @@
 export default {
   code: 'HKD',
   base: 'CENT',
+  displayName: 'Hong Kong Dollar',
   trade: 'HKD',
   units: {
     CENT: {

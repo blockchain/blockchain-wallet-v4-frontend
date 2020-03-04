@@ -1,6 +1,7 @@
 export default {
   base: 'WEI',
   code: 'PAX',
+  displayName: 'USD Pax',
   trade: 'PAX',
   units: {
     WEI: {

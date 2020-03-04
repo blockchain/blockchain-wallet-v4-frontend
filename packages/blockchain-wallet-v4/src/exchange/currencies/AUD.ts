@@ -1,5 +1,6 @@
 export default {
   code: 'AUD',
+  displayName: 'Australian Dollar',
   base: 'CENT',
   trade: 'AUD',
   units: {

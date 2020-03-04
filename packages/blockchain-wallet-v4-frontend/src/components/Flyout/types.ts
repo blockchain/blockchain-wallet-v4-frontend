@@ -1,6 +1,6 @@
-// export type E2EType = 'borrowModal' | 'xyzModal'
-export type E2EType =
+export type FlyoutE2EType =
   | 'borrowModal'
   | 'faqModal'
+  | 'simpleBuyModal'
   | 'welcomeModal'
   | 'whatsNewModal'

@@ -1,6 +1,7 @@
 export default {
   code: 'KRW',
   base: 'CENT',
+  displayName: 'South Korean Won',
   trade: 'KRW',
   units: {
     CENT: {

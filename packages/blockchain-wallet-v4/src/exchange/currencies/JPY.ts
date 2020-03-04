@@ -1,6 +1,7 @@
 export default {
   code: 'JPY',
   base: 'CENT',
+  displayName: 'Japanese Yen',
   trade: 'JPY',
   units: {
     CENT: {

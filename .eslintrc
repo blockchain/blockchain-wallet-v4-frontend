@@ -23,6 +23,7 @@
       "plugins": ["typescript-sort-keys"],
       "rules": {
         "typescript-sort-keys/interface": 2,
+        "typescript-sort-keys/string-enum": 2,
         "no-unused-vars": 0
       }
     }

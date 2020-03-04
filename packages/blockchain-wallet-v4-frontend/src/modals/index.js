@@ -81,6 +81,7 @@ import Faq from './Faq'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import SignMessage from './SignMessage'
+import SimpleBuy from './SimpleBuy'
 import WhatsNew from './WhatsNew'
 
 const Modals = () => (
@@ -153,6 +154,7 @@ const Modals = () => (
     <UserExists />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
+    <SimpleBuy />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
     <Welcome />

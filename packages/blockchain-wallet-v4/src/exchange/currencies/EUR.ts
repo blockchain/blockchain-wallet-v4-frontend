@@ -1,6 +1,7 @@
 export default {
   code: 'EUR',
   base: 'CENT',
+  displayName: 'Euro',
   trade: 'EUR',
   units: {
     CENT: {
