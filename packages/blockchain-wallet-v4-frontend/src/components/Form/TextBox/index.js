@@ -17,7 +17,8 @@ const Error = styled(Text)`
   display: block;
   height: 15px;
   top: ${props => (props.errorBottom ? props.height : '-20px')};
-  right: 0;
+  right: ${({ sendVerificationInput }) =>
+    sendVerificationInput ? '140px' : 0};
 `
 
 const WarningIcon = styled(Icon)`
@@ -25,6 +26,10 @@ const WarningIcon = styled(Icon)`
   margin: auto 0;
   right: 16px;
   top: 14px;
+`
+
+const SendTextInput = styled(TextInput)`
+  padding-right: 152px;
 `
 
 const getErrorState = ({ touched, invalid }) => {
@@ -47,31 +52,54 @@ const TextBox = field => {
     maxLength,
     meta,
     noLastPass,
-    placeholder
+    placeholder,
+    sendVerificationInput
   } = field
   const { initial, active, touched, error, warning } = meta
   const errorState = getErrorState(meta)
 
   return (
     <Container className={className} height={height}>
-      <TextInput
-        {...input}
-        active={active}
-        autoComplete={autoComplete}
-        autoFocus={autoFocus}
-        borderRightNone={borderRightNone}
-        center={center}
-        data-e2e={field['data-e2e']}
-        disabled={disabled}
-        disableSpellcheck={disableSpellcheck}
-        errorState={errorState}
-        height={height}
-        icon={icon}
-        initial={initial}
-        maxLength={maxLength}
-        noLastPass={noLastPass}
-        placeholder={placeholder}
-      />
+      {sendVerificationInput ? (
+        <SendTextInput
+          {...input}
+          active={active}
+          autoComplete={autoComplete}
+          autoFocus={autoFocus}
+          borderRightNone={borderRightNone}
+          center={center}
+          data-e2e={field['data-e2e']}
+          disabled={disabled}
+          disableSpellcheck={disableSpellcheck}
+          errorState={errorState}
+          height={height}
+          icon={icon}
+          initial={initial}
+          maxLength={maxLength}
+          noLastPass={noLastPass}
+          placeholder={placeholder}
+        />
+      ) : (
+        <TextInput
+          {...input}
+          active={active}
+          autoComplete={autoComplete}
+          autoFocus={autoFocus}
+          borderRightNone={borderRightNone}
+          center={center}
+          data-e2e={field['data-e2e']}
+          disabled={disabled}
+          disableSpellcheck={disableSpellcheck}
+          errorState={errorState}
+          height={height}
+          icon={icon}
+          initial={initial}
+          maxLength={maxLength}
+          noLastPass={noLastPass}
+          placeholder={placeholder}
+        />
+      )}
+
       {touched && error && (
         <>
           <Error
@@ -81,6 +109,7 @@ const TextBox = field => {
             height={height}
             errorBottom={errorBottom}
             data-e2e='textBoxError'
+            sendVerificationInput={sendVerificationInput}
           >
             {error}
           </Error>

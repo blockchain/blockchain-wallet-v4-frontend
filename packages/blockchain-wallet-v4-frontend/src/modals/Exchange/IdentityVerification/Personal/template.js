@@ -102,6 +102,7 @@ const AddressWrapper = styled.div`
   margin-bottom: 120px;
 `
 const EmailVerificationLabel = styled(Text)`
+  color: ${({ simpleBuy, theme }) => (!simpleBuy ? theme.grey800 : 'inherit')};
   font-size: 16px;
   font-weight: 500;
   margin-bottom: 16px;
@@ -126,6 +127,12 @@ const KycSeparator = styled(Separator)`
   `} ${media.tablet`
     width: 100%;
   `};
+`
+
+const Content = styled(Text)`
+  margin-top: 12px;
+  font-size: 20px;
+  width: 520px;
 `
 
 const PersonalAndCountryWrapper = styled.div`
@@ -168,6 +175,7 @@ const Personal = ({
   onStateSelect,
   onPromptForEmailVerification,
   handleSubmit,
+  simpleBuyInvited,
   sendEmailVerification,
   editEmail,
   updateEmail
@@ -211,8 +219,16 @@ const Personal = ({
                     </TooltipHost>
                   </FaqHeaderHelper>
                 </IdentityVerificationHeader>
+                {simpleBuyInvited && (
+                  <Content>
+                    <FormattedMessage
+                      id='identityverification.personal.content'
+                      defaultMessage='Complete your order by securely verifying your ID. These details are only collected to prevent fraud and keep your account information safe.'
+                    />
+                  </Content>
+                )}
                 <FormContainer>
-                  {showEmail && !emailVerified && (
+                  {showEmail && !emailVerified && !simpleBuyInvited && (
                     <EmailVerificationLabel htmlFor='email'>
                       <FormattedMessage
                         id='identityverification.personal.verifyemail'
@@ -224,6 +240,17 @@ const Personal = ({
                     <React.Fragment>
                       <FaqFormGroup>
                         <FormItem>
+                          {simpleBuyInvited && (
+                            <Label
+                              htmlFor='country'
+                              simpleBuy={simpleBuyInvited}
+                            >
+                              <FormattedMessage
+                                id='identityverification.personal.email'
+                                defaultMessage='Email'
+                              />
+                            </Label>
+                          )}
                           <Field
                             name='email'
                             component={KycEmailVerification}
@@ -243,11 +270,18 @@ const Personal = ({
                   <PersonalAndCountryWrapper dim={showEmailError}>
                     <FaqFormGroup>
                       <FormItem>
-                        <Label htmlFor='country'>
-                          <FormattedMessage
-                            id='identityverification.personal.countryrequired'
-                            defaultMessage='Country *'
-                          />
+                        <Label htmlFor='country' simpleBuy={simpleBuyInvited}>
+                          {simpleBuyInvited ? (
+                            <FormattedMessage
+                              id='identityverification.personal.countryres'
+                              defaultMessage='Country of Residence'
+                            />
+                          ) : (
+                            <FormattedMessage
+                              id='identityverification.personal.countryrequired'
+                              defaultMessage='Country *'
+                            />
+                          )}
                         </Label>
                         <Field
                           data-e2e='selectCountryDropdown'
@@ -258,10 +292,17 @@ const Personal = ({
                           menuPlacement='auto'
                           onChange={onCountrySelect}
                           label={
-                            <FormattedMessage
-                              id='components.selectboxcountry.label'
-                              defaultMessage='Select country'
-                            />
+                            simpleBuyInvited ? (
+                              <FormattedMessage
+                                id='components.selectboxcountry.label.sb'
+                                defaultMessage='Select'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='components.selectboxcountry.label'
+                                defaultMessage='Select country'
+                              />
+                            )
                           }
                         />
                       </FormItem>
@@ -269,11 +310,18 @@ const Personal = ({
                     {countryIsUS && (
                       <FaqFormGroup>
                         <FormItem>
-                          <Label htmlFor='state'>
-                            <FormattedMessage
-                              id='identityverification.personal.staterequired'
-                              defaultMessage='State *'
-                            />
+                          <Label htmlFor='state' simpleBuy={simpleBuyInvited}>
+                            {simpleBuyInvited ? (
+                              <FormattedMessage
+                                id='identityverification.personal.stateres'
+                                defaultMessage='State of Residence'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.staterequired'
+                                defaultMessage='State *'
+                              />
+                            )}
                           </Label>
                           <Field
                             data-e2e='selectStateDropdown'
@@ -284,10 +332,17 @@ const Personal = ({
                             menuPlacement='auto'
                             onChange={onStateSelect}
                             label={
-                              <FormattedMessage
-                                id='identityverification.personal.label.state'
-                                defaultMessage='Select your state'
-                              />
+                              simpleBuyInvited ? (
+                                <FormattedMessage
+                                  id='identityverification.personal.label.state.sb'
+                                  defaultMessage='Select'
+                                />
+                              ) : (
+                                <FormattedMessage
+                                  id='identityverification.personal.label.state'
+                                  defaultMessage='Select your state'
+                                />
+                              )
                             }
                           />
                         </FormItem>
@@ -311,11 +366,22 @@ const Personal = ({
                         <FaqFormGroup>
                           <PersonalItem>
                             <PersonalField>
-                              <Label htmlFor='firstName' id='firstName'>
-                                <FormattedMessage
-                                  id='identityverification.personal.firstnamerequired'
-                                  defaultMessage='First Name *'
-                                />
+                              <Label
+                                htmlFor='firstName'
+                                id='firstName'
+                                simpleBuy={simpleBuyInvited}
+                              >
+                                {simpleBuyInvited ? (
+                                  <FormattedMessage
+                                    id='identityverification.personal.firstname'
+                                    defaultMessage='First Name'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    id='identityverification.personal.firstnamerequired'
+                                    defaultMessage='First Name *'
+                                  />
+                                )}
                               </Label>
                               <Field
                                 date-e2e='personalInformationFirstName'
@@ -327,11 +393,21 @@ const Personal = ({
                               />
                             </PersonalField>
                             <PersonalField>
-                              <Label htmlFor='lastName'>
-                                <FormattedMessage
-                                  id='identityverification.personal.lastnamerequired'
-                                  defaultMessage='Last Name *'
-                                />
+                              <Label
+                                htmlFor='lastName'
+                                simpleBuy={simpleBuyInvited}
+                              >
+                                {simpleBuyInvited ? (
+                                  <FormattedMessage
+                                    id='identityverification.personal.lastname'
+                                    defaultMessage='Last Name'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    id='identityverification.personal.lastnamerequired'
+                                    defaultMessage='Last Name *'
+                                  />
+                                )}
                               </Label>
                               <Field
                                 name='lastName'
@@ -367,11 +443,18 @@ const Personal = ({
                     {showPersonal && (
                       <FaqFormGroup>
                         <FormItem>
-                          <Label htmlFor='dob'>
-                            <FormattedMessage
-                              id='identityverification.personal.dateofbirthrequired'
-                              defaultMessage='Date of Birth *'
-                            />
+                          <Label htmlFor='dob' simpleBuy={simpleBuyInvited}>
+                            {simpleBuyInvited ? (
+                              <FormattedMessage
+                                id='identityverification.personal.dateofbirth'
+                                defaultMessage='Date of Birth'
+                              />
+                            ) : (
+                              <FormattedMessage
+                                id='identityverification.personal.dateofbirthrequired'
+                                defaultMessage='Date of Birth *'
+                              />
+                            )}
                           </Label>
                           <Field
                             name='dob'
@@ -406,14 +489,29 @@ const Personal = ({
                     )}
                     {showPersonal && (
                       <AddressWrapper>
-                        <KycSeparator />
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='line1' id='line1'>
+                            <Label
+                              htmlFor='line1'
+                              id='line1'
+                              simpleBuy={simpleBuyInvited}
+                            >
                               {countryIsUS ? (
+                                simpleBuyInvited ? (
+                                  <FormattedMessage
+                                    id='identityverification.personal.address_line1'
+                                    defaultMessage='Address Line 1'
+                                  />
+                                ) : (
+                                  <FormattedMessage
+                                    id='identityverification.personal.address_line1required'
+                                    defaultMessage='Address Line 1 *'
+                                  />
+                                )
+                              ) : simpleBuyInvited ? (
                                 <FormattedMessage
-                                  id='identityverification.personal.address_line1required'
-                                  defaultMessage='Address Line 1 *'
+                                  id='identityverification.personal.streetline1'
+                                  defaultMessage='Street Line 1'
                                 />
                               ) : (
                                 <FormattedMessage
@@ -433,7 +531,7 @@ const Personal = ({
                         </FaqFormGroup>
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='line2'>
+                            <Label htmlFor='line2' simpleBuy={simpleBuyInvited}>
                               {countryIsUS ? (
                                 <FormattedMessage
                                   id='identityverification.personal.address_line2'
@@ -455,11 +553,18 @@ const Personal = ({
                         </FaqFormGroup>
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor='city'>
-                              <FormattedMessage
-                                id='identityverification.personal.cityrequired'
-                                defaultMessage='City *'
-                              />
+                            <Label htmlFor='city' simpleBuy={simpleBuyInvited}>
+                              {simpleBuyInvited ? (
+                                <FormattedMessage
+                                  id='identityverification.personal.city'
+                                  defaultMessage='City'
+                                />
+                              ) : (
+                                <FormattedMessage
+                                  id='identityverification.personal.cityrequired'
+                                  defaultMessage='City *'
+                                />
+                              )}
                             </Label>
                             <Field
                               name='city'
@@ -491,9 +596,21 @@ const Personal = ({
                               <PersonalField>
                                 <Label htmlFor='postCode'>
                                   {countryUsesZipcode(countryCode) ? (
+                                    simpleBuyInvited ? (
+                                      <FormattedMessage
+                                        id='identityverification.personal.zip.sb'
+                                        defaultMessage='Zip Code'
+                                      />
+                                    ) : (
+                                      <FormattedMessage
+                                        id='identityverification.personal.zip'
+                                        defaultMessage='Zip Code *'
+                                      />
+                                    )
+                                  ) : simpleBuyInvited ? (
                                     <FormattedMessage
-                                      id='identityverification.personal.zip'
-                                      defaultMessage='Zip Code *'
+                                      id='identityverification.personal.postcode'
+                                      defaultMessage='Postcode'
                                     />
                                   ) : (
                                     <FormattedMessage
