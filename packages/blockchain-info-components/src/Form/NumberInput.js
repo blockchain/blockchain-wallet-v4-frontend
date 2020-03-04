@@ -47,6 +47,8 @@ const BaseNumberInput = styled.input.attrs({
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
+    font-size: 14px;
+    font-weight: 500;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

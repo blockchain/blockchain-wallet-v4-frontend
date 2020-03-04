@@ -32,7 +32,10 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   }
 
   .bc__placeholder {
-    color: ${props => props.theme.grey100};
+    opacity: 0.4;
+    color: ${props => props.theme['gray-3']};
+    font-size: 14px;
+    font-weight: 500;
     & + div {
       width: 100%;
       z-index: 2;
