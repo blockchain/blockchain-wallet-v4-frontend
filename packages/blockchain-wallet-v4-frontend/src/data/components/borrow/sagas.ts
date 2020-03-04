@@ -181,7 +181,7 @@ export default ({
 
       try {
         // notifyDeposit if payment from wallet succeeds or fails
-        response = yield call(
+        yield call(
           api.notifyLoanDeposit,
           loan.loanId,
           {
@@ -196,7 +196,7 @@ export default ({
         // notifyDeposit endpoint failed, do nothing and continue
       }
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
