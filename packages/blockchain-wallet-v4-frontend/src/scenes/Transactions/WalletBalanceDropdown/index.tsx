@@ -83,8 +83,14 @@ const FiatContainer = styled.div`
 
 const CoinSelect = styled(SelectBox)`
   .bc__control {
-    border-radius: 8px;
+    background-color: ${({ theme }) => theme.white};
+    border: 1px solid ${({ theme }) => theme.grey100};
+
+    & .bc__control--is-focused {
+      border: 1px solid ${({ theme }) => theme.blue600};
+    }
   }
+
   .bc__control .bc__value-container {
     padding: 0px;
   }
