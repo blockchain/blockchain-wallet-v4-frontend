@@ -91,17 +91,23 @@ class BorrowPax extends PureComponent<Props & State> {
             NotAsked: () => <SkeletonRectangle width='100%' height='40px' />
           })
         ) : (
-          <Button
-            style={{ marginTop: '16px' }}
-            nature='light'
-            fullwidth
-            data-e2e='paxLearnMore'
+          <Link
+            style={{ width: '100%' }}
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/articles/360040444691'
           >
-            <FormattedMessage
-              id='scenes.borrow.learnmore'
-              defaultMessage='Learn More'
-            />
-          </Button>
+            <Button
+              style={{ marginTop: '16px' }}
+              nature='light'
+              fullwidth
+              data-e2e='paxLearnMore'
+            >
+              <FormattedMessage
+                id='scenes.borrow.learnmore'
+                defaultMessage='Learn More'
+              />
+            </Button>
+          </Link>
         )}
       </CustomBox>
     )
