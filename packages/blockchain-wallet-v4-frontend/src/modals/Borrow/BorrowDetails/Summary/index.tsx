@@ -21,7 +21,7 @@ const {
 
 const Summary: React.FC<Props> = props => {
   const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
+    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
     props.offer
@@ -52,7 +52,7 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.principal.amount[0].value} {principalDisplayName}
+            {props.loan.principal.amount[0].amount} {principalDisplayName}
           </Value>
         </TableRow>
         <TableRow>
@@ -63,8 +63,8 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.collateral.amounts[0].value}{' '}
-            {props.loan.collateral.amounts[0].symbol}
+            {props.loan.collateral.amounts[0].amount}{' '}
+            {props.loan.collateral.amounts[0].currency}
           </Value>
         </TableRow>
         <TableRow>

@@ -1,5 +1,4 @@
 import { CoinType, LoanType, OfferType } from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
 
@@ -22,7 +21,7 @@ export const getCollateralizationColor = (
 export const getCollateralAmtRequired = (loan: LoanType, offer: OfferType) => {
   return (
     (offer.terms.collateralRatio - loan.collateralisationRatio) *
-    Number(loan.principal.amount[0].value)
+    Number(loan.principal.amount[0].amount)
   ).toFixed(2)
 }
 

@@ -1,8 +1,8 @@
-import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
+import { CoinType } from 'core/types'
 
 export type MoneyType = {
-  symbol: CoinType
-  value: string
+  amount: string
+  currency: CoinType
 }
 
 export type LoanFinancialsType = {

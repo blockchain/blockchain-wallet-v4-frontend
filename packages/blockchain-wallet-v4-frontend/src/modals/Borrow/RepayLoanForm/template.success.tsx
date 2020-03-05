@@ -109,9 +109,9 @@ export type Props = OwnProps &
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
+    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const collateralSatoshi = Exchange.convertBtcToBtc({
-    value: Number(props.loan.collateral.amounts[0].value),
+    value: Number(props.loan.collateral.amounts[0].amount),
     fromUnit: 'BTC',
     toUnit: 'SAT'
   }).value
@@ -148,7 +148,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               />
             </AmountsHeader>
             <Text color='grey800' size='20px' weight={600}>
-              {props.loan.principal.amount[0].value} {principalDisplayName}
+              {props.loan.principal.amount[0].amount} {principalDisplayName}
             </Text>
           </div>
           <div>
@@ -163,7 +163,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               size='20px'
               weight={600}
               currency='USD'
-              coin={props.loan.collateral.amounts[0].symbol}
+              coin={props.loan.collateral.amounts[0].currency}
             >
               {collateralSatoshi}
             </FiatDisplay>

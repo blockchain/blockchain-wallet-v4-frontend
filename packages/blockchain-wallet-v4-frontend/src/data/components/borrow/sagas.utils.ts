@@ -141,8 +141,8 @@ export default ({
         api.notifyLoanDeposit,
         loanId,
         {
-          symbol: coin,
-          value: convertStandardToBase(coin, amount)
+          currency: coin,
+          amount: convertStandardToBase(coin, amount)
         },
         destination,
         paymentSuccess ? 'REQUESTED' : 'FAILED',

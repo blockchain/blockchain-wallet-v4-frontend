@@ -55,9 +55,9 @@ const AmountsHeader = styled(Text)`
 
 const Info: React.FC<Props & { offer: OfferType }> = props => {
   const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
+    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const collateralSatoshi = Exchange.convertBtcToBtc({
-    value: Number(props.loan.collateral.amounts[0].value),
+    value: Number(props.loan.collateral.amounts[0].amount),
     fromUnit: 'BTC',
     toUnit: 'SAT'
   }).value
@@ -75,7 +75,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               <FormattedMessage
                 id='scenes.borrow.details.newloan.created'
                 defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
-                values={{ symbol: props.loan.collateral.amounts[0].symbol }}
+                values={{ symbol: props.loan.collateral.amounts[0].currency }}
               />
             </Text>
           </Item>
@@ -99,7 +99,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 id='scenes.borrow.details.newloan.receive'
                 defaultMessage='You will receive {value} {symbol} to your Blockchain Wallet once we’ve received your deposit.'
                 values={{
-                  value: props.loan.principal.amount[0].value,
+                  value: props.loan.principal.amount[0].amount,
                   symbol: principalDisplayName
                 }}
               />
@@ -147,7 +147,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 />
               </AmountsHeader>
               <Text color='grey800' size='20px' weight={600}>
-                {props.loan.principal.amount[0].value} {principalDisplayName}
+                {props.loan.principal.amount[0].amount} {principalDisplayName}
               </Text>
             </div>
             <div>
@@ -162,7 +162,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 size='20px'
                 weight={600}
                 currency='USD'
-                coin={props.loan.collateral.amounts[0].symbol}
+                coin={props.loan.collateral.amounts[0].currency}
               >
                 {collateralSatoshi}
               </FiatDisplay>
@@ -188,13 +188,14 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 >
                   {props.loan.financials.owedInterest[0] &&
                   props.loan.financials.collateralForInterest[0]
-                    ? props.loan.financials.owedInterest[0].value +
+                    ? props.loan.financials.owedInterest[0].amount +
                       ' ' +
                       principalDisplayName +
                       ` (${props.loan.financials.collateralForInterest[0]
-                        .value +
+                        .amount +
                         ' ' +
-                        props.loan.financials.collateralForInterest[0].symbol})`
+                        props.loan.financials.collateralForInterest[0]
+                          .currency})`
                     : '-'}
                 </Text>
               </div>
