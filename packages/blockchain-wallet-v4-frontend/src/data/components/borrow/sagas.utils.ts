@@ -2,11 +2,13 @@ import * as A from './actions'
 import * as S from './selectors'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
+import { call, CallEffect, put, select } from 'redux-saga/effects'
 import { CoinType, RemoteDataType } from 'core/types'
+import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { NO_OFFER_EXISTS } from './model'
 import { PaymentType, PaymentValue } from './types'
-import { put, select } from 'redux-saga/effects'
+import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 
 export default ({
@@ -19,10 +21,28 @@ export default ({
   networks: any
 }) => {
   const buildAndPublishPayment = function * (
+    coin: CoinType,
     payment: PaymentType,
-    amount: string,
+    amount: number,
     destination: string
-  ) {}
+  ): Generator<PaymentType | CallEffect, boolean, any> {
+    let paymentError
+    try {
+      payment = yield payment.amount(
+        parseInt(convertStandardToBase(coin, amount))
+      )
+      payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.build()
+      // ask for second password
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish()
+    } catch (e) {
+      paymentError = e
+    }
+
+    return !paymentError
+  }
 
   const createLimits = function * (payment: PaymentType) {
     try {
@@ -108,11 +128,30 @@ export default ({
   }
 
   const notifyDeposit = function * (
+    coin: CoinType,
     loanId: string,
-    symbol: CoinType,
-    paymentError: boolean,
+    amount: number,
+    destination: string,
+    paymentSuccess: boolean,
     depositType: 'DEPOSIT_COLLATERAL' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
-  ) {}
+  ) {
+    try {
+      // notifyDeposit if payment from wallet succeeds or fails
+      yield call(
+        api.notifyLoanDeposit,
+        loanId,
+        {
+          symbol: coin,
+          value: convertStandardToBase(coin, amount)
+        },
+        destination,
+        paymentSuccess ? 'REQUESTED' : 'FAILED',
+        depositType
+      )
+    } catch (e) {
+      // notifyDeposit endpoint failed, do nothing and continue
+    }
+  }
 
   const paymentGetOrElse = (
     coin: CoinType,
@@ -134,8 +173,10 @@ export default ({
   }
 
   return {
+    buildAndPublishPayment,
     createLimits,
     createPayment,
-    paymentGetOrElse
+    paymentGetOrElse,
+    notifyDeposit
   }
 }

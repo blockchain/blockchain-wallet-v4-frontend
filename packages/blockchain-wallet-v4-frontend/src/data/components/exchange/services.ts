@@ -119,6 +119,7 @@ export const addBalanceLimit = (balanceLimit, limits) => {
 
   if (
     new BigNumber(prop('amount', fiatBalance)).isLessThan(
+      // @ts-ignore
       path(['minOrder', 'amount'], limits)
     )
   ) {
@@ -143,6 +144,7 @@ export const formatLimits = ({ currency, ...limits }) =>
       fiat: true,
       symbol: currencySymbolMap[currency]
     })),
+    // @ts-ignore
     assoc('maxFiatLimit', limits.maxPossibleOrder)
   )(limits)
 
@@ -151,6 +153,7 @@ const getRate = (rates, source, target) => {
     ? [target, 'last']
     : [formatPair(source, target), 'price']
   return compose(
+    // @ts-ignore
     rate => new BigNumber(rate).toFixed(14),
     pathOr(0, pathTo)
   )(rates)
@@ -160,6 +163,7 @@ export const convertSourceToTarget = (form, rates, amount) => {
   const sourceCoin = path(['source', 'coin'], form)
   const targetCoin = path(['target', 'coin'], form)
 
+  // @ts-ignore
   return compose(
     toFixed(8, false),
     multiply(getRate(rates, targetCoin, sourceCoin))
@@ -177,6 +181,7 @@ export const convertSourceFeesToFiat = (
   const sourceCoin = isSourceErc20 ? 'ETH' : path(['source', 'coin'], form)
   const sourceRates = isSourceErc20 ? fallbackEthRates : rates
 
+  // @ts-ignore
   return compose(
     toFixed(2, false),
     multiply(getRate(sourceRates, sourceCoin, fiatCurrency))

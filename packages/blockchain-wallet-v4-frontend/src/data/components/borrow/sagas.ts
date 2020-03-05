@@ -10,10 +10,8 @@ import {
   PaymentValue,
   RepayLoanFormType
 } from './types'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatDisplayName,
-  getAmount,
   getCollateralAmtRequired,
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
@@ -40,7 +38,13 @@ export default ({
     .waitForUserData
   const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
     .calculateProvisionalPayment
-  const { createPayment, createLimits, paymentGetOrElse } = utils({
+  const {
+    buildAndPublishPayment,
+    createPayment,
+    createLimits,
+    paymentGetOrElse,
+    notifyDeposit
+  } = utils({
     api,
     coreSagas,
     networks
@@ -78,38 +82,25 @@ export default ({
       const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
 
       const cryptoAmt = Number(values.additionalCollateral) / rate
-      const amount: string = getAmount(cryptoAmt || 0, coin)
       const destination = loan.collateral.depositAddresses[coin]
 
-      let paymentError
-      try {
-        payment = yield payment.amount(Number(amount))
-        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
-        payment = yield payment.build()
-        // ask for second password
-        const password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
-      } catch (e) {
-        paymentError = e
-      }
+      const paymentSuccess: boolean = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        cryptoAmt,
+        destination
+      )
 
-      try {
-        // notifyDeposit if payment from wallet succeeds or fails
-        yield call(
-          api.notifyLoanDeposit,
-          loan.loanId,
-          {
-            symbol: offer.terms.collateralCcy,
-            value: amount
-          },
-          destination,
-          paymentError ? 'FAILED' : 'REQUESTED',
-          'DEPOSIT_COLLATERAL'
-        )
-      } catch (e) {
-        // notifyDeposit endpoint failed, do nothing and continue
-      }
+      yield call(
+        notifyDeposit,
+        offer.terms.collateralCcy,
+        loan.loanId,
+        cryptoAmt,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_COLLATERAL'
+      )
 
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
@@ -162,47 +153,26 @@ export default ({
         }
       )
 
-      // backend expects amount to be a string with leading 0 if decimal e.g. '0.02'
-      const amount = values.collateralCryptoAmt
-        ? values.collateralCryptoAmt.toString()
-        : '0.0'
       const destination = loan.collateral.depositAddresses[coin]
 
-      let paymentError
-      try {
-        const satAmount = Exchange.convertBtcToBtc({
-          value: amount,
-          fromUnit: 'BTC',
-          toUnit: 'SAT'
-        }).value
-        payment = yield payment.amount(Number(satAmount))
-        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      const paymentSuccess: boolean = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        values.collateralCryptoAmt || 0,
+        destination
+      )
 
-        payment = yield payment.build()
-        // ask for second password
-        const password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
-      } catch (e) {
-        paymentError = e
-      }
+      yield call(
+        notifyDeposit,
+        offer.terms.collateralCcy,
+        loan.loanId,
+        values.collateralCryptoAmt || 0,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_COLLATERAL'
+      )
 
-      try {
-        // notifyDeposit if payment from wallet succeeds or fails
-        yield call(
-          api.notifyLoanDeposit,
-          loan.loanId,
-          {
-            symbol: offer.terms.collateralCcy,
-            value: amount
-          },
-          destination,
-          paymentError ? 'FAILED' : 'REQUESTED',
-          'DEPOSIT_COLLATERAL'
-        )
-      } catch (e) {
-        // notifyDeposit endpoint failed, do nothing and continue
-      }
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
@@ -408,38 +378,25 @@ export default ({
         }
       )
 
-      const amount: string = getAmount(Number(values.amount) || 0, coin)
       const destination = loan.principal.depositAddresses[coin]
 
-      let paymentError
-      try {
-        payment = yield payment.amount(amount)
-        payment = yield payment.to(destination)
-        payment = yield payment.build()
-        // ask for second password
-        const password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
-      } catch (e) {
-        paymentError = e
-      }
+      const paymentSuccess = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        Number(values.amount) || 0,
+        destination
+      )
 
-      try {
-        // notifyDeposit if payment from wallet succeeds or fails
-        response = yield call(
-          api.notifyLoanDeposit,
-          loan.loanId,
-          {
-            symbol: offer.terms.principalCcy,
-            value: amount
-          },
-          destination,
-          paymentError ? 'FAILED' : 'REQUESTED',
-          'DEPOSIT_PRINCIPAL_AND_INTEREST'
-        )
-      } catch (e) {
-        // notifyDeposit endpoint failed, do nothing and continue
-      }
+      yield call(
+        notifyDeposit,
+        offer.terms.principalCcy,
+        loan.loanId,
+        Number(values.amount) || 0,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      )
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
       yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
