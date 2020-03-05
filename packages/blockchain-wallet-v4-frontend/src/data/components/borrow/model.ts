@@ -1,5 +1,5 @@
 import { CoinType, LoanType, OfferType } from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { convertBaseToStandard } from '../exchange/services'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
 
@@ -22,7 +22,12 @@ export const getCollateralizationColor = (
 export const getCollateralAmtRequired = (loan: LoanType, offer: OfferType) => {
   return (
     (offer.terms.collateralRatio - loan.collateralisationRatio) *
-    Number(loan.principal.amount[0].value)
+    Number(
+      convertBaseToStandard(
+        loan.principal.amount[0].currency,
+        loan.principal.amount[0].amount
+      )
+    )
   ).toFixed(2)
 }
 
@@ -46,16 +51,5 @@ export const fiatDisplayName = (coin: CoinType) => {
       return 'USD'
     default:
       return 'USD'
-  }
-}
-
-export const getAmount = (value: number, coin: CoinType) => {
-  switch (coin) {
-    case 'BTC':
-      return Exchange.convertBtcToBtc({ value, fromUnit: 'BTC', toUnit: 'SAT' })
-        .value
-    case 'PAX':
-      return Exchange.convertPaxToPax({ value, fromUnit: 'PAX', toUnit: 'WEI' })
-        .value
   }
 }

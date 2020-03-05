@@ -45,7 +45,10 @@ const BasePasswordInput = styled.input.attrs({
       ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
   &::-webkit-input-placeholder {
-    color: ${props => props.theme.grey100};
+    opacity: 0.4;
+    color: ${props => props.theme['gray-3']};
+    font-size: 14px;
+    font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;

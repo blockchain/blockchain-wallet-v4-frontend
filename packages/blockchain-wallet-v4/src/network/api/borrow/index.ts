@@ -54,11 +54,11 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     amount: MoneyType,
     dstAddress: string,
     status: 'REQUESTED' | 'FAILED',
-    type: 'COLLATERAL_DEPOSIT' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+    type: 'DEPOSIT_COLLATERAL' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
   ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: `/users/loans/${loanId}/deposit`,
+      endPoint: `/user/loans/${loanId}/deposit`,
       contentType: 'application/json',
       data: {
         amount,

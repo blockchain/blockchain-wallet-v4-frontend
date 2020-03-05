@@ -151,10 +151,11 @@ const selectColor = (nature, disabled, small) => {
         color: 'white',
         borderColor: 'white'
       }
-    case 'white-blue-transparent':
+    case 'white-blue':
       return {
-        color: 'white',
-        borderColor: 'blue400'
+        color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'white'
       }
     case 'green':
       return {

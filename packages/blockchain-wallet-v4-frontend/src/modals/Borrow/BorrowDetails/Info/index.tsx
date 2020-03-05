@@ -1,4 +1,3 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import {
   Icon,
@@ -8,6 +7,7 @@ import {
 } from 'blockchain-info-components'
 import { OfferType } from 'core/types'
 import { Props } from '../template.success'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import CollateralizationBar from '../CollateralizationBar'
 import CollateralWarning from '../CollateralWarning'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -35,7 +35,6 @@ const IconWrapper = styled.div<{ bgColor?: keyof DefaultTheme }>`
   background-color: ${props =>
     props.bgColor ? props.theme[props.bgColor] : props.theme.grey000};
 `
-
 const AmountsContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -52,16 +51,13 @@ const AmountsHeader = styled(Text)`
   margin-bottom: 8px;
   color: ${props => props.theme.grey600};
 `
+const InlineText = styled(Text)`
+  * {
+    display: inline;
+  }
+`
 
 const Info: React.FC<Props & { offer: OfferType }> = props => {
-  const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
-  const collateralSatoshi = Exchange.convertBtcToBtc({
-    value: Number(props.loan.collateral.amounts[0].value),
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
-  }).value
-
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':
     case 'PENDING_EXECUTION': {
@@ -75,7 +71,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               <FormattedMessage
                 id='scenes.borrow.details.newloan.created'
                 defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
-                values={{ symbol: props.loan.collateral.amounts[0].symbol }}
+                values={{ symbol: props.loan.collateral.amounts[0].currency }}
               />
             </Text>
           </Item>
@@ -94,16 +90,24 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
             <IconWrapper>
               <Icon name='wallet' size='18px' color='grey600' />
             </IconWrapper>
-            <Text color='grey600' size='14px' weight={500}>
+            <InlineText color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.details.newloan.receive'
-                defaultMessage='You will receive {value} {symbol} to your Blockchain Wallet once we’ve received your deposit.'
-                values={{
-                  value: props.loan.principal.amount[0].value,
-                  symbol: principalDisplayName
-                }}
+                defaultMessage='You will receive'
+              />{' '}
+              <CoinDisplay
+                coin={props.loan.principal.amount[0].currency}
+                color='grey600'
+                size='14px'
+                weight={500}
+              >
+                {props.loan.principal.amount[0].amount}
+              </CoinDisplay>{' '}
+              <FormattedMessage
+                id='scenes.borrow.newloan.receive2'
+                defaultMessage='to your Blockchain Wallet once we’ve received your deposit.'
               />
-            </Text>
+            </InlineText>
           </Item>
         </Wrapper>
       )
@@ -146,9 +150,14 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                   defaultMessage='Borrow Amount'
                 />
               </AmountsHeader>
-              <Text color='grey800' size='20px' weight={600}>
-                {props.loan.principal.amount[0].value} {principalDisplayName}
-              </Text>
+              <CoinDisplay
+                coin={props.loan.principal.amount[0].currency}
+                color='grey800'
+                size='20px'
+                weight={600}
+              >
+                {props.loan.principal.amount[0].amount}
+              </CoinDisplay>
             </div>
             <div>
               <AmountsHeader>
@@ -162,9 +171,9 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                 size='20px'
                 weight={600}
                 currency='USD'
-                coin={props.loan.collateral.amounts[0].symbol}
+                coin={props.loan.collateral.amounts[0].currency}
               >
-                {collateralSatoshi}
+                {props.loan.collateral.amounts[0].amount}
               </FiatDisplay>
             </div>
           </AmountsContainer>
@@ -181,21 +190,37 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                   </TooltipHost>
                 </AmountsHeader>
                 <Text
-                  color='grey800'
-                  size='14px'
                   weight={600}
-                  style={{ whiteSpace: 'nowrap' }}
+                  style={{ whiteSpace: 'nowrap', display: 'flex' }}
                 >
                   {props.loan.financials.owedInterest[0] &&
-                  props.loan.financials.collateralForInterest[0]
-                    ? props.loan.financials.owedInterest[0].value +
-                      ' ' +
-                      principalDisplayName +
-                      ` (${props.loan.financials.collateralForInterest[0]
-                        .value +
-                        ' ' +
-                        props.loan.financials.collateralForInterest[0].symbol})`
-                    : '-'}
+                  props.loan.financials.collateralForInterest[0] ? (
+                    <>
+                      <CoinDisplay
+                        coin={props.loan.financials.owedInterest[0].currency}
+                        color='grey800'
+                        size='14px'
+                        weight={600}
+                      >
+                        {props.loan.financials.owedInterest[0].amount}
+                      </CoinDisplay>
+                      {'  '}(
+                      <CoinDisplay
+                        coin={
+                          props.loan.financials.collateralForInterest[0]
+                            .currency
+                        }
+                        color='grey800'
+                        size='14px'
+                        weight={600}
+                      >
+                        {props.loan.financials.collateralForInterest[0].amount}
+                      </CoinDisplay>
+                      )
+                    </>
+                  ) : (
+                    '-'
+                  )}
                 </Text>
               </div>
             </AmountsContainer>
