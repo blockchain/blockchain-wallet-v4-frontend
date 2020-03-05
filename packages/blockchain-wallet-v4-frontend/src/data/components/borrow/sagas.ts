@@ -10,12 +10,6 @@ import {
   PaymentValue,
   RepayLoanFormType
 } from './types'
-import {
-  CoinType,
-  LoanFinancialsType,
-  LoanType,
-  RemoteDataType
-} from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   fiatDisplayName,
@@ -26,10 +20,12 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
+import { LoanFinancialsType, LoanType } from 'core/types'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import profileSagas from '../../../data/modules/profile/sagas'
+import utils from './sagas.utils'
 
 export default ({
   api,
@@ -44,6 +40,11 @@ export default ({
     .waitForUserData
   const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
     .calculateProvisionalPayment
+  const { createPayment, createLimits, paymentGetOrElse } = utils({
+    api,
+    coreSagas,
+    networks
+  })
 
   const errorHandler = e => {
     return typeof e === 'object'
@@ -61,7 +62,7 @@ export default ({
       const paymentR = S.getPayment(yield select())
 
       const coin = S.getCoinType(yield select())
-      let payment = _toRawPayment(coin, paymentR)
+      let payment = paymentGetOrElse(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
@@ -132,7 +133,7 @@ export default ({
       yield put(actions.form.startSubmit('borrowForm'))
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      let payment = _toRawPayment(coin, paymentR)
+      let payment = paymentGetOrElse(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
@@ -211,108 +212,6 @@ export default ({
     }
   }
 
-  const _createLimits = function * (payment: PaymentType) {
-    try {
-      const coin = S.getCoinType(yield select())
-      const offer = S.getOffer(yield select())
-      const ratesR = yield select(S.getRates)
-      const rates = ratesR.getOrElse({})
-      const balance = payment.value().effectiveBalance
-      const step = S.getStep(yield select())
-
-      if (!offer) throw new Error(NO_OFFER_EXISTS)
-
-      let adjustedBalance = new BigNumber(balance)
-        .dividedBy(offer.terms.collateralRatio)
-        .toNumber()
-      const value = step === 'CHECKOUT' ? adjustedBalance : balance
-
-      let maxFiat
-      let maxCrypto
-      switch (coin) {
-        case 'BTC':
-          maxFiat = Exchange.convertBtcToFiat({
-            value,
-            fromUnit: 'SAT',
-            toCurrency: 'USD',
-            rates
-          }).value
-          maxCrypto = Exchange.convertBtcToBtc({
-            value,
-            fromUnit: 'SAT',
-            toUnit: 'SAT'
-          }).value
-          break
-        case 'PAX':
-          maxFiat = Exchange.convertPaxToFiat({
-            value,
-            fromUnit: 'WEI',
-            toCurrency: 'USD',
-            rates
-          }).value
-          maxCrypto = Exchange.convertPaxToPax({
-            value,
-            fromUnit: 'WEI',
-            toUnit: 'PAX'
-          }).value
-      }
-
-      yield put(
-        A.setLimits({
-          maxFiat: Number(maxFiat),
-          maxCrypto: Number(maxCrypto),
-          minFiat: 0,
-          minCrypto: 0
-        })
-      )
-    } catch (e) {
-      yield put(A.setPaymentFailure(e))
-    }
-  }
-
-  const _createPayment = function * (index?: number) {
-    let payment
-    const coin = S.getCoinType(yield select())
-
-    switch (coin) {
-      case 'BTC':
-        payment = coreSagas.payment.btc.create({
-          network: networks.btc
-        })
-        payment = yield payment.init()
-        payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.fee('priority')
-        break
-      case 'PAX':
-        payment = coreSagas.payment.eth.create({
-          network: networks.eth
-        })
-        payment = yield payment.init({ isErc20: true, coin })
-        payment = yield payment.from()
-    }
-
-    return payment
-  }
-
-  const _toRawPayment = (
-    coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue>
-  ): PaymentType => {
-    switch (coin) {
-      case 'ETH':
-        return coreSagas.payment.eth.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
-          network: networks.eth
-        })
-      default: {
-        return coreSagas.payment.btc.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
-          network: networks.btc
-        })
-      }
-    }
-  }
-
   const destroyBorrow = function * () {
     yield put(actions.form.destroy('borrowForm'))
   }
@@ -361,7 +260,7 @@ export default ({
     const rates = ratesR.getOrElse({})
     const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
     const paymentR = S.getPayment(yield select())
-    let payment = _toRawPayment(coin, paymentR)
+    let payment = paymentGetOrElse(coin, paymentR)
     const values: BorrowFormValuesType = yield select(
       selectors.form.getFormValues('borrowForm')
     )
@@ -389,8 +288,8 @@ export default ({
         break
       case 'collateral':
         yield put(A.setPaymentLoading())
-        payment = yield call(_createPayment, action.payload.index)
-        yield call(_createLimits, payment)
+        payment = yield call(createPayment, action.payload.index)
+        yield call(createLimits, payment)
         yield put(A.setPaymentSuccess(payment.value()))
     }
   }
@@ -412,11 +311,11 @@ export default ({
             selectors.core.wallet.getDefaultAccountIndex
           )
           defaultAccountR = accountsR.map(nth(defaultIndex))
-          payment = yield call(_createPayment, defaultIndex)
+          payment = yield call(createPayment, defaultIndex)
           break
       }
 
-      yield call(_createLimits, payment)
+      yield call(createLimits, payment)
 
       const initialValues = {
         collateral: defaultAccountR.getOrElse()
@@ -446,11 +345,11 @@ export default ({
             'PAX'
           )
           defaultAccountR = erc20AccountR.map(head)
-          payment = yield call(_createPayment)
+          payment = yield call(createPayment)
           break
       }
 
-      yield call(_createLimits, payment)
+      yield call(createLimits, payment)
 
       const initialValues = {
         amount: loan.principal.amount[0].value,
