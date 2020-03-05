@@ -4,13 +4,7 @@ import React from 'react'
 import Select, { components } from 'react-select'
 import styled from 'styled-components'
 
-import {
-  hasValue,
-  isValid,
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from '../helper'
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 const StyledSelect = styled(Select)`
   font-weight: 500;
@@ -46,8 +40,7 @@ const StyledSelect = styled(Select)`
   }
 
   .bc__placeholder {
-    opacity: 0.4;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
     & + div {
@@ -56,21 +49,20 @@ const StyledSelect = styled(Select)`
     }
   }
 
+  .bc__control--is-focused > .bc__value-container > .bc__placeholder {
+    opacity: 0.25;
+  }
+
   .bc__control {
     box-shadow: none;
     color: ${props => props.theme['gray-6']};
-    background-color: ${({ bgColor, hasValue, isValid, theme }) =>
-      hasValue && isValid ? theme.white : theme[bgColor]};
+    background-color: ${({ theme }) => theme.white};
     cursor: pointer;
     min-height: ${props => props.height};
     border-radius: 8px;
-    border: ${({ borderColor, hasValue, isValid, theme }) =>
-      hasValue && isValid
-        ? `1px solid ${theme[borderColor]}`
-        : '1px solid transparent'};
+    border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
     & .bc__control--is-focused {
-      background-color: ${({ theme }) => theme.white};
       border: 1px solid
         ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
@@ -81,7 +73,8 @@ const StyledSelect = styled(Select)`
     }
     &:disabled {
       cursor: not-allowed;
-      background-color: ${props => props.theme['gray-1']};
+      background-color: ${props => props.theme.grey100};
+      border: '1px solid transparent';
     }
     .bc__value-container {
       overflow: hidden;
@@ -217,7 +210,6 @@ const SelectInput = props => {
 
   return (
     <StyledSelect
-      bgColor={selectBackgroundColor(errorState)}
       borderColor={selectBorderColor(errorState)}
       className={className}
       classNamePrefix='bc'
@@ -230,13 +222,11 @@ const SelectInput = props => {
       }}
       focusedBorderColor={selectFocusBorderColor(errorState)}
       filterOption={filterOption}
-      hasValue={hasValue(defaultValue) && defaultValue}
       height={height}
       hideFocusedControl={hideFocusedControl}
       hideIndicator={hideIndicator}
       isDisabled={disabled}
       isSearchable={searchEnabled}
-      isValid={isValid(errorState)}
       menuIsOpen={menuIsOpen}
       menuPlacement={menuPlacement}
       onBlur={onBlur}

@@ -21,10 +21,13 @@ const BaseTextAreaInput = styled.textarea`
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
   border-radius: 8px;
 
+  &:focus {
+    border: 1px solid
+      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+  }
   &:focus::placeholder {
     opacity: 0.25;
   }
-
   &::placeholder {
     color: ${props => props.theme.grey400};
     font-size: 14px;

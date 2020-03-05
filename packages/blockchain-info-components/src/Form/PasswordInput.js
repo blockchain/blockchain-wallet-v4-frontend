@@ -1,11 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from './helper'
+import { selectBorderColor, selectFocusBorderColor } from './helper'
 
 const BasePasswordInput = styled.input.attrs({
   type: 'password',
@@ -24,7 +20,7 @@ const BasePasswordInput = styled.input.attrs({
   font-size: 20px;
   font-weight: 500;
   color: ${props => props.theme['gray-6']};
-  background-color: ${({ bgColor, theme }) => theme[bgColor]};
+  background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
@@ -34,7 +30,6 @@ const BasePasswordInput = styled.input.attrs({
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
   &:focus {
-    background-color: ${({ theme }) => theme.white};
     border: 1px solid
       ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
@@ -76,7 +71,6 @@ class PasswordInput extends React.Component {
     return (
       <BasePasswordInput
         ref={this.refInput}
-        bgColor={selectBackgroundColor(errorState)}
         borderColor={selectBorderColor(errorState)}
         data-e2e={this.props['data-e2e']}
         focusedBorderColor={selectFocusBorderColor(errorState)}

@@ -3,11 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
-import {
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from './helper'
+import { selectBorderColor, selectFocusBorderColor } from './helper'
 
 const BaseTextInput = styled.input.attrs({
   type: 'text',
@@ -25,7 +21,7 @@ const BaseTextInput = styled.input.attrs({
   font-size: 16px;
   font-weight: 500;
   color: ${props => props.theme['gray400']};
-  background-color: ${({ bgColor, theme }) => theme[bgColor]};
+  background-color: ${({ theme }) => theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
@@ -36,7 +32,6 @@ const BaseTextInput = styled.input.attrs({
   border-radius: 8px;
 
   &:focus {
-    background-color: ${({ theme }) => theme.white};
     border: 1px solid
       ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
@@ -105,7 +100,6 @@ class TextInput extends React.Component {
       <Container>
         {icon && <InputIcon name={icon} size={iconSize} />}
         <BaseTextInput
-          bgColor={selectBackgroundColor(errorState)}
           borderColor={selectBorderColor(errorState)}
           disabled={disabled}
           data-e2e={this.props['data-e2e']}
