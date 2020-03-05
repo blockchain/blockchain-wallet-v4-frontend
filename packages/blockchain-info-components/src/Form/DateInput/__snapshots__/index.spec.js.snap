@@ -2,7 +2,6 @@
 
 exports[`DateInput component default renders correctly 1`] = `
 <Styled(DateTime)
-  bgColor="grey000"
   borderColor="grey100"
   bordercolor="red600"
   className=""
@@ -11,9 +10,7 @@ exports[`DateInput component default renders correctly 1`] = `
   dateFormat={true}
   focusedBorderColor="blue600"
   fullwidth={false}
-  hasValue={true}
   input={true}
-  isValid={true}
   strictParsing={false}
   timeFormat={false}
   utc={false}

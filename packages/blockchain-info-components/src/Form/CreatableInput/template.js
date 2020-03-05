@@ -4,13 +4,7 @@ import CreatableSelect from 'react-select/lib/Creatable'
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  hasValue,
-  isValid,
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from '../helper'
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;
@@ -32,8 +26,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   }
 
   .bc__placeholder {
-    opacity: 0.4;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
     & + div {
@@ -64,6 +57,10 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   }
 
+  .bc__control--is-focused > .bc__value-container > .bc__placeholder {
+    opacity: 0.25;
+  }
+
   ${({
     bgColor,
     borderColor,
@@ -78,17 +75,12 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     .bc__control {
       box-shadow: none;
       color: ${theme['gray-5']};
-      background-color: ${hasValue && isValid ? theme.white : theme[bgColor]};;
+      background-color: ${theme.white};
       cursor: pointer;
       min-height: 48px;
       border-radius: 4px;
-      border: ${
-        hasValue && isValid
-          ? `1px solid ${theme[borderColor]}`
-          : '1px solid transparent'
-      };
+      border: 1px solid ${theme[borderColor]};
       &.bc__control--is-focused {
-        background-color: ${theme.white};
         border: 1px solid ${theme[focusedBorderColor]};
       }
       &.bc__control--menu-is-open {
@@ -97,7 +89,8 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       }
       &:disabled {
         cursor: not-allowed;
-        background-color: ${theme['gray-1']};
+        background-color: ${theme.grey100};
+      border: '1px solid transparent';
       }
       .bc__value-container {
         overflow: hidden;
@@ -217,18 +210,15 @@ const CreatableInput = props => {
   return (
     <StyledCreatableSelect
       autoFocus={autoFocus}
-      bgColor={selectBackgroundColor(errorState)}
       borderColor={selectBorderColor(errorState)}
       classNamePrefix='bc'
       components={getComponents(isMulti)}
       focusedBorderColor={selectFocusBorderColor(errorState)}
-      hasValue={hasValue(value)}
       indicatorSeparator={null}
       inputValue={inputValue}
       isClearable
       isMulti={isMulti}
       isOptionsEmpty={isOptionsEmpty}
-      isValid={isValid(errorState)}
       menuIsOpen={menuIsOpen}
       onBlur={handleBlur}
       onChange={handleChange}
