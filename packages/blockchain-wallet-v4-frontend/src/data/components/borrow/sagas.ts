@@ -145,8 +145,8 @@ export default ({
         api.createLoan,
         offer.id,
         {
-          symbol: offer.terms.principalCcy,
-          value: parseFloat(values.principal).toString() // see comment on line 164
+          currency: offer.terms.principalCcy,
+          amount: parseFloat(values.principal).toString() // see comment on line 164
         },
         {
           PAX: principalWithdrawAddress
@@ -322,7 +322,7 @@ export default ({
       yield call(createLimits, payment)
 
       const initialValues = {
-        amount: loan.principal.amount[0].value,
+        amount: loan.principal.amount[0].amount,
         'repay-principal': defaultAccountR.getOrElse(),
         'repay-method': 'principal',
         'repay-type': 'full'

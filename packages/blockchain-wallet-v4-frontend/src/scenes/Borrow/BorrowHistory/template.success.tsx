@@ -109,8 +109,8 @@ function Success (props: SuccessStateType): ReactElement {
                   <Value>
                     {
                       loan.collateral.amounts.find(
-                        amount => amount.symbol === 'BTC'
-                      )!.value
+                        amount => amount.currency === 'BTC'
+                      )!.amount
                     }{' '}
                     BTC
                   </Value>
@@ -120,8 +120,8 @@ function Success (props: SuccessStateType): ReactElement {
                   <Value>
                     {
                       loan.principal.amount.find(
-                        amount => amount.symbol === 'PAX'
-                      )!.value
+                        amount => amount.currency === 'PAX'
+                      )!.amount
                     }{' '}
                     PAX
                   </Value>
@@ -130,9 +130,9 @@ function Success (props: SuccessStateType): ReactElement {
                   <Value>
                     {loan.financials
                       ? loan.financials.owedInterest[0]
-                        ? loan.financials.owedInterest[0].value +
+                        ? loan.financials.owedInterest[0].amount +
                           ' ' +
-                          loan.financials.owedInterest[0].symbol
+                          loan.financials.owedInterest[0].currency
                         : '-'
                       : '-'}
                   </Value>
