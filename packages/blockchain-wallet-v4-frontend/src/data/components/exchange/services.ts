@@ -167,6 +167,7 @@ export const convertSourceToTarget = (form, rates, amount) => {
   return compose(
     toFixed(8, false),
     multiply(getRate(rates, targetCoin, sourceCoin))
+    // @ts-ignore
   )(amount)
 }
 
@@ -185,5 +186,6 @@ export const convertSourceFeesToFiat = (
   return compose(
     toFixed(2, false),
     multiply(getRate(sourceRates, sourceCoin, fiatCurrency))
+    // @ts-ignore
   )(amount)
 }
