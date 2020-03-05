@@ -40,6 +40,15 @@
       "json",
       "html"
     ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "ignoreCodes": [
+            2321
+          ]
+        }
+      }
+    },
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
     ],
