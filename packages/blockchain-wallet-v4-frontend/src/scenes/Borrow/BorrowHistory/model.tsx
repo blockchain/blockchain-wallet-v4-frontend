@@ -3,11 +3,17 @@ import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+// same style for all children
 export const Value = styled(Text)<{ size?: string }>`
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
   color: ${props => props.theme.grey800};
+  * {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: ${props => props.theme.grey800} !important;
+  }
 `
 
 const OrangeValue = styled(Value)`

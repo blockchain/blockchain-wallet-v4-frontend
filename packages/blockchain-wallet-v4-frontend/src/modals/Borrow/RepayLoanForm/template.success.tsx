@@ -11,6 +11,7 @@ import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
 import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
@@ -110,11 +111,6 @@ export type Props = OwnProps &
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
-  const collateralSatoshi = Exchange.convertBtcToBtc({
-    value: Number(props.loan.collateral.amounts[0].amount),
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
-  }).value
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -147,9 +143,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='Borrow Amount'
               />
             </AmountsHeader>
-            <Text color='grey800' size='20px' weight={600}>
-              {props.loan.principal.amount[0].amount} {principalDisplayName}
-            </Text>
+            <CoinDisplay
+              coin={props.loan.principal.amount[0].currency}
+              color='grey800'
+              size='20px'
+              weight={600}
+            >
+              {props.loan.principal.amount[0].amount}
+            </CoinDisplay>
           </div>
           <div>
             <AmountsHeader>
@@ -165,7 +166,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               currency='USD'
               coin={props.loan.collateral.amounts[0].currency}
             >
-              {collateralSatoshi}
+              {props.loan.collateral.amounts[0].amount}
             </FiatDisplay>
           </div>
         </AmountsContainer>
