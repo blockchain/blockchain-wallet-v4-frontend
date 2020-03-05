@@ -81,7 +81,7 @@ const WelcomePax = props => {
           </div>
         </Column>
         <Column>
-          <Image width='90%' name='coin-pax' />
+          <Image width='90%' name='usdd-intro' />
         </Column>
       </Row>
       <Row>

@@ -63,9 +63,9 @@ const DarkTheme: DefaultTheme = {
   btc: '#FF9B22',
   bch: '#8DC351',
   eth: '#473BCB',
-  pax: '#0C6CF2',
+  pax: '#00522C',
   stx: '#211F6D',
-  'usd-d': '#0C6CF2',
+  'usd-d': '#00522C',
   xlm: '#797979',
   // OLD - AVOID USE \\
   // Brand
