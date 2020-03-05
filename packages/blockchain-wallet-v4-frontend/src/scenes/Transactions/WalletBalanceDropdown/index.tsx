@@ -164,7 +164,6 @@ export class WalletBalanceDropdown extends Component<Props> {
     })
 
     return (
-      // rebrand change here
       <DisplayContainer coinType={coinType}>
         <AccountContainer>
           {children && children.length && children[1]}
