@@ -138,8 +138,8 @@ class InitBorrowForm extends PureComponent<Props> {
           data-e2e='initBorrowPax'
         >
           <FormattedMessage
-            id='scenes.initborrow.borrow'
-            defaultMessage='Borrow USD Pax'
+            id='scenes.initborrow.borrow1'
+            defaultMessage='Borrow USD Digital'
           />
         </Button>
       </CustomBox>

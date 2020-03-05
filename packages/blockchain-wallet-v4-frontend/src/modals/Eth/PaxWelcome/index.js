@@ -57,13 +57,13 @@ class PaxWelcomeContainer extends React.PureComponent {
             <BannerImage name='coin-pax' />
             <Text size='20px' weight={400}>
               <FormattedMessage
-                id='modals.paxwelcome.intro'
-                defaultMessage='Introducing USD Pax, a safe and stable digital dollar in your wallet'
+                id='modals.usddwelcome.intro'
+                defaultMessage='Introducing USD Digital, a safe and stable digital dollar in your wallet'
               />
             </Text>
             <GetButton nature='primary' fullwidth onClick={this.onGetPax}>
               <FormattedMessage
-                id='modals.paxwelcome.learnmore'
+                id='modals.usddwelcome.learnmore'
                 defaultMessage='Learn More'
               />
             </GetButton>

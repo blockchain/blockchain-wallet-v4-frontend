@@ -199,11 +199,11 @@ const getButton = status => {
   }
 }
 
-const getTargetAmount = (withdrawalAmount, targetCoin, status) =>
+const getTargetAmount = (withdrawalAmount, targetCoinModel, status) =>
   includes(status, [FAILED, EXPIRED]) ? (
-    <StrikeThrough>{`${withdrawalAmount} ${targetCoin}`}</StrikeThrough>
+    <StrikeThrough>{`${withdrawalAmount} ${targetCoinModel.coinTicker}`}</StrikeThrough>
   ) : (
-    `${withdrawalAmount} ${targetCoin}`
+    `${withdrawalAmount} ${targetCoinModel.coinTicker}`
   )
 
 export const ExchangeResults = ({
@@ -288,7 +288,7 @@ export const ExchangeResults = ({
                   color='gray-5'
                   data-e2e='exchangeResultsTargetValue'
                 >
-                  {getTargetAmount(withdrawalAmount, targetCoin, status)}
+                  {getTargetAmount(withdrawalAmount, targetCoinModel, status)}
                 </SummaryExchangeAmount>
               </ExchangeAmounts>
             </LargeTableRow>

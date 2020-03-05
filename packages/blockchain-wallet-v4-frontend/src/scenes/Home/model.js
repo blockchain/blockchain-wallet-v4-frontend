@@ -105,8 +105,8 @@ export const TOUR_STEPS = [
         </StepTitle>
         <StepContent color='grey600' size='14px' weight={500}>
           <FormattedMessage
-            id='wallet.tour.stepone.content'
-            defaultMessage="Keep track of your crypto balances from your Wallet's dashboard. Your Wallet currently supports Bitcoin, Ether, Bitcoin Cash, Stellar XLM and USD PAX."
+            id='wallet.tour.stepone.content1'
+            defaultMessage="Keep track of your crypto balances from your Wallet's dashboard. Your Wallet currently supports Bitcoin, Ether, Bitcoin Cash, Stellar XLM and USD Digital."
           />
         </StepContent>
       </>

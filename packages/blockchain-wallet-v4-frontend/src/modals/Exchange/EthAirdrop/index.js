@@ -70,14 +70,14 @@ class EthAirdrop extends React.PureComponent {
             </Text>
             <Text size='14px' weight={300} color='blue900'>
               <FormattedMessage
-                id='modals.exchange.ethairdrop.firstorder'
-                defaultMessage='Your first USD Pax order has been placed!'
+                id='modals.exchange.ethairdrop.firstusddorder'
+                defaultMessage='Your first USD Digital order has been placed!'
               />
             </Text>
             <SummaryText size='13px' weight={300}>
               <FormattedHTMLMessage
-                id='modals.exchange.ethairdrop.explain'
-                defaultMessage='Even better, since you need <b>ETH</b> to make <b>USD Pax</b> trades, we will airdrop enough <b>ETH</b> into your Wallet to cover your first 3 transactions 🙌🏻'
+                id='modals.exchange.ethairdrop.explain1'
+                defaultMessage='Even better, since you need <b>ETH</b> to make <b>USD Digital</b> trades, we will airdrop enough <b>ETH</b> into your Wallet to cover your first 3 transactions 🙌🏻'
               />
             </SummaryText>
             <ViewTradeButton

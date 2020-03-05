@@ -222,8 +222,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.coinify.answer8.one.new'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.coinify.answer8.one'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD-D. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -271,8 +271,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.noexchange.question6.one.new1'
-              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD PAX. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
+              id='scenes.faq.group.noexchange.question6.one.new'
+              defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Swap dashboard where you will see an option to exchange between BTC, ETH, BCH, XLM, and USD-D. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -302,8 +302,8 @@ const FaqContent = [
         answer: (
           <FaqDescription>
             <FormattedMessage
-              id='scenes.faq.group.walletfunctionality.answer1.one.updated1'
-              defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD PAX transactions, your address will remain the same.'
+              id='scenes.faq.group.walletfunctionality.answer1.one.updated'
+              defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether, stellar, or USD Digital transactions, your address will remain the same.'
             />
             <span>&nbsp;</span>
             <FormattedMessage
@@ -613,14 +613,14 @@ const FaqContent = [
       {
         question: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.question13.updated'
-            defaultMessage='What is USD PAX and how does it differ from the other cryptocurrencies in my wallet?'
+            id='scenes.faq.group.walletfunctionality.question13'
+            defaultMessage='What is USD Digital and how does it differ from the other cryptocurrencies in my wallet?'
           />
         ),
         answer: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.answer13.updated1'
-            defaultMessage='USD PAX is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD PAX functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.'
+            id='scenes.faq.group.walletfunctionality.answer13'
+            defaultMessage='USD Digital is a cryptocurrency pegged to the U.S. dollar and issued by the Paxos Trust Company, a company organized under New York State banking law. USD Digital functions as a digital dollar - giving you instant liquidity in your wallet and a place to store stable value.'
           />
         )
       },
@@ -633,36 +633,36 @@ const FaqContent = [
         ),
         answer: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.answer14.updated'
-            defaultMessage='USD PAX is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.'
+            id='scenes.faq.group.walletfunctionality.answer14'
+            defaultMessage='USD Digital is built on the Ethereum blockchain following the ERC-20 protocol. For this reason, digital dollars can be sent to or received by anyone with an Ethereum wallet (such as your Blockchain Wallet) for a small miners fee.'
           />
         )
       },
       {
         question: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.question15.updated'
-            defaultMessage='How does USD PAX remain stable?'
+            id='scenes.faq.group.walletfunctionality.question15'
+            defaultMessage='How does USD Digital remain stable?'
           />
         ),
         answer: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.answer15.updated'
-            defaultMessage='USD PAX is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.'
+            id='scenes.faq.group.walletfunctionality.answer15'
+            defaultMessage='USD Digital is regulated by the NY State Dept. of Financial Services which ensures all holdings of PAX are mirrored one-to-one for USD. Digital dollars are only in existence when the corresponding U.S dollars are in custody, which keeps the price stable at precisely $1.00.'
           />
         )
       },
       {
         question: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.question16.updated'
-            defaultMessage='How do I get USD PAX into my bank account?'
+            id='scenes.faq.group.walletfunctionality.question16'
+            defaultMessage='How do I get USD Digital into my bank account?'
           />
         ),
         answer: (
           <FormattedMessage
-            id='scenes.faq.group.walletfunctionality.answer16.updated'
-            defaultMessage='Although the price of USD PAX is pegged to USD, USD PAX remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).'
+            id='scenes.faq.group.walletfunctionality.answer16'
+            defaultMessage='Although the price of USD Digital is pegged to USD, USD Digital remains a cryptocurrency token hosted on the Ethereum blockchain. For this reason, it must be exchanged for USD before your balance can be transferred to a bank account. You can do this through any exchange that supports the Paxos Standard Token (PAX).'
           />
         )
       }

@@ -82,8 +82,8 @@ class Borrow extends PureComponent<Props, State> {
           </MainTitle>
           <Text size='16px' color='grey400' weight={500}>
             <FormattedMessage
-              id='scenes.borrow.subheader'
-              defaultMessage='Blockchain.com now lets you borrow USD Pax directly from your Blockchain Wallet with crypto as collateral.'
+              id='scenes.borrow.subheader1'
+              defaultMessage='Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral.'
             />
           </Text>
         </Header>

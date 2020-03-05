@@ -164,12 +164,13 @@ export class WalletBalanceDropdown extends Component<Props> {
     })
 
     return (
+      // rebrand change here
       <DisplayContainer coinType={coinType}>
         <AccountContainer>
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
             {this.isTotalBalanceType(props)
-              ? this.props.coin
+              ? this.props.coinModel.coinTicker
               : props.value
               ? props.value.label
               : ''}{' '}
