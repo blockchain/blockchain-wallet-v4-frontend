@@ -149,25 +149,32 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
-      let response: { loan: LoanType } = yield call(
+      const { loan }: { loan: LoanType } = yield call(
         api.createLoan,
         offer.id,
         {
           symbol: offer.terms.principalCcy,
-          value: values.principal
+          value: parseFloat(values.principal).toString() // see comment on line 164
         },
         {
           PAX: principalWithdrawAddress
         }
       )
 
-      const { loan } = response
-      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
+      // backend expects amount to be a string with leading 0 if decimal e.g. '0.02'
+      const amount = values.collateralCryptoAmt
+        ? values.collateralCryptoAmt.toString()
+        : '0.0'
       const destination = loan.collateral.depositAddresses[coin]
 
       let paymentError
       try {
-        payment = yield payment.amount(Number(amount))
+        const satAmount = Exchange.convertBtcToBtc({
+          value: amount,
+          fromUnit: 'BTC',
+          toUnit: 'SAT'
+        }).value
+        payment = yield payment.amount(Number(satAmount))
         payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
 
         payment = yield payment.build()
@@ -181,7 +188,7 @@ export default ({
 
       try {
         // notifyDeposit if payment from wallet succeeds or fails
-        response = yield call(
+        yield call(
           api.notifyLoanDeposit,
           loan.loanId,
           {
@@ -196,7 +203,7 @@ export default ({
         // notifyDeposit endpoint failed, do nothing and continue
       }
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
@@ -361,13 +368,22 @@ export default ({
 
     switch (action.meta.field) {
       case 'principal':
-        const principal = Number(action.payload)
-        const c = (principal / rate) * offer.terms.collateralRatio
-        yield put(actions.form.change('borrowForm', 'collateralCryptoAmt', c))
+        const principal = new BigNumber(action.payload)
+        const collateralAmt = +principal
+          .dividedBy(rate)
+          .multipliedBy(offer.terms.collateralRatio)
+          .toFixed(8)
+        yield put(
+          actions.form.change(
+            'borrowForm',
+            'collateralCryptoAmt',
+            collateralAmt
+          )
+        )
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           values.collateral,
-          c
+          collateralAmt
         )
         yield put(A.setPaymentSuccess(provisionalPayment))
         break
