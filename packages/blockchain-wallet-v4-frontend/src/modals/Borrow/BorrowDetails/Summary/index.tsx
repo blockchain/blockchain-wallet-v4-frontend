@@ -5,6 +5,7 @@ import { OwnProps, SuccessStateType } from '..'
 import { Status } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,8 +21,6 @@ const {
 } = model.components.borrow
 
 const Summary: React.FC<Props> = props => {
-  const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
     props.offer
@@ -52,7 +51,13 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.principal.amount[0].amount} {principalDisplayName}
+            <CoinDisplay
+              size='14px'
+              weight={600}
+              coin={props.loan.principal.amount[0].currency}
+            >
+              {props.loan.principal.amount[0].amount}
+            </CoinDisplay>
           </Value>
         </TableRow>
         <TableRow>
@@ -63,8 +68,13 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.collateral.amounts[0].amount}{' '}
-            {props.loan.collateral.amounts[0].currency}
+            <CoinDisplay
+              size='14px'
+              weight={600}
+              coin={props.loan.collateral.amounts[0].currency}
+            >
+              {props.loan.collateral.amounts[0].amount}
+            </CoinDisplay>
           </Value>
         </TableRow>
         <TableRow>

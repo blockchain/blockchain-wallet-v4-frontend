@@ -9,6 +9,7 @@ import {
 } from 'blockchain-info-components'
 import { Status, Value } from './model'
 import { SuccessStateType } from '.'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
@@ -107,34 +108,42 @@ function Success (props: SuccessStateType): ReactElement {
                 <TableCell width='12%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    {
-                      loan.collateral.amounts.find(
-                        amount => amount.currency === 'BTC'
-                      )!.amount
-                    }{' '}
-                    BTC
+                    <CoinDisplay coin='BTC'>
+                      {
+                        loan.collateral.amounts.find(
+                          amount => amount.currency === 'BTC'
+                        )!.amount
+                      }
+                    </CoinDisplay>
                   </Value>
                 </TableCell>
                 <TableCell width='12%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    {
-                      loan.principal.amount.find(
-                        amount => amount.currency === 'PAX'
-                      )!.amount
-                    }{' '}
-                    PAX
+                    <CoinDisplay coin='PAX'>
+                      {
+                        loan.principal.amount.find(
+                          amount => amount.currency === 'PAX'
+                        )!.amount
+                      }
+                    </CoinDisplay>
                   </Value>
                 </TableCell>
                 <TableCell width='12%'>
                   <Value>
-                    {loan.financials
-                      ? loan.financials.owedInterest[0]
-                        ? loan.financials.owedInterest[0].amount +
-                          ' ' +
-                          loan.financials.owedInterest[0].currency
-                        : '-'
-                      : '-'}
+                    {loan.financials ? (
+                      loan.financials.owedInterest[0] ? (
+                        <CoinDisplay
+                          coin={loan.financials.owedInterest[0].currency}
+                        >
+                          {loan.financials.owedInterest[0].amount}
+                        </CoinDisplay>
+                      ) : (
+                        '-'
+                      )
+                    ) : (
+                      '-'
+                    )}
                   </Value>
                 </TableCell>
                 <ViewDetailsCell

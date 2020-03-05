@@ -10,6 +10,7 @@ import {
   PaymentValue,
   RepayLoanFormType
 } from './types'
+import { convertBaseToStandard } from '../exchange/services'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
@@ -19,7 +20,6 @@ import {
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
 import { LoanFinancialsType, LoanType } from 'core/types'
-import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import profileSagas from '../../../data/modules/profile/sagas'
@@ -322,7 +322,10 @@ export default ({
       yield call(createLimits, payment)
 
       const initialValues = {
-        amount: loan.principal.amount[0].amount,
+        amount: convertBaseToStandard(
+          loan.principal.amount[0].currency,
+          loan.principal.amount[0].amount
+        ),
         'repay-principal': defaultAccountR.getOrElse(),
         'repay-method': 'principal',
         'repay-type': 'full'
