@@ -1,7 +1,6 @@
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -10,7 +9,10 @@ import {
   PaymentValue,
   RepayLoanFormType
 } from './types'
-import { convertBaseToStandard } from '../exchange/services'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
@@ -146,7 +148,10 @@ export default ({
         offer.id,
         {
           currency: offer.terms.principalCcy,
-          amount: parseFloat(values.principal).toString() // see comment on line 164
+          amount: convertStandardToBase(
+            offer.terms.principalCcy,
+            values.principal
+          )
         },
         {
           PAX: principalWithdrawAddress
