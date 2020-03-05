@@ -40,22 +40,18 @@ const LoginOrCreate = props => {
           )}
         </ResponsiveText>
         <Button
-          nature='white-blue-transparent'
+          nature='white-blue'
           style={{ minWidth: '94px', marginLeft: '22px', borderRadius: '8px' }}
         >
           {isSignup ? (
-            <ResponsiveLink
-              color='white'
-              weight={600}
-              data-e2e='signupLinkToLogin'
-            >
+            <ResponsiveLink weight={600} data-e2e='signupLinkToLogin'>
               <FormattedMessage
                 id='layouts.public.login'
                 defaultMessage='Log In'
               />
             </ResponsiveLink>
           ) : (
-            <ResponsiveLink color='white' weight={600} data-e2e='signupLink'>
+            <ResponsiveLink weight={600} data-e2e='signupLink'>
               <FormattedMessage
                 id='layouts.public.register'
                 defaultMessage='Create One Now'
