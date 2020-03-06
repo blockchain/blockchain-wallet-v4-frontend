@@ -3,6 +3,7 @@ import { BorrowActionTypes, BorrowMinMaxType, PaymentValue } from './types'
 import {
   CoinType,
   LoanFinancialsType,
+  LoanTransactionsType,
   LoanType,
   OfferType
 } from 'blockchain-wallet-v4/src/types'
@@ -38,6 +39,30 @@ export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
   type: AT.FETCH_BORROW_OFFERS_SUCCESS,
   payload: {
     offers
+  }
+})
+
+export const fetchLoanTransactions = () => ({
+  type: AT.FETCH_LOAN_TRANSACTIONS
+})
+
+export const fetchLoanTransactionsLoading = (): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_TRANSACTIONS_LOADING
+})
+
+export const fetchLoanTransactionsFailure = (error): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_TRANSACTIONS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchLoanTransactionsSuccess = (
+  transactions: Array<LoanTransactionsType>
+): BorrowActionTypes => ({
+  type: AT.FETCH_LOAN_TRANSACTIONS_SUCCESS,
+  payload: {
+    transactions
   }
 })
 

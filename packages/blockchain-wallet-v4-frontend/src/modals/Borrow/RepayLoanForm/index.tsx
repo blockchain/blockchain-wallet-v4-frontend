@@ -4,6 +4,7 @@ import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
+  LoanTransactionsType,
   LoanType,
   OfferType,
   RemoteDataType,

@@ -201,6 +201,18 @@ export default ({
     }
   }
 
+  const fetchLoanTransactions = function * () {
+    try {
+      const loan = S.getLoan(yield select())
+      if (!loan) throw NO_LOAN_EXISTS
+      yield put(A.fetchLoanTransactionsLoading())
+      const { transactions } = yield call(api.getLoanTransactions, loan.loanId)
+      yield put(A.fetchLoanTransactionsSuccess(transactions))
+    } catch (e) {
+      yield put(A.fetchLoanTransactionsFailure(e))
+    }
+  }
+
   const fetchUserBorrowHistory = function * () {
     try {
       yield put(A.fetchUserBorrowHistoryLoading())
@@ -421,6 +433,7 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
+    fetchLoanTransactions,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,
