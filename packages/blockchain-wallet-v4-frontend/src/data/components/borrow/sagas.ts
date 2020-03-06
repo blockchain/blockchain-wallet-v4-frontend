@@ -378,13 +378,6 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
-      let response: { loan: LoanType } = yield call(
-        api.closeLoanWithPrincipal,
-        loan,
-        {
-          BTC: collateralWithdrawAddress
-        }
-      )
 
       const destination = loan.principal.depositAddresses[coin]
 
@@ -394,6 +387,17 @@ export default ({
         payment,
         Number(values.amount) || 0,
         destination
+      )
+
+      // do not close loan with backend if collateral payment failed
+      if (!paymentSuccess) return
+
+      let response: { loan: LoanType } = yield call(
+        api.closeLoanWithPrincipal,
+        loan,
+        {
+          BTC: collateralWithdrawAddress
+        }
       )
 
       yield call(
