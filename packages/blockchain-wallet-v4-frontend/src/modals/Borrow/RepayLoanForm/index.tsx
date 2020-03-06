@@ -23,6 +23,7 @@ export type OwnProps = {
 }
 export type SuccessStateType = {
   limits: BorrowMinMaxType
+  loanTransactions: Array<LoanTransactionsType>
   payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType

@@ -5,6 +5,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { last } from 'ramda'
 import { OfferType } from 'core/types'
 import { Props } from '../template.success'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -113,17 +114,30 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
       )
     }
     case 'PENDING_CLOSE':
+      const lastDeposit = last(props.loanTransactions)
+      const lastDepositFailed =
+        lastDeposit &&
+        lastDeposit.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST' &&
+        lastDeposit.status === 'FAILED'
+
       return (
         <Wrapper>
           <Item>
-            <IconWrapper bgColor='orange600'>
+            <IconWrapper bgColor={lastDepositFailed ? 'red600' : 'orange600'}>
               <Icon name='timer' size='18px' color='white' />
             </IconWrapper>
             <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.borrow.details.info.repayment'
-                defaultMessage='Repayment of your loan is in-progress and is being reviewed by our team.'
-              />
+              {lastDepositFailed ? (
+                <FormattedMessage
+                  id='scenes.borrow.details.info.repayment.failed'
+                  defaultMessage='An error occurred while attempting to repay your loan. Please try again.'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.borrow.details.info.repayment'
+                  defaultMessage='Repayment of your loan is in-progress and is being reviewed by our team.'
+                />
+              )}
             </Text>
           </Item>
           <Item>

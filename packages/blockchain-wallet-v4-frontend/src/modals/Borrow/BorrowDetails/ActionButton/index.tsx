@@ -1,11 +1,18 @@
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import { last } from 'ramda'
 import { Props } from '../template.success'
 import React from 'react'
 
 const ActionButton: React.FC<Props> = props => {
-  switch (props.loan.status) {
-    case 'OPEN':
+  const lastDeposit = last(props.loanTransactions)
+  const lastPrincipalDepositFailed =
+    lastDeposit &&
+    lastDeposit.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST' &&
+    lastDeposit.status === 'FAILED'
+
+  switch (true) {
+    case props.loan.status === 'OPEN':
       return (
         <Button
           fullwidth
@@ -22,6 +29,26 @@ const ActionButton: React.FC<Props> = props => {
           <FormattedMessage
             id='modals.details.borrow.endborrow'
             defaultMessage='End Borrowing'
+          />
+        </Button>
+      )
+    case props.loan.status === 'PENDING_CLOSE' && lastPrincipalDepositFailed:
+      return (
+        <Button
+          fullwidth
+          nature='dark-grey'
+          data-e2e='endBorrow'
+          onClick={() =>
+            props.borrowActions.setStep({
+              step: 'REPAY_LOAN',
+              offer: props.offer,
+              loan: props.loan
+            })
+          }
+        >
+          <FormattedMessage
+            id='modals.details.borrow.retryrepayment'
+            defaultMessage='Retry Repayment'
           />
         </Button>
       )
