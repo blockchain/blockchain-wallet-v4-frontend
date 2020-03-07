@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  LoanTransactionsType,
   LoanType,
   NabuApiErrorType,
   OfferType,
@@ -114,6 +115,10 @@ export interface BorrowState {
   coin: CoinType
   limits: BorrowMinMaxType
   loan?: LoanType
+  loanTransactions: RemoteDataType<
+    NabuApiErrorType,
+    Array<LoanTransactionsType>
+  >
   offer?: OfferType
   offers: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   payment: RemoteDataType<string | Error, PaymentValue>
@@ -136,6 +141,22 @@ interface FetchBorrowOffersSuccessAction {
     offers: Array<OfferType>
   }
   type: typeof AT.FETCH_BORROW_OFFERS_SUCCESS
+}
+interface FetchLoanTransactionsFailureAction {
+  payload: {
+    error: NabuApiErrorType
+  }
+  type: typeof AT.FETCH_LOAN_TRANSACTIONS_FAILURE
+}
+
+interface FetchLoanTransactionsLoadingAction {
+  type: typeof AT.FETCH_LOAN_TRANSACTIONS_LOADING
+}
+interface FetchLoanTransactionsSuccessAction {
+  payload: {
+    transactions: Array<LoanTransactionsType>
+  }
+  type: typeof AT.FETCH_LOAN_TRANSACTIONS_SUCCESS
 }
 interface FetchUserBorrowHistoryFailureAction {
   payload: {
@@ -217,6 +238,9 @@ export type BorrowActionTypes =
   | FetchBorrowOffersFailureAction
   | FetchBorrowOffersLoadingAction
   | FetchBorrowOffersSuccessAction
+  | FetchLoanTransactionsFailureAction
+  | FetchLoanTransactionsLoadingAction
+  | FetchLoanTransactionsSuccessAction
   | FetchUserBorrowHistoryFailureAction
   | FetchUserBorrowHistoryLoadingAction
   | FetchUserBorrowHistorySuccessAction

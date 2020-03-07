@@ -4,6 +4,7 @@ import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
+  LoanTransactionsType,
   LoanType,
   OfferType,
   RemoteDataType,
@@ -22,6 +23,7 @@ export type OwnProps = {
 }
 export type SuccessStateType = {
   limits: BorrowMinMaxType
+  loanTransactions: Array<LoanTransactionsType>
   payment: PaymentType
   rates: RatesType
   supportedCoins: SupportedCoinsType
