@@ -27,9 +27,18 @@ export default ({
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
     try {
-      payment = yield payment.amount(
-        parseInt(convertStandardToBase(coin, amount))
-      )
+      switch (payment.coin) {
+        case 'PAX':
+        case 'ETH':
+          payment = yield payment.amount(
+            parseInt(convertStandardToBase(coin, amount)).toString()
+          )
+          break
+        default:
+          payment = yield payment.amount(
+            parseInt(convertStandardToBase(coin, amount))
+          )
+      }
       payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
       payment = yield payment.build()
       // ask for second password

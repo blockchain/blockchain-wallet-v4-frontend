@@ -285,6 +285,8 @@ export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
+      coin: 'BCH',
+
       value () {
         return p
       },

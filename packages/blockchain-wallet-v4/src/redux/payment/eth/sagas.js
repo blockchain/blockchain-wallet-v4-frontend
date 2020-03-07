@@ -134,6 +134,8 @@ export default ({ api }) => {
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
+      coin: 'ETH',
+
       value () {
         return p
       },
