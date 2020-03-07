@@ -1,11 +1,12 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
+import { BorrowMinMaxType, RatesType } from 'data/types'
 import {
   CoinType,
   LoanTransactionsType,
   LoanType,
   OfferType,
+  PaymentType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'

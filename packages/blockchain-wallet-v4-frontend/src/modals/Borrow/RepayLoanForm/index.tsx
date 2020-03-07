@@ -1,12 +1,13 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
+import { BorrowMinMaxType, RatesType } from 'data/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
   LoanTransactionsType,
   LoanType,
   OfferType,
+  PaymentType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
