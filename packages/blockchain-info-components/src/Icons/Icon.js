@@ -1,4 +1,3 @@
-// change this file for new USDD icon
 import Icomoon from './Icomoon'
 import PropTypes from 'prop-types'
 import React from 'react'
