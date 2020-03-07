@@ -64,7 +64,43 @@ const ActionButton: React.FC<Props> = props => {
         </Button>
       )
     case 'OPEN':
-      return (
+      return isLastTxFailed ? (
+        <ButtonContainer>
+          <Button
+            nature='primary'
+            data-e2e='endBorrow'
+            onClick={() =>
+              props.borrowActions.setStep({
+                step: 'ADD_COLLATERAL',
+                offer: props.offer,
+                loan: props.loan
+              })
+            }
+          >
+            <FormattedMessage
+              id='modals.details.borrow.addcollat'
+              defaultMessage='Add Collateral'
+            />
+          </Button>
+          <Button
+            fullwidth
+            nature='dark-grey'
+            data-e2e='endBorrow'
+            onClick={() =>
+              props.borrowActions.setStep({
+                step: 'REPAY_LOAN',
+                offer: props.offer,
+                loan: props.loan
+              })
+            }
+          >
+            <FormattedMessage
+              id='modals.details.borrow.endborrow'
+              defaultMessage='End Borrowing'
+            />
+          </Button>
+        </ButtonContainer>
+      ) : (
         <Button
           fullwidth
           nature='dark-grey'
