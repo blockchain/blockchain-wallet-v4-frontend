@@ -143,7 +143,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               {isLastTxFailed ? (
                 <FormattedMessage
                   id='scenes.borrow.details.info.repayment.failed'
-                  defaultMessage='An error occurred while attempting to repay your loan. Please try again.'
+                  defaultMessage='An error occurred while attempting to repay your loan. This could be because you do not have enough ETH to send PAX, or because of a network connectivity issue. Please try again.'
                 />
               ) : (
                 <FormattedMessage

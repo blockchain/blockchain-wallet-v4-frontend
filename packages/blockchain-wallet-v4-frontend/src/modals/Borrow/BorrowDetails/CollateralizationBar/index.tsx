@@ -95,7 +95,10 @@ const CollateralizationBar: React.FC<Props> = props => {
         width={currentWidth}
         color={getCollateralizationColor(currentCollateralStatus)}
       />
-      <CurrentBackground width={currentWidth + 0.01} color={'white'} />
+      <CurrentBackground
+        width={currentWidth === 0 ? 0 : currentWidth + 0.01}
+        color={'white'}
+      />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         {props.showPercentages && (
           <Percentage color='red600'>
