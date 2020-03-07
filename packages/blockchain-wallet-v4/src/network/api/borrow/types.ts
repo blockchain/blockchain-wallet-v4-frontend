@@ -13,6 +13,7 @@ export type LoanFinancialsType = {
 }
 
 export type LoanTransactionsType = {
+  insertedAt: string
   notes: string
   principalTakenAsInterest: Array<MoneyType>
   request: {
