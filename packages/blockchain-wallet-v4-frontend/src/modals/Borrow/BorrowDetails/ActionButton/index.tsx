@@ -9,9 +9,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   > button {
-    height: 48px !important;
     width: 45% !important;
-    padding: 15px !important;
   }
 `
 
