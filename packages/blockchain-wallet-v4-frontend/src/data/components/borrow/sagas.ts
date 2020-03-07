@@ -268,7 +268,7 @@ export default ({
         )
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
-          values.collateral,
+          { ...values.collateral, address: values.collateral.index },
           collateralAmt
         )
         yield put(A.setPaymentSuccess(provisionalPayment))
