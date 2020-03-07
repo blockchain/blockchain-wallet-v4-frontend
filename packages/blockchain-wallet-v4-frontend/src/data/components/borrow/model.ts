@@ -1,5 +1,7 @@
-import { CoinType, LoanType, OfferType } from 'core/types'
+import { CoinType, LoanTransactionsType, LoanType, OfferType } from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
+import { head, last } from 'ramda'
+import moment from 'moment'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
 
@@ -51,5 +53,30 @@ export const fiatDisplayName = (coin: CoinType) => {
       return 'USD'
     default:
       return 'USD'
+  }
+}
+
+export const lastTxFailed = (
+  loan: LoanType,
+  loanTransactions: Array<LoanTransactionsType>
+): boolean => {
+  const sortedLoanTxs = loanTransactions.sort(
+    (a, b) => moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+  )
+  const lastTx = head(sortedLoanTxs)
+  if (!lastTx) return false
+
+  switch (loan.status) {
+    case 'OPEN':
+    case 'PENDING_EXECUTION':
+    case 'PENDING_COLLATERAL_DEPOSIT':
+      return lastTx.status === 'FAILED' && lastTx.type === 'DEPOSIT_COLLATERAL'
+    case 'PENDING_CLOSE':
+      return (
+        lastTx.status === 'FAILED' &&
+        lastTx.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      )
+    default:
+      return false
   }
 }

@@ -1,5 +1,5 @@
 import { CoinType } from 'core/types'
-import { LoanType, MoneyType, OfferType } from './types'
+import { LoanTransactionsType, LoanType, MoneyType, OfferType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   const closeLoanWithPrincipal = (
@@ -37,6 +37,14 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: `/user/loans/${loanId}/financials`
     })
 
+  const getLoanTransactions = (
+    loanId: string
+  ): { transactions: Array<LoanTransactionsType> } =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/user/loans/${loanId}/transactions`
+    })
+
   const getOffers = (): Array<OfferType> =>
     authorizedGet({
       url: nabuUrl,
@@ -72,6 +80,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     closeLoanWithPrincipal,
     createLoan,
     getLoanFinancials,
+    getLoanTransactions,
     getOffers,
     getUserBorrowHistory,
     notifyLoanDeposit

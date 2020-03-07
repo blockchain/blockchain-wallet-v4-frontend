@@ -46,11 +46,11 @@ export default ({ coreSagas, networks }) => {
   const calculateProvisionalPayment = function * (source: AccountTypes, amount) {
     try {
       const coin = prop('coin', source)
-      const addressOrIndex = prop('address', source) || prop('index', source)
+      const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
       const [network, provisionalScript] = isSourceErc20
         ? ethOptions
-        : propOr(btcOptions, coin, {
+        : prop(coin, {
             BTC: btcOptions,
             BCH: bchOptions,
             ETH: ethOptions,

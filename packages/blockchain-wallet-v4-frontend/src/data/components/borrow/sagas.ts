@@ -1,7 +1,6 @@
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
@@ -10,7 +9,10 @@ import {
   PaymentValue,
   RepayLoanFormType
 } from './types'
-import { convertBaseToStandard } from '../exchange/services'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
@@ -116,7 +118,7 @@ export default ({
     if (!loan || !offer) return
     const amt = getCollateralAmtRequired(loan, offer)
 
-    yield put(actions.form.change('borrowForm', 'principal', amt))
+    yield put(actions.form.change('borrowForm', 'additionalCollateral', amt))
   }
 
   const createBorrow = function * () {
@@ -146,7 +148,10 @@ export default ({
         offer.id,
         {
           currency: offer.terms.principalCcy,
-          amount: parseFloat(values.principal).toString() // see comment on line 164
+          amount: convertStandardToBase(
+            offer.terms.principalCcy,
+            values.principal
+          )
         },
         {
           PAX: principalWithdrawAddress
@@ -193,6 +198,21 @@ export default ({
       yield put(A.fetchBorrowOffersSuccess(offers))
     } catch (e) {
       yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
+  const fetchLoanTransactions = function * ({
+    payload
+  }: ReturnType<typeof A.fetchLoanTransactions>) {
+    try {
+      yield put(A.fetchLoanTransactionsLoading())
+      const { transactions } = yield call(
+        api.getLoanTransactions,
+        payload.loanId
+      )
+      yield put(A.fetchLoanTransactionsSuccess(transactions))
+    } catch (e) {
+      yield put(A.fetchLoanTransactionsFailure(e))
     }
   }
 
@@ -251,7 +271,7 @@ export default ({
         )
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
-          values.collateral,
+          { ...values.collateral, address: values.collateral.index },
           collateralAmt
         )
         yield put(A.setPaymentSuccess(provisionalPayment))
@@ -358,7 +378,7 @@ export default ({
       const values: RepayLoanFormType = yield select(
         selectors.form.getFormValues('repayLoanForm')
       )
-      const loan = S.getLoan(yield select())
+      let loan = S.getLoan(yield select())
       const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
       if (!loan) throw NO_LOAN_EXISTS
@@ -373,13 +393,18 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
-      let response: { loan: LoanType } = yield call(
-        api.closeLoanWithPrincipal,
-        loan,
-        {
-          BTC: collateralWithdrawAddress
-        }
-      )
+
+      if (loan.status !== 'PENDING_CLOSE') {
+        let response: { loan: LoanType } = yield call(
+          api.closeLoanWithPrincipal,
+          loan,
+          {
+            BTC: collateralWithdrawAddress
+          }
+        )
+
+        loan = response.loan
+      }
 
       const destination = loan.principal.depositAddresses[coin]
 
@@ -402,7 +427,7 @@ export default ({
       )
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
@@ -416,6 +441,7 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
+    fetchLoanTransactions,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,

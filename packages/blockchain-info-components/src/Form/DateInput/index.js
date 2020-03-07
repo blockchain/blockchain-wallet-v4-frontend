@@ -3,13 +3,7 @@ import React from 'react'
 import ReactDatetime from 'react-datetime'
 import styled from 'styled-components'
 
-import {
-  hasValue,
-  isValid,
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from '../helper'
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
@@ -27,20 +21,13 @@ const BaseDateInput = styled(ReactDatetime)`
     font-size: 16px;
     font-weight: 400;
     color: ${props => props.theme['gray-6']};
-    background-color: ${({ bgColor, hasValue, isValid, theme }) =>
-      hasValue && isValid ? theme.white : theme[bgColor]};
+    background-color: ${({ theme }) => theme.white};
     background-image: none;
     outline-width: 0;
     user-select: text;
     border-radius: 8px;
-    border: ${({ borderColor, hasValue, isValid, theme }) =>
-      hasValue
-        ? isValid
-          ? `1px solid ${theme[borderColor]}`
-          : 'none'
-        : 'none'};
+    border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
     &:focus {
-      background-color: ${({ theme }) => theme.white};
       border: 1px solid
         ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
@@ -288,11 +275,8 @@ const DateInput = props => {
 
   return (
     <BaseDateInput
-      bgColor={selectBackgroundColor(errorState)}
       borderColor={selectBorderColor(errorState)}
       focusedBorderColor={selectFocusBorderColor(errorState)}
-      hasValue={hasValue(props.value)}
-      isValid={isValid(errorState)}
       {...rest}
     />
   )

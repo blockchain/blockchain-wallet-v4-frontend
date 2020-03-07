@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import { selectBorderColor, selectFocusBorderColor } from './helper'
+
 const BaseTextInput = styled(AutosizeInput).attrs({
   type: 'text',
   'data-lpignore': props => props.noLastPass,
@@ -27,30 +29,24 @@ const BaseTextInput = styled(AutosizeInput).attrs({
   border: 1px solid ${props => props.theme[props.borderColor]};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
 
+  &:focus {
+    border: 1px solid
+      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+  }
+  &:focus::placeholder {
+    opacity: 0.25;
+  }
   &::placeholder {
-    opacity: 0.4;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey100};
+    border: '1px solid transparent';
   }
 `
-
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 class TextInput extends React.Component {
   static propTypes = {
@@ -77,11 +73,11 @@ class TextInput extends React.Component {
 
   render () {
     const { errorState, disabled, ...rest } = this.props
-    const borderColor = selectBorderColor(errorState)
     return (
       <BaseTextInput
         ref={this.refInput}
-        borderColor={borderColor}
+        borderColor={selectBorderColor(errorState)}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
         disabled={disabled}
         data-e2e={this.props['data-e2e']}
         {...rest}

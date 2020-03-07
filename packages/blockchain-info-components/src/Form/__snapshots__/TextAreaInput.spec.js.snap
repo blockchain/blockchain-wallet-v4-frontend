@@ -2,11 +2,8 @@
 
 exports[`TextAreaInput component default renders correctly 1`] = `
 <styled.textarea
-  bgColor="grey000"
   borderColor="grey100"
   focusedBorderColor="blue600"
-  hasValue={true}
-  isValid={true}
   resize={true}
 />
 `;

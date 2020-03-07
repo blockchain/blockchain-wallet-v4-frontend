@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
 
 export type MoneyType = {
   amount: string
@@ -10,6 +10,33 @@ export type LoanFinancialsType = {
   onCloseCollateralRefund: Array<MoneyType>
   onCloseCollateralTaken: Array<MoneyType>
   owedInterest: Array<MoneyType>
+}
+
+export type LoanTransactionsType = {
+  insertedAt: string
+  notes: string
+  principalTakenAsInterest: Array<MoneyType>
+  request: {
+    amount: MoneyType
+    dstAddress: string
+  }
+  status: 'CONFIRMED' | 'REQUESTED' | 'UNCONFIRMED' | 'FAILED'
+  type:
+    | 'DEPOSIT_COLLATERAL'
+    | 'WITHDRAW_PRINCIPAL'
+    | 'TOPUP_COLLATERAL'
+    | 'REFUND_COLLATERAL'
+    | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+    | 'WITHDRAW_COLLATERAL'
+    | 'WITHDRAW_COLLATERAL_AND_CLOSE'
+    | 'LIQUIDATED_PRINCIPAL'
+    | 'LIQUIDATED_COLLATERAL'
+    | 'LIQUIDATION_FEE'
+    | 'INTEREST_TAKEN'
+  value: {
+    amount: MoneyType
+    txHash?: string
+  }
 }
 
 export type LoanType = {

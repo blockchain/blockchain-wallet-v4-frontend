@@ -13,6 +13,7 @@ const INITIAL_STATE: BorrowState = {
   },
   offer: undefined,
   loan: undefined,
+  loanTransactions: Remote.NotAsked,
   offers: Remote.NotAsked,
   payment: Remote.NotAsked,
   step: 'CHECKOUT'
@@ -37,6 +38,21 @@ export function borrowReducer (
       return {
         ...state,
         offers: Remote.Success(action.payload.offers)
+      }
+    case AT.FETCH_LOAN_TRANSACTIONS_LOADING:
+      return {
+        ...state,
+        loanTransactions: Remote.Loading
+      }
+    case AT.FETCH_LOAN_TRANSACTIONS_FAILURE:
+      return {
+        ...state,
+        loanTransactions: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_LOAN_TRANSACTIONS_SUCCESS:
+      return {
+        ...state,
+        loanTransactions: Remote.Success(action.payload.transactions)
       }
     case AT.FETCH_USER_BORROW_HISTORY_LOADING:
       return {
