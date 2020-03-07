@@ -5,7 +5,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { last } from 'ramda'
+import { model } from 'data'
 import { OfferType } from 'core/types'
 import { Props } from '../template.success'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -14,6 +14,8 @@ import CollateralWarning from '../CollateralWarning'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
+
+const { lastTxFailed } = model.components.borrow
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -59,75 +61,86 @@ const InlineText = styled(Text)`
 `
 
 const Info: React.FC<Props & { offer: OfferType }> = props => {
+  const isLastTxFailed = lastTxFailed(props.loan, props.loanTransactions)
+
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':
     case 'PENDING_EXECUTION': {
       return (
         <Wrapper>
           <Item>
-            <IconWrapper bgColor='green600'>
-              <Icon name='check' size='12px' color='white' />
+            <IconWrapper bgColor={isLastTxFailed ? 'red600' : 'green600'}>
+              <Icon
+                name={isLastTxFailed ? 'alert-filled' : 'check'}
+                size={isLastTxFailed ? '18px' : '12px'}
+                color='white'
+              />
             </IconWrapper>
             <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.borrow.details.newloan.created'
-                defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
-                values={{ symbol: props.loan.collateral.amounts[0].currency }}
-              />
+              {isLastTxFailed ? (
+                <FormattedMessage
+                  id='scenes.borrow.details.newloan.failed'
+                  defaultMessage="There was a problem depositing collateral to your loan. Please try again by clicking 'Add Collateral' below."
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.borrow.details.newloan.created'
+                  defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
+                  values={{ symbol: props.loan.collateral.amounts[0].currency }}
+                />
+              )}
             </Text>
           </Item>
-          <Item>
-            <IconWrapper>
-              <Icon name='timer' size='18px' color='grey600' />
-            </IconWrapper>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.borrow.details.newloan.waiting'
-                defaultMessage="Waiting on your deposit to be confirmed by the network. You don't need to take any action at this point."
-              />
-            </Text>
-          </Item>
-          <Item>
-            <IconWrapper>
-              <Icon name='wallet' size='18px' color='grey600' />
-            </IconWrapper>
-            <InlineText color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.borrow.details.newloan.receive'
-                defaultMessage='You will receive'
-              />{' '}
-              <CoinDisplay
-                coin={props.loan.principal.amount[0].currency}
-                color='grey600'
-                size='14px'
-                weight={500}
-              >
-                {props.loan.principal.amount[0].amount}
-              </CoinDisplay>{' '}
-              <FormattedMessage
-                id='scenes.borrow.newloan.receive2'
-                defaultMessage='to your Blockchain Wallet once we’ve received your deposit.'
-              />
-            </InlineText>
-          </Item>
+          {!isLastTxFailed && (
+            <>
+              <Item>
+                <IconWrapper>
+                  <Icon name='timer' size='18px' color='grey600' />
+                </IconWrapper>
+                <Text color='grey600' size='14px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.borrow.details.newloan.waiting'
+                    defaultMessage="Waiting on your deposit to be confirmed by the network. You don't need to take any action at this point."
+                  />
+                </Text>
+              </Item>
+              <Item>
+                <IconWrapper>
+                  <Icon name='wallet' size='18px' color='grey600' />
+                </IconWrapper>
+                <InlineText color='grey600' size='14px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.borrow.details.newloan.receive'
+                    defaultMessage='You will receive'
+                  />{' '}
+                  <CoinDisplay
+                    coin={props.loan.principal.amount[0].currency}
+                    color='grey600'
+                    size='14px'
+                    weight={500}
+                  >
+                    {props.loan.principal.amount[0].amount}
+                  </CoinDisplay>{' '}
+                  <FormattedMessage
+                    id='scenes.borrow.newloan.receive2'
+                    defaultMessage='to your Blockchain Wallet once we’ve received your deposit.'
+                  />
+                </InlineText>
+              </Item>
+            </>
+          )}
         </Wrapper>
       )
     }
     case 'PENDING_CLOSE':
-      const lastDeposit = last(props.loanTransactions)
-      const lastDepositFailed =
-        lastDeposit &&
-        lastDeposit.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST' &&
-        lastDeposit.status === 'FAILED'
-
       return (
         <Wrapper>
           <Item>
-            <IconWrapper bgColor={lastDepositFailed ? 'red600' : 'orange600'}>
+            <IconWrapper bgColor={isLastTxFailed ? 'red600' : 'orange600'}>
               <Icon name='timer' size='18px' color='white' />
             </IconWrapper>
             <Text color='grey600' size='14px' weight={500}>
-              {lastDepositFailed ? (
+              {isLastTxFailed ? (
                 <FormattedMessage
                   id='scenes.borrow.details.info.repayment.failed'
                   defaultMessage='An error occurred while attempting to repay your loan. Please try again.'

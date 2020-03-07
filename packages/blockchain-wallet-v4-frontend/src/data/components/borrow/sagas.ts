@@ -118,7 +118,7 @@ export default ({
     if (!loan || !offer) return
     const amt = getCollateralAmtRequired(loan, offer)
 
-    yield put(actions.form.change('borrowForm', 'principal', amt))
+    yield put(actions.form.change('borrowForm', 'additionalCollateral', amt))
   }
 
   const createBorrow = function * () {
@@ -201,12 +201,15 @@ export default ({
     }
   }
 
-  const fetchLoanTransactions = function * () {
+  const fetchLoanTransactions = function * ({
+    payload
+  }: ReturnType<typeof A.fetchLoanTransactions>) {
     try {
-      const loan = S.getLoan(yield select())
-      if (!loan) throw NO_LOAN_EXISTS
       yield put(A.fetchLoanTransactionsLoading())
-      const { transactions } = yield call(api.getLoanTransactions, loan.loanId)
+      const { transactions } = yield call(
+        api.getLoanTransactions,
+        payload.loanId
+      )
       yield put(A.fetchLoanTransactionsSuccess(transactions))
     } catch (e) {
       yield put(A.fetchLoanTransactionsFailure(e))
@@ -375,7 +378,7 @@ export default ({
       const values: RepayLoanFormType = yield select(
         selectors.form.getFormValues('repayLoanForm')
       )
-      const loan = S.getLoan(yield select())
+      let loan = S.getLoan(yield select())
       const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
       if (!loan) throw NO_LOAN_EXISTS
@@ -390,13 +393,18 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
-      let response: { loan: LoanType } = yield call(
-        api.closeLoanWithPrincipal,
-        loan,
-        {
-          BTC: collateralWithdrawAddress
-        }
-      )
+
+      if (loan.status !== 'PENDING_CLOSE') {
+        let response: { loan: LoanType } = yield call(
+          api.closeLoanWithPrincipal,
+          loan,
+          {
+            BTC: collateralWithdrawAddress
+          }
+        )
+
+        loan = response.loan
+      }
 
       const destination = loan.principal.depositAddresses[coin]
 
@@ -419,7 +427,7 @@ export default ({
       )
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)

@@ -42,8 +42,11 @@ export const fetchBorrowOffersSuccess = (offers): BorrowActionTypes => ({
   }
 })
 
-export const fetchLoanTransactions = () => ({
-  type: AT.FETCH_LOAN_TRANSACTIONS
+export const fetchLoanTransactions = (loanId: string) => ({
+  type: AT.FETCH_LOAN_TRANSACTIONS,
+  payload: {
+    loanId
+  }
 })
 
 export const fetchLoanTransactionsLoading = (): BorrowActionTypes => ({

@@ -38,7 +38,7 @@ class BorrowDetails extends PureComponent<Props> {
 
   componentDidMount () {
     this.props.borrowActions.setCoin(this.props.offer.terms.collateralCcy)
-    this.props.borrowActions.fetchLoanTransactions()
+    this.props.borrowActions.fetchLoanTransactions(this.props.loan.loanId)
   }
 
   render () {
