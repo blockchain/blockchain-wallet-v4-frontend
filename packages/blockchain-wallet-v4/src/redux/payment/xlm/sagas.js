@@ -152,6 +152,8 @@ export default ({ api }) => {
 
   function create ({ payment } = { payment: {} }) {
     const makePayment = p => ({
+      coin: 'XLM',
+
       value () {
         return p
       },

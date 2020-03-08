@@ -3,11 +3,10 @@ import * as S from './selectors'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { CoinType, RemoteDataType } from 'core/types'
+import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'core/types'
 import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { NO_OFFER_EXISTS } from './model'
-import { PaymentType, PaymentValue } from './types'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 
@@ -28,9 +27,18 @@ export default ({
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
     try {
-      payment = yield payment.amount(
-        parseInt(convertStandardToBase(coin, amount))
-      )
+      switch (payment.coin) {
+        case 'PAX':
+        case 'ETH':
+          payment = yield payment.amount(
+            parseInt(convertStandardToBase(coin, amount)).toString()
+          )
+          break
+        default:
+          payment = yield payment.amount(
+            parseInt(convertStandardToBase(coin, amount))
+          )
+      }
       payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
       payment = yield payment.build()
       // ask for second password

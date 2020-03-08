@@ -3,12 +3,7 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import {
-  BorrowFormValuesType,
-  PaymentType,
-  PaymentValue,
-  RepayLoanFormType
-} from './types'
+import { BorrowFormValuesType, RepayLoanFormType } from './types'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -21,7 +16,12 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { LoanFinancialsType, LoanType } from 'core/types'
+import {
+  LoanFinancialsType,
+  LoanType,
+  PaymentType,
+  PaymentValue
+} from 'core/types'
 import BigNumber from 'bignumber.js'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import profileSagas from '../../../data/modules/profile/sagas'
