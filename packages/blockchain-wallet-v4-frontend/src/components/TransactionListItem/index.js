@@ -61,11 +61,18 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
-    const { coin, currency, transaction, buySellPartner } = this.props
+    const {
+      coin,
+      coinTicker,
+      currency,
+      transaction,
+      buySellPartner
+    } = this.props
     return (
       <TransactionListItem
         buySellPartner={buySellPartner}
         coin={coin}
+        coinTicker={coinTicker}
         currency={currency}
         handleEditDescription={this.handleEditDescription}
         handleToggle={this.handleToggle}

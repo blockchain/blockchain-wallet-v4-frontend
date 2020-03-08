@@ -38,8 +38,8 @@ class BorrowPax extends PureComponent<Props & State> {
             style={{ marginTop: '16px' }}
           >
             <FormattedMessage
-              id='scenes.borrow.borrowusd'
-              defaultMessage='Borrow USD Pax Today'
+              id='scenes.borrow.borrowusdd'
+              defaultMessage='Borrow USD Digital Today'
             />
           </Text>
           <Text
@@ -49,8 +49,8 @@ class BorrowPax extends PureComponent<Props & State> {
             style={{ marginTop: '4px', lineHeight: 1.5 }}
           >
             <FormattedMessage
-              id='scenes.borrow.getusdpax'
-              defaultMessage='Get USD Pax directly from your Blockchain Wallet, use your bitcoin as collateral. You need to be Gold level to benefit from this new offering.'
+              id='scenes.borrow.getusddigital'
+              defaultMessage='Get USD Digital directly from your Blockchain Wallet, use your bitcoin as collateral. You need to be Gold level to benefit from this new offering.'
             />
           </Text>
         </div>

@@ -20,8 +20,8 @@ const LowEthWarningForErc20 = () => {
         </WarningHeader>
         <Text size='13px' weight={400}>
           <FormattedMessage
-            id='modals.sendeth.lowethwarningforerc20.explain'
-            defaultMessage="You'll need ETH to send your ERC20 Token, USD Pax."
+            id='modals.sendeth.lowethwarningforerc20.explain1'
+            defaultMessage="You'll need ETH to send your ERC20 Token, USD Digital."
           />
         </Text>
       </WarningLeftColumn>

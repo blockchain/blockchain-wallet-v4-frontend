@@ -110,6 +110,7 @@ const dateHelper = (time, isMobile) =>
 
 const TransactionListItem = ({
   coin,
+  coinTicker,
   currency,
   isToggled,
   transaction,
@@ -124,7 +125,7 @@ const TransactionListItem = ({
   >
     <TransactionRow onClick={() => handleToggle()}>
       <StatusColumn data-e2e='transactionDateColumn'>
-        <Status type={transaction.type} coin={coin} />
+        <Status type={transaction.type} coinTicker={coinTicker} />
         <MediaContextConsumer>
           {({ mobile }) => (
             <Text size='14px' weight={400} data-e2e='transactionDate'>
@@ -156,8 +157,8 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.paxfee'
-                defaultMessage='USD Pax Fee'
+                id='components.txlistitem.usddfee'
+                defaultMessage='USD Digital Fee'
               />
             </Banner>
           </BannerWrapper>

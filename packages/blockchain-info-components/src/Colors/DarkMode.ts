@@ -65,6 +65,7 @@ const DarkTheme: DefaultTheme = {
   eth: '#473BCB',
   pax: '#00522C',
   stx: '#211F6D',
+  'usd-d': '#00522C',
   xlm: '#797979',
   // OLD - AVOID USE \\
   // Brand

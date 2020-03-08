@@ -89,6 +89,7 @@ const IcoMoon = {
   timer: '\\e945',
   trash: '\\e951',
   twitter: '\\e916',
+  'usd-d': '\\e948',
   user: '\\e955',
   users: '\\e928',
   'vertical-arrow-switch': '\\e980',
