@@ -37,8 +37,8 @@ const Notifications = ({
       {showPaxWarning && (
         <Note>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.notifications.paxdisclaimer'
-            defaultMessage='A Paxos USD token is not itself a US dollar, but Paxos Trust Company, LLC is responsible for backing every token with a US dollar held in segregated accounts at FDIC-insured, U.S. banks. Paxos Trust Company, LLC is also responsible for issuing and redeeming each token in exchange for $1.00.'
+            id='scenes.exchange.exchangeform.notifications.usdddisclaimer'
+            defaultMessage='A USD Digital token is not itself a US dollar, but Paxos Trust Company, LLC is responsible for backing every token with a US dollar held in segregated accounts at FDIC-insured, U.S. banks. Paxos Trust Company, LLC is also responsible for issuing and redeeming each token in exchange for $1.00.'
           />
           &nbsp;
           <InfoLink
