@@ -78,12 +78,12 @@ export const getData = (state, coin, isCoinErc20) =>
           : []
 
       return {
+        buySellPartner: hasAccount(prop('value', buySellMetadata.getOrElse())),
         coinModel: coinModelR.getOrElse({}),
         currency: currencyR.getOrElse(''),
-        pages: filteredPages,
-        empty: all(empty)(filteredPages),
-        search: search.length > 0 || status !== '',
-        buySellPartner: hasAccount(prop('value', buySellMetadata.getOrElse()))
+        hasTxResults: !all(empty)(filteredPages),
+        isSearchEntered: search.length > 0 || status !== '',
+        pages: filteredPages
       }
     }
   )(state)
