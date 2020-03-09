@@ -1,7 +1,6 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
