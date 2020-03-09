@@ -35,8 +35,8 @@ const ViewDetailsCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   return (
-    <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
-      <Table style={{ minWidth: '800px' }}>
+    <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
+      <Table style={{ minWidth: '900px' }}>
         <TableHeader>
           <TableCell width='20%'>
             <Text size='12px' weight={500}>
@@ -54,7 +54,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='15%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.collateral'
@@ -62,7 +62,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='12.5%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.amount'
@@ -70,7 +70,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='12.5%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.outstanding'
@@ -105,7 +105,7 @@ function Success (props: SuccessStateType): ReactElement {
                     </CollateralizationBarWrapper>
                   )}
                 </CollateralizationTableCell>
-                <TableCell width='12%'>
+                <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     <CoinDisplay coin='BTC'>
@@ -117,7 +117,7 @@ function Success (props: SuccessStateType): ReactElement {
                     </CoinDisplay>
                   </Value>
                 </TableCell>
-                <TableCell width='12%'>
+                <TableCell width='12.5%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
                     <CoinDisplay coin='PAX'>
@@ -129,7 +129,7 @@ function Success (props: SuccessStateType): ReactElement {
                     </CoinDisplay>
                   </Value>
                 </TableCell>
-                <TableCell width='12%'>
+                <TableCell width='12.5%'>
                   <Value>
                     {loan.financials ? (
                       loan.financials.owedInterest[0] ? (
@@ -149,7 +149,7 @@ function Success (props: SuccessStateType): ReactElement {
                 <ViewDetailsCell
                   data-e2e='viewLoanDetails'
                   onClick={() => props.showLoanDetails(loan, offer)}
-                  width='14%'
+                  width='10%'
                 >
                   <Link size='14px'>View Details</Link>
                 </ViewDetailsCell>
