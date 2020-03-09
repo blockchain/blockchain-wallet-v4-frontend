@@ -6,7 +6,7 @@ import React from 'react'
 
 type Props = WrappedFieldProps
 
-const TabMenuPaymentMethod: React.FC<Props & { coin: CoinType }> = props => {
+const TabMenuPaymentMethod: React.FC<Props & { coin: string }> = props => {
   const handleClick = (value: 'principal' | 'collateral') => {
     props.input.onChange(value)
   }
