@@ -231,7 +231,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                       >
                         {props.loan.financials.owedInterest[0].amount}
                       </CoinDisplay>
-                      {'  '}(
+                      &nbsp;(
                       <CoinDisplay
                         coin={
                           props.loan.financials.collateralForInterest[0]
