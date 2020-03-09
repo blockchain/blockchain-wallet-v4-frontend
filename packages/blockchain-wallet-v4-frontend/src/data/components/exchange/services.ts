@@ -14,14 +14,15 @@ import {
   REACHED_WEEKLY_ERROR,
   WEEKLY_ERROR
 } from './model'
+import { CoinType } from 'core/types'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
 
-export const convertBaseToStandard = (coin, value) => {
+export const convertBaseToStandard = (coin: CoinType, value): string => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: true }).value
 }
 
-export const convertStandardToBase = (coin, value) => {
+export const convertStandardToBase = (coin: CoinType, value) => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: false })
     .value
 }

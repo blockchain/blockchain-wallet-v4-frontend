@@ -4,7 +4,10 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
 import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'core/types'
-import { convertStandardToBase } from '../exchange/services'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { NO_OFFER_EXISTS } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -70,6 +73,18 @@ export default ({
 
       let maxFiat
       let maxCrypto
+      let offerMax = Number(
+        convertBaseToStandard(
+          offer.terms.maxPrincipalAmount.currency,
+          offer.terms.maxPrincipalAmount.amount
+        )
+      )
+      let offerMin = Number(
+        convertBaseToStandard(
+          offer.terms.minPrincipalAmount.currency,
+          offer.terms.minPrincipalAmount.amount
+        )
+      )
       switch (coin) {
         case 'BTC':
           maxFiat = Exchange.convertBtcToFiat({
@@ -100,10 +115,9 @@ export default ({
 
       yield put(
         A.setLimits({
-          maxFiat: Number(maxFiat),
+          maxFiat: Math.min(Number(maxFiat), offerMax),
           maxCrypto: Number(maxCrypto),
-          minFiat: 0,
-          minCrypto: 0
+          minFiat: offerMin
         })
       )
     } catch (e) {
