@@ -43,6 +43,7 @@ export default ({ api, networks } = {}) => {
       )
     }
   }
+
   const buildErc20Entry = (token, coinModels) => ({
     label: `My ${coinModels[token].displayName} Wallet`,
     contract: path([token, 'contractAddress'], coinModels),
@@ -108,6 +109,13 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
+  const updatePaxLabelToUSDDigital = function * ({ newkv }) {
+    const coinModels = (yield select(getSupportedCoins)).getOrFail()
+
+    newkv.value.ethereum.erc20.pax.label = `My ${coinModels['PAX'].displayName} Wallet`
+    yield put(A.fetchMetadataEthSuccess(newkv))
+  }
+
   const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETH]
@@ -126,6 +134,8 @@ export default ({ api, networks } = {}) => {
       } else if (keys(newkv.value.ethereum.erc20).length !== erc20List.length) {
         // missing 1 or more supported erc20 token entries, add each to kvStore
         yield call(createErc20, { newkv })
+      } else if (newkv.value.ethereum.erc20.pax.label === 'My USD Pax Wallet') {
+        yield call(updatePaxLabelToUSDDigital, { newkv })
       } else {
         yield put(A.fetchMetadataEthSuccess(newkv))
       }
