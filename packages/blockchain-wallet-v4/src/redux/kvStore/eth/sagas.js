@@ -134,7 +134,9 @@ export default ({ api, networks } = {}) => {
       } else if (keys(newkv.value.ethereum.erc20).length !== erc20List.length) {
         // missing 1 or more supported erc20 token entries, add each to kvStore
         yield call(createErc20, { newkv })
-      } else if (newkv.value.ethereum.erc20.pax.label === 'My USD Pax Wallet') {
+      } else if (
+        toLower(newkv.value.ethereum.erc20.pax.label) === 'my usd pax wallet'
+      ) {
         yield call(updatePaxLabelToUSDDigital, { newkv })
       } else {
         yield put(A.fetchMetadataEthSuccess(newkv))
