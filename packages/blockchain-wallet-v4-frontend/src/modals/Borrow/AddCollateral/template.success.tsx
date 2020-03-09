@@ -198,7 +198,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
         <QRCodeContainer>
-          <QRTitle onClick={() => props.onToggleQrCode()}>
+          {/* <QRTitle onClick={() => props.onToggleQrCode()}>
             <Icon
               name='qr-code'
               color='blue600'
@@ -210,7 +210,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='Send additional collateral from external wallet'
               />
             </Text>
-          </QRTitle>
+          </QRTitle> */}
           {props.showQrCode && (
             <QRCodeBox>
               <QRCodeWrapper
