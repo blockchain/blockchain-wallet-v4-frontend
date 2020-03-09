@@ -190,7 +190,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           name='repay-method'
           component={TabMenuPaymentMethod}
           {...{
-            coin: props.offer.terms.principalCcy
+            coin: principalDisplayName
           }}
         />
         <CustomFormLabel>
@@ -245,7 +245,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.borrow.repayloan.info'
               defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
               values={{
-                principalCcy: props.offer.terms.principalCcy,
+                principalCcy: principalDisplayName,
                 collateralCcy: props.offer.terms.collateralCcy
               }}
             />
