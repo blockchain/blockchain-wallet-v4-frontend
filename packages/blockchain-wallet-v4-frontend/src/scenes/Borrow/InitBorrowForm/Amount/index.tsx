@@ -1,8 +1,10 @@
 import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getBalance } from './selectors'
+import { RatesType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
@@ -21,6 +23,7 @@ type LinkStatePropsType = {
       max: number
       offer: OfferType
       offers: Array<OfferType>
+      rates: RatesType
       values: { coin: CoinType }
     }
   >
@@ -49,15 +52,22 @@ export class Amount extends Component<Props> {
             <Text weight={600} size='32px'>
               {fiatToString({
                 unit: { symbol: '$' },
-                value: Math.min(
-                  val.max,
-                  Number(
-                    convertBaseToStandard(
-                      val.offer.terms.maxPrincipalAmount.currency,
-                      val.offer.terms.maxPrincipalAmount.amount
+                value: val.offer
+                  ? Math.min(
+                      Exchange.convertCoinToFiat(
+                        convertBaseToStandard(val.values.coin, val.max),
+                        val.values.coin,
+                        'USD',
+                        val.rates
+                      ),
+                      Number(
+                        convertBaseToStandard(
+                          val.offer.terms.maxPrincipalAmount.currency,
+                          val.offer.terms.maxPrincipalAmount.amount
+                        )
+                      )
                     )
-                  )
-                )
+                  : 0
               })}
             </Text>
           ),
