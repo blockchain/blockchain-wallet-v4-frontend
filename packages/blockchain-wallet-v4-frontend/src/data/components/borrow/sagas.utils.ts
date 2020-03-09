@@ -72,7 +72,6 @@ export default ({
       const value = step === 'CHECKOUT' ? adjustedBalance : balance
 
       let maxFiat
-      let maxCrypto
       let offerMax = Number(
         convertBaseToStandard(
           offer.terms.maxPrincipalAmount.currency,
@@ -93,11 +92,6 @@ export default ({
             toCurrency: 'USD',
             rates
           }).value
-          maxCrypto = Exchange.convertBtcToBtc({
-            value,
-            fromUnit: 'SAT',
-            toUnit: 'SAT'
-          }).value
           break
         case 'PAX':
           maxFiat = Exchange.convertPaxToFiat({
@@ -106,17 +100,11 @@ export default ({
             toCurrency: 'USD',
             rates
           }).value
-          maxCrypto = Exchange.convertPaxToPax({
-            value,
-            fromUnit: 'WEI',
-            toUnit: 'PAX'
-          }).value
       }
 
       yield put(
         A.setLimits({
           maxFiat: Math.min(Number(maxFiat), offerMax),
-          maxCrypto: Number(maxCrypto),
           minFiat: offerMin
         })
       )
