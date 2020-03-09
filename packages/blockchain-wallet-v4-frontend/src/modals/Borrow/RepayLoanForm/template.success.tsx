@@ -63,7 +63,7 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   > input {
-    padding-left: 75px;
+    padding-left: 95px;
   }
 `
 
