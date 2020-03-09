@@ -11,6 +11,7 @@ const Wrapper = styled.div`
 `
 const CoinText = styled(Text)`
   font-size: ${props => props.mobileSize};
+  text-transform: ${props => (props.italic ? 'italic' : 'none')};
   @media (min-width: 480px) {
     font-size: ${props => props.size};
   }
@@ -20,6 +21,7 @@ const CoinDisplay = props => {
   const {
     coin,
     children,
+    italic,
     size,
     weight,
     color,
@@ -33,6 +35,7 @@ const CoinDisplay = props => {
         mobileSize={mobileSize}
         size={size}
         weight={weight}
+        italic={italic}
         color={color}
         cursor={cursor}
         data-e2e={`${coin}Amt`}

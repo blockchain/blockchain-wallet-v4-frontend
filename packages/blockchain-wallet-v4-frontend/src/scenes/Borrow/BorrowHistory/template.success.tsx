@@ -1,3 +1,4 @@
+import { CollateralAmt, Status, Value } from './model'
 import { FormattedMessage } from 'react-intl'
 import {
   Link,
@@ -7,7 +8,6 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { Status, Value } from './model'
 import { SuccessStateType } from '.'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
@@ -108,13 +108,7 @@ function Success (props: SuccessStateType): ReactElement {
                 <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    <CoinDisplay coin='BTC'>
-                      {
-                        loan.collateral.amounts.find(
-                          amount => amount.currency === 'BTC'
-                        )!.amount
-                      }
-                    </CoinDisplay>
+                    <CollateralAmt loan={loan} />
                   </Value>
                 </TableCell>
                 <TableCell width='12.5%'>

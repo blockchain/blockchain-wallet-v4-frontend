@@ -1,8 +1,15 @@
+import {
+  CollateralAmt,
+  Status
+} from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
-import { Status } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
+import {
+  showBorrowSummary,
+  showCollateralizationStatus
+} from 'data/components/borrow/model'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -26,7 +33,7 @@ const Summary: React.FC<Props> = props => {
     props.offer
   )
 
-  return (
+  return showBorrowSummary(props.loan) ? (
     <div>
       <Text color='grey900' weight={600}>
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
@@ -68,26 +75,22 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            <CoinDisplay
-              size='14px'
-              weight={600}
-              coin={props.loan.collateral.amounts[0].currency}
-            >
-              {props.loan.collateral.amounts[0].amount}
-            </CoinDisplay>
+            <CollateralAmt {...props} />
           </Value>
         </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.collateralization'
-              defaultMessage='Collateralization'
-            />
-          </Title>
-          <Value color={getCollateralizationColor(currentCollateralStatus)}>
-            {Number(props.loan.collateralisationRatio * 100).toFixed(0)}%
-          </Value>
-        </TableRow>
+        {showCollateralizationStatus(props.loan) && (
+          <TableRow>
+            <Title>
+              <FormattedMessage
+                id='modals.borrow.collateralization'
+                defaultMessage='Collateralization'
+              />
+            </Title>
+            <Value color={getCollateralizationColor(currentCollateralStatus)}>
+              {Number(props.loan.collateralisationRatio * 100).toFixed(0)}%
+            </Value>
+          </TableRow>
+        )}
         <TableRow>
           <Title>
             <FormattedMessage
@@ -101,7 +104,7 @@ const Summary: React.FC<Props> = props => {
         </TableRow>
       </Table>
     </div>
-  )
+  ) : null
 }
 
 export default Summary

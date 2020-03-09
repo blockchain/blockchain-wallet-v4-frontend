@@ -24,6 +24,7 @@ import {
 } from 'core/types'
 import BigNumber from 'bignumber.js'
 import exchangeSagaUtils from '../exchange/sagas.utils'
+import moment from 'moment'
 import profileSagas from '../../../data/modules/profile/sagas'
 import utils from './sagas.utils'
 
@@ -210,7 +211,11 @@ export default ({
         api.getLoanTransactions,
         payload.loanId
       )
-      yield put(A.fetchLoanTransactionsSuccess(transactions))
+      const sortedTxs = transactions.sort(
+        (a, b) =>
+          moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      )
+      yield put(A.fetchLoanTransactionsSuccess(sortedTxs))
     } catch (e) {
       yield put(A.fetchLoanTransactionsFailure(e))
     }
