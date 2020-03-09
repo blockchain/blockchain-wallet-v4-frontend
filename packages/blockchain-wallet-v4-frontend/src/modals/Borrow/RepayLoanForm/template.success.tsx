@@ -25,7 +25,7 @@ const CustomForm = styled(Form)`
 `
 
 const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0px;
+  padding-bottom: 0;
 `
 const TopText = styled(Text)`
   display: flex;
