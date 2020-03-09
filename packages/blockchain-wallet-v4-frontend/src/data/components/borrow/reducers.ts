@@ -8,8 +8,7 @@ const INITIAL_STATE: BorrowState = {
   limits: {
     maxFiat: 0,
     minFiat: 0,
-    maxCrypto: 0,
-    minCrypto: 0
+    maxCrypto: 0
   },
   offer: undefined,
   loan: undefined,

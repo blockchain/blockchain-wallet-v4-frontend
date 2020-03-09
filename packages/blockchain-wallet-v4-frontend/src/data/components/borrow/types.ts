@@ -24,7 +24,6 @@ export type BorrowFormValuesType = {
 export type BorrowMinMaxType = {
   maxCrypto: number
   maxFiat: number
-  minCrypto: number
   minFiat: number
 }
 

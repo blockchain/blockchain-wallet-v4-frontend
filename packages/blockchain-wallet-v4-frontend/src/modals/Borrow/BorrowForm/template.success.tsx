@@ -2,6 +2,7 @@ import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
@@ -10,7 +11,6 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import BorrowCoinDropdown from './BorrowCoinDropdown'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -129,17 +129,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <FiatContainer
               onClick={() => props.borrowActions.handleMaxCollateralClick()}
             >
-              <FiatDisplay
-                cursor='pointer'
-                color='blue600'
-                size='14px'
-                weight={500}
-                coin='BTC'
-                currency='USD'
-                rates={props.rates}
-              >
-                {props.limits.maxCrypto}
-              </FiatDisplay>
+              <Text color='blue600' size='14px' weight={500}>
+                {fiatToString({
+                  value: props.limits.maxFiat,
+                  unit: { symbol: '$' }
+                })}
+              </Text>
             </FiatContainer>{' '}
             {displayName}{' '}
             <FormattedMessage

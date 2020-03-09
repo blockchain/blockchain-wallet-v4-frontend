@@ -21,10 +21,11 @@ export const maximumAmount = (
 
 export const minimumAmount = (
   value: string,
-  allValues: BorrowFormValuesType
+  allValues: BorrowFormValuesType,
+  props: Props
 ) => {
   if (!value) return true
-  return new BigNumber(0).isGreaterThanOrEqualTo(value) ? (
+  return new BigNumber(props.limits.minFiat).isGreaterThanOrEqualTo(value) ? (
     <FormattedMessage
       id='borrow.validation.belowmin'
       defaultMessage='The amount you entered is below the minimum amount.'

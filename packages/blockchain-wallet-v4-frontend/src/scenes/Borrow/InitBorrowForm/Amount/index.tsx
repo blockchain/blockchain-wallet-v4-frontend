@@ -1,10 +1,11 @@
 import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getBalance } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
@@ -18,6 +19,7 @@ type LinkStatePropsType = {
     {
       balance: number
       max: number
+      offer: OfferType
       offers: Array<OfferType>
       values: { coin: CoinType }
     }
@@ -44,14 +46,20 @@ export class Amount extends Component<Props> {
       <Wrapper>
         {this.props.data.cata({
           Success: val => (
-            <FiatDisplay
-              weight={600}
-              size='32px'
-              coin={val.values.coin}
-              currency='USD'
-            >
-              {val.max}
-            </FiatDisplay>
+            <Text weight={600} size='32px'>
+              {fiatToString({
+                unit: { symbol: '$' },
+                value: Math.min(
+                  val.max,
+                  Number(
+                    convertBaseToStandard(
+                      val.offer.terms.maxPrincipalAmount.currency,
+                      val.offer.terms.maxPrincipalAmount.amount
+                    )
+                  )
+                )
+              })}
+            </Text>
           ),
           Failure: e => {
             return (

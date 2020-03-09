@@ -41,6 +41,7 @@ export const getBalance = state => {
     return {
       values,
       offers,
+      offer,
       balance,
       max
     }

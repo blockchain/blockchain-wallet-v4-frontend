@@ -87,14 +87,8 @@ export type OfferType = {
     durationHours: number
     format: 'FLEX'
     interestRate: number
-    maxYieldingAmount: {
-      symbol: CoinType
-      value: number
-    }
-    minPrincipalAmount: {
-      symbol: CoinType
-      value: number
-    }
+    maxPrincipalAmount: MoneyType
+    minPrincipalAmount: MoneyType
     principalCcy: CoinType
   }
 }
