@@ -144,6 +144,7 @@ export default ({
         })
         payment = yield payment.init({ isErc20: true, coin })
         payment = yield payment.from()
+        payment = yield payment.fee('priority')
     }
 
     return payment
@@ -180,6 +181,7 @@ export default ({
     paymentR: RemoteDataType<string | Error, PaymentValue>
   ): PaymentType => {
     switch (coin) {
+      case 'PAX':
       case 'ETH':
         return coreSagas.payment.eth.create({
           payment: paymentR.getOrElse(<PaymentType>{}),
