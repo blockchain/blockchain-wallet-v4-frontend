@@ -139,7 +139,7 @@ export const addBalanceLimit = (balanceLimit, limits) => {
 }
 
 export const formatLimits = ({ currency, ...limits }) =>
-  compose(
+  compose<any>(
     map(limit => ({
       amount: limit,
       fiat: true,
@@ -154,8 +154,7 @@ const getRate = (rates, source, target) => {
     ? [target, 'last']
     : [formatPair(source, target), 'price']
   return compose(
-    // @ts-ignore
-    rate => new BigNumber(rate).toFixed(14),
+    (rate: number) => new BigNumber(rate).toFixed(14),
     pathOr(0, pathTo)
   )(rates)
 }
@@ -164,11 +163,10 @@ export const convertSourceToTarget = (form, rates, amount) => {
   const sourceCoin = path(['source', 'coin'], form)
   const targetCoin = path(['target', 'coin'], form)
 
-  // @ts-ignore
-  return compose(
+  return compose<any>(
     toFixed(8, false),
-    multiply(getRate(rates, targetCoin, sourceCoin))
     // @ts-ignore
+    multiply(getRate(rates, targetCoin, sourceCoin))
   )(amount)
 }
 
@@ -183,10 +181,9 @@ export const convertSourceFeesToFiat = (
   const sourceCoin = isSourceErc20 ? 'ETH' : path(['source', 'coin'], form)
   const sourceRates = isSourceErc20 ? fallbackEthRates : rates
 
-  // @ts-ignore
-  return compose(
+  return compose<any>(
     toFixed(2, false),
-    multiply(getRate(sourceRates, sourceCoin, fiatCurrency))
     // @ts-ignore
+    multiply(getRate(sourceRates, sourceCoin, fiatCurrency))
   )(amount)
 }
