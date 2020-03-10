@@ -31,5 +31,8 @@
     "packages/blockchain-wallet-v4/src/",
     "index.d.ts",
     "styled.d.ts"
+  ],
+  "exclude": [
+    "packages/blockchain-wallet-v4-frontend/src/data/components/exchange/services.ts"
   ]
 }
