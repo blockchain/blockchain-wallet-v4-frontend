@@ -71,7 +71,7 @@ type EthPaymentType = IPaymentType & {
 }
 
 type XlmPaymentType = IPaymentType & {
-  amount: (n: number) => XlmPaymentType
+  amount: (n: string) => XlmPaymentType
   coin: 'XLM'
 }
 
