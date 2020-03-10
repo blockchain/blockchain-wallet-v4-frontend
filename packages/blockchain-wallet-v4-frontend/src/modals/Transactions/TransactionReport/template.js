@@ -21,7 +21,6 @@ import {
   SelectBoxEthAddresses
 } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { validEndDate, validStartDate } from './validation'
 
 const Container = styled.div`
   display: flex;
@@ -58,14 +57,21 @@ const Footer = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-
-  & > :first-child {
-    margin-right: 10px;
-  }
 `
 const DownloadBtn = styled(CSVLink)`
   text-decoration: none;
 `
+
+export const validAddressOrWallet = value => {
+  return value !== 'all' ? (
+    undefined
+  ) : (
+    <FormattedMessage
+      id='modals.transactionreport.invalidwallet'
+      defaultMessage='Wallet selection required'
+    />
+  )
+}
 
 const TransactionHistory = props => {
   const {
@@ -75,8 +81,7 @@ const TransactionHistory = props => {
     filename,
     generating,
     handleSubmit,
-    isValidEndDate,
-    isValidStartDate,
+    invalid,
     onDownload,
     position,
     total
@@ -86,8 +91,8 @@ const TransactionHistory = props => {
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id='modals.transactionreport.title'
-          defaultMessage='Export {coin} transactions history'
+          id='modals.transactionreport.titlenew'
+          defaultMessage='{coin} Transaction History'
           values={{ coin }}
         />
       </ModalHeader>
@@ -109,6 +114,7 @@ const TransactionHistory = props => {
                   component={SelectBoxBchAddresses}
                   includeAll={false}
                   name='from'
+                  validate={[required, validAddressOrWallet]}
                 />
               )}
               {coin === 'BTC' && (
@@ -117,6 +123,7 @@ const TransactionHistory = props => {
                   component={SelectBoxBtcAddresses}
                   includeAll={false}
                   name='from'
+                  validate={[required, validAddressOrWallet]}
                 />
               )}
               {coin === 'ETH' && (
@@ -124,6 +131,7 @@ const TransactionHistory = props => {
                   coin={coin}
                   component={SelectBoxEthAddresses}
                   name='from'
+                  validate={[required, validAddressOrWallet]}
                 />
               )}
             </Row>
@@ -147,9 +155,8 @@ const TransactionHistory = props => {
               <DateSelectRow>
                 <Field
                   name='start'
-                  validate={[required, validStartDate]}
+                  validate={[required]}
                   component={DateBoxDebounced}
-                  isValidDate={isValidStartDate}
                 />
                 <Icon
                   name='arrow-right'
@@ -158,9 +165,8 @@ const TransactionHistory = props => {
                 />
                 <Field
                   name='end'
-                  validate={[required, validEndDate]}
+                  validate={[required]}
                   component={DateBoxDebounced}
-                  isValidDate={isValidEndDate}
                 />
               </DateSelectRow>
             </Row>
@@ -188,7 +194,7 @@ const TransactionHistory = props => {
               <Button
                 type='submit'
                 nature='primary'
-                disabled={generating}
+                disabled={generating || invalid}
                 data-e2e='generateReport'
               >
                 <FormattedMessage

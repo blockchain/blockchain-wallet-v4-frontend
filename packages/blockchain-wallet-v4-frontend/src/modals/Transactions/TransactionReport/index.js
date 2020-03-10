@@ -2,11 +2,12 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import React from 'react'
 
-import { actions } from 'data'
-import { getData } from './selectors'
+import { actions, selectors } from 'data'
 import { prop, toLower } from 'ramda'
 import modalEnhancer from 'providers/ModalEnhancer'
 import moment from 'services/MomentHelper'
+
+import { getData } from './selectors'
 import TransactionReport from './template'
 
 class TransactionReportContainer extends React.PureComponent {
@@ -74,7 +75,11 @@ class TransactionReportContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
+const mapStateToProps = (state, ownProps) => ({
+  locale: selectors.preferences.getLanguage(state),
+  formValues: selectors.form.getFormValues('transactionReport')(state),
+  ...getData(state, ownProps.coin)
+})
 
 const mapDispatchToProps = (dispatch, { coin }) => ({
   clearTransactions: () =>

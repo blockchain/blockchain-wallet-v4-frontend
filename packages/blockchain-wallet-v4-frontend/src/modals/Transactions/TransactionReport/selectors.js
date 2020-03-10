@@ -1,41 +1,22 @@
 import { assoc, curry, map, prop } from 'ramda'
 import { createSelector } from 'reselect'
-import {
-  isValidBchEndDate,
-  isValidBchStartDate,
-  isValidBtcEndDate,
-  isValidBtcStartDate,
-  isValidEthEndDate,
-  isValidEthStartDate
-} from './services'
 import { selectors } from 'data'
 import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 
 export const getData = (state, coin) => {
-  let coinData
   switch (coin) {
     case 'BCH':
-      coinData = getBchData(state)
-      break
+      return getBchData(state)
     case 'ETH':
-      coinData = getEthData(state)
-      break
+      return getEthData(state)
     default:
-      coinData = getBtcData(state)
-      break
-  }
-  return {
-    language: selectors.preferences.getLanguage(state),
-    ...coinData
+      return getBtcData(state)
   }
 }
 
-export const getEthData = createSelector(
-  [
-    selectors.core.data.eth.getTransactionHistory,
-    selectors.form.getFormValues('transactionReport')
-  ],
-  (dataR, formValues) => {
+const getEthData = createSelector(
+  [selectors.core.data.eth.getTransactionHistory],
+  dataR => {
     const transform = data => {
       const headers = [
         'date',
@@ -64,24 +45,18 @@ export const getEthData = createSelector(
       )
       return [headers].concat(transformedData)
     }
-    const start = prop('start', formValues)
-    const end = prop('end', formValues)
     return {
-      csvData: dataR.map(transform).getOrElse(undefined),
-      isValidStartDate: date => isValidEthStartDate(date, end),
-      isValidEndDate: date => isValidEthEndDate(date, start),
-      formValues
+      csvData: dataR.map(transform).getOrElse(undefined)
     }
   }
 )
 
-export const getBtcData = createSelector(
+const getBtcData = createSelector(
   [
     selectors.core.wallet.getWallet,
-    selectors.core.data.btc.getTransactionHistory,
-    selectors.form.getFormValues('transactionReport')
+    selectors.core.data.btc.getTransactionHistory
   ],
-  (wallet, dataR, formValues) => {
+  (wallet, dataR) => {
     const transform = data => {
       const headers = [
         'date',
@@ -110,27 +85,21 @@ export const getBtcData = createSelector(
       )
       return [headers].concat(transformedData)
     }
-    const start = prop('start', formValues)
-    const end = prop('end', formValues)
     return {
       csvData: dataR
         .map(assocBTCNotes(wallet))
         .map(transform)
-        .getOrElse(undefined),
-      isValidStartDate: date => isValidBtcStartDate(date, end),
-      isValidEndDate: date => isValidBtcEndDate(date, start),
-      formValues
+        .getOrElse(undefined)
     }
   }
 )
 
-export const getBchData = createSelector(
+const getBchData = createSelector(
   [
     selectors.core.kvStore.bch.getBchTxNotes,
-    selectors.core.data.bch.getTransactionHistory,
-    selectors.form.getFormValues('transactionReport')
+    selectors.core.data.bch.getTransactionHistory
   ],
-  (notesR, dataR, formValues) => {
+  (notesR, dataR) => {
     const transform = data => {
       const headers = [
         'date',
@@ -159,17 +128,12 @@ export const getBchData = createSelector(
       )
       return [headers].concat(transformedData)
     }
-    const start = prop('start', formValues)
-    const end = prop('end', formValues)
     const notes = notesR.getOrElse({})
     return {
       csvData: dataR
         .map(assocBCHNotes(notes))
         .map(transform)
-        .getOrElse(undefined),
-      isValidStartDate: date => isValidBchStartDate(date, end),
-      isValidEndDate: date => isValidBchEndDate(date, start),
-      formValues
+        .getOrElse(undefined)
     }
   }
 )
