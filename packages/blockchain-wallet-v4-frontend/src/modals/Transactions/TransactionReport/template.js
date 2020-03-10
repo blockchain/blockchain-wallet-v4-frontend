@@ -1,7 +1,6 @@
 import { CSVLink } from 'react-csv'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -9,7 +8,6 @@ import {
   Button,
   HeartbeatLoader,
   Icon,
-  Link,
   Modal,
   ModalBody,
   ModalHeader,
@@ -19,7 +17,8 @@ import {
   DateBoxDebounced,
   Form,
   SelectBoxBchAddresses,
-  SelectBoxBtcAddresses
+  SelectBoxBtcAddresses,
+  SelectBoxEthAddresses
 } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { validEndDate, validStartDate } from './validation'
@@ -40,12 +39,18 @@ const Row = styled.div`
   width: 100%;
   margin-bottom: ${props => props.margin || '10px'};
 `
-const TimeContainer = styled.div`
+const DateSelectRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+`
+const DateLabel = styled(Text)`
+  margin-bottom: 6px;
+`
+const EndDateLabel = styled(DateLabel)`
+  margin-right: 50px;
 `
 const Footer = styled.div`
   display: flex;
@@ -58,12 +63,11 @@ const Footer = styled.div`
     margin-right: 10px;
   }
 `
-
 const DownloadBtn = styled(CSVLink)`
   text-decoration: none;
 `
 
-const FirstStep = props => {
+const TransactionHistory = props => {
   const {
     closeAll,
     coin,
@@ -99,24 +103,48 @@ const FirstStep = props => {
               </Text>
             </Row>
             <Row margin='30px'>
-              <Field
-                name='from'
-                coin={coin}
-                component={
-                  coin === 'BTC' ? SelectBoxBtcAddresses : SelectBoxBchAddresses
-                }
-              />
+              {coin === 'BCH' && (
+                <Field
+                  coin={coin}
+                  component={SelectBoxBchAddresses}
+                  includeAll={false}
+                  name='from'
+                />
+              )}
+              {coin === 'BTC' && (
+                <Field
+                  coin={coin}
+                  component={SelectBoxBtcAddresses}
+                  includeAll={false}
+                  name='from'
+                />
+              )}
+              {coin === 'ETH' && (
+                <Field
+                  coin={coin}
+                  component={SelectBoxEthAddresses}
+                  name='from'
+                />
+              )}
             </Row>
             <Row>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage
-                  id='modals.transactionreport.timerange'
-                  defaultMessage='Select time range'
-                />
-              </Text>
+              <DateSelectRow>
+                <DateLabel size='13px' weight={500} capitalize>
+                  <FormattedMessage
+                    id='modals.transactionreport.startdate'
+                    defaultMessage='Select start date'
+                  />
+                </DateLabel>
+                <EndDateLabel size='13px' weight={500} capitalize>
+                  <FormattedMessage
+                    id='modals.transactionreport.enddate'
+                    defaultMessage='Select end date'
+                  />
+                </EndDateLabel>
+              </DateSelectRow>
             </Row>
-            <Row margin='30px'>
-              <TimeContainer>
+            <Row margin='34px'>
+              <DateSelectRow>
                 <Field
                   name='start'
                   validate={[required, validStartDate]}
@@ -134,22 +162,10 @@ const FirstStep = props => {
                   component={DateBoxDebounced}
                   isValidDate={isValidEndDate}
                 />
-              </TimeContainer>
+              </DateSelectRow>
             </Row>
           </Container>
           <Footer>
-            <Link
-              size='13px'
-              weight={400}
-              fullwidth
-              onClick={closeAll}
-              data-e2e='closeReport'
-            >
-              <FormattedMessage
-                id='modals.transactionreport.close'
-                defaultMessage='Close'
-              />
-            </Link>
             {generating ? (
               csvData ? (
                 <DownloadBtn
@@ -188,8 +204,4 @@ const FirstStep = props => {
   )
 }
 
-FirstStep.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
-}
-
-export default reduxForm({ form: 'transactionReport' })(FirstStep)
+export default reduxForm({ form: 'transactionReport' })(TransactionHistory)

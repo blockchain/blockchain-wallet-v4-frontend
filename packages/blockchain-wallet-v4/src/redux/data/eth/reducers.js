@@ -34,6 +34,7 @@ const INITIAL_STATE = {
   rates: buildStateWithTokens(Remote.NotAsked),
   transactions: buildStateWithTokens([]),
   transactions_at_bound: buildStateWithTokens(false),
+  transaction_history: Remote.NotAsked,
   warn_low_eth_balance: false
 }
 

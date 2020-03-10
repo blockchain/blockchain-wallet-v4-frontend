@@ -4,21 +4,76 @@ import {
   isValidBchEndDate,
   isValidBchStartDate,
   isValidBtcEndDate,
-  isValidBtcStartDate
+  isValidBtcStartDate,
+  isValidEthEndDate,
+  isValidEthStartDate
 } from './services'
 import { selectors } from 'data'
 import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
 
-export const getData = (coin, state) => {
+export const getData = (state, coin) => {
+  let coinData
   switch (coin) {
     case 'BCH':
-      return getBchData(state)
-    case 'BTC':
-      return getBtcData(state)
+      coinData = getBchData(state)
+      break
+    case 'ETH':
+      coinData = getEthData(state)
+      break
     default:
-      return getBtcData(state)
+      coinData = getBtcData(state)
+      break
+  }
+  return {
+    language: selectors.preferences.getLanguage(state),
+    ...coinData
   }
 }
+
+export const getEthData = createSelector(
+  [
+    selectors.core.data.eth.getTransactionHistory,
+    selectors.form.getFormValues('transactionReport')
+  ],
+  (dataR, formValues) => {
+    const transform = data => {
+      const headers = [
+        'date',
+        'time',
+        'type',
+        'amount_btc',
+        'value_then',
+        'value_now',
+        'exchange_rate_then',
+        'tx',
+        'note'
+      ]
+      const transformedData = map(
+        d => [
+          d.date,
+          d.time,
+          d.type,
+          d.amount_btc,
+          d.value_then,
+          d.value_now,
+          d.exchange_rate_then,
+          d.tx,
+          d.note
+        ],
+        data
+      )
+      return [headers].concat(transformedData)
+    }
+    const start = prop('start', formValues)
+    const end = prop('end', formValues)
+    return {
+      csvData: dataR.map(transform).getOrElse(undefined),
+      isValidStartDate: date => isValidEthStartDate(date, end),
+      isValidEndDate: date => isValidEthEndDate(date, start),
+      formValues
+    }
+  }
+)
 
 export const getBtcData = createSelector(
   [

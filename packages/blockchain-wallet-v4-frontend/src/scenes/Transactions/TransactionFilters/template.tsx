@@ -47,7 +47,7 @@ const SearchField = styled<any>(Field)`
   }
 `
 const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
-const TX_EXPORT_COINS = ['BTC', 'BCH']
+const TX_EXPORT_COINS = ['BTC', 'BCH', 'ETH']
 
 const EthPrivateKeys = () => (
   <Link weight={500} size='12px'>

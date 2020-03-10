@@ -44,30 +44,6 @@ describe('bchTransactions sagas', () => {
     })
   })
 
-  describe('reportClicked', () => {
-    let { reportClicked } = bchTransactionsSagas({ coreSagas })
-    let saga = testSaga(reportClicked)
-
-    it('should open the modal', () => {
-      saga
-        .next()
-        .put(actions.modals.showModal('TransactionReport', { coin: 'BCH' }))
-    })
-
-    describe('error handling', () => {
-      const error = new Error('ERROR')
-      it('should log the error', () => {
-        saga
-          .restart()
-          .next()
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'reportClicked', error)
-          )
-      })
-    })
-  })
-
   describe('formChanged with show all', () => {
     let { formChanged } = bchTransactionsSagas({ coreSagas })
     const action = {

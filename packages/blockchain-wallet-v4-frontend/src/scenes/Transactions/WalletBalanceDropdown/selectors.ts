@@ -11,7 +11,6 @@ import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddres
 import { last, lift, negate, nth, prop } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
-import BigNumber from 'bignumber.js'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps

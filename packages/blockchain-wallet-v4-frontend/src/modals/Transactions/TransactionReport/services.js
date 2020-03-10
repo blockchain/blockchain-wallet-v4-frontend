@@ -12,6 +12,12 @@ export const isDatePosteriorToBchGenesis = selectedDate => {
   return date.diff(bchMinDate, 'day') >= 0
 }
 
+export const isDatePosteriorToEthGenesis = selectedDate => {
+  const ethMinDate = moment('2015-07-30', 'YYYY-MM-DD', true)
+  const date = moment(selectedDate)
+  return date.diff(ethMinDate, 'day') >= 0
+}
+
 export const isDateAnterior = (date1, date2) => {
   return moment(date2).diff(moment(date1), 'day') > 0
 }
@@ -35,3 +41,11 @@ export const isValidBchStartDate = (selectedDate, endDate) =>
 export const isValidBchEndDate = (selectedDate, startDate) =>
   isDatePosteriorToBchGenesis(selectedDate) &&
   isDatePosterior(selectedDate, startDate)
+
+export const isValidEthStartDate = (selectedDate, endDate) =>
+  isDatePosteriorToEthGenesis(selectedDate) &&
+  isDateAnterior(selectedDate, endDate)
+
+export const isValidEthEndDate = (selectedDate, endDate) =>
+  isDatePosteriorToEthGenesis(selectedDate) &&
+  isDatePosterior(selectedDate, endDate)

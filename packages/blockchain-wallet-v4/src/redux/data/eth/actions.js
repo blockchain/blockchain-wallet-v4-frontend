@@ -103,6 +103,11 @@ export const fetchTransactionsFailure = error => ({
   payload: error
 })
 
+export const fetchTransactionHistory = (address, startDate, endDate) => ({
+  type: AT.FETCH_ETH_TRANSACTION_HISTORY,
+  payload: { address, endDate, startDate }
+})
+
 export const transactionsAtBound = payload => ({
   type: AT.ETH_TRANSACTIONS_AT_BOUND,
   payload

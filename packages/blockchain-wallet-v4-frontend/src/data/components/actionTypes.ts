@@ -28,7 +28,6 @@ import * as sendXlm from './sendXlm/actionTypes'
 import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as stxTransactions from './stxTransactions/actionTypes'
-import * as transactionReport from './transactionReport/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
@@ -65,7 +64,6 @@ export {
   settings,
   signMessage,
   stxTransactions,
-  transactionReport,
   uploadDocuments,
   veriff
 }

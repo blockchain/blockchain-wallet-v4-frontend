@@ -21,14 +21,6 @@ export default () => {
     }
   }
 
-  const reportClicked = function * () {
-    try {
-      yield put(actions.modals.showModal('TransactionReport', { coin: 'BTC' }))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'reportClicked', e))
-    }
-  }
-
   const loadMore = function * () {
     try {
       const formValues = yield select(
@@ -65,7 +57,6 @@ export default () => {
 
   return {
     initialized,
-    reportClicked,
     formChanged,
     loadMore
   }

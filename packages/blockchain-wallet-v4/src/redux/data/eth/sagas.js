@@ -112,6 +112,17 @@ export default ({ api }) => {
     }
   }
 
+  const fetchTransactionHistory = function * (action) {
+    try {
+      const { payload } = action
+      const { address, endDate, startDate } = payload
+      const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
+      const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
+      console.info(ethAddress, endDate, startDate) // eslint-disable-line no-console
+    } catch (e) {
+      console.info('error') // eslint-disable-line no-console
+    }
+  }
   const __processTxs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
@@ -261,6 +272,7 @@ export default ({ api }) => {
     fetchErc20Rates,
     fetchLatestBlock,
     fetchTransactions,
+    fetchTransactionHistory,
     fetchErc20Transactions,
     fetchErc20TransactionFee,
     watchTransactions,

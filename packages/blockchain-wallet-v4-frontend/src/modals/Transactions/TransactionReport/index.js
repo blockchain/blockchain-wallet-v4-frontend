@@ -1,30 +1,48 @@
-import { bindActionCreators, compose } from 'redux'
+import { compose } from 'redux'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
+import { prop, toLower } from 'ramda'
 import modalEnhancer from 'providers/ModalEnhancer'
+import moment from 'services/MomentHelper'
 import TransactionReport from './template'
 
 class TransactionReportContainer extends React.PureComponent {
   state = { filename: '', generating: false }
 
   componentDidMount () {
-    this.props.actions.initialized()
+    const { initForm, language } = this.props
+    moment.locale(language)
+    initForm({
+      from: 'all',
+      start: moment()
+        .startOf('day')
+        .subtract(7, 'day'),
+      end: moment().startOf('day')
+    })
   }
 
   componentWillUnmount () {
-    this.props.actions.destroyed()
+    this.props.clearTransactions()
   }
 
-  generateCSV = () => {
+  onFetchHistory = () => {
+    const { coin, fetchTransactions, formValues } = this.props
+    const from = prop('from', formValues)
+    const startDate = prop('start', formValues)
+    const endDate = prop('end', formValues)
+    const address = from && (from.xpub || from.address || from)
     const filename =
-      `${this.props.coin}_${this.props.formValues.start.format('YYYY-MM-DD')}` +
-      `_${this.props.formValues.end.format('YYYY-MM-DD')}.csv`
+      `${coin}_${startDate.format('YYYY-MM-DD')}` +
+      `_${endDate.format('YYYY-MM-DD')}.csv`
     this.setState({ generating: true, filename })
-    this.props.actions.submitClicked(this.props.coin)
+    fetchTransactions(
+      address,
+      moment(startDate).format('DD/MM/YYYY'),
+      moment(endDate).format('DD/MM/YYYY')
+    )
   }
 
   render () {
@@ -48,7 +66,7 @@ class TransactionReportContainer extends React.PureComponent {
         isValidEndDate={isValidEndDate}
         isValidStartDate={isValidStartDate}
         onDownload={() => this.setState({ generating: false })}
-        onSubmit={this.generateCSV}
+        onSubmit={this.onFetchHistory}
         position={position}
         total={total}
       />
@@ -56,22 +74,25 @@ class TransactionReportContainer extends React.PureComponent {
   }
 }
 
-TransactionReportContainer.propTypes = {
-  coin: PropTypes.oneOf(['BTC', 'BCH'])
-}
+const mapStateToProps = (state, ownProps) => getData(state, ownProps.coin)
 
-TransactionReportContainer.defaultProps = {
-  coin: 'BTC'
-}
-
-const mapStateToProps = (state, ownProps) => getData(ownProps.coin, state)
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.transactionReport, dispatch)
+const mapDispatchToProps = (dispatch, { coin }) => ({
+  clearTransactions: () =>
+    dispatch(actions.core.data[toLower(coin)].clearTransactionHistory()),
+  fetchTransactions: (address, startDate, endDate) =>
+    dispatch(
+      actions.core.data[toLower(coin)].fetchTransactionHistory(
+        address,
+        startDate,
+        endDate
+      )
+    ),
+  initForm: initialValues =>
+    dispatch(actions.form.initialize('transactionReport', initialValues))
 })
 
 const enhance = compose(
-  modalEnhancer('TransactionReport'),
+  modalEnhancer('TRANSACTION_REPORT'),
   connect(
     mapStateToProps,
     mapDispatchToProps
