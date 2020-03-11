@@ -110,6 +110,8 @@ export type Props = OwnProps &
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
+  const isSufficientEthForErc20 =
+    props.payment.coin === 'PAX' && props.payment.isSufficientEthForErc20
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -261,11 +263,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
+        {!isSufficientEthForErc20 && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='modals.borrow.repayloan.notenougheth'
+              defaultMessage='ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction.'
+              values={{ principalDisplayName }}
+            />
+          </ErrorText>
+        )}
         <Button
           nature='primary'
           type='submit'
           data-e2e='repayLoanSubmit'
-          disabled={props.submitting || props.invalid}
+          disabled={
+            props.submitting || props.invalid || !isSufficientEthForErc20
+          }
           fullwidth
         >
           {props.submitting ? (

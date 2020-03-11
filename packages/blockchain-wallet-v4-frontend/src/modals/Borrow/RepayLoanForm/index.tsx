@@ -7,7 +7,7 @@ import {
   LoanTransactionsType,
   LoanType,
   OfferType,
-  PaymentType,
+  PaymentValue,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
@@ -25,7 +25,7 @@ export type OwnProps = {
 export type SuccessStateType = {
   limits: BorrowMinMaxType
   loanTransactions: Array<LoanTransactionsType>
-  payment: PaymentType
+  payment: PaymentValue
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }

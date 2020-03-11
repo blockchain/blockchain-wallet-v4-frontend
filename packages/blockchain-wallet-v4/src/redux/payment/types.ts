@@ -22,12 +22,10 @@ export type FromType =
   | 'LOCKBOX'
   | 'ADDRESS'
 
-export type PaymentValue = {
-  amount?: Array<number>
+type IPaymentValue = {
   change: string
-  coins: Array<UTXOType>
+  coin: CoinType
   effectiveBalance: number
-  fee: number
   fees: {
     limits: {
       max: number
@@ -37,14 +35,32 @@ export type PaymentValue = {
     regular: number
   }
   from: Array<string>
-  fromAccountIdx: number
   fromType: FromType
+  to?: Array<any>
+}
+
+type BtcPaymentValue = IPaymentValue & {
+  amount?: Array<number>
+  coin: 'BTC' | 'BCH'
+  coins: Array<UTXOType>
+  fee: number
+  fromAccountIdx: number
   selection?: {
     fee: number
     inputs: Array<UTXOType>
     outputs: Array<UTXOType>
   }
-  to?: Array<any>
+}
+
+type EthPaymentValue = IPaymentValue & {
+  amount?: string
+  coin: 'ETH' | 'PAX'
+  isSufficientEthForErc20: boolean
+}
+
+type XlmPaymentValue = IPaymentValue & {
+  amount?: string
+  coin: 'XLM'
 }
 
 type IPaymentType = {
@@ -80,3 +96,5 @@ export type PaymentType =
   | BtcPaymentType
   | EthPaymentType
   | XlmPaymentType
+
+export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
