@@ -157,7 +157,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
               <FormattedHTMLMessage
-                id='scenes.borrow.warning.risky'
+                id='scenes.borrow.warning.safe'
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
                 values={{
                   currentRatio: percentageFormatter(

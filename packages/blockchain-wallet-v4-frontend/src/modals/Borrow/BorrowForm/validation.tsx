@@ -1,3 +1,4 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { BorrowFormValuesType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { Props } from './template.success'
@@ -25,10 +26,16 @@ export const minimumAmount = (
   props: Props
 ) => {
   if (!value) return true
-  return new BigNumber(props.limits.minFiat).isGreaterThanOrEqualTo(value) ? (
+  return new BigNumber(value).isLessThan(props.limits.minFiat) ? (
     <FormattedMessage
       id='borrow.validation.belowmin'
-      defaultMessage='The amount you entered is below the minimum amount.'
+      defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
+      values={{
+        minFiat: Currency.fiatToString({
+          value: props.limits.minFiat,
+          unit: { symbol: '$' }
+        })
+      }}
     />
   ) : (
     false

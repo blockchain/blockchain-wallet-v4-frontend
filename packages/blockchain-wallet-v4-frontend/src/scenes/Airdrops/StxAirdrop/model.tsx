@@ -114,7 +114,7 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
           >
             <FormattedMessage
               id='scenes.airdrop.stx.learnmore'
-              defaultMessage='Learn more'
+              defaultMessage='Learn More'
             />
           </Link>
         </Text>
