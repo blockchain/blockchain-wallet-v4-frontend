@@ -9,18 +9,22 @@ import { call, put, select, take } from 'redux-saga/effects'
 import {
   concat,
   dissoc,
+  filter,
   head,
   isNil,
+  join,
   length,
   map,
   mapObjIndexed,
   path,
   prop,
   sum,
+  takeLast,
   toUpper,
   values
 } from 'ramda'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
+import moment from 'moment'
 
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 40
@@ -113,16 +117,58 @@ export default ({ api }) => {
   }
 
   const fetchTransactionHistory = function * (action) {
+    const { payload } = action
+    const { address, endDate, startDate } = payload
     try {
-      const { payload } = action
-      const { address, endDate, startDate } = payload
+      yield put(A.fetchTransactionHistoryLoading())
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
-      console.info(ethAddress, endDate, startDate) // eslint-disable-line no-console
+      // TODO: loop and ensure all transactions are fetched
+      const data = yield call(api.getEthTransactions, ethAddress, 0)
+      const rawTxs = path([ethAddress, 'txns'], data)
+      const txs = yield call(__processReportTxs, rawTxs, startDate, endDate)
+      yield put(A.fetchTransactionHistorySuccess(txs))
     } catch (e) {
-      console.info('error') // eslint-disable-line no-console
+      yield put(A.fetchTransactionHistoryFailure(e.message))
     }
   }
+  const __processReportTxs = function * (rawTxList, startDate, endDate) {
+    const fullTxList = yield call(__processTxs, rawTxList)
+    // remove txs that are ERC20 or not within date range
+    let prunedTxs = filter(
+      tx => !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate),
+      fullTxList
+    )
+    // build model for report
+    return map(
+      tx => ({
+        amount: Exchange.convertEtherToEther({
+          value: tx.amount,
+          fromUnit: 'WEI',
+          toUnit: 'ETH'
+        }).value,
+        date: moment.unix(tx.time).format('YYYY-MM-DD'),
+        description: tx.description,
+        hash: tx.hash,
+        time: join(
+          ' ',
+          takeLast(
+            2,
+            moment
+              .unix(tx.time)
+              .toString()
+              .split(' ')
+          )
+        ),
+        type: tx.type,
+        value_then: '?',
+        value_now: '?',
+        exchange_rate_then: '?'
+      }),
+      prunedTxs
+    )
+  }
+
   const __processTxs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)

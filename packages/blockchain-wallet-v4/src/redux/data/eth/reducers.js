@@ -163,6 +163,18 @@ export default (state = INITIAL_STATE, action) => {
     case AT.ETH_TRANSACTIONS_AT_BOUND: {
       return assocPath(['transactions_at_bound', 'eth'], payload, state)
     }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_LOADING: {
+      return assoc('transaction_history', Remote.Loading, state)
+    }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_SUCCESS: {
+      return assoc('transaction_history', Remote.Success(payload), state)
+    }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_FAILURE: {
+      return assoc('transaction_history', Remote.Failure(payload), state)
+    }
+    case AT.CLEAR_ETH_TRANSACTION_HISTORY: {
+      return assoc('transaction_history', Remote.NotAsked, state)
+    }
     case AT.CHECK_LOW_ETH_BALANCE_SUCCESS: {
       return assoc('warn_low_eth_balance', payload, state)
     }

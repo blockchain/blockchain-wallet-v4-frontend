@@ -14,36 +14,39 @@ export const getData = (state, coin) => {
   }
 }
 
+const reportHeaders = [
+  'date',
+  'time',
+  'coin',
+  'type',
+  'amount',
+  'value_then',
+  'value_now',
+  'exchange_rate_then',
+  'tx',
+  'note'
+]
+
 const getEthData = createSelector(
   [selectors.core.data.eth.getTransactionHistory],
   dataR => {
     const transform = data => {
-      const headers = [
-        'date',
-        'time',
-        'type',
-        'amount_btc',
-        'value_then',
-        'value_now',
-        'exchange_rate_then',
-        'tx',
-        'note'
-      ]
       const transformedData = map(
         d => [
           d.date,
           d.time,
+          'ETH',
           d.type,
-          d.amount_btc,
+          d.amount,
           d.value_then,
           d.value_now,
           d.exchange_rate_then,
-          d.tx,
-          d.note
+          d.hash,
+          d.description
         ],
         data
       )
-      return [headers].concat(transformedData)
+      return [reportHeaders].concat(transformedData)
     }
     return {
       csvData: dataR.map(transform).getOrElse(undefined)
@@ -58,21 +61,11 @@ const getBtcData = createSelector(
   ],
   (wallet, dataR) => {
     const transform = data => {
-      const headers = [
-        'date',
-        'time',
-        'type',
-        'amount_btc',
-        'value_then',
-        'value_now',
-        'exchange_rate_then',
-        'tx',
-        'note'
-      ]
       const transformedData = map(
         d => [
           d.date,
           d.time,
+          'BTC',
           d.type,
           d.amount_btc,
           d.value_then,
@@ -83,7 +76,7 @@ const getBtcData = createSelector(
         ],
         data
       )
-      return [headers].concat(transformedData)
+      return [reportHeaders].concat(transformedData)
     }
     return {
       csvData: dataR
@@ -101,21 +94,11 @@ const getBchData = createSelector(
   ],
   (notesR, dataR) => {
     const transform = data => {
-      const headers = [
-        'date',
-        'time',
-        'type',
-        'amount_bch',
-        'value_then',
-        'value_now',
-        'exchange_rate_then',
-        'tx',
-        'note'
-      ]
       const transformedData = map(
         d => [
           d.date,
           d.time,
+          'BCH',
           d.type,
           d.amount_bch,
           d.value_then,
@@ -126,7 +109,7 @@ const getBchData = createSelector(
         ],
         data
       )
-      return [headers].concat(transformedData)
+      return [reportHeaders].concat(transformedData)
     }
     const notes = notesR.getOrElse({})
     return {
