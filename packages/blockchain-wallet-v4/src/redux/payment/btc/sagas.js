@@ -274,7 +274,7 @@ export default ({ api }) => {
       * init () {
         try {
           let fees = yield call(api.getBtcFees)
-          return makePayment(merge(p, { fees }))
+          return makePayment(merge(p, { fees, coin: 'BTC' }))
         } catch (e) {
           throw new Error(FETCH_FEES_FAILURE)
         }
