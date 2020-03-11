@@ -7,8 +7,7 @@ const INITIAL_STATE: BorrowState = {
   coin: 'BTC',
   limits: {
     maxFiat: 0,
-    minFiat: 0,
-    maxCrypto: 0
+    minFiat: 0
   },
   offer: undefined,
   loan: undefined,
