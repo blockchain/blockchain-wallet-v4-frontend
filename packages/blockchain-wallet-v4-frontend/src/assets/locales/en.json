@@ -637,6 +637,7 @@
   "modals.borrow.repayloan.collateralrepayment": "Sell Collateral",
   "modals.borrow.repayloan.fullrepayment": "Full Repayment",
   "modals.borrow.repayloan.info": "If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.",
+  "modals.borrow.repayloan.notenougheth": "ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction.",
   "modals.borrow.repayloan.partialrepayment": "Partial Repayment",
   "modals.borrow.repayloan.principalrepayment": "Send {coin}",
   "modals.borrow.repayloan.repay": "Complete Repayment",
