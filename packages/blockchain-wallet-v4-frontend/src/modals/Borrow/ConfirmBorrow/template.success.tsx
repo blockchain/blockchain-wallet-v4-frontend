@@ -72,6 +72,15 @@ const TermsFormItem = styled(FormItem)`
   .Container {
     height: auto;
   }
+  label {
+    align-items: start;
+    &:before {
+      margin-top: 2px;
+    }
+    &:after {
+      top: 4px;
+    }
+  }
 `
 
 const checkboxShouldBeChecked = value => (value ? undefined : true)

@@ -11,8 +11,6 @@ import {
 } from 'core/types'
 import { prop } from 'ramda'
 import { RatesType, UserDataType } from 'data/types'
-import { Text } from 'blockchain-info-components'
-import Loading from './template.loading'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
@@ -54,12 +52,8 @@ class BorrowHistory extends Component<Props> {
           Success: val => (
             <Success {...val} showLoanDetails={this.showLoanDetails} />
           ),
-          Failure: e => (
-            <Text weight={600}>
-              {e ? e.description : 'Problem loading history.'}
-            </Text>
-          ),
-          Loading: () => <Loading />,
+          Failure: e => null,
+          Loading: () => null,
           NotAsked: () => null
         })}
       </History>
