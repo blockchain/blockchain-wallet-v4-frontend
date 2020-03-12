@@ -19,7 +19,6 @@ export type OwnProps = {
   handleClose: () => void
   loan: LoanType
   offer: OfferType
-  step: 'DETAILS'
 }
 export type SuccessStateType = {
   loanTransactions: Array<LoanTransactionsType>

@@ -13,7 +13,6 @@ import Success from './template.success'
 export type OwnProps = {
   handleClose: () => void
   offer: OfferType
-  step: 'CONFIRM'
 }
 export type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow

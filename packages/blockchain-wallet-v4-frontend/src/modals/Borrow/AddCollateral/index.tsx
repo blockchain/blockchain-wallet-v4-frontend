@@ -20,7 +20,6 @@ export type OwnProps = {
   handleClose: () => void
   loan: LoanType
   offer: OfferType
-  step: 'ADD_COLLATERAL'
 }
 
 export type LinkDispatchPropsType = {
