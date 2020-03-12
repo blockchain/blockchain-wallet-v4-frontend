@@ -81,7 +81,7 @@ export const minimumAmount = (
         default:
           return new BigNumber(value).isLessThanOrEqualTo(0) ? (
             <FormattedMessage
-              id='borrow.validation.belowmin'
+              id='borrow.validation.belowmin.safe'
               defaultMessage='You must enter an amount greater than {minFiat}.'
               values={{
                 minFiat: Currency.fiatToString({
