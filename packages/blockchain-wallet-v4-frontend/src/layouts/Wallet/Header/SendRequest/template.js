@@ -113,6 +113,7 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
   return (
     <Wrapper>
       {isTablet && <Divider />}
+      <Divider />
       <ActionButton
         data-e2e='sendButton'
         disabled={!sendAvailable}
