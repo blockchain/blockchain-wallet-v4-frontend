@@ -16,7 +16,7 @@ const DarkText = styled(Text).attrs({
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   `};
 `
-const GetStartedButton = styled(Button).attrs({
+const TellMeMoreButton = styled(Button).attrs({
   nature: 'primary',
   fullwidth: true
 })`
@@ -26,43 +26,43 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-export const USDPax = () => (
+export const Borrow = () => (
   <Container>
     <Row marginBottom='10px'>
       <Text color='blue900' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage='A Digital US Dollar in Your Wallet'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one'
+          defaultMessage='Borrow USD Digital Today'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow'
         />
       </Text>
     </Row>
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='April 2019'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019'
+          defaultMessage='March 2020'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.March2020'
         />
       </DarkText>
     </Row>
     <Row marginBottom='24px'>
       <DarkText>
         <FormattedMessage
-          defaultMessage='USD Digital, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable1'
+          defaultMessage='Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.content'
         />
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/pax/transactions'>
-        <GetStartedButton>
+      <LinkContainer to='/borrow'>
+        <TellMeMoreButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit'
-            defaultMessage='Check it Out!'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.tellmemore'
+            defaultMessage='Tell Me More'
           />
-        </GetStartedButton>
+        </TellMeMoreButton>
       </LinkContainer>
     </Row>
   </Container>
 )
 
-export default USDPax
+export default Borrow
