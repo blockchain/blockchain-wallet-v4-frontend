@@ -16,12 +16,21 @@ import RepayLoanForm from './RepayLoanForm'
 type LinkStatePropsType =
   | {
       offer: OfferType
-      step: 'CHECKOUT' | 'CONFIRM'
+      step: 'CHECKOUT'
+    }
+  | {
+      offer: OfferType
+      step: 'CONFIRM'
     }
   | {
       loan: LoanType
       offer: OfferType
-      step: 'DETAILS' | 'ADD_COLLATERAL' | 'REPAY_LOAN'
+      step: 'ADD_COLLATERAL'
+    }
+  | {
+      loan: LoanType
+      offer: OfferType
+      step: 'DETAILS' | 'REPAY_LOAN'
     }
 
 type LinkDispatchPropsType = {

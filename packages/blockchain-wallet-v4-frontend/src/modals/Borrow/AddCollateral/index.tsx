@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, RatesType } from 'data/types'
+import { BorrowMinMaxType, BorrowSteps, RatesType } from 'data/types'
 import {
   CoinType,
   LoanType,
@@ -20,6 +20,7 @@ export type OwnProps = {
   handleClose: () => void
   loan: LoanType
   offer: OfferType
+  step: 'ADD_COLLATERAL'
 }
 
 export type LinkDispatchPropsType = {

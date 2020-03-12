@@ -21,6 +21,7 @@ export type OwnProps = {
   handleClose: () => void
   loan: LoanType
   offer: OfferType
+  step: 'REPAY_LOAN'
 }
 export type SuccessStateType = {
   limits: BorrowMinMaxType

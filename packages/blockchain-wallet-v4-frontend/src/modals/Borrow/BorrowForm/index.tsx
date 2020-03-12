@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, RatesType } from 'data/types'
+import { BorrowMinMaxType, BorrowSteps, RatesType } from 'data/types'
 import {
   CoinType,
   OfferType,
@@ -18,6 +18,7 @@ import Success from './template.success'
 export type OwnProps = {
   handleClose: () => void
   offer: OfferType
+  step: 'CHECKOUT'
 }
 
 export type LinkDispatchPropsType = {
