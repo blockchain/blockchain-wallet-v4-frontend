@@ -53,7 +53,7 @@ export const USDDigital = () => (
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/pax/transactions'>
+      <LinkContainer to='/usd-d/transactions'>
         <CheckItOutButton>
           <FormattedMessage
             id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.checkit'
