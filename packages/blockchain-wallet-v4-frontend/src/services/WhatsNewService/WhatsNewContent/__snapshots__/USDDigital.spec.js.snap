@@ -43,7 +43,7 @@ exports[`EmptyContent renders correctly 1`] = `
   </styled.div>
   <styled.div>
     <withRouter(LinkContainer)
-      to="/pax/transactions"
+      to="/usd-d/transactions"
     >
       <styled.button>
         <FormattedMessage
