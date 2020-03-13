@@ -15,7 +15,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
-const { lastTxFailed } = model.components.borrow
+const { lastTxStatus } = model.components.borrow
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -61,7 +61,9 @@ const InlineText = styled(Text)`
 `
 
 const Info: React.FC<Props & { offer: OfferType }> = props => {
-  const isLastTxFailed = lastTxFailed(props.loan, props.loanTransactions)
+  const isLastTxFailed = lastTxStatus(props.loan, props.loanTransactions, [
+    'FAILED'
+  ])
 
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':

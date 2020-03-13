@@ -1,4 +1,10 @@
-import { CoinType, LoanTransactionsType, LoanType, OfferType } from 'core/types'
+import {
+  CoinType,
+  LoanTransactionsStatusType,
+  LoanTransactionsType,
+  LoanType,
+  OfferType
+} from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { head } from 'ramda'
 
@@ -55,21 +61,26 @@ export const fiatDisplayName = (coin: CoinType) => {
   }
 }
 
-export const lastTxFailed = (
+export const lastTxStatus = (
   loan: LoanType,
-  loanTransactions: Array<LoanTransactionsType>
+  loanTransactions: Array<LoanTransactionsType>,
+  statuses: Array<LoanTransactionsStatusType>
 ): boolean => {
   const lastTx = head(loanTransactions)
   if (!lastTx) return false
 
   switch (loan.status) {
     case 'OPEN':
+    case 'ON_CALL':
     case 'PENDING_EXECUTION':
     case 'PENDING_COLLATERAL_DEPOSIT':
-      return lastTx.status === 'FAILED' && lastTx.type === 'DEPOSIT_COLLATERAL'
+      return (
+        statuses.indexOf(lastTx.status) > -1 &&
+        lastTx.type === 'DEPOSIT_COLLATERAL'
+      )
     case 'PENDING_CLOSE':
       return (
-        lastTx.status === 'FAILED' &&
+        statuses.indexOf(lastTx.status) > -1 &&
         lastTx.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST'
       )
     default:

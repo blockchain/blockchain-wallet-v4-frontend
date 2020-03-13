@@ -3,13 +3,15 @@ import {
   Status
 } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { FormattedMessage } from 'react-intl'
-import { model } from 'data'
-import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
+import { head } from 'ramda'
 import {
+  lastTxStatus,
   showBorrowSummary,
   showCollateralizationStatus
 } from 'data/components/borrow/model'
+import { model } from 'data'
+import { OfferType } from 'core/types'
+import { OwnProps, SuccessStateType } from '..'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -32,6 +34,12 @@ const Summary: React.FC<Props> = props => {
     props.loan.collateralisationRatio,
     props.offer
   )
+  const lastTx = head(props.loanTransactions)
+  const isLastTxFailedOrPending = lastTxStatus(
+    props.loan,
+    props.loanTransactions,
+    ['FAILED', 'UNCONFIRMED', 'REQUESTED']
+  )
 
   return showBorrowSummary(props.loan) ? (
     <div>
@@ -39,6 +47,17 @@ const Summary: React.FC<Props> = props => {
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
+        {isLastTxFailedOrPending && lastTx && (
+          <TableRow>
+            <Title>
+              <FormattedMessage
+                id='modals.borrow.lasttx'
+                defaultMessage='Last Transaction Status'
+              />
+            </Title>
+            <Value>{lastTx.status}</Value>
+          </TableRow>
+        )}
         <TableRow>
           <Title>
             <FormattedMessage
