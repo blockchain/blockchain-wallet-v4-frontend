@@ -4,7 +4,7 @@ import React from 'react'
 import styled, { css } from 'styled-components'
 
 import { IconButton, Text } from 'blockchain-info-components'
-import media, { useMedia } from 'services/ResponsiveService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: auto;
-
   @media (min-width: 768px) {
     margin-top: 0;
   }
@@ -109,10 +108,8 @@ const ButtonText = styled(Text)`
 `
 
 const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
-  const isTablet = useMedia('tablet')
   return (
     <Wrapper>
-      {isTablet && <Divider />}
       <Divider />
       <ActionButton
         data-e2e='sendButton'
