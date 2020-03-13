@@ -1,5 +1,4 @@
 import { darken } from 'polished'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -192,36 +191,6 @@ const Button = props => {
       {children}
     </BaseButton>
   )
-}
-
-Button.propTypes = {
-  nature: PropTypes.oneOf([
-    'copy',
-    'dark',
-    'empty-secondary',
-    'empty',
-    'gray-3',
-    'light',
-    'primary',
-    'purple',
-    'received',
-    'secondary',
-    'sent',
-    'success',
-    'transferred',
-    'warning',
-    'white-transparent'
-  ]),
-  fullwidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  rounded: PropTypes.bool,
-  bold: PropTypes.bool,
-  small: PropTypes.bool,
-  uppercase: PropTypes.bool,
-  capitalize: PropTypes.bool,
-  width: PropTypes.string,
-  padding: PropTypes.string,
-  margin: PropTypes.string
 }
 
 Button.defaultProps = {

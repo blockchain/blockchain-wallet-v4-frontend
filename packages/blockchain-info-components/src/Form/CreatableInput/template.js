@@ -1,6 +1,6 @@
 import { components } from 'react-select'
 import { flatten, length, prop } from 'ramda'
-import CreatableSelect from 'react-select/lib/Creatable'
+import CreatableSelect from 'react-select/creatable'
 import React from 'react'
 import styled from 'styled-components'
 
