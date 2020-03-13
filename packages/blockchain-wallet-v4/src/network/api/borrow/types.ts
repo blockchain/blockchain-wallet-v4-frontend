@@ -20,7 +20,7 @@ export type LoanTransactionsType = {
     amount: MoneyType
     dstAddress: string
   }
-  status: 'CONFIRMED' | 'REQUESTED' | 'UNCONFIRMED' | 'FAILED'
+  status: LoanTransactionsStatusType
   type:
     | 'DEPOSIT_COLLATERAL'
     | 'WITHDRAW_PRINCIPAL'
@@ -38,6 +38,12 @@ export type LoanTransactionsType = {
     txHash?: string
   }
 }
+
+export type LoanTransactionsStatusType =
+  | 'CONFIRMED'
+  | 'REQUESTED'
+  | 'UNCONFIRMED'
+  | 'FAILED'
 
 export type LoanType = {
   borrowerId: string

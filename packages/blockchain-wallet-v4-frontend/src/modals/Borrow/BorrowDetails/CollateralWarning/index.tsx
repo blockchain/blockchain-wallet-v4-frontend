@@ -2,8 +2,6 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
 import { percentageFormatter } from '../CollateralizationBar'
 import { Props } from '../template.success'
 import React from 'react'
@@ -11,7 +9,8 @@ import styled from 'styled-components'
 
 const {
   getCollateralizationDisplayName,
-  getCollateralAmtRequired
+  getCollateralAmtRequired,
+  lastTxStatus
 } = model.components.borrow
 
 const Container = styled.div<{ bgColor: string; borderColor?: string }>`
@@ -41,6 +40,33 @@ const CustomIcon = styled(Icon)`
 const CustomButton = styled(Button)`
   margin-top: 16px;
 `
+
+const AddCollateralCTA: React.FC<Props> = props => {
+  const isLastTxComplete = lastTxStatus(props.loan, props.loanTransactions, [
+    'FAILED',
+    'CONFIRMED'
+  ])
+  return isLastTxComplete ? (
+    <CustomButton
+      data-e2e='goToStepAddCollateral'
+      onClick={() =>
+        props.borrowActions.setStep({
+          step: 'ADD_COLLATERAL',
+          loan: props.loan,
+          offer: props.offer
+        })
+      }
+      nature='primary'
+    >
+      <Text color='white' size='14px' weight={600}>
+        <FormattedMessage
+          id='scenes.borrow.addcollateral'
+          defaultMessage='Add Collateral'
+        />
+      </Text>
+    </CustomButton>
+  ) : null
+}
 
 const CollateralWarning: React.FC<Props> = props => {
   const { offer } = props
@@ -83,24 +109,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton
-              data-e2e='goToStepAddCollateral'
-              onClick={() =>
-                props.borrowActions.setStep({
-                  step: 'ADD_COLLATERAL',
-                  loan: props.loan,
-                  offer: props.offer
-                })
-              }
-              nature='primary'
-            >
-              <Text color='white' size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.borrow.addcollateral'
-                  defaultMessage='Add Collateral'
-                />
-              </Text>
-            </CustomButton>
+            <AddCollateralCTA {...props} />
           </div>
         </Container>
       )
@@ -129,24 +138,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton
-              data-e2e='goToStepAddCollateral'
-              onClick={() =>
-                props.borrowActions.setStep({
-                  step: 'ADD_COLLATERAL',
-                  loan: props.loan,
-                  offer: props.offer
-                })
-              }
-              nature='primary'
-            >
-              <Text color='white' size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.borrow.addcollateral'
-                  defaultMessage='Add Collateral'
-                />
-              </Text>
-            </CustomButton>
+            <AddCollateralCTA {...props} />
           </div>
         </Container>
       )
@@ -166,24 +158,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton
-              data-e2e='goToStepAddCollateral'
-              onClick={() =>
-                props.borrowActions.setStep({
-                  step: 'ADD_COLLATERAL',
-                  loan: props.loan,
-                  offer: props.offer
-                })
-              }
-              nature='primary'
-            >
-              <Text color='white' size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.borrow.addcollateral.optional'
-                  defaultMessage='Add Collateral (Optional)'
-                />
-              </Text>
-            </CustomButton>
+            <AddCollateralCTA {...props} />
           </div>
         </Container>
       )

@@ -13,10 +13,12 @@ const ButtonContainer = styled.div`
   }
 `
 
-const { lastTxFailed } = model.components.borrow
+const { lastTxStatus } = model.components.borrow
 
 const ActionButton: React.FC<Props> = props => {
-  const isLastTxFailed = lastTxFailed(props.loan, props.loanTransactions)
+  const isLastTxFailed = lastTxStatus(props.loan, props.loanTransactions, [
+    'FAILED'
+  ])
 
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':
