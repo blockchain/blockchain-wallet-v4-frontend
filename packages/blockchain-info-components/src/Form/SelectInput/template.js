@@ -1,7 +1,7 @@
 import { assoc, equals, filter, flatten, head, path } from 'ramda'
 import PropTypes from 'prop-types'
 import React from 'react'
-import Select, { components } from 'react-select'
+import Select, { components, NonceProvider } from 'react-select'
 import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from '../helper'
@@ -209,39 +209,41 @@ const SelectInput = props => {
     : head(filter(x => equals(x.value, defaultItem), options))
 
   return (
-    <StyledSelect
-      borderColor={selectBorderColor(errorState)}
-      className={className}
-      classNamePrefix='bc'
-      components={{
-        Option,
-        ValueContainer,
-        Control,
-        DropdownIndicator,
-        IndicatorSeparator
-      }}
-      focusedBorderColor={selectFocusBorderColor(errorState)}
-      filterOption={filterOption}
-      height={height}
-      hideFocusedControl={hideFocusedControl}
-      hideIndicator={hideIndicator}
-      isDisabled={disabled}
-      isSearchable={searchEnabled}
-      menuIsOpen={menuIsOpen}
-      menuPlacement={menuPlacement}
-      onBlur={onBlur}
-      onChange={handleChange}
-      onFocus={onFocus}
-      onKeyDown={onKeyDown}
-      openMenuOnClick={openMenuOnClick}
-      openMenuOnFocus={openMenuOnFocus}
-      options={options}
-      placeholder={defaultDisplay}
-      ref={getRef}
-      templateDisplay={templateDisplay}
-      templateItem={templateItem}
-      value={defaultValue}
-    />
+    <NonceProvider nonce={window.NONCE}>
+      <StyledSelect
+        borderColor={selectBorderColor(errorState)}
+        className={className}
+        classNamePrefix='bc'
+        components={{
+          Option,
+          ValueContainer,
+          Control,
+          DropdownIndicator,
+          IndicatorSeparator
+        }}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        filterOption={filterOption}
+        height={height}
+        hideFocusedControl={hideFocusedControl}
+        hideIndicator={hideIndicator}
+        isDisabled={disabled}
+        isSearchable={searchEnabled}
+        menuIsOpen={menuIsOpen}
+        menuPlacement={menuPlacement}
+        onBlur={onBlur}
+        onChange={handleChange}
+        onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        openMenuOnClick={openMenuOnClick}
+        openMenuOnFocus={openMenuOnFocus}
+        options={options}
+        placeholder={defaultDisplay}
+        ref={getRef}
+        templateDisplay={templateDisplay}
+        templateItem={templateItem}
+        value={defaultValue}
+      />
+    </NonceProvider>
   )
 }
 

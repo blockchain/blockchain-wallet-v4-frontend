@@ -277,7 +277,7 @@ module.exports = {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
         `script-src 'nonce-${cspNonce}' 'self'`,
-        "style-src 'self' 'unsafe-inline'",
+        `style-src 'nonce-${cspNonce}' 'self'`,
         `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
         `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [

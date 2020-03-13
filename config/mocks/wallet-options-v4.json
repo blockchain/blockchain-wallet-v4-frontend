@@ -366,6 +366,7 @@
     "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
+    "exchange": "https://exchange.blockchain.com",
     "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",

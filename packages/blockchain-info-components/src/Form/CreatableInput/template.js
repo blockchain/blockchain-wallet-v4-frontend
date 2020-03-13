@@ -1,4 +1,4 @@
-import { components } from 'react-select'
+import { components, NonceProvider } from 'react-select'
 import { flatten, length, prop } from 'ramda'
 import CreatableSelect from 'react-select/creatable'
 import React from 'react'
@@ -208,31 +208,33 @@ const CreatableInput = props => {
   const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
-    <StyledCreatableSelect
-      autoFocus={autoFocus}
-      borderColor={selectBorderColor(errorState)}
-      classNamePrefix='bc'
-      components={getComponents(isMulti)}
-      focusedBorderColor={selectFocusBorderColor(errorState)}
-      indicatorSeparator={null}
-      inputValue={inputValue}
-      isClearable
-      isMulti={isMulti}
-      isOptionsEmpty={isOptionsEmpty}
-      menuIsOpen={menuIsOpen}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      onInputChange={handleInputChange}
-      openMenuOnClick={openMenuOnClick}
-      options={options}
-      placeholder={placeholder}
-      value={value}
-      // Components
-      noOptionsMessage={noOptionsMessage}
-      isValidNewOption={isValidNewOption}
-      multiValueContainer={multiValueContainer}
-    />
+    <NonceProvider nonce={window.NONCE}>
+      <StyledCreatableSelect
+        autoFocus={autoFocus}
+        borderColor={selectBorderColor(errorState)}
+        classNamePrefix='bc'
+        components={getComponents(isMulti)}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        indicatorSeparator={null}
+        inputValue={inputValue}
+        isClearable
+        isMulti={isMulti}
+        isOptionsEmpty={isOptionsEmpty}
+        menuIsOpen={menuIsOpen}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onInputChange={handleInputChange}
+        openMenuOnClick={openMenuOnClick}
+        options={options}
+        placeholder={placeholder}
+        value={value}
+        // Components
+        noOptionsMessage={noOptionsMessage}
+        isValidNewOption={isValidNewOption}
+        multiValueContainer={multiValueContainer}
+      />
+    </NonceProvider>
   )
 }
 
