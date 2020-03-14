@@ -10,7 +10,7 @@ import styled from 'styled-components'
 const {
   getCollateralizationDisplayName,
   getCollateralAmtRequired,
-  lastTxStatus
+  isLastTxStatus
 } = model.components.borrow
 
 const Container = styled.div<{ bgColor: string; borderColor?: string }>`
@@ -41,12 +41,13 @@ const CustomButton = styled(Button)`
   margin-top: 16px;
 `
 
-const AddCollateralCTA: React.FC<Props> = props => {
-  const isLastTxComplete = lastTxStatus(props.loan, props.loanTransactions, [
-    'FAILED',
-    'CONFIRMED'
-  ])
-  return isLastTxComplete ? (
+const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
+  const lastCompletedTx = isLastTxStatus(
+    ['FAILED', 'CONFIRMED'],
+    props.loan,
+    props.loanTransactions
+  )
+  return lastCompletedTx ? (
     <CustomButton
       data-e2e='goToStepAddCollateral'
       onClick={() =>
@@ -59,10 +60,17 @@ const AddCollateralCTA: React.FC<Props> = props => {
       nature='primary'
     >
       <Text color='white' size='14px' weight={600}>
-        <FormattedMessage
-          id='scenes.borrow.addcollateral'
-          defaultMessage='Add Collateral'
-        />
+        {props.optional ? (
+          <FormattedMessage
+            id='scenes.borrow.addcollateral.optional'
+            defaultMessage='Add Collateral (Optional)'
+          />
+        ) : (
+          <FormattedMessage
+            id='scenes.borrow.addcollateral'
+            defaultMessage='Add Collateral'
+          />
+        )}
       </Text>
     </CustomButton>
   ) : null
@@ -158,7 +166,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <AddCollateralCTA {...props} />
+            <AddCollateralCTA {...props} optional />
           </div>
         </Container>
       )

@@ -94,7 +94,8 @@ export const CollateralAmt = (props: {
       return (
         <CoinDisplay
           size='14px'
-          weight={600}
+          weight={500}
+          color='grey800'
           coin={props.loan.collateral.amounts[0].currency}
         >
           {props.loan.collateral.amounts[0].amount}

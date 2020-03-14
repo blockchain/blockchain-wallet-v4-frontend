@@ -61,31 +61,30 @@ export const fiatDisplayName = (coin: CoinType) => {
   }
 }
 
-export const lastTxStatus = (
+export const isLastTxStatus = (
+  statuses: Array<LoanTransactionsStatusType>,
   loan: LoanType,
-  loanTransactions: Array<LoanTransactionsType>,
-  statuses: Array<LoanTransactionsStatusType>
-): boolean => {
-  const lastTx = head(loanTransactions)
-  if (!lastTx) return false
+  loanTransactions: Array<LoanTransactionsType>
+): LoanTransactionsType | undefined => {
+  let txType
 
   switch (loan.status) {
     case 'OPEN':
     case 'ON_CALL':
     case 'PENDING_EXECUTION':
     case 'PENDING_COLLATERAL_DEPOSIT':
-      return (
-        statuses.indexOf(lastTx.status) > -1 &&
-        lastTx.type === 'DEPOSIT_COLLATERAL'
-      )
+      txType = 'DEPOSIT_COLLATERAL'
+      break
     case 'PENDING_CLOSE':
-      return (
-        statuses.indexOf(lastTx.status) > -1 &&
-        lastTx.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST'
-      )
-    default:
-      return false
+      txType = 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      break
   }
+
+  if (!txType) return
+  const lastDeposit = loanTransactions.find(tx => tx.type === txType)
+  return lastDeposit && statuses.indexOf(lastDeposit.status) > -1
+    ? lastDeposit
+    : undefined
 }
 
 export const showBorrowSummary = (loan: LoanType): boolean => {

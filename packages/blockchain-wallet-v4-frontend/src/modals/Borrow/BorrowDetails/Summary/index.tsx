@@ -5,7 +5,7 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { head } from 'ramda'
 import {
-  lastTxStatus,
+  isLastTxStatus,
   showBorrowSummary,
   showCollateralizationStatus
 } from 'data/components/borrow/model'
@@ -34,11 +34,10 @@ const Summary: React.FC<Props> = props => {
     props.loan.collateralisationRatio,
     props.offer
   )
-  const lastTx = head(props.loanTransactions)
-  const isLastTxFailedOrPending = lastTxStatus(
+  const lastUnconfirmedOrFailedTx = isLastTxStatus(
+    ['FAILED', 'UNCONFIRMED', 'REQUESTED'],
     props.loan,
-    props.loanTransactions,
-    ['FAILED', 'UNCONFIRMED', 'REQUESTED']
+    props.loanTransactions
   )
 
   return showBorrowSummary(props.loan) ? (
@@ -47,7 +46,7 @@ const Summary: React.FC<Props> = props => {
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
-        {isLastTxFailedOrPending && lastTx && (
+        {lastUnconfirmedOrFailedTx && (
           <TableRow>
             <Title>
               <FormattedMessage
@@ -55,7 +54,7 @@ const Summary: React.FC<Props> = props => {
                 defaultMessage='Last Transaction Status'
               />
             </Title>
-            <Value>{lastTx.status}</Value>
+            <Value>{lastUnconfirmedOrFailedTx.status}</Value>
           </TableRow>
         )}
         <TableRow>
@@ -79,7 +78,8 @@ const Summary: React.FC<Props> = props => {
           <Value>
             <CoinDisplay
               size='14px'
-              weight={600}
+              weight={500}
+              color='grey800'
               coin={props.loan.principal.amount[0].currency}
             >
               {props.loan.principal.amount[0].amount}
