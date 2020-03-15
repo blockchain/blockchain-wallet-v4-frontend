@@ -9,6 +9,7 @@ interface RequestConfig extends AxiosRequestConfig {
   contentType?: string
   endPoint?: string
   ignoreQueryParams?: boolean
+  removeDefaultPostData?: boolean
   sessionToken?: string
   url?: string
 }
@@ -26,7 +27,12 @@ export type HTTPService = {
 }
 
 export default ({ apiKey }: { apiKey: string }): HTTPService => {
-  const encodeData = (data: any, contentType: string) => {
+  const encodeData = (
+    data: any,
+    contentType: string,
+    removeDefaultPostData?: boolean
+  ) => {
+    if (removeDefaultPostData) return data
     const defaultData = {
       api_code: apiKey,
       ct: Date.now()
@@ -54,6 +60,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     endPoint,
     headers,
     method,
+    removeDefaultPostData,
     sessionToken,
     url,
     ...options
@@ -62,7 +69,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
       .request<T>({
         url: `${url}${endPoint}`,
         method,
-        data: encodeData(data, contentType),
+        data: encodeData(data, contentType, removeDefaultPostData),
         headers: mergeRight(getHeaders(contentType, sessionToken), headers),
         cancelToken,
         ...options

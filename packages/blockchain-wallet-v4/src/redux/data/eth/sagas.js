@@ -5,10 +5,11 @@ import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as transactions from '../../../transactions'
-import { call, put, select, take } from 'redux-saga/effects'
 import {
+  addIndex,
   concat,
   dissoc,
+  equals,
   filter,
   head,
   isNil,
@@ -16,14 +17,18 @@ import {
   length,
   map,
   mapObjIndexed,
+  nth,
   path,
+  pluck,
   prop,
   sum,
   takeLast,
   toUpper,
   values
 } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
@@ -123,7 +128,6 @@ export default ({ api }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
-      // TODO: loop and ensure all transactions are fetched
       const data = yield call(api.getEthTransactions, ethAddress, 0)
       const rawTxs = path([ethAddress, 'txns'], data)
       const txs = yield call(__processReportTxs, rawTxs, startDate, endDate)
@@ -133,40 +137,70 @@ export default ({ api }) => {
     }
   }
   const __processReportTxs = function * (rawTxList, startDate, endDate) {
+    const mapIndexed = addIndex(map)
     const fullTxList = yield call(__processTxs, rawTxList)
+    const ethMarketData = (yield select(
+      selectors.data.eth.getRates
+    )).getOrFail()
     // remove txs that are ERC20 or not within date range
     let prunedTxs = filter(
       tx => !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
+    const txTimestamps = pluck('time', prunedTxs)
+    const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
+      'USD'
+    )
+    const ethRates = prop(currency, ethMarketData)
+    const fiatSymbol = prop('symbol', ethRates)
+    const ethPrice = new BigNumber(prop('last', ethRates))
+
+    // fetch historical price data
+    const historicalPrices = yield call(
+      api.getPriceTimestampSeries,
+      'ETH',
+      currency,
+      txTimestamps
+    )
+
     // build model for report
-    return map(
-      tx => ({
-        amount: Exchange.convertEtherToEther({
+    return mapIndexed((tx, idx) => {
+      const timeFormatted = join(
+        ' ',
+        takeLast(
+          2,
+          moment
+            .unix(tx.time)
+            .toString()
+            .split(' ')
+        )
+      )
+      const txType = prop('type', tx)
+      const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
+      const priceAtTime = new BigNumber(
+        prop('price', nth(idx, historicalPrices))
+      )
+      const amountInEthBig = new BigNumber(
+        Exchange.convertEtherToEther({
           value: tx.amount,
           fromUnit: 'WEI',
           toUnit: 'ETH'
-        }).value,
-        date: moment.unix(tx.time).format('YYYY-MM-DD'),
-        description: tx.description,
-        hash: tx.hash,
-        time: join(
-          ' ',
-          takeLast(
-            2,
-            moment
-              .unix(tx.time)
-              .toString()
-              .split(' ')
-          )
-        ),
-        type: tx.type,
-        value_then: '?',
-        value_now: '?',
-        exchange_rate_then: '?'
-      }),
-      prunedTxs
-    )
+        }).value
+      )
+      const valueThen = amountInEthBig.multipliedBy(priceAtTime).toFixed(2)
+      const valueNow = amountInEthBig.multipliedBy(ethPrice).toFixed(2)
+      return {
+        amount: `${negativeSignOrEmpty}${amountInEthBig.toString()}`,
+        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        description: prop('description', tx),
+        hash: prop('hash', tx),
+        time: timeFormatted,
+        type: txType,
+        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
+        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
+        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2)
+      }
+    }, prunedTxs)
   }
 
   const __processTxs = function * (txs) {

@@ -17,7 +17,7 @@ export const getData = (state, coin) => {
 const reportHeaders = [
   'date',
   'time',
-  'coin',
+  'token',
   'type',
   'amount',
   'value_then',
