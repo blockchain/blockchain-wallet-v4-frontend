@@ -1,13 +1,13 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { buildPercentageChange } from '../model'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import media from 'services/ResponsiveService'
+import Loading from './template.loading'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
@@ -119,22 +119,6 @@ const PriceChangeColoredText = styled.span<{ priceChangeFiat: number }>`
   color: ${props =>
     props.priceChangeFiat >= 0 ? props.theme.green400 : props.theme.red500};
 `
-
-const buildPercentageChange = (
-  currencySymbol,
-  priceChangeFiat,
-  priceChangePercentage
-) => {
-  let priceFormatted
-  if (priceChangeFiat < 0) {
-    priceFormatted = `-${currencySymbol}${Currency.formatFiat(
-      priceChangeFiat
-    ).substring(1)}`
-  } else {
-    priceFormatted = currencySymbol + Currency.formatFiat(priceChangeFiat)
-  }
-  return `${priceFormatted} (${Currency.formatFiat(priceChangePercentage)}%)`
-}
 
 export class WalletBalanceDropdown extends Component<Props> {
   state = {}
@@ -276,9 +260,9 @@ export class WalletBalanceDropdown extends Component<Props> {
           </Wrapper>
         )
       },
-      Failure: e => <Text>{typeof e === 'string' ? e : e.message}</Text>,
-      Loading: () => <SkeletonRectangle height='120px' width='320px' />,
-      NotAsked: () => <SkeletonRectangle height='120px' width='320px' />
+      Failure: e => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
