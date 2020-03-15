@@ -6,6 +6,7 @@ const BaseBrand = styled.div`
   display: flex;
   padding-left: 28px;
   align-items: center;
+  width: 250px;
   > span {
     cursor: pointer;
     &:first-child {
@@ -14,6 +15,7 @@ const BaseBrand = styled.div`
   }
   ${media.tablet`
     padding-left: 15px;
+    width: auto;
     > span:first-child {
       display: flex;
     }

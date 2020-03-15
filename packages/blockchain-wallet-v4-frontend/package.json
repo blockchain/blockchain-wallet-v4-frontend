@@ -4,7 +4,7 @@
   "description": "Frontend wallet application.",
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Blockchain.info",
+    "name": "Blockchain.com",
     "url": "https://blockchain.com"
   },
   "main": "index.js",
@@ -113,7 +113,7 @@
     "bip39": "2.5.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
-    "blockchain-info-components": "0.0.32",
+    "blockchain-info-components": "0.0.33",
     "blockchain-wallet-v4": "1.0.1",
     "bowser": "2.4.0",
     "browser-locale": "1.0.3",

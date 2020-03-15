@@ -1,6 +1,6 @@
-import { components } from 'react-select'
+import { components, NonceProvider } from 'react-select'
 import { flatten, length, prop } from 'ramda'
-import CreatableSelect from 'react-select/lib/Creatable'
+import CreatableSelect from 'react-select/creatable'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -78,7 +78,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       background-color: ${theme.white};
       cursor: pointer;
       min-height: 48px;
-      border-radius: 4px;
+      border-radius: 8px;
       border: 1px solid ${theme[borderColor]};
       &.bc__control--is-focused {
         border: 1px solid ${theme[focusedBorderColor]};
@@ -208,31 +208,33 @@ const CreatableInput = props => {
   const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
-    <StyledCreatableSelect
-      autoFocus={autoFocus}
-      borderColor={selectBorderColor(errorState)}
-      classNamePrefix='bc'
-      components={getComponents(isMulti)}
-      focusedBorderColor={selectFocusBorderColor(errorState)}
-      indicatorSeparator={null}
-      inputValue={inputValue}
-      isClearable
-      isMulti={isMulti}
-      isOptionsEmpty={isOptionsEmpty}
-      menuIsOpen={menuIsOpen}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      onInputChange={handleInputChange}
-      openMenuOnClick={openMenuOnClick}
-      options={options}
-      placeholder={placeholder}
-      value={value}
-      // Components
-      noOptionsMessage={noOptionsMessage}
-      isValidNewOption={isValidNewOption}
-      multiValueContainer={multiValueContainer}
-    />
+    <NonceProvider nonce={window.NONCE}>
+      <StyledCreatableSelect
+        autoFocus={autoFocus}
+        borderColor={selectBorderColor(errorState)}
+        classNamePrefix='bc'
+        components={getComponents(isMulti)}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        indicatorSeparator={null}
+        inputValue={inputValue}
+        isClearable
+        isMulti={isMulti}
+        isOptionsEmpty={isOptionsEmpty}
+        menuIsOpen={menuIsOpen}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onInputChange={handleInputChange}
+        openMenuOnClick={openMenuOnClick}
+        options={options}
+        placeholder={placeholder}
+        value={value}
+        // Components
+        noOptionsMessage={noOptionsMessage}
+        isValidNewOption={isValidNewOption}
+        multiValueContainer={multiValueContainer}
+      />
+    </NonceProvider>
   )
 }
 

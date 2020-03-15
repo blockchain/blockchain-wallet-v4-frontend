@@ -3,13 +3,15 @@ import {
   Status
 } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { FormattedMessage } from 'react-intl'
-import { model } from 'data'
-import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
+import { head } from 'ramda'
 import {
+  isLastTxStatus,
   showBorrowSummary,
   showCollateralizationStatus
 } from 'data/components/borrow/model'
+import { model } from 'data'
+import { OfferType } from 'core/types'
+import { OwnProps, SuccessStateType } from '..'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -32,6 +34,11 @@ const Summary: React.FC<Props> = props => {
     props.loan.collateralisationRatio,
     props.offer
   )
+  const lastUnconfirmedOrFailedTx = isLastTxStatus(
+    ['FAILED', 'UNCONFIRMED', 'REQUESTED'],
+    props.loan,
+    props.loanTransactions
+  )
 
   return showBorrowSummary(props.loan) ? (
     <div>
@@ -39,6 +46,17 @@ const Summary: React.FC<Props> = props => {
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
+        {lastUnconfirmedOrFailedTx && (
+          <TableRow>
+            <Title>
+              <FormattedMessage
+                id='modals.borrow.lasttx'
+                defaultMessage='Last Transaction Status'
+              />
+            </Title>
+            <Value>{lastUnconfirmedOrFailedTx.status}</Value>
+          </TableRow>
+        )}
         <TableRow>
           <Title>
             <FormattedMessage
@@ -60,7 +78,8 @@ const Summary: React.FC<Props> = props => {
           <Value>
             <CoinDisplay
               size='14px'
-              weight={600}
+              weight={500}
+              color='grey800'
               coin={props.loan.principal.amount[0].currency}
             >
               {props.loan.principal.amount[0].amount}

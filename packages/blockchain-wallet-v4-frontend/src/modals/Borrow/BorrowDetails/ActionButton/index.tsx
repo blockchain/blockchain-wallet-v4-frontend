@@ -13,15 +13,19 @@ const ButtonContainer = styled.div`
   }
 `
 
-const { lastTxFailed } = model.components.borrow
+const { isLastTxStatus } = model.components.borrow
 
 const ActionButton: React.FC<Props> = props => {
-  const isLastTxFailed = lastTxFailed(props.loan, props.loanTransactions)
+  const lastFailedTx = isLastTxStatus(
+    ['FAILED'],
+    props.loan,
+    props.loanTransactions
+  )
 
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':
     case 'PENDING_EXECUTION':
-      return isLastTxFailed ? (
+      return lastFailedTx ? (
         <ButtonContainer>
           <Button
             nature='light'
@@ -63,8 +67,9 @@ const ActionButton: React.FC<Props> = props => {
           />
         </Button>
       )
+    case 'ON_CALL':
     case 'OPEN':
-      return isLastTxFailed ? (
+      return lastFailedTx ? (
         <ButtonContainer>
           <Button
             nature='primary'
@@ -120,7 +125,7 @@ const ActionButton: React.FC<Props> = props => {
         </Button>
       )
     case 'PENDING_CLOSE':
-      return isLastTxFailed ? (
+      return lastFailedTx ? (
         <Button
           fullwidth
           nature='dark-grey'

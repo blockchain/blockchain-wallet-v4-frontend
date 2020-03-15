@@ -1,11 +1,17 @@
-import { CoinType, LoanTransactionsType, LoanType, OfferType } from 'core/types'
+import {
+  CoinType,
+  LoanTransactionsStatusType,
+  LoanTransactionsType,
+  LoanType,
+  OfferType
+} from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { head } from 'ramda'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
-
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'
 export const NO_LOAN_EXISTS = 'NO_LOAN_EXISTS'
+export const USER_BLOCKED = 'User is from a blocked country or state'
 
 export const getCollateralizationColor = (
   displayName: 'safe' | 'risky' | 'unsafe'
@@ -55,26 +61,30 @@ export const fiatDisplayName = (coin: CoinType) => {
   }
 }
 
-export const lastTxFailed = (
+export const isLastTxStatus = (
+  statuses: Array<LoanTransactionsStatusType>,
   loan: LoanType,
   loanTransactions: Array<LoanTransactionsType>
-): boolean => {
-  const lastTx = head(loanTransactions)
-  if (!lastTx) return false
+): LoanTransactionsType | undefined => {
+  let txType
 
   switch (loan.status) {
     case 'OPEN':
+    case 'ON_CALL':
     case 'PENDING_EXECUTION':
     case 'PENDING_COLLATERAL_DEPOSIT':
-      return lastTx.status === 'FAILED' && lastTx.type === 'DEPOSIT_COLLATERAL'
+      txType = 'DEPOSIT_COLLATERAL'
+      break
     case 'PENDING_CLOSE':
-      return (
-        lastTx.status === 'FAILED' &&
-        lastTx.type === 'DEPOSIT_PRINCIPAL_AND_INTEREST'
-      )
-    default:
-      return false
+      txType = 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      break
   }
+
+  if (!txType) return
+  const lastDeposit = loanTransactions.find(tx => tx.type === txType)
+  return lastDeposit && statuses.indexOf(lastDeposit.status) > -1
+    ? lastDeposit
+    : undefined
 }
 
 export const showBorrowSummary = (loan: LoanType): boolean => {

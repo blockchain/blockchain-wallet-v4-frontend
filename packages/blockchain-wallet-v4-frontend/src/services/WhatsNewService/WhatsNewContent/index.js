@@ -1,28 +1,19 @@
-import { equals, includes, prop, propOr } from 'ramda'
-import ExchangeByBlockchain from './ExchangeByBlockchain'
+import { includes, prop } from 'ramda'
+import Borrow from './Borrow'
 import moment from 'moment'
 import React from 'react'
-import USDPax from './USDPax'
-import WalletTour from './WalletTour'
+import USDDigital from './USDDigital'
 
 const Announcements = [
   {
-    content: <WalletTour key={3} />,
-    date: new Date('September 9 2019'),
-    restrictByCountry: [],
-    restrictByUserKyc: [],
-    restrictByKvStoreCheck: whatsNewKvStore =>
-      equals(false, propOr(false, 'hasSkippedWalletTour', whatsNewKvStore))
-  },
-  {
-    content: <USDPax key={2} />,
-    date: new Date('April 30 2019'),
+    content: <Borrow key={1} />,
+    date: new Date('March 2020'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
   {
-    content: <ExchangeByBlockchain key={1} />,
-    date: new Date('Nov 1 2018'),
+    content: <USDDigital key={2} />,
+    date: new Date('March 2020'),
     restrictByCountry: [],
     restrictByUserKyc: []
   }

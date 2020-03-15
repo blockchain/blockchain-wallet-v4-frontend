@@ -293,7 +293,7 @@ export default ({ api }) => {
 
       * init () {
         let fees = yield call(api.getBchFees)
-        return makePayment(merge(p, { fees }))
+        return makePayment(merge(p, { fees, coin: 'BCH' }))
       },
 
       * to (destinations, type) {

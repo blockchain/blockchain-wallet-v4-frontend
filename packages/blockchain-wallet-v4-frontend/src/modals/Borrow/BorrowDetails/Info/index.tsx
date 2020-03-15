@@ -15,7 +15,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
-const { lastTxFailed } = model.components.borrow
+const { isLastTxStatus } = model.components.borrow
 
 const Wrapper = styled.div`
   margin-top: 40px;
@@ -61,7 +61,11 @@ const InlineText = styled(Text)`
 `
 
 const Info: React.FC<Props & { offer: OfferType }> = props => {
-  const isLastTxFailed = lastTxFailed(props.loan, props.loanTransactions)
+  const lastFailedTx = isLastTxStatus(
+    ['FAILED'],
+    props.loan,
+    props.loanTransactions
+  )
 
   switch (props.loan.status) {
     case 'PENDING_COLLATERAL_DEPOSIT':
@@ -69,15 +73,15 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
       return (
         <Wrapper>
           <Item>
-            <IconWrapper bgColor={isLastTxFailed ? 'red600' : 'green600'}>
+            <IconWrapper bgColor={lastFailedTx ? 'red600' : 'green600'}>
               <Icon
-                name={isLastTxFailed ? 'alert-filled' : 'check'}
-                size={isLastTxFailed ? '18px' : '12px'}
+                name={lastFailedTx ? 'alert-filled' : 'check'}
+                size={lastFailedTx ? '18px' : '12px'}
                 color='white'
               />
             </IconWrapper>
             <Text color='grey600' size='14px' weight={500}>
-              {isLastTxFailed ? (
+              {lastFailedTx ? (
                 <FormattedMessage
                   id='scenes.borrow.details.newloan.failed'
                   defaultMessage="There was a problem depositing collateral to your loan. Please try again by clicking 'Add Collateral' below."
@@ -91,7 +95,7 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               )}
             </Text>
           </Item>
-          {!isLastTxFailed && (
+          {!lastFailedTx && (
             <>
               <Item>
                 <IconWrapper>
@@ -136,11 +140,11 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
       return (
         <Wrapper>
           <Item>
-            <IconWrapper bgColor={isLastTxFailed ? 'red600' : 'orange600'}>
+            <IconWrapper bgColor={lastFailedTx ? 'red600' : 'orange600'}>
               <Icon name='timer' size='18px' color='white' />
             </IconWrapper>
             <Text color='grey600' size='14px' weight={500}>
-              {isLastTxFailed ? (
+              {lastFailedTx ? (
                 <FormattedMessage
                   id='scenes.borrow.details.info.repayment.failed'
                   defaultMessage='An error occurred while attempting to repay your loan. This could be because you do not have enough ETH to send USD-D, or because of a network connectivity issue. Please try again.'
