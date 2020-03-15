@@ -146,6 +146,8 @@ export const checkLowEthBalanceSuccess = payload => ({
 //
 // ERC20
 //
+
+// DATA
 export const fetchErc20Data = token => ({
   type: AT.FETCH_ERC20_TOKEN_DATA,
   payload: { token }
@@ -163,6 +165,7 @@ export const fetchErc20DataFailure = (token, error) => ({
   payload: { token, error }
 })
 
+// RATES
 export const fetchErc20Rates = token => ({
   type: AT.FETCH_ERC20_RATES,
   payload: { token }
@@ -180,6 +183,7 @@ export const fetchErc20RatesFailure = (token, error) => ({
   payload: { token, error }
 })
 
+// TX FEES
 export const fetchErc20TxFee = (hash, token) => ({
   type: AT.FETCH_ERC20_TX_FEE,
   payload: { hash, token }
@@ -197,6 +201,7 @@ export const fetchErc20TxFeeFailure = (hash, token, error) => ({
   payload: { hash, token, error }
 })
 
+// BALANCES
 export const fetchErc20Balance = token => ({
   type: AT.FETCH_ERC20_TOKEN_BALANCE,
   payload: { token }
@@ -214,6 +219,7 @@ export const fetchErc20BalanceFailure = (token, error) => ({
   payload: { token, error }
 })
 
+// TRANSACTIONS
 export const fetchErc20Transactions = (token, reset) => ({
   type: AT.FETCH_ERC20_TOKEN_TRANSACTIONS,
   payload: { token, reset }
@@ -230,8 +236,34 @@ export const fetchErc20TransactionsFailure = (token, error) => ({
   type: AT.FETCH_ERC20_TOKEN_TRANSACTIONS_FAILURE,
   payload: { token, error }
 })
-
 export const erc20TransactionsAtBound = (token, isAtBound) => ({
   type: AT.ERC20_TOKEN_TX_AT_BOUND,
   payload: { token, isAtBound }
+})
+
+// TRANSACTION HISTORY
+export const fetchErc20TransactionHistory = (
+  address,
+  startDate,
+  endDate,
+  token
+) => ({
+  type: AT.FETCH_ERC20_TRANSACTION_HISTORY,
+  payload: { address, endDate, token, startDate }
+})
+export const fetchErc20TransactionHistoryLoading = token => ({
+  type: AT.FETCH_ERC20_TRANSACTION_HISTORY_LOADING,
+  payload: { token }
+})
+export const fetchErc20TransactionHistorySuccess = (txList, token) => ({
+  type: AT.FETCH_ERC20_TRANSACTION_HISTORY_SUCCESS,
+  payload: { token, txList }
+})
+export const fetchErc20TransactionHistoryFailure = (error, token) => ({
+  type: AT.FETCH_ERC20_TRANSACTION_HISTORY_FAILURE,
+  payload: { error, token }
+})
+export const clearErc20TransactionHistory = token => ({
+  type: AT.CLEAR_ERC20_TRANSACTION_HISTORY,
+  payload: { token }
 })

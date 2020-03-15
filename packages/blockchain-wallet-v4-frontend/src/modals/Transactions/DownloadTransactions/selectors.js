@@ -7,6 +7,8 @@ export const getData = (state, coin) => {
   switch (coin) {
     case 'BCH':
       return getBchData(state)
+    case 'PAX':
+      return getPaxData(state)
     case 'ETH':
       return getEthData(state)
     default:
@@ -26,6 +28,33 @@ const reportHeaders = [
   'tx',
   'note'
 ]
+
+const getPaxData = createSelector(
+  [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'pax')],
+  dataR => {
+    const transform = data => {
+      const transformedData = map(
+        d => [
+          d.date,
+          d.time,
+          'USD-D',
+          d.type,
+          d.amount,
+          d.value_then,
+          d.value_now,
+          d.exchange_rate_then,
+          d.hash,
+          d.description
+        ],
+        data
+      )
+      return [reportHeaders].concat(transformedData)
+    }
+    return {
+      csvData: dataR.map(transform).getOrElse([])
+    }
+  }
+)
 
 const getEthData = createSelector(
   [selectors.core.data.eth.getTransactionHistory],
@@ -49,7 +78,7 @@ const getEthData = createSelector(
       return [reportHeaders].concat(transformedData)
     }
     return {
-      csvData: dataR.map(transform).getOrElse(undefined)
+      csvData: dataR.map(transform).getOrElse([])
     }
   }
 )
@@ -82,7 +111,7 @@ const getBtcData = createSelector(
       csvData: dataR
         .map(assocBTCNotes(wallet))
         .map(transform)
-        .getOrElse(undefined)
+        .getOrElse([])
     }
   }
 )
@@ -116,7 +145,7 @@ const getBchData = createSelector(
       csvData: dataR
         .map(assocBCHNotes(notes))
         .map(transform)
-        .getOrElse(undefined)
+        .getOrElse([])
     }
   }
 )

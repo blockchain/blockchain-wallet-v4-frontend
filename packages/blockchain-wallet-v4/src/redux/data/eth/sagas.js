@@ -128,91 +128,21 @@ export default ({ api }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
+
+      // TODO: loop api calls, when response equals 50 items && startDate is before oldest tx returned, increasing page number each time
       const data = yield call(api.getEthTransactions, ethAddress, 0)
-      const rawTxs = path([ethAddress, 'txns'], data)
-      const txs = yield call(__processReportTxs, rawTxs, startDate, endDate)
-      yield put(A.fetchTransactionHistorySuccess(txs))
+      const fullTxList = path([ethAddress, 'txns'], data)
+      const processedTxList = yield call(
+        __processReportTxs,
+        fullTxList,
+        startDate,
+        endDate
+      )
+
+      yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
     }
-  }
-  const __processReportTxs = function * (rawTxList, startDate, endDate) {
-    const mapIndexed = addIndex(map)
-    const fullTxList = yield call(__processTxs, rawTxList)
-    const ethMarketData = (yield select(
-      selectors.data.eth.getRates
-    )).getOrFail()
-    // remove txs that are ERC20 or not within date range
-    let prunedTxs = filter(
-      tx => !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate),
-      fullTxList
-    )
-    const txTimestamps = pluck('time', prunedTxs)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
-      'USD'
-    )
-    const ethRates = prop(currency, ethMarketData)
-    const fiatSymbol = prop('symbol', ethRates)
-    const ethPrice = new BigNumber(prop('last', ethRates))
-
-    // fetch historical price data
-    const historicalPrices = yield call(
-      api.getPriceTimestampSeries,
-      'ETH',
-      currency,
-      txTimestamps
-    )
-
-    // build model for report
-    return mapIndexed((tx, idx) => {
-      const timeFormatted = join(
-        ' ',
-        takeLast(
-          2,
-          moment
-            .unix(tx.time)
-            .toString()
-            .split(' ')
-        )
-      )
-      const txType = prop('type', tx)
-      const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
-      const priceAtTime = new BigNumber(
-        prop('price', nth(idx, historicalPrices))
-      )
-      const amountInEthBig = new BigNumber(
-        Exchange.convertEtherToEther({
-          value: tx.amount,
-          fromUnit: 'WEI',
-          toUnit: 'ETH'
-        }).value
-      )
-      const valueThen = amountInEthBig.multipliedBy(priceAtTime).toFixed(2)
-      const valueNow = amountInEthBig.multipliedBy(ethPrice).toFixed(2)
-      return {
-        amount: `${negativeSignOrEmpty}${amountInEthBig.toString()}`,
-        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
-        description: prop('description', tx),
-        hash: prop('hash', tx),
-        time: timeFormatted,
-        type: txType,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
-        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2)
-      }
-    }, prunedTxs)
-  }
-
-  const __processTxs = function * (txs) {
-    const accountsR = yield select(kvStoreSelectors.getAccounts)
-    const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
-    const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const erc20Contracts = erc20ContractsR.getOrElse([])
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
-    const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, erc20Contracts, state), txs)
   }
 
   const fetchLegacyBalance = function * () {
@@ -333,6 +263,54 @@ export default ({ api }) => {
     }
   }
 
+  const fetchErc20TransactionHistory = function * (action) {
+    const { payload } = action
+    const { address, endDate, startDate, token } = payload
+    try {
+      yield put(A.fetchErc20TransactionHistoryLoading(token))
+      const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
+      const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
+
+      // TODO: loop api calls, when response equals 50 items && startDate is before oldest tx returned, increasing page number each time
+      const contractAddress = (yield select(
+        selectors.kvStore.eth.getErc20ContractAddr,
+        token
+      )).getOrFail()
+      const data = yield call(
+        api.getErc20Transactions,
+        ethAddress,
+        contractAddress,
+        0
+      )
+      const fullTxList = prop('transfers', data)
+      const processedTxList = yield call(
+        __processErc20ReportTxs,
+        fullTxList,
+        startDate,
+        endDate,
+        token
+      )
+
+      yield put(A.fetchErc20TransactionHistorySuccess(processedTxList, token))
+    } catch (e) {
+      yield put(A.fetchErc20TransactionHistoryFailure(e.message, token))
+    }
+  }
+
+  //
+  // PRIVATE UTILS
+  //
+  const __processTxs = function * (txs) {
+    const accountsR = yield select(kvStoreSelectors.getAccounts)
+    const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
+    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const erc20Contracts = erc20ContractsR.getOrElse([])
+    const lockboxContextR = yield select(getLockboxEthContext)
+    const lockboxContext = lockboxContextR.getOrElse([])
+    const state = yield select()
+    const ethAddresses = concat(addresses, lockboxContext)
+    return map(transformTx(ethAddresses, erc20Contracts, state), txs)
+  }
   const __processErc20Txs = function * (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -341,6 +319,132 @@ export default ({ api }) => {
     const state = yield select()
     const ethAddresses = concat(addresses, lockboxContext)
     return map(transformErc20Tx(ethAddresses, state, token), txs)
+  }
+  const __buildTransactionReportModel = function (
+    prunedTxList,
+    historicalPrices,
+    currentPrices,
+    coin
+  ) {
+    const mapIndexed = addIndex(map)
+    const fiatSymbol = prop('symbol', currentPrices)
+    const currentPrice = new BigNumber(prop('last', currentPrices))
+    return mapIndexed((tx, idx) => {
+      const timeFormatted = join(
+        ' ',
+        takeLast(
+          2,
+          moment
+            .unix(tx.time)
+            .toString()
+            .split(' ')
+        )
+      )
+      const txType = prop('type', tx)
+      const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
+      const priceAtTime = new BigNumber(
+        prop('price', nth(idx, historicalPrices))
+      )
+      const amountBig = new BigNumber(
+        coin === 'PAX'
+          ? Exchange.convertPaxToPax({
+              value: tx.amount,
+              fromUnit: 'WEI',
+              toUnit: 'PAX'
+            }).value
+          : Exchange.convertEtherToEther({
+              value: tx.amount,
+              fromUnit: 'WEI',
+              toUnit: 'ETH'
+            }).value
+      )
+      const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
+      const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
+      return {
+        amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
+        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        description: prop('description', tx),
+        hash: prop('hash', tx),
+        time: timeFormatted,
+        type: txType,
+        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`,
+        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
+        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2)
+      }
+    }, prunedTxList)
+  }
+  const __processErc20ReportTxs = function * (
+    rawTxList,
+    startDate,
+    endDate,
+    token
+  ) {
+    const fullTxList = yield call(__processErc20Txs, rawTxList)
+    const paxMarketData = (yield select(
+      selectors.data.eth.getErc20Rates,
+      token
+    )).getOrFail()
+    // remove txs that dont match coin type and are not within date range
+    const prunedTxList = filter(
+      tx => moment.unix(tx.time).isBetween(startDate, endDate),
+      fullTxList
+    )
+    // return empty list if no tx found in filter set
+    if (!length(prunedTxList)) return []
+    const txTimestamps = pluck('time', prunedTxList)
+    const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
+      'USD'
+    )
+
+    // fetch historical price data
+    const historicalPrices = yield call(
+      api.getPriceTimestampSeries,
+      toUpper(token),
+      currency,
+      txTimestamps
+    )
+
+    // build and return report model
+    return yield call(
+      __buildTransactionReportModel,
+      prunedTxList,
+      historicalPrices,
+      prop(currency, paxMarketData),
+      toUpper(token)
+    )
+  }
+  const __processReportTxs = function * (rawTxList, startDate, endDate) {
+    const fullTxList = yield call(__processTxs, rawTxList)
+    const ethMarketData = (yield select(
+      selectors.data.eth.getRates
+    )).getOrFail()
+    // remove txs that dont match coin type and are not within date range
+    let prunedTxList = filter(tx => {
+      return !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate)
+    }, fullTxList)
+    // return empty list if no tx found in filter set
+    if (!length(prunedTxList)) return []
+    const txTimestamps = pluck('time', prunedTxList)
+    const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
+      'USD'
+    )
+
+    // fetch historical price data
+    const historicalPrices = yield call(
+      api.getPriceTimestampSeries,
+      'ETH',
+      currency,
+      txTimestamps
+    )
+
+    // build and return report model
+    return yield call(
+      __buildTransactionReportModel,
+      prunedTxList,
+      historicalPrices,
+      prop(currency, ethMarketData),
+      'ETH'
+    )
   }
 
   return {
@@ -355,6 +459,7 @@ export default ({ api }) => {
     fetchTransactionHistory,
     fetchErc20Transactions,
     fetchErc20TransactionFee,
+    fetchErc20TransactionHistory,
     watchTransactions,
     watchErc20Transactions,
     __processTxs,

@@ -86,7 +86,7 @@ const DownloadTransactions = props => {
     generating,
     handleSubmit,
     invalid,
-    onDownload,
+    onReportDownload,
     position,
     total
   } = props
@@ -129,7 +129,7 @@ const DownloadTransactions = props => {
                   validate={[required, validAddressOrWallet]}
                 />
               )}
-              {coin === 'ETH' && (
+              {(coin === 'ETH' || coin === 'PAX') && (
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}
@@ -174,12 +174,12 @@ const DownloadTransactions = props => {
           </Container>
           <Footer>
             {generating ? (
-              csvData ? (
+              csvData.length > 0 ? (
                 <DownloadButton
                   data={csvData}
                   filename={filename}
                   target='_blank'
-                  onClick={onDownload}
+                  onClick={onReportDownload}
                   width='100%'
                 >
                   <Button

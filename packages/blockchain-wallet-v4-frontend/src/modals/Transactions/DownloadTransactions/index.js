@@ -30,20 +30,16 @@ class DownloadTransactionsContainer extends React.PureComponent {
   }
 
   onFetchHistory = () => {
-    const { coin, fetchTransactions, formValues } = this.props
+    const { coinModel, fetchTransactions, formValues } = this.props
     const from = prop('from', formValues)
     const startDate = prop('start', formValues)
     const endDate = prop('end', formValues)
     const address = from && (from.xpub || from.address || from)
     const filename =
-      `${coin}_${startDate.format('YYYY-MM-DD')}` +
+      `${coinModel.coinTicker}_${startDate.format('YYYY-MM-DD')}` +
       `_${endDate.format('YYYY-MM-DD')}.csv`
     this.setState({ generating: true, filename })
-    fetchTransactions(
-      address,
-      moment(startDate).format('DD/MM/YYYY'),
-      moment(endDate).format('DD/MM/YYYY')
-    )
+    fetchTransactions(address, startDate, endDate)
   }
 
   render () {
@@ -66,7 +62,7 @@ class DownloadTransactionsContainer extends React.PureComponent {
         generating={this.state.generating}
         isValidEndDate={isValidEndDate}
         isValidStartDate={isValidStartDate}
-        onDownload={() => this.setState({ generating: false })}
+        onReportDownload={closeAll}
         onSubmit={this.onFetchHistory}
         position={position}
         total={total}
@@ -76,25 +72,42 @@ class DownloadTransactionsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  coinModel: selectors.core.walletOptions
+    .getCoinModel(state, ownProps.coin)
+    .getOrElse({ coinTicker: 'ETH' }),
   locale: selectors.preferences.getLanguage(state),
   formValues: selectors.form.getFormValues('transactionReport')(state),
   ...getData(state, ownProps.coin)
 })
 
-const mapDispatchToProps = (dispatch, { coin }) => ({
-  clearTransactions: () =>
-    dispatch(actions.core.data[toLower(coin)].clearTransactionHistory()),
-  fetchTransactions: (address, startDate, endDate) =>
-    dispatch(
-      actions.core.data[toLower(coin)].fetchTransactionHistory(
-        address,
-        startDate,
-        endDate
+const mapDispatchToProps = (dispatch, { coin }) => {
+  const coinCode = coin === 'PAX' ? 'eth' : toLower(coin)
+  return {
+    clearTransactions: () =>
+      dispatch(actions.core.data[coinCode].clearTransactionHistory()),
+    fetchTransactions: (address, startDate, endDate) => {
+      if (coin === 'PAX') {
+        return dispatch(
+          actions.core.data.eth.fetchErc20TransactionHistory(
+            address,
+            startDate,
+            endDate,
+            'pax'
+          )
+        )
+      }
+      return dispatch(
+        actions.core.data[coinCode].fetchTransactionHistory(
+          address,
+          startDate,
+          endDate
+        )
       )
-    ),
-  initForm: initialValues =>
-    dispatch(actions.form.initialize('transactionReport', initialValues))
-})
+    },
+    initForm: initialValues =>
+      dispatch(actions.form.initialize('transactionReport', initialValues))
+  }
+}
 
 const enhance = compose(
   modalEnhancer('TRANSACTION_REPORT'),

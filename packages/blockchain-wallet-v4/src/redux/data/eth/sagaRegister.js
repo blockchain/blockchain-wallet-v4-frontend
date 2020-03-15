@@ -29,5 +29,9 @@ export default ({ api }) => {
       AT.FETCH_ERC20_TX_FEE,
       dataEthSagas.fetchErc20TransactionFee
     )
+    yield takeLatest(
+      AT.FETCH_ERC20_TRANSACTION_HISTORY,
+      dataEthSagas.fetchErc20TransactionHistory
+    )
   }
 }
