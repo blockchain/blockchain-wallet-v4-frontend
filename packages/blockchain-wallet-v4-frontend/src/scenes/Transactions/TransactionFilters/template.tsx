@@ -1,4 +1,9 @@
-import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import {
+  ComponentDropdown,
+  IconButton,
+  Link,
+  Text
+} from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { includes } from 'ramda'
@@ -9,13 +14,18 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+const DownloadButton = styled(IconButton)`
+  border: 1px solid ${props => props.theme['grey100']};
+  border-radius: 8px;
+  color: ${props => props.theme['blue600']};
+  margin-right: 12px;
+`
 const Search = styled.div`
   position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 300px;
 
   ${media.laptop`
     width: inherit;
@@ -32,14 +42,6 @@ const EthPrivateKeysWrapper = styled.div`
 const ExportEthPrivateKeyText = styled(Text)`
   cursor: pointer;
 `
-const ReportingIcon = styled(Icon)`
-  width: 40px;
-  margin-right: 10px;
-
-  &:hover {
-    color: ${props => props.theme.grey600};
-  }
-`
 const SearchField = styled<any>(Field)`
   > div > span {
     top: 14px;
@@ -47,7 +49,6 @@ const SearchField = styled<any>(Field)`
   }
 `
 const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
-const TX_EXPORT_COINS = ['BTC', 'BCH', 'ETH']
 
 const EthPrivateKeys = () => (
   <Link weight={500} size='12px'>
@@ -116,16 +117,19 @@ const TransactionFilters = ({
             )}
           </EthPrivateKeysWrapper>
         )}
-        {includes(coin, TX_EXPORT_COINS) && (
-          <ReportingIcon
-            color='grey400'
-            cursor
-            data-e2e='generateTxReport'
-            name='download'
-            onClick={handleClickReporting}
-            size='20px'
+        <DownloadButton
+          data-e2e='generateTxReport'
+          height='45px'
+          name='download'
+          nature='light'
+          onClick={handleClickReporting}
+          width='120px'
+        >
+          <FormattedMessage
+            id='scenes.transactions.export.download'
+            defaultMessage='Download'
           />
-        )}
+        </DownloadButton>
         <SearchField
           component={TextBox}
           data-e2e='transactionsMenuSearchBox'

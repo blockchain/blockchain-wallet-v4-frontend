@@ -22,7 +22,9 @@ export default () => {
 
   const reportClicked = function * () {
     try {
-      yield put(actions.modals.showModal('TransactionReport', { coin: 'XLM' }))
+      yield put(
+        actions.modals.showModal('DownloadTransactions', { coin: 'XLM' })
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'reportClicked', e))
     }

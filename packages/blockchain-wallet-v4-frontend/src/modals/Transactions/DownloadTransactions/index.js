@@ -8,9 +8,9 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import moment from 'services/MomentHelper'
 
 import { getData } from './selectors'
-import TransactionReport from './template'
+import DownloadTransactions from './template'
 
-class TransactionReportContainer extends React.PureComponent {
+class DownloadTransactionsContainer extends React.PureComponent {
   state = { filename: '', generating: false }
 
   componentDidMount () {
@@ -58,7 +58,7 @@ class TransactionReportContainer extends React.PureComponent {
     } = this.props
 
     return (
-      <TransactionReport
+      <DownloadTransactions
         closeAll={closeAll}
         coin={coin}
         csvData={csvData}
@@ -104,4 +104,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(TransactionReportContainer)
+export default enhance(DownloadTransactionsContainer)

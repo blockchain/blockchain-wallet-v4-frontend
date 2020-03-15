@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import {
   Button,
   HeartbeatLoader,
-  Icon,
   Modal,
   ModalBody,
   ModalHeader,
@@ -45,21 +44,26 @@ const DateSelectRow = styled.div`
   align-items: center;
   width: 100%;
 `
+const DateDivider = styled.div`
+  min-width: 18px;
+`
 const DateLabel = styled(Text)`
   margin-bottom: 6px;
 `
 const EndDateLabel = styled(DateLabel)`
-  margin-right: 50px;
+  margin-right: 140px;
 `
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  height: 45px;
 `
-const DownloadBtn = styled(CSVLink)`
+const DownloadButton = styled(CSVLink)`
   text-decoration: none;
+  width: 100%;
 `
 
 export const validAddressOrWallet = value => {
@@ -67,13 +71,13 @@ export const validAddressOrWallet = value => {
     undefined
   ) : (
     <FormattedMessage
-      id='modals.transactionreport.invalidwallet'
+      id='modals.transactions.report.required'
       defaultMessage='Wallet selection required'
     />
   )
 }
 
-const TransactionHistory = props => {
+const DownloadTransactions = props => {
   const {
     closeAll,
     coin,
@@ -91,23 +95,22 @@ const TransactionHistory = props => {
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id='modals.transactionreport.titlenew'
-          defaultMessage='{coin} Transaction History'
-          values={{ coin }}
+          id='modals.transactions.report.title'
+          defaultMessage='Download Transactions'
         />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
-              <Text size='13px' weight={500} capitalize>
+              <Text size='14px' weight={500} capitalize>
                 <FormattedMessage
-                  id='modals.transactionreport.wallet'
-                  defaultMessage='Select wallet'
+                  id='modals.transactions.report.wallet'
+                  defaultMessage='Wallet'
                 />
               </Text>
             </Row>
-            <Row margin='30px'>
+            <Row margin='20px'>
               {coin === 'BCH' && (
                 <Field
                   coin={coin}
@@ -137,33 +140,31 @@ const TransactionHistory = props => {
             </Row>
             <Row>
               <DateSelectRow>
-                <DateLabel size='13px' weight={500} capitalize>
+                <DateLabel size='14px' weight={500} capitalize>
                   <FormattedMessage
-                    id='modals.transactionreport.startdate'
-                    defaultMessage='Select start date'
+                    id='modals.transactions.report.startdate'
+                    defaultMessage='start date'
                   />
                 </DateLabel>
-                <EndDateLabel size='13px' weight={500} capitalize>
+                <EndDateLabel size='14px' weight={500} capitalize>
                   <FormattedMessage
-                    id='modals.transactionreport.enddate'
-                    defaultMessage='Select end date'
+                    id='modals.transactions.report.enddate'
+                    defaultMessage='end date'
                   />
                 </EndDateLabel>
               </DateSelectRow>
             </Row>
-            <Row margin='34px'>
+            <Row margin='28px'>
               <DateSelectRow>
                 <Field
+                  fullwidth
                   name='start'
                   validate={[required]}
                   component={DateBoxDebounced}
                 />
-                <Icon
-                  name='arrow-right'
-                  size='26px'
-                  style={{ marginTop: '-6px' }}
-                />
+                <DateDivider />
                 <Field
+                  fullwidth
                   name='end'
                   validate={[required]}
                   component={DateBoxDebounced}
@@ -174,31 +175,39 @@ const TransactionHistory = props => {
           <Footer>
             {generating ? (
               csvData ? (
-                <DownloadBtn
+                <DownloadButton
                   data={csvData}
                   filename={filename}
                   target='_blank'
                   onClick={onDownload}
+                  width='100%'
                 >
-                  <Button nature='success' data-e2e='downloadReport'>
+                  <Button
+                    data-e2e='downloadReport'
+                    height='45px'
+                    nature='success'
+                    width='100%'
+                  >
                     <FormattedMessage
-                      id='modals.transactionreport.download'
+                      id='modals.transactions.report.download'
                       defaultMessage='Download Report'
                     />
                   </Button>
-                </DownloadBtn>
+                </DownloadButton>
               ) : (
                 <HeartbeatLoader />
               )
             ) : (
               <Button
-                type='submit'
-                nature='primary'
-                disabled={generating || invalid}
                 data-e2e='generateReport'
+                disabled={generating || invalid}
+                height='45px'
+                nature='primary'
+                type='submit'
+                width='100%'
               >
                 <FormattedMessage
-                  id='modals.transactionreport.generatecsv'
+                  id='modals.transactions.report.generate'
                   defaultMessage='Generate Report'
                 />
               </Button>
@@ -210,4 +219,4 @@ const TransactionHistory = props => {
   )
 }
 
-export default reduxForm({ form: 'transactionReport' })(TransactionHistory)
+export default reduxForm({ form: 'transactionReport' })(DownloadTransactions)

@@ -1,10 +1,6 @@
-import {
-  StatelessComponent,
-  PureComponent,
-  CSSProperties,
-  ComponentElement
-} from 'react'
+import { StatelessComponent, CSSProperties } from 'react'
 import { DefaultTheme } from 'styled-components'
+
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 
@@ -32,6 +28,7 @@ export const Button: StatelessComponent<
       | 'success'
       | 'transferred'
       | 'warning'
+      | 'white-blue'
       | 'white-transparent'
     bold?: boolean
     capitalize?: boolean
@@ -79,6 +76,45 @@ export const Icon: StatelessComponent<{
   style?: CSSProperties
   onClick?: () => void
 }>
+export const IconButton: StatelessComponent<
+  {
+    'data-e2e': string
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'dark-grey'
+      | 'empty-secondary'
+      | 'empty'
+      | 'gray-3'
+      | 'green'
+      | 'light'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-blue'
+      | 'white-transparent'
+    bold?: boolean
+    capitalize?: boolean
+    className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
+    onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    small?: boolean
+    style?: CSSProperties
+    uppercase?: boolean
+    width?: string
+  } & React.ButtonHTMLAttributes<{}>
+>
 export const IconGlobalStyles: StatelessComponent<{}>
 export const Image: StatelessComponent<{
   name: keyof ImageType
