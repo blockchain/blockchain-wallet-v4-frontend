@@ -21,7 +21,7 @@ class DownloadTransactionsContainer extends React.PureComponent {
       start: moment()
         .startOf('day')
         .subtract(7, 'day'),
-      end: moment().startOf('day')
+      end: moment().endOf('day')
     })
   }
 
