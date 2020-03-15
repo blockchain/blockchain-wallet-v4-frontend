@@ -99,7 +99,7 @@ export const LoadingBalance = props => {
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
-      <Text size='12px' weight={400}>
+      <Text size='12px' weight={600} color='grey800'>
         {props.coinTicker}
       </Text>
       <SkeletonRectangle width='40px' height='14px' bgColor='gray-1' />
