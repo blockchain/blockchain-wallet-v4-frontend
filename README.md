@@ -143,9 +143,6 @@ TypeScript is supported and should be used when adding new code. It's also recom
 We are using [Codechecks](https://www.codechecks.io/) and [Typecov](https://github.com/codechecks/typecov) for coverage reporting. Coverage is automatically analyzed for PRs and the following command is available.
 * `yarn codechecks`
 
-### Typecov
-It is recommended that you install the VSCode plugin for Typecov reporting so you can see any (no pun intended) errors inline. You can find that [here](https://marketplace.visualstudio.com/items?itemName=york-yao.vscode-type-coverage)
-
 ## Code Bundle Analysis/Reports
 To visualize and interact with the tree of the production code bundles files:
  * `yarn analyze`
