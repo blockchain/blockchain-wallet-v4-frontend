@@ -1,5 +1,42 @@
 export default ({ apiUrl, get, post }) => {
   //
+  // Misc
+  //
+  const checkContract = address =>
+    get({
+      url: apiUrl,
+      endPoint: `/eth/account/${address}/isContract`
+    })
+
+  const getEthFees = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/mempool/fees/eth'
+    })
+
+  const getEthTicker = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/ticker',
+      data: { base: 'ETH' }
+    })
+
+  const pushEthTx = rawTx =>
+    post({
+      url: apiUrl,
+      endPoint: '/eth/pushtx',
+      contentType: 'application/json',
+      data: { rawTx }
+    })
+
+  const getErc20Ticker = token =>
+    get({
+      url: apiUrl,
+      endPoint: '/ticker',
+      data: { base: token }
+    })
+
+  //
   // V2
   //
   const getEthTransactionV2 = hash =>
@@ -8,15 +45,38 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/v2/eth/data/transaction/${hash}`
     })
 
-  //
-  // ETH
-  //
-  const checkContract = address =>
+  const getEthTransactionsV2 = (account, page, pageSize) =>
     get({
       url: apiUrl,
-      endPoint: `/eth/account/${address}/isContract`
+      endPoint: `/v2/eth/data/account/${account}/transactions`,
+      data: { page, size: pageSize }
     })
 
+  const getEthAccountSummaryV2 = (account, page, pageSize) =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/account/${account}/wallet`,
+      data: { page, size: pageSize }
+    })
+
+  const getErc20AccountSummaryV2 = (ethAddr, tokenAddr, page = 0, pageSize) =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`,
+      data: { page, size: pageSize }
+    })
+
+  const getErc20TransactionsV2 = (ethAddr, tokenAddr, page = 0, pageSize) =>
+    get({
+      url: apiUrl,
+      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/transfers`,
+      data: { page, size: pageSize }
+    })
+
+  //
+  // LEGACY ETH ENDPOINTS
+  // TODO: update to v2 endpoints, deprecate these
+  //
   const getEthBalances = context =>
     get({
       url: apiUrl,
@@ -42,23 +102,10 @@ export default ({ apiUrl, get, post }) => {
       data: { page }
     })
 
-  const getEthFees = () =>
-    get({
-      url: apiUrl,
-      endPoint: '/mempool/fees/eth'
-    })
-
   const getEthLatestBlock = () =>
     get({
       url: apiUrl,
       endPoint: '/eth/latestblock'
-    })
-
-  const getEthTicker = () =>
-    get({
-      url: apiUrl,
-      endPoint: '/ticker',
-      data: { base: 'ETH' }
     })
 
   const getEthTransaction = hash =>
@@ -67,48 +114,21 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/eth/tx/${hash}`
     })
 
-  const pushEthTx = rawTx =>
-    post({
-      url: apiUrl,
-      endPoint: '/eth/pushtx',
-      contentType: 'application/json',
-      data: { rawTx }
-    })
-
-  //
-  // ERC20
-  //
-  const getErc20Ticker = token =>
-    get({
-      url: apiUrl,
-      endPoint: '/ticker',
-      data: { base: token }
-    })
-  const getErc20Data = (ethAddr, tokenAddr) =>
-    get({
-      url: apiUrl,
-      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`
-    })
-  const getErc20Transactions = (ethAddr, tokenAddr, page = 0) =>
-    get({
-      url: apiUrl,
-      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/wallet`,
-      data: { page }
-    })
-
   return {
     checkContract,
+    getEthAccountSummaryV2,
     getEthBalances,
     getEthData,
-    getErc20Data,
     getEthFees,
     getEthLatestBlock,
     getEthTicker,
     getEthTransaction,
     getEthTransactions,
     getEthTransactionV2,
+    getEthTransactionsV2,
+    getErc20AccountSummaryV2,
     getErc20Ticker,
-    getErc20Transactions,
+    getErc20TransactionsV2,
     pushEthTx
   }
 }

@@ -14,6 +14,7 @@ import {
   head,
   isNil,
   join,
+  last,
   length,
   map,
   mapObjIndexed,
@@ -33,6 +34,7 @@ import moment from 'moment'
 
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 40
+const TX_REPORT_PAGE_SIZE = 500 // TODO: lesson once pagination is working on backend
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
@@ -124,21 +126,46 @@ export default ({ api }) => {
   const fetchTransactionHistory = function * (action) {
     const { payload } = action
     const { address, endDate, startDate } = payload
+    let currentPage = 0
+
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
 
-      // TODO: loop api calls, when response equals 50 items && startDate is before oldest tx returned, increasing page number each time
-      const data = yield call(api.getEthTransactions, ethAddress, 0)
-      const fullTxList = path([ethAddress, 'txns'], data)
+      // fetch account summary (includes first page of txs)
+      const accountSummary = yield call(
+        api.getEthAccountSummaryV2,
+        ethAddress,
+        currentPage,
+        TX_REPORT_PAGE_SIZE
+      )
+      let fullTxList = prop('accountTransactions', accountSummary)
+      const txCount = prop('transactionCount', accountSummary)
+      currentPage++
+
+      // keep fetching pages until we reach last page or last tx free previous page is before requested start date
+      while (
+        currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
+        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+      ) {
+        const txPage = yield call(
+          api.getEthTransactionsV2,
+          ethAddress,
+          currentPage,
+          TX_REPORT_PAGE_SIZE
+        )
+        fullTxList = fullTxList.concat(prop('transactions', txPage))
+        currentPage++
+      }
+
+      // process txs further for report
       const processedTxList = yield call(
         __processReportTxs,
         fullTxList,
         startDate,
         endDate
       )
-
       yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
@@ -187,7 +214,11 @@ export default ({ api }) => {
         selectors.kvStore.eth.getErc20ContractAddr,
         token
       )).getOrFail()
-      const data = yield call(api.getErc20Data, head(ethAddrs), contractAddr)
+      const data = yield call(
+        api.getErc20AccountSummaryV2,
+        head(ethAddrs),
+        contractAddr
+      )
       // account treatments similar to eth info plus the token account_hash
       const tokenData = {
         account_hash: prop('accountHash', data),
@@ -235,7 +266,7 @@ export default ({ api }) => {
       if (txsAtBound && !reset) return
       yield put(A.fetchErc20TransactionsLoading(token, ethAddress, reset))
       const data = yield call(
-        api.getErc20Transactions,
+        api.getErc20TransactionsV2,
         ethAddress,
         contractAddress,
         nextPage
@@ -266,23 +297,46 @@ export default ({ api }) => {
   const fetchErc20TransactionHistory = function * (action) {
     const { payload } = action
     const { address, endDate, startDate, token } = payload
+    let currentPage = 0
+
     try {
       yield put(A.fetchErc20TransactionHistoryLoading(token))
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
-
-      // TODO: loop api calls, when response equals 50 items && startDate is before oldest tx returned, increasing page number each time
       const contractAddress = (yield select(
         selectors.kvStore.eth.getErc20ContractAddr,
         token
       )).getOrFail()
-      const data = yield call(
-        api.getErc20Transactions,
+
+      // fetch account summary without any txs since erc2
+      const accountSummary = yield call(
+        api.getErc20AccountSummaryV2,
         ethAddress,
         contractAddress,
-        0
+        currentPage,
+        TX_REPORT_PAGE_SIZE
       )
-      const fullTxList = prop('transfers', data)
+      let fullTxList = prop('transfers', accountSummary)
+      const txCount = prop('transferCount', accountSummary)
+      currentPage++
+
+      // keep fetching pages until we reach last page or last tx free previous page is before requested start date
+      while (
+        currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
+        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+      ) {
+        const txPage = yield call(
+          api.getErc20TransactionsV2,
+          ethAddress,
+          contractAddress,
+          currentPage,
+          TX_REPORT_PAGE_SIZE
+        )
+        fullTxList = fullTxList.concat(prop('transfers', txPage))
+        currentPage++
+      }
+
+      // process txs further for report
       const processedTxList = yield call(
         __processErc20ReportTxs,
         fullTxList,
@@ -384,11 +438,13 @@ export default ({ api }) => {
       selectors.data.eth.getErc20Rates,
       token
     )).getOrFail()
+
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       tx => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
+
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
     const txTimestamps = pluck('time', prunedTxList)
@@ -418,10 +474,12 @@ export default ({ api }) => {
     const ethMarketData = (yield select(
       selectors.data.eth.getRates
     )).getOrFail()
+
     // remove txs that dont match coin type and are not within date range
     let prunedTxList = filter(tx => {
       return !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate)
     }, fullTxList)
+
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
     const txTimestamps = pluck('time', prunedTxList)
