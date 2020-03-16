@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { ModalNamesType } from 'data/modals/types'
 
 const generateId = () =>
   Math.random()
@@ -10,7 +11,11 @@ export const saveGoal = (name, data) => ({
   payload: { id: generateId(), name, data }
 })
 export const deleteGoal = id => ({ type: AT.DELETE_GOAL, payload: { id } })
-export const addInitialModal = (key, name, data) => ({
+export const addInitialModal = (
+  key: string,
+  name: ModalNamesType,
+  data?: any
+) => ({
   type: AT.ADD_INITIAL_MODAL,
   payload: { key, name, data }
 })

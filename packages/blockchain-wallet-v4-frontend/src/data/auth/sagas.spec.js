@@ -343,7 +343,6 @@ describe('authSagas', () => {
       saveGoals,
       setLogoutEventListener,
       startSockets,
-      transferEthSaga,
       upgradeWalletSaga,
       upgradeAddressLabelsSaga
     } = authSagas({
@@ -407,10 +406,6 @@ describe('authSagas', () => {
       saga.next().call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
     })
 
-    it('should redirect to home route', () => {
-      saga.next().put(actions.router.push('/home'))
-    })
-
     it('should fetch settings', () => {
       saga.next().call(coreSagas.settings.fetchSettings)
     })
@@ -421,6 +416,10 @@ describe('authSagas', () => {
 
     it('should fetch xlm accounts', () => {
       saga.next().call(coreSagas.data.xlm.fetchData)
+    })
+
+    it('should redirect to home route', () => {
+      saga.next().put(actions.router.push('/home'))
     })
 
     it('should call auth nabu saga', () => {
@@ -437,6 +436,14 @@ describe('authSagas', () => {
 
     it('should start logout timer', () => {
       saga.next().put(actions.auth.startLogoutTimer())
+    })
+
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
     })
 
     it('should start sockets', () => {
@@ -473,18 +480,6 @@ describe('authSagas', () => {
       saga.next().put(actions.analytics.initUserSession())
     })
 
-    it('should launch transferEth saga', () => {
-      saga.next().fork(transferEthSaga)
-    })
-
-    it('should save goals', () => {
-      saga.next().call(saveGoals, false)
-    })
-
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
-    })
-
     it('should check for data errors', () => {
       saga.next().fork(checkDataErrors)
     })
@@ -506,7 +501,6 @@ describe('authSagas', () => {
           // for saga to progress
           [select(selectors.core.wallet.isHdWallet), true],
           [select(selectors.core.wallet.getGuid), 12],
-          [fork.fn(transferEthSaga), jest.fn],
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
         ])

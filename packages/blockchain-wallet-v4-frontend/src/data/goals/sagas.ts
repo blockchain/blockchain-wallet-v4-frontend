@@ -22,7 +22,7 @@ import {
   sum,
   values
 } from 'ramda'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import {
   getAllBalances,
   getBchBalance,
@@ -31,17 +31,18 @@ import {
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
+import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import profileSagas from 'data/modules/profile/sagas.ts'
 
 const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
 
-export default ({ api }) => {
+export default ({ api, coreSagas, networks }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
-  const { createUser } = profileSagas({ api })
+  const { createUser } = profileSagas({ api, coreSagas, networks })
 
   const logLocation = 'goals/sagas'
 
@@ -132,6 +133,7 @@ export default ({ api }) => {
   const defineLogLevel = function * (search) {
     const params = new URLSearchParams(search)
     const level = params.get('level')
+    // @ts-ignore
     window.logLevel = level
     yield put(actions.logs.setLogLevel(level))
   }
@@ -217,7 +219,9 @@ export default ({ api }) => {
       }
 
       const tx = path([0, 'outputs', 0], instructions)
+      // @ts-ignore
       const satoshiAmount = tx.amount
+      // @ts-ignore
       const address = tx.address
       const merchant = paymentRequest.memo.split('for merchant ')[1]
       const payPro = {
@@ -553,6 +557,38 @@ export default ({ api }) => {
     }
   }
 
+  const runTransferEthGoal = function * (goal) {
+    const legacyAccountR = yield select(
+      selectors.core.kvStore.eth.getLegacyAccount
+    )
+    const legacyAccount = legacyAccountR.getOrElse(null)
+    if (!legacyAccount) return
+
+    const { addr: legacyEthAddr, correct } = legacyAccount
+    const fees = yield call(api.getEthFees)
+    const feeAmount = yield call(
+      utils.eth.calculateFee,
+      fees.regular,
+      fees.gasLimit
+    )
+    // if not swept, get the legacy eth account balance and prompt sweep
+    if (!correct && legacyEthAddr) {
+      const ethBalances = yield call(api.getEthBalances, legacyEthAddr)
+      const legacyEthBalance =
+        path<string>([legacyEthAddr, 'balance'], ethBalances) || 0
+      const legacyEthBalanceBigInt = new BigNumber(legacyEthBalance)
+      const feeAmountBigInt = new BigNumber(feeAmount)
+      if (legacyEthBalanceBigInt.isGreaterThan(feeAmountBigInt)) {
+        yield put(
+          actions.goals.addInitialModal('transferEth', 'TransferEth', {
+            legacyEthBalance,
+            legacyEthAddr
+          })
+        )
+      }
+    }
+  }
+
   const showInitialModal = function * () {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
@@ -567,12 +603,18 @@ export default ({ api }) => {
       swapUpgrade,
       upgradeForAirdrop,
       welcomeModal,
+      transferEth,
       xlmPayment
     } = initialModals
     // Order matters here
     if (linkAccount) {
       return yield put(
         actions.modals.showModal(linkAccount.name, linkAccount.data)
+      )
+    }
+    if (transferEth) {
+      return yield put(
+        actions.modals.showModal(transferEth.name, transferEth.data)
       )
     }
     if (kycDocResubmit) {
@@ -667,6 +709,9 @@ export default ({ api }) => {
           break
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
+          break
+        case 'transferEth':
+          yield call(runTransferEthGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
