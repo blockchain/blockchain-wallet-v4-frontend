@@ -36,8 +36,8 @@ class DownloadTransactionsContainer extends React.PureComponent {
     const endDate = prop('end', formValues)
     const address = from && (from.xpub || from.address || from)
     const filename =
-      `${coinModel.coinTicker}_${startDate.format('YYYY-MM-DD')}` +
-      `_${endDate.format('YYYY-MM-DD')}.csv`
+      `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
+      `_${endDate.format('MM-DD-YYYY')}.csv`
     this.setState({ generating: true, filename })
     fetchTransactions(address, startDate, endDate)
   }

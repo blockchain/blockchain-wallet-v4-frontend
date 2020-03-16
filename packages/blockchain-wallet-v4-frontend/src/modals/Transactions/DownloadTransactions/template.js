@@ -157,6 +157,7 @@ const DownloadTransactions = props => {
             <Row margin='28px'>
               <DateSelectRow>
                 <Field
+                  dateFormat='MM/DD/YYYY'
                   fullwidth
                   name='start'
                   validate={[required]}
@@ -164,6 +165,7 @@ const DownloadTransactions = props => {
                 />
                 <DateDivider />
                 <Field
+                  dateFormat='MM/DD/YYYY'
                   fullwidth
                   name='end'
                   validate={[required]}
