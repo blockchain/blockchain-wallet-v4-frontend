@@ -426,6 +426,14 @@ describe('authSagas', () => {
       saga.next().call(authNabu)
     })
 
+    it('should save goals', () => {
+      saga.next().call(saveGoals, false)
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
+    })
+
     it('should call upgrade address labels saga', () => {
       saga.next().call(upgradeAddressLabelsSaga)
     })
@@ -436,14 +444,6 @@ describe('authSagas', () => {
 
     it('should start logout timer', () => {
       saga.next().put(actions.auth.startLogoutTimer())
-    })
-
-    it('should save goals', () => {
-      saga.next().call(saveGoals, false)
-    })
-
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
     })
 
     it('should start sockets', () => {
