@@ -158,7 +158,7 @@ The following commands are available:
 If the deploy begins to fail, deleting the static build file before redeploy will likely help.
 
 ## Contribute
-Bug fixes and feedback on our code is always appreciated.
+Please review to the [Wiki](https://github.com/blockchain/blockchain-wallet-v4-frontend/wiki) 
 
 ## Security
 Security issues can be reported to us in the following venues:
