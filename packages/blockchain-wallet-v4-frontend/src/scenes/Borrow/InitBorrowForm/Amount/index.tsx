@@ -1,10 +1,13 @@
 import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { connect } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getBalance } from './selectors'
+import { RatesType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +21,9 @@ type LinkStatePropsType = {
     {
       balance: number
       max: number
+      offer: OfferType
       offers: Array<OfferType>
+      rates: RatesType
       values: { coin: CoinType }
     }
   >
@@ -44,14 +49,27 @@ export class Amount extends Component<Props> {
       <Wrapper>
         {this.props.data.cata({
           Success: val => (
-            <FiatDisplay
-              weight={600}
-              size='32px'
-              coin={val.values.coin}
-              currency='USD'
-            >
-              {val.max}
-            </FiatDisplay>
+            <Text weight={600} size='32px'>
+              {fiatToString({
+                unit: { symbol: '$' },
+                value: val.offer
+                  ? Math.min(
+                      Exchange.convertCoinToFiat(
+                        convertBaseToStandard(val.values.coin, val.max),
+                        val.values.coin,
+                        'USD',
+                        val.rates
+                      ),
+                      Number(
+                        convertBaseToStandard(
+                          val.offer.terms.maxPrincipalAmount.currency,
+                          val.offer.terms.maxPrincipalAmount.amount
+                        )
+                      )
+                    )
+                  : 0
+              })}
+            </Text>
           ),
           Failure: e => {
             return (

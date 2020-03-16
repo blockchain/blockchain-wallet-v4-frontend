@@ -125,19 +125,19 @@
             "syncToPit": true
           },
           "coinCode": "PAX",
-          "coinTicker": "PAX",
-          "colorCode": "pax",
+          "coinTicker": "USD-D",
+          "colorCode": "usd-d",
           "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
-          "displayName": "USD Pax",
+          "displayName": "USD Digital",
           "hasLockboxSupport": false,
           "icons": {
-            "default": "pax",
-            "circle": "pax",
-            "circleFilled": "pax"
+            "default": "usd-d",
+            "circle": "usd-d",
+            "circleFilled": "usd-d"
           },
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/pax/transactions"
+          "txListAppRoute": "/usd-d/transactions"
         },
         "XLM": {
           "airdrop": {
@@ -366,6 +366,7 @@
     "coinifyPaymentDomain": "https://pay.coinify.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
+    "exchange": "https://exchange.blockchain.com",
     "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",

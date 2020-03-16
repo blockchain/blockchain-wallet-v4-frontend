@@ -1,8 +1,8 @@
-import { CoinType, NabuApiErrorType, RemoteDataType } from 'core/types'
+import { CoinType } from 'core/types'
 
 export type MoneyType = {
-  symbol: CoinType
-  value: string
+  amount: string
+  currency: CoinType
 }
 
 export type LoanFinancialsType = {
@@ -11,6 +11,39 @@ export type LoanFinancialsType = {
   onCloseCollateralTaken: Array<MoneyType>
   owedInterest: Array<MoneyType>
 }
+
+export type LoanTransactionsType = {
+  insertedAt: string
+  notes: string
+  principalTakenAsInterest: Array<MoneyType>
+  request: {
+    amount: MoneyType
+    dstAddress: string
+  }
+  status: LoanTransactionsStatusType
+  type:
+    | 'DEPOSIT_COLLATERAL'
+    | 'WITHDRAW_PRINCIPAL'
+    | 'TOPUP_COLLATERAL'
+    | 'REFUND_COLLATERAL'
+    | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+    | 'WITHDRAW_COLLATERAL'
+    | 'WITHDRAW_COLLATERAL_AND_CLOSE'
+    | 'LIQUIDATED_PRINCIPAL'
+    | 'LIQUIDATED_COLLATERAL'
+    | 'LIQUIDATION_FEE'
+    | 'INTEREST_TAKEN'
+  value: {
+    amount: MoneyType
+    txHash?: string
+  }
+}
+
+export type LoanTransactionsStatusType =
+  | 'CONFIRMED'
+  | 'REQUESTED'
+  | 'UNCONFIRMED'
+  | 'FAILED'
 
 export type LoanType = {
   borrowerId: string
@@ -60,14 +93,8 @@ export type OfferType = {
     durationHours: number
     format: 'FLEX'
     interestRate: number
-    maxYieldingAmount: {
-      symbol: CoinType
-      value: number
-    }
-    minPrincipalAmount: {
-      symbol: CoinType
-      value: number
-    }
+    maxPrincipalAmount: MoneyType
+    minPrincipalAmount: MoneyType
     principalCcy: CoinType
   }
 }

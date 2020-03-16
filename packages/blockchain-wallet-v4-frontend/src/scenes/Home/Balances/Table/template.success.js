@@ -43,6 +43,7 @@ const Success = props => {
                       coin={coin.coinCode}
                       coinName={coin.displayName}
                       coinIcon={coin.icons.circleFilled}
+                      color={coin.colorCode}
                       balance={balances[`${toLower(coin.coinCode)}Balance`]}
                     />
                   </div>

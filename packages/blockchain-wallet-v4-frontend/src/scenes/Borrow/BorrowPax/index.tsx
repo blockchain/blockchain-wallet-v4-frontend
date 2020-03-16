@@ -38,8 +38,8 @@ class BorrowPax extends PureComponent<Props & State> {
             style={{ marginTop: '16px' }}
           >
             <FormattedMessage
-              id='scenes.borrow.borrowusd'
-              defaultMessage='Borrow USD Pax Today'
+              id='scenes.borrow.borrowusdd'
+              defaultMessage='Borrow USD Digital Today'
             />
           </Text>
           <Text
@@ -49,30 +49,35 @@ class BorrowPax extends PureComponent<Props & State> {
             style={{ marginTop: '4px', lineHeight: 1.5 }}
           >
             <FormattedMessage
-              id='scenes.borrow.getusdpax'
-              defaultMessage='Get USD Pax directly from your Blockchain Wallet, use your bitcoin as collateral. You need to be Gold level to benefit from this new offering.'
+              id='scenes.borrow.getusddigital'
+              defaultMessage='Get USD Digital directly from your Blockchain Wallet, use your bitcoin as collateral. You need to be Gold level to benefit from this new offering.'
             />
           </Text>
         </div>
         {this.props.isDisabled ? (
           this.props.userDataR.cata({
-            Success: val => {
-              return (
-                <Button
-                  nature='primary'
-                  data-e2e='verifyIdentityBorrow'
-                  disabled={val.kycState !== 'NONE'}
-                  onClick={() =>
-                    this.props.identityVerificationActions.verifyIdentity(2)
-                  }
-                >
+            Success: val => (
+              <Button
+                nature='primary'
+                data-e2e='verifyIdentityBorrow'
+                disabled={val.kycState !== 'NONE'}
+                onClick={() =>
+                  this.props.identityVerificationActions.verifyIdentity(2)
+                }
+              >
+                {val.kycState === 'UNDER_REVIEW' ? (
+                  <FormattedMessage
+                    id='scenes.borrow.kycunderreview'
+                    defaultMessage='Gold Verification In Review'
+                  />
+                ) : (
                   <FormattedMessage
                     id='scenes.borrow.verifyid'
                     defaultMessage='Upgrade Now'
                   />
-                </Button>
-              )
-            },
+                )}
+              </Button>
+            ),
             Failure: () => (
               <Link
                 style={{ width: '100%' }}
@@ -91,17 +96,23 @@ class BorrowPax extends PureComponent<Props & State> {
             NotAsked: () => <SkeletonRectangle width='100%' height='40px' />
           })
         ) : (
-          <Button
-            style={{ marginTop: '16px' }}
-            nature='light'
-            fullwidth
-            data-e2e='paxLearnMore'
+          <Link
+            style={{ width: '100%' }}
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/articles/360040444691'
           >
-            <FormattedMessage
-              id='scenes.borrow.learnmore'
-              defaultMessage='Learn More'
-            />
-          </Button>
+            <Button
+              style={{ marginTop: '16px' }}
+              nature='light'
+              fullwidth
+              data-e2e='paxLearnMore'
+            >
+              <FormattedMessage
+                id='scenes.borrow.learnmore'
+                defaultMessage='Learn More'
+              />
+            </Button>
+          </Link>
         )}
       </CustomBox>
     )

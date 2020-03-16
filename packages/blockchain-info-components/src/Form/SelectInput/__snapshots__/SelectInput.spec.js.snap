@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SelectInput component default renders correctly 1`] = `
-<Styled(StateManager)
-  bgColor="grey000"
-  borderColor="grey100"
-  classNamePrefix="bc"
-  components={
-    Object {
-      "Control": [Function],
-      "DropdownIndicator": [Function],
-      "IndicatorSeparator": [Function],
-      "Option": [Function],
-      "ValueContainer": [Function],
-    }
-  }
-  focusedBorderColor="blue600"
-  isValid={true}
-  openMenuOnClick={true}
-  options={
-    Array [
+<NonceProvider>
+  <Styled(StateManager)
+    borderColor="grey100"
+    classNamePrefix="bc"
+    components={
       Object {
-        "label": "test",
-        "value": "value",
-      },
-    ]
-  }
-/>
+        "Control": [Function],
+        "DropdownIndicator": [Function],
+        "IndicatorSeparator": [Function],
+        "Option": [Function],
+        "ValueContainer": [Function],
+      }
+    }
+    focusedBorderColor="blue600"
+    openMenuOnClick={true}
+    options={
+      Array [
+        Object {
+          "label": "test",
+          "value": "value",
+        },
+      ]
+    }
+  />
+</NonceProvider>
 `;

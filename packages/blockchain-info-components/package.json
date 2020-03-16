@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "A shared UI components library for blockchain.com applications.",
   "license": "AGPL-3.0-or-later",
   "author": {
@@ -34,6 +34,15 @@
       "json",
       "html"
     ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "ignoreCodes": [
+            2321
+          ]
+        }
+      }
+    },
     "moduleNameMapper": {
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
@@ -65,7 +74,7 @@
     "react-input-autosize": "2.2.1",
     "react-intl": "2.8.0",
     "react-onclickoutside": "6.8.0",
-    "react-select": "2.4.3",
+    "react-select": "3.0.3",
     "react-transition-group": "2.5.3",
     "styled-components": "4.2.0",
     "universal-cookie": "4.0.0"

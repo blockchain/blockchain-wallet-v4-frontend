@@ -72,6 +72,15 @@ const TermsFormItem = styled(FormItem)`
   .Container {
     height: auto;
   }
+  label {
+    align-items: start;
+    &:before {
+      margin-top: 2px;
+    }
+    &:after {
+      top: 4px;
+    }
+  }
 `
 
 const checkboxShouldBeChecked = value => (value ? undefined : true)
@@ -96,11 +105,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     unit: { symbol: '$' }
   })
 
-  const collateralAmt = props.payment.amount
-    ? props.payment.amount.reduce((x, y) => x + y)
-    : 0
+  const collateralAmt =
+    props.payment.coin === 'BTC'
+      ? props.payment.amount
+        ? props.payment.amount.reduce((x, y) => x + y)
+        : 0
+      : 0
 
-  const networkFee = props.payment.selection ? props.payment.selection.fee : 0
+  const networkFee =
+    props.payment.coin === 'BTC'
+      ? props.payment.selection
+        ? props.payment.selection.fee
+        : 0
+      : 0
 
   const total = collateralAmt + networkFee
 

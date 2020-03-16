@@ -139,7 +139,7 @@ const Terms = props => {
           </Text>
           <span>&nbsp;</span>
           <Link
-            href='https://www.blockchain.com/legal/terms'
+            href='https://www.blockchain.com/legal/borrow-terms'
             target='_blank'
             size='13px'
             weight={500}

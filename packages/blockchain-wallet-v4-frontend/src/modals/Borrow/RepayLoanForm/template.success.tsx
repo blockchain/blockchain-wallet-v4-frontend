@@ -1,7 +1,6 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
@@ -11,6 +10,7 @@ import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
 import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
@@ -25,7 +25,7 @@ const CustomForm = styled(Form)`
 `
 
 const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0px;
+  padding-bottom: 0;
 `
 const TopText = styled(Text)`
   display: flex;
@@ -62,7 +62,7 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   > input {
-    padding-left: 75px;
+    padding-left: 95px;
   }
 `
 
@@ -109,12 +109,9 @@ export type Props = OwnProps &
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
-  const collateralSatoshi = Exchange.convertBtcToBtc({
-    value: Number(props.loan.collateral.amounts[0].value),
-    fromUnit: 'BTC',
-    toUnit: 'SAT'
-  }).value
+    props.supportedCoins[props.loan.principal.amount[0].currency].displayName
+  const isSufficientEthForErc20 =
+    props.payment.coin === 'PAX' && props.payment.isSufficientEthForErc20
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -147,9 +144,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='Borrow Amount'
               />
             </AmountsHeader>
-            <Text color='grey800' size='20px' weight={600}>
-              {props.loan.principal.amount[0].value} {principalDisplayName}
-            </Text>
+            <CoinDisplay
+              coin={props.loan.principal.amount[0].currency}
+              color='grey800'
+              size='20px'
+              weight={600}
+            >
+              {props.loan.principal.amount[0].amount}
+            </CoinDisplay>
           </div>
           <div>
             <AmountsHeader>
@@ -163,9 +165,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               size='20px'
               weight={600}
               currency='USD'
-              coin={props.loan.collateral.amounts[0].symbol}
+              coin={props.loan.collateral.amounts[0].currency}
             >
-              {collateralSatoshi}
+              {props.loan.collateral.amounts[0].amount}
             </FiatDisplay>
           </div>
         </AmountsContainer>
@@ -190,7 +192,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           name='repay-method'
           component={TabMenuPaymentMethod}
           {...{
-            coin: props.offer.terms.principalCcy
+            coin: principalDisplayName
           }}
         />
         <CustomFormLabel>
@@ -245,7 +247,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.borrow.repayloan.info'
               defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
               values={{
-                principalCcy: props.offer.terms.principalCcy,
+                principalCcy: principalDisplayName,
                 collateralCcy: props.offer.terms.collateralCcy
               }}
             />
@@ -261,11 +263,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
+        {!isSufficientEthForErc20 && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='modals.borrow.repayloan.notenougheth'
+              defaultMessage='ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction.'
+              values={{ principalDisplayName }}
+            />
+          </ErrorText>
+        )}
         <Button
           nature='primary'
           type='submit'
           data-e2e='repayLoanSubmit'
-          disabled={props.submitting || props.invalid}
+          disabled={
+            props.submitting || props.invalid || !isSufficientEthForErc20
+          }
           fullwidth
         >
           {props.submitting ? (

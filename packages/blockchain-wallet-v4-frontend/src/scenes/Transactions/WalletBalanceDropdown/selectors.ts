@@ -11,7 +11,6 @@ import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddres
 import { last, lift, negate, nth, prop } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
-import BigNumber from 'bignumber.js'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
@@ -72,7 +71,7 @@ export const getData = (state, ownProps: OwnProps) => {
     // @ts-ignore
     let currentPrice = prop('price', last(priceIndexSeries))
     // @ts-ignore
-    let yesterdayPrice = prop('price', nth(23, priceIndexSeries))
+    let yesterdayPrice = prop('price', nth(-23, priceIndexSeries))
     const yesterdayValue = Exchange.convertCoinToFiat(value, coin, currency, {
       ...priceIndexSeries,
       [currency]: {
@@ -82,10 +81,8 @@ export const getData = (state, ownProps: OwnProps) => {
 
     const changePercentage =
       ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
-    const changeFiat =
-      changePercentage <= 0
-        ? negate(currentValue - yesterdayValue)
-        : currentValue - yesterdayValue
+
+    const changeFiat = currentValue - yesterdayValue
 
     return {
       addressData,

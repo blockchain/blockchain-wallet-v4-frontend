@@ -3,12 +3,15 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Box } from 'components/Box'
 import {
   Button,
+  Icon,
+  Link,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
 import {
   CoinType,
+  LoanType,
   NabuApiErrorType,
   OfferType,
   RemoteDataType
@@ -19,8 +22,10 @@ import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
 import { OrangeCartridge } from 'components/Cartridge'
 import { RootState } from 'data/rootReducer'
+import { USER_BLOCKED } from 'data/components/borrow/model'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
 
@@ -33,6 +38,7 @@ type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
+  userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
   values: {
     coin: CoinType
   }
@@ -66,6 +72,14 @@ const CustomOrangeCartridge = styled<{ show: boolean }>(OrangeCartridge)`
   opacity: ${props => (props.show ? 1 : 0)};
 `
 
+const AbsoluteWarning = styled(Text)`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+`
+
 class InitBorrowForm extends PureComponent<Props> {
   state = {}
 
@@ -82,9 +96,19 @@ class InitBorrowForm extends PureComponent<Props> {
     return offer
   }
 
+  getIsUserBlocked = () => {
+    return this.props.userHistoryR.cata({
+      Success: () => false,
+      Loading: () => false,
+      NotAsked: () => false,
+      Failure: e => typeof e === 'object' && e.description === USER_BLOCKED
+    })
+  }
+
   isDisabled = () => {
     const offer = this.getOfferForCoin()
-    return !offer || this.props.isDisabled
+    const userBlocked = this.getIsUserBlocked() === true
+    return !offer || this.props.isDisabled || userBlocked
   }
 
   initBorrow = () => {
@@ -138,10 +162,31 @@ class InitBorrowForm extends PureComponent<Props> {
           data-e2e='initBorrowPax'
         >
           <FormattedMessage
-            id='scenes.initborrow.borrow'
-            defaultMessage='Borrow USD Pax'
+            id='scenes.initborrow.borrow1'
+            defaultMessage='Borrow USD Digital'
           />
         </Button>
+        {this.getIsUserBlocked() && (
+          <AbsoluteWarning size='12px' weight={500} color='grey600'>
+            <Icon name='info' color='grey600' />
+            <div style={{ marginLeft: '8px' }}>
+              <FormattedMessage
+                id='scenes.initborrow.userblocked'
+                defaultMessage='Blockchain Borrow is not available in your country or region at the moment.'
+              />{' '}
+              <Link
+                size='12px'
+                weight={500}
+                href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
+              >
+                <FormattedMessage
+                  id='scenes.initborrow.learnmore'
+                  defaultMessage='Learn More'
+                />
+              </Link>
+            </div>
+          </AbsoluteWarning>
+        )}
       </CustomBox>
     )
   }
@@ -149,6 +194,7 @@ class InitBorrowForm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   offersR: selectors.components.borrow.getOffers(state),
+  userHistoryR: selectors.components.borrow.getBorrowHistory(state),
   values: selectors.form.getFormValues('initBorrow')(state)
 })
 

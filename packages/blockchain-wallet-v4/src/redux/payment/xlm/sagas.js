@@ -152,6 +152,8 @@ export default ({ api }) => {
 
   function create ({ payment } = { payment: {} }) {
     const makePayment = p => ({
+      coin: 'XLM',
+
       value () {
         return p
       },
@@ -160,7 +162,7 @@ export default ({ api }) => {
         const fees = yield call(api.getXlmFees)
         const baseFee = prop('regular', fees)
         const fee = yield call(calculateFee, baseFee, fees)
-        return makePayment(merge(p, { fee, fees }))
+        return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
       },
 
       * from (origin, type) {

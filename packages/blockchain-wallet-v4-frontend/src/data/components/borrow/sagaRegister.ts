@@ -16,6 +16,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.DESTROY_BORROW, borrowSagas.destroyBorrow)
     yield takeLatest(AT.FETCH_BORROW_OFFERS, borrowSagas.fetchBorrowOffers)
     yield takeLatest(
+      AT.FETCH_LOAN_TRANSACTIONS,
+      borrowSagas.fetchLoanTransactions
+    )
+    yield takeLatest(
       AT.FETCH_USER_BORROW_HISTORY,
       borrowSagas.fetchUserBorrowHistory
     )

@@ -118,6 +118,9 @@ export type Props = OwnProps &
   State & { onCopyAddress: () => void; onToggleQrCode: () => void }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const collateralRequired = getCollateralAmtRequired(props.loan, props.offer)
+  const isPositiveAmtRequired = Number(collateralRequired) > 0
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
@@ -142,25 +145,34 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
         <MaxAmountContainer>
-          <Text color='grey600' weight={500} size='14px'>
-            <FormattedMessage
-              id='modals.borrow.needtoadd'
-              defaultMessage='You need to add'
-            />{' '}
-            <FiatContainer
-              onClick={() =>
-                props.borrowActions.handleAddCollateralRequiredClick()
-              }
-            >
-              <Text cursor='pointer' color='blue600' size='14px' weight={500}>
-                {'$' + getCollateralAmtRequired(props.loan, props.offer)}
-              </Text>
-            </FiatContainer>{' '}
-            <FormattedMessage
-              id='modals.borrow.additionalcollateral'
-              defaultMessage='of additional collateral to avoid being liquidated.'
-            />
-          </Text>
+          {isPositiveAmtRequired ? (
+            <Text color='grey600' weight={500} size='14px'>
+              <FormattedMessage
+                id='modals.borrow.needtoadd'
+                defaultMessage='You need to add'
+              />{' '}
+              <FiatContainer
+                onClick={() =>
+                  props.borrowActions.handleAddCollateralRequiredClick()
+                }
+              >
+                <Text cursor='pointer' color='blue600' size='14px' weight={500}>
+                  {'$' + getCollateralAmtRequired(props.loan, props.offer)}
+                </Text>
+              </FiatContainer>{' '}
+              <FormattedMessage
+                id='modals.borrow.maintainsafety'
+                defaultMessage='to maintain a safe collateral position.'
+              />
+            </Text>
+          ) : (
+            <Text color='grey600' weight={500} size='14px'>
+              <FormattedMessage
+                id='modals.borrow.youaresafe'
+                defaultMessage='Your loan position is safe and you are not at risk of being liquidated, but you can still Add Collateral.'
+              />
+            </Text>
+          )}
         </MaxAmountContainer>
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
@@ -198,7 +210,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
         <QRCodeContainer>
-          <QRTitle onClick={() => props.onToggleQrCode()}>
+          {/* <QRTitle onClick={() => props.onToggleQrCode()}>
             <Icon
               name='qr-code'
               color='blue600'
@@ -210,7 +222,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='Send additional collateral from external wallet'
               />
             </Text>
-          </QRTitle>
+          </QRTitle> */}
           {props.showQrCode && (
             <QRCodeBox>
               <QRCodeWrapper

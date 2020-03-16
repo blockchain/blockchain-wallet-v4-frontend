@@ -3,6 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import {
+  LoanTransactionsType,
   LoanType,
   OfferType,
   RemoteDataType,
@@ -20,6 +21,7 @@ export type OwnProps = {
   offer: OfferType
 }
 export type SuccessStateType = {
+  loanTransactions: Array<LoanTransactionsType>
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -36,6 +38,7 @@ class BorrowDetails extends PureComponent<Props> {
 
   componentDidMount () {
     this.props.borrowActions.setCoin(this.props.offer.terms.collateralCcy)
+    this.props.borrowActions.fetchLoanTransactions(this.props.loan.loanId)
   }
 
   render () {

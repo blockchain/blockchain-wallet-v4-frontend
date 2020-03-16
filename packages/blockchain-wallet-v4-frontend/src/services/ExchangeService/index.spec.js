@@ -1,4 +1,4 @@
-import * as ExchangeService from './index.js'
+import * as ExchangeService from './index'
 const options = {
   platforms: {
     web: {

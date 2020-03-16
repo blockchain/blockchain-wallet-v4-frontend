@@ -2,13 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  hasValue,
-  isValid,
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from './helper'
+import { selectBorderColor, selectFocusBorderColor } from './helper'
 
 const BaseNumberInput = styled.input.attrs({
   type: 'number'
@@ -23,18 +17,14 @@ const BaseNumberInput = styled.input.attrs({
   font-weight: 500;
   color: ${props =>
     props.color ? props.theme[props.color] : props.theme['gray-5']};
-  background-color: ${({ bgColor, hasValue, isValid, theme }) =>
-    hasValue && isValid ? theme.white : theme[bgColor]};
+  background-color: ${({ theme }) => theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
   border-radius: 8px;
-  border: ${({ borderColor, hasValue, isValid, theme }) =>
-    hasValue && isValid
-      ? `1px solid ${theme[borderColor]}`
-      : '1px solid transparent'};
+  border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
   border-top: ${props => (props.borderTopNone ? 'none' : '')};
   cursor: ${props => props.disabled && 'not-allowed'};
@@ -44,9 +34,13 @@ const BaseNumberInput = styled.input.attrs({
     border: 1px solid
       ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
+  &:focus::placeholder {
+    opacity: 0.25;
+  }
   &::placeholder {
-    color: ${props => props.theme['gray-3']};
-    opacity: 0.4;
+    color: ${props => props.theme.grey400};
+    font-size: 14px;
+    font-weight: 500;
   }
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
@@ -57,11 +51,8 @@ const BaseNumberInput = styled.input.attrs({
 
 const NumberInput = ({ errorState, value, ...rest }) => (
   <BaseNumberInput
-    bgColor={selectBackgroundColor(errorState)}
     borderColor={selectBorderColor(errorState)}
     focusedBorderColor={selectFocusBorderColor(errorState)}
-    hasValue={hasValue(value)}
-    isValid={isValid(errorState)}
     value={value}
     {...rest}
   />

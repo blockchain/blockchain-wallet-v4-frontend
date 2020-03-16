@@ -1,16 +1,10 @@
-import { components } from 'react-select'
+import { components, NonceProvider } from 'react-select'
 import { flatten, length, prop } from 'ramda'
-import CreatableSelect from 'react-select/lib/Creatable'
+import CreatableSelect from 'react-select/creatable'
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  hasValue,
-  isValid,
-  selectBackgroundColor,
-  selectBorderColor,
-  selectFocusBorderColor
-} from '../helper'
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 const StyledCreatableSelect = styled(CreatableSelect)`
   width: 100%;
@@ -32,7 +26,9 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   }
 
   .bc__placeholder {
-    color: ${props => props.theme.grey100};
+    color: ${props => props.theme.grey400};
+    font-size: 14px;
+    font-weight: 500;
     & + div {
       width: 100%;
       z-index: 2;
@@ -61,6 +57,10 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   }
 
+  .bc__control--is-focused > .bc__value-container > .bc__placeholder {
+    opacity: 0.25;
+  }
+
   ${({
     bgColor,
     borderColor,
@@ -75,17 +75,12 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     .bc__control {
       box-shadow: none;
       color: ${theme['gray-5']};
-      background-color: ${hasValue && isValid ? theme.white : theme[bgColor]};;
+      background-color: ${theme.white};
       cursor: pointer;
       min-height: 48px;
-      border-radius: 4px;
-      border: ${
-        hasValue && isValid
-          ? `1px solid ${theme[borderColor]}`
-          : '1px solid transparent'
-      };
+      border-radius: 8px;
+      border: 1px solid ${theme[borderColor]};
       &.bc__control--is-focused {
-        background-color: ${theme.white};
         border: 1px solid ${theme[focusedBorderColor]};
       }
       &.bc__control--menu-is-open {
@@ -94,7 +89,8 @@ const StyledCreatableSelect = styled(CreatableSelect)`
       }
       &:disabled {
         cursor: not-allowed;
-        background-color: ${theme['gray-1']};
+        background-color: ${theme.grey100};
+      border: '1px solid transparent';
       }
       .bc__value-container {
         overflow: hidden;
@@ -212,34 +208,33 @@ const CreatableInput = props => {
   const isOptionsEmpty = !isMulti && !length(flatOptions)
 
   return (
-    <StyledCreatableSelect
-      autoFocus={autoFocus}
-      bgColor={selectBackgroundColor(errorState)}
-      borderColor={selectBorderColor(errorState)}
-      classNamePrefix='bc'
-      components={getComponents(isMulti)}
-      focusedBorderColor={selectFocusBorderColor(errorState)}
-      hasValue={hasValue(value)}
-      indicatorSeparator={null}
-      inputValue={inputValue}
-      isClearable
-      isMulti={isMulti}
-      isOptionsEmpty={isOptionsEmpty}
-      isValid={isValid(errorState)}
-      menuIsOpen={menuIsOpen}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      onInputChange={handleInputChange}
-      openMenuOnClick={openMenuOnClick}
-      options={options}
-      placeholder={placeholder}
-      value={value}
-      // Components
-      noOptionsMessage={noOptionsMessage}
-      isValidNewOption={isValidNewOption}
-      multiValueContainer={multiValueContainer}
-    />
+    <NonceProvider nonce={window.NONCE}>
+      <StyledCreatableSelect
+        autoFocus={autoFocus}
+        borderColor={selectBorderColor(errorState)}
+        classNamePrefix='bc'
+        components={getComponents(isMulti)}
+        focusedBorderColor={selectFocusBorderColor(errorState)}
+        indicatorSeparator={null}
+        inputValue={inputValue}
+        isClearable
+        isMulti={isMulti}
+        isOptionsEmpty={isOptionsEmpty}
+        menuIsOpen={menuIsOpen}
+        onBlur={handleBlur}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+        onInputChange={handleInputChange}
+        openMenuOnClick={openMenuOnClick}
+        options={options}
+        placeholder={placeholder}
+        value={value}
+        // Components
+        noOptionsMessage={noOptionsMessage}
+        isValidNewOption={isValidNewOption}
+        multiValueContainer={multiValueContainer}
+      />
+    </NonceProvider>
   )
 }
 

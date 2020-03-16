@@ -71,9 +71,9 @@ type OwnProps = {
   coinModel: any
   // FIXME: TypeScript use CurrencyType
   currency: any
-  empty: boolean
+  hasTxResults: boolean
+  isSearchEntered: boolean
   pages: Array<any>
-  search: string
 }
 
 type LinkStatePropsType = {
@@ -120,11 +120,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
       coin,
       coinModel,
       currency,
-      empty,
-      pages,
-      search
+      hasTxResults,
+      isSearchEntered,
+      pages
     } = this.props
-    const { colorCode, displayName, icons } = coinModel
+    const { colorCode, coinTicker, displayName, icons } = coinModel
 
     return (
       <SceneWrapper>
@@ -141,9 +141,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinPerformance coin={coin} />
             </StatsContainer>
           </Header>
-          <TransactionFilters coin={coin} />
-          {empty ? (
-            search ? (
+          {(hasTxResults || isSearchEntered) && (
+            <TransactionFilters coin={coin} />
+          )}
+          {!hasTxResults ? (
+            isSearchEntered ? (
               <SceneWrapper centerContent>
                 <EmptyTx />
               </SceneWrapper>
@@ -157,6 +159,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TransactionList
                 buySellPartner={buySellPartner}
                 coin={coin}
+                coinTicker={coinTicker}
                 currency={currency}
                 data={value}
                 key={index}

@@ -14,14 +14,15 @@ import {
   REACHED_WEEKLY_ERROR,
   WEEKLY_ERROR
 } from './model'
+import { CoinType } from 'core/types'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
 
-export const convertBaseToStandard = (coin, value) => {
+export const convertBaseToStandard = (coin: CoinType, value): string => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: true }).value
 }
 
-export const convertStandardToBase = (coin, value) => {
+export const convertStandardToBase = (coin: CoinType, value) => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: false })
     .value
 }
@@ -119,6 +120,7 @@ export const addBalanceLimit = (balanceLimit, limits) => {
 
   if (
     new BigNumber(prop('amount', fiatBalance)).isLessThan(
+      // @ts-ignore
       path(['minOrder', 'amount'], limits)
     )
   ) {
@@ -137,12 +139,13 @@ export const addBalanceLimit = (balanceLimit, limits) => {
 }
 
 export const formatLimits = ({ currency, ...limits }) =>
-  compose(
+  compose<any>(
     map(limit => ({
       amount: limit,
       fiat: true,
       symbol: currencySymbolMap[currency]
     })),
+    // @ts-ignore
     assoc('maxFiatLimit', limits.maxPossibleOrder)
   )(limits)
 
@@ -151,7 +154,7 @@ const getRate = (rates, source, target) => {
     ? [target, 'last']
     : [formatPair(source, target), 'price']
   return compose(
-    rate => new BigNumber(rate).toFixed(14),
+    (rate: number) => new BigNumber(rate).toFixed(14),
     pathOr(0, pathTo)
   )(rates)
 }
@@ -160,8 +163,9 @@ export const convertSourceToTarget = (form, rates, amount) => {
   const sourceCoin = path(['source', 'coin'], form)
   const targetCoin = path(['target', 'coin'], form)
 
-  return compose(
+  return compose<any>(
     toFixed(8, false),
+    // @ts-ignore
     multiply(getRate(rates, targetCoin, sourceCoin))
   )(amount)
 }
@@ -177,8 +181,9 @@ export const convertSourceFeesToFiat = (
   const sourceCoin = isSourceErc20 ? 'ETH' : path(['source', 'coin'], form)
   const sourceRates = isSourceErc20 ? fallbackEthRates : rates
 
-  return compose(
+  return compose<any>(
     toFixed(2, false),
+    // @ts-ignore
     multiply(getRate(sourceRates, sourceCoin, fiatCurrency))
   )(amount)
 }

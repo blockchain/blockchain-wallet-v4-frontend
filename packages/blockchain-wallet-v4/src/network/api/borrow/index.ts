@@ -1,5 +1,5 @@
 import { CoinType } from 'core/types'
-import { LoanType, MoneyType, OfferType } from './types'
+import { LoanTransactionsType, LoanType, MoneyType, OfferType } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   const closeLoanWithPrincipal = (
@@ -37,6 +37,14 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: `/user/loans/${loanId}/financials`
     })
 
+  const getLoanTransactions = (
+    loanId: string
+  ): { transactions: Array<LoanTransactionsType> } =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/user/loans/${loanId}/transactions`
+    })
+
   const getOffers = (): Array<OfferType> =>
     authorizedGet({
       url: nabuUrl,
@@ -54,11 +62,11 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     amount: MoneyType,
     dstAddress: string,
     status: 'REQUESTED' | 'FAILED',
-    type: 'COLLATERAL_DEPOSIT' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+    type: 'DEPOSIT_COLLATERAL' | 'DEPOSIT_PRINCIPAL_AND_INTEREST'
   ): { loan: LoanType } =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: `/users/loans/${loanId}/deposit`,
+      endPoint: `/user/loans/${loanId}/deposit`,
       contentType: 'application/json',
       data: {
         amount,
@@ -72,6 +80,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     closeLoanWithPrincipal,
     createLoan,
     getLoanFinancials,
+    getLoanTransactions,
     getOffers,
     getUserBorrowHistory,
     notifyLoanDeposit

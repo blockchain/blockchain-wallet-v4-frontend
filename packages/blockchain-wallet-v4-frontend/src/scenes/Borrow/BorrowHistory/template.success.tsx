@@ -1,3 +1,4 @@
+import { CollateralAmt, Status, Value } from './model'
 import { FormattedMessage } from 'react-intl'
 import {
   Link,
@@ -7,8 +8,8 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { Status, Value } from './model'
 import { SuccessStateType } from '.'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
@@ -34,8 +35,8 @@ const ViewDetailsCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   return (
-    <div style={{ minWidth: '800px', paddingBottom: '45px' }}>
-      <Table style={{ minWidth: '800px' }}>
+    <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
+      <Table style={{ minWidth: '900px' }}>
         <TableHeader>
           <TableCell width='20%'>
             <Text size='12px' weight={500}>
@@ -53,7 +54,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='15%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.collateral'
@@ -61,7 +62,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='12.5%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.amount'
@@ -69,7 +70,7 @@ function Success (props: SuccessStateType): ReactElement {
               />
             </Text>
           </TableCell>
-          <TableCell width='12%'>
+          <TableCell width='12.5%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
                 id='scenes.borrow.history.outstanding'
@@ -104,32 +105,45 @@ function Success (props: SuccessStateType): ReactElement {
                     </CollateralizationBarWrapper>
                   )}
                 </CollateralizationTableCell>
-                <TableCell width='12%'>
+                <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    {
-                      loan.collateral.amounts.find(
-                        amount => amount.symbol === 'BTC'
-                      )!.value
-                    }{' '}
-                    BTC
+                    <CollateralAmt loan={loan} />
                   </Value>
                 </TableCell>
-                <TableCell width='12%'>
+                <TableCell width='12.5%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    {
-                      loan.principal.amount.find(
-                        amount => amount.symbol === 'PAX'
-                      )!.value
-                    }{' '}
-                    PAX
+                    <CoinDisplay coin='PAX'>
+                      {
+                        loan.principal.amount.find(
+                          amount => amount.currency === 'PAX'
+                        )!.amount
+                      }
+                    </CoinDisplay>
                   </Value>
                 </TableCell>
-                <TableCell width='12%'>-</TableCell>
+                <TableCell width='12.5%'>
+                  <Value>
+                    {loan.financials ? (
+                      loan.financials.owedInterest[0] ? (
+                        <CoinDisplay
+                          coin={loan.financials.owedInterest[0].currency}
+                        >
+                          {loan.financials.owedInterest[0].amount}
+                        </CoinDisplay>
+                      ) : (
+                        '-'
+                      )
+                    ) : (
+                      '-'
+                    )}
+                  </Value>
+                </TableCell>
                 <ViewDetailsCell
-                  width='14%'
+                  data-e2e='viewLoanDetails'
                   onClick={() => props.showLoanDetails(loan, offer)}
+                  width='10%'
                 >
                   <Link size='14px'>View Details</Link>
                 </ViewDetailsCell>

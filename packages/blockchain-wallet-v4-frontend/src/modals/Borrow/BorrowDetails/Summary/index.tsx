@@ -1,11 +1,20 @@
+import {
+  CollateralAmt,
+  Status
+} from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { FormattedMessage } from 'react-intl'
+import { head } from 'ramda'
+import {
+  isLastTxStatus,
+  showBorrowSummary,
+  showCollateralizationStatus
+} from 'data/components/borrow/model'
 import { model } from 'data'
 import { OfferType } from 'core/types'
 import { OwnProps, SuccessStateType } from '..'
-import { Status } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
-import moment from 'moment'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -21,19 +30,33 @@ const {
 } = model.components.borrow
 
 const Summary: React.FC<Props> = props => {
-  const principalDisplayName =
-    props.supportedCoins[props.loan.principal.amount[0].symbol].displayName
   const currentCollateralStatus = getCollateralizationDisplayName(
     props.loan.collateralisationRatio,
     props.offer
   )
+  const lastUnconfirmedOrFailedTx = isLastTxStatus(
+    ['FAILED', 'UNCONFIRMED', 'REQUESTED'],
+    props.loan,
+    props.loanTransactions
+  )
 
-  return (
+  return showBorrowSummary(props.loan) ? (
     <div>
       <Text color='grey900' weight={600}>
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
+        {lastUnconfirmedOrFailedTx && (
+          <TableRow>
+            <Title>
+              <FormattedMessage
+                id='modals.borrow.lasttx'
+                defaultMessage='Last Transaction Status'
+              />
+            </Title>
+            <Value>{lastUnconfirmedOrFailedTx.status}</Value>
+          </TableRow>
+        )}
         <TableRow>
           <Title>
             <FormattedMessage
@@ -53,7 +76,14 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.principal.amount[0].value} {principalDisplayName}
+            <CoinDisplay
+              size='14px'
+              weight={500}
+              color='grey800'
+              coin={props.loan.principal.amount[0].currency}
+            >
+              {props.loan.principal.amount[0].amount}
+            </CoinDisplay>
           </Value>
         </TableRow>
         <TableRow>
@@ -64,21 +94,22 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {props.loan.collateral.amounts[0].value}{' '}
-            {props.loan.collateral.amounts[0].symbol}
+            <CollateralAmt {...props} />
           </Value>
         </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.collateralization'
-              defaultMessage='Collateralization'
-            />
-          </Title>
-          <Value color={getCollateralizationColor(currentCollateralStatus)}>
-            {Number(props.loan.collateralisationRatio * 100).toFixed(0)}%
-          </Value>
-        </TableRow>
+        {showCollateralizationStatus(props.loan) && (
+          <TableRow>
+            <Title>
+              <FormattedMessage
+                id='modals.borrow.collateralization'
+                defaultMessage='Collateralization'
+              />
+            </Title>
+            <Value color={getCollateralizationColor(currentCollateralStatus)}>
+              {Number(props.loan.collateralisationRatio * 100).toFixed(0)}%
+            </Value>
+          </TableRow>
+        )}
         <TableRow>
           <Title>
             <FormattedMessage
@@ -90,18 +121,9 @@ const Summary: React.FC<Props> = props => {
             {Number(props.offer.terms.interestRate * 100).toFixed(0) + '%'}
           </Value>
         </TableRow>
-        <TableRow>
-          <Title>
-            <FormattedMessage
-              id='modals.borrow.expires'
-              defaultMessage='Expires'
-            />
-          </Title>
-          <Value>{moment(props.loan.expiration).format('lll')}</Value>
-        </TableRow>
       </Table>
     </div>
-  )
+  ) : null
 }
 
 export default Summary

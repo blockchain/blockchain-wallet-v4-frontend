@@ -1,10 +1,11 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, PaymentType, RatesType } from 'data/types'
+import { BorrowMinMaxType, BorrowSteps, RatesType } from 'data/types'
 import {
   CoinType,
   LoanType,
   OfferType,
+  PaymentValue,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
@@ -28,7 +29,7 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   coin: CoinType
   limits: BorrowMinMaxType
-  payment: PaymentType
+  payment: PaymentValue
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }

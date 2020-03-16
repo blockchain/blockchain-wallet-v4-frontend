@@ -1,35 +1,32 @@
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { BorrowFormValuesType, RepayLoanFormType } from './types'
 import {
-  BorrowFormValuesType,
-  PaymentType,
-  PaymentValue,
-  RepayLoanFormType
-} from './types'
-import {
-  CoinType,
-  LoanFinancialsType,
-  LoanType,
-  RemoteDataType
-} from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
 import {
   fiatDisplayName,
-  getAmount,
   getCollateralAmtRequired,
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { promptForSecondPassword } from 'services/SagaService'
+import {
+  LoanFinancialsType,
+  LoanType,
+  PaymentType,
+  PaymentValue
+} from 'core/types'
 import BigNumber from 'bignumber.js'
 import exchangeSagaUtils from '../exchange/sagas.utils'
+import moment from 'moment'
 import profileSagas from '../../../data/modules/profile/sagas'
+import utils from './sagas.utils'
 
 export default ({
   api,
@@ -44,6 +41,17 @@ export default ({
     .waitForUserData
   const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
     .calculateProvisionalPayment
+  const {
+    buildAndPublishPayment,
+    createPayment,
+    createLimits,
+    paymentGetOrElse,
+    notifyDeposit
+  } = utils({
+    api,
+    coreSagas,
+    networks
+  })
 
   const errorHandler = e => {
     return typeof e === 'object'
@@ -61,7 +69,7 @@ export default ({
       const paymentR = S.getPayment(yield select())
 
       const coin = S.getCoinType(yield select())
-      let payment = _toRawPayment(coin, paymentR)
+      let payment = paymentGetOrElse(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
@@ -77,19 +85,26 @@ export default ({
       const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
 
       const cryptoAmt = Number(values.additionalCollateral) / rate
-      const amount: string = getAmount(cryptoAmt || 0, coin)
+      const destination = loan.collateral.depositAddresses[coin]
 
-      payment = yield payment.amount(Number(amount))
-      payment = yield payment.to(
-        loan.collateral.depositAddresses[coin],
-        ADDRESS_TYPES.ADDRESS
+      const paymentSuccess: boolean = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        cryptoAmt,
+        destination
       )
 
-      payment = yield payment.build()
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
-      payment = yield payment.sign(password)
-      payment = yield payment.publish()
+      yield call(
+        notifyDeposit,
+        offer.terms.collateralCcy,
+        loan.loanId,
+        cryptoAmt,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_COLLATERAL'
+      )
+
       yield put(actions.form.stopSubmit('borrowForm'))
       yield put(A.setStep({ step: 'DETAILS', loan, offer }))
     } catch (e) {
@@ -104,7 +119,7 @@ export default ({
     if (!loan || !offer) return
     const amt = getCollateralAmtRequired(loan, offer)
 
-    yield put(actions.form.change('borrowForm', 'principal', amt))
+    yield put(actions.form.change('borrowForm', 'additionalCollateral', amt))
   }
 
   const createBorrow = function * () {
@@ -112,7 +127,7 @@ export default ({
       yield put(actions.form.startSubmit('borrowForm'))
       const coin = S.getCoinType(yield select())
       const paymentR = S.getPayment(yield select())
-      let payment = _toRawPayment(coin, paymentR)
+      let payment = paymentGetOrElse(coin, paymentR)
       const values: BorrowFormValuesType = yield select(
         selectors.form.getFormValues('borrowForm')
       )
@@ -129,160 +144,47 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
-      let response: { loan: LoanType } = yield call(
+      const { loan }: { loan: LoanType } = yield call(
         api.createLoan,
         offer.id,
         {
-          symbol: offer.terms.principalCcy,
-          value: values.principal
+          currency: offer.terms.principalCcy,
+          amount: convertStandardToBase(
+            offer.terms.principalCcy,
+            values.principal
+          )
         },
         {
           PAX: principalWithdrawAddress
         }
       )
 
-      const { loan } = response
-      const amount: string = getAmount(values.collateralCryptoAmt || 0, coin)
       const destination = loan.collateral.depositAddresses[coin]
 
-      let paymentError
-      try {
-        payment = yield payment.amount(Number(amount))
-        payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      const paymentSuccess: boolean = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        values.collateralCryptoAmt || 0,
+        destination
+      )
 
-        payment = yield payment.build()
-        // ask for second password
-        const password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
-      } catch (e) {
-        paymentError = e
-      }
+      yield call(
+        notifyDeposit,
+        offer.terms.collateralCcy,
+        loan.loanId,
+        values.collateralCryptoAmt || 0,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_COLLATERAL'
+      )
 
-      try {
-        // notifyDeposit if payment from wallet succeeds or fails
-        response = yield call(
-          api.notifyLoanDeposit,
-          loan.loanId,
-          {
-            symbol: offer.terms.collateralCcy,
-            value: amount
-          },
-          destination,
-          paymentError ? 'FAILED' : 'REQUESTED',
-          'COLLATERAL_DEPOSIT'
-        )
-      } catch (e) {
-        // notifyDeposit endpoint failed, do nothing and continue
-      }
       yield put(actions.form.stopSubmit('borrowForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('borrowForm', { _error: error }))
-    }
-  }
-
-  const _createLimits = function * (payment: PaymentType) {
-    try {
-      const coin = S.getCoinType(yield select())
-      const offer = S.getOffer(yield select())
-      const ratesR = yield select(S.getRates)
-      const rates = ratesR.getOrElse({})
-      const balance = payment.value().effectiveBalance
-      const step = S.getStep(yield select())
-
-      if (!offer) throw new Error(NO_OFFER_EXISTS)
-
-      let adjustedBalance = new BigNumber(balance)
-        .dividedBy(offer.terms.collateralRatio)
-        .toNumber()
-      const value = step === 'CHECKOUT' ? adjustedBalance : balance
-
-      let maxFiat
-      let maxCrypto
-      switch (coin) {
-        case 'BTC':
-          maxFiat = Exchange.convertBtcToFiat({
-            value,
-            fromUnit: 'SAT',
-            toCurrency: 'USD',
-            rates
-          }).value
-          maxCrypto = Exchange.convertBtcToBtc({
-            value,
-            fromUnit: 'SAT',
-            toUnit: 'SAT'
-          }).value
-          break
-        case 'PAX':
-          maxFiat = Exchange.convertPaxToFiat({
-            value,
-            fromUnit: 'WEI',
-            toCurrency: 'USD',
-            rates
-          }).value
-          maxCrypto = Exchange.convertPaxToPax({
-            value,
-            fromUnit: 'WEI',
-            toUnit: 'PAX'
-          }).value
-      }
-
-      yield put(
-        A.setLimits({
-          maxFiat: Number(maxFiat),
-          maxCrypto: Number(maxCrypto),
-          minFiat: 0,
-          minCrypto: 0
-        })
-      )
-    } catch (e) {
-      yield put(A.setPaymentFailure(e))
-    }
-  }
-
-  const _createPayment = function * (index?: number) {
-    let payment
-    const coin = S.getCoinType(yield select())
-
-    switch (coin) {
-      case 'BTC':
-        payment = coreSagas.payment.btc.create({
-          network: networks.btc
-        })
-        payment = yield payment.init()
-        payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.fee('priority')
-        break
-      case 'PAX':
-        payment = coreSagas.payment.eth.create({
-          network: networks.eth
-        })
-        payment = yield payment.init({ isErc20: true, coin })
-        payment = yield payment.from()
-    }
-
-    return payment
-  }
-
-  const _toRawPayment = (
-    coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue>
-  ): PaymentType => {
-    switch (coin) {
-      case 'ETH':
-        return coreSagas.payment.eth.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
-          network: networks.eth
-        })
-      default: {
-        return coreSagas.payment.btc.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
-          network: networks.btc
-        })
-      }
     }
   }
 
@@ -297,6 +199,25 @@ export default ({
       yield put(A.fetchBorrowOffersSuccess(offers))
     } catch (e) {
       yield put(A.fetchBorrowOffersFailure(e))
+    }
+  }
+
+  const fetchLoanTransactions = function * ({
+    payload
+  }: ReturnType<typeof A.fetchLoanTransactions>) {
+    try {
+      yield put(A.fetchLoanTransactionsLoading())
+      const { transactions } = yield call(
+        api.getLoanTransactions,
+        payload.loanId
+      )
+      const sortedTxs = transactions.sort(
+        (a, b) =>
+          moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      )
+      yield put(A.fetchLoanTransactionsSuccess(sortedTxs))
+    } catch (e) {
+      yield put(A.fetchLoanTransactionsFailure(e))
     }
   }
 
@@ -334,27 +255,36 @@ export default ({
     const rates = ratesR.getOrElse({})
     const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
     const paymentR = S.getPayment(yield select())
-    let payment = _toRawPayment(coin, paymentR)
+    let payment = paymentGetOrElse(coin, paymentR)
     const values: BorrowFormValuesType = yield select(
       selectors.form.getFormValues('borrowForm')
     )
 
     switch (action.meta.field) {
       case 'principal':
-        const principal = Number(action.payload)
-        const c = (principal / rate) * offer.terms.collateralRatio
-        yield put(actions.form.change('borrowForm', 'collateralCryptoAmt', c))
+        const principal = new BigNumber(action.payload)
+        const collateralAmt = +principal
+          .dividedBy(rate)
+          .multipliedBy(offer.terms.collateralRatio)
+          .toFixed(8)
+        yield put(
+          actions.form.change(
+            'borrowForm',
+            'collateralCryptoAmt',
+            collateralAmt
+          )
+        )
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
-          values.collateral,
-          c
+          { ...values.collateral, address: values.collateral.index },
+          collateralAmt
         )
         yield put(A.setPaymentSuccess(provisionalPayment))
         break
       case 'collateral':
         yield put(A.setPaymentLoading())
-        payment = yield call(_createPayment, action.payload.index)
-        yield call(_createLimits, payment)
+        payment = yield call(createPayment, action.payload.index)
+        yield call(createLimits, payment)
         yield put(A.setPaymentSuccess(payment.value()))
     }
   }
@@ -376,11 +306,11 @@ export default ({
             selectors.core.wallet.getDefaultAccountIndex
           )
           defaultAccountR = accountsR.map(nth(defaultIndex))
-          payment = yield call(_createPayment, defaultIndex)
+          payment = yield call(createPayment, defaultIndex)
           break
       }
 
-      yield call(_createLimits, payment)
+      yield call(createLimits, payment)
 
       const initialValues = {
         collateral: defaultAccountR.getOrElse()
@@ -410,14 +340,17 @@ export default ({
             'PAX'
           )
           defaultAccountR = erc20AccountR.map(head)
-          payment = yield call(_createPayment)
+          payment = yield call(createPayment)
           break
       }
 
-      yield call(_createLimits, payment)
+      yield call(createLimits, payment)
 
       const initialValues = {
-        amount: loan.principal.amount[0].value,
+        amount: convertBaseToStandard(
+          loan.principal.amount[0].currency,
+          loan.principal.amount[0].amount
+        ),
         'repay-principal': defaultAccountR.getOrElse(),
         'repay-method': 'principal',
         'repay-type': 'full'
@@ -450,7 +383,7 @@ export default ({
       const values: RepayLoanFormType = yield select(
         selectors.form.getFormValues('repayLoanForm')
       )
-      const loan = S.getLoan(yield select())
+      let loan = S.getLoan(yield select())
       const offer = S.getOffer(yield select())
       const coin = S.getCoinType(yield select())
       if (!loan) throw NO_LOAN_EXISTS
@@ -465,49 +398,41 @@ export default ({
       const collateralWithdrawAddress = collateralWithdrawAddressR.getOrFail(
         'NO_COLLATERAL_WITHDRAW_ADDRESS'
       )
-      let response: { loan: LoanType } = yield call(
-        api.closeLoanWithPrincipal,
-        loan,
-        {
-          BTC: collateralWithdrawAddress
-        }
-      )
 
-      const amount: string = getAmount(Number(values.amount) || 0, coin)
+      if (loan.status !== 'PENDING_CLOSE') {
+        let response: { loan: LoanType } = yield call(
+          api.closeLoanWithPrincipal,
+          loan,
+          {
+            BTC: collateralWithdrawAddress
+          }
+        )
+
+        loan = response.loan
+      }
+
       const destination = loan.principal.depositAddresses[coin]
 
-      let paymentError
-      try {
-        payment = yield payment.amount(amount)
-        payment = yield payment.to(destination)
-        payment = yield payment.build()
-        // ask for second password
-        const password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password)
-        payment = yield payment.publish()
-      } catch (e) {
-        paymentError = e
-      }
+      const paymentSuccess = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        Number(values.amount) || 0,
+        destination
+      )
 
-      try {
-        // notifyDeposit if payment from wallet succeeds or fails
-        response = yield call(
-          api.notifyLoanDeposit,
-          loan.loanId,
-          {
-            symbol: offer.terms.principalCcy,
-            value: amount
-          },
-          destination,
-          paymentError ? 'FAILED' : 'REQUESTED',
-          'DEPOSIT_PRINCIPAL_AND_INTEREST'
-        )
-      } catch (e) {
-        // notifyDeposit endpoint failed, do nothing and continue
-      }
+      yield call(
+        notifyDeposit,
+        offer.terms.principalCcy,
+        loan.loanId,
+        Number(values.amount) || 0,
+        destination,
+        paymentSuccess,
+        'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      )
 
       yield put(actions.form.stopSubmit('repayLoanForm'))
-      yield put(A.setStep({ step: 'DETAILS', loan: response.loan, offer }))
+      yield put(A.setStep({ step: 'DETAILS', loan, offer }))
       yield put(A.fetchUserBorrowHistory())
     } catch (e) {
       const error = errorHandler(e)
@@ -521,6 +446,7 @@ export default ({
     createBorrow,
     destroyBorrow,
     fetchBorrowOffers,
+    fetchLoanTransactions,
     fetchUserBorrowHistory,
     formChanged,
     initializeBorrow,

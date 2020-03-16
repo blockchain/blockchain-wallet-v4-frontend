@@ -24,6 +24,21 @@ const getBalanceSelector = (coin: CoinType) => {
   }
 }
 
+const getRatesSelector = (coin: CoinType, state) => {
+  switch (coin) {
+    case 'BTC':
+      return selectors.core.data.btc.getRates(state)
+    case 'BCH':
+      return selectors.core.data.bch.getRates(state)
+    case 'ETH':
+      return selectors.core.data.eth.getRates(state)
+    case 'XLM':
+      return selectors.core.data.xlm.getRates(state)
+    case 'PAX':
+      return selectors.core.data.eth.getErc20Rates(state, 'pax')
+  }
+}
+
 export const getBalance = state => {
   const offersR = selectors.components.borrow.getOffers(state)
   const values: { coin: CoinType } = selectors.form.getFormValues('initBorrow')(
@@ -32,7 +47,9 @@ export const getBalance = state => {
   const balanceSelector = getBalanceSelector(values.coin)
   const balanceR = balanceSelector(state)
 
-  const transform = (offers: Array<OfferType>, balance) => {
+  const ratesR = getRatesSelector(values.coin, state)
+
+  const transform = (offers: Array<OfferType>, balance, rates) => {
     const offer = offers.find(
       offer => offer.terms.collateralCcy === values.coin
     )
@@ -41,10 +58,12 @@ export const getBalance = state => {
     return {
       values,
       offers,
+      rates,
+      offer,
       balance,
       max
     }
   }
 
-  return lift(transform)(offersR, balanceR)
+  return lift(transform)(offersR, balanceR, ratesR)
 }

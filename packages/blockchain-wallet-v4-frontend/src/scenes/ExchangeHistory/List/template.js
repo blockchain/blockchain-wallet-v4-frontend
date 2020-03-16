@@ -84,7 +84,7 @@ const List = props => {
               </TableCell>
             </TableHeader>
             {incomplete.map((trade, index) => (
-              <TradeItem key={index} trade={trade} />
+              <TradeItem key={index} trade={trade} coinModels={coinModels} />
             ))}
           </Table>
         </Container>

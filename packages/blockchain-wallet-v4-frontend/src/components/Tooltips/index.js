@@ -278,10 +278,22 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This amount does not include the required collateral network fee.'
           />
         </Tooltip>
+        <Tooltip id='borrow.interest.tooltip'>
+          <FormattedMessage
+            id='borrow.interest.tooltip.description'
+            defaultMessage='Interest will be taken from the collateral deposited on a monthly basis.'
+          />
+        </Tooltip>
         <Tooltip id='borrow.collateral.tooltip'>
           <FormattedMessage
             id='borrow.collateral.tooltip.description'
             defaultMessage='The amount you need to deposit to open this loan.'
+          />
+        </Tooltip>
+        <Tooltip id='borrow.collateralpending.tooltip'>
+          <FormattedMessage
+            id='borrow.collateralpending.tooltip.description'
+            defaultMessage='The collateral deposit is pending until it is confirmed by the network and a Blockchain.com agent.'
           />
         </Tooltip>
         <Tooltip id='coming-soon'>

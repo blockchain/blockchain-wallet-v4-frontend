@@ -65,7 +65,7 @@ const Loading = () => (
 
 class TransactionList extends React.PureComponent {
   render () {
-    const { buySellPartner, coin, currency, data } = this.props
+    const { buySellPartner, coin, coinTicker, currency, data } = this.props
 
     return data.cata({
       Success: transactions => (
@@ -76,6 +76,7 @@ class TransactionList extends React.PureComponent {
                 key={tx.hash}
                 transaction={tx}
                 coin={coin}
+                coinTicker={coinTicker}
                 currency={currency}
                 buySellPartner={buySellPartner}
               />

@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 const TitleText = styled(Text)`
   margin-right: 8px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   color: ${props => props.theme.grey600};
   line-height: 150%;
 `

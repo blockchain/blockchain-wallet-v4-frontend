@@ -1,6 +1,6 @@
-import { LoanType, OfferType } from 'core/types'
+import { LoanType, OfferType, SupportedCoinsType } from 'core/types'
 import { model } from 'data'
-import { SuccessStateType } from '..'
+import { RatesType } from 'data/types'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -53,10 +53,12 @@ const CurrentBackground = styled(Current)`
   left: 0;
 `
 
-type Props = SuccessStateType & {
+type Props = {
   loan: LoanType
   offer: OfferType
+  rates: RatesType
   showPercentages?: boolean
+  supportedCoins: SupportedCoinsType
 }
 
 const PADDING = 0.363636
@@ -93,7 +95,10 @@ const CollateralizationBar: React.FC<Props> = props => {
         width={currentWidth}
         color={getCollateralizationColor(currentCollateralStatus)}
       />
-      <CurrentBackground width={currentWidth + 0.01} color={'white'} />
+      <CurrentBackground
+        width={currentWidth === 0 ? 0 : currentWidth + 0.01}
+        color={'white'}
+      />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         {props.showPercentages && (
           <Percentage color='red600'>

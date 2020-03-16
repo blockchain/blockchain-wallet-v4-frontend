@@ -285,13 +285,15 @@ export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
+      coin: 'BCH',
+
       value () {
         return p
       },
 
       * init () {
         let fees = yield call(api.getBchFees)
-        return makePayment(merge(p, { fees }))
+        return makePayment(merge(p, { fees, coin: 'BCH' }))
       },
 
       * to (destinations, type) {

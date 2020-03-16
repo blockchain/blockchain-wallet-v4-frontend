@@ -2,8 +2,6 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { model } from 'data'
-import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
 import { percentageFormatter } from '../CollateralizationBar'
 import { Props } from '../template.success'
 import React from 'react'
@@ -11,7 +9,8 @@ import styled from 'styled-components'
 
 const {
   getCollateralizationDisplayName,
-  getCollateralAmtRequired
+  getCollateralAmtRequired,
+  isLastTxStatus
 } = model.components.borrow
 
 const Container = styled.div<{ bgColor: string; borderColor?: string }>`
@@ -41,6 +40,41 @@ const CustomIcon = styled(Icon)`
 const CustomButton = styled(Button)`
   margin-top: 16px;
 `
+
+const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
+  const lastCompletedTx = isLastTxStatus(
+    ['FAILED', 'CONFIRMED'],
+    props.loan,
+    props.loanTransactions
+  )
+  return lastCompletedTx ? (
+    <CustomButton
+      data-e2e='goToStepAddCollateral'
+      onClick={() =>
+        props.borrowActions.setStep({
+          step: 'ADD_COLLATERAL',
+          loan: props.loan,
+          offer: props.offer
+        })
+      }
+      nature='primary'
+    >
+      <Text color='white' size='14px' weight={600}>
+        {props.optional ? (
+          <FormattedMessage
+            id='scenes.borrow.addcollateral.optional'
+            defaultMessage='Add Collateral (Optional)'
+          />
+        ) : (
+          <FormattedMessage
+            id='scenes.borrow.addcollateral'
+            defaultMessage='Add Collateral'
+          />
+        )}
+      </Text>
+    </CustomButton>
+  ) : null
+}
 
 const CollateralWarning: React.FC<Props> = props => {
   const { offer } = props
@@ -83,24 +117,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton
-              data-e2e='goToStepAddCollateral'
-              onClick={() =>
-                props.borrowActions.setStep({
-                  step: 'ADD_COLLATERAL',
-                  loan: props.loan,
-                  offer: props.offer
-                })
-              }
-              nature='primary'
-            >
-              <Text color='white' size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.borrow.addcollateral'
-                  defaultMessage='Add Collateral'
-                />
-              </Text>
-            </CustomButton>
+            <AddCollateralCTA {...props} />
           </div>
         </Container>
       )
@@ -129,24 +146,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
-            <CustomButton
-              data-e2e='goToStepAddCollateral'
-              onClick={() =>
-                props.borrowActions.setStep({
-                  step: 'ADD_COLLATERAL',
-                  loan: props.loan,
-                  offer: props.offer
-                })
-              }
-              nature='primary'
-            >
-              <Text color='white' size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.borrow.addcollateral'
-                  defaultMessage='Add Collateral'
-                />
-              </Text>
-            </CustomButton>
+            <AddCollateralCTA {...props} />
           </div>
         </Container>
       )
@@ -157,7 +157,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
               <FormattedHTMLMessage
-                id='scenes.borrow.warning.risky'
+                id='scenes.borrow.warning.safe'
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
                 values={{
                   currentRatio: percentageFormatter(
@@ -166,6 +166,7 @@ const CollateralWarning: React.FC<Props> = props => {
                 }}
               />
             </Text>
+            <AddCollateralCTA {...props} optional />
           </div>
         </Container>
       )

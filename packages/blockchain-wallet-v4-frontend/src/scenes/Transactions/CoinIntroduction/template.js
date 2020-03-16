@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  margin: 0 auto 25px;
+  margin: 50px auto 0;
   width: 640px;
   ${media.tablet`
     flex-direction: column;

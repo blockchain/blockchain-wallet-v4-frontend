@@ -16,7 +16,7 @@ const DarkText = styled(Text).attrs({
     display: ${props => (props.hideOnMobile ? 'none' : 'inline')};
   `};
 `
-const GetStartedButton = styled(Button).attrs({
+const CheckItOutButton = styled(Button).attrs({
   nature: 'primary',
   fullwidth: true
 })`
@@ -26,43 +26,43 @@ const GetStartedButton = styled(Button).attrs({
   `};
 `
 
-export const USDPax = () => (
+export const USDDigital = () => (
   <Container>
     <Row marginBottom='10px'>
       <Text color='blue900' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage='A Digital US Dollar in Your Wallet'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.one'
+          defaultMessage='USD PAX is now called USD Digital'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital'
         />
       </Text>
     </Row>
     <Row marginBottom='24px'>
       <DarkText size='14px'>
         <FormattedMessage
-          defaultMessage='April 2019'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.april2019'
+          defaultMessage='March 2020'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigtal.March2020'
         />
       </DarkText>
     </Row>
     <Row marginBottom='24px'>
       <DarkText>
         <FormattedMessage
-          defaultMessage='USD PAX, a crypto backed 1:1 for the dollar, is now available in your web wallet to trade and transact with. You can use these digital dollars to de-risk in a moving market, manage inflation of your local currency, or move quickly between cryptos in your wallet. 1 $PAX = 1 $USD, always.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.stable'
+          defaultMessage='USD PAX will now be referred to as USD Digital (USD-D, for short) and be represented by a green dollar symbol. If you had USD Pax in the past, they will maintain their value, we’re only changing their name.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.stable'
         />
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/pax/transactions'>
-        <GetStartedButton>
+      <LinkContainer to='/usd-d/transactions'>
+        <CheckItOutButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usdpax.checkit'
-            defaultMessage='Check it Out!'
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.checkit'
+            defaultMessage='Check it Out'
           />
-        </GetStartedButton>
+        </CheckItOutButton>
       </LinkContainer>
     </Row>
   </Container>
 )
 
-export default USDPax
+export default USDDigital

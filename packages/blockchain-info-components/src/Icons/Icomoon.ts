@@ -89,11 +89,12 @@ const IcoMoon = {
   timer: '\\e945',
   trash: '\\e951',
   twitter: '\\e916',
+  'usd-d': '\\e948',
   user: '\\e955',
   users: '\\e928',
   'vertical-arrow-switch': '\\e980',
   wallet: '\\e956',
-  'wallet-filled': '\\e939',
+  'wallet-filled': '\\e929',
   xlm: '\\e930',
   'xlm-circle-filled': '\\e91f'
 }

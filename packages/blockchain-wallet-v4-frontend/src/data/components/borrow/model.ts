@@ -1,10 +1,17 @@
-import { CoinType, LoanType, OfferType } from 'core/types'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import {
+  CoinType,
+  LoanTransactionsStatusType,
+  LoanTransactionsType,
+  LoanType,
+  OfferType
+} from 'core/types'
+import { convertBaseToStandard } from '../exchange/services'
+import { head } from 'ramda'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
-
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'
 export const NO_LOAN_EXISTS = 'NO_LOAN_EXISTS'
+export const USER_BLOCKED = 'User is from a blocked country or state'
 
 export const getCollateralizationColor = (
   displayName: 'safe' | 'risky' | 'unsafe'
@@ -22,7 +29,12 @@ export const getCollateralizationColor = (
 export const getCollateralAmtRequired = (loan: LoanType, offer: OfferType) => {
   return (
     (offer.terms.collateralRatio - loan.collateralisationRatio) *
-    Number(loan.principal.amount[0].value)
+    Number(
+      convertBaseToStandard(
+        loan.principal.amount[0].currency,
+        loan.principal.amount[0].amount
+      )
+    )
   ).toFixed(2)
 }
 
@@ -49,13 +61,50 @@ export const fiatDisplayName = (coin: CoinType) => {
   }
 }
 
-export const getAmount = (value: number, coin: CoinType) => {
-  switch (coin) {
-    case 'BTC':
-      return Exchange.convertBtcToBtc({ value, fromUnit: 'BTC', toUnit: 'SAT' })
-        .value
-    case 'PAX':
-      return Exchange.convertPaxToPax({ value, fromUnit: 'PAX', toUnit: 'WEI' })
-        .value
+export const isLastTxStatus = (
+  statuses: Array<LoanTransactionsStatusType>,
+  loan: LoanType,
+  loanTransactions: Array<LoanTransactionsType>
+): LoanTransactionsType | undefined => {
+  let txType
+
+  switch (loan.status) {
+    case 'OPEN':
+    case 'ON_CALL':
+    case 'PENDING_EXECUTION':
+    case 'PENDING_COLLATERAL_DEPOSIT':
+      txType = 'DEPOSIT_COLLATERAL'
+      break
+    case 'PENDING_CLOSE':
+      txType = 'DEPOSIT_PRINCIPAL_AND_INTEREST'
+      break
+  }
+
+  if (!txType) return
+  const lastDeposit = loanTransactions.find(tx => tx.type === txType)
+  return lastDeposit && statuses.indexOf(lastDeposit.status) > -1
+    ? lastDeposit
+    : undefined
+}
+
+export const showBorrowSummary = (loan: LoanType): boolean => {
+  switch (loan.status) {
+    case 'CLOSED':
+    case 'FAILED':
+      return false
+    default:
+      return true
+  }
+}
+
+export const showCollateralizationStatus = (loan: LoanType): boolean => {
+  switch (loan.status) {
+    case 'CLOSED':
+    case 'FAILED':
+    case 'PENDING_EXECUTION':
+    case 'PENDING_COLLATERAL_DEPOSIT':
+      return false
+    default:
+      return true
   }
 }

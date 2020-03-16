@@ -7,7 +7,6 @@ import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { PaymentValue } from '../borrow/types'
 import BigNumber from 'bignumber.js'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
@@ -47,11 +46,11 @@ export default ({ coreSagas, networks }) => {
   const calculateProvisionalPayment = function * (source: AccountTypes, amount) {
     try {
       const coin = prop('coin', source)
-      const addressOrIndex = prop('address', source) || prop('index', source)
+      const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
       const [network, provisionalScript] = isSourceErc20
         ? ethOptions
-        : propOr(btcOptions, coin, {
+        : prop(coin, {
             BTC: btcOptions,
             BCH: bchOptions,
             ETH: ethOptions,

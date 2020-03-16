@@ -20,6 +20,7 @@ import {
 } from 'ramda'
 import { isPositiveInteger, isString } from '../../../utils/checks'
 import { isValidIndex } from './utils'
+import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 
@@ -48,6 +49,13 @@ export default ({ api }) => {
       case ADDRESS_TYPES.LEGACY:
         return 1
     }
+  }
+
+  const calculateIsSufficientEthForErc20 = function * (fee) {
+    const ethBalanceR = yield select(S.data.eth.getDefaultAddressBalance)
+    return new BigNumber(ethBalanceR.getOrElse(0)).isGreaterThan(
+      new BigNumber(fee)
+    )
   }
 
   const calculateTo = destination => {
@@ -134,6 +142,8 @@ export default ({ api }) => {
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
+      coin: 'ETH',
+
       value () {
         return p
       },
@@ -150,9 +160,20 @@ export default ({ api }) => {
           ? prop('gasLimitContract', fees)
           : prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
+        const isSufficientEthForErc20 = yield call(
+          calculateIsSufficientEthForErc20,
+          fee
+        )
 
         return makePayment(
-          mergeRight(p, { fees, fee, feeInGwei: gasPrice, isErc20, coin })
+          mergeRight(p, {
+            fees,
+            fee,
+            feeInGwei: gasPrice,
+            isErc20,
+            coin,
+            isSufficientEthForErc20
+          })
         )
       },
 
@@ -239,7 +260,13 @@ export default ({ api }) => {
           fee,
           p.isErc20
         )
-        return makePayment(mergeRight(p, { feeInGwei, fee, effectiveBalance }))
+        return makePayment(
+          mergeRight(p, {
+            feeInGwei,
+            fee,
+            effectiveBalance
+          })
+        )
       },
 
       * build () {

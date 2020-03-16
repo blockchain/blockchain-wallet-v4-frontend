@@ -4,7 +4,7 @@
   "description": "Frontend wallet application.",
   "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Blockchain.info",
+    "name": "Blockchain.com",
     "url": "https://blockchain.com"
   },
   "main": "index.js",
@@ -20,7 +20,10 @@
     "coverage": "cross-env npx jest --coverage --silent",
     "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --colors",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules && ln -sf $(pwd)/../../packages/** ./node_modules",
-    "manage:translations": "yarn build:prod && node ./translationRunner.js",
+    "translate:ts-to-jsx": "tsc -p ../../tsconfig.json --jsx preserve --outDir src/extracted-ts",
+    "translate:extract": "babel \"src/extracted-ts/**/*.jsx\"",
+    "translate:ts": "yarn translate:ts-to-jsx && yarn translate:extract",
+    "manage:translations": "yarn build:prod && yarn translate:ts && node ./translationRunner.js",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
@@ -64,6 +67,15 @@
       "json",
       "html"
     ],
+    "globals": {
+      "ts-jest": {
+        "diagnostics": {
+          "ignoreCodes": [
+            2321
+          ]
+        }
+      }
+    },
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
       "<rootDir>/../../config/jest/jest.config.js"
@@ -101,7 +113,7 @@
     "bip39": "2.5.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
-    "blockchain-info-components": "0.0.32",
+    "blockchain-info-components": "0.0.33",
     "blockchain-wallet-v4": "1.0.1",
     "bowser": "2.4.0",
     "browser-locale": "1.0.3",

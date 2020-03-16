@@ -30,7 +30,7 @@ export default () => {
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
-        case contains('/pax/transactions', pathname):
+        case contains('/usd-d/transactions', pathname):
           yield call(refreshErc20Transactions, 'pax')
           break
         case contains('/xlm/transactions', pathname):

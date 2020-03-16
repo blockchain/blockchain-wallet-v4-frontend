@@ -50,8 +50,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
             <TextGroup inline>
               <Text size='12px' weight='500'>
                 <FormattedMessage
-                  id='components.alerts.loweth.body'
-                  defaultMessage='Sending USD Pax requires ETH. Your balance is low, Swap to get more ETH.'
+                  id='components.alerts.loweth.body1'
+                  defaultMessage='Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
                 />
               </Text>
               <Text>
@@ -289,8 +289,8 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           <TextGroup inline>
             <Text size='12px' weight={400}>
               <FormattedMessage
-                id='components.alerts.first_pax_trade_info'
-                defaultMessage='Now that you own USD Pax, you need to own ETH to Send or Swap.'
+                id='components.alerts.first_usdd_trade_info'
+                defaultMessage='Now that you own USD Digital, you need to own ETH to Send or Swap.'
               />
             </Text>
             <Link
