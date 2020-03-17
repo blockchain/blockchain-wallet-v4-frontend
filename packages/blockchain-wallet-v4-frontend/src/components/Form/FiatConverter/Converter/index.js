@@ -56,6 +56,7 @@ class ConverterContainer extends React.PureComponent {
   render () {
     const { coin, fiat } = this.state
     const {
+      coinTicker,
       disabled,
       unit,
       currency,
@@ -67,6 +68,7 @@ class ConverterContainer extends React.PureComponent {
     return (
       <Converter
         coin={coin}
+        coinTicker={coinTicker}
         fiat={fiat}
         unit={unit}
         disabled={disabled}
