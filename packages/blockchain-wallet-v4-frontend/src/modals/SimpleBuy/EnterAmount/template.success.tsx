@@ -4,6 +4,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
+import Unsupported from './template.unsupported'
 
 type Props = OwnProps & SuccessStateType
 
@@ -34,8 +35,7 @@ const Success: React.FC<Props> = props => {
       </TopText>
     </Top>
   ) : (
-    /* Placeholder */
-    <div>This is awkward...user not eligible</div>
+    <Unsupported {...props} />
   )
 }
 
