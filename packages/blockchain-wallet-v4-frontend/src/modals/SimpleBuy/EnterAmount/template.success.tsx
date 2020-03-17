@@ -19,7 +19,6 @@ const TopText = styled(Text)`
 const Success: React.FC<Props> = props => {
   return props.pairs.length ? (
     <Top>
-      {/* Placeholder */}
       <TopText color='grey900' size='20px' weight={600}>
         <FormattedMessage
           id='modals.simplebuy.buycrypto'
@@ -35,6 +34,7 @@ const Success: React.FC<Props> = props => {
       </TopText>
     </Top>
   ) : (
+    /* Placeholder */
     <div>This is awkward...user not eligible</div>
   )
 }
