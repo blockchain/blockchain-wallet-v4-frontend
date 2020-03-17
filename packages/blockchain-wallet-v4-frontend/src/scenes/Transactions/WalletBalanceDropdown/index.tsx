@@ -1,8 +1,8 @@
-import { buildPercentageChange } from '../model'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
+import { PriceChange } from '../model'
 import { RemoteDataType } from 'core/types'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -46,7 +46,8 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '6px 6px 0px 0px' : '16px 4px')};
+  height: ${props => (props.isItem ? 'auto' : '100%')};
+  padding: ${props => (props.isItem ? '6px 6px 0px 0px' : '15px 4px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
@@ -57,7 +58,9 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin-left: ${props => (props.isItem ? '0px' : '12px')};
+  height: ${props => (props.isItem ? 'auto' : '100%')};
   width: 100%;
   cursor: pointer;
   .bc__single-value {
@@ -67,12 +70,13 @@ const AccountContainer = styled.div<{ isItem?: boolean }>`
   }
   input {
     height: 0;
+    position: absolute;
   }
 `
 
-const AmountContainer = styled.div`
-  margin-top: 8px;
+const AmountContainer = styled.div<{ isItem?: boolean }>`
   display: flex;
+  margin-top: ${props => (props.isItem ? '4px' : '0px')};
 `
 
 const FiatContainer = styled.div`
@@ -82,7 +86,12 @@ const FiatContainer = styled.div`
 `
 
 const CoinSelect = styled(SelectBox)`
+  height: 100%;
+  > div {
+    height: 100%;
+  }
   .bc__control {
+    height: 100%;
     background-color: ${({ theme }) => theme.white};
     border: 1px solid ${({ theme }) => theme.grey100};
 
@@ -93,6 +102,7 @@ const CoinSelect = styled(SelectBox)`
 
   .bc__control .bc__value-container {
     padding: 0px;
+    height: 100%;
   }
 
   .bc__indicators {
@@ -104,20 +114,6 @@ const CoinSelect = styled(SelectBox)`
   .bc__menu {
     border-radius: 8px;
   }
-`
-
-const PriceChangeText = styled(Text)`
-  margin-top: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  white-space: nowrap;
-  color: ${props => props.theme.grey600};
-`
-const PriceChangeColoredText = styled.span<{ priceChangeFiat: number }>`
-  font-weight: 600;
-  color: ${props =>
-    props.priceChangeFiat >= 0 ? props.theme.green400 : props.theme.red500};
 `
 
 export class WalletBalanceDropdown extends Component<Props> {
@@ -143,15 +139,6 @@ export class WalletBalanceDropdown extends Component<Props> {
   renderDisplay = (props: { value }, children) => {
     const coinType = this.props.coinModel
     const balance = this.coinBalance(props)
-    const {
-      currencySymbol,
-      priceChangeFiat,
-      priceChangePercentage
-    } = this.props.data.getOrElse({
-      currencySymbol: '$',
-      priceChangeFiat: 0,
-      priceChangePercentage: 0
-    })
 
     return (
       <DisplayContainer coinType={coinType}>
@@ -179,19 +166,19 @@ export class WalletBalanceDropdown extends Component<Props> {
               {balance}
             </FiatDisplay>
           </AmountContainer>
-          <PriceChangeText>
-            <PriceChangeColoredText priceChangeFiat={priceChangeFiat}>
-              {buildPercentageChange(
-                currencySymbol,
-                priceChangeFiat,
-                priceChangePercentage
-              )}
-            </PriceChangeColoredText>{' '}
+          <PriceChange
+            {...this.props.data.getOrElse({
+              currencySymbol: '$',
+              priceChangeFiat: 0,
+              priceChangePercentage: 0
+            })}
+          >
+            {' '}
             <FormattedMessage
               id='scenes.transactions.performance.prices.day'
               defaultMessage='today'
             />
-          </PriceChangeText>
+          </PriceChange>
         </AccountContainer>
       </DisplayContainer>
     )
@@ -209,7 +196,7 @@ export class WalletBalanceDropdown extends Component<Props> {
             : props.value
             ? props.value.label
             : ''}
-          <AmountContainer>
+          <AmountContainer isItem>
             <CoinDisplay
               coin={this.props.coin}
               size='12px'
