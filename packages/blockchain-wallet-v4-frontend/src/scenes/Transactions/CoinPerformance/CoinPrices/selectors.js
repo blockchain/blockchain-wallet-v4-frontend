@@ -12,14 +12,14 @@ export const getData = createDeepEqualSelector(
     const transform = (priceIndexSeries, currency) => {
       const priceStart = prop('price', head(priceIndexSeries))
       const priceCurrent = prop('price', last(priceIndexSeries))
-      const priceChange = priceCurrent - priceStart
-      const pricePercentageChange = (priceChange / priceStart) * 100
+      const priceChangeFiat = priceCurrent - priceStart
+      const priceChangePercentage = (priceChangeFiat / priceStart) * 100
       return {
         currency,
         currencySymbol: Exchange.getSymbol(currency),
-        priceChange,
+        priceChangeFiat,
         priceCurrent,
-        pricePercentageChange
+        priceChangePercentage
       }
     }
 
