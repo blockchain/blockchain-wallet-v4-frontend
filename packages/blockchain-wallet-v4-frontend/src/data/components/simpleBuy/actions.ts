@@ -64,11 +64,11 @@ export const fetchSBPairsSuccess = (
 export const setStep = (
   payload:
     | { step: 'CURRENCY_SELECTION' }
-    | { fiatCurrency: keyof CurrenciesType; step: 'ELIGIBLE_CHECK' }
+    | { fiatCurrency: keyof CurrenciesType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
-    payload.step === 'ELIGIBLE_CHECK'
+    payload.step === 'ENTER_AMOUNT'
       ? {
           step: payload.step,
           fiatCurrency: payload.fiatCurrency

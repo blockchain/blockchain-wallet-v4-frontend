@@ -151,7 +151,9 @@ export default ({ api, coreSagas }) => {
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
-      yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
+      if (!action.payload.hideAlert) {
+        yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))

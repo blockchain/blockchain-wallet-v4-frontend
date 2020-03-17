@@ -103,6 +103,9 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import worldAlert from './img/world-alert.jpg'
+import worldAlert2 from './img/world-alert@2x.jpg'
+import worldAlert3 from './img/world-alert@3x.jpg'
 
 const Images = {
   'airdrop-enrolled': airdropEnrolled,
@@ -208,6 +211,9 @@ const Images = {
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
+  'world-alert': worldAlert,
+  'world-alert2': worldAlert2,
+  'world-alert3': worldAlert3,
   yubikey: yubikey
 }
 

@@ -13,7 +13,7 @@ export type SBCurrencySelectFormType = {
 }
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
-  'ELIGIBLE_CHECK'
+  'ENTER_AMOUNT'
 }
 
 // State
@@ -78,7 +78,7 @@ interface SetStepAction {
   payload:
     | {
         fiatCurrency: keyof CurrenciesType
-        step: 'ELIGIBLE_CHECK'
+        step: 'ENTER_AMOUNT'
       }
     | {
         step: 'CURRENCY_SELECTION'

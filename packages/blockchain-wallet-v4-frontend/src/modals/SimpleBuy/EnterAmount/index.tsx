@@ -3,19 +3,23 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import {
   CurrenciesType,
-  FiatEligibleType,
   NabuApiErrorType,
-  RemoteDataType
+  RemoteDataType,
+  SBPairType
 } from 'core/types'
+import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
+import Failure from './template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-type OwnProps = {
+export type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = FiatEligibleType
+export type SuccessStateType = {
+  pairs: Array<SBPairType>
+}
 type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
@@ -23,22 +27,22 @@ type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
   fiatCurrency: null | keyof CurrenciesType
 }
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
 
-class EligibleCheck extends PureComponent<Props, State> {
+class EnterAmount extends PureComponent<Props, State> {
   state = {}
 
   componentDidMount () {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
     }
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} />,
-      Failure: e => <div />,
+      Success: val => <Success {...val} {...this.props} />,
+      Failure: e => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -46,7 +50,7 @@ class EligibleCheck extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: selectors.components.simpleBuy.getSBFiatEligible(state),
+  data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
@@ -57,4 +61,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EligibleCheck)
+)(EnterAmount)

@@ -7,7 +7,10 @@ export default ({ nabuUrl, get }) => {
   ): { pairs: Array<SBPairType> } =>
     get({
       url: nabuUrl,
-      endPoint: `/simple-buy/pairs?fiatCurrency=${currency}`
+      endPoint: '/simple-buy/pairs',
+      data: {
+        fiatCurrency: currency
+      }
     })
 
   const getSBFiatEligible = (
@@ -15,7 +18,10 @@ export default ({ nabuUrl, get }) => {
   ): FiatEligibleType =>
     get({
       url: nabuUrl,
-      endPoint: `/simple-buy/eligible?fiatCurrency=${currency}`
+      endPoint: '/simple-buy/eligible',
+      data: {
+        fiatCurrency: currency
+      }
     })
 
   return {

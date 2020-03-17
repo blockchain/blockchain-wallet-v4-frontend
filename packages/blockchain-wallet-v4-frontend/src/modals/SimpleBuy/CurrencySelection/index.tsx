@@ -110,9 +110,9 @@ const CurrencySelection: React.FC<
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
-    props.settingsActions.updateCurrency(selectedCurrency)
+    props.settingsActions.updateCurrency(selectedCurrency, true)
     props.simpleBuyActions.setStep({
-      step: 'ELIGIBLE_CHECK',
+      step: 'ENTER_AMOUNT',
       fiatCurrency: selectedCurrency || 'USD'
     })
   }
@@ -173,9 +173,11 @@ const CurrencySelection: React.FC<
         <ButtonContainer>
           <Button
             fullwidth
+            height='48px'
             disabled={!selectedCurrency}
             nature='primary'
             data-e2e='currencySelectNext'
+            size='16px'
             type='submit'
           >
             <FormattedMessage

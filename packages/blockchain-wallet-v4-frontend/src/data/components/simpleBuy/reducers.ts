@@ -48,7 +48,7 @@ export function simpleBuyReducer (
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case 'ELIGIBLE_CHECK':
+        case 'ENTER_AMOUNT':
           return {
             ...state,
             step: action.payload.step,

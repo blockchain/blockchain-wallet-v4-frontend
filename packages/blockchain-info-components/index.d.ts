@@ -84,6 +84,9 @@ export const Icon: StatelessComponent<{
 export const IconGlobalStyles: StatelessComponent<{}>
 export const Image: StatelessComponent<{
   name: keyof ImageType
+  srcset?: {
+    [key in keyof ImageType]?: '1x' | '2x' | '3x'
+  }
   width?: string
   height?: string
   color?: string
