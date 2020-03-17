@@ -13,10 +13,25 @@ export const getData = (state, coin) => {
       return getPaxData(state)
     case 'ETH':
       return getEthData(state)
+    case 'XLM':
+      return getXlmData(state)
     default:
       return getBtcData(state)
   }
 }
+
+const getXlmData = createSelector(
+  [selectors.core.data.xlm.getTransactionHistory],
+  dataR => {
+    const transform = data => {
+      const transformedData = map(tx => formatTxData(tx, 'XLM'), data)
+      return [reportHeaders].concat(transformedData)
+    }
+    return {
+      csvData: dataR.map(transform).getOrElse([])
+    }
+  }
+)
 
 const getPaxData = createSelector(
   [state => selectors.core.data.eth.getErc20TransactionHistory(state, 'pax')],

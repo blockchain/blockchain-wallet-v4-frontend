@@ -17,7 +17,8 @@ import {
   Form,
   SelectBoxBchAddresses,
   SelectBoxBtcAddresses,
-  SelectBoxEthAddresses
+  SelectBoxEthAddresses,
+  SelectBoxXlmAddresses
 } from 'components/Form'
 import { required } from 'services/FormHelper'
 
@@ -133,6 +134,14 @@ const DownloadTransactions = props => {
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}
+                  name='from'
+                  validate={[required, validAddressOrWallet]}
+                />
+              )}
+              {coin === 'XLM' && (
+                <Field
+                  coin={coin}
+                  component={SelectBoxXlmAddresses}
                   name='from'
                   validate={[required, validAddressOrWallet]}
                 />

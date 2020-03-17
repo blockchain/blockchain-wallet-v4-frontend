@@ -126,6 +126,16 @@ export default ({ api, networks }) => {
     }
   }
 
+  const fetchTransactionHistory = function * ({ payload }) {
+    // const { address, start, end } = payload
+    try {
+      yield put(A.fetchTransactionHistoryLoading())
+      yield put(A.fetchTransactionHistorySuccess([]))
+    } catch (e) {
+      yield put(A.fetchTransactionHistoryFailure(e.message))
+    }
+  }
+
   const __processTxs = function * (txList) {
     const walletAccounts = (yield select(getAccounts)).getOrElse([])
     const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
@@ -148,7 +158,8 @@ export default ({ api, networks }) => {
     fetchLedgerDetails,
     fetchData,
     fetchRates,
-    __processTxs,
-    fetchTransactions
+    fetchTransactions,
+    fetchTransactionHistory,
+    __processTxs
   }
 }
