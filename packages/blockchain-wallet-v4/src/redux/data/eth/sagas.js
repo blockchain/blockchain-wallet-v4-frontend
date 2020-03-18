@@ -123,8 +123,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function * (action) {
-    const { payload } = action
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, endDate, startDate } = payload
     let currentPage = 0
 
@@ -144,7 +143,8 @@ export default ({ api }) => {
       const txCount = prop('transactionCount', accountSummary)
       currentPage++
 
-      // keep fetching pages until we reach last page or last tx free previous page is before requested start date
+      // keep fetching pages until we reach last page or last (oldest) tx
+      // from previous page is before requested start date
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
         moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
