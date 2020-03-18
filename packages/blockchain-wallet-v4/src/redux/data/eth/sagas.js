@@ -33,8 +33,8 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
-const TX_PER_PAGE = 40
-const TX_REPORT_PAGE_SIZE = 500 // TODO: lesson once pagination is working on backend
+const TX_PER_PAGE = 10
+const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
