@@ -100,24 +100,29 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * (action) {
+  const fetchTransactions = function * ({ payload }) {
+    const { address, reset } = payload
     try {
-      const { payload } = action
-      const { address, reset } = payload
       const defaultAccountR = yield select(selectors.kvStore.eth.getContext)
       const ethAddress = address || defaultAccountR.getOrFail(CONTEXT_FAILURE)
-      const pages = yield select(S.getTransactions)
-      const nextPage = reset ? 0 : length(pages)
-      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      const pageList = yield select(S.getTransactions())
+      const nextPage = reset ? 0 : length(pageList)
+      const transactionsAtBound = yield select(S.getTransactionsAtBound())
+
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const data = yield call(api.getEthTransactions, ethAddress, nextPage)
-      const txs = path([ethAddress, 'txns'], data)
-      if (isNil(txs)) return
-      const atBounds = length(txs) < TX_PER_PAGE
+      const data = yield call(
+        api.getEthTransactionsV2,
+        ethAddress,
+        nextPage,
+        TX_PER_PAGE
+      )
+      const txPage = prop('transactions', data)
+      const atBounds = length(txPage) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, txs)
-      yield put(A.fetchTransactionsSuccess(page, reset))
+
+      const processedTxPage = yield call(__processTxs, txPage)
+      yield put(A.fetchTransactionsSuccess(processedTxPage, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
@@ -264,12 +269,13 @@ export default ({ api }) => {
         token
       )).getOrFail()
       if (txsAtBound && !reset) return
-      yield put(A.fetchErc20TransactionsLoading(token, ethAddress, reset))
+      yield put(A.fetchErc20TransactionsLoading(token, reset))
       const data = yield call(
         api.getErc20TransactionsV2,
         ethAddress,
         contractAddress,
-        nextPage
+        nextPage,
+        TX_PER_PAGE
       )
       const txs = prop('transfers', data)
       if (isNil(txs)) return
