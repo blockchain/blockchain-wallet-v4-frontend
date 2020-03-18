@@ -8,6 +8,10 @@ import {
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
 
+export const destroyCheckout = () => ({
+  type: AT.DESTROY_CHECKOUT
+})
+
 export const fetchSBFiatEligible = (currency: keyof CurrenciesType) => ({
   type: AT.FETCH_SB_FIAT_ELIGIBLE,
   currency
@@ -86,6 +90,13 @@ export const fetchSBSuggestedAmountsSuccess = (
   type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
   payload: {
     amounts
+  }
+})
+
+export const handleSBSuggestedAmountClick = (amount: string) => ({
+  type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
+  payload: {
+    amount
   }
 })
 

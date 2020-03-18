@@ -23,9 +23,11 @@ export type SBPairType = {
   pair: SBPairsType
 }
 
-export type SBSuggestedAmountType = {
-  [key in keyof CurrenciesType]: Array<string>
-}
+export type SBSuggestedAmountType = Array<
+  {
+    [key in keyof CurrenciesType]: Array<string>
+  }
+>
 
 export type FiatEligibleType = {
   eligible: boolean

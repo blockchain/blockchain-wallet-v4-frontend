@@ -34,6 +34,9 @@ export type SimpleBuyState = {
 }
 
 // Actions
+interface DestroyCheckout {
+  type: typeof AT.DESTROY_CHECKOUT
+}
 interface FetchSBFiatEligible {
   payload: {
     currency: keyof CurrenciesType
@@ -121,6 +124,7 @@ interface SetStepAction {
 }
 
 export type SimpleBuyActionTypes =
+  | DestroyCheckout
   | FetchSBFiatEligible
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading

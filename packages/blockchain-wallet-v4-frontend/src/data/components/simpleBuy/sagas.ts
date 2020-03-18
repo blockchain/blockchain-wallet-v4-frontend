@@ -3,6 +3,7 @@ import * as S from './selectors'
 import { actions } from 'data'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
+import { convertBaseToStandard } from '../exchange/services'
 import { FiatEligibleType } from 'core/types'
 
 export default ({
@@ -41,6 +42,15 @@ export default ({
     }
   }
 
+  const handleSBSuggestedAmountClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
+    const { amount } = payload
+    const standardAmt = convertBaseToStandard('FIAT', amount)
+
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
   const initializeCheckout = function * ({
     pairs
   }: ReturnType<typeof A.initializeCheckout>) {
@@ -61,6 +71,7 @@ export default ({
   return {
     fetchSBPairs,
     fetchSBFiatEligible,
+    handleSBSuggestedAmountClick,
     initializeCheckout
   }
 }

@@ -15,6 +15,12 @@ export function simpleBuyReducer (
   action: SimpleBuyActionTypes
 ): SimpleBuyState {
   switch (action.type) {
+    case AT.DESTROY_CHECKOUT:
+      return {
+        ...state,
+        pairs: Remote.NotAsked,
+        suggestedAmounts: Remote.NotAsked
+      }
     case AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE: {
       return {
         ...state,

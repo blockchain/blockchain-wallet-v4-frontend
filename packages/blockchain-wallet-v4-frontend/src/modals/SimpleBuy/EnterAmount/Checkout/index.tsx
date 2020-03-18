@@ -18,6 +18,7 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
+  fiatCurrency: null | keyof CurrenciesType
 }
 export type Props = OwnProps & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
@@ -28,7 +29,7 @@ class Checkout extends PureComponent<Props> {
   }
 
   componentWillUnmount () {
-    this.props.simpleBuyActions.fetchSBPairsSuccess([])
+    this.props.simpleBuyActions.destroyCheckout()
   }
 
   handleSubmit = () => {}
@@ -46,7 +47,8 @@ class Checkout extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
 const enhance = connect(mapStateToProps)
