@@ -8,6 +8,10 @@ import {
 } from 'core/types'
 
 // Types
+export type SBEnterAmountFormValuesType = {
+  amount: string
+  pair?: SBPairType
+}
 export type SBCurrencySelectFormType = {
   search: string
 }

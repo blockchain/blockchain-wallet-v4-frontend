@@ -20,7 +20,8 @@ export type OwnProps = {
 export type SuccessStateType = {
   pairs: Array<SBPairType>
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
+  formActions: typeof actions.form
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType = {
@@ -55,6 +56,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

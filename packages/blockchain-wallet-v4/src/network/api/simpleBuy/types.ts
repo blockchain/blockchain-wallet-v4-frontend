@@ -1,4 +1,19 @@
-export type SBPairsType = 'BTC-EUR'
+export type SBPairsType =
+  | 'BTC-EUR'
+  | 'BCH-EUR'
+  | 'ETH-EUR'
+  | 'PAX-EUR'
+  | 'XLM-EUR'
+  | 'BTC-GBP'
+  | 'BCH-GBP'
+  | 'ETH-GBP'
+  | 'PAX-GBP'
+  | 'XLM-GBP'
+  | 'BTC-USD'
+  | 'BCH-USD'
+  | 'ETH-USD'
+  | 'PAX-USD'
+  | 'XLM-USD'
 
 export type SBPairType = {
   buyMax: string
