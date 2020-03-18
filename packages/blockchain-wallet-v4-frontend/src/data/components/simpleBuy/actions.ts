@@ -3,7 +3,8 @@ import {
   CurrenciesType,
   FiatEligibleType,
   NabuApiErrorType,
-  SBPairType
+  SBPairType,
+  SBSuggestedAmountType
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
 
@@ -59,6 +60,38 @@ export const fetchSBPairsSuccess = (
   payload: {
     pairs
   }
+})
+
+export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
+  type: AT.FETCH_SB_SUGGESTED_AMOUNTS,
+  currency
+})
+
+export const fetchSBSuggestedAmountsFailure = (
+  error: Error | NabuApiErrorType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBSuggestedAmountsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
+})
+
+export const fetchSBSuggestedAmountsSuccess = (
+  amounts: SBSuggestedAmountType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
+  payload: {
+    amounts
+  }
+})
+
+export const initializeCheckout = (pairs: Array<SBPairType>) => ({
+  type: AT.INITIALIZE_CHECKOUT,
+  pairs
 })
 
 export const setStep = (

@@ -6,7 +6,8 @@ const INITIAL_STATE: SimpleBuyState = {
   fiatCurrency: null,
   fiatEligible: Remote.NotAsked,
   pairs: Remote.NotAsked,
-  step: 'CURRENCY_SELECTION'
+  step: 'CURRENCY_SELECTION',
+  suggestedAmounts: Remote.NotAsked
 }
 
 export function simpleBuyReducer (
@@ -45,6 +46,22 @@ export function simpleBuyReducer (
       return {
         ...state,
         pairs: Remote.Success(action.payload.pairs)
+      }
+    case AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE: {
+      return {
+        ...state,
+        suggestedAmounts: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING:
+      return {
+        ...state,
+        suggestedAmounts: Remote.Loading
+      }
+    case AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS:
+      return {
+        ...state,
+        suggestedAmounts: Remote.Success(action.payload.amounts)
       }
     case AT.SET_STEP:
       switch (action.payload.step) {

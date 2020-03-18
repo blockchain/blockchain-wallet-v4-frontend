@@ -4,7 +4,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { maximumAmount, minimumAmount } from './validation'
-import { Props } from '../template.success'
+import { Props as OwnProps, SuccessStateType } from '.'
 import CoinSelect from './CoinSelect'
 import React from 'react'
 import styled from 'styled-components'
@@ -21,7 +21,9 @@ const TopText = styled(Text)`
   justify-content: space-between;
 `
 
-const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+type Props = OwnProps & SuccessStateType
+
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -69,4 +71,4 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-export default reduxForm<{}, Props>({ form: 'simpleBuyCheckout' })(Checkout)
+export default reduxForm<{}, Props>({ form: 'simpleBuyCheckout' })(Success)

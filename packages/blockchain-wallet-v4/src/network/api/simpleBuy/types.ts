@@ -1,3 +1,5 @@
+import { CurrenciesType } from 'core/types'
+
 export type SBPairsType =
   | 'BTC-EUR'
   | 'BCH-EUR'
@@ -19,6 +21,10 @@ export type SBPairType = {
   buyMax: string
   buyMin: string
   pair: SBPairsType
+}
+
+export type SBSuggestedAmountType = {
+  [key in keyof CurrenciesType]: Array<string>
 }
 
 export type FiatEligibleType = {

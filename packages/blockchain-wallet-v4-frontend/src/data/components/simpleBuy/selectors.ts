@@ -8,4 +8,7 @@ export const getSBFiatEligible = (state: RootState) =>
 
 export const getSBPairs = (state: RootState) => state.components.simpleBuy.pairs
 
+export const getSBSuggestedAmounts = (state: RootState) =>
+  state.components.simpleBuy.suggestedAmounts
+
 export const getStep = (state: RootState) => state.components.simpleBuy.step

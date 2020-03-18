@@ -1,6 +1,8 @@
 import * as A from './actions'
+import * as S from './selectors'
+import { actions } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { FiatEligibleType } from 'core/types'
 
 export default ({
@@ -39,8 +41,26 @@ export default ({
     }
   }
 
+  const initializeCheckout = function * ({
+    pairs
+  }: ReturnType<typeof A.initializeCheckout>) {
+    try {
+      const fiatCurrency = S.getFiatCurrency(yield select())
+      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      yield put(A.fetchSBSuggestedAmountsLoading())
+      const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
+      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
+      yield put(
+        actions.form.initialize('simpleBuyCheckout', { pair: pairs[0] })
+      )
+    } catch (e) {
+      yield put(A.fetchSBSuggestedAmountsFailure(e))
+    }
+  }
+
   return {
     fetchSBPairs,
-    fetchSBFiatEligible
+    fetchSBFiatEligible,
+    initializeCheckout
   }
 }

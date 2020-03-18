@@ -4,7 +4,8 @@ import {
   FiatEligibleType,
   NabuApiErrorType,
   RemoteDataType,
-  SBPairType
+  SBPairType,
+  SBSuggestedAmountType
 } from 'core/types'
 
 // Types
@@ -26,6 +27,10 @@ export type SimpleBuyState = {
   fiatEligible: RemoteDataType<NabuApiErrorType, FiatEligibleType>
   pairs: RemoteDataType<NabuApiErrorType, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
+  suggestedAmounts: RemoteDataType<
+    Error | NabuApiErrorType,
+    SBSuggestedAmountType
+  >
 }
 
 // Actions
@@ -78,6 +83,31 @@ interface FetchSBPairsSuccess {
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
 
+interface FetchSBSuggestedAmounts {
+  payload: {
+    currency: keyof CurrenciesType
+  }
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS
+}
+
+interface FetchSBSuggestedAmountsFailure {
+  payload: {
+    error: Error | NabuApiErrorType
+  }
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
+}
+
+interface FetchSBSuggestedAmountsLoading {
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
+}
+
+interface FetchSBSuggestedAmountsSuccess {
+  payload: {
+    amounts: SBSuggestedAmountType
+  }
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
+}
+
 interface SetStepAction {
   payload:
     | {
@@ -99,4 +129,8 @@ export type SimpleBuyActionTypes =
   | FetchSBPairsFailure
   | FetchSBPairsLoading
   | FetchSBPairsSuccess
+  | FetchSBSuggestedAmounts
+  | FetchSBSuggestedAmountsFailure
+  | FetchSBSuggestedAmountsLoading
+  | FetchSBSuggestedAmountsSuccess
   | SetStepAction

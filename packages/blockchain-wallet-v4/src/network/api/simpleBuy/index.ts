@@ -24,8 +24,18 @@ export default ({ nabuUrl, get }) => {
       }
     })
 
+  const getSBSuggestedAmounts = (currency: keyof CurrenciesType) =>
+    get({
+      url: nabuUrl,
+      endPoint: '/simple-buy/amounts',
+      data: {
+        currency
+      }
+    })
+
   return {
     getSBPairs,
-    getSBFiatEligible
+    getSBFiatEligible,
+    getSBSuggestedAmounts
   }
 }
