@@ -24,7 +24,7 @@ export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-type LinkStatePropsType = {
+export type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
   fiatCurrency: null | keyof CurrenciesType
 }
