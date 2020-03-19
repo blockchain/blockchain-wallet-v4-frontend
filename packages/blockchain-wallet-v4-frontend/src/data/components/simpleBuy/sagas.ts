@@ -8,7 +8,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { errorHandler } from '../helpers'
-import { FiatEligibleType } from 'core/types'
+import { FiatEligibleType, SBOrderType } from 'core/types'
 import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
 import { SBCheckoutFormValuesType } from './types'
 import profileSagas from '../../modules/profile/sagas'
@@ -39,7 +39,7 @@ export default ({
       const action = 'BUY'
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
-      const order = yield call(
+      const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
         action,
@@ -47,6 +47,7 @@ export default ({
         { symbol: getCoinFromPair(pair) }
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
+      yield put(A.setStep({ step: 'ORDER_DETAILS', order }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
