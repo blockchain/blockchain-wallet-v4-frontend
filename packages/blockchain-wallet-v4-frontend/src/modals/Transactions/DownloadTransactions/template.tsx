@@ -1,6 +1,7 @@
 import { CSVLink } from 'react-csv'
-import { Field, reduxForm } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { OwnProps, StateProps } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -36,7 +37,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: ${props => props.margin || '10px'};
+  margin-bottom: 24px;
 `
 const DateSelectRow = styled.div`
   display: flex;
@@ -78,7 +79,11 @@ export const validAddressOrWallet = value => {
   )
 }
 
-const DownloadTransactions = props => {
+type Props = OwnProps & StateProps
+
+const DownloadTransactions: React.FunctionComponent<
+  InjectedFormProps<{}, Props> & Props
+> = props => {
   const {
     closeAll,
     coin,
@@ -87,7 +92,6 @@ const DownloadTransactions = props => {
     generating,
     handleSubmit,
     invalid,
-    onReportDownload,
     position,
     total
   } = props
@@ -111,7 +115,7 @@ const DownloadTransactions = props => {
                 />
               </Text>
             </Row>
-            <Row margin='20px'>
+            <Row>
               {coin === 'BCH' && (
                 <Field
                   coin={coin}
@@ -163,7 +167,7 @@ const DownloadTransactions = props => {
                 </EndDateLabel>
               </DateSelectRow>
             </Row>
-            <Row margin='28px'>
+            <Row>
               <DateSelectRow>
                 <Field
                   dateFormat='MM/DD/YYYY'
@@ -190,7 +194,7 @@ const DownloadTransactions = props => {
                   data={csvData}
                   filename={filename}
                   target='_blank'
-                  onClick={onReportDownload}
+                  onClick={closeAll}
                   width='100%'
                 >
                   <Button
@@ -230,4 +234,6 @@ const DownloadTransactions = props => {
   )
 }
 
-export default reduxForm({ form: 'transactionReport' })(DownloadTransactions)
+export default reduxForm<{}, Props>({ form: 'transactionReport' })(
+  DownloadTransactions
+)

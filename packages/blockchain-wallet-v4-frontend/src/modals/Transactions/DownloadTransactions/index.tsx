@@ -1,21 +1,48 @@
-import { compose } from 'redux'
+import { compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import React from 'react'
+import React, { Component } from 'react'
 
+import * as moment from 'services/MomentHelper'
 import { actions, selectors } from 'data'
 import { prop, toLower } from 'ramda'
 import modalEnhancer from 'providers/ModalEnhancer'
-import moment from 'services/MomentHelper'
 
+import { CoinType, SupportedCoinType } from 'core/types'
 import { getData } from './selectors'
+import { RootState } from 'data/rootReducer'
 import DownloadTransactions from './template'
 
-class DownloadTransactionsContainer extends React.PureComponent {
-  state = { filename: '', generating: false }
+export type StateProps = {
+  filename: string
+  generating: boolean
+}
+export type OwnProps = {
+  closeAll: () => void
+  coin: CoinType
+  csvData: any
+  position: number
+  total: number
+}
+type LinkStatePropsType = {
+  coinModel: SupportedCoinType
+  formValues: any
+}
+type LinkDispatchPropsType = {
+  clearTransactions: () => void
+  fetchTransactions: (
+    address: string,
+    startDate: string,
+    endDate: string
+  ) => void
+  initForm: (formDefaults: { end: moment; from: 'all'; start: moment }) => void
+}
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+
+class DownloadTransactionsModal extends Component<Props, StateProps> {
+  state: StateProps = { filename: '', generating: false }
 
   componentDidMount () {
-    const { initForm, language } = this.props
-    moment.locale(language)
+    const { initForm } = this.props
     initForm({
       from: 'all',
       start: moment()
@@ -43,27 +70,18 @@ class DownloadTransactionsContainer extends React.PureComponent {
   }
 
   render () {
-    const {
-      position,
-      total,
-      closeAll,
-      coin,
-      csvData,
-      isValidStartDate,
-      isValidEndDate
-    } = this.props
+    const { props, onFetchHistory, state } = this
+    const { filename, generating } = state
+    const { closeAll, coin, csvData, position, total } = props
 
     return (
       <DownloadTransactions
         closeAll={closeAll}
         coin={coin}
         csvData={csvData}
-        filename={this.state.filename}
-        generating={this.state.generating}
-        isValidEndDate={isValidEndDate}
-        isValidStartDate={isValidStartDate}
-        onReportDownload={closeAll}
-        onSubmit={this.onFetchHistory}
+        filename={filename}
+        generating={generating}
+        onSubmit={onFetchHistory}
         position={position}
         total={total}
       />
@@ -71,16 +89,15 @@ class DownloadTransactionsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   coinModel: selectors.core.walletOptions
     .getCoinModel(state, ownProps.coin)
     .getOrElse({ coinTicker: 'ETH' }),
-  locale: selectors.preferences.getLanguage(state),
   formValues: selectors.form.getFormValues('transactionReport')(state),
   ...getData(state, ownProps.coin)
 })
 
-const mapDispatchToProps = (dispatch, { coin }) => {
+const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
   const coinCode = coin === 'PAX' ? 'eth' : toLower(coin)
   return {
     clearTransactions: () =>
@@ -109,7 +126,7 @@ const mapDispatchToProps = (dispatch, { coin }) => {
   }
 }
 
-const enhance = compose(
+const enhance = compose<any>(
   modalEnhancer('TRANSACTION_REPORT'),
   connect(
     mapStateToProps,
@@ -117,4 +134,4 @@ const enhance = compose(
   )
 )
 
-export default enhance(DownloadTransactionsContainer)
+export default enhance(DownloadTransactionsModal)
