@@ -73,7 +73,13 @@ const api = ({
     ...sfox(),
     ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
-    ...simpleBuy({ nabuUrl, ...http }),
+    ...simpleBuy({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      ...http
+    }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),

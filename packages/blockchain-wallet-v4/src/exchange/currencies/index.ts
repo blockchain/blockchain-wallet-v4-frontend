@@ -1,3 +1,4 @@
+import { CoinType } from 'core/types'
 import AUD from './AUD'
 import BCH from './BCH'
 import BRL from './BRL'
@@ -26,13 +27,9 @@ import TWD from './TWD'
 import USD from './USD'
 import XLM from './XLM'
 
-const Currencies = {
+const FiatCurrencies = {
   EUR,
   USD,
-  BCH,
-  BTC,
-  ETH,
-  XLM,
   AUD,
   BRL,
   CAD,
@@ -41,7 +38,6 @@ const Currencies = {
   CNY,
   DKK,
   GBP,
-  PAX,
   HKD,
   INR,
   ISK,
@@ -56,5 +52,20 @@ const Currencies = {
   TWD
 }
 
-export type CurrenciesType = typeof Currencies
+const CryptoCurrencies = {
+  BCH,
+  BTC,
+  ETH,
+  PAX,
+  XLM
+}
+
+const Currencies = {
+  ...CryptoCurrencies,
+  ...FiatCurrencies
+}
+
+export type FiatCurrenciesType = typeof FiatCurrencies
+export type CryptoCurrenciesType = typeof CryptoCurrencies
+export type CurrenciesType = FiatCurrenciesType & CryptoCurrenciesType
 export default Currencies

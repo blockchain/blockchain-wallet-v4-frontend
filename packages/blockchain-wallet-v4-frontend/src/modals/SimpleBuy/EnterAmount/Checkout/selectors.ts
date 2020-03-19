@@ -6,6 +6,10 @@ export const getData = (state: RootState) => {
   const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
     state
   )
+  const userDataR = selectors.modules.profile.getUserData(state)
 
-  return lift(suggestedAmounts => ({ suggestedAmounts }))(suggestedAmountsR)
+  return lift((suggestedAmounts, userData) => ({ suggestedAmounts, userData }))(
+    suggestedAmountsR,
+    userDataR
+  )
 }

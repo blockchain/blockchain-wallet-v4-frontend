@@ -1,9 +1,9 @@
 import { Props } from '../template.success'
-import { SBEnterAmountFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType } from 'data/types'
 
 export const maximumAmount = (
   value: string,
-  allValues: SBEnterAmountFormValuesType,
+  allValues: SBCheckoutFormValuesType,
   props: Props
 ) => {
   if (!allValues.pair) return
@@ -13,7 +13,7 @@ export const maximumAmount = (
 
 export const minimumAmount = (
   value: string,
-  allValues: SBEnterAmountFormValuesType,
+  allValues: SBCheckoutFormValuesType,
   props: Props
 ) => {
   if (!allValues.pair) return

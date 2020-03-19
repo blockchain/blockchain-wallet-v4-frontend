@@ -2,14 +2,13 @@ import * as AT from './actionTypes'
 import {
   CurrenciesType,
   FiatEligibleType,
-  NabuApiErrorType,
   RemoteDataType,
   SBPairType,
   SBSuggestedAmountType
 } from 'core/types'
 
 // Types
-export type SBEnterAmountFormValuesType = {
+export type SBCheckoutFormValuesType = {
   amount: string
   pair?: SBPairType
 }
@@ -24,13 +23,10 @@ export enum SimpleBuyStepType {
 // State
 export type SimpleBuyState = {
   fiatCurrency: null | keyof CurrenciesType
-  fiatEligible: RemoteDataType<NabuApiErrorType, FiatEligibleType>
-  pairs: RemoteDataType<NabuApiErrorType, Array<SBPairType>>
+  fiatEligible: RemoteDataType<string, FiatEligibleType>
+  pairs: RemoteDataType<string, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
-  suggestedAmounts: RemoteDataType<
-    Error | NabuApiErrorType,
-    SBSuggestedAmountType
-  >
+  suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
@@ -46,7 +42,7 @@ interface FetchSBFiatEligible {
 
 interface FetchSBFiatEligibleFailure {
   payload: {
-    error: NabuApiErrorType
+    error: string
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE
 }
@@ -70,7 +66,7 @@ interface FetchSBPairs {
 
 interface FetchSBPairsFailure {
   payload: {
-    error: NabuApiErrorType
+    error: string
   }
   type: typeof AT.FETCH_SB_PAIRS_FAILURE
 }
@@ -95,7 +91,7 @@ interface FetchSBSuggestedAmounts {
 
 interface FetchSBSuggestedAmountsFailure {
   payload: {
-    error: Error | NabuApiErrorType
+    error: Error | string
   }
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
 }

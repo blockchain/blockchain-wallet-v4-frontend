@@ -1,5 +1,5 @@
 import { BlueCartridge, CustomCartridge } from 'components/Cartridge'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -42,6 +42,16 @@ const GreyCartridge = styled(CustomCartridge)`
   border: 1px solid ${props => props.theme.grey100};
   color: ${props => props.theme.blue600};
 `
+const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
+  margin-bottom: 16px;
+`
 
 type Props = OwnProps & SuccessStateType
 
@@ -82,6 +92,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               {props.suggestedAmounts[0][props.fiatCurrency].map(amount => {
                 return (
                   <Amount
+                    role='button'
                     onClick={() =>
                       props.simpleBuyActions.handleSBSuggestedAmountClick(
                         amount
@@ -102,6 +113,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <GreyCartridge>{props.fiatCurrency}</GreyCartridge>
           </Amounts>
         ) : null}
+        {props.error && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            Error: {props.error}
+          </ErrorText>
+        )}
         <Button
           data-e2e='submitSBAmount'
           height='48px'
@@ -109,12 +130,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={props.invalid}
+          disabled={props.invalid || props.submitting}
         >
-          <FormattedMessage
-            id='modals.simplebuy.continue'
-            defaultMessage='Continue'
-          />
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.continue'
+              defaultMessage='Continue'
+            />
+          )}
         </Button>
       </FlyoutWrapper>
     </CustomForm>

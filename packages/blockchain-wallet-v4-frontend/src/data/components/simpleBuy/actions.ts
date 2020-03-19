@@ -2,11 +2,14 @@ import * as AT from './actionTypes'
 import {
   CurrenciesType,
   FiatEligibleType,
-  NabuApiErrorType,
   SBPairType,
   SBSuggestedAmountType
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
+
+export const createSBOrder = () => ({
+  type: AT.CREATE_ORDER
+})
 
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
@@ -18,7 +21,7 @@ export const fetchSBFiatEligible = (currency: keyof CurrenciesType) => ({
 })
 
 export const fetchSBFiatEligibleFailure = (
-  error: NabuApiErrorType
+  error: string
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE,
   payload: {
@@ -44,9 +47,7 @@ export const fetchSBPairs = (currency: keyof CurrenciesType) => ({
   currency
 })
 
-export const fetchSBPairsFailure = (
-  error: NabuApiErrorType
-): SimpleBuyActionTypes => ({
+export const fetchSBPairsFailure = (error: string): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_PAIRS_FAILURE,
   payload: {
     error
@@ -72,7 +73,7 @@ export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
 })
 
 export const fetchSBSuggestedAmountsFailure = (
-  error: Error | NabuApiErrorType
+  error: Error | string
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE,
   payload: {

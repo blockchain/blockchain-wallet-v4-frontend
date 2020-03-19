@@ -83,7 +83,10 @@ const CurrencyBoxComponent = (props: {
   setSelectedCurrency: (string) => void
 }) => {
   return (
-    <CurrencyBox onClick={() => props.setSelectedCurrency(props.cur.code)}>
+    <CurrencyBox
+      role='button'
+      onClick={() => props.setSelectedCurrency(props.cur.code)}
+    >
       <div>
         <Text size='16px' color='grey800' weight={600}>
           {props.cur.displayName}

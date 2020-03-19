@@ -15,6 +15,7 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
+import { FiatCurrenciesType } from 'core/exchange/currencies'
 import serializer from './Serializer'
 
 export {
@@ -39,6 +40,7 @@ export {
 }
 
 export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'
+export type FiatType = keyof FiatCurrenciesType
 
 export type BtcAccountType = {
   address?: string | number

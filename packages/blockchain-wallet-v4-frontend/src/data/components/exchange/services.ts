@@ -25,7 +25,10 @@ export const convertBaseToStandard = (
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: true }).value
 }
 
-export const convertStandardToBase = (coin: CoinType | 'FIAT', value) => {
+export const convertStandardToBase = (
+  coin: CoinType | 'FIAT',
+  value
+): string => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: false })
     .value
 }
