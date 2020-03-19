@@ -14,6 +14,9 @@ const Row = styled.div`
 `
 
 const InputRow = styled(Row)`
+  button {
+    border-radius: 0;
+  }
   ${media.mobile`
     flex-direction: column;
   `};
@@ -24,30 +27,15 @@ const InputRow = styled(Row)`
   }
 `
 
-const SendButton = styled(Button)`
-  position: absolute;
-  right: 0;
-`
-
-export const LoadingButton = ({ loading, children, send, ...rest }) => {
-  return send ? (
-    <SendButton height='48px' disabled={loading} {...rest}>
-      {loading ? (
-        <HeartbeatLoader height='20px' width='20px' color='white' />
-      ) : (
-        children
-      )}
-    </SendButton>
-  ) : (
-    <Button height='48px' disabled={loading} {...rest}>
-      {loading ? (
-        <HeartbeatLoader height='20px' width='20px' color='white' />
-      ) : (
-        children
-      )}
-    </Button>
-  )
-}
+export const LoadingButton = ({ loading, children, ...rest }) => (
+  <Button height='48px' disabled={loading} {...rest}>
+    {loading ? (
+      <HeartbeatLoader height='20px' width='20px' color='white' />
+    ) : (
+      children
+    )}
+  </Button>
+)
 
 export const ChangeButton = styled(LoadingButton)`
   margin-right: 16px;
@@ -145,17 +133,16 @@ const EmailInput = ({
     <InputRow>
       <TextBox
         errorBottom={errorBottom}
-        sendVerificationInput
-        placeholder='Email'
+        placeholder={
+          <FormattedMessage
+            id='components.EmailVerification.placeholder'
+            defaultMessage='Email'
+          />
+        }
         input={input}
         meta={meta}
       />
-      <LoadingButton
-        nature='primary'
-        onClick={updateEmail}
-        loading={loading}
-        send
-      >
+      <LoadingButton nature='primary' onClick={updateEmail} loading={loading}>
         <FormattedMessage
           id='components.EmailVerification.sendnow'
           defaultMessage='Send Now'

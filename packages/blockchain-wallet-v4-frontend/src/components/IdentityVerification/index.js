@@ -219,10 +219,9 @@ export const FaqFormGroup = styled(FormGroup)`
 
 export const Label = styled.label`
   font-size: 16px;
-  font-weight: ${({ simpleBuy, theme }) => (simpleBuy ? '500' : '400')};
+  font-weight: 400;
   margin-bottom: 12px;
   display: block;
-  color: ${({ simpleBuy, theme }) => (simpleBuy ? theme.grey800 : 'initial')};
 `
 
 export const BackButton = styled(Button)`
