@@ -103,10 +103,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
     }
   }
 
-  handleLoadMore = () => {
-    this.props.loadMoreTxs()
-  }
-
   handleRefresh = () => {
     this.props.fetchData()
     this.props.initTxs()
@@ -122,13 +118,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isSearchEntered,
+      loadMoreTxs,
       pages
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
 
     return (
       <SceneWrapper>
-        <LazyLoadContainer onLazyLoad={this.handleLoadMore}>
+        <LazyLoadContainer onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
               <Icon size='36px' color={colorCode} name={icons.circleFilled} />
@@ -164,7 +161,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 data={value}
                 key={index}
                 onArchive={this.handleArchive}
-                onLoadMore={this.handleLoadMore}
+                onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
               />
             ))

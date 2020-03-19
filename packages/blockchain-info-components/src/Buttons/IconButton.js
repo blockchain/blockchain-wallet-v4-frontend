@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -7,10 +6,8 @@ import Button from './Button'
 
 const BaseIconButton = styled(Button)`
   width: auto;
-  min-width: ${props => props.min};
-  max-width: ${props => props.max};
   & > :first-child {
-    margin-right: 5px;
+    margin-right: 8px;
   }
 `
 
@@ -20,26 +17,19 @@ const selectColor = (nature, disabled) => {
   }
 
   switch (nature) {
-    case 'empty':
-      return 'gray-6'
     case 'primary':
-      return 'white'
     case 'secondary':
-      return 'white'
     case 'copy':
-      return 'white'
     case 'received':
-      return 'white'
     case 'sent':
-      return 'white'
     case 'transferred':
-      return 'white'
     case 'logout':
-      return 'white'
     case 'dark':
       return 'white'
-    case 'gray-3':
-      return 'gray-3'
+    case 'light':
+    case 'white-transparent':
+    case 'white-blue':
+      return 'blue600'
     default:
       return 'gray-6'
   }
@@ -55,12 +45,6 @@ const IconButton = props => {
       {children}
     </BaseIconButton>
   )
-}
-
-PropTypes.propTypes = {
-  name: PropTypes.string.isRequired,
-  min: PropTypes.string,
-  max: PropTypes.string
 }
 
 export default IconButton

@@ -44,30 +44,6 @@ describe('btcTransactions sagas', () => {
     })
   })
 
-  describe('reportClicked', () => {
-    let { reportClicked } = btcTransactionsSagas({ coreSagas })
-    let saga = testSaga(reportClicked)
-
-    it('should open the modal', () => {
-      saga
-        .next()
-        .put(actions.modals.showModal('TransactionReport', { coin: 'BTC' }))
-    })
-
-    describe('error handling', () => {
-      const error = new Error('ERROR')
-      it('should log the error', () => {
-        saga
-          .restart()
-          .next()
-          .throw(error)
-          .put(
-            actions.logs.logErrorMessage(logLocation, 'reportClicked', error)
-          )
-      })
-    })
-  })
-
   describe('formChanged with show all', () => {
     let { formChanged } = btcTransactionsSagas({ coreSagas })
     const action = {

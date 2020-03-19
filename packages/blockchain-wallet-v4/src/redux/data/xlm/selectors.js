@@ -105,3 +105,9 @@ export const getTransactionsAtBound = path([
 
 export const getTransactions = path([dataPath, 'xlm', 'transactions'])
 export const getOperations = path([dataPath, 'xlm', 'operations'])
+
+export const getTransactionHistory = path([
+  dataPath,
+  'xlm',
+  'transaction_history'
+])

@@ -34,6 +34,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       data: { base: coin, quote: currency, start: start, scale: scale }
     })
 
+  const getPriceTimestampSeries = (coin, currency, txTimestampList) =>
+    post({
+      url: apiUrl,
+      endPoint: `/price/index-series?base=${coin}&quote=${currency}`,
+      contentType: 'application/json',
+      removeDefaultPostData: true,
+      data: txTimestampList
+    })
+
   const getRandomBytes = (bytes, format) =>
     get({
       url: apiUrl,
@@ -53,6 +62,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getTransactionHistory,
     getLogs,
     getPriceIndexSeries,
+    getPriceTimestampSeries,
     getRandomBytes,
     getWalletNUsers
   }
