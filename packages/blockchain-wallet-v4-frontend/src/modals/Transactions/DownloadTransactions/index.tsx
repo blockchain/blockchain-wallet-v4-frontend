@@ -2,10 +2,11 @@ import { compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import * as moment from 'services/MomentHelper'
+import * as moment from 'moment'
 import { actions, selectors } from 'data'
 import { prop, toLower } from 'ramda'
 import modalEnhancer from 'providers/ModalEnhancer'
+import momentHelper from 'services/MomentHelper'
 
 import { CoinType, SupportedCoinType } from 'core/types'
 import { getData } from './selectors'
@@ -34,7 +35,11 @@ type LinkDispatchPropsType = {
     startDate: string,
     endDate: string
   ) => void
-  initForm: (formDefaults: { end: moment; from: 'all'; start: moment }) => void
+  initForm: (formDefaults: {
+    end: moment.Moment
+    from: 'all'
+    start: moment.Moment
+  }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -45,10 +50,10 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const { initForm } = this.props
     initForm({
       from: 'all',
-      start: moment()
+      start: momentHelper()
         .startOf('day')
         .subtract(7, 'day'),
-      end: moment().endOf('day')
+      end: momentHelper().endOf('day')
     })
   }
 
