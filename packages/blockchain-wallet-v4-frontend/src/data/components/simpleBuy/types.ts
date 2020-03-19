@@ -3,6 +3,7 @@ import {
   CurrenciesType,
   FiatEligibleType,
   RemoteDataType,
+  SBOrderType,
   SBPairType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -17,13 +18,15 @@ export type SBCurrencySelectFormType = {
 }
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
-  'ENTER_AMOUNT'
+  'ENTER_AMOUNT',
+  'ORDER_DETAILS'
 }
 
 // State
 export type SimpleBuyState = {
-  fiatCurrency: null | keyof CurrenciesType
+  fiatCurrency: undefined | keyof CurrenciesType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  order: undefined | SBOrderType
   pairs: RemoteDataType<string, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
   suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
@@ -115,6 +118,10 @@ interface SetStepAction {
       }
     | {
         step: 'CURRENCY_SELECTION'
+      }
+    | {
+        order: SBOrderType
+        step: 'ORDER_DETAILS'
       }
   type: typeof AT.SET_STEP
 }

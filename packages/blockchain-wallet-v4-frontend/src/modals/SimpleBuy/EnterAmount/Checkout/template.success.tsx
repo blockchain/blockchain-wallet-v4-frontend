@@ -8,6 +8,7 @@ import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
+import ActionButton from './ActionButton'
 import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
@@ -123,29 +124,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
-        <Button
-          data-e2e='submitSBAmount'
-          height='48px'
-          size='16px'
-          nature='primary'
-          type='submit'
-          fullwidth
-          disabled={props.invalid || props.submitting}
-        >
-          {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
-          ) : (
-            <FormattedMessage
-              id='modals.simplebuy.continue'
-              defaultMessage='Continue'
-            />
-          )}
-        </Button>
+        <ActionButton {...props} />
       </FlyoutWrapper>
     </CustomForm>
   )
 }
 
 export default reduxForm<{}, Props>({
-  form: 'simpleBuyCheckout'
+  form: 'simpleBuyCheckout',
+  destroyOnUnmount: false
 })(Success)

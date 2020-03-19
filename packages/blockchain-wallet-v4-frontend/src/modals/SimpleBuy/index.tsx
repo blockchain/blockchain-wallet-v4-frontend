@@ -76,6 +76,11 @@ class SimpleBuy extends PureComponent<Props, State> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'ORDER_DETAILS' && (
+          <FlyoutChild>
+            <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }

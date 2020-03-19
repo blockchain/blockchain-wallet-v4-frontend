@@ -20,10 +20,11 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: null | keyof CurrenciesType
+  fiatCurrency: undefined | keyof CurrenciesType
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
+  profileActions: typeof actions.modules.profile
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
@@ -72,7 +73,8 @@ const mapDispatchToProps = dispatch => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const enhance = connect(

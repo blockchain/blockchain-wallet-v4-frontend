@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   CurrenciesType,
   FiatEligibleType,
+  SBOrderType,
   SBPairType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -109,6 +110,7 @@ export const initializeCheckout = (pairs: Array<SBPairType>) => ({
 export const setStep = (
   payload:
     | { step: 'CURRENCY_SELECTION' }
+    | { order: SBOrderType; step: 'ORDER_DETAILS' }
     | { fiatCurrency: keyof CurrenciesType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
@@ -118,6 +120,8 @@ export const setStep = (
           step: payload.step,
           fiatCurrency: payload.fiatCurrency
         }
+      : payload.step === 'ORDER_DETAILS'
+      ? { step: payload.step, order: payload.order }
       : {
           step: payload.step
         }

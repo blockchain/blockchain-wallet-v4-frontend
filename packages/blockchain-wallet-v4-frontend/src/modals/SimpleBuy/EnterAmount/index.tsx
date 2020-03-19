@@ -26,7 +26,7 @@ export type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-  fiatCurrency: null | keyof CurrenciesType
+  fiatCurrency: undefined | keyof CurrenciesType
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
