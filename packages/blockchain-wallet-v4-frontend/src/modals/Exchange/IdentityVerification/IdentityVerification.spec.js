@@ -22,7 +22,6 @@ import {
   getCountryCode,
   getEmail,
   getEmailVerified,
-  getInvitations,
   getSmsNumber,
   getSmsVerified
 } from 'blockchain-wallet-v4/src/redux/settings/selectors'
@@ -96,7 +95,6 @@ const api = {
   fetchKycAddresses: () => Remote.of(POSSIBLE_ADDRESSES)
 }
 
-getInvitations.mockImplementation(() => Remote.of({}))
 getUserId.mockImplementation(() => Remote.of(123))
 getLifetimeToken.mockImplementation(() => Remote.of(456))
 getSmsVerified.mockImplementation(() => Remote.of(0))
