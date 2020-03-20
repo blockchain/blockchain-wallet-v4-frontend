@@ -16,6 +16,7 @@ import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList } from '../../../types'
 import { indexBy, length, map, path, prop } from 'ramda'
 import { MISSING_WALLET } from '../utils'
+import moment from 'moment'
 import Remote from '../../../remote'
 
 const transformTx = transactions.bch.transformTx
@@ -110,6 +111,8 @@ export default ({ api }) => {
 
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
+    const startDate = moment(start).format('DD/MM/YYYY')
+    const endDate = moment(end).format('DD/MM/YYYY')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
@@ -120,8 +123,8 @@ export default ({ api }) => {
           'BCH',
           convertedAddress,
           currency.getOrElse('USD'),
-          start,
-          end
+          startDate,
+          endDate
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
@@ -132,8 +135,8 @@ export default ({ api }) => {
           'BCH',
           active,
           currency.getOrElse('USD'),
-          start,
-          end
+          startDate,
+          endDate
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       }

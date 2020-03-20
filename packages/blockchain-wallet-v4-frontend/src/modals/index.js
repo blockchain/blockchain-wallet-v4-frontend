@@ -49,7 +49,7 @@ import {
   ShowUsedAddresses,
   UpgradeAddressLabels
 } from './Addresses'
-import { EditTxDescription, TransactionReport } from './Transactions'
+import { DownloadTransactions, EditTxDescription } from './Transactions'
 import {
   LockboxAppManager,
   LockboxConnectionPrompt,
@@ -100,6 +100,7 @@ const Modals = () => (
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
+    <DownloadTransactions />
     <EditTxDescription />
     <EthAirdrop />
     <ExchangeConfirm />
@@ -143,7 +144,6 @@ const Modals = () => (
     <Support />
     <SwapGetStarted />
     <SwapUpgrade />
-    <TransactionReport />
     <TransferEth />
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />

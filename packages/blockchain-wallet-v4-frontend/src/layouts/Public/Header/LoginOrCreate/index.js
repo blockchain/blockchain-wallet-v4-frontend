@@ -1,6 +1,6 @@
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { contains } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import { includes } from 'ramda'
 import { LinkContainer } from 'react-router-bootstrap'
 import { withRouter } from 'react-router-dom'
 import media from 'services/ResponsiveService'
@@ -22,7 +22,7 @@ const ResponsiveLink = styled(Link)`
 
 const LoginOrCreate = props => {
   const { pathname } = props.location
-  const isSignup = contains('/signup', pathname)
+  const isSignup = includes('/signup', pathname)
   return (
     <LinkContainer to={isSignup ? '/login' : '/signup'}>
       <TextGroup inline>

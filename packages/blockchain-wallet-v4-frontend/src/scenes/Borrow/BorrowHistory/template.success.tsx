@@ -91,12 +91,14 @@ function Success (props: SuccessStateType): ReactElement {
             return (
               <TableRow key={loan.loanId}>
                 <TableCell width='20%'>
-                  <Value>{moment(loan.openedAt).format('lll')}</Value>
+                  <Value data-e2e='loanCreationDate'>
+                    {moment(loan.openedAt).format('lll')}
+                  </Value>
                 </TableCell>
-                <CollateralizationTableCell width='30%'>
+                <CollateralizationTableCell data-e2e='loanStatus' width='30%'>
                   <Status {...loan} />
                   {offer && (
-                    <CollateralizationBarWrapper>
+                    <CollateralizationBarWrapper data-e2e='collateralizationBar'>
                       <CollateralizationBar
                         {...props}
                         loan={loan}
@@ -107,7 +109,7 @@ function Success (props: SuccessStateType): ReactElement {
                 </CollateralizationTableCell>
                 <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
-                  <Value>
+                  <Value data-e2e='collateralAmount'>
                     <CollateralAmt loan={loan} />
                   </Value>
                 </TableCell>
@@ -124,7 +126,7 @@ function Success (props: SuccessStateType): ReactElement {
                   </Value>
                 </TableCell>
                 <TableCell width='12.5%'>
-                  <Value>
+                  <Value data-e2e='outstandingInterest'>
                     {loan.financials ? (
                       loan.financials.owedInterest[0] ? (
                         <CoinDisplay
