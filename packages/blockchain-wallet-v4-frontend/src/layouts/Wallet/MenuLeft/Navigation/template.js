@@ -155,27 +155,25 @@ const Navigation = props => {
           </MenuItem>
         </LinkContainer>
       )}
-      {props.invitations.borrow && (
-        <LinkContainer to='/borrow' activeClassName='active'>
-          <MenuItem data-e2e='borrowLink'>
-            <MenuIcon name='borrow' size='20px' />
-            <Destination>
+      <LinkContainer to='/borrow' activeClassName='active'>
+        <MenuItem data-e2e='borrowLink'>
+          <MenuIcon name='borrow' size='20px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.borrow'
+              defaultMessage='Borrow'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='orange600' weight={600} size='12' uppercase>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow'
-                defaultMessage='Borrow'
+                id='layouts.wallet.menuleft.navigation.borrow.new'
+                defaultMessage='New'
               />
-            </Destination>
-            <NewCartridge>
-              <Text color='orange600' weight={600} size='12' uppercase>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.borrow.new'
-                  defaultMessage='New'
-                />
-              </Text>
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </LinkContainer>
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon
