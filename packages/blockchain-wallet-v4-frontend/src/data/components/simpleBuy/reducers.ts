@@ -20,6 +20,7 @@ export function simpleBuyReducer (
     case AT.DESTROY_CHECKOUT:
       return {
         ...state,
+        step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
         pairs: Remote.NotAsked,
         suggestedAmounts: Remote.NotAsked

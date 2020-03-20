@@ -13,7 +13,7 @@ export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
 }
-type SuccessStateType = {
+export type SuccessStateType = {
   account: SBAccountType
 }
 type LinkDispatchPropsType = {
@@ -27,6 +27,10 @@ type State = {}
 
 class OrderDetails extends PureComponent<Props, State> {
   state = {}
+
+  componentDidMount () {
+    this.props.simpleBuyActions.fetchSBPaymentAccount()
+  }
 
   render () {
     switch (this.props.order.state) {

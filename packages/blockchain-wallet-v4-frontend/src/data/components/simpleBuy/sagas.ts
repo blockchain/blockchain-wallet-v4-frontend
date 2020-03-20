@@ -8,7 +8,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { errorHandler } from '../helpers'
-import { FiatEligibleType, SBOrderType } from 'core/types'
+import { FiatEligibleType, SBAccountType, SBOrderType } from 'core/types'
 import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
 import { SBCheckoutFormValuesType } from './types'
 import profileSagas from '../../modules/profile/sagas'
@@ -88,8 +88,11 @@ export default ({
       yield put(A.fetchSBPaymentAccountLoading())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
-      const { pairs } = yield call(api.getSBPaymentAccount, fiatCurrency)
-      yield put(A.fetchSBPaymentAccountSuccess(pairs))
+      const account: SBAccountType = yield call(
+        api.getSBPaymentAccount,
+        fiatCurrency
+      )
+      yield put(A.fetchSBPaymentAccountSuccess(account))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBPaymentAccountFailure(error))

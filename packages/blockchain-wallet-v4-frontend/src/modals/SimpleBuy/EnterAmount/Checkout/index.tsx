@@ -34,10 +34,6 @@ class Checkout extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeCheckout(this.props.pairs)
   }
 
-  componentWillUnmount () {
-    this.props.simpleBuyActions.destroyCheckout()
-  }
-
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail

@@ -11,6 +11,10 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_SB_FIAT_ELIGIBLE,
       simpleBuySagas.fetchSBFiatEligible
     )
+    yield takeLatest(
+      AT.FETCH_SB_PAYMENT_ACCOUNT,
+      simpleBuySagas.fetchSBPaymentAccount
+    )
     yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(
       AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,

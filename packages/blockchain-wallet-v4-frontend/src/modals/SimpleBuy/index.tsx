@@ -53,9 +53,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   }
 
   componentWillUnmount () {
-    this.props.simpleBuyActions.setStep({
-      step: 'CURRENCY_SELECTION'
-    })
+    this.props.simpleBuyActions.destroyCheckout()
   }
 
   handleClose = () => {

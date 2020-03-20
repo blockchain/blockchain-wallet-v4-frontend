@@ -1,24 +1,41 @@
-import {
-  CryptoCurrenciesType,
-  CurrenciesType,
-  FiatCurrenciesType
-} from 'core/types'
+import { CryptoCurrenciesType, FiatCurrenciesType } from 'core/types'
 
-export type SBAccountType = {
+export type ISBAccountType = {
   address: string
-  agent: {
-    account: string
-    address: string
-    code: string
-    country: string
-    name: string
-    recipient: string
-    routingNumber: string
-  }
-  currency: keyof CurrenciesType
   id: string
-  state: 'ACTIVE'
+  state: 'PENDING' | 'ACTIVE'
 }
+
+export type SBAccountType =
+  | ISBAccountType & {
+      agent: {
+        account: string
+        address: string
+        code: string
+        country: string
+        name: string
+        recipient: string
+        routingNumber: string
+      }
+      currency: 'USD'
+    }
+  | ISBAccountType & {
+      agent: {
+        account: string
+        code: string
+        name: string
+      }
+      currency: 'EUR'
+    }
+  | ISBAccountType & {
+      agent: {
+        account: string
+        code: string
+        name: string
+        recipient: string
+      }
+      currency: 'GBP'
+    }
 
 export type SBPairsType =
   | 'BTC-EUR'
