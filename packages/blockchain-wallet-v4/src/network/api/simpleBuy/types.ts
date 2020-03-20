@@ -1,4 +1,24 @@
-import { CryptoCurrenciesType, FiatCurrenciesType } from 'core/types'
+import {
+  CryptoCurrenciesType,
+  CurrenciesType,
+  FiatCurrenciesType
+} from 'core/types'
+
+export type SBAccountType = {
+  address: string
+  agent: {
+    account: string
+    address: string
+    code: string
+    country: string
+    name: string
+    recipient: string
+    routingNumber: string
+  }
+  currency: keyof CurrenciesType
+  id: string
+  state: 'ACTIVE'
+}
 
 export type SBPairsType =
   | 'BTC-EUR'

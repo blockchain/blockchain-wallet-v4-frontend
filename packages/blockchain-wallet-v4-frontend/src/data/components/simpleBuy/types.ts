@@ -3,6 +3,7 @@ import {
   CurrenciesType,
   FiatEligibleType,
   RemoteDataType,
+  SBAccountType,
   SBOrderType,
   SBPairType,
   SBSuggestedAmountType
@@ -24,6 +25,7 @@ export enum SimpleBuyStepType {
 
 // State
 export type SimpleBuyState = {
+  account: RemoteDataType<string, SBAccountType>
   fiatCurrency: undefined | keyof CurrenciesType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   order: undefined | SBOrderType
@@ -85,6 +87,28 @@ interface FetchSBPairsSuccess {
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
 
+interface FetchSBPaymentAccount {
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT
+}
+
+interface FetchSBPaymentAccountFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE
+}
+
+interface FetchSBPaymentAccountLoading {
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
+}
+
+interface FetchSBPaymentAccountSuccess {
+  payload: {
+    account: SBAccountType
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
+}
+
 interface FetchSBSuggestedAmounts {
   payload: {
     currency: keyof CurrenciesType
@@ -136,6 +160,10 @@ export type SimpleBuyActionTypes =
   | FetchSBPairsFailure
   | FetchSBPairsLoading
   | FetchSBPairsSuccess
+  | FetchSBPaymentAccount
+  | FetchSBPaymentAccountFailure
+  | FetchSBPaymentAccountLoading
+  | FetchSBPaymentAccountSuccess
   | FetchSBSuggestedAmounts
   | FetchSBSuggestedAmountsFailure
   | FetchSBSuggestedAmountsLoading

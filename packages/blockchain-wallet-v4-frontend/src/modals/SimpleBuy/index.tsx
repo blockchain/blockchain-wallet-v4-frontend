@@ -3,11 +3,13 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
+import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
+import OrderDetails from './OrderDetails'
 import React, { PureComponent } from 'react'
 
 type OwnProps = ModalPropsType
@@ -16,9 +18,15 @@ export type LinkDispatchPropsType = {
   settingsActions: typeof actions.modules.settings
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-type LinkStatePropsType = {
-  step: keyof typeof SimpleBuyStepType
-}
+type LinkStatePropsType =
+  | {
+      step: 'CURRENCY_SELECTION'
+    }
+  | {
+      step: 'ENTER_AMOUNT'
+    }
+  | { order: SBOrderType; step: 'ORDER_DETAILS' }
+
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = { direction: 'left' | 'right'; show: boolean }
 
@@ -78,7 +86,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         )}
         {this.props.step === 'ORDER_DETAILS' && (
           <FlyoutChild>
-            <EnterAmount {...this.props} handleClose={this.handleClose} />
+            <OrderDetails {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -86,8 +94,9 @@ class SimpleBuy extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  step: selectors.components.simpleBuy.getStep(state)
+const mapStateToProps = (state: RootState) => ({
+  step: selectors.components.simpleBuy.getStep(state),
+  order: selectors.components.simpleBuy.getSBOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

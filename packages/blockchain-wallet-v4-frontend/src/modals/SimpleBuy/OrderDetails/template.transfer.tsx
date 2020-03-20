@@ -15,6 +15,24 @@ const TopText = styled(Text)`
 const InfoContainer = styled.div`
   margin-top: 16px;
 `
+const Row = styled.div`
+  padding: 16px 40px;
+  box-sizing: border-box;
+  border-top: 1px solid ${props => props.theme.grey000};
+  &:last-child {
+    border-bottom: 1px solid ${props => props.theme.grey000};
+  }
+`
+const Title = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme.grey600};
+`
+const Value = styled(Text)`
+  font-size: 16px;
+  font-weight: 600;
+  color: ${props => props.theme.grey800};
+`
 
 const TransferDetails: React.FC<Props> = props => {
   return (
@@ -43,6 +61,10 @@ const TransferDetails: React.FC<Props> = props => {
           />
         </Text>
       </InfoContainer>
+      <Row>
+        <Title />
+        <Value />
+      </Row>
     </FlyoutWrapper>
   )
 }

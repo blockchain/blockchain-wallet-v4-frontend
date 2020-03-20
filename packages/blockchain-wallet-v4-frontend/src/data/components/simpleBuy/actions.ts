@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   CurrenciesType,
   FiatEligibleType,
+  SBAccountType,
   SBOrderType,
   SBPairType,
   SBSuggestedAmountType
@@ -65,6 +66,32 @@ export const fetchSBPairsSuccess = (
   type: AT.FETCH_SB_PAIRS_SUCCESS,
   payload: {
     pairs
+  }
+})
+
+export const fetchSBPaymentAccount = () => ({
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT
+})
+
+export const fetchSBPaymentAccountFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBPaymentAccountLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
+})
+
+export const fetchSBPaymentAccountSuccess = (
+  account: SBAccountType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS,
+  payload: {
+    account
   }
 })
 

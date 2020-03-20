@@ -83,6 +83,19 @@ export default ({
     }
   }
 
+  const fetchSBPaymentAccount = function * () {
+    try {
+      yield put(A.fetchSBPaymentAccountLoading())
+      const fiatCurrency = S.getFiatCurrency(yield select())
+      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      const { pairs } = yield call(api.getSBPaymentAccount, fiatCurrency)
+      yield put(A.fetchSBPaymentAccountSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBPaymentAccountFailure(error))
+    }
+  }
+
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
@@ -115,6 +128,7 @@ export default ({
   return {
     createSBOrder,
     fetchSBPairs,
+    fetchSBPaymentAccount,
     fetchSBFiatEligible,
     handleSBSuggestedAmountClick,
     initializeCheckout

@@ -1,6 +1,7 @@
 import { CryptoCurrenciesType, CurrenciesType } from '../../../types'
 import {
   FiatEligibleType,
+  SBAccountType,
   SBMoneyType,
   SBOrderType,
   SBPairsType,
@@ -34,6 +35,17 @@ export default ({
       }
     })
 
+  const getSBFiatEligible = (
+    currency: keyof CurrenciesType
+  ): FiatEligibleType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/simple-buy/eligible',
+      data: {
+        fiatCurrency: currency
+      }
+    })
+
   const getSBPairs = (
     currency: keyof CurrenciesType
   ): { pairs: Array<SBPairType> } =>
@@ -45,14 +57,13 @@ export default ({
       }
     })
 
-  const getSBFiatEligible = (
-    currency: keyof CurrenciesType
-  ): FiatEligibleType =>
-    authorizedGet({
+  const getSBPaymentAccount = (currency: keyof CurrenciesType): SBAccountType =>
+    authorizedPut({
       url: nabuUrl,
-      endPoint: '/simple-buy/eligible',
+      endPoint: '/payments/accounts/simplebuy',
+      contentType: 'application/json',
       data: {
-        fiatCurrency: currency
+        currency
       }
     })
 
@@ -68,6 +79,7 @@ export default ({
   return {
     createSBOrder,
     getSBPairs,
+    getSBPaymentAccount,
     getSBFiatEligible,
     getSBSuggestedAmounts
   }
