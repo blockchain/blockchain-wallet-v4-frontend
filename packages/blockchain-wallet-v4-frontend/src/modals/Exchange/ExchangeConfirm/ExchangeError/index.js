@@ -41,7 +41,7 @@ class ExchangeError extends React.PureComponent {
         <HeaderText>
           <ErrorMessageHeader {...this.props} />
         </HeaderText>
-        <CopyText>
+        <CopyText data-e2e='swapErrorMessage'>
           <ErrorMessageBody {...this.props} {...this.props.data} />
         </CopyText>
         <Buttons>
