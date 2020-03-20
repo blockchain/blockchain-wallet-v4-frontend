@@ -159,6 +159,8 @@ export default ({ api, networks }) => {
           cursor: currentPage * TX_REPORT_PAGE_SIZE,
           pagingToken
         })
+        // exit if no results returned
+        if (!length(txPage)) break
         pagingToken = prop('paging_token', last(txPage))
         fullTxList = fullTxList.concat(txPage)
         currentPage++
