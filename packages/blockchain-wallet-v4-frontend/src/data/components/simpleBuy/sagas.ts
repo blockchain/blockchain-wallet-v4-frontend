@@ -72,9 +72,10 @@ export default ({
 
   const fetchSBOrders = function * () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchSBOrdersLoading())
-      const { pairs } = yield call(api.getSBOrders, {})
-      yield put(A.fetchSBOrdersSuccess(pairs))
+      const orders = yield call(api.getSBOrders, {})
+      yield put(A.fetchSBOrdersSuccess(orders))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBOrdersFailure(error))

@@ -45,9 +45,8 @@ export const fetchSBFiatEligibleSuccess = (
   }
 })
 
-export const fetchSBOrders = (currency: keyof FiatCurrenciesType) => ({
-  type: AT.FETCH_SB_ORDERS,
-  currency
+export const fetchSBOrders = () => ({
+  type: AT.FETCH_SB_ORDERS
 })
 
 export const fetchSBOrdersFailure = (error: string): SimpleBuyActionTypes => ({
