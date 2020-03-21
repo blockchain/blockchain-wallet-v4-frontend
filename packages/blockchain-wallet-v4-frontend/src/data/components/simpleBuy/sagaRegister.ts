@@ -11,15 +11,17 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_SB_FIAT_ELIGIBLE,
       simpleBuySagas.fetchSBFiatEligible
     )
+    yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
+    yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(
       AT.FETCH_SB_PAYMENT_ACCOUNT,
       simpleBuySagas.fetchSBPaymentAccount
     )
-    yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
     yield takeLatest(
       AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
       simpleBuySagas.handleSBSuggestedAmountClick
     )
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
+    yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
   }
 }

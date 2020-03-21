@@ -2,7 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import {
-  CurrenciesType,
+  FiatCurrenciesType,
   NabuApiErrorType,
   RemoteDataType,
   SBPairType
@@ -26,7 +26,7 @@ export type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-  fiatCurrency: undefined | keyof CurrenciesType
+  fiatCurrency: undefined | keyof FiatCurrenciesType
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}

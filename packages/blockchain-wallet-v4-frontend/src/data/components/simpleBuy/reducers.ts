@@ -5,6 +5,7 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 const INITIAL_STATE: SimpleBuyState = {
   account: Remote.NotAsked,
   order: undefined,
+  orders: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   pairs: Remote.NotAsked,
@@ -40,6 +41,22 @@ export function simpleBuyReducer (
       return {
         ...state,
         fiatEligible: Remote.Success(action.payload.fiatEligible)
+      }
+    case AT.FETCH_SB_ORDERS_FAILURE: {
+      return {
+        ...state,
+        orders: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_ORDERS_LOADING:
+      return {
+        ...state,
+        orders: Remote.Loading
+      }
+    case AT.FETCH_SB_ORDERS_SUCCESS:
+      return {
+        ...state,
+        orders: Remote.Success(action.payload.orders)
       }
     case AT.FETCH_SB_PAIRS_FAILURE: {
       return {

@@ -1,11 +1,13 @@
 import * as AT from './actionTypes'
 import * as priceChartActionTypes from '../components/priceChart/actionTypes'
 import { assoc, assocPath } from 'ramda'
+import { PreferencesState } from './types'
 
-const INITIAL_STATE = {
+const INITIAL_STATE: PreferencesState = {
   language: 'en',
   culture: 'en-GB',
   theme: 'default',
+  sbFiatCurrency: undefined,
   coinDisplayed: true,
   showKycCompleted: true,
   showBackupReminder: true,
@@ -23,19 +25,21 @@ const INITIAL_STATE = {
   }
 }
 
-const preferences = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
-  switch (type) {
+export function preferencesReducer (
+  state = INITIAL_STATE,
+  action
+): PreferencesState {
+  switch (action.type) {
     case AT.SET_LANGUAGE: {
-      const { language } = payload
+      const { language } = action.payload
       return assoc('language', language, state)
     }
     case AT.SET_CULTURE: {
-      const { culture } = payload
+      const { culture } = action.payload
       return assoc('culture', culture, state)
     }
     case AT.SET_THEME: {
-      const { theme } = payload
+      const { theme } = action.payload
       return assoc('theme', theme, state)
     }
     case AT.TOGGLE_COIN_DISPLAY: {
@@ -48,15 +52,28 @@ const preferences = (state = INITIAL_STATE, action) => {
       return assoc('showLockboxSoftwareDownload', false, state)
     }
     case AT.SET_TOTAL_BALANCES_DROPDOWN: {
-      const { key, val } = payload
-      return assocPath(['totalBalancesDropdown', key], val, state)
+      const { key, val } = action.payload
+      return {
+        ...state,
+        totalBalancesDropdown: {
+          ...state.totalBalancesDropdown,
+          [key]: val
+        }
+      }
+    }
+    case AT.SET_SB_FIAT_CURRENCY: {
+      const { currency } = action.payload
+      return {
+        ...state,
+        sbFiatCurrency: currency
+      }
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
-      const { coin } = payload
+      const { coin } = action.payload
       return assocPath(['priceChart', 'coin'], coin, state)
     }
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
-      const { time } = payload
+      const { time } = action.payload
       return assocPath(['priceChart', 'time'], time, state)
     }
     case AT.HIDE_AIRDROP_CLAIM_MODAL: {
@@ -78,5 +95,3 @@ const preferences = (state = INITIAL_STATE, action) => {
       return state
   }
 }
-
-export default preferences

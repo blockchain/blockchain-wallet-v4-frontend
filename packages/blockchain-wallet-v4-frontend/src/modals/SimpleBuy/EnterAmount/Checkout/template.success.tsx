@@ -38,10 +38,11 @@ const Amount = styled(BlueCartridge)`
   margin-right: 8px;
   cursor: pointer;
 `
-const GreyCartridge = styled(CustomCartridge)`
+const GreyBlueCartridge = styled(CustomCartridge)`
   background-color: ${props => props.theme.white};
   border: 1px solid ${props => props.theme.grey100};
   color: ${props => props.theme.blue600};
+  cursor: pointer;
 `
 const ErrorText = styled(Text)`
   display: inline-flex;
@@ -111,7 +112,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 )
               })}
             </div>
-            <GreyCartridge>{props.fiatCurrency}</GreyCartridge>
+            <GreyBlueCartridge
+              role='button'
+              onClick={() =>
+                props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
+              }
+            >
+              {props.fiatCurrency}
+            </GreyBlueCartridge>
           </Amounts>
         ) : null}
         {props.error && (

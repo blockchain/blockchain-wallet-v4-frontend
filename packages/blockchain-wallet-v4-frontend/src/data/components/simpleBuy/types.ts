@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import {
   CurrenciesType,
+  FiatCurrenciesType,
   FiatEligibleType,
   RemoteDataType,
   SBAccountType,
@@ -26,9 +27,10 @@ export enum SimpleBuyStepType {
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
-  fiatCurrency: undefined | keyof CurrenciesType
+  fiatCurrency: undefined | keyof FiatCurrenciesType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   order: undefined | SBOrderType
+  orders: RemoteDataType<string, Array<SBOrderType>>
   pairs: RemoteDataType<string, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
   suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
@@ -61,6 +63,26 @@ interface FetchSBFiatEligibleSuccess {
     fiatEligible: FiatEligibleType
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
+}
+interface FetchSBOrders {
+  type: typeof AT.FETCH_SB_ORDERS
+}
+interface FetchSBOrdersFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_ORDERS_FAILURE
+}
+
+interface FetchSBOrdersLoading {
+  type: typeof AT.FETCH_SB_ORDERS_LOADING
+}
+
+interface FetchSBOrdersSuccess {
+  payload: {
+    orders: Array<SBOrderType>
+  }
+  type: typeof AT.FETCH_SB_ORDERS_SUCCESS
 }
 interface FetchSBPairs {
   payload: {
@@ -137,7 +159,7 @@ interface FetchSBSuggestedAmountsSuccess {
 interface SetStepAction {
   payload:
     | {
-        fiatCurrency: keyof CurrenciesType
+        fiatCurrency: keyof FiatCurrenciesType
         step: 'ENTER_AMOUNT'
       }
     | {
@@ -149,6 +171,9 @@ interface SetStepAction {
       }
   type: typeof AT.SET_STEP
 }
+interface ShowModalAction {
+  type: typeof AT.SHOW_MODAL
+}
 
 export type SimpleBuyActionTypes =
   | DestroyCheckout
@@ -156,6 +181,11 @@ export type SimpleBuyActionTypes =
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess
+  | FetchSBOrders
+  | FetchSBOrdersFailure
+  | FetchSBOrdersLoading
+  | FetchSBOrdersSuccess
+  | FetchSBPaymentAccount
   | FetchSBPairs
   | FetchSBPairsFailure
   | FetchSBPairsLoading
@@ -169,3 +199,4 @@ export type SimpleBuyActionTypes =
   | FetchSBSuggestedAmountsLoading
   | FetchSBSuggestedAmountsSuccess
   | SetStepAction
+  | ShowModalAction

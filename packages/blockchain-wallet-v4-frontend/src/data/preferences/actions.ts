@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { FiatCurrenciesType } from 'core/types'
 
 export const setCulture = culture => ({
   type: AT.SET_CULTURE,
@@ -7,6 +8,10 @@ export const setCulture = culture => ({
 export const setLanguage = (language, showAlert) => ({
   type: AT.SET_LANGUAGE,
   payload: { language, showAlert }
+})
+export const setSBFiatCurrency = (currency: keyof FiatCurrenciesType) => ({
+  type: AT.SET_SB_FIAT_CURRENCY,
+  payload: { currency }
 })
 export const setTheme = theme => ({ type: AT.SET_THEME, payload: { theme } })
 export const toggleCoinDisplayed = () => ({ type: AT.TOGGLE_COIN_DISPLAY })

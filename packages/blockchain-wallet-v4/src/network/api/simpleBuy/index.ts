@@ -46,6 +46,19 @@ export default ({
       }
     })
 
+  const getSBOrders = ({
+    pendingOnly
+  }: {
+    pendingOnly?: boolean
+  }): { orders: Array<SBOrderType> } =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/simple-buy/trades',
+      data: {
+        pendingOnly
+      }
+    })
+
   const getSBPairs = (
     currency: keyof CurrenciesType
   ): { pairs: Array<SBPairType> } =>
@@ -78,6 +91,7 @@ export default ({
 
   return {
     createSBOrder,
+    getSBOrders,
     getSBPairs,
     getSBPaymentAccount,
     getSBFiatEligible,

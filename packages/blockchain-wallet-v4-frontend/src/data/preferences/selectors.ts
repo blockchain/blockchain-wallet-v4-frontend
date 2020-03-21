@@ -1,4 +1,5 @@
 import { path } from 'ramda'
+import { RootState } from 'data/rootReducer'
 
 export const getCulture = path(['preferences', 'culture'])
 export const getLanguage = path(['preferences', 'language'])
@@ -10,6 +11,8 @@ export const getTotalBalancesDropdown = path([
   'preferences',
   'totalBalancesDropdown'
 ])
+export const getSBFiatCurrency = (state: RootState) =>
+  state.preferences.sbFiatCurrency
 export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])
 export const getShowSwapBanner = path(['preferences', 'showSwapBanner'])
 export const getShowSwapUpgrade = path(['preferences', 'showSwapUpgradeModal'])

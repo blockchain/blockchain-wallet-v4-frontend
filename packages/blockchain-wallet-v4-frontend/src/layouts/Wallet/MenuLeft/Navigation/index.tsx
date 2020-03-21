@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
-import { bind, concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
+import { concat, prop } from 'ramda'
 import { connect } from 'react-redux'
 import { KycStateType } from 'data/types'
 import { SupportedCoinsType } from 'core/types'
@@ -17,6 +17,7 @@ type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
   modalActions: typeof actions.modals
   preferencesActions: typeof actions.preferences
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 type LinkStatePropsType = {
@@ -57,7 +58,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const enhance = compose(

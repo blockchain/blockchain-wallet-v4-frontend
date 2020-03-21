@@ -70,6 +70,17 @@ export default ({
     }
   }
 
+  const fetchSBOrders = function * () {
+    try {
+      yield put(A.fetchSBOrdersLoading())
+      const { pairs } = yield call(api.getSBOrders, {})
+      yield put(A.fetchSBOrdersSuccess(pairs))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBOrdersFailure(error))
+    }
+  }
+
   const fetchSBPairs = function * ({
     currency
   }: ReturnType<typeof A.fetchSBPairs>) {
@@ -114,8 +125,11 @@ export default ({
     try {
       yield call(createUser)
       yield call(waitForUserData)
+
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      yield put(actions.preferences.setSBFiatCurrency(fiatCurrency))
+
       yield put(A.fetchSBSuggestedAmountsLoading())
       const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
       yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
@@ -128,12 +142,25 @@ export default ({
     }
   }
 
+  const showModal = function * () {
+    yield put(actions.modals.showModal('SIMPLE_BUY_MODAL'))
+    const fiatCurrency = selectors.preferences.getSBFiatCurrency(yield select())
+
+    if (!fiatCurrency) {
+      yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
+    } else {
+      yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+    }
+  }
+
   return {
     createSBOrder,
+    fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
     fetchSBFiatEligible,
     handleSBSuggestedAmountClick,
-    initializeCheckout
+    initializeCheckout,
+    showModal
   }
 }
