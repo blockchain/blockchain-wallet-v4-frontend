@@ -1,4 +1,4 @@
-import { CryptoCurrenciesType, FiatCurrenciesType } from 'core/types'
+import { CoinType, CurrenciesType, FiatType } from 'core/types'
 
 export type ISBAccountType = {
   address: string
@@ -37,6 +37,13 @@ export type SBAccountType =
       currency: 'GBP'
     }
 
+export type SBBalancesType = {
+  [key in keyof CurrenciesType]?: {
+    available: string
+    pending: string
+  }
+}
+
 export type SBPairsType =
   | 'BTC-EUR'
   | 'BCH-EUR'
@@ -62,22 +69,22 @@ export type SBPairType = {
 
 export type SBMoneyType = {
   amount: string
-  symbol: keyof FiatCurrenciesType
+  symbol: FiatType
 }
 
 export type SBSuggestedAmountType = Array<
   {
-    [key in keyof FiatCurrenciesType]: Array<string>
+    [key in FiatType]: Array<string>
   }
 >
 
 export type SBOrderType = {
   expiresAt: string
   id: string
-  inputCurrency: keyof FiatCurrenciesType
+  inputCurrency: FiatType
   inputQuantity: string
   insertedAt: string
-  outputCurrency: keyof CryptoCurrenciesType
+  outputCurrency: CoinType
   outputQuantity: string
   pair: SBPairsType
   state: SBOrderStateType

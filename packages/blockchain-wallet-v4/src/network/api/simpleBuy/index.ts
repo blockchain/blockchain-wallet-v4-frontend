@@ -1,7 +1,8 @@
-import { CryptoCurrenciesType, CurrenciesType } from '../../../types'
+import { CoinType, CurrenciesType } from '../../../types'
 import {
   FiatEligibleType,
   SBAccountType,
+  SBBalancesType,
   SBMoneyType,
   SBOrderType,
   SBPairsType,
@@ -20,7 +21,7 @@ export default ({
     action: 'BUY' | 'SELL',
     input: SBMoneyType,
     output: {
-      symbol: keyof CryptoCurrenciesType
+      symbol: CoinType
     }
   ): SBOrderType =>
     authorizedPost({
@@ -32,6 +33,15 @@ export default ({
         action,
         input,
         output
+      }
+    })
+
+  const getSBBalances = (currency?: CoinType): SBBalancesType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/accounts/simplebuy',
+      data: {
+        ccy: currency
       }
     })
 
@@ -91,6 +101,7 @@ export default ({
 
   return {
     createSBOrder,
+    getSBBalances,
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,

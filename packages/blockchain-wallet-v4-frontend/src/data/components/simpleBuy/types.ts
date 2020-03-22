@@ -1,10 +1,10 @@
 import * as AT from './actionTypes'
 import {
-  CurrenciesType,
-  FiatCurrenciesType,
   FiatEligibleType,
+  FiatType,
   RemoteDataType,
   SBAccountType,
+  SBBalancesType,
   SBOrderType,
   SBPairType,
   SBSuggestedAmountType
@@ -27,7 +27,8 @@ export enum SimpleBuyStepType {
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
-  fiatCurrency: undefined | keyof FiatCurrenciesType
+  balances: RemoteDataType<string, SBBalancesType>
+  fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
@@ -40,13 +41,23 @@ export type SimpleBuyState = {
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
 }
-interface FetchSBFiatEligible {
+interface FetchSBBalancesFailure {
   payload: {
-    currency: keyof CurrenciesType
+    error: string
   }
-  type: typeof AT.FETCH_SB_FIAT_ELIGIBLE
+  type: typeof AT.FETCH_SB_BALANCES_FAILURE
 }
 
+interface FetchSBBalancesLoading {
+  type: typeof AT.FETCH_SB_BALANCES_LOADING
+}
+
+interface FetchSBBalancesSuccess {
+  payload: {
+    balances: SBBalancesType
+  }
+  type: typeof AT.FETCH_SB_BALANCES_SUCCESS
+}
 interface FetchSBFiatEligibleFailure {
   payload: {
     error: string
@@ -63,9 +74,6 @@ interface FetchSBFiatEligibleSuccess {
     fiatEligible: FiatEligibleType
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
-}
-interface FetchSBOrders {
-  type: typeof AT.FETCH_SB_ORDERS
 }
 interface FetchSBOrdersFailure {
   payload: {
@@ -84,82 +92,55 @@ interface FetchSBOrdersSuccess {
   }
   type: typeof AT.FETCH_SB_ORDERS_SUCCESS
 }
-interface FetchSBPairs {
-  payload: {
-    currency: keyof CurrenciesType
-  }
-  type: typeof AT.FETCH_SB_PAIRS
-}
-
 interface FetchSBPairsFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_SB_PAIRS_FAILURE
 }
-
 interface FetchSBPairsLoading {
   type: typeof AT.FETCH_SB_PAIRS_LOADING
 }
-
 interface FetchSBPairsSuccess {
   payload: {
     pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
-
-interface FetchSBPaymentAccount {
-  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT
-}
-
 interface FetchSBPaymentAccountFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE
 }
-
 interface FetchSBPaymentAccountLoading {
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
 }
-
 interface FetchSBPaymentAccountSuccess {
   payload: {
     account: SBAccountType
   }
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
 }
-
-interface FetchSBSuggestedAmounts {
-  payload: {
-    currency: keyof CurrenciesType
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS
-}
-
 interface FetchSBSuggestedAmountsFailure {
   payload: {
     error: Error | string
   }
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
 }
-
 interface FetchSBSuggestedAmountsLoading {
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
 }
-
 interface FetchSBSuggestedAmountsSuccess {
   payload: {
     amounts: SBSuggestedAmountType
   }
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
 }
-
 interface SetStepAction {
   payload:
     | {
-        fiatCurrency: keyof FiatCurrenciesType
+        fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
     | {
@@ -177,24 +158,21 @@ interface ShowModalAction {
 
 export type SimpleBuyActionTypes =
   | DestroyCheckout
-  | FetchSBFiatEligible
+  | FetchSBBalancesFailure
+  | FetchSBBalancesLoading
+  | FetchSBBalancesSuccess
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess
-  | FetchSBOrders
   | FetchSBOrdersFailure
   | FetchSBOrdersLoading
   | FetchSBOrdersSuccess
-  | FetchSBPaymentAccount
-  | FetchSBPairs
   | FetchSBPairsFailure
   | FetchSBPairsLoading
   | FetchSBPairsSuccess
-  | FetchSBPaymentAccount
   | FetchSBPaymentAccountFailure
   | FetchSBPaymentAccountLoading
   | FetchSBPaymentAccountSuccess
-  | FetchSBSuggestedAmounts
   | FetchSBSuggestedAmountsFailure
   | FetchSBSuggestedAmountsLoading
   | FetchSBSuggestedAmountsSuccess

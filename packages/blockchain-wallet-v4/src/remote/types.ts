@@ -1,3 +1,5 @@
+import Remote from './remote'
+
 const cata = function<E, A> (
   this: RemoteDataType<E, A>,
   obj: {
@@ -63,10 +65,20 @@ const getOrFail = function<A, EV> (
   }
 }
 
+const map = function<E, A> (this: RemoteDataType<E, A>, f: Function) {
+  return this.cata({
+    Success: (x: A) => Remote.Success(f(x)),
+    Failure: () => this,
+    Loading: () => this,
+    NotAsked: () => this
+  })
+}
+
 export type RemoteType = {
   cata: typeof cata
   getOrElse: typeof getOrElse
   getOrFail: typeof getOrFail
+  map: typeof map
 }
 
 export type RemoteNotAsked = RemoteType & {

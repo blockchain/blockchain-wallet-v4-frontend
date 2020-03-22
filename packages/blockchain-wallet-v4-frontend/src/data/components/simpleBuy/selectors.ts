@@ -3,6 +3,9 @@ import { RootState } from 'data/rootReducer'
 export const getSBAccount = (state: RootState) =>
   state.components.simpleBuy.account
 
+export const getSBBalances = (state: RootState) =>
+  state.components.simpleBuy.balances
+
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 

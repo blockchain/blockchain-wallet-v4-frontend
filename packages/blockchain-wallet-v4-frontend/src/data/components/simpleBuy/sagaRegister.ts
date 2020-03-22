@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { actionTypes } from 'data'
 import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
@@ -23,5 +24,11 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
+    // Fetch balances when profile/user is fetched
+    yield takeLatest(
+      actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+      simpleBuySagas.fetchSBBalances
+    )
+    // yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
   }
 }

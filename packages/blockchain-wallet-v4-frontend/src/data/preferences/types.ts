@@ -1,11 +1,11 @@
-import { FiatCurrenciesType } from 'core/types'
+import { FiatType } from 'core/types'
 
 // State
 export type PreferencesState = {
   coinDisplayed: boolean
   culture: string
   language: string
-  sbFiatCurrency: undefined | keyof FiatCurrenciesType
+  sbFiatCurrency: undefined | FiatType
   showAirdropClaimModal: boolean
   showBackupReminder: boolean
   showKycCompleted: boolean

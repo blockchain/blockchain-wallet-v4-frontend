@@ -2,49 +2,103 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { add, lift, pathOr, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { RemoteDataType, SBBalancesType } from 'core/types'
 import { selectors } from 'data'
+import BigNumber from 'bignumber.js'
 
 export const getBtcBalance = createDeepEqualSelector(
   [
     selectors.core.wallet.getSpendableContext,
-    selectors.core.data.btc.getAddresses
+    selectors.core.data.btc.getAddresses,
+    selectors.components.simpleBuy.getSBBalances
   ],
-  (context, addressesR) => {
-    const contextToBalances = (context, balances) => {
-      return context.map(a => pathOr(0, [a, 'final_balance'], balances))
+  (context, addressesR, sbBalancesR) => {
+    const contextToBalances = (
+      context,
+      balances,
+      sbBalances: SBBalancesType
+    ): Array<number> => {
+      const walletBalances: Array<number> = context.map(a =>
+        pathOr(0, [a, 'final_balance'], balances)
+      )
+      const sbBalance = Number(sbBalances.BTC ? sbBalances.BTC.available : 0)
+      return walletBalances.concat(sbBalance)
     }
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
-    return balancesR.map(reduce(add, 0))
+    const balancesR = lift(contextToBalances)(
+      Remote.of(context),
+      addressesR,
+      sbBalancesR
+    )
+    return balancesR.map(reduce<number, number>(add, 0))
   }
 )
 
 export const getBchBalance = createDeepEqualSelector(
   [
     selectors.core.kvStore.bch.getSpendableContext,
-    selectors.core.data.bch.getAddresses
+    selectors.core.data.bch.getAddresses,
+    selectors.components.simpleBuy.getSBBalances
   ],
-  (context, addressesR) => {
-    const contextToBalances = (context, balances) =>
-      context.map(a => pathOr(0, [a, 'final_balance'], balances))
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
-    return balancesR.map(reduce(add, 0))
+  (context, addressesR, sbBalancesR) => {
+    const contextToBalances = (
+      context,
+      balances,
+      sbBalances: SBBalancesType
+    ) => {
+      const walletBalances: Array<number> = context.map(a =>
+        pathOr(0, [a, 'final_balance'], balances)
+      )
+      const sbBalance = Number(sbBalances.BCH ? sbBalances.BCH.available : 0)
+      return walletBalances.concat(sbBalance)
+    }
+    const balancesR = lift(contextToBalances)(
+      Remote.of(context),
+      addressesR,
+      sbBalancesR
+    )
+    return balancesR.map(reduce<number, number>(add, 0))
   }
 )
 
 export const getEthBalance = createDeepEqualSelector(
-  [selectors.core.kvStore.eth.getContext, selectors.core.data.eth.getAddresses],
-  (context, addressesR) => {
+  [
+    selectors.core.kvStore.eth.getContext,
+    selectors.core.data.eth.getAddresses,
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (
+    context,
+    addressesR,
+    sbBalancesR: RemoteDataType<string, SBBalancesType>
+  ) => {
     const contextToBalances = (context, balances) =>
       context.map(a => pathOr(0, [a, 'balance'], balances))
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
-    return balancesR.map(b => b.getOrElse(0))
+
+    const sbEthBalance = sbBalancesR.getOrElse({ ETH: { available: '0' } }).ETH
+    const sbBalance = sbEthBalance ? sbEthBalance.available : '0'
+
+    const balancesR: RemoteDataType<string, string> = lift(contextToBalances)(
+      Remote.of(context),
+      addressesR
+    )
+    return balancesR.map(b => {
+      return new BigNumber(b.getOrElse(0)).plus(new BigNumber(sbBalance))
+    })
   }
 )
 
 export const getPaxBalance = createDeepEqualSelector(
-  [state => selectors.core.data.eth.getErc20Balance(state, 'pax')],
-  balance => {
-    return Remote.of(balance.getOrElse(0))
+  [
+    state => selectors.core.data.eth.getErc20Balance(state, 'pax'),
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (balanceR, sbBalancesR) => {
+    const sbPaxBalance = sbBalancesR.getOrElse({ PAX: { available: '0' } }).PAX
+    const sbBalance = sbPaxBalance ? sbPaxBalance.available : '0'
+
+    return Remote.of(
+      new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance))
+    )
   }
 )
 
@@ -55,9 +109,17 @@ export const getXlmBalance = createDeepEqualSelector(
         .getDefaultAccountId(state)
         .map(accountId =>
           selectors.core.data.xlm.getBalance(state, accountId).getOrElse(0)
-        )
+        ),
+    selectors.components.simpleBuy.getSBBalances
   ],
-  xlmBalanceR => xlmBalanceR
+  (balanceR, sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbXlmBalance = sbBalancesR.getOrElse({ XLM: { available: '0' } }).XLM
+    const sbBalance = sbXlmBalance ? sbXlmBalance.available : '0'
+
+    return Remote.of(
+      new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance))
+    )
+  }
 )
 
 export const getBtcBalanceInfo = createDeepEqualSelector(

@@ -60,6 +60,10 @@ const CryptoCurrencies = {
   XLM
 }
 
+const ERC20Currencies = {
+  PAX
+}
+
 const Currencies = {
   ...CryptoCurrencies,
   ...FiatCurrencies
@@ -67,5 +71,6 @@ const Currencies = {
 
 export type FiatCurrenciesType = typeof FiatCurrencies
 export type CryptoCurrenciesType = typeof CryptoCurrencies
+export type Erc20CurrenciesType = typeof ERC20Currencies
 export type CurrenciesType = FiatCurrenciesType & CryptoCurrenciesType
 export default Currencies

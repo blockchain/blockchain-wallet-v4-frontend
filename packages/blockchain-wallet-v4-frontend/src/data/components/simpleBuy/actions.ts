@@ -1,9 +1,11 @@
 import * as AT from './actionTypes'
 import {
+  CoinType,
   CurrenciesType,
-  FiatCurrenciesType,
   FiatEligibleType,
+  FiatType,
   SBAccountType,
+  SBBalancesType,
   SBOrderType,
   SBPairType,
   SBSuggestedAmountType
@@ -18,7 +20,34 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const fetchSBFiatEligible = (currency: keyof FiatCurrenciesType) => ({
+export const fetchSBBalances = (currency?: CoinType) => ({
+  type: AT.FETCH_SB_BALANCES,
+  currency
+})
+
+export const fetchSBBalancesFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_BALANCES_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBBalancesLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_BALANCES_LOADING
+})
+
+export const fetchSBBalancesSuccess = (
+  balances: SBBalancesType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_BALANCES_SUCCESS,
+  payload: {
+    balances
+  }
+})
+
+export const fetchSBFiatEligible = (currency: FiatType) => ({
   type: AT.FETCH_SB_FIAT_ELIGIBLE,
   currency
 })
@@ -69,7 +98,7 @@ export const fetchSBOrdersSuccess = (
   }
 })
 
-export const fetchSBPairs = (currency: keyof FiatCurrenciesType) => ({
+export const fetchSBPairs = (currency: FiatType) => ({
   type: AT.FETCH_SB_PAIRS,
   currency
 })
@@ -163,7 +192,7 @@ export const setStep = (
   payload:
     | { step: 'CURRENCY_SELECTION' }
     | { order: SBOrderType; step: 'ORDER_DETAILS' }
-    | { fiatCurrency: keyof FiatCurrenciesType; step: 'ENTER_AMOUNT' }
+    | { fiatCurrency: FiatType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:

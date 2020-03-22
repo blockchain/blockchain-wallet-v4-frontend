@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { FiatCurrenciesType } from 'core/types'
+import { FiatType } from 'core/types'
 
 export const setCulture = culture => ({
   type: AT.SET_CULTURE,
@@ -9,7 +9,7 @@ export const setLanguage = (language, showAlert) => ({
   type: AT.SET_LANGUAGE,
   payload: { language, showAlert }
 })
-export const setSBFiatCurrency = (currency: keyof FiatCurrenciesType) => ({
+export const setSBFiatCurrency = (currency: FiatType) => ({
   type: AT.SET_SB_FIAT_CURRENCY,
   payload: { currency }
 })

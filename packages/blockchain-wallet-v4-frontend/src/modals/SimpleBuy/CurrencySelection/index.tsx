@@ -1,6 +1,7 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { FiatType } from 'core/types'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -63,7 +64,7 @@ const ButtonContainer = styled.div`
 `
 
 const searchHasMatch = (
-  cur: FiatCurrenciesType[keyof FiatCurrenciesType],
+  cur: FiatCurrenciesType[FiatType],
   values?: SBCurrencySelectFormType
 ) => {
   if (!values) return true
@@ -78,8 +79,8 @@ const searchHasMatch = (
 }
 
 const CurrencyBoxComponent = (props: {
-  cur: FiatCurrenciesType[keyof FiatCurrenciesType]
-  selectedCurrency: keyof FiatCurrenciesType | null
+  cur: FiatCurrenciesType[FiatType]
+  selectedCurrency: FiatType | null
   setSelectedCurrency: (string) => void
 }) => {
   return (
@@ -105,9 +106,9 @@ const CurrencyBoxComponent = (props: {
 const CurrencySelection: React.FC<
   InjectedFormProps<{}, Props> & Props & LinkStatePropsType
 > = props => {
-  const [selectedCurrency, setSelectedCurrency] = useState<
-    keyof FiatCurrenciesType | null
-  >(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<FiatType | null>(
+    null
+  )
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
@@ -145,8 +146,7 @@ const CurrencySelection: React.FC<
       <Form onSubmit={handleSubmit}>
         <Field name='search' component={TextBox} />
         {recommendedCurrencies.map(currency => {
-          const cur: FiatCurrenciesType[keyof FiatCurrenciesType] =
-            Currencies[currency]
+          const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
 
           if (!searchHasMatch(cur, props.values)) return
           return (
@@ -161,8 +161,7 @@ const CurrencySelection: React.FC<
         {currencies
           .filter(currency => recommendedCurrencies.indexOf(currency) === -1)
           .map(currency => {
-            const cur: FiatCurrenciesType[keyof FiatCurrenciesType] =
-              Currencies[currency]
+            const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
             if (cur.base !== 'CENT') return
             if (!searchHasMatch(cur, props.values)) return
 

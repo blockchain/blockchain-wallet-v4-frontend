@@ -54,6 +54,19 @@ export default ({
     }
   }
 
+  const fetchSBBalances = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBBalances>) {
+    try {
+      yield put(A.fetchSBBalancesLoading())
+      const orders = yield call(api.getSBBalances, currency)
+      yield put(A.fetchSBBalancesSuccess(orders))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBBalancesFailure(error))
+    }
+  }
+
   const fetchSBFiatEligible = function * ({
     currency
   }: ReturnType<typeof A.fetchSBFiatEligible>) {
@@ -156,6 +169,7 @@ export default ({
 
   return {
     createSBOrder,
+    fetchSBBalances,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
