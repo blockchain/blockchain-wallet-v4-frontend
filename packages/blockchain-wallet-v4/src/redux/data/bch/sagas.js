@@ -11,11 +11,11 @@ import {
   TX_PER_PAGE
 } from '../../../utils/bch'
 import { call, put, select, take } from 'redux-saga/effects'
+import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList } from '../../../types'
 import { indexBy, length, map, path, prop } from 'ramda'
-import { MISSING_WALLET } from '../utils'
 import moment from 'moment'
 import Remote from '../../../remote'
 
@@ -34,7 +34,7 @@ export default ({ api }) => {
       }
       yield put(A.fetchDataSuccess(bchData))
     } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
+      yield put(A.fetchDataFailure(errorHandler(e)))
     }
   }
 

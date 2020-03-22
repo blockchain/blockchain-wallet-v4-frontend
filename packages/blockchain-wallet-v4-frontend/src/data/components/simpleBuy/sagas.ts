@@ -7,7 +7,7 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
-import { errorHandler } from '../helpers'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { FiatEligibleType, SBAccountType, SBOrderType } from 'core/types'
 import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
 import { SBCheckoutFormValuesType } from './types'
@@ -27,6 +27,13 @@ export default ({
     coreSagas,
     networks
   })
+
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    return userData.tiers && userData.tiers.current >= 2
+  }
 
   const createSBOrder = function * () {
     try {
@@ -58,7 +65,9 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
-      yield put(A.fetchSBBalancesLoading())
+      if (!(yield call(isTier2))) return
+
+      // yield put(A.fetchSBBalancesLoading())
       const orders = yield call(api.getSBBalances, currency)
       yield put(A.fetchSBBalancesSuccess(orders))
     } catch (e) {
@@ -85,7 +94,8 @@ export default ({
 
   const fetchSBOrders = function * () {
     try {
-      yield call(waitForUserData)
+      if (!(yield call(isTier2))) return
+
       yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))

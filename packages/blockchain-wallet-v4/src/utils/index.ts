@@ -9,3 +9,17 @@ import { equals } from 'ramda'
 const createDeepEqualSelector = createSelectorCreator(defaultMemoize, equals)
 
 export { bch, btc, eth, xlm, checks, createDeepEqualSelector }
+
+export const MISSING_WALLET = 'missing_wallet'
+
+export const errorHandler = (e): string => {
+  return typeof e === 'object'
+    ? e.description
+      ? e.description
+      : e.message
+      ? e.message
+      : JSON.stringify(e)
+    : typeof e === 'string'
+    ? e
+    : 'Unknown Error'
+}

@@ -28,6 +28,7 @@ import {
   values
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
+import { errorHandler } from '../../../utils'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
@@ -69,7 +70,7 @@ export default ({ api }) => {
       yield put(A.fetchDataSuccess(ethData))
       yield call(checkForLowEthBalance)
     } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
+      yield put(A.fetchDataFailure(errorHandler(e)))
     }
   }
 

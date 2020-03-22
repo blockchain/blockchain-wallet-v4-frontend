@@ -8,7 +8,7 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
-import { errorHandler } from '../helpers'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,

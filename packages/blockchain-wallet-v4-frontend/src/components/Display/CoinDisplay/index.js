@@ -13,8 +13,8 @@ class CoinDisplayContainer extends React.PureComponent {
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
       Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />
     })
   }
 }

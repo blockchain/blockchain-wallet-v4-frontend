@@ -1,5 +1,5 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { add, concat, lift, map, prop, reduce } from 'ramda'
+import { add, lift, map, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
@@ -34,7 +34,7 @@ export const getBtcBalance = createDeepEqualSelector(
 
 export const getBchBalance = createDeepEqualSelector(
   [
-    state => [getBchWalletBalance(state)],
+    state => getBchWalletBalance(state),
     state =>
       selectors.core.kvStore.lockbox
         .getLockboxBchContext(state)
@@ -44,8 +44,13 @@ export const getBchBalance = createDeepEqualSelector(
           )
         )
   ],
-  (walletBalances, lockboxBalancesR) =>
-    lockboxBalancesR.map(concat(walletBalances)).map(reduce(add, 0))
+  (walletBalancesR, lockboxBalancesR) => {
+    const modulesToBalance = (walletBalance, lockboxBalance) => {
+      return lockboxBalance.concat(walletBalance)
+    }
+    const balancesR = lift(modulesToBalance)(walletBalancesR, lockboxBalancesR)
+    return balancesR.map(reduce(add, 0))
+  }
 )
 
 export const getEthBalance = getEthWalletBalance
@@ -78,10 +83,15 @@ export const getBchBalanceInfo = createDeepEqualSelector(
     selectors.core.settings.getCurrency
   ],
   (bchBalanceR, bchRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) =>
-      Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates })
-        .value
-    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
+    const value = bchBalanceR.getOrElse(0)
+    const transform = (rates, toCurrency) =>
+      Exchange.convertBchToFiat({
+        value,
+        fromUnit: 'SAT',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(bchRatesR, currencyR)
   }
 )
 

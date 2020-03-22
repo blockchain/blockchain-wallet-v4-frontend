@@ -5,11 +5,11 @@ import * as selectors from '../../selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import { call, put, select, take } from 'redux-saga/effects'
+import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList, Wallet } from '../../../types'
 import { indexBy, length, map, path, prop, replace } from 'ramda'
-import { MISSING_WALLET } from '../utils'
 import moment from 'moment'
 import Remote from '../../../remote'
 
@@ -29,8 +29,7 @@ export default ({ api }) => {
       }
       yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
-      if (prop('message', e)) yield put(A.fetchDataFailure(e.message))
-      else yield put(A.fetchDataFailure(e))
+      yield put(A.fetchDataFailure(errorHandler(e)))
     }
   }
 
