@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
+import { CoinType, FiatType, RemoteDataType } from 'core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import DataError from 'components/DataError'
+import React from 'react'
+import styled from 'styled-components'
 import TransactionListItem from 'components/TransactionListItem'
 
 const LoadingSkeleton = styled(SkeletonRectangle)`
@@ -63,7 +62,18 @@ const Loading = () => (
   </LoadingSkeleton>
 )
 
-class TransactionList extends React.PureComponent {
+export type Props = {
+  buySellPartner: 'coinify' | 'sfox'
+  coin: CoinType
+  coinTicker: string
+  currency: FiatType
+  data: RemoteDataType<{ message: string }, Array<{ hash: string }>>
+  onArchive: (address: string) => void
+  onLoadMore: () => void
+  onRefresh: () => void
+}
+
+class TransactionList extends React.PureComponent<Props> {
   render () {
     const { buySellPartner, coin, coinTicker, currency, data } = this.props
 
@@ -91,10 +101,6 @@ class TransactionList extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
-}
-
-TransactionList.propTypes = {
-  coin: PropTypes.string.isRequired
 }
 
 export default TransactionList

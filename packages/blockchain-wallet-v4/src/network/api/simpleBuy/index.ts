@@ -57,14 +57,20 @@ export default ({
     })
 
   const getSBOrders = ({
-    pendingOnly
+    pendingOnly,
+    before,
+    after
   }: {
+    after?: string
+    before?: string
     pendingOnly?: boolean
   }): { orders: Array<SBOrderType> } =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/simple-buy/trades',
       data: {
+        after,
+        before,
         pendingOnly
       }
     })

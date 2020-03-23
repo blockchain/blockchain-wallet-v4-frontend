@@ -4,25 +4,38 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
+import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
+import {
+  flatten,
+  head,
+  indexBy,
+  last,
+  length,
+  map,
+  path,
+  prop,
+  replace
+} from 'ramda'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList, Wallet } from '../../../types'
-import { indexBy, length, map, path, prop, replace } from 'ramda'
+import { HDAccountList, SBOrderType, Wallet } from '../../../types'
+import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 import Remote from '../../../remote'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const btcData = {
+        // @ts-ignore
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
@@ -68,7 +81,15 @@ export default ({ api }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, data.txs)
+      const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
+      const sbPage: Array<SBOrderType> = yield call(
+        fetchSBOrders,
+        txPage,
+        offset
+      )
+      const page = flatten([txPage, sbPage]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -107,6 +128,39 @@ export default ({ api }) => {
       }
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
+    }
+  }
+
+  const fetchSBOrders = function * (
+    page: Array<{ insertedAt: number }>,
+    offset: number
+  ) {
+    try {
+      const latestTx = page[0]
+      const oldestTx = page[page.length - 1]
+      let after // ⏫
+      let before // ⏬
+
+      // if offset is 0 get transactions from after the oldestTx
+      // if offset > 0 get transactions before the latestTx
+      // if offset > 0 get transactions after the oldestTx
+      // if no transactions get all before and after
+      if (offset === 0) {
+        if (oldestTx) {
+          after = moment(oldestTx.insertedAt).toISOString()
+        }
+      } else {
+        if (latestTx) {
+          before = moment(latestTx.insertedAt).toISOString()
+        }
+        if (oldestTx) {
+          after = moment(oldestTx.insertedAt).toISOString()
+        }
+      }
+
+      return yield call(api.getSBOrders, { before, after })
+    } catch (e) {
+      // no simple buy transactions
     }
   }
 

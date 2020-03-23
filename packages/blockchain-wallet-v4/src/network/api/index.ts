@@ -89,4 +89,8 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow> & ReturnType<typeof simpleBuy>
+export type APIType = ReturnType<typeof borrow> &
+  ReturnType<typeof btc> &
+  ReturnType<typeof misc> &
+  ReturnType<typeof simpleBuy> &
+  ReturnType<typeof wallet>
