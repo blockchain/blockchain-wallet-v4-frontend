@@ -48,7 +48,7 @@ export default ({ rootUrl, get, post }) => {
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
-    { n = 50, offset = 0, onlyShow } = {}
+    { n = 50, offset = 0, onlyShow = false } = {}
   ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),

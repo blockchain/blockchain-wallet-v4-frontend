@@ -1,4 +1,5 @@
 import { actions, model } from 'data'
+import { CoinType, FiatType, SupportedCoinType } from 'core/types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
@@ -65,12 +66,9 @@ const StatsContainer = styled.div`
 
 type OwnProps = {
   buySellPartner: 'coinify' | 'sfox'
-  // FIXME: TypeScript use CoinType
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
-  // FIXME: TypeScript use SupportedCoinType
-  coinModel: any
-  // FIXME: TypeScript use CurrencyType
-  currency: any
+  coin: CoinType
+  coinModel: SupportedCoinType
+  currency: FiatType
   hasTxResults: boolean
   isSearchEntered: boolean
   pages: Array<any>

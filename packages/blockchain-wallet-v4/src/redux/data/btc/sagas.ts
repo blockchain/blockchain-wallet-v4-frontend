@@ -4,25 +4,27 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
+import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList, Wallet } from '../../../types'
-import { indexBy, length, map, path, prop, replace } from 'ramda'
+import { HDAccountList, SBOrderType, Wallet } from '../../../types'
+import { head, indexBy, last, length, map, path, prop, replace } from 'ramda'
 import moment from 'moment'
 import Remote from '../../../remote'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const btcData = {
+        // @ts-ignore
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)
@@ -68,7 +70,8 @@ export default ({ api }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, data.txs)
+      const page: Array<any> = yield call(__processTxs, data.txs)
+      const sbPage: Array<SBOrderType> = yield call(fetchSBOrders, page, offset)
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -107,6 +110,27 @@ export default ({ api }) => {
       }
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
+    }
+  }
+
+  const fetchSBOrders = function (
+    page: Array<{ timeFormatted: string }>,
+    offset: number
+  ) {
+    try {
+      const latestTx = page[0]
+      const oldestTx = page[page.length - 1]
+      let ordersToFetch = { before: false, after: false }
+
+      // if offset is 0 get transactions from before the first tx
+      // if offset is 0 get transactions from after the last tx
+      // if no transactions pass no before and after
+
+      // if offset > 0 get transactions after the first tx
+      // if offset > 0 get transactions before the last tx
+      // if no transactions do nothing
+    } catch (e) {
+      // no simple buy transactions
     }
   }
 
