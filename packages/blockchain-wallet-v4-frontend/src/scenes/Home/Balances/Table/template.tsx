@@ -2,6 +2,7 @@ import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
+import { Props } from '.'
 import { SupportedCoinType } from 'core/types'
 import CoinBalance from '../CoinBalance'
 import React from 'react'
@@ -39,7 +40,7 @@ const Amount = styled.div`
   }
 `
 
-const Success = props => {
+const Success = (props: Props) => {
   const { viewType, supportedCoins } = props
   const coinOrder = [
     supportedCoins.PAX,
@@ -73,7 +74,7 @@ const Success = props => {
                         <CoinName color={'gray-5'}>{coin.displayName}</CoinName>
                       </Coin>
                       <Amount>
-                        <CoinBalance coin={coin.coinCode} />
+                        <CoinBalance {...props} coin={coin.coinCode} />
                       </Amount>
                     </Wrapper>
                   </div>

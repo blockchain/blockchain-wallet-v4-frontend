@@ -5,14 +5,12 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { includes, toLower } from 'ramda'
 import { SkeletonRectangle } from 'blockchain-info-components'
+import { Props as TableProps } from '../Table'
 import Error from './template.error'
 import React from 'react'
 import Success from './template.success'
 
-type OwnProps = {
-  coin: CoinType
-  coinTicker: string
-}
+export type OwnProps = TableProps & { coin: CoinType }
 type LinkDispatchPropsType = {
   bchActions: typeof actions.core.data.bch
   btcActions: typeof actions.core.data.btc
@@ -58,7 +56,7 @@ class CoinBalance extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => ({
   data: getData(state, ownProps),
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
 })
