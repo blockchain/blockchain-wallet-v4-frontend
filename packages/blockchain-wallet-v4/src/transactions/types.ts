@@ -30,5 +30,19 @@ export type BtcTxType = {
   type: 'sent' | 'received' | 'transferred'
 }
 export type BchTxType = BtcTxType
+export type EthTxType = {
+  amount: number
+  blockHeight: string
+  description: undefined | string
+  erc20: boolean
+  fee: RemoteDataType<string, number>
+  from: string
+  hash: string
+  insertedAt: number
+  time: string
+  timeFormatted: string
+  to: string
+  type: 'sent' | 'received' | 'transferred'
+}
 
-export type ProcessedTxType = BtcTxType | BchTxType
+export type ProcessedTxType = BtcTxType | BchTxType | EthTxType

@@ -28,6 +28,7 @@ export default ({ api }) => {
       const context = yield select(S.getContext)
       const data = yield call(api.fetchBchData, context, { n: 1 })
       const bchData = {
+        // @ts-ignore
         addresses: indexBy(prop('address'), prop('addresses', data)),
         info: path(['wallet'], data),
         latest_block: path(['info', 'latest_block'], data)

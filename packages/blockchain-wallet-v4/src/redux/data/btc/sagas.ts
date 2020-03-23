@@ -7,28 +7,21 @@ import * as walletSelectors from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
-import {
-  flatten,
-  head,
-  indexBy,
-  last,
-  length,
-  map,
-  path,
-  prop,
-  replace
-} from 'ramda'
+import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList, SBOrderType, Wallet } from '../../../types'
 import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 import Remote from '../../../remote'
+import simpleBuySagas from '../simpleBuy/sagas'
 
 const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
+  const { fetchSBOrders } = simpleBuySagas({ api })
+
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
@@ -128,39 +121,6 @@ export default ({ api }: { api: APIType }) => {
       }
     } catch (e) {
       yield put(A.fetchTransactionHistoryFailure(e.message))
-    }
-  }
-
-  const fetchSBOrders = function * (
-    page: Array<{ insertedAt: number }>,
-    offset: number
-  ) {
-    try {
-      const latestTx = page[0]
-      const oldestTx = page[page.length - 1]
-      let after // ⏫
-      let before // ⏬
-
-      // if offset is 0 get transactions from after the oldestTx
-      // if offset > 0 get transactions before the latestTx
-      // if offset > 0 get transactions after the oldestTx
-      // if no transactions get all before and after
-      if (offset === 0) {
-        if (oldestTx) {
-          after = moment(oldestTx.insertedAt).toISOString()
-        }
-      } else {
-        if (latestTx) {
-          before = moment(latestTx.insertedAt).toISOString()
-        }
-        if (oldestTx) {
-          after = moment(oldestTx.insertedAt).toISOString()
-        }
-      }
-
-      return yield call(api.getSBOrders, { before, after })
-    } catch (e) {
-      // no simple buy transactions
     }
   }
 

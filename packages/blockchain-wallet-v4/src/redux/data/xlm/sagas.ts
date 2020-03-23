@@ -36,13 +36,16 @@ export const TX_PER_PAGE = 10
 export const TX_REPORT_PAGE_SIZE = 50
 
 export const sumBigNumbers = reduce(
+  // @ts-ignore
   (num1, num2) => new BigNumber.sum(num1, num2).toString(),
   '0'
 )
 
 const sumBalance = compose(
   sumBigNumbers,
+  // @ts-ignore
   map(account => account.map(S.selectBalanceFromAccount).getOrElse('0')),
+  // @ts-ignore
   values
 )
 
@@ -148,10 +151,12 @@ export default ({ api, networks }) => {
         cursor: currentPage
       })
       currentPage++
+      // @ts-ignore
       pagingToken = prop('paging_token', last(fullTxList))
 
       // keep fetching pages until last (oldest) tx from previous page
       // is before requested start date
+      // @ts-ignore
       while (moment(prop('created_at', last(fullTxList))).isAfter(start)) {
         const txPage = yield call(api.getXlmTransactions, {
           publicKey: address,
@@ -161,6 +166,7 @@ export default ({ api, networks }) => {
         })
         // exit if no results returned
         if (!length(txPage)) break
+        // @ts-ignore
         pagingToken = prop('paging_token', last(txPage))
         fullTxList = fullTxList.concat(txPage)
         currentPage++
@@ -186,12 +192,14 @@ export default ({ api, networks }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
+      // @ts-ignore
       tx => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
 
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
+    // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
     const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
       'USD'
@@ -215,18 +223,22 @@ export default ({ api, networks }) => {
         takeLast(
           2,
           moment
+            // @ts-ignore
             .unix(tx.time)
             .toString()
             .split(' ')
         )
       )
+      // @ts-ignore
       const txType = prop('type', tx)
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
+        // @ts-ignore
         prop('price', nth(idx, historicalPrices))
       )
       const amountBig = new BigNumber(
         Exchange.convertXlmToXlm({
+          // @ts-ignore
           value: tx.amount,
           fromUnit: 'STROOP',
           toUnit: 'XLM'
@@ -236,8 +248,11 @@ export default ({ api, networks }) => {
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
+        // @ts-ignore
         date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        // @ts-ignore
         description: prop('description', tx),
+        // @ts-ignore
         hash: prop('hash', tx),
         time: timeFormatted,
         type: txType,
@@ -257,8 +272,10 @@ export default ({ api, networks }) => {
       map(tx => {
         const operations = decodeOperations(tx)
         return compose(
+          // @ts-ignore
           filter(prop('belongsToWallet')),
           map(transformTx(accounts, txNotes, tx)),
+          // @ts-ignore
           filter(isLumenOperation)
         )(operations)
       }, txList)

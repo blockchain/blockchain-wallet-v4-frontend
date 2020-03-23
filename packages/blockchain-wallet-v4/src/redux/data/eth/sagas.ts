@@ -11,6 +11,7 @@ import {
   dissoc,
   equals,
   filter,
+  flatten,
   head,
   isNil,
   join,
@@ -29,16 +30,18 @@ import {
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler } from '../../../utils'
+import { EthTxType } from 'core/transactions/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
-
+import simpleBuySagas from '../simpleBuy/sagas'
 const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 10
 const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
+  const { fetchSBOrders } = simpleBuySagas({ api })
   //
   // ETH
   //
@@ -122,8 +125,12 @@ export default ({ api }) => {
       const atBounds = length(txPage) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
 
-      const processedTxPage = yield call(__processTxs, txPage)
-      yield put(A.fetchTransactionsSuccess(processedTxPage, reset))
+      const processedTxPage: Array<EthTxType> = yield call(__processTxs, txPage)
+      const sbPage = yield call(fetchSBOrders, processedTxPage, nextPage)
+      const page = flatten([processedTxPage, sbPage]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
+      yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
@@ -153,6 +160,7 @@ export default ({ api }) => {
       // from previous page is before requested start date
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
+        // @ts-ignore
         moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
       ) {
         const txPage = yield call(
@@ -330,6 +338,7 @@ export default ({ api }) => {
       // keep fetching pages until we reach last page or last tx free previous page is before requested start date
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
+        // @ts-ignore
         moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
       ) {
         const txPage = yield call(
@@ -396,24 +405,29 @@ export default ({ api }) => {
         takeLast(
           2,
           moment
+            // @ts-ignore
             .unix(tx.time)
             .toString()
             .split(' ')
         )
       )
+      // @ts-ignore
       const txType = prop('type', tx)
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
+        // @ts-ignore
         prop('price', nth(idx, historicalPrices))
       )
       const amountBig = new BigNumber(
         coin === 'PAX'
           ? Exchange.convertPaxToPax({
+              // @ts-ignore
               value: tx.amount,
               fromUnit: 'WEI',
               toUnit: 'PAX'
             }).value
           : Exchange.convertEtherToEther({
+              // @ts-ignore
               value: tx.amount,
               fromUnit: 'WEI',
               toUnit: 'ETH'
@@ -423,8 +437,11 @@ export default ({ api }) => {
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
+        // @ts-ignore
         date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        // @ts-ignore
         description: prop('description', tx),
+        // @ts-ignore
         hash: prop('hash', tx),
         time: timeFormatted,
         type: txType,
@@ -440,6 +457,7 @@ export default ({ api }) => {
     endDate,
     token
   ) {
+    // @ts-ignore
     const fullTxList = yield call(__processErc20Txs, rawTxList)
     const paxMarketData = (yield select(
       selectors.data.eth.getErc20Rates,
@@ -448,12 +466,14 @@ export default ({ api }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
+      // @ts-ignore
       tx => moment.unix(tx.time).isBetween(startDate, endDate),
       fullTxList
     )
 
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
+    // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
     const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
       'USD'
@@ -484,11 +504,13 @@ export default ({ api }) => {
 
     // remove txs that dont match coin type and are not within date range
     let prunedTxList = filter(tx => {
+      // @ts-ignore
       return !tx.erc20 && moment.unix(tx.time).isBetween(startDate, endDate)
     }, fullTxList)
 
     // return empty list if no tx found in filter set
     if (!length(prunedTxList)) return []
+    // @ts-ignore
     const txTimestamps = pluck('time', prunedTxList)
     const currency = (yield select(selectors.settings.getCurrency)).getOrElse(
       'USD'

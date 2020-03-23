@@ -99,6 +99,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     hash: tx.hash,
     time,
     timeFormatted: getTime(time),
+    insertedAt: Number(time) * 1000,
     to: getLabel(tx.to, state, ''),
     erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type
