@@ -139,7 +139,7 @@ export const Link: StatelessComponent<{
   target?: string
   rel?: string
   style?: CSSProperties
-  onClick?: () => void
+  onClick?: (e?: KeyboardEvent) => void
 }>
 export const Modal: StatelessComponent<{
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'

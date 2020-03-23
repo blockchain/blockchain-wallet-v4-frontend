@@ -1,3 +1,4 @@
+import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 import React from 'react'
@@ -11,13 +12,13 @@ const ErrorLink = styled(Link)`
   text-decoration: underline;
 `
 
-export default props => (
+export default (props: { coin: CoinType; onRefresh: (e) => void }) => (
   <Wrapper>
-    <ErrorLink size='12px' weight={400} onClick={() => props.onRefresh()}>
+    <ErrorLink size='14px' weight={500} onClick={e => props.onRefresh(e)}>
       <FormattedMessage
-        id='wallet.menutop.balance.error.refresh'
-        defaultMessage='Refresh {curr} data'
-        values={{ curr: props.coinTicker ? props.coinTicker : props.coin }}
+        id='home.balances.error.refresh'
+        defaultMessage='Refresh {curr} Data'
+        values={{ curr: props.coin }}
       />
     </ErrorLink>
   </Wrapper>

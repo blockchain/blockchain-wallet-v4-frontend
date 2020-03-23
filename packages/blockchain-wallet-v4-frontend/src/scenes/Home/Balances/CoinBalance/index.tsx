@@ -31,7 +31,10 @@ class CoinBalance extends React.PureComponent<Props> {
     this.handleRefresh()
   }
 
-  handleRefresh = () => {
+  handleRefresh = (e?: KeyboardEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
     const { coin } = this.props
     const coinLower = toLower(coin)
     if (includes(coin, this.props.erc20List)) {
@@ -46,7 +49,9 @@ class CoinBalance extends React.PureComponent<Props> {
 
     return data.cata({
       Success: value => <Success balance={value} coin={coin} />,
-      Failure: () => <Error onRefresh={this.handleRefresh} />,
+      Failure: () => (
+        <Error coin={coin} onRefresh={e => this.handleRefresh(e)} />
+      ),
       Loading: () => <SkeletonRectangle height='35px' width='60px' />,
       NotAsked: () => <SkeletonRectangle height='35px' width='60px' />
     })

@@ -26,7 +26,7 @@ class FiatDisplayContainer extends React.PureComponent {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,
-      Failure: () => <Error />,
+      Failure: () => <Error {...rest} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
