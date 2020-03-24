@@ -23,6 +23,7 @@ import {
   PaymentValue
 } from 'core/types'
 import BigNumber from 'bignumber.js'
+import EthUtil from 'ethereumjs-util'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import moment from 'moment'
 import profileSagas from '../../../data/modules/profile/sagas'
@@ -144,6 +145,10 @@ export default ({
         'NO_PRINCIPAL_WITHDRAW_ADDRESS'
       )
 
+      // TODO: Borrow - make dynamic
+      // EthUtil.toChecksumAddress is a hotfix for some wallets not having a checksum address
+      // If users are borrowing something other than an erc20 token we should create a
+      // util function to handle other coin addresses
       const { loan }: { loan: LoanType } = yield call(
         api.createLoan,
         offer.id,
@@ -155,7 +160,7 @@ export default ({
           )
         },
         {
-          PAX: principalWithdrawAddress
+          PAX: EthUtil.toChecksumAddress(principalWithdrawAddress)
         }
       )
 
