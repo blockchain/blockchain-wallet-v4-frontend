@@ -1,4 +1,5 @@
-import { CoinType, FiatType, RemoteDataType } from 'core/types'
+import { CoinType, FiatType, RemoteDataType, SBOrderType } from 'core/types'
+import { ProcessedTxType } from 'core/transactions/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import DataError from 'components/DataError'
 import React from 'react'
@@ -67,7 +68,10 @@ export type Props = {
   coin: CoinType
   coinTicker: string
   currency: FiatType
-  data: RemoteDataType<{ message: string }, Array<{ hash: string }>>
+  data: RemoteDataType<
+    { message: string },
+    Array<SBOrderType | ProcessedTxType>
+  >
   onArchive: (address: string) => void
   onLoadMore: () => void
   onRefresh: () => void
@@ -78,10 +82,10 @@ class TransactionList extends React.PureComponent<Props> {
     const { buySellPartner, coin, coinTicker, currency, data } = this.props
 
     return data.cata({
-      Success: transactions => (
+      Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
-            return (
+            return 'hash' in tx ? (
               <TransactionListItem
                 key={tx.hash}
                 transaction={tx}
@@ -90,6 +94,9 @@ class TransactionList extends React.PureComponent<Props> {
                 currency={currency}
                 buySellPartner={buySellPartner}
               />
+            ) : (
+              // This is an SBOrderType
+              <div>Order Here</div>
             )
           })}
         </TransactionsWrapper>
