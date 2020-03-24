@@ -3,12 +3,12 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { OwnProps, SuccessStateType } from '.'
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,6 @@ const Wrapper = styled.div`
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -56,16 +55,22 @@ const Success: React.FC<Props> = props => {
       <div>
         <FlyoutWrapper>
           <TopText color='grey900' size='20px' weight={600}>
+            <Icon
+              cursor
+              name='arrow-left'
+              size='20px'
+              color='grey600'
+              style={{ marginRight: '24px' }}
+              onClick={() =>
+                props.simpleBuyActions.setStep({
+                  step: 'ORDER_SUMMARY',
+                  order: props.order
+                })
+              }
+            />
             <FormattedMessage
               id='modals.simplebuy.transferdetails'
               defaultMessage='Transfer Details'
-            />
-            <Icon
-              cursor
-              name='close'
-              size='20px'
-              color='grey600'
-              onClick={() => props.handleClose()}
             />
           </TopText>
           <InfoContainer>

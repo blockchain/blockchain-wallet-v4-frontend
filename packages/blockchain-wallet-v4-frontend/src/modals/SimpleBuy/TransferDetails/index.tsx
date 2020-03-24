@@ -16,7 +16,7 @@ export type OwnProps = {
 export type SuccessStateType = {
   account: SBAccountType
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType = {
