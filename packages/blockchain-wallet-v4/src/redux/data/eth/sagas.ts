@@ -29,10 +29,10 @@ import {
   values
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
+import { CoinType, Erc20CoinType, SBOrderType } from 'core/types'
 import { errorHandler } from '../../../utils'
 import { EthTxType } from 'core/transactions/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
-import { SBOrderType } from 'core/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import simpleBuySagas from '../simpleBuy/sagas'
@@ -127,7 +127,7 @@ export default ({ api }) => {
       yield put(A.transactionsAtBound(atBounds))
 
       const processedTxPage: Array<EthTxType> = yield call(__processTxs, txPage)
-      const sbPage = yield call(fetchSBOrders, processedTxPage, nextPage)
+      const sbPage = yield call(fetchSBOrders, processedTxPage, nextPage, 'ETH')
       const page = flatten([processedTxPage, sbPage]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
@@ -296,10 +296,12 @@ export default ({ api }) => {
         txs,
         token
       )
+      const coin: Erc20CoinType = token.toUpperCase()
       const sbPage: Array<SBOrderType> = yield call(
         fetchSBOrders,
         walletPage,
-        nextPage
+        nextPage,
+        coin
       )
       const page = flatten([walletPage, sbPage]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

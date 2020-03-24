@@ -1,5 +1,6 @@
 import { APIType } from 'core/network/api'
 import { call } from 'redux-saga/effects'
+import { CoinType, SBOrderType } from 'core/types'
 import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 
@@ -7,7 +8,8 @@ export default ({ api }: { api: APIType }) => {
   // TODO - filter orders by coin
   const fetchSBOrders = function * (
     page: Array<ProcessedTxType>,
-    offset: number
+    offset: number,
+    currency: CoinType
   ) {
     try {
       const latestTx = page[0]
@@ -35,7 +37,11 @@ export default ({ api }: { api: APIType }) => {
         }
       }
 
-      return yield call(api.getSBOrders, { before, after })
+      const orders: Array<SBOrderType> = yield call(api.getSBOrders, {
+        before,
+        after
+      })
+      return orders.filter(order => order.outputCurrency === currency)
     } catch (e) {
       // no simple buy transactions
       return []

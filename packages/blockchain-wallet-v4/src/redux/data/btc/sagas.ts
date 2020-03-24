@@ -78,7 +78,8 @@ export default ({ api }: { api: APIType }) => {
       const sbPage: Array<SBOrderType> = yield call(
         fetchSBOrders,
         txPage,
-        offset
+        offset,
+        'BTC'
       )
       const page = flatten([txPage, sbPage]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

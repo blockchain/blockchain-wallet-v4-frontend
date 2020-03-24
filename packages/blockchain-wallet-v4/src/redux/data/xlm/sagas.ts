@@ -135,7 +135,8 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       const sbPage: Array<SBOrderType> = yield call(
         fetchSBOrders,
         txPage,
-        offset
+        offset,
+        'XLM'
       )
       const page = flatten([txPage, sbPage]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
