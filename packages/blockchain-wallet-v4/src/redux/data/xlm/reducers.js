@@ -16,7 +16,8 @@ const INITIAL_STATE = {
   data: {},
   rates: Remote.NotAsked,
   transactions: [],
-  transactions_at_bound: false
+  transactions_at_bound: false,
+  transaction_history: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -86,6 +87,18 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.TRANSACTIONS_AT_BOUND: {
       return assoc('transactions_at_bound', payload.atBound, state)
+    }
+    case AT.FETCH_TRANSACTION_HISTORY_LOADING: {
+      return assoc('transaction_history', Remote.Loading, state)
+    }
+    case AT.FETCH_TRANSACTION_HISTORY_SUCCESS: {
+      return assoc('transaction_history', Remote.Success(payload), state)
+    }
+    case AT.FETCH_TRANSACTION_HISTORY_FAILURE: {
+      return assoc('transaction_history', Remote.Failure(payload), state)
+    }
+    case AT.CLEAR_TRANSACTION_HISTORY: {
+      return assoc('transaction_history', Remote.NotAsked, state)
     }
     default:
       return state

@@ -246,7 +246,7 @@ export default ({ api }) => {
         const fee = calculateFee(feeInGwei, gasLimit)
 
         const data = p.isErc20
-          ? yield call(api.getErc20Data, account, contract)
+          ? yield call(api.getErc20AccountSummaryV2, account, contract)
           : yield call(api.getEthBalances, account)
 
         const balancePath = p.isErc20

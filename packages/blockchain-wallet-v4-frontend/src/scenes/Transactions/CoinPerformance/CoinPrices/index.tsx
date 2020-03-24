@@ -1,19 +1,20 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { buildPercentageChange } from '../../model'
 import { connect } from 'react-redux'
 import { CurrenciesType } from 'core/exchange/currencies'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
+import { PriceChange } from '../../model'
 import { RemoteDataType } from 'core/types'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `
 const TitleText = styled(Text)`
   font-weight: 500;
@@ -26,27 +27,14 @@ const PriceText = styled(Text)`
   font-size: 24px;
   line-height: 135%;
   color: ${props => props.theme.grey800};
-  margin: 5px 0;
-`
-const PriceChangeText = styled(Text)`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  white-space: nowrap;
-  color: ${props => props.theme.grey600};
-`
-const PriceChangeColoredText = styled.span<{ priceChange: number }>`
-  font-weight: 600;
-  color: ${props =>
-    props.priceChange >= 0 ? props.theme.green400 : props.theme.red500};
 `
 
 type SuccessStateType = {
   currency: keyof CurrenciesType
   currencySymbol: string
-  priceChange: number
+  priceChangeFiat: number
+  priceChangePercentage: number
   priceCurrent: number
-  pricePercentageChange: number
 }
 
 type LinkStatePropsType = {
@@ -61,13 +49,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
 
     return data.cata({
       Success: val => {
-        const {
-          currency,
-          currencySymbol,
-          priceChange,
-          priceCurrent,
-          pricePercentageChange
-        } = val
+        const { currencySymbol, priceCurrent } = val
 
         return (
           <Wrapper>
@@ -81,19 +63,13 @@ class CoinPricesContainer extends React.PureComponent<Props> {
               {currencySymbol}
               {Currency.formatFiat(priceCurrent)}
             </PriceText>
-            <PriceChangeText>
-              <PriceChangeColoredText priceChange={priceChange}>
-                {buildPercentageChange(
-                  currencySymbol,
-                  priceChange,
-                  pricePercentageChange
-                )}
-              </PriceChangeColoredText>{' '}
+            <PriceChange {...val}>
+              {' '}
               <FormattedMessage
                 id='scenes.transactions.performance.prices.week'
                 defaultMessage='this week'
               />
-            </PriceChangeText>
+            </PriceChange>
           </Wrapper>
         )
       },

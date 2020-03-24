@@ -1,11 +1,9 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { length, path } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { testSaga } from 'redux-saga-test-plan'
 
-import * as selectors from '../../selectors'
 import sagas from './sagas'
 
 const ethFetchData = {
@@ -41,9 +39,6 @@ const transactionHistory = {
   address: '0x7a192bBb50c7a23E0EE37cD1D39A504Eb1662127',
   sent: {},
   received: {}
-}
-const ethEmptyTransactionData = {
-  '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1': {}
 }
 const rateData = { rate: 13 }
 const latest_block = {
@@ -160,100 +155,6 @@ describe('eth data sagas', () => {
 
     it('should call fetchTransactions again', () => {
       saga.next(action).call(dataEthSagas.fetchTransactions, action)
-    })
-  })
-
-  describe('fetchTransactions', () => {
-    const mockContextR = Remote.of(
-      '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1'
-    )
-    const mockContext = mockContextR.getOrFail()
-    const payload = { reset: true }
-    const saga = testSaga(dataEthSagas.fetchTransactions, { payload })
-    const page = Remote.of([
-      {
-        hash:
-          '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1'
-      },
-      {
-        hash:
-          '0xe039b75f3e777deb659c86d50fe34e3e2b353d5f95b6b7b5930e18ae67da18d8'
-      },
-      {
-        hash:
-          '0x924d8d4e489fec37d6de4fa2a1528fbb7cf7e0a0af8a31434fe682073d3e988f'
-      }
-    ])
-    const pages = [page]
-    const isNil = 'isNil'
-    const txs = path([mockContext, 'txns'], ethTransactionData)
-    const processedTxs = dataEthSagas.__processTxs(txs)
-
-    it('should get eth context', () => {
-      saga.next().select(selectors.kvStore.eth.getContext)
-    })
-
-    it('should get pages', () => {
-      saga.next(mockContextR).select(S.getTransactions)
-    })
-
-    it('should getTransactionsAtBound state', () => {
-      saga.next(pages).select(S.getTransactionsAtBound)
-    })
-
-    it('should put loading state', () => {
-      saga.next(false).put(A.fetchTransactionsLoading(payload.reset))
-    })
-
-    it('should call getEthTransactions', () => {
-      saga.next(mockContextR).call(api.getEthTransactions, mockContext, 0)
-      saga.save(isNil)
-    })
-
-    it('should set transactionsAtBound', () => {
-      saga.next(ethTransactionData).put(A.transactionsAtBound(true))
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(ethTransactionData)
-        .call(dataEthSagas.__processTxs, txs)
-        .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
-    })
-
-    it('should finish', () => {
-      saga.next().isDone()
-    })
-
-    it('should fetch with length of pages if reset is false', () => {
-      const saga = testSaga(dataEthSagas.fetchTransactions, {
-        payload: { reset: false }
-      })
-      saga.next().select(selectors.kvStore.eth.getContext)
-      saga.next(mockContextR).select(S.getTransactions)
-      saga.next(pages).select(S.getTransactionsAtBound)
-      saga.next(false).put(A.fetchTransactionsLoading(false))
-      saga
-        .next(mockContextR)
-        .call(api.getEthTransactions, mockContext, length(pages))
-    })
-
-    it('should not dispatch success if no txns', () => {
-      saga.restore(isNil)
-      saga.next(ethEmptyTransactionData).isDone()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'asdf' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchTransactionsFailure(error.message))
-        .next()
-        .isDone()
     })
   })
 })

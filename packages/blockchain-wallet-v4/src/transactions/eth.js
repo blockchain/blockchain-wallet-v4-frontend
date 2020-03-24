@@ -88,6 +88,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+  const time = tx.timestamp || tx.timeStamp
 
   return {
     amount,
@@ -96,8 +97,8 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     fee: Remote.Success(fee),
     from: getLabel(tx.from, state, ''),
     hash: tx.hash,
-    time: tx.timeStamp,
-    timeFormatted: getTime(tx.timeStamp),
+    time,
+    timeFormatted: getTime(time),
     to: getLabel(tx.to, state, ''),
     erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type

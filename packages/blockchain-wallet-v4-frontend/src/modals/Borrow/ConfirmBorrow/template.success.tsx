@@ -78,7 +78,7 @@ const TermsFormItem = styled(FormItem)`
       margin-top: 2px;
     }
     &:after {
-      top: 4px;
+      top: 9px;
     }
   }
 `

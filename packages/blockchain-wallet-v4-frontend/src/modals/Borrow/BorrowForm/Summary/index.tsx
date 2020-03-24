@@ -42,7 +42,7 @@ const Summary: React.FC<Props> = props => {
               defaultMessage='Borrow Amount'
             />
           </Title>
-          <Value>
+          <Value data-e2e='borrowAmount'>
             {formatFiat(props.principal || 0)} {principalDisplayName}
           </Value>
         </TableRow>
@@ -53,7 +53,9 @@ const Summary: React.FC<Props> = props => {
               defaultMessage='Interest Rate'
             />
           </Title>
-          <Value>{props.offer.terms.interestRate * 100}%</Value>
+          <Value data-e2e='interestRate'>
+            {props.offer.terms.interestRate * 100}%
+          </Value>
         </TableRow>
         <TableRow>
           <Title>
@@ -65,7 +67,7 @@ const Summary: React.FC<Props> = props => {
               <TooltipIcon name='question-in-circle-filled' />
             </TooltipHost>
           </Title>
-          <Value>
+          <Value data-e2e='collateralAmount'>
             {coinToString({
               value: props.values.collateralCryptoAmt
                 ? props.values.collateralCryptoAmt

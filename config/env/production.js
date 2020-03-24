@@ -6,7 +6,7 @@ module.exports = {
   COM_WALLET_APP: 'https://login.blockchain.com',
   COM_ROOT: 'https://blockchain.com',
   EXCHANGE_URL: 'https://exchange.blockchain.com',
-  HORIZON_URL: 'https://horizon.stellar.org',
+  HORIZON_URL: 'https://horizon.blockchain.info',
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
   ROOT_URL: 'https://blockchain.info',

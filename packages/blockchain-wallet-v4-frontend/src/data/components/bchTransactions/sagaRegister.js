@@ -11,10 +11,6 @@ export default () => {
       AT.BCH_TRANSACTIONS_INITIALIZED,
       bchTransactionsSagas.initialized
     )
-    yield takeEvery(
-      AT.BCH_TRANSACTIONS_REPORT_CLICKED,
-      bchTransactionsSagas.reportClicked
-    )
     yield takeLatest(
       AT.BCH_TRANSACTIONS_LOAD_MORE,
       bchTransactionsSagas.loadMore

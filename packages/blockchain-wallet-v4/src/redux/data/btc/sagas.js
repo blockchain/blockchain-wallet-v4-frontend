@@ -10,6 +10,7 @@ import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
 import { HDAccountList, Wallet } from '../../../types'
 import { indexBy, length, map, path, prop, replace } from 'ramda'
 import { MISSING_WALLET } from '../utils'
+import moment from 'moment'
 import Remote from '../../../remote'
 
 const transformTx = transactions.btc.transformTx
@@ -75,8 +76,10 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function * ({ type, payload }) {
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
+    const startDate = moment(start).format('DD/MM/YYYY')
+    const endDate = moment(end).format('DD/MM/YYYY')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
@@ -86,8 +89,8 @@ export default ({ api }) => {
           'BTC',
           address,
           currency.getOrElse('USD'),
-          start,
-          end
+          startDate,
+          endDate
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
@@ -98,7 +101,7 @@ export default ({ api }) => {
           'BTC',
           active,
           currency.getOrElse('USD'),
-          start,
+          startDate,
           end
         )
         yield put(A.fetchTransactionHistorySuccess(data))
