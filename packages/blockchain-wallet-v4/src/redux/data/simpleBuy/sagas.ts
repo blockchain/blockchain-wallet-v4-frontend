@@ -15,15 +15,18 @@ export default ({ api }: { api: APIType }) => {
       let after // ⏫
       let before // ⏬
 
-      // if offset is 0 get transactions from after the oldestTx
+      // if offset === 0 get transactions from after the oldestTx
+      // if offset === 0 and no transactions get all before and after
       // if offset > 0 get transactions before the latestTx
       // if offset > 0 get transactions after the oldestTx
-      // if no transactions get all before and after
+      // if offset > 0 and no transactions return []
+      // if any error is thrown return []
       if (offset === 0) {
         if (oldestTx) {
           after = moment(oldestTx.insertedAt).toISOString()
         }
       } else {
+        if (!page[0]) return []
         if (latestTx) {
           before = moment(latestTx.insertedAt).toISOString()
         }
@@ -35,6 +38,7 @@ export default ({ api }: { api: APIType }) => {
       return yield call(api.getSBOrders, { before, after })
     } catch (e) {
       // no simple buy transactions
+      return []
     }
   }
 

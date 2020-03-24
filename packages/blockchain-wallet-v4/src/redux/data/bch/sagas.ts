@@ -5,23 +5,28 @@ import * as selectors from '../../selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import { addFromToAccountNames } from '../../../utils/accounts'
+import { APIType } from 'core/network/api'
 import {
   BCH_FORK_TIME,
   convertFromCashAddrIfCashAddr,
   TX_PER_PAGE
 } from '../../../utils/bch'
+import { BchTxType } from 'core/transactions/types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList } from '../../../types'
-import { indexBy, length, map, path, prop } from 'ramda'
+import { HDAccountList, SBOrderType } from '../../../types'
 import moment from 'moment'
 import Remote from '../../../remote'
+import simpleBuySagas from '../simpleBuy/sagas'
 
 const transformTx = transactions.bch.transformTx
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
+  const { fetchSBOrders } = simpleBuySagas({ api })
+
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
@@ -75,7 +80,15 @@ export default ({ api }) => {
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, filteredTxs)
+      const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
+      const sbPage: Array<SBOrderType> = yield call(
+        fetchSBOrders,
+        txPage,
+        offset
+      )
+      const page = flatten([txPage, sbPage]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))

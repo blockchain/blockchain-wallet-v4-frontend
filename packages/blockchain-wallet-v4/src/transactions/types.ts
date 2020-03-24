@@ -44,5 +44,20 @@ export type EthTxType = {
   to: string
   type: 'sent' | 'received' | 'transferred'
 }
+export type XlmTxType = {
+  amount: string
+  belongsToWallet: true
+  blockHeight: number
+  description: string
+  from: string
+  hash: string
+  insertedAt: number
+  memo: undefined
+  memoType: string
+  pagingToken: string
+  time: string
+  to: string
+  type: 'sent' | 'received' | 'transferred'
+}
 
-export type ProcessedTxType = BtcTxType | BchTxType | EthTxType
+export type ProcessedTxType = BtcTxType | BchTxType | EthTxType | XlmTxType

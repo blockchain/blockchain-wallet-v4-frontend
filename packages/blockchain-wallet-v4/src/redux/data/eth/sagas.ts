@@ -32,6 +32,7 @@ import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler } from '../../../utils'
 import { EthTxType } from 'core/transactions/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
+import { SBOrderType } from 'core/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import simpleBuySagas from '../simpleBuy/sagas'
@@ -290,7 +291,19 @@ export default ({ api }) => {
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
-      const page = yield call(__processErc20Txs, txs, token)
+      const walletPage: Array<EthTxType> = yield call(
+        __processErc20Txs,
+        txs,
+        token
+      )
+      const sbPage: Array<SBOrderType> = yield call(
+        fetchSBOrders,
+        walletPage,
+        nextPage
+      )
+      const page = flatten([walletPage, sbPage]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))
     } catch (e) {
       yield put(A.fetchErc20TransactionsFailure(token, e.message))

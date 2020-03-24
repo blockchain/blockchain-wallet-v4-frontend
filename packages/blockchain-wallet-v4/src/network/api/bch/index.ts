@@ -1,7 +1,10 @@
 import { merge } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
-  const fetchBchData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
+  const fetchBchData = (
+    context,
+    { n = 50, offset = 0, onlyShow = false } = {}
+  ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',

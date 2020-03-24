@@ -8,6 +8,7 @@ import {
   concat,
   equals,
   filter,
+  flatten,
   join,
   last,
   length,
@@ -22,12 +23,16 @@ import {
   values
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
+import { APIType } from 'core/network/api'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
+import { SBOrderType } from 'core/types'
 import { xlm } from '../../../transactions'
+import { XlmTxType } from 'core/transactions/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import Remote from '../../../remote'
+import simpleBuySagas from '../simpleBuy/sagas'
 
 const { transformTx, decodeOperations, isLumenOperation } = xlm
 
@@ -49,7 +54,9 @@ const sumBalance = compose(
   values
 )
 
-export default ({ api, networks }) => {
+export default ({ api, networks }: { api: APIType; networks: any }) => {
+  const { fetchSBOrders } = simpleBuySagas({ api })
+
   const fetchLedgerDetails = function * () {
     try {
       yield put(A.setLedgerDetailsLoading())
@@ -111,7 +118,7 @@ export default ({ api, networks }) => {
         .map(last)
         .map(prop('pagingToken'))
         .getOrElse(null)
-      const offset = reset ? null : length(pages) * TX_PER_PAGE
+      const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
@@ -119,13 +126,20 @@ export default ({ api, networks }) => {
       const txs = yield call(api.getXlmTransactions, {
         publicKey,
         limit: TX_PER_PAGE,
-        cursor: offset,
         pagingToken,
         reset
       })
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const page = yield call(__processTxs, txs)
+      const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
+      const sbPage: Array<SBOrderType> = yield call(
+        fetchSBOrders,
+        txPage,
+        offset
+      )
+      const page = flatten([txPage, sbPage]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       const statusCode = path(['response', 'status'], e)
@@ -141,14 +155,13 @@ export default ({ api, networks }) => {
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
     let currentPage = 0
-    let pagingToken = null
+    let pagingToken
 
     try {
       yield put(A.fetchTransactionHistoryLoading())
       let fullTxList = yield call(api.getXlmTransactions, {
         publicKey: address,
-        limit: TX_REPORT_PAGE_SIZE,
-        cursor: currentPage
+        limit: TX_REPORT_PAGE_SIZE
       })
       currentPage++
       // @ts-ignore
@@ -161,7 +174,6 @@ export default ({ api, networks }) => {
         const txPage = yield call(api.getXlmTransactions, {
           publicKey: address,
           limit: TX_REPORT_PAGE_SIZE,
-          cursor: currentPage * TX_REPORT_PAGE_SIZE,
           pagingToken
         })
         // exit if no results returned

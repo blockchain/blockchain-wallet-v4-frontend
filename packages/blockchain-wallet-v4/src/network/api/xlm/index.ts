@@ -37,8 +37,14 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
     publicKey,
     limit,
     pagingToken,
-    reset,
+    reset = false,
     order = 'desc'
+  }: {
+    limit?: number
+    order?: string
+    pagingToken?: string
+    publicKey: string
+    reset?: boolean
   }) => {
     const txCallBuilder = server
       .transactions()
@@ -60,6 +66,7 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
       .then(
         compose(
           head,
+          // @ts-ignore
           prop('records')
         )
       )
