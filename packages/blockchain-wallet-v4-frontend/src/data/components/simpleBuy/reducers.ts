@@ -137,7 +137,8 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }
-        case 'ORDER_DETAILS':
+        case 'ORDER_SUMMARY':
+        case 'TRANSFER_DETAILS':
           return {
             ...state,
             order: action.payload.order,

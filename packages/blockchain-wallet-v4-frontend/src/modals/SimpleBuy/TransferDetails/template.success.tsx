@@ -50,7 +50,7 @@ const Value = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
-const TransferDetails: React.FC<Props> = props => {
+const Success: React.FC<Props> = props => {
   return (
     <Wrapper>
       <div>
@@ -175,4 +175,4 @@ const TransferDetails: React.FC<Props> = props => {
   )
 }
 
-export default TransferDetails
+export default Success

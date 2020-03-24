@@ -54,7 +54,7 @@ export default ({
         { symbol: getCoinFromPair(pair) }
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-      yield put(A.setStep({ step: 'ORDER_DETAILS', order }))
+      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))

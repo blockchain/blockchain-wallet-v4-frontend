@@ -21,7 +21,8 @@ export type SBCurrencySelectFormType = {
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
-  'ORDER_DETAILS'
+  'ORDER_SUMMARY',
+  'TRANSFER_DETAILS'
 }
 
 // State
@@ -148,7 +149,7 @@ interface SetStepAction {
       }
     | {
         order: SBOrderType
-        step: 'ORDER_DETAILS'
+        step: 'ORDER_SUMMARY' | 'TRANSFER_DETAILS'
       }
   type: typeof AT.SET_STEP
 }

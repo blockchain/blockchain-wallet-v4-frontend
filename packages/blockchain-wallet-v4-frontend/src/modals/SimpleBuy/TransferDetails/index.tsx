@@ -7,7 +7,7 @@ import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
-import TransferDetails from './template.transfer'
+import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
@@ -25,7 +25,7 @@ type LinkStatePropsType = {
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
 
-class OrderDetails extends PureComponent<Props, State> {
+class TransferDetails extends PureComponent<Props, State> {
   state = {}
 
   componentDidMount () {
@@ -37,7 +37,7 @@ class OrderDetails extends PureComponent<Props, State> {
       case 'PENDING_CONFIRMATION':
       case 'PENDING_DEPOSIT':
         return this.props.data.cata({
-          Success: val => <TransferDetails {...val} {...this.props} />,
+          Success: val => <Success {...val} {...this.props} />,
           Failure: e => <DataError message={{ message: e }} />,
           Loading: () => <Loading />,
           NotAsked: () => <Loading />
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OrderDetails)
+)(TransferDetails)

@@ -191,7 +191,7 @@ export const initializeCheckout = (pairs: Array<SBPairType>) => ({
 export const setStep = (
   payload:
     | { step: 'CURRENCY_SELECTION' }
-    | { order: SBOrderType; step: 'ORDER_DETAILS' }
+    | { order: SBOrderType; step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' }
     | { fiatCurrency: FiatType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
@@ -201,7 +201,7 @@ export const setStep = (
           step: payload.step,
           fiatCurrency: payload.fiatCurrency
         }
-      : payload.step === 'ORDER_DETAILS'
+      : payload.step === 'TRANSFER_DETAILS' || payload.step === 'ORDER_SUMMARY'
       ? { step: payload.step, order: payload.order }
       : {
           step: payload.step

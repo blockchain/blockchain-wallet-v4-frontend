@@ -21,6 +21,7 @@ export const Button: StatelessComponent<
       | 'green'
       | 'grey800'
       | 'light'
+      | 'light-red'
       | 'primary'
       | 'purple'
       | 'received'
