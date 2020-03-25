@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -24,6 +17,7 @@ import {
   FeePerByteContainer,
   Row
 } from 'components/Send'
+import { ErrorCartridge } from 'components/Cartridge'
 import {
   FiatConverter,
   Form,
@@ -36,6 +30,8 @@ import {
   SelectBoxEthAddresses,
   TextAreaDebounced
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
@@ -48,12 +44,16 @@ import {
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEthAddress } from 'services/FormHelper'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import PriorityFeeLink from './PriorityFeeLink'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -85,6 +85,7 @@ const FirstStep = props => {
     isSufficientEthForErc20
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
@@ -122,6 +123,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            includeCustodial
             coin={coin}
           />
         </FormItem>
@@ -312,6 +314,14 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableDueToLowEth && <LowEthWarningForErc20 />}
+      {isFromCustody && (
+        <ErrorCartridge>
+          <FormattedMessage
+            id='modals.sendeth.firststep.fromcustoday.withdrawal'
+            defaultMessage='Withdrawals from your custody wallet will be enabled soon.'
+          />
+        </ErrorCartridge>
+      )}
       <SubmitFormGroup>
         <Button
           type='submit'

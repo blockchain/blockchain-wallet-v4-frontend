@@ -80,7 +80,7 @@ export const getData = (
     return (
       `My Custodial Wallet` +
       ` (${Exchange.displayBtcToBtc({
-        value: x.available,
+        value: x ? x.available : 0,
         fromUnit: 'SAT',
         toUnit: 'BTC'
       })})`
