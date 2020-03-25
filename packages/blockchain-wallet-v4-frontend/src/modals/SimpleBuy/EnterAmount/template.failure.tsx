@@ -1,6 +1,6 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
+import { LinkDispatchPropsType } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +18,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<Props> = props => {
+const Failure: React.FC<LinkDispatchPropsType> = props => {
   return (
     <Wrapper>
       <div>

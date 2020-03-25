@@ -11,6 +11,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import Failure from '../template.failure'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -27,7 +28,20 @@ const TopText = styled(Text)`
   margin-bottom: 24px;
 `
 const AmountFieldContainer = styled.div`
+  display: flex;
+  align-items: center;
   margin-top: 54px;
+  input {
+    color: ${props => props.theme.black};
+    padding-left: 8px;
+    font-size: 56px;
+    font-weight: 500;
+    border: 0px !important;
+    &::placeholder {
+      font-size: 56px;
+      color: ${props => props.theme.grey600};
+    }
+  }
 `
 const Amounts = styled.div`
   margin: 24px 0px 40px 0px;
@@ -58,6 +72,13 @@ const ErrorText = styled(Text)`
 type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  if (!props.fiatCurrency)
+    return (
+      <Failure
+        simpleBuyActions={props.simpleBuyActions}
+        formActions={() => {}}
+      />
+    )
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -76,19 +97,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </TopText>
         <CoinSelect name='pair' {...props} />
         <AmountFieldContainer>
+          <Text size='56px' color='grey400' weight={500}>
+            {Currencies[props.fiatCurrency].units[props.fiatCurrency].symbol}
+          </Text>
           <Field
             name='amount'
             component={NumberBox}
             validate={[maximumAmount, minimumAmount]}
+            placeholder='0.00'
             {...{
               autoFocus: true,
               errorBottom: true,
-              errorLeft: true,
-              errorIcon: 'alert-filled'
+              errorLeft: true
             }}
           />
         </AmountFieldContainer>
-        {props.fiatCurrency && props.suggestedAmounts[0] ? (
+        {props.suggestedAmounts[0] ? (
           <Amounts>
             <div>
               {props.suggestedAmounts[0][props.fiatCurrency].map(amount => {

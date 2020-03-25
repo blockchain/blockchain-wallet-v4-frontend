@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   CurrenciesType,
+  FiatType,
   RemoteDataType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -10,6 +11,7 @@ import { getData } from './selectors'
 import { Props as OwnProps } from '../template.success'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -20,7 +22,7 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | keyof CurrenciesType
+  fiatCurrency: undefined | FiatType
 }
 export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
@@ -53,7 +55,12 @@ class Checkout extends PureComponent<Props> {
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
       ),
-      Failure: e => <div>Oops. Something went wrong.</div>,
+      Failure: e => (
+        <Failure
+          simpleBuyActions={this.props.simpleBuyActions}
+          formActions={() => {}}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
