@@ -16,6 +16,7 @@ const INITIAL_STATE: SimpleBuyState = {
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   pairs: Remote.NotAsked,
+  quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
   suggestedAmounts: Remote.NotAsked
 }
@@ -31,6 +32,7 @@ export function simpleBuyReducer (
         step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
         pairs: Remote.NotAsked,
+        quote: Remote.NotAsked,
         suggestedAmounts: Remote.NotAsked
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
@@ -113,6 +115,22 @@ export function simpleBuyReducer (
         ...state,
         account: Remote.Success(action.payload.account)
       }
+    case AT.FETCH_SB_QUOTE_FAILURE: {
+      return {
+        ...state,
+        quote: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_QUOTE_LOADING:
+      return {
+        ...state,
+        quote: Remote.Loading
+      }
+    case AT.FETCH_SB_QUOTE_SUCCESS:
+      return {
+        ...state,
+        quote: Remote.Success(action.payload.quote)
+      }
     case AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE: {
       return {
         ...state,
@@ -137,6 +155,7 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }
+        case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
         case 'TRANSFER_DETAILS':
         case 'CANCEL_ORDER':

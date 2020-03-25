@@ -102,6 +102,15 @@ export type SBOrderStateType =
   | 'FAILED'
   | 'EXPIRED'
 
+export type SBQuoteType = {
+  action: 'BUY' | 'SELL'
+  fee: string
+  pair: SBPairsType
+  rate: string
+  rateWithoutFee: string
+  time: string
+}
+
 export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean

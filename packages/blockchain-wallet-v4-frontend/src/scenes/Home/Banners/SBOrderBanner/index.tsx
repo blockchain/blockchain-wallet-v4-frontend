@@ -89,7 +89,10 @@ class SBOrderBanner extends PureComponent<Props> {
     if (!latestPendingOrder) return
     this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
     this.props.simpleBuyActions.setStep({
-      step: 'ORDER_SUMMARY',
+      step:
+        latestPendingOrder.state === 'PENDING_CONFIRMATION'
+          ? 'CHECKOUT_CONFIRM'
+          : 'ORDER_SUMMARY',
       order: latestPendingOrder
     })
   }

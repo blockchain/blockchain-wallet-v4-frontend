@@ -6,6 +6,7 @@ import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import CancelOrder from './CancelOrder'
+import CheckoutConfirm from './CheckoutConfirm'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -28,7 +29,11 @@ type LinkStatePropsType =
     }
   | {
       order: SBOrderType
-      step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'TRANSFER_DETAILS'
+        | 'ORDER_SUMMARY'
+        | 'CANCEL_ORDER'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
@@ -84,6 +89,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ENTER_AMOUNT' && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CHECKOUT_CONFIRM' && (
+          <FlyoutChild>
+            <CheckoutConfirm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'ORDER_SUMMARY' && (
