@@ -1,22 +1,19 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {
-  CurrenciesType,
-  FiatType,
-  RemoteDataType,
-  SBSuggestedAmountType
-} from 'core/types'
+import { FiatType, RemoteDataType, SBSuggestedAmountType } from 'core/types'
 import { getData } from './selectors'
 import { Props as OwnProps } from '../template.success'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type SuccessStateType = {
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  formValues?: SBCheckoutFormValuesType
   suggestedAmounts: SBSuggestedAmountType
   userData: UserDataType
 }

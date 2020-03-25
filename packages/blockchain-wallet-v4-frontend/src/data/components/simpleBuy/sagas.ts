@@ -126,6 +126,7 @@ export default ({
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
+      yield put(actions.preferences.setSBFiatCurrency(currency))
       const { pairs } = yield call(api.getSBPairs, currency)
       yield put(A.fetchSBPairsSuccess(pairs))
     } catch (e) {
@@ -168,7 +169,6 @@ export default ({
 
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
-      yield put(actions.preferences.setSBFiatCurrency(fiatCurrency))
 
       yield put(A.fetchSBSuggestedAmountsLoading())
       const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)

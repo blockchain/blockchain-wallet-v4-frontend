@@ -115,6 +115,7 @@ const CurrencySelection: React.FC<
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
     props.settingsActions.updateCurrency(selectedCurrency, true)
+    props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       fiatCurrency: selectedCurrency || 'USD'

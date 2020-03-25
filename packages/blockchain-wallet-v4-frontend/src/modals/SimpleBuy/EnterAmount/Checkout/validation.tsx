@@ -1,3 +1,4 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Props } from '../template.success'
 import { SBCheckoutFormValuesType } from 'data/types'
 
@@ -8,7 +9,10 @@ export const maximumAmount = (
 ) => {
   if (!allValues.pair) return
   if (!value) return true
-  return Number(value) > Number(allValues.pair.buyMax) ? 'Above max' : false
+  return Number(value) >
+    Number(convertBaseToStandard('FIAT', allValues.pair.buyMax))
+    ? 'ABOVE_MAX'
+    : false
 }
 
 export const minimumAmount = (
@@ -18,5 +22,8 @@ export const minimumAmount = (
 ) => {
   if (!allValues.pair) return
   if (!value) return true
-  return Number(value) < Number(allValues.pair.buyMin) ? 'Below min' : false
+  return Number(value) <
+    Number(convertBaseToStandard('FIAT', allValues.pair.buyMin))
+    ? 'BELOW_MIN'
+    : false
 }
