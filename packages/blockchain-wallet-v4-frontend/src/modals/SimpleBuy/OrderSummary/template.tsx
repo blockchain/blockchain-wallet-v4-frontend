@@ -163,7 +163,12 @@ const Success: React.FC<Props> = props => {
             size='16px'
             height='48px'
             nature='light-red'
-            onClick={() => {}}
+            onClick={() =>
+              props.simpleBuyActions.setStep({
+                step: 'CANCEL_ORDER',
+                order: props.order
+              })
+            }
           >
             {/* TODO: Simple Buy - order types */}
             <FormattedMessage

@@ -14,8 +14,15 @@ export default ({
   get,
   authorizedGet,
   authorizedPost,
-  authorizedPut
+  authorizedPut,
+  authorizedDelete
 }) => {
+  const cancelSBOrder = (order: SBOrderType) =>
+    authorizedDelete({
+      url: nabuUrl,
+      endPoint: `/simple-buy/trades/${order.id}`
+    })
+
   const createSBOrder = (
     pair: SBPairsType,
     action: 'BUY' | 'SELL',
@@ -106,6 +113,7 @@ export default ({
     })
 
   return {
+    cancelSBOrder,
     createSBOrder,
     getSBBalances,
     getSBOrders,

@@ -20,6 +20,7 @@ type Header = {
 }
 
 export type HTTPService = {
+  deleteRequest: <T>(options: Partial<RequestConfig>) => Promise<T>
   get: <T>(options: Partial<RequestConfig>) => Promise<T>
   patch: <T>(options: Partial<RequestConfig>) => Promise<T>
   post: <T>(options: Partial<RequestConfig>) => Promise<T>
@@ -95,6 +96,8 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
         ? endPoint
         : `${endPoint}?${encodeData(data, 'application/x-www-form-urlencoded')}`
     })
+  const deleteRequest = <T>(options: Partial<RequestConfig>) =>
+    request<T>({ method: 'DELETE', ...options })
   const post = <T>(options: Partial<RequestConfig>) =>
     request<T>({ method: 'POST', ...options })
   const put = <T>(options: Partial<RequestConfig>) =>
@@ -103,6 +106,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     request<T>({ method: 'PATCH', ...options })
 
   return {
+    deleteRequest,
     get,
     post,
     put,

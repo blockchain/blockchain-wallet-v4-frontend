@@ -7,6 +7,7 @@ export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
 
   return function * simpleBuySaga () {
+    yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(
       AT.FETCH_SB_FIAT_ELIGIBLE,

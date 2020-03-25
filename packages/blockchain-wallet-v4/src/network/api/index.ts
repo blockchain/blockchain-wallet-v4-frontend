@@ -78,6 +78,7 @@ const api = ({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
+      authorizedDelete: authorizedHttp.deleteRequest,
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),

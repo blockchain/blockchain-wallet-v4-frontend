@@ -2,7 +2,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -35,6 +35,21 @@ export default ({
     return userData.tiers && userData.tiers.current >= 2
   }
 
+  const cancelSBOrder = function * ({
+    order
+  }: ReturnType<typeof A.cancelSBOrder>) {
+    try {
+      yield put(actions.form.startSubmit('cancelSBOrderForm'))
+      yield call(api.cancelSBOrder, order)
+      yield put(actions.form.stopSubmit('cancelSBOrderForm'))
+      yield put(A.fetchSBOrders())
+      yield put(actions.modals.closeAllModals())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('cancelSBOrderForm', { _error: error }))
+    }
+  }
+
   const createSBOrder = function * () {
     try {
       const values: SBCheckoutFormValuesType = yield select(
@@ -55,6 +70,7 @@ export default ({
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'TRANSFER_DETAILS', order }))
+      yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
@@ -178,6 +194,7 @@ export default ({
   }
 
   return {
+    cancelSBOrder,
     createSBOrder,
     fetchSBBalances,
     fetchSBOrders,

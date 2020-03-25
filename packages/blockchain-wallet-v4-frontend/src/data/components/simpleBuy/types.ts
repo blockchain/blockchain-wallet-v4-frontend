@@ -22,7 +22,8 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
   'ORDER_SUMMARY',
-  'TRANSFER_DETAILS'
+  'TRANSFER_DETAILS',
+  'CANCEL_ORDER'
 }
 
 // State
@@ -149,7 +150,7 @@ interface SetStepAction {
       }
     | {
         order: SBOrderType
-        step: 'ORDER_SUMMARY' | 'TRANSFER_DETAILS'
+        step: 'ORDER_SUMMARY' | 'TRANSFER_DETAILS' | 'CANCEL_ORDER'
       }
   type: typeof AT.SET_STEP
 }

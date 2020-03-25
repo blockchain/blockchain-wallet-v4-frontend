@@ -61,6 +61,7 @@ const Success: React.FC<Props> = props => {
               size='20px'
               color='grey600'
               style={{ marginRight: '24px' }}
+              role='button'
               onClick={() =>
                 props.simpleBuyActions.setStep({
                   step: 'ORDER_SUMMARY',

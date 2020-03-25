@@ -139,6 +139,7 @@ export function simpleBuyReducer (
           }
         case 'ORDER_SUMMARY':
         case 'TRANSFER_DETAILS':
+        case 'CANCEL_ORDER':
           return {
             ...state,
             order: action.payload.order,

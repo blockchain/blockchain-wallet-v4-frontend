@@ -12,6 +12,11 @@ import {
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
 
+export const cancelSBOrder = (order: SBOrderType) => ({
+  type: AT.CANCEL_ORDER,
+  order
+})
+
 export const createSBOrder = () => ({
   type: AT.CREATE_ORDER
 })
@@ -191,7 +196,10 @@ export const initializeCheckout = (pairs: Array<SBPairType>) => ({
 export const setStep = (
   payload:
     | { step: 'CURRENCY_SELECTION' }
-    | { order: SBOrderType; step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' }
+    | {
+        order: SBOrderType
+        step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+      }
     | { fiatCurrency: FiatType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
@@ -201,7 +209,9 @@ export const setStep = (
           step: payload.step,
           fiatCurrency: payload.fiatCurrency
         }
-      : payload.step === 'TRANSFER_DETAILS' || payload.step === 'ORDER_SUMMARY'
+      : payload.step === 'TRANSFER_DETAILS' ||
+        payload.step === 'ORDER_SUMMARY' ||
+        payload.step === 'CANCEL_ORDER'
       ? { step: payload.step, order: payload.order }
       : {
           step: payload.step

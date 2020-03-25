@@ -78,6 +78,7 @@ export const Icon: StatelessComponent<{
   color?: keyof DefaultTheme
   style?: CSSProperties
   onClick?: () => void
+  role?: 'button'
 }>
 export const IconButton: StatelessComponent<
   {
