@@ -1,7 +1,6 @@
-import { CoinType, SBPairType } from 'core/types'
 import { Field } from 'redux-form'
 import { getCoinFromPair } from 'data/components/simpleBuy/model'
-import { Props } from '../../template.success'
+import { Props } from '../template.success'
 import { SelectBox } from 'components/Form'
 import React, { PureComponent } from 'react'
 

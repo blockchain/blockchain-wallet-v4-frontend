@@ -29,7 +29,6 @@ import * as settings from './settings/actions'
 import * as signMessage from './signMessage/actions'
 import * as simpleBuy from './simpleBuy/actions'
 import * as stxTransactions from './stxTransactions/actions'
-import * as transactionReport from './transactionReport/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
 import * as xlmTransactions from './xlmTransactions/actions'
@@ -67,7 +66,6 @@ export {
   signMessage,
   simpleBuy,
   stxTransactions,
-  transactionReport,
   uploadDocuments,
   veriff
 }

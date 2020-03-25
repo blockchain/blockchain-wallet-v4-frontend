@@ -24,10 +24,10 @@ import {
 } from 'ramda'
 import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
 import {
-  getAllBalances,
   getBchBalance,
   getBtcBalance,
-  getXlmBalance
+  getXlmBalance,
+  waitForAllBalances
 } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
@@ -42,15 +42,13 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
-  const { createUser } = profileSagas({ api, coreSagas, networks })
+  const { createUser, waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const logLocation = 'goals/sagas'
-
-  const waitForUserData = function * () {
-    const userData = yield select(selectors.modules.profile.getUserData)
-    if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-  }
 
   const isKycNotFinished = function * () {
     yield call(waitForUserData)
@@ -490,7 +488,7 @@ export default ({ api, coreSagas, networks }) => {
     )
     if (!showKycGetStarted) return
     // check/wait for balances to be available
-    const balances = yield call(getAllBalances)
+    const balances = yield call(waitForAllBalances)
     const isFunded = sum(values(balances)) !== 0
     if (!isFunded) return
     yield call(waitForUserData)

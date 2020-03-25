@@ -1,25 +1,93 @@
-import { Props } from '../template.success'
-import Checkout from './template'
+import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  FiatType,
+  RemoteDataType,
+  SBPairType,
+  SBSuggestedAmountType
+} from 'core/types'
+import { getData } from './selectors'
+import { RootState } from 'data/rootReducer'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
+import Failure from '../template.failure'
+import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import Success from './template.success'
 
-class CheckoutContainer extends PureComponent<Props> {
-  state = {}
-
+type OwnProps = {
+  handleClose: () => void
+  pairs: Array<SBPairType>
+}
+export type SuccessStateType = {
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  formValues?: SBCheckoutFormValuesType
+  suggestedAmounts: SBSuggestedAmountType
+  userData: UserDataType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  fiatCurrency: undefined | FiatType
+}
+export type LinkDispatchPropsType = {
+  identityVerificationActions: typeof actions.components.identityVerification
+  profileActions: typeof actions.modules.profile
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    this.props.formActions.initialize('simpleBuyCheckout', {
-      pair: this.props.pairs[0]
+    this.props.simpleBuyActions.initializeCheckout(this.props.pairs)
+  }
+
+  handleSubmit = () => {
+    // if the user is < tier 2 go to kyc but save order info
+    // if the user is tier 2 try to submit order, let BE fail
+    const { userData } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } }
     })
-  }
 
-  componentWillUnmount () {
-    this.props.simpleBuyActions.fetchSBPairsSuccess([])
+    if (userData.tiers.current < 2) {
+      this.props.identityVerificationActions.verifyIdentity(2)
+    } else {
+      this.props.simpleBuyActions.createSBOrder()
+    }
   }
-
-  handleSubmit = () => {}
 
   render () {
-    return <Checkout {...this.props} onSubmit={this.handleSubmit} />
+    return this.props.data.cata({
+      Success: val => (
+        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+      ),
+      Failure: e => (
+        <Failure
+          simpleBuyActions={this.props.simpleBuyActions}
+          formActions={() => {}}
+        />
+      ),
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-export default CheckoutContainer
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  data: getData(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+})
+
+const enhance = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
+export default enhance(Checkout)

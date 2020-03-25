@@ -1,7 +1,17 @@
 import * as A from './actions'
+import * as S from './selectors'
+import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put } from 'redux-saga/effects'
-import { FiatEligibleType } from 'core/types'
+import { call, delay, put, select } from 'redux-saga/effects'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { FiatEligibleType, SBAccountType, SBOrderType } from 'core/types'
+import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
+import { SBCheckoutFormValuesType } from './types'
+import profileSagas from '../../modules/profile/sagas'
 
 export default ({
   api,
@@ -12,6 +22,76 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const { createUser, waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    return userData.tiers && userData.tiers.current >= 2
+  }
+
+  const cancelSBOrder = function * ({
+    order
+  }: ReturnType<typeof A.cancelSBOrder>) {
+    try {
+      yield put(actions.form.startSubmit('cancelSBOrderForm'))
+      yield call(api.cancelSBOrder, order)
+      yield put(actions.form.stopSubmit('cancelSBOrderForm'))
+      yield put(A.fetchSBOrders())
+      yield put(actions.modals.closeAllModals())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('cancelSBOrderForm', { _error: error }))
+    }
+  }
+
+  const createSBOrder = function * () {
+    try {
+      const values: SBCheckoutFormValuesType = yield select(
+        selectors.form.getFormValues('simpleBuyCheckout')
+      )
+      const pair = values.pair
+      const amount = convertStandardToBase('FIAT', values.amount)
+      // TODO: Simple Buy - make dynamic
+      const action = 'BUY'
+      if (!pair) throw new Error(NO_PAIR_SELECTED)
+      yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      const order: SBOrderType = yield call(
+        api.createSBOrder,
+        pair.pair,
+        action,
+        { amount, symbol: getFiatFromPair(pair) },
+        { symbol: getCoinFromPair(pair) }
+      )
+      yield put(actions.form.stopSubmit('simpleBuyCheckout'))
+      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order }))
+      yield put(A.fetchSBOrders())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
+    }
+  }
+
+  const fetchSBBalances = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBBalances>) {
+    try {
+      if (!(yield call(isTier2))) return
+
+      // yield put(A.fetchSBBalancesLoading())
+      const orders = yield call(api.getSBBalances, currency)
+      yield put(A.fetchSBBalancesSuccess(orders))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBBalancesFailure(error))
+    }
+  }
+
   const fetchSBFiatEligible = function * ({
     currency
   }: ReturnType<typeof A.fetchSBFiatEligible>) {
@@ -23,7 +103,21 @@ export default ({
       )
       yield put(A.fetchSBFiatEligibleSuccess(fiatEligible))
     } catch (e) {
-      yield put(A.fetchSBFiatEligibleFailure(e))
+      const error = errorHandler(e)
+      yield put(A.fetchSBFiatEligibleFailure(error))
+    }
+  }
+
+  const fetchSBOrders = function * () {
+    try {
+      if (!(yield call(isTier2))) return
+
+      yield put(A.fetchSBOrdersLoading())
+      const orders = yield call(api.getSBOrders, {})
+      yield put(A.fetchSBOrdersSuccess(orders))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBOrdersFailure(error))
     }
   }
 
@@ -32,15 +126,98 @@ export default ({
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
+      yield put(actions.preferences.setSBFiatCurrency(currency))
       const { pairs } = yield call(api.getSBPairs, currency)
       yield put(A.fetchSBPairsSuccess(pairs))
     } catch (e) {
-      yield put(A.fetchSBPairsFailure(e))
+      const error = errorHandler(e)
+      yield put(A.fetchSBPairsFailure(error))
+    }
+  }
+
+  const fetchSBPaymentAccount = function * () {
+    try {
+      yield put(A.fetchSBPaymentAccountLoading())
+      const fiatCurrency = S.getFiatCurrency(yield select())
+      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      const account: SBAccountType = yield call(
+        api.getSBPaymentAccount,
+        fiatCurrency
+      )
+      yield put(A.fetchSBPaymentAccountSuccess(account))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBPaymentAccountFailure(error))
+    }
+  }
+
+  const handleSBSuggestedAmountClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
+    const { amount } = payload
+    const standardAmt = convertBaseToStandard('FIAT', amount)
+
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
+  const initializeCheckout = function * ({
+    pairs
+  }: ReturnType<typeof A.initializeCheckout>) {
+    try {
+      yield call(createUser)
+      yield call(waitForUserData)
+
+      const fiatCurrency = S.getFiatCurrency(yield select())
+      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+
+      yield put(A.fetchSBSuggestedAmountsLoading())
+      const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
+      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
+      yield put(
+        actions.form.initialize('simpleBuyCheckout', { pair: pairs[0] })
+      )
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBSuggestedAmountsFailure(error))
+    }
+  }
+
+  const showModal = function * () {
+    // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
+    const invitations = (yield select(
+      selectors.core.settings.getInvitations
+    )).getOrElse({ simpleBuy: false })
+    const isInvitedToSB = invitations.simpleBuy
+    const isCoinify = (yield select(
+      selectors.core.kvStore.buySell.getCoinifyUser
+    )).getOrElse(false)
+    if (isCoinify || !isInvitedToSB) {
+      yield put(actions.router.push('/buy-sell'))
+      // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
+    } else {
+      yield put(actions.modals.showModal('SIMPLE_BUY_MODAL'))
+      const fiatCurrency = selectors.preferences.getSBFiatCurrency(
+        yield select()
+      )
+
+      if (!fiatCurrency) {
+        yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
+      } else {
+        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+      }
     }
   }
 
   return {
+    cancelSBOrder,
+    createSBOrder,
+    fetchSBBalances,
+    fetchSBOrders,
     fetchSBPairs,
-    fetchSBFiatEligible
+    fetchSBPaymentAccount,
+    fetchSBFiatEligible,
+    handleSBSuggestedAmountClick,
+    initializeCheckout,
+    showModal
   }
 }

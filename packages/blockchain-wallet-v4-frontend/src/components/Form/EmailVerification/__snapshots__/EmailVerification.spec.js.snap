@@ -12,14 +12,18 @@ exports[`EmailVerification component rendering should render edit loading state 
           "value": "f@ke.mail",
         }
       }
-      placeholder="Email"
-      sendVerificationInput={true}
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
     />
     <LoadingButton
       loading={true}
       nature="primary"
       onClick={[Function]}
-      send={true}
     >
       <FormattedMessage
         defaultMessage="Send Now"
@@ -52,14 +56,18 @@ exports[`EmailVerification component rendering should render edit loading with l
           "value": "f@ke.mail",
         }
       }
-      placeholder="Email"
-      sendVerificationInput={true}
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
     />
     <LoadingButton
       loading={true}
       nature="primary"
       onClick={[Function]}
-      send={true}
     >
       <FormattedMessage
         defaultMessage="Send Now"
@@ -83,13 +91,17 @@ exports[`EmailVerification component rendering should render edit state correctl
           "value": "f@ke.mail",
         }
       }
-      placeholder="Email"
-      sendVerificationInput={true}
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
     />
     <LoadingButton
       nature="primary"
       onClick={[Function]}
-      send={true}
     >
       <FormattedMessage
         defaultMessage="Send Now"
@@ -122,13 +134,17 @@ exports[`EmailVerification component rendering should render edit with label cor
           "value": "f@ke.mail",
         }
       }
-      placeholder="Email"
-      sendVerificationInput={true}
+      placeholder={
+        <FormattedMessage
+          defaultMessage="Email"
+          id="components.EmailVerification.placeholder"
+          values={Object {}}
+        />
+      }
     />
     <LoadingButton
       nature="primary"
       onClick={[Function]}
-      send={true}
     >
       <FormattedMessage
         defaultMessage="Send Now"

@@ -1,6 +1,7 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
+import { FiatType } from 'core/types'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -10,9 +11,9 @@ import { SBCurrencySelectFormType } from 'data/types'
 import { selectors } from 'data'
 import { TextBox } from 'components/Form'
 import Currencies, {
-  CurrenciesType
+  FiatCurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
-import React, { ReactEventHandler, SyntheticEvent, useState } from 'react'
+import React, { SyntheticEvent, useState } from 'react'
 import styled from 'styled-components'
 
 type OwnProps = {
@@ -63,7 +64,7 @@ const ButtonContainer = styled.div`
 `
 
 const searchHasMatch = (
-  cur: CurrenciesType[keyof CurrenciesType],
+  cur: FiatCurrenciesType[FiatType],
   values?: SBCurrencySelectFormType
 ) => {
   if (!values) return true
@@ -78,12 +79,15 @@ const searchHasMatch = (
 }
 
 const CurrencyBoxComponent = (props: {
-  cur: CurrenciesType[keyof CurrenciesType]
-  selectedCurrency: keyof CurrenciesType | null
+  cur: FiatCurrenciesType[FiatType]
+  selectedCurrency: FiatType | null
   setSelectedCurrency: (string) => void
 }) => {
   return (
-    <CurrencyBox onClick={() => props.setSelectedCurrency(props.cur.code)}>
+    <CurrencyBox
+      role='button'
+      onClick={() => props.setSelectedCurrency(props.cur.code)}
+    >
       <div>
         <Text size='16px' color='grey800' weight={600}>
           {props.cur.displayName}
@@ -102,15 +106,16 @@ const CurrencyBoxComponent = (props: {
 const CurrencySelection: React.FC<
   InjectedFormProps<{}, Props> & Props & LinkStatePropsType
 > = props => {
-  const [selectedCurrency, setSelectedCurrency] = useState<
-    keyof CurrenciesType | null
-  >(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<FiatType | null>(
+    null
+  )
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault()
     props.settingsActions.updateCurrency(selectedCurrency, true)
+    props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       fiatCurrency: selectedCurrency || 'USD'
@@ -142,7 +147,7 @@ const CurrencySelection: React.FC<
       <Form onSubmit={handleSubmit}>
         <Field name='search' component={TextBox} />
         {recommendedCurrencies.map(currency => {
-          const cur: CurrenciesType[keyof CurrenciesType] = Currencies[currency]
+          const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
 
           if (!searchHasMatch(cur, props.values)) return
           return (
@@ -157,8 +162,7 @@ const CurrencySelection: React.FC<
         {currencies
           .filter(currency => recommendedCurrencies.indexOf(currency) === -1)
           .map(currency => {
-            const cur: CurrenciesType[keyof CurrenciesType] =
-              Currencies[currency]
+            const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
             if (cur.base !== 'CENT') return
             if (!searchHasMatch(cur, props.values)) return
 

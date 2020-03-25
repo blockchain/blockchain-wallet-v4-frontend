@@ -1,6 +1,7 @@
 import * as Currency from './currency'
 import * as Pairs from './pairs'
 import { assoc, assocPath, path, prop } from 'ramda'
+import { BigNumber } from 'bignumber.js'
 import { CoinType } from 'core/types'
 import { RatesType } from 'data/types'
 import Currencies, { CurrenciesType } from './currencies'
@@ -624,7 +625,7 @@ const convertCoinToCoin = ({
   baseToStandard
 }: {
   baseToStandard: boolean
-  coin: CoinType
+  coin: CoinType | 'FIAT'
   value: number | string
 }) => {
   switch (coin) {
@@ -648,6 +649,10 @@ const convertCoinToCoin = ({
       return baseToStandard
         ? convertXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
         : convertXlmToXlm({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
+    case 'FIAT':
+      return baseToStandard
+        ? { value: new BigNumber(value).dividedBy(100).valueOf() }
+        : { value: new BigNumber(value).multipliedBy(100).valueOf() }
   }
 }
 

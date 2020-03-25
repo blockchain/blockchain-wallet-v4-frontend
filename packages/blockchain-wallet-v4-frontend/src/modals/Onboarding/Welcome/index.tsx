@@ -17,6 +17,7 @@ type OwnPropsType = {
 
 type LinkDispatchPropsType = {
   onboardingActions: typeof actions.components.onboarding
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 type Props = OwnPropsType & LinkDispatchPropsType
@@ -71,8 +72,11 @@ class WelcomeContainer extends React.PureComponent<Props> {
   }
 
   handleSBClick = () => {
-    // replace this with opening the simple buy modal
-    this.props.close()
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+      this.props.simpleBuyActions.showModal()
+    }, duration)
   }
 
   handleTourClick = () => {
@@ -170,8 +174,12 @@ class WelcomeContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
+const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
+  onboardingActions: bindActionCreators(
+    actions.components.onboarding,
+    dispatch
+  ),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const enhance = compose<any>(

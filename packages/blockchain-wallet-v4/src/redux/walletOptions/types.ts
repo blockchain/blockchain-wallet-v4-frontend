@@ -10,7 +10,7 @@ export type SupportedCoinType = {
     send: boolean
     syncToPit: boolean
   }
-  coinCode: string
+  coinCode: CoinType
   coinTicker: string
   colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx'
   config: {

@@ -73,7 +73,14 @@ const api = ({
     ...sfox(),
     ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
-    ...simpleBuy({ nabuUrl, ...http }),
+    ...simpleBuy({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      authorizedDelete: authorizedHttp.deleteRequest,
+      ...http
+    }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),
@@ -83,4 +90,10 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow> & ReturnType<typeof simpleBuy>
+export type APIType = ReturnType<typeof borrow> &
+  ReturnType<typeof bch> &
+  ReturnType<typeof btc> &
+  ReturnType<typeof misc> &
+  ReturnType<typeof simpleBuy> &
+  ReturnType<typeof wallet> &
+  ReturnType<typeof xlm>

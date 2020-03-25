@@ -17,12 +17,15 @@ export type Props = OwnProps &
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
+  position: relative;
+  height: 100%;
 `
 
 const CloseIcon = styled(Icon)`
   position: absolute;
-  right: 44px;
-  top: 44px;
+  padding: inherit;
+  left: 0px;
+  top: 0px;
 `
 
 const Container = styled.div`
@@ -31,13 +34,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `
 
 const Title = styled(Text)`
   margin: 56px 0 16px 0;
   text-align: center;
-  width: 275px;
 `
 
 const Subcontent = styled(Text)`
@@ -50,10 +52,13 @@ const Unsupported: React.FC<Props> = props => {
     <Top>
       <CloseIcon
         cursor
-        name='close'
+        name='arrow-left'
         size='20px'
         color='grey600'
-        onClick={props.handleClose}
+        role='button'
+        onClick={() =>
+          props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
+        }
       />
       <Container>
         <Image
@@ -72,7 +77,7 @@ const Unsupported: React.FC<Props> = props => {
         <Subcontent color='grey600' weight={500}>
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-1'
-            defaultMessage="Well this is awards. We don't support buying crypto yet for "
+            defaultMessage="Well this is awkward. We don't support buying crypto yet for "
           />
           {props.fiatCurrency}
           <FormattedMessage

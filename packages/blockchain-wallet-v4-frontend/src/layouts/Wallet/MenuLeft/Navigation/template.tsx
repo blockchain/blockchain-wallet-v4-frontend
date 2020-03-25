@@ -96,7 +96,7 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      {props.isCoinifyUser ? (
+      {props.isCoinifyUser || !props.invitations.simpleBuy ? (
         <SpotlightLinkContainer to='/buy-sell' activeClassName='active'>
           <MenuItem data-e2e='buyAndSellLink'>
             <JoyrideSpotlight className='wallet-intro-tour-step-5' />
@@ -113,7 +113,7 @@ const Navigation = (props: OwnProps & Props) => {
       ) : (
         <MenuItem
           data-e2e='buyAndSellLink'
-          onClick={() => props.modalActions.showModal('SIMPLE_BUY_MODAL')}
+          onClick={() => props.simpleBuyActions.showModal()}
         >
           <JoyrideSpotlight className='wallet-intro-tour-step-5' />
           <MenuIcon name='cart-filled' size='24px' />
@@ -177,27 +177,25 @@ const Navigation = (props: OwnProps & Props) => {
           </MenuItem>
         </LinkContainer>
       )}
-      {props.invitations.borrow && (
-        <LinkContainer to='/borrow' activeClassName='active'>
-          <MenuItem data-e2e='borrowLink'>
-            <MenuIcon name='borrow' size='20px' />
-            <Destination>
+      <LinkContainer to='/borrow' activeClassName='active'>
+        <MenuItem data-e2e='borrowLink'>
+          <MenuIcon name='borrow' size='20px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.borrow'
+              defaultMessage='Borrow'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='orange600' weight={600} size='12' uppercase>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow'
-                defaultMessage='Borrow'
+                id='layouts.wallet.menuleft.navigation.borrow.new'
+                defaultMessage='New'
               />
-            </Destination>
-            <NewCartridge>
-              <Text color='orange600' weight={600} size='12' uppercase>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.borrow.new'
-                  defaultMessage='New'
-                />
-              </Text>
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </LinkContainer>
       <LinkContainer to='/lockbox' activeClassName='active'>
         <MenuItem data-e2e='lockboxLink'>
           <MenuIcon

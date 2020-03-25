@@ -43,14 +43,6 @@ const getCoinifyUserCountry = state => {
   return userSelectedCountry || profileCountry
 }
 
-// const getSimpleBuyInvited = state => {
-//   const invitedR = selectors.core.settings.getInvitations(state).getOrElse({ simpleBuy: false })
-
-//   const check = invitedR.
-//   console.log(check)
-//   return check
-// }
-
 const isCountryAndStateSelected = state => {
   const country = prop('code', formValSelector(state, 'country'))
   if (!country) return false
@@ -98,9 +90,6 @@ export const getData = state => {
       getUserData
     )(state),
     coinifyUserCountry: getCoinifyUserCountry(state),
-    pathName: selectors.router.getPathname(state),
-    simpleBuyInvited: selectors.core.settings
-      .getInvitations(state)
-      .getOrElse({ simpleBuy: false }).simpleBuy
+    pathName: selectors.router.getPathname(state)
   }
 }

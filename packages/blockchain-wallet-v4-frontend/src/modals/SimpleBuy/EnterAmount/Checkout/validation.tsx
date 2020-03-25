@@ -1,18 +1,29 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Props } from '../template.success'
-import { SBEnterAmountFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType } from 'data/types'
 
 export const maximumAmount = (
   value: string,
-  allValues: SBEnterAmountFormValuesType
+  allValues: SBCheckoutFormValuesType,
+  props: Props
 ) => {
   if (!allValues.pair) return
-  return Number(value) > Number(allValues.pair.buyMax) ? 'Above max' : false
+  if (!value) return true
+  return Number(value) >
+    Number(convertBaseToStandard('FIAT', allValues.pair.buyMax))
+    ? 'ABOVE_MAX'
+    : false
 }
 
 export const minimumAmount = (
   value: string,
-  allValues: SBEnterAmountFormValuesType
+  allValues: SBCheckoutFormValuesType,
+  props: Props
 ) => {
   if (!allValues.pair) return
-  return Number(value) < Number(allValues.pair.buyMin) ? 'Below min' : false
+  if (!value) return true
+  return Number(value) <
+    Number(convertBaseToStandard('FIAT', allValues.pair.buyMin))
+    ? 'BELOW_MIN'
+    : false
 }

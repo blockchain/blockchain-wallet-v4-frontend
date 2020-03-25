@@ -25,7 +25,7 @@ const Header = styled(Text)`
 
 const DataError = (props: {
   message?: { message: string | Error }
-  onClick?: () => void
+  onClick?: (a: any) => void
 }) => {
   return (
     <Wrapper>

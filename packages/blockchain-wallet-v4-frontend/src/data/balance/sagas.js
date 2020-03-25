@@ -94,7 +94,7 @@ export const getXlmBalance = function * () {
   }
 }
 
-export const getAllBalances = function * () {
+export const waitForAllBalances = function * () {
   const btcT = yield fork(getBtcBalance)
   const bchT = yield fork(getBchBalance)
   const ethT = yield fork(getEthBalance)

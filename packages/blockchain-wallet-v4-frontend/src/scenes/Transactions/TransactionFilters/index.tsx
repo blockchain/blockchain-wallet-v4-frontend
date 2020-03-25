@@ -15,8 +15,6 @@ type LinkStatePropsType = {
 }
 
 type LinkDispatchPropsType = {
-  bchActions: typeof actions.components.bchTransactions
-  btcActions: typeof actions.components.btcTransactions
   modalActions: typeof actions.modals
 }
 
@@ -36,9 +34,8 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
   }
 
   handleClickReporting = () => {
-    const { coin } = this.props
-    if (coin === 'BTC') this.props.btcActions.reportClicked()
-    if (coin === 'BCH') this.props.bchActions.reportClicked()
+    const { coin, modalActions } = this.props
+    modalActions.showModal('TRANSACTION_REPORT', { coin })
   }
 
   render () {

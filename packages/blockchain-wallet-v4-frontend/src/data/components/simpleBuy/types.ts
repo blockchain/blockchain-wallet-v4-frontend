@@ -1,14 +1,17 @@
 import * as AT from './actionTypes'
 import {
-  CurrenciesType,
   FiatEligibleType,
-  NabuApiErrorType,
+  FiatType,
   RemoteDataType,
-  SBPairType
+  SBAccountType,
+  SBBalancesType,
+  SBOrderType,
+  SBPairType,
+  SBSuggestedAmountType
 } from 'core/types'
 
 // Types
-export type SBEnterAmountFormValuesType = {
+export type SBCheckoutFormValuesType = {
   amount: string
   pair?: SBPairType
 }
@@ -17,28 +20,49 @@ export type SBCurrencySelectFormType = {
 }
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
-  'ENTER_AMOUNT'
+  'ENTER_AMOUNT',
+  'ORDER_SUMMARY',
+  'TRANSFER_DETAILS',
+  'CANCEL_ORDER'
 }
 
 // State
 export type SimpleBuyState = {
-  fiatCurrency: null | keyof CurrenciesType
-  fiatEligible: RemoteDataType<NabuApiErrorType, FiatEligibleType>
-  pairs: RemoteDataType<NabuApiErrorType, Array<SBPairType>>
+  account: RemoteDataType<string, SBAccountType>
+  balances: RemoteDataType<string, SBBalancesType>
+  fiatCurrency: undefined | FiatType
+  fiatEligible: RemoteDataType<string, FiatEligibleType>
+  order: undefined | SBOrderType
+  orders: RemoteDataType<string, Array<SBOrderType>>
+  pairs: RemoteDataType<string, Array<SBPairType>>
   step: keyof typeof SimpleBuyStepType
+  suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
-interface FetchSBFiatEligible {
+interface DestroyCheckout {
+  type: typeof AT.DESTROY_CHECKOUT
+}
+interface FetchSBBalancesFailure {
   payload: {
-    currency: keyof CurrenciesType
+    error: string
   }
-  type: typeof AT.FETCH_SB_FIAT_ELIGIBLE
+  type: typeof AT.FETCH_SB_BALANCES_FAILURE
 }
 
+interface FetchSBBalancesLoading {
+  type: typeof AT.FETCH_SB_BALANCES_LOADING
+}
+
+interface FetchSBBalancesSuccess {
+  payload: {
+    balances: SBBalancesType
+  }
+  type: typeof AT.FETCH_SB_BALANCES_SUCCESS
+}
 interface FetchSBFiatEligibleFailure {
   payload: {
-    error: NabuApiErrorType
+    error: string
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE
 }
@@ -53,50 +77,106 @@ interface FetchSBFiatEligibleSuccess {
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
 }
-interface FetchSBPairs {
+interface FetchSBOrdersFailure {
   payload: {
-    currency: keyof CurrenciesType
+    error: string
   }
-  type: typeof AT.FETCH_SB_PAIRS
+  type: typeof AT.FETCH_SB_ORDERS_FAILURE
 }
 
+interface FetchSBOrdersLoading {
+  type: typeof AT.FETCH_SB_ORDERS_LOADING
+}
+
+interface FetchSBOrdersSuccess {
+  payload: {
+    orders: Array<SBOrderType>
+  }
+  type: typeof AT.FETCH_SB_ORDERS_SUCCESS
+}
 interface FetchSBPairsFailure {
   payload: {
-    error: NabuApiErrorType
+    error: string
   }
   type: typeof AT.FETCH_SB_PAIRS_FAILURE
 }
-
 interface FetchSBPairsLoading {
   type: typeof AT.FETCH_SB_PAIRS_LOADING
 }
-
 interface FetchSBPairsSuccess {
   payload: {
     pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
-
+interface FetchSBPaymentAccountFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE
+}
+interface FetchSBPaymentAccountLoading {
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
+}
+interface FetchSBPaymentAccountSuccess {
+  payload: {
+    account: SBAccountType
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
+}
+interface FetchSBSuggestedAmountsFailure {
+  payload: {
+    error: Error | string
+  }
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
+}
+interface FetchSBSuggestedAmountsLoading {
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
+}
+interface FetchSBSuggestedAmountsSuccess {
+  payload: {
+    amounts: SBSuggestedAmountType
+  }
+  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
+}
 interface SetStepAction {
   payload:
     | {
-        fiatCurrency: keyof CurrenciesType
+        fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
     | {
         step: 'CURRENCY_SELECTION'
       }
+    | {
+        order: SBOrderType
+        step: 'ORDER_SUMMARY' | 'TRANSFER_DETAILS' | 'CANCEL_ORDER'
+      }
   type: typeof AT.SET_STEP
+}
+interface ShowModalAction {
+  type: typeof AT.SHOW_MODAL
 }
 
 export type SimpleBuyActionTypes =
-  | FetchSBFiatEligible
+  | DestroyCheckout
+  | FetchSBBalancesFailure
+  | FetchSBBalancesLoading
+  | FetchSBBalancesSuccess
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess
-  | FetchSBPairs
+  | FetchSBOrdersFailure
+  | FetchSBOrdersLoading
+  | FetchSBOrdersSuccess
   | FetchSBPairsFailure
   | FetchSBPairsLoading
   | FetchSBPairsSuccess
+  | FetchSBPaymentAccountFailure
+  | FetchSBPaymentAccountLoading
+  | FetchSBPaymentAccountSuccess
+  | FetchSBSuggestedAmountsFailure
+  | FetchSBSuggestedAmountsLoading
+  | FetchSBSuggestedAmountsSuccess
   | SetStepAction
+  | ShowModalAction

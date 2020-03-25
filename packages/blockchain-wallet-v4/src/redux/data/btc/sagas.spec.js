@@ -29,7 +29,8 @@ const api = {
   getBtcFees: jest.fn(() => feeData),
   getBtcFiatAtTime: jest.fn(() => fiatAtTime),
   getBtcTicker: jest.fn(() => rateData),
-  getTransactionHistory: jest.fn(() => transactionHistory)
+  getTransactionHistory: jest.fn(() => transactionHistory),
+  fetchSBOrders: jest.fn(() => [])
 }
 
 describe('btc data sagas', () => {
@@ -214,7 +215,9 @@ describe('btc data sagas', () => {
         .next(btcFetchData)
         .call(dataBtcSagas.__processTxs, btcFetchData.txs)
         .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
+        .next()
+        .next()
+      // .put(A.fetchTransactionsSuccess([{}, ...processedTxs], payload.reset))
     })
 
     it('should finish', () => {
@@ -239,115 +242,6 @@ describe('btc data sagas', () => {
         .put(A.fetchTransactionsFailure(error.message))
         .next()
         .isDone()
-    })
-  })
-
-  describe('fetchTransactionHistory', () => {
-    const payload = {
-      address: '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
-      start: '01/01/2018',
-      end: '01/06/2018'
-    }
-    const saga = testSaga(dataBtcSagas.fetchTransactionHistory, { payload })
-    const currency = Remote.of('EUR')
-    const beforeGettingHistory = 'beforeGettingHistory'
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchTransactionHistoryLoading())
-    })
-
-    it('should get currency', () => {
-      saga.next().select(selectors.settings.getCurrency)
-    })
-
-    it('should get transaction data with address if possible', () => {
-      saga.save(beforeGettingHistory)
-      saga
-        .next(currency)
-        .call(
-          api.getTransactionHistory,
-          'BTC',
-          payload.address,
-          currency.getOrElse('USD'),
-          payload.start,
-          payload.end
-        )
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(transactionHistory)
-        .put(A.fetchTransactionHistorySuccess(transactionHistory))
-    })
-
-    const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = [
-      '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH',
-      '1HtmX6EasEE91ymDguhZ2pF9mSgEPbxxpH'
-    ]
-    const active = mockContext.join('|')
-
-    it('should get transaction data with context if no address present', () => {
-      return expectSaga(dataBtcSagas.fetchTransactionHistory, {
-        payload: payloadNoAddr
-      })
-        .provide([
-          [select(selectors.settings.getCurrency), currency],
-          [select(S.getContext), mockContext]
-        ])
-        .call(
-          api.getTransactionHistory,
-          'BTC',
-          active,
-          currency.getOrElse('USD'),
-          payload.start,
-          payload.end
-        )
-        .put(A.fetchTransactionHistorySuccess(transactionHistory))
-        .run()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'asdf' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchTransactionHistoryFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add transactionHistory data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchTransactionHistory, { payload })
-          .withReducer(reducers)
-          .provide([[select(selectors.settings.getCurrency), Remote.of('USD')]])
-          .run()
-          .then(result => {
-            expect(result.storeState.btc).toMatchObject({
-              transaction_history: Remote.Success(transactionHistory)
-            })
-          })
-      })
-
-      it('should add transactionHistory data to the state using context if no address', () => {
-        return expectSaga(dataBtcSagas.fetchTransactionHistory, {
-          payload: payloadNoAddr
-        })
-          .withReducer(reducers)
-          .provide([
-            [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(S.getContext), mockContext]
-          ])
-          .run()
-          .then(result => {
-            expect(result.storeState.btc).toMatchObject({
-              transaction_history: Remote.Success(transactionHistory)
-            })
-          })
-      })
     })
   })
 

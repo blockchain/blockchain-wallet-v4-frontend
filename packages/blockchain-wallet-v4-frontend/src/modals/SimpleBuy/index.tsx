@@ -3,22 +3,34 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
+import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
+import CancelOrder from './CancelOrder'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
+import OrderSummary from './OrderSummary'
 import React, { PureComponent } from 'react'
+import TransferDetails from './TransferDetails'
 
 type OwnProps = ModalPropsType
-type SuccessStateType = {}
 export type LinkDispatchPropsType = {
   settingsActions: typeof actions.modules.settings
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-type LinkStatePropsType = {
-  step: keyof typeof SimpleBuyStepType
-}
+type LinkStatePropsType =
+  | {
+      step: 'CURRENCY_SELECTION'
+    }
+  | {
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      order: SBOrderType
+      step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+    }
+
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = { direction: 'left' | 'right'; show: boolean }
 
@@ -45,9 +57,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   }
 
   componentWillUnmount () {
-    this.props.simpleBuyActions.setStep({
-      step: 'CURRENCY_SELECTION'
-    })
+    this.props.simpleBuyActions.destroyCheckout()
   }
 
   handleClose = () => {
@@ -76,13 +86,29 @@ class SimpleBuy extends PureComponent<Props, State> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'ORDER_SUMMARY' && (
+          <FlyoutChild>
+            <OrderSummary {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'TRANSFER_DETAILS' && (
+          <FlyoutChild>
+            <TransferDetails {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CANCEL_ORDER' && (
+          <FlyoutChild>
+            <CancelOrder {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  step: selectors.components.simpleBuy.getStep(state)
+const mapStateToProps = (state: RootState) => ({
+  step: selectors.components.simpleBuy.getStep(state),
+  order: selectors.components.simpleBuy.getSBOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

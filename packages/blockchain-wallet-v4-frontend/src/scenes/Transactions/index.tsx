@@ -1,4 +1,5 @@
 import { actions, model } from 'data'
+import { CoinType, FiatType, SupportedCoinType } from 'core/types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
@@ -65,12 +66,9 @@ const StatsContainer = styled.div`
 
 type OwnProps = {
   buySellPartner: 'coinify' | 'sfox'
-  // FIXME: TypeScript use CoinType
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
-  // FIXME: TypeScript use SupportedCoinType
-  coinModel: any
-  // FIXME: TypeScript use CurrencyType
-  currency: any
+  coin: CoinType
+  coinModel: SupportedCoinType
+  currency: FiatType
   hasTxResults: boolean
   isSearchEntered: boolean
   pages: Array<any>
@@ -103,10 +101,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
     }
   }
 
-  handleLoadMore = () => {
-    this.props.loadMoreTxs()
-  }
-
   handleRefresh = () => {
     this.props.fetchData()
     this.props.initTxs()
@@ -122,13 +116,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isSearchEntered,
+      loadMoreTxs,
       pages
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
 
     return (
       <SceneWrapper>
-        <LazyLoadContainer onLazyLoad={this.handleLoadMore}>
+        <LazyLoadContainer onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
               <Icon size='36px' color={colorCode} name={icons.circleFilled} />
@@ -164,7 +159,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 data={value}
                 key={index}
                 onArchive={this.handleArchive}
-                onLoadMore={this.handleLoadMore}
+                onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
               />
             ))

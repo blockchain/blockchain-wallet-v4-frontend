@@ -28,7 +28,6 @@ import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import simpleBuy from './simpleBuy/sagaRegister'
-import transactionReport from './transactionReport/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
@@ -65,7 +64,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(simpleBuy({ api, coreSagas, networks }))
-    yield fork(transactionReport({ coreSagas }))
     yield fork(uploadDocuments({ api }))
     yield fork(veriff({ api, coreSagas }))
   }

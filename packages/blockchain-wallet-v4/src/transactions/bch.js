@@ -278,6 +278,7 @@ export const _transformTx = (wallet, accountList, txNotes, tx) => {
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
     time: tx.time,
+    insertedAt: tx.time * 1000,
     timeFormatted: getTime(tx),
     fee: Remote.Success(tx.fee),
     inputs: inputs,

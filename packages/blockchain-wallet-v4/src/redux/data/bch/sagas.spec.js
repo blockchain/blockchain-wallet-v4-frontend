@@ -1,7 +1,6 @@
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import * as selectors from '../../selectors'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { fromCashAddr } from '../../../utils/bch'
 import { indexBy, path, prop } from 'ramda'
@@ -224,7 +223,8 @@ describe('bch data sagas', () => {
         .next(bchFetchData)
         .call(dataBchSagas.__processTxs, bchFetchData.txs)
         .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
+        .next()
+      // .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
     })
 
     it('should finish', () => {
@@ -249,113 +249,6 @@ describe('bch data sagas', () => {
         .put(A.fetchTransactionsFailure(error.message))
         .next()
         .isDone()
-    })
-  })
-
-  describe('fetchTransactionHistory', () => {
-    const payload = {
-      address: CASH_ADDR_ADDRESS,
-      start: '01/01/2018',
-      end: '01/06/2018'
-    }
-    const saga = testSaga(dataBchSagas.fetchTransactionHistory, { payload })
-    const currency = Remote.of('EUR')
-    const beforeGettingHistory = 'beforeGettingHistory'
-
-    it('should put loading state', () => {
-      saga.next().put(A.fetchTransactionHistoryLoading())
-    })
-
-    it('should get currency', () => {
-      saga.next().select(selectors.settings.getCurrency)
-    })
-
-    it('should get transaction data with address if possible', () => {
-      let convertedAddress = fromCashAddr(CASH_ADDR_ADDRESS)
-      saga.save(beforeGettingHistory)
-      saga
-        .next(currency)
-        .call(
-          api.getTransactionHistory,
-          'BCH',
-          convertedAddress,
-          currency.getOrElse('USD'),
-          payload.start,
-          payload.end
-        )
-    })
-
-    it('should dispatch success with data', () => {
-      saga
-        .next(transactionHistory)
-        .put(A.fetchTransactionHistorySuccess(transactionHistory))
-    })
-
-    const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = [CASH_ADDR_ADDRESS, CASH_ADDR_ADDRESS]
-    const active = mockContext.join('|')
-
-    it('should get transaction data with context if no address present', () => {
-      return expectSaga(dataBchSagas.fetchTransactionHistory, {
-        payload: payloadNoAddr
-      })
-        .provide([
-          [select(selectors.settings.getCurrency), currency],
-          [select(S.getContext), mockContext]
-        ])
-        .call(
-          api.getTransactionHistory,
-          'BCH',
-          active,
-          currency.getOrElse('USD'),
-          payload.start,
-          payload.end
-        )
-        .put(A.fetchTransactionHistorySuccess(transactionHistory))
-        .run()
-    })
-
-    it('should handle errors', () => {
-      const error = { message: 'invalid address' }
-
-      saga
-        .restart()
-        .next()
-        .throw(error)
-        .put(A.fetchTransactionHistoryFailure(error.message))
-        .next()
-        .isDone()
-    })
-
-    describe('state change', () => {
-      it('should add transactionHistory data to the state', () => {
-        return expectSaga(dataBchSagas.fetchTransactionHistory, { payload })
-          .withReducer(reducers)
-          .provide([[select(selectors.settings.getCurrency), Remote.of('USD')]])
-          .run()
-          .then(result => {
-            expect(result.storeState.bch).toMatchObject({
-              transaction_history: Remote.Success(transactionHistory)
-            })
-          })
-      })
-
-      it('should add transactionHistory data to the state using context if no address', () => {
-        return expectSaga(dataBchSagas.fetchTransactionHistory, {
-          payload: payloadNoAddr
-        })
-          .withReducer(reducers)
-          .provide([
-            [select(selectors.settings.getCurrency), Remote.of('USD')],
-            [select(S.getContext), mockContext]
-          ])
-          .run()
-          .then(result => {
-            expect(result.storeState.bch).toMatchObject({
-              transaction_history: Remote.Success(transactionHistory)
-            })
-          })
-      })
     })
   })
 })

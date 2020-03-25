@@ -18,11 +18,17 @@ import { CoinType } from 'core/types'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
 
-export const convertBaseToStandard = (coin: CoinType, value): string => {
+export const convertBaseToStandard = (
+  coin: CoinType | 'FIAT',
+  value
+): string => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: true }).value
 }
 
-export const convertStandardToBase = (coin: CoinType, value) => {
+export const convertStandardToBase = (
+  coin: CoinType | 'FIAT',
+  value
+): string => {
   return Exchange.convertCoinToCoin({ coin, value, baseToStandard: false })
     .value
 }

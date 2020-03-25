@@ -15,6 +15,11 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
+import {
+  CryptoCurrenciesType,
+  Erc20CurrenciesType,
+  FiatCurrenciesType
+} from 'core/exchange/currencies'
 import serializer from './Serializer'
 
 export {
@@ -38,7 +43,9 @@ export {
   KVStoreEntry
 }
 
-export type CoinType = 'BCH' | 'BTC' | 'ETH' | 'PAX' | 'XLM'
+export type CoinType = keyof CryptoCurrenciesType
+export type Erc20CoinType = keyof Erc20CurrenciesType
+export type FiatType = keyof FiatCurrenciesType
 
 export type BtcAccountType = {
   address?: string | number

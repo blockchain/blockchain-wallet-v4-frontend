@@ -6,12 +6,16 @@ export default ({ api }) => {
   const dataEthSagas = sagas({ api })
 
   return function * coreDataEthSaga () {
+    yield fork(dataEthSagas.watchTransactions)
+    yield fork(dataEthSagas.watchErc20Transactions)
     yield takeLatest(AT.FETCH_ETH_DATA, dataEthSagas.fetchData)
     yield takeLatest(AT.FETCH_ETH_RATES, dataEthSagas.fetchRates)
     yield takeLatest(AT.FETCH_ERC20_RATES, dataEthSagas.fetchErc20Rates)
     yield takeLatest(AT.FETCH_ERC20_TOKEN_DATA, dataEthSagas.fetchErc20Data)
-    yield fork(dataEthSagas.watchTransactions)
-    yield fork(dataEthSagas.watchErc20Transactions)
+    yield takeLatest(
+      AT.FETCH_ETH_TRANSACTION_HISTORY,
+      dataEthSagas.fetchTransactionHistory
+    )
     yield takeLatest(
       AT.FETCH_ETH_LEGACY_BALANCE,
       dataEthSagas.fetchLegacyBalance
@@ -24,6 +28,10 @@ export default ({ api }) => {
     yield takeLatest(
       AT.FETCH_ERC20_TX_FEE,
       dataEthSagas.fetchErc20TransactionFee
+    )
+    yield takeLatest(
+      AT.FETCH_ERC20_TRANSACTION_HISTORY,
+      dataEthSagas.fetchErc20TransactionHistory
     )
   }
 }

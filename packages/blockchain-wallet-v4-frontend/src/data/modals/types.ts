@@ -16,6 +16,7 @@ export type ModalNamesType =
   | 'SwapGetStarted'
   | 'SwapUpgrade'
   | 'TransferEth'
+  | 'TRANSACTION_REPORT'
   | 'UpgradeForAirdrop'
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'

@@ -99,6 +99,12 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
+    case 'light-red':
+      return {
+        color: 'red600',
+        backgroundColor: 'white',
+        borderColor: 'grey000'
+      }
     case 'exchangeTurquoise':
       return {
         color: 'exchangeNight',
