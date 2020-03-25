@@ -10,6 +10,7 @@ import {
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   FiatEligibleType,
+  FiatType,
   SBAccountType,
   SBOrderType,
   SBQuoteType
@@ -159,7 +160,10 @@ export default ({
   const fetchSBPaymentAccount = function * () {
     try {
       yield put(A.fetchSBPaymentAccountLoading())
-      const fiatCurrency = S.getFiatCurrency(yield select())
+      const order = S.getSBOrder(yield select())
+      const fiatCurrency: FiatType | false = order
+        ? (order.pair.split('-')[1] as FiatType)
+        : false
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
       const account: SBAccountType = yield call(
         api.getSBPaymentAccount,
