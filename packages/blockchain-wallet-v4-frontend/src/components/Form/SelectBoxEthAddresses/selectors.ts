@@ -1,6 +1,7 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, prop, reduce, sequence } from 'ramda'
+import { Erc20CoinType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
@@ -99,8 +100,21 @@ export const getEthData = (
   return getAddressesData()
 }
 
-export const getErc20Data = (state, ownProps) => {
-  const { coin, exclude = [], includeExchangeAddress } = ownProps
+export const getErc20Data = (
+  state,
+  ownProps: {
+    coin: Erc20CoinType
+    exclude?: Array<string>
+    includeCustodial?: boolean
+    includeExchangeAddress?: boolean
+  }
+) => {
+  const {
+    coin,
+    exclude = [],
+    includeExchangeAddress,
+    includeCustodial
+  } = ownProps
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
@@ -112,6 +126,16 @@ export const getErc20Data = (state, ownProps) => {
       })
     }
     return {}
+  }
+  const buildCustodialDisplay = x => {
+    return (
+      `My Custodial Wallet` +
+      ` (${displayErc20Fixed({
+        value: x ? x.available : 0,
+        fromUnit: 'WEI',
+        toUnit: 'PAX'
+      })})`
+    )
   }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
@@ -134,6 +158,12 @@ export const getErc20Data = (state, ownProps) => {
       value: x
     }
   ]
+  const toCustodialDropdown = x => [
+    {
+      label: buildCustodialDisplay(x),
+      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+    }
+  ]
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     coin,
@@ -151,10 +181,17 @@ export const getErc20Data = (state, ownProps) => {
       Remote.of([]),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('PAX'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
-    ]).map(([b1, b2, b3]) => ({
+    ]).map(([b1, b2, b3, b4]) => ({
       // @ts-ignore
-      data: reduce(concat, [], [b1, b2, b3])
+      data: reduce(concat, [], [b1, b2, b3, b4])
     }))
   }
 
