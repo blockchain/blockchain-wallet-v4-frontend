@@ -25,7 +25,10 @@ export const getData = (state, ownProps: OwnProps) => {
       coinRatesR = selectors.core.data.btc.getRates(state)
       break
     case 'BCH':
-      addressDataR = getBchAddressData(state, { excludeLockbox: true })
+      addressDataR = getBchAddressData(state, {
+        coin: 'BCH',
+        excludeLockbox: true
+      })
       balanceDataR = balanceSelectors.getBchBalance(state)
       coinRatesR = selectors.core.data.bch.getRates(state)
       break

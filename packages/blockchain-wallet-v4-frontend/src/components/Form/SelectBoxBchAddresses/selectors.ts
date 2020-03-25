@@ -19,6 +19,7 @@ import {
   prepend,
   prop,
   reduce,
+  // @ts-ignore
   sequence,
   set,
   sort
@@ -47,7 +48,20 @@ const allImportedAddresses = {
   ]
 }
 
-export const getData = (state, ownProps) => {
+export const getData = (
+  state,
+  ownProps: {
+    coin: 'BCH'
+    exclude?: Array<string>
+    excludeHDWallets?: boolean
+    excludeImported?: boolean
+    excludeLockbox?: boolean
+    excludeWatchOnly?: boolean
+    includeAll?: boolean
+    includeCustodial?: boolean
+    includeExchangeAddress?: boolean
+  }
+) => {
   const {
     coin,
     exclude = [],
@@ -56,7 +70,8 @@ export const getData = (state, ownProps) => {
     excludeLockbox,
     excludeWatchOnly,
     includeAll = true,
-    includeExchangeAddress
+    includeExchangeAddress,
+    includeCustodial
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -71,11 +86,38 @@ export const getData = (state, ownProps) => {
     return label
   }
 
+  const buildCustodialDisplay = x => {
+    return (
+      `My Custodial Wallet` +
+      ` (${Exchange.displayBchToBch({
+        value: x ? x.available : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
+      })})`
+    )
+  }
+
+  // @ts-ignore
   const isActive = filter(x => !x.archived)
+  // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
-  const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
+  const toDropdown = map(x => ({
+    label: buildDisplay(x),
+    value: x
+  }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange BCH Address`, value: x }]
+  const toExchange = x => [
+    {
+      label: `Exchange BCH Address`,
+      value: x
+    }
+  ]
+  const toCustodialDropdown = x => [
+    {
+      label: buildCustodialDisplay(x),
+      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+    }
+  ]
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BCH',
@@ -113,7 +155,10 @@ export const getData = (state, ownProps) => {
     )
     const filterRelevantAddresses = addrs =>
       excludeWatchOnly
-        ? filter(addr => not(isNil(prop('priv', addr))), addrs)
+        ? filter(addr => {
+            // @ts-ignore
+            return not(isNil(prop('priv', addr)))
+          }, addrs)
         : addrs
     const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
@@ -130,12 +175,14 @@ export const getData = (state, ownProps) => {
             .map(toGroup('Imported Addresses'))
             .map(x =>
               set(
+                // @ts-ignore
                 compose(
                   lensIndex(0),
                   lensProp('options')
                 ),
                 sort(
                   descend(path(['value', 'balance'])),
+                  // @ts-ignore
                   prop('options', head(x))
                 ),
                 x
@@ -150,13 +197,25 @@ export const getData = (state, ownProps) => {
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('BCH'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
-      const data = reduce(concat, [], [b1, b2, b3, b4])
+    ]).map(([b1, b2, b3, b4, b5]) => {
+      // @ts-ignore
+      const data = reduce(concat, [], [b1, b2, b3, b4, b5])
       if (includeAll) {
-        return { data: prepend(allWallets, data) }
+        return {
+          data: prepend(allWallets, data)
+        }
       } else if (excludeHDWallets) {
-        return { data: [allImportedAddresses] }
+        return {
+          data: [allImportedAddresses]
+        }
       } else {
         return { data }
       }

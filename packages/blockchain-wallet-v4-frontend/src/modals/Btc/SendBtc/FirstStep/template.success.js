@@ -434,7 +434,7 @@ const FirstStep = props => {
       {isFromCustody && (
         <ErrorCartridge>
           <FormattedMessage
-            id='modals.sendbtc.firststep.fromcustoday.withdrawal'
+            id='modals.sendbtc.firststep.fromcustody.withdrawal'
             defaultMessage='Withdrawals from your custody wallet will be enabled soon.'
           />
         </ErrorCartridge>
