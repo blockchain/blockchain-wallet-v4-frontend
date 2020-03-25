@@ -31,7 +31,7 @@ const TopText = styled(Text)`
   justify-content: space-between;
   margin-bottom: 24px;
 `
-// Hide the default field error for NumberBox
+// Hide the default field error for NumberBox > div > div:last-child
 const AmountFieldContainer = styled.div`
   display: flex;
   align-items: center;
@@ -80,7 +80,7 @@ const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
-type Props = OwnProps & SuccessStateType
+export type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { fiatCurrency } = props
