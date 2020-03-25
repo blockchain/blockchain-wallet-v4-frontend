@@ -37,11 +37,13 @@ export type SBAccountType =
       currency: 'GBP'
     }
 
+export type SBBalanceType = {
+  available: string
+  pending: string
+}
+
 export type SBBalancesType = {
-  [key in keyof CurrenciesType]?: {
-    available: string
-    pending: string
-  }
+  [key in keyof CurrenciesType]?: SBBalanceType
 }
 
 export type SBPairsType =

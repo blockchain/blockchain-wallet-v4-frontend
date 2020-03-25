@@ -24,6 +24,7 @@ import {
   pathOr,
   prop
 } from 'ramda'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
@@ -164,14 +165,29 @@ export default ({ api, coreSagas, networks }) => {
   const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBtcPaymentUpdatedLoading())
+      const values = yield select(selectors.form.getFormValues(FORM))
       let payment = coreSagas.payment.btc.create({
         payment: p.getOrElse({}),
         network: networks.btc
       })
-      payment = yield payment.build()
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      if (values.from.type === ADDRESS_TYPES.CUSTODIAL) {
+        yield put(startSubmit(FORM))
+        yield call(
+          api.withdrawSBFunds,
+          payment.value().to[0].address,
+          'BTC',
+          values.from.available
+        )
+        yield put(stopSubmit(FORM))
+        yield put(actions.modals.closeAllModals())
+      } else {
+        yield put(A.sendBtcPaymentUpdatedLoading())
+        payment = yield payment.build()
+        yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      }
     } catch (e) {
+      const error = errorHandler(e)
+      yield put(stopSubmit(FORM, { _error: error }))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -215,6 +231,9 @@ export default ({ api, coreSagas, networks }) => {
               break
             case ADDRESS_TYPES.LOCKBOX:
               payment = yield payment.from(payload.xpub, fromType)
+              break
+            case ADDRESS_TYPES.CUSTODIAL:
+              // Do nothing if from custodial
               break
             default:
               if (!payload.watchOnly) {

@@ -1,3 +1,4 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { collapse } from 'utils/helpers'
 import {
   compose,
@@ -50,6 +51,7 @@ export const getData = (
     excludeImported?: boolean
     excludeLockbox?: boolean
     includeAll?: boolean
+    includeCustodial?: boolean
     includeExchangeAddress?: boolean
   }
 ) => {
@@ -59,6 +61,7 @@ export const getData = (
     excludeImported,
     excludeLockbox,
     includeAll = true,
+    includeCustodial,
     includeExchangeAddress
   } = ownProps
   const buildDisplay = wallet => {
@@ -73,11 +76,27 @@ export const getData = (
     }
     return label
   }
+  const buildCustodialDisplay = x => {
+    return (
+      `My Custodial Wallet` +
+      ` (${Exchange.displayBtcToBtc({
+        value: x.available,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      })})`
+    )
+  }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
+  const toCustodialDropdown = x => [
+    {
+      label: buildCustodialDisplay(x),
+      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+    }
+  ]
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BTC',
@@ -122,10 +141,17 @@ export const getData = (
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('BTC'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
+    ]).map(([b1, b2, b3, b4, b5]) => {
       // @ts-ignore
-      const data = reduce(concat, [], [b1, b2, b3, b4])
+      const data = reduce(concat, [], [b1, b2, b3, b4, b5])
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {

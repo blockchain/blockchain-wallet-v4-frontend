@@ -21,6 +21,7 @@ export type FromType =
   | 'EXTERNAL'
   | 'LOCKBOX'
   | 'ADDRESS'
+  | 'CUSTODIAL'
 
 type IPaymentValue = {
   change: string

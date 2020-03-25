@@ -112,6 +112,25 @@ export default ({
       }
     })
 
+  const withdrawSBFunds = (
+    address: string,
+    currency: keyof CurrenciesType,
+    amount: string
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/payments/withdrawals',
+      contentType: 'application/json',
+      headers: {
+        'blockchain-origin': 'simplebuy'
+      },
+      data: {
+        address,
+        currency,
+        amount
+      }
+    })
+
   return {
     cancelSBOrder,
     createSBOrder,
@@ -120,6 +139,7 @@ export default ({
     getSBPairs,
     getSBPaymentAccount,
     getSBFiatEligible,
-    getSBSuggestedAmounts
+    getSBSuggestedAmounts,
+    withdrawSBFunds
   }
 }
