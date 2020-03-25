@@ -1,5 +1,5 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -186,10 +186,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           style={{ marginTop: '16px' }}
           disabled={props.submitting}
         >
-          <FormattedMessage
-            id='modals.simplebuy.confirm.confirm'
-            defaultMessage='Confirm Order'
-          />
+          {props.submitting ? (
+            <HeartbeatLoader height='16px' width='16px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.confirm.confirm'
+              defaultMessage='Confirm Order'
+            />
+          )}
         </Button>
       </Bottom>
     </CustomForm>
