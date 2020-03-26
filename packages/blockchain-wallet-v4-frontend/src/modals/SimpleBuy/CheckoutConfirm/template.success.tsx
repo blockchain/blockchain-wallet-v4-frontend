@@ -39,14 +39,6 @@ const Amount = styled.div`
     display: inline;
   }
 `
-// const StyledRow = styled(Row)`
-//   padding: 16px 40px;
-//   border-top: 1px solid ${props => props.theme.grey000};
-//   &:last-child {
-//     border-bottom: 1px solid ${props => props.theme.grey000};
-//   }
-// `
-
 type Props = OwnProps &
   LinkDispatchPropsType &
   SuccessStateType & { supportedCoins: SupportedCoinsType }
