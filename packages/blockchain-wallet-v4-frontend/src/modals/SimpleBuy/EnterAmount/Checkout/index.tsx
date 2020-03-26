@@ -1,9 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { FiatType, RemoteDataType, SBSuggestedAmountType } from 'core/types'
+import {
+  FiatType,
+  RemoteDataType,
+  SBPairType,
+  SBSuggestedAmountType
+} from 'core/types'
 import { getData } from './selectors'
-import { Props as OwnProps } from '../template.success'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
@@ -11,6 +15,10 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
+type OwnProps = {
+  handleClose: () => void
+  pairs: Array<SBPairType>
+}
 export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   formValues?: SBCheckoutFormValuesType
@@ -24,11 +32,10 @@ type LinkStatePropsType = {
 export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
   profileActions: typeof actions.modules.profile
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     this.props.simpleBuyActions.initializeCheckout(this.props.pairs)
   }
@@ -74,7 +81,8 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const enhance = connect(

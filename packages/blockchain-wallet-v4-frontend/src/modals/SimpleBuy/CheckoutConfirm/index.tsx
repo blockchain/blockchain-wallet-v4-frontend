@@ -1,49 +1,53 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import {
-  FiatType,
-  NabuApiErrorType,
-  RemoteDataType,
-  SBPairType
-} from 'core/types'
 import { getData } from './selectors'
+import {
+  RemoteDataType,
+  SBOrderType,
+  SBQuoteType,
+  SupportedCoinsType
+} from 'core/types'
 import { RootState } from 'data/rootReducer'
-import Failure from './template.failure'
+import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
+  order: SBOrderType
 }
 export type SuccessStateType = {
-  pairs: Array<SBPairType>
+  quote: SBQuoteType
 }
 export type LinkDispatchPropsType = {
-  formActions: typeof actions.form
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-export type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-  fiatCurrency: undefined | FiatType
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  supportedCoins: SupportedCoinsType
 }
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 type State = {}
 
-class EnterAmount extends PureComponent<Props, State> {
+class CheckoutConfirm extends PureComponent<Props, State> {
   state = {}
 
   componentDidMount () {
-    if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-    }
+    this.props.simpleBuyActions.fetchSBQuote()
+  }
+
+  handleSubmit = () => {
+    this.props.simpleBuyActions.confirmSBOrder()
   }
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <Failure {...this.props} />,
+      Success: val => (
+        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+      ),
+      Failure: e => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -52,15 +56,23 @@ class EnterAmount extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({
+      BTC: { colorCode: 'btc' },
+      BCH: { colorCode: 'bch' },
+      ETH: { colorCode: 'eth' },
+      PAX: { colorCode: 'pax' },
+      STX: { colorCode: 'stx' },
+      XLM: { colorCode: 'xlm' }
+    })
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EnterAmount)
+)(CheckoutConfirm)

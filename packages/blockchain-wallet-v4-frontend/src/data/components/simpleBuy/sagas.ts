@@ -8,7 +8,13 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { FiatEligibleType, SBAccountType, SBOrderType } from 'core/types'
+import {
+  FiatEligibleType,
+  FiatType,
+  SBAccountType,
+  SBOrderType,
+  SBQuoteType
+} from 'core/types'
 import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
 import { SBCheckoutFormValuesType } from './types'
 import profileSagas from '../../modules/profile/sagas'
@@ -57,23 +63,39 @@ export default ({
       )
       const pair = values.pair
       const amount = convertStandardToBase('FIAT', values.amount)
+      if (!pair) throw new Error(NO_PAIR_SELECTED)
       // TODO: Simple Buy - make dynamic
       const action = 'BUY'
-      if (!pair) throw new Error(NO_PAIR_SELECTED)
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
         action,
+        true,
         { amount, symbol: getFiatFromPair(pair) },
         { symbol: getCoinFromPair(pair) }
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
-      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order }))
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
+    }
+  }
+
+  const confirmSBOrder = function * () {
+    try {
+      const order = S.getSBOrder(yield select())
+      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
+      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order: confirmedOrder }))
+      yield put(A.fetchSBOrders())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
     }
   }
 
@@ -138,7 +160,10 @@ export default ({
   const fetchSBPaymentAccount = function * () {
     try {
       yield put(A.fetchSBPaymentAccountLoading())
-      const fiatCurrency = S.getFiatCurrency(yield select())
+      const order = S.getSBOrder(yield select())
+      const fiatCurrency: FiatType | false = order
+        ? (order.pair.split('-')[1] as FiatType)
+        : false
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
       const account: SBAccountType = yield call(
         api.getSBPaymentAccount,
@@ -148,6 +173,25 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBPaymentAccountFailure(error))
+    }
+  }
+
+  const fetchSBQuote = function * () {
+    try {
+      yield put(A.fetchSBQuoteLoading())
+      const order = S.getSBOrder(yield select())
+      if (!order) throw new Error('NO_ORDER')
+      // TODO: Simple Buy - make dynamic
+      const quote: SBQuoteType = yield call(
+        api.getSBQuote,
+        order.pair,
+        'BUY',
+        order.inputQuantity
+      )
+      yield put(A.fetchSBQuoteSuccess(quote))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBQuoteFailure(error))
     }
   }
 
@@ -211,10 +255,12 @@ export default ({
   return {
     cancelSBOrder,
     createSBOrder,
+    confirmSBOrder,
     fetchSBBalances,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
+    fetchSBQuote,
     fetchSBFiatEligible,
     handleSBSuggestedAmountClick,
     initializeCheckout,

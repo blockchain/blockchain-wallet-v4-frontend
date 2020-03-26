@@ -7,6 +7,7 @@ import {
   SBBalancesType,
   SBOrderType,
   SBPairType,
+  SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
 
@@ -21,6 +22,7 @@ export type SBCurrencySelectFormType = {
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
+  'CHECKOUT_CONFIRM',
   'ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'CANCEL_ORDER'
@@ -35,6 +37,7 @@ export type SimpleBuyState = {
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
   pairs: RemoteDataType<string, Array<SBPairType>>
+  quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
   suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
@@ -124,6 +127,21 @@ interface FetchSBPaymentAccountSuccess {
   }
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
 }
+interface FetchSBQuoteFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_QUOTE_FAILURE
+}
+interface FetchSBQuoteLoading {
+  type: typeof AT.FETCH_SB_QUOTE_LOADING
+}
+interface FetchSBQuoteSuccess {
+  payload: {
+    quote: SBQuoteType
+  }
+  type: typeof AT.FETCH_SB_QUOTE_SUCCESS
+}
 interface FetchSBSuggestedAmountsFailure {
   payload: {
     error: Error | string
@@ -150,7 +168,11 @@ interface SetStepAction {
       }
     | {
         order: SBOrderType
-        step: 'ORDER_SUMMARY' | 'TRANSFER_DETAILS' | 'CANCEL_ORDER'
+        step:
+          | 'CHECKOUT_CONFIRM'
+          | 'ORDER_SUMMARY'
+          | 'TRANSFER_DETAILS'
+          | 'CANCEL_ORDER'
       }
   type: typeof AT.SET_STEP
 }
@@ -175,6 +197,9 @@ export type SimpleBuyActionTypes =
   | FetchSBPaymentAccountFailure
   | FetchSBPaymentAccountLoading
   | FetchSBPaymentAccountSuccess
+  | FetchSBQuoteFailure
+  | FetchSBQuoteLoading
+  | FetchSBQuoteSuccess
   | FetchSBSuggestedAmountsFailure
   | FetchSBSuggestedAmountsLoading
   | FetchSBSuggestedAmountsSuccess

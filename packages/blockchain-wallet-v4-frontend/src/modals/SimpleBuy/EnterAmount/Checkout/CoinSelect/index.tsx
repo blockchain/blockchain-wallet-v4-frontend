@@ -1,9 +1,8 @@
 import { Field } from 'redux-form'
 import { getCoinFromPair } from 'data/components/simpleBuy/model'
-import { Props } from '../../template.success'
+import { Props } from '../template.success'
 import { SelectBox } from 'components/Form'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 class CoinSelect extends PureComponent<Props & { name: string }> {
   state = {}

@@ -25,10 +25,6 @@ type LinkStatePropsType = {
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class CoinBalance extends React.PureComponent<Props> {
-  componentDidMount () {
-    this.handleRefresh()
-  }
-
   handleRefresh = (e?: KeyboardEvent) => {
     if (e) {
       e.preventDefault()

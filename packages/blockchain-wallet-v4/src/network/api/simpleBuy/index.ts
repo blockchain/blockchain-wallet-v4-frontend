@@ -6,7 +6,8 @@ import {
   SBMoneyType,
   SBOrderType,
   SBPairsType,
-  SBPairType
+  SBPairType,
+  SBQuoteType
 } from './types'
 
 export default ({
@@ -26,6 +27,7 @@ export default ({
   const createSBOrder = (
     pair: SBPairsType,
     action: 'BUY' | 'SELL',
+    pending: boolean,
     input: SBMoneyType,
     output: {
       symbol: CoinType
@@ -33,13 +35,24 @@ export default ({
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
-      endPoint: '/simple-buy/trades',
+      removeDefaultPostData: true,
+      endPoint: `/simple-buy/trades${pending ? '?action=pending' : ''}`,
       contentType: 'application/json',
       data: {
         pair,
         action,
         input,
         output
+      }
+    })
+
+  const confirmSBOrder = (order: SBOrderType): SBOrderType =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/simple-buy/trades/${order.id}`,
+      contentType: 'application/json',
+      data: {
+        action: 'confirm'
       }
     })
 
@@ -103,6 +116,21 @@ export default ({
       }
     })
 
+  const getSBQuote = (
+    currencyPair: SBPairsType,
+    action: 'BUY' | 'SELL',
+    amount: string
+  ): SBQuoteType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/simple-buy/quote',
+      data: {
+        currencyPair,
+        action,
+        amount
+      }
+    })
+
   const getSBSuggestedAmounts = (currency: keyof CurrenciesType) =>
     get({
       url: nabuUrl,
@@ -112,14 +140,36 @@ export default ({
       }
     })
 
+  const withdrawSBFunds = (
+    address: string,
+    currency: keyof CurrenciesType,
+    amount: string
+  ) =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/payments/withdrawals',
+      contentType: 'application/json',
+      headers: {
+        'blockchain-origin': 'simplebuy'
+      },
+      data: {
+        address,
+        currency,
+        amount
+      }
+    })
+
   return {
     cancelSBOrder,
     createSBOrder,
+    confirmSBOrder,
     getSBBalances,
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,
     getSBFiatEligible,
-    getSBSuggestedAmounts
+    getSBQuote,
+    getSBSuggestedAmounts,
+    withdrawSBFunds
   }
 }

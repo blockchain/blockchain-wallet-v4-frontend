@@ -1,3 +1,4 @@
+import { ErrorCartridge } from 'components/Cartridge'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
@@ -113,6 +114,7 @@ const FirstStep = props => {
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
@@ -150,6 +152,7 @@ const FirstStep = props => {
             component={SelectBoxBtcAddresses}
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
+            includeCustodial
           />
           {watchOnly && (
             <Row>
@@ -428,6 +431,14 @@ const FirstStep = props => {
           />
         </Text>
       )}
+      {isFromCustody && (
+        <ErrorCartridge>
+          <FormattedMessage
+            id='modals.sendbtc.firststep.fromcustody.withdrawal'
+            defaultMessage='Withdrawals from your custody wallet will be enabled soon.'
+          />
+        </ErrorCartridge>
+      )}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -438,6 +449,7 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
+            isFromCustody ||
             (!isPayPro && pristine && !autofilled) ||
             disableLockboxSend
           }

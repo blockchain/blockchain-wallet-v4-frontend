@@ -13,6 +13,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data('pax'))
+      yield put(actions.components.simpleBuy.fetchSBBalances())
       // Rates
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.btc.fetchRates())

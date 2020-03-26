@@ -8,6 +8,7 @@ import {
   SBBalancesType,
   SBOrderType,
   SBPairType,
+  SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
@@ -19,6 +20,10 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 
 export const createSBOrder = () => ({
   type: AT.CREATE_ORDER
+})
+
+export const confirmSBOrder = () => ({
+  type: AT.CONFIRM_ORDER
 })
 
 export const destroyCheckout = () => ({
@@ -154,6 +159,30 @@ export const fetchSBPaymentAccountSuccess = (
   }
 })
 
+export const fetchSBQuote = () => ({
+  type: AT.FETCH_SB_QUOTE
+})
+
+export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_QUOTE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBQuoteLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_QUOTE_LOADING
+})
+
+export const fetchSBQuoteSuccess = (
+  quote: SBQuoteType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_QUOTE_SUCCESS,
+  payload: {
+    quote
+  }
+})
+
 export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
   type: AT.FETCH_SB_SUGGESTED_AMOUNTS,
   currency
@@ -198,7 +227,11 @@ export const setStep = (
     | { step: 'CURRENCY_SELECTION' }
     | {
         order: SBOrderType
-        step: 'TRANSFER_DETAILS' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+        step:
+          | 'CHECKOUT_CONFIRM'
+          | 'TRANSFER_DETAILS'
+          | 'ORDER_SUMMARY'
+          | 'CANCEL_ORDER'
       }
     | { fiatCurrency: FiatType; step: 'ENTER_AMOUNT' }
 ): SimpleBuyActionTypes => ({
@@ -209,7 +242,8 @@ export const setStep = (
           step: payload.step,
           fiatCurrency: payload.fiatCurrency
         }
-      : payload.step === 'TRANSFER_DETAILS' ||
+      : payload.step === 'CHECKOUT_CONFIRM' ||
+        payload.step === 'TRANSFER_DETAILS' ||
         payload.step === 'ORDER_SUMMARY' ||
         payload.step === 'CANCEL_ORDER'
       ? { step: payload.step, order: payload.order }
