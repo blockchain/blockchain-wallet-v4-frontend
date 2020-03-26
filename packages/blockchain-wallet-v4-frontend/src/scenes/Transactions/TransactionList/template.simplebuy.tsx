@@ -104,22 +104,12 @@ class SimpleBuyListItem extends PureComponent<Props> {
                     Currencies[order.inputCurrency].units[order.inputCurrency],
                   value: convertBaseToStandard('FIAT', order.inputQuantity)
                 })
-              : Currency.coinToString({
-                  unit:
-                    Currencies[order.inputCurrency].units[order.inputCurrency],
-                  value: convertBaseToStandard(
-                    order.inputCurrency as CoinType,
-                    order.inputQuantity
-                  )
-                })
+              : 'Not yet implemented'
 
-          // add conditional here to only show if state is DEPOSIT_MATCHED, PENDING_DEPOSIT, 'PENDING_CONFIRMATION'
           return (
             <TransactionRow>
               <StatusColumn data-e2e='orderStatusColumn'>
-                <Text size='14px' weight={500}>
-                  <Status order={order} />
-                </Text>
+                <Status order={order} />
               </StatusColumn>
               <AmountColumn data-e2e='orderAmountColumn'>
                 <Text size='14px' weight={500}>
