@@ -61,6 +61,7 @@ const isOverEighteen = val => {
   const dob = new Date(val)
   const now = new Date()
   const eighteenYearsAgo = now.setFullYear(now.getFullYear() - 18)
+  // @ts-ignore
   return dob < eighteenYearsAgo
 }
 const isSSN = val => {

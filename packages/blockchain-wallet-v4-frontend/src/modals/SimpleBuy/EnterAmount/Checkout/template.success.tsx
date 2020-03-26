@@ -9,9 +9,11 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
+import { formatTextAmount } from 'services/ValidationHelper'
 import { Icon, Text } from 'blockchain-info-components'
 import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -82,6 +84,16 @@ const ErrorText = styled(Text)`
 
 export type Props = OwnProps & SuccessStateType
 
+const normalizeAmount = (
+  value,
+  prevValue,
+  allValues: SBCheckoutFormValuesType,
+  ...args
+) => {
+  if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
+  return formatTextAmount(value, allValues.orderType === 'BUY')
+}
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { fiatCurrency } = props
 
@@ -134,6 +146,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='amount'
             component={NumberBox}
             validate={[maximumAmount, minimumAmount]}
+            normalize={normalizeAmount}
             placeholder='0'
             {...{
               autoFocus: true,
@@ -155,8 +168,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMax
-                      ),
-                      digits: 0
+                      )
                     })
                   }}
                 />
@@ -206,7 +218,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   >
                     {fiatToString({
                       unit: Currencies[fiatCurrency].units[fiatCurrency],
-                      value: convertBaseToStandard('FIAT', amount)
+                      value: convertBaseToStandard('FIAT', amount),
+                      digits: 0
                     })}
                   </Amount>
                 )
