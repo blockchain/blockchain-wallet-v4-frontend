@@ -1,9 +1,4 @@
-import {
-  ComponentDropdown,
-  IconButton,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { ComponentDropdown, IconButton, Text } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { includes } from 'ramda'

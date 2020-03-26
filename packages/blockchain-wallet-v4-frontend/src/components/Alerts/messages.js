@@ -249,6 +249,27 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage='Email address has been successfully verified'
         />
       )
+    case C.EXCHANGE_HISTORY_DOWNLOAD_BLOCKED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.exchange_history_download_blocked'
+          defaultMessage='Your Swap transaction report is currently being processed. You will receive an email with your report shortly.'
+        />
+      )
+    case C.EXCHANGE_HISTORY_DOWNLOAD_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.exchange_history_download_error'
+          defaultMessage='Failed to generate your Swap transaction report. Please try again later or contact support.'
+        />
+      )
+    case C.EXCHANGE_HISTORY_DOWNLOAD_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.exchange_history_download_success'
+          defaultMessage='You will soon receive an email that contains a report of all of your Swap transactions from the past year.'
+        />
+      )
     case C.EXCHANGE_REFRESH_TRADES_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

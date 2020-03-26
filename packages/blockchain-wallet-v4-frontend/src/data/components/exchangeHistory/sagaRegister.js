@@ -27,5 +27,9 @@ export default ({ api, coreSagas }) => {
       AT.STOP_POLLING_TRADES,
       exchangeHistorySagas.stopPollingTrades
     )
+    yield takeLatest(
+      AT.DOWNLOAD_HISTORY,
+      exchangeHistorySagas.exchangeHistoryDownload
+    )
   }
 }

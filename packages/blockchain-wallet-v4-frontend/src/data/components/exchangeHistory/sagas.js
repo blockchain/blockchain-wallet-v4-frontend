@@ -16,9 +16,9 @@ import {
   any,
   compose,
   concat,
-  contains,
   equals,
   identity,
+  includes,
   indexBy,
   isEmpty,
   isNil,
@@ -93,7 +93,7 @@ export default ({ api, coreSagas }) => {
 
   const initTradePolling = function * (trades) {
     const incompleteTrades = trades.filter(({ state }) =>
-      contains(state, INCOMPLETE_STATES)
+      includes(state, INCOMPLETE_STATES)
     )
     yield call(stopPollingTrades)
     if (!isEmpty(incompleteTrades)) {
@@ -217,6 +217,26 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const exchangeHistoryDownload = function * () {
+    try {
+      const { isQueued } = yield call(api.requestTradeHistory)
+      if (isQueued) {
+        yield put(
+          actions.alerts.displaySuccess(C.EXCHANGE_HISTORY_DOWNLOAD_SUCCESS)
+        )
+      } else {
+        yield put(
+          actions.alerts.displayError(C.EXCHANGE_HISTORY_DOWNLOAD_BLOCKED)
+        )
+      }
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.EXCHANGE_HISTORY_DOWNLOAD_ERROR))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'exchangeHistoryExport', e)
+      )
+    }
+  }
+
   const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
@@ -267,8 +287,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
-    exchangeHistoryInitialized,
     exchangeHistoryDestroyed,
+    exchangeHistoryDownload,
+    exchangeHistoryInitialized,
     exchangeHistoryModalInitialized,
     exchangeHistoryModalDestroyed,
     fetchNextPage,
