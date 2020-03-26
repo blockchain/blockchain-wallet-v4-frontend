@@ -1,7 +1,7 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -28,25 +28,6 @@ const Bottom = styled(FlyoutWrapper)`
 `
 const InfoContainer = styled.div`
   margin-top: 16px;
-`
-const Row = styled.div`
-  padding: 16px 40px;
-  box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.grey000};
-  &:last-child {
-    border-bottom: 1px solid ${props => props.theme.grey000};
-  }
-`
-const Title = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.grey600};
-`
-const Value = styled(Text)`
-  margin-top: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  color: ${props => props.theme.grey800};
 `
 
 const Success: React.FC<Props> = props => {
@@ -87,65 +68,75 @@ const Success: React.FC<Props> = props => {
           </InfoContainer>
         </FlyoutWrapper>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.bankname'
               defaultMessage='Bank Name'
             />
           </Title>
-          <Value>{props.account.agent.name}</Value>
+          <Value size='16px' weight={600} color='grey800'>
+            {props.account.agent.name}
+          </Value>
         </Row>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.bankid'
               defaultMessage='Bank ID'
             />
           </Title>
-          <Value>{props.account.agent.account}</Value>
+          <Value size='16px' weight={600} color='grey800'>
+            {props.account.agent.account}
+          </Value>
         </Row>
         {props.account.currency === 'USD' && (
           <Row>
-            <Title>
+            <Title size='14px' weight={500} color='grey600'>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.address'
                 defaultMessage='Address'
               />
             </Title>
-            <Value>{props.account.agent.address}</Value>
+            <Value size='16px' weight={600} color='grey800'>
+              {props.account.agent.address}
+            </Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
           <Row>
-            <Title>
+            <Title size='14px' weight={500} color='grey600'>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.routingnumber'
                 defaultMessage='Routing Number'
               />
             </Title>
-            <Value>{props.account.agent.routingNumber}</Value>
+            <Value size='16px' weight={600} color='grey800'>
+              {props.account.agent.routingNumber}
+            </Value>
           </Row>
         )}
         {(props.account.currency === 'USD' ||
           props.account.currency === 'GBP') && (
           <Row>
-            <Title>
+            <Title size='14px' weight={500} color='grey600'>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.recipient'
                 defaultMessage='Recipient'
               />
             </Title>
-            <Value>{props.account.agent.recipient}</Value>
+            <Value size='16px' weight={600} color='grey800'>
+              {props.account.agent.recipient}
+            </Value>
           </Row>
         )}
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.amount'
               defaultMessage='Amount to Send'
             />
           </Title>
-          <Value>
+          <Value size='16px' weight={600} color='grey800'>
             {fiatToString({
               unit:
                 Currencies[props.order.inputCurrency].units[

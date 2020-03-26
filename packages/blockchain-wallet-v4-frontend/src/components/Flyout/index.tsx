@@ -1,5 +1,5 @@
 import { FlyoutE2EType } from './types'
-import { Modal } from 'blockchain-info-components'
+import { Modal, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -95,6 +95,38 @@ export const FlyoutWrapper = styled.div`
 export const FlyoutChild = styled.div`
   height: 100%;
   width: 100%;
+`
+export const Row = styled.div<{
+  color?: string
+}>`
+  padding: 16px 40px;
+  box-sizing: border-box;
+  border-top: 1px solid
+    ${props => (props.color ? props.theme[props.color] : props.theme.grey800)};
+  &:last-child {
+    border-bottom: 1px solid
+      ${props => (props.color ? props.theme[props.color] : props.theme.grey800)};
+  }
+`
+export const Title = styled(Text)<{
+  color: string
+  size?: string
+  weight?: number
+}>`
+  font-size: ${props => props.size};
+  font-weight: ${props => props.weight};
+  color: ${props => props.theme[props.color]};
+`
+export const Value = styled(Text)<{
+  color: string
+  size?: string
+  weight?: number
+}>`
+  margin-top: 4px;
+  font-size: ${props => props.size};
+  font-weight: ${props => props.weight};
+  color: ${props =>
+    props.color ? props.theme[props.color] : props.theme.grey800};
 `
 
 type OwnProps = {

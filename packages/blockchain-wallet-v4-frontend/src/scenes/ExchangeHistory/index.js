@@ -2,10 +2,10 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { Menu } from '../Exchange/Menu'
 import { SceneWrapper } from 'components/Layout'
 import Error from './template.error'
 import Loading from './template.loading'
+import Menu from '../Exchange/Menu'
 import React from 'react'
 import Success from './template.success'
 
@@ -42,7 +42,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
 
     return (
       <SceneWrapper>
-        <Menu />
+        <Menu showDownloadBtn />
         {Content}
       </SceneWrapper>
     )

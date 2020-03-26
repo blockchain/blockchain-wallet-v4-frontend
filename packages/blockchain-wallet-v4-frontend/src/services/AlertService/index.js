@@ -26,6 +26,11 @@ export const EMAIL_UPDATE_SUCCESS = 'email_update_success'
 export const EMAIL_UPDATE_SUCCESS_LINK = 'email_update_success_link'
 export const EMAIL_VERIFY_ERROR = 'email_verify_error'
 export const EMAIL_VERIFY_SUCCESS = 'email_verify_success'
+export const EXCHANGE_HISTORY_DOWNLOAD_BLOCKED =
+  'exchange_history_download_blocked'
+export const EXCHANGE_HISTORY_DOWNLOAD_ERROR = 'exchange_history_download_error'
+export const EXCHANGE_HISTORY_DOWNLOAD_SUCCESS =
+  'exchange_history_download_success'
 export const EXCHANGE_REFRESH_TRADES_ERROR = 'exchange_refresh_trades_error'
 export const EXCHANGE_REFRESH_TRADE_ERROR = 'exchange_refresh_trade_error'
 export const EXCHANGE_TRANSACTION_ERROR = 'exchange_transaction_error'
