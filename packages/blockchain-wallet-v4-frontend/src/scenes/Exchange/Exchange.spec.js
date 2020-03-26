@@ -12,6 +12,7 @@ jest.mock('blockchain-info-components', () => ({
   Button: 'Button',
   FlatLoader: 'FlatLoader',
   Icon: 'Icon',
+  IconButton: 'IconButton',
   Image: 'Image',
   Link: 'Link',
   Text: 'Text',
