@@ -10,6 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
+import { getOrderType } from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -161,29 +162,35 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.simplebuy.checkout.abovemax'
-                  defaultMessage='{value} Maximum Order'
+                  defaultMessage='{value} Maximum {orderType}'
                   values={{
                     value: fiatToString({
                       unit: Currencies[fiatCurrency].units[fiatCurrency],
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMax
-                      )
-                    })
+                      ),
+                      digits: 0
+                    }),
+                    orderType:
+                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               ) : (
                 <FormattedMessage
                   id='modals.simplebuy.checkout.belowmin'
-                  defaultMessage='{value} Minimum Order'
+                  defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value: fiatToString({
                       unit: Currencies[fiatCurrency].units[fiatCurrency],
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMin
-                      )
-                    })
+                      ),
+                      digits: 0
+                    }),
+                    orderType:
+                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               )}

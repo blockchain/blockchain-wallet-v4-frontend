@@ -93,8 +93,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id='modals.simplebuy.confirmorder'
-            defaultMessage='Confirm Order'
+            id='modals.simplebuy.checkoutconfirm'
+            defaultMessage='Checkout'
           />
         </TopText>
         <Amount>
