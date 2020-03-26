@@ -14,6 +14,7 @@ import {
 // Types
 export type SBCheckoutFormValuesType = {
   amount: string
+  orderType: 'BUY' | 'SELL'
   pair?: SBPairType
 }
 export type SBCurrencySelectFormType = {

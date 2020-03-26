@@ -32,6 +32,15 @@ export class CoinPerformanceContainer extends React.PureComponent {
     this.props.priceChartActions.initialized(toUpper(this.props.coin), '1week')
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.coin !== prevProps.coin) {
+      this.props.priceChartActions.initialized(
+        toUpper(this.props.coin),
+        '1week'
+      )
+    }
+  }
+
   render () {
     const { currencySymbol } = this.props
 

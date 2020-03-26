@@ -134,7 +134,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='amount'
             component={NumberBox}
             validate={[maximumAmount, minimumAmount]}
-            placeholder='0.00'
+            placeholder='0'
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -155,7 +155,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMax
-                      )
+                      ),
+                      digits: 0
                     })
                   }}
                 />

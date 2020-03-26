@@ -217,9 +217,13 @@ export const handleSBSuggestedAmountClick = (amount: string) => ({
   }
 })
 
-export const initializeCheckout = (pairs: Array<SBPairType>) => ({
+export const initializeCheckout = (
+  pairs: Array<SBPairType>,
+  orderType: 'BUY' | 'SELL'
+) => ({
   type: AT.INITIALIZE_CHECKOUT,
-  pairs
+  pairs,
+  orderType
 })
 
 export const setStep = (

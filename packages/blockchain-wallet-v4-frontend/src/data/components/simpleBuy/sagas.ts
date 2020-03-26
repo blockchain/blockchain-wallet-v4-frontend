@@ -72,8 +72,8 @@ export default ({
         pair.pair,
         action,
         true,
-        { amount, symbol: getFiatFromPair(pair) },
-        { symbol: getCoinFromPair(pair) }
+        { amount, symbol: getFiatFromPair(pair.pair) },
+        { symbol: getCoinFromPair(pair.pair) }
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
@@ -205,7 +205,8 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    pairs
+    pairs,
+    orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
@@ -218,7 +219,10 @@ export default ({
       const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
       yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
       yield put(
-        actions.form.initialize('simpleBuyCheckout', { pair: pairs[0] })
+        actions.form.initialize('simpleBuyCheckout', {
+          pair: pairs[0],
+          orderType
+        })
       )
     } catch (e) {
       const error = errorHandler(e)

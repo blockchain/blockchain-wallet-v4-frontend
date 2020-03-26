@@ -3,6 +3,7 @@ import {
   FiatType,
   SBBuyPairsType,
   SBOrderType,
+  SBPairsType,
   SBPairType,
   SBQuoteType
 } from 'blockchain-wallet-v4/src/types'
@@ -14,19 +15,22 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 
-const splitPair = (pair: SBPairType) => {
-  return pair.pair.split('-')
-}
-export const getCoinFromPair = (pair: SBPairType): CoinType => {
-  return splitPair(pair)[0] as CoinType
+const splitPair = (pair: SBPairsType) => {
+  return pair.split('-')
 }
 
-export const getFiatFromPair = (pair: SBPairType): FiatType => {
-  return splitPair(pair)[1] as FiatType
+export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
+  return pair in SBBuyPairsType ? 'BUY' : 'SELL'
 }
 
-export const getOrderType = (order: SBOrderType): 'BUY' | 'SELL' => {
-  return order.pair in SBBuyPairsType ? 'BUY' : 'SELL'
+export const getCoinFromPair = (pair: SBPairsType): CoinType => {
+  const index = getOrderType(pair) === 'BUY' ? 0 : 1
+  return splitPair(pair)[index] as CoinType
+}
+
+export const getFiatFromPair = (pair: SBPairsType): FiatType => {
+  const index = getOrderType(pair) === 'BUY' ? 1 : 0
+  return splitPair(pair)[index] as FiatType
 }
 
 export const getOutputAmount = (

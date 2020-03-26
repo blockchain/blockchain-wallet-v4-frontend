@@ -1,12 +1,8 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { CoinType, FiatType, SupportedCoinsType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { FiatType, SupportedCoinsType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -44,7 +40,7 @@ type Props = OwnProps &
   SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const orderType = getOrderType(props.order)
+  const orderType = getOrderType(props.order.pair)
   const outputAmt = getOutputAmount(props.order, props.quote)
 
   const displayFiat = (amt: string) => {
