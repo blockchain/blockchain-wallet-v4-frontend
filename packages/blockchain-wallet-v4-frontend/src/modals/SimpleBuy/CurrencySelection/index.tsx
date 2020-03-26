@@ -1,15 +1,14 @@
-import { Button, Icon, IconButton, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm, submit } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType } from '../index'
 import { RootState } from 'data/rootReducer'
 import { SBCurrencySelectFormType } from 'data/types'
 import { selectors } from 'data'
-import { TextBox } from 'components/Form'
 import Currencies, {
   FiatCurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
