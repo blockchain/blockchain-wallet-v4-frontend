@@ -163,7 +163,7 @@ class App extends React.PureComponent<{
                               component={Transactions}
                               coin={coin.coinCode}
                               isCoinErc20={has('contractAddress', coin)}
-                              key={coin.coinCode}
+                              // key={coin.coinCode}
                             />
                           ),
                         supportedCoins
