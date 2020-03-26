@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
+import { Status } from './model'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
@@ -79,37 +80,27 @@ const ViewInfoColumn = styled.div`
     min-width: 50%;
   `};
 `
-// const amount = Currency.fiatToString({
-//   unit: Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
-//   value: convertBaseToStandard('FIAT', props.order.inputQuantity)
-// })
-
 class SimpleBuyListItem extends PureComponent<Props> {
+  showModal = order => {
+    this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
+    this.props.simpleBuyActions.setStep({
+      step: 'ORDER_SUMMARY',
+      order: order
+    })
+  }
   render () {
     const { orders } = this.props
-    // showModal = () => {
-    //   const latestPendingOrder = this.props.orders.find(order => {
-    //     return (
-    //       order.state === 'PENDING_CONFIRMATION' ||
-    //       order.state === 'PENDING_DEPOSIT'
-    //     )
-    //   })
-
-    //   if (!latestPendingOrder) return
-    //   this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
-    //   this.props.simpleBuyActions.setStep({
-    //     step: 'ORDER_SUMMARY',
-    //     order: latestPendingOrder
-    //   })
-    // }
+    // const amount = Currency.fiatToString({
+    //   unit: Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
+    //   value: convertBaseToStandard('FIAT', props.order.inputQuantity)
+    // })
     return (
       <TransactionRowContainer data-e2e='orderRow'>
         {orders.map(order => {
+          // add conditional here to only show if state is DEPOSIT_MATCHED, PENDING_DEPOSIT, 'PENDING_CONFIRMATION'
           return (
             <TransactionRow>
-              <StatusColumn data-e2e='orderStatusColumn'>
-                {order.state}
-              </StatusColumn>
+              <StatusColumn data-e2e='orderStatusColumn' />
               <AmountColumn data-e2e='orderAmountColumn'>
                 {order.inputQuantity}
               </AmountColumn>
@@ -119,7 +110,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
                   size='14px'
                   height='40px'
                   nature='light'
-                  // onClick={() => this.showModal()}
+                  onClick={() => this.showModal(order)}
                 >
                   <FormattedMessage
                     id='modals.simplebuy.transactionlist.viewdetails'
