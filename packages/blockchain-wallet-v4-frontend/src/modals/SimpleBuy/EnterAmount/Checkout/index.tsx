@@ -1,16 +1,17 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import {
+  CoinType,
   FiatType,
   RemoteDataType,
   SBPairType,
   SBSuggestedAmountType,
   SupportedCoinsType
 } from 'core/types'
+import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { RatesType, SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -23,6 +24,7 @@ type OwnProps = {
 export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   formValues?: SBCheckoutFormValuesType
+  rates: { [key in CoinType]: RatesType }
   suggestedAmounts: SBSuggestedAmountType
   supportedCoins: SupportedCoinsType
   userData: UserDataType

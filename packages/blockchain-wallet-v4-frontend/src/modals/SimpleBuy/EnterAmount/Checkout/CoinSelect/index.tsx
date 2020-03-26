@@ -1,32 +1,42 @@
+// What does maximum effort mean to you?
+// How is that something you go about judging and evaluating?
+
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field } from 'redux-form'
-import { getCoinFromPair } from 'data/components/simpleBuy/model'
-import { Icon } from 'blockchain-info-components'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import { SBPairType, SupportedCoinType } from 'core/types'
 import { SelectBox } from 'components/Form'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
+  isItem: boolean
 }>`
   display: flex;
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: 16px 12px;
+  padding: ${props => (props.isItem ? '6px 6px 0px 6px' : '16px 12px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
 `
-
-const CoinName = styled.div`
+const Display = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 12px;
   width: 100%;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
   color: ${props => props.theme.grey800};
   .bc__single-value {
     position: relative;
@@ -37,6 +47,12 @@ const CoinName = styled.div`
   input {
     height: 0;
   }
+`
+const Rate = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+  color: ${props => props.theme.grey600} !important;
 `
 
 class CoinSelect extends PureComponent<Props & { name: string }> {
@@ -60,15 +76,26 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
     if (!this.props.formValues) return
 
     const coin = getCoinFromPair(props.value.pair)
+    const fiat = getFiatFromPair(props.value.pair)
     const coinType = this.props.supportedCoins[coin]
     const displayName = coinType.displayName
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
+    const isItem = !children
 
     return (
-      <DisplayContainer coinType={coinType}>
+      <DisplayContainer coinType={coinType} isItem={isItem}>
         <Icon size='32px' color={color} name={icon} />
-        <CoinName>{children || displayName}</CoinName>
+        <Display>
+          {children || displayName}
+          <Rate>
+            1 {coin} ={' '}
+            {Currency.fiatToString({
+              value: this.props.rates[coin][fiat].last,
+              unit: Currencies[fiat].units[fiat]
+            })}
+          </Rate>
+        </Display>
       </DisplayContainer>
     )
   }
