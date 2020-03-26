@@ -217,6 +217,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const exchangeHistoryDownload = function * () {
+    try {
+      yield put(actions.alerts.displayError('PARTY'))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'exchangeHistoryExport', e)
+      )
+    }
+  }
+
   const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
@@ -267,8 +277,9 @@ export default ({ api, coreSagas }) => {
   }
 
   return {
-    exchangeHistoryInitialized,
     exchangeHistoryDestroyed,
+    exchangeHistoryDownload,
+    exchangeHistoryInitialized,
     exchangeHistoryModalInitialized,
     exchangeHistoryModalDestroyed,
     fetchNextPage,
