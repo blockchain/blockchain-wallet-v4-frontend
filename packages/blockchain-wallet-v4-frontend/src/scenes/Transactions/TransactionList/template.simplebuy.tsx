@@ -1,7 +1,7 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { Button } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
@@ -9,7 +9,7 @@ import { prop } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import { Status } from './model'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -33,7 +33,7 @@ const TransactionRowContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   box-shadow: none;
-  padding: 16px 16px 0;
+  padding: 14px 14px 0;
   box-sizing: border-box;
   transition: box-shadow 0.3s;
   &.active {
@@ -46,7 +46,7 @@ const TransactionRow = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 16px;
+  padding-bottom: 14px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const StatusColumn = styled.div`
@@ -80,6 +80,12 @@ const ViewInfoColumn = styled.div`
     min-width: 50%;
   `};
 `
+// @aphil could not figure out how to get this guy to work in here
+// const amount = Currency.fiatToString({
+//   unit: Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
+//   value: convertBaseToStandard('FIAT', props.order.inputQuantity)
+// })
+
 class SimpleBuyListItem extends PureComponent<Props> {
   showModal = order => {
     this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
@@ -88,27 +94,31 @@ class SimpleBuyListItem extends PureComponent<Props> {
       order: order
     })
   }
+
   render () {
     const { orders } = this.props
-    // const amount = Currency.fiatToString({
-    //   unit: Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
-    //   value: convertBaseToStandard('FIAT', props.order.inputQuantity)
-    // })
     return (
       <TransactionRowContainer data-e2e='orderRow'>
         {orders.map(order => {
           // add conditional here to only show if state is DEPOSIT_MATCHED, PENDING_DEPOSIT, 'PENDING_CONFIRMATION'
           return (
             <TransactionRow>
-              <StatusColumn data-e2e='orderStatusColumn' />
+              <StatusColumn data-e2e='orderStatusColumn'>
+                <Text size='14px' weight={500}>
+                  Pending Buy
+                </Text>
+              </StatusColumn>
               <AmountColumn data-e2e='orderAmountColumn'>
-                {order.inputQuantity}
+                <Text size='14px' weight={500}>
+                  {order.inputCurrency}
+                  {order.inputQuantity}
+                </Text>
               </AmountColumn>
               <ViewInfoColumn>
                 <Button
                   data-e2e='viewInfoButton'
                   size='14px'
-                  height='40px'
+                  height='35px'
                   nature='light'
                   onClick={() => this.showModal(order)}
                 >
