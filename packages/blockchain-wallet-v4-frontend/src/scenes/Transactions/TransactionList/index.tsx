@@ -51,7 +51,7 @@ class TransactionList extends PureComponent<Props> {
                 buySellPartner={buySellPartner}
               />
             ) : (
-              <SimpleBuyListItem />
+              <SimpleBuyListItem order={tx} />
             )
           })}
         </TransactionsWrapper>

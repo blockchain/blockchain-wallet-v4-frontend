@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ marginBottom: string }>`
   box-sizing: border-box;
   background-color: ${props => props.theme.white};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-  margin-bottom: 12px;
+  margin-bottom: ${props => props.marginBottom};
   padding-bottom: 12px;
   width: 100%;
 
@@ -27,8 +27,14 @@ const Container = styled.div`
   }
 `
 
-const HorizontalMenu = ({ children }) => (
-  <Wrapper>
+const HorizontalMenu = ({
+  marginBottom = '12px',
+  children
+}: {
+  children: any
+  marginBottom?: string
+}) => (
+  <Wrapper marginBottom={marginBottom}>
     <Container>{children}</Container>
   </Wrapper>
 )
