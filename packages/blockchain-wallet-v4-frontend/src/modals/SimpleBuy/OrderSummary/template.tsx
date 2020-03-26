@@ -1,7 +1,7 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '.'
 import { Status } from './model'
@@ -32,25 +32,6 @@ const Amount = styled.div`
   > div {
     display: inline;
   }
-`
-const Row = styled.div`
-  padding: 16px 40px;
-  box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.grey000};
-  &:last-child {
-    border-bottom: 1px solid ${props => props.theme.grey000};
-  }
-`
-const Title = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.grey600};
-`
-const Value = styled(Text)`
-  margin-top: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  color: ${props => props.theme.grey800};
 `
 
 const Success: React.FC<Props> = props => {
@@ -116,43 +97,49 @@ const Success: React.FC<Props> = props => {
           )}
         </FlyoutWrapper>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.summary.txid'
               defaultMessage='Transaction ID'
             />
           </Title>
-          <Value>{props.order.id}</Value>
+          <Value size='16px' weight={600} color='grey800'>
+            {props.order.id}
+          </Value>
         </Row>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.summary.created'
               defaultMessage='Created'
             />
           </Title>
-          <Value>{moment(props.order.insertedAt).format('LLL')}</Value>
+          <Value size='16px' weight={600} color='grey800'>
+            {moment(props.order.insertedAt).format('LLL')}
+          </Value>
         </Row>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.summary.purchasing'
               defaultMessage='Purchasing'
             />
           </Title>
-          <Value>
+          <Value size='16px' weight={600} color='grey800'>
             {amount} of {props.order.outputCurrency}
           </Value>
         </Row>
         <Row>
-          <Title>
+          <Title size='14px' weight={500} color='grey600'>
             <FormattedMessage
               id='modals.simplebuy.summary.paymentmethod'
               defaultMessage='Payment Method'
             />
           </Title>
           {/* TODO: Simple Buy - payment method types */}
-          <Value>Bank Wire Transfer</Value>
+          <Value size='16px' weight={600} color='grey800'>
+            Bank Wire Transfer
+          </Value>
         </Row>
       </div>
       {(props.order.state === 'PENDING_CONFIRMATION' ||

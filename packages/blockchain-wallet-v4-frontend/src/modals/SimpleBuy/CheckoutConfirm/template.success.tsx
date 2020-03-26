@@ -7,7 +7,7 @@ import {
 } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { getOrderType, getOutputAmount } from 'data/components/simpleBuy/model'
@@ -39,25 +39,13 @@ const Amount = styled.div`
     display: inline;
   }
 `
-const Row = styled.div`
-  padding: 16px 40px;
-  box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.grey000};
-  &:last-child {
-    border-bottom: 1px solid ${props => props.theme.grey000};
-  }
-`
-const Title = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.grey600};
-`
-const Value = styled(Text)`
-  margin-top: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  color: ${props => props.theme.grey800};
-`
+// const StyledRow = styled(Row)`
+//   padding: 16px 40px;
+//   border-top: 1px solid ${props => props.theme.grey000};
+//   &:last-child {
+//     border-bottom: 1px solid ${props => props.theme.grey000};
+//   }
+// `
 
 type Props = OwnProps &
   LinkDispatchPropsType &
@@ -115,43 +103,49 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Amount>
       </FlyoutWrapper>
       <Row>
-        <Title>
+        <Title size='14px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.confirm.rate'
             defaultMessage='Exchange Rate'
           />
         </Title>
-        <Value>
+        <Value size='16px' weight={600} color='grey800'>
           {displayFiat(props.quote.rate)} / {props.order.outputCurrency}
         </Value>
       </Row>
       <Row>
-        <Title>
+        <Title size='14px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.confirm.payment'
             defaultMessage='Payment Method'
           />
         </Title>
         {/* TODO: Simple Buy - payment method types */}
-        <Value>Bank Wire Transfer</Value>
+        <Value size='16px' weight={600} color='grey800'>
+          Bank Wire Transfer
+        </Value>
       </Row>
       <Row>
-        <Title>
+        <Title size='14px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.confirm.fee'
             defaultMessage='Fees'
           />
         </Title>
-        <Value>{displayFiat(props.quote.fee)}</Value>
+        <Value size='16px' weight={600} color='grey800'>
+          {displayFiat(props.quote.fee)}
+        </Value>
       </Row>
       <Row>
-        <Title>
+        <Title size='14px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.confirm.total'
             defaultMessage='Total'
           />
         </Title>
-        <Value>{displayFiat(props.order.inputQuantity)}</Value>
+        <Value size='14px' weight={500} color='grey600'>
+          {displayFiat(props.order.inputQuantity)}
+        </Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>
