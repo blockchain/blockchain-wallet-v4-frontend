@@ -46,22 +46,45 @@ export type SBBalancesType = {
   [key in keyof CurrenciesType]?: SBBalanceType
 }
 
+export enum SBBuyPairsType {
+  'BTC-EUR',
+  'BCH-EUR',
+  'ETH-EUR',
+  'PAX-EUR',
+  'XLM-EUR',
+  'BTC-GBP',
+  'BCH-GBP',
+  'ETH-GBP',
+  'PAX-GBP',
+  'XLM-GBP',
+  'BTC-USD',
+  'BCH-USD',
+  'ETH-USD',
+  'PAX-USD',
+  'XLM-USD'
+}
+
+export enum SBSellPairsType {
+  'EUR-BTC',
+  'EUR-BCH',
+  'EUR-ETH',
+  'EUR-PAX',
+  'EUR-XLM',
+  'GBP-BTC',
+  'GBP-BCH',
+  'GBP-ETH',
+  'GBP-PAX',
+  'GBP-XLM',
+  'USD-BTC',
+  'USD-BCH',
+  'USD-ETH',
+  'USD-PAX',
+  'USD-XLM'
+}
+
 export type SBPairsType =
-  | 'BTC-EUR'
-  | 'BCH-EUR'
-  | 'ETH-EUR'
-  | 'PAX-EUR'
-  | 'XLM-EUR'
-  | 'BTC-GBP'
-  | 'BCH-GBP'
-  | 'ETH-GBP'
-  | 'PAX-GBP'
-  | 'XLM-GBP'
-  | 'BTC-USD'
-  | 'BCH-USD'
-  | 'ETH-USD'
-  | 'PAX-USD'
-  | 'XLM-USD'
+  | keyof typeof SBBuyPairsType
+  | keyof typeof SBSellPairsType
 
 export type SBPairType = {
   buyMax: string
@@ -80,18 +103,26 @@ export type SBSuggestedAmountType = Array<
   }
 >
 
-export type SBOrderType = {
+export type ISBBuyOrderType = {
   expiresAt: string
   id: string
-  inputCurrency: FiatType
   inputQuantity: string
   insertedAt: string
-  outputCurrency: CoinType
   outputQuantity: string
-  pair: SBPairsType
   state: SBOrderStateType
   updatedAt: string
 }
+export type SBBuyOrderType = ISBBuyOrderType & {
+  inputCurrency: FiatType
+  outputCurrency: CoinType
+  pair: keyof typeof SBBuyPairsType
+}
+export type SBSellOrderType = ISBBuyOrderType & {
+  inputCurrency: CoinType
+  outputCurrency: FiatType
+  pair: keyof typeof SBSellPairsType
+}
+export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'

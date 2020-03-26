@@ -1,5 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { CoinType, FiatType, SupportedCoinsType } from 'core/types'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -9,9 +10,9 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
+import { getOrderType, getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { SupportedCoinsType } from 'core/types'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
@@ -63,18 +64,8 @@ type Props = OwnProps &
   SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const valueStandard =
-    Number(convertBaseToStandard('FIAT', props.order.inputQuantity)) /
-    Number(convertBaseToStandard('FIAT', props.quote.rate))
-  const valueBase = convertStandardToBase(
-    props.order.outputCurrency,
-    valueStandard
-  )
-  const amount = Exchange.convertCoinToCoin({
-    value: valueBase,
-    coin: props.order.outputCurrency,
-    baseToStandard: true
-  }).value
+  const orderType = getOrderType(props.order)
+  const outputAmt = getOutputAmount(props.order, props.quote)
 
   const displayFiat = (amt: string) => {
     return Currency.fiatToString({
@@ -97,7 +88,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             role='button'
             onClick={() =>
               props.simpleBuyActions.setStep({
-                fiatCurrency: props.order.inputCurrency,
+                fiatCurrency:
+                  orderType === 'BUY'
+                    ? (props.order.inputCurrency as FiatType)
+                    : (props.order.outputCurrency as FiatType),
                 step: 'ENTER_AMOUNT'
               })
             }
@@ -109,7 +103,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </TopText>
         <Amount>
           <Text size='32px' weight={600} color='grey800'>
-            {amount}
+            {outputAmt}
           </Text>
           <Text
             size='32px'

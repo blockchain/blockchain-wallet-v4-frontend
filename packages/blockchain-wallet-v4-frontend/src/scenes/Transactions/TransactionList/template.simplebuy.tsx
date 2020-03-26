@@ -2,19 +2,17 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
+import { CoinType, SBOrderType } from 'core/types'
 import { connect } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
+import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType } from 'core/types'
 import { Status } from './model'
-
-import PropTypes from 'prop-types'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-
-import media from 'services/ResponsiveService'
 
 type LinkDispatchPropsType = {
   modalActions: typeof actions.modals
@@ -80,38 +78,52 @@ const ViewInfoColumn = styled.div`
     min-width: 50%;
   `};
 `
-// @aphil could not figure out how to get this guy to work in here
-// const amount = Currency.fiatToString({
-//   unit: Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
-//   value: convertBaseToStandard('FIAT', props.order.inputQuantity)
-// })
 
 class SimpleBuyListItem extends PureComponent<Props> {
-  showModal = order => {
+  showModal = (order: SBOrderType) => {
     this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
     this.props.simpleBuyActions.setStep({
-      step: 'ORDER_SUMMARY',
+      step:
+        order.state === 'PENDING_CONFIRMATION'
+          ? 'CHECKOUT_CONFIRM'
+          : 'ORDER_SUMMARY',
       order: order
     })
   }
 
   render () {
     const { orders } = this.props
+
     return (
       <TransactionRowContainer data-e2e='orderRow'>
         {orders.map(order => {
+          const inputAmt =
+            getOrderType(order) === 'BUY'
+              ? Currency.fiatToString({
+                  unit:
+                    Currencies[order.inputCurrency].units[order.inputCurrency],
+                  value: convertBaseToStandard('FIAT', order.inputQuantity)
+                })
+              : Currency.coinToString({
+                  unit:
+                    Currencies[order.inputCurrency].units[order.inputCurrency],
+                  value: convertBaseToStandard(
+                    order.inputCurrency as CoinType,
+                    order.inputQuantity
+                  )
+                })
+
           // add conditional here to only show if state is DEPOSIT_MATCHED, PENDING_DEPOSIT, 'PENDING_CONFIRMATION'
           return (
             <TransactionRow>
               <StatusColumn data-e2e='orderStatusColumn'>
                 <Text size='14px' weight={500}>
-                  Pending Buy
+                  <Status order={order} />
                 </Text>
               </StatusColumn>
               <AmountColumn data-e2e='orderAmountColumn'>
                 <Text size='14px' weight={500}>
-                  {order.inputCurrency}
-                  {order.inputQuantity}
+                  {inputAmt}
                 </Text>
               </AmountColumn>
               <ViewInfoColumn>

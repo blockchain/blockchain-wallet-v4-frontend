@@ -51,7 +51,6 @@ class TransactionList extends PureComponent<Props> {
                 buySellPartner={buySellPartner}
               />
             ) : (
-              // This is an SBOrderType
               <SimpleBuyListItem />
             )
           })}
