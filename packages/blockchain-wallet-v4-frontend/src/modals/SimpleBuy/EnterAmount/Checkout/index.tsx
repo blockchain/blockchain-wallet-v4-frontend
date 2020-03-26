@@ -5,7 +5,8 @@ import {
   FiatType,
   RemoteDataType,
   SBPairType,
-  SBSuggestedAmountType
+  SBSuggestedAmountType,
+  SupportedCoinsType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
@@ -23,6 +24,7 @@ export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   formValues?: SBCheckoutFormValuesType
   suggestedAmounts: SBSuggestedAmountType
+  supportedCoins: SupportedCoinsType
   userData: UserDataType
 }
 type LinkStatePropsType = {
@@ -37,7 +39,7 @@ export type LinkDispatchPropsType = {
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    this.props.simpleBuyActions.initializeCheckout(this.props.pairs)
+    this.props.simpleBuyActions.initializeCheckout(this.props.pairs, 'BUY')
   }
 
   handleSubmit = () => {

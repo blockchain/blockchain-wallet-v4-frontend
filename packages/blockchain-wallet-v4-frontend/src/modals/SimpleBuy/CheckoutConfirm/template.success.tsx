@@ -64,7 +64,7 @@ type Props = OwnProps &
   SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const orderType = getOrderType(props.order)
+  const orderType = getOrderType(props.order.pair)
   const outputAmt = getOutputAmount(props.order, props.quote)
 
   const displayFiat = (amt: string) => {
