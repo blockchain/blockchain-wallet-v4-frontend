@@ -2,8 +2,8 @@ import { Button, Icon, IconButton, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper, Row } from 'components/Flyout'
+import { Form, InjectedFormProps, reduxForm, submit } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType } from '../index'
 import { RootState } from 'data/rootReducer'
@@ -50,6 +50,9 @@ const CurrencyBox = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const CurrencyText = styled.div`
+  padding-left: 20px;
+`
 
 const Circle = styled.div`
   display: flex;
@@ -81,14 +84,14 @@ const CurrencyBoxComponent = (props: {
         props.setSelectedCurrency(props.cur.code)
       }}
     >
-      <div>
+      <CurrencyText>
         <Text size='16px' color='grey800' weight={600}>
           {props.cur.displayName}
         </Text>
         <Text size='14px' color='grey800' weight={500}>
           {props.cur.code}
         </Text>
-      </div>
+      </CurrencyText>
       {props.selectedCurrency === props.cur.code ? (
         <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
       ) : (
@@ -123,7 +126,8 @@ const CurrencySelection: React.FC<
         <FlyoutWrapper>
           <TopText color='grey900' size='20px' weight={600}>
             <Icon
-              // onClick={() => submit}
+              // @phil me trying to get this icon to behave like a button with type='submit'
+              onClick={() => submit}
               cursor
               name='arrow-left'
               size='20px'
