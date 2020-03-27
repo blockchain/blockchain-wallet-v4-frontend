@@ -1,5 +1,5 @@
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { filterAnnouncements } from 'services/WhatsNewService/WhatsNewContent'
+import { filterAnnouncements } from '../../../../modals/WhatsNew/selectors'
 import { length, lift, prop } from 'ramda'
 import { selectors } from 'data'
 
