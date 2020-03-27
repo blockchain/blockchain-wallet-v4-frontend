@@ -7,10 +7,8 @@ export const Container = styled.div`
   align-items: flex-start;
   width: 90%;
   height: auto;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border-top: 1px solid ${props => props.theme['gray-1']};
   padding: 25px;
-  margin-bottom: 25px;
-  border-radius: 5px;
 `
 export const Row = styled.div`
   display: flex;
@@ -18,7 +16,6 @@ export const Row = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 15px;
   margin-bottom: ${props => props.marginBottom};
 
   & > :not(:last-child) {
