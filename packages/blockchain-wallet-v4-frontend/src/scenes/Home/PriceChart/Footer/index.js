@@ -7,14 +7,17 @@ import React from 'react'
 
 class FooterContainer extends React.PureComponent {
   render () {
-    return <Footer {...this.props} />
+    const { simpleBuyActions } = this.props
+    return (
+      <Footer handleBuy={() => simpleBuyActions.showModal()} {...this.props} />
+    )
   }
 }
 
 const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 export default connect(
