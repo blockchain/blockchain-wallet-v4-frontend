@@ -80,8 +80,8 @@ const CurrencyBoxComponent = (props: {
   return (
     <CurrencyBox role='button' onClick={props.onClick}>
       <CurrencyText>
-        <Title>{props.cur.displayName}</Title>
-        <Value>{props.cur.code}</Value>
+        <Title>{props.cur.code}</Title>
+        <Value>{props.cur.displayName}</Value>
       </CurrencyText>
       {props.selectedCurrency === props.cur.code ? (
         <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
