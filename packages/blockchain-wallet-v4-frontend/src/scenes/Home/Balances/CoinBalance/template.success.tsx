@@ -15,8 +15,8 @@ const Success = (props: { balance: number | string; coin: CoinType }) => {
         cursor='pointer'
         mobileSize='16px'
         loadingHeight='20px'
-        color='blue900'
-        weight={400}
+        color='grey800'
+        weight={500}
         data-e2e={coin + 'FiatBalance'}
       >
         {balance}
@@ -26,8 +26,8 @@ const Success = (props: { balance: number | string; coin: CoinType }) => {
         size='12px'
         cursor='pointer'
         mobileSize='12px'
-        color='gray-3'
-        weight={400}
+        color='grey400'
+        weight={500}
         data-e2e={coin + 'Balance'}
       >
         {balance}

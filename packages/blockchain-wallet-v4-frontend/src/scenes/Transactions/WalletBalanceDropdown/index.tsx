@@ -47,7 +47,7 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   align-items: center;
   box-sizing: border-box;
   height: ${props => (props.isItem ? 'auto' : '100%')};
-  padding: ${props => (props.isItem ? '6px 6px 0px 0px' : '15px 4px')};
+  padding: ${props => (props.isItem ? '0px 0px' : '15px 4px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }
@@ -240,6 +240,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               openMenuOnClick={addressData.data.length > 1}
               options={addressData.data}
               name='source'
+              menuIsOpen
               searchEnabled={false}
               templateDisplay={this.renderDisplay}
               templateItem={this.renderItem}

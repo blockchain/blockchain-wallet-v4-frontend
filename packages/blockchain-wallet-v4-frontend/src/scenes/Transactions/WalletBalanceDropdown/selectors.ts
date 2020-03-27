@@ -20,30 +20,43 @@ export const getData = (state, ownProps: OwnProps) => {
 
   switch (coin) {
     case 'BTC':
-      addressDataR = getBtcAddressData(state, { excludeLockbox: true })
+      addressDataR = getBtcAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getBtcBalance(state)
       coinRatesR = selectors.core.data.btc.getRates(state)
       break
     case 'BCH':
       addressDataR = getBchAddressData(state, {
         coin: 'BCH',
-        excludeLockbox: true
+        excludeLockbox: true,
+        includeCustodial: true
       })
       balanceDataR = balanceSelectors.getBchBalance(state)
       coinRatesR = selectors.core.data.bch.getRates(state)
       break
     case 'ETH':
-      addressDataR = getEthAddressData(state, { excludeLockbox: true })
+      addressDataR = getEthAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getEthBalance(state)
       coinRatesR = selectors.core.data.eth.getRates(state)
       break
     case 'PAX':
-      addressDataR = getErc20AddressData(state, { coin: 'PAX' })
+      addressDataR = getErc20AddressData(state, {
+        coin: 'PAX',
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getPaxBalance(state)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
       break
     case 'XLM':
-      addressDataR = getXlmAddressData(state, { excludeLockbox: true })
+      addressDataR = getXlmAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getXlmBalance(state)
       coinRatesR = selectors.core.data.xlm.getRates(state)
       break
