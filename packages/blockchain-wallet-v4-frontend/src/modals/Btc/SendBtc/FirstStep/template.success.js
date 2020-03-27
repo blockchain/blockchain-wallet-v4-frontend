@@ -123,7 +123,7 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -435,7 +435,7 @@ const FirstStep = props => {
         <ErrorCartridge>
           <FormattedMessage
             id='modals.sendbtc.firststep.fromcustody.withdrawal'
-            defaultMessage='Withdrawals from your custody wallet will be enabled soon.'
+            defaultMessage='Withdrawals from your Trading Wallet will be enabled soon.'
           />
         </ErrorCartridge>
       )}

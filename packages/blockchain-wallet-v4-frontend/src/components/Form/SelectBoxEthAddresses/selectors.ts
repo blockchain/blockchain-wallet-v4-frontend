@@ -41,7 +41,7 @@ export const getEthData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `ETH Trading Wallet` +
       ` (${Exchange.displayEtherToEther({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -57,7 +57,11 @@ export const getEthData = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'ETH Trading Wallet'
+      }
     }
   ]
 
@@ -74,6 +78,13 @@ export const getEthData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('ETH'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
         : selectors.core.common.eth
@@ -83,13 +94,6 @@ export const getEthData = (
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([]),
-      includeCustodial
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
-            .map<any, any>(prop('ETH'))
-            .map(toCustodialDropdown)
-            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => ({
       // @ts-ignore
@@ -129,7 +133,7 @@ export const getErc20Data = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `USD-D Trading Wallet` +
       ` (${displayErc20Fixed({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -161,7 +165,11 @@ export const getErc20Data = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'USD-D Trading Wallet'
+      }
     }
   ]
 
@@ -179,15 +187,15 @@ export const getErc20Data = (
         .map(toDropdown)
         .map(toGroup('Wallet')),
       Remote.of([]),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([]),
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
             .map<any, any>(prop('PAX'))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => ({
       // @ts-ignore

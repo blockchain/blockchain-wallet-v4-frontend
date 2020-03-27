@@ -88,7 +88,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `BCH Trading Wallet` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -115,7 +115,11 @@ export const getData = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'BCH Trading Wallet'
+      }
     }
   ]
 
@@ -169,6 +173,13 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('BCH'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
       excludeImported
         ? Remote.of([])
         : lift(formatImportedAddressesData)(relevantAddresses)
@@ -197,13 +208,6 @@ export const getData = (
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([]),
-      includeCustodial
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
-            .map<any, any>(prop('BCH'))
-            .map(toCustodialDropdown)
-            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4, b5]) => {
       // @ts-ignore

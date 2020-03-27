@@ -15,6 +15,7 @@ exports[`SelectInput component default renders correctly 1`] = `
       }
     }
     focusedBorderColor="blue600"
+    height="48px"
     openMenuOnClick={true}
     options={
       Array [

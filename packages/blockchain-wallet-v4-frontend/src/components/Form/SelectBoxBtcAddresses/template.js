@@ -1,10 +1,9 @@
+import { Banner, Text } from 'blockchain-info-components'
+import { CreatableInputField, SelectBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
-
-import { Banner, Text } from 'blockchain-info-components'
-import { CreatableInputField, SelectBox } from 'components/Form'
 
 const ItemWrapper = styled.div`
   display: flex;

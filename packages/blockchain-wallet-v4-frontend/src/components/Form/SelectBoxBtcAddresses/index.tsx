@@ -1,10 +1,23 @@
+import { AccountTypes, RemoteDataType, SupportedCoinsType } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import PropTypes from 'prop-types'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
 import SelectBoxBtc from './template'
 
-class SelectBoxBtcAddresses extends React.PureComponent {
+type LinkStatePropsType = {
+  data: RemoteDataType<
+    string,
+    {
+      data: Array<AccountTypes>
+    }
+  >
+  supportedCoins: SupportedCoinsType
+}
+
+type Props = LinkStatePropsType
+
+class SelectBoxBtcAddresses extends React.PureComponent<Props> {
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -14,16 +27,13 @@ class SelectBoxBtcAddresses extends React.PureComponent {
         )
       },
       Failure: message => <div>{message}</div>,
-      Loading: () => <div />,
-      NotAsked: () => <div />
+      Loading: () => <SkeletonRectangle height='48px' width='100%' />,
+      NotAsked: () => <SkeletonRectangle height='48px' width='100%' />
     })
   }
 }
 
-SelectBoxBtcAddresses.propTypes = {
-  includeAll: PropTypes.bool
-}
-
+// @ts-ignore
 SelectBoxBtcAddresses.defaultProps = {
   includeAll: true
 }

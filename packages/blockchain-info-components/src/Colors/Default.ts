@@ -1,5 +1,3 @@
-import { DefaultTheme } from 'styled-components'
-
 const Default = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
@@ -15,6 +13,8 @@ const Default = {
   greyFade800: 'rgba(18, 29, 51, 0.8)',
   grey000: '#F0F2F7',
   grey100: '#DFE3EB',
+  grey200: '#CCD2DE',
+  grey300: '#B1B8C7',
   grey400: '#98A1B2',
   grey600: '#677185',
   grey700: '#50596B',
