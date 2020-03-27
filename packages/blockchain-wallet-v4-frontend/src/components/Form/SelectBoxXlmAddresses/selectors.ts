@@ -76,15 +76,15 @@ export const getData = (
           .map(excluded)
           .map(toDropdown)
           .map(toGroup('Lockbox')),
-    includeExchangeAddress && hasExchangeAddress
-      ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-      : Remote.of([]),
     includeCustodial
       ? selectors.components.simpleBuy
           .getSBBalances(state)
           .map<any, any>(prop('XLM'))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
+      : Remote.of([]),
+    includeExchangeAddress && hasExchangeAddress
+      ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => ({
     // @ts-ignore

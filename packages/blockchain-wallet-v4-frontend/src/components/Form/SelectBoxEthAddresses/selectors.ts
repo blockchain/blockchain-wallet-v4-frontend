@@ -78,6 +78,13 @@ export const getEthData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('ETH'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
         : selectors.core.common.eth
@@ -87,13 +94,6 @@ export const getEthData = (
             .map(toGroup('Lockbox')),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([]),
-      includeCustodial
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
-            .map<any, any>(prop('ETH'))
-            .map(toCustodialDropdown)
-            .map(toGroup('Custodial Wallet'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => ({
       // @ts-ignore
@@ -187,15 +187,15 @@ export const getErc20Data = (
         .map(toDropdown)
         .map(toGroup('Wallet')),
       Remote.of([]),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([]),
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
             .map<any, any>(prop('PAX'))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => ({
       // @ts-ignore
