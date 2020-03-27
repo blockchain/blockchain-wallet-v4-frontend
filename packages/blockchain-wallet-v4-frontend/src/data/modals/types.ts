@@ -1,10 +1,6 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
-  | '@MODAL.REQUEST.ETH'
-  | '@MODAL.REQUEST.BTC'
-  | '@MODAL.REQUEST.ETH'
-  | '@MODAL.REQUEST.XLM'
   | 'AirdropClaim'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
