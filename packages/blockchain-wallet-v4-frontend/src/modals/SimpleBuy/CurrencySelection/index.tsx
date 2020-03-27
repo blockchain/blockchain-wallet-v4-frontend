@@ -1,7 +1,7 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Title, Value } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm, submit } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
@@ -84,12 +84,8 @@ const CurrencyBoxComponent = (props: {
       }}
     >
       <CurrencyText>
-        <Text size='14px' color='grey800' weight={500}>
-          {props.cur.displayName}
-        </Text>
-        <Text size='16px' color='grey800' weight={600}>
-          {props.cur.code}
-        </Text>
+        <Title>{props.cur.displayName}</Title>
+        <Value>{props.cur.code}</Value>
       </CurrencyText>
       {props.selectedCurrency === props.cur.code ? (
         <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
