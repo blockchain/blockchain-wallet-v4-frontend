@@ -30,38 +30,47 @@ const Column = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 22px;
+  margin-bottom: 40px;
 
   span {
     margin-left: 8px;
   }
 `
-
-const HeaderDesc = styled(Text)`
-  margin-bottom: 56px;
-`
-
-const Card = styled(Column)`
+const ContentContainer = styled(Column)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
   padding: 40px;
-  box-sizing: border-box;
-  border: 1px solid ${({ theme }) => theme.grey100};
-  border-radius: 16px;
+  text-align: center;
+`
+const IconBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background-color: ${props => props.theme.blue000};
+  border-radius: 48px;
 `
 
 const Title = styled(Text)`
   margin: 26px 0 13px;
 `
 
-const Content = styled(Text)`
-  margin-bottom: 24px;
-  width: 240px;
-  text-align: center;
+const ContentTextWrapper = styled(Text)`
+  margin-bottom: 50px;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 5px;
+  & > :first-child {
+    margin-bottom: 15px;
+  }
 `
 
 class WelcomeContainer extends React.PureComponent<Props> {
@@ -78,12 +87,6 @@ class WelcomeContainer extends React.PureComponent<Props> {
       this.props.simpleBuyActions.showModal()
     }, duration)
   }
-
-  handleTourClick = () => {
-    const { takeWalletTourClicked } = this.props.onboardingActions
-    takeWalletTourClicked()
-  }
-
   render () {
     const { show } = this.state
     const { ...rest } = this.props
@@ -104,26 +107,25 @@ class WelcomeContainer extends React.PureComponent<Props> {
               />
             </Text>
           </Header>
-          <HeaderDesc weight={500}>
-            <FormattedMessage
-              id='modals.wallet.welcome.desc'
-              defaultMessage='Let’s get your wallet set up. You can quickly buy crypto now or do this later.'
-            />
-          </HeaderDesc>
-          <Card>
-            <Icon color='blue600' name='cart-filled' size='32px' />
-            <Title lineHeight='30px' size='20px' weight={600}>
+          <ContentContainer>
+            <IconBackground>
+              <Icon color='blue600' name='cart-filled' size='25px' />
+            </IconBackground>
+            <Title size='20px' weight={600}>
               <FormattedMessage
                 id='modals.wallet.welcome.sb.title'
-                defaultMessage='Buy Crypto'
+                defaultMessage='Own Crypto in a Few Minutes'
               />
             </Title>
-            <Content lineHeight='24px' weight={500}>
+            <ContentTextWrapper color='grey600' size='14x' weight={500}>
               <FormattedMessage
-                id='modals.wallet.welcome.sb.content'
-                defaultMessage='We can help you buy in just a few simple steps'
+                id='modals.wallet.welcome.sb.verify'
+                defaultMessage='Verify your identity and buy crypto with a bank transfer '
               />
-            </Content>
+            </ContentTextWrapper>
+            <Image name='buy-wallet' width='282px' height='165px' />
+          </ContentContainer>
+          <ButtonWrapper>
             <Button
               capitalize
               data-e2e='toSimpleBuyModal'
@@ -138,36 +140,21 @@ class WelcomeContainer extends React.PureComponent<Props> {
                 defaultMessage='Buy Crypto Now'
               />
             </Button>
-          </Card>
-          <Card>
-            <Icon color='blue600' name='wallet-filled' size='32px' />
-            <Title lineHeight='30px' size='20px' weight={600}>
-              <FormattedMessage
-                id='modals.wallet.welcome.tour.title'
-                defaultMessage='Tour the Wallet'
-              />
-            </Title>
-            <Content lineHeight='24px' weight={500}>
-              <FormattedMessage
-                id='modals.wallet.welcome.tour.content'
-                defaultMessage='Explore your new Blockchain Wallet.'
-              />
-            </Content>
             <Button
               capitalize
               data-e2e='toWalletTour'
               fullwidth
               height='48px'
-              nature='grey800'
-              onClick={this.handleTourClick}
+              nature='empty-secondary'
+              onClick={this.props.close}
               size='16px'
             >
               <FormattedMessage
-                id='modals.wallet.welcome.tour.button'
-                defaultMessage='Get Started'
+                id='modals.wallet.welcome.sb.skip'
+                defaultMessage='Skip'
               />
             </Button>
-          </Card>
+          </ButtonWrapper>
         </FlyoutWrapper>
       </Flyout>
     )

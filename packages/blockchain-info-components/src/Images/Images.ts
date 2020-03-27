@@ -15,6 +15,7 @@ import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
+import buyWallet from './img/buy-wallet.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkmarkGreen from './img/checkmark-green.svg'
 import closeError from './img/close-error.svg'
@@ -125,6 +126,7 @@ const Images = {
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
+  'buy-wallet': buyWallet,
   'chart-placeholder': chartPlaceholder,
   'checkmark-green': checkmarkGreen,
   coins: coins,
