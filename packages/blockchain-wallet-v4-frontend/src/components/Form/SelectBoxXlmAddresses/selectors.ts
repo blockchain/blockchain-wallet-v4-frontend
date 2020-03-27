@@ -33,7 +33,7 @@ export const getData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `XLM Trading Wallet` +
       ` (${Exchange.displayXlmToXlm({
         value: x ? x.available : 0,
         fromUnit: 'STROOP',
@@ -49,7 +49,11 @@ export const getData = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'XLM Trading Wallet'
+      }
     }
   ]
 

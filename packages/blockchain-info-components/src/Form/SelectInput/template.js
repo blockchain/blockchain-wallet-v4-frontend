@@ -16,8 +16,7 @@ export const sharedSelect = css`
 
   .bc__menu {
     border-radius: 4px;
-    box-shadow: initial;
-    border: 1px solid ${props => props.theme.grey100};
+    box-shadow: 0px 4px 16px ${props => props.theme.greyFade200};
     background-color: ${props => props.theme.white};
   }
   .bc__menu-list {
@@ -96,8 +95,8 @@ export const sharedSelect = css`
     &:focus,
     &:hover {
       background-color: ${props => props.theme.white};
-      * {
-        color: ${props => props.theme.grey800};
+      *:not(span:before) {
+        color: ${props => props.theme.grey800} !important;
       }
     }
     * {

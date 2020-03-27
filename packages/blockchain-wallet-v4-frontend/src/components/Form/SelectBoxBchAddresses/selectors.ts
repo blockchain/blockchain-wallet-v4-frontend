@@ -88,7 +88,7 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `BCH Trading Wallet` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
         fromUnit: 'SAT',
@@ -115,7 +115,11 @@ export const getData = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'BCH Trading Wallet'
+      }
     }
   ]
 

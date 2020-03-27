@@ -41,7 +41,7 @@ export const getEthData = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `ETH Trading Wallet` +
       ` (${Exchange.displayEtherToEther({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -57,7 +57,11 @@ export const getEthData = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'ETH Trading Wallet'
+      }
     }
   ]
 
@@ -129,7 +133,7 @@ export const getErc20Data = (
   }
   const buildCustodialDisplay = x => {
     return (
-      `My Custodial Wallet` +
+      `USD-D Trading Wallet` +
       ` (${displayErc20Fixed({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
@@ -161,7 +165,11 @@ export const getErc20Data = (
   const toCustodialDropdown = x => [
     {
       label: buildCustodialDisplay(x),
-      value: { ...x, type: ADDRESS_TYPES.CUSTODIAL }
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'USD-D Trading Wallet'
+      }
     }
   ]
 
