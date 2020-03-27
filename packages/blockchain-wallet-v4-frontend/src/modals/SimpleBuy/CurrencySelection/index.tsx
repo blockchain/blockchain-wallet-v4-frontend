@@ -84,10 +84,10 @@ const CurrencyBoxComponent = (props: {
       }}
     >
       <CurrencyText>
-        <Text size='16px' color='grey800' weight={600}>
+        <Text size='14px' color='grey800' weight={500}>
           {props.cur.displayName}
         </Text>
-        <Text size='14px' color='grey800' weight={500}>
+        <Text size='16px' color='grey800' weight={600}>
           {props.cur.code}
         </Text>
       </CurrencyText>
@@ -170,17 +170,6 @@ const CurrencySelection: React.FC<
               />
             )
           })}
-        {/* <Button
-          fullwidth
-          height="48px"
-          disabled={!selectedCurrency}
-          nature="primary"
-          data-e2e="currencySelectNext"
-          size="16px"
-          type="submit"
-        >
-          <FormattedMessage id="modals.simplebuy.next" defaultMessage="Next" />
-        </Button> */}
       </Form>
     </Wrapper>
   )
