@@ -12,7 +12,7 @@ import { selectors } from 'data'
 import Currencies, {
   FiatCurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
-import React, { SyntheticEvent, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 type OwnProps = {

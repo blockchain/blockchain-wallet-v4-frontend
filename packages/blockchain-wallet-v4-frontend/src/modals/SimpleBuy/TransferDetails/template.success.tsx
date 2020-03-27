@@ -67,24 +67,62 @@ const Success: React.FC<Props> = props => {
             </Text>
           </InfoContainer>
         </FlyoutWrapper>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.bankname'
-              defaultMessage='Bank Name'
-            />
-          </Title>
-          <Value>{props.account.agent.name}</Value>
-        </Row>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.bankid'
-              defaultMessage='Bank ID'
-            />
-          </Title>
-          <Value>{props.account.agent.account}</Value>
-        </Row>
+        {(props.account.currency === 'USD' ||
+          props.account.currency === 'EUR') && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.bankname'
+                defaultMessage='Bank Name'
+              />
+            </Title>
+            <Value>{props.account.agent.name}</Value>
+          </Row>
+        )}
+        {props.account.currency === 'EUR' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.bankid'
+                defaultMessage='Bank ID'
+              />
+            </Title>
+            <Value>{props.account.agent.account}</Value>
+          </Row>
+        )}
+        {props.account.currency === 'GBP' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.account'
+                defaultMessage='Account Number'
+              />
+            </Title>
+            <Value>{props.account.agent.account}</Value>
+          </Row>
+        )}
+        {props.account.currency === 'GBP' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.sortcode'
+                defaultMessage='Sort Code'
+              />
+            </Title>
+            <Value>{props.account.agent.code}</Value>
+          </Row>
+        )}
+        {props.account.currency === 'EUR' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.swift'
+                defaultMessage='Bank Code (SWIFT / BIC)'
+              />
+            </Title>
+            <Value>{props.account.agent.code}</Value>
+          </Row>
+        )}
         {props.account.currency === 'USD' && (
           <Row>
             <Title size='14px' weight={500} color='grey600'>
@@ -107,18 +145,15 @@ const Success: React.FC<Props> = props => {
             <Value>{props.account.agent.routingNumber}</Value>
           </Row>
         )}
-        {(props.account.currency === 'USD' ||
-          props.account.currency === 'GBP') && (
-          <Row>
-            <Title>
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.recipient'
-                defaultMessage='Recipient'
-              />
-            </Title>
-            <Value>{props.account.agent.recipient}</Value>
-          </Row>
-        )}
+        <Row>
+          <Title>
+            <FormattedMessage
+              id='modals.simplebuy.transferdetails.recipient'
+              defaultMessage='Recipient'
+            />
+          </Title>
+          <Value>{props.account.agent.recipient}</Value>
+        </Row>
         <Row>
           <Title>
             <FormattedMessage

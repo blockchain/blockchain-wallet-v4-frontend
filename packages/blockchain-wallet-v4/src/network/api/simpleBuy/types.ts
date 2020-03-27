@@ -24,6 +24,7 @@ export type SBAccountType =
         account: string
         code: string
         name: string
+        recipient: string
       }
       currency: 'EUR'
     }
