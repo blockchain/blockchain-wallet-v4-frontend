@@ -99,20 +99,20 @@ export const FlyoutChild = styled.div`
 export const Row = styled.div`
   padding: 16px 40px;
   box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme.grey800};
+  border-top: 1px solid ${props => props.theme.grey000};
   &:last-child {
-    border-bottom: 1px solid ${props => props.theme.grey800};
+    border-bottom: 1px solid ${props => props.theme.grey000};
   }
 `
 export const Title = styled(Text)`
-  font-size: ${props => (props.size ? '14px' : props.size)};
-  font-weight: ${props => (props.weight ? 500 : props.weight)};
+  font-size: 14px;
+  font-weight: 500;
   color: ${props => props.theme.grey600};
 `
 export const Value = styled(Text)`
   margin-top: 4px;
-  font-size: ${props => (props.size ? '16px' : props.size)};
-  font-weight: ${props => (props.weight ? 600 : props.weight)};
+  font-size: 16px;
+  font-weight: 600;
   color: ${props => props.theme.grey800};
 `
 

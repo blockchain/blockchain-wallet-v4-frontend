@@ -138,7 +138,7 @@ const Success: React.FC<Props> = props => {
         </Row>
       </div>
       <Bottom>
-        <Text>
+        <Text size='12px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.transferdetails.sendfundsfrom'
             defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'

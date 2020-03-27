@@ -130,7 +130,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{displayFiat(props.order.inputQuantity)}</Value>
       </Row>
       <Bottom>
-        <Text>
+        <Text size='12px' weight={500} color='grey600'>
           <FormattedMessage
             id='modals.simplebuy.confirm.activity'
             defaultMessage='Your final amount may change due to market activity.'

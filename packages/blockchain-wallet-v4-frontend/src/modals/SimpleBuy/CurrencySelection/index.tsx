@@ -2,7 +2,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper, Title, Value } from 'components/Flyout'
-import { Form, InjectedFormProps, reduxForm, submit } from 'redux-form'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType } from '../index'
@@ -20,6 +20,7 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
+  defaultSelectedCurrency: FiatType
   values?: SBCurrencySelectFormType
 }
 
@@ -73,16 +74,11 @@ const Seperator = styled.div`
 
 const CurrencyBoxComponent = (props: {
   cur: FiatCurrenciesType[FiatType]
+  onClick: (string) => void
   selectedCurrency: FiatType | null
-  setSelectedCurrency: (string) => void
 }) => {
   return (
-    <CurrencyBox
-      role='button'
-      onClick={() => {
-        props.setSelectedCurrency(props.cur.code)
-      }}
-    >
+    <CurrencyBox role='button' onClick={props.onClick}>
       <CurrencyText>
         <Title>{props.cur.displayName}</Title>
         <Value>{props.cur.code}</Value>
@@ -99,32 +95,30 @@ const CurrencyBoxComponent = (props: {
 const CurrencySelection: React.FC<
   InjectedFormProps<{}, Props> & Props & LinkStatePropsType
 > = props => {
-  const [selectedCurrency, setSelectedCurrency] = useState<FiatType | null>(
-    null
+  const [selectedCurrency] = useState<FiatType | null>(
+    props.defaultSelectedCurrency
   )
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault()
-    props.settingsActions.updateCurrency(selectedCurrency, true)
+  const handleSubmit = (currency: FiatType) => {
+    props.settingsActions.updateCurrency(currency, true)
     props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      fiatCurrency: selectedCurrency || 'USD'
+      fiatCurrency: currency || 'USD'
     })
   }
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <FlyoutWrapper>
           <TopText color='grey900' size='20px' weight={600}>
             <Icon
-              // @phil me trying to get this icon to behave like a button with type='submit'
-              onClick={() => submit}
+              onClick={props.handleClose}
               cursor
-              name='arrow-left'
+              name='close'
               size='20px'
               color='grey600'
               style={{ marginRight: '24px' }}
@@ -147,8 +141,8 @@ const CurrencySelection: React.FC<
           return (
             <CurrencyBoxComponent
               cur={cur}
-              setSelectedCurrency={setSelectedCurrency}
               selectedCurrency={selectedCurrency}
+              onClick={() => handleSubmit(cur.code as FiatType)}
             />
           )
         })}
@@ -161,8 +155,8 @@ const CurrencySelection: React.FC<
             return (
               <CurrencyBoxComponent
                 cur={cur}
-                setSelectedCurrency={setSelectedCurrency}
                 selectedCurrency={selectedCurrency}
+                onClick={() => handleSubmit(cur.code as FiatType)}
               />
             )
           })}
@@ -172,7 +166,8 @@ const CurrencySelection: React.FC<
 }
 
 const mapStateToProps = (state: RootState) => ({
-  values: selectors.form.getFormValues('sbCurrencySelection')(state)
+  values: selectors.form.getFormValues('sbCurrencySelection')(state),
+  defaultSelectedCurrency: selectors.preferences.getSBFiatCurrency(state)
 })
 
 const enhance = compose(
