@@ -91,52 +91,46 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Amount>
       </FlyoutWrapper>
       <Row>
-        <Title size='14px' weight={500} color='grey600'>
+        <Title>
           <FormattedMessage
             id='modals.simplebuy.confirm.rate'
             defaultMessage='Exchange Rate'
           />
         </Title>
-        <Value size='16px' weight={600} color='grey800'>
+        <Value>
           {displayFiat(props.quote.rate)} / {props.order.outputCurrency}
         </Value>
       </Row>
       <Row>
-        <Title size='14px' weight={500} color='grey600'>
+        <Title>
           <FormattedMessage
             id='modals.simplebuy.confirm.payment'
             defaultMessage='Payment Method'
           />
         </Title>
         {/* TODO: Simple Buy - payment method types */}
-        <Value size='16px' weight={600} color='grey800'>
-          Bank Wire Transfer
-        </Value>
+        <Value>Bank Wire Transfer</Value>
       </Row>
       <Row>
-        <Title size='14px' weight={500} color='grey600'>
+        <Title>
           <FormattedMessage
             id='modals.simplebuy.confirm.fee'
             defaultMessage='Fees'
           />
         </Title>
-        <Value size='16px' weight={600} color='grey800'>
-          {displayFiat(props.quote.fee)}
-        </Value>
+        <Value>{displayFiat(props.quote.fee)}</Value>
       </Row>
       <Row>
-        <Title size='14px' weight={500} color='grey600'>
+        <Title>
           <FormattedMessage
             id='modals.simplebuy.confirm.total'
             defaultMessage='Total'
           />
         </Title>
-        <Value size='14px' weight={500} color='grey600'>
-          {displayFiat(props.order.inputQuantity)}
-        </Value>
+        <Value>{displayFiat(props.order.inputQuantity)}</Value>
       </Row>
       <Bottom>
-        <Text size='12px' weight={500} color='grey600'>
+        <Text>
           <FormattedMessage
             id='modals.simplebuy.confirm.activity'
             defaultMessage='Your final amount may change due to market activity.'

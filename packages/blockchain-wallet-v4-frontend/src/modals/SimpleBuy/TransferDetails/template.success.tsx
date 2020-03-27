@@ -68,26 +68,22 @@ const Success: React.FC<Props> = props => {
           </InfoContainer>
         </FlyoutWrapper>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.bankname'
               defaultMessage='Bank Name'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
-            {props.account.agent.name}
-          </Value>
+          <Value>{props.account.agent.name}</Value>
         </Row>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.bankid'
               defaultMessage='Bank ID'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
-            {props.account.agent.account}
-          </Value>
+          <Value>{props.account.agent.account}</Value>
         </Row>
         {props.account.currency === 'USD' && (
           <Row>
@@ -97,9 +93,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Address'
               />
             </Title>
-            <Value size='16px' weight={600} color='grey800'>
-              {props.account.agent.address}
-            </Value>
+            <Value>{props.account.agent.address}</Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
@@ -110,33 +104,29 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Routing Number'
               />
             </Title>
-            <Value size='16px' weight={600} color='grey800'>
-              {props.account.agent.routingNumber}
-            </Value>
+            <Value>{props.account.agent.routingNumber}</Value>
           </Row>
         )}
         {(props.account.currency === 'USD' ||
           props.account.currency === 'GBP') && (
           <Row>
-            <Title size='14px' weight={500} color='grey600'>
+            <Title>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.recipient'
                 defaultMessage='Recipient'
               />
             </Title>
-            <Value size='16px' weight={600} color='grey800'>
-              {props.account.agent.recipient}
-            </Value>
+            <Value>{props.account.agent.recipient}</Value>
           </Row>
         )}
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.transferdetails.amount'
               defaultMessage='Amount to Send'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
+          <Value>
             {fiatToString({
               unit:
                 Currencies[props.order.inputCurrency].units[
@@ -148,7 +138,7 @@ const Success: React.FC<Props> = props => {
         </Row>
       </div>
       <Bottom>
-        <Text size='12px' weight={500} color='grey600'>
+        <Text>
           <FormattedMessage
             id='modals.simplebuy.transferdetails.sendfundsfrom'
             defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'

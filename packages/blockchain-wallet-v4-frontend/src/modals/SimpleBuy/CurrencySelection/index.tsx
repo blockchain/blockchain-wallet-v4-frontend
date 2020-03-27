@@ -1,7 +1,7 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
-import { FlyoutWrapper, Row } from 'components/Flyout'
+import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm, submit } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
