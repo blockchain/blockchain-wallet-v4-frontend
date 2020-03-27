@@ -103,43 +103,37 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Transaction ID'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
-            {props.order.id}
-          </Value>
+          <Value>{props.order.id}</Value>
         </Row>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.summary.created'
               defaultMessage='Created'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
-            {moment(props.order.insertedAt).format('LLL')}
-          </Value>
+          <Value>{moment(props.order.insertedAt).format('LLL')}</Value>
         </Row>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.summary.purchasing'
               defaultMessage='Purchasing'
             />
           </Title>
-          <Value size='16px' weight={600} color='grey800'>
+          <Value>
             {amount} of {props.order.outputCurrency}
           </Value>
         </Row>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title>
             <FormattedMessage
               id='modals.simplebuy.summary.paymentmethod'
               defaultMessage='Payment Method'
             />
           </Title>
           {/* TODO: Simple Buy - payment method types */}
-          <Value size='16px' weight={600} color='grey800'>
-            Bank Wire Transfer
-          </Value>
+          <Value>Bank Wire Transfer</Value>
         </Row>
       </div>
       {(props.order.state === 'PENDING_CONFIRMATION' ||

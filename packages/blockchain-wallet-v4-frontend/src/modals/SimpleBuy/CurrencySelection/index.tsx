@@ -1,15 +1,14 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FiatType } from 'core/types'
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Title, Value } from 'components/Flyout'
+import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType } from '../index'
 import { RootState } from 'data/rootReducer'
 import { SBCurrencySelectFormType } from 'data/types'
 import { selectors } from 'data'
-import { TextBox } from 'components/Form'
 import Currencies, {
   FiatCurrenciesType
 } from 'blockchain-wallet-v4/src/exchange/currencies'
@@ -21,11 +20,18 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
+  defaultSelectedCurrency: FiatType
   values?: SBCurrencySelectFormType
 }
 
 type Props = OwnProps & LinkDispatchPropsType
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+`
 const TopText = styled(Text)`
   display: flex;
   width: 100%;
@@ -33,71 +39,54 @@ const TopText = styled(Text)`
 `
 
 const SubTitleText = styled(Text)`
-  margin: 24px 0;
+  margin-top: 24px;
 `
 
 const CurrencyBox = styled.div`
-  padding: 24px;
+  padding: 16px;
   cursor: pointer;
-  border-radius: 12px;
-  border: 1px solid ${props => props.theme.grey100};
-  margin-top: 16px;
+  border-top: 1px solid ${props => props.theme.grey000};
   display: flex;
   justify-content: space-between;
   align-items: center;
 `
+const CurrencyText = styled.div`
+  padding-left: 20px;
+`
+
+const Circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  background-color: white;
+  border: 1px solid ${props => props.theme.grey000};
+  border-radius: 20px;
+`
 
 const Seperator = styled.div`
   width: 100%;
-  height: 2px;
-  margin: 40px 0;
+  height: 7px;
   background-color: ${props => props.theme.grey000};
 `
 
-const ButtonContainer = styled.div`
-  position: sticky;
-  background-color: ${props => props.theme.white};
-  padding-bottom: 20px;
-  margin-top: 20px;
-  bottom: 0px;
-  left: 0px;
-`
-
-const searchHasMatch = (
-  cur: FiatCurrenciesType[FiatType],
-  values?: SBCurrencySelectFormType
-) => {
-  if (!values) return true
-  if (values && !values.search) return true
-  const { displayName, code } = cur
-
-  if (displayName.toLowerCase().includes(values.search.toLowerCase()))
-    return true
-  if (code.toLowerCase().includes(values.search.toLowerCase())) return true
-
-  return false
-}
-
 const CurrencyBoxComponent = (props: {
   cur: FiatCurrenciesType[FiatType]
+  onClick: (string) => void
   selectedCurrency: FiatType | null
-  setSelectedCurrency: (string) => void
 }) => {
   return (
-    <CurrencyBox
-      role='button'
-      onClick={() => props.setSelectedCurrency(props.cur.code)}
-    >
-      <div>
-        <Text size='16px' color='grey800' weight={600}>
-          {props.cur.displayName}
-        </Text>
-        <Text size='14px' color='grey800' weight={500}>
-          {props.cur.code}
-        </Text>
-      </div>
-      {props.selectedCurrency === props.cur.code && (
+    <CurrencyBox role='button' onClick={props.onClick}>
+      <CurrencyText>
+        <Title>{props.cur.displayName}</Title>
+        <Value>{props.cur.code}</Value>
+      </CurrencyText>
+      {props.selectedCurrency === props.cur.code ? (
         <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
+      ) : (
+        <Circle />
       )}
     </CurrencyBox>
   )
@@ -106,55 +95,54 @@ const CurrencyBoxComponent = (props: {
 const CurrencySelection: React.FC<
   InjectedFormProps<{}, Props> & Props & LinkStatePropsType
 > = props => {
-  const [selectedCurrency, setSelectedCurrency] = useState<FiatType | null>(
-    null
+  const [selectedCurrency] = useState<FiatType | null>(
+    props.defaultSelectedCurrency
   )
   const currencies = Object.keys(Currencies)
   const recommendedCurrencies = ['GBP', 'EUR', 'USD']
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault()
-    props.settingsActions.updateCurrency(selectedCurrency, true)
+  const handleSubmit = (currency: FiatType) => {
+    props.settingsActions.updateCurrency(currency, true)
     props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      fiatCurrency: selectedCurrency || 'USD'
+      fiatCurrency: currency || 'USD'
     })
   }
 
   return (
-    <FlyoutWrapper>
-      <TopText color='grey900' size='20px' weight={600}>
-        <Icon
-          onClick={props.handleClose}
-          cursor
-          name='arrow-left'
-          size='20px'
-          color='grey600'
-          style={{ marginRight: '24px' }}
-        />
-        <FormattedMessage
-          id='modals.simplebuy.selectcurrency'
-          defaultMessage='Select Your Currency'
-        />
-      </TopText>
-      <SubTitleText color='grey800' weight={500}>
-        <FormattedMessage
-          id='modals.simplebuy.localcurrency'
-          defaultMessage='Select the local currency for your wallet'
-        />
-      </SubTitleText>
-      <Form onSubmit={handleSubmit}>
-        <Field name='search' component={TextBox} />
+    <Wrapper>
+      <Form>
+        <FlyoutWrapper>
+          <TopText color='grey900' size='20px' weight={600}>
+            <Icon
+              onClick={props.handleClose}
+              cursor
+              name='close'
+              size='20px'
+              color='grey600'
+              style={{ marginRight: '24px' }}
+            />
+            <FormattedMessage
+              id='modals.simplebuy.selectcurrency'
+              defaultMessage='Select Your Currency'
+            />
+          </TopText>
+          <SubTitleText color='grey800' weight={500}>
+            <FormattedMessage
+              id='modals.simplebuy.localcurrency'
+              defaultMessage='Select the local currency for your wallet.'
+            />
+          </SubTitleText>
+        </FlyoutWrapper>
+
         {recommendedCurrencies.map(currency => {
           const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
-
-          if (!searchHasMatch(cur, props.values)) return
           return (
             <CurrencyBoxComponent
               cur={cur}
-              setSelectedCurrency={setSelectedCurrency}
               selectedCurrency={selectedCurrency}
+              onClick={() => handleSubmit(cur.code as FiatType)}
             />
           )
         })}
@@ -164,39 +152,22 @@ const CurrencySelection: React.FC<
           .map(currency => {
             const cur: FiatCurrenciesType[FiatType] = Currencies[currency]
             if (cur.base !== 'CENT') return
-            if (!searchHasMatch(cur, props.values)) return
-
             return (
               <CurrencyBoxComponent
                 cur={cur}
-                setSelectedCurrency={setSelectedCurrency}
                 selectedCurrency={selectedCurrency}
+                onClick={() => handleSubmit(cur.code as FiatType)}
               />
             )
           })}
-        <ButtonContainer>
-          <Button
-            fullwidth
-            height='48px'
-            disabled={!selectedCurrency}
-            nature='primary'
-            data-e2e='currencySelectNext'
-            size='16px'
-            type='submit'
-          >
-            <FormattedMessage
-              id='modals.simplebuy.next'
-              defaultMessage='Next'
-            />
-          </Button>
-        </ButtonContainer>
       </Form>
-    </FlyoutWrapper>
+    </Wrapper>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  values: selectors.form.getFormValues('sbCurrencySelection')(state)
+  values: selectors.form.getFormValues('sbCurrencySelection')(state),
+  defaultSelectedCurrency: selectors.preferences.getSBFiatCurrency(state)
 })
 
 const enhance = compose(
