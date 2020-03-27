@@ -3,11 +3,12 @@ import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { prop } from 'ramda'
-import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import Flyout, { duration } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import styled from 'styled-components'
+
+import EmptyContent from './Content/EmptyContent'
 
 type OwnPropsType = {
   close: () => void
