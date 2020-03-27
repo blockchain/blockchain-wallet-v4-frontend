@@ -87,12 +87,6 @@ class WelcomeContainer extends React.PureComponent<Props> {
       this.props.simpleBuyActions.showModal()
     }, duration)
   }
-
-  handleTourClick = () => {
-    const { takeWalletTourClicked } = this.props.onboardingActions
-    takeWalletTourClicked()
-  }
-
   render () {
     const { show } = this.state
     const { ...rest } = this.props
@@ -152,7 +146,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
               fullwidth
               height='48px'
               nature='empty-secondary'
-              onClick={this.handleTourClick}
+              onClick={this.props.close}
               size='16px'
             >
               <FormattedMessage
