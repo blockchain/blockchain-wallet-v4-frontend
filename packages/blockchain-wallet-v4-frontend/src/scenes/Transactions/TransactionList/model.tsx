@@ -37,9 +37,18 @@ export const Status = ({ order }: { order: SBOrderType }) => {
           />
         </Text>
       )
+    case 'CANCELED':
+      return (
+        <Text size='14px' weight={500} color='red600'>
+          <FormattedMessage
+            id='modals.simplebuy.transactionfeed.canceled'
+            defaultMessage='{type} Canceled'
+            values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
+          />
+        </Text>
+      )
     case 'FAILED':
     case 'EXPIRED':
-    case 'CANCELED':
       return (
         <Text size='14px' weight={500} color='red600'>
           <FormattedMessage
