@@ -9,20 +9,20 @@ import USDDigital from './Content/USDDigital'
 
 const Announcements = [
   {
-    content: <TxHistoryDownload key={1} />,
-    date: new Date('April 2020'),
+    content: <TxHistoryDownload key={0} />,
+    date: new Date('March 27, 2020'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
   {
-    content: <Borrow key={2} />,
-    date: new Date('March 2020'),
+    content: <Borrow key={1} />,
+    date: new Date('March 9, 2020'),
     restrictByCountry: [],
     restrictByUserKyc: []
   },
   {
-    content: <USDDigital key={3} />,
-    date: new Date('March 2020'),
+    content: <USDDigital key={2} />,
+    date: new Date('March 9, 2020'),
     restrictByCountry: [],
     restrictByUserKyc: []
   }
@@ -39,17 +39,23 @@ export const filterAnnouncements = (
   const isRestrictedByKvStore = kvCheckFunc => {
     return kvCheckFunc && kvCheckFunc(whatsNewKvStore)
   }
-
   const isRestricted = announcement =>
     isOnRestrictedCountryList(prop('restrictByCountry', announcement)) ||
     isOnRestrictedKycList(prop('restrictByUserKyc', announcement))
 
-  const isAvailableToView = (announcement, expires) => {
+  const isAvailableToView = announcement => {
+    const announcementDate = prop('date', announcement)
+    const restrictByKv = prop('restrictByKvStoreCheck', announcement)
+    // show new announcement alert if
+    // the announcement is less than 30 days old &&
+    // last time whats new was viewed is before the announcement date &&
+    // it is not restricted by kvStore
     return (
-      moment(prop('date', announcement)).isBetween(
-        moment(lastViewed).subtract(expires, 'days'),
-        moment()
-      ) && !isRestrictedByKvStore(prop('restrictByKvStoreCheck', announcement))
+      moment()
+        .subtract(30, 'days')
+        .isBefore(announcementDate) &&
+      moment(lastViewed).isBefore(announcementDate) &&
+      !isRestrictedByKvStore(restrictByKv)
     )
   }
 
@@ -57,7 +63,7 @@ export const filterAnnouncements = (
     content: prop('content', announcement),
     restricted: isRestricted(announcement),
     display: true,
-    alert: isAvailableToView(announcement, 0)
+    alert: isAvailableToView(announcement)
   }))
 }
 
