@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import React from 'react'
 import SBOrderBanner from './SBOrderBanner'
@@ -16,7 +17,7 @@ type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType = {
-  bannerToShow: 'resubmit' | 'sbOrder'
+  bannerToShow: 'resubmit' | 'sbOrder' | 'finishKyc'
 }
 type Props = LinkDispatchPropsType & LinkStatePropsType
 
@@ -33,6 +34,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <KycResubmit />
+          </BannerWrapper>
+        )
+      case 'finishKyc':
+        return (
+          <BannerWrapper>
+            <FinishKyc />
           </BannerWrapper>
         )
       case 'sbOrder':

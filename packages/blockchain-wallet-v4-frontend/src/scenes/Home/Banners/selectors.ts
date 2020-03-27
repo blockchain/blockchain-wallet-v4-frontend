@@ -20,9 +20,19 @@ export const getData = state => {
       order.state === 'PENDING_DEPOSIT'
   )
 
+  const isUserActive =
+    // @ts-ignore
+    selectors.modules.profile.getUserActivationState(state).getOrElse('') !==
+    'NONE'
+  const isKycStateNone =
+    // @ts-ignore
+    selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
+  } else if (isKycStateNone && isUserActive) {
+    bannerToShow = 'finishKyc'
   } else if (isSimpleBuyOrderPending) {
     bannerToShow = 'sbOrder'
   } else {
