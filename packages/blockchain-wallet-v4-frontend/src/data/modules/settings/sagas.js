@@ -151,6 +151,7 @@ export default ({ api, coreSagas }) => {
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
+      yield put(actions.preferences.setSBFiatCurrency(action.payload.currency))
       if (!action.payload.hideAlert) {
         yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
       }
