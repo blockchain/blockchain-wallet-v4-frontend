@@ -63,6 +63,7 @@
             "circle": "bch-circle",
             "circleFilled": "bch-circle-filled"
           },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
           "txListAppRoute": "/bch/transactions"
@@ -110,6 +111,7 @@
             "circle": "eth-circle",
             "circleFilled": "eth-circle-filled"
           },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
           "lastTxFuse": 600,
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
@@ -135,6 +137,7 @@
             "circle": "usd-d",
             "circleFilled": "usd-d"
           },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
           "minConfirmations": 12,
           "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
           "txListAppRoute": "/usd-d/transactions"

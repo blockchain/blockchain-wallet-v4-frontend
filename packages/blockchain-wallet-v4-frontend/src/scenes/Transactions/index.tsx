@@ -3,6 +3,7 @@ import { CoinType, FiatType, SupportedCoinType } from 'core/types'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { getHeaderExplainer } from './template.headerexplainer'
 import { Icon, Text } from 'blockchain-info-components'
 import { path, toLower } from 'ramda'
 import { reduxForm } from 'redux-form'
@@ -29,6 +30,9 @@ const PageTitle = styled.div`
   }
 `
 const Header = styled.div`
+  width: 100%;
+`
+const ExplainerWrapper = styled.div`
   width: 100%;
 `
 const StatsContainer = styled.div`
@@ -131,6 +135,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 {displayName}
               </Text>
             </PageTitle>
+            {!hasTxResults && (
+              <ExplainerWrapper>
+                {getHeaderExplainer(coinModel)}
+              </ExplainerWrapper>
+            )}
+
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
               <CoinPerformance coin={coin} />
