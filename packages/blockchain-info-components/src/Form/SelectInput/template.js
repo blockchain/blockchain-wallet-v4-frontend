@@ -53,19 +53,22 @@ export const sharedSelect = css`
     border-radius: 8px;
     border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
-    & .bc__control--is-focused {
-      border: 1px solid
-        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
-    }
-    & .bc__control--menu-is-open {
-      background-color: ${({ theme }) => theme.white};
-      border: 1px solid
-        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
-    }
     &:disabled {
       cursor: not-allowed;
       background-color: ${props => props.theme.grey100};
       border: 1px solid transparent;
+    }
+    &:hover {
+      border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
+    }
+    &.bc__control--is-focused {
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    }
+    &.bc__control--menu-is-open {
+      background-color: ${({ theme }) => theme.white};
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
     .bc__value-container {
       overflow: hidden;
