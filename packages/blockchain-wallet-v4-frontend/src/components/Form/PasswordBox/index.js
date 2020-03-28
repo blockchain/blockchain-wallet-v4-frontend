@@ -16,8 +16,12 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+`
+
+const PasswordContainer = styled.div`
   border-radius: 8px;
   overflow: hidden;
+  width: 100%;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -54,16 +58,18 @@ const PasswordBox = field => {
 
   return (
     <Container>
-      <PasswordInput
-        {...input}
-        disabled={disabled}
-        active={active}
-        controlledBorderColor={borderColor}
-        errorState={errorState}
-        data-e2e={field['data-e2e']}
-        noLastPass={noLastPass}
-      />
-      {scoreVisible && <PasswordGauge score={passwordScore + 1} />}
+      <PasswordContainer>
+        <PasswordInput
+          {...input}
+          disabled={disabled}
+          active={active}
+          controlledBorderColor={borderColor}
+          errorState={errorState}
+          data-e2e={field['data-e2e']}
+          noLastPass={noLastPass}
+        />
+        {scoreVisible && <PasswordGauge score={passwordScore + 1} />}
+      </PasswordContainer>
       {touched && error && (
         <>
           <Error
