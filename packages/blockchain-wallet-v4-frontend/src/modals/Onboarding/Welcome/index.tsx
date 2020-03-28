@@ -22,11 +22,17 @@ type LinkDispatchPropsType = {
 
 type Props = OwnPropsType & LinkDispatchPropsType
 
+const CustomFlyoutWrapper = styled(FlyoutWrapper)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -80,13 +86,21 @@ class WelcomeContainer extends React.PureComponent<Props> {
     this.setState({ show: true }) //eslint-disable-line
   }
 
+  handleClose = () => {
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
+  }
+
   handleSBClick = () => {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
       this.props.simpleBuyActions.showModal()
-    }, duration)
+    }, duration / 2)
   }
+
   render () {
     const { show } = this.state
     const { ...rest } = this.props
@@ -97,7 +111,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
         in={show}
         data-e2e='welcomeModal'
       >
-        <FlyoutWrapper>
+        <CustomFlyoutWrapper>
           <Header>
             <Image name='intro-hand' width='28px' height='28px' />
             <Text color='grey800' size='20px' weight={600}>
@@ -145,8 +159,8 @@ class WelcomeContainer extends React.PureComponent<Props> {
               data-e2e='toWalletTour'
               fullwidth
               height='48px'
-              nature='empty-secondary'
-              onClick={this.props.close}
+              nature='light'
+              onClick={this.handleClose}
               size='16px'
             >
               <FormattedMessage
@@ -155,7 +169,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
               />
             </Button>
           </ButtonWrapper>
-        </FlyoutWrapper>
+        </CustomFlyoutWrapper>
       </Flyout>
     )
   }
