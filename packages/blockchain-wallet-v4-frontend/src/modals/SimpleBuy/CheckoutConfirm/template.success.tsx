@@ -2,13 +2,13 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FiatType, SupportedCoinsType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { getOrderType, getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { SupportedCoinsType } from 'core/types'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
@@ -40,7 +40,6 @@ type Props = OwnProps &
   SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const orderType = getOrderType(props.order.pair)
   const outputAmt = getOutputAmount(props.order, props.quote)
 
   const displayFiat = (amt: string) => {
@@ -64,11 +63,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             role='button'
             onClick={() =>
               props.simpleBuyActions.setStep({
-                fiatCurrency:
-                  orderType === 'BUY'
-                    ? (props.order.inputCurrency as FiatType)
-                    : (props.order.outputCurrency as FiatType),
-                step: 'ENTER_AMOUNT'
+                order: props.order,
+                step: 'CANCEL_ORDER'
               })
             }
           />

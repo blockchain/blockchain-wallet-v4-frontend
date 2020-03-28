@@ -90,7 +90,10 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             disabled={props.submitting}
             onClick={() =>
               props.simpleBuyActions.setStep({
-                step: 'ORDER_SUMMARY',
+                step:
+                  props.order.state === 'PENDING_CONFIRMATION'
+                    ? 'CHECKOUT_CONFIRM'
+                    : 'ORDER_SUMMARY',
                 order: props.order
               })
             }

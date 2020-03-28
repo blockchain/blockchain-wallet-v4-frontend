@@ -45,11 +45,22 @@ export default ({
     order
   }: ReturnType<typeof A.cancelSBOrder>) {
     try {
+      const { state } = order
+      const fiatCurrency = S.getFiatCurrency(yield select())
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
-      yield put(actions.modals.closeAllModals())
+      if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
+        yield put(
+          A.setStep({
+            step: 'ENTER_AMOUNT',
+            fiatCurrency
+          })
+        )
+      } else {
+        yield put(actions.modals.closeAllModals())
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('cancelSBOrderForm', { _error: error }))
