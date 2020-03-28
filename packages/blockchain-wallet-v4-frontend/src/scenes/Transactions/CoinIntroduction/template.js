@@ -38,7 +38,7 @@ const Column = styled.div`
   text-align: center;
 `
 const BuyButton = styled(Button)`
-  width: 158px;
+  width: auto;
   height: 46px;
   padding: 0 16px;
 `
