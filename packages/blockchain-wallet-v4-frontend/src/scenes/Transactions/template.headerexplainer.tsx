@@ -18,18 +18,6 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
-const learnMore = coinModel => {
-  return (
-    <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
-      <LearnMoreText size='15px'>
-        <FormattedMessage
-          id='scenes.transaction.content.empty.getstarted.learnmore'
-          defaultMessage='Learn More'
-        />
-      </LearnMoreText>
-    </LearnMoreLink>
-  )
-}
 
 export const getHeaderExplainer = coinModel => {
   switch (coinModel.coinTicker) {
@@ -40,7 +28,17 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.btc'
             defaultMessage='Bitcoin (BTC) is the orginal crypto and the internet’s digital currency.'
           />
-          {learnMore(coinModel)}
+          <LearnMoreLink
+            href='https://www.blockchain.com/learning-portal/bitcoin-faq'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
         </ExplainerText>
       )
     }
@@ -51,7 +49,17 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.eth'
             defaultMessage='Ethereum (ETH) is a currency and computing platform. Built for developers and apps.'
           />
-          {learnMore(coinModel)}
+          <LearnMoreLink
+            href='https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
         </ExplainerText>
       )
     }
@@ -62,7 +70,17 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.eth'
             defaultMessage='Bitcoin Cash (BTC) is a fork of Bitcoin built for everday transactions.'
           />
-          {learnMore(coinModel)}
+          <LearnMoreLink
+            href='https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
         </ExplainerText>
       )
     }
@@ -73,7 +91,17 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.usdd'
             defaultMessage='The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
           />
-          {learnMore(coinModel)}
+          <LearnMoreLink
+            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
         </ExplainerText>
       )
     }
@@ -84,7 +112,17 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.xlm'
             defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
           />
-          {learnMore(coinModel)}
+          <LearnMoreLink
+            href='https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='scenes.transaction.content.empty.getstarted.learnmore'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
         </ExplainerText>
       )
     }
