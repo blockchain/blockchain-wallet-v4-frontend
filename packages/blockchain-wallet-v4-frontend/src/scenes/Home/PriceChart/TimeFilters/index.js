@@ -6,9 +6,14 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import TimeFilters from './template'
 
-export const TimeFiltersContainer = ({ actions, isSilverOrAbove, time }) => (
+export const TimeFiltersContainer = ({
+  actions,
+  isSilverOrAbove,
+  invitations,
+  time
+}) => (
   <TimeFilters
-    isSilverOrAbove={isSilverOrAbove}
+    tall={isSilverOrAbove || (invitations && invitations.simpleBuy)}
     time={time}
     handleClick={time => actions.timeClicked(time)}
   />
