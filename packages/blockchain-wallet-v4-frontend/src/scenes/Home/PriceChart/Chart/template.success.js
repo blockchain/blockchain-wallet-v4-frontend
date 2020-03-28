@@ -1,7 +1,7 @@
 import { calculateInterval, calculateStart } from 'services/ChartService'
 import { getConfig, renderMinMax } from './services'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
@@ -46,51 +46,18 @@ const Wrapper = styled.div`
 `
 
 const Chart = props => {
-  const { coin, time, data, currency, isSilverOrAbove } = props
+  const { coin, time, data, currency } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
   const interval = calculateInterval(coin, time)
-  let config = getConfig(
-    coin,
-    currency,
-    data,
-    decimals,
-    interval,
-    isSilverOrAbove,
-    start
-  )
-
-  const [chartObj, setChartObj] = useState({
-    config,
-    start,
-    interval,
-    decimals,
-    isSilverOrAbove
-  })
-
-  useEffect(() => {
-    config = getConfig(
-      coin,
-      currency,
-      data,
-      decimals,
-      interval,
-      isSilverOrAbove,
-      start
-    )
-    setChartObj({ config })
-  }, [isSilverOrAbove])
+  let config = getConfig(coin, currency, data, decimals, interval, start)
 
   const handleCallback = chart =>
     renderMinMax(chart, { currency, data, decimals })
 
   return (
     <Wrapper coin={coin}>
-      <ReactHighcharts
-        config={chartObj.config}
-        callback={handleCallback}
-        isPureConfig
-      />
+      <ReactHighcharts config={config} callback={handleCallback} isPureConfig />
     </Wrapper>
   )
 }

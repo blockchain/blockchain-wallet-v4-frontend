@@ -3,17 +3,9 @@ import { Color } from 'blockchain-info-components'
 import { head, last, map, sort } from 'ramda'
 import ReactHighcharts from 'react-highcharts'
 
-export const getConfig = (
-  coin,
-  currency,
-  data,
-  decimals,
-  interval,
-  isSilverOrAbove,
-  start
-) => ({
+export const getConfig = (coin, currency, data, decimals, interval, start) => ({
   chart: {
-    height: isSilverOrAbove ? 400 : 295,
+    height: 400,
     type: 'area',
     spacing: [25, 0, 0, 0],
     data: {
@@ -25,7 +17,7 @@ export const getConfig = (
   },
   yAxis: {
     visible: false,
-    minPadding: isSilverOrAbove ? 0.5 : 0.1,
+    minPadding: 0.5,
     maxPadding: 0,
     gridLineColor: 'transparent'
   },

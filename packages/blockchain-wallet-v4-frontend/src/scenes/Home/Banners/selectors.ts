@@ -27,11 +27,12 @@ export const getData = state => {
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+  const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (isKycStateNone && isUserActive) {
+  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
   } else if (isSimpleBuyOrderPending) {
     bannerToShow = 'sbOrder'

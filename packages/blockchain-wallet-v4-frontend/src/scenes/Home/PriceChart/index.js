@@ -1,5 +1,3 @@
-import { connect } from 'react-redux'
-import { getData } from './selectors'
 import Chart from './Chart'
 import CoinCurrentPrice from './CoinCurrentPrice'
 import CoinPerformance from './CoinPerformance'
@@ -16,7 +14,7 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   width: 100%;
-  height: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '542px' : '450px')};
+  height: 542px;
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
@@ -32,8 +30,8 @@ const TitleRow = styled(Row)`
   display: flex;
   flex-direction: column;
 `
-const PriceChart = ({ isSilverOrAbove }) => (
-  <Wrapper isSilverOrAbove={isSilverOrAbove}>
+const PriceChart = () => (
+  <Wrapper>
     <TitleRow>
       <CoinSelectBox />
       <CoinCurrentPrice />
@@ -49,6 +47,4 @@ const PriceChart = ({ isSilverOrAbove }) => (
   </Wrapper>
 )
 
-const mapStateToProps = state => getData(state)
-
-export default connect(mapStateToProps)(PriceChart)
+export default PriceChart
