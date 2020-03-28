@@ -14,7 +14,7 @@ export type Props = OwnProps &
   LinkStatePropsType
 
 const Success: React.FC<Props> = props => {
-  return props.pairs.length ? (
+  return props.pairs.length && props.eligibility.eligible ? (
     <Checkout {...props} />
   ) : (
     <Unsupported {...props} />

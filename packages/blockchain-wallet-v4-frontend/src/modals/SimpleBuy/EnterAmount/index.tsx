@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import {
+  FiatEligibleType,
   FiatType,
   NabuApiErrorType,
   RemoteDataType,
@@ -18,6 +19,7 @@ export type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
+  eligibility: FiatEligibleType
   pairs: Array<SBPairType>
 }
 export type LinkDispatchPropsType = {
@@ -37,6 +39,7 @@ class EnterAmount extends PureComponent<Props, State> {
   componentDidMount () {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
     }
   }
 
