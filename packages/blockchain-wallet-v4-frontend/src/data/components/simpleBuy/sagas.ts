@@ -118,11 +118,18 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBFiatEligible>) {
     try {
+      let fiatEligible: FiatEligibleType
       yield put(A.fetchSBFiatEligibleLoading())
-      const fiatEligible: FiatEligibleType = yield call(
-        api.getSBFiatEligible,
-        currency
-      )
+      // If user is not tier 2 fake eligible check to allow KYC
+      if (!(yield call(isTier2))) {
+        fiatEligible = {
+          eligible: true,
+          paymentAccountEligible: true,
+          simpleBuyTradingEligible: true
+        }
+      } else {
+        fiatEligible = yield call(api.getSBFiatEligible, currency)
+      }
       yield put(A.fetchSBFiatEligibleSuccess(fiatEligible))
     } catch (e) {
       const error = errorHandler(e)

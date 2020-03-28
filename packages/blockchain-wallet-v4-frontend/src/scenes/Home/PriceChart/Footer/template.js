@@ -29,6 +29,7 @@ const BuyTradeButton = styled(Button)`
 const Footer = ({
   coinTicker,
   coinName,
+  invitations,
   handleBuy,
   isCoinifySupported,
   isSilverOrAbove
@@ -41,7 +42,8 @@ const Footer = ({
 
   return (
     <Wrapper>
-      {isSilverOrAbove && (
+      {((invitations && invitations.simpleBuy) ||
+        (isSilverOrAbove)) && (
         <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
           <FormattedMessage
             id='price.chart.buy.coin'

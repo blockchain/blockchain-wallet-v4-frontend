@@ -23,8 +23,10 @@ const TYPE_WHITELIST = [
   '@EVENT.KYC.INITIALIZE_VERIFICATION',
   '@EVENT.KYC.UPDATE_EMAIL',
   '@EVENT.BORROW.SET_STEP',
+  '@EVENT.SET_SB_STEP',
   // Removing because https://blockc.slack.com/archives/CFE6HGEJD/p1578311066001100
   // 'LOG_ERROR_MSG',
+  'CLOSE_MODAL',
   'SHOW_MODAL'
 ]
 

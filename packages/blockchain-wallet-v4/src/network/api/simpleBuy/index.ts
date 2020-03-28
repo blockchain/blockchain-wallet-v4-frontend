@@ -77,7 +77,7 @@ export default ({
     })
 
   const getSBOrders = ({
-    pendingOnly,
+    pendingOnly = false,
     before,
     after
   }: {

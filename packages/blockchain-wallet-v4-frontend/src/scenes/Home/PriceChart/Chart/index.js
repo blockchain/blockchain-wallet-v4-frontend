@@ -16,7 +16,7 @@ export class ChartContainer extends React.PureComponent {
   }
 
   render () {
-    const { currencySymbol, isSilverOrAbove } = this.props
+    const { currencySymbol } = this.props
 
     return this.props.data.cata({
       Success: value => (
@@ -25,7 +25,6 @@ export class ChartContainer extends React.PureComponent {
           coin={value.coin}
           time={value.time}
           data={value.data}
-          isSilverOrAbove={isSilverOrAbove}
         />
       ),
       Failure: message => <Error>{message}</Error>,

@@ -119,7 +119,7 @@ const CoinSelect = styled(SelectBox)`
   }
 
   .bc__option {
-    padding: 0px 12px;
+    padding: 0px 8px;
   }
 
   .bc__indicators {
@@ -131,10 +131,6 @@ const CoinSelect = styled(SelectBox)`
 
 export class WalletBalanceDropdown extends Component<Props> {
   state = {}
-
-  isBtcTypeCoin = () => {
-    return this.props.coin === 'BTC' || this.props.coin === 'BCH'
-  }
 
   isTotalBalanceType = selectProps => {
     // BTC/BCH
@@ -233,7 +229,7 @@ export class WalletBalanceDropdown extends Component<Props> {
           size='32px'
         />
         <AccountContainer isItem>
-          <Text weight={500} color='grey400' size='14px'>
+          <Text weight={500} color='grey800' size='14px'>
             {account}{' '}
             {this.isTotalBalanceType(props) && (
               <FormattedMessage
@@ -248,7 +244,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               size='12px'
               weight={500}
               cursor='pointer'
-              color='grey800'
+              color='grey400'
             >
               {balance}
             </CoinDisplay>

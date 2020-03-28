@@ -10,20 +10,19 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '100px' : '12px')};
+  bottom: ${({ tall }) => (tall ? '100px' : '20px')};
   width: 100%;
 `
 
 const FilterContainer = styled(Text).attrs({
   size: '12px',
-  weight: 300
+  weight: 400
 })`
-  color: ${props =>
-    props.selected ? props.theme.white : props.theme['gray-3']};
+  color: ${props => (props.selected ? props.theme.white : props.theme.grey300)};
   border: ${props =>
     props.selected
       ? `1px solid ${props.theme.blue600}`
-      : `1px solid ${props.theme['gray-3']}`};
+      : `1px solid ${props.theme.grey100}`};
   background: ${props =>
     props.selected ? props.theme.blue600 : props.theme.white};
   letter-spacing: 1px;
@@ -39,10 +38,10 @@ const FilterContainer = styled(Text).attrs({
 `
 
 const TimeFilters = props => {
-  const { time, isSilverOrAbove, handleClick } = props
+  const { tall, time, handleClick } = props
 
   return (
-    <Wrapper isSilverOrAbove={isSilverOrAbove}>
+    <Wrapper tall={tall}>
       <FilterContainer
         selected={time === '1day'}
         onClick={() => handleClick('1day')}
