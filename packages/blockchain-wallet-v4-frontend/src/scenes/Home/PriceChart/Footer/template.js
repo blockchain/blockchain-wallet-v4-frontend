@@ -41,7 +41,7 @@ const Footer = ({
 
   return (
     <Wrapper>
-      {isCoinifySupported && isSilverOrAbove && coinName === 'Bitcoin' && (
+      {isSilverOrAbove && (
         <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
           <FormattedMessage
             id='price.chart.buy.coin'
