@@ -53,7 +53,6 @@ const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   }
   background-color: none;
 `
-
 const AccountContainer = styled.div<{ isItem?: boolean }>`
   position: relative;
   display: flex;
@@ -186,10 +185,10 @@ export class WalletBalanceDropdown extends Component<Props> {
         <AccountContainer>
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
-            {account}{' '}
             <FormattedMessage
               id='scenes.transactions.walletbalancedropdown.balance'
-              defaultMessage='Balance'
+              defaultMessage='Your {account} Balance'
+              values={{ account: account }}
             />
           </Text>
           <AmountContainer>
