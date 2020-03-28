@@ -15,12 +15,12 @@ export const sharedSelect = css`
   font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
 
   .bc__menu {
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0px 4px 16px ${props => props.theme.greyFade200};
     background-color: ${props => props.theme.white};
   }
   .bc__menu-list {
-    border-radius: 4px;
+    margin: 8px;
     padding: 0;
   }
   .bc__group {
@@ -76,36 +76,37 @@ export const sharedSelect = css`
     }
   }
   .bc__option {
+    padding: 8px;
     cursor: pointer;
     font-size: 14px;
+    border-radius: 8px;
     color: ${props => props.theme.grey800};
     background-color: ${props => props.theme.white};
-    &.bc__option--is-focused,
-    &.bc__option--is-selected {
-      color: ${props => props.theme.grey800};
-      background-color: ${props => props.theme.white};
-      &:hover {
-        color: ${props => props.theme.grey800};
-      }
-      * {
-        color: ${props => props.theme.grey800};
-      }
+    transition: all 0.3s;
+
+    &.bc__option--is-focused.bc__option--is-selected,
+    &.bc__option--is-focused {
+      background-color: ${props => props.theme.grey000};
     }
-    &:active,
-    &:focus,
-    &:hover {
+
+    &.bc__option--is-selected {
+      position: relative;
       background-color: ${props => props.theme.white};
-      *:not(span:before) {
-        color: ${props => props.theme.grey800} !important;
+      &:after {
+        content: '\\e90b';
+        font-family: icomoon, -apple-system, sans-serif;
+        border-radius: 50%;
+        top: 50%;
+        right: 6px;
+        position: absolute;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: ${props => props.theme.green400};
+        background-color: ${props => props.theme.white};
       }
     }
     * {
       font-weight: 500;
-      color: ${props => props.theme.grey400};
-      transition: color 0.3s;
-    }
-    > div {
-      font-size: 14px;
     }
   }
   .bc__single-value {
