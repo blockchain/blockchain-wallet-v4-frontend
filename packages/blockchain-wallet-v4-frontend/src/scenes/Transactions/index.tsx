@@ -143,7 +143,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
-              <CoinPerformance coin={coin} />
+              <CoinPerformance coin={coin} coinModel={coinModel} />
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && (

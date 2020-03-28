@@ -17,6 +17,7 @@ export const Button: StatelessComponent<
       | 'dark-grey'
       | 'empty-secondary'
       | 'empty'
+      | 'empty-blue'
       | 'gray-3'
       | 'green'
       | 'grey800'

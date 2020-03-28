@@ -40,7 +40,7 @@ const Column = styled.div`
 const BuyButton = styled(Button)`
   width: 158px;
   height: 46px;
-  padding: 0 15%;
+  padding: 0 16px;
 `
 
 const Welcome = props => {
@@ -70,7 +70,7 @@ const Welcome = props => {
         </Column>
       </Row>
       <Column style={{ paddingRight: '20px' }}>
-        <BuyButton nature='empty-secondary' onClick={handleBuy}>
+        <BuyButton nature='empty-blue' onClick={handleBuy}>
           <FormattedMessage
             id='scenes.transaction.content.empty.newcoinbuy'
             defaultMessage='Buy {coin} Now'

@@ -22,9 +22,9 @@ const Wrapper = styled.div`
   `}
 `
 
-const CoinPerformanceContainer = ({ coin }) => (
+const CoinPerformanceContainer = ({ coin, coinModel }) => (
   <Wrapper>
-    <CoinPrices coin={coin} />
+    <CoinPrices coin={coin} coinModel={coinModel} />
     <CoinChart coin={coin} />
   </Wrapper>
 )
