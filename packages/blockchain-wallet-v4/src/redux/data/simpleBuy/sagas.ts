@@ -9,6 +9,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchSBOrders = function * (
     page: Array<ProcessedTxType>,
     offset: number,
+    transactionsAtBound: boolean,
     currency: CoinType
   ) {
     try {
@@ -19,12 +20,16 @@ export default ({ api }: { api: APIType }) => {
 
       // if offset === 0 get transactions from after the oldestTx
       // if offset === 0 and no transactions get all before and after
+      // if offset === 0 and transactions at bounds get all before and after
       // if offset > 0 get transactions before the latestTx
       // if offset > 0 get transactions after the oldestTx
       // if offset > 0 and no transactions return []
       // if any error is thrown return []
+
       if (offset === 0) {
-        if (oldestTx) {
+        if (transactionsAtBound) {
+          // get all before and after
+        } else if (oldestTx) {
           after = moment(oldestTx.insertedAt).toISOString()
         }
       } else {

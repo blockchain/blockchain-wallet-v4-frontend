@@ -127,7 +127,13 @@ export default ({ api }) => {
       yield put(A.transactionsAtBound(atBounds))
 
       const processedTxPage: Array<EthTxType> = yield call(__processTxs, txPage)
-      const sbPage = yield call(fetchSBOrders, processedTxPage, nextPage, 'ETH')
+      const sbPage = yield call(
+        fetchSBOrders,
+        processedTxPage,
+        nextPage,
+        atBounds,
+        'ETH'
+      )
       const page = flatten([processedTxPage, sbPage]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
@@ -301,6 +307,7 @@ export default ({ api }) => {
         fetchSBOrders,
         walletPage,
         nextPage,
+        atBounds,
         coin
       )
       const page = flatten([walletPage, sbPage]).sort((a, b) => {

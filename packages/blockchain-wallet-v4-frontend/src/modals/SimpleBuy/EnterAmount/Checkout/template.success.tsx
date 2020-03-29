@@ -10,7 +10,6 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { getOrderType } from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -48,6 +47,13 @@ const AmountFieldContainer = styled.div`
     &::placeholder {
       font-size: 56px;
       color: ${props => props.theme.grey600};
+    }
+  }
+  > div {
+    height: auto;
+    input {
+      height: auto;
+      outline: 0;
     }
   }
   > div > div:last-child {
