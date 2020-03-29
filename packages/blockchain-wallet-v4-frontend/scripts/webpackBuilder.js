@@ -9,11 +9,13 @@ const CONFIG_PATH = require('./../../../config/paths')
 module.exports = (envConfig, customPlugins = []) => ({
   mode: 'production',
   node: { fs: 'empty' },
+  devtool: false,
   entry: {
     app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
   },
   output: {
     path: CONFIG_PATH.ciBuild,
+    pathinfo: false,
     chunkFilename: '[name].[chunkhash:10].js',
     publicPath: '/',
     crossOriginLoading: 'anonymous'
@@ -104,8 +106,7 @@ module.exports = (envConfig, customPlugins = []) => ({
             keep_fnames: true
           }
         },
-        parallel: true,
-        cache: false
+        parallel: true
       })
     ],
     runtimeChunk: {

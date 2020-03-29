@@ -1,20 +1,17 @@
 /* eslint-disable */
-const chalk = require('chalk')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const Webpack = require('webpack')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
+const { evolve, update } = require('ramda')
 
+const webpackBuilder = require('./scripts/webpackBuilder')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 const NONCE = '2726c7f26c'
 
 let envConfig = {}
-let manifestCacheBust = new Date().getTime()
 let sslEnabled = process.env.DISABLE_SSL
   ? false
   : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
@@ -48,35 +45,19 @@ try {
   console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 }
 
-module.exports = {
-  mode: 'development',
-  node: {
-    fs: 'empty'
-  },
-  entry: {
-    app: ['@babel/polyfill', PATHS.src + '/index.js']
-  },
-  output: {
-    pathinfo: false,
-    path: PATHS.appBuild,
-    chunkFilename: '[name].[chunkhash:10].js',
-    publicPath: '/',
-    crossOriginLoading: 'anonymous'
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-    alias: {
-      components: path.resolve(__dirname, 'src/components/'),
-      data: path.resolve(__dirname, 'src/data/'),
-      layouts: path.resolve(__dirname, 'src/layouts/'),
-      providers: path.resolve(__dirname, 'src/providers/'),
-      services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
-    }
-  },
-  module: {
-    rules: [
-      {
+// get base webpack config from util
+const baseConfig = webpackBuilder(envConfig, [
+  new CaseSensitivePathsPlugin(),
+  new Webpack.HotModuleReplacementPlugin()
+])
+
+// evolve base config for fast dev mode and HMR
+const devWebpackConfig = evolve(
+  {
+    devtool: () => 'inline-source-map',
+    mode: () => 'development',
+    module: {
+      rules: update(0, {
         test: /\.js$/,
         include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
         use: [
@@ -92,126 +73,33 @@ module.exports = {
           },
           'babel-loader'
         ]
-      },
-      { test: /\.tsx?$/, loader: 'ts-loader' },
-      {
-        test: /\.(eot|ttf|otf|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name]-[hash].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'img/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(pdf)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'resources/[name]-[hash].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(AppImage|dmg|exe)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'resources/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
-      }
-    ]
-  },
-  devtool: 'inline-source-map',
-  plugins: [
-    new CleanWebpackPlugin(),
-    new CaseSensitivePathsPlugin(),
-    new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
-      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
-    }),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new HtmlReplaceWebpackPlugin([
-      {
-        pattern: '**CSP_NONCE**',
-        replacement: NONCE
-      }
-    ]),
-    new Webpack.IgnorePlugin({
-      resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/
-    }),
-    new Webpack.HotModuleReplacementPlugin()
-  ],
-  optimization: {
-    concatenateModules: false,
-    namedModules: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          warnings: false,
-          compress: {
-            warnings: false,
-            keep_fnames: true
-          },
-          mangle: {
-            keep_fnames: true
-          }
-        },
-        parallel: true,
-        cache: true
       })
-    ],
-    runtimeChunk: {
-      name: `manifest.${manifestCacheBust}`
     },
-    splitChunks: {
-      cacheGroups: {
-        default: {
-          chunks: 'initial',
-          name: 'app',
-          priority: -20,
-          reuseExistingChunk: true
-        },
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          priority: -10,
-          test: /[\\/]node_modules[\\/]/
-        },
-        frontend: {
-          chunks: 'initial',
-          name: 'frontend',
-          priority: -11,
-          reuseExistingChunk: true,
-          test: function(module) {
-            return (
-              module.resource &&
-              module.resource.indexOf('blockchain-wallet-v4-frontend/src') ===
-                -1
-            )
+    output: { path: () => PATHS.appBuild },
+    optimization: {
+      concatenateModules: () => false,
+      splitChunks: {
+        cacheGroups: {
+          frontend: {
+            test: () =>
+              function(module) {
+                return (
+                  module.resource &&
+                  module.resource.indexOf(
+                    'blockchain-wallet-v4-frontend/src'
+                  ) === -1
+                )
+              }
           }
         }
       }
     }
   },
+  baseConfig
+)
+
+module.exports = {
+  ...devWebpackConfig,
   devServer: {
     cert: sslEnabled
       ? fs.readFileSync(PATHS.sslConfig + '/cert.pem', 'utf8')
