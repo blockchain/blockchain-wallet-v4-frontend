@@ -134,10 +134,6 @@ const CoinSelect = styled(SelectBox)`
 export class WalletBalanceDropdown extends Component<Props> {
   state = {}
 
-  isBtcTypeCoin = () => {
-    return this.props.coin === 'BTC' || this.props.coin === 'BCH'
-  }
-
   handleRequest = () => {
     if (this.props.isCoinErc20) {
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
