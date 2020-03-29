@@ -68,7 +68,7 @@ export const getHeaderExplainer = coinModel => {
         <ExplainerText>
           <FormattedMessage
             id='scenes.transaction.headertext.explainer.eth'
-            defaultMessage='Bitcoin Cash (BTC) is a fork of Bitcoin built for everday transactions.'
+            defaultMessage='Bitcoin Cash (BCH) is a fork of Bitcoin built for everday transactions.'
           />
           <LearnMoreLink
             href='https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ'

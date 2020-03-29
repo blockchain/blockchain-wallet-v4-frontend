@@ -74,7 +74,8 @@ type OwnProps = {
   coinModel: SupportedCoinType
   currency: FiatType
   hasTxResults: boolean
-  isSearchEntered: boolean
+  isCoinErc20: boolean,
+  isSearchEntered: boolean,
   pages: Array<any>
 }
 
@@ -119,6 +120,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       coinModel,
       currency,
       hasTxResults,
+      isCoinErc20,
       isSearchEntered,
       loadMoreTxs,
       pages
@@ -142,7 +144,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
             )}
 
             <StatsContainer>
-              <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
+              <WalletBalanceDropdown
+                coin={coin}
+                coinModel={coinModel}
+                isCoinErc20={isCoinErc20}
+              />
               <CoinPerformance coin={coin} coinModel={coinModel} />
             </StatsContainer>
           </Header>

@@ -19,6 +19,7 @@ import styled from 'styled-components'
 export type OwnProps = {
   coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
   coinModel: SupportedCoinType
+  isCoinErc20: boolean
 }
 
 type LinkStatePropsType = {
@@ -138,17 +139,14 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   handleRequest = () => {
-    const modal = `@MODAL.REQUEST.${this.props.coin}` as ModalNamesType
-    this.props.modalActions.showModal(modal)
-  }
-
-  shouldMenuOpenOnClick = addressData => {
-    const balance = this.coinBalance(this.props)
-    return (
-      balance <= 0 ||
-      (this.isBtcTypeCoin && addressData.data.length > 3) ||
-      (balance <= 0 || (!this.isBtcTypeCoin && addressData.data.length > 2))
-    )
+    if (this.props.isCoinErc20) {
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin: this.props.coin
+      })
+    } else {
+      const modal = `@MODAL.REQUEST.${this.props.coin}` as ModalNamesType
+      this.props.modalActions.showModal(modal, { coin: this.props.coin })
+    }
   }
 
   isTotalBalanceType = selectProps => {
@@ -191,12 +189,12 @@ export class WalletBalanceDropdown extends Component<Props> {
 
   // FIXME: TypeScript use value: { AccountTypes }
   renderDisplay = (props: { value }, children) => {
-    const coinType = this.props.coinModel
+    const { coinCode, coinTicker } = this.props.coinModel
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
 
     return (
-      <DisplayContainer coinType={coinType}>
+      <DisplayContainer coinType={coinCode}>
         <AccountContainer>
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
@@ -236,11 +234,12 @@ export class WalletBalanceDropdown extends Component<Props> {
               weight={500}
               color='blue600'
               onClick={this.handleRequest}
+              lineHeight='18px'
             >
               <FormattedMessage
                 id='scenes.transactions.performance.request'
-                defaultMessage='Request {account} Now'
-                values={{ account: account }}
+                defaultMessage='Request {coinTicker} Now'
+                values={{ coinTicker }}
               />
             </Text>
           )}
@@ -312,7 +311,6 @@ export class WalletBalanceDropdown extends Component<Props> {
               elements={addressData.data}
               grouped
               hideIndicator={addressData.data.length <= 1}
-              // openMenuOnClick={!this.shouldMenuOpenOnClick}
               options={addressData.data}
               name='source'
               searchEnabled={false}

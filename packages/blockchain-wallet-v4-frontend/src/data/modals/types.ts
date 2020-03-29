@@ -9,6 +9,7 @@ export type ModalNamesType =
   | 'FAQ_MODAL'
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
+  | '@MODAL.REQUEST.ETH'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'
   | 'SIMPLE_BUY_MODAL'
