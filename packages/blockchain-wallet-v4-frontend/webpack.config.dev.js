@@ -5,7 +5,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const { UnusedFilesWebpackPlugin } = require('unused-files-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
@@ -140,21 +139,6 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
-    // new UnusedFilesWebpackPlugin({
-    //   globOptions: {
-    //     cwd: PATHS.src,
-    //     ignore: [
-    //       `**/__mocks__/**`,
-    //       `**/*.spec.*`,
-    //       `index.prod.js`,
-    //       `utils/**`,
-    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
-    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
-    //       'assets/locales/defaultMessages.json',
-    //       'assets/locales/whitelists/whitelist_en.json'
-    //     ]
-    //   }
-    // }),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)

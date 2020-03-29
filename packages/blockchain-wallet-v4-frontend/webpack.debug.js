@@ -3,7 +3,6 @@ const chalk = require('chalk')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
 const path = require('path')
 const fs = require('fs')
-const util = require('util')
 
 const webpackBuilder = require('./scripts/webpackBuilder')
 const CONFIG_PATH = require('./../../config/paths')
@@ -53,7 +52,6 @@ try {
 const webpackConfig = webpackBuilder(envConfig, [
   new HtmlWebpackStringReplacePlugin({ '\\*\\*CSP_NONCE\\*\\*': NONCE })
 ])
-console.log(util.inspect(webpackConfig, false, null, true /* enable colors */))
 
 module.exports = {
   ...webpackConfig,

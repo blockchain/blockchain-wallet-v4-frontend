@@ -10,9 +10,7 @@ if (runBundleAnalyzer) {
   console.log(chalk.cyan('Running Bundle Analyzer'))
 }
 
-const webpackConfig = webpackBuilder(
+module.exports = webpackBuilder(
   {},
   runBundleAnalyzer && [new BundleAnalyzerPlugin()]
 )
-
-module.exports = webpackConfig

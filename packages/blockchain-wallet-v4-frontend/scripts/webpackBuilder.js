@@ -8,9 +8,7 @@ const CONFIG_PATH = require('./../../../config/paths')
 
 module.exports = (envConfig, customPlugins = []) => ({
   mode: 'production',
-  node: {
-    fs: 'empty'
-  },
+  node: { fs: 'empty' },
   entry: {
     app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
   },
@@ -23,12 +21,12 @@ module.exports = (envConfig, customPlugins = []) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
-      components: path.resolve(__dirname, 'src/components/'),
-      data: path.resolve(__dirname, 'src/data/'),
-      layouts: path.resolve(__dirname, 'src/layouts/'),
-      providers: path.resolve(__dirname, 'src/providers/'),
-      services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
+      components: path.resolve(__dirname, '../src/components/'),
+      data: path.resolve(__dirname, '../src/data/'),
+      layouts: path.resolve(__dirname, '../src/layouts/'),
+      providers: path.resolve(__dirname, '../src/providers/'),
+      services: path.resolve(__dirname, '../src/services/'),
+      utils: path.resolve(__dirname, '../src/utils/')
     }
   },
   module: {
@@ -75,6 +73,7 @@ module.exports = (envConfig, customPlugins = []) => ({
       }
     ]
   },
+  performance: { hints: false },
   plugins: [
     new CleanWebpackPlugin(),
     new Webpack.DefinePlugin({
