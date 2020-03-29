@@ -79,6 +79,7 @@ export default ({ api }: { api: APIType }) => {
         fetchSBOrders,
         txPage,
         offset,
+        atBounds,
         'BTC'
       )
       const page = flatten([txPage, sbPage]).sort((a, b) => {

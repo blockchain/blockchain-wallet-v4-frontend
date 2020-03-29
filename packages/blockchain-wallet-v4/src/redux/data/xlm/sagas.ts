@@ -139,6 +139,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         fetchSBOrders,
         txPage,
         offset,
+        atBounds,
         'XLM'
       )
       const page = flatten([txPage, sbPage]).sort((a, b) => {

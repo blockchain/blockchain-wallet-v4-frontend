@@ -85,6 +85,7 @@ export default ({ api }: { api: APIType }) => {
         fetchSBOrders,
         txPage,
         offset,
+        atBounds,
         'BCH'
       )
       const page = flatten([txPage, sbPage]).sort((a, b) => {
