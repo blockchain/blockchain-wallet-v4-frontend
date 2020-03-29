@@ -23,7 +23,7 @@
     "translate:ts-to-jsx": "tsc -p ../../tsconfig.json --jsx preserve --outDir src/extracted-ts",
     "translate:extract": "babel \"src/extracted-ts/**/*.jsx\"",
     "translate:ts": "yarn translate:ts-to-jsx && yarn translate:extract",
-    "manage:translations": "yarn build:prod && yarn translate:ts && node ./scripts/translationRunner.js",
+    "manage:translations": "yarn build:prod && yarn translate:ts && node ./utils/translationRunner.js",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",

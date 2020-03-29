@@ -2,7 +2,7 @@
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const webpackBuilder = require('./scripts/webpackBuilder')
+const webpackBuilder = require('./utils/webpackBuilder')
 const runBundleAnalyzer = process.env.ANALYZE
 
 if (runBundleAnalyzer) {

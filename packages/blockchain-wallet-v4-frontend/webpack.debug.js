@@ -4,7 +4,7 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
 
-const webpackBuilder = require('./scripts/webpackBuilder')
+const webpackBuilder = require('./utils/webpackBuilder')
 const CONFIG_PATH = require('./../../config/paths')
 const mockWalletOptions = require('./../../config/mocks/wallet-options-v4.json')
 

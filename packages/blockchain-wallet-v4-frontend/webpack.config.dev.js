@@ -6,7 +6,7 @@ const path = require('path')
 const fs = require('fs')
 const { evolve, update } = require('ramda')
 
-const webpackBuilder = require('./scripts/webpackBuilder')
+const webpackBuilder = require('./utils/webpackBuilder')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 const NONCE = '2726c7f26c'
