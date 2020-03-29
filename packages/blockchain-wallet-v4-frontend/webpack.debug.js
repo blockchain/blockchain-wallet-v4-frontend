@@ -1,6 +1,6 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
 
@@ -50,7 +50,12 @@ try {
 }
 
 const webpackConfig = webpackBuilder(envConfig, [
-  new HtmlWebpackStringReplacePlugin({ '\\*\\*CSP_NONCE\\*\\*': NONCE })
+  new HtmlReplaceWebpackPlugin([
+    {
+      pattern: '**CSP_NONCE**',
+      replacement: NONCE
+    }
+  ])
 ])
 
 module.exports = {
