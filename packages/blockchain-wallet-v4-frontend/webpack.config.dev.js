@@ -173,6 +173,7 @@ module.exports = {
     new Webpack.HotModuleReplacementPlugin()
   ],
   optimization: {
+    concatenateModules: false,
     namedModules: true,
     minimizer: [
       new TerserPlugin({
@@ -190,7 +191,6 @@ module.exports = {
         cache: true
       })
     ],
-    concatenateModules: false,
     runtimeChunk: {
       name: `manifest.${manifestCacheBust}`
     },

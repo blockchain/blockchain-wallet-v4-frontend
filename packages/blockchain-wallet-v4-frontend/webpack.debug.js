@@ -1,33 +1,32 @@
 /* eslint-disable */
 const chalk = require('chalk')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackStringReplacePlugin = require('html-webpack-string-replace-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
-const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
-const PATHS = require('../../config/paths')
-const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
+const util = require('util')
+
+const webpackBuilder = require('./scripts/webpackBuilder')
+const CONFIG_PATH = require('./../../config/paths')
+const mockWalletOptions = require('./../../config/mocks/wallet-options-v4.json')
+
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 const coinifyPaymentDomain =
   mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
-
-const cspNonce = `2726c7f26c`
+const NONCE = `2726c7f26c`
 let envConfig = {}
-let manifestCacheBust = new Date().getTime()
 let sslEnabled = process.env.DISABLE_SSL
   ? false
-  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
-    fs.existsSync(PATHS.sslConfig + '/cert.pem')
+  : fs.existsSync(CONFIG_PATH.sslConfig + '/key.pem') &&
+    fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
 let localhostUrl = sslEnabled
   ? 'https://localhost:8080'
   : 'http://localhost:8080'
 
 try {
-  envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
+  envConfig = require(CONFIG_PATH.envConfig +
+    `/${process.env.NODE_ENV}` +
+    '.js')
 } catch (e) {
   console.log(
     chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
@@ -35,7 +34,7 @@ try {
         `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
       )
   )
-  envConfig = require(PATHS.envConfig + '/production.js')
+  envConfig = require(CONFIG_PATH.envConfig + '/production.js')
 } finally {
   console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
   console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
@@ -51,187 +50,43 @@ try {
   console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 }
 
+const webpackConfig = webpackBuilder(envConfig, [
+  new HtmlWebpackStringReplacePlugin({ '\\*\\*CSP_NONCE\\*\\*': NONCE })
+])
+console.log(util.inspect(webpackConfig, false, null, true /* enable colors */))
+
 module.exports = {
-  mode: 'production',
-  node: {
-    fs: 'empty'
-  },
-  entry: {
-    app: ['@babel/polyfill', PATHS.src + '/index.js']
-  },
-  output: {
-    path: PATHS.ciBuild,
-    chunkFilename: '[name].[chunkhash:10].js',
-    publicPath: '/',
-    crossOriginLoading: 'anonymous'
-  },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
-    alias: {
-      components: path.resolve(__dirname, 'src/components/'),
-      data: path.resolve(__dirname, 'src/data/'),
-      layouts: path.resolve(__dirname, 'src/layouts/'),
-      providers: path.resolve(__dirname, 'src/providers/'),
-      services: path.resolve(__dirname, 'src/services/'),
-      utils: path.resolve(__dirname, 'src/utils/')
-    }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: [
-          { loader: 'thread-loader', options: { workerParallelJobs: 50 } },
-          'babel-loader'
-        ]
-      },
-      { test: /\.tsx?$/, loader: 'ts-loader' },
-      {
-        test: /\.(eot|ttf|otf|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[name]-[hash].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'img/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(pdf)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'resources/[name]-[hash].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.(AppImage|dmg|exe)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'resources/[name].[ext]'
-          }
-        }
-      },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
-      }
-    ]
-  },
-  performance: {
-    hints: false
-  },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new CaseSensitivePathsPlugin(),
-    new Webpack.DefinePlugin({
-      APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
-      NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
-    }),
-    new HtmlWebpackPlugin({
-      template: PATHS.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new HtmlWebpackStringReplacePlugin({
-      '\\*\\*CSP_NONCE\\*\\*': cspNonce
-    }),
-    new Webpack.IgnorePlugin({
-      resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/
-    })
-  ],
-  optimization: {
-    concatenateModules: true,
-    namedModules: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          warnings: false,
-          compress: {
-            keep_fnames: true
-          },
-          mangle: {
-            keep_fnames: true
-          }
-        },
-        parallel: true,
-        cache: false
-      })
-    ],
-    concatenateModules: true,
-    runtimeChunk: {
-      name: `manifest.${manifestCacheBust}`
-    },
-    splitChunks: {
-      cacheGroups: {
-        default: {
-          chunks: 'initial',
-          name: 'app',
-          priority: -20,
-          reuseExistingChunk: true
-        },
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
-          priority: -10,
-          test: /[\\/]node_modules[\\/]/
-        },
-        frontend: {
-          chunks: 'initial',
-          name: 'frontend',
-          priority: -11,
-          reuseExistingChunk: true,
-          test: function(module) {
-            return (
-              module.resource &&
-              module.resource.indexOf('blockchain-wallet-v4-frontend/src') !==
-                -1
-            )
-          }
-        }
-      }
-    }
-  },
+  ...webpackConfig,
   devServer: {
     cert: sslEnabled
-      ? fs.readFileSync(PATHS.sslConfig + '/cert.pem', 'utf8')
+      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8')
       : '',
-    contentBase: PATHS.src,
+    contentBase: CONFIG_PATH.src,
     disableHostCheck: true,
+    historyApiFallback: true,
     host: 'localhost',
+    hot: false,
     https: sslEnabled,
     key: sslEnabled
-      ? fs.readFileSync(PATHS.sslConfig + '/key.pem', 'utf8')
+      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8')
       : '',
     port: 8080,
-    hot: false,
-    historyApiFallback: true,
     before(app) {
       app.get('/Resources/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
-          root: envConfig.ROOT_URL,
           api: envConfig.API_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          veriff: envConfig.VERIFF_URL,
-          comWalletApp: envConfig.COM_WALLET_APP,
-          comRoot: envConfig.COM_ROOT,
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          horizon: envConfig.HORIZON_URL,
+          bitpay: envConfig.BITPAY_URL,
           coinify: envConfig.COINIFY_URL,
-          bitpay: envConfig.BITPAY_URL
+          comRoot: envConfig.COM_ROOT,
+          comWalletApp: envConfig.COM_WALLET_APP,
+          horizon: envConfig.HORIZON_URL,
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          root: envConfig.ROOT_URL,
+          veriff: envConfig.VERIFF_URL,
+          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          webSocket: envConfig.WEB_SOCKET_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
@@ -276,8 +131,8 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
-        `script-src 'nonce-${cspNonce}' 'self'`,
-        `style-src 'nonce-${cspNonce}' 'self'`,
+        `script-src 'nonce-${NONCE}' 'self'`,
+        `style-src 'nonce-${NONCE}' 'self'`,
         `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
         `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
