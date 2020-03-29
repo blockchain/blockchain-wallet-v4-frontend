@@ -1,5 +1,4 @@
 /* eslint-disable */
-const chalk = require('chalk')
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const path = require('path')
 const fs = require('fs')
@@ -7,49 +6,15 @@ const fs = require('fs')
 const webpackBuilder = require('./utils/webpackBuilder')
 const CONFIG_PATH = require('./../../config/paths')
 const mockWalletOptions = require('./../../config/mocks/wallet-options-v4.json')
+const NONCE = '2726c7f26c'
 
 const iSignThisDomain =
   mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 const coinifyPaymentDomain =
   mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
-const NONCE = `2726c7f26c`
-let envConfig = {}
-let sslEnabled = process.env.DISABLE_SSL
-  ? false
-  : fs.existsSync(CONFIG_PATH.sslConfig + '/key.pem') &&
-    fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
-let localhostUrl = sslEnabled
-  ? 'https://localhost:8080'
-  : 'http://localhost:8080'
 
-try {
-  envConfig = require(CONFIG_PATH.envConfig +
-    `/${process.env.NODE_ENV}` +
-    '.js')
-} catch (e) {
-  console.log(
-    chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-      chalk.yellow(
-        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
-      )
-  )
-  envConfig = require(CONFIG_PATH.envConfig + '/production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-  console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-  console.log(
-    chalk.cyan('Wallet Helper Domain') +
-      ': ' +
-      chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
-  )
-  console.log(
-    chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-  )
-  console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
-}
-
-const webpackConfig = webpackBuilder(envConfig, [
+// get envConfig, SSL flag and base webpack config from builder
+const { envConfig, isSslEnabled, webpackConfig } = webpackBuilder([
   new HtmlReplaceWebpackPlugin([
     {
       pattern: '**CSP_NONCE**',
@@ -57,11 +22,15 @@ const webpackConfig = webpackBuilder(envConfig, [
     }
   ])
 ])
+const localhostUrl = isSslEnabled
+  ? 'https://localhost:8080'
+  : 'http://localhost:8080'
 
+// merge configurations into one export for webpack
 module.exports = {
   ...webpackConfig,
   devServer: {
-    cert: sslEnabled
+    cert: isSslEnabled
       ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8')
       : '',
     contentBase: CONFIG_PATH.src,
@@ -69,8 +38,8 @@ module.exports = {
     historyApiFallback: true,
     host: 'localhost',
     hot: false,
-    https: sslEnabled,
-    key: sslEnabled
+    https: isSslEnabled,
+    key: isSslEnabled
       ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8')
       : '',
     port: 8080,

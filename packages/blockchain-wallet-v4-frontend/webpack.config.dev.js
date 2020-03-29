@@ -1,57 +1,26 @@
 /* eslint-disable */
 const Webpack = require('webpack')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
 const { evolve, update } = require('ramda')
 
 const webpackBuilder = require('./utils/webpackBuilder')
-const PATHS = require('../../config/paths')
+const CONFIG_PATH = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
 const NONCE = '2726c7f26c'
 
-let envConfig = {}
-let sslEnabled = process.env.DISABLE_SSL
-  ? false
-  : fs.existsSync(PATHS.sslConfig + '/key.pem') &&
-    fs.existsSync(PATHS.sslConfig + '/cert.pem')
-let localhostUrl = sslEnabled
-  ? 'https://localhost:8080'
-  : 'http://localhost:8080'
-
-try {
-  envConfig = require(PATHS.envConfig + `/${process.env.NODE_ENV}` + '.js')
-} catch (e) {
-  console.log(
-    chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-      chalk.yellow(
-        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
-      )
-  )
-  envConfig = require(PATHS.envConfig + '/production.js')
-} finally {
-  console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-  console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-  console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
-  console.log(
-    chalk.cyan('Wallet Helper Domain') +
-      ': ' +
-      chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
-  )
-  console.log(
-    chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
-  )
-  console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
-}
-
-// get base webpack config from util
-const baseConfig = webpackBuilder(envConfig, [
+// get envConfig, SSL flag and base webpack config from builder
+const { envConfig, isSslEnabled, webpackConfig } = webpackBuilder([
   new CaseSensitivePathsPlugin(),
   new Webpack.HotModuleReplacementPlugin()
 ])
+const localhostUrl = isSslEnabled
+  ? 'https://localhost:8080'
+  : 'http://localhost:8080'
 
 // evolve base config for fast dev mode and HMR
+// NOTE: if you want to add/override a base config property, do it here!
 const devWebpackConfig = evolve(
   {
     devtool: () => 'inline-source-map',
@@ -75,7 +44,7 @@ const devWebpackConfig = evolve(
         ]
       })
     },
-    output: { path: () => PATHS.appBuild },
+    output: { path: () => CONFIG_PATH.appBuild },
     optimization: {
       concatenateModules: () => false,
       splitChunks: {
@@ -95,21 +64,22 @@ const devWebpackConfig = evolve(
       }
     }
   },
-  baseConfig
+  webpackConfig
 )
 
+// merge configurations into one export for webpack
 module.exports = {
   ...devWebpackConfig,
   devServer: {
-    cert: sslEnabled
-      ? fs.readFileSync(PATHS.sslConfig + '/cert.pem', 'utf8')
+    cert: isSslEnabled
+      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8')
       : '',
-    contentBase: PATHS.src,
+    contentBase: CONFIG_PATH.src,
     disableHostCheck: true,
     host: 'localhost',
-    https: sslEnabled,
-    key: sslEnabled
-      ? fs.readFileSync(PATHS.sslConfig + '/key.pem', 'utf8')
+    https: isSslEnabled,
+    key: isSslEnabled
+      ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8')
       : '',
     port: 8080,
     hot: true,
