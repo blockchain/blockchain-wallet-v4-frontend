@@ -123,12 +123,15 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      const txs = yield call(api.getXlmTransactions, {
-        publicKey,
-        limit: TX_PER_PAGE,
-        pagingToken,
-        reset
-      })
+      let txs: Array<any> = []
+      try {
+        txs = yield call(api.getXlmTransactions, {
+          publicKey,
+          limit: TX_PER_PAGE,
+          pagingToken,
+          reset
+        })
+      } catch (e) {}
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
