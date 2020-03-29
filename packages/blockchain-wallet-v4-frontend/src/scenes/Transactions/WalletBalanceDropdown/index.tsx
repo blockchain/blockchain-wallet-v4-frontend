@@ -211,20 +211,8 @@ export class WalletBalanceDropdown extends Component<Props> {
               {balance}
             </FiatDisplay>
           </AmountContainer>
-          <PriceChange
-            {...this.props.data.getOrElse({
-              currencySymbol: '$',
-              priceChangeFiat: 0,
-              priceChangePercentage: 0
-            })}
-          >
-            {' '}
-            <FormattedMessage
-              id='scenes.transactions.performance.prices.day'
-              defaultMessage='today'
-            />
-          </PriceChange>
-          {balance <= 0 && (
+
+          {balance <= 0 ? (
             <Text
               size='14px'
               weight={500}
@@ -238,6 +226,20 @@ export class WalletBalanceDropdown extends Component<Props> {
                 values={{ coinTicker }}
               />
             </Text>
+          ) : (
+            <PriceChange
+              {...this.props.data.getOrElse({
+                currencySymbol: '$',
+                priceChangeFiat: 0,
+                priceChangePercentage: 0
+              })}
+            >
+              {' '}
+              <FormattedMessage
+                id='scenes.transactions.performance.prices.day'
+                defaultMessage='today'
+              />
+            </PriceChange>
           )}
         </AccountContainer>
       </DisplayContainer>
