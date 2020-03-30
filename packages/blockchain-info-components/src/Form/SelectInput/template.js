@@ -121,6 +121,15 @@ const StyledSelect = styled(Select)`
   ${sharedSelect}
 `
 
+// A fake button so that vimium and other assistive tech can pick up dropdown
+export const AssistiveControl = styled.div`
+  position: absolute;
+  height: 5px;
+  width: 5px;
+  left: 0;
+  top: 0;
+`
+
 const Option = props => {
   const itemProps = assoc('text', props.label, props)
   return (
@@ -135,7 +144,10 @@ const Option = props => {
 const Control = props => {
   return props.selectProps.hideFocusedControl &&
     props.selectProps.menuIsOpen ? null : (
-    <components.Control {...props} />
+    <components.Control {...props}>
+      {props.children}
+      <AssistiveControl role='button' />
+    </components.Control>
   )
 }
 
