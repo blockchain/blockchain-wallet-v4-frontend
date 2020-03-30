@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field } from 'redux-form'
+import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
@@ -138,10 +139,15 @@ export class WalletBalanceDropdown extends Component<Props> {
     return this.props.coin === 'BTC' || this.props.coin === 'BCH'
   }
 
-  shouldMenuOpenOnClick = addressData => {
-    if (this.isBtcTypeCoin() && addressData.data.length > 4) {
+  hasBalanceOrAccounts = (groups: Array<any>) => {
+    const balance = this.coinBalance(this.props.coin)
+    const accounts = flatten(groups.map(group => group.options))
+
+    if (balance > 0) {
       return true
-    } else if (!this.isBtcTypeCoin() && addressData.data.length > 2) {
+    } else if (this.isBtcTypeCoin() && accounts.length > 3) {
+      return true
+    } else if (!this.isBtcTypeCoin() && accounts.length > 2) {
       return true
     } else {
       return false
@@ -198,7 +204,10 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   // FIXME: TypeScript use value: { AccountTypes }
-  renderDisplay = (props: { value }, children) => {
+  renderDisplay = (
+    props: { selectProps: { options: Array<any> }; value },
+    children
+  ) => {
     const { coinCode, coinTicker } = this.props.coinModel
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
@@ -226,21 +235,7 @@ export class WalletBalanceDropdown extends Component<Props> {
             </FiatDisplay>
           </AmountContainer>
 
-          {balance <= 0 ? (
-            <Text
-              size='14px'
-              weight={500}
-              color='blue600'
-              onClick={this.handleRequest}
-              lineHeight='18px'
-            >
-              <FormattedMessage
-                id='scenes.transactions.performance.request'
-                defaultMessage='Request {coinTicker} Now'
-                values={{ coinTicker }}
-              />
-            </Text>
-          ) : (
+          {this.hasBalanceOrAccounts(props.selectProps.options) ? (
             <PriceChange
               {...this.props.data.getOrElse({
                 currencySymbol: '$',
@@ -254,6 +249,20 @@ export class WalletBalanceDropdown extends Component<Props> {
                 defaultMessage='today'
               />
             </PriceChange>
+          ) : (
+            <Text
+              size='14px'
+              weight={500}
+              color='blue600'
+              onClick={this.handleRequest}
+              lineHeight='18px'
+            >
+              <FormattedMessage
+                id='scenes.transactions.performance.request'
+                defaultMessage='Request {coinTicker} Now'
+                values={{ coinTicker }}
+              />
+            </Text>
           )}
         </AccountContainer>
       </DisplayContainer>
@@ -316,15 +325,16 @@ export class WalletBalanceDropdown extends Component<Props> {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values
+        const options = addressData.data
         return (
           <Wrapper>
             <Field
               component={CoinSelect}
-              elements={addressData.data}
+              elements={options}
               grouped
-              hideIndicator={addressData.data.length <= 1}
-              openMenuOnClick={this.shouldMenuOpenOnClick(addressData)}
-              options={addressData.data}
+              hideIndicator={!this.hasBalanceOrAccounts(options)}
+              openMenuOnClick={this.hasBalanceOrAccounts(options)}
+              options={options}
               name='source'
               searchEnabled={false}
               templateDisplay={this.renderDisplay}
