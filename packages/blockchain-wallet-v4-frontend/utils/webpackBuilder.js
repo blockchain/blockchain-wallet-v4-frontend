@@ -1,10 +1,10 @@
 /* eslint-disable */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const { concat } = require('ramda')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 let mockWalletOptions = require('./../../../config/mocks/wallet-options-v4')
 const TerserPlugin = require('terser-webpack-plugin')
 const CONFIG_PATH = require('./../../../config/paths')
+const { concat } = require('ramda')
 const Webpack = require('webpack')
 const chalk = require('chalk')
 const path = require('path')
@@ -243,17 +243,6 @@ const buildDevServerConfig = (
 
         res.json(mockWalletOptions)
       })
-
-      // // TODO: DEPRECATE
-      // // This is to locally test transferring cookies from transfer_stored_values.html
-      // app.get('/Resources/transfer_stored_values.html', function(req, res) {
-      //   res.sendFile(
-      //     path.join(
-      //       __dirname,
-      //       '/../../config/mocks/transfer_stored_values.html'
-      //     )
-      //   )
-      // })
 
       app.get('/Resources/wallet-options.json', function(req, res) {
         mockWalletOptions.domains = {
