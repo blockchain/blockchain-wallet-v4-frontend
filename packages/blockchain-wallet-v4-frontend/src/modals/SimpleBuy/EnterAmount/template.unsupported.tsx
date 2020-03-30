@@ -48,6 +48,8 @@ const Subcontent = styled(Text)`
 `
 
 const Unsupported: React.FC<Props> = props => {
+  const { paymentAccountEligible } = props.eligibility
+
   return (
     <Top>
       <CloseIcon
@@ -70,19 +72,34 @@ const Unsupported: React.FC<Props> = props => {
         <Title color='grey800' size='20px' weight={600}>
           <FormattedMessage
             id='modals.simplebuy.unsupported-title'
-            defaultMessage='Buy Crypto Coming Soon for '
-          />
-          {props.fiatCurrency}
+            defaultMessage='Buy Crypto Coming Soon for'
+          />{' '}
+          {props.eligibility.paymentAccountEligible ? (
+            props.fiatCurrency
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.fiataccountineligible'
+              defaultMessage='your region.'
+            />
+          )}
         </Title>
         <Subcontent color='grey600' weight={500}>
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-1'
-            defaultMessage="Well this is awkward. We don't support buying crypto yet for "
-          />
-          {props.fiatCurrency}
+            defaultMessage="Well this is awkward. We don't support buying crypto yet for"
+          />{' '}
+          {props.eligibility.paymentAccountEligible ? (
+            props.fiatCurrency
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.fiataccountineligible'
+              defaultMessage='your region'
+            />
+          )}
+          {'. '}
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-1'
-            defaultMessage=". We'll send you an update when we do."
+            defaultMessage="We'll send you an update when we do."
           />
         </Subcontent>
         <Button
