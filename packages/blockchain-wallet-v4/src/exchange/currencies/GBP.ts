@@ -1,7 +1,7 @@
 export default {
   code: 'GBP',
   base: 'CENT',
-  displayName: 'Great British Pound',
+  displayName: 'British Pound',
   trade: 'GBP',
   units: {
     CENT: {
