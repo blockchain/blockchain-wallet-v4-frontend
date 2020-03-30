@@ -217,10 +217,10 @@ export class WalletBalanceDropdown extends Component<Props> {
         <AccountContainer>
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
+            {account}{' '}
             <FormattedMessage
               id='scenes.transactions.walletbalancedropdown.balance'
-              defaultMessage='Your {account} Balance'
-              values={{ account: account }}
+              defaultMessage='Balance'
             />
           </Text>
           <AmountContainer>
