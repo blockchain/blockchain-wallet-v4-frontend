@@ -23,11 +23,13 @@ export const getBtcBalance = createDeepEqualSelector(
           )
         )
   ],
-  (walletBalancesR, lockboxBalancesR) => {
-    const modulesToBalance = (walletBalance, lockboxBalance) => {
-      return lockboxBalance.concat(walletBalance)
+  (walletBalance, lockboxBalancesR) => {
+    const modulesToBalance = (walletBalance, lockboxBalances) => {
+      const lbBalances = lockboxBalances.map(b => b.getOrElse(0))
+      return lbBalances.concat(walletBalance)
     }
-    const balancesR = lift(modulesToBalance)(walletBalancesR, lockboxBalancesR)
+    const balancesR = lift(modulesToBalance)(walletBalance, lockboxBalancesR)
+
     return balancesR.map(reduce(add, 0))
   }
 )
@@ -45,8 +47,9 @@ export const getBchBalance = createDeepEqualSelector(
         )
   ],
   (walletBalancesR, lockboxBalancesR) => {
-    const modulesToBalance = (walletBalance, lockboxBalance) => {
-      return lockboxBalance.concat(walletBalance)
+    const modulesToBalance = (walletBalance, lockboxBalances) => {
+      const lbBalances = lockboxBalances.map(b => b.getOrElse(0))
+      return lbBalances.concat(walletBalance)
     }
     const balancesR = lift(modulesToBalance)(walletBalancesR, lockboxBalancesR)
     return balancesR.map(reduce(add, 0))
@@ -169,8 +172,8 @@ export const getTotalBalance = createDeepEqualSelector(
     selectors.router.getPathname
   ],
   (
-    btcBalanceInfoR,
     bchBalanceInfoR,
+    btcBalanceInfoR,
     ethBalanceInfoR,
     paxBalanceInfoR,
     xlmBalanceInfoR,
