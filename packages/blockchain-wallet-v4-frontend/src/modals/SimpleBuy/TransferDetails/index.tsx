@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { RemoteDataType, SBAccountType, SBOrderType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -15,6 +16,7 @@ export type OwnProps = {
 }
 export type SuccessStateType = {
   account: SBAccountType
+  userData: UserDataType
 }
 export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
