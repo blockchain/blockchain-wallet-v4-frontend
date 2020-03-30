@@ -1,6 +1,5 @@
 /* eslint-disable */
 const Webpack = require('webpack')
-const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const { evolve, update } = require('ramda')
 
@@ -13,9 +12,6 @@ const { devServerConfig, webpackConfig } = webpackBuilder({
   allowUnsafeStyles: true,
   extraPluginsList: [
     new CaseSensitivePathsPlugin(),
-    new HtmlReplaceWebpackPlugin([
-      { pattern: '**CSP_NONCE**', replacement: '2726c7f26c' }
-    ]),
     new Webpack.HotModuleReplacementPlugin()
   ],
   useDevServer: true,

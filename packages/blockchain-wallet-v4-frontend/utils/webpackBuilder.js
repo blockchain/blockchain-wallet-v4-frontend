@@ -1,14 +1,17 @@
 /* eslint-disable */
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { concat, prepend } = require('ramda')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 let mockWalletOptions = require('./../../../config/mocks/wallet-options-v4')
 const TerserPlugin = require('terser-webpack-plugin')
 const CONFIG_PATH = require('./../../../config/paths')
-const { concat } = require('ramda')
 const Webpack = require('webpack')
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
+
+const CSP_NONCE = '2726c7f26c'
 
 // gets and logs build config
 const getAndLogEnvConfig = () => {
@@ -265,11 +268,11 @@ const buildDevServerConfig = (
       'Content-Security-Policy': [
         `img-src 'self' data: blob:`,
         allowUnsafeScripts
-          ? `script-src 'nonce-2726c7f26c' 'self' 'unsafe-eval'`
-          : `script-src 'nonce-2726c7f26c' 'self'`,
+          ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
+          : `script-src 'nonce-${CSP_NONCE}' 'self'`,
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
-          : `style-src 'nonce-2726c7f26c' 'self'`,
+          : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
@@ -316,6 +319,16 @@ module.exports = ({
 }) => {
   // build env config and determine SSL status
   const { envConfig, isSslEnabled } = getAndLogEnvConfig()
+
+  // add CSP nonce support if using local dev server
+  if (useDevServer) {
+    extraPluginsList = prepend(
+      new HtmlReplaceWebpackPlugin([
+        { pattern: '**CSP_NONCE**', replacement: CSP_NONCE }
+      ]),
+      extraPluginsList
+    )
+  }
 
   // build webpack config
   const webpackConfig = buildWebpackConfig(envConfig, extraPluginsList)
