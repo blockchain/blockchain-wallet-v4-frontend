@@ -22,7 +22,7 @@ const ActionButton: React.FC<Props> = props => {
           nature='warning'
           type='submit'
           fullwidth
-          disabled={props.invalid || props.submitting}
+          disabled
         >
           <FormattedMessage
             id='modals.simplebuy.failed'
@@ -41,7 +41,7 @@ const ActionButton: React.FC<Props> = props => {
             nature='primary'
             type='submit'
             fullwidth
-            disabled={true}
+            disabled
           >
             <FormattedMessage
               id='modals.simplebuy.underreview'
