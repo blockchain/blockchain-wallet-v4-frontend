@@ -68,7 +68,7 @@ const Success: React.FC<Props> = props => {
               weight={600}
               color={props.supportedCoins[props.order.outputCurrency].colorCode}
             >
-              {props.order.outputCurrency}
+              {props.supportedCoins[props.order.outputCurrency].coinTicker}
             </Text>
           </Amount>
           <div style={{ margin: '16px 0' }}>
@@ -122,7 +122,8 @@ const Success: React.FC<Props> = props => {
             />
           </Title>
           <Value>
-            {amount} of {props.order.outputCurrency}
+            {amount} of{' '}
+            {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Value>
         </Row>
         <Row>
