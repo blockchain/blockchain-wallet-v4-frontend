@@ -254,10 +254,10 @@ export default ({
       selectors.core.settings.getInvitations
     )).getOrElse({ simpleBuy: false })
     const isInvitedToSB = invitations.simpleBuy
-    // const isCoinify = (yield select(
-    //   selectors.core.kvStore.buySell.getCoinifyUser
-    // )).getOrElse(false)
-    if (!isInvitedToSB) {
+    const isCoinify = (yield select(
+      selectors.core.kvStore.buySell.getCoinifyUser
+    )).getOrElse(false)
+    if (isCoinify || !isInvitedToSB) {
       yield put(actions.router.push('/buy-sell'))
       // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
     } else {

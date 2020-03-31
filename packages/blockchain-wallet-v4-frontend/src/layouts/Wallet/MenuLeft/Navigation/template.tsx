@@ -96,8 +96,7 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      {/* {props.isCoinifyUser || !props.invitations.simpleBuy ? ( */}
-      {!props.invitations.simpleBuy ? (
+      {props.isCoinifyUser || !props.invitations.simpleBuy ? (
         <SpotlightLinkContainer to='/buy-sell' activeClassName='active'>
           <MenuItem data-e2e='buyAndSellLink'>
             <JoyrideSpotlight className='wallet-intro-tour-step-5' />
