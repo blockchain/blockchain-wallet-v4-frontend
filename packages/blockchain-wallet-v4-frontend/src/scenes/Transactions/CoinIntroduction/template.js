@@ -41,6 +41,9 @@ const BuyButton = styled(Button)`
   width: auto;
   height: 46px;
   padding: 0 16px;
+  &:hover {
+    background-color: white;
+  }
 `
 
 const Welcome = props => {

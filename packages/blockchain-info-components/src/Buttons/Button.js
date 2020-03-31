@@ -86,7 +86,8 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'blue600',
         backgroundColor: 'white',
-        borderColor: 'grey100'
+        borderColor: 'grey100',
+        hoverBorderColor: 'blue600'
       }
     }
 

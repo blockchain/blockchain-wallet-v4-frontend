@@ -79,6 +79,7 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
     const fiat = getFiatFromPair(props.value.pair)
     const coinType = this.props.supportedCoins[coin]
     const displayName = coinType.displayName
+    const coinTicker = coinType.coinTicker
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
     const isItem = !children
@@ -89,7 +90,7 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
         <Display>
           {children || displayName}
           <Rate>
-            1 {coin} ={' '}
+            1 {coinTicker} ={' '}
             {Currency.fiatToString({
               value: this.props.rates[coin][fiat].last,
               unit: Currencies[fiat].units[fiat]

@@ -82,7 +82,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             weight={600}
             color={props.supportedCoins[props.order.outputCurrency].colorCode}
           >
-            {props.order.outputCurrency}
+            {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Text>
         </Amount>
       </FlyoutWrapper>
@@ -94,7 +94,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {displayFiat(props.quote.rate)} / {props.order.outputCurrency}
+          {displayFiat(props.quote.rate)} /{' '}
+          {props.supportedCoins[props.order.outputCurrency].coinTicker}
         </Value>
       </Row>
       <Row>
