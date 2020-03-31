@@ -11,7 +11,6 @@ const ErrorWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px;
   box-sizing: border-box;
 `
 
@@ -55,8 +54,8 @@ class TotalBalance extends React.PureComponent {
       ),
       Failure: e => (
         <ErrorWrapper>
-          <Text size='12px' weight={400} color='red600'>
-            {typeof e === 'object' ? (e.message ? e.message : 'N/A') : e}
+          <Text size='14px' weight={600} color='red600'>
+            Error Fetching Balance
           </Text>
         </ErrorWrapper>
       ),

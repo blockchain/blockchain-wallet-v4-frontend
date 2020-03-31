@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
     { text: 'Chinese Yuan', value: 'CNY' },
     { text: 'Danish Krone', value: 'DKK' },
     { text: 'Euro', value: 'EUR' },
-    { text: 'Great British Pound', value: 'GBP' },
+    { text: 'British Pound', value: 'GBP' },
     { text: 'Hong Kong Dollar', value: 'HKD' },
     { text: 'Icelandic Króna', value: 'ISK' },
     { text: 'Indian Rupee', value: 'INR' },

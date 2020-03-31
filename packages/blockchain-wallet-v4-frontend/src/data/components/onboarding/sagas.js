@@ -1,7 +1,6 @@
 import { actions, actionTypes, model } from 'data'
 import { delay, put, take } from 'redux-saga/effects'
 
-import * as C from '/services/AlertService'
 const { GENERAL_EVENTS } = model.analytics
 
 export const logLocation = 'components/onboarding/sagas'
@@ -67,25 +66,6 @@ export default () => {
     }
   }
 
-  const skipWalletTourClicked = function * (action) {
-    try {
-      yield put(
-        actions.alerts.displayInfo(C.SKIP_WALLET_TOUR_SUCCESS, {
-          startTour: action.payload.startTourCallback
-        })
-      )
-      yield put(actions.core.kvStore.whatsNew.setHasSkippedWalletTour(true))
-      yield put(
-        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_DISMISSED)
-      )
-      yield put(actions.modals.closeModal())
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'skipWalletTourClicked', e)
-      )
-    }
-  }
-
   const takeWalletTourClicked = function * () {
     try {
       yield put(actions.modals.closeModal())
@@ -122,7 +102,6 @@ export default () => {
   return {
     airdropClaimSubmitClicked,
     coinifyUpgradeSubmitClicked,
-    skipWalletTourClicked,
     swapGetStartedSubmitClicked,
     takeWalletTourClicked,
     upgradeForAirdropSubmitClicked

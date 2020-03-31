@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -25,6 +18,9 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import { ErrorCartridge } from 'components/Cartridge'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
@@ -35,8 +31,12 @@ import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
 import { Row } from 'components/Send'
 import BitPayCTA from 'components/BitPayCTA'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -76,6 +76,7 @@ const FirstStep = props => {
   } = props
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
@@ -84,7 +85,7 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -115,6 +116,7 @@ const FirstStep = props => {
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
             excludeWatchOnly
+            includeCustodial
           />
         </FormItem>
       </FormGroup>
@@ -259,7 +261,7 @@ const FirstStep = props => {
               defaultMessage='Network Fee'
             />
           </FormLabel>
-          <ComboDisplay size='13px' coin='BCH'>
+          <ComboDisplay size='13px' coin='BCH' weight={500}>
             {totalFee}
           </ComboDisplay>
         </FormItem>
@@ -276,6 +278,14 @@ const FirstStep = props => {
             defaultMessage='Insufficient funds to complete BitPay transaction'
           />
         </Text>
+      )}
+      {isFromCustody && (
+        <ErrorCartridge>
+          <FormattedMessage
+            id='modals.sendBch.firststep.fromcustody.withdrawal'
+            defaultMessage='Withdrawals from your Trading Wallet will be enabled soon.'
+          />
+        </ErrorCartridge>
       )}
       <SubmitFormGroup>
         <Button

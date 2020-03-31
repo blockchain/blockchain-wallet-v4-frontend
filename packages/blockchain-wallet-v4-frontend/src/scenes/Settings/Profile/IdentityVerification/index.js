@@ -116,16 +116,16 @@ const IdentityVerification = ({ userData, userTiers }) => {
       <Container>
         <Row width='40%'>
           <Column>
-            <SwapText size='17px' color='textBlack'>
+            <SwapText size='20px' color='textBlack' weight={500}>
               <FormattedMessage
-                id='scenes.profile.identityverification.pagetitle'
-                defaultMessage='Swap Limits'
+                id='scenes.profile.identityverification.tradingtitle'
+                defaultMessage='Trading Limits'
               />
             </SwapText>
             <SwapText size='14px' weight={400}>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.sawp_limit'
-                defaultMessage='Your Swap Limit is how much crypto you can trade each day. Swap Limits are necessary for compliance and fraud prevention.'
+                id='scenes.profile.identityverification.swaplimit.tradelimit'
+                defaultMessage='Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
@@ -137,8 +137,8 @@ const IdentityVerification = ({ userData, userTiers }) => {
               </SwapText>
               <SwapText size='13px' weight={400}>
                 <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learn_more_limits'
-                  defaultMessage="We’ve put together an article on Swap Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                  id='scenes.profile.identityverification.swaplimit.learnmorelimits'
+                  defaultMessage="We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
                 />
               </SwapText>
             </LearnMoreContainer>

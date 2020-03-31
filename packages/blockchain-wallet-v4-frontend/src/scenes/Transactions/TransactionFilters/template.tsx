@@ -72,7 +72,7 @@ const TransactionFilters = ({
   isLegacyEthAddr
 }) => (
   <StickyHeader>
-    <HorizontalMenu>
+    <HorizontalMenu marginBottom='0px'>
       <Field
         name='status'
         statuses={['', 'sent', 'received', 'transferred']}

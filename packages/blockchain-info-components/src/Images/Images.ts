@@ -15,6 +15,7 @@ import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
+import buyWallet from './img/buy-wallet.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkmarkGreen from './img/checkmark-green.svg'
 import closeError from './img/close-error.svg'
@@ -103,6 +104,9 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import worldAlert from './img/world-alert.jpg'
+import worldAlert2 from './img/world-alert@2x.jpg'
+import worldAlert3 from './img/world-alert@3x.jpg'
 
 const Images = {
   'airdrop-enrolled': airdropEnrolled,
@@ -122,6 +126,7 @@ const Images = {
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
+  'buy-wallet': buyWallet,
   'chart-placeholder': chartPlaceholder,
   'checkmark-green': checkmarkGreen,
   coins: coins,
@@ -208,6 +213,9 @@ const Images = {
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
+  'world-alert': worldAlert,
+  'world-alert2': worldAlert2,
+  'world-alert3': worldAlert3,
   yubikey: yubikey
 }
 

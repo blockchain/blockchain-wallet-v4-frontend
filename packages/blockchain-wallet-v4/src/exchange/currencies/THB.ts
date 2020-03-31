@@ -1,6 +1,7 @@
 export default {
   code: 'THB',
   base: 'CENT',
+  displayName: 'Thai Baht',
   trade: 'THB',
   units: {
     CENT: {

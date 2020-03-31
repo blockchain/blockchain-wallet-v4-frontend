@@ -230,6 +230,7 @@ describe('settingsSagas', () => {
     })
 
     it('should display a success alert', () => {
+      saga.next()
       saga.next().put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     })
 

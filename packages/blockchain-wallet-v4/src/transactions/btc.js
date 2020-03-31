@@ -286,6 +286,7 @@ export const _transformTx = (
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
+    insertedAt: tx.time * 1000,
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: Remote.Success(tx.fee),

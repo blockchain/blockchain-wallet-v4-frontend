@@ -216,6 +216,9 @@ export default ({ api, coreSagas, networks }) => {
             case ADDRESS_TYPES.LOCKBOX:
               payment = yield payment.from(payload.xpub, fromType)
               break
+            case ADDRESS_TYPES.CUSTODIAL:
+              payment = yield payment.from(payload.address, fromType)
+              break
             default:
               if (!payload.watchOnly) {
                 payment = yield payment.from(payload.address, fromType)

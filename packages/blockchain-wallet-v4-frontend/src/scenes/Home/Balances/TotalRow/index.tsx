@@ -12,12 +12,7 @@ export type OwnProps = {
   currentTab: 'wallet' | 'hardware' | 'total'
 }
 export type SuccessStateType = {
-  bchBalance: number
-  btcBalance: number
-  ethBalance: number
-  paxBalance: number
-  totalBalance: { path: string; totalBalance: string }
-  xlmBalance: number
+  totalBalance: string
 }
 type LinkDispatchPropsType = {}
 type LinkStatePropsType = {
@@ -34,10 +29,10 @@ class TotalRow extends PureComponent<Props, State> {
       Success: val => <Success {...val} {...this.props} />,
       Failure: e => (
         <Text
-          size='12px'
+          size='14px'
           weight={600}
           color='red600'
-          style={{ marginBottom: '24px' }}
+          style={{ marginBottom: '24px', paddingBottom: '12px' }}
         >
           Error Fetching Balance
         </Text>

@@ -29,7 +29,8 @@ const api = {
   getBtcFees: jest.fn(() => feeData),
   getBtcFiatAtTime: jest.fn(() => fiatAtTime),
   getBtcTicker: jest.fn(() => rateData),
-  getTransactionHistory: jest.fn(() => transactionHistory)
+  getTransactionHistory: jest.fn(() => transactionHistory),
+  fetchSBOrders: jest.fn(() => [])
 }
 
 describe('btc data sagas', () => {
@@ -214,7 +215,9 @@ describe('btc data sagas', () => {
         .next(btcFetchData)
         .call(dataBtcSagas.__processTxs, btcFetchData.txs)
         .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
+        .next()
+        .next()
+      // .put(A.fetchTransactionsSuccess([{}, ...processedTxs], payload.reset))
     })
 
     it('should finish', () => {

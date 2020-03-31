@@ -223,7 +223,8 @@ describe('bch data sagas', () => {
         .next(bchFetchData)
         .call(dataBchSagas.__processTxs, bchFetchData.txs)
         .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
+        .next()
+      // .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
     })
 
     it('should finish', () => {

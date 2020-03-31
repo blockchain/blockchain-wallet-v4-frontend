@@ -1,12 +1,25 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
+  | 'AirdropClaim'
+  | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
+  | 'CoinifyBuyViaCard'
+  | 'CoinifyUpgrade'
   | 'FAQ_MODAL'
+  | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
+  | '@MODAL.REQUEST.ETH'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'
+  | 'SIMPLE_BUY_MODAL'
+  | 'SunRiverWelcome'
+  | 'SwapGetStarted'
+  | 'SwapUpgrade'
+  | 'TransferEth'
   | 'TRANSACTION_REPORT'
+  | 'UpgradeForAirdrop'
+  | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
 
 export type ModalType = {

@@ -1,6 +1,7 @@
 export default {
   code: 'ISK',
   base: 'CENT',
+  displayName: 'Icelandic Króna',
   trade: 'ISK',
   units: {
     CENT: {

@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  FiatType,
   LoanTransactionsType,
   LoanType,
   NabuApiErrorType,
@@ -36,7 +37,7 @@ export enum BorrowSteps {
 
 // TODO: move to ticker
 export type RatesType = {
-  [key in string]: {
+  [key in FiatType]: {
     '15m': number
     buy: number
     last: number

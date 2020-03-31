@@ -8,6 +8,7 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
@@ -53,16 +54,6 @@ export default ({
     coreSagas,
     networks
   })
-
-  const errorHandler = e => {
-    return typeof e === 'object'
-      ? e.description
-        ? e.description
-        : e.message
-        ? e.message
-        : JSON.stringify(e)
-      : e
-  }
 
   const addCollateral = function * () {
     try {

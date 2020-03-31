@@ -3,15 +3,15 @@ import { testSaga } from 'redux-saga-test-plan'
 import * as actions from '../actions'
 import * as C from 'services/AlertService'
 import * as selectors from '../selectors'
-import { getAllBalances } from 'data/balance/sagas'
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { waitForAllBalances } from 'data/balance/sagas'
 import goalsSagas from './sagas'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 jest.mock('data/balance/sagas', () => ({
   getBtcBalance: jest.fn(),
-  getAllBalances: jest.fn()
+  waitForAllBalances: jest.fn()
 }))
 const api = {
   getWalletNUsers: jest.fn()
@@ -29,7 +29,7 @@ describe('goals sagas', () => {
     runKycGoal,
     runReferralGoal,
     runSwapUpgradeGoal,
-    runWalletTour,
+    runWelcomeModal,
     waitForUserData,
     showInitialModal
   } = goalsSagas({ api })
@@ -279,9 +279,9 @@ describe('goals sagas', () => {
     })
   })
 
-  describe('runWalletTour saga', () => {
-    describe('should not show wallet tour modal if not first login', () => {
-      const saga = testSaga(runWalletTour, {
+  describe('runWelcomeModal saga', () => {
+    describe('should not show wallet welcome modal if not first login', () => {
+      const saga = testSaga(runWelcomeModal, {
         id: mockGoalId,
         data: { firstLogin: false }
       })
@@ -294,7 +294,7 @@ describe('goals sagas', () => {
           .put(
             actions.logs.logInfoMessage(
               mockLogLocation,
-              'runWalletTour',
+              'runWelcomeModal',
               'login success'
             )
           )
@@ -362,7 +362,7 @@ describe('goals sagas', () => {
         .next()
         .select(selectors.preferences.getShowKycGetStarted)
         .next(true)
-        .call(getAllBalances)
+        .call(waitForAllBalances)
         .next({ btc: 33234, eth: 534 })
         .call(waitForUserData)
         .next()

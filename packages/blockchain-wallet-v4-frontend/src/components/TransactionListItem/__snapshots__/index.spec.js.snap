@@ -141,6 +141,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "hideUpgradeForAirdropModal": [Function],
         "setCulture": [Function],
         "setLanguage": [Function],
+        "setSBFiatCurrency": [Function],
         "setTheme": [Function],
         "setTotalBalancesDropdown": [Function],
         "toggleCoinDisplayed": [Function],

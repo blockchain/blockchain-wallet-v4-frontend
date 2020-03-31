@@ -1,6 +1,7 @@
 export default {
   code: 'DKK',
   base: 'CENT',
+  displayName: 'Danish Krone',
   trade: 'DKK',
   units: {
     CENT: {

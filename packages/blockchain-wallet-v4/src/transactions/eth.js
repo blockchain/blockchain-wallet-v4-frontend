@@ -99,6 +99,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     hash: tx.hash,
     time,
     timeFormatted: getTime(time),
+    insertedAt: Number(time) * 1000,
     to: getLabel(tx.to, state, ''),
     erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type
@@ -123,6 +124,8 @@ export const getErc20Label = (address, token, state) => {
 
 export const _transformErc20Tx = curry((addresses, state, token, tx) => {
   const type = toLower(getType(tx, addresses))
+  const time = tx.timestamp || tx.timeStamp
+
   return {
     amount: parseInt(tx.value),
     blockHeight: tx.blockNumber,
@@ -130,8 +133,9 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     fee: Remote.NotAsked,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
-    timeFormatted: getTime(tx.timestamp),
-    time: tx.timestamp,
+    timeFormatted: getTime(time),
+    insertedAt: Number(time) * 1000,
+    time,
     to: getErc20Label(tx.to, token, state),
     type
   }

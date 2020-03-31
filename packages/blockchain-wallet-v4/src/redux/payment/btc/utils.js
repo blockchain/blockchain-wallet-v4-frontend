@@ -37,7 +37,8 @@ export const ADDRESS_TYPES = {
   EXTERNAL: 'EXTERNAL',
   LOCKBOX: 'LOCKBOX',
   ADDRESS: 'ADDRESS',
-  SCRIPT: 'SCRIPT'
+  SCRIPT: 'SCRIPT',
+  CUSTODIAL: 'CUSTODIAL'
 }
 
 // fromLegacy :: String -> Object

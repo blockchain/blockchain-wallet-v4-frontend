@@ -20,10 +20,14 @@ const injectAuthCredentials = curry(
       // BAD_2FA type means 2fa required by Exchange
       // There may be other errors that are status 401 that should be whitelisted
       // Otherwise yield api call can return reauth actionType (@EVENT.PROFILE.SIGN_IN)
-      if (error.status !== 401 || error.type === 'BAD_2FA') throw error
-      if (error.status !== 401 || error.type === 'INVALID_CREDENTIALS')
+      if (
+        error.status !== 401 ||
+        error.type === 'UNKNOWN_USER' ||
+        error.type === 'NO_TRADE_PERMISSION' ||
+        error.type === 'INVALID_CREDENTIALS' ||
+        error.type === 'BAD_2FA'
+      )
         throw error
-      if (error.status !== 401 || error.type === 'UNKNOWN_USER') throw error
 
       return reauthenticate()
     })

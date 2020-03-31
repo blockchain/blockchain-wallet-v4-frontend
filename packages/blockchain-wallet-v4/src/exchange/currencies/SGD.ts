@@ -1,6 +1,7 @@
 export default {
   code: 'SGD',
   base: 'CENT',
+  displayName: 'Singapore Dollar',
   trade: 'SGD',
   units: {
     CENT: {

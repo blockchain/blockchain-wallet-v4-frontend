@@ -1,5 +1,5 @@
-import { E2EType } from './types'
-import { Modal } from 'blockchain-info-components'
+import { FlyoutE2EType } from './types'
+import { Modal, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -96,9 +96,28 @@ export const FlyoutChild = styled.div`
   height: 100%;
   width: 100%;
 `
+export const Row = styled.div`
+  padding: 16px 40px;
+  box-sizing: border-box;
+  border-top: 1px solid ${props => props.theme.grey000};
+  &:last-child {
+    border-bottom: 1px solid ${props => props.theme.grey000};
+  }
+`
+export const Title = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme.grey600};
+`
+export const Value = styled(Text)`
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: ${props => props.theme.grey800};
+`
 
 type OwnProps = {
-  'data-e2e': E2EType
+  'data-e2e': FlyoutE2EType
   direction?: 'left' | 'right'
   in: boolean
   onClose: () => void

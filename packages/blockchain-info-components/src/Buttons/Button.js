@@ -35,7 +35,7 @@ const BaseButton = styled.button.attrs({
   color: ${props => props.theme[props.color]};
   background-color: ${props =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
-  border-radius: ${props => (props.rounded ? '20px' : '4px')};
+  border-radius: ${props => (props.rounded ? '20px' : '8px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
@@ -81,12 +81,23 @@ const selectColor = (nature, disabled, small) => {
         borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
+
+    case 'empty-blue': {
+      return {
+        color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey100',
+        hoverBorderColor: 'blue600'
+      }
+    }
+
     case 'empty-secondary':
       return {
         color: 'blue600',
         backgroundColor: 'white',
         borderColor: 'blue600'
       }
+
     case 'gray':
       return {
         color: 'white',
@@ -96,6 +107,12 @@ const selectColor = (nature, disabled, small) => {
     case 'light':
       return {
         color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey000'
+      }
+    case 'light-red':
+      return {
+        color: 'red600',
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
@@ -161,6 +178,12 @@ const selectColor = (nature, disabled, small) => {
         color: 'white',
         backgroundColor: 'green600',
         borderColor: 'green600'
+      }
+    case 'grey800':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
       }
     default:
       return {

@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   accountCreationAmount,
   balanceReserveAmount,
@@ -24,6 +17,8 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { ErrorBanner } from './ErrorBanner'
+import { ErrorCartridge } from 'components/Cartridge'
+import { Field, reduxForm } from 'redux-form'
 import {
   Form,
   FormGroup,
@@ -34,6 +29,7 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
 import { InfoBanner } from './InfoBanner'
 import { model } from 'data'
 import { NoAccountTemplate } from './NoAccountTemplate'
@@ -42,8 +38,12 @@ import { required, validXlmAddress } from 'services/FormHelper'
 import { Row } from 'components/Send'
 import { SelectBoxMemo } from './SelectBoxMemo'
 import { XlmFiatConverter } from './XlmFiatConverter'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
+import styled from 'styled-components'
 
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
@@ -89,6 +89,7 @@ const FirstStep = props => {
   } = props
   const amountActive = activeField === 'amount'
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
@@ -97,7 +98,7 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -125,6 +126,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            includeCustodial
           />
         </FormItem>
       </FormGroup>
@@ -289,12 +291,20 @@ const FirstStep = props => {
                 />
               </Text>
               <Text>
-                <ComboDisplay size='13px' coin='XLM'>
+                <ComboDisplay size='13px' coin='XLM' weight={500}>
                   {fee}
                 </ComboDisplay>
               </Text>
             </FormItem>
           </FormGroup>
+          {isFromCustody && (
+            <ErrorCartridge>
+              <FormattedMessage
+                id='modals.sendxlm.firststep.fromcustoday.withdrawal'
+                defaultMessage='Withdrawals from your Trading Wallet will be enabled soon.'
+              />
+            </ErrorCartridge>
+          )}
           <SubmitFormGroup>
             <Button
               /*

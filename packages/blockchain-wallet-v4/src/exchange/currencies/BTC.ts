@@ -1,6 +1,7 @@
 export default {
   base: 'SAT',
   code: 'BTC',
+  displayName: 'Bitcoin',
   trade: 'BTC',
   units: {
     SAT: {
