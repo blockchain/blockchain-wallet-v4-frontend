@@ -8,7 +8,7 @@ import Navigation from './template'
 import React from 'react'
 
 type OwnProps = {
-  invitations: { [key in string]: boolean }
+  invitations?: { [key in string]: boolean }
   userKYCState: KycStateType
 }
 

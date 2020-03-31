@@ -253,7 +253,7 @@ export default ({
     const invitations = (yield select(
       selectors.core.settings.getInvitations
     )).getOrElse({ simpleBuy: false })
-    const isInvitedToSB = invitations.simpleBuy
+    const isInvitedToSB = invitations && invitations.simpleBuy
     const isCoinify = (yield select(
       selectors.core.kvStore.buySell.getCoinifyUser
     )).getOrElse(false)
