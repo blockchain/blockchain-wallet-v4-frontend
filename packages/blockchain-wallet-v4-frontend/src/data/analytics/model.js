@@ -89,7 +89,8 @@ export const GENERAL_EVENTS = {
 }
 
 export const ADS_EVENTS = {
-  CLICK_AD: ['navigation', 'click_ad']
+  CLICK_AD: ['navigation', 'click_ad'],
+  CLICK_AD_TAX: ['navigation', 'click_ad_tax']
 }
 
 export const EXCHANGE_EVENTS = {
