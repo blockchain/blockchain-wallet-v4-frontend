@@ -92,13 +92,13 @@ const Unsupported: React.FC<Props> = props => {
             props.fiatCurrency
           ) : (
             <FormattedMessage
-              id='modals.simplebuy.fiataccountineligible'
+              id='modals.simplebuy.fiatregion'
               defaultMessage='your region'
             />
           )}
           {'. '}
           <FormattedMessage
-            id='modals.simplebuy.unsupported-subcontent-1'
+            id='modals.simplebuy.unsupported-subcontent-2'
             defaultMessage="We'll send you an update when we do."
           />
         </Subcontent>

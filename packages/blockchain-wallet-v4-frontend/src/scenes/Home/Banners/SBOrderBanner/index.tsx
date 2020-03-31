@@ -113,7 +113,7 @@ class SBOrderBanner extends PureComponent<Props> {
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
               <FormattedMessage
-                id='scenes.home.banner.pendingbuy'
+                id='scenes.home.banner.receivetransfer'
                 defaultMessage='Once we receive your bank transfer, your buy order will complete.'
               />
             </Copy>

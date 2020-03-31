@@ -190,7 +190,7 @@ const Success: React.FC<Props> = props => {
           onClick={() => props.handleClose()}
         >
           <FormattedMessage
-            id='modals.simplebuy.transferdetails.sendfundsfrom'
+            id='modals.simplebuy.transferdetails.sendfundsfromok'
             defaultMessage='OK'
           />
         </Button>
