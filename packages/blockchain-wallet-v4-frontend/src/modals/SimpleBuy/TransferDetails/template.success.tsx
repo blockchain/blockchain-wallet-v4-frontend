@@ -83,11 +83,11 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.bankid'
-                defaultMessage='Bank ID'
+                id='modals.simplebuy.transferdetails.IBAN'
+                defaultMessage='IBAN'
               />
             </Title>
-            <Value>{props.account.agent.account}</Value>
+            <Value>{props.account.address}</Value>
           </Row>
         )}
         {props.account.currency === 'GBP' && (
@@ -152,7 +152,9 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Recipient'
             />
           </Title>
-          <Value>{props.account.agent.recipient}</Value>
+          <Value>
+            {props.userData.firstName} {props.userData.lastName}
+          </Value>
         </Row>
         <Row>
           <Title>
