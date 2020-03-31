@@ -71,8 +71,8 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             <PriceChange {...val}>
               {' '}
               <FormattedMessage
-                id='scenes.transactions.performance.prices.today'
-                defaultMessage='today'
+                id='scenes.transactions.performance.prices.week'
+                defaultMessage='this week'
               />
             </PriceChange>
           </Wrapper>
