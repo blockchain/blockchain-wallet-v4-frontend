@@ -555,7 +555,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runTransferEthGoal = function * () {
+  const runTransferEthGoal = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
     const legacyAccountR = yield select(
       selectors.core.kvStore.eth.getLegacyAccount
     )
