@@ -1,7 +1,6 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, SuccessStateType } from '..'
-import { UserDataType } from 'data/types'
 import React from 'react'
 
 type Props = {

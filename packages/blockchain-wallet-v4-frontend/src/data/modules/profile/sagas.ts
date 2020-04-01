@@ -277,6 +277,7 @@ export default ({ api, coreSagas, networks }) => {
       state: undefined,
       kycState: undefined
     })
+    /* eslint-disable */
     const {
       id,
       address,
@@ -286,6 +287,7 @@ export default ({ api, coreSagas, networks }) => {
       kycState,
       ...userData
     } = user
+    /* eslint-enable */
     const updatedData = { ...userData, ...data }
 
     if (equals(updatedData, userData)) return user

@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  min-width: 48px;
   width: 48px;
   height: 48px;
   cursor: pointer;

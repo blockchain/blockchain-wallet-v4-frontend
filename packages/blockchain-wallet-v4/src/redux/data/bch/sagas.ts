@@ -61,7 +61,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
+  const fetchTransactions = function * ({ payload }) {
     const { address, reset } = payload
     try {
       const pages = yield select(S.getTransactions)

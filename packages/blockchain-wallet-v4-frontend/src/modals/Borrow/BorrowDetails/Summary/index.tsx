@@ -3,7 +3,6 @@ import {
   Status
 } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
 import { FormattedMessage } from 'react-intl'
-import { head } from 'ramda'
 import {
   isLastTxStatus,
   showBorrowSummary,

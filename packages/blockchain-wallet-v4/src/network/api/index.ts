@@ -41,7 +41,7 @@ const api = ({
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
   return {
     ...analytics({ rootUrl, ...http }),
-    ...bch({ rootUrl, apiUrl, ...http }),
+    ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
       nabuUrl,

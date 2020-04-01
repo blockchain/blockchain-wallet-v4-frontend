@@ -21,7 +21,7 @@ class Table extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()

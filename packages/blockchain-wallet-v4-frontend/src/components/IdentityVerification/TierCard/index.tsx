@@ -1,6 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, model } from 'data'
-import { all, any, path, propEq } from 'ramda'
+import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 import { connect } from 'react-redux'

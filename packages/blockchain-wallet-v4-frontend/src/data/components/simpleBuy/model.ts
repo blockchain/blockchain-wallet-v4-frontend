@@ -4,13 +4,9 @@ import {
   SBBuyPairsType,
   SBOrderType,
   SBPairsType,
-  SBPairType,
   SBQuoteType
 } from 'blockchain-wallet-v4/src/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
+import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'

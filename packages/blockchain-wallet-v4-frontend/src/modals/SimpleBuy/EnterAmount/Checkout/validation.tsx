@@ -1,11 +1,9 @@
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Props } from '../template.success'
 import { SBCheckoutFormValuesType } from 'data/types'
 
 export const maximumAmount = (
   value: string,
-  allValues: SBCheckoutFormValuesType,
-  props: Props
+  allValues: SBCheckoutFormValuesType
 ) => {
   if (!allValues.pair) return
   if (!value) return true
@@ -17,8 +15,7 @@ export const maximumAmount = (
 
 export const minimumAmount = (
   value: string,
-  allValues: SBCheckoutFormValuesType,
-  props: Props
+  allValues: SBCheckoutFormValuesType
 ) => {
   if (!allValues.pair) return
   if (!value) return true

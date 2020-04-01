@@ -75,10 +75,10 @@ const MaxAmountContainer = styled.div`
 const QRCodeContainer = styled.div`
   cursor: pointer;
 `
-const QRTitle = styled.div`
-  display: flex;
-  margin: 24px 0;
-`
+// const QRTitle = styled.div`
+//   display: flex;
+//   margin: 24px 0;
+// `
 const QRCodeBox = styled.div`
   display: flex;
   padding: 16px;

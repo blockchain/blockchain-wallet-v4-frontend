@@ -74,8 +74,8 @@ type OwnProps = {
   coinModel: SupportedCoinType
   currency: FiatType
   hasTxResults: boolean
-  isCoinErc20: boolean,
-  isSearchEntered: boolean,
+  isCoinErc20: boolean
+  isSearchEntered: boolean
   pages: Array<any>
 }
 
