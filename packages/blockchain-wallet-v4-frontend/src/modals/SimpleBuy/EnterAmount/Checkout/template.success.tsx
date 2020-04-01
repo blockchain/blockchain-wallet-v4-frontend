@@ -94,8 +94,7 @@ export type Props = OwnProps & SuccessStateType
 const normalizeAmount = (
   value,
   prevValue,
-  allValues: SBCheckoutFormValuesType,
-  ...args
+  allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, allValues.orderType === 'BUY')

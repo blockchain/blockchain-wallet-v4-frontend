@@ -8,7 +8,7 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { last, lift, negate, nth, prop } from 'ramda'
+import { last, lift, nth, prop } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
 

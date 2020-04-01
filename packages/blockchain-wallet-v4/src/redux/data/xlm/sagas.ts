@@ -159,7 +159,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
   const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
-    let currentPage = 0
     let pagingToken
 
     try {
@@ -168,7 +167,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         publicKey: address,
         limit: TX_REPORT_PAGE_SIZE
       })
-      currentPage++
       // @ts-ignore
       pagingToken = prop('paging_token', last(fullTxList))
 
@@ -186,7 +184,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         // @ts-ignore
         pagingToken = prop('paging_token', last(txPage))
         fullTxList = fullTxList.concat(txPage)
-        currentPage++
       }
       const processedTxList = yield call(
         __processReportTxs,

@@ -25,7 +25,6 @@ import { RootState } from 'data/rootReducer'
 import { USER_BLOCKED } from 'data/components/borrow/model'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
 

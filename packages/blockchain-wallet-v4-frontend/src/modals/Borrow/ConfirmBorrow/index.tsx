@@ -39,7 +39,7 @@ class ConfirmBorrow extends PureComponent<Props> {
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
       ),
-      Failure: e => (
+      Failure: () => (
         <DataError
           onClick={() =>
             this.props.borrowActions.setStep({

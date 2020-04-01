@@ -63,7 +63,7 @@ class Checkout extends PureComponent<Props> {
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
       ),
-      Failure: e => (
+      Failure: () => (
         <Failure
           simpleBuyActions={this.props.simpleBuyActions}
           formActions={() => {}}

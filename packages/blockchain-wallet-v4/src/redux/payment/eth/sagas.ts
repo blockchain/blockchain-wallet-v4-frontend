@@ -8,7 +8,6 @@ import {
 } from '../../../utils/eth'
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
-import { EthTxType } from 'core/transactions/types'
 import { FETCH_FEES_FAILURE } from '../model'
 import {
   identity,

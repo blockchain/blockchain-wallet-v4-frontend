@@ -277,15 +277,7 @@ export default ({ api, coreSagas, networks }) => {
       state: undefined,
       kycState: undefined
     })
-    const {
-      id,
-      address,
-      mobile,
-      mobileVerified,
-      state,
-      kycState,
-      ...userData
-    } = user
+    const { ...userData } = user
     const updatedData = { ...userData, ...data }
 
     if (equals(updatedData, userData)) return user
