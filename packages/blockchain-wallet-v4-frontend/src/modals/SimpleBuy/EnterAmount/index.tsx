@@ -46,7 +46,7 @@ class EnterAmount extends PureComponent<Props, State> {
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <Failure {...this.props} />,
+      Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

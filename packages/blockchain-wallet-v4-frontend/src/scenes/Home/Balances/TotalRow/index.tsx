@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -27,7 +26,7 @@ class TotalRow extends PureComponent<Props, State> {
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
-      Failure: e => (
+      Failure: () => (
         <Text
           size='14px'
           weight={600}
@@ -47,7 +46,7 @@ const mapStateToProps = (state: RootState, ownProps): LinkStatePropsType => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = () => ({})
 
 export default connect(
   mapStateToProps,

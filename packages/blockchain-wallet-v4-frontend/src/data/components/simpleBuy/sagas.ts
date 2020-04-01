@@ -2,7 +2,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import {
   convertBaseToStandard,
   convertStandardToBase

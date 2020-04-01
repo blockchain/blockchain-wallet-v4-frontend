@@ -7,7 +7,6 @@ import {
   Separator,
   Wrapper
 } from 'components/MenuLeft'
-import { CoinType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 import {
@@ -19,6 +18,7 @@ import {
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
+import { SupportedCoinType } from 'core/types'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'

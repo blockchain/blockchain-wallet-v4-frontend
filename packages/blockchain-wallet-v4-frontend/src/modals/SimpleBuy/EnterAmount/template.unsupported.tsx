@@ -74,7 +74,7 @@ const Unsupported: React.FC<Props> = props => {
             id='modals.simplebuy.unsupported-title'
             defaultMessage='Buy Crypto Coming Soon for'
           />{' '}
-          {props.eligibility.paymentAccountEligible ? (
+          {paymentAccountEligible ? (
             props.fiatCurrency
           ) : (
             <FormattedMessage
@@ -88,7 +88,7 @@ const Unsupported: React.FC<Props> = props => {
             id='modals.simplebuy.unsupported-subcontent-1'
             defaultMessage="Well this is awkward. We don't support buying crypto yet for"
           />{' '}
-          {props.eligibility.paymentAccountEligible ? (
+          {paymentAccountEligible ? (
             props.fiatCurrency
           ) : (
             <FormattedMessage

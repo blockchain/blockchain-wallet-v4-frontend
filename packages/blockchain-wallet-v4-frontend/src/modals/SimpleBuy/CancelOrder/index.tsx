@@ -1,7 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import React, { PureComponent } from 'react'
 import Template from './template'
@@ -29,7 +28,7 @@ class CancelOrder extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({})
+const mapStateToProps = (): LinkStatePropsType => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)

@@ -42,8 +42,7 @@ const Footer = ({
 
   return (
     <Wrapper>
-      {((invitations && invitations.simpleBuy) ||
-        (isSilverOrAbove)) && (
+      {((invitations && invitations.simpleBuy) || isSilverOrAbove) && (
         <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
           <FormattedMessage
             id='price.chart.buy.coin'

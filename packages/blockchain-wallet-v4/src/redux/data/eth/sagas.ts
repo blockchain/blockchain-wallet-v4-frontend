@@ -29,7 +29,7 @@ import {
   values
 } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
-import { CoinType, Erc20CoinType, SBOrderType } from 'core/types'
+import { Erc20CoinType, SBOrderType } from 'core/types'
 import { errorHandler } from '../../../utils'
 import { EthTxType } from 'core/transactions/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'

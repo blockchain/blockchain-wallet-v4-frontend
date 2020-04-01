@@ -76,6 +76,11 @@ export const sharedSelect = css`
 
     input {
       border: none !important;
+      font-weight: 500;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+        sans-serif;
+      font-size: ${props => (props.fontSize === 'small' ? '14px' : '16px')};
     }
   }
   .bc__option {

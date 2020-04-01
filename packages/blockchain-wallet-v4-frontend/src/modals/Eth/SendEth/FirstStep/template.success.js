@@ -62,6 +62,11 @@ const WarningBanners = styled(Banner)`
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
+const StyledRow = styled(Row)`
+  .bc__control input {
+    max-width: 350px;
+  }
+`
 
 const FirstStep = props => {
   const {
@@ -156,7 +161,7 @@ const FirstStep = props => {
               defaultMessage='To'
             />
           </FormLabel>
-          <Row>
+          <StyledRow>
             <Field
               name='to'
               coin={coin}
@@ -176,7 +181,7 @@ const FirstStep = props => {
               scanType='ethAddress'
               border={['top', 'bottom', 'right', 'left']}
             />
-          </Row>
+          </StyledRow>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={400}>
               <FormattedMessage
@@ -262,7 +267,7 @@ const FirstStep = props => {
               )}
             </FeeFormLabel>
             {feeToggled && (
-              <FeePerByteContainer>
+              <FeePerByteContainer style={{ marginTop: '10px' }}>
                 <Field
                   data-e2e={`${coin}CustomFeeInput`}
                   coin={coin}
@@ -279,7 +284,7 @@ const FirstStep = props => {
           </FeeFormContainer>
         </ColLeft>
         <ColRight>
-          <ComboDisplay size='13px' coin='ETH'>
+          <ComboDisplay size='13px' weight={500} coin='ETH'>
             {fee}
           </ComboDisplay>
           <Link

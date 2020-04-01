@@ -1,5 +1,5 @@
 import * as C from 'services/AlertService'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   all,
   call,
@@ -22,7 +22,7 @@ import {
   sum,
   values
 } from 'ramda'
-import { Exchange, Remote, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   getBchBalance,
   getBtcBalance,
@@ -556,6 +556,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const runTransferEthGoal = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
     const legacyAccountR = yield select(
       selectors.core.kvStore.eth.getLegacyAccount
     )

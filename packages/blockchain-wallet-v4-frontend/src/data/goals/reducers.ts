@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { append, assoc, assocPath, filter } from 'ramda'
+import { append, assoc, filter } from 'ramda'
 import { GoalsState } from './types'
 
 const INITIAL_STATE: GoalsState = {

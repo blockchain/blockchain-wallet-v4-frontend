@@ -76,7 +76,7 @@ export default function Success ({ userCampaignsInfoResponseList }: Props) {
             </Text>
           </TableCell>
         </TableHeader>
-        {completedCampaigns.map((campaign, id) => {
+        {completedCampaigns.map(campaign => {
           return campaign.userCampaignTransactionResponseList.length ? (
             // User has campaign transactions
             campaign.userCampaignTransactionResponseList.map(

@@ -1,4 +1,3 @@
-import { CoinType } from 'core/types'
 import AUD from './AUD'
 import BCH from './BCH'
 import BRL from './BRL'
