@@ -19,11 +19,13 @@ export const getData = createDeepEqualSelector(
     supportedCoins,
     isSilverOrAbove
   ) => {
+    const coinCode = path(['data', coinTicker, 'coinCode'], supportedCoins)
     const coinName = path(['data', coinTicker, 'displayName'], supportedCoins)
     const isCoinifySupported = includes(countryCode.data, coinifyCountries.data)
     const invitations = invitationsR.getOrElse({ simpleBuy: false })
 
     return {
+      coinCode,
       coinTicker,
       coinName,
       invitations,

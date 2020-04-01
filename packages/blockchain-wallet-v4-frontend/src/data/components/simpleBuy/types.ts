@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  CoinType,
   FiatEligibleType,
   FiatType,
   RemoteDataType,
@@ -179,7 +180,13 @@ interface SetStepAction {
 }
 interface ShowModalAction {
   payload: {
-    origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+    coinCode?: CoinType
+    origin:
+      | 'sideNav'
+      | 'pendingOrder'
+      | 'welcomeModal'
+      | 'priceChart'
+      | 'emptyFeed'
   }
   type: typeof AT.SHOW_MODAL
 }

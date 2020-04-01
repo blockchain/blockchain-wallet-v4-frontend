@@ -34,7 +34,7 @@ class CoinIntroductionContainer extends React.PureComponent {
         handleRequest={() =>
           modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
         }
-        handleBuy={() => simpleBuyActions.showModal()}
+        handleBuy={() => simpleBuyActions.showModal('emptyFeed')}
       />
     )
   }

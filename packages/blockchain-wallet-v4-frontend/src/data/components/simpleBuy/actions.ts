@@ -257,10 +257,17 @@ export const setStep = (
 })
 
 export const showModal = (
-  origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+  origin:
+    | 'sideNav'
+    | 'pendingOrder'
+    | 'welcomeModal'
+    | 'priceChart'
+    | 'emptyFeed',
+  coinCode?: CoinType
 ) => ({
   type: AT.SHOW_MODAL,
   payload: {
-    origin
+    origin,
+    coinCode
   }
 })
