@@ -55,7 +55,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
             onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD_TAX)}
           >
             <Link
-              href='https://diy.lukkatax.com/?referralCode=blockchain1'
+              href='https://diy.lukkatax.com/?referralCode=1blockchain'
               rel='noopener noreferrer'
               target='_blank'
             >
