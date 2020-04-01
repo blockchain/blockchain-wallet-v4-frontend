@@ -30,9 +30,6 @@ const Bottom = styled(FlyoutWrapper)`
   height: 100%;
   text-align: center;
   border-top: 1px solid ${props => props.theme.grey000};
-  &:last-child {
-    margin-top: 16px;
-  }
 `
 const Amount = styled.div`
   margin-top: 40px;
