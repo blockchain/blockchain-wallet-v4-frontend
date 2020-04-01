@@ -8,6 +8,7 @@ import {
 } from '../../../utils/eth'
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
+import { EthTxType } from 'core/transactions/types'
 import { FETCH_FEES_FAILURE } from '../model'
 import {
   identity,
@@ -105,38 +106,14 @@ export default ({ api }) => {
     }
   }
 
-  const calculateUnconfirmed = function * (type, address) {
-    let latestTxS =
-      type !== ADDRESS_TYPES.LOCKBOX
-        ? S.kvStore.eth.getLatestTx
-        : S.kvStore.lockbox.getLatestTxEth
-    let latestTxTimestampS =
-      type !== ADDRESS_TYPES.LOCKBOX
-        ? S.kvStore.eth.getLatestTxTimestamp
-        : S.kvStore.lockbox.getLatestTxTimestampEth
+  const calculateUnconfirmed = function * (address: string) {
+    const data: {
+      transactions: Array<{ state: 'CONFIRMED' | 'PENDING' }>
+    } = yield call(api.getEthTransactionsV2, address, 0, 1)
 
-    const latestTxR = yield select(latestTxS, address)
-    const latestTxTimestampR = yield select(latestTxTimestampS, address)
-    const latestTx = latestTxR.getOrElse(undefined)
-    const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
+    if (data.transactions[0] && data.transactions[0].state === 'PENDING')
+      return true
 
-    if (latestTx) {
-      const ethOptionsR = yield select(S.walletOptions.getEthTxFuse)
-      const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
-      try {
-        const latestTxStatus = yield call(api.getEthTransaction, latestTx)
-        if (
-          !latestTxStatus.blockNumber &&
-          latestTxTimestamp + lastTxFuse > Date.now()
-        ) {
-          return true
-        }
-      } catch (e) {
-        if (latestTxTimestamp + lastTxFuse > Date.now()) {
-          return true
-        }
-      }
-    }
     return false
   }
 
@@ -214,7 +191,7 @@ export default ({ api }) => {
           address: account,
           nonce
         }
-        const unconfirmedTx = yield call(calculateUnconfirmed, type, account)
+        const unconfirmedTx = yield call(calculateUnconfirmed, account)
 
         return makePayment(
           mergeRight(p, { from, effectiveBalance, unconfirmedTx })
