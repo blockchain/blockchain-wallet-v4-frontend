@@ -178,6 +178,9 @@ interface SetStepAction {
   type: typeof AT.SET_STEP
 }
 interface ShowModalAction {
+  payload: {
+    origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+  }
   type: typeof AT.SHOW_MODAL
 }
 

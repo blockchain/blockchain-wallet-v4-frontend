@@ -115,7 +115,7 @@ const Navigation = (props: OwnProps & Props) => {
       ) : (
         <MenuItem
           data-e2e='buyAndSellLink'
-          onClick={() => props.simpleBuyActions.showModal()}
+          onClick={() => props.simpleBuyActions.showModal('sideNav')}
         >
           <JoyrideSpotlight className='wallet-intro-tour-step-5' />
           <MenuIcon name='cart-filled' size='24px' />

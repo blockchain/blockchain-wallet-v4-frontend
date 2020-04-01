@@ -524,8 +524,16 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
 
     const { firstLogin } = data
+    const invitationsR = yield select(selectors.core.settings.getInvitations)
+    const invitations = invitationsR.getOrElse({ simpleBuy: false })
+    const sbInvited = invitations && invitations.simpleBuy
+
     if (firstLogin) {
-      yield put(actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL'))
+      yield put(
+        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
+          sbInvited
+        })
+      )
     } else {
       yield put(
         actions.logs.logInfoMessage(
@@ -660,7 +668,7 @@ export default ({ api, coreSagas, networks }) => {
       return yield put(actions.modals.showModal(airdropClaim.name))
     }
     if (welcomeModal) {
-      yield put(actions.modals.showModal(welcomeModal.name))
+      yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
       return yield put(
         actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_OFFERED)
       )
