@@ -2,8 +2,10 @@
 
 exports[`PasswordBox renders correctly 1`] = `
 <styled.div>
-  <mockConstructor
-    errorState="initial"
-  />
+  <styled.div>
+    <mockConstructor
+      errorState="initial"
+    />
+  </styled.div>
 </styled.div>
 `;
