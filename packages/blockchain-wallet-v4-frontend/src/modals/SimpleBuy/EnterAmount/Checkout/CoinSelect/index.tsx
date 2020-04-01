@@ -1,6 +1,3 @@
-// What does maximum effort mean to you?
-// How is that something you go about judging and evaluating?
-
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field } from 'redux-form'
 import {
@@ -26,6 +23,13 @@ const DisplayContainer = styled.div<{
   padding: ${props => (props.isItem ? '6px 6px 0px 6px' : '16px 12px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
+  }
+`
+
+const SelectBoxBuyCoin = styled(SelectBox)`
+  .bc__dropdown-indicator {
+    padding-right: 24px;
+    color: ${props => props.theme.grey600};
   }
 `
 const Display = styled.div`
@@ -104,7 +108,7 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
   render () {
     return (
       <Field
-        component={SelectBox}
+        component={SelectBoxBuyCoin}
         elements={this.renderElements()}
         hideIndicator={this.props.pairs.length <= 1}
         name={this.props.name}
