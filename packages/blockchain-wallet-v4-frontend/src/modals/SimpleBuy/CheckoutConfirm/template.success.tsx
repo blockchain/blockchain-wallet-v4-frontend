@@ -30,6 +30,9 @@ const Bottom = styled(FlyoutWrapper)`
   height: 100%;
   text-align: center;
   border-top: 1px solid ${props => props.theme.grey000};
+  &:last-child {
+    margin-top: 16px;
+  }
 `
 const Amount = styled.div`
   margin-top: 40px;
@@ -167,6 +170,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               defaultMessage='Buy Now'
             />
           )}
+        </Button>
+        <Button
+          data-e2e='sbCancelCheckout'
+          size='16px'
+          height='48px'
+          nature='light'
+          onClick={() =>
+            props.simpleBuyActions.setStep({
+              step: 'CANCEL_ORDER',
+              order: props.order
+            })
+          }
+          style={{ marginTop: '16px' }}
+        >
+          <FormattedMessage
+            id='modals.simplebuy.confirm.cancel'
+            defaultMessage='Cancel'
+          />
         </Button>
       </Bottom>
     </CustomForm>
