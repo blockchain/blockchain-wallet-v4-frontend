@@ -127,9 +127,9 @@ const CurrencySelection: React.FC<
         <FlyoutWrapper>
           <TopText color='grey900' size='20px' weight={600}>
             <Icon
-              onClick={props.handleClose}
+              onClick={() => props.simpleBuyActions.showModal()}
               cursor
-              name='close'
+              name='arrow-left'
               size='20px'
               color='grey600'
               style={{ marginRight: '24px' }}
