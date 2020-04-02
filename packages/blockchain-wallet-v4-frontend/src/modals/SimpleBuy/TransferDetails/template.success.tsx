@@ -96,7 +96,12 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Bank Country'
               />
             </Title>
-            <Value>Estonia</Value>
+            <Value>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.estonia'
+                defaultMessage='Estonia'
+              />
+            </Value>
           </Row>
         )}
         {props.account.currency === 'EUR' && (
