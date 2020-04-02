@@ -20,8 +20,8 @@ const formatTxData = (d, coin) => [
   d.value_then,
   d.value_now,
   d.exchange_rate_then,
-  d.hash,
-  d.description
+  d.hash || d.tx,
+  d.description || d.note
 ]
 
 export { formatTxData, reportHeaders }
