@@ -231,7 +231,7 @@ export default ({
       yield call(waitForUserData)
 
       const fiatCurrency = S.getFiatCurrency(yield select())
-      // const cryptoCurrency = S.getCryptoCurrency(yield select())
+      const cryptoCurrency = S.getCryptoCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
 
       yield put(A.fetchSBSuggestedAmountsLoading())
@@ -239,7 +239,9 @@ export default ({
       yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          pair: pairs[0],
+          pair: pairs.find(
+            pair => getCoinFromPair(pair.pair) === cryptoCurrency
+          ),
           orderType
         })
       )
