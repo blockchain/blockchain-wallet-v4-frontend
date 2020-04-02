@@ -198,26 +198,28 @@ const Navigation = (props: OwnProps & Props) => {
           </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/lockbox' activeClassName='active'>
-        <MenuItem data-e2e='lockboxLink'>
-          <MenuIcon
-            name='hardware'
-            style={{ paddingLeft: '2px' }}
-            size='24px'
-          />
-          <Destination style={{ marginLeft: '-2px' }}>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.hardware'
-              defaultMessage='Hardware'
+      {props.lockboxDevices.length > 0 ? (
+        <LinkContainer to='/lockbox' activeClassName='active'>
+          <MenuItem data-e2e='lockboxLink'>
+            <MenuIcon
+              name='hardware'
+              style={{ paddingLeft: '2px' }}
+              size='24px'
             />
-          </Destination>
-          <HelperTipContainer>
-            <HelperTip id='lockboxRequired'>
-              <TooltipIcon color='blue600' name='info' />
-            </HelperTip>
-          </HelperTipContainer>
-        </MenuItem>
-      </LinkContainer>
+            <Destination style={{ marginLeft: '-2px' }}>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.hardware'
+                defaultMessage='Hardware'
+              />
+            </Destination>
+            <HelperTipContainer>
+              <HelperTip id='lockboxRequired'>
+                <TooltipIcon color='blue600' name='info' />
+              </HelperTip>
+            </HelperTipContainer>
+          </MenuItem>
+        </LinkContainer>
+      ) : null}
       <Separator />
       {values(
         mapObjIndexed(
