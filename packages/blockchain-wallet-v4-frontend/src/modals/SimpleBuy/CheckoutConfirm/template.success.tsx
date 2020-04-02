@@ -25,9 +25,11 @@ const TopText = styled(Text)`
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
+  padding-top: 30px;
   height: 100%;
+  text-align: center;
+  border-top: 1px solid ${props => props.theme.grey000};
 `
 const Amount = styled.div`
   margin-top: 40px;
@@ -106,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         {/* TODO: Simple Buy - payment method types */}
-        <Value>Bank Wire Transfer</Value>
+        <Value>Bank Transfer</Value>
       </Row>
       <Row>
         <Title>
@@ -115,7 +117,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Fees'
           />
         </Title>
-        <Value>{displayFiat(props.quote.fee)}</Value>
+        <Value>
+          {displayFiat(props.quote.fee)} {props.order.inputCurrency}
+        </Value>
       </Row>
       <Row>
         <Title>
@@ -124,7 +128,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Total'
           />
         </Title>
-        <Value>{displayFiat(props.order.inputQuantity)}</Value>
+        <Value>
+          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
+        </Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>
@@ -150,17 +156,35 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           size='16px'
           height='48px'
           type='submit'
-          style={{ marginTop: '16px' }}
+          style={{ marginTop: '28px' }}
           disabled={props.submitting}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
             <FormattedMessage
-              id='modals.simplebuy.confirm.confirm'
-              defaultMessage='Confirm Order'
+              id='modals.simplebuy.confirm.buynow'
+              defaultMessage='Buy Now'
             />
           )}
+        </Button>
+        <Button
+          data-e2e='sbCancelCheckout'
+          size='16px'
+          height='48px'
+          nature='light'
+          onClick={() =>
+            props.simpleBuyActions.setStep({
+              step: 'CANCEL_ORDER',
+              order: props.order
+            })
+          }
+          style={{ marginTop: '16px' }}
+        >
+          <FormattedMessage
+            id='modals.simplebuy.confirm.cancel'
+            defaultMessage='Cancel'
+          />
         </Button>
       </Bottom>
     </CustomForm>

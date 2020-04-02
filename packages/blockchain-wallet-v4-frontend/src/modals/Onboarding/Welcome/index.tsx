@@ -114,7 +114,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
         <CustomFlyoutWrapper>
           <Header>
             <Image name='intro-hand' width='28px' height='28px' />
-            <Text color='grey800' size='20px' weight={600}>
+            <Text color='grey600' size='20px' weight={600}>
               <FormattedMessage
                 id='modals.wallet.tour.wallet.tour'
                 defaultMessage='Welcome to Blockchain!'
@@ -133,8 +133,8 @@ class WelcomeContainer extends React.PureComponent<Props> {
             </Title>
             <ContentTextWrapper color='grey600' size='14x' weight={500}>
               <FormattedMessage
-                id='modals.wallet.welcome.sb.verify'
-                defaultMessage='Verify your identity and buy crypto with a bank transfer '
+                id='modals.wallet.welcome.sb.verifybuy'
+                defaultMessage='Verify your identity and buy crypto.'
               />
             </ContentTextWrapper>
             <Image name='buy-wallet' width='282px' height='165px' />

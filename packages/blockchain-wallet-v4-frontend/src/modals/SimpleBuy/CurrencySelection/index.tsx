@@ -49,6 +49,9 @@ const CurrencyBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  &:hover {
+    background-color: ${props => props.theme.grey000};
+  }
 `
 const CurrencyText = styled.div`
   padding-left: 20px;
@@ -58,12 +61,16 @@ const Circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  background-color: white;
-  border: 1px solid ${props => props.theme.grey000};
-  border-radius: 20px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background-color: none;
+  border: 1px solid ${props => props.theme.grey100};
+  border-radius: 24px;
+`
+
+const CheckWrapper = styled.div`
+  margin-right: 24px;
 `
 
 const Seperator = styled.div`
@@ -80,13 +87,17 @@ const CurrencyBoxComponent = (props: {
   return (
     <CurrencyBox role='button' onClick={props.onClick}>
       <CurrencyText>
-        <Title>{props.cur.code}</Title>
         <Value>{props.cur.displayName}</Value>
+        <Title>{props.cur.code}</Title>
       </CurrencyText>
       {props.selectedCurrency === props.cur.code ? (
-        <Icon name='checkmark-in-circle-filled' color='green400' size='20px' />
+        <CheckWrapper>
+          <Icon name='checkmark-circle-filled' color='green500' size='24px' />
+        </CheckWrapper>
       ) : (
-        <Circle />
+        <CheckWrapper>
+          <Circle />
+        </CheckWrapper>
       )}
     </CurrencyBox>
   )
@@ -116,9 +127,9 @@ const CurrencySelection: React.FC<
         <FlyoutWrapper>
           <TopText color='grey900' size='20px' weight={600}>
             <Icon
-              onClick={props.handleClose}
+              onClick={() => props.simpleBuyActions.showModal()}
               cursor
-              name='close'
+              name='arrow-left'
               size='20px'
               color='grey600'
               style={{ marginRight: '24px' }}
@@ -128,7 +139,7 @@ const CurrencySelection: React.FC<
               defaultMessage='Select Your Currency'
             />
           </TopText>
-          <SubTitleText color='grey800' weight={500}>
+          <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
               id='modals.simplebuy.localcurrency'
               defaultMessage='Select the local currency for your wallet.'
