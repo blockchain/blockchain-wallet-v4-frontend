@@ -1,13 +1,19 @@
 import { actions, selectors } from 'data'
 import { AppActionTypes, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import {
+  IconBackground,
+  SceneHeader,
+  SceneHeaderText,
+  SceneSubHeaderText,
+  SceneWrapper
+} from 'components/Layout'
 import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { SceneWrapper } from 'components/Layout'
-import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
@@ -87,20 +93,36 @@ class Airdrops extends React.PureComponent<Props> {
     if (!hasEmail) return <EmailRequired />
     return (
       <SceneWrapper>
-        <Header>
-          <MainTitle size='32px' color='grey800' weight={600}>
+        <SceneHeader>
+          <IconBackground>
+            <Icon name='parachute' color='blue600' size='24px' />
+          </IconBackground>
+          <SceneHeaderText>
             <FormattedMessage
-              id='scenes.airdrops.blockchain'
-              defaultMessage='Blockchain Airdrops'
+              id='scenes.airdrops.header'
+              defaultMessage='Airdrops'
             />
-          </MainTitle>
-          <Text size='16px' color='grey400' weight={500}>
+          </SceneHeaderText>
+          <Button
+            data-e2e='airdropNeedHelp'
+            size='16px'
+            height='46px'
+            width='126px'
+            nature='light'
+          >
             <FormattedMessage
-              id='scenes.airdrops.blockchain.safest1'
-              defaultMessage='The safest and easiest way to try and discover new crypto'
+              id='scenes.airdrop.header.needhelp'
+              defaultMessage='Need Help?'
             />
-          </Text>
-        </Header>
+          </Button>
+        </SceneHeader>
+        <SceneSubHeaderText>
+          <FormattedMessage
+            id='scenes.airdrops.blockchain.safest1'
+            defaultMessage='The safest and easiest way to try and discover new crypto'
+          />
+        </SceneSubHeaderText>
+
         {AirdropCards}
         <History>
           <MainTitle size='24px' color='grey800' weight={600}>
