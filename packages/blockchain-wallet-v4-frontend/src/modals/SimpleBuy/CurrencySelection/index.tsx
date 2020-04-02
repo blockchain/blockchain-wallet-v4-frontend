@@ -32,12 +32,17 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
 `
-const TopText = styled(Text)`
+const Top = styled(Text)`
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: space-between;
 `
-
+const TopText = styled(Text)`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
 const SubTitleText = styled(Text)`
   margin-top: 24px;
 `
@@ -125,20 +130,38 @@ const CurrencySelection: React.FC<
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <TopText color='grey900' size='20px' weight={600}>
-            <Icon
-              onClick={() => props.simpleBuyActions.showModal()}
-              cursor
-              name='arrow-left'
-              size='20px'
-              color='grey600'
-              style={{ marginRight: '24px' }}
-            />
-            <FormattedMessage
-              id='modals.simplebuy.selectcurrency'
-              defaultMessage='Select Your Currency'
-            />
-          </TopText>
+          <Top color='grey900' size='20px' weight={600}>
+            <TopText color='grey900' size='20px' weight={600}>
+              {!selectedCurrency && (
+                <Icon
+                  onClick={props.handleClose}
+                  cursor
+                  name='close'
+                  size='20px'
+                  color='grey600'
+                  style={{ marginRight: '24px' }}
+                />
+              )}
+              <FormattedMessage
+                id='modals.simplebuy.selectcurrency'
+                defaultMessage='Select Your Currency'
+              />
+            </TopText>
+            {selectedCurrency && (
+              <Icon
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'ENTER_AMOUNT',
+                    fiatCurrency: selectedCurrency
+                  })
+                }
+                cursor
+                name='arrow-right'
+                size='20px'
+                color='grey600'
+              />
+            )}
+          </Top>
           <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
               id='modals.simplebuy.localcurrency'
