@@ -9,6 +9,7 @@ import React from 'react'
 
 type OwnProps = {
   invitations?: { [key in string]: boolean }
+  lockboxDevices: Array<any>
   userKYCState: KycStateType
 }
 
