@@ -194,7 +194,7 @@ const Success: React.FC<Props> = props => {
           <LegalWrapper inline>
             <Text size='12px' weight={500} color='grey600'>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.agree'
+                id='modals.simplebuy.transferdetails.depositagreement'
                 defaultMessage='By depositing funds to this account, you agree to {ToS}, our banking partner.'
                 values={{
                   ToS: (
