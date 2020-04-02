@@ -231,6 +231,7 @@ export default ({
       yield call(waitForUserData)
 
       const fiatCurrency = S.getFiatCurrency(yield select())
+      // const cryptoCurrency = S.getCryptoCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
 
       yield put(A.fetchSBSuggestedAmountsLoading())
@@ -272,7 +273,6 @@ export default ({
       if (!fiatCurrency) {
         yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
       } else {
-        // need to pass coin type into Enter amount modal
         yield put(
           A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
         )
