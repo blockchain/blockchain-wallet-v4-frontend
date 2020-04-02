@@ -249,7 +249,7 @@ export default ({
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
-    const { origin, coinCode } = payload
+    const { origin, cryptoCurrency } = payload
     // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
     const invitations = (yield select(
       selectors.core.settings.getInvitations
@@ -263,7 +263,7 @@ export default ({
       // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
     } else {
       yield put(
-        actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, coinCode })
+        actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
       )
       const fiatCurrency = selectors.preferences.getSBFiatCurrency(
         yield select()
@@ -273,7 +273,9 @@ export default ({
         yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
       } else {
         // need to pass coin type into Enter amount modal
-        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+        yield put(
+          A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
+        )
       }
     }
   }

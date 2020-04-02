@@ -34,6 +34,7 @@ export enum SimpleBuyStepType {
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   balances: RemoteDataType<string, SBBalancesType>
+  cryptoCurrency: undefined | CoinType
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   order: undefined | SBOrderType
@@ -162,6 +163,7 @@ interface FetchSBSuggestedAmountsSuccess {
 interface SetStepAction {
   payload:
     | {
+        cryptoCurrency?: CoinType
         fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
@@ -180,7 +182,7 @@ interface SetStepAction {
 }
 interface ShowModalAction {
   payload: {
-    coinCode?: CoinType
+    crytoCurrency?: CoinType
     origin:
       | 'sideNav'
       | 'pendingOrder'
