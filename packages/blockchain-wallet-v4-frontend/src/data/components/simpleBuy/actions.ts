@@ -256,6 +256,11 @@ export const setStep = (
         }
 })
 
-export const showModal = (): SimpleBuyActionTypes => ({
-  type: AT.SHOW_MODAL
+export const showModal = (
+  origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+) => ({
+  type: AT.SHOW_MODAL,
+  payload: {
+    origin
+  }
 })

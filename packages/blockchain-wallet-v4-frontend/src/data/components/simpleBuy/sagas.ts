@@ -248,7 +248,8 @@ export default ({
     }
   }
 
-  const showModal = function * () {
+  const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
+    const { origin } = payload
     // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
     const invitations = (yield select(
       selectors.core.settings.getInvitations
@@ -261,7 +262,7 @@ export default ({
       yield put(actions.router.push('/buy-sell'))
       // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
     } else {
-      yield put(actions.modals.showModal('SIMPLE_BUY_MODAL'))
+      yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { origin }))
       const fiatCurrency = selectors.preferences.getSBFiatCurrency(
         yield select()
       )
