@@ -2,6 +2,7 @@ import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
+import { sendBtcReducer } from './sendBtc/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import coinify from './coinify/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
@@ -13,7 +14,6 @@ import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import send from './send/reducers'
 import sendBch from './sendBch/reducers'
-import sendBtc from './sendBtc/reducers'
 import sendEth from './sendEth/reducers'
 import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
@@ -34,7 +34,7 @@ const componentReducer = combineReducers({
   priceChart,
   send,
   sendBch,
-  sendBtc,
+  sendBtc: sendBtcReducer,
   sendEth,
   sendXlm,
   signMessage,

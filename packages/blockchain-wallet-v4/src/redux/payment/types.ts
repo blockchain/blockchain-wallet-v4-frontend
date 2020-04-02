@@ -1,18 +1,5 @@
 import { CoinType } from 'core/types'
-
-export type UTXOType = {
-  address: string
-  change: boolean
-  index: number
-  path: string
-  script: string
-  txHash: string
-  value: number
-  xpub: {
-    m: string
-    path: string
-  }
-}
+import { UTXOType } from './btc/types'
 
 export type FromType =
   | 'ACCOUNT'
@@ -44,6 +31,7 @@ type BtcPaymentValue = IPaymentValue & {
   amount?: Array<number>
   coin: 'BTC' | 'BCH'
   coins: Array<UTXOType>
+  description?: string
   fee: number
   fromAccountIdx: number
   selection?: {
@@ -51,6 +39,7 @@ type BtcPaymentValue = IPaymentValue & {
     inputs: Array<UTXOType>
     outputs: Array<UTXOType>
   }
+  txId?: string
 }
 
 type EthPaymentValue = IPaymentValue & {
@@ -69,27 +58,30 @@ type IPaymentType = {
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
   to: (address: string, addressType?: FromType) => PaymentType
-  value: () => PaymentValue
 }
 
-type BchPaymentType = IPaymentType & {
+export type BchPaymentType = IPaymentType & {
   amount: (n: number) => BchPaymentType
   coin: 'BCH'
+  value: () => BtcPaymentValue
 }
 
-type BtcPaymentType = IPaymentType & {
+export type BtcPaymentType = IPaymentType & {
   amount: (n: number) => BtcPaymentType
   coin: 'BTC'
+  value: () => BtcPaymentValue
 }
 
-type EthPaymentType = IPaymentType & {
+export type EthPaymentType = IPaymentType & {
   amount: (n: string) => EthPaymentType
   coin: 'ETH' | 'PAX'
+  value: () => EthPaymentValue
 }
 
-type XlmPaymentType = IPaymentType & {
+export type XlmPaymentType = IPaymentType & {
   amount: (n: string) => XlmPaymentType
   coin: 'XLM'
+  value: () => XlmPaymentValue
 }
 
 export type PaymentType =
@@ -99,3 +91,5 @@ export type PaymentType =
   | XlmPaymentType
 
 export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
+
+export * from './btc/types'

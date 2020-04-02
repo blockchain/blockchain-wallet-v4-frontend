@@ -4,16 +4,8 @@ import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
-  change,
-  destroy,
-  initialize,
-  startSubmit,
-  stopSubmit
-} from 'redux-form'
-import {
+  add,
   equals,
   identity,
   includes,
@@ -24,8 +16,19 @@ import {
   pathOr,
   prop
 } from 'ramda'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { BtcFromType, BtcPaymentType } from 'core/types'
+import { call, delay, put, race, select, take } from 'redux-saga/effects'
+import {
+  change,
+  destroy,
+  initialize,
+  startSubmit,
+  stopSubmit
+} from 'redux-form'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
+import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import bip21 from 'bip21'
 
@@ -182,8 +185,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
-      const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
+      const field = path(['meta', 'field'], action)
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
@@ -198,30 +201,37 @@ export default ({ api, coreSagas, networks }) => {
           const modalName = includes(payload, erc20List) ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
-              coin: payload
-            })
+            actions.modals.showModal(
+              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              {
+                coin: payload
+              }
+            )
           )
           break
         case 'from':
-          const fromType = prop('type', payload)
-          if (is(String, payload)) {
-            yield payment.from(payload, fromType)
+          let payloadT = payload as BtcFromType
+          const fromType = prop('type', payloadT)
+          if (is(String, payloadT)) {
+            yield payment.from(payloadT, fromType)
             break
           }
           switch (fromType) {
             case ADDRESS_TYPES.ACCOUNT:
-              payment = yield payment.from(payload.index, fromType)
+              // @ts-ignore
+              payment = yield payment.from(payloadT.index, fromType)
               break
             case ADDRESS_TYPES.LOCKBOX:
-              payment = yield payment.from(payload.xpub, fromType)
+              // @ts-ignore
+              payment = yield payment.from(payloadT.xpub, fromType)
               break
             case ADDRESS_TYPES.CUSTODIAL:
-              payment = yield payment.from(payload.address, fromType)
+              // @ts-ignore
+              payment = yield payment.from(payloadT.address, fromType)
               break
             default:
-              if (!payload.watchOnly) {
-                payment = yield payment.from(payload.address, fromType)
+              if (!payloadT.watchOnly) {
+                payment = yield payment.from(payloadT.address, fromType)
               }
           }
           break
@@ -230,8 +240,10 @@ export default ({ api, coreSagas, networks }) => {
           payment = yield payment.from(payload)
           break
         case 'to':
-          const value = pathOr({}, ['value', 'value'], payload)
+          const value = pathOr({}, ['value', 'value'], payload) as BtcFromType
+          // @ts-ignore
           const toType = prop('type', value)
+          // @ts-ignore
           const address = prop('address', value) || value
           let payProInvoice
           const tryParsePayPro = () => {
@@ -244,9 +256,11 @@ export default ({ api, coreSagas, networks }) => {
           }
           switch (true) {
             case equals(toType, ADDRESS_TYPES.ACCOUNT):
+              // @ts-ignore
               payment = yield payment.to(value.index, toType)
               break
             case equals(toType, ADDRESS_TYPES.LOCKBOX):
+              // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
             case !isNil(tryParsePayPro()):
@@ -393,7 +407,7 @@ export default ({ api, coreSagas, networks }) => {
   const secondStepSubmitClicked = function * () {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
-    let payment = coreSagas.payment.btc.create({
+    let payment: BtcPaymentType = coreSagas.payment.btc.create({
       payment: p.getOrElse({}),
       network: networks.btc
     })
@@ -414,7 +428,8 @@ export default ({ api, coreSagas, networks }) => {
         )
         const device = deviceR.getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        const outputs = path(['selection', 'outputs'], payment.value())
+        const selection = payment.value().selection || { outputs: [] }
+        const outputs = selection.outputs
           .filter(o => !o.change)
           .map(prop('address'))
         yield call(promptForLockbox, 'BTC', deviceType, outputs)
@@ -423,10 +438,12 @@ export default ({ api, coreSagas, networks }) => {
         )
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('BTC', deviceType)
+        // @ts-ignore
         payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
       if (payPro) {
+        // @ts-ignore
         const { txHex, weightedSize } = payment.value()
         const invoiceId = payPro.paymentUrl.split('/i/')[1]
         yield call(
@@ -477,12 +494,15 @@ export default ({ api, coreSagas, networks }) => {
           })
         )
       }
+
+      const amt = payment.value().amount || [0]
+
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
           'BTC',
           Exchange.convertCoinToCoin({
-            value: payment.value().amount,
+            value: amt.reduce(add, 0),
             coin: 'BTC',
             baseToStandard: true
           }).value
@@ -490,7 +510,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (payPro) {
         const coinAmount = Exchange.convertCoinToCoin({
-          value: payment.value().amount,
+          value: amt.reduce(add, 0),
           coin: 'BTC',
           baseToStandard: true
         }).value
