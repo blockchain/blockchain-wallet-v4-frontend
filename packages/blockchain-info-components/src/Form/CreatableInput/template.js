@@ -1,7 +1,7 @@
 import { components, NonceProvider } from 'react-select'
+import { Control, sharedSelect } from '../SelectInput/template'
 import { flatten, length, prop } from 'ramda'
 import { selectBorderColor, selectFocusBorderColor } from '../helper'
-import { sharedSelect } from '../SelectInput/template'
 import CreatableSelect from 'react-select/creatable'
 import React from 'react'
 import styled from 'styled-components'
@@ -9,7 +9,14 @@ import styled from 'styled-components'
 const StyledCreatableSelect = styled(CreatableSelect)`
   ${sharedSelect}
 
-  ${({ bgColor, borderColor, focusedBorderColor, isMulti }) =>
+  .bc__input {
+    width: 100%;
+    input {
+      width: 100% !important;
+    }
+  }
+
+  ${({ isMulti }) =>
     !isMulti &&
     `    
     .bc__value-container {
@@ -52,9 +59,10 @@ const getComponents = isMulti =>
   isMulti
     ? {
         DropdownIndicator: null,
-        MultiValueContainer
+        MultiValueContainer,
+        Control
       }
-    : { MultiValueContainer }
+    : { MultiValueContainer, Control }
 
 const CreatableInput = props => {
   const {

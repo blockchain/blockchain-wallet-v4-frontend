@@ -135,6 +135,16 @@ export const AssistiveControl = styled.div`
   top: 0;
 `
 
+export const Control = props => {
+  return props.selectProps.hideFocusedControl &&
+    props.selectProps.menuIsOpen ? null : (
+    <components.Control {...props}>
+      {props.children}
+      <AssistiveControl role='button' />
+    </components.Control>
+  )
+}
+
 const Option = props => {
   const itemProps = assoc('text', props.label, props)
   return (
@@ -143,16 +153,6 @@ const Option = props => {
         ? props.selectProps.templateItem(itemProps)
         : props.children}
     </components.Option>
-  )
-}
-
-const Control = props => {
-  return props.selectProps.hideFocusedControl &&
-    props.selectProps.menuIsOpen ? null : (
-    <components.Control {...props}>
-      {props.children}
-      <AssistiveControl role='button' />
-    </components.Control>
   )
 }
 
