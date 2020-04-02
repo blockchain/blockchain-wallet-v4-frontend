@@ -1,4 +1,4 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -22,12 +22,21 @@ const TopText = styled(Text)`
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
-  justify-content: space-between;
+  padding-top: 24px;
   flex-direction: column;
   height: 100%;
 `
+
+const OkButton = styled(Button)`
+  size: 16px;
+  height: 48px;
+  margin-top: 24px;
+`
 const InfoContainer = styled.div`
   margin-top: 16px;
+`
+const LegalWrapper = styled(TextGroup)`
+  margin-top: 20px;
 `
 
 const Success: React.FC<Props> = props => {
@@ -181,19 +190,44 @@ const Success: React.FC<Props> = props => {
             defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
           />
         </Text>
-        <Button
+        {props.account.currency === 'GBP' && (
+          <LegalWrapper inline>
+            <Text size='12px' weight={500} color='grey600'>
+              <FormattedMessage
+                id='modals.simplebuy.transferdetails.depositagreement'
+                defaultMessage='By depositing funds to this account, you agree to {ToS}, our banking partner.'
+                values={{
+                  ToS: (
+                    <Link
+                      href='https://exchange.blockchain.com/legal'
+                      size='12px'
+                      weight={500}
+                      rel='noreferrer noopener'
+                      target='_blank'
+                    >
+                      <FormattedMessage
+                        id='modals.simplebuy.transferdetails.agree'
+                        defaultMessage='Terms and Conditions of Modular'
+                      />
+                    </Link>
+                  )
+                }}
+              />
+            </Text>
+          </LegalWrapper>
+        )}
+
+        <OkButton
           fullwidth
           nature='primary'
           data-e2e='closeSBTransferDetails'
-          size='16px'
-          height='48px'
           onClick={() => props.handleClose()}
         >
           <FormattedMessage
             id='modals.simplebuy.transferdetails.sendfundsfromok'
             defaultMessage='OK'
           />
-        </Button>
+        </OkButton>
       </Bottom>
     </Wrapper>
   )

@@ -27,6 +27,7 @@ const IcoMoon = {
   chart: '\\e95b',
   check: '\\e910',
   checkmark: '\\e95d',
+  'checkmark-circle-filled': '\\e92a',
   'checkmark-in-circle': '\\e95c',
   'checkmark-in-circle-filled': '\\e90b',
   'chevron-down': '\\e93f',
