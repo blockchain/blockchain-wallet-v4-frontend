@@ -20,7 +20,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: ${props => props.theme['gray-6']};
+    color: ${props => props.theme['grey800']};
     background-color: ${({ theme }) => theme.white};
     background-image: none;
     outline-width: 0;

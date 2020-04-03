@@ -46,7 +46,7 @@ export const sharedSelect = css`
   }
   .bc__control {
     box-shadow: none;
-    color: ${props => props.theme.grey400};
+    color: ${props => props.theme.grey800};
     background-color: ${({ theme }) => theme.white};
     cursor: pointer;
     min-height: ${props => props.height};
