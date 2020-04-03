@@ -13,7 +13,7 @@ const DarkTheme: DefaultTheme = {
   greyFade400: 'rgba(5, 24, 61, 0.4)',
   greyFade600: 'rgba(3, 17, 47, 0.6)',
   greyFade800: 'rgba(18, 29, 51, 0.8)',
-  grey000: '#F0F2F7',
+  grey000: '#50596B',
   grey100: '#50596B',
   grey200: '#CCD2DE',
   grey300: '#B1B8C7',
