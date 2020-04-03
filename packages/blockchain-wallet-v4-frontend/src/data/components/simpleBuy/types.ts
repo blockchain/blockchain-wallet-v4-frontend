@@ -182,7 +182,7 @@ interface SetStepAction {
 }
 interface ShowModalAction {
   payload: {
-    crytoCurrency?: CoinType
+    cryptoCurrency?: CoinType
     origin:
       | 'sideNav'
       | 'pendingOrder'
