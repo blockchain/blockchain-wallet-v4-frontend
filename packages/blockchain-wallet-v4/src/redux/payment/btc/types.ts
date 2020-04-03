@@ -15,6 +15,23 @@ export type UTXOType = {
 export type IBtcFromType = {
   balance: number
   coin: 'BTC'
+  watchOnly: boolean
+}
+
+export type BtcAccountFromType = IBtcFromType & {
+  coin: 'BTC'
+  index: number
+  label: string
+  type: 'ACCOUNT' | 'LOCKBOX'
+  xpub: string
+}
+
+export type BtcCustodialFromType = IBtcFromType & {
+  available: string
+  fiatAmount: null
+  label: string
+  pending: string
+  type: 'CUSTODIAL'
 }
 
 export type BtcLegacyFromType = IBtcFromType & {
@@ -24,4 +41,7 @@ export type BtcLegacyFromType = IBtcFromType & {
   watchOnly: boolean
 }
 
-export type BtcFromType = BtcLegacyFromType
+export type BtcFromType =
+  | BtcAccountFromType
+  | BtcCustodialFromType
+  | BtcLegacyFromType

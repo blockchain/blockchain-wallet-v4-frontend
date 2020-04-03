@@ -1,4 +1,3 @@
-import { ErrorCartridge } from 'components/Cartridge'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
@@ -270,7 +269,7 @@ const FirstStep = props => {
             ]}
             coin='BTC'
             data-e2e='sendBtc'
-            disabled={isPayPro}
+            disabled={isPayPro || isFromCustody}
             marginTop='8px'
           />
         </FormItem>
@@ -289,6 +288,7 @@ const FirstStep = props => {
           {!isPayPro ? (
             <Field
               name='description'
+              disabled={isFromCustody}
               component={TextAreaDebounced}
               placeholder="What's this transaction for? (optional)"
               rows={3}
@@ -311,83 +311,85 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       {!isPayPro ? (
-        <React.Fragment>
-          <FeeFormGroup inline margin={'10px'}>
-            <ColLeft>
-              <FeeFormContainer toggled={feePerByteToggled}>
-                <FeeFormLabel>
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.networkfee'
-                    defaultMessage='Network Fee'
-                  />
-                  <span>&nbsp;</span>
-                  {!feePerByteToggled && (
-                    <Field
-                      name='feePerByte'
-                      component={SelectBox}
-                      elements={feePerByteElements}
+        isFromCustody ? null : (
+          <React.Fragment>
+            <FeeFormGroup inline margin={'10px'}>
+              <ColLeft>
+                <FeeFormContainer toggled={feePerByteToggled}>
+                  <FeeFormLabel>
+                    <FormattedMessage
+                      id='modals.sendbtc.firststep.networkfee'
+                      defaultMessage='Network Fee'
                     />
-                  )}
+                    <span>&nbsp;</span>
+                    {!feePerByteToggled && (
+                      <Field
+                        name='feePerByte'
+                        component={SelectBox}
+                        elements={feePerByteElements}
+                      />
+                    )}
+                    {feePerByteToggled && (
+                      <FeeOptionsContainer>
+                        <RegularFeeLink fee={regularFeePerByte} />
+                        <span>&nbsp;</span>
+                        <PriorityFeeLink fee={priorityFeePerByte} />
+                      </FeeOptionsContainer>
+                    )}
+                  </FeeFormLabel>
                   {feePerByteToggled && (
-                    <FeeOptionsContainer>
-                      <RegularFeeLink fee={regularFeePerByte} />
-                      <span>&nbsp;</span>
-                      <PriorityFeeLink fee={priorityFeePerByte} />
-                    </FeeOptionsContainer>
+                    <FeePerByteContainer style={{ marginTop: '10px' }}>
+                      <Field
+                        name='feePerByte'
+                        component={NumberBoxDebounced}
+                        validate={[required, minimumOneSatoshi]}
+                        warn={[minimumFeePerByte, maximumFeePerByte]}
+                        errorBottom
+                        errorLeft
+                        unit='sat/byte'
+                        data-e2e='sendBtcCustomFeeInput'
+                      />
+                    </FeePerByteContainer>
                   )}
-                </FeeFormLabel>
-                {feePerByteToggled && (
-                  <FeePerByteContainer style={{ marginTop: '10px' }}>
-                    <Field
-                      name='feePerByte'
-                      component={NumberBoxDebounced}
-                      validate={[required, minimumOneSatoshi]}
-                      warn={[minimumFeePerByte, maximumFeePerByte]}
-                      errorBottom
-                      errorLeft
-                      unit='sat/byte'
-                      data-e2e='sendBtcCustomFeeInput'
+                </FeeFormContainer>
+              </ColLeft>
+              <ColRight>
+                <ComboDisplay size='13px' weight={600} coin='BTC'>
+                  {totalFee}
+                </ComboDisplay>
+                <Link
+                  size='12px'
+                  weight={400}
+                  capitalize
+                  onClick={handleFeePerByteToggle}
+                  data-e2e='sendBtcCustomFeeLink'
+                >
+                  {feePerByteToggled ? (
+                    <FormattedMessage
+                      id='modals.sendbtc.firststep.cancel'
+                      defaultMessage='Cancel'
                     />
-                  </FeePerByteContainer>
-                )}
-              </FeeFormContainer>
-            </ColLeft>
-            <ColRight>
-              <ComboDisplay size='13px' weight={600} coin='BTC'>
-                {totalFee}
-              </ComboDisplay>
-              <Link
-                size='12px'
-                weight={400}
-                capitalize
-                onClick={handleFeePerByteToggle}
-                data-e2e='sendBtcCustomFeeLink'
-              >
-                {feePerByteToggled ? (
+                  ) : (
+                    <FormattedMessage
+                      id='modals.sendbtc.firststep.customizefee'
+                      defaultMessage='Customize Fee'
+                    />
+                  )}
+                </Link>
+              </ColRight>
+            </FeeFormGroup>
+            {feePerByteToggled && (
+              <CustomFeeAlertBanner type='alert'>
+                <Text size='12px'>
                   <FormattedMessage
-                    id='modals.sendbtc.firststep.cancel'
-                    defaultMessage='Cancel'
+                    id='modals.sendbtc.firststep.customfeeinfo'
+                    defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
                   />
-                ) : (
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.customizefee'
-                    defaultMessage='Customize Fee'
-                  />
-                )}
-              </Link>
-            </ColRight>
-          </FeeFormGroup>
-          {feePerByteToggled && (
-            <CustomFeeAlertBanner type='alert'>
-              <Text size='12px'>
-                <FormattedMessage
-                  id='modals.sendbtc.firststep.customfeeinfo'
-                  defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
-                />
-              </Text>
-            </CustomFeeAlertBanner>
-          )}
-        </React.Fragment>
+                </Text>
+              </CustomFeeAlertBanner>
+            )}
+          </React.Fragment>
+        )
       ) : (
         <FeeFormGroup margin={'10px'}>
           <FormLabel>
@@ -431,14 +433,6 @@ const FirstStep = props => {
           />
         </Text>
       )}
-      {isFromCustody && (
-        <ErrorCartridge>
-          <FormattedMessage
-            id='modals.sendbtc.firststep.fromcustody.withdrawal'
-            defaultMessage='Withdrawals from your Trading Wallet will be enabled soon.'
-          />
-        </ErrorCartridge>
-      )}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -449,9 +443,8 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
-            isFromCustody ||
-            (!isPayPro && pristine && !autofilled) ||
-            disableLockboxSend
+            disableLockboxSend ||
+            (!isPayPro && pristine && !autofilled)
           }
         >
           <FormattedMessage

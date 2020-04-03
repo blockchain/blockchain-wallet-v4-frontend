@@ -29,6 +29,8 @@ export const btcFromLabel = curry((payment, state) => {
       return selectors.core.wallet.getAccountLabel(state)(
         payment.fromAccountIdx
       )
+    case ADDRESS_TYPES.CUSTODIAL:
+      return payment.from
     case ADDRESS_TYPES.LEGACY:
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]

@@ -24,7 +24,12 @@ type IPaymentValue = {
   }
   from: Array<string>
   fromType: FromType
-  to?: Array<any>
+  to?: Array<{
+    accountIndex?: number
+    address: string
+    addressIndex?: number
+    type: FromType
+  }>
 }
 
 type BtcPaymentValue = IPaymentValue & {
@@ -55,6 +60,10 @@ type XlmPaymentValue = IPaymentValue & {
 
 type IPaymentType = {
   build: () => PaymentType
+  from: (
+    addressOrIndex?: string | number,
+    addressType?: FromType
+  ) => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
   to: (address: string, addressType?: FromType) => PaymentType
@@ -63,12 +72,16 @@ type IPaymentType = {
 export type BchPaymentType = IPaymentType & {
   amount: (n: number) => BchPaymentType
   coin: 'BCH'
+  description: (arg: string) => BtcPaymentType
+  fee: (arg: number) => BtcPaymentType
   value: () => BtcPaymentValue
 }
 
 export type BtcPaymentType = IPaymentType & {
   amount: (n: number) => BtcPaymentType
   coin: 'BTC'
+  description: (arg: string) => BtcPaymentType
+  fee: (arg: number) => BtcPaymentType
   value: () => BtcPaymentValue
 }
 

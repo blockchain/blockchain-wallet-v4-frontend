@@ -33,6 +33,11 @@ const BaseTextAreaInput = styled.textarea`
     font-size: 14px;
     font-weight: 500;
   }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme.grey100};
+    border: '1px solid transparent';
+  }
 `
 
 const TextAreaInput = ({ errorState, value, ...rest }) => (
