@@ -237,23 +237,17 @@ export default ({
       yield put(A.fetchSBSuggestedAmountsLoading())
       const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
       yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
-      if (!cryptoCurrency) {
-        yield put(
-          actions.form.initialize('simpleBuyCheckout', {
-            pair: pairs[0],
-            orderType
-          })
-        )
-      } else {
-        yield put(
-          actions.form.initialize('simpleBuyCheckout', {
-            pair: pairs.find(
-              pair => getCoinFromPair(pair.pair) === cryptoCurrency
-            ),
-            orderType
-          })
-        )
-      }
+
+      const pair = pairs.find(
+        pair => getCoinFromPair(pair.pair) === cryptoCurrency
+      )
+
+      yield put(
+        actions.form.initialize('simpleBuyCheckout', {
+          pair: pair || pairs[0],
+          orderType
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBSuggestedAmountsFailure(error))
