@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import {
+  CoinType,
   FiatEligibleType,
   FiatType,
   RemoteDataType,
@@ -33,6 +34,7 @@ export enum SimpleBuyStepType {
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   balances: RemoteDataType<string, SBBalancesType>
+  cryptoCurrency: undefined | CoinType
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   order: undefined | SBOrderType
@@ -161,6 +163,7 @@ interface FetchSBSuggestedAmountsSuccess {
 interface SetStepAction {
   payload:
     | {
+        cryptoCurrency?: CoinType
         fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
@@ -179,7 +182,13 @@ interface SetStepAction {
 }
 interface ShowModalAction {
   payload: {
-    origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+    cryptoCurrency?: CoinType
+    origin:
+      | 'sideNav'
+      | 'pendingOrder'
+      | 'welcomeModal'
+      | 'priceChart'
+      | 'emptyFeed'
   }
   type: typeof AT.SHOW_MODAL
 }

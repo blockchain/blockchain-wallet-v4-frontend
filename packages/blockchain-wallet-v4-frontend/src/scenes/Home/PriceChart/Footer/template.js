@@ -31,7 +31,7 @@ const Footer = ({
   coinName,
   invitations,
   handleBuy,
-  isCoinifySupported,
+  isCoinifyUser,
   isSilverOrAbove
 }) => {
   const [swapTo, setSwapTo] = useState('BTC')
@@ -39,10 +39,9 @@ const Footer = ({
   useEffect(() => {
     coinTicker === 'BTC' ? setSwapTo('ETH') : setSwapTo('BTC')
   }, [coinTicker])
-
   return (
     <Wrapper>
-      {((invitations && invitations.simpleBuy) || isSilverOrAbove) && (
+      {(!isCoinifyUser || (invitations && invitations.simpleBuy)) && (
         <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
           <FormattedMessage
             id='price.chart.buy.coin'

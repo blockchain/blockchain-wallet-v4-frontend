@@ -13,6 +13,7 @@ const INITIAL_STATE: SimpleBuyState = {
   }),
   order: undefined,
   orders: Remote.NotAsked,
+  cryptoCurrency: undefined,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   pairs: Remote.NotAsked,
@@ -152,6 +153,7 @@ export function simpleBuyReducer (
         case 'ENTER_AMOUNT':
           return {
             ...state,
+            cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }

@@ -237,13 +237,18 @@ export const setStep = (
           | 'ORDER_SUMMARY'
           | 'CANCEL_ORDER'
       }
-    | { fiatCurrency: FiatType; step: 'ENTER_AMOUNT' }
+    | {
+        cryptoCurrency?: CoinType
+        fiatCurrency: FiatType
+        step: 'ENTER_AMOUNT'
+      }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
     payload.step === 'ENTER_AMOUNT'
       ? {
           step: payload.step,
+          cryptoCurrency: payload.cryptoCurrency,
           fiatCurrency: payload.fiatCurrency
         }
       : payload.step === 'CHECKOUT_CONFIRM' ||
@@ -257,10 +262,17 @@ export const setStep = (
 })
 
 export const showModal = (
-  origin: 'sideNav' | 'pendingOrder' | 'welcomeModal'
+  origin:
+    | 'sideNav'
+    | 'pendingOrder'
+    | 'welcomeModal'
+    | 'priceChart'
+    | 'emptyFeed',
+  cryptoCurrency?: CoinType
 ) => ({
   type: AT.SHOW_MODAL,
   payload: {
-    origin
+    origin,
+    cryptoCurrency
   }
 })
