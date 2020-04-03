@@ -11,6 +11,7 @@ export type ModalNamesType =
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
   | '@MODAL.REQUEST.ETH'
+  | '@MODAL.SEND.BCH'
   | '@MODAL.SEND.BTC'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'

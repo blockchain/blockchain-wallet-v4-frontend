@@ -91,7 +91,7 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  const __calculateFrom = function * (origin, type, network, effectiveBalance) {
+  const __calculateFrom = function * (origin, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -114,7 +114,7 @@ export default ({ api }) => {
       case ADDRESS_TYPES.LOCKBOX:
         return fromLockbox(network, appState, origin, 'BTC')
       case ADDRESS_TYPES.CUSTODIAL:
-        return fromCustodial(origin, effectiveBalance)
+        return fromCustodial(origin)
       default:
         const pkformat = detectPrivateKeyFormat(origin)
         if (pkformat != null) {

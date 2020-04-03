@@ -3,8 +3,8 @@ import { actionTypes } from 'redux-form'
 import { takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default ({ coreSagas, networks }) => {
-  const sendBchSagas = sagas({ coreSagas, networks })
+export default ({ api, coreSagas, networks }) => {
+  const sendBchSagas = sagas({ api, coreSagas, networks })
 
   return function * sendBchSaga () {
     yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchSagas.initialized)

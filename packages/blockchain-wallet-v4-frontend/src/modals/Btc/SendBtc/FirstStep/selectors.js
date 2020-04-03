@@ -14,7 +14,6 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.walletOptions.getBtcNetwork,
     selectors.form.getFormValues(model.components.sendBtc.FORM),
-    selectors.form.getFormSyncErrors(model.components.sendBtc.FORM),
     selectors.core.walletOptions.getCoinAvailability
   ],
   (
@@ -25,7 +24,6 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     networkTypeR,
     formValues,
-    formMeta,
     coinAvailabilityR
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))

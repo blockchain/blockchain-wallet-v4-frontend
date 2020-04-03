@@ -2,6 +2,7 @@ import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
+import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import coinify from './coinify/reducers'
@@ -13,7 +14,6 @@ import onboarding from './onboarding/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import send from './send/reducers'
-import sendBch from './sendBch/reducers'
 import sendEth from './sendEth/reducers'
 import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
@@ -21,11 +21,11 @@ import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 
 const componentReducer = combineReducers({
-  identityVerification: identityVerificationReducer,
   borrow: borrowReducer,
   coinify,
   exchange: exchangeReducer,
   exchangeHistory,
+  identityVerification: identityVerificationReducer,
   layoutWallet,
   lockbox,
   manageAddresses,
@@ -33,7 +33,7 @@ const componentReducer = combineReducers({
   onfido,
   priceChart,
   send,
-  sendBch,
+  sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
   sendEth,
   sendXlm,

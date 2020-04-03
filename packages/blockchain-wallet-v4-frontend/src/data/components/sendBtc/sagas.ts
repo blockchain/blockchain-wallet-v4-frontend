@@ -183,9 +183,7 @@ export default ({
       })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
-      yield put(stopSubmit(FORM))
     } catch (e) {
-      yield put(stopSubmit(FORM))
       yield put(
         actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
@@ -243,7 +241,9 @@ export default ({
                 .getRates(appState)
                 .getOrFail('Can not retrieve bitcoin rates.')
 
-              const available = Number(payloadT.available)
+              const available = new BigNumber(
+                payloadT.available || 0
+              ).toNumber()
               const coin = Exchange.convertBtcToBtc({
                 value: available,
                 fromUnit: 'SAT',

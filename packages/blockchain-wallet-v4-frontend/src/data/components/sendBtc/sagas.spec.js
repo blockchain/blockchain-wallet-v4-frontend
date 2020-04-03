@@ -288,7 +288,6 @@ describe('sendBtc sagas', () => {
         .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
         .save(beforeError)
         .next()
-        .next()
         .isDone()
         .restore(beforeError)
     })
@@ -299,7 +298,6 @@ describe('sendBtc sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
-          .next()
           .put(
             actions.logs.logErrorMessage(
               logLocation,

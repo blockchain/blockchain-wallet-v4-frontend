@@ -18,7 +18,6 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
-import { ErrorCartridge } from 'components/Cartridge'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -214,7 +213,7 @@ const FirstStep = props => {
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
-            disabled={isPayPro}
+            disabled={isPayPro || isFromCustody}
           />
         </FormItem>
       </FormGroup>
@@ -235,6 +234,8 @@ const FirstStep = props => {
               component={TextAreaDebounced}
               placeholder="What's this transaction for? (optional)"
               data-e2e='sendBchDescription'
+              disabled={isFromCustody}
+              rows={3}
               fullwidth
             />
           ) : (
@@ -253,19 +254,21 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
-          </FormLabel>
-          <ComboDisplay size='13px' coin='BCH' weight={500}>
-            {totalFee}
-          </ComboDisplay>
-        </FormItem>
-      </FormGroup>
+      {!isFromCustody && (
+        <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
+          <FormItem>
+            <FormLabel>
+              <FormattedMessage
+                id='modals.sendBch.firststep.networkfee'
+                defaultMessage='Network Fee'
+              />
+            </FormLabel>
+            <ComboDisplay size='13px' coin='BCH' weight={500}>
+              {totalFee}
+            </ComboDisplay>
+          </FormItem>
+        </FormGroup>
+      )}
       {isPayPro && invalid && (
         <Text
           size='13px'
@@ -279,14 +282,6 @@ const FirstStep = props => {
           />
         </Text>
       )}
-      {isFromCustody && (
-        <ErrorCartridge>
-          <FormattedMessage
-            id='modals.sendBch.firststep.fromcustody.withdrawal'
-            defaultMessage='Withdrawals from your Trading Wallet will be enabled soon.'
-          />
-        </ErrorCartridge>
-      )}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -296,8 +291,8 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
-            (!isPayPro && pristine) ||
-            disableLockboxSend
+            disableLockboxSend ||
+            (!isPayPro && pristine)
           }
           data-e2e='bchSendContinue'
         >

@@ -27,10 +27,10 @@ export type BtcAccountFromType = IBtcFromType & {
 }
 
 export type BtcCustodialFromType = IBtcFromType & {
-  available: string
+  available?: string
   fiatAmount: null
   label: string
-  pending: string
+  pending?: string
   type: 'CUSTODIAL'
 }
 
