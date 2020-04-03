@@ -1,5 +1,6 @@
 import { Box } from '../Box'
 import { Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const StickyHeader = styled.div`
@@ -43,13 +44,25 @@ export const SceneHeader = styled.div`
   flex-direction: row;
   margin-bottom: 20px;
   > :first-child {
-    margin-right: 14px;
+    margin-right: 16px;
+  }
+  ${media.mobile`
+    flex-direction: column;
+  `}
+`
+export const HeaderTextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  > :first-child {
+    margin-right: 16px;
   }
 `
+
 export const SceneHeaderText = styled(Text)`
   font-size: 32px;
   color: black;
   font-weight: 600;
+  margin-right: 14px;
 `
 export const SceneSubHeaderText = styled(Text)`
   font-size: 16px;

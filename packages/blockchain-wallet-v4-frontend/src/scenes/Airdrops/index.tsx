@@ -1,15 +1,14 @@
 import { actions, selectors } from 'data'
 import { AppActionTypes, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
   SceneHeaderText,
-  SceneSubHeaderText,
-  SceneWrapper
+  SceneSubHeaderText
 } from 'components/Layout'
 import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
@@ -20,6 +19,10 @@ import PastAirdropsSuccess from './PastAirdrops/template.success'
 import React from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
+
+const Wrapper = styled.div`
+  width: 100%;
+`
 
 export const Header = styled.div`
   margin-bottom: 40px;
@@ -92,7 +95,7 @@ class Airdrops extends React.PureComponent<Props> {
     })
     if (!hasEmail) return <EmailRequired />
     return (
-      <SceneWrapper>
+      <Wrapper>
         <SceneHeader>
           <IconBackground>
             <Icon name='parachute' color='blue600' size='24px' />
@@ -103,23 +106,11 @@ class Airdrops extends React.PureComponent<Props> {
               defaultMessage='Airdrops'
             />
           </SceneHeaderText>
-          <Button
-            data-e2e='airdropNeedHelp'
-            size='16px'
-            height='46px'
-            width='126px'
-            nature='light'
-          >
-            <FormattedMessage
-              id='scenes.airdrop.header.needhelp'
-              defaultMessage='Need Help?'
-            />
-          </Button>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.airdrops.blockchain.safest1'
-            defaultMessage='The safest and easiest way to try and discover new crypto'
+            id='scenes.airdrops.blockchain.safest'
+            defaultMessage='The safest and easiest way to try and discover new crypto.'
           />
         </SceneSubHeaderText>
 
@@ -133,7 +124,7 @@ class Airdrops extends React.PureComponent<Props> {
           </MainTitle>
         </History>
         {PastAirdrops}
-      </SceneWrapper>
+      </Wrapper>
     )
   }
 }
