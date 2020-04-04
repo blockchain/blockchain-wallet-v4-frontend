@@ -1,22 +1,18 @@
+import { Box } from 'components/Box'
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { OrangeCartridge } from 'components/Cartridge'
 import React from 'react'
 import styled from 'styled-components'
 
-const BorderWrapper = styled.div`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 290px;
-  width: 280px;
-  border: solid 1px ${props => props.theme.grey000};
-  border-radius: 8px;
-  padding: 24px;
-`
-const Content = styled.div`
   & > :first-child {
     margin-bottom: 20px;
+  }
+  & > :last-child {
+    justify-items: flex-end;
   }
 `
 const CustomOrangeCartridge = styled(OrangeCartridge)`
@@ -26,7 +22,7 @@ const CustomOrangeCartridge = styled(OrangeCartridge)`
 const ExchangeConnect = props => {
   const { onSignup } = props
   return (
-    <BorderWrapper>
+    <Box>
       <Content>
         <Text size='20px' weight={600} color='grey800'>
           <FormattedMessage
@@ -40,20 +36,20 @@ const ExchangeConnect = props => {
             defaultMessage='Easily connect your Wallet to the Exchange and send crypto back and forth. No need to copy past wallet addresses all while keeping control of your private keys.'
           />
         </Text>
+        <CustomOrangeCartridge>
+          <FormattedMessage
+            id='scenes.exchange.empty.notconnected.cartridge'
+            defaultMessage='Not Connected'
+          />
+        </CustomOrangeCartridge>
+        <Button nature='primary' height='48px' fullwidth onClick={onSignup}>
+          <FormattedMessage
+            id='scenes.exchange.connectnow'
+            defaultMessage='Connect Now'
+          />
+        </Button>
       </Content>
-      <CustomOrangeCartridge>
-        <FormattedMessage
-          id='scenes.exchange.empty.notconnected.cartridge'
-          defaultMessage='Not Connected'
-        />
-      </CustomOrangeCartridge>
-      <Button nature='primary' height='48px' fullwidth onClick={onSignup}>
-        <FormattedMessage
-          id='scenes.exchange.connectnow'
-          defaultMessage='Connect Now'
-        />
-      </Button>
-    </BorderWrapper>
+    </Box>
   )
 }
 

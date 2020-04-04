@@ -236,7 +236,7 @@ function PrevArrow (props) {
   )
 }
 
-const GetStarted = ({ step }) => {
+const InProgressCarousel = ({ step }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [firstPage, setFirstPage] = useState(true)
   const [lastPage, setLastPage] = useState(false)
@@ -284,14 +284,14 @@ const GetStarted = ({ step }) => {
               <Container>
                 <Title size='24px' weight={600}>
                   <FormattedMessage
-                    defaultMessage='Welcome to Swap!'
                     id='swap.carousel.title.page1'
+                    defaultMessage='Welcome to Swap!'
                   />
                 </Title>
                 <BodyText weight={500}>
                   <FormattedMessage
-                    defaultMessage='The easiest way to exchange one crypto for another without leaving your wallet.'
                     id='swap.carousel.desc.page1'
+                    defaultMessage='The easiest way to exchange one crypto for another without leaving your wallet.'
                   />
                 </BodyText>
               </Container>
@@ -302,14 +302,14 @@ const GetStarted = ({ step }) => {
               <Container>
                 <Title size='24px' weight={600}>
                   <FormattedMessage
-                    defaultMessage='Real-time Exchange Rates'
                     id='swap.carousel.title.page2'
+                    defaultMessage='Real-time Exchange Rates'
                   />
                 </Title>
                 <BodyText weight={500}>
                   <FormattedMessage
-                    defaultMessage='Access competitive crypto prices right at your fingertips.'
                     id='swap.carousel.desc.page2'
+                    defaultMessage='Access competitive crypto prices right at your fingertips.'
                   />
                 </BodyText>
               </Container>
@@ -320,14 +320,14 @@ const GetStarted = ({ step }) => {
               <Container>
                 <Title size='24px' weight={600}>
                   <FormattedMessage
-                    defaultMessage='100% On-Chain'
                     id='swap.carousel.title.page3'
+                    defaultMessage='100% On-Chain'
                   />
                 </Title>
                 <BodyText weight={500}>
                   <FormattedMessage
-                    defaultMessage='All Swap trades are confirmed and settled directly on-chain.'
                     id='swap.carousel.desc.page3'
+                    defaultMessage='All Swap trades are confirmed and settled directly on-chain.'
                   />
                 </BodyText>
               </Container>
@@ -338,14 +338,14 @@ const GetStarted = ({ step }) => {
               <Container>
                 <Title size='24px' weight={600}>
                   <FormattedMessage
-                    defaultMessage='You Control Your Key'
                     id='swap.carousel.title.page4'
+                    defaultMessage='You Control Your Key'
                   />
                 </Title>
                 <BodyText weight={500}>
                   <FormattedMessage
-                    defaultMessage='With Swap your crypto is safe, secure, and your keys are always intact.'
                     id='swap.carousel.desc.page4'
+                    defaultMessage='With Swap your crypto is safe, secure, and your keys are always intact.'
                   />
                 </BodyText>
               </Container>
@@ -356,14 +356,14 @@ const GetStarted = ({ step }) => {
               <Container>
                 <Title size='24px' weight={600}>
                   <FormattedMessage
-                    defaultMessage='Manage Risk Better'
                     id='swap.carousel.title.page5'
+                    defaultMessage='Manage Risk Better'
                   />
                 </Title>
                 <BodyText weight={500}>
                   <FormattedMessage
-                    defaultMessage='Introducing Digital Dollars (USD Digital) to de-risk your crypto investment or lock-in gains.'
                     id='swap.carousel.desc.page5-1'
+                    defaultMessage='Introducing Digital Dollars (USD Digital) to de-risk your crypto investment or lock-in gains.'
                   />
                 </BodyText>
               </Container>
@@ -386,4 +386,4 @@ const GetStarted = ({ step }) => {
 
 const mapStateToProps = state => getData(state)
 
-export default connect(mapStateToProps)(GetStarted)
+export default connect(mapStateToProps)(InProgressCarousel)
