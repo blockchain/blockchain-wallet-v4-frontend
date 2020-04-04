@@ -9,7 +9,7 @@ const BaseTextAreaInput = styled.textarea`
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;

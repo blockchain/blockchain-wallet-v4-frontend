@@ -1,12 +1,11 @@
 import { Icon } from 'blockchain-info-components'
-import { transparentize } from 'polished'
 import styled from 'styled-components'
 
 const NavbarIcon = styled(Icon)`
   transition: color 0.3s;
-  color: ${props => transparentize(0.3, props.theme.white)};
+  color: ${props => props.theme.whiteFade700};
   &:hover {
-    color: ${props => props.theme.white};
+    color: ${props => props.theme.whiteFade900};
   }
 `
 
