@@ -62,7 +62,8 @@ type IPaymentType = {
   build: () => PaymentType
   from: (
     addressOrIndex?: string | number,
-    addressType?: FromType
+    addressType?: FromType,
+    effectiveBalance?: string
   ) => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
@@ -88,6 +89,8 @@ export type BtcPaymentType = IPaymentType & {
 export type EthPaymentType = IPaymentType & {
   amount: (n: string) => EthPaymentType
   coin: 'ETH' | 'PAX'
+  description: (arg: string) => EthPaymentType
+  fee: (arg: number, account: string) => EthPaymentType
   value: () => EthPaymentValue
 }
 

@@ -23,9 +23,18 @@ import {
   propOr,
   toLower
 } from 'ramda'
+import { EthPaymentType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
+import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import {
+  SendEthFormActionType,
+  SendEthFormAmountActionType,
+  SendEthFormFeeActionType,
+  SendEthFormFromActionType,
+  SendEthFormToActionType
+} from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -100,40 +109,59 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function * (action: SendEthFormActionType) {
     try {
-      const form = path(['meta', 'form'], action)
+      const form = action.meta.form
       if (!equals(FORM, form)) return
-      const field = path(['meta', 'field'], action)
-      const payload = prop('payload', action)
+      const payload = action.payload
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrElse([])
       const { coin } = yield select(selectors.form.getFormValues(FORM))
       const isErc20 = includes(coin, erc20List)
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({
+      let payment: EthPaymentType = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
 
-      switch (field) {
+      switch (action.meta.field) {
+        // @ts-ignore
         case 'coin':
           const modalName = isErc20 ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
-              coin: payload
-            })
+            actions.modals.showModal(
+              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              {
+                coin: payload
+              }
+            )
           )
           break
         case 'from':
-          const source = prop('address', payload)
-          const fromType = prop('type', payload)
-          payment = yield payment.from(source, fromType)
+          const fromPayload = payload as SendEthFormFromActionType['payload']
+          let source, effectiveBalance
+          switch (fromPayload.type) {
+            case 'LOCKBOX':
+            case 'ACCOUNT':
+              source = fromPayload.address
+              break
+            case 'CUSTODIAL':
+              source = fromPayload.label
+              effectiveBalance = fromPayload.available
+              break
+          }
+          payment = yield payment.from(
+            source,
+            fromPayload.type,
+            effectiveBalance
+          )
           break
         case 'to':
-          const value = pathOr({}, ['value', 'value'], payload)
+          const toPayload = payload as SendEthFormToActionType['payload']
+          const value = pathOr({}, ['value', 'value'], toPayload)
+          // @ts-ignore
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
@@ -141,19 +169,25 @@ export default ({ api, coreSagas, networks }) => {
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
-          const coinCode = prop('coinCode', payload)
+          const amountPayload = payload as SendEthFormAmountActionType['payload']
+          const coinCode = prop('coinCode', amountPayload)
           const weiAmount = Exchange.convertCoinToCoin({
-            value: prop('coin', payload),
+            baseToStandard: false,
+            value: amountPayload.coin,
             coin: coinCode
           }).value
           payment = yield payment.amount(weiAmount)
           break
+        // @ts-ignore
         case 'description':
+          // @ts-ignore
           payment = yield payment.description(payload)
           break
         case 'fee':
+          const feePayload = payload as SendEthFormFeeActionType['payload']
           const account = path(['from', 'address'], payment.value())
-          payment = yield payment.fee(parseInt(payload), account)
+          // @ts-ignore
+          payment = yield payment.fee(feePayload, account)
           break
       }
 

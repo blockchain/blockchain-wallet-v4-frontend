@@ -41,6 +41,7 @@ const TooltipBox = styled.div`
   border-radius: 0px;
   padding: 5px;
   box-sizing: border-box;
+  z-index: 4;
 
   & > section > video,
   canvas {
