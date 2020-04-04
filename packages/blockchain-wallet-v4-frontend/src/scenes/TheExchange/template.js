@@ -40,7 +40,7 @@ const Exchange = ({ onSignup }) => (
     </SceneSubHeaderText>
     <Container>
       <ExchangeInfo />
-      <ExchangeConnect />
+      <ExchangeConnect onSignup={onSignup} />
     </Container>
   </Wrapper>
 )

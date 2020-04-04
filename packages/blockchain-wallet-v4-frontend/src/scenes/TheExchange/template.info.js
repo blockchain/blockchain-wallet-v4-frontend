@@ -1,10 +1,9 @@
 import { CustomBox } from 'components/Layout'
 import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
 import EmptySceneCarousel from 'components/EmptySceneCarousel'
 import React from 'react'
 import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
 
 const Slide = styled.div`
   width: 100%;
@@ -27,7 +26,7 @@ const ExchangeInfo = () => {
               defaultMessage='Access More Assets'
             />
           </Text>
-          <Text size='14px' weight={500} color='grey600'>
+          <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.accessbody'
               defaultMessage='Expand your crypto portfolio. Easily deposit and withdraw dollars, euros and trade today’s top crypto currencies. Gain access to exclusive and emerging digital assets.'
@@ -41,7 +40,7 @@ const ExchangeInfo = () => {
               defaultMessage='Unlock Unlimited Trading'
             />
           </Text>
-          <Text size='14px' weight={500} color='grey600'>
+          <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.unlockbody'
               defaultMessage='Already Verified? Share your Gold or Silver status to begin trading on the Exchange immediately.'
@@ -55,7 +54,7 @@ const ExchangeInfo = () => {
               defaultMessage='Seamlessly Transfer Crypto'
             />
           </Text>
-          <Text size='14px' weight={500} color='grey600'>
+          <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.seamlessbody'
               defaultMessage="Link your Wallet to the Exchange to easily sweep crypto back and forth. No copy pasting or typos. It's the most secure way to trade while keeping your keys."
