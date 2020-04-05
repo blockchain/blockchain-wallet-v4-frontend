@@ -214,6 +214,14 @@ export default ({ api }) => {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
         }
+        if (p.from.type === 'CUSTODIAL') {
+          return makePayment(
+            mergeRight(p, {
+              feeInGwei: 0,
+              fee: 0
+            })
+          )
+        }
         if (p.isErc20) {
           contract = (yield select(
             S.kvStore.eth.getErc20ContractAddr,
@@ -268,6 +276,7 @@ export default ({ api }) => {
         const nonce = prop('nonce', fromData)
         const from = prop('address', fromData)
         const fromType = prop('type', fromData)
+        if (fromType === 'CUSTODIAL') return makePayment(p)
         if (isNil(from)) throw new Error('missing_from')
         if (!isValidIndex(index)) throw new Error('invalid_index')
         if (isNil(to)) throw new Error('missing_to')

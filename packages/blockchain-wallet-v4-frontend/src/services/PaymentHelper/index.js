@@ -87,6 +87,8 @@ export const bchFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
+    case ADDRESS_TYPES.CUSTODIAL:
+      return payment.from
     case ADDRESS_TYPES.LEGACY:
       const formValues = selectors.form.getFormValues(
         model.components.sendBch.FORM

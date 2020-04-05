@@ -23,6 +23,7 @@ import {
   propOr,
   toLower
 } from 'ramda'
+import { EthAccountFromType } from 'core/redux/payment/eth/types'
 import { EthPaymentType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
@@ -31,6 +32,7 @@ import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import {
   SendEthFormActionType,
   SendEthFormAmountActionType,
+  SendEthFormDescActionType,
   SendEthFormFeeActionType,
   SendEthFormFromActionType,
   SendEthFormToActionType
@@ -141,22 +143,57 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'from':
           const fromPayload = payload as SendEthFormFromActionType['payload']
-          let source, effectiveBalance
+          let source
           switch (fromPayload.type) {
             case 'LOCKBOX':
             case 'ACCOUNT':
               source = fromPayload.address
+              payment = yield payment.from(source, fromPayload.type)
               break
             case 'CUSTODIAL':
               source = fromPayload.label
-              effectiveBalance = fromPayload.available
+              const currency = selectors.core.settings
+                .getCurrency(yield select())
+                .getOrFail('Failed to get currency')
+              let rates
+              if (equals(coin, 'ETH')) {
+                rates = selectors.core.data.eth
+                  .getRates(yield select())
+                  .getOrFail('Failed to get ETH rates')
+              } else {
+                rates = (yield select(
+                  selectors.core.data.eth.getErc20Rates,
+                  toLower(coin)
+                )).getOrFail(`Failed to get ${coin} rates`)
+              }
+              const cryptoAmt = Exchange.convertCoinToCoin({
+                value: fromPayload.available,
+                coin,
+                baseToStandard: true
+              }).value
+              const fiat = Exchange.convertCoinUnitToFiat({
+                coin,
+                value: fromPayload.available,
+                fromUnit: 'WEI',
+                toCurrency: currency,
+                rates: rates
+              }).value
+              payment = yield payment.from(
+                source,
+                fromPayload.type,
+                fromPayload.available
+              )
+              yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+              payment = yield payment.amount(fromPayload.available)
+              yield put(
+                change(FORM, 'amount', {
+                  coin: cryptoAmt,
+                  fiat,
+                  coinCode: coin
+                })
+              )
               break
           }
-          payment = yield payment.from(
-            source,
-            fromPayload.type,
-            effectiveBalance
-          )
           break
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
@@ -178,10 +215,9 @@ export default ({ api, coreSagas, networks }) => {
           }).value
           payment = yield payment.amount(weiAmount)
           break
-        // @ts-ignore
         case 'description':
-          // @ts-ignore
-          payment = yield payment.description(payload)
+          const descPayload = payload as SendEthFormDescActionType['payload']
+          payment = yield payment.description(descPayload)
           break
         case 'fee':
           const feePayload = payload as SendEthFormFeeActionType['payload']
@@ -400,7 +436,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkIsContract = function * ({ payload }) {
+  const checkIsContract = function * ({
+    payload
+  }: {
+    payload: string | EthAccountFromType
+  }) {
     try {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
@@ -408,7 +448,10 @@ export default ({ api, coreSagas, networks }) => {
         network: networks.eth
       })
       yield put(A.sendEthCheckIsContractLoading())
-      const { contract } = yield call(api.checkContract, payload)
+      const { contract } = yield call(
+        api.checkContract,
+        typeof payload === 'string' ? payload : payload.address
+      )
       const { fee, account } = yield select(selectors.form.getFormValues(FORM))
       payment = yield payment.setIsContract(contract)
       payment = yield payment.fee(fee, account)
