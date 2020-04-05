@@ -73,7 +73,8 @@ Carousel.propTypes = {
   delay: PropTypes.number,
   height: PropTypes.number,
   arrows: PropTypes.bool,
-  chips: PropTypes.bool
+  chips: PropTypes.bool,
+  nextButton: PropTypes.bool
 }
 
 Carousel.defaultProps = {
@@ -81,7 +82,8 @@ Carousel.defaultProps = {
   delay: 3000,
   height: 150,
   arrows: true,
-  chips: true
+  chips: true,
+  nextButton: true
 }
 
 export default Carousel

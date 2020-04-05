@@ -1,7 +1,6 @@
+import { Carousel, Text } from 'blockchain-info-components'
 import { CustomBox } from 'components/Layout'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import EmptySceneCarousel from 'components/EmptySceneCarousel'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +17,7 @@ const Slide = styled.div`
 const ExchangeInfo = () => {
   return (
     <CustomBox>
-      <EmptySceneCarousel height={250}>
+      <Carousel height={250} arrows={false} chips={false}>
         <Slide>
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
@@ -61,7 +60,7 @@ const ExchangeInfo = () => {
             />
           </Text>
         </Slide>
-      </EmptySceneCarousel>
+      </Carousel>
     </CustomBox>
   )
 }

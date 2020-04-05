@@ -11,10 +11,14 @@ const Content = styled.div`
   & > :first-child {
     margin-bottom: 20px;
   }
-  & > :last-child {
-    justify-items: flex-end;
-  }
 `
+
+const FootWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
+
 const CustomOrangeCartridge = styled(OrangeCartridge)`
   width: 130px;
 `
@@ -36,6 +40,8 @@ const ExchangeConnect = props => {
             defaultMessage='Easily connect your Wallet to the Exchange and send crypto back and forth. No need to copy past wallet addresses all while keeping control of your private keys.'
           />
         </Text>
+      </Content>
+      <FootWrapper>
         <CustomOrangeCartridge>
           <FormattedMessage
             id='scenes.exchange.empty.notconnected.cartridge'
@@ -48,7 +54,7 @@ const ExchangeConnect = props => {
             defaultMessage='Connect Now'
           />
         </Button>
-      </Content>
+      </FootWrapper>
     </Box>
   )
 }

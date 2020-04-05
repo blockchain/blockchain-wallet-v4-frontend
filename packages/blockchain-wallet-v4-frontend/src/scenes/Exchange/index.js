@@ -6,10 +6,9 @@ import { path } from 'ramda'
 import { SceneWrapper } from 'components/Layout'
 import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
-import EmptySwapCarousel from './GetStarted/template.empty'
 import Exchange from './ExchangeContainer'
 import ExchangeHeader from './template.header'
-// import GetStarted from './GetStarted'
+import GetStarted from './GetStarted'
 import media from 'services/ResponsiveService'
 import Menu from './Menu'
 import React from 'react'
@@ -66,8 +65,7 @@ export const ExchangeScene = ({
             </Container>
           </>
         ) : (
-          <EmptySwapCarousel />
-          // <GetStarted />
+          <GetStarted />
         )}
       </SceneWrapper>
     ),
