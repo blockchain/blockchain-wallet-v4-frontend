@@ -8,8 +8,8 @@ import {
 } from '../../../utils/eth'
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
-import { EthFromType } from './types'
 import { FETCH_FEES_FAILURE } from '../model'
+import { FromType } from '../types'
 import {
   identity,
   indexOf,
@@ -166,7 +166,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from (origin, type: EthFromType, effectiveBalance?: string) {
+      * from (origin, type: FromType, effectiveBalance?: string) {
         let from, unconfirmedTx
 
         if (type === 'CUSTODIAL') {

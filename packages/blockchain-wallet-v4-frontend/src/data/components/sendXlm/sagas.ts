@@ -1,3 +1,9 @@
+import * as A from './actions'
+import * as C from 'services/AlertService'
+import * as Lockbox from 'services/LockboxService'
+import * as S from './selectors'
+import { actions, model, selectors } from 'data'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, delay, put, select } from 'redux-saga/effects'
 import {
   change,
@@ -8,17 +14,11 @@ import {
   touch
 } from 'redux-form'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
-
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
-import { actions, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
-
-import * as A from './actions'
-import * as S from './selectors'
 import { FORM } from './model'
+import { FromType, XlmPaymentType } from 'core/types'
+import { ModalNamesType } from 'data/modals/types'
+import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
@@ -27,7 +27,7 @@ export default ({ api, coreSagas }) => {
   const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
-      const type = path(['payload', 'type'], action)
+      const type = path<FromType>(['payload', 'type'], action)
       const to = path(['payload', 'to'], action)
       const memo = path(['payload', 'memo'], action)
       yield put(A.paymentUpdatedLoading())
@@ -91,9 +91,12 @@ export default ({ api, coreSagas }) => {
           const modalName = includes(payload, erc20List) ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
-              coin: payload
-            })
+            actions.modals.showModal(
+              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              {
+                coin: payload
+              }
+            )
           )
           break
         case 'from':
@@ -104,6 +107,7 @@ export default ({ api, coreSagas }) => {
         case 'to':
           // payload may be either an account type (wallet/lockbox) or an address
           let value = pathOr({}, ['value', 'value'], payload)
+          // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
           payment = yield payment.to(address)
@@ -330,11 +334,17 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setFrom = function * (payment, from, type) {
+  const setFrom = function * (payment: XlmPaymentType, from?, type?: FromType) {
     try {
-      const updatedPayment = yield call(payment.from, from, type)
-      yield put(A.showNoAccountForm(false))
-      return updatedPayment
+      switch (type) {
+        case 'CUSTODIAL':
+          yield put(A.showNoAccountForm(false))
+          break
+        default:
+          const updatedPayment = yield call(payment.from, from, type)
+          yield put(A.showNoAccountForm(false))
+          return updatedPayment
+      }
     } catch (e) {
       const message = prop('message', e)
       if (message === 'Account does not exist') {

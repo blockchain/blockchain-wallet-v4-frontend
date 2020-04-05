@@ -1,8 +1,15 @@
-import { Erc20CoinType } from 'core/types'
+import { Erc20CoinType, EthPaymentType, RemoteDataType } from 'core/types'
 import {
   EthAccountFromType,
   EthCustodialFromType
 } from 'core/redux/payment/eth/types'
+
+export type SendEthState = {
+  feeToggled: boolean
+  isContract: RemoteDataType<string, boolean>
+  payment: RemoteDataType<string, EthPaymentType['value']>
+  step: 1 | 2
+}
 
 export type ISendEthFormChangeActionType = {
   meta: {

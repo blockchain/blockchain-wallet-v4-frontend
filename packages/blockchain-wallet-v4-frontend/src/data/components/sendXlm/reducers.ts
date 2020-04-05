@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   showNoAccountForm: false
 }
 
-export default (state = INITIAL_STATE, action) => {
+export function sendXlmReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {

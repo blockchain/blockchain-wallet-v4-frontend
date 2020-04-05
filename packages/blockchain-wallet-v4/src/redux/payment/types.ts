@@ -1,4 +1,5 @@
 import { CoinType } from 'core/types'
+import { EthAccountFromType, EthAddressFromType } from './eth/types'
 import { UTXOType } from './btc/types'
 
 export type FromType =
@@ -50,7 +51,14 @@ type BtcPaymentValue = IPaymentValue & {
 type EthPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'ETH' | 'PAX'
+  description?: string
+  from: {
+    address: string
+    type: FromType
+  }
   isSufficientEthForErc20: boolean
+  to?: EthAccountFromType | EthAddressFromType
+  txId?: string
 }
 
 type XlmPaymentValue = IPaymentValue & {

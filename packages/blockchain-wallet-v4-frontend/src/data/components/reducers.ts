@@ -4,6 +4,8 @@ import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
+import { sendEthReducer } from './sendEth/reducers'
+import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import coinify from './coinify/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
@@ -14,8 +16,6 @@ import onboarding from './onboarding/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import send from './send/reducers'
-import sendEth from './sendEth/reducers'
-import sendXlm from './sendXlm/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
@@ -35,8 +35,8 @@ const componentReducer = combineReducers({
   send,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
-  sendEth,
-  sendXlm,
+  sendEth: sendEthReducer,
+  sendXlm: sendXlmReducer,
   signMessage,
   simpleBuy: simpleBuyReducer,
   uploadDocuments,

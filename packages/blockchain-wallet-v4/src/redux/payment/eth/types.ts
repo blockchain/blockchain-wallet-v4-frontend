@@ -1,11 +1,14 @@
-export type EthFromType = 'ACCOUNT' | 'LOCKBOX' | 'CUSTODIAL'
-
 export type EthAccountFromType = {
   address: string
   balance: string
   coin: 'ETH'
   label: string
   type: 'ACCOUNT' | 'LOCKBOX'
+}
+
+export type EthAddressFromType = {
+  address: string
+  type: 'ADDRESS'
 }
 
 export type EthCustodialFromType = {
@@ -15,3 +18,5 @@ export type EthCustodialFromType = {
   pending: string
   type: 'CUSTODIAL'
 }
+
+export type EthFromType = EthAccountFromType | EthCustodialFromType

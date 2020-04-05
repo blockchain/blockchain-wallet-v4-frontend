@@ -281,19 +281,23 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrFail()
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
-    let payment = coreSagas.payment.eth.create({
+    let payment: EthPaymentType = coreSagas.payment.eth.create({
       payment: p.getOrElse({}),
       network: networks.eth
     })
-    const fromType = path(['from', 'type'], payment.value())
+    const fromType = payment.value().from.type
     const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
+
     try {
       // Sign payment
-      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password, null, null)
-      } else {
+      if (fromType !== 'LOCKBOX') {
+        const password = yield call(promptForSecondPassword)
+        if (fromType !== 'CUSTODIAL') {
+          // @ts-ignore
+          payment = yield payment.sign(password, null, null)
+        }
+      } else if (fromType === 'LOCKBOX') {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress
@@ -305,10 +309,18 @@ export default ({ api, coreSagas, networks }) => {
         )
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        // @ts-ignore
         payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
-      payment = yield payment.publish()
+      if (fromType === 'CUSTODIAL') {
+        const value = payment.value()
+        if (!value.to) return
+        if (!value.amount) return
+        yield call(api.withdrawSBFunds, value.to.address, 'ETH', value.amount)
+      } else {
+        payment = yield payment.publish()
+      }
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
@@ -382,7 +394,7 @@ export default ({ api, coreSagas, networks }) => {
           ...TRANSACTION_EVENTS.SEND,
           coin,
           Exchange.convertCoinToCoin({
-            value: payment.value().amount,
+            value: payment.value().amount || 0,
             coin,
             baseToStandard: true
           }).value
