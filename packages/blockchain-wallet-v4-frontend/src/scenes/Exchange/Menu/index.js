@@ -1,17 +1,11 @@
 import { actions } from 'data'
-import {
-  Button,
-  IconButton,
-  TabMenu,
-  TabMenuItem
-} from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
+import { IconButton, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import Announcements from 'components/Announcements'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -29,14 +23,6 @@ const ButtonRow = styled.div`
   & > :last-child {
     margin-left: 8px;
   }
-`
-const SupportButton = styled(Button)`
-  margin-left: auto;
-  border-radius: 8px;
-  ${media.laptop`
-    margin-left: 0;
-    margin-top: 8px;
-  `}
 `
 const DownloadButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};
@@ -96,12 +82,6 @@ const Menu = ({
             </DownloadButton>
           )}
         </ButtonRow>
-        <SupportButton height='42px' nature='primary' onClick={showHelpModal}>
-          <FormattedMessage
-            id='scenes.exchange.menutop.need_help'
-            defaultMessage='Need Help?'
-          />
-        </SupportButton>
       </HorizontalMenu>
     </Wrapper>
   ) : (

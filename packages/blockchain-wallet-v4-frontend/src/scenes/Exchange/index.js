@@ -42,14 +42,15 @@ export const ExchangeScene = ({
   userCreated,
   hasEmail,
   location,
-  fetchUser
+  fetchUser,
+  showHelpModal
 }) => {
   if (!hasEmail) return <EmailRequired />
 
   return userCreated.cata({
     Success: userCreated => (
       <SceneWrapper>
-        <ExchangeHeader />
+        <ExchangeHeader showHelpModal={showHelpModal} />
         {userCreated ? (
           <>
             <Menu />
@@ -84,7 +85,8 @@ export const ExchangeScene = ({
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
 export default connect(

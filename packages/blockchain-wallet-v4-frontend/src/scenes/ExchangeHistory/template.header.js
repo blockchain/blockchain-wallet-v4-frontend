@@ -1,5 +1,5 @@
+import { Button, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -9,9 +9,16 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
-const HeaderWrapper = styled.div``
+const HeaderWrapper = styled.div`
+  width: 100%;
+`
 
-const ExchangeHeader = () => {
+const SupportButton = styled(Button)`
+  margin-left: auto;
+  border-radius: 8px;
+`
+
+const ExchangeHeader = ({ showHelpModal }) => {
   return (
     <HeaderWrapper>
       <SceneHeader>
@@ -21,6 +28,12 @@ const ExchangeHeader = () => {
         <SceneHeaderText>
           <FormattedMessage id='scenes.swap.title' defaultMessage='Swap' />
         </SceneHeaderText>
+        <SupportButton height='42px' nature='light' onClick={showHelpModal}>
+          <FormattedMessage
+            id='scenes.exchange.menutop.need_help'
+            defaultMessage='Need Help?'
+          />
+        </SupportButton>
       </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage

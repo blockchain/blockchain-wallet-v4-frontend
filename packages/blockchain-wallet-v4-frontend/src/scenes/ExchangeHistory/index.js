@@ -32,6 +32,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
   }
 
   render () {
+    const { showHelpModal } = this.props
     const Content = this.props.data.cata({
       Success: value => (
         <Success {...value} onScrollPastFinish={this.onScrollPastFinish} />
@@ -43,7 +44,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
 
     return (
       <SceneWrapper>
-        <Header />
+        <Header showHelpModal={showHelpModal} />
         <Menu showDownloadBtn />
         {Content}
       </SceneWrapper>
@@ -52,7 +53,8 @@ class ExchangeHistoryContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
+  actions: bindActionCreators(actions.components.exchangeHistory, dispatch),
+  showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
 export default connect(
