@@ -5,7 +5,7 @@ import { Icon } from '../Icons'
 import Button from './Button'
 
 const BaseIconButton = styled(Button)`
-  width: auto;
+  width: ${props => (props.width ? props.width : 'auto')};
   & > :first-child {
     margin-right: 8px;
   }

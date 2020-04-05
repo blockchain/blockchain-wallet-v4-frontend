@@ -25,7 +25,10 @@ const Wrapper = styled.div`
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  & > :last-child {
+    margin-left: 8px;
+  }
 `
 const SupportButton = styled(Button)`
   margin-left: auto;
@@ -52,35 +55,36 @@ const Menu = ({
     <Wrapper>
       <Announcements type='service' alertArea='swap' />
       <HorizontalMenu>
-        <TabMenu>
-          <LinkContainer to='/swap' exact>
-            <TabMenuItem
-              activeClassName='active'
-              data-e2e='exchangeTabMenuExchange'
-            >
-              <FormattedMessage
-                id='scenes.exchange.menutop.swap'
-                defaultMessage='Swap'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-          <LinkContainer to='/swap/history'>
-            <TabMenuItem
-              activeClassName='active'
-              data-e2e='exchangeTabMenuOrderHistory'
-            >
-              <FormattedMessage
-                id='scenes.exchange.menutop.history'
-                defaultMessage='Order History'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-        </TabMenu>
         <ButtonRow>
+          <TabMenu>
+            <LinkContainer to='/swap' exact>
+              <TabMenuItem
+                activeClassName='active'
+                data-e2e='exchangeTabMenuExchange'
+              >
+                <FormattedMessage
+                  id='scenes.exchange.menutop.swap'
+                  defaultMessage='Swap'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+            <LinkContainer to='/swap/history'>
+              <TabMenuItem
+                activeClassName='active'
+                data-e2e='exchangeTabMenuOrderHistory'
+              >
+                <FormattedMessage
+                  id='scenes.exchange.menutop.history'
+                  defaultMessage='Order History'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+          </TabMenu>
           {showDownloadBtn && (
             <DownloadButton
               data-e2e='generateSwapReport'
-              height='42px'
+              height='45px'
+              width='135'
               name='download'
               nature='light'
               onClick={downloadHistory}
@@ -91,13 +95,13 @@ const Menu = ({
               />
             </DownloadButton>
           )}
-          <SupportButton height='42px' nature='primary' onClick={showHelpModal}>
-            <FormattedMessage
-              id='scenes.exchange.menutop.need_help'
-              defaultMessage='Need Help?'
-            />
-          </SupportButton>
         </ButtonRow>
+        <SupportButton height='42px' nature='primary' onClick={showHelpModal}>
+          <FormattedMessage
+            id='scenes.exchange.menutop.need_help'
+            defaultMessage='Need Help?'
+          />
+        </SupportButton>
       </HorizontalMenu>
     </Wrapper>
   ) : (

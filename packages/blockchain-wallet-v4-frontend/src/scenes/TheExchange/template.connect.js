@@ -16,11 +16,14 @@ const Content = styled.div`
 const FootWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  margin-top: 25px;
+  & > :first-child {
+    margin-bottom: 20px;
+  }
 `
 
 const CustomOrangeCartridge = styled(OrangeCartridge)`
-  width: 130px;
+  width: 120px;
 `
 
 const ExchangeConnect = props => {

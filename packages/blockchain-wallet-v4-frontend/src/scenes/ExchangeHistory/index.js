@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { SceneWrapper } from 'components/Layout'
 import Error from './template.error'
+import Header from './template.header'
 import Loading from './template.loading'
 import Menu from '../Exchange/Menu'
 import React from 'react'
@@ -42,6 +43,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
 
     return (
       <SceneWrapper>
+        <Header />
         <Menu showDownloadBtn />
         {Content}
       </SceneWrapper>

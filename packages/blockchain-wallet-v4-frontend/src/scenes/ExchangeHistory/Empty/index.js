@@ -1,12 +1,6 @@
 import { FormattedMessage } from 'react-intl'
-import {
-  Icon,
-  Link,
-  Separator,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
+import { Text } from 'blockchain-info-components'
+
 import React from 'react'
 import styled from 'styled-components'
 
@@ -15,51 +9,26 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-`
-const Transactions = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 50px 10px 0 10px;
-`
-const ExchangeIcon = styled(Icon)`
-  justify-content: center;
-`
-
-const CenteredTextGroup = styled(TextGroup)`
-  text-align: center;
+  margin-top: 220px;
+  & > :first-child {
+    margin-bottom: 10px;
+  }
 `
 
 const Empty = () => (
   <Wrapper>
-    <Transactions>
-      <Text size='24px' weight={400} capitalize>
-        <ExchangeIcon name='arrow-switch-thick' size='24px' />
-        <FormattedMessage
-          id='scenes.exchangehistory.empty.history'
-          defaultMessage='Your order history'
-        />
-      </Text>
-      <CenteredTextGroup inline>
-        <Text size='13px' weight={500}>
-          <FormattedMessage
-            id='scenes.exchangehistory.empty.swap'
-            defaultMessage="You haven't swapped yet,"
-          />
-        </Text>
-        <LinkContainer to='/swap'>
-          <Link size='13px' weight={500}>
-            <FormattedMessage
-              id='scenes.exchangehistory.empty.start'
-              defaultMessage='click here to start.'
-            />
-          </Link>
-        </LinkContainer>
-      </CenteredTextGroup>
-      <Separator />
-    </Transactions>
+    <Text size='20px' weight={600} color='grey800' lineHeight='20px'>
+      <FormattedMessage
+        id='scenes.exchangehistory.empty.transactions'
+        defaultMessage='Transactions'
+      />
+    </Text>
+    <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
+      <FormattedMessage
+        id='scenes.exchangehistory.empty.here'
+        defaultMessage='All your Swap transactions will show up here.'
+      />
+    </Text>
   </Wrapper>
 )
 

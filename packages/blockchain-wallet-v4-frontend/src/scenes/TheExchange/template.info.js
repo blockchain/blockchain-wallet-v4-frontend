@@ -17,7 +17,7 @@ const Slide = styled.div`
 const ExchangeInfo = () => {
   return (
     <CustomBox>
-      <Carousel height={250} arrows={false} chips={false}>
+      <Carousel height={220} arrows={false} chips={false}>
         <Slide>
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
