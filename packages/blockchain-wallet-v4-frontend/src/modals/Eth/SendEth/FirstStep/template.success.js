@@ -95,7 +95,8 @@ const FirstStep = props => {
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
-  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
+  const disableDueToLowEth =
+    coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
 
   return (
     <Form onSubmit={handleSubmit}>

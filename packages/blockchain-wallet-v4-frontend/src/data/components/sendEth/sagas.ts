@@ -317,7 +317,7 @@ export default ({ api, coreSagas, networks }) => {
         const value = payment.value()
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
-        yield call(api.withdrawSBFunds, value.to.address, 'ETH', value.amount)
+        yield call(api.withdrawSBFunds, value.to.address, coin, value.amount)
       } else {
         payment = yield payment.publish()
       }
