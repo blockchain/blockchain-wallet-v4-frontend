@@ -1,6 +1,7 @@
 import { CoinType } from 'core/types'
 import { EthAccountFromType, EthAddressFromType } from './eth/types'
 import { UTXOType } from './btc/types'
+import { XlmAccountFromType, XlmAddressFromType } from './xlm/types'
 
 export type FromType =
   | 'ACCOUNT'
@@ -64,6 +65,9 @@ type EthPaymentValue = IPaymentValue & {
 type XlmPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'XLM'
+  description?: string
+  to?: XlmAccountFromType | XlmAddressFromType
+  txId?: string
 }
 
 type IPaymentType = {
@@ -105,6 +109,9 @@ export type EthPaymentType = IPaymentType & {
 export type XlmPaymentType = IPaymentType & {
   amount: (n: string) => XlmPaymentType
   coin: 'XLM'
+  description: (arg: string) => XlmPaymentType
+  memo: (arg: string) => XlmPaymentType
+  memoType: (arg: string) => XlmPaymentType
   value: () => XlmPaymentValue
 }
 

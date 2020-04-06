@@ -149,6 +149,8 @@ export const xlmFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.xlm
         .getAccountLabel(state, from.address)
         .getOrElse(from.address)
+    case ADDRESS_TYPES.CUSTODIAL:
+      return from.address
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxXlmAccount(state, from.address)

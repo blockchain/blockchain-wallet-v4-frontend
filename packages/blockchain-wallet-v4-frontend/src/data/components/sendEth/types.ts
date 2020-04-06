@@ -7,7 +7,7 @@ import {
 export type SendEthState = {
   feeToggled: boolean
   isContract: RemoteDataType<string, boolean>
-  payment: RemoteDataType<string, EthPaymentType['value']>
+  payment: RemoteDataType<string, ReturnType<EthPaymentType['value']>>
   step: 1 | 2
 }
 

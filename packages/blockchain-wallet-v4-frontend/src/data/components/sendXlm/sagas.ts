@@ -4,6 +4,7 @@ import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { APIType } from 'core/network/api'
 import { call, delay, put, select } from 'redux-saga/effects'
 import {
   change,
@@ -19,14 +20,15 @@ import { FORM } from './model'
 import { FromType, XlmPaymentType } from 'core/types'
 import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import { XlmCustodialFromType } from 'core/redux/payment/xlm/types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
   const initialized = function * (action) {
     try {
-      const from = path(['payload', 'from'], action)
+      const from = path<string | undefined>(['payload', 'from'], action)
       const type = path<FromType>(['payload', 'type'], action)
       const to = path(['payload', 'to'], action)
       const memo = path(['payload', 'memo'], action)
@@ -83,7 +85,7 @@ export default ({ api, coreSagas }) => {
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrElse([])
-      let payment = (yield select(S.getPayment)).getOrElse({})
+      let payment: XlmPaymentType = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
@@ -100,9 +102,13 @@ export default ({ api, coreSagas }) => {
           )
           break
         case 'from':
-          const source = prop('address', payload)
+          const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
           payment = yield call(setFrom, payment, source, fromType)
+          if (fromType === 'CUSTODIAL') {
+            yield put(A.paymentUpdatedSuccess(payment.value()))
+            yield call(setAmount, source.available)
+          }
           break
         case 'to':
           // payload may be either an account type (wallet/lockbox) or an address
@@ -196,26 +202,9 @@ export default ({ api, coreSagas }) => {
 
   const maximumAmountClicked = function * () {
     try {
-      const currency = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrFail('Can not retrieve currency.')
-      const xlmRates = (yield select(
-        selectors.core.data.xlm.getRates
-      )).getOrFail('Can not retrieve stellar rates.')
       const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertXlmToXlm({
-        value: effectiveBalance,
-        fromUnit: 'STROOP',
-        toUnit: 'XLM'
-      }).value
-      const fiat = Exchange.convertXlmToFiat({
-        value: effectiveBalance,
-        fromUnit: 'STROOP',
-        toCurrency: currency,
-        rates: xlmRates
-      }).value
-      yield put(change(FORM, 'amount', { coin, fiat }))
+      yield call(setAmount, effectiveBalance)
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
@@ -249,7 +238,9 @@ export default ({ api, coreSagas }) => {
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
         let password = yield call(promptForSecondPassword)
-        payment = yield call(payment.sign, password)
+        if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
+          payment = yield call(payment.sign, password)
+        }
       } else {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
@@ -264,15 +255,21 @@ export default ({ api, coreSagas }) => {
         const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
         payment = yield call(payment.sign, null, transport, scrambleKey)
       }
+      const value: ReturnType<XlmPaymentType['value']> = payment.value()
       // Publish payment
-      payment = yield call(payment.publish)
+      if (fromType === 'CUSTODIAL') {
+        if (!value.to) throw new Error('missing_to_from_custodial')
+        if (!value.amount) throw new Error('missing_amount_from_custodial')
+        api.withdrawSBFunds(value.to.address, 'XLM', value.amount)
+      } else {
+        payment = yield call(payment.publish)
+      }
       yield put(actions.core.data.xlm.fetchData())
-      const paymentValue = payment.value()
-      yield put(A.paymentUpdatedSuccess(paymentValue))
-      const description = paymentValue.description
+      yield put(A.paymentUpdatedSuccess(value))
+      const description = value.description
       if (description)
         yield put(
-          actions.core.kvStore.xlm.setTxNotesXlm(paymentValue.txId, description)
+          actions.core.kvStore.xlm.setTxNotesXlm(value.txId, description)
         )
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
@@ -334,17 +331,51 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setFrom = function * (payment: XlmPaymentType, from?, type?: FromType) {
+  const setAmount = function * (amount: string) {
+    const currency = (yield select(
+      selectors.core.settings.getCurrency
+    )).getOrFail('Can not retrieve currency.')
+    const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
+      'Can not retrieve stellar rates.'
+    )
+    const coin = Exchange.convertXlmToXlm({
+      value: amount,
+      fromUnit: 'STROOP',
+      toUnit: 'XLM'
+    }).value
+    const fiat = Exchange.convertXlmToFiat({
+      value: amount,
+      fromUnit: 'STROOP',
+      toCurrency: currency,
+      rates: xlmRates
+    }).value
+    yield put(change(FORM, 'amount', { coin, fiat }))
+  }
+
+  const setFrom = function * (
+    payment: XlmPaymentType,
+    from?: string | XlmCustodialFromType,
+    type?: FromType
+  ) {
+    let updatedPayment
     try {
       switch (type) {
         case 'CUSTODIAL':
+          const fromCustodialT = from as XlmCustodialFromType
           yield put(A.showNoAccountForm(false))
+          updatedPayment = yield call(
+            payment.from,
+            fromCustodialT.label,
+            type,
+            fromCustodialT.available
+          )
           break
         default:
-          const updatedPayment = yield call(payment.from, from, type)
+          const fromT = from as string
+          updatedPayment = yield call(payment.from, fromT, type)
           yield put(A.showNoAccountForm(false))
-          return updatedPayment
       }
+      return updatedPayment
     } catch (e) {
       const message = prop('message', e)
       if (message === 'Account does not exist') {
@@ -364,6 +395,7 @@ export default ({ api, coreSagas }) => {
     maximumAmountClicked,
     secondStepSubmitClicked,
     formChanged,
+    setAmount,
     setFrom
   }
 }

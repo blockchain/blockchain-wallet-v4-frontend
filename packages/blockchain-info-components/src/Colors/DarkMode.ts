@@ -103,7 +103,7 @@ const DarkTheme: DefaultTheme = {
   white: '#1c1c1c',
   silver: '#838383',
   // Blacks
-  black: '#272727',
+  black: '#B1B8C7',
   textBlack: '#9c9c9c',
   // Blues
   purple: '#0D3578',
