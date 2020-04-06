@@ -18,7 +18,7 @@ import {
 } from 'ramda'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
-import { BtcFromType, BtcPaymentType } from 'core/types'
+import { BtcAccountFromType, BtcFromType, BtcPaymentType } from 'core/types'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -261,8 +261,8 @@ export default ({
           }
           switch (true) {
             case equals(toType, ADDRESS_TYPES.ACCOUNT):
-              // @ts-ignore
-              payment = yield payment.to(value.index, toType)
+              const accountValue = value as BtcAccountFromType
+              payment = yield payment.to(accountValue.index, toType)
               break
             case equals(toType, ADDRESS_TYPES.LOCKBOX):
               // @ts-ignore

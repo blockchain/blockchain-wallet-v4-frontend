@@ -79,7 +79,7 @@ type IPaymentType = {
   ) => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (address: string, addressType?: FromType) => PaymentType
+  to: (addressOrIndex: string | number, addressType?: FromType) => PaymentType
 }
 
 export type BchPaymentType = IPaymentType & {
