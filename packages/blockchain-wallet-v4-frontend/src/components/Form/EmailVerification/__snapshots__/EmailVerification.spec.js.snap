@@ -12,13 +12,7 @@ exports[`EmailVerification component rendering should render edit loading state 
           "value": "f@ke.mail",
         }
       }
-      placeholder={
-        <FormattedMessage
-          defaultMessage="Email"
-          id="components.EmailVerification.placeholder"
-          values={Object {}}
-        />
-      }
+      placeholder="satoshi@blockchain.com"
     />
     <LoadingButton
       loading={true}
@@ -56,13 +50,7 @@ exports[`EmailVerification component rendering should render edit loading with l
           "value": "f@ke.mail",
         }
       }
-      placeholder={
-        <FormattedMessage
-          defaultMessage="Email"
-          id="components.EmailVerification.placeholder"
-          values={Object {}}
-        />
-      }
+      placeholder="satoshi@blockchain.com"
     />
     <LoadingButton
       loading={true}
@@ -91,13 +79,7 @@ exports[`EmailVerification component rendering should render edit state correctl
           "value": "f@ke.mail",
         }
       }
-      placeholder={
-        <FormattedMessage
-          defaultMessage="Email"
-          id="components.EmailVerification.placeholder"
-          values={Object {}}
-        />
-      }
+      placeholder="satoshi@blockchain.com"
     />
     <LoadingButton
       nature="primary"
@@ -134,13 +116,7 @@ exports[`EmailVerification component rendering should render edit with label cor
           "value": "f@ke.mail",
         }
       }
-      placeholder={
-        <FormattedMessage
-          defaultMessage="Email"
-          id="components.EmailVerification.placeholder"
-          values={Object {}}
-        />
-      }
+      placeholder="satoshi@blockchain.com"
     />
     <LoadingButton
       nature="primary"
