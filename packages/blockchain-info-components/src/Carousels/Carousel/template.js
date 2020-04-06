@@ -53,7 +53,7 @@ const Control = styled.div`
   margin: 0 10px;
   border-radius: 5px;
   background-color: ${props =>
-    props.active ? props.theme.blue600 : props.theme['gray-4']};
+    props.active ? props.theme.blue600 : props.theme['grey500']};
   cursor: pointer;
   z-index: ;
 `

@@ -18,6 +18,7 @@ const DarkTheme: DefaultTheme = {
   grey200: '#CCD2DE',
   grey300: '#B1B8C7',
   grey400: '#98A1B2',
+  grey500: '#828B9E',
   grey600: '#677185',
   grey700: '#50596B',
   grey800: '#B1B8C7',
@@ -93,10 +94,6 @@ const DarkTheme: DefaultTheme = {
   'marketing-primary': '#3558A8',
   'marketing-secondary': '#153A62',
   // Grays
-  'gray-1': '#333333',
-  'gray-2': '#ababab',
-  'gray-3': '#747474',
-  'gray-4': '#ababab',
   'gray-5': '#ababab',
   'gray-6': '#797979',
   // Whites

@@ -114,7 +114,7 @@ const CarouselWrapper = styled(Column)`
   }
 
   .slick-slider > ul > li > a > div {
-    background: ${({ theme }) => theme['gray-2']};
+    background: ${({ theme }) => theme.grey200};
     ${media.laptop`
       background: ${({ theme }) => theme['l']};
     `}

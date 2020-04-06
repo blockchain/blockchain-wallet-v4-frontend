@@ -13,7 +13,7 @@ const Wrapper = styled.div`
     text-transform: capitalize;
     &:last-child {
       margin-left: 10px;
-      color: ${props => props.theme['gray-3']};
+      color: ${props => props.theme['grey400']};
     }
   }
 `

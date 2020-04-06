@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 const TitleBar = styled.div`
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const TitleBarWrapper = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const StyledCreatableInputContainer = styled.div`
   min-height: 48px;
   padding: 10px 30px;
   align-items: center;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const SearchContainer = styled.div`
   display: flex;

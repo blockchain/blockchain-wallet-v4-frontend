@@ -53,7 +53,7 @@ const YubikeyInput = styled.input`
   border: 1px solid ${props => props.theme.grey100};
 
   &::-webkit-input-placeholder {
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme.grey200};
   }
 `
 

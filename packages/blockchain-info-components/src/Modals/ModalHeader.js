@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: ${props => (props.tray ? '60px 10%' : '20px 30px')};
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   padding-left: ${props => props.paddingHorizontal} !important;
   padding-right: ${props => props.paddingHorizontal} !important;
 

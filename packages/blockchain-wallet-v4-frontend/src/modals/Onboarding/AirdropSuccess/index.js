@@ -21,7 +21,7 @@ const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
   }
 `
 const Body = styled.div`

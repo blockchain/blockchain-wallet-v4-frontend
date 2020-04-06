@@ -96,7 +96,7 @@ export class Summary extends React.PureComponent {
             <TooltipHost id='exchange.networkfees'>
               <TooltipIcon
                 name='question-in-circle-filled'
-                color='gray-3'
+                color='grey400'
                 size='18px'
               />
             </TooltipHost>

@@ -31,8 +31,8 @@ const Frequency = styled(Text)`
 const RecurringTableWrapper = styled.div`
   width: calc(100% - 22px);
   padding: 5px 10px 30px;
-  border-left: 1px solid ${props => props.theme['gray-2']};
-  border-right: 1px solid ${props => props.theme['gray-2']};
+  border-left: 1px solid ${props => props.theme.grey200};
+  border-right: 1px solid ${props => props.theme.grey200};
 `
 const RecurringCancelWrapper = styled.div`
   display: flex;
@@ -154,7 +154,7 @@ class RecurringOrder extends React.Component {
         </MediaContextConsumer>
         {this.state.toggled ? (
           <RecurringTableWrapper>
-            <RecurringTableHeader padding='8px 5px' backgroundColor='gray-1'>
+            <RecurringTableHeader padding='8px 5px' backgroundColorgrey000>
               <TableCell width='15%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage

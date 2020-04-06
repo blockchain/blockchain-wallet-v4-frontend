@@ -9,7 +9,7 @@ import styled from 'styled-components'
 
 const ExchangeCheckoutWrapper = styled.div`
   padding: 30px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 10px;
 `
 const TopContainer = styled.div`

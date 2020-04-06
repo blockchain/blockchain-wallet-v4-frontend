@@ -101,8 +101,8 @@ const selectColor = (nature, disabled, small) => {
     case 'gray':
       return {
         color: 'white',
-        backgroundColor: 'gray-4',
-        borderColor: 'gray-4'
+        backgroundColor: 'grey500',
+        borderColor: 'grey500'
       }
     case 'light':
       return {
@@ -189,7 +189,7 @@ const selectColor = (nature, disabled, small) => {
       return {
         color: 'gray-6',
         backgroundColor: 'grey000',
-        borderColor: 'gray-2',
+        borderColor: 'grey200',
         hoverBorderColor: 'white'
       }
   }

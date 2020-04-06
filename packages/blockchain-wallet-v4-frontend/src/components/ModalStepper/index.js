@@ -22,7 +22,7 @@ const Step = styled.div`
 const Line = styled.div`
   width: 100%;
   position: relative;
-  border-top: 4px solid ${props => props.theme['gray-1']};
+  border-top: 4px solid ${props => props.theme.grey000};
   &:before {
     content: '';
     left: 0;
@@ -49,7 +49,7 @@ const Circle = styled.div`
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
-  border: 2px solid ${props => props.theme['gray-1']};
+  border: 2px solid ${props => props.theme.grey000};
   transition: border 0.3s, background-color 0.2s;
   &.active,
   &.complete {
@@ -89,7 +89,9 @@ class ModalStepper extends React.PureComponent {
                   <CircleContent className={active + ' ' + complete}>
                     <Text
                       size='13px'
-                      color={active ? 'blue600' : complete ? 'white' : 'gray-1'}
+                      color={
+                        active ? 'blue600' : complete ? 'white' : 'grey000'
+                      }
                     >
                       {i}
                     </Text>

@@ -43,7 +43,7 @@ const BasePasswordInput = styled.input.attrs({
   }
   &::-webkit-input-placeholder {
     opacity: 0.4;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
     font-size: 14px;
     font-weight: 500;
   }

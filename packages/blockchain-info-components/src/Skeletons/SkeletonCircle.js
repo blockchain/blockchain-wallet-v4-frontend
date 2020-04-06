@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 const SkeletonCircle = props => <Wrapper {...props} />
 
 SkeletonCircle.defaultProps = {
-  bgColor: 'gray-1'
+  bgColor: 'grey000'
 }
 
 SkeletonCircle.propTypes = {

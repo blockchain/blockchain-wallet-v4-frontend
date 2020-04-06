@@ -31,10 +31,10 @@ export const AddressButton = styled.div`
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme.grey200};
 
   &:hover {
-    background-color: ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey000};
   }
 `
 export const FeeFormContainer = styled.div`

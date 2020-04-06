@@ -110,10 +110,10 @@ const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.blue900};
+    props.disabled ? props.theme.grey000 : props.theme.blue900};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
+      props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
 `
 const ActiveCurrencyButton = styled.div`
@@ -125,7 +125,7 @@ const ActiveCurrencyButton = styled.div`
   margin-right: 8px;
   border: 1px solid
     ${props =>
-      props.checked ? props.theme[props.coin] : props.theme['gray-4']};
+      props.checked ? props.theme[props.coin] : props.theme['grey500']};
 `
 const FormWrapper = styled(BorderWrapper)`
   padding: 0;
@@ -140,7 +140,7 @@ const CurrencyBox = styled(Text)`
   font-size: 72px;
   font-weight: 400;
   background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.white};
+    props.disabled ? props.theme.grey000 : props.theme.white};
 `
 const ClickableText = styled(Text)`
   cursor: pointer;

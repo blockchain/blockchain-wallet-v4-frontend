@@ -14,7 +14,7 @@ const { NONE } = model.profile.KYC_STATES
 
 const Wrapper = styled.div`
   padding: 20px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 10px;
   margin-bottom: 15px;
 `
@@ -30,7 +30,7 @@ const Header = styled.div`
   }
 `
 const Divider = styled.div`
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   padding-top: 20px;
   margin-bottom: 20px;
 `

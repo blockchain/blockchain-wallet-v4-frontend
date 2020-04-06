@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 20px 30px;
   box-sizing: border-box;
-  border-top: 1px solid ${props => props.theme['gray-1']};
+  border-top: 1px solid ${props => props.theme.grey000};
 `
 const Footer = styled.div`
   display: flex;
