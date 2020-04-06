@@ -22,7 +22,8 @@ const Slide = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  & > :last-child {
+  height: 230px;
+  img {
     align-self: flex-end;
     justify-self: flex-end;
   }
@@ -144,32 +145,30 @@ const GetStarted = ({ step }) => {
         </Carousel>
       </Box>
       <Box>
-        <Slide>
-          <div>
-            <Text
-              size='20px'
-              weight={600}
-              color='grey800'
-              style={{ marginBottom: '10px' }}
-            >
-              <FormattedMessage
-                id='swap.getstarted.readytoswap.title'
-                defaultMessage='Ready to Swap? '
-              />
-            </Text>
-            <Text
-              size='14px'
-              weight={500}
-              color='grey600'
-              style={{ lineHeight: 1.5 }}
-            >
-              <FormattedMessage
-                id='swap.getstarted.readytoswap.body'
-                defaultMessage='Complete your profile and start exchanging cryptocurrencies today.'
-              />
-            </Text>
-          </div>
-        </Slide>
+        <div>
+          <Text
+            size='20px'
+            weight={600}
+            color='grey800'
+            style={{ marginBottom: '10px' }}
+          >
+            <FormattedMessage
+              id='swap.getstarted.readytoswap.title'
+              defaultMessage='Ready to Swap? '
+            />
+          </Text>
+          <Text
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ lineHeight: 1.5 }}
+          >
+            <FormattedMessage
+              id='swap.getstarted.readytoswap.body'
+              defaultMessage='Complete your profile and start exchanging cryptocurrencies today.'
+            />
+          </Text>
+        </div>
         <ButtonsContainer>
           <StatusBar step={step} />
           <Link
