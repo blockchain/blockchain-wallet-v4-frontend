@@ -54,7 +54,7 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value data-e2e='interestRate'>
-            {props.offer.terms.interestRate * 100}%
+            {Number(props.offer.terms.interestRate * 100).toFixed(1) + '%'}
           </Value>
         </TableRow>
         <TableRow>
