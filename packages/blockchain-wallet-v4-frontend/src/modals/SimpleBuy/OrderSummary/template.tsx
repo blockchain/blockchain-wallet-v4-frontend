@@ -45,7 +45,7 @@ const Success: React.FC<Props> = props => {
     <Wrapper>
       <div>
         <FlyoutWrapper>
-          <TopText color='grey900' size='20px' weight={600}>
+          <TopText color='grey800' size='20px' weight={600}>
             {/* TODO: Simple Buy - order types */}
             <FormattedMessage
               id='modals.simplebuy.ordersummary'
