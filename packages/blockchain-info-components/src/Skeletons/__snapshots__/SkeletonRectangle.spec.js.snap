@@ -3,6 +3,7 @@
 exports[`SkeletonRectangle component default renders correctly 1`] = `
 <styled.div
   bgColor="grey000"
+  bgColorgrey000={true}
   height="10px"
   width="10px"
 >

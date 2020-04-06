@@ -63,7 +63,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   cursor: pointer;
   padding: 3px 20px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

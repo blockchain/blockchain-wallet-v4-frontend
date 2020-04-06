@@ -102,7 +102,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     text-align: center;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme.grey700};
     background-color: ${props => props.theme.white};
   }
 `

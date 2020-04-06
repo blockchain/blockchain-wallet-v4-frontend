@@ -23,7 +23,7 @@ const DataFieldBox = styled.span`
   white-space: nowrap;
   overflow: scroll;
   padding-right: 10px;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
   border: 1px solid ${props => props.theme.grey100};
   border-right: none;
   border-radius: 4px 0 0 4px;
@@ -41,7 +41,7 @@ const CopyButton = styled(IconButton)`
     margin-right: 0 !important;
     font-size: ${props => (props.active ? '18px' : '20px')};
     color: ${props =>
-      props.active ? props.theme['success'] : props.theme['gray-5']};
+      props.active ? props.theme['success'] : props.theme.grey700};
   }
 `
 

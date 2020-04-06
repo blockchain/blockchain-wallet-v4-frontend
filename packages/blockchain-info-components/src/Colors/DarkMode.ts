@@ -93,18 +93,12 @@ const DarkTheme: DefaultTheme = {
   // Marketing
   'marketing-primary': '#3558A8',
   'marketing-secondary': '#153A62',
-  // Grays
-  'gray-5': '#ababab',
-  'gray-6': '#797979',
   // Whites
   white: '#1c1c1c',
   silver: '#838383',
   // Blacks
   black: '#B1B8C7',
   textBlack: '#9c9c9c',
-  // Blues
-  purple: '#0D3578',
-  'deep-blue': '#0D3578',
   // Service Announcements
   info: '#2C5687'
 }

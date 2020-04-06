@@ -85,7 +85,7 @@ const TransactionFilters = ({
               <ComponentDropdown
                 down
                 forceSelected
-                color={'gray-5'}
+                color={'grey700'}
                 selectedComponent={<EthPrivateKeys />}
                 components={[
                   <ExportEthPrivateKeyText

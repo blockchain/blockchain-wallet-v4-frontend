@@ -49,7 +49,7 @@ export const BitPayInvoiceExpired = ({ position, total, close }) => (
     <ModalHeader onClose={close} />
     <Body data-e2e='bitpayInvoiceExpired'>
       <TopImage name='close-error' />
-      <Title size='20px' color='deep-blue'>
+      <Title size='20px' color='blue900'>
         <FormattedHTMLMessage
           defaultMessage='BitPay Invoice Expired'
           id='modals.bitpayexpired.invoice_expired'

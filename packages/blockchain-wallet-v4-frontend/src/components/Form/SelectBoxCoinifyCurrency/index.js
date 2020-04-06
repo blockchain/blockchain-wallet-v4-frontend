@@ -25,7 +25,7 @@ const CustomSelectBox = styled(SelectBox)`
         font-size: 18px;
         font-weight: 400;
         color: ${props =>
-          props.disabled ? props.theme.grey200 : props.theme['gray-5']};
+          props.disabled ? props.theme.grey200 : props.theme.grey700};
       }
     }
     > .bc__indicators {

@@ -61,7 +61,7 @@ const Arrow = styled(Icon).attrs({
   name: 'chevron-down',
   size: '34px',
   weight: 700,
-  color: 'gray-6'
+  color: 'grey800'
 })`
   position: absolute;
   top: 50%;

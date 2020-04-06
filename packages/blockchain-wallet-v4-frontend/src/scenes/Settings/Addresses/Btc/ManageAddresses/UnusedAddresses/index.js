@@ -123,7 +123,7 @@ class UnusedAddressesContainer extends React.PureComponent {
           <ComponentDropdown
             down
             forceSelected
-            color={'gray-5'}
+            color={'grey700'}
             selectedComponent={
               <Link
                 weight={500}

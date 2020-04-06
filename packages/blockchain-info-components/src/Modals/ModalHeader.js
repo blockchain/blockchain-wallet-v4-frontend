@@ -42,12 +42,12 @@ const ModalHeader = props => {
     >
       <Header>
         {icon && (
-          <HeaderIcon name={icon} size='28px' weight={400} color='gray-5' />
+          <HeaderIcon name={icon} size='28px' weight={400} color='grey700' />
         )}
         <Text
           size='20px'
           weight={400}
-          color='gray-5'
+          color='grey700'
           className='headerText'
           data-e2e='modalHeaderText'
           capitalize
@@ -60,7 +60,7 @@ const ModalHeader = props => {
           name='close'
           size='24px'
           weight={400}
-          color='gray-5'
+          color='grey700'
           data-e2e='modalCloseButton'
           cursor
           onClick={onClose}

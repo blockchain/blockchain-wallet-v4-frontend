@@ -24,7 +24,7 @@ export const Title = styled(Text)`
   margin-bottom: 24px;
 `
 export const AmountHeader = styled(ExchangeText)`
-  color: ${props => props.color || props.theme['gray-5']};
+  color: ${props => props.color || props.theme.grey700};
   font-size: 16px;
 `
 export const TableRow = styled.div`

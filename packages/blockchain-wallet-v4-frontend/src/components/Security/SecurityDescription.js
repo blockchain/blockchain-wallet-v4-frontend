@@ -6,7 +6,7 @@ const SecurityDescription = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
   & > * {
     display: inline;
     margin-right: 5px;

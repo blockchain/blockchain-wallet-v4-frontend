@@ -83,7 +83,7 @@ exports[`TierCard renders correctly with column view 1`] = `
           <Text
             altFont={false}
             capitalize={false}
-            color="gray-3"
+            color="grey400"
             cursor="inherit"
             italic={false}
             lineHeight="inherit"
@@ -122,7 +122,7 @@ exports[`TierCard renders correctly with column view 1`] = `
             <Text
               altFont={false}
               capitalize={false}
-              color="gray-3"
+              color="grey400"
               cursor="inherit"
               italic={false}
               lineHeight="inherit"
@@ -322,7 +322,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
           <Text
             altFont={false}
             capitalize={false}
-            color="gray-3"
+            color="grey400"
             cursor="inherit"
             italic={false}
             lineHeight="inherit"

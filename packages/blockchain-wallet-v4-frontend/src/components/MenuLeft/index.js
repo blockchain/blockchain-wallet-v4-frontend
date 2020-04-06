@@ -58,7 +58,7 @@ export const MenuItem = styled.button`
       color: ${props => props.theme.blue600};
     }
     .destination {
-      color: ${props => props.theme['deep-blue']};
+      color: ${props => props.theme.blue900};
     }
   }
   &.airdrop {

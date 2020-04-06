@@ -91,18 +91,12 @@ const Default = {
   // Marketing
   'marketing-primary': '#0C6CF2',
   'marketing-secondary': '#144699',
-  // Grays
-  'gray-5': '#50596B',
-  'gray-6': '#353F52',
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
   // Blacks
   black: '#000000',
   textBlack: '#121D33',
-  // Blues
-  purple: '#4C18BA',
-  'deep-blue': '#144699',
   // Service Announcements
   info: '#4A90E2'
 }

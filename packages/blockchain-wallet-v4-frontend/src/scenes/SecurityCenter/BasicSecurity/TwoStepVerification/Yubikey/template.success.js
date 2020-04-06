@@ -44,7 +44,7 @@ const YubikeyInput = styled.input`
   font-size: 16px;
   font-weight: 400;
   line-height: 1.42;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   background-color: ${props => props.theme.white};
   background-image: none;
   outline-width: 0;

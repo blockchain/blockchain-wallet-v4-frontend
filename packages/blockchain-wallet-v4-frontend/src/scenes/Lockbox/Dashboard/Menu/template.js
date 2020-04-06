@@ -70,7 +70,7 @@ const SearchLabel = styled.div`
     color: ${props =>
       props.theme[toLower(props.background)]
         ? props.theme.white
-        : props.theme['gray-5']};
+        : props.theme.grey700};
   }
 `
 

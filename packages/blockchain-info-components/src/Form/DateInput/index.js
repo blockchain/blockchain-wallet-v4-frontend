@@ -142,7 +142,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme['gray-6']};
+    color: ${props => props.theme['grey800']};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;

@@ -60,7 +60,7 @@ const LinkToExchangeAccountError = ({ close, error }) => {
               {error}
             </Text>
           </Status>
-          <Button nature='purple' height='56px' fullwidth onClick={close}>
+          <Button nature='blue900' height='56px' fullwidth onClick={close}>
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
                 id='modals.onboarding.linktoexchangeaccount.error.done'
