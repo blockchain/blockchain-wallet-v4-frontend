@@ -163,7 +163,7 @@ exports[`EmailVerification component rendering should render verificationSent lo
   <Text
     altFont={false}
     capitalize={false}
-    color="gray-5"
+    color="grey700"
     cursor="inherit"
     italic={false}
     lineHeight="inherit"
@@ -217,7 +217,7 @@ exports[`EmailVerification component rendering should render verificationSent st
   <Text
     altFont={false}
     capitalize={false}
-    color="gray-5"
+    color="grey700"
     cursor="inherit"
     italic={false}
     lineHeight="inherit"

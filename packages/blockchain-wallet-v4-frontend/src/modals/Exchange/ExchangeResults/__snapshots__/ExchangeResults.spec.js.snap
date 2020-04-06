@@ -17,7 +17,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -40,7 +40,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -166,7 +166,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -189,7 +189,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -315,7 +315,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -333,7 +333,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -461,7 +461,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -484,7 +484,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -606,7 +606,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -629,7 +629,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -751,7 +751,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -774,7 +774,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -865,7 +865,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -888,7 +888,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -1010,7 +1010,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -1033,7 +1033,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
