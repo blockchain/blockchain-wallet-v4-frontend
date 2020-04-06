@@ -21,8 +21,10 @@ export const getData = state => {
       fromAddress: fromLabel,
       toAddress: toLabel,
       amount: payment.amount[0],
-      fee: payment.selection.fee,
-      total: payment.selection.fee + payment.amount[0],
+      fee: payment.selection ? payment.selection.fee : 0,
+      total: payment.selection
+        ? payment.selection.fee + payment.amount[0]
+        : payment.amount[0],
       isLegacy: isLegacy
     }
   }

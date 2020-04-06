@@ -31,6 +31,7 @@ import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 
@@ -365,7 +366,19 @@ export default ({
         payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
-      payment = yield payment.publish()
+      if (fromType === ADDRESS_TYPES.CUSTODIAL) {
+        const value = payment.value()
+        if (!value.to) throw new Error('missing_to_from_custodial')
+        if (!value.amount) throw new Error('missing_amount_from_custodial')
+        yield call(
+          api.withdrawSBFunds,
+          utils.bch.toCashAddr(value.to[0].address),
+          'BCH',
+          new BigNumber(value.amount[0]).toString()
+        )
+      } else {
+        payment = yield payment.publish()
+      }
       yield put(actions.core.data.bch.fetchData())
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
       // Set tx note
@@ -388,16 +401,6 @@ export default ({
         )).getOrFail('missing_device')
         const deviceIndex = prop('device_index', device)
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
-      } else if (fromType === ADDRESS_TYPES.CUSTODIAL) {
-        const value = payment.value()
-        if (!value.to) throw new Error('missing_to_from_custodial')
-        if (!value.amount) throw new Error('missing_amount_from_custodial')
-        yield call(
-          api.withdrawSBFunds,
-          value.to[0].address,
-          'BCH',
-          new BigNumber(value.amount[0]).toString()
-        )
       } else {
         yield put(actions.router.push('/bch/transactions'))
         yield put(
