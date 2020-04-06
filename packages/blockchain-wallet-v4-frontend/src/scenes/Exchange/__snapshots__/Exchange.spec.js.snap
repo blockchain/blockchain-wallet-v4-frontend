@@ -6,6 +6,7 @@ exports[`ExchangeScene renders email required screen correctly 1`] = `<EmailRequ
 
 exports[`ExchangeScene renders exchange correctly 1`] = `
 <styled.div>
+  <ExchangeHeader />
   <Connect(Menu) />
   <styled.section>
     <styled.div>
@@ -26,6 +27,7 @@ exports[`ExchangeScene renders failure correctly 1`] = `
 
 exports[`ExchangeScene renders getstarted correctly 1`] = `
 <styled.div>
+  <ExchangeHeader />
   <Connect(GetStarted) />
 </styled.div>
 `;
