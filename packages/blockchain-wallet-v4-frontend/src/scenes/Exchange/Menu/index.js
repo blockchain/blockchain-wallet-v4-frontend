@@ -20,15 +20,12 @@ const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  & > :last-child {
-    margin-left: 8px;
-  }
 `
 const DownloadButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};
   border-radius: 8px;
   color: ${props => props.theme['blue600']};
-  margin-right: 12px;
+  margin-left: 8px;
 `
 
 const Menu = ({

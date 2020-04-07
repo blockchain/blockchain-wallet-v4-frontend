@@ -326,8 +326,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchTiers = function * () {
     try {
-      const tiers = yield select(S.getTiers)
-      if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      // const tiers = yield select(S.getTiers)
+      // if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
       yield put(
         A.fetchTiersSuccess(

@@ -206,6 +206,7 @@ export default ({ api, coreSagas, networks }) => {
       pairs,
       payload.requestedValues
     )
+
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     yield call(changeSubscription, true)
     yield call(fetchLimits)

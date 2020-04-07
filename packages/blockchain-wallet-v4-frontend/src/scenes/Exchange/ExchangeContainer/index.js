@@ -6,10 +6,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 export class ExchangeContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.profileActions.fetchUser()
-  }
-
   componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }
@@ -26,8 +22,7 @@ ExchangeContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export default connect(

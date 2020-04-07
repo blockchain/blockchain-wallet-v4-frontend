@@ -1,4 +1,4 @@
-import { BlockchainLoader } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -14,6 +14,14 @@ const Wrapper = styled.div`
 
 export default () => (
   <Wrapper>
-    <BlockchainLoader width='200px' height='200px' />,
+    <SpinningLoader width='80px' height='80px' />
+    <Text
+      size='18px'
+      weight={600}
+      color='grey600'
+      style={{ marginTop: '24px' }}
+    >
+      Doing Work...
+    </Text>
   </Wrapper>
 )

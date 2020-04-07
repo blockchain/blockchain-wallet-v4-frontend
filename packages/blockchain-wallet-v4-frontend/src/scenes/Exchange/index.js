@@ -1,5 +1,4 @@
 import { actions } from 'data'
-import { BlockchainLoader } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { path } from 'ramda'
@@ -9,6 +8,7 @@ import EmailRequired from 'components/EmailRequired'
 import Exchange from './ExchangeContainer'
 import ExchangeHeader from './template.header'
 import GetStarted from './GetStarted'
+import Loading from './template.loading'
 import media from 'services/ResponsiveService'
 import Menu from './Menu'
 import React from 'react'
@@ -38,14 +38,7 @@ const Column = styled.div`
   width: 100%;
 `
 
-export const ExchangeScene = ({
-  data,
-  userCreated,
-  hasEmail,
-  location,
-  fetchUser,
-  showHelpModal
-}) => {
+export const ExchangeScene = ({ data, location, fetchUser, showHelpModal }) => {
   return data.cata({
     Success: val => {
       if (!val.hasEmail) return <EmailRequired />
@@ -53,41 +46,27 @@ export const ExchangeScene = ({
         <SceneWrapper>
           <ExchangeHeader showHelpModal={showHelpModal} />
           {val.userCreated ? (
-            val.isLoading ? (
-              <SceneWrapper>
-                <BlockchainLoader width='200px' height='200px' />
-              </SceneWrapper>
-            ) : (
-              <>
-                <Menu />
-                <Container>
-                  <Column>
-                    <Exchange
-                      from={path(['state', 'from'], location)}
-                      to={path(['state', 'to'], location)}
-                      fix={path(['state', 'fix'], location)}
-                      amount={path(['state', 'amount'], location)}
-                    />
-                  </Column>
-                </Container>
-              </>
-            )
+            <>
+              <Menu />
+              <Container>
+                <Column>
+                  <Exchange
+                    from={path(['state', 'from'], location)}
+                    to={path(['state', 'to'], location)}
+                    fix={path(['state', 'fix'], location)}
+                    amount={path(['state', 'amount'], location)}
+                  />
+                </Column>
+              </Container>
+            </>
           ) : (
             <GetStarted />
           )}
         </SceneWrapper>
       )
     },
-    Loading: () => (
-      <SceneWrapper>
-        <BlockchainLoader width='200px' height='200px' />
-      </SceneWrapper>
-    ),
-    NotAsked: () => (
-      <SceneWrapper>
-        <BlockchainLoader width='200px' height='200px' />
-      </SceneWrapper>
-    ),
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
     Failure: () => <DataError onClick={fetchUser} />
   })
 }
