@@ -6,6 +6,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 export class ExchangeContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.ratesActions.fetchAvailablePairs()
+  }
+
   componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }
@@ -22,6 +26,7 @@ ExchangeContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch),
+  ratesActions: bindActionCreators(actions.modules.rates, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 

@@ -16,7 +16,7 @@ import media from 'services/ResponsiveService'
 import MinMaxButtons from './MinMaxButtons'
 import Notifications from './Notifications'
 import RatesBox from './RatesBox'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -169,6 +169,7 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
+  initialize,
   inputField,
   inputSymbol,
   sourceActive,
@@ -187,6 +188,11 @@ const Success = ({
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+
+  useEffect(() => {
+    return initialize()
+  }, [])
+
   return (
     <Wrapper>
       <ColumnLeft>
