@@ -237,16 +237,6 @@ describe('fetch tiers saga', () => {
       .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
       .run()
   })
-
-  it("shouldn't set tiers as loading if tiers are in success state", () => {
-    api.fetchTiers.mockReturnValueOnce({ tiers: INITIAL_TIERS })
-    return expectSaga(fetchTiers)
-      .provide([[select(S.getTiers), Remote.of(INITIAL_TIERS)]])
-      .not.put(A.fetchTiersLoading())
-      .call(api.fetchTiers)
-      .put(A.fetchTiersSuccess(tail(INITIAL_TIERS)))
-      .run()
-  })
 })
 
 describe('update user saga', () => {

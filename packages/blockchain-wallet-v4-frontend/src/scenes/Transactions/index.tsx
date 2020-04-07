@@ -137,12 +137,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 {displayName}
               </Text>
             </PageTitle>
-            {!hasTxResults && (
-              <ExplainerWrapper>
-                {getHeaderExplainer(coinModel)}
-              </ExplainerWrapper>
-            )}
-
+            <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown
                 coin={coin}

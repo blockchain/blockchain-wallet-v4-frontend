@@ -1,5 +1,4 @@
 import { actions } from 'data'
-import { BlockchainLoader } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { path } from 'ramda'
@@ -7,7 +6,9 @@ import { SceneWrapper } from 'components/Layout'
 import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
 import Exchange from './ExchangeContainer'
+import ExchangeHeader from './template.header'
 import GetStarted from './GetStarted'
+import Loading from './template.loading'
 import media from 'services/ResponsiveService'
 import Menu from './Menu'
 import React from 'react'
@@ -37,55 +38,49 @@ const Column = styled.div`
   width: 100%;
 `
 
-export const ExchangeScene = ({
-  userCreated,
-  hasEmail,
-  location,
-  fetchUser
-}) => {
-  if (!hasEmail) return <EmailRequired />
-
-  return userCreated.cata({
-    Success: userCreated => (
-      <SceneWrapper>
-        {userCreated ? (
-          <>
-            <Menu />
-            <Container>
-              <Column>
-                <Exchange
-                  from={path(['state', 'from'], location)}
-                  to={path(['state', 'to'], location)}
-                  fix={path(['state', 'fix'], location)}
-                  amount={path(['state', 'amount'], location)}
-                />
-              </Column>
-            </Container>
-          </>
-        ) : (
-          <GetStarted />
-        )}
-      </SceneWrapper>
-    ),
-    Loading: () => (
-      <SceneWrapper>
-        <BlockchainLoader width='200px' height='200px' />
-      </SceneWrapper>
-    ),
-    NotAsked: () => (
-      <SceneWrapper>
-        <BlockchainLoader width='200px' height='200px' />
-      </SceneWrapper>
-    ),
+export const ExchangeScene = ({ data, location, fetchUser, showHelpModal }) => {
+  return data.cata({
+    Success: val => {
+      if (!val.hasEmail) return <EmailRequired />
+      return (
+        <SceneWrapper>
+          <ExchangeHeader showHelpModal={showHelpModal} />
+          {val.userCreated ? (
+            <>
+              <Menu />
+              <Container>
+                <Column>
+                  <Exchange
+                    from={path(['state', 'from'], location)}
+                    to={path(['state', 'to'], location)}
+                    fix={path(['state', 'fix'], location)}
+                    amount={path(['state', 'amount'], location)}
+                  />
+                </Column>
+              </Container>
+            </>
+          ) : (
+            <GetStarted />
+          )}
+        </SceneWrapper>
+      )
+    },
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
     Failure: () => <DataError onClick={fetchUser} />
   })
 }
 
+const mapStateToProps = state => ({
+  data: getData(state)
+})
+
 const mapDispatchToProps = dispatch => ({
-  fetchUser: () => dispatch(actions.modules.profile.fetchUser())
+  fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
+  showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
 export default connect(
-  getData,
+  mapStateToProps,
   mapDispatchToProps
 )(ExchangeScene)

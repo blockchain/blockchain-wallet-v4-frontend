@@ -42,19 +42,24 @@ const getBlockLockbox = state => {
   )
 }
 
-const { getAmounts, getAvailablePairs } = selectors.components.exchange
+const {
+  getAmounts,
+  getAvailablePairs,
+  getActiveAccountsR
+} = selectors.components.exchange
 
 export const getData = createDeepEqualSelector(
   [
     getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
-    getAvailablePairs
+    getAvailablePairs,
+    getActiveAccountsR
   ],
-  (blockLockbox, currencyR, formValues, availablePairsR) => {
+  (blockLockbox, currencyR, formValues, availablePairsR, activeAccountsR) => {
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
-    const transform = (currency, availablePairs) => {
+    const transform = (currency, availablePairs, activeAccounts) => {
       const inputField = mapFixToFieldName(fix)
       const fieldCoins = {
         sourceAmount: sourceCoin,
@@ -84,7 +89,7 @@ export const getData = createDeepEqualSelector(
         volume
       }
     }
-    return lift(transform)(currencyR, availablePairsR)
+    return lift(transform)(currencyR, availablePairsR, activeAccountsR)
   }
 )
 

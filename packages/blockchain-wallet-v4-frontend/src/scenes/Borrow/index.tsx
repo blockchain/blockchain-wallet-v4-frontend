@@ -3,16 +3,21 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import {
+  IconBackground,
+  SceneHeader,
+  SceneHeaderText,
+  SceneSubHeaderText,
+  SceneWrapper
+} from 'components/Layout'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { SceneWrapper } from 'components/Layout'
-import { Text } from 'blockchain-info-components'
 import { UserDataType } from 'data/types'
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 type LinkStatePropsType = {
   invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
@@ -28,13 +33,6 @@ export type Props = LinkDispatchPropsType & LinkStatePropsType
 export type State = {
   isDisabled: boolean
 }
-
-export const Header = styled.div`
-  margin-bottom: 40px;
-`
-export const MainTitle = styled(Text)`
-  margin-bottom: 8px;
-`
 
 class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }
@@ -73,20 +71,23 @@ class Borrow extends PureComponent<Props, State> {
   render () {
     return (
       <SceneWrapper>
-        <Header>
-          <MainTitle size='32px' color='grey800' weight={600}>
+        <SceneHeader>
+          <IconBackground>
+            <Icon name='borrow' color='blue600' size='24px' />
+          </IconBackground>
+          <SceneHeaderText>
             <FormattedMessage
               id='scenes.borrow.blockchain'
               defaultMessage='Borrow'
             />
-          </MainTitle>
-          <Text size='16px' color='grey400' weight={500}>
-            <FormattedMessage
-              id='scenes.borrow.subheader1'
-              defaultMessage='Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral.'
-            />
-          </Text>
-        </Header>
+          </SceneHeaderText>
+        </SceneHeader>
+        <SceneSubHeaderText>
+          <FormattedMessage
+            id='scenes.borrow.subheader'
+            defaultMessage='Blockchain.com lets you borrow USD Digital from your Blockchain Wallet with crypto as collateral.'
+          />
+        </SceneSubHeaderText>
         <Container>
           <BorrowPax {...this.state} {...this.props} />
           <InitBorrowForm {...this.state} {...this.props} />
