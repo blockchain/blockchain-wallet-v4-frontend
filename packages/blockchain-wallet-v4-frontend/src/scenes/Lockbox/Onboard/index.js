@@ -2,6 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Announcements from 'components/Announcements'
+import LockboxHeader from '../template.header'
 import React from 'react'
 import Setup from './template'
 import styled from 'styled-components'
@@ -19,6 +20,7 @@ class OnboardContainer extends React.PureComponent {
   render () {
     return (
       <Wrapper>
+        <LockboxHeader />
         <Announcements type='service' alertArea='lockbox' />
         <Setup launchLockboxSetup={this.launchLockboxSetup} />
       </Wrapper>

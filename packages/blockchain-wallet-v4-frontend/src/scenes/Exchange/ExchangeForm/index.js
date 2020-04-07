@@ -18,11 +18,6 @@ const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
 class ExchangeForm extends React.Component {
-  componentDidMount () {
-    const { actions, from, to, fix, amount } = this.props
-    actions.initialize({ from, to, fix, amount })
-  }
-
   shouldComponentUpdate (nextProps) {
     return nextProps.data !== this.props.data
   }
@@ -34,9 +29,13 @@ class ExchangeForm extends React.Component {
   debounceTime = 50
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
 
-  handleRefresh = () => {
+  initialize = () => {
     const { actions, from, to, fix, amount } = this.props
     actions.initialize({ from, to, fix, amount })
+  }
+
+  handleRefresh = () => {
+    this.initialize()
   }
 
   clearZero = (e, inputSource) => {
@@ -83,6 +82,7 @@ class ExchangeForm extends React.Component {
               this.clearZero(e, value.inputField)
             }}
             handleInputBlur={this.addZero}
+            initialize={this.initialize}
             swapFix={compose(
               actions.changeFix,
               swapBaseAndCounter.bind(null, value.fix)

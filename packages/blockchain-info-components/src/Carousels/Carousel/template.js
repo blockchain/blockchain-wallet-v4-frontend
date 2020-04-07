@@ -1,10 +1,13 @@
+import { FormattedMessage } from 'react-intl'
 import { range } from 'ramda'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Button } from '../../Buttons'
 import { Color } from '../../Colors/index.ts'
 import { Icon } from '../../Icons'
+import { Text } from '../../Text'
 
 const Wrapper = styled.div`
   display: flex;
@@ -76,6 +79,15 @@ const Arrow = styled(Icon).attrs({
     color: ${Color('blue600')}!important;
   }
 `
+const FooterWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > :first-child {
+    margin-right: 10px;
+  }
+`
 
 const Carousel = props => {
   const {
@@ -87,7 +99,8 @@ const Carousel = props => {
     children,
     handleClick,
     handlePrevious,
-    handleNext
+    handleNext,
+    nextButton
   } = props
 
   return (
@@ -109,6 +122,29 @@ const Carousel = props => {
             />
           ))}
         </Controls>
+      )}
+      {nextButton && (
+        <FooterWrapper>
+          {index < total && (
+            <Button width='60px' nature='light' onClick={handleNext}>
+              <FormattedMessage
+                id='components.emptyscenecarousel.next'
+                defaultMessage='Next'
+              />
+            </Button>
+          )}
+          {index === total && (
+            <Button width='70px' nature='light' onClick={handleNext}>
+              <FormattedMessage
+                id='components.emptyscenecarousel.goback'
+                defaultMessage='Go Back'
+              />
+            </Button>
+          )}
+          <Text size='14px' weight={600} color='grey400'>
+            {index + 1} of {total + 1}
+          </Text>
+        </FooterWrapper>
       )}
     </Wrapper>
   )

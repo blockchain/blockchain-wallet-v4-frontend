@@ -3,17 +3,26 @@ import { AppActionTypes, UserCampaignsType, UserDataType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
+import {
+  IconBackground,
+  SceneHeader,
+  SceneHeaderText,
+  SceneSubHeaderText
+} from 'components/Layout'
 import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { SceneWrapper } from 'components/Layout'
-import { Text } from 'blockchain-info-components'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
 import React from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
+
+const Wrapper = styled.div`
+  width: 100%;
+`
 
 export const Header = styled.div`
   margin-bottom: 40px;
@@ -86,21 +95,25 @@ class Airdrops extends React.PureComponent<Props> {
     })
     if (!hasEmail) return <EmailRequired />
     return (
-      <SceneWrapper>
-        <Header>
-          <MainTitle size='32px' color='grey800' weight={600}>
+      <Wrapper>
+        <SceneHeader>
+          <IconBackground>
+            <Icon name='parachute' color='blue600' size='24px' />
+          </IconBackground>
+          <SceneHeaderText>
             <FormattedMessage
-              id='scenes.airdrops.blockchain'
-              defaultMessage='Blockchain Airdrops'
+              id='scenes.airdrops.header'
+              defaultMessage='Airdrops'
             />
-          </MainTitle>
-          <Text size='16px' color='grey400' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrops.blockchain.safest1'
-              defaultMessage='The safest and easiest way to try and discover new crypto'
-            />
-          </Text>
-        </Header>
+          </SceneHeaderText>
+        </SceneHeader>
+        <SceneSubHeaderText>
+          <FormattedMessage
+            id='scenes.airdrops.blockchain.safest'
+            defaultMessage='The safest and easiest way to try and discover new crypto.'
+          />
+        </SceneSubHeaderText>
+
         {AirdropCards}
         <History>
           <MainTitle size='24px' color='grey800' weight={600}>
@@ -111,7 +124,7 @@ class Airdrops extends React.PureComponent<Props> {
           </MainTitle>
         </History>
         {PastAirdrops}
-      </SceneWrapper>
+      </Wrapper>
     )
   }
 }

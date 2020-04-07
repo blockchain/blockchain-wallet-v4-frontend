@@ -7,7 +7,8 @@ import styled from 'styled-components'
 
 const ActionButton = styled(Button).attrs({ nature: 'primary' })`
   font-weight: 600;
-  height: 56px;
+  width: 264px;
+  height: 48px;
 `
 
 export const InProgress = ({ verifyIdentity }) => (

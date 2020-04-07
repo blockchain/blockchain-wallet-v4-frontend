@@ -38,7 +38,6 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 12px;
 `
 const Column = styled.div`
   display: flex;
