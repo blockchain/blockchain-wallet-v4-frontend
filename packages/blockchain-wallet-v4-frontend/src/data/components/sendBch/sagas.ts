@@ -199,7 +199,7 @@ export default ({
           )
           break
         case 'from':
-          let payloadT = payload as BtcFromType
+          const payloadT = payload as BtcFromType
           const fromType = payloadT.type
           if (typeof payloadT === 'string') {
             yield payment.from(payload, fromType)
@@ -219,7 +219,7 @@ export default ({
                 .getOrFail('Can not retrieve currency.')
               const bchRates = selectors.core.data.bch
                 .getRates(appState)
-                .getOrFail('Can not retrieve bitcoin rates.')
+                .getOrFail('Can not retrieve BCH rates.')
 
               const available = new BigNumber(
                 payloadT.available || 0

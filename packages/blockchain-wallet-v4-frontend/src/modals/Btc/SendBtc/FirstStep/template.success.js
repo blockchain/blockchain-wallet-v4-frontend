@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -17,12 +10,14 @@ import {
 import {
   ColLeft,
   ColRight,
+  CustodyToAccountMessage,
   CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
+  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -39,6 +34,8 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
@@ -58,10 +55,14 @@ import {
   validBtcPrivateKey
 } from 'services/FormHelper'
 import BitPayCTA from 'components/BitPayCTA'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import PriorityFeeLink from './PriorityFeeLink'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -98,18 +99,19 @@ const FirstStep = props => {
   } = props
 
   const {
-    from,
-    watchOnly,
-    feePerByte,
-    feePerByteToggled,
-    feePerByteElements,
-    regularFeePerByte,
-    priorityFeePerByte,
-    totalFee,
-    excludeLockbox,
+    autofilled,
     excludeHDWallets,
+    excludeLockbox,
+    feePerByte,
+    feePerByteElements,
+    feePerByteToggled,
+    from,
+    isMnemonicVerified,
     payPro,
-    autofilled
+    priorityFeePerByte,
+    regularFeePerByte,
+    totalFee,
+    watchOnly
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -119,6 +121,7 @@ const FirstStep = props => {
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -217,23 +220,28 @@ const FirstStep = props => {
             {!isPayPro ? (
               <React.Fragment>
                 <Field
-                  name='to'
-                  placeholder='Paste, scan, or select destination'
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
-                  validate={[required, validBtcAddress]}
                   exclude={[from.label]}
-                  openMenuOnClick={false}
+                  excludeImported={isFromCustody}
                   includeAll={false}
-                  includeExchangeAddress
-                  isCreatable
-                  noOptionsMessage={() => null}
+                  includeExchangeAddress={!isFromCustody}
+                  isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  name='to'
+                  openMenuOnClick={!!isFromCustody}
+                  noOptionsMessage={() => null}
+                  placeholder='Paste, scan, or select destination'
+                  validate={
+                    isFromCustody ? [required] : [required, validBtcAddress]
+                  }
                 />
-                <QRCodeCapture
-                  scanType='btcAddress'
-                  border={['top', 'bottom', 'right', 'left']}
-                />
+                {!isFromCustody && (
+                  <QRCodeCapture
+                    scanType='btcAddress'
+                    border={['top', 'bottom', 'right', 'left']}
+                  />
+                )}
               </React.Fragment>
             ) : (
               <Field
@@ -247,7 +255,13 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <BitPayCTA coin='BTC' />
+        {isFromCustody ? (
+          isMnemonicVerified ? (
+            <CustodyToAccountMessage />
+          ) : null
+        ) : (
+          <BitPayCTA coin='BTC' />
+        )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -407,8 +421,8 @@ const FirstStep = props => {
         {feePerByte > regularFeePerByte ? (
           <Text size='13px' weight={400} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.estimated2'
               defaultMessage='Estimated confirmation time 0-60 minutes'
+              id='modals.sendbtc.firststep.estimated2'
             />
           </Text>
         ) : (
@@ -433,6 +447,9 @@ const FirstStep = props => {
           />
         </Text>
       )}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -444,6 +461,7 @@ const FirstStep = props => {
             submitting ||
             invalid ||
             disableLockboxSend ||
+            disableCustodySend ||
             (!isPayPro && pristine && !autofilled)
           }
         >

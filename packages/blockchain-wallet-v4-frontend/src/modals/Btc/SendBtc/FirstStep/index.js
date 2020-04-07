@@ -38,6 +38,7 @@ class FirstStep extends React.Component {
           from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
+          isMnemonicVerified={value.isMnemonicVerified}
           maxFeePerByte={value.maxFeePerByte}
           minFeePerByte={value.minFeePerByte}
           network={value.network}

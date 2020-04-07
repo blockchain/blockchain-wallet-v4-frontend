@@ -265,6 +265,7 @@ export default ({
               payment = yield payment.amount(available)
               yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'amount', { coin, fiat }))
+              yield put(change(FORM, 'to', null))
               break
             default:
               if (!payloadT.watchOnly) {
@@ -278,7 +279,11 @@ export default ({
           payment = yield payment.from(payload)
           break
         case 'to':
-          const value = pathOr({}, ['value', 'value'], payload) as BtcFromType
+          const value = pathOr(
+            payload,
+            ['value', 'value'],
+            payload
+          ) as BtcFromType
           // @ts-ignore
           const toType = prop('type', value)
           // @ts-ignore
