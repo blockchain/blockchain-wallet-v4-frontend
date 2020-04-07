@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components'
+import { lighten } from 'polished'
 
 const DarkTheme: DefaultTheme = {
   // USE THESE \\
@@ -15,13 +16,13 @@ const DarkTheme: DefaultTheme = {
   greyFade800: 'rgba(18, 29, 51, 0.8)',
   grey000: '#50596B',
   grey100: '#50596B',
-  grey200: '#CCD2DE',
+  grey200: '#B1B8C7',
   grey300: '#B1B8C7',
   grey400: '#98A1B2',
   grey500: '#828B9E',
   grey600: '#677185',
-  grey700: '#50596B',
-  grey800: '#B1B8C7',
+  grey700: lighten(0.1, '#50596B'),
+  grey800: lighten(0.1, '#B1B8C7'),
   grey900: '#121D33',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
@@ -97,7 +98,7 @@ const DarkTheme: DefaultTheme = {
   white: '#1c1c1c',
   silver: '#838383',
   // Blacks
-  black: '#B1B8C7',
+  black: lighten(0.1, '#B1B8C7'),
   textBlack: '#9c9c9c',
   // Service Announcements
   info: '#2C5687'
