@@ -1,5 +1,6 @@
 import { Banner, Icon } from 'blockchain-info-components'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -124,12 +125,13 @@ export const MnemonicRequiredForCustodySend = () => {
   )
 }
 
-export const CustodyToAccountMessage = () => {
+export const CustodyToAccountMessage = ({ coin }: { coin: CoinType }) => {
   return (
     <CustomBlueCartridge>
       <FormattedMessage
         id='modals.send.firststep.fromcustody1'
-        defaultMessage='At this time, Blockchain.com only allows sending from your BTC Trading Wallet to your BTC Wallet.'
+        defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
+        values={{ coin }}
       />
     </CustomBlueCartridge>
   )

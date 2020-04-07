@@ -18,6 +18,11 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import {
+  CustodyToAccountMessage,
+  MnemonicRequiredForCustodySend,
+  Row
+} from 'components/Send'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -28,7 +33,6 @@ import {
 } from './validation'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
-import { Row } from 'components/Send'
 import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -67,6 +71,7 @@ const FirstStep = props => {
     from,
     handleBitPayInvoiceExpiration,
     handleSubmit,
+    isMnemonicVerified,
     invalid,
     payPro,
     pristine,
@@ -81,6 +86,7 @@ const FirstStep = props => {
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -161,23 +167,28 @@ const FirstStep = props => {
             {!isPayPro ? (
               <>
                 <Field
-                  name='to'
-                  placeholder='Paste, scan, or select destination'
                   component={SelectBoxBchAddresses}
                   dataE2e='sendBchAddressInput'
-                  validate={[required, validBchAddress]}
                   exclude={[from.label]}
-                  openMenuOnClick={false}
+                  excludeImported={isFromCustody}
                   includeAll={false}
-                  includeExchangeAddress
-                  isCreatable
-                  noOptionsMessage={() => null}
+                  includeExchangeAddress={!isFromCustody}
+                  isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  name='to'
+                  noOptionsMessage={() => null}
+                  openMenuOnClick={!!isFromCustody}
+                  placeholder='Paste, scan, or select destination'
+                  validate={
+                    isFromCustody ? [required] : [required, validBchAddress]
+                  }
                 />
-                <QRCodeCapture
-                  scanType='bchAddress'
-                  border={['top', 'bottom', 'right', 'left']}
-                />
+                {!isFromCustody && (
+                  <QRCodeCapture
+                    scanType='bchAddress'
+                    border={['top', 'bottom', 'right', 'left']}
+                  />
+                )}
               </>
             ) : (
               <Field
@@ -191,7 +202,13 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <BitPayCTA coin='BCH' />
+        {isFromCustody ? (
+          isMnemonicVerified ? (
+            <CustodyToAccountMessage coin='BCH' />
+          ) : null
+        ) : (
+          <BitPayCTA coin='BCH' />
+        )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -282,6 +299,9 @@ const FirstStep = props => {
           />
         </Text>
       )}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -292,6 +312,7 @@ const FirstStep = props => {
             submitting ||
             invalid ||
             disableLockboxSend ||
+            disableCustodySend ||
             (!isPayPro && pristine)
           }
           data-e2e='bchSendContinue'

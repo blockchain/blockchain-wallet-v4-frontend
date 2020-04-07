@@ -257,7 +257,7 @@ const FirstStep = props => {
       <FormGroup>
         {isFromCustody ? (
           isMnemonicVerified ? (
-            <CustodyToAccountMessage />
+            <CustodyToAccountMessage coin='BTC' />
           ) : null
         ) : (
           <BitPayCTA coin='BTC' />

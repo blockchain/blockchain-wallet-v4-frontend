@@ -13,6 +13,7 @@ export const getData = state => {
   const networkType = selectors.core.walletOptions
     .getBtcNetwork(state)
     .getOrElse('bitcoin')
+  const isMnemonicVerified = selectors.core.wallet.isMnemonicVerified(state)
   const network = Bitcoin.networks[networkType]
 
   const transform = payment => {
@@ -27,14 +28,15 @@ export const getData = state => {
     const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
 
     return {
-      from,
-      network,
-      effectiveBalance,
-      minFeePerByte,
-      maxFeePerByte,
       destination,
-      totalFee,
-      excludeLockbox
+      effectiveBalance,
+      excludeLockbox,
+      from,
+      isMnemonicVerified,
+      maxFeePerByte,
+      minFeePerByte,
+      network,
+      totalFee
     }
   }
 
