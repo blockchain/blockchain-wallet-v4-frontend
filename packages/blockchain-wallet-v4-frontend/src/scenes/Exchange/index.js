@@ -39,37 +39,45 @@ const Column = styled.div`
 `
 
 export const ExchangeScene = ({
+  data,
   userCreated,
   hasEmail,
   location,
   fetchUser,
   showHelpModal
 }) => {
-  if (!hasEmail) return <EmailRequired />
-
-  return userCreated.cata({
-    Success: userCreated => (
-      <SceneWrapper>
-        <ExchangeHeader showHelpModal={showHelpModal} />
-        {userCreated ? (
-          <>
-            <Menu />
-            <Container>
-              <Column>
-                <Exchange
-                  from={path(['state', 'from'], location)}
-                  to={path(['state', 'to'], location)}
-                  fix={path(['state', 'fix'], location)}
-                  amount={path(['state', 'amount'], location)}
-                />
-              </Column>
-            </Container>
-          </>
-        ) : (
-          <GetStarted />
-        )}
-      </SceneWrapper>
-    ),
+  return data.cata({
+    Success: val => {
+      if (!val.hasEmail) return <EmailRequired />
+      return (
+        <SceneWrapper>
+          <ExchangeHeader showHelpModal={showHelpModal} />
+          {val.userCreated ? (
+            val.isLoading ? (
+              <SceneWrapper>
+                <BlockchainLoader width='200px' height='200px' />
+              </SceneWrapper>
+            ) : (
+              <>
+                <Menu />
+                <Container>
+                  <Column>
+                    <Exchange
+                      from={path(['state', 'from'], location)}
+                      to={path(['state', 'to'], location)}
+                      fix={path(['state', 'fix'], location)}
+                      amount={path(['state', 'amount'], location)}
+                    />
+                  </Column>
+                </Container>
+              </>
+            )
+          ) : (
+            <GetStarted />
+          )}
+        </SceneWrapper>
+      )
+    },
     Loading: () => (
       <SceneWrapper>
         <BlockchainLoader width='200px' height='200px' />
@@ -84,12 +92,16 @@ export const ExchangeScene = ({
   })
 }
 
+const mapStateToProps = state => ({
+  data: getData(state)
+})
+
 const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser()),
   showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
 export default connect(
-  getData,
+  mapStateToProps,
   mapDispatchToProps
 )(ExchangeScene)
