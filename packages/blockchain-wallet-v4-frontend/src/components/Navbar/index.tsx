@@ -1,5 +1,4 @@
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { transparentize } from 'polished'
 import media from 'services/ResponsiveService'
 import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
@@ -17,20 +16,20 @@ export const NavbarNavItemTextLink = styled(Link)`
   .icon,
   .settings {
     transition: color 0.3s;
-    color: ${props => transparentize(0.3, props.theme.white)};
+    color: ${props => props.theme.whiteFade700};
   }
   &.active,
   &:hover {
     .icon,
     .settings {
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.whiteFade900};
     }
   }
   ${media.tabletL`
     .icon,
     .settings {
       transition: color 0.3s;
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.whiteFade900};
     }
   `}
 `

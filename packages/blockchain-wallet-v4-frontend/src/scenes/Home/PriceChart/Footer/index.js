@@ -7,9 +7,14 @@ import React from 'react'
 
 class FooterContainer extends React.PureComponent {
   render () {
-    const { simpleBuyActions } = this.props
+    const { cryptoCurrency, simpleBuyActions } = this.props
     return (
-      <Footer handleBuy={() => simpleBuyActions.showModal()} {...this.props} />
+      <Footer
+        handleBuy={() =>
+          simpleBuyActions.showModal('priceChart', cryptoCurrency)
+        }
+        {...this.props}
+      />
     )
   }
 }
