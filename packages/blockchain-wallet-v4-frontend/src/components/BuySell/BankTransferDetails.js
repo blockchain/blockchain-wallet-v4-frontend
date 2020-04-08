@@ -8,7 +8,7 @@ import styled from 'styled-components'
 const BankTransferDetailsTable = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   padding: 15px;
   border-radius: 6px;
 `
@@ -25,7 +25,7 @@ const BankTransferDetailsWrapper = styled.div`
   flex-direction: column;
   padding: ${props => (props.inModal ? `0px` : `30px`)};
   border: ${props =>
-    props.inModal ? `none` : `1px solid ${props.theme['gray-1']}`};
+    props.inModal ? `none` : `1px solid ${props.theme.grey000}`};
   margin-bottom: 15px;
 `
 

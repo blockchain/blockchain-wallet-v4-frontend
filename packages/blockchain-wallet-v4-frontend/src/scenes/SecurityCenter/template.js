@@ -70,8 +70,8 @@ const Circle = styled.div`
     min-width: 25px;
   `};
   &.active {
-    background-color: ${props => props.theme['gray-1']};
-    border: 5px solid ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey000};
+    border: 5px solid ${props => props.theme.grey000};
   }
 `
 const StepText = styled(Text)`

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   font-weight: 350;
   font-size: 14px;
   padding: 5px 0;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
 `
 
 const FaqContent = props => (

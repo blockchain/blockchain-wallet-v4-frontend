@@ -16,6 +16,7 @@ const Default = {
   grey200: '#CCD2DE',
   grey300: '#B1B8C7',
   grey400: '#98A1B2',
+  grey500: '#828B9E',
   grey600: '#677185',
   grey700: '#50596B',
   grey800: '#353F52',
@@ -90,22 +91,12 @@ const Default = {
   // Marketing
   'marketing-primary': '#0C6CF2',
   'marketing-secondary': '#144699',
-  // Grays
-  'gray-1': '#F0F2F7',
-  'gray-2': '#CCD2DE',
-  'gray-3': '#98A1B2',
-  'gray-4': '#757679',
-  'gray-5': '#50596B',
-  'gray-6': '#353F52',
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
   // Blacks
   black: '#000000',
   textBlack: '#121D33',
-  // Blues
-  purple: '#4C18BA',
-  'deep-blue': '#144699',
   // Service Announcements
   info: '#4A90E2'
 }

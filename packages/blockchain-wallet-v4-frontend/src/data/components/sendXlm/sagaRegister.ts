@@ -22,10 +22,12 @@ export default ({ api, coreSagas }) => {
       sendXlmSagas.secondStepSubmitClicked
     )
     yield takeLatest(
+      // @ts-ignore
       AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS,
       sendXlmSagas.checkDestinationAccountExists
     )
     yield takeLatest(
+      // @ts-ignore
       AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE,
       sendXlmSagas.checkIfDestinationIsExchange
     )

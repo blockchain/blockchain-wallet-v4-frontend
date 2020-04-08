@@ -95,14 +95,14 @@ export const CoinBalanceWrapper = props => {
 export const LoadingBalance = props => {
   return props.large ? (
     <BalanceSkeleton>
-      <SkeletonRectangle width='170px' height='24px' bgColor='gray-1' />
+      <SkeletonRectangle width='170px' height='24px' bgColorgrey000 />
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={600} color='grey800'>
         {props.coinTicker}
       </Text>
-      <SkeletonRectangle width='40px' height='14px' bgColor='gray-1' />
+      <SkeletonRectangle width='40px' height='14px' bgColorgrey000 />
     </CoinSkeletonWrapper>
   )
 }

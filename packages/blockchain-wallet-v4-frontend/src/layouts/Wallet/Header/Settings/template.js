@@ -21,7 +21,7 @@ const DropdownSeparator = styled.div`
   width: 24px;
   margin-left: 16px;
   margin-bottom: 8px;
-  background: ${props => props.theme['gray-1']};
+  background: ${props => props.theme.grey000};
 `
 
 const Settings = props => {

@@ -23,8 +23,8 @@ const Table = styled.div`
   width: 100%;
   padding: 0 10px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
-  background-color: ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey200};
+  background-color: ${props => props.theme.grey000};
   & > :last-child {
     border-bottom: none;
   }
@@ -37,7 +37,7 @@ const TableRow = styled.div`
   width: 100%;
   padding: 8px 0;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  border-bottom: 1px solid ${props => props.theme.grey200};
 
   > :first-child {
     margin-right: 5px;

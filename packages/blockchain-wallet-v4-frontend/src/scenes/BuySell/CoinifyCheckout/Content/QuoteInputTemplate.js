@@ -44,7 +44,7 @@ const Unit = styled.span`
   font-size: 18px;
   font-weight: 400;
   position: absolute;
-  color: ${props => props.theme['gray-2']};
+  color: ${props => props.theme.grey200};
   padding-right: 42px;
 `
 
@@ -67,7 +67,7 @@ const FiatConverter = props => {
     (!canTrade && !isSell) ||
     equals(checkoutError, 'effective_max_under_min')
 
-  const BORDER_COLOR = 'gray-1'
+  const BORDER_COLOR = 'grey000'
   const HEIGHT = '72px'
   const FONT_SIZE = '18px'
   const FONT_COLOR = checkoutError ? 'error' : 'blue900'

@@ -72,7 +72,9 @@ const Success = (props: Props) => {
                           color={coin.colorCode}
                           name={coin.icons.circleFilled}
                         />
-                        <CoinName color={'gray-5'}>{coin.displayName}</CoinName>
+                        <CoinName color={'grey700'}>
+                          {coin.displayName}
+                        </CoinName>
                       </Coin>
                       <Amount>
                         <CoinBalance {...props} coin={coin.coinCode} />

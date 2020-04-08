@@ -26,7 +26,7 @@ import styled from 'styled-components'
 const HelperTipContainer = styled.div`
   position: relative;
   > div span {
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
   }
 `
 const HelperTip = styled(TooltipHost)`
@@ -41,7 +41,7 @@ export const NewCartridge = styled(Cartridge)`
   margin-left: auto;
   margin-right: -4px;
   padding: 4px 4px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 4px;
 `
 

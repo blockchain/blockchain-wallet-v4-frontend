@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `
 const ErrorText = styled(Text)`
   > span > span {
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme.grey700};
   }
 `
 

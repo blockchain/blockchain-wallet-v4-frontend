@@ -44,7 +44,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
     case countryCode === 'US':
       return (
         <Wrapper>
-          <Text color='gray-3' size='12px' weight={500}>
+          <Text color='grey400' size='12px' weight={500}>
             <FormattedMessage
               id='layouts.wallet.menuleft.footer.adtax'
               defaultMessage='Offer by LukkaTax'
@@ -59,7 +59,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
               rel='noopener noreferrer'
               target='_blank'
             >
-              <ButtonText color='gray-4' size='14px' weight={500}>
+              <ButtonText color='grey500' size='14px' weight={500}>
                 <span>💰</span>
                 <FormattedHTMLMessage
                   id='layouts.wallet.menuleft.footer.adtaxsave'
@@ -74,7 +74,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
     case includes(countryCode, adsBlacklist):
       return (
         <Wrapper>
-          <Text color='gray-3' size='12px' weight={500}>
+          <Text color='grey400' size='12px' weight={500}>
             <FormattedMessage
               id='layouts.wallet.menuleft.footer.ad'
               defaultMessage='Ad by bitcoin.com'
@@ -85,7 +85,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
             onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD)}
           >
             <Link href={adsUrl} rel='noopener noreferrer' target='_blank'>
-              <ButtonText color='gray-4' size='14px' weight={500}>
+              <ButtonText color='grey500' size='14px' weight={500}>
                 <SpadeIcon name='spade' color='gray4' />
                 <FormattedHTMLMessage
                   id='layouts.wallet.menuleft.footer.bitcoingames2'

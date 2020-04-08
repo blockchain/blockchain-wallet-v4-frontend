@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   position: relative;
   flex-direction: column;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   width: 375px;
   &.column {
@@ -74,14 +74,14 @@ const Column = styled.div`
   width: ${(props: { width?: string }) => props.width || '100%'};
   &:first-child {
     margin-right: 20px;
-    border-right: 1px solid ${props => props.theme['gray-1']};
+    border-right: 1px solid ${props => props.theme.grey000};
   }
   ${Wrapper}.column & {
     text-align: center;
     &:first-child {
       margin-right: 0px;
       border-right: 0px;
-      border-bottom: 1px solid ${props => props.theme['gray-1']};
+      border-bottom: 1px solid ${props => props.theme.grey000};
       padding-bottom: 15px;
       margin-bottom: 15px;
     }
@@ -178,7 +178,7 @@ export const TierCard = ({
               <Text
                 size='14px'
                 weight={500}
-                color='gray-3'
+                color='grey400'
                 style={{ marginTop: '7px' }}
               >
                 {tierStatus}

@@ -116,6 +116,7 @@ export const validXlmAddress = ({ value: dropdownValue }) => {
 export const validBtcAddress = (value, allValues, props) => {
   let address = value
   if (isObject(value)) {
+    if (!value.value) return
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return

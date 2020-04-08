@@ -45,7 +45,7 @@ const CustomIcon = styled(Icon)`
 const CloseIcon = styled(Icon)`
   margin-right: 8px;
   &:hover {
-    color: ${props => darken(0.5, props.theme['gray-4'])}!important;
+    color: ${props => darken(0.5, props.theme['grey500'])}!important;
   }
 `
 
@@ -117,7 +117,7 @@ const Toast = props => {
               name='close'
               size='14px'
               weight={600}
-              color='gray-4'
+              color='grey500'
               cursor
               onClick={handleClose}
             />

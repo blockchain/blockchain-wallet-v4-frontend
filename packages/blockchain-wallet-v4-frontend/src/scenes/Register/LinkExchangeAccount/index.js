@@ -64,7 +64,7 @@ const LinkExchangeAccount = () => {
         </ListHeader>
         <List>
           <ListItem>
-            <Text weight={500} color='gray-6' size='14px'>
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
                 id='scenes.linkaccount.share_levels2'
                 defaultMessage='Share your Gold or Silver status'
@@ -72,7 +72,7 @@ const LinkExchangeAccount = () => {
             </Text>
           </ListItem>
           <ListItem>
-            <Text weight={500} color='gray-6' size='14px'>
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
                 id='scenes.linkaccount.share_addresses1'
                 defaultMessage='Share crypto addresses so you don’t have to copy and paste'
@@ -88,7 +88,7 @@ const LinkExchangeAccount = () => {
         </ListHeader>
         <List>
           <ListItem>
-            <Text weight={500} color='gray-6' size='14px'>
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
                 id='scenes.linkaccount.view_pw'
                 defaultMessage='View your Wallet password, recovery phrase, or private keys'
@@ -105,7 +105,7 @@ const LinkExchangeAccount = () => {
           </Text>
           <Text
             weight={500}
-            color='gray-6'
+            color='grey800'
             size='12px'
             style={{ marginTop: '4px' }}
           >

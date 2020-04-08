@@ -186,7 +186,7 @@ describe('CoinifyService', () => {
     it('should return the correct object for default', () => {
       const status = CoinifyService.statusHelper('unknown')
       expect(status.text.props.defaultMessage).toEqual('Unknown')
-      expect(status.color).toEqual('gray-5')
+      expect(status.color).toEqual('grey700')
     })
   })
   describe('bodyStatusHelper', () => {

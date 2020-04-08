@@ -1,15 +1,31 @@
+import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import React from 'react'
-
-import { actions, model, selectors } from 'data'
 import FirstStep from './FirstStep'
 import modalEnhancer from 'providers/ModalEnhancer'
+import React from 'react'
 import SecondStep from './SecondStep'
 import SendBtc from './template'
 
-class SendBtcContainer extends React.PureComponent {
+type OwnProps = {
+  amount: number
+  closeAll: () => void
+  description: string
+  excludeHDWallets: boolean
+  from: any
+  lockboxIndex: number
+  payPro: boolean
+  position: number
+  step: number
+  to: any
+  total: number
+}
+type LinkDispatchPropsType = {
+  actions: typeof actions.components.sendBtc
+}
+type Props = OwnProps & LinkDispatchPropsType
+
+class SendBtcContainer extends React.PureComponent<Props> {
   componentDidMount () {
     const { from, to, description, amount, lockboxIndex, payPro } = this.props
     this.props.actions.initialized({
@@ -54,13 +70,6 @@ class SendBtcContainer extends React.PureComponent {
       </SendBtc>
     )
   }
-}
-
-SendBtcContainer.propTypes = {
-  step: PropTypes.number.isRequired,
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

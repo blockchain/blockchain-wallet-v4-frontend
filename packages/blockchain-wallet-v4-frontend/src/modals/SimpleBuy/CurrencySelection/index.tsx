@@ -130,8 +130,8 @@ const CurrencySelection: React.FC<
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <Top color='grey900' size='20px' weight={600}>
-            <TopText color='grey900' size='20px' weight={600}>
+          <Top color='grey800' size='20px' weight={600}>
+            <TopText color='grey800' size='20px' weight={600}>
               {!selectedCurrency && (
                 <Icon
                   onClick={props.handleClose}

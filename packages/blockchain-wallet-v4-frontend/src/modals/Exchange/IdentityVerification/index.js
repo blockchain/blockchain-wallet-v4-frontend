@@ -80,7 +80,7 @@ const KycStepIndicator = styled(StepIndicator)`
     padding: 0;
     border-radius: 4px;
     border: none;
-    background-color: ${props => props.theme['gray-2']};
+    background-color: ${props => props.theme.grey200};
     &:after {
       bottom: 0;
       border-radius: 4px;

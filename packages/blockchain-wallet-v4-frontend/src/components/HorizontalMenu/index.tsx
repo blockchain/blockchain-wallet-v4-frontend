@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const Wrapper = styled.div<{ marginBottom: string }>`
   box-sizing: border-box;
   background-color: ${props => props.theme.white};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   margin-bottom: ${props => props.marginBottom};
   padding-bottom: 12px;
   width: 100%;

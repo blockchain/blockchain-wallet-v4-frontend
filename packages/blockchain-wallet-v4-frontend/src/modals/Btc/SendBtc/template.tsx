@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -26,11 +25,5 @@ const SendBtc = props => (
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )
-
-SendBtc.propTypes = {
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
-}
 
 export default SendBtc

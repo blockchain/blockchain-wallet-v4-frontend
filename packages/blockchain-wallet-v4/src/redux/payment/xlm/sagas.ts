@@ -10,8 +10,9 @@ import {
   calculateFee as utilsCalculateFee
 } from '../../../utils/xlm'
 import { call, select } from 'redux-saga/effects'
-import { contains, flip, merge, path, prop, values } from 'ramda'
+import { contains, merge, path, prop, values } from 'ramda'
 import { convertXlmToXlm } from '../../../exchange'
+import { FromType } from '../types'
 import {
   isPositiveInteger,
   isPositiveNumber,
@@ -74,7 +75,7 @@ export default ({ api }) => {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
-        const mnemonicT = yield select(flip(S.wallet.getMnemonic)(password))
+        const mnemonicT = yield select(S.wallet.getMnemonic, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
         return xlmSigner.sign({ transaction }, mnemonic)
       case ADDRESS_TYPES.LOCKBOX:
@@ -165,7 +166,17 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
       },
 
-      * from (origin, type) {
+      * from (origin, type: FromType, effectiveBalance?: string) {
+        let from
+
+        if (type === 'CUSTODIAL') {
+          from = {
+            type,
+            address: origin
+          }
+
+          return makePayment(merge(p, { from, effectiveBalance }))
+        }
         const accountId =
           origin ||
           (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
@@ -179,13 +190,13 @@ export default ({ api }) => {
         if (!contains(fromType, values(ADDRESS_TYPES)))
           throw new Error(INVALID_ADDRESS_TYPE_ERROR)
 
-        const from = {
+        from = {
           type: fromType,
           address: accountId,
           account
         }
         const reserve = yield call(getReserve, accountId)
-        const effectiveBalance = yield call(
+        effectiveBalance = yield call(
           getEffectiveBalance,
           accountId,
           p.fee,
@@ -232,6 +243,7 @@ export default ({ api }) => {
         const memo = prop('memo', p)
         const memoType = prop('memoType', p)
         let account = prop('account', fromData)
+        if (fromData.type === 'CUSTODIAL') return makePayment(p)
         if (!account) throw new Error(NO_SOURCE_ERROR)
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)

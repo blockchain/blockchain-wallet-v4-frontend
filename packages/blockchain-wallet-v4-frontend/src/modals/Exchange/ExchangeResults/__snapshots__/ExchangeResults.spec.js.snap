@@ -17,7 +17,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -40,7 +40,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -67,7 +67,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="error"
@@ -88,7 +88,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -105,7 +105,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             <styled.s>
@@ -166,7 +166,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -189,7 +189,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -216,7 +216,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="error"
@@ -237,7 +237,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -254,7 +254,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             <styled.s>
@@ -315,7 +315,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -333,7 +333,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -360,7 +360,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="success"
@@ -381,7 +381,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -398,7 +398,7 @@ exports[`Exchange Results FINISHED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
@@ -461,7 +461,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -484,7 +484,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -511,7 +511,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="brand-yellow"
@@ -532,7 +532,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -549,7 +549,7 @@ exports[`Exchange Results PENDING_DEPOSIT renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
@@ -606,7 +606,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -629,7 +629,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -656,7 +656,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="brand-yellow"
@@ -677,7 +677,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -694,7 +694,7 @@ exports[`Exchange Results PENDING_EXECUTION renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
@@ -751,7 +751,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -774,7 +774,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -801,7 +801,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="brand-yellow"
@@ -822,7 +822,7 @@ exports[`Exchange Results PENDING_REFUND renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -865,7 +865,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -888,7 +888,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -915,7 +915,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="brand-yellow"
@@ -936,7 +936,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC
@@ -953,7 +953,7 @@ exports[`Exchange Results PENDING_WITHDRAWAL renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsTargetValue"
           >
             0.1337 ETH
@@ -1010,7 +1010,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         weight={400}
       />
       <Icon
-        color="gray-5"
+        color="grey700"
         cursor={false}
         name="arrow-right"
         size="12px"
@@ -1033,7 +1033,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
       <Text
         altFont={false}
         capitalize={false}
-        color="gray-5"
+        color="grey700"
         cursor="inherit"
         italic={false}
         lineHeight="inherit"
@@ -1060,7 +1060,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
           />
         </Styled(Text)>
         <Styled(Styled(Text))
-          color="gray-5"
+          color="grey700"
         >
           <styled.div
             color="brand-yellow"
@@ -1081,7 +1081,7 @@ exports[`Exchange Results REFUNDED renders correctly 1`] = `
         </Styled(Text)>
         <styled.div>
           <Styled(Styled(Text))
-            color="gray-5"
+            color="grey700"
             data-e2e="exchangeResultsSourceValue"
           >
             0.008022 BTC

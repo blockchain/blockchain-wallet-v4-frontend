@@ -10,7 +10,7 @@ exports[`FormItem renders correctly 1`] = `
   htmlFor="comp"
 >
   <text
-    color="gray-6"
+    color="grey800"
     size="14px"
     weight={600}
   />

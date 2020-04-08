@@ -25,29 +25,29 @@ const CustomSelectBox = styled(SelectBox)`
         font-size: 18px;
         font-weight: 400;
         color: ${props =>
-          props.disabled ? props.theme['gray-2'] : props.theme['gray-5']};
+          props.disabled ? props.theme.grey200 : props.theme.grey700};
       }
     }
     > .bc__indicators {
       > .bc__dropdown-indicator {
         color: ${props =>
-          props.disabled ? props.theme['gray-2'] : props.theme.blue600};
+          props.disabled ? props.theme.grey200 : props.theme.blue600};
       }
       > .bc__indicator-separator {
         display: none;
       }
     }
     &:hover {
-      border: 1px solid ${props => props.theme['gray-1']};
+      border: 1px solid ${props => props.theme.grey000};
       border-left: none;
     }
     &:active {
-      border: 1px solid ${props => props.theme['gray-1']};
+      border: 1px solid ${props => props.theme.grey000};
       border-left: none;
     }
   }
   .bc__option {
-    color: ${props => props.theme['gray-4']};
+    color: ${props => props.theme['grey500']};
   }
 `
 

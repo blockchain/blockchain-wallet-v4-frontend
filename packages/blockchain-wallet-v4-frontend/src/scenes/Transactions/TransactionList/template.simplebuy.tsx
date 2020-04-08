@@ -28,7 +28,7 @@ const TransactionRow = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid ${props => props.theme['gray-1']} !important;
+  border-bottom: 1px solid ${props => props.theme.grey000} !important;
   box-sizing: border-box;
   padding: 14px;
 `

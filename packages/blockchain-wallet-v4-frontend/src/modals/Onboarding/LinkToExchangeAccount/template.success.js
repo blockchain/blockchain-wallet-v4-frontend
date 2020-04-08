@@ -64,7 +64,7 @@ const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
             </Text>
           </Status>
           <Button
-            nature='purple'
+            nature='blue900'
             height='56px'
             fullwidth
             onClick={onAccountLinkComplete}

@@ -39,7 +39,7 @@ const DeleteAdresssLabel = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={400} size={'14px'} color='gray-5'>
+          <Text weight={400} size={'14px'} color='grey700'>
             <FormattedMessage
               id='modal.deleteaddresslabel.message'
               defaultMessage='Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone.'
