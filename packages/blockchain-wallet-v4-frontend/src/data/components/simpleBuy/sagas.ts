@@ -256,32 +256,17 @@ export default ({
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin, cryptoCurrency } = payload
-    // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
-    const invitations = (yield select(
-      selectors.core.settings.getInvitations
-    )).getOrElse({ simpleBuy: false })
-    const isInvitedToSB = invitations && invitations.simpleBuy
-    const isCoinify = (yield select(
-      selectors.core.kvStore.buySell.getCoinifyUser
-    )).getOrElse(false)
-    if (isCoinify || !isInvitedToSB) {
-      yield put(actions.router.push('/buy-sell'))
-      // ---- TODO: Simple Buy - REMOVE WHEN READY FOR SB 100% ---- //
+    yield put(
+      actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
+    )
+    const fiatCurrency = selectors.preferences.getSBFiatCurrency(yield select())
+
+    if (!fiatCurrency) {
+      yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
     } else {
       yield put(
-        actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
+        A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
       )
-      const fiatCurrency = selectors.preferences.getSBFiatCurrency(
-        yield select()
-      )
-
-      if (!fiatCurrency) {
-        yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
-      } else {
-        yield put(
-          A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
-        )
-      }
     }
   }
 
