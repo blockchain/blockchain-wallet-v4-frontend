@@ -55,7 +55,7 @@ exports[`HighFlow should render correctly 1`] = `
             <Text
               altFont={false}
               capitalize={false}
-              color="gray-5"
+              color="grey700"
               cursor="inherit"
               italic={false}
               lineHeight="inherit"
@@ -73,7 +73,7 @@ exports[`HighFlow should render correctly 1`] = `
             <Text
               altFont={false}
               capitalize={false}
-              color="gray-5"
+              color="grey700"
               cursor="inherit"
               italic={false}
               lineHeight="inherit"
@@ -93,7 +93,7 @@ exports[`HighFlow should render correctly 1`] = `
             <Text
               altFont={false}
               capitalize={false}
-              color="gray-5"
+              color="grey700"
               cursor="inherit"
               italic={false}
               lineHeight="inherit"
@@ -111,7 +111,7 @@ exports[`HighFlow should render correctly 1`] = `
             <Text
               altFont={false}
               capitalize={false}
-              color="gray-5"
+              color="grey700"
               cursor="inherit"
               italic={false}
               lineHeight="inherit"

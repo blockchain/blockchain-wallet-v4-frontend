@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 const CountdownTimer = props => (
   <Wrapper {...props}>
     {!props.payProInvoice ? (
-      <Text size='11px' weight={400} color='gray-3'>
+      <Text size='11px' weight={400} color='grey400'>
         <FormattedMessage
           id='scenes.exchange.secondstep.expiry_text'
           defaultMessage='This quote will refresh in: {timeLeft}'
@@ -72,7 +72,7 @@ export const getCountdownColor = expiryDateString => {
     ? 'error'
     : now > fiveMinuteLimit
     ? 'warn'
-    : 'gray-3'
+    : 'grey400'
 }
 
 CountdownTimer.defaultProps = {

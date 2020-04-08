@@ -1,14 +1,13 @@
-import { initialize } from 'redux-form'
-import { testSaga } from 'redux-saga-test-plan'
-
 import * as A from './actions'
 import * as C from 'services/AlertService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
+import { initialize } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
-import sendEthSagas, { logLocation } from './sagas'
+import { testSaga } from 'redux-saga-test-plan'
+import sendEthSagas, { logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {

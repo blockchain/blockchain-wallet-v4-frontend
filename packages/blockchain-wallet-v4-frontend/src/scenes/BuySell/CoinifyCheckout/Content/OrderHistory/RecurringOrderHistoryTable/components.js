@@ -9,11 +9,11 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 8px 5px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
-  border-left: 1px solid ${props => props.theme['gray-2']};
-  border-top: 1px solid ${props => props.theme['gray-2']};
-  border-right: 1px solid ${props => props.theme['gray-2']};
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme.grey000};
+  border-left: 1px solid ${props => props.theme.grey200};
+  border-top: 1px solid ${props => props.theme.grey200};
+  border-right: 1px solid ${props => props.theme.grey200};
+  border-bottom: 1px solid ${props => props.theme.grey200};
 `
 const TableRowWrapper = styled.div`
   width: 100%;

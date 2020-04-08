@@ -111,7 +111,7 @@ const AcceptTerms = props => {
             </VerifiedText>
             <VerifiedContainer>
               <FieldMimic width='100%'>
-                <Text size='16px' color='gray-6' weight={500}>
+                <Text size='16px' color='grey800' weight={500}>
                   {email}
                 </Text>
               </FieldMimic>

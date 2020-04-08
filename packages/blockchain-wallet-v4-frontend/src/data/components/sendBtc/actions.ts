@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { PaymentValue } from 'core/types'
 
 export const initialized = payload => ({
   type: AT.SEND_BTC_INITIALIZED,
@@ -7,7 +8,7 @@ export const initialized = payload => ({
 
 export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
-export const sendBtcPaymentUpdatedSuccess = payment => ({
+export const sendBtcPaymentUpdatedSuccess = (payment: PaymentValue) => ({
   type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS,
   payload: payment
 })

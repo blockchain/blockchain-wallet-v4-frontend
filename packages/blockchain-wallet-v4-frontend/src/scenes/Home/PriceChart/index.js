@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   height: 542px;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
 `
 const Row = styled.div`
   display: flex;

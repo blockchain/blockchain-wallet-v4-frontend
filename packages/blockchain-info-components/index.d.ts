@@ -4,6 +4,7 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 
+export const Banner: StatelessComponent<any>
 export const BlockchainLoader: StatelessComponent<{
   width?: string
   height?: string
@@ -18,7 +19,7 @@ export const Button: StatelessComponent<
       | 'empty-secondary'
       | 'empty'
       | 'empty-blue'
-      | 'gray-3'
+      | 'grey400'
       | 'green'
       | 'grey800'
       | 'light'
@@ -90,7 +91,7 @@ export const IconButton: StatelessComponent<
       | 'dark-grey'
       | 'empty-secondary'
       | 'empty'
-      | 'gray-3'
+      | 'grey400'
       | 'green'
       | 'light'
       | 'primary'

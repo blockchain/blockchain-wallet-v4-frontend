@@ -56,6 +56,7 @@ const Success = props => {
     toAddress,
     total
   } = props
+
   return (
     <React.Fragment>
       {payPro && (

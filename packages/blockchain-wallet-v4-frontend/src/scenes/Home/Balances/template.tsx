@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 24px;
   padding-bottom: 0px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
 
   ${media.mobile`
     padding: 12px;

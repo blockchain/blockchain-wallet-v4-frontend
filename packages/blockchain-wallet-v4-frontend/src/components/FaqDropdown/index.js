@@ -26,7 +26,7 @@ const ToggleIcon = styled(Icon)`
   transform: ${props => props.toggled && 'rotate(180deg)'};
   transition: transform 0.3s;
   color: ${props =>
-    props.toggled ? props.theme.blue600 : props.theme['gray-5']};
+    props.toggled ? props.theme.blue600 : props.theme.grey700};
   max-height: min-content;
 `
 

@@ -8,7 +8,7 @@ const SecurityHeader = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
   font-size: 18px;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
   width: 100%;
   @media (min-width: 480px) {
     font-size: 16px;

@@ -45,7 +45,7 @@ const TransactionRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 16px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const DetailsRow = styled.div`
   width: 100%;

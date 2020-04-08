@@ -175,7 +175,7 @@ const IdentityVerification = ({ userData, userTiers }) => {
                 <TooltipIcon
                   size='24px'
                   name='question-in-circle-filled'
-                  color='gray-2'
+                  color='grey200'
                 />
               </TooltipHost>
             </TierWrapper>

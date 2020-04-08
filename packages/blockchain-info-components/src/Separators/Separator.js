@@ -23,7 +23,7 @@ const Content = styled.div`
 const BaseSeparator = styled.div`
   width: 100%;
   height: 1px;
-  background-color: ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme.grey200};
   margin: ${props => (props.margin ? props.margin : '10px 0')};
 `
 

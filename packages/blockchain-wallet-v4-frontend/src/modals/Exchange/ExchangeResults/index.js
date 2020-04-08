@@ -264,7 +264,7 @@ export const ExchangeResults = ({
                 defaultMessage='Status'
               />
             </ExchangeText>
-            <SummaryExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='grey700'>
               <StatusCircle color={color} marginRight='4px' />
               <OrderStatus status={status} />
             </SummaryExchangeAmount>
@@ -273,7 +273,7 @@ export const ExchangeResults = ({
             <ExchangeText>{getSourceMessage(status)}</ExchangeText>
             <ExchangeAmounts>
               <SummaryExchangeAmount
-                color='gray-5'
+                color='grey700'
                 data-e2e='exchangeResultsSourceValue'
               >
                 {`${depositAmount} ${sourceCoinModel.coinTicker}`}
@@ -285,7 +285,7 @@ export const ExchangeResults = ({
               <ExchangeText>{getTargetMessage(status)}</ExchangeText>
               <ExchangeAmounts>
                 <SummaryExchangeAmount
-                  color='gray-5'
+                  color='grey700'
                   data-e2e='exchangeResultsTargetValue'
                 >
                   {getTargetAmount(withdrawalAmount, targetCoinModel, status)}

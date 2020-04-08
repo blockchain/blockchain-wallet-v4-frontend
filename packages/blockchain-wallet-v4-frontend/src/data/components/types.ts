@@ -11,4 +11,6 @@ export type ComponentsActionTypes =
 
 export * from './borrow/types'
 export * from './identityVerification/types'
+export * from './sendBch/types'
+export * from './sendBtc/types'
 export * from './simpleBuy/types'

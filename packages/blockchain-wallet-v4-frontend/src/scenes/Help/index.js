@@ -60,13 +60,13 @@ const Help = props => {
       </Header>
       <Row>
         <Left>
-          <Text size='14px' color='gray-6' weight={600}>
+          <Text size='14px' color='grey800' weight={600}>
             <FormattedMessage
               id='scenes.help.lostguid'
               defaultMessage="Don't know your Wallet ID?"
             />
           </Text>
-          <Text size='12px' color='gray-6' weight={400}>
+          <Text size='12px' color='grey800' weight={400}>
             <FormattedMessage
               id='scenes.help.lostguidrecover'
               defaultMessage='We can send you a reminder email right now.'
@@ -86,13 +86,13 @@ const Help = props => {
       </Row>
       <Row>
         <Left>
-          <Text size='14px' color='gray-6' weight={600}>
+          <Text size='14px' color='grey800' weight={600}>
             <FormattedMessage
               id='scenes.help.forgotpassword'
               defaultMessage='Forgot your password?'
             />
           </Text>
-          <Text size='12px' color='gray-6' weight={400}>
+          <Text size='12px' color='grey800' weight={400}>
             <FormattedMessage
               id='scenes.help.password.explain'
               defaultMessage='Use your 12 word recovery phrase to access your Wallet.'
@@ -112,13 +112,13 @@ const Help = props => {
       </Row>
       <Row>
         <Left>
-          <Text size='14px' color='gray-6' weight={600}>
+          <Text size='14px' color='grey800' weight={600}>
             <FormattedMessage
               id='scenes.help.2falost'
               defaultMessage='Lost your 2FA device?'
             />
           </Text>
-          <Text size='12px' color='gray-6' weight={400}>
+          <Text size='12px' color='grey800' weight={400}>
             <FormattedMessage
               id='scenes.help.2fa.lostexplain'
               defaultMessage='Reset your 2FA right now to gain access to your Wallet.'
@@ -148,7 +148,7 @@ const Help = props => {
           </Button>
         </LinkContainer>
         <TextGroup inline>
-          <Text size='13px' color='gray-6' weight={500}>
+          <Text size='13px' color='grey800' weight={500}>
             <FormattedMessage
               id='scenes.help.contact.stillneedhelp'
               defaultMessage='Still need help?'

@@ -15,7 +15,7 @@ exports[`Text component default renders correctly 1`] = `
 
 <div
   className="c0"
-  color="gray-1"
+  color="grey700"
   cursor="inherit"
   opacity={1}
   size="16px"

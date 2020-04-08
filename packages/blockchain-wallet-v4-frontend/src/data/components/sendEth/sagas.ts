@@ -23,9 +23,20 @@ import {
   propOr,
   toLower
 } from 'ramda'
+import { EthAccountFromType } from 'core/redux/payment/eth/types'
+import { EthPaymentType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
+import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import {
+  SendEthFormActionType,
+  SendEthFormAmountActionType,
+  SendEthFormDescActionType,
+  SendEthFormFeeActionType,
+  SendEthFormFromActionType,
+  SendEthFormToActionType
+} from './types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -100,40 +111,95 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function * (action: SendEthFormActionType) {
     try {
-      const form = path(['meta', 'form'], action)
+      const form = action.meta.form
       if (!equals(FORM, form)) return
-      const field = path(['meta', 'field'], action)
-      const payload = prop('payload', action)
+      const payload = action.payload
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrElse([])
       const { coin } = yield select(selectors.form.getFormValues(FORM))
       const isErc20 = includes(coin, erc20List)
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({
+      let payment: EthPaymentType = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
 
-      switch (field) {
+      switch (action.meta.field) {
+        // @ts-ignore
         case 'coin':
           const modalName = isErc20 ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`@MODAL.SEND.${modalName}`, {
-              coin: payload
-            })
+            actions.modals.showModal(
+              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              {
+                coin: payload
+              }
+            )
           )
           break
         case 'from':
-          const source = prop('address', payload)
-          const fromType = prop('type', payload)
-          payment = yield payment.from(source, fromType)
+          const fromPayload = payload as SendEthFormFromActionType['payload']
+          let source
+          switch (fromPayload.type) {
+            case 'LOCKBOX':
+            case 'ACCOUNT':
+              source = fromPayload.address
+              payment = yield payment.from(source, fromPayload.type)
+              break
+            case 'CUSTODIAL':
+              source = fromPayload.label
+              const currency = selectors.core.settings
+                .getCurrency(yield select())
+                .getOrFail('Failed to get currency')
+              let rates
+              if (equals(coin, 'ETH')) {
+                rates = selectors.core.data.eth
+                  .getRates(yield select())
+                  .getOrFail('Failed to get ETH rates')
+              } else {
+                rates = (yield select(
+                  selectors.core.data.eth.getErc20Rates,
+                  toLower(coin)
+                )).getOrFail(`Failed to get ${coin} rates`)
+              }
+              const cryptoAmt = Exchange.convertCoinToCoin({
+                value: fromPayload.available,
+                coin,
+                baseToStandard: true
+              }).value
+              const fiat = Exchange.convertCoinUnitToFiat({
+                coin,
+                value: fromPayload.available,
+                fromUnit: 'WEI',
+                toCurrency: currency,
+                rates: rates
+              }).value
+              payment = yield payment.from(
+                source,
+                fromPayload.type,
+                fromPayload.available
+              )
+              yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+              payment = yield payment.amount(fromPayload.available)
+              yield put(
+                change(FORM, 'amount', {
+                  coin: cryptoAmt,
+                  fiat,
+                  coinCode: coin
+                })
+              )
+              yield put(change(FORM, 'to', null))
+              break
+          }
           break
         case 'to':
-          const value = pathOr({}, ['value', 'value'], payload)
+          const toPayload = payload as SendEthFormToActionType['payload']
+          const value = pathOr(toPayload, ['value', 'value'], toPayload)
+          // @ts-ignore
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
@@ -141,19 +207,24 @@ export default ({ api, coreSagas, networks }) => {
           yield put(A.sendEthCheckIsContract(value))
           return
         case 'amount':
-          const coinCode = prop('coinCode', payload)
+          const amountPayload = payload as SendEthFormAmountActionType['payload']
+          const coinCode = prop('coinCode', amountPayload)
           const weiAmount = Exchange.convertCoinToCoin({
-            value: prop('coin', payload),
+            baseToStandard: false,
+            value: amountPayload.coin,
             coin: coinCode
           }).value
           payment = yield payment.amount(weiAmount)
           break
         case 'description':
-          payment = yield payment.description(payload)
+          const descPayload = payload as SendEthFormDescActionType['payload']
+          payment = yield payment.description(descPayload)
           break
         case 'fee':
+          const feePayload = payload as SendEthFormFeeActionType['payload']
           const account = path(['from', 'address'], payment.value())
-          payment = yield payment.fee(parseInt(payload), account)
+          // @ts-ignore
+          payment = yield payment.fee(feePayload, account)
           break
       }
 
@@ -211,19 +282,23 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrFail()
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
-    let payment = coreSagas.payment.eth.create({
+    let payment: EthPaymentType = coreSagas.payment.eth.create({
       payment: p.getOrElse({}),
       network: networks.eth
     })
-    const fromType = path(['from', 'type'], payment.value())
+    const fromType = payment.value().from.type
     const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
+
     try {
       // Sign payment
-      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
-        payment = yield payment.sign(password, null, null)
-      } else {
+      if (fromType !== 'LOCKBOX') {
+        const password = yield call(promptForSecondPassword)
+        if (fromType !== 'CUSTODIAL') {
+          // @ts-ignore
+          payment = yield payment.sign(password, null, null)
+        }
+      } else if (fromType === 'LOCKBOX') {
         const device = (yield select(
           selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
           fromAddress
@@ -235,10 +310,18 @@ export default ({ api, coreSagas, networks }) => {
         )
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+        // @ts-ignore
         payment = yield payment.sign(null, transport, scrambleKey)
       }
       // Publish payment
-      payment = yield payment.publish()
+      if (fromType === 'CUSTODIAL') {
+        const value = payment.value()
+        if (!value.to) throw new Error('missing_to_from_custodial')
+        if (!value.amount) throw new Error('missing_amount_from_custodial')
+        yield call(api.withdrawSBFunds, value.to.address, coin, value.amount)
+      } else {
+        payment = yield payment.publish()
+      }
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       // Update metadata
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
@@ -312,7 +395,7 @@ export default ({ api, coreSagas, networks }) => {
           ...TRANSACTION_EVENTS.SEND,
           coin,
           Exchange.convertCoinToCoin({
-            value: payment.value().amount,
+            value: payment.value().amount || 0,
             coin,
             baseToStandard: true
           }).value
@@ -366,7 +449,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkIsContract = function * ({ payload }) {
+  const checkIsContract = function * ({
+    payload
+  }: {
+    payload: string | EthAccountFromType
+  }) {
     try {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.eth.create({
@@ -374,7 +461,10 @@ export default ({ api, coreSagas, networks }) => {
         network: networks.eth
       })
       yield put(A.sendEthCheckIsContractLoading())
-      const { contract } = yield call(api.checkContract, payload)
+      const { contract } = yield call(
+        api.checkContract,
+        typeof payload === 'string' ? payload : payload.address
+      )
       const { fee, account } = yield select(selectors.form.getFormValues(FORM))
       payment = yield payment.setIsContract(contract)
       payment = yield payment.fee(fee, account)

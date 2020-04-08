@@ -13,7 +13,7 @@ const TopText = styled(Text)`
 
 const Header: React.FC<Props> = props => {
   return (
-    <TopText color='grey900' size='20px' weight={600}>
+    <TopText color='grey800' size='20px' weight={600}>
       {props.loan.status === 'PENDING_EXECUTION' ||
       props.loan.status === 'PENDING_COLLATERAL_DEPOSIT' ? (
         <FormattedMessage

@@ -44,7 +44,7 @@ const Container = styled.div`
     margin-bottom: 10px;
   }
   &:hover {
-    background-color: ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey000};
   }
 
   @media (min-width: 540px) {

@@ -20,7 +20,7 @@ const EmptyContent = ({ verifyIdentity }) => (
         defaultMessage="🎉 You're all caught up!"
       />
     </Text>
-    <Text size='12px' weight={400} color='gray-3'>
+    <Text size='12px' weight={400} color='grey400'>
       <FormattedHTMLMessage
         id='layouts.wallet.header.whatsnew.whatsnew.in_progress'
         defaultMessage="Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>."

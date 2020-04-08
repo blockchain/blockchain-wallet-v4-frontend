@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: flex-start;
   width: 90%;
   height: auto;
-  border-top: 1px solid ${props => props.theme['gray-1']};
+  border-top: 1px solid ${props => props.theme.grey000};
   padding: 25px;
 `
 export const Row = styled.div`

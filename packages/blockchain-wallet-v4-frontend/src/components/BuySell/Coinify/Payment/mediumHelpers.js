@@ -27,7 +27,7 @@ const PaymentOptionContainer = styled.div`
 const PaymentOption = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   padding: 15px;
   border-radius: 4px;
   width: 130px;

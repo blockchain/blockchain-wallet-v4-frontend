@@ -116,6 +116,13 @@ export const fromLockbox = (network, state, xpub, coin) => {
   }
 }
 
+export const fromCustodial = origin => {
+  return {
+    fromType: ADDRESS_TYPES.CUSTODIAL,
+    from: origin
+  }
+}
+
 // fromPrivateKey :: Network -> Wallet -> ECKey -> Object
 export const fromPrivateKey = (network, wallet, key) => {
   let c = getWifAddress(key, true)

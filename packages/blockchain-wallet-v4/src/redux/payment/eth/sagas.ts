@@ -9,6 +9,7 @@ import {
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
 import { FETCH_FEES_FAILURE } from '../model'
+import { FromType } from '../types'
 import {
   identity,
   indexOf,
@@ -165,32 +166,41 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from (origin, type) {
-        let account = origin
-        if (isNil(origin) || origin === '') {
-          const accountR = yield select(S.kvStore.eth.getDefaultAddress)
-          account = accountR.getOrFail('missing_default_from')
-        }
-        const ethData = yield call(api.getEthBalances, account)
-        const nonce = path([account, 'nonce'], ethData)
-        let balance = p.isErc20
-          ? (yield select(
-              S.data.eth.getErc20Balance,
-              toLower(p.coin)
-            )).getOrFail('missing_erc20_balance')
-          : path([account, 'balance'], ethData)
+      * from (origin, type: FromType, effectiveBalance?: string) {
+        let from, unconfirmedTx
 
-        const effectiveBalance = calculateEffectiveBalance(
-          balance,
-          prop('fee', p),
-          prop('isErc20', p)
-        )
-        const from = {
-          type: type || ADDRESS_TYPES.ACCOUNT,
-          address: account,
-          nonce
+        if (type === 'CUSTODIAL') {
+          from = {
+            type,
+            address: origin
+          }
+        } else {
+          let account = origin
+          if (isNil(origin) || origin === '') {
+            const accountR = yield select(S.kvStore.eth.getDefaultAddress)
+            account = accountR.getOrFail('missing_default_from')
+          }
+          const ethData = yield call(api.getEthBalances, account)
+          const nonce = path([account, 'nonce'], ethData)
+          let balance = p.isErc20
+            ? (yield select(
+                S.data.eth.getErc20Balance,
+                toLower(p.coin)
+              )).getOrFail('missing_erc20_balance')
+            : path([account, 'balance'], ethData)
+
+          effectiveBalance = calculateEffectiveBalance(
+            balance,
+            prop('fee', p),
+            prop('isErc20', p)
+          )
+          from = {
+            type: type || ADDRESS_TYPES.ACCOUNT,
+            address: account,
+            nonce
+          }
+          unconfirmedTx = yield call(calculateUnconfirmed, account)
         }
-        const unconfirmedTx = yield call(calculateUnconfirmed, account)
 
         return makePayment(
           mergeRight(p, { from, effectiveBalance, unconfirmedTx })
@@ -203,6 +213,14 @@ export default ({ api }) => {
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
+        }
+        if (p.from.type === 'CUSTODIAL') {
+          return makePayment(
+            mergeRight(p, {
+              feeInGwei: 0,
+              fee: 0
+            })
+          )
         }
         if (p.isErc20) {
           contract = (yield select(
@@ -258,6 +276,7 @@ export default ({ api }) => {
         const nonce = prop('nonce', fromData)
         const from = prop('address', fromData)
         const fromType = prop('type', fromData)
+        if (fromType === 'CUSTODIAL') return makePayment(p)
         if (isNil(from)) throw new Error('missing_from')
         if (!isValidIndex(index)) throw new Error('invalid_index')
         if (isNil(to)) throw new Error('missing_to')
