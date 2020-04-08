@@ -23,7 +23,6 @@ type LinkDispatchPropsType = {
 
 type LinkStatePropsType = {
   domains: { [key in string]: string }
-  isCoinifyUser: string | false
   isExchangeAccountLinked: boolean
   supportedCoins: SupportedCoinsType
 }
@@ -45,9 +44,6 @@ class NavigationContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = state => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({}),
-  isCoinifyUser: selectors.core.kvStore.buySell
-    .getCoinifyUser(state)
-    .getOrElse(false),
   isExchangeAccountLinked: selectors.modules.profile
     .isExchangeAccountLinked(state)
     .getOrElse(false),
