@@ -9,12 +9,14 @@ import {
 import {
   ColLeft,
   ColRight,
+  CustodyToAccountMessage,
   CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
+  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -69,24 +71,25 @@ const StyledRow = styled(Row)`
 
 const FirstStep = props => {
   const {
+    balanceStatus,
     coin,
-    pristine,
-    invalid,
-    submitting,
+    excludeLockbox,
     fee,
-    handleSubmit,
-    unconfirmedTx,
-    isContractChecked,
+    feeElements,
     feeToggled,
     from,
-    feeElements,
-    regularFee,
-    priorityFee,
     handleFeeToggle,
-    balanceStatus,
-    excludeLockbox,
+    handleSubmit,
     hasErc20Balance,
-    isSufficientEthForErc20
+    invalid,
+    isContractChecked,
+    isMnemonicVerified,
+    isSufficientEthForErc20,
+    priorityFee,
+    pristine,
+    regularFee,
+    submitting,
+    unconfirmedTx
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
@@ -97,6 +100,7 @@ const FirstStep = props => {
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableDueToLowEth =
     coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -163,24 +167,28 @@ const FirstStep = props => {
           </FormLabel>
           <StyledRow>
             <Field
-              name='to'
               coin={coin}
-              placeholder='Paste, scan, or select destination'
-              validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
               dataE2e='sendEthAddressInput'
               exclude={[from.label]}
-              openMenuOnClick={false}
               includeAll={false}
-              includeExchangeAddress
-              isCreatable
-              noOptionsMessage={() => null}
+              includeExchangeAddress={!isFromCustody}
+              isCreatable={!isFromCustody}
               isValidNewOption={() => false}
+              name='to'
+              noOptionsMessage={() => null}
+              openMenuOnClick={isFromCustody}
+              placeholder='Paste, scan, or select destination'
+              validate={
+                isFromCustody ? [required] : [required, validEthAddress]
+              }
             />
-            <QRCodeCapture
-              scanType='ethAddress'
-              border={['top', 'bottom', 'right', 'left']}
-            />
+            {!isFromCustody && (
+              <QRCodeCapture
+                scanType='ethAddress'
+                border={['top', 'bottom', 'right', 'left']}
+              />
+            )}
           </StyledRow>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={400}>
@@ -192,6 +200,11 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
+      {isFromCustody && isMnemonicVerified ? (
+        <FormGroup>
+          <CustodyToAccountMessage coin={coin} />
+        </FormGroup>
+      ) : null}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>
@@ -322,6 +335,9 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableDueToLowEth && <LowEthWarningForErc20 />}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -334,6 +350,7 @@ const FirstStep = props => {
             invalid ||
             !isContractChecked ||
             disableDueToLowEth ||
+            disableCustodySend ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}

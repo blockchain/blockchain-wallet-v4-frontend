@@ -192,12 +192,13 @@ export default ({ api, coreSagas, networks }) => {
                   coinCode: coin
                 })
               )
+              yield put(change(FORM, 'to', null))
               break
           }
           break
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
-          const value = pathOr({}, ['value', 'value'], toPayload)
+          const value = pathOr(toPayload, ['value', 'value'], toPayload)
           // @ts-ignore
           payment = yield payment.to(value)
           // Do not block payment update when to is changed w/ isContract check

@@ -14,25 +14,26 @@ class FirstStep extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Success
-          coin={coin}
-          fee={value.fee}
-          from={value.from}
-          isContractChecked={value.isContractChecked}
-          unconfirmedTx={value.unconfirmedTx}
-          effectiveBalance={value.effectiveBalance}
-          onSubmit={actions.sendEthFirstStepSubmitClicked}
-          feeToggled={value.feeToggled}
-          enableToggle={value.enableToggle}
-          minFee={value.minFee}
-          maxFee={value.maxFee}
-          regularFee={value.regularFee}
-          priorityFee={value.priorityFee}
-          feeElements={value.feeElements}
-          handleFeeToggle={actions.sendEthFirstStepFeeToggled}
           balanceStatus={value.balanceStatus}
+          coin={coin}
+          effectiveBalance={value.effectiveBalance}
+          enableToggle={value.enableToggle}
           excludeLockbox={value.excludeLockbox}
+          fee={value.fee}
+          feeElements={value.feeElements}
+          feeToggled={value.feeToggled}
+          from={value.from}
+          handleFeeToggle={actions.sendEthFirstStepFeeToggled}
           hasErc20Balance={value.hasErc20Balance}
+          isContractChecked={value.isContractChecked}
+          isMnemonicVerified={value.isMnemonicVerified}
           isSufficientEthForErc20={value.isSufficientEthForErc20}
+          maxFee={value.maxFee}
+          minFee={value.minFee}
+          onSubmit={actions.sendEthFirstStepSubmitClicked}
+          priorityFee={value.priorityFee}
+          regularFee={value.regularFee}
+          unconfirmedTx={value.unconfirmedTx}
         />
       ),
       Failure: message => <Error>{message}</Error>,
