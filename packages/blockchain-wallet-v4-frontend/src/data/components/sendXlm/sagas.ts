@@ -108,11 +108,12 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           if (fromType === 'CUSTODIAL') {
             yield put(A.paymentUpdatedSuccess(payment.value()))
             yield call(setAmount, source.available)
+            yield put(change(FORM, 'to', null))
           }
           break
         case 'to':
           // payload may be either an account type (wallet/lockbox) or an address
-          let value = pathOr({}, ['value', 'value'], payload)
+          let value = pathOr(payload, ['value', 'value'], payload)
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)

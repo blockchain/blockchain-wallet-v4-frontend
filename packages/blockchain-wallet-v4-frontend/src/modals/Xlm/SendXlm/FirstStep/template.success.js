@@ -16,6 +16,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import {
+  CustodyToAccountMessage,
+  MnemonicRequiredForCustodySend,
+  Row
+} from 'components/Send'
 import { ErrorBanner } from './ErrorBanner'
 import { Field, reduxForm } from 'redux-form'
 import {
@@ -34,7 +39,6 @@ import { model } from 'data'
 import { NoAccountTemplate } from './NoAccountTemplate'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validXlmAddress } from 'services/FormHelper'
-import { Row } from 'components/Send'
 import { SelectBoxMemo } from './SelectBoxMemo'
 import { XlmFiatConverter } from './XlmFiatConverter'
 import Bowser from 'bowser'
@@ -81,6 +85,7 @@ const FirstStep = props => {
     invalid,
     isDestinationChecked,
     isDestinationExchange,
+    isMnemonicVerified,
     noAccount,
     pristine,
     submit,
@@ -94,6 +99,7 @@ const FirstStep = props => {
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -162,26 +168,35 @@ const FirstStep = props => {
               </FormLabel>
               <Row>
                 <Field
-                  name='to'
-                  placeholder='Paste, scan, or select destination'
                   component={SelectBoxXlmAddresses}
                   dataE2e='sendXlmAddressInput'
-                  validate={[required, validXlmAddress]}
                   exclude={[from.label]}
-                  openMenuOnClick={false}
                   includeAll={false}
                   includeExchangeAddress
-                  isCreatable
-                  noOptionsMessage={() => null}
+                  isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  name='to'
+                  noOptionsMessage={() => null}
+                  openMenuOnClick={!!isFromCustody}
+                  placeholder='Paste, scan, or select destination'
+                  validate={
+                    isFromCustody ? [required] : [required, validXlmAddress]
+                  }
                 />
-                <QRCodeCapture
-                  scanType='xlmAddress'
-                  border={['top', 'bottom', 'right', 'left']}
-                />
+                {!isFromCustody && (
+                  <QRCodeCapture
+                    scanType='xlmAddress'
+                    border={['top', 'bottom', 'right', 'left']}
+                  />
+                )}
               </Row>
             </FormItem>
           </FormGroup>
+          {isFromCustody && isMnemonicVerified ? (
+            <FormGroup>
+              <CustodyToAccountMessage coin={'XLM'} />
+            </FormGroup>
+          ) : null}
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel htmlFor='amount'>
@@ -304,6 +319,9 @@ const FirstStep = props => {
               </FormItem>
             </FormGroup>
           )}
+          {isFromCustody && !isMnemonicVerified ? (
+            <MnemonicRequiredForCustodySend />
+          ) : null}
           <SubmitFormGroup>
             <Button
               /*
@@ -319,6 +337,7 @@ const FirstStep = props => {
                 submitting ||
                 invalid ||
                 disableLockboxSend ||
+                disableCustodySend ||
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }
