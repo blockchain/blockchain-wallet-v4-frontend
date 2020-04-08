@@ -23,7 +23,12 @@ class SelectBoxBtcAddresses extends React.PureComponent<Props> {
     return data.cata({
       Success: value => {
         return (
-          <SelectBoxBtc options={value.data} elements={value.data} {...rest} />
+          <SelectBoxBtc
+            options={value.data}
+            elements={value.data}
+            {...rest}
+            grouped
+          />
         )
       },
       Failure: message => <div>{message}</div>,
