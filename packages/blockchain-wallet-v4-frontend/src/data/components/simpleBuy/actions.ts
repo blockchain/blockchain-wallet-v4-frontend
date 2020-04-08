@@ -263,11 +263,12 @@ export const setStep = (
 
 export const showModal = (
   origin:
-    | 'sideNav'
+    | 'coinifyToSB'
+    | 'emptyFeed'
     | 'pendingOrder'
-    | 'welcomeModal'
     | 'priceChart'
-    | 'emptyFeed',
+    | 'sideNav'
+    | 'welcomeModal',
   cryptoCurrency?: CoinType
 ) => ({
   type: AT.SHOW_MODAL,

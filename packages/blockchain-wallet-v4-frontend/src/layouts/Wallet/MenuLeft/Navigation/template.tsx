@@ -96,38 +96,20 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      {props.isCoinifyUser ||
-      !props.invitations ||
-      !props.invitations.simpleBuy ? (
-        <SpotlightLinkContainer to='/buy-sell' activeClassName='active'>
-          <MenuItem data-e2e='buyAndSellLink'>
-            <JoyrideSpotlight className='wallet-intro-tour-step-5' />
-            <MenuIcon name='cart-filled' size='24px' />
-            <Destination>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.buysell'
-                defaultMessage='Buy & Sell'
-                className='destination'
-              />
-            </Destination>
-          </MenuItem>
-        </SpotlightLinkContainer>
-      ) : (
-        <MenuItem
-          data-e2e='buyAndSellLink'
-          onClick={() => props.simpleBuyActions.showModal('sideNav')}
-        >
-          <JoyrideSpotlight className='wallet-intro-tour-step-5' />
-          <MenuIcon name='cart-filled' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.buycrypto'
-              defaultMessage='Buy Crypto'
-              className='destination'
-            />
-          </Destination>
-        </MenuItem>
-      )}
+      <MenuItem
+        data-e2e='buyAndSellLink'
+        onClick={() => props.simpleBuyActions.showModal('sideNav')}
+      >
+        <JoyrideSpotlight className='wallet-intro-tour-step-5' />
+        <MenuIcon name='cart-filled' size='24px' />
+        <Destination>
+          <FormattedMessage
+            id='layouts.wallet.menuleft.navigation.buycrypto'
+            defaultMessage='Buy Crypto'
+            className='destination'
+          />
+        </Destination>
+      </MenuItem>
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
           <JoyrideSpotlight className='wallet-intro-tour-step-4' />

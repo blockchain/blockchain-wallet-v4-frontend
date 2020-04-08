@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: ${({ tall }) => (tall ? '100px' : '20px')};
+  bottom: 100px;
   width: 100%;
 `
 
@@ -38,10 +38,10 @@ const FilterContainer = styled(Text).attrs({
 `
 
 const TimeFilters = props => {
-  const { tall, time, handleClick } = props
+  const { time, handleClick } = props
 
   return (
-    <Wrapper tall={tall}>
+    <Wrapper>
       <FilterContainer
         selected={time === '1day'}
         onClick={() => handleClick('1day')}

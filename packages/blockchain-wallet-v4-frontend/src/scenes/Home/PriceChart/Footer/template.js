@@ -26,14 +26,7 @@ const BuyTradeButton = styled(Button)`
   }
 `
 
-const Footer = ({
-  coinTicker,
-  coinName,
-  invitations,
-  handleBuy,
-  isCoinifyUser,
-  isSilverOrAbove
-}) => {
+const Footer = ({ coinTicker, coinName, handleBuy }) => {
   const [swapTo, setSwapTo] = useState('BTC')
 
   useEffect(() => {
@@ -41,37 +34,33 @@ const Footer = ({
   }, [coinTicker])
   return (
     <Wrapper>
-      {(!isCoinifyUser || (invitations && invitations.simpleBuy)) && (
-        <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
+      <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
+        <FormattedMessage
+          id='price.chart.buy.coin'
+          defaultMessage='Buy {coinName}'
+          values={{ coinName }}
+        />
+      </BuyTradeButton>
+      <LinkContainer
+        to={{
+          pathname: '/swap',
+          state: {
+            from: coinTicker,
+            to: swapTo,
+            amount: '0',
+            fix: model.rates.FIX_TYPES.BASE_IN_FIAT
+          }
+        }}
+        data-e2e='exchangeLink'
+      >
+        <BuyTradeButton height='48px' nature='primary'>
           <FormattedMessage
-            id='price.chart.buy.coin'
-            defaultMessage='Buy {coinName}'
+            id='price.chart.swap.coin'
+            defaultMessage='Swap {coinName}'
             values={{ coinName }}
           />
         </BuyTradeButton>
-      )}
-      {isSilverOrAbove && (
-        <LinkContainer
-          to={{
-            pathname: '/swap',
-            state: {
-              from: coinTicker,
-              to: swapTo,
-              amount: '0',
-              fix: model.rates.FIX_TYPES.BASE_IN_FIAT
-            }
-          }}
-          data-e2e='exchangeLink'
-        >
-          <BuyTradeButton height='48px' nature='primary'>
-            <FormattedMessage
-              id='price.chart.swap.coin'
-              defaultMessage='Swap {coinName}'
-              values={{ coinName }}
-            />
-          </BuyTradeButton>
-        </LinkContainer>
-      )}
+      </LinkContainer>
     </Wrapper>
   )
 }

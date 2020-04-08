@@ -1,6 +1,5 @@
 import { StatelessComponent, CSSProperties } from 'react'
 import { DefaultTheme } from 'styled-components'
-
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 
