@@ -1,5 +1,9 @@
-import { compose } from 'redux'
-import FirstSetWords from './FirstSetWords'
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose } from 'redux'
+
+import { connect } from 'react-redux'
+import { path } from 'ramda'
+// import FirstSetWords from './FirstSetWords'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
@@ -54,16 +58,27 @@ class RecoveryPhraseFlyout extends React.PureComponent<Props, State> {
         userClickedOutside={userClickedOutside}
         data-e2e='recoveryPhraseModal'
       >
-        <FlyoutChild>
-          <FirstSetWords />
-        </FlyoutChild>
+        <FlyoutChild />
       </Flyout>
     )
   }
 }
 
+const mapStateToProps = state => ({
+  isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state),
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
 const enhance = compose<any>(
-  modalEnhancer('RECOVERY_PHRASE_MODAL', { transition: duration })
+  modalEnhancer('RECOVERY_PHRASE_MODAL', { transition: duration }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(RecoveryPhraseFlyout)

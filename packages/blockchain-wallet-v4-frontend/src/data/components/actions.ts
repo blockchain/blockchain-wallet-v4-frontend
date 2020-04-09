@@ -15,6 +15,7 @@ import * as onboarding from './onboarding/actions'
 import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
+import * as recoveryPhrase from './recoveryPhrase/actions'
 import * as refresh from './refresh/actions'
 import * as requestBch from './requestBch/actions'
 import * as requestBtc from './requestBtc/actions'
@@ -52,6 +53,7 @@ export {
   lockbox,
   priceChart,
   priceTicker,
+  recoveryPhrase,
   refresh,
   requestBtc,
   requestBch,

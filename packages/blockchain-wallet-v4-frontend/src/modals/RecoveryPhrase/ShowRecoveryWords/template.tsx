@@ -1,4 +1,4 @@
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
@@ -33,11 +33,19 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
-const FirstSetWords = props => {
+const FirstSetWords = () => {
   return (
     <Wrapper>
       <FlyoutWrapper>
         <Header>
+          <Icon
+            cursor
+            name='arrow-left'
+            size='20px'
+            color='grey600'
+            style={{ marginRight: '24px' }}
+            role='button'
+          />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
               id='modals.recoveryphrase.firstsetwords.header'
@@ -54,33 +62,18 @@ const FirstSetWords = props => {
           </Text>
         </ContentContainer>
       </FlyoutWrapper>
-
       <ButtonWrapper>
         <Button
           capitalize
-          data-e2e='toBackupFlyout'
+          data-e2e='toRecoveryTwo'
           fullwidth
           height='48px'
           nature='primary'
           size='16px'
         >
           <FormattedMessage
-            id='modals.recoveryphrase.backupyourwallet.backupnow'
-            defaultMessage='Backup Now'
-          />
-        </Button>
-        <Button
-          capitalize
-          data-e2e='skipBackup'
-          fullwidth
-          height='48px'
-          nature='light'
-          onClick={() => props.handleClose()}
-          size='16px'
-        >
-          <FormattedMessage
-            id='modals.recoveryphrase.backupyourwallet.later'
-            defaultMessage='Do This Later'
+            id='modals.recoveryphrase.firstsetwords.nextbutton'
+            defaultMessage='Next'
           />
         </Button>
       </ButtonWrapper>
