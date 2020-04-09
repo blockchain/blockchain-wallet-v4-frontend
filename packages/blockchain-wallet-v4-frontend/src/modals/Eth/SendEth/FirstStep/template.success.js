@@ -16,7 +16,6 @@ import {
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
-  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -49,6 +48,7 @@ import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
