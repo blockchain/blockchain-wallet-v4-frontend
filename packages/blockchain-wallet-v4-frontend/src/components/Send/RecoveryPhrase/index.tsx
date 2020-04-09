@@ -48,7 +48,7 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<
             id='modals.send.firststep.fromcustody2'
             defaultMessage='Please backup your Wallet before before sending crypto to it.'
           />{' '}
-          <BackupLink onClick={this.handleClick}>
+          <BackupLink onClick={this.handleClick} data-e2e='withdrawBackupLink'>
             <FormattedMessage
               id='modals.send.firststep.backupnow'
               defaultMessage='Backup now.'
