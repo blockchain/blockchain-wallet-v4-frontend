@@ -294,6 +294,10 @@ describe('sendEth sagas', () => {
       saga.next().put(actions.router.push('/eth/transactions'))
     })
 
+    it('should fetch transactions', () => {
+      saga.next().put(actions.core.data.eth.fetchTransactions(null, true))
+    })
+
     it('should display success message', () => {
       saga.next().put(
         actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {

@@ -52,7 +52,9 @@ const getType = (tx, addresses) => {
 // ETH
 //
 export const calculateEthTxFee = tx =>
-  new BigNumber(tx.gasPrice || 0).multipliedBy(tx.gasUsed || tx.gas).toString()
+  new BigNumber(tx.gasPrice || 0)
+    .multipliedBy(tx.gasUsed || tx.gas || 0)
+    .toString()
 
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
@@ -88,7 +90,7 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
   const type = toLower(getType(tx, addresses))
   const amount =
     type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
-  const time = tx.timestamp || tx.timeStamp
+  const time = tx.timestamp || tx.timeStamp || tx.firstSeen / 1000
 
   return {
     amount,
@@ -124,7 +126,7 @@ export const getErc20Label = (address, token, state) => {
 
 export const _transformErc20Tx = curry((addresses, state, token, tx) => {
   const type = toLower(getType(tx, addresses))
-  const time = tx.timestamp || tx.timeStamp
+  const time = tx.timestamp || tx.timeStamp || tx.firstSeen / 1000
 
   return {
     amount: parseInt(tx.value),

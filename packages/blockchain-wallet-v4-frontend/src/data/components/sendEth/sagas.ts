@@ -384,6 +384,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
       } else {
         yield put(actions.router.push(coinModel.txListAppRoute))
+        if (coin === 'ETH') {
+          yield put(actions.core.data.eth.fetchTransactions(null, true))
+        } else {
+          yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
+        }
         yield put(
           actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
             coinName: coinModel.displayName
