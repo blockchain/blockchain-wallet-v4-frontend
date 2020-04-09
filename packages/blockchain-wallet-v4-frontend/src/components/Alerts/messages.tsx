@@ -32,7 +32,7 @@ const buildMessageTemplate = messageText => (
   </Text>
 )
 
-export const getAlertContent = (message, data = undefined, handleClose, id) => {
+export const getAlertContent = (message, data = undefined) => {
   switch (message) {
     case C.ETH_LOW_BALANCE_WARNING:
       return (
@@ -41,14 +41,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
             <Icon size='24px' name='info' color='orange600' />
           </IconColumn>
           <ContentColumn>
-            <Text size='14px' weight='600' data-e2e='runningLowMessage'>
+            <Text size='14px' weight={600} data-e2e='runningLowMessage'>
               <FormattedMessage
                 id='components.alerts.loweth.header'
                 defaultMessage='Running Low!'
               />
             </Text>
             <TextGroup inline>
-              <Text size='12px' weight='500'>
+              <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='components.alerts.loweth.body1'
                   defaultMessage='Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
@@ -404,7 +404,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <ContentColumn>
           <TextGroup inline>
-            <Text size='12px' weight='500'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
                 id='components.alerts.iprestriction_login_error'
                 defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
@@ -634,6 +634,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage="You've just received a Stellar payment"
         />
       )
+    case C.PAYMENT_CONFIRMED_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.paymentconfirmed'
+          defaultMessage='Your transaction has been confirmed.'
+        />
+      )
     case C.PBKDF2_UPDATE_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
@@ -646,6 +653,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
         <FormattedMessage
           id='components.alerts.please_login'
           defaultMessage='Please login to your wallet to proceed'
+        />
+      )
+    case C.PLEASE_TRY_AGAIN:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.pleasetryagain'
+          defaultMessage='Something went wrong. Please try again.'
         />
       )
     case C.QR_SCANNER_NOT_ALLOWED:

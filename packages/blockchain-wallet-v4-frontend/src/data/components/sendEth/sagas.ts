@@ -1,9 +1,11 @@
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { APIType } from 'core/network/api'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -23,8 +25,8 @@ import {
   propOr,
   toLower
 } from 'ramda'
+import { Erc20CoinType, EthPaymentType } from 'core/types'
 import { EthAccountFromType } from 'core/redux/payment/eth/types'
-import { EthPaymentType } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
@@ -41,7 +43,15 @@ import {
 const { TRANSACTION_EVENTS } = model.analytics
 
 export const logLocation = 'components/sendEth/sagas'
-export default ({ api, coreSagas, networks }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas
+  networks
+}) => {
   const initialized = function * (action) {
     try {
       const erc20List = (yield select(
@@ -152,45 +162,17 @@ export default ({ api, coreSagas, networks }) => {
               break
             case 'CUSTODIAL':
               source = fromPayload.label
-              const currency = selectors.core.settings
-                .getCurrency(yield select())
-                .getOrFail('Failed to get currency')
-              let rates
-              if (equals(coin, 'ETH')) {
-                rates = selectors.core.data.eth
-                  .getRates(yield select())
-                  .getOrFail('Failed to get ETH rates')
-              } else {
-                rates = (yield select(
-                  selectors.core.data.eth.getErc20Rates,
-                  toLower(coin)
-                )).getOrFail(`Failed to get ${coin} rates`)
-              }
-              const cryptoAmt = Exchange.convertCoinToCoin({
-                value: fromPayload.available,
-                coin,
-                baseToStandard: true
-              }).value
-              const fiat = Exchange.convertCoinUnitToFiat({
-                coin,
-                value: fromPayload.available,
-                fromUnit: 'WEI',
-                toCurrency: currency,
-                rates: rates
-              }).value
               payment = yield payment.from(
                 source,
                 fromPayload.type,
                 fromPayload.available
               )
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
-              payment = yield payment.amount(fromPayload.available)
-              yield put(
-                change(FORM, 'amount', {
-                  coin: cryptoAmt,
-                  fiat,
-                  coinCode: coin
-                })
+              payment = yield call(
+                setAmount,
+                fromPayload.available,
+                coin,
+                payment
               )
               yield put(change(FORM, 'to', null))
               break
@@ -519,17 +501,98 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const setAmount = function * (
+    amountInWei: string,
+    coin: 'ETH' | Erc20CoinType,
+    payment: EthPaymentType
+  ) {
+    const currency = selectors.core.settings
+      .getCurrency(yield select())
+      .getOrFail('Failed to get currency')
+    let rates
+    if (equals(coin, 'ETH')) {
+      rates = selectors.core.data.eth
+        .getRates(yield select())
+        .getOrFail('Failed to get ETH rates')
+    } else {
+      rates = (yield select(
+        selectors.core.data.eth.getErc20Rates,
+        toLower(coin)
+      )).getOrFail(`Failed to get ${coin} rates`)
+    }
+    const cryptoAmt = Exchange.convertCoinToCoin({
+      value: amountInWei,
+      coin,
+      baseToStandard: true
+    }).value
+    const fiatAmt = Exchange.convertCoinUnitToFiat({
+      coin,
+      value: amountInWei,
+      fromUnit: 'WEI',
+      toCurrency: currency,
+      rates: rates
+    }).value
+    yield put(
+      change(FORM, 'amount', {
+        coin: cryptoAmt,
+        fiat: fiatAmt,
+        coinCode: coin
+      })
+    )
+
+    return yield payment.amount(amountInWei)
+  }
+
+  const setTo = function * (to: string, payment: EthPaymentType) {
+    const prepareTo = to => {
+      return to ? { value: { value: to, label: to } } : null
+    }
+
+    yield put(actions.form.change(FORM, 'to', prepareTo(to)))
+    return yield payment.to(to)
+  }
+
+  const retrySendEth = function * ({
+    payload
+  }: ReturnType<typeof A.retrySendEth>) {
+    const { txHash } = payload
+    try {
+      const tx = yield call(api.getEthTransactionV2, txHash)
+      if (tx.state === 'CONFIRMED') {
+        yield put(actions.alerts.displaySuccess(C.PAYMENT_CONFIRMED_SUCCESS))
+        yield put(actions.core.data.eth.fetchTransactions())
+        return
+      }
+
+      yield put(actions.modals.showModal('@MODAL.SEND.ETH'))
+      yield take(AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS)
+      let p = yield select(S.getPayment)
+      let payment: EthPaymentType = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: networks.eth
+      })
+      payment = yield call(setAmount, tx.value, 'ETH', payment)
+      payment = yield call(setTo, tx.to, payment)
+      payment = yield payment.setIsRetryAttempt(true, tx.nonce)
+
+      yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
+    } catch (e) {
+      yield put(actions.alerts.displayError(C.PLEASE_TRY_AGAIN))
+    }
+  }
+
   return {
-    initialized,
     checkIsContract,
     destroyed,
     firstStepSubmitClicked,
+    formChanged,
+    initialized,
     maximumAmountClicked,
     maximumFeeClicked,
     minimumFeeClicked,
-    secondStepSubmitClicked,
-    formChanged,
+    priorityFeeClicked,
     regularFeeClicked,
-    priorityFeeClicked
+    retrySendEth,
+    secondStepSubmitClicked
   }
 }

@@ -43,7 +43,7 @@ export const getBalance = state => {
   const offersR = selectors.components.borrow.getOffers(state)
   const values: { coin: CoinType } = selectors.form.getFormValues('initBorrow')(
     state
-  )
+  ) as { coin: CoinType }
   const balanceSelector = getBalanceSelector(values.coin)
   const balanceR = balanceSelector(state)
 

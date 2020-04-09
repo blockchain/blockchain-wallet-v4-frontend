@@ -5,6 +5,10 @@ export const initialized = payload => ({
   payload
 })
 export const destroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
+export const retrySendEth = (txHash: string) => ({
+  type: AT.RETRY_SEND_ETH,
+  payload: { txHash }
+})
 export const sendEthPaymentUpdatedLoading = () => ({
   type: AT.SEND_ETH_PAYMENT_UPDATED_LOADING
 })

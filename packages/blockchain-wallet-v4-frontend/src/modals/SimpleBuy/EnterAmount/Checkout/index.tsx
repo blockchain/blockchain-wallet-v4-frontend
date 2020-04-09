@@ -34,6 +34,7 @@ type LinkStatePropsType = {
   fiatCurrency: undefined | FiatType
 }
 export type LinkDispatchPropsType = {
+  formActions: typeof actions.form
   identityVerificationActions: typeof actions.components.identityVerification
   profileActions: typeof actions.modules.profile
   simpleBuyActions: typeof actions.components.simpleBuy
@@ -66,7 +67,7 @@ class Checkout extends PureComponent<Props> {
       Failure: () => (
         <Failure
           simpleBuyActions={this.props.simpleBuyActions}
-          formActions={() => {}}
+          formActions={this.props.formActions}
         />
       ),
       Loading: () => <Loading />,
@@ -85,6 +86,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
+  formActions: bindActionCreators(actions.form, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

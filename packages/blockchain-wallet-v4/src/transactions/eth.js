@@ -96,14 +96,15 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
     amount,
     blockHeight: tx.blockNumber,
     description: getEthTxNote(state, tx.hash).getOrElse(''),
+    erc20: includes(tx.to, erc20Contracts.map(toLower)),
     fee: Remote.Success(fee),
     from: getLabel(tx.from, state, ''),
     hash: tx.hash,
+    insertedAt: Number(time) * 1000,
+    state: tx.state,
     time,
     timeFormatted: getTime(time),
-    insertedAt: Number(time) * 1000,
     to: getLabel(tx.to, state, ''),
-    erc20: includes(tx.to, erc20Contracts.map(toLower)),
     type
   }
 })
@@ -135,9 +136,10 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
     fee: Remote.NotAsked,
     from: getErc20Label(tx.from, token, state),
     hash: tx.transactionHash,
-    timeFormatted: getTime(time),
     insertedAt: Number(time) * 1000,
+    state: tx.state,
     time,
+    timeFormatted: getTime(time),
     to: getErc20Label(tx.to, token, state),
     type
   }
