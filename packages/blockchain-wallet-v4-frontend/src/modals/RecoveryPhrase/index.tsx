@@ -14,6 +14,7 @@ export type OwnPropsType = {
   close: () => void
   in: boolean
   position: number
+  recoveryPhrase: Array<any>
   total: number
   userClickedOutside: boolean
 }
@@ -45,10 +46,15 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.getWords()
   }
 
   componentWillUnmount () {
     this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
+  }
+
+  getWords = () => {
+    this.props.settingsActions.showBackupRecovery()
   }
 
   handleClose = () => {

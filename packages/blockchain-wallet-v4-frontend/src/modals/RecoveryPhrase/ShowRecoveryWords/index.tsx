@@ -1,8 +1,12 @@
-import { LinkDispatchPropsType, LinkStatePropsType } from '../index'
-import FirstSetWords from './template'
+import {
+  LinkDispatchPropsType,
+  LinkStatePropsType,
+  OwnPropsType
+} from '../index'
 import React, { PureComponent } from 'react'
+import WordsList from './template'
 
-type Props = LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
 class ShowRecoveryWords extends PureComponent<Props> {
   handleBackArrow = () => {
@@ -10,8 +14,16 @@ class ShowRecoveryWords extends PureComponent<Props> {
       ? this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
       : this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
   }
+
   render () {
-    return <FirstSetWords handleBackArrow={this.handleBackArrow} />
+    const { recoveryPhrase, step } = this.props
+    return (
+      <WordsList
+        handleBackArrow={this.handleBackArrow}
+        words={recoveryPhrase}
+        step={step}
+      />
+    )
   }
 }
 

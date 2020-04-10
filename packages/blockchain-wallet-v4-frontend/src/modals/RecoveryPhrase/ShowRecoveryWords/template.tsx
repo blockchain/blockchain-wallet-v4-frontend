@@ -1,5 +1,5 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
@@ -17,8 +17,16 @@ const Header = styled.div`
   margin-bottom: 40px;
 `
 
-const ContentContainer = styled.div`
-  margin-bottom: 50px;
+const ContentContainer = styled.div``
+
+const WordBox = styled.div`
+  padding: 16px;
+  border-top: 1px solid ${props => props.theme.grey000};
+  display: flex;
+  align-items: center;
+`
+const WordText = styled.div`
+  padding-left: 20px;
 `
 
 const ButtonWrapper = styled(FlyoutWrapper)`
@@ -33,7 +41,7 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
-const FirstSetWords = props => {
+const WordsList = ({ handleBackArrow, step, words }) => {
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -45,7 +53,7 @@ const FirstSetWords = props => {
             color='grey600'
             style={{ marginRight: '24px' }}
             role='button'
-            onClick={props.handleBackArrow}
+            onClick={handleBackArrow}
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
@@ -63,6 +71,32 @@ const FirstSetWords = props => {
           </Text>
         </ContentContainer>
       </FlyoutWrapper>
+      {words.map((word, index) => {
+        if (step === 'FIRST_SET_WORDS') {
+          if (index < 6) {
+            return (
+              <WordBox>
+                <WordText>
+                  <Title>{index + 1}</Title>
+                  <Value>{word}</Value>
+                </WordText>
+              </WordBox>
+            )
+          }
+        }
+        if (step === 'SECOND_SET_WORDS') {
+          if (index >= 6) {
+            return (
+              <WordBox>
+                <WordText>
+                  <Title>{index + 1}</Title>
+                  <Value>{word}</Value>
+                </WordText>
+              </WordBox>
+            )
+          }
+        }
+      })}
       <ButtonWrapper>
         <Button
           capitalize
@@ -82,4 +116,4 @@ const FirstSetWords = props => {
   )
 }
 
-export default FirstSetWords
+export default WordsList
