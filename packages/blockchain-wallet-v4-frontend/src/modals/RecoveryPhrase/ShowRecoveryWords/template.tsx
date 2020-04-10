@@ -33,7 +33,7 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
-const FirstSetWords = () => {
+const FirstSetWords = props => {
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -45,6 +45,7 @@ const FirstSetWords = () => {
             color='grey600'
             style={{ marginRight: '24px' }}
             role='button'
+            onClick={props.handleBackArrow}
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage

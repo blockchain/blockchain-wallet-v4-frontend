@@ -1,19 +1,15 @@
-import { actions } from 'data'
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { LinkDispatchPropsType } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-export type OwnProps = {
+type OwnProps = {
   handleClose: () => void
 }
 
-export type LinkDispatchPropsType = {
-  recoveryPhraseActions: typeof actions.components.recoveryPhrase
-}
-
-export type Props = OwnProps & LinkDispatchPropsType
+type Props = OwnProps & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;

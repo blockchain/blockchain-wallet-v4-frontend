@@ -18,12 +18,12 @@ export type OwnPropsType = {
   userClickedOutside: boolean
 }
 
-export type LinkDispatchPropType = {
+export type LinkDispatchPropsType = {
   recoveryPhraseActions: typeof actions.components.recoveryPhrase
   settingsActions: typeof actions.modules.settings
 }
 
-type LinkStatePropsType = {
+export type LinkStatePropsType = {
   step:
     | 'RECOVERY_PHRASE_INTRO'
     | 'FIRST_SET_WORDS'
@@ -32,12 +32,13 @@ type LinkStatePropsType = {
     | 'CONFIRM_WORDS_SUCCESS'
 }
 
-type Props = OwnPropsType & LinkDispatchPropType & LinkStatePropsType
-type State = { show: boolean }
+export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
+export type State = { direction: 'left' | 'right'; show: boolean }
 
 class RecoveryPhraseFlyout extends PureComponent<Props, State> {
   state: State = {
-    show: false
+    show: false,
+    direction: 'left'
   }
 
   componentDidMount () {
@@ -77,7 +78,7 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
         )}
         {this.props.step === 'FIRST_SET_WORDS' && (
           <FlyoutChild>
-            <ShowRecoveryWords />
+            <ShowRecoveryWords {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -91,7 +92,7 @@ const mapStateToProps = (state: RootState) => ({
   step: selectors.components.recoveryPhrase.getStep(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropType => ({
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   recoveryPhraseActions: bindActionCreators(
     actions.components.recoveryPhrase,

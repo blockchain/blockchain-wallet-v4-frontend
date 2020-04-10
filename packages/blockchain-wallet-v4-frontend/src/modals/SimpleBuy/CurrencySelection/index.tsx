@@ -24,7 +24,7 @@ type LinkStatePropsType = {
   values?: SBCurrencySelectFormType
 }
 
-type Props = OwnProps & LinkDispatchPropsType
+export type Props = OwnProps & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
