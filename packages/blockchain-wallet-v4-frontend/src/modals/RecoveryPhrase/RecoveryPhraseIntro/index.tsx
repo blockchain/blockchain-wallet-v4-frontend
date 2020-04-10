@@ -5,11 +5,11 @@ import { LinkDispatchPropsType } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-type OwnProps = {
+type OwnPropsType = {
   handleClose: () => void
 }
 
-type Props = OwnProps & LinkDispatchPropsType
+type Props = OwnPropsType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;

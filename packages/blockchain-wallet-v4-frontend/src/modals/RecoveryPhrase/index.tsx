@@ -4,6 +4,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { path } from 'ramda'
 import { RootState } from 'data/rootReducer'
+import ConfirmWords from './ConfirmWords'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -12,6 +13,8 @@ import ShowRecoveryWords from './ShowRecoveryWords'
 
 export type OwnPropsType = {
   close: () => void
+  handleBackArrow?: () => void
+  handleClose?: () => void
   in: boolean
   position: number
   recoveryPhrase: Array<any>
@@ -64,6 +67,14 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     }, duration)
   }
 
+  handleBackArrow = () => {
+    this.props.step === 'FIRST_SET_WORDS'
+      ? this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
+      : this.props.step === 'SECOND_SET_WORDS'
+      ? this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
+      : this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
+  }
+
   render () {
     const { userClickedOutside, ...rest } = this.props
     return (
@@ -84,7 +95,26 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
         )}
         {this.props.step === 'FIRST_SET_WORDS' && (
           <FlyoutChild>
-            <ShowRecoveryWords {...this.props} />
+            <ShowRecoveryWords
+              {...this.props}
+              handleBackArrow={this.handleBackArrow}
+            />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'SECOND_SET_WORDS' && (
+          <FlyoutChild>
+            <ShowRecoveryWords
+              {...this.props}
+              handleBackArrow={this.handleBackArrow}
+            />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CONFIRM_WORDS' && (
+          <FlyoutChild>
+            <ConfirmWords
+              {...this.props}
+              handleBackArrow={this.handleBackArrow}
+            />
           </FlyoutChild>
         )}
       </Flyout>

@@ -9,17 +9,18 @@ import WordsList from './template'
 type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
 class ShowRecoveryWords extends PureComponent<Props> {
-  handleBackArrow = () => {
+  handleNextButton = () => {
     this.props.step === 'FIRST_SET_WORDS'
-      ? this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
-      : this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
+      ? this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
+      : this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS')
   }
 
   render () {
-    const { recoveryPhrase, step } = this.props
+    const { handleBackArrow, recoveryPhrase, step } = this.props
     return (
       <WordsList
-        handleBackArrow={this.handleBackArrow}
+        handleBackArrow={handleBackArrow}
+        handleNextButton={this.handleNextButton}
         words={recoveryPhrase}
         step={step}
       />

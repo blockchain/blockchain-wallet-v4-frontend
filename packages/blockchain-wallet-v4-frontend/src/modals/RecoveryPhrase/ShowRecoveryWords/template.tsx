@@ -14,10 +14,8 @@ const Wrapper = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `
-
-const ContentContainer = styled.div``
 
 const WordBox = styled.div`
   padding: 16px;
@@ -41,7 +39,7 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
-const WordsList = ({ handleBackArrow, step, words }) => {
+const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -62,17 +60,15 @@ const WordsList = ({ handleBackArrow, step, words }) => {
             />
           </Text>
         </Header>
-        <ContentContainer>
-          <Text color='grey600' weight={500}>
-            <FormattedMessage
-              id='modals.recoveryphrase.firstsetwords.header'
-              defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase. '
-            />
-          </Text>
-        </ContentContainer>
+        <Text color='grey600' weight={500}>
+          <FormattedMessage
+            id='modals.recoveryphrase.firstsetwords.header'
+            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase. '
+          />
+        </Text>
       </FlyoutWrapper>
-      {words.map((word, index) => {
-        if (step === 'FIRST_SET_WORDS') {
+      {step === 'FIRST_SET_WORDS' &&
+        words.map((word, index) => {
           if (index < 6) {
             return (
               <WordBox>
@@ -83,8 +79,9 @@ const WordsList = ({ handleBackArrow, step, words }) => {
               </WordBox>
             )
           }
-        }
-        if (step === 'SECOND_SET_WORDS') {
+        })}
+      {step === 'SECOND_SET_WORDS' &&
+        words.map((word, index) => {
           if (index >= 6) {
             return (
               <WordBox>
@@ -95,8 +92,7 @@ const WordsList = ({ handleBackArrow, step, words }) => {
               </WordBox>
             )
           }
-        }
-      })}
+        })}
       <ButtonWrapper>
         <Button
           capitalize
@@ -105,6 +101,7 @@ const WordsList = ({ handleBackArrow, step, words }) => {
           height='48px'
           nature='primary'
           size='16px'
+          onClick={handleNextButton}
         >
           <FormattedMessage
             id='modals.recoveryphrase.firstsetwords.nextbutton'

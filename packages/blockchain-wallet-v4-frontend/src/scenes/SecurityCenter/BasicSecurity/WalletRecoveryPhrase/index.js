@@ -28,7 +28,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
 
   changeDescription = () => {
     this.setState({
-      descriptiorecoveryPhrased: !this.state.descriptionToggled
+      descriptionToggled: !this.state.descriptionToggled
     })
   }
 
