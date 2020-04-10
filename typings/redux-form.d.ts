@@ -1,15 +1,10 @@
 import {
-  AsyncValidateCallback,
+  ConfigProps,
   FormAction,
   FormDecorator,
-  FormSubmitHandler,
   GetFormState,
-  InitializeOptions,
-  InjectedFormProps,
-  SubmitHandler,
-  ValidateCallback
+  InitializeOptions
 } from 'redux-form'
-import { Dispatch } from 'redux'
 
 export type WalletFormType =
   | '@SEND.BCH.FORM'
@@ -133,69 +128,17 @@ declare module 'redux-form' {
   export const hasSubmitSucceeded: BooleanSelector
   export const hasSubmitFailed: BooleanSelector
 
-  interface ConfigProps<FormData = {}, P = {}> {
-    asyncBlurFields?: string[]
-    asyncChangeFields?: string[]
-    asyncValidate?(
-      values: FormData,
-      dispatch: Dispatch<any>,
-      props: P & InjectedFormProps<FormData, P>,
-      blurredField: string
-    ): Promise<any>
-    destroyOnUnmount?: boolean
-    enableReinitialize?: boolean
-    forceUnregisterOnUnmount?: boolean
+  interface CustomConfigProps<FormData = {}, P = {}> extends ConfigProps {
     form: WalletFormType
-    getFormState?: GetFormState
-    immutableProps?: string[]
-    initialValues?: Partial<FormData>
-    keepDirtyOnReinitialize?: boolean
-    onChange?(
-      values: Partial<FormData>,
-      dispatch: Dispatch<any>,
-      props: P & InjectedFormProps<FormData, P>
-    ): void
-    onSubmit?:
-      | FormSubmitHandler<FormData, P & InjectedFormProps<FormData, P>>
-      | SubmitHandler<FormData, P & InjectedFormProps<FormData, P>>
-    onSubmitFail?(
-      errors: FormErrors<FormData>,
-      dispatch: Dispatch<any>,
-      submitError: any,
-      props: P & InjectedFormProps<FormData, P>
-    ): void
-    onSubmitSuccess?(
-      result: any,
-      dispatch: Dispatch<any>,
-      props: P & InjectedFormProps<FormData, P>
-    ): void
-    persistentSubmitErrors?: boolean
-    propNamespace?: string
-    pure?: boolean
-    shouldAsyncValidate?(params: AsyncValidateCallback<FormData>): boolean
-    shouldError?(params: ValidateCallback<FormData, P>): boolean
-    shouldValidate?(params: ValidateCallback<FormData, P>): boolean
-    shouldWarn?(params: ValidateCallback<FormData, P>): boolean
-    touchOnBlur?: boolean
-    touchOnChange?: boolean
-    updateUnregisteredFields?: boolean
-    validate?(
-      values: FormData,
-      props: P & InjectedFormProps<FormData, P>
-    ): FormErrors<FormData>
-    warn?(
-      values: FormData,
-      props: P & InjectedFormProps<FormData, P>
-    ): FormWarnings<FormData>
   }
 
   /* eslint-disable */
   export function reduxForm<FormData = {}, P = {}>(
-    config: ConfigProps<FormData, P>
-  ): FormDecorator<FormData, P, Partial<ConfigProps<FormData, P>>>
+    config: CustomConfigProps<FormData, P>
+  ): FormDecorator<FormData, P, Partial<CustomConfigProps<FormData, P>>>
 
   export function reduxForm<FormData = {}, P = {}>(
-    config: Partial<ConfigProps<FormData, P>>
-  ): FormDecorator<FormData, P, ConfigProps<FormData, P>>
+    config: Partial<CustomConfigProps<FormData, P>>
+  ): FormDecorator<FormData, P, CustomConfigProps<FormData, P>>
   /* eslint-disable */
 }
