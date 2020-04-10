@@ -101,6 +101,7 @@ class CreatableInputContainer extends React.PureComponent {
         handleChange={this.handleChange}
         handleKeyDown={this.handleKeyDown}
         handleInputChange={this.handleInputChange}
+        height={this.props.height}
         inputValue={inputValue}
         isClearable
         isMulti={this.props.isMulti}
@@ -116,6 +117,10 @@ class CreatableInputContainer extends React.PureComponent {
       />
     )
   }
+}
+
+CreatableInputContainer.defaultProps = {
+  height: '48px'
 }
 
 export default CreatableInputContainer

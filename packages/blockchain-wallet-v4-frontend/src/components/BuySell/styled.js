@@ -11,10 +11,9 @@ export const MethodContainer = styled.div`
   margin-bottom: 25px;
   padding-left: 20px;
   border: 1px solid
-    ${props =>
-      props.borderDark ? props.theme['gray-2'] : props.theme['gray-1']};
+    ${props => (props.borderDark ? props.theme.grey200 : props.theme.grey000)};
   border-radius: 3px;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
 `
 export const SubmitButton = styled(Button)`
   border-radius: 6px;
@@ -30,7 +29,7 @@ export const SubmitButton = styled(Button)`
 export const BackButton = styled.div`
   height: 70px;
   width: 70px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 6px;
   display: flex;
   justify-content: center;

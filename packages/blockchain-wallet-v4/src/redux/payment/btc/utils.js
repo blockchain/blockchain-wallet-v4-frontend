@@ -37,7 +37,8 @@ export const ADDRESS_TYPES = {
   EXTERNAL: 'EXTERNAL',
   LOCKBOX: 'LOCKBOX',
   ADDRESS: 'ADDRESS',
-  SCRIPT: 'SCRIPT'
+  SCRIPT: 'SCRIPT',
+  CUSTODIAL: 'CUSTODIAL'
 }
 
 // fromLegacy :: String -> Object
@@ -112,6 +113,13 @@ export const fromLockbox = (network, state, xpub, coin) => {
     from: [xpub],
     change: changeAddress,
     changeIndex: changeIndex.getOrElse(0)
+  }
+}
+
+export const fromCustodial = origin => {
+  return {
+    fromType: ADDRESS_TYPES.CUSTODIAL,
+    from: origin
   }
 }
 

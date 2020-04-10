@@ -1,6 +1,7 @@
 export default {
   code: 'CNY',
   base: 'CENT',
+  displayName: 'Chinese Yuan',
   trade: 'CNY',
   units: {
     CENT: {

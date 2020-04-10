@@ -2,7 +2,7 @@
 
 exports[`Icon component default renders correctly 1`] = `
 <styled.span
-  color="gray-5"
+  color="grey700"
   cursorEnabled={false}
   size="16px"
   weight={400}

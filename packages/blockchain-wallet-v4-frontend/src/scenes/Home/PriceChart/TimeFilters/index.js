@@ -6,12 +6,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import TimeFilters from './template'
 
-export const TimeFiltersContainer = ({ actions, isSilverOrAbove, time }) => (
-  <TimeFilters
-    isSilverOrAbove={isSilverOrAbove}
-    time={time}
-    handleClick={time => actions.timeClicked(time)}
-  />
+export const TimeFiltersContainer = ({ actions, time }) => (
+  <TimeFilters time={time} handleClick={time => actions.timeClicked(time)} />
 )
 
 TimeFiltersContainer.propTypes = {

@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components'
+import { lighten } from 'polished'
 
 const DarkTheme: DefaultTheme = {
   // USE THESE \\
@@ -13,12 +14,15 @@ const DarkTheme: DefaultTheme = {
   greyFade400: 'rgba(5, 24, 61, 0.4)',
   greyFade600: 'rgba(3, 17, 47, 0.6)',
   greyFade800: 'rgba(18, 29, 51, 0.8)',
-  grey000: '#F0F2F7',
-  grey100: '#DFE3EB',
+  grey000: '#50596B',
+  grey100: '#50596B',
+  grey200: '#B1B8C7',
+  grey300: '#B1B8C7',
   grey400: '#98A1B2',
+  grey500: '#828B9E',
   grey600: '#677185',
-  grey700: '#50596B',
-  grey800: '#353F52',
+  grey700: lighten(0.1, '#50596B'),
+  grey800: lighten(0.1, '#B1B8C7'),
   grey900: '#121D33',
   blue000: '#ECF5FE',
   blue100: '#D8EBFD',
@@ -90,22 +94,12 @@ const DarkTheme: DefaultTheme = {
   // Marketing
   'marketing-primary': '#3558A8',
   'marketing-secondary': '#153A62',
-  // Grays
-  'gray-1': '#333333',
-  'gray-2': '#ababab',
-  'gray-3': '#747474',
-  'gray-4': '#ababab',
-  'gray-5': '#ababab',
-  'gray-6': '#797979',
   // Whites
   white: '#1c1c1c',
   silver: '#838383',
   // Blacks
-  black: '#272727',
+  black: lighten(0.1, '#B1B8C7'),
   textBlack: '#9c9c9c',
-  // Blues
-  purple: '#0D3578',
-  'deep-blue': '#0D3578',
   // Service Announcements
   info: '#2C5687'
 }

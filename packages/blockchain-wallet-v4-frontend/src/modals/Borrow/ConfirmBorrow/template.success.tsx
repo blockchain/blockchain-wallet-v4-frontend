@@ -124,7 +124,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}

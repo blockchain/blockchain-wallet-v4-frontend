@@ -25,6 +25,7 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
+import simpleBuy from './simpleBuy/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
@@ -58,6 +59,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ api, coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
+  simpleBuy: simpleBuy({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas })
 })

@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.core.wallet.isMnemonicVerified,
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
@@ -27,6 +28,7 @@ export const getData = createDeepEqualSelector(
       selectors.core.walletOptions.getCoinAvailability(state, coin)
   ],
   (
+    isMnemonicVerified,
     paymentR,
     isContractR,
     feeToggled,
@@ -79,22 +81,23 @@ export const getData = createDeepEqualSelector(
       ]
 
       return {
-        effectiveBalance,
-        unconfirmedTx,
-        isContractChecked,
-        isSufficientEthForErc20,
-        fee,
-        feeToggled,
-        enableToggle,
-        from,
-        regularFee,
-        priorityFee,
-        minFee,
-        maxFee,
-        feeElements,
         balanceStatus: balanceR,
+        effectiveBalance,
+        enableToggle,
+        excludeLockbox,
+        fee,
+        feeElements,
+        feeToggled,
+        from,
         hasErc20Balance,
-        excludeLockbox
+        isContractChecked,
+        isMnemonicVerified,
+        isSufficientEthForErc20,
+        maxFee,
+        minFee,
+        priorityFee,
+        regularFee,
+        unconfirmedTx
       }
     }
     return paymentR.map(transform)

@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -26,6 +19,13 @@ import {
   TextBox
 } from 'components/Form'
 import {
+  CustodyToAccountMessage,
+  MnemonicRequiredForCustodySend,
+  Row
+} from 'components/Send'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import {
   insufficientFunds,
   invalidAmount,
   maximumAmount,
@@ -33,10 +33,13 @@ import {
 } from './validation'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
-import { Row } from 'components/Send'
 import BitPayCTA from 'components/BitPayCTA'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -68,6 +71,7 @@ const FirstStep = props => {
     from,
     handleBitPayInvoiceExpiration,
     handleSubmit,
+    isMnemonicVerified,
     invalid,
     payPro,
     pristine,
@@ -76,15 +80,17 @@ const FirstStep = props => {
   } = props
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -115,6 +121,7 @@ const FirstStep = props => {
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
             excludeWatchOnly
+            includeCustodial
           />
         </FormItem>
       </FormGroup>
@@ -160,23 +167,28 @@ const FirstStep = props => {
             {!isPayPro ? (
               <>
                 <Field
-                  name='to'
-                  placeholder='Paste, scan, or select destination'
                   component={SelectBoxBchAddresses}
                   dataE2e='sendBchAddressInput'
-                  validate={[required, validBchAddress]}
                   exclude={[from.label]}
-                  openMenuOnClick={false}
+                  excludeImported={isFromCustody}
                   includeAll={false}
-                  includeExchangeAddress
-                  isCreatable
-                  noOptionsMessage={() => null}
+                  includeExchangeAddress={!isFromCustody}
+                  isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  name='to'
+                  noOptionsMessage={() => null}
+                  openMenuOnClick={!!isFromCustody}
+                  placeholder='Paste, scan, or select destination'
+                  validate={
+                    isFromCustody ? [required] : [required, validBchAddress]
+                  }
                 />
-                <QRCodeCapture
-                  scanType='bchAddress'
-                  border={['top', 'bottom', 'right', 'left']}
-                />
+                {!isFromCustody && (
+                  <QRCodeCapture
+                    scanType='bchAddress'
+                    border={['top', 'bottom', 'right', 'left']}
+                  />
+                )}
               </>
             ) : (
               <Field
@@ -190,7 +202,13 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <BitPayCTA coin='BCH' />
+        {isFromCustody ? (
+          isMnemonicVerified ? (
+            <CustodyToAccountMessage coin='BCH' />
+          ) : null
+        ) : (
+          <BitPayCTA coin='BCH' />
+        )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
@@ -212,7 +230,7 @@ const FirstStep = props => {
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
-            disabled={isPayPro}
+            disabled={isPayPro || isFromCustody}
           />
         </FormItem>
       </FormGroup>
@@ -233,6 +251,8 @@ const FirstStep = props => {
               component={TextAreaDebounced}
               placeholder="What's this transaction for? (optional)"
               data-e2e='sendBchDescription'
+              disabled={isFromCustody}
+              rows={3}
               fullwidth
             />
           ) : (
@@ -251,19 +271,21 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
-        <FormItem>
-          <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.networkfee'
-              defaultMessage='Network Fee'
-            />
-          </FormLabel>
-          <ComboDisplay size='13px' coin='BCH'>
-            {totalFee}
-          </ComboDisplay>
-        </FormItem>
-      </FormGroup>
+      {!isFromCustody && (
+        <FormGroup inline margin={isPayPro ? '10px' : '30px'}>
+          <FormItem>
+            <FormLabel>
+              <FormattedMessage
+                id='modals.sendBch.firststep.networkfee'
+                defaultMessage='Network Fee'
+              />
+            </FormLabel>
+            <ComboDisplay size='13px' coin='BCH' weight={500}>
+              {totalFee}
+            </ComboDisplay>
+          </FormItem>
+        </FormGroup>
+      )}
       {isPayPro && invalid && (
         <Text
           size='13px'
@@ -277,6 +299,9 @@ const FirstStep = props => {
           />
         </Text>
       )}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -286,8 +311,9 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
-            (!isPayPro && pristine) ||
-            disableLockboxSend
+            disableLockboxSend ||
+            disableCustodySend ||
+            (!isPayPro && pristine)
           }
           data-e2e='bchSendContinue'
         >

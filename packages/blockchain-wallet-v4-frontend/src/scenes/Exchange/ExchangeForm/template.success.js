@@ -16,7 +16,7 @@ import media from 'services/ResponsiveService'
 import MinMaxButtons from './MinMaxButtons'
 import Notifications from './Notifications'
 import RatesBox from './RatesBox'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
@@ -102,7 +102,7 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     text-align: center;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: ${props => props.theme['gray-5']};
+    color: ${props => props.theme.grey700};
     background-color: ${props => props.theme.white};
   }
 `
@@ -110,10 +110,10 @@ const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.blue900};
+    props.disabled ? props.theme.grey000 : props.theme.blue900};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
+      props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
 `
 const ActiveCurrencyButton = styled.div`
@@ -125,7 +125,7 @@ const ActiveCurrencyButton = styled.div`
   margin-right: 8px;
   border: 1px solid
     ${props =>
-      props.checked ? props.theme[props.coin] : props.theme['gray-4']};
+      props.checked ? props.theme[props.coin] : props.theme['grey500']};
 `
 const FormWrapper = styled(BorderWrapper)`
   padding: 0;
@@ -140,7 +140,7 @@ const CurrencyBox = styled(Text)`
   font-size: 72px;
   font-weight: 400;
   background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.white};
+    props.disabled ? props.theme.grey000 : props.theme.white};
 `
 const ClickableText = styled(Text)`
   cursor: pointer;
@@ -169,6 +169,7 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
+  initialize,
   inputField,
   inputSymbol,
   sourceActive,
@@ -187,6 +188,11 @@ const Success = ({
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+
+  useEffect(() => {
+    return initialize()
+  }, [])
+
   return (
     <Wrapper>
       <ColumnLeft>

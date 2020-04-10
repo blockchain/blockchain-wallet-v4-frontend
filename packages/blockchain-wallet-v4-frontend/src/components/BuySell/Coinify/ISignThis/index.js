@@ -52,7 +52,7 @@ const IframeWrapper = styled.div`
 const ISignThisIframe = styled.iframe`
   width: 100%;
   height: 400px;
-  border: ${props => `1px solid ${props.theme['gray-1']}`};
+  border: ${props => `1px solid ${props.theme.grey000}`};
 `
 
 const tradeQuestions = [

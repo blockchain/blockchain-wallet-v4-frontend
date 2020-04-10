@@ -1,6 +1,7 @@
 export default {
   base: 'STROOP',
   code: 'XLM',
+  displayName: 'Stellar',
   trade: 'XLM',
   units: {
     STROOP: {

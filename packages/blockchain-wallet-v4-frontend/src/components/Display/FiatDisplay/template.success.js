@@ -60,7 +60,7 @@ FiatDisplay.propTypes = {
 FiatDisplay.defaultProps = {
   size: '16px',
   weight: 300,
-  color: 'gray-5',
+  color: 'grey700',
   cursor: 'auto'
 }
 

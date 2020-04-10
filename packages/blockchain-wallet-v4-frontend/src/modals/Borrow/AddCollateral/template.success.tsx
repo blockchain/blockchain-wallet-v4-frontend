@@ -75,10 +75,10 @@ const MaxAmountContainer = styled.div`
 const QRCodeContainer = styled.div`
   cursor: pointer;
 `
-const QRTitle = styled.div`
-  display: flex;
-  margin: 24px 0;
-`
+// const QRTitle = styled.div`
+//   display: flex;
+//   margin: 24px 0;
+// `
 const QRCodeBox = styled.div`
   display: flex;
   padding: 16px;
@@ -124,7 +124,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}

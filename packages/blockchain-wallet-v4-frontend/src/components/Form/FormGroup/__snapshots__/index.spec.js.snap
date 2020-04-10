@@ -7,6 +7,7 @@ exports[`FormGroup renders correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;

@@ -76,7 +76,7 @@ const Success = props => {
             <Text
               size='24px'
               weight={500}
-              color='gray-5'
+              color='grey700'
               style={{ 'margin-top': '25px' }}
             >
               <FormattedMessage
@@ -87,7 +87,7 @@ const Success = props => {
             <Text
               size='13px'
               weight={400}
-              color='gray-5'
+              color='grey700'
               style={{ 'margin-top': '10px' }}
             >
               <FormattedMessage
@@ -104,7 +104,7 @@ const Success = props => {
                   />
                 </Text>
                 &nbsp;
-                <Text size='16px' weight={500} color='gray-5'>
+                <Text size='16px' weight={500} color='grey700'>
                   <FormattedMessage
                     id='scenes.authorizelogin.vs'
                     defaultMessage='vs.'

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { Dispatch } from 'redux'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -12,12 +11,7 @@ export type OwnProps = {
   currentTab: 'wallet' | 'hardware' | 'total'
 }
 export type SuccessStateType = {
-  bchBalance: number
-  btcBalance: number
-  ethBalance: number
-  paxBalance: number
-  totalBalance: { path: string; totalBalance: string }
-  xlmBalance: number
+  totalBalance: string
 }
 type LinkDispatchPropsType = {}
 type LinkStatePropsType = {
@@ -32,12 +26,12 @@ class TotalRow extends PureComponent<Props, State> {
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
-      Failure: e => (
+      Failure: () => (
         <Text
-          size='12px'
+          size='14px'
           weight={600}
           color='red600'
-          style={{ marginBottom: '24px' }}
+          style={{ marginBottom: '24px', paddingBottom: '12px' }}
         >
           Error Fetching Balance
         </Text>
@@ -52,7 +46,7 @@ const mapStateToProps = (state: RootState, ownProps): LinkStatePropsType => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({})
+const mapDispatchToProps = () => ({})
 
 export default connect(
   mapStateToProps,

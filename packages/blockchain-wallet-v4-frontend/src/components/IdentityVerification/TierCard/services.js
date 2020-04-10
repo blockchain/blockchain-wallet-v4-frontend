@@ -67,7 +67,7 @@ export const messages = {
     </Text>
   ),
   TIER1: (
-    <Text size='12px' color='gray-3'>
+    <Text size='12px' color='grey400'>
       <FormattedMessage
         id='components.identityverification.tiercard.silverplus'
         defaultMessage='Silver Level +'

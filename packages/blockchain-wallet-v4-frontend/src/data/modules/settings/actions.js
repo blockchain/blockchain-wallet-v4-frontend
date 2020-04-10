@@ -43,9 +43,9 @@ export const updateLanguage = language => ({
   payload: { language }
 })
 
-export const updateCurrency = currency => ({
+export const updateCurrency = (currency, hideAlert) => ({
   type: AT.UPDATE_CURRENCY,
-  payload: { currency }
+  payload: { currency, hideAlert }
 })
 
 export const updateAutoLogout = autoLogout => ({

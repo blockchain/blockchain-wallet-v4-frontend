@@ -37,7 +37,7 @@ export const MenuItem = styled.button`
   .icon {
     width: 30px;
     margin-right: 10px;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
   }
   .destination {
     white-space: nowrap;
@@ -58,7 +58,7 @@ export const MenuItem = styled.button`
       color: ${props => props.theme.blue600};
     }
     .destination {
-      color: ${props => props.theme['deep-blue']};
+      color: ${props => props.theme.blue900};
     }
   }
   &.airdrop {
@@ -146,5 +146,5 @@ export const Separator = styled.div`
   width: 100%;
   height: 1px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
 `

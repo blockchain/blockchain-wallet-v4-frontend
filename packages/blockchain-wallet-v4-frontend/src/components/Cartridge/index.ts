@@ -3,9 +3,10 @@ import styled from 'styled-components'
 
 export const CustomCartridge = styled(Cartridge)`
   text-transform: none;
-  border-radius: 4px;
+  border-radius: 8px;
   padding: 6px 8px;
   font-size: 14px;
+  font-weight: 600;
   margin-left: 0px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

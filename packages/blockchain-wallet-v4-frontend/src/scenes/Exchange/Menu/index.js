@@ -1,17 +1,11 @@
 import { actions } from 'data'
-import {
-  Button,
-  IconButton,
-  TabMenu,
-  TabMenuItem
-} from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
+import { IconButton, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import Announcements from 'components/Announcements'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -25,21 +19,13 @@ const Wrapper = styled.div`
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-`
-const SupportButton = styled(Button)`
-  margin-left: auto;
-  border-radius: 8px;
-  ${media.laptop`
-    margin-left: 0;
-    margin-top: 8px;
-  `}
+  justify-content: flex-start;
 `
 const DownloadButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};
   border-radius: 8px;
   color: ${props => props.theme['blue600']};
-  margin-right: 12px;
+  margin-left: 8px;
 `
 
 const Menu = ({
@@ -52,35 +38,36 @@ const Menu = ({
     <Wrapper>
       <Announcements type='service' alertArea='swap' />
       <HorizontalMenu>
-        <TabMenu>
-          <LinkContainer to='/swap' exact>
-            <TabMenuItem
-              activeClassName='active'
-              data-e2e='exchangeTabMenuExchange'
-            >
-              <FormattedMessage
-                id='scenes.exchange.menutop.swap'
-                defaultMessage='Swap'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-          <LinkContainer to='/swap/history'>
-            <TabMenuItem
-              activeClassName='active'
-              data-e2e='exchangeTabMenuOrderHistory'
-            >
-              <FormattedMessage
-                id='scenes.exchange.menutop.history'
-                defaultMessage='Order History'
-              />
-            </TabMenuItem>
-          </LinkContainer>
-        </TabMenu>
         <ButtonRow>
+          <TabMenu>
+            <LinkContainer to='/swap' exact>
+              <TabMenuItem
+                activeClassName='active'
+                data-e2e='exchangeTabMenuExchange'
+              >
+                <FormattedMessage
+                  id='scenes.exchange.menutop.swap'
+                  defaultMessage='Swap'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+            <LinkContainer to='/swap/history'>
+              <TabMenuItem
+                activeClassName='active'
+                data-e2e='exchangeTabMenuOrderHistory'
+              >
+                <FormattedMessage
+                  id='scenes.exchange.menutop.history'
+                  defaultMessage='Order History'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+          </TabMenu>
           {showDownloadBtn && (
             <DownloadButton
               data-e2e='generateSwapReport'
-              height='42px'
+              height='45px'
+              width='135'
               name='download'
               nature='light'
               onClick={downloadHistory}
@@ -91,12 +78,6 @@ const Menu = ({
               />
             </DownloadButton>
           )}
-          <SupportButton height='42px' nature='primary' onClick={showHelpModal}>
-            <FormattedMessage
-              id='scenes.exchange.menutop.need_help'
-              defaultMessage='Need Help?'
-            />
-          </SupportButton>
         </ButtonRow>
       </HorizontalMenu>
     </Wrapper>

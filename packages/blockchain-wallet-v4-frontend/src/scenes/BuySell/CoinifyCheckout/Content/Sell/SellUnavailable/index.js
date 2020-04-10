@@ -7,7 +7,7 @@ import { spacing } from 'services/StyleService'
 
 const Wrapper = styled.div`
   padding: 30px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 10px;
 `
 const KycContainer = styled.div`
@@ -19,7 +19,7 @@ const Header = styled.div`
   display: flex;
 `
 const Divider = styled.div`
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   padding-top: 20px;
   margin-bottom: 20px;
 `

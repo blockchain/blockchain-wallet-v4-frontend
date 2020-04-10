@@ -21,7 +21,7 @@ import createPaymentFactory, {
   NO_TX_ERROR,
   NO_SIGNED_ERROR,
   WRONG_MEMO_FORMAT
-} from './sagas'
+} from './sagas.ts'
 import * as S from '../../selectors'
 import { xlm as xlmSigner } from '../../../signer'
 import Remote from '../../../remote'

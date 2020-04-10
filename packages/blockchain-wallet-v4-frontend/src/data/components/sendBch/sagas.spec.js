@@ -14,7 +14,7 @@ import { FORM } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import rootReducer from '../../rootReducer'
-import sendBchSagas, { logLocation } from './sagas'
+import sendBchSagas, { logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {

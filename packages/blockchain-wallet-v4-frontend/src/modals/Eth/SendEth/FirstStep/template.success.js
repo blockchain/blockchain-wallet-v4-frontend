@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -16,12 +9,14 @@ import {
 import {
   ColLeft,
   ColRight,
+  CustodyToAccountMessage,
   CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
+  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -36,6 +31,8 @@ import {
   SelectBoxEthAddresses,
   TextAreaDebounced
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
@@ -48,12 +45,16 @@ import {
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEthAddress } from 'services/FormHelper'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import PriorityFeeLink from './PriorityFeeLink'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -62,39 +63,48 @@ const WarningBanners = styled(Banner)`
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
+const StyledRow = styled(Row)`
+  .bc__control input {
+    max-width: 350px;
+  }
+`
 
 const FirstStep = props => {
   const {
+    balanceStatus,
     coin,
-    pristine,
-    invalid,
-    submitting,
+    excludeLockbox,
     fee,
-    handleSubmit,
-    unconfirmedTx,
-    isContractChecked,
+    feeElements,
     feeToggled,
     from,
-    feeElements,
-    regularFee,
-    priorityFee,
     handleFeeToggle,
-    balanceStatus,
-    excludeLockbox,
+    handleSubmit,
     hasErc20Balance,
-    isSufficientEthForErc20
+    invalid,
+    isContractChecked,
+    isMnemonicVerified,
+    isSufficientEthForErc20,
+    priorityFee,
+    pristine,
+    regularFee,
+    submitting,
+    unconfirmedTx
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
-  const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20
+  const disableDueToLowEth =
+    coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel HtmlFor='coin'>
             <FormattedMessage
@@ -122,6 +132,7 @@ const FirstStep = props => {
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
+            includeCustodial
             coin={coin}
           />
         </FormItem>
@@ -154,27 +165,31 @@ const FirstStep = props => {
               defaultMessage='To'
             />
           </FormLabel>
-          <Row>
+          <StyledRow>
             <Field
-              name='to'
               coin={coin}
-              placeholder='Paste, scan, or select destination'
-              validate={[required, validEthAddress]}
               component={SelectBoxEthAddresses}
               dataE2e='sendEthAddressInput'
               exclude={[from.label]}
-              openMenuOnClick={false}
               includeAll={false}
-              includeExchangeAddress
-              isCreatable
-              noOptionsMessage={() => null}
+              includeExchangeAddress={!isFromCustody}
+              isCreatable={!isFromCustody}
               isValidNewOption={() => false}
+              name='to'
+              noOptionsMessage={() => null}
+              openMenuOnClick={isFromCustody}
+              placeholder='Paste, scan, or select destination'
+              validate={
+                isFromCustody ? [required] : [required, validEthAddress]
+              }
             />
-            <QRCodeCapture
-              scanType='ethAddress'
-              border={['top', 'bottom', 'right', 'left']}
-            />
-          </Row>
+            {!isFromCustody && (
+              <QRCodeCapture
+                scanType='ethAddress'
+                border={['top', 'bottom', 'right', 'left']}
+              />
+            )}
+          </StyledRow>
           {unconfirmedTx && (
             <Text color='error' size='12px' weight={400}>
               <FormattedMessage
@@ -185,6 +200,11 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
+      {isFromCustody && isMnemonicVerified ? (
+        <FormGroup>
+          <CustodyToAccountMessage coin={coin} />
+        </FormGroup>
+      ) : null}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>
@@ -195,7 +215,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            disabled={unconfirmedTx}
+            disabled={unconfirmedTx || isFromCustody}
             component={FiatConverter}
             coin={coin}
             validate={[
@@ -209,7 +229,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      {hasErc20Balance && coin === 'ETH' && (
+      {hasErc20Balance && coin === 'ETH' && !isFromCustody && (
         <LowBalanceWarning
           effectiveBalance={props.effectiveBalance}
           totalBalance={props.from.balance}
@@ -231,76 +251,79 @@ const FirstStep = props => {
             component={TextAreaDebounced}
             placeholder="What's this transaction for? (optional)"
             data-e2e={`${coin}SendDescription`}
+            disabled={isFromCustody}
             fullwidth
           />
         </FormItem>
       </FormGroup>
-      <FeeFormGroup inline margin={'10px'}>
-        <ColLeft>
-          <FeeFormContainer toggled={feeToggled}>
-            <FeeFormLabel>
-              <FormattedMessage
-                id='modals.sendeth.firststep.networkfee'
-                defaultMessage='Network Fee'
-              />
-              <span>&nbsp;</span>
-              {!feeToggled && (
-                <Field
-                  name='fee'
-                  component={SelectBox}
-                  elements={feeElements}
+      {!isFromCustody && (
+        <FeeFormGroup inline margin={'10px'}>
+          <ColLeft>
+            <FeeFormContainer toggled={feeToggled}>
+              <FeeFormLabel>
+                <FormattedMessage
+                  id='modals.sendeth.firststep.networkfee'
+                  defaultMessage='Network Fee'
                 />
-              )}
+                <span>&nbsp;</span>
+                {!feeToggled && (
+                  <Field
+                    name='fee'
+                    component={SelectBox}
+                    elements={feeElements}
+                  />
+                )}
+                {feeToggled && (
+                  <FeeOptionsContainer>
+                    <RegularFeeLink fee={regularFee} coin={coin} />
+                    <span>&nbsp;</span>
+                    <PriorityFeeLink fee={priorityFee} coin={coin} />
+                  </FeeOptionsContainer>
+                )}
+              </FeeFormLabel>
               {feeToggled && (
-                <FeeOptionsContainer>
-                  <RegularFeeLink fee={regularFee} coin={coin} />
-                  <span>&nbsp;</span>
-                  <PriorityFeeLink fee={priorityFee} coin={coin} />
-                </FeeOptionsContainer>
+                <FeePerByteContainer style={{ marginTop: '10px' }}>
+                  <Field
+                    data-e2e={`${coin}CustomFeeInput`}
+                    coin={coin}
+                    name='fee'
+                    component={NumberBoxDebounced}
+                    validate={[required, minimumFee]}
+                    warn={[maximumFee]}
+                    errorBottom
+                    errorLeft
+                    unit='Gwei'
+                  />
+                </FeePerByteContainer>
               )}
-            </FeeFormLabel>
-            {feeToggled && (
-              <FeePerByteContainer>
-                <Field
-                  data-e2e={`${coin}CustomFeeInput`}
-                  coin={coin}
-                  name='fee'
-                  component={NumberBoxDebounced}
-                  validate={[required, minimumFee]}
-                  warn={[maximumFee]}
-                  errorBottom
-                  errorLeft
-                  unit='Gwei'
+            </FeeFormContainer>
+          </ColLeft>
+          <ColRight>
+            <ComboDisplay size='13px' weight={500} coin='ETH'>
+              {fee}
+            </ComboDisplay>
+            <Link
+              size='12px'
+              weight={400}
+              capitalize
+              onClick={handleFeeToggle}
+              data-e2e={`${coin}CustomizeFeeLink`}
+            >
+              {feeToggled ? (
+                <FormattedMessage
+                  id='modals.sendeth.firststep.cancel'
+                  defaultMessage='Cancel'
                 />
-              </FeePerByteContainer>
-            )}
-          </FeeFormContainer>
-        </ColLeft>
-        <ColRight>
-          <ComboDisplay size='13px' coin='ETH'>
-            {fee}
-          </ComboDisplay>
-          <Link
-            size='12px'
-            weight={400}
-            capitalize
-            onClick={handleFeeToggle}
-            data-e2e={`${coin}CustomizeFeeLink`}
-          >
-            {feeToggled ? (
-              <FormattedMessage
-                id='modals.sendeth.firststep.cancel'
-                defaultMessage='Cancel'
-              />
-            ) : (
-              <FormattedMessage
-                id='modals.sendeth.firststep.customizefee'
-                defaultMessage='Customize Fee'
-              />
-            )}
-          </Link>
-        </ColRight>
-      </FeeFormGroup>
+              ) : (
+                <FormattedMessage
+                  id='modals.sendeth.firststep.customizefee'
+                  defaultMessage='Customize Fee'
+                />
+              )}
+            </Link>
+          </ColRight>
+        </FeeFormGroup>
+      )}
       {feeToggled ? (
         <CustomFeeAlertBanner type='alert'>
           <Text size='12px'>
@@ -312,6 +335,9 @@ const FirstStep = props => {
         </CustomFeeAlertBanner>
       ) : null}
       {disableDueToLowEth && <LowEthWarningForErc20 />}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -324,6 +350,7 @@ const FirstStep = props => {
             invalid ||
             !isContractChecked ||
             disableDueToLowEth ||
+            disableCustodySend ||
             Remote.Loading.is(balanceStatus)
           }
           data-e2e={`${coin}SendContinue`}

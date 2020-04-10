@@ -29,7 +29,7 @@ const BaseCheckBoxInput = styled.input.attrs({
     & + label {
       &:before {
         cursor: not-allowed;
-        border: 1px solid ${props => props.theme['gray-2']};
+        border: 1px solid ${props => props.theme.grey200};
       }
     }
   }

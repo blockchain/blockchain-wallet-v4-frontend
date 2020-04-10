@@ -15,10 +15,10 @@ const CoinSwapIcon = styled(Icon)`
   margin: 0 15px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
+    props.disabled ? props.theme.grey000 : props.theme['grey800']};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
+      props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
 `
 

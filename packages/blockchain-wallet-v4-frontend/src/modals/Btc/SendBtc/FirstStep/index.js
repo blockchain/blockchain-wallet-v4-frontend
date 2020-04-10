@@ -10,7 +10,15 @@ import Success from './template.success'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {
-    this.props.actions.initialized()
+    const { from, to, description, amount, lockboxIndex, payPro } = this.props
+    this.props.actions.initialized({
+      from,
+      to,
+      description,
+      amount,
+      lockboxIndex,
+      payPro
+    })
   }
 
   render () {
@@ -30,6 +38,7 @@ class FirstStep extends React.Component {
           from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
+          isMnemonicVerified={value.isMnemonicVerified}
           maxFeePerByte={value.maxFeePerByte}
           minFeePerByte={value.minFeePerByte}
           network={value.network}

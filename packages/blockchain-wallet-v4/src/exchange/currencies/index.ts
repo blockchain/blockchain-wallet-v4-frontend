@@ -26,13 +26,9 @@ import TWD from './TWD'
 import USD from './USD'
 import XLM from './XLM'
 
-const Currencies = {
+const FiatCurrencies = {
   EUR,
   USD,
-  BCH,
-  BTC,
-  ETH,
-  XLM,
   AUD,
   BRL,
   CAD,
@@ -41,7 +37,6 @@ const Currencies = {
   CNY,
   DKK,
   GBP,
-  PAX,
   HKD,
   INR,
   ISK,
@@ -56,5 +51,25 @@ const Currencies = {
   TWD
 }
 
-export type CurrenciesType = typeof Currencies
+const CryptoCurrencies = {
+  BCH,
+  BTC,
+  ETH,
+  PAX,
+  XLM
+}
+
+const ERC20Currencies = {
+  PAX
+}
+
+const Currencies = {
+  ...CryptoCurrencies,
+  ...FiatCurrencies
+}
+
+export type FiatCurrenciesType = typeof FiatCurrencies
+export type CryptoCurrenciesType = typeof CryptoCurrencies
+export type Erc20CurrenciesType = typeof ERC20Currencies
+export type CurrenciesType = FiatCurrenciesType & CryptoCurrenciesType
 export default Currencies

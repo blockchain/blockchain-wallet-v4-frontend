@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Container, Row } from './model'
 
 const DarkText = styled(Text).attrs({
-  color: 'gray-5',
+  color: 'grey700',
   size: '14px',
   weight: 400
 })`

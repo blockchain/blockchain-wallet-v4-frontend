@@ -44,7 +44,7 @@ const Success: React.FC<Props> = props => {
       </Text>
       <HomeBalanceAmount data-e2e='homeBalanceAmt'>
         <JoyrideSpotlight className='wallet-intro-tour-step-1' />
-        {props.totalBalance.totalBalance}
+        {props.totalBalance}
       </HomeBalanceAmount>
     </TotalRow>
   )

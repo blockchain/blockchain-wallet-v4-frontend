@@ -21,7 +21,7 @@ const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
   }
 `
 const Body = styled.div`
@@ -127,7 +127,7 @@ class AirdropSuccess extends React.PureComponent {
             {isLinkCopied ? (
               <TooltipHost id='copied'>
                 <FooterButton
-                  nature='purple'
+                  nature='blue900'
                   size='16px'
                   onMouseLeave={this.hideCopied}
                 >
@@ -139,7 +139,7 @@ class AirdropSuccess extends React.PureComponent {
                 </FooterButton>
               </TooltipHost>
             ) : (
-              <FooterButton nature='purple' size='16px'>
+              <FooterButton nature='blue900' size='16px'>
                 <FooterIcon name='copy' size='12px' />
                 <FormattedMessage
                   defaultMessage='Copy'

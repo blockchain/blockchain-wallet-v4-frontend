@@ -1,6 +1,7 @@
 export default {
   base: 'WEI',
   code: 'ETH',
+  displayName: 'Ethereum',
   trade: 'ETH',
   units: {
     WEI: {

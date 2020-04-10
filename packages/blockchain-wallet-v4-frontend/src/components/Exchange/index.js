@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   padding: 32px;
   max-width: 440px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@ export const Title = styled(Text)`
   margin-bottom: 24px;
 `
 export const AmountHeader = styled(ExchangeText)`
-  color: ${props => props.color || props.theme['gray-5']};
+  color: ${props => props.color || props.theme.grey700};
   font-size: 16px;
 `
 export const TableRow = styled.div`
@@ -39,7 +39,7 @@ export const TableRow = styled.div`
 export const LargeTableRow = styled(TableRow)`
   padding: 10px 18px;
   min-height: 72px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   &:last-child {
     border-bottom: 0px;
   }
@@ -51,7 +51,7 @@ export const Note = styled(Text)`
   font-weight: 400;
   text-align: center;
   margin-top: 16px;
-  color: ${props => props.theme['gray-4']};
+  color: ${props => props.theme['grey500']};
 `
 export const ExchangeButton = styled(Button)`
   width: 100%;
@@ -71,5 +71,5 @@ export const SubExchangeAmount = styled(ExchangeAmount)`
   text-align: right;
   font-weight: 400;
   font-size: 13px;
-  color: ${props => props.theme[props.color || 'gray-4']};
+  color: ${props => props.theme[props.color || 'grey500']};
 `

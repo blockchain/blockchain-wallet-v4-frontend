@@ -316,7 +316,7 @@ export const statusHelper = status => {
       }
     default:
       return {
-        color: 'gray-5',
+        color: 'grey700',
         text: (
           <FormattedMessage
             id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.unknown'

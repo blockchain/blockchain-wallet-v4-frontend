@@ -14,50 +14,29 @@ import {
   getTags
 } from './selectors'
 import Welcome from './template'
-import WelcomePax from './template.pax'
-import WelcomeStx from './template.stx'
 
 class CoinIntroductionContainer extends React.PureComponent {
   render () {
     const {
       availability,
       coin,
-      currentUserTier,
-      domains,
-      handleRequest,
       modalActions,
       partner,
       supportedCoins,
-      ...rest
+      simpleBuyActions
     } = this.props
     const currentCoin = supportedCoins[coin]
-
-    switch (currentCoin.coinCode) {
-      case 'STX': {
-        return <WelcomeStx currentCoin={currentCoin} {...rest} />
-      }
-      case 'PAX': {
-        return (
-          <WelcomePax
-            availability={availability}
-            currentCoin={currentCoin}
-            currentUserTier={currentUserTier}
-          />
-        )
-      }
-      default: {
-        return (
-          <Welcome
-            availability={availability}
-            currentCoin={currentCoin}
-            partner={partner}
-            handleRequest={() =>
-              modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
-            }
-          />
-        )
-      }
-    }
+    return (
+      <Welcome
+        availability={availability}
+        currentCoin={currentCoin}
+        partner={partner}
+        handleRequest={() =>
+          modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
+        }
+        handleBuy={() => simpleBuyActions.showModal('emptyFeed', coin)}
+      />
+    )
   }
 }
 
@@ -75,7 +54,11 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
+  onboardingActions: bindActionCreators(
+    actions.components.onboarding,
+    dispatch
+  ),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 CoinIntroductionContainer.propTypes = {

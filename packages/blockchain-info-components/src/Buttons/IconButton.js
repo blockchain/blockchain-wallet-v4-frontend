@@ -31,7 +31,7 @@ const selectColor = (nature, disabled) => {
     case 'white-blue':
       return 'blue600'
     default:
-      return 'gray-6'
+      return 'grey800'
   }
 }
 

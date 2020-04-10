@@ -24,7 +24,7 @@ const { WALLET_TX_SEARCH } = model.form
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
     propSatisfies(
-      x => filter === '' || toUpper(x) === toUpper(filter),
+      x => filter === '' || (x && toUpper(x) === toUpper(filter)),
       'type',
       tx
     )
@@ -39,6 +39,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
   )
   const searchPredicate = anyPass(
     map(search(criteria), [
+      ['id'],
       ['description'],
       ['from'],
       ['to'],

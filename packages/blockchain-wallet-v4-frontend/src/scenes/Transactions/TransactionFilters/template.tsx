@@ -72,7 +72,7 @@ const TransactionFilters = ({
   isLegacyEthAddr
 }) => (
   <StickyHeader>
-    <HorizontalMenu>
+    <HorizontalMenu marginBottom='0px'>
       <Field
         name='status'
         statuses={['', 'sent', 'received', 'transferred']}
@@ -85,7 +85,7 @@ const TransactionFilters = ({
               <ComponentDropdown
                 down
                 forceSelected
-                color={'gray-5'}
+                color={'grey700'}
                 selectedComponent={<EthPrivateKeys />}
                 components={[
                   <ExportEthPrivateKeyText

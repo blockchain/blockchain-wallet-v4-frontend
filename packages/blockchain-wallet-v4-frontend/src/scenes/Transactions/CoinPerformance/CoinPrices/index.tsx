@@ -4,7 +4,7 @@ import { CurrenciesType } from 'core/exchange/currencies'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { PriceChange } from '../../model'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType, SupportedCoinType } from 'core/types'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -29,6 +29,10 @@ const PriceText = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
+type OwnProps = {
+  coinModel: SupportedCoinType
+}
+
 type SuccessStateType = {
   currency: keyof CurrenciesType
   currencySymbol: string
@@ -41,7 +45,7 @@ type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 
-type Props = LinkStatePropsType
+type Props = LinkStatePropsType & OwnProps
 
 class CoinPricesContainer extends React.PureComponent<Props> {
   render () {
@@ -56,7 +60,8 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             <TitleText>
               <FormattedMessage
                 id='scenes.transactions.performance.prices.price'
-                defaultMessage='Current Price'
+                defaultMessage='{account} Price'
+                values={{ account: this.props.coinModel.coinTicker }}
               />
             </TitleText>
             <PriceText>

@@ -63,7 +63,7 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <SummaryExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='grey700'>
               <SummaryStringDisplay
                 data-e2e='exchangeSummarySwapFiatValue'
                 skeletonHeight='20px'
@@ -74,7 +74,7 @@ export class Summary extends React.PureComponent {
                 )}
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
-            <SubExchangeAmount color='gray-5'>
+            <SubExchangeAmount color='grey700'>
               <SummaryStringDisplay data-e2e='exchangeSummarySwapValue'>
                 {sourceAmount.map(amount =>
                   coinToString({
@@ -96,20 +96,20 @@ export class Summary extends React.PureComponent {
             <TooltipHost id='exchange.networkfees'>
               <TooltipIcon
                 name='question-in-circle-filled'
-                color='gray-3'
+                color='grey400'
                 size='18px'
               />
             </TooltipHost>
           </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
-              color={insufficientEthBalance ? 'error' : 'gray-5'}
+              color={insufficientEthBalance ? 'error' : 'grey700'}
               data-e2e='exchangeSummaryFeeFiatValue'
             >
               {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
             </SummaryExchangeAmount>
             <SubExchangeAmount
-              color={insufficientEthBalance ? 'error' : 'gray-5'}
+              color={insufficientEthBalance ? 'error' : 'grey700'}
               data-e2e='exchangeSummaryFeeValue'
             >
               {coinToString({
@@ -130,7 +130,7 @@ export class Summary extends React.PureComponent {
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <SummaryExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='grey700'>
               -
               <SummaryStringDisplay
                 data-e2e='exchangeSummaryTotalFiatValue'
@@ -146,7 +146,7 @@ export class Summary extends React.PureComponent {
                 )}
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
-            <SubExchangeAmount color='gray-5'>
+            <SubExchangeAmount color='grey700'>
               <span>-</span>
               <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
                 {sourceAmount.map(amount =>
@@ -178,7 +178,7 @@ export class Summary extends React.PureComponent {
                 weight={500}
               />
             </SummaryExchangeAmount>
-            <SubExchangeAmount color='gray-5'>
+            <SubExchangeAmount color='grey700'>
               <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>
                 {targetAmount.map(amount =>
                   coinToString({

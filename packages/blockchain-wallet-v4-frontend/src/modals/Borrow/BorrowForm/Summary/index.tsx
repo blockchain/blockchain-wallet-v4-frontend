@@ -31,7 +31,7 @@ const Summary: React.FC<Props> = props => {
 
   return (
     <div>
-      <Text color='grey900' weight={600}>
+      <Text color='grey800' weight={600}>
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
@@ -54,7 +54,7 @@ const Summary: React.FC<Props> = props => {
             />
           </Title>
           <Value data-e2e='interestRate'>
-            {props.offer.terms.interestRate * 100}%
+            {Number(props.offer.terms.interestRate * 100).toFixed(1) + '%'}
           </Value>
         </TableRow>
         <TableRow>

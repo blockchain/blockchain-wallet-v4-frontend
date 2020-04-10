@@ -9,7 +9,6 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { prop } from 'ramda'
 import { RatesType, UserDataType } from 'data/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -52,7 +51,7 @@ class BorrowHistory extends Component<Props> {
           Success: val => (
             <Success {...val} showLoanDetails={this.showLoanDetails} />
           ),
-          Failure: e => null,
+          Failure: () => null,
           Loading: () => null,
           NotAsked: () => null
         })}

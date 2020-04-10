@@ -4,6 +4,7 @@ import * as S from '../../selectors'
 import {
   ADDRESS_TYPES,
   fromAccount,
+  fromCustodial,
   fromLegacy,
   fromLegacyList,
   fromLockbox,
@@ -109,6 +110,8 @@ export default ({ api }) => {
     switch (type) {
       case ADDRESS_TYPES.ACCOUNT:
         return fromAccount(network, appState, origin, 'BCH')
+      case ADDRESS_TYPES.CUSTODIAL:
+        return fromCustodial(origin)
       case ADDRESS_TYPES.LEGACY:
         if (isCashAddr(origin)) {
           return fromLegacy(fromCashAddr(origin))
@@ -332,6 +335,7 @@ export default ({ api }) => {
       },
 
       * build () {
+        if (p.fromType === 'CUSTODIAL') return makePayment(p)
         let selection = yield call(calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },

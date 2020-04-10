@@ -196,16 +196,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeFormInitialized = function * ({ payload }) {
-    yield put(actions.modules.rates.fetchAvailablePairs())
-    const {
-      payload: { pairs }
-    } = yield take(actionTypes.modules.rates.AVAILABLE_PAIRS_SUCCESS)
-
     const initialValues = yield select(
       S.getInitialValues,
-      pairs,
       payload.requestedValues
     )
+
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     yield call(changeSubscription, true)
     yield call(fetchLimits)

@@ -119,7 +119,7 @@ const Success = props => {
             <ComponentDropdown
               down
               forceSelected
-              color={'gray-5'}
+              color={'grey700'}
               selectedComponent={
                 <Link weight={500} size='13px' data-e2e='bchManageWalletLink'>
                   <FormattedMessage

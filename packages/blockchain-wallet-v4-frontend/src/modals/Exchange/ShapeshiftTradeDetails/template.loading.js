@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 400px;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme.grey200};
 `
 
 export default props => (

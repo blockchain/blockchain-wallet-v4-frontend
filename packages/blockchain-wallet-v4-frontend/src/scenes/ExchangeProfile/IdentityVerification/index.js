@@ -99,7 +99,7 @@ const SecurityColumn = styled(Column)`
   text-align: center;
 `
 const GoBackLink = styled.div`
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 5px;
   position: absolute;
   justify-content: center;
@@ -157,7 +157,7 @@ const IdentityVerification = () => {
               <TooltipIcon
                 size='24px'
                 name='question-in-circle-filled'
-                color='gray-2'
+                color='grey200'
               />
             </TooltipHost>
           </TierWrapper>

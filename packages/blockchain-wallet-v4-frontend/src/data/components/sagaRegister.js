@@ -27,6 +27,7 @@ import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
+import simpleBuy from './simpleBuy/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
@@ -56,12 +57,13 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(requestEth({ networks }))
     yield fork(requestXlm())
     yield fork(send({ api }))
-    yield fork(sendBch({ coreSagas, networks }))
+    yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))
     yield fork(sendXlm({ api, coreSagas }))
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
+    yield fork(simpleBuy({ api, coreSagas, networks }))
     yield fork(uploadDocuments({ api }))
     yield fork(veriff({ api, coreSagas }))
   }

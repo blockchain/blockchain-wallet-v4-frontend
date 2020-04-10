@@ -277,6 +277,7 @@ export default ({ api, coreSagas, networks }) => {
       state: undefined,
       kycState: undefined
     })
+    /* eslint-disable */
     const {
       id,
       address,
@@ -286,6 +287,7 @@ export default ({ api, coreSagas, networks }) => {
       kycState,
       ...userData
     } = user
+    /* eslint-enable */
     const updatedData = { ...userData, ...data }
 
     if (equals(updatedData, userData)) return user
@@ -324,8 +326,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchTiers = function * () {
     try {
-      const tiers = yield select(S.getTiers)
-      if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
       yield put(
         A.fetchTiersSuccess(

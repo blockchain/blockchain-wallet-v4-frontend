@@ -117,6 +117,7 @@ const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
         onChange: onDateChange,
         onFocus: onFocus
       }}
+      size='16px'
       meta={otherMeta}
     />
   </InputWrapper>
@@ -136,6 +137,7 @@ const YearBox = ({ intl, input, otherMeta, onBlur, onYearChange, onFocus }) => (
         onChange: onYearChange,
         onFocus: onFocus
       }}
+      size='16px'
       meta={otherMeta}
     />
   </InputWrapper>

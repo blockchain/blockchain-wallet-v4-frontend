@@ -91,8 +91,8 @@ const Circle = styled.div`
   width: 6px;
   min-width: 6px;
   display: block;
-  background-color: ${props => props.theme['gray-6']};
-  border: 1px solid ${props => props.theme['gray-6']};
+  background-color: ${props => props.theme['grey800']};
+  border: 1px solid ${props => props.theme['grey800']};
   border-radius: 6px;
   margin-top: 5px;
 `
@@ -244,7 +244,7 @@ const LinkToExchangeAccountNotAsked = ({
                   </RightPointRow>
                 </RightColumnGroup>
               </div>
-              <ConnectNowButton nature='purple' onClick={onConnectStart}>
+              <ConnectNowButton nature='blue900' onClick={onConnectStart}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.connectnow'
@@ -270,7 +270,7 @@ const LinkToExchangeAccountNotAsked = ({
                   />
                 </Text>
               </EmailRequiredContent>
-              <ConnectNowButton nature='purple' onClick={onResendEmail}>
+              <ConnectNowButton nature='blue900' onClick={onResendEmail}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.resendemail'

@@ -34,7 +34,7 @@ const Instruction = styled(Text)`
   &:first-child {
     margin-top: 0px;
   }
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
 `
 
 const MobileLogin = props => {

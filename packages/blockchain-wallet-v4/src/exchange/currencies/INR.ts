@@ -2,6 +2,7 @@ export default {
   code: 'INR',
   base: 'CENT',
   trade: 'INR',
+  displayName: 'Indian Rupee',
   units: {
     CENT: {
       rate: '1',

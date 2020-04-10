@@ -7,7 +7,7 @@ import React from 'react'
 
 export class ExchangeContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.profileActions.fetchUser()
+    this.props.ratesActions.fetchAvailablePairs()
   }
 
   componentWillUnmount () {
@@ -26,8 +26,8 @@ ExchangeContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
+  ratesActions: bindActionCreators(actions.modules.rates, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 export default connect(

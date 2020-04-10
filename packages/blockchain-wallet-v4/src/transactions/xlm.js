@@ -74,6 +74,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
     memo,
     memoType,
     time,
+    insertedAt: Number(time) * 1000,
     to: getLabel(accounts, to),
     type,
     pagingToken,

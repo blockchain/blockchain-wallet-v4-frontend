@@ -89,6 +89,8 @@ It is recommended to setup a Prettier plugin for your IDE plugins/packages that 
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
  * [WebStorm](https://prettier.io/docs/en/webstorm.html)
  
+ *When installing the plugin for VS Code make sure you are on [v3.7.0 or lower](https://github.com/prettier/prettier-vscode/issues/1085#issuecomment-557027886)*
+ 
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
 

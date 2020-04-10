@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 24px;
   padding-bottom: 0px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
 
   ${media.mobile`
     padding: 12px;
@@ -26,9 +26,9 @@ const BalancesTable = props => {
     <Wrapper>
       <TotalRow {...props} />
       <Tabs {...props} />
-      {currentTab === 'total' && <Table viewType='Total' />}
-      {currentTab === 'wallet' && <Table viewType='Wallet' />}
-      {currentTab === 'lockbox' && <Table viewType='Hardware' />}
+      {currentTab === 'total' && <Table viewType='Total' {...props} />}
+      {currentTab === 'wallet' && <Table viewType='Wallet' {...props} />}
+      {currentTab === 'lockbox' && <Table viewType='Hardware' {...props} />}
     </Wrapper>
   )
 }

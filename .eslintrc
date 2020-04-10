@@ -1,5 +1,5 @@
 {
-  "extends": ["standard", "prettier", "prettier/react", "prettier/standard"],
+  "extends": ["standard", "prettier/react", "prettier/standard", "prettier"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 8,
@@ -23,7 +23,8 @@
       "plugins": ["typescript-sort-keys"],
       "rules": {
         "typescript-sort-keys/interface": 2,
-        "no-unused-vars": 0
+        "typescript-sort-keys/string-enum": 2,
+        "@typescript-eslint/no-unused-vars": 2
       }
     }
   ],

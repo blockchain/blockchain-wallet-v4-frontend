@@ -1,7 +1,3 @@
-import { assoc, is, path, prop } from 'ramda'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import BigNumber from 'bignumber.js'
-
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import { actions, actionTypes, selectors } from 'data'
@@ -11,9 +7,10 @@ import {
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { Remote, utils } from 'blockchain-wallet-v4/src'
-
+import { assoc, is, prop } from 'ramda'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'auth/sagas'
 
@@ -60,47 +57,18 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     }
   }
-  const transferEthSaga = function * () {
-    const legacyAccountR = yield select(
-      selectors.core.kvStore.eth.getLegacyAccount
-    )
-    const legacyAccount = legacyAccountR.getOrElse(null)
-    if (!legacyAccount) return
-
-    const { addr, correct } = legacyAccount
-    const fees = yield call(api.getEthFees)
-    const feeAmount = yield call(
-      utils.eth.calculateFee,
-      fees.regular,
-      fees.gasLimit
-    )
-    // if not swept, get the legacy eth account balance and prompt sweep
-    if (!correct && addr) {
-      const ethBalances = yield call(api.getEthBalances, addr)
-      const legacyEthBalance = path([addr, 'balance'], ethBalances)
-      const legacyEthBalanceBigInt = new BigNumber(legacyEthBalance)
-      const feeAmountBigInt = new BigNumber(feeAmount)
-      if (legacyEthBalanceBigInt.isGreaterThan(feeAmountBigInt)) {
-        yield put(
-          actions.modals.showModal('TransferEth', {
-            legacyEthBalance,
-            legacyEthAddr: addr
-          })
-        )
-      }
-    }
-  }
 
   const saveGoals = function * (firstLogin) {
-    yield put(actions.goals.saveGoal('walletTour', { firstLogin }))
+    yield put(actions.goals.saveGoal('welcomeModal', { firstLogin }))
     yield put(actions.goals.saveGoal('coinifyUpgrade'))
     yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
-    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
-    // yield put(actions.goals.saveGoal('airdropClaim'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))
-    yield put(actions.goals.saveGoal('pax'))
+    yield put(actions.goals.saveGoal('transferEth'))
+    // when airdrops are running
+    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
+    // yield put(actions.goals.saveGoal('airdropClaim'))
   }
 
   const startSockets = function * () {
@@ -143,11 +111,13 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
-      yield put(actions.router.push('/home'))
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
+      yield put(actions.router.push('/home'))
       yield call(authNabu)
+      yield call(saveGoals, firstLogin)
+      yield put(actions.goals.runGoals())
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
@@ -162,9 +132,6 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
-      yield fork(transferEthSaga)
-      yield call(saveGoals, firstLogin)
-      yield put(actions.goals.runGoals())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
@@ -534,7 +501,6 @@ export default ({ api, coreSagas }) => {
     saveGoals,
     setLogoutEventListener,
     startSockets,
-    transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
     upgradeAddressLabelsSaga
