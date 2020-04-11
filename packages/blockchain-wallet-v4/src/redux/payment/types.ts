@@ -24,7 +24,7 @@ type IPaymentValue = {
     priority: number
     regular: number
   }
-  from: Array<string>
+  from?: Array<string>
   fromType: FromType
   to?: Array<{
     accountIndex?: number
