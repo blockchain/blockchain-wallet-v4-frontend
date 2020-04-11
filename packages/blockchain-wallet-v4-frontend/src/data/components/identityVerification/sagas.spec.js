@@ -5,7 +5,6 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
-import { EMAIL_STEPS } from './model'
 import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getUserData, getUserTiers } from 'data/modules/profile/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -47,32 +46,15 @@ getUserTiers.mockReturnValue(Remote.NotAsked)
 getUserData.mockReturnValue(Remote.of({ mobileVerified: false }))
 
 describe('initializeVerification saga', () => {
-  it('should set default values: non-coinify kyc, need more info as false, and "2" as desired tier', () =>
+  it('should set default values: need more info as false, and "2" as desired tier', () =>
     expectSaga(initializeVerification, { payload: {} })
       .provide([
         [call.fn(initializeStep), jest.fn()],
         [call.fn(defineSteps), jest.fn()]
       ])
-      .call(defineSteps, TIERS[2], false, false)
+      .call(defineSteps, TIERS[2], false)
       .call(initializeStep)
       .run())
-
-  it("should define if it's coinify kyc, set desired tier, and determine initial step", () => {
-    const isCoinify = true
-    const needMoreInfo = true
-    const tier = TIERS[1]
-    return expectSaga(initializeVerification, {
-      payload: { tier, isCoinify, needMoreInfo }
-    })
-      .provide([
-        [call.fn(initializeStep), jest.fn()],
-        [call.fn(defineSteps), jest.fn()]
-      ])
-      .put(A.setEmailStep(EMAIL_STEPS.edit))
-      .call(defineSteps, tier, isCoinify, needMoreInfo)
-      .call(initializeStep)
-      .run()
-  })
 })
 
 describe('defineSteps saga', () => {

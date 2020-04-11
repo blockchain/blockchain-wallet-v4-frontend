@@ -19,7 +19,6 @@ import Description from './Description'
 import FiatAtTime from './FiatAtTime'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import media from 'services/ResponsiveService'
-import PartnerLabel from './PartnerLabel'
 import Status from './Status'
 import TransactionFee from './TransactionFee'
 
@@ -114,7 +113,6 @@ const TransactionListItem = ({
   currency,
   isToggled,
   transaction,
-  buySellPartner,
   handleToggle,
   handleEditDescription,
   onViewTxDetails
@@ -163,13 +161,6 @@ const TransactionListItem = ({
             </Banner>
           </BannerWrapper>
         )}
-        {prop('partnerLabel', transaction) ? (
-          <PartnerLabel
-            txType={prop('type', transaction)}
-            partnerLabel={prop('partnerLabel', transaction)}
-            buySellPartner={buySellPartner}
-          />
-        ) : null}
       </StatusColumn>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses

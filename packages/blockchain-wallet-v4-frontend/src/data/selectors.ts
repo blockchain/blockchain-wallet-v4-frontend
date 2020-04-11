@@ -3,7 +3,6 @@ import * as analytics from './analytics/selectors'
 import * as auth from './auth/selectors'
 import * as cache from './cache/selectors'
 import * as components from './components/selectors'
-import * as exchange from './exchange/selectors'
 import * as form from './form/selectors'
 import * as goals from './goals/selectors'
 import * as logs from './logs/selectors'
@@ -21,7 +20,6 @@ export {
   auth,
   cache,
   components,
-  exchange,
   form,
   core,
   goals,

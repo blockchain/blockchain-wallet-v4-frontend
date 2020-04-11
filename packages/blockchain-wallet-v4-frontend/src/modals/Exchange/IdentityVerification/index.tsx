@@ -1,15 +1,14 @@
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import { includes, keys, pickBy } from 'ramda'
-import PropTypes from 'prop-types'
+import { includes, pickBy } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { ModalBody, ModalHeader } from 'blockchain-info-components'
-import CoinifyCreate from 'components/BuySell/Coinify/Create'
+import { RemoteDataType } from 'core/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import media from 'services/ResponsiveService'
@@ -92,12 +91,6 @@ const KycStepIndicator = styled(StepIndicator)`
 const { STEPS, KYC_MODAL } = model.components.identityVerification
 
 const stepMap = {
-  [STEPS.coinify]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.coinify'
-      defaultMessage='Account'
-    />
-  ),
   [STEPS.personal]: (
     <FormattedMessage
       id='modals.identityverification.steps.personal'
@@ -130,7 +123,23 @@ const stepMap = {
   )
 }
 
-class IdentityVerification extends React.PureComponent {
+type OwnProps = {
+  close: () => void
+  needMoreInfo: boolean
+  position: number
+  step: number
+  steps: RemoteDataType<any, any>
+  tier: number
+  total: number
+}
+
+type LinkDispatchPropsType = {
+  actions: typeof actions.components.identityVerification
+}
+
+type Props = OwnProps & LinkDispatchPropsType
+
+class IdentityVerification extends React.PureComponent<Props> {
   state = { show: false }
 
   componentDidMount () {
@@ -148,20 +157,18 @@ class IdentityVerification extends React.PureComponent {
   }
 
   initializeVerification = () => {
-    const { tier, isCoinify, needMoreInfo } = this.props
-    this.props.actions.initializeVerification(tier, isCoinify, needMoreInfo)
+    const { tier, needMoreInfo } = this.props
+    this.props.actions.initializeVerification(tier, needMoreInfo)
   }
 
   getStepComponent = step => {
-    const { actions, isCoinify } = this.props
+    const { actions } = this.props
 
-    if (step === STEPS.coinify) return <CoinifyCreate />
     if (step === STEPS.personal)
       return (
         <Personal
           handleSubmit={actions.savePersonalData}
           onBack={actions.goToPrevStep}
-          isCoinify={isCoinify}
         />
       )
 
@@ -197,11 +204,7 @@ class IdentityVerification extends React.PureComponent {
         {steps.cata({
           Success: steps => (
             <React.Fragment>
-              <StepHeader
-                tray
-                paddingHorizontal='15%'
-                onClose={this.handleClose}
-              >
+              <StepHeader onClose={this.handleClose}>
                 <HeaderWrapper>
                   <KycStepIndicator
                     adjuster={0}
@@ -234,11 +237,7 @@ class IdentityVerification extends React.PureComponent {
   }
 }
 
-IdentityVerification.propTypes = {
-  step: PropTypes.oneOf(keys(STEPS)),
-  close: PropTypes.func.isRequired
-}
-
+// @ts-ignore
 IdentityVerification.defaultProps = {
   step: STEPS.personal
 }

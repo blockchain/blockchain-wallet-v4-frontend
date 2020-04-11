@@ -12,12 +12,6 @@ import {
   paths,
   Remote
 } from 'blockchain-wallet-v4/src'
-import { find, head, last, pathEq } from 'ramda'
-import { getCoinifyBusy } from 'data/components/coinify/selectors'
-import {
-  getCountry,
-  getProfile
-} from 'blockchain-wallet-v4/src/redux/data/coinify/selectors'
 import {
   getCountryCode,
   getEmail,
@@ -37,8 +31,8 @@ import {
   getVerificationStep
 } from 'data/components/identityVerification/selectors.ts'
 import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
+import { last } from 'ramda'
 import { ModalHeader } from 'blockchain-info-components'
-import { TermsText } from 'components/BuySell/Coinify/Create/AcceptTerms/template'
 import IdentityVerification from './index'
 import identityVerificationReducer from 'data/components/identityVerification/reducers.ts'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
@@ -60,8 +54,6 @@ jest.mock('blockchain-wallet-v4/src/redux/settings/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/kvStore/userCredentials/selectors')
 jest.mock('blockchain-wallet-v4/src/redux/wallet/selectors')
 jest.mock('data/components/identityVerification/selectors.ts')
-jest.mock('data/components/coinify/selectors')
-jest.mock('blockchain-wallet-v4/src/redux/data/coinify/selectors')
 
 const POSSIBLE_ADDRESSES = [
   {
@@ -107,10 +99,7 @@ getSupportedCountries.mockImplementation(() =>
   Remote.Success(SUPPORTED_COUNTRIES)
 )
 getStates.mockImplementation(() => Remote.Success([]))
-getCountry.mockImplementation(() => Remote.of('FR'))
-getProfile.mockImplementation(() => Remote.of({ _country: 'FR' }))
 getSteps.mockReturnValue(Remote.of(['personal', 'mobile', 'verify']))
-getCoinifyBusy.mockImplementation(() => Remote.Success({}))
 
 profileSagas.createUser = jest.fn()
 
@@ -288,37 +277,6 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true
         )
-      })
-    })
-  })
-
-  describe('coinify signup step - verified email', () => {
-    beforeEach(() => {
-      getVerificationStep.mockImplementation(() => STEPS.coinify)
-      store.dispatch(actions.modals.showModal(KYC_MODAL, { isCoinify: true }))
-      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
-      getEmailVerified.mockImplementation(() => Remote.of(1))
-      wrapper.update()
-    })
-
-    it('should have the submit button enabled when email is verified', async () => {
-      wrapper.unmount().mount()
-      expect(wrapper.find(TermsText)).toHaveLength(1)
-      expect(wrapper.find('button').props().disabled).toBe(false)
-    })
-
-    it('should move to the personal step when continue is clicked', async () => {
-      wrapper.find('button').simulate('click')
-
-      let calls = dispatchSpy.mock.calls
-      let findSetVerificationStepAction = find(
-        pathEq(
-          [0, 'type'],
-          actionTypes.components.identityVerification.SET_VERIFICATION_STEP
-        )
-      )
-      expect(head(findSetVerificationStepAction(calls)).payload).toEqual({
-        step: STEPS.personal
       })
     })
   })
