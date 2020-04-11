@@ -29,7 +29,6 @@
   "include": [
     "packages/blockchain-wallet-v4-frontend/src/",
     "packages/blockchain-wallet-v4/src/",
-    "index.d.ts",
-    "styled.d.ts"
+    "typings/*"
   ]
 }

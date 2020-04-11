@@ -25,27 +25,3 @@ declare module 'daggy' {
 
   export function taggedSum(typename: string, constructor: IConstructor): Remote
 }
-
-declare module 'react-intl' {
-  import { StatelessComponent } from 'react'
-
-  export const injectIntl
-
-  export const FormattedMessage: StatelessComponent<{
-    id: string
-    className?: string
-    defaultMessage: string
-    values?: any
-  }>
-
-  export const FormattedHTMLMessage: StatelessComponent<{
-    id: string
-    defaultMessage: string
-    values?: any
-  }>
-}
-
-declare module '*.png'
-declare module '*.svg'
-declare module '*.gif'
-declare module '*.jpg'
