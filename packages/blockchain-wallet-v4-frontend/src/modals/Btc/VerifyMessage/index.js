@@ -153,7 +153,7 @@ class VerifyMessage extends React.PureComponent {
             nature='primary'
             data-e2e='closeVerifyMessageButton'
           >
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>

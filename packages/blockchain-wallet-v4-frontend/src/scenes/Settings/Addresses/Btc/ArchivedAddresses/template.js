@@ -80,10 +80,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           </TableCell>
           <TableCell width='30%'>
             <Text size='13px' weight={500}>
-              <FormattedMessage
-                id='scenes.settings.addresses.btc.archivedaddresses.balance'
-                defaultMessage='Balance'
-              />
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
           <TableCell

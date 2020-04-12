@@ -183,10 +183,7 @@ const Success = ({
             </TableCell>
             <TableCell width='10%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.importedaddresses.success.balance'
-                  defaultMessage='Balance'
-                />
+                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
               </Text>
             </TableCell>
             <TableCell
