@@ -13,9 +13,10 @@ import ShowRecoveryWords from './ShowRecoveryWords'
 
 export type OwnPropsType = {
   close: () => void
-  handleBackArrow?: () => void
-  handleClose?: () => void
-  in: boolean
+  handleBackArrow: () => void
+  handleClose: () => void
+  in: boolean,
+  onSubmit: () => void,
   position: number
   recoveryPhrase: Array<any>
   total: number
@@ -25,6 +26,7 @@ export type OwnPropsType = {
 export type LinkDispatchPropsType = {
   recoveryPhraseActions: typeof actions.components.recoveryPhrase
   settingsActions: typeof actions.modules.settings
+  walletActions: typeof actions.wallet
 }
 
 export type LinkStatePropsType = {
@@ -133,7 +135,8 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   recoveryPhraseActions: bindActionCreators(
     actions.components.recoveryPhrase,
     dispatch
-  )
+  ),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose<any>(
