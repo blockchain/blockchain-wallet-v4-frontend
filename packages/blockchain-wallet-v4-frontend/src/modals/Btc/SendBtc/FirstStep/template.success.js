@@ -380,7 +380,7 @@ const FirstStep = props => {
                 >
                   {feePerByteToggled ? (
                     <FormattedMessage
-                      id='modals.sendbtc.firststep.cancel'
+                      id='buttons.cancel'
                       defaultMessage='Cancel'
                     />
                   ) : (

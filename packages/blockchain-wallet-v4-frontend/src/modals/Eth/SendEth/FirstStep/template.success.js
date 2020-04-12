@@ -310,10 +310,7 @@ const FirstStep = props => {
               data-e2e={`${coin}CustomizeFeeLink`}
             >
               {feeToggled ? (
-                <FormattedMessage
-                  id='modals.sendeth.firststep.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               ) : (
                 <FormattedMessage
                   id='modals.sendeth.firststep.customizefee'

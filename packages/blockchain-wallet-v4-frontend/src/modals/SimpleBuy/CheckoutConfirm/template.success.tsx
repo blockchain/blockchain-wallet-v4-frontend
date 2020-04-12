@@ -181,10 +181,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           }
           style={{ marginTop: '16px' }}
         >
-          <FormattedMessage
-            id='modals.simplebuy.confirm.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </Bottom>
     </CustomForm>
