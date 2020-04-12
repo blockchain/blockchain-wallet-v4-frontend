@@ -33,16 +33,6 @@ const formatUserData = ({
   ...address
 })
 
-const getCoinifyUserCountry = state => {
-  const profileCountry = selectors.core.data.coinify
-    .getCountry(state)
-    .getOrElse(null)
-  const userSelectedCountry = selectors.components.coinify.getCoinifyCountry(
-    state
-  )
-  return userSelectedCountry || profileCountry
-}
-
 const isCountryAndStateSelected = state => {
   const country = prop('code', formValSelector(state, 'country'))
   if (!country) return false
@@ -89,7 +79,6 @@ export const getData = state => {
       lift(formatUserData),
       getUserData
     )(state),
-    coinifyUserCountry: getCoinifyUserCountry(state),
     pathName: selectors.router.getPathname(state)
   }
 }

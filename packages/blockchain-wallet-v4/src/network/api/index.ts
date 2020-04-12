@@ -4,8 +4,6 @@ import bch from './bch'
 import bitpay from './bitpay'
 import borrow from './borrow'
 import btc from './btc'
-import coinify from './coinify'
-import delegate from './delegate'
 import eth from './eth'
 import httpService from './http'
 import kvStore from './kvStore'
@@ -15,7 +13,6 @@ import misc from './misc'
 import profile from './profile'
 import rates from './rates'
 import settings from './settings'
-import sfox from './sfox'
 import shapeShift from './shapeShift'
 import simpleBuy from './simpleBuy'
 import trades from './trades'
@@ -33,7 +30,6 @@ const api = ({
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const bitpayUrl = options.domains.bitpay
-  const coinifyUrl = options.domains.coinify
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -49,8 +45,6 @@ const api = ({
       authorizedPost: authorizedHttp.post
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
-    ...coinify({ coinifyUrl, ...http }),
-    ...delegate({ rootUrl, apiUrl, ...http }),
     ...eth({ rootUrl, apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
@@ -70,7 +64,6 @@ const api = ({
       authorizedPut: authorizedHttp.put,
       ...http
     }),
-    ...sfox(),
     ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...simpleBuy({

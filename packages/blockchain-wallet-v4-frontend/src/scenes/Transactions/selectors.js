@@ -9,7 +9,6 @@ import {
   isEmpty,
   map,
   path,
-  prop,
   propOr,
   propSatisfies,
   toLower,
@@ -17,7 +16,6 @@ import {
 } from 'ramda'
 import { createSelector } from 'reselect'
 
-import { hasAccount } from 'services/ExchangeService'
 import { model, selectors } from 'data'
 
 const { WALLET_TX_SEARCH } = model.form
@@ -65,11 +63,10 @@ export const getData = (state, coin, isCoinErc20) =>
     [
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, isCoinErc20),
-      selectors.core.kvStore.buySell.getMetadata,
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin)
     ],
-    (userSearch, pages, buySellMetadata, currencyR, coinModelR) => {
+    (userSearch, pages, currencyR, coinModelR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
@@ -79,7 +76,6 @@ export const getData = (state, coin, isCoinErc20) =>
           : []
 
       return {
-        buySellPartner: hasAccount(prop('value', buySellMetadata.getOrElse())),
         coinModel: coinModelR.getOrElse({}),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),

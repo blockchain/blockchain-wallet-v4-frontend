@@ -7,7 +7,6 @@ export const USER_EXISTS_MODAL = '@KYC.UserExists'
 export const AIRDROP_ERROR_MODAL = '@KYC.AirdropError'
 
 export const STEPS = {
-  coinify: 'coinify',
   personal: 'personal',
   moreInfo: 'moreInfo',
   mobile: 'mobile',
@@ -22,8 +21,6 @@ export const STEP_TIERS = {
   verify: TIERS[2],
   submitted: TIERS[2]
 }
-
-export const COINIFY_STEP = 'coinify'
 
 export const SMS_STEPS = {
   edit: 'edit',

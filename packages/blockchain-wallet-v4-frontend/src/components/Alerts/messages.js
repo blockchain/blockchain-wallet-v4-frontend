@@ -143,13 +143,6 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage='Bank account set successfully'
         />
       )
-    case C.COINIFY_SIGNUP_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.coinify_signup_error'
-          defaultMessage='Failed to create Coinify account.'
-        />
-      )
     case C.BITPAY_INVOICE_NOT_FOUND_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

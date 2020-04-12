@@ -88,7 +88,6 @@ const Welcome = props => {
 Welcome.propTypes = {
   availability: PropTypes.object.isRequired,
   currentCoin: PropTypes.object.isRequired,
-  partner: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   handleRequest: PropTypes.func.isRequired
 }
 

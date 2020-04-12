@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { find, head, map, prop, propEq, test } from 'ramda'
+import { find, map, propEq } from 'ramda'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -38,25 +38,6 @@ class PersonalContainer extends React.PureComponent {
     this.fetchData()
   }
 
-  componentDidUpdate (prevProps) {
-    const { coinifyUserCountry, formActions, countryData } = this.props
-    // change form field on mount to coinify country if on buy-sell since we're skipping country selection
-    if (
-      test(/buy-sell/, this.props.pathName) &&
-      (!Remote.Success.is(prevProps.countryData) &&
-        Remote.Success.is(countryData))
-    ) {
-      const supportedCountries = prop(
-        'supportedCountries',
-        countryData.getOrElse()
-      )
-      const isUserCountry = propEq('code', coinifyUserCountry)
-      const countryObject = head(supportedCountries.filter(isUserCountry))
-      if (countryObject)
-        formActions.change(PERSONAL_FORM, 'country', countryObject)
-    }
-  }
-
   scrollTop = () => {
     const overflowElement = document.getElementById(SCROLL_REF_ID)
     overflowElement.scrollTop = 0
@@ -64,7 +45,7 @@ class PersonalContainer extends React.PureComponent {
 
   fetchData = () => {
     this.props.actions.fetchSupportedCountries()
-    this.props.actions.fetchStates(this.props.isCoinify)
+    this.props.actions.fetchStates()
   }
 
   selectAddress = (e, address) => {

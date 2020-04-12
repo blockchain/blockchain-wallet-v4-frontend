@@ -3,8 +3,6 @@ import { ModalNamesType } from 'data/modals/types'
 // State
 export type GoalsType =
   | 'welcomeModal'
-  | 'coinifyUpgrade'
-  | 'coinifyBuyViaCard'
   | 'upgradeForAirdrop'
   | 'swapUpgrade'
   | 'swapGetStarted'
