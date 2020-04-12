@@ -26,10 +26,7 @@ class AppManagerStepContainer extends React.PureComponent {
         <AppManager
           newDevice
           mainButtonText={
-            <FormattedMessage
-              id='modals.lockboxsetup.appmanagerstep.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           }
           onClose={this.onStepChange}
         />

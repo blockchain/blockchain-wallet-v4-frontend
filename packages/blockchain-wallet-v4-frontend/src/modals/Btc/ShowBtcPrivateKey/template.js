@@ -188,10 +188,7 @@ const ShowBtcPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='btcPrivateKeyContinueButton'
         >
-          <FormattedMessage
-            id='modals.showbtcpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

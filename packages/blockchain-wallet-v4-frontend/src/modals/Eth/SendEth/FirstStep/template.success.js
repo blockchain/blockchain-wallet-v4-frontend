@@ -355,10 +355,7 @@ const FirstStep = props => {
           }
           data-e2e={`${coin}SendContinue`}
         >
-          <FormattedMessage
-            id='modals.sendeth.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>

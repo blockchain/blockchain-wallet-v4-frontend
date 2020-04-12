@@ -147,12 +147,13 @@ module.exports = {
           `**/__mocks__/**`,
           `**/*.spec.*`,
           `index.prod.js`,
-          `utils/**`,
+          'assets/locales/types.ts',
+          'assets/locales/defaultMessages.json',
+          'assets/locales/whitelists/whitelist_en.json',
           'extracted-ts/**',
           'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
           'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
-          'assets/locales/defaultMessages.json',
-          'assets/locales/whitelists/whitelist_en.json'
+          `utils/**`
         ]
       }
     }),

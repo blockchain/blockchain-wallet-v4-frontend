@@ -80,10 +80,7 @@ const UpgradeWallet = props => {
       </ModalBody>
       <ModalFooter align='right'>
         <Button nature='primary' onClick={handleContinue}>
-          <FormattedMessage
-            id='modals.upgradewallet.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </ModalFooter>
     </Modal>

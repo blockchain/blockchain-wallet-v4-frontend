@@ -152,10 +152,7 @@ const ShowPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='xlmPrivateKeyModalContinue'
         >
-          <FormattedMessage
-            id='modals.showxlmpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

@@ -465,10 +465,7 @@ const FirstStep = props => {
             (!isPayPro && pristine && !autofilled)
           }
         >
-          <FormattedMessage
-            id='modals.sendbtc.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>

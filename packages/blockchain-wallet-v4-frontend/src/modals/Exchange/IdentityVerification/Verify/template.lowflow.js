@@ -310,7 +310,7 @@ const Verify = ({
               onClick={handleSubmit}
             >
               <FormattedMessage
-                id='identityverification.lowflow.personal.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

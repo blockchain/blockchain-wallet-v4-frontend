@@ -152,10 +152,7 @@ const ShowEthPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='ethPrivateKeyModalContinue'
         >
-          <FormattedMessage
-            id='modals.showethpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

@@ -66,10 +66,7 @@ const MoreInfo = ({ goToNextStep, closeAllModals }) => (
             data-e2e='moreInfoContinueButton'
             onClick={goToNextStep}
           >
-            <FormattedMessage
-              id='identityverification.more_info.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       }
