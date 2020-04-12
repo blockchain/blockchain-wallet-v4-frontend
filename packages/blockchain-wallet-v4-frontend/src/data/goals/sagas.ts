@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }) => {
   const { NONE } = KYC_STATES
   const { GENERAL, EXPIRED } = DOC_RESUBMISSION_REASONS
 
-  const { createUser, waitForUserData } = profileSagas({
+  const { waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -421,24 +421,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runCoinifyUpgradeGoal = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    const userData = yield call(waitForUserData)
-    const kycNotFinished = yield call(isKycNotFinished)
-    const coinifyTokenR = yield select(
-      selectors.core.kvStore.buySell.getCoinifyToken
-    )
-    const coinifyToken = coinifyTokenR.getOrElse(false)
-    if (!userData && coinifyToken) yield call(createUser)
-    if (coinifyToken && kycNotFinished) {
-      return yield put(
-        actions.goals.addInitialModal('coinifyUpgrade', 'CoinifyUpgrade')
-      )
-    }
-  }
-
   const runSwapUpgradeGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -545,24 +527,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runCoinifyBuyViaCard = function * (goal) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-    const isSfoxUser = (yield select(
-      selectors.core.kvStore.buySell.getSfoxUser
-    )).getOrElse(false)
-    const hasSeen = (yield select(
-      selectors.core.kvStore.buySell.getSfoxHasSeenShutdown
-    )).getOrElse(false)
-
-    if (isSfoxUser && !hasSeen) {
-      yield put(actions.core.kvStore.buySell.setSfoxShutdownHasSeen())
-      yield put(
-        actions.goals.addInitialModal('coinifyBuyViaCard', 'CoinifyBuyViaCard')
-      )
-    }
-  }
-
   const runTransferEthGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -601,8 +565,6 @@ export default ({ api, coreSagas, networks }) => {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       airdropClaim,
-      coinifyBuyViaCard,
-      coinifyUpgrade,
       kycDocResubmit,
       linkAccount,
       payment,
@@ -642,16 +604,6 @@ export default ({ api, coreSagas, networks }) => {
     if (upgradeForAirdrop) {
       return yield put(
         actions.modals.showModal(upgradeForAirdrop.name, upgradeForAirdrop.data)
-      )
-    }
-    if (coinifyUpgrade) {
-      return yield put(
-        actions.modals.showModal(coinifyUpgrade.name, coinifyUpgrade.data)
-      )
-    }
-    if (coinifyBuyViaCard) {
-      return yield put(
-        actions.modals.showModal(coinifyBuyViaCard.name, coinifyBuyViaCard.data)
       )
     }
     if (swapGetStarted) {
@@ -696,12 +648,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'paymentProtocol':
           yield call(runPaymentProtocolGoal, goal)
-          break
-        case 'coinifyUpgrade':
-          yield call(runCoinifyUpgradeGoal, goal)
-          break
-        case 'coinifyBuyViaCard':
-          yield call(runCoinifyBuyViaCard, goal)
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
@@ -748,7 +694,6 @@ export default ({ api, coreSagas, networks }) => {
     runGoals,
     runKycGoal,
     runPaymentProtocolGoal,
-    runCoinifyBuyViaCard,
     runSwapGetStartedGoal,
     runSwapUpgradeGoal,
     runKycDocResubmitGoal,

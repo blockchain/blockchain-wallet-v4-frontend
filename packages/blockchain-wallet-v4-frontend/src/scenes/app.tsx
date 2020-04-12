@@ -12,7 +12,6 @@ import Airdrops from './Airdrops'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
 import AuthorizeLogin from './AuthorizeLogin'
 import Borrow from './Borrow'
-import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
 import ExchangeProfile from './ExchangeProfile'
@@ -119,7 +118,6 @@ class App extends React.PureComponent<{
                     />
                     <PublicLayout path='/wallet' component={Login} />
                     <WalletLayout path='/home' component={Home} />
-                    <WalletLayout path='/buy-sell' component={BuySell} />
                     <WalletLayout
                       path='/swap/history'
                       component={ExchangeHistory}

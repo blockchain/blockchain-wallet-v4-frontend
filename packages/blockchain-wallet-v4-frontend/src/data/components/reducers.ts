@@ -8,7 +8,6 @@ import { sendBtcReducer } from './sendBtc/reducers'
 import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
-import coinify from './coinify/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
@@ -23,7 +22,6 @@ import veriff from './veriff/reducers'
 
 const componentReducer = combineReducers({
   borrow: borrowReducer,
-  coinify,
   exchange: exchangeReducer,
   exchangeHistory,
   identityVerification: identityVerificationReducer,

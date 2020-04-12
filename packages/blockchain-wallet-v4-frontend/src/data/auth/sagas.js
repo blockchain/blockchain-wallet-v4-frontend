@@ -60,8 +60,6 @@ export default ({ api, coreSagas }) => {
 
   const saveGoals = function * (firstLogin) {
     yield put(actions.goals.saveGoal('welcomeModal', { firstLogin }))
-    yield put(actions.goals.saveGoal('coinifyUpgrade'))
-    yield put(actions.goals.saveGoal('coinifyBuyViaCard'))
     yield put(actions.goals.saveGoal('swapUpgrade'))
     yield put(actions.goals.saveGoal('swapGetStarted'))
     yield put(actions.goals.saveGoal('kycDocResubmit'))

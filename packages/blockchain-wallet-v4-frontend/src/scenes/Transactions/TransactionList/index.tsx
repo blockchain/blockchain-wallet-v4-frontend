@@ -20,7 +20,6 @@ const TransactionsWrapper = styled.div`
   }
 `
 export type Props = {
-  buySellPartner: 'coinify' | 'sfox'
   coin: CoinType
   coinTicker: string
   currency: FiatType
@@ -35,7 +34,7 @@ export type Props = {
 
 class TransactionList extends PureComponent<Props> {
   render () {
-    const { buySellPartner, coin, coinTicker, currency, data } = this.props
+    const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
       Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
@@ -48,7 +47,6 @@ class TransactionList extends PureComponent<Props> {
                 coin={coin}
                 coinTicker={coinTicker}
                 currency={currency}
-                buySellPartner={buySellPartner}
               />
             ) : (
               <SimpleBuyListItem order={tx} />

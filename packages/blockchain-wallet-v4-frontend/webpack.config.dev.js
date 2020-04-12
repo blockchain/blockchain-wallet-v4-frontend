@@ -140,21 +140,22 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new CaseSensitivePathsPlugin(),
-    // new UnusedFilesWebpackPlugin({
-    //   globOptions: {
-    //     cwd: PATHS.src,
-    //     ignore: [
-    //       `**/__mocks__/**`,
-    //       `**/*.spec.*`,
-    //       `index.prod.js`,
-    //       `utils/**`,
-    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
-    //       'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
-    //       'assets/locales/defaultMessages.json',
-    //       'assets/locales/whitelists/whitelist_en.json'
-    //     ]
-    //   }
-    // }),
+    new UnusedFilesWebpackPlugin({
+      globOptions: {
+        cwd: PATHS.src,
+        ignore: [
+          `**/__mocks__/**`,
+          `**/*.spec.*`,
+          `index.prod.js`,
+          `utils/**`,
+          'extracted-ts/**',
+          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/index.js',
+          'scenes/Lockbox/Dashboard/Settings/UpdateDevice/template.js',
+          'assets/locales/defaultMessages.json',
+          'assets/locales/whitelists/whitelist_en.json'
+        ]
+      }
+    }),
     new Webpack.DefinePlugin({
       APP_VERSION: JSON.stringify(require(PATHS.pkgJson).version),
       NETWORK_TYPE: JSON.stringify(envConfig.NETWORK_TYPE)
@@ -244,8 +245,6 @@ module.exports = {
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
           bitpay: envConfig.BITPAY_URL,
-          coinify: envConfig.COINIFY_URL,
-          coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
           exchange: envConfig.EXCHANGE_URL,
@@ -260,9 +259,6 @@ module.exports = {
 
         if (process.env.NODE_ENV === 'testnet') {
           mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
-          mockWalletOptions.platforms.web.coinify.config.partnerId = 35
-          mockWalletOptions.platforms.web.sfox.config.apiKey =
-            '6fbfb80536564af8bbedb7e3be4ec439'
         }
 
         res.json(mockWalletOptions)
@@ -302,8 +298,8 @@ module.exports = {
         "img-src 'self' data: blob:",
         `script-src 'nonce-${cspNonce}' 'self' 'unsafe-eval'`,
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080`,
-        `child-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080`,
+        `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
           "'self'",
@@ -320,12 +316,6 @@ module.exports = {
           envConfig.HORIZON_URL,
           envConfig.VERIFF_URL,
           'https://friendbot.stellar.org',
-          'https://app-api.coinify.com',
-          'https://app-api.sandbox.coinify.com',
-          'https://api.sfox.com',
-          'https://api.staging.sfox.com',
-          'https://quotes.sfox.com',
-          `https://quotes.staging.sfox.com`,
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',

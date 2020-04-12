@@ -10,10 +10,6 @@ const path = require('path')
 const fs = require('fs')
 const PATHS = require('../../config/paths')
 const mockWalletOptions = require('../../config/mocks/wallet-options-v4.json')
-const iSignThisDomain =
-  mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
-const coinifyPaymentDomain =
-  mockWalletOptions.platforms.web.coinify.config.coinifyPaymentDomain
 
 const cspNonce = `2726c7f26c`
 let envConfig = {}
@@ -230,15 +226,11 @@ module.exports = {
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           horizon: envConfig.HORIZON_URL,
-          coinify: envConfig.COINIFY_URL,
           bitpay: envConfig.BITPAY_URL
         }
 
         if (process.env.NODE_ENV === 'testnet') {
           mockWalletOptions.platforms.web.coins.BTC.config.network = 'testnet'
-          mockWalletOptions.platforms.web.coinify.config.partnerId = 35
-          mockWalletOptions.platforms.web.sfox.config.apiKey =
-            '6fbfb80536564af8bbedb7e3be4ec439'
         }
 
         res.json(mockWalletOptions)
@@ -278,8 +270,8 @@ module.exports = {
         "img-src 'self' data: blob:",
         `script-src 'nonce-${cspNonce}' 'self'`,
         `style-src 'nonce-${cspNonce}' 'self'`,
-        `frame-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
-        `child-src ${iSignThisDomain} ${coinifyPaymentDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://localhost:8080 http://localhost:8080`,
+        `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
           "'self'",
@@ -295,14 +287,6 @@ module.exports = {
           envConfig.VERIFF_URL,
           envConfig.LEDGER_SOCKET_URL,
           envConfig.HORIZON_URL,
-          'https://app-api.coinify.com',
-          'https://app-api.sandbox.coinify.com',
-          'https://api.sfox.com',
-          'https://api.staging.sfox.com',
-          'https://quotes.sfox.com',
-          `https://quotes.staging.sfox.com`,
-          'https://sfox-kyc.s3.amazonaws.com',
-          'https://sfox-kyctest.s3.amazonaws.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',

@@ -194,7 +194,9 @@ class InitBorrowForm extends PureComponent<Props> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   offersR: selectors.components.borrow.getOffers(state),
   userHistoryR: selectors.components.borrow.getBorrowHistory(state),
-  values: selectors.form.getFormValues('initBorrow')(state)
+  values: selectors.form.getFormValues('initBorrow')(state) as {
+    coin: CoinType
+  }
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

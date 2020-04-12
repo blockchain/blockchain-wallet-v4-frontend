@@ -7,7 +7,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { call, put, select } from 'redux-saga/effects'
-import { contains, head, prop, propEq, toLower } from 'ramda'
+import { propEq } from 'ramda'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas.ts'
 
@@ -113,17 +113,8 @@ export default ({ api, coreSagas }) => {
 
   const verifyMobile = function * (action) {
     try {
-      const response = yield call(
-        coreSagas.settings.setMobileVerified,
-        action.payload
-      )
-      const modals = yield select(selectors.modals.getModals)
+      yield call(coreSagas.settings.setMobileVerified, action.payload)
 
-      if (
-        contains('successfully', toLower(response)) &&
-        prop('type', head(modals)) !== 'SfoxExchangeData'
-      )
-        yield put(actions.modals.closeAllModals())
       const userFlowSupported = (yield select(
         selectors.modules.profile.userFlowSupported
       )).getOrElse(false)

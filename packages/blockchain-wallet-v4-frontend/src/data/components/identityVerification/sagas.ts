@@ -17,8 +17,7 @@ import {
 } from './model'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
-import { getStateNameFromAbbreviation } from 'services/LocalesService'
-import { isEmpty, mapObjIndexed, prop, sort, toUpper } from 'ramda'
+import { isEmpty, prop, toUpper } from 'ramda'
 import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4/src'
 import profileSagas from '../../modules/profile/sagas'
@@ -127,13 +126,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const verifyIdentity = function * ({ payload }) {
-    const { tier, isCoinify, needMoreInfo } = payload
-    yield put(
-      actions.modals.showModal(KYC_MODAL, { tier, isCoinify, needMoreInfo })
-    )
+    const { tier, needMoreInfo } = payload
+    yield put(actions.modals.showModal(KYC_MODAL, { tier, needMoreInfo }))
   }
 
-  const defineSteps = function * (tier, isCoinify, needMoreInfo) {
+  const defineSteps = function * (tier, needMoreInfo) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -155,13 +152,8 @@ export default ({ api, coreSagas, networks }) => {
       selectors.core.settings.getSmsVerified
     )).getOrElse(0)
     const currentStep = yield select(S.getVerificationStep)
-    const coinifyUser = (yield select(
-      selectors.core.kvStore.buySell.getCoinifyUser
-    )).getOrElse(false)
     const steps = computeSteps({
-      coinifyUser,
       currentStep,
-      isCoinify,
       mobileVerified,
       needMoreInfo,
       smsVerified,
@@ -172,9 +164,9 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const initializeVerification = function * ({ payload }) {
-    const { tier = TIERS[2], isCoinify = false, needMoreInfo = false } = payload
+    const { tier = TIERS[2], needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
-    yield call(defineSteps, tier, isCoinify, needMoreInfo)
+    yield call(defineSteps, tier, needMoreInfo)
     yield call(initializeStep)
   }
 
@@ -349,36 +341,18 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchStates = function * ({ payload }) {
-    const { isCoinify } = payload
+  const fetchStates = function * () {
     try {
       let stateList: Array<StateType> = []
       yield put(A.setStatesLoading())
-      if (isCoinify) {
-        const coinifySupportList = yield call(api.getCoinifyStates)
-        // hack to create similar state list model as Nabu
-        mapObjIndexed((s, key) => {
-          stateList.push({
-            name: getStateNameFromAbbreviation(key),
-            // @ts-ignore
-            scopes: s.supported ? ['KYC'] : []
-          })
-        }, coinifySupportList.US.states)
-        yield put(
-          A.setStatesSuccess(
-            sort((a, b) => a.name.localeCompare(b.name), stateList)
-          )
-        )
-      } else {
-        stateList = yield call(api.getStates)
-        yield put(A.setStatesSuccess(stateList))
-      }
+      stateList = yield call(api.getStates)
+      yield put(A.setStatesSuccess(stateList))
     } catch (e) {
       yield put(A.setStatesFailure(e))
       actions.logs.logErrorMessage(
         logLocation,
         'fetchStates',
-        `Error fetching supported ${isCoinify ? 'states' : 'countries'}:  ${e}`
+        `Error fetching supported states: ${e}`
       )
     }
   }

@@ -31,25 +31,6 @@ export default () => {
     }
   }
 
-  const coinifyUpgradeSubmitClicked = function * ({ payload }) {
-    const { campaign } = payload
-    try {
-      yield put(actions.modals.closeModal())
-      yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(
-        actions.components.identityVerification.createRegisterUserCampaign()
-      )
-    } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'coinifyUpgradeSubmitClicked',
-          e
-        )
-      )
-    }
-  }
-
   const swapGetStartedSubmitClicked = function * () {
     try {
       yield put(actions.preferences.hideKycGetStarted())
@@ -101,7 +82,6 @@ export default () => {
 
   return {
     airdropClaimSubmitClicked,
-    coinifyUpgradeSubmitClicked,
     swapGetStartedSubmitClicked,
     takeWalletTourClicked,
     upgradeForAirdropSubmitClicked

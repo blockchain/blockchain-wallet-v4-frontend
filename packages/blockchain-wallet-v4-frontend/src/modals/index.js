@@ -11,7 +11,6 @@ import {
 import {
   AirdropClaim,
   AirdropSuccess,
-  CoinifyUpgrade,
   LinkFromExchangeAccount,
   LinkToExchangeAccount,
   SwapGetStarted,
@@ -38,11 +37,6 @@ import {
   TwoStepYubico
 } from './Settings'
 import { BitpayInformational, BitpayInvoiceExpired } from './BitPay'
-import {
-  CoinifyBuyViaCard,
-  CoinifyDeleteBank,
-  CoinifyTradeDetails
-} from './Coinify'
 import { Confirm, PromptInput, Support } from './Generic'
 import {
   DeleteAddressLabel,
@@ -75,7 +69,6 @@ import {
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import { SfoxTradeDetails } from './Sfox'
 import Borrow from './Borrow'
 import Faq from './Faq'
 import Onfido from './Onfido'
@@ -94,10 +87,6 @@ const Modals = () => (
     <BitpayInformational />
     <Borrow />
     <AutoDisconnection />
-    <CoinifyBuyViaCard />
-    <CoinifyDeleteBank />
-    <CoinifyTradeDetails />
-    <CoinifyUpgrade />
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
@@ -141,7 +130,6 @@ const Modals = () => (
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
-    <SfoxTradeDetails />
     <AirdropError />
     <Support />
     <SwapGetStarted />

@@ -69,7 +69,6 @@ const StatsContainer = styled.div`
 `
 
 type OwnProps = {
-  buySellPartner: 'coinify' | 'sfox'
   coin: CoinType
   coinModel: SupportedCoinType
   currency: FiatType
@@ -115,7 +114,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
 
   render () {
     const {
-      buySellPartner,
       coin,
       coinModel,
       currency,
@@ -163,7 +161,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
           ) : (
             pages.map((value, index) => (
               <TransactionList
-                buySellPartner={buySellPartner}
                 coin={coin}
                 coinTicker={coinTicker}
                 currency={currency}

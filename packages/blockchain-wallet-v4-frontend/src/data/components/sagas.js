@@ -2,7 +2,6 @@ import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
 import btcTransactions from './btcTransactions/sagas'
-import coinify from './coinify/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
@@ -35,7 +34,6 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   borrow: borrow({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
-  coinify: coinify({ api, coreSagas }),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),

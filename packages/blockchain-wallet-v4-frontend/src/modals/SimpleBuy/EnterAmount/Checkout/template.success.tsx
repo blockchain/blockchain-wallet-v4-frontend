@@ -108,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     return (
       <Failure
         simpleBuyActions={props.simpleBuyActions}
-        formActions={() => {}}
+        formActions={props.formActions}
       />
     )
 
