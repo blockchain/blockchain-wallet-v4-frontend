@@ -97,6 +97,8 @@ const Default = {
   // Blacks
   black: '#000000',
   textBlack: '#121D33',
+  // Blues
+  purple: '#4C18BA',
   // Service Announcements
   info: '#4A90E2'
 }

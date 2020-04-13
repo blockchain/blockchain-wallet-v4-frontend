@@ -4,8 +4,6 @@ export type ModalNamesType =
   | 'AirdropClaim'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
-  | 'CoinifyBuyViaCard'
-  | 'CoinifyUpgrade'
   | 'Confirm'
   | 'FAQ_MODAL'
   | 'KycDocResubmit'

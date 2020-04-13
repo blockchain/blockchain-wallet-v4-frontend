@@ -226,8 +226,6 @@ const buildDevServerConfig = (
         mockWalletOptions.domains = {
           api: envConfig.API_DOMAIN,
           bitpay: envConfig.BITPAY_URL,
-          coinify: envConfig.COINIFY_URL,
-          coinifyPaymentDomain: envConfig.COINIFY_PAYMENT_DOMAIN,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
           exchange: envConfig.EXCHANGE_URL,
@@ -273,8 +271,8 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
-        `child-src ${envConfig.COINIFY_PAYMENT_DOMAIN} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
           "'self'",
@@ -291,8 +289,6 @@ const buildDevServerConfig = (
           envConfig.HORIZON_URL,
           envConfig.VERIFF_URL,
           'https://friendbot.stellar.org',
-          'https://app-api.coinify.com',
-          'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',
           'https://quotes.sfox.com',

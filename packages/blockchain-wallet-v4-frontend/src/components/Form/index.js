@@ -26,7 +26,6 @@ import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBoxBchAddresses from './SelectBoxBchAddresses'
 import SelectBoxBtcAddresses from './SelectBoxBtcAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
-import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCoinPriceChart from './SelectBoxCoinPriceChart'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
@@ -36,7 +35,6 @@ import SelectBoxRegion from './SelectBoxRegion'
 import SelectBoxTheme from './SelectBoxTheme'
 import SelectBoxUSState from './SelectBoxUSState'
 import SelectBoxXlmAddresses from './SelectBoxXlmAddresses'
-import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
 import TextAreaDebounced from './TextAreaDebounced'
@@ -75,14 +73,12 @@ export {
   SelectBoxXlmAddresses,
   SelectBoxCoin,
   SelectBoxCoinPriceChart,
-  SelectBoxCoinifyCurrency,
   SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxLanguages,
   SelectBoxRegion,
   SelectBoxTheme,
   SelectBoxUSState,
-  TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
   TextAreaDebounced,

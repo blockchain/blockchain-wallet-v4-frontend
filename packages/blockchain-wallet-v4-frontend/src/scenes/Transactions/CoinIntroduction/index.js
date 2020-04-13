@@ -8,9 +8,7 @@ import { actions, selectors } from 'data'
 import {
   currentUserTier,
   getAvailability,
-  getCanBuyBtc,
   getCurrentKYCState,
-  getDomains,
   getTags
 } from './selectors'
 import Welcome from './template'
@@ -21,7 +19,6 @@ class CoinIntroductionContainer extends React.PureComponent {
       availability,
       coin,
       modalActions,
-      partner,
       supportedCoins,
       simpleBuyActions
     } = this.props
@@ -30,7 +27,6 @@ class CoinIntroductionContainer extends React.PureComponent {
       <Welcome
         availability={availability}
         currentCoin={currentCoin}
-        partner={partner}
         handleRequest={() =>
           modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
         }
@@ -41,8 +37,6 @@ class CoinIntroductionContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  partner: getCanBuyBtc(state, ownProps),
-  domains: getDomains(state),
   availability: getAvailability(state, ownProps),
   currentUserTier: currentUserTier(state),
   currentTags: getTags(state),
