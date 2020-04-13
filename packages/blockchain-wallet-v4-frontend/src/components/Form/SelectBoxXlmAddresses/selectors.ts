@@ -64,6 +64,9 @@ export const getData = (
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
   return sequence(Remote.of, [
+    includeExchangeAddress && hasExchangeAddress
+      ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+      : Remote.of([]),
     selectors.core.common.xlm
       .getAccountBalances(state)
       .map(excluded)
@@ -82,9 +85,6 @@ export const getData = (
           .map<any, any>(prop('XLM'))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
-      : Remote.of([]),
-    includeExchangeAddress && hasExchangeAddress
-      ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => ({
     // @ts-ignore
