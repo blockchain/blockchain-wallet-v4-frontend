@@ -194,6 +194,19 @@ export default ({
     }
   }
 
+  const fetchSBPaymentMethods = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBPaymentMethods>) {
+    try {
+      yield put(A.fetchSBPaymentMethodsLoading())
+      const methods = yield call(api.getSBPaymentMethods, currency)
+      yield put(A.fetchSBPaymentMethodsSuccess(methods))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBPaymentMethodsFailure(error))
+    }
+  }
+
   const fetchSBQuote = function * () {
     try {
       yield put(A.fetchSBQuoteLoading())
@@ -213,6 +226,19 @@ export default ({
     }
   }
 
+  const fetchSBSuggestedAmounts = function * ({
+    currency
+  }: ReturnType<typeof A.fetchSBSuggestedAmounts>) {
+    try {
+      yield put(A.fetchSBSuggestedAmountsLoading())
+      const amounts = yield call(api.getSBSuggestedAmounts, currency)
+      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBSuggestedAmountsFailure(error))
+    }
+  }
+
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
@@ -224,6 +250,7 @@ export default ({
 
   const initializeCheckout = function * ({
     pairs,
+    paymentMethods,
     orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
@@ -234,9 +261,7 @@ export default ({
       const cryptoCurrency = S.getCryptoCurrency(yield select())
       if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
 
-      yield put(A.fetchSBSuggestedAmountsLoading())
-      const amounts = yield call(api.getSBSuggestedAmounts, fiatCurrency)
-      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
+      yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
       const pair = pairs.find(
         pair => getCoinFromPair(pair.pair) === cryptoCurrency
@@ -244,13 +269,14 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          pair: pair || pairs[0],
-          orderType
-        })
+          method: paymentMethods.methods[0],
+          orderType,
+          pair: pair || pairs[0]
+        } as SBCheckoutFormValuesType)
       )
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchSBSuggestedAmountsFailure(error))
+      yield put(actions.logs.logErrorMessage(error))
     }
   }
 
@@ -272,14 +298,16 @@ export default ({
 
   return {
     cancelSBOrder,
-    createSBOrder,
     confirmSBOrder,
+    createSBOrder,
     fetchSBBalances,
+    fetchSBFiatEligible,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
+    fetchSBPaymentMethods,
     fetchSBQuote,
-    fetchSBFiatEligible,
+    fetchSBSuggestedAmounts,
     handleSBSuggestedAmountClick,
     initializeCheckout,
     showModal

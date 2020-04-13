@@ -8,6 +8,8 @@ import {
   SBBalancesType,
   SBOrderType,
   SBPairType,
+  SBPaymentMethodsType,
+  SBPaymentMethodType,
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -15,6 +17,7 @@ import {
 // Types
 export type SBCheckoutFormValuesType = {
   amount: string
+  method?: SBPaymentMethodType
   orderType: 'BUY' | 'SELL'
   pair?: SBPairType
 }
@@ -37,6 +40,7 @@ export type SimpleBuyState = {
   cryptoCurrency: undefined | CoinType
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
   pairs: RemoteDataType<string, Array<SBPairType>>
@@ -130,6 +134,21 @@ interface FetchSBPaymentAccountSuccess {
   }
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
 }
+interface FetchSBPaymentMethodsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_METHODS_FAILURE
+}
+interface FetchSBPaymentMethodsLoading {
+  type: typeof AT.FETCH_SB_PAYMENT_METHODS_LOADING
+}
+interface FetchSBPaymentMethodsSuccess {
+  payload: {
+    methods: SBPaymentMethodsType
+  }
+  type: typeof AT.FETCH_SB_PAYMENT_METHODS_SUCCESS
+}
 interface FetchSBQuoteFailure {
   payload: {
     error: string
@@ -210,6 +229,9 @@ export type SimpleBuyActionTypes =
   | FetchSBPaymentAccountFailure
   | FetchSBPaymentAccountLoading
   | FetchSBPaymentAccountSuccess
+  | FetchSBPaymentMethodsFailure
+  | FetchSBPaymentMethodsLoading
+  | FetchSBPaymentMethodsSuccess
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess

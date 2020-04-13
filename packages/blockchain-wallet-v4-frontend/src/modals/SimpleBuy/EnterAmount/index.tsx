@@ -6,7 +6,8 @@ import {
   FiatType,
   NabuApiErrorType,
   RemoteDataType,
-  SBPairType
+  SBPairType,
+  SBPaymentMethodsType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
@@ -21,6 +22,7 @@ export type OwnProps = {
 export type SuccessStateType = {
   eligibility: FiatEligibleType
   pairs: Array<SBPairType>
+  paymentMethods: SBPaymentMethodsType
 }
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form
@@ -40,6 +42,7 @@ class EnterAmount extends PureComponent<Props, State> {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
     }
   }
 

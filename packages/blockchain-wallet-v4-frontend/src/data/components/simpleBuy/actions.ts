@@ -8,6 +8,7 @@ import {
   SBBalancesType,
   SBOrderType,
   SBPairType,
+  SBPaymentMethodsType,
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -159,6 +160,33 @@ export const fetchSBPaymentAccountSuccess = (
   }
 })
 
+export const fetchSBPaymentMethods = (currency: FiatType) => ({
+  type: AT.FETCH_SB_PAYMENT_METHODS,
+  currency
+})
+
+export const fetchSBPaymentMethodsFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_METHODS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBPaymentMethodsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_METHODS_LOADING
+})
+
+export const fetchSBPaymentMethodsSuccess = (
+  methods: SBPaymentMethodsType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_PAYMENT_METHODS_SUCCESS,
+  payload: {
+    methods
+  }
+})
+
 export const fetchSBQuote = () => ({
   type: AT.FETCH_SB_QUOTE
 })
@@ -219,10 +247,12 @@ export const handleSBSuggestedAmountClick = (amount: string) => ({
 
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
+  paymentMethods: SBPaymentMethodsType,
   orderType: 'BUY' | 'SELL'
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   pairs,
+  paymentMethods,
   orderType
 })
 

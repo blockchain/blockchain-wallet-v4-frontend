@@ -5,6 +5,7 @@ import {
   FiatType,
   RemoteDataType,
   SBPairType,
+  SBPaymentMethodsType,
   SBSuggestedAmountType,
   SupportedCoinsType
 } from 'core/types'
@@ -20,6 +21,7 @@ import Success from './template.success'
 type OwnProps = {
   handleClose: () => void
   pairs: Array<SBPairType>
+  paymentMethods: SBPaymentMethodsType
 }
 export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
@@ -42,7 +44,11 @@ export type LinkDispatchPropsType = {
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    this.props.simpleBuyActions.initializeCheckout(this.props.pairs, 'BUY')
+    this.props.simpleBuyActions.initializeCheckout(
+      this.props.pairs,
+      this.props.paymentMethods,
+      'BUY'
+    )
   }
 
   handleSubmit = () => {

@@ -93,6 +93,19 @@ export type SBPairType = {
   pair: SBPairsType
 }
 
+export type SBPaymentMethodType = {
+  limits: {
+    max: string
+    min: string
+  }
+  type: 'CARD' | 'BANK_TRANSFER'
+}
+
+export type SBPaymentMethodsType = {
+  currency: FiatType
+  methods: Array<SBPaymentMethodType>
+}
+
 export type SBMoneyType = {
   amount: string
   symbol: FiatType

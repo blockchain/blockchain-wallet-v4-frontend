@@ -1,4 +1,4 @@
-import { CoinType, CurrenciesType } from '../../../types'
+import { CoinType, CurrenciesType, FiatType } from '../../../types'
 import {
   FiatEligibleType,
   SBAccountType,
@@ -7,7 +7,9 @@ import {
   SBOrderType,
   SBPairsType,
   SBPairType,
-  SBQuoteType
+  SBPaymentMethodsType,
+  SBQuoteType,
+  SBSuggestedAmountType
 } from './types'
 
 export default ({
@@ -116,6 +118,16 @@ export default ({
       }
     })
 
+  const getSBPaymentMethods = (currency: FiatType): SBPaymentMethodsType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/payments/methods',
+      contentType: 'application/json',
+      data: {
+        currency
+      }
+    })
+
   const getSBQuote = (
     currencyPair: SBPairsType,
     action: 'BUY' | 'SELL',
@@ -131,7 +143,9 @@ export default ({
       }
     })
 
-  const getSBSuggestedAmounts = (currency: keyof CurrenciesType) =>
+  const getSBSuggestedAmounts = (
+    currency: keyof CurrenciesType
+  ): SBSuggestedAmountType =>
     get({
       url: nabuUrl,
       endPoint: '/simple-buy/amounts',
@@ -167,6 +181,7 @@ export default ({
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,
+    getSBPaymentMethods,
     getSBFiatEligible,
     getSBQuote,
     getSBSuggestedAmounts,

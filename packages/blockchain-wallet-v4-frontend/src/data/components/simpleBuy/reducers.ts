@@ -11,11 +11,12 @@ const INITIAL_STATE: SimpleBuyState = {
     PAX: { pending: '0', available: '0' },
     XLM: { pending: '0', available: '0' }
   }),
-  order: undefined,
-  orders: Remote.NotAsked,
   cryptoCurrency: undefined,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  methods: Remote.NotAsked,
+  order: undefined,
+  orders: Remote.NotAsked,
   pairs: Remote.NotAsked,
   quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
@@ -115,6 +116,22 @@ export function simpleBuyReducer (
       return {
         ...state,
         account: Remote.Success(action.payload.account)
+      }
+    case AT.FETCH_SB_PAYMENT_METHODS_FAILURE: {
+      return {
+        ...state,
+        methods: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_PAYMENT_METHODS_LOADING:
+      return {
+        ...state,
+        methods: Remote.Loading
+      }
+    case AT.FETCH_SB_PAYMENT_METHODS_SUCCESS:
+      return {
+        ...state,
+        methods: Remote.Success(action.payload.methods)
       }
     case AT.FETCH_SB_QUOTE_FAILURE: {
       return {

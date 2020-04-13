@@ -18,6 +18,7 @@ import ActionButton from './ActionButton'
 import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
+import MethodSelect from './MethodSelect'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -248,6 +249,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
+        <MethodSelect {...props} />
         {props.error && (
           <ErrorText>
             <Icon

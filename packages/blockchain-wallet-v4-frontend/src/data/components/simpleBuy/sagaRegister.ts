@@ -20,7 +20,15 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_SB_PAYMENT_ACCOUNT,
       simpleBuySagas.fetchSBPaymentAccount
     )
+    yield takeLatest(
+      AT.FETCH_SB_PAYMENT_METHODS,
+      simpleBuySagas.fetchSBPaymentMethods
+    )
     yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
+    yield takeLatest(
+      AT.FETCH_SB_SUGGESTED_AMOUNTS,
+      simpleBuySagas.fetchSBSuggestedAmounts
+    )
     yield takeLatest(
       AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
       simpleBuySagas.handleSBSuggestedAmountClick
