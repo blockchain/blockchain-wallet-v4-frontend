@@ -1,9 +1,13 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Field } from 'redux-form'
+import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import { SBPaymentMethodType } from 'core/types'
 import { SelectBox } from 'components/Form'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -52,6 +56,12 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
+const Limit = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+  color: ${props => props.theme.grey600} !important;
+`
 
 class MethodSelect extends PureComponent<Props> {
   state = {}
@@ -89,8 +99,10 @@ class MethodSelect extends PureComponent<Props> {
   renderDisplay = (props: { value: SBPaymentMethodType }, children) => {
     if (!props.value) return
     if (!this.props.formValues) return
+    if (!this.props.formValues.pair) return
 
     const icon = this.getIcon(props.value.type)
+    const fiat = getFiatFromPair(this.props.formValues.pair.pair)
     const isItem = !children
 
     return (
@@ -98,7 +110,15 @@ class MethodSelect extends PureComponent<Props> {
         <IconContainer>
           <Icon size='18px' color='blue600' name={icon} />
         </IconContainer>
-        <Display>{children || this.getType(props.value.type)}</Display>
+        <Display>
+          {children || this.getType(props.value.type)}
+          <Limit>
+            {Currency.fiatToString({
+              value: convertBaseToStandard('FIAT', props.value.limits.max),
+              unit: Currencies[fiat]['units'][fiat]
+            })}
+          </Limit>
+        </Display>
       </DisplayContainer>
     )
   }
