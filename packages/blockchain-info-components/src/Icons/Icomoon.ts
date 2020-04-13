@@ -81,6 +81,7 @@ const IcoMoon = {
   'question-in-circle-filled': '\\e909',
   refresh: '\\e90a',
   request: '\\e912',
+  'savings-icon': '\\e92b',
   send: '\\e925',
   shield: '\\e908',
   spade: '\\e92f',

@@ -138,12 +138,25 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
-          <ExchangeNavItem {...props} />
+      <LinkContainer to='/savings' activeClassName='active'>
+        <MenuItem data-e2e='savingsLink'>
+          <MenuIcon name='savings-icon' size='20px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.earn_interest'
+              defaultMessage='Earn Interest'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='orange600' weight={600} size='12' uppercase>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.borrow.new'
+                defaultMessage='New'
+              />
+            </Text>
+          </NewCartridge>
         </MenuItem>
       </LinkContainer>
-      {/* )} */}
       <LinkContainer to='/borrow' activeClassName='active'>
         <MenuItem data-e2e='borrowLink'>
           <MenuIcon name='borrow' size='20px' />
@@ -163,6 +176,12 @@ const Navigation = (props: OwnProps & Props) => {
           </NewCartridge>
         </MenuItem>
       </LinkContainer>
+      <LinkContainer to='/exchange' activeClassName='active'>
+        <MenuItem data-e2e='exchangeLink'>
+          <ExchangeNavItem {...props} />
+        </MenuItem>
+      </LinkContainer>
+      {/* )} */}
       {props.lockboxDevices.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
