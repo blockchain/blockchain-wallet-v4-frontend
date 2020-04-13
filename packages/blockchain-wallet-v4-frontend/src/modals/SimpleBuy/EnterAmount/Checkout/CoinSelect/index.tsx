@@ -20,7 +20,7 @@ const DisplayContainer = styled.div<{
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '6px 6px 0px 6px' : '16px 12px')};
+  padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
   > span {
     color: ${props => props.theme[props.coinType.colorCode]} !important;
   }

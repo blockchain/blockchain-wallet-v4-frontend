@@ -1,6 +1,8 @@
 const Default = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
+  whiteFade200: 'rgba(255, 255, 255, 0.2)',
+  whiteFade300: 'rgba(255, 255, 255, 0.3)',
   whiteFade400: 'rgba(255, 255, 255, 0.4)',
   whiteFade600: 'rgba(255, 255, 255, 0.6)',
   whiteFade700: 'rgba(255, 255, 255, 0.7)',
@@ -8,6 +10,7 @@ const Default = {
   whiteFade900: 'rgba(255, 255, 255, 0.9)',
   greyFade100: 'rgba(5, 24, 61, 0.1)',
   greyFade200: 'rgba(5, 24, 61, 0.2)',
+  greyFade300: 'rgba(5, 24, 61, 0.3)',
   greyFade400: 'rgba(5, 24, 61, 0.4)',
   greyFade600: 'rgba(3, 17, 47, 0.6)',
   greyFade800: 'rgba(18, 29, 51, 0.8)',
