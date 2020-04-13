@@ -19,7 +19,7 @@ const BaseSelectInput = styled.select`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme.grey200};
   margin-left: ${props => (props.inline ? '5px' : '0px')};
   &:active,
   &:focus {
@@ -30,13 +30,13 @@ const BaseSelectInput = styled.select`
 const selectBorderColor = state => {
   switch (state) {
     case 'initial':
-      return 'gray-2'
+      return 'grey200'
     case 'invalid':
       return 'error'
     case 'valid':
       return 'success'
     default:
-      return 'gray-2'
+      return 'grey200'
   }
 }
 

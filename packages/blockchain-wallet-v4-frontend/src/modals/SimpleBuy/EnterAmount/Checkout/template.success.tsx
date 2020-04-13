@@ -108,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     return (
       <Failure
         simpleBuyActions={props.simpleBuyActions}
-        formActions={() => {}}
+        formActions={props.formActions}
       />
     )
 
@@ -130,7 +130,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
             id='modals.simplebuy.buycrypto'
             defaultMessage='Buy Crypto'

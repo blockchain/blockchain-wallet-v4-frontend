@@ -41,7 +41,7 @@ const Summary: React.FC<Props> = props => {
 
   return showBorrowSummary(props.loan) ? (
     <div>
-      <Text color='grey900' weight={600}>
+      <Text color='grey800' weight={600}>
         <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>

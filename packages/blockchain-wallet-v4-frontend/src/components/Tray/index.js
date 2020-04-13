@@ -24,7 +24,7 @@ const TrayModal = styled(Modal)`
   position: absolute;
   width: 100%;
   height: 100vh;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   > div:first-child {

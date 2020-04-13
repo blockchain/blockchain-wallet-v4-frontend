@@ -1,5 +1,5 @@
 import * as M from './validationMessages'
-import { all, any, equals, path, prop, propOr, takeWhile } from 'ramda'
+import { all, any, equals, path, prop, propOr } from 'ramda'
 import {
   isAlphaNumeric,
   isDOB,
@@ -116,6 +116,7 @@ export const validXlmAddress = ({ value: dropdownValue }) => {
 export const validBtcAddress = (value, allValues, props) => {
   let address = value
   if (isObject(value)) {
+    if (!value.value) return
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return
@@ -208,29 +209,6 @@ export const requiredZipCode = (value, allVals) => {
   ) : (
     <M.InvalidZipCodeMessage />
   )
-}
-
-export const onPartnerCountryWhitelist = (
-  value,
-  allValues,
-  props,
-  name,
-  countries
-) => {
-  const country = value && takeWhile(x => x !== '-', value)
-  const options = path(['options', 'platforms', 'web'], props)
-  const coinifyCountries = path(['coinify', 'countries'], options)
-  const allCountries = countries || coinifyCountries
-  return country && allCountries.includes(country) ? (
-    undefined
-  ) : (
-    <M.PartnerCountryWhitelist />
-  )
-}
-
-export const onPartnerStateWhitelist = (value, allValues, props) => {
-  const usState = prop('code', value)
-  return usState ? undefined : <M.PartnerStateWhitelist />
 }
 
 export const requireUniqueDeviceName = (value, usedDeviceNames) => {

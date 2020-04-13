@@ -186,7 +186,7 @@ const Login = props => {
             )}
             {showGuidInvalidError ? (
               <LoginTextGroup inline>
-                <Text size='12px' color='gray-6' weight={500}>
+                <Text size='12px' color='grey800' weight={500}>
                   {isGuidEmailAddress ? (
                     <FormattedMessage
                       id='scenes.login.isguidemailerror'
@@ -210,7 +210,7 @@ const Login = props => {
               </LoginTextGroup>
             ) : (
               <LoginTextGroup inline>
-                <Text size='12px' color='gray-6' weight={500}>
+                <Text size='12px' color='grey800' weight={500}>
                   <FormattedMessage
                     id='scenes.login.findyourguid'
                     defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'

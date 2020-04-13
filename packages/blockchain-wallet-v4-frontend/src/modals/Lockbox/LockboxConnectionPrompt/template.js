@@ -71,7 +71,7 @@ const LockboxConnectionPrompt = props => {
           <Text>{CONFIRM_STEPS[step].title(appName, isTx)}</Text>
         </Title>
         <Content>
-          <Text color='gray-4'>
+          <Text color='grey500'>
             {CONFIRM_STEPS[step].content(appName, isTx)}
           </Text>
         </Content>

@@ -19,8 +19,8 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   margin: 20px 0 10px;
-  background-color: ${props => props.theme['gray-1']};
-  border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme.grey000};
+  border: 1px solid ${props => props.theme.grey200};
 `
 const Row = styled.div`
   display: flex;

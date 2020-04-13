@@ -12,6 +12,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
     selectors.core.data.xlm.getRates,
+    selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
     selectors.components.sendXlm.showNoAccountForm,
@@ -25,6 +26,7 @@ export const getData = createDeepEqualSelector(
     lockboxXlmAccountsR,
     currencyR,
     ratesR,
+    isMnemonicVerified,
     formValues,
     activeField,
     noAccount,
@@ -60,6 +62,7 @@ export const getData = createDeepEqualSelector(
         from,
         isDestinationChecked,
         isDestinationExchange,
+        isMnemonicVerified,
         noAccount,
         rates,
         reserve

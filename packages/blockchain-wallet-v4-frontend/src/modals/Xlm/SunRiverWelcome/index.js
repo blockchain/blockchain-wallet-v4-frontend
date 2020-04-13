@@ -43,7 +43,7 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 18px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
 `
 const Container = styled.div`
   text-align: center;
@@ -55,7 +55,7 @@ const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
   max-width: 300px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
 `
 const FooterButton = styled(Button)`
   height: 56px;

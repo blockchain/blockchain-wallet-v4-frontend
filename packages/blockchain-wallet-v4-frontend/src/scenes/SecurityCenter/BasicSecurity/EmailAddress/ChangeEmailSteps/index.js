@@ -62,7 +62,7 @@ function ChangeEmailSteps (props) {
             </Button>
           </ButtonContainer>
         </ChangeEmailInputWrapper>
-        <Text size='12px' color='gray-4' weight={400}>
+        <Text size='12px' color='grey500' weight={400}>
           <FormattedHTMLMessage
             id='scenes.security.email.changeemail.description'
             defaultMessage='<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.'

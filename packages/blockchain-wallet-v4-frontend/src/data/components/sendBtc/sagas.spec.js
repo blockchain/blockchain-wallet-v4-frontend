@@ -10,7 +10,7 @@ import { actions, selectors } from 'data'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import rootReducer from '../../rootReducer'
-import sendBtcSagas, { logLocation } from './sagas'
+import sendBtcSagas, { logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {

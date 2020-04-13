@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme.grey200};
   padding: 20px;
   max-width: 300px;
 `

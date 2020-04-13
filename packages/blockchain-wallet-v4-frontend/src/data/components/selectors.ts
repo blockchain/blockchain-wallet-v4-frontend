@@ -1,5 +1,4 @@
 import * as borrow from './borrow/selectors'
-import * as coinify from './coinify/selectors'
 import * as exchange from './exchange/selectors'
 import * as exchangeHistory from './exchangeHistory/selectors'
 import * as identityVerification from './identityVerification/selectors'
@@ -22,7 +21,6 @@ import * as veriff from './veriff/selectors'
 
 export {
   borrow,
-  coinify,
   exchange,
   exchangeHistory,
   identityVerification,

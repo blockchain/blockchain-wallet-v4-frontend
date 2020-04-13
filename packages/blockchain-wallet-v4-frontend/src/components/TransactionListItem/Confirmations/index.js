@@ -66,7 +66,7 @@ const Confirmations = props => {
           />
         </Text>
       ) : (
-        <ConfirmationsText size='14px' weight={400} color='gray-3'>
+        <ConfirmationsText size='14px' weight={400} color='grey400'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
             defaultMessage='Pending: {count}/{total} Confirmations'

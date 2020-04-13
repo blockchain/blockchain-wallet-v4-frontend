@@ -29,6 +29,8 @@ export const btcFromLabel = curry((payment, state) => {
       return selectors.core.wallet.getAccountLabel(state)(
         payment.fromAccountIdx
       )
+    case ADDRESS_TYPES.CUSTODIAL:
+      return payment.from
     case ADDRESS_TYPES.LEGACY:
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]
@@ -85,6 +87,8 @@ export const bchFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
+    case ADDRESS_TYPES.CUSTODIAL:
+      return payment.from
     case ADDRESS_TYPES.LEGACY:
       const formValues = selectors.form.getFormValues(
         model.components.sendBch.FORM
@@ -145,6 +149,8 @@ export const xlmFromLabel = curry((payment, state) => {
       return selectors.core.kvStore.xlm
         .getAccountLabel(state, from.address)
         .getOrElse(from.address)
+    case ADDRESS_TYPES.CUSTODIAL:
+      return from.address
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxXlmAccount(state, from.address)

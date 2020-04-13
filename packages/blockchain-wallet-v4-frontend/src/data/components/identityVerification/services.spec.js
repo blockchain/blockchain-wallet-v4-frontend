@@ -1,5 +1,4 @@
 import { assocPath } from 'ramda'
-
 import { computeSteps } from './services'
 import { model } from 'data'
 
@@ -13,7 +12,6 @@ const options = {
   mobileVerified: false,
   smsVerified: false,
   currentStep: 'personal',
-  isCoinify: false,
   needMoreInfo: false
 }
 
@@ -65,27 +63,6 @@ describe('steps selector', () => {
       'submitted'
     ])
     expect(computeSteps(setNextTier(TIERS[2], mobileVerifiedState))).toEqual([
-      'verify',
-      'submitted'
-    ])
-  })
-
-  it('should add coinify step if isCoinify is true', () => {
-    const coinifyOptions = { ...options, isCoinify: true }
-    expect(computeSteps(coinifyOptions)).toEqual([
-      'coinify',
-      'personal',
-      'mobile',
-      'verify',
-      'submitted'
-    ])
-    expect(computeSteps(setSelectedTier(TIERS[1], coinifyOptions))).toEqual([
-      'coinify',
-      'personal'
-    ])
-    expect(computeSteps(setNextTier(TIERS[2], coinifyOptions))).toEqual([
-      'coinify',
-      'mobile',
       'verify',
       'submitted'
     ])

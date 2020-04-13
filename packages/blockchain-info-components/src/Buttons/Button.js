@@ -65,8 +65,8 @@ const selectColor = (nature, disabled, small) => {
     case 'dark':
       return {
         color: 'white',
-        backgroundColor: 'gray-6',
-        borderColor: 'gray-6'
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
       }
     case 'dark-grey':
       return {
@@ -76,7 +76,7 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'empty':
       return {
-        color: small ? 'blue600' : 'gray-6',
+        color: small ? 'blue600' : 'grey800',
         backgroundColor: 'white',
         borderColor: 'grey000',
         hoverBorderColor: 'white'
@@ -101,8 +101,8 @@ const selectColor = (nature, disabled, small) => {
     case 'gray':
       return {
         color: 'white',
-        backgroundColor: 'gray-4',
-        borderColor: 'gray-4'
+        backgroundColor: 'grey500',
+        borderColor: 'grey500'
       }
     case 'light':
       return {
@@ -187,9 +187,9 @@ const selectColor = (nature, disabled, small) => {
       }
     default:
       return {
-        color: 'gray-6',
+        color: 'grey800',
         backgroundColor: 'grey000',
-        borderColor: 'gray-2',
+        borderColor: 'grey200',
         hoverBorderColor: 'white'
       }
   }

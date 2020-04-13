@@ -152,16 +152,6 @@ describe('settingsSagas', () => {
       saga.next().call(coreSagas.settings.setMobileVerified, action.payload)
     })
 
-    it('should select the modal stack', () => {
-      let response = 'updated successfully'
-      saga.next(response).select(selectors.modals.getModals)
-    })
-
-    it('should close all modals if not SfoxExchangeData modal', () => {
-      let modals = [{ type: 'modal_type' }]
-      saga.next(modals).put(actions.modals.closeAllModals())
-    })
-
     it('should select userFlowSupported', () => {
       saga.next().select(selectors.modules.profile.userFlowSupported)
     })

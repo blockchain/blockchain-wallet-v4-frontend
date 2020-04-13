@@ -133,12 +133,7 @@ const EmailInput = ({
     <InputRow>
       <TextBox
         errorBottom={errorBottom}
-        placeholder={
-          <FormattedMessage
-            id='components.EmailVerification.placeholder'
-            defaultMessage='Email'
-          />
-        }
+        placeholder={'satoshi@blockchain.com'}
         input={input}
         meta={meta}
       />

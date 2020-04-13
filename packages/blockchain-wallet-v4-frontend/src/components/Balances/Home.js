@@ -19,7 +19,7 @@ export const HomeBalanceRow = styled.div`
     padding: 15px 0px;
   }
   &:not(:last-child) {
-    border-bottom: 1px solid ${props => props.theme['gray-1']};
+    border-bottom: 1px solid ${props => props.theme.grey000};
   }
   @media (max-width: 480px) {
     min-height: auto;

@@ -65,7 +65,7 @@ const ErrorBoundary = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={400} size={'14px'} color='gray-5'>
+          <Text weight={400} size={'14px'} color='grey700'>
             <FormattedMessage
               id='modal.errorboundary.message'
               defaultMessage="We're sorry, but it seems like something is not quite right. Please try again or contact support if the problem persists."

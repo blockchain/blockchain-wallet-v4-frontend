@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   cursor: pointer;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
 `
 
 const Toggler = styled(Icon)`

@@ -14,7 +14,7 @@ const SkeletonRectangle = props => (
 )
 
 SkeletonRectangle.defaultProps = {
-  bgColor: 'gray-1'
+  bgColor: 'grey000'
 }
 
 SkeletonRectangle.propTypes = {

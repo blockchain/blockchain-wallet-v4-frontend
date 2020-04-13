@@ -3,8 +3,6 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { injectIntl } from 'react-intl'
-import { RemoteDataType } from 'core/types'
-import { selectors } from 'data'
 import Faq from './template.js'
 import FaqContent from './FaqContent'
 import Flyout, { duration } from 'components/Flyout'
@@ -19,7 +17,6 @@ type OwnPropsType = {
 }
 
 type LinkStatePropsType = {
-  canTrade: RemoteDataType<any, boolean>
   data: any
 }
 
@@ -41,15 +38,8 @@ class FaqContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const { data, canTrade } = this.props
+    const { data } = this.props
     const { search } = data
-
-    const partner = canTrade.cata({
-      Success: val => val || 'n/a',
-      Loading: () => false,
-      Failure: () => false,
-      NotAsked: () => false
-    })
 
     // Search for matching messages in the component subtree starting
     const containsRecursive = curry((search, x) => {
@@ -68,12 +58,6 @@ class FaqContainer extends React.PureComponent<Props> {
       }
     })
 
-    const whitelistContent = contentPart => {
-      return contentPart.whitelist
-        ? contentPart.whitelist.includes(partner)
-        : true
-    }
-
     const filterContent = contentPart => {
       if (search) {
         const filteredGroupQuestions = filter(
@@ -90,8 +74,7 @@ class FaqContainer extends React.PureComponent<Props> {
       }
     }
 
-    const whitelistedContent = filter(whitelistContent, FaqContent)
-    const filteredContent = map(filterContent, whitelistedContent)
+    const filteredContent = map(filterContent, FaqContent)
     const { position, total, close, userClickedOutside } = this.props
 
     return (
@@ -110,8 +93,7 @@ class FaqContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
-  canTrade: selectors.exchange.getCanTrade(state)
+  data: getData(state)
 })
 
 const enhance = compose<any>(
