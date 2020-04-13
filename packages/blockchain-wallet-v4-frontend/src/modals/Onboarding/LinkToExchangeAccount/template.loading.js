@@ -67,7 +67,7 @@ const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
                   defaultMessage='If a new browser tab did not open, try clicking the button below.'
                 />
               </Text>
-              <OpenNowButton nature='blue900' height='56px' fullwidth>
+              <OpenNowButton nature='purple' height='56px' fullwidth>
                 <Link
                   href={deeplinkToExchange}
                   target='_blank'

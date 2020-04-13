@@ -100,6 +100,8 @@ const DarkTheme: DefaultTheme = {
   // Blacks
   black: lighten(0.1, '#B1B8C7'),
   textBlack: '#9c9c9c',
+  // Blues
+  purple: '#4C18BA',
   // Service Announcements
   info: '#2C5687'
 }
