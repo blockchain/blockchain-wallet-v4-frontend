@@ -1,8 +1,9 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, TextBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
+import { Props } from '.'
 import { required } from 'services/FormHelper'
 import React from 'react'
 import styled from 'styled-components'
@@ -52,15 +53,13 @@ const languageHelper = num => {
   }
 }
 
-const ConfirmWordsForm = ({
-  handleBackArrow,
-  submitting,
-  invalid,
-  indexes,
-  onSubmit
-}) => {
+const ConfirmWordsForm: React.FC<
+  InjectedFormProps<{}, Props> & Props
+> = props => {
+  const { handleBackArrow, submitting, indexes, invalid, ...rest } = props
+  const { handleSubmit } = rest
   return (
-    <CustomForm onSubmit={onSubmit}>
+    <CustomForm onSubmit={handleSubmit}>
       <FlyoutWrapper>
         <Header>
           <Icon
@@ -123,4 +122,6 @@ const ConfirmWordsForm = ({
   )
 }
 
-export default ConfirmWordsForm
+export default reduxForm<{}, Props>({ form: 'confirmRecoveryWords' })(
+  ConfirmWordsForm
+)

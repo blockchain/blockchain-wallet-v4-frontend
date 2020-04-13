@@ -1,18 +1,18 @@
 import { compose } from 'redux'
 import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm, SubmissionError } from 'redux-form'
 import {
   LinkDispatchPropsType,
   LinkStatePropsType,
   OwnPropsType
 } from '../index'
+import { SubmissionError } from 'redux-form'
 import ConfirmWordsForm from './template'
 import React, { PureComponent } from 'react'
 
 export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
-class ConfirmWords extends PureComponent<InjectedFormProps<{}, Props> & Props> {
+class ConfirmWords extends PureComponent<Props> {
   state = { indexes: [] }
 
   componentDidMount () {
@@ -30,12 +30,12 @@ class ConfirmWords extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     this.setState({ indexes })
     /* eslint-enable */
   }
-  onSubmit = (values, props) => {
+  handleSubmit = values => {
     const errors = {}
     compose(
       forEach(word => {
         // @ts-ignore
-        if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
+        if (values[word] !== this.props.recoveryPhrase[split('w', word)[1]]) {
           // @ts-ignore
           errors[word] = (
             <FormattedMessage
@@ -57,19 +57,15 @@ class ConfirmWords extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { handleBackArrow, invalid, onSubmit, submitting } = this.props
+    const { ...rest } = this.props
     return (
       <ConfirmWordsForm
-        handleBackArrow={handleBackArrow}
+        {...rest}
         indexes={this.state.indexes}
-        invalid={invalid}
-        onSubmit={onSubmit}
-        submitting={submitting}
+        onSubmit={this.handleSubmit}
       />
     )
   }
 }
 
-export default reduxForm<{}, Props>({ form: 'confirmRecoveryWords' })(
-  ConfirmWords
-)
+export default ConfirmWords

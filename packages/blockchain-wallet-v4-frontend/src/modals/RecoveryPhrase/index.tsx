@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { path } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import ConfirmWords from './ConfirmWords'
+// import ConfirmWordsSuccess from './ConfirmWordsSuccess'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -15,8 +16,8 @@ export type OwnPropsType = {
   close: () => void
   handleBackArrow: () => void
   handleClose: () => void
-  in: boolean,
-  onSubmit: () => void,
+  in: boolean
+  indexes: Array<number>
   position: number
   recoveryPhrase: Array<any>
   total: number

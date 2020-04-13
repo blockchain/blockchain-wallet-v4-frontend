@@ -60,7 +60,6 @@ const languageHelper = num => {
 const ThirdStep = props => {
   const { previousStep, submitting, invalid, ...rest } = props
   const { indexes, handleSubmit } = rest
-
   return (
     <Wrapper>
       <InstructionsText size='14px' weight={500}>
