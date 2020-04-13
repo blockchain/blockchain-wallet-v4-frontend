@@ -52,7 +52,7 @@ class ConfirmWords extends PureComponent<Props> {
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
-      this.props.handleClose()
+      this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS_SUCCESS')
     }
   }
 

@@ -1,15 +1,9 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType } from '../index'
+import { Props } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-
-type OwnPropsType = {
-  handleClose: () => void
-}
-
-type Props = OwnPropsType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;

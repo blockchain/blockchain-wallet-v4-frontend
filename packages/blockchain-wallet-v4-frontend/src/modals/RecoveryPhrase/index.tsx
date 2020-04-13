@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { path } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import ConfirmWords from './ConfirmWords'
-// import ConfirmWordsSuccess from './ConfirmWordsSuccess'
+import ConfirmWordsSuccess from './ConfirmWordsSuccess'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
@@ -117,6 +117,14 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
             <ConfirmWords
               {...this.props}
               handleBackArrow={this.handleBackArrow}
+            />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CONFIRM_WORDS_SUCCESS' && (
+          <FlyoutChild>
+            <ConfirmWordsSuccess
+              {...this.props}
+              handleClose={this.handleClose}
             />
           </FlyoutChild>
         )}
