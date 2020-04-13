@@ -15,30 +15,34 @@ const CustomForm = styled(Form)`
   height: 100%;
 `
 
+const HeaderWrapper = styled(FlyoutWrapper)`
+  padding-bottom: 32px;
+`
 const Header = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 `
+const Separator = styled.div`
+  border: solid 0.5px ${props => props.theme.grey000};
+`
+const WordContainerWrapper = styled(FlyoutWrapper)`
+  padding-top: 24px;
+`
 const WordContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   height: 80px;
   width: 100%;
 `
 
-const ButtonWrapper = styled(FlyoutWrapper)`
-  padding-top: 0px;
+const Bottom = styled(FlyoutWrapper)`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   justify-content: flex-end;
-  margin-top: 5px;
-  & > :first-child {
-    margin-bottom: 15px;
-  }
+  flex-direction: column;
+  height: 100%;
 `
 const languageHelper = num => {
   switch (num) {
@@ -60,7 +64,7 @@ const ConfirmWordsForm: React.FC<
   const { handleSubmit } = rest
   return (
     <CustomForm onSubmit={handleSubmit}>
-      <FlyoutWrapper>
+      <HeaderWrapper>
         <Header>
           <Icon
             cursor
@@ -84,9 +88,17 @@ const ConfirmWordsForm: React.FC<
             defaultMessage='Please enter the words that match the numbers you see below.'
           />
         </Text>
+      </HeaderWrapper>
+      <Separator />
+      <WordContainerWrapper>
         {indexes.map(index => (
           <WordContainer key={index}>
-            <Text size='14px' weight={400} data-e2e='wordLabel'>
+            <Text
+              size='14px'
+              weight={500}
+              data-e2e='wordLabel'
+              lineHeight='20px'
+            >
               {`${languageHelper(index)} word`}
             </Text>
             <Field
@@ -100,24 +112,24 @@ const ConfirmWordsForm: React.FC<
             />
           </WordContainer>
         ))}
-        <ButtonWrapper>
-          <Button
-            capitalize
-            data-e2e='toRecoveryTwo'
-            disabled={submitting || invalid}
-            fullwidth
-            height='48px'
-            nature='primary'
-            size='16px'
-            type='submit'
-          >
-            <FormattedMessage
-              id='modals.recoveryphrase.confirmwords.body'
-              defaultMessage='Confirm'
-            />
-          </Button>
-        </ButtonWrapper>
-      </FlyoutWrapper>
+      </WordContainerWrapper>
+      <Bottom>
+        <Button
+          capitalize
+          data-e2e='toRecoveryTwo'
+          disabled={submitting || invalid}
+          fullwidth
+          height='48px'
+          nature='primary'
+          size='16px'
+          type='submit'
+        >
+          <FormattedMessage
+            id='modals.recoveryphrase.confirmwords.body'
+            defaultMessage='Confirm'
+          />
+        </Button>
+      </Bottom>
     </CustomForm>
   )
 }

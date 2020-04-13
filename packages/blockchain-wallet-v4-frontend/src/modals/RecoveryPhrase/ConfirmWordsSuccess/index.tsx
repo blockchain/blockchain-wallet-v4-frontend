@@ -1,22 +1,27 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '../index'
 import React from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 `
 const IconWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  padding: 40px;
 `
-const ContentWrapper = styled.div`
+const ContentWrapper = styled(FlyoutWrapper)`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 70%;
 `
 
 const ConfirmWordsSuccess: React.FC<Props> = props => {

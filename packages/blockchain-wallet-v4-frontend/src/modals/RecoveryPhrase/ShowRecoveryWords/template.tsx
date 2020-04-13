@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
   height: 100%;
 `
@@ -27,16 +26,11 @@ const WordText = styled.div`
   padding-left: 20px;
 `
 
-const ButtonWrapper = styled(FlyoutWrapper)`
-  padding-top: 0px;
+const Bottom = styled(FlyoutWrapper)`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   justify-content: flex-end;
-  margin-top: 5px;
-  & > :first-child {
-    margin-bottom: 15px;
-  }
+  flex-direction: column;
+  height: 100%;
 `
 
 const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
@@ -93,7 +87,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
             )
           }
         })}
-      <ButtonWrapper>
+      <Bottom>
         <Button
           capitalize
           data-e2e='toRecoveryTwo'
@@ -108,7 +102,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
             defaultMessage='Next'
           />
         </Button>
-      </ButtonWrapper>
+      </Bottom>
     </Wrapper>
   )
 }
