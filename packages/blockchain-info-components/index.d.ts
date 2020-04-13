@@ -51,7 +51,11 @@ export const Button: StatelessComponent<
     width?: string
   } & React.ButtonHTMLAttributes<{}>
 >
-
+export const Carousel: StatelessComponent<{
+  height: number
+  arrows: boolean
+  chips: boolean
+}>
 export const ComponentDropdown: React.ComponentClass<{
   components: Array<JSX.Element>
   color?: string

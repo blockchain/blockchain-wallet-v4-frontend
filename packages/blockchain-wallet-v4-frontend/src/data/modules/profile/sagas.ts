@@ -383,8 +383,16 @@ export default ({ api, coreSagas, networks }) => {
         remainingAddresses
       )
       yield put(A.shareWalletAddressesWithExchangeSuccess(data))
+      yield put(
+        actions.alerts.displaySuccess('Wallet addresses successfully linked.')
+      )
     } catch (e) {
       yield put(A.shareWalletAddressesWithExchangeFailure(e))
+      yield put(
+        actions.alerts.displayError(
+          'There was a problem linking your Wallet addresses.'
+        )
+      )
     }
   }
 
