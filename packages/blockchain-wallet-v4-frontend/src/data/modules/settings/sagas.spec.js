@@ -671,7 +671,7 @@ describe('settingsSagas', () => {
     let action = { payload: { isLegacy: false } }
 
     it('should get the mnemonic', () => {
-      return expectSaga(showEthPrivateKey, action)
+      expectSaga(showEthPrivateKey, action)
         .provide([
           [matchers.call.fn(promptForSecondPassword), 'password'],
           [select(getMnemonic), 'mnemonicT'],

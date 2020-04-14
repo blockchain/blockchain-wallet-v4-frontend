@@ -12,6 +12,7 @@ const _ERROR = ['payload', '_error']
 // keep alphabetized
 const TYPE_WHITELIST = [
   '@@redux-form/CHANGE',
+  '@@redux-form/INITIALIZE',
   '@@redux-form/SET_SUBMIT_SUCCEEDED',
   '@@redux-form/STOP_SUBMIT',
   '@@redux-form/START_SUBMIT',

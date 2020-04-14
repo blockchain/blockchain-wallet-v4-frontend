@@ -1,15 +1,10 @@
-import { combineReducers } from 'redux'
-import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import { initialize } from 'redux-form'
-import { path, prop } from 'ramda'
-import { select } from 'redux-saga/effects'
-
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
-import rootReducer from '../../rootReducer'
+import { initialize } from 'redux-form'
+import { testSaga } from 'redux-saga-test-plan'
 import sendBtcSagas, { logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -191,62 +186,6 @@ describe('sendBtc sagas', () => {
           )
           .next()
           .isDone()
-      })
-    })
-
-    describe('state change', () => {
-      const xpub = 'xpub'
-      const label = 'my wallet'
-      const balance = 1
-      const defaultIndex = 1
-      const defaultAccount = {
-        xpub,
-        label,
-        balance,
-        index: defaultIndex
-      }
-      const stubAccounts = Remote.of([
-        {
-          xpub: '',
-          label: '',
-          balance: 0,
-          index: 0
-        },
-        defaultAccount
-      ])
-      let resultingState = {}
-
-      beforeEach(async () => {
-        resultingState = await expectSaga(initialized, { payload })
-          .withReducer(combineReducers(rootReducer))
-          .provide([
-            [
-              select(selectors.core.common.btc.getAccountsBalances),
-              stubAccounts
-            ],
-            [select(selectors.core.wallet.getDefaultAccountIndex), defaultIndex]
-          ])
-          .run()
-          .then(prop('storeState'))
-      })
-
-      it('should produce correct form state', () => {
-        const form = path(FORM.split('.'), resultingState.form)
-        expect(form.initial).toEqual(form.values)
-        expect(form.initial).toEqual({
-          feePerByte,
-          coin: 'BTC',
-          amount,
-          description,
-          from: defaultAccount,
-          to: null
-        })
-      })
-
-      it('should produce correct sendBtc payment state', () => {
-        expect(resultingState.components.sendBtc.payment).toEqual(
-          Remote.Success(value)
-        )
       })
     })
   })

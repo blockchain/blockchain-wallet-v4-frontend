@@ -1,32 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormGroup renders correctly 1`] = `
-.c0 {
-  width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  position: relative;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin-bottom: 20px;
-}
-
-.c0 > div {
-  margin-right: 0px;
-}
-
-.c0 > div:last-child {
-  margin-right: 0px;
-}
-
-.c0:last-child {
-  margin-bottom: 0px;
-}
-
-<div
-  className="c0"
+<styled.div
+  margin="20px"
 />
 `;

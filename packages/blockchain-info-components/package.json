@@ -76,7 +76,7 @@
     "react-onclickoutside": "6.8.0",
     "react-select": "3.0.3",
     "react-transition-group": "2.5.3",
-    "styled-components": "4.2.0",
+    "styled-components": "4.4.1",
     "universal-cookie": "4.0.0"
   }
 }

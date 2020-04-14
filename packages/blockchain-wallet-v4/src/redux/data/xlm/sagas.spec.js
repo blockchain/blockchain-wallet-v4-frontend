@@ -41,17 +41,18 @@ const { createAccounts, fetchData, fetchLedgerDetails } = sagas({
 })
 
 describe('fetch ledger details saga', () => {
-  it('should fetch latest ledger details', () =>
+  it('should fetch latest ledger details', () => {
     expectSaga(fetchLedgerDetails)
       .put(A.setLedgerDetailsLoading())
       .call(api.getLatestLedgerDetails)
       .put(A.setLedgerDetailsSuccess(STUB_LEDGER))
-      .run())
+      .run()
+  })
 
   it('should set ledger error if fetch fails', () => {
     const error = 'error'
     api.getLatestLedgerDetails.mockRejectedValue(error)
-    return expectSaga(fetchLedgerDetails)
+    expectSaga(fetchLedgerDetails)
       .put(A.setLedgerDetailsLoading())
       .call(api.getLatestLedgerDetails)
       .put(A.setLedgerDetailsFailure(error))
@@ -60,7 +61,7 @@ describe('fetch ledger details saga', () => {
 })
 
 describe('fetch data saga', () => {
-  it('should fetch accounts', () =>
+  it('should fetch accounts', () => {
     expectSaga(fetchData)
       .provide([
         [select(S.getContext), [STUB_ACCOUNT_ID, OTHER_ACCOUNT_ID]],
@@ -90,12 +91,13 @@ describe('fetch data saga', () => {
           }
         })
       )
-      .run())
+      .run()
+  })
 
   it('should set account error if fetch fails', () => {
     const error = 'error'
     api.getXlmAccount.mockRejectedValue(error)
-    return expectSaga(fetchData)
+    expectSaga(fetchData)
       .provide([
         [select(S.getContext), [STUB_ACCOUNT_ID]],
         [
@@ -116,7 +118,7 @@ describe('fetch data saga', () => {
 })
 
 describe('create account saga', () => {
-  it('should create account', () =>
+  it('should create account', () => {
     expectSaga(createAccounts)
       .provide([
         [select(S.getContext), [STUB_ACCOUNT_ID]],
@@ -125,11 +127,12 @@ describe('create account saga', () => {
       .select(S.getContext)
       .call(api.createXlmAccount, STUB_ACCOUNT_ID)
       .call(fetchData)
-      .run())
+      .run()
+  })
 
   it('should not create account for non-testnet', () => {
     networks.xlm = 'public'
-    return expectSaga(createAccounts)
+    expectSaga(createAccounts)
       .provide([
         [select(S.getContext), [STUB_ACCOUNT_ID]],
         [call.fn(fetchData), jest.fn()]

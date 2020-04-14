@@ -1,8 +1,6 @@
 import { call } from 'redux-saga-test-plan/matchers'
-import { combineReducers } from 'redux'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
-import { path, prop } from 'ramda'
 import { select } from 'redux-saga/effects'
 
 import * as A from './actions'
@@ -13,7 +11,6 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BitcoinCash from 'bitcoinforksjs-lib'
-import rootReducer from '../../rootReducer'
 import sendBchSagas, { logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -190,65 +187,6 @@ describe('sendBch sagas', () => {
           )
           .next()
           .isDone()
-      })
-    })
-
-    describe('state change', () => {
-      const xpub = 'xpub'
-      const label = 'my wallet'
-      const balance = 1
-      const defaultIndex = 1
-      const defaultAccount = {
-        xpub,
-        label,
-        balance,
-        index: defaultIndex
-      }
-      const stubAccounts = Remote.of([
-        {
-          xpub: '',
-          label: '',
-          balance: 0,
-          index: 0
-        },
-        defaultAccount
-      ])
-      let resultingState = {}
-
-      beforeEach(async () => {
-        resultingState = await expectSaga(initialized, { payload })
-          .withReducer(combineReducers(rootReducer))
-          .provide([
-            [
-              select(selectors.core.common.bch.getAccountsBalances),
-              stubAccounts
-            ],
-            [
-              select(selectors.core.kvStore.bch.getDefaultAccountIndex),
-              Remote.of(defaultIndex)
-            ]
-          ])
-          .run()
-          .then(prop('storeState'))
-      })
-
-      it('should produce correct form state', () => {
-        const form = path(FORM.split('.'), resultingState.form)
-        expect(form.initial).toEqual(form.values)
-        expect(form.initial).toEqual({
-          amount: { coin: 1, fiat: 10000 },
-          coin: 'BCH',
-          from: defaultAccount,
-          description: 'message',
-          payPro: undefined,
-          to: null
-        })
-      })
-
-      it('should produce correct sendBch payment state', () => {
-        expect(resultingState.components.sendBch.payment).toEqual(
-          Remote.Success(value)
-        )
       })
     })
   })
@@ -456,7 +394,7 @@ describe('sendBch sagas', () => {
 
     it('should not set transaction not if payment has no description', () => {
       paymentMock.value.mockReturnValue({ ...value, description: '', txId })
-      return expectSaga(secondStepSubmitClicked)
+      expectSaga(secondStepSubmitClicked)
         .provide([
           [select(S.getPayment), Remote.of(paymentMock)],
           [call.fn(promptForSecondPassword), null]
