@@ -74,7 +74,7 @@ describe('Create XLM', () => {
       }
       const newkv = set(KVStoreEntry.value, xlm, kv)
 
-      return expectSaga(createXlm, { kv, password })
+      expectSaga(createXlm, { kv, password })
         .provide([[select(getMnemonic, password), Task.of(testData.mnemonic)]])
         .put(A.createMetadataXlm(newkv))
         .run()
