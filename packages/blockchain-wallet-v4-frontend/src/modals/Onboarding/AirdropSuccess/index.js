@@ -127,7 +127,7 @@ class AirdropSuccess extends React.PureComponent {
             {isLinkCopied ? (
               <TooltipHost id='copied'>
                 <FooterButton
-                  nature='blue900'
+                  nature='purple'
                   size='16px'
                   onMouseLeave={this.hideCopied}
                 >
@@ -139,7 +139,7 @@ class AirdropSuccess extends React.PureComponent {
                 </FooterButton>
               </TooltipHost>
             ) : (
-              <FooterButton nature='blue900' size='16px'>
+              <FooterButton nature='purple' size='16px'>
                 <FooterIcon name='copy' size='12px' />
                 <FormattedMessage
                   defaultMessage='Copy'

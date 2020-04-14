@@ -162,6 +162,7 @@ export const getLinkToExchangeAccountDeeplink = path([
   'exchangeOnboarding',
   'linkToExchangeAccountDeeplink'
 ])
-
+export const getShareWalletAddressesStatus = (state: RootState) =>
+  state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 export const isExchangeAccountLinked = state =>
   lift(user => not(isNil(prop('settings', user))))(getUserData(state))
