@@ -21,6 +21,7 @@ const INITIAL_STATE: SimpleBuyState = {
   order: undefined,
   orders: Remote.NotAsked,
   pairs: Remote.NotAsked,
+  providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
   suggestedAmounts: Remote.NotAsked
@@ -31,21 +32,21 @@ export function simpleBuyReducer (
   action: SimpleBuyActionTypes
 ): SimpleBuyState {
   switch (action.type) {
-    case AT.CREATE_SB_CARD_FAILURE: {
+    case AT.ACTIVATE_SB_CARD_FAILURE: {
       return {
         ...state,
-        card: Remote.Failure(action.payload.error)
+        providerDetails: Remote.Failure(action.payload.error)
       }
     }
-    case AT.CREATE_SB_CARD_LOADING:
+    case AT.ACTIVATE_SB_CARD_LOADING:
       return {
         ...state,
-        card: Remote.Loading
+        providerDetails: Remote.Loading
       }
-    case AT.CREATE_SB_CARD_SUCCESS:
+    case AT.ACTIVATE_SB_CARD_SUCCESS:
       return {
         ...state,
-        card: Remote.Success(action.payload.card)
+        providerDetails: Remote.Success(action.payload.providerDetails)
       }
     case AT.DESTROY_CHECKOUT:
       return {
@@ -71,6 +72,22 @@ export function simpleBuyReducer (
       return {
         ...state,
         balances: Remote.Success(action.payload.balances)
+      }
+    case AT.FETCH_SB_CARD_FAILURE: {
+      return {
+        ...state,
+        card: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_CARD_LOADING:
+      return {
+        ...state,
+        card: Remote.Loading
+      }
+    case AT.FETCH_SB_CARD_SUCCESS:
+      return {
+        ...state,
+        card: Remote.Success(action.payload.card)
       }
     case AT.FETCH_SB_CARDS_FAILURE: {
       return {

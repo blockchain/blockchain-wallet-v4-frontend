@@ -14,6 +14,7 @@ import {
   SBAccountType,
   SBCardType,
   SBOrderType,
+  SBProviderDetailsType,
   SBQuoteType
 } from 'core/types'
 import {
@@ -47,6 +48,28 @@ export default ({
     return userData.tiers && userData.tiers.current >= 2
   }
 
+  const activateSBCard = function * ({
+    card
+  }: ReturnType<typeof A.activateSBCard>) {
+    let providerDetails: SBProviderDetailsType
+    try {
+      yield put(A.activateSBCardLoading())
+      if (card.partner === 'EVERYPAY') {
+        providerDetails = yield call(
+          api.activateSBCard,
+          card.id,
+          'https://login.blockchain.com'
+        )
+        yield put(A.activateSBCardSuccess(providerDetails))
+      } else {
+        throw new Error('UNKNOWN_PARTNER')
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.activateSBCardFailure(error))
+    }
+  }
+
   const cancelSBOrder = function * ({
     order
   }: ReturnType<typeof A.cancelSBOrder>) {
@@ -70,26 +93,6 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('cancelSBOrderForm', { _error: error }))
-    }
-  }
-
-  const createSBCard = function * () {
-    try {
-      yield put(A.createSBCardLoading())
-      const currency = S.getFiatCurrency(yield select())
-      if (!currency) throw new Error(NO_FIAT_CURRENCY)
-      const userDataR = selectors.modules.profile.getUserData(yield select())
-      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-      const address = userData.address
-      if (!address) throw new Error('NO_USER_ADDRESS')
-
-      const card: SBCardType = yield call(api.createSBCard, currency, {
-        ...address
-      })
-      yield put(A.createSBCardSuccess(card))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.createSBCardFailure(error))
     }
   }
 
@@ -148,6 +151,33 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBBalancesFailure(error))
+    }
+  }
+
+  const fetchSBCard = function * ({ cardId }: ReturnType<typeof A.fetchSBCard>) {
+    let card: SBCardType
+    try {
+      yield put(A.fetchSBCardLoading())
+      const currency = S.getFiatCurrency(yield select())
+      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+
+      if (!cardId) {
+        const userDataR = selectors.modules.profile.getUserData(yield select())
+        const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+        const address = userData.address
+        if (!address) throw new Error('NO_USER_ADDRESS')
+
+        card = yield call(api.createSBCard, currency, {
+          ...address
+        })
+      } else {
+        card = yield call(api.getSBCard, cardId)
+      }
+      yield put(A.fetchSBCardSuccess(card))
+      yield put(A.activateSBCard(card))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBCardFailure(error))
     }
   }
 
@@ -334,11 +364,12 @@ export default ({
   }
 
   return {
+    activateSBCard,
     cancelSBOrder,
     confirmSBOrder,
-    createSBCard,
     createSBOrder,
     fetchSBBalances,
+    fetchSBCard,
     fetchSBCards,
     fetchSBFiatEligible,
     fetchSBOrders,

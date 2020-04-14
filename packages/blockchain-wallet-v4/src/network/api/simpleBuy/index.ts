@@ -22,6 +22,16 @@ export default ({
   authorizedPut,
   authorizedDelete
 }) => {
+  const activateSBCard = (cardId: string, customerUrl: string): SBCardType =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: `/payments/cards/${cardId}/activate`,
+      contentType: 'application/json',
+      data: {
+        customerUrl
+      }
+    })
+
   const cancelSBOrder = (order: SBOrderType) =>
     authorizedDelete({
       url: nabuUrl,
@@ -83,7 +93,13 @@ export default ({
       }
     })
 
-  const getSBCards = () =>
+  const getSBCard = (cardId: string): SBCardType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/cards/${cardId}`
+    })
+
+  const getSBCards = (): Array<SBCardType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/payments/cards'
@@ -196,11 +212,13 @@ export default ({
     })
 
   return {
+    activateSBCard,
     cancelSBOrder,
     createSBCard,
     createSBOrder,
     confirmSBOrder,
     getSBBalances,
+    getSBCard,
     getSBCards,
     getSBOrders,
     getSBPairs,

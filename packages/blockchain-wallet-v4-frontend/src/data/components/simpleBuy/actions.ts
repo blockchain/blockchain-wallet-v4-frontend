@@ -10,11 +10,36 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
+  SBProviderDetailsType,
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
 import { SimpleBuyActionTypes } from './types'
 
+export const activateSBCard = (card: SBCardType) => ({
+  type: AT.ACTIVATE_SB_CARD,
+  card
+})
+
+export const activateSBCardFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.ACTIVATE_SB_CARD_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const activateSBCardLoading = (): SimpleBuyActionTypes => ({
+  type: AT.ACTIVATE_SB_CARD_LOADING
+})
+
+export const activateSBCardSuccess = (
+  providerDetails: SBProviderDetailsType
+): SimpleBuyActionTypes => ({
+  type: AT.ACTIVATE_SB_CARD_SUCCESS,
+  payload: {
+    providerDetails
+  }
+})
 export const cancelSBOrder = (order: SBOrderType) => ({
   type: AT.CANCEL_ORDER,
   order
@@ -30,30 +55,6 @@ export const confirmSBOrder = () => ({
 
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
-})
-
-export const createSBCard = () => ({
-  type: AT.CREATE_SB_CARD
-})
-
-export const createSBCardFailure = (error: string): SimpleBuyActionTypes => ({
-  type: AT.CREATE_SB_CARD_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const createSBCardLoading = (): SimpleBuyActionTypes => ({
-  type: AT.CREATE_SB_CARD_LOADING
-})
-
-export const createSBCardSuccess = (
-  card: SBCardType
-): SimpleBuyActionTypes => ({
-  type: AT.CREATE_SB_CARD_SUCCESS,
-  payload: {
-    card
-  }
 })
 
 export const fetchSBBalances = (currency?: CoinType) => ({
@@ -80,6 +81,29 @@ export const fetchSBBalancesSuccess = (
   type: AT.FETCH_SB_BALANCES_SUCCESS,
   payload: {
     balances
+  }
+})
+
+export const fetchSBCard = (cardId?: string) => ({
+  type: AT.FETCH_SB_CARD,
+  cardId
+})
+
+export const fetchSBCardFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARD_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBCardLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARD_LOADING
+})
+
+export const fetchSBCardSuccess = (card: SBCardType): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARD_SUCCESS,
+  payload: {
+    card
   }
 })
 

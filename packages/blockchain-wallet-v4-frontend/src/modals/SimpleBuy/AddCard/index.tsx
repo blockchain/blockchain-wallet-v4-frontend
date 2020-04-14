@@ -1,19 +1,29 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
+import {
+  FiatType,
+  RemoteDataType,
+  SBCardType,
+  SBProviderDetailsType
+} from 'core/types'
 import { getData } from './selectors'
-import { RemoteDataType, SBCardType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import DataError from 'components/DataError'
+import Loading from './template.loading'
 import React, { PureComponent } from 'react'
+import Success from './template.success'
 
-type OwnProps = {
+export type OwnProps = {
   cardId?: string
   handleClose: () => void
 }
-type SuccessStateType = {
+export type SuccessStateType = {
   card: SBCardType
+  fiatCurrency: FiatType
+  providerDetails: SBProviderDetailsType
 }
-type LinkDispatchPropsType = {
+export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType = {
@@ -26,13 +36,16 @@ class AddCard extends PureComponent<Props, State> {
   state = {}
 
   componentDidMount () {
-    if (!this.props.cardId) {
-      this.props.simpleBuyActions.createSBCard()
-    }
+    this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
   }
 
   render () {
-    return <div>Add Card</div>
+    return this.props.data.cata({
+      Success: val => <Success {...val} {...this.props} />,
+      Failure: () => <DataError />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 

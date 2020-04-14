@@ -128,6 +128,15 @@ export type SBPaymentMethodsType = {
   methods: Array<SBPaymentMethodType>
 }
 
+export type SBProviderDetailsType = {
+  everypay: {
+    apiUsername: string
+    mobileToken: string
+    paymentLink: string
+    paymentState: 'INITIAL'
+  }
+}
+
 export type SBMoneyType = {
   amount: string
   symbol: FiatType

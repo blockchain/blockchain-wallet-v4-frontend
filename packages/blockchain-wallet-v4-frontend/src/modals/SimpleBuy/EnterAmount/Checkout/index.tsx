@@ -64,10 +64,13 @@ class Checkout extends PureComponent<Props> {
     } else if (
       formValues &&
       formValues.method &&
-      formValues.method.type === 'CARD' &&
-      this.props.cards.length === 0
+      formValues.method.type === 'CARD'
     ) {
-      this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+      // TODO: Simple Buy - select different cards?
+      this.props.simpleBuyActions.setStep({
+        step: 'ADD_CARD',
+        cardId: this.props.cards[0] ? this.props.cards[0].id : undefined
+      })
     } else {
       this.props.simpleBuyActions.createSBOrder()
     }

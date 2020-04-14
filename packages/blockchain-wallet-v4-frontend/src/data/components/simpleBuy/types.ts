@@ -11,6 +11,7 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBProviderDetailsType,
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
@@ -49,28 +50,28 @@ export type SimpleBuyState = {
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
   pairs: RemoteDataType<string, Array<SBPairType>>
+  providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
   suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
-interface CreateSBCardFailure {
+interface ActivateSBCardFailure {
   payload: {
     error: string
   }
-  type: typeof AT.CREATE_SB_CARD_FAILURE
+  type: typeof AT.ACTIVATE_SB_CARD_FAILURE
+}
+interface ActivateSBCardLoading {
+  type: typeof AT.ACTIVATE_SB_CARD_LOADING
 }
 
-interface CreateSBCardLoading {
-  type: typeof AT.CREATE_SB_CARD_LOADING
-}
-
-interface CreateSBCardSuccess {
+interface ActivateSBCardSuccess {
   payload: {
-    card: SBCardType
+    providerDetails: SBProviderDetailsType
   }
-  type: typeof AT.CREATE_SB_CARD_SUCCESS
+  type: typeof AT.ACTIVATE_SB_CARD_SUCCESS
 }
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
@@ -91,6 +92,22 @@ interface FetchSBBalancesSuccess {
     balances: SBBalancesType
   }
   type: typeof AT.FETCH_SB_BALANCES_SUCCESS
+}
+interface FetchSBCardFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_CARD_FAILURE
+}
+interface FetchSBCardLoading {
+  type: typeof AT.FETCH_SB_CARD_LOADING
+}
+
+interface FetchSBCardSuccess {
+  payload: {
+    card: SBCardType
+  }
+  type: typeof AT.FETCH_SB_CARD_SUCCESS
 }
 interface FetchSBCardsFailure {
   payload: {
@@ -256,13 +273,16 @@ interface ShowModalAction {
 }
 
 export type SimpleBuyActionTypes =
-  | CreateSBCardFailure
-  | CreateSBCardLoading
-  | CreateSBCardSuccess
+  | ActivateSBCardFailure
+  | ActivateSBCardLoading
+  | ActivateSBCardSuccess
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
+  | FetchSBCardFailure
+  | FetchSBCardLoading
+  | FetchSBCardSuccess
   | FetchSBCardsFailure
   | FetchSBCardsLoading
   | FetchSBCardsSuccess
