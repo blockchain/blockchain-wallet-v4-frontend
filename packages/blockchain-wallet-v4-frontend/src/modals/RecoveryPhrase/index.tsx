@@ -3,6 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import { connect } from 'react-redux'
 import { path } from 'ramda'
+import { RecoveryPhraseStepType } from 'data/components/recoveryPhrase/types'
 import { RootState } from 'data/rootReducer'
 import ConfirmWords from './ConfirmWords'
 import ConfirmWordsSuccess from './ConfirmWordsSuccess'
@@ -53,6 +54,22 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     this.setState({ show: true })
     /* eslint-enable */
     this.getWords()
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    if (this.props.step === prevProps.step) return
+    if (
+      RecoveryPhraseStepType[this.props.step] >
+      RecoveryPhraseStepType[prevProps.step]
+    ) {
+      /* eslint-disable */
+      this.setState({ direction: 'left' })
+      console.log('This should be left')
+    } else {
+      this.setState({ direction: 'right' })
+      console.log('this should be right')
+      /* eslint-enable */
+    }
   }
 
   componentWillUnmount () {
