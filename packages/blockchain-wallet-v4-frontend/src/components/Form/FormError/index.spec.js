@@ -1,13 +1,13 @@
-import 'jest-styled-components'
+import { shallow } from 'enzyme'
 import FormError from './index.js'
 import React from 'react'
-import renderer from 'react-test-renderer'
+import toJson from 'enzyme-to-json'
+
 jest.mock('blockchain-info-components', () => ({ Text: 'text' }))
 
 describe('FormError', () => {
   it('renders correctly', () => {
-    const component = renderer.create(<FormError />)
-    const tree = component.toJSON()
+    const tree = toJson(shallow(<FormError />))
     expect(tree).toMatchSnapshot()
   })
 })
