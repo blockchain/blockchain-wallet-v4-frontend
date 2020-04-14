@@ -18,6 +18,7 @@ import ExchangeProfile from './ExchangeProfile'
 import General from './Settings/General'
 import Help from './Help'
 import Home from './Home'
+import Interest from './Interest'
 import Lockbox from './Lockbox'
 import Login from './Login'
 import Logout from './Logout'
@@ -31,7 +32,6 @@ import Register from './Register'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
-import Savings from './Savings'
 import SecurityCenter from './SecurityCenter'
 import TheExchange from './TheExchange'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -152,7 +152,7 @@ class App extends React.PureComponent<{
                       component={General}
                     />
                     <WalletLayout path='/lockbox' component={Lockbox} />
-                    <WalletLayout path='/savings' component={Savings} />
+                    <WalletLayout path='/interest' component={Interest} />
                     {values(
                       map(
                         coin =>
