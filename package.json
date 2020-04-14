@@ -85,7 +85,7 @@
     "storybook:build": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
     "storybook:deploy": "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
-    "test": "cross-env yarn wsrun test:build && yarn wsrun test",
+    "test": "cross-env yarn wsrun --serial test:build && yarn wsrun --serial test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
     "test:components:update": "yarn workspace blockchain-info-components test:update",
