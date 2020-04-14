@@ -28,7 +28,9 @@ export default ({
       endPoint: `/payments/cards/${cardId}/activate`,
       contentType: 'application/json',
       data: {
-        customerUrl
+        everypay: {
+          customerUrl
+        }
       }
     })
 
