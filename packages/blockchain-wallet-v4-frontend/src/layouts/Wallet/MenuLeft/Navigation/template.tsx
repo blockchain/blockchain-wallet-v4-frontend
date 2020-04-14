@@ -9,16 +9,11 @@ import {
 } from 'components/MenuLeft'
 import { FormattedMessage } from 'react-intl'
 import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
-import {
-  Link,
-  Text,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
 import { SupportedCoinType } from 'core/types'
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -143,24 +138,12 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      {props.isExchangeAccountLinked ? (
-        <Link
-          href={`${props.exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
-          rel='noopener noreferrer'
-          target='_blank'
-          style={{ width: '100%' }}
-        >
-          <MenuItem data-e2e='exchangeLink'>
-            <ExchangeNavItem {...props} />
-          </MenuItem>
-        </Link>
-      ) : (
-        <LinkContainer to='/exchange' activeClassName='active'>
-          <MenuItem data-e2e='exchangeLink'>
-            <ExchangeNavItem {...props} />
-          </MenuItem>
-        </LinkContainer>
-      )}
+      <LinkContainer to='/exchange' activeClassName='active'>
+        <MenuItem data-e2e='exchangeLink'>
+          <ExchangeNavItem {...props} />
+        </MenuItem>
+      </LinkContainer>
+      {/* )} */}
       <LinkContainer to='/borrow' activeClassName='active'>
         <MenuItem data-e2e='borrowLink'>
           <MenuIcon name='borrow' size='20px' />

@@ -8,6 +8,7 @@ export type ModalNamesType =
   | 'FAQ_MODAL'
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
+  | 'LinkToExchangeAccount'
   | '@MODAL.REQUEST.ETH'
   | '@MODAL.SEND.BCH'
   | '@MODAL.SEND.BTC'
