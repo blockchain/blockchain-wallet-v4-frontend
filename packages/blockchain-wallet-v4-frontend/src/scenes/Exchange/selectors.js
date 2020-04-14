@@ -6,8 +6,6 @@ const { TIERS_STATES } = model.profile
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.modules.profile.getUserTiers,
-    selectors.modules.profile.getUserData,
     state =>
       selectors.core.settings
         .getEmail(state)
@@ -19,12 +17,10 @@ export const getData = createDeepEqualSelector(
         .map(path([0, 'state']))
         .map(complement(equals(TIERS_STATES.NONE)))
   ],
-  (userTiersR, userDataR, hasEmail, userCreatedR) => {
-    return lift((userTiers, userData, userCreated) => ({
-      userData,
-      userTiers,
+  (hasEmail, userCreatedR) => {
+    return lift(userCreated => ({
       hasEmail,
       userCreated
-    }))(userTiersR, userDataR, userCreatedR)
+    }))(userCreatedR)
   }
 )
