@@ -188,10 +188,7 @@ const Success = ({
           </TableCell>
           <TableCell width='30%'>
             <Text size='13px' weight={500}>
-              <FormattedMessage
-                id='scenes.settings.addresses.btc.wallets.balance'
-                defaultMessage='Balance'
-              />
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
           <TableCell

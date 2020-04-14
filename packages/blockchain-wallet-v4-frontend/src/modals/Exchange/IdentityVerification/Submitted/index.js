@@ -119,10 +119,7 @@ class Submitted extends React.PureComponent {
               disabled={submitting}
               onClick={onClose}
             >
-              <FormattedMessage
-                id='modals.exchange.identityverification.submitted.close'
-                defaultMessage='Close'
-              />
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
             </CloseButton>
           </Form>
         </SubmittedWrapper>

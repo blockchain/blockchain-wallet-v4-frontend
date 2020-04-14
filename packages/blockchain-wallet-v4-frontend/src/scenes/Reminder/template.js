@@ -105,7 +105,7 @@ const Reminder = props => {
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id='scenes.reminder.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             )}

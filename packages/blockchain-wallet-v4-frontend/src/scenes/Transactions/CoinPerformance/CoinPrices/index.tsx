@@ -59,7 +59,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
           <Wrapper>
             <TitleText>
               <FormattedMessage
-                id='scenes.transactions.performance.prices.price'
+                id='scenes.transactions.performance.account.price'
                 defaultMessage='{account} Price'
                 values={{ account: this.props.coinModel.coinTicker }}
               />

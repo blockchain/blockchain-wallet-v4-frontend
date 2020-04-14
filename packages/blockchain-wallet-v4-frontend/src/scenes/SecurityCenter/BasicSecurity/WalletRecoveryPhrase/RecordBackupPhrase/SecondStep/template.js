@@ -63,10 +63,7 @@ const SecondStep = props => {
             onClick={props.handleClose}
             data-e2e='backupPhraseCancelButton'
           >
-            <FormattedMessage
-              id='scenes.security.2fa.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
         ) : (
           <Button

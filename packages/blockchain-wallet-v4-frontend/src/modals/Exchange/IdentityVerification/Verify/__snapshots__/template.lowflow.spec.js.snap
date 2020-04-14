@@ -170,7 +170,7 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Continue"
-            id="identityverification.lowflow.personal.continue"
+            id="buttons.continue"
             values={Object {}}
           />
         </Button>
