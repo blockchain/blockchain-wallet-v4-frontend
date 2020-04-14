@@ -138,8 +138,8 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      <LinkContainer to='/savings' activeClassName='active'>
-        <MenuItem data-e2e='savingsLink'>
+      <LinkContainer to='/interest' activeClassName='active'>
+        <MenuItem data-e2e='interestLink'>
           <MenuIcon name='savings-icon' size='20px' />
           <Destination>
             <FormattedMessage
