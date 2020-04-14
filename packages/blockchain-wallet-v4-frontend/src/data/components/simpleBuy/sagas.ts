@@ -12,10 +12,16 @@ import {
   FiatEligibleType,
   FiatType,
   SBAccountType,
+  SBCardType,
   SBOrderType,
   SBQuoteType
 } from 'core/types'
-import { getCoinFromPair, getFiatFromPair, NO_PAIR_SELECTED } from './model'
+import {
+  getCoinFromPair,
+  getFiatFromPair,
+  NO_FIAT_CURRENCY,
+  NO_PAIR_SELECTED
+} from './model'
 import { SBCheckoutFormValuesType } from './types'
 import profileSagas from '../../modules/profile/sagas'
 
@@ -64,6 +70,26 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('cancelSBOrderForm', { _error: error }))
+    }
+  }
+
+  const createSBCard = function * () {
+    try {
+      yield put(A.createSBCardLoading())
+      const currency = S.getFiatCurrency(yield select())
+      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const address = userData.address
+      if (!address) throw new Error('NO_USER_ADDRESS')
+
+      const card: SBCardType = yield call(api.createSBCard, currency, {
+        ...address
+      })
+      yield put(A.createSBCardSuccess(card))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createSBCardFailure(error))
     }
   }
 
@@ -125,6 +151,17 @@ export default ({
     }
   }
 
+  const fetchSBCards = function * () {
+    try {
+      yield put(A.fetchSBCardsLoading())
+      const cards = yield call(api.getSBCards)
+      yield put(A.fetchSBCardsSuccess(cards))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchSBCardsFailure(error))
+    }
+  }
+
   const fetchSBFiatEligible = function * ({
     currency
   }: ReturnType<typeof A.fetchSBFiatEligible>) {
@@ -182,7 +219,7 @@ export default ({
       const fiatCurrency: FiatType | false = order
         ? (order.pair.split('-')[1] as FiatType)
         : false
-      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
       const account: SBAccountType = yield call(
         api.getSBPaymentAccount,
         fiatCurrency
@@ -259,7 +296,7 @@ export default ({
 
       const fiatCurrency = S.getFiatCurrency(yield select())
       const cryptoCurrency = S.getCryptoCurrency(yield select())
-      if (!fiatCurrency) throw new Error('NO_FIAT_CURRENCY')
+      if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
@@ -299,8 +336,10 @@ export default ({
   return {
     cancelSBOrder,
     confirmSBOrder,
+    createSBCard,
     createSBOrder,
     fetchSBBalances,
+    fetchSBCards,
     fetchSBFiatEligible,
     fetchSBOrders,
     fetchSBPairs,

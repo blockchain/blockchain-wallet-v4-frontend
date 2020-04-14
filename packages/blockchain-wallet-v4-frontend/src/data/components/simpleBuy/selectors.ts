@@ -6,6 +6,10 @@ export const getSBAccount = (state: RootState) =>
 export const getSBBalances = (state: RootState) =>
   state.components.simpleBuy.balances
 
+export const getSBCard = (state: RootState) => state.components.simpleBuy.card
+
+export const getSBCards = (state: RootState) => state.components.simpleBuy.cards
+
 export const getCryptoCurrency = (state: RootState) =>
   state.components.simpleBuy.cryptoCurrency
 

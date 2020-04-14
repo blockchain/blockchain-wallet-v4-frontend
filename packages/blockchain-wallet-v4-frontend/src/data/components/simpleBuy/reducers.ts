@@ -11,6 +11,9 @@ const INITIAL_STATE: SimpleBuyState = {
     PAX: { pending: '0', available: '0' },
     XLM: { pending: '0', available: '0' }
   }),
+  card: Remote.NotAsked,
+  cardId: undefined,
+  cards: Remote.NotAsked,
   cryptoCurrency: undefined,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
@@ -28,6 +31,22 @@ export function simpleBuyReducer (
   action: SimpleBuyActionTypes
 ): SimpleBuyState {
   switch (action.type) {
+    case AT.CREATE_SB_CARD_FAILURE: {
+      return {
+        ...state,
+        card: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.CREATE_SB_CARD_LOADING:
+      return {
+        ...state,
+        card: Remote.Loading
+      }
+    case AT.CREATE_SB_CARD_SUCCESS:
+      return {
+        ...state,
+        card: Remote.Success(action.payload.card)
+      }
     case AT.DESTROY_CHECKOUT:
       return {
         ...state,
@@ -52,6 +71,22 @@ export function simpleBuyReducer (
       return {
         ...state,
         balances: Remote.Success(action.payload.balances)
+      }
+    case AT.FETCH_SB_CARDS_FAILURE: {
+      return {
+        ...state,
+        cards: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_CARDS_LOADING:
+      return {
+        ...state,
+        cards: Remote.Loading
+      }
+    case AT.FETCH_SB_CARDS_SUCCESS:
+      return {
+        ...state,
+        cards: Remote.Success(action.payload.cards)
       }
     case AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE: {
       return {
@@ -181,6 +216,12 @@ export function simpleBuyReducer (
           return {
             ...state,
             order: action.payload.order,
+            step: action.payload.step
+          }
+        case 'ADD_CARD':
+          return {
+            ...state,
+            cardId: action.payload.cardId,
             step: action.payload.step
           }
         default: {

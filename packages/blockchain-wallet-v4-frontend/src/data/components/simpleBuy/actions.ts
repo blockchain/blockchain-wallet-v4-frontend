@@ -6,6 +6,7 @@ import {
   FiatType,
   SBAccountType,
   SBBalancesType,
+  SBCardType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -29,6 +30,30 @@ export const confirmSBOrder = () => ({
 
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
+})
+
+export const createSBCard = () => ({
+  type: AT.CREATE_SB_CARD
+})
+
+export const createSBCardFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.CREATE_SB_CARD_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const createSBCardLoading = (): SimpleBuyActionTypes => ({
+  type: AT.CREATE_SB_CARD_LOADING
+})
+
+export const createSBCardSuccess = (
+  card: SBCardType
+): SimpleBuyActionTypes => ({
+  type: AT.CREATE_SB_CARD_SUCCESS,
+  payload: {
+    card
+  }
 })
 
 export const fetchSBBalances = (currency?: CoinType) => ({
@@ -55,6 +80,30 @@ export const fetchSBBalancesSuccess = (
   type: AT.FETCH_SB_BALANCES_SUCCESS,
   payload: {
     balances
+  }
+})
+
+export const fetchSBCards = () => ({
+  type: AT.FETCH_SB_CARDS
+})
+
+export const fetchSBCardsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARDS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchSBCardsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARDS_LOADING
+})
+
+export const fetchSBCardsSuccess = (
+  cards: Array<SBCardType>
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_SB_CARDS_SUCCESS,
+  payload: {
+    cards
   }
 })
 
@@ -258,7 +307,6 @@ export const initializeCheckout = (
 
 export const setStep = (
   payload:
-    | { step: 'CURRENCY_SELECTION' }
     | {
         order: SBOrderType
         step:
@@ -272,6 +320,8 @@ export const setStep = (
         fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
+    | { cardId?: string; step: 'ADD_CARD' }
+    | { step: 'CURRENCY_SELECTION' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
@@ -286,6 +336,8 @@ export const setStep = (
         payload.step === 'ORDER_SUMMARY' ||
         payload.step === 'CANCEL_ORDER'
       ? { step: payload.step, order: payload.order }
+      : payload.step === 'ADD_CARD'
+      ? { step: payload.step, cardId: payload.cardId }
       : {
           step: payload.step
         }

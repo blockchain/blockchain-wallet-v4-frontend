@@ -1,8 +1,10 @@
 import { CoinType, CurrenciesType, FiatType } from '../../../types'
 import {
   FiatEligibleType,
+  NabuAddressType,
   SBAccountType,
   SBBalancesType,
+  SBCardType,
   SBMoneyType,
   SBOrderType,
   SBPairsType,
@@ -24,6 +26,20 @@ export default ({
     authorizedDelete({
       url: nabuUrl,
       endPoint: `/simple-buy/trades/${order.id}`
+    })
+
+  const createSBCard = (
+    currency: FiatType,
+    address: NabuAddressType
+  ): SBCardType =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/payments/cards',
+      contentType: 'application/json',
+      data: {
+        currency,
+        address
+      }
     })
 
   const createSBOrder = (
@@ -65,6 +81,12 @@ export default ({
       data: {
         ccy: currency
       }
+    })
+
+  const getSBCards = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/payments/cards'
     })
 
   const getSBFiatEligible = (
@@ -175,9 +197,11 @@ export default ({
 
   return {
     cancelSBOrder,
+    createSBCard,
     createSBOrder,
     confirmSBOrder,
     getSBBalances,
+    getSBCards,
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,

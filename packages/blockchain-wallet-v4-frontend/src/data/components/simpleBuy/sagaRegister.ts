@@ -8,8 +8,10 @@ export default ({ api, coreSagas, networks }) => {
 
   return function * simpleBuySaga () {
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
+    yield takeLatest(AT.CREATE_SB_CARD, simpleBuySagas.createSBCard)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(AT.CONFIRM_ORDER, simpleBuySagas.confirmSBOrder)
+    yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
     yield takeLatest(
       AT.FETCH_SB_FIAT_ELIGIBLE,
       simpleBuySagas.fetchSBFiatEligible

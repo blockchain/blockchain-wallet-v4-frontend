@@ -4,12 +4,14 @@ import {
   CoinType,
   FiatType,
   RemoteDataType,
-  SBPairType,
-  SBPaymentMethodsType,
   SBSuggestedAmountType,
   SupportedCoinsType
 } from 'core/types'
 import { connect } from 'react-redux'
+import {
+  OwnProps as EnterAmountOwnProps,
+  SuccessStateType as EnterAmountSuccessStateType
+} from '../index'
 import { getData } from './selectors'
 import { RatesType, SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
@@ -18,11 +20,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-type OwnProps = {
-  handleClose: () => void
-  pairs: Array<SBPairType>
-  paymentMethods: SBPaymentMethodsType
-}
+type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   formValues?: SBCheckoutFormValuesType
@@ -54,12 +52,22 @@ class Checkout extends PureComponent<Props> {
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
-    const { userData } = this.props.data.getOrElse({
+    const { formValues, userData } = this.props.data.getOrElse({
+      formValues: {
+        method: { limits: { min: '0', max: '0' }, type: 'BANK_TRANSFER' }
+      } as SBCheckoutFormValuesType,
       userData: { tiers: { current: 0 } }
     })
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(2)
+    } else if (
+      formValues &&
+      formValues.method &&
+      formValues.method.type === 'CARD' &&
+      this.props.cards.length === 0
+    ) {
+      this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
     } else {
       this.props.simpleBuyActions.createSBOrder()
     }

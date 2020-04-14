@@ -5,6 +5,7 @@ import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
+import AddCard from './AddCard'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CurrencySelection from './CurrencySelection'
@@ -34,6 +35,10 @@ type LinkStatePropsType =
         | 'TRANSFER_DETAILS'
         | 'ORDER_SUMMARY'
         | 'CANCEL_ORDER'
+    }
+  | {
+      cardId?: string
+      step: 'ADD_CARD'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
@@ -89,6 +94,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ENTER_AMOUNT' && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'ADD_CARD' && (
+          <FlyoutChild>
+            <AddCard {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'CHECKOUT_CONFIRM' && (

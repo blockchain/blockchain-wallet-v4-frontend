@@ -6,6 +6,7 @@ import {
   RemoteDataType,
   SBAccountType,
   SBBalancesType,
+  SBCardType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -27,6 +28,7 @@ export type SBCurrencySelectFormType = {
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
+  'ADD_CARD',
   'CHECKOUT_CONFIRM',
   'ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -37,6 +39,9 @@ export enum SimpleBuyStepType {
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
   balances: RemoteDataType<string, SBBalancesType>
+  card: RemoteDataType<string, SBCardType>
+  cardId: undefined | string
+  cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
@@ -50,6 +55,23 @@ export type SimpleBuyState = {
 }
 
 // Actions
+interface CreateSBCardFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.CREATE_SB_CARD_FAILURE
+}
+
+interface CreateSBCardLoading {
+  type: typeof AT.CREATE_SB_CARD_LOADING
+}
+
+interface CreateSBCardSuccess {
+  payload: {
+    card: SBCardType
+  }
+  type: typeof AT.CREATE_SB_CARD_SUCCESS
+}
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
 }
@@ -69,6 +91,23 @@ interface FetchSBBalancesSuccess {
     balances: SBBalancesType
   }
   type: typeof AT.FETCH_SB_BALANCES_SUCCESS
+}
+interface FetchSBCardsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_SB_CARDS_FAILURE
+}
+
+interface FetchSBCardsLoading {
+  type: typeof AT.FETCH_SB_CARDS_LOADING
+}
+
+interface FetchSBCardsSuccess {
+  payload: {
+    cards: Array<SBCardType>
+  }
+  type: typeof AT.FETCH_SB_CARDS_SUCCESS
 }
 interface FetchSBFiatEligibleFailure {
   payload: {
@@ -187,15 +226,19 @@ interface SetStepAction {
         step: 'ENTER_AMOUNT'
       }
     | {
-        step: 'CURRENCY_SELECTION'
-      }
-    | {
         order: SBOrderType
         step:
           | 'CHECKOUT_CONFIRM'
           | 'ORDER_SUMMARY'
           | 'TRANSFER_DETAILS'
           | 'CANCEL_ORDER'
+      }
+    | {
+        cardId?: string
+        step: 'ADD_CARD'
+      }
+    | {
+        step: 'CURRENCY_SELECTION'
       }
   type: typeof AT.SET_STEP
 }
@@ -213,10 +256,16 @@ interface ShowModalAction {
 }
 
 export type SimpleBuyActionTypes =
+  | CreateSBCardFailure
+  | CreateSBCardLoading
+  | CreateSBCardSuccess
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
   | FetchSBBalancesSuccess
+  | FetchSBCardsFailure
+  | FetchSBCardsLoading
+  | FetchSBCardsSuccess
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess

@@ -47,6 +47,28 @@ export type SBBalancesType = {
   [key in keyof CurrenciesType]?: SBBalanceType
 }
 
+export type NabuAddressType = {
+  city: string
+  country: string
+  line1: string
+  line2?: string
+  postCode: string
+  state: string
+}
+
+export type SBCardType = {
+  addedAt: Date
+  address: NabuAddressType
+  attributes: {}
+  card: null
+  currency: 'EUR'
+  id: string
+  partner: 'EVERYPAY'
+  state: SBCardStateType
+}
+
+export type SBCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED'
+
 export enum SBBuyPairsType {
   'BTC-EUR',
   'BCH-EUR',

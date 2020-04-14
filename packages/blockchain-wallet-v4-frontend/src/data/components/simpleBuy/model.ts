@@ -10,6 +10,7 @@ import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
+export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 
 const splitPair = (pair: SBPairsType) => {
   return pair.split('-')
