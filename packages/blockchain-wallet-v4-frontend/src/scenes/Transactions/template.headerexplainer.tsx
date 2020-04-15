@@ -32,7 +32,7 @@ export const getHeaderExplainer = coinModel => {
             href='https://www.blockchain.com/learning-portal/bitcoin-faq'
             target='_blank'
           >
-            <LearnMoreText size='15px'>
+            <LearnMoreText size='16px'>
               <FormattedMessage
                 id='scenes.transaction.content.empty.getstarted.learnmore'
                 defaultMessage='Learn More'
