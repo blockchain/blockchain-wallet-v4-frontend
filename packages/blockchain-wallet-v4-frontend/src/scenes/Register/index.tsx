@@ -1,11 +1,28 @@
 import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 import Register from './template'
 
-class RegisterContainer extends React.PureComponent {
+type DispatchPropTypes = {
+  alertActions: typeof actions.alerts
+  analyticsActions: typeof actions.analytics
+  authActions: typeof actions.auth
+}
+
+type MapStatePropsType = {
+  data: any
+  domainsR: any
+  email: string
+  goals: Array<any>
+  language: string
+  password: string
+}
+
+export type PropsType = MapStatePropsType & DispatchPropTypes
+
+class RegisterContainer extends React.PureComponent<PropsType> {
   onSubmit = () => {
     const { email, password, language } = this.props
     this.props.authActions.register(email, password, language)
@@ -43,7 +60,7 @@ const mapStateToProps = state => ({
   password: formValueSelector('register')(state, 'password') || ''
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch): DispatchPropTypes => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)

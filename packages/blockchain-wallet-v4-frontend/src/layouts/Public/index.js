@@ -1,15 +1,27 @@
 import { Route } from 'react-router-dom'
 import Alerts from 'components/Alerts'
+import DropdownLanguage from 'components/DropdownLanguage'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import ExternalLinks from './ExternalLinks'
-import Footer from './Footer'
 import Header from './Header'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+const DropdownWrapper = styled.div`
+  margin: 1rem 0 2.5rem 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  ${media.mobile`
+    flex-direction: column;
+    margin-top: 8px;
+  `}
+`
+
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.blue700};
+  background-color: ${props => props.theme.blue900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -23,11 +35,12 @@ const Wrapper = styled.div`
     height: 100%;
   }
 `
+
 const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 `
-const Spacer = styled.div``
+
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,37 +56,27 @@ const ContentContainer = styled.div`
     margin: 0 10px;
   `}
 `
-const ComponentContainer = styled.div``
 
-class PublicLayoutContainer extends React.PureComponent {
-  render () {
-    const { component: Component, ...rest } = this.props
-    return (
-      <React.Fragment>
-        <Route
-          {...rest}
-          render={matchProps => (
-            <Wrapper>
-              <ErrorBoundary>
-                <Alerts />
-                <HeaderContainer>
-                  <Header />
-                </HeaderContainer>
-                <ContentContainer>
-                  <Spacer />
-                  <ComponentContainer>
-                    <Component {...matchProps} />
-                    <ExternalLinks />
-                  </ComponentContainer>
-                  <Footer />
-                </ContentContainer>
-              </ErrorBoundary>
-            </Wrapper>
-          )}
-        />
-      </React.Fragment>
-    )
-  }
-}
+const PublicLayoutContainer = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={matchProps => (
+      <Wrapper>
+        <ErrorBoundary>
+          <Alerts />
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
+            <Component {...matchProps} />
+            <DropdownWrapper>
+              <DropdownLanguage color='white' />
+            </DropdownWrapper>
+          </ContentContainer>
+        </ErrorBoundary>
+      </Wrapper>
+    )}
+  />
+)
 
 export default PublicLayoutContainer
