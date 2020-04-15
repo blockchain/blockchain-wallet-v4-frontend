@@ -60,10 +60,7 @@ const Settings = props => {
             onClick={handleToggle}
             data-e2e='cancelAutoLogout'
           >
-            <FormattedMessage
-              id='scenes.preferences.autologout.settings.updateform.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
           <Button
             type='submit'

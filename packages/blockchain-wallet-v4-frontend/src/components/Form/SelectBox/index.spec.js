@@ -1,8 +1,8 @@
-import 'jest-styled-components'
-import { mount } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import React from 'react'
-import renderer from 'react-test-renderer'
 import SelectBox from './index.js'
+import toJson from 'enzyme-to-json'
+
 jest.mock('blockchain-info-components', () => ({
   SelectInput: ({ getRef, ...props }) => <input {...props} ref={getRef} />
 }))
@@ -28,10 +28,10 @@ const fakeElements = [
 describe('SelectBox', () => {
   it('renders correctly', () => {
     const props = { meta: {} }
-    const component = renderer.create(
+    const component = shallow(
       <SelectBox {...props} input={fakeInput} elements={fakeElements} />
     )
-    const tree = component.toJSON()
+    const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 

@@ -81,10 +81,7 @@ const SecondStep = ({
     <DetailTable>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showbtcpriv.balance'
-            defaultMessage='Balance'
-          />
+          <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -177,10 +174,7 @@ const ShowBtcPrivateKeyTemplate = ({
         onClick={close}
         data-e2e='btcPrivateKeyCloseButton'
       >
-        <FormattedMessage
-          id='modals.showbtcpriv.close'
-          defaultMessage='Close'
-        />
+        <FormattedMessage id='buttons.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
         <Button
@@ -188,10 +182,7 @@ const ShowBtcPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='btcPrivateKeyContinueButton'
         >
-          <FormattedMessage
-            id='modals.showbtcpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

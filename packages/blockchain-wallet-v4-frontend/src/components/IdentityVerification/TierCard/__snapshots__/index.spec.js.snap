@@ -477,7 +477,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
     >
       <FormattedMessage
         defaultMessage="Continue"
-        id="components.identityverification.tiercard.continue"
+        id="buttons.continue"
         values={Object {}}
       />
     </Styled(Button)>

@@ -56,20 +56,14 @@ const MoreInfo = ({ goToNextStep, closeAllModals }) => (
       footer={
         <Footer>
           <BackButton data-e2e='moreInfoCancelButton' onClick={closeAllModals}>
-            <FormattedMessage
-              id='identityverification.more_info.back'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </BackButton>
           <Button
             nature='primary'
             data-e2e='moreInfoContinueButton'
             onClick={goToNextStep}
           >
-            <FormattedMessage
-              id='identityverification.more_info.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       }

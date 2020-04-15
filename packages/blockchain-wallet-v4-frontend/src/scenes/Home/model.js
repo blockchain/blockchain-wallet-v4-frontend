@@ -81,7 +81,7 @@ const TourTooltipComponent = ({
           {...primaryProps}
         >
           {isLastStep ? (
-            <FormattedMessage id='wallet.tour.finish' defaultMessage='Close' />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           ) : (
             <FormattedMessage id='wallet.tour.next' defaultMessage='Next' />
           )}

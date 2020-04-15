@@ -341,7 +341,7 @@ const FirstStep = props => {
               data-e2e='xlmSendContinue'
             >
               <FormattedMessage
-                id='modals.sendxlm.firststep.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

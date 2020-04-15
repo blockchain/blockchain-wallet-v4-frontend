@@ -18,7 +18,7 @@ describe('requestBtc sagas', () => {
     const action = { payload: { accountIdx, addressIdx, message } }
 
     it('should update setHdAddressLabel', () => {
-      return expectSaga(requestBtcSagas.firstStepSubmitClicked, action)
+      expectSaga(requestBtcSagas.firstStepSubmitClicked, action)
         .put(
           actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message)
         )
@@ -70,7 +70,7 @@ describe('requestBtc sagas', () => {
     const action = { payload: {} }
 
     it('should display success alert', () => {
-      return expectSaga(requestBtcSagas.btcPaymentReceived, action)
+      expectSaga(requestBtcSagas.btcPaymentReceived, action)
         .put(actions.alerts.displaySuccess(C.RECEIVE_BTC_SUCCESS))
         .run()
     })

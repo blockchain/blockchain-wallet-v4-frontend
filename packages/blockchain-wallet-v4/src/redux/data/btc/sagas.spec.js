@@ -82,7 +82,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add btc data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchData)
+        expectSaga(dataBtcSagas.fetchData)
           .withReducer(reducers)
           .provide([[select(S.getContext), mockContext]])
           .run()
@@ -132,7 +132,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add rate data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchRates)
+        expectSaga(dataBtcSagas.fetchRates)
           .withReducer(reducers)
           .run()
           .then(result => {
@@ -300,7 +300,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add fiatAtTime data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchFiatAtTime, { payload })
+        expectSaga(dataBtcSagas.fetchFiatAtTime, { payload })
           .withReducer(reducers)
           .run()
           .then(result => {

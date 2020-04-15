@@ -54,10 +54,7 @@ const DeleteAdresssLabel = props => {
           onClick={close}
           data-e2e='cancelAddressDeleteLink'
         >
-          <FormattedMessage
-            id='modals.deleteaddresslabel.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
         <Button
           type='submit'

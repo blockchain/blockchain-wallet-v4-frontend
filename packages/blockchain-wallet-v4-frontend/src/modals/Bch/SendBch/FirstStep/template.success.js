@@ -314,10 +314,7 @@ const FirstStep = props => {
           }
           data-e2e='bchSendContinue'
         >
-          <FormattedMessage
-            id='modals.sendBch.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>
