@@ -177,27 +177,27 @@ describe.skip('payment', () => {
 
     it('should throw if no account id is available', () => {
       S.kvStore.xlm.getDefaultAccountId.mockReturnValueOnce(Remote.NotAsked)
-      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+      expect(expectSaga(payment.from).run()).rejects.toThrowError(
         new Error(NO_DEFAULT_ACCOUNT_ERROR)
       )
     })
 
     it('should throw if no account is available', () => {
       S.data.xlm.getAccount.mockReturnValueOnce(() => Remote.NotAsked)
-      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+      expect(expectSaga(payment.from).run()).rejects.toThrowError(
         new Error(NO_ACCOUNT_ERROR)
       )
     })
 
     it('should throw if address type is invalid', () => {
-      return expect(
+      expect(
         expectSaga(payment.from, undefined, ADDRESS_TYPES.LOCKBOX + '1').run()
       ).rejects.toThrowError(new Error(INVALID_ADDRESS_TYPE_ERROR))
     })
 
     it('should throw if no account balance is available', () => {
       S.data.xlm.getBalance.mockReturnValueOnce(() => Remote.NotAsked)
-      return expect(expectSaga(payment.from).run()).rejects.toThrowError(
+      expect(expectSaga(payment.from).run()).rejects.toThrowError(
         new Error(NO_ACCOUNT_ERROR)
       )
     })

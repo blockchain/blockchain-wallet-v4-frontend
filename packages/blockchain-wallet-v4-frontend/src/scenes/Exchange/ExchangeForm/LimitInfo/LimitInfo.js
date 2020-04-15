@@ -95,10 +95,7 @@ export const LimitAction = ({
     return (
       <TierLink onClick={upgradeTier}>
         <LimitText color='blue600'>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.limit_info.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </LimitText>
         <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>

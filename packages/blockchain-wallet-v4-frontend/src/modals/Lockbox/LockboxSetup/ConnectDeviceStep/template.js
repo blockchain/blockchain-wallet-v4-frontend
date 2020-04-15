@@ -207,7 +207,7 @@ const ConnectDeviceStep = props => {
           <ButtonContainer>
             <Button fullwidth onClick={onNewDeviceContinue} nature='primary'>
               <FormattedMessage
-                id='modals.lockboxsetup.connectdevice.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "baseUrl": "./packages",
+    "esModuleInterop": true,
     "jsx": "react",
     "module": "es6",
     "moduleResolution": "node",
@@ -10,6 +10,7 @@
     "noResolve": false,
     "outDir": "./dist",
     "removeComments": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,

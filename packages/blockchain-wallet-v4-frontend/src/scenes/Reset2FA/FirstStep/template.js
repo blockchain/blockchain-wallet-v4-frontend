@@ -154,10 +154,7 @@ const FirstStep = props => {
             nature='primary'
             disabled={submitting || invalid}
           >
-            <FormattedMessage
-              id='scenes.reset2fa.firststep.firststepform.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       </FirstStepForm>

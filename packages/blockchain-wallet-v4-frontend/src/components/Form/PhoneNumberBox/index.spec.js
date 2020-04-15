@@ -1,4 +1,3 @@
-import 'jest-styled-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { shallow } from 'enzyme'
 import PhoneNumberBox from './index.js'

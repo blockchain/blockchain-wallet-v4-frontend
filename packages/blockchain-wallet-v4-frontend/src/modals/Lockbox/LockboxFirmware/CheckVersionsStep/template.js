@@ -61,7 +61,7 @@ const CheckVersionsStep = props => {
         {status ? (
           <Button fullwidth nature='primary' onClick={onStartInstall}>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversionsstep.continue'
+              id='buttons.continue'
               defaultMessage='Install Update'
             />
           </Button>

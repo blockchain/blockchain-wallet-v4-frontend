@@ -4,37 +4,37 @@ exports[`HighFlow should render correctly 1`] = `
 <Styled(styled.form)>
   <FooterShadowWrapper
     fields={
-      <ForwardRef>
-        <ForwardRef>
-          <ForwardRef>
+      <styled.div>
+        <styled.div>
+          <Styled(styled.div)>
             <FormattedMessage
               defaultMessage="Last Step. Let's Confirm It's You"
               id="identityverification.verify.header.confirm"
               values={Object {}}
             />
-            <ForwardRef>
+            <styled.div>
               <TooltipHost
                 id="identityverification.headerhelper"
               >
-                <ForwardRef
+                <Styled(Icon)
                   color="blue900"
                   name="question-in-circle-filled"
                   size="24px"
                 />
               </TooltipHost>
-              <ForwardRef
+              <Styled(Styled(Image))
                 name="identity-verification"
               />
-            </ForwardRef>
-          </ForwardRef>
-          <ForwardRef>
+            </styled.div>
+          </Styled(styled.div)>
+          <Styled(Styled(styled.div))>
             <FormattedMessage
               defaultMessage="We need to confirm your identity with a government issued ID and selfie. Before proceeding, make sure you have one of the following forms of ID handy and your camera is enabled."
               id="identityverification.verify.messagewithcamera"
               values={Object {}}
             />
-          </ForwardRef>
-          <ForwardRef>
+          </Styled(Styled(styled.div))>
+          <styled.div>
             <FormattedMessage
               defaultMessage="Government Issued Passport"
               id="identityverification.verify.passport"
@@ -50,8 +50,8 @@ exports[`HighFlow should render correctly 1`] = `
               id="identityverification.verify.natitionalidcard"
               values={Object {}}
             />
-          </ForwardRef>
-          <ForwardRef>
+          </styled.div>
+          <styled.div>
             <Text
               altFont={false}
               capitalize={false}
@@ -88,8 +88,8 @@ exports[`HighFlow should render correctly 1`] = `
                 values={Object {}}
               />
             </Text>
-          </ForwardRef>
-          <ForwardRef>
+          </styled.div>
+          <styled.div>
             <Text
               altFont={false}
               capitalize={false}
@@ -138,13 +138,13 @@ exports[`HighFlow should render correctly 1`] = `
               }
               width="auto"
             />
-          </ForwardRef>
-        </ForwardRef>
-      </ForwardRef>
+          </styled.div>
+        </styled.div>
+      </styled.div>
     }
     footer={
-      <ForwardRef>
-        <ForwardRef
+      <styled.div>
+        <Styled(Button)
           data-e2e="lowflowBackButton"
           onClick={[MockFunction]}
         >
@@ -153,7 +153,7 @@ exports[`HighFlow should render correctly 1`] = `
             id="identityverification.lowflow.personal.back"
             values={Object {}}
           />
-        </ForwardRef>
+        </Styled(Button)>
         <Button
           bold={false}
           capitalize={false}
@@ -170,11 +170,11 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Continue"
-            id="identityverification.lowflow.personal.continue"
+            id="buttons.continue"
             values={Object {}}
           />
         </Button>
-      </ForwardRef>
+      </styled.div>
     }
   />
 </Styled(styled.form)>

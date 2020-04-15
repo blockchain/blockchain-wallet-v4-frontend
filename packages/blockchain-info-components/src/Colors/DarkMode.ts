@@ -27,7 +27,7 @@ const DarkTheme: DefaultTheme = {
   grey700: lighten(0.1, '#50596B'),
   grey800: lighten(0.1, '#B1B8C7'),
   grey900: '#121D33',
-  blue000: '#ECF5FE',
+  blue000: '#1c1c1c',
   blue100: '#D8EBFD',
   blue200: '#BBDBFC',
   blue300: '#85B5F8',

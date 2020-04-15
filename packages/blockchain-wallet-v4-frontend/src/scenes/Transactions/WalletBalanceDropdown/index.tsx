@@ -218,10 +218,7 @@ export class WalletBalanceDropdown extends Component<Props> {
           {children && children.length && children[1]}
           <Text weight={500} color='grey400'>
             {account}{' '}
-            <FormattedMessage
-              id='scenes.transactions.walletbalancedropdown.balance'
-              defaultMessage='Balance'
-            />
+            <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
           <AmountContainer>
             <FiatDisplay
@@ -285,10 +282,7 @@ export class WalletBalanceDropdown extends Component<Props> {
           <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
             {this.isTotalBalanceType(props) && (
-              <FormattedMessage
-                id='scenes.transactions.walletbalancedropdown.balance'
-                defaultMessage='Balance'
-              />
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             )}
           </Text>
           <AmountContainer isItem>

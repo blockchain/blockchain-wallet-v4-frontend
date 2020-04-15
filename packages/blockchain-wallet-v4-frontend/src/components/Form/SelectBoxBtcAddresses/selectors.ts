@@ -110,6 +110,9 @@ export const getData = (
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
       selectors.core.common.btc
         .getActiveAccountsBalances(state)
         .map(excluded)
@@ -149,10 +152,7 @@ export const getData = (
             .getLockboxBtcBalances(state)
             .map(excluded)
             .map(toDropdown)
-            .map(toGroup('Lockbox')),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([])
+            .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3, b4, b5]) => {
       // @ts-ignore
       const data = reduce(concat, [], [b1, b2, b3, b4, b5])

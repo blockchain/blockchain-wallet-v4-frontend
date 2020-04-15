@@ -93,7 +93,7 @@ const TransactionFilters = ({
                     onClick={onShowPrivateKey}
                   >
                     <FormattedMessage
-                      id='scenes.transactions.export.ethkey'
+                      id='scenes.transactions.export.ethprivkey'
                       defaultMessage='ETH Private Key'
                     />
                   </ExportEthPrivateKeyText>,
