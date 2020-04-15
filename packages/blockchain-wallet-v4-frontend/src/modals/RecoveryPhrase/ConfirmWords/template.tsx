@@ -35,13 +35,13 @@ const WordContainer = styled.div`
   align-items: flex-start;
   height: 80px;
   width: 100%;
+  margin-bottom: 15px;
 `
 
-const Bottom = styled.div`
+const Bottom = styled(FlyoutWrapper)`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
-  padding: 0 40px;
 `
 const languageHelper = num => {
   switch (num) {

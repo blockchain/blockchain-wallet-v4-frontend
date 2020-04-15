@@ -61,36 +61,34 @@ const WalletRecoveryPhrase = props => {
     const securityComponent = components => (
       <SecurityComponent>{components}</SecurityComponent>
     )
-    if (!nextStepToggled) {
-      if (!descriptionToggled && isMnemonicVerified) {
-        const againBtn = (
-          <BackupButton
-            nature='primary'
-            onClick={handleBackupNow}
-            data-e2e='backupFundsButton'
-          >
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
-              defaultMessage='Backup Again'
-            />
-          </BackupButton>
-        )
-        return securityComponent(againBtn)
-      } else if (!descriptionToggled) {
-        const backupBtn = (
-          <BackupButton
-            nature='primary'
-            onClick={handleBackupNow}
-            data-e2e='backupFundsButton'
-          >
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
-              defaultMessage='Backup Funds'
-            />
-          </BackupButton>
-        )
-        return securityComponent(backupBtn)
-      }
+    if (isMnemonicVerified && isMnemonicVerified) {
+      const againBtn = (
+        <BackupButton
+          nature='primary'
+          onClick={handleBackupNow}
+          data-e2e='backupFundsButton'
+        >
+          <FormattedMessage
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
+            defaultMessage='Backup Again'
+          />
+        </BackupButton>
+      )
+      return securityComponent(againBtn)
+    } else if (!descriptionToggled) {
+      const backupBtn = (
+        <BackupButton
+          nature='primary'
+          onClick={handleBackupNow}
+          data-e2e='backupFundsButton'
+        >
+          <FormattedMessage
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+            defaultMessage='Backup Funds'
+          />
+        </BackupButton>
+      )
+      return securityComponent(backupBtn)
     }
   }
 

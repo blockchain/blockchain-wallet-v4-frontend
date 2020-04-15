@@ -8,19 +8,19 @@ import WalletRecoveryPhrase from './template'
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   state = { nextStepToggled: false, descriptionToggled: false }
 
-  componentDidUpdate (prevProps) {
-    if (!prevProps.recoveryPhrase && this.props.recoveryPhrase) {
-      this.toggleNextStep()
-    }
-  }
+  // componentDidUpdate (prevProps) {
+  //   if (!prevProps.recoveryPhrase && this.props.recoveryPhrase) {
+  //     this.toggleNextStep()
+  //   }
+  // }
 
-  toggleNextStep = () => {
-    if (this.props.recoveryPhrase === undefined) {
-      this.props.settingsActions.showBackupRecovery()
-    } else {
-      this.setState({ nextStepToggled: true })
-    }
-  }
+  // toggleNextStep = () => {
+  //   if (this.props.recoveryPhrase === undefined) {
+  //     this.props.settingsActions.showBackupRecovery()
+  //   } else {
+  //     this.setState({ nextStepToggled: true })
+  //   }
+  // }
 
   closeSteps = () => {
     this.setState({ nextStepToggled: false, descriptionToggled: false })

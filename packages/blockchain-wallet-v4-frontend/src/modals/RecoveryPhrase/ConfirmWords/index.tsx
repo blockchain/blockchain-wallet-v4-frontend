@@ -20,7 +20,7 @@ class ConfirmWords extends PureComponent<Props> {
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(
-      take(6),
+      take(5),
       // @ts-ignore
       map(prop(1)),
       randomize,
