@@ -62,12 +62,7 @@ const ThirdStep = props => {
   const { indexes, handleSubmit } = rest
   return (
     <Wrapper>
-      <InstructionsText size='14px' weight={500}>
-        <FormattedMessage
-          id='scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase'
-          defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.'
-        />
-      </InstructionsText>
+      <InstructionsText size='14px' weight={500} />
       <Form onSubmit={handleSubmit}>
         <Container>
           {indexes.map(index => (
@@ -111,12 +106,7 @@ const ThirdStep = props => {
             disabled={submitting || invalid}
             style={spacing('ml-15')}
             data-e2e='confirmBackupPhraseButton'
-          >
-            <FormattedMessage
-              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'
-              defaultMessage='Confirm'
-            />
-          </Button>
+           />
         </Buttons>
       </Form>
     </Wrapper>

@@ -39,7 +39,7 @@ class ConfirmWords extends PureComponent<Props> {
           // @ts-ignore
           errors[word] = (
             <FormattedMessage
-              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword'
+              id='modals.recoveryphrase.confirmwords.incorrect'
               defaultMessage='Incorrect Word'
             />
           )

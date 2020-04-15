@@ -56,8 +56,8 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
         </Header>
         <Text color='grey600' weight={500}>
           <FormattedMessage
-            id='modals.recoveryphrase.firstsetwords.header'
-            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase. '
+            id='modals.recoveryphrase.firstsetwords.body'
+            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase.'
           />
         </Text>
       </FlyoutWrapper>

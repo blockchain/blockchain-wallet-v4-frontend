@@ -125,7 +125,7 @@ const ConfirmWordsForm: React.FC<
           type='submit'
         >
           <FormattedMessage
-            id='modals.recoveryphrase.confirmwords.body'
+            id='modals.recoveryphrase.confirmwords.button'
             defaultMessage='Confirm'
           />
         </Button>

@@ -79,7 +79,7 @@ const ConfirmWordsSuccess: React.FC<Props> = props => {
           style={{ marginTop: '40px' }}
         >
           <FormattedMessage
-            id='modals.recoveryphrase.success.body'
+            id='modals.recoveryphrase.success.continue'
             defaultMessage='Continue to Send'
           />
         </Button>
