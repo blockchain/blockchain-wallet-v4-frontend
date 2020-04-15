@@ -106,7 +106,12 @@ const ThirdStep = props => {
             disabled={submitting || invalid}
             style={spacing('ml-15')}
             data-e2e='confirmBackupPhraseButton'
-           />
+          >
+            <FormattedMessage
+              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'
+              defaultMessage='Confirm'
+            />
+          </Button>
         </Buttons>
       </Form>
     </Wrapper>

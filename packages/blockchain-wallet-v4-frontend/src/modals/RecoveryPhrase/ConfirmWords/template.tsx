@@ -12,7 +12,6 @@ const CustomForm = styled(Form)`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  height: 100%;
 `
 
 const HeaderWrapper = styled(FlyoutWrapper)`
@@ -38,11 +37,11 @@ const WordContainer = styled.div`
   width: 100%;
 `
 
-const Bottom = styled(FlyoutWrapper)`
+const Bottom = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
-  height: 100%;
+  padding: 0 40px;
 `
 const languageHelper = num => {
   switch (num) {

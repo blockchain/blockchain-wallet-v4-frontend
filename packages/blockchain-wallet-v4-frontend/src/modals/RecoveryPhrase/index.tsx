@@ -41,7 +41,7 @@ export type LinkStatePropsType = {
 }
 
 export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
-export type State = { direction: 'left' | 'right'; show: boolean }
+type State = { direction: 'left' | 'right'; show: boolean }
 
 class RecoveryPhraseFlyout extends PureComponent<Props, State> {
   state: State = {
@@ -96,13 +96,12 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
   }
 
   render () {
-    const { userClickedOutside, ...rest } = this.props
     return (
       <Flyout
-        {...rest}
+        {...this.props}
         in={this.state.show}
         onClose={this.handleClose}
-        userClickedOutside={userClickedOutside}
+        direction={this.state.direction}
         data-e2e='recoveryPhraseModal'
       >
         {this.props.step === 'RECOVERY_PHRASE_INTRO' && (

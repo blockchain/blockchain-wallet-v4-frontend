@@ -85,6 +85,7 @@ class FaqContainer extends React.PureComponent<Props> {
         total={total}
         userClickedOutside={userClickedOutside}
         data-e2e='faqModal'
+        direction='left'
       >
         <Faq filteredContent={filteredContent} />
       </Flyout>

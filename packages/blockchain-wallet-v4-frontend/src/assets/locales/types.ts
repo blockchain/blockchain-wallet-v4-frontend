@@ -812,7 +812,7 @@ type MessagesType = {
   'modals.recoveryphrase.firstsetwords.nextbutton': 'Next'
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
-  'modals.recoveryphrase.success.continue': 'Continue to Send'
+  'modals.recoveryphrase.success.close': 'Close'
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
