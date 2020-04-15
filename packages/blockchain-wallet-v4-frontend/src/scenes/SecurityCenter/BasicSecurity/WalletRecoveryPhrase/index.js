@@ -32,6 +32,10 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     })
   }
 
+  handleBackupNow = () => {
+    this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL')
+  }
+
   render () {
     const { isMnemonicVerified, recoveryPhrase } = this.props
     return (
@@ -41,6 +45,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
         nextStepToggled={this.state.nextStepToggled}
         descriptionToggled={this.state.descriptionToggled}
         toggleNextStep={this.toggleNextStep}
+        handleBackupNow={this.handleBackupNow}
         handleClose={this.closeSteps}
         changeDescription={this.changeDescription}
       />
@@ -54,6 +59,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   securityCenterActions: bindActionCreators(
     actions.modules.securityCenter,

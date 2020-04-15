@@ -51,6 +51,7 @@ const WalletRecoveryPhrase = props => {
   const {
     changeDescription,
     descriptionToggled,
+    handleBackupNow,
     isMnemonicVerified,
     nextStepToggled,
     recoveryPhrase
@@ -65,7 +66,7 @@ const WalletRecoveryPhrase = props => {
         const againBtn = (
           <BackupButton
             nature='primary'
-            onClick={props.toggleNextStep}
+            onClick={handleBackupNow}
             data-e2e='backupFundsButton'
           >
             <FormattedMessage
@@ -79,7 +80,7 @@ const WalletRecoveryPhrase = props => {
         const backupBtn = (
           <BackupButton
             nature='primary'
-            onClick={props.toggleNextStep}
+            onClick={handleBackupNow}
             data-e2e='backupFundsButton'
           >
             <FormattedMessage
