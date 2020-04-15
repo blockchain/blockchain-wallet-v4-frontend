@@ -20,7 +20,7 @@ const Loading: React.FC<Props> = () => {
       <SpinningLoader />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='modals.simplebuy.gettingready'
+          id='loader.message.gettingready'
           defaultMessage='Getting Ready...'
         />
       </Text>
