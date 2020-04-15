@@ -9,22 +9,25 @@ import styled from 'styled-components'
 
 const ResponsiveText = styled(Text)`
   font-size: 14px;
-  ${media.mobile`
-    font-size: 12px;
+  ${media.mobile`	
+    font-size: 12px;	
   `}
 `
 const ResponsiveLink = styled(Link)`
   font-size: 14px;
-  ${media.mobile`
-    font-size: 12px;
+  ${media.mobile`	
+    font-size: 12px;	
   `}
 `
 
 const LoginOrCreate = props => {
   const { pathname } = props.location
   const isSignup = includes('/signup', pathname)
-  return (
-    <LinkContainer to={isSignup ? '/login' : '/signup'}>
+  return !isSignup ? (
+    <LinkContainer
+      showForm={props.showForm}
+      to={isSignup ? '/login' : '/signup'}
+    >
       <TextGroup inline>
         <ResponsiveText color='white' weight={500}>
           {isSignup ? (
@@ -61,7 +64,7 @@ const LoginOrCreate = props => {
         </Button>
       </TextGroup>
     </LinkContainer>
-  )
+  ) : null
 }
 
 export default withRouter(LoginOrCreate)

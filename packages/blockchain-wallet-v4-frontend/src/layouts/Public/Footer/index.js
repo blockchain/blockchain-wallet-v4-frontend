@@ -11,12 +11,17 @@ const Wrapper = styled.footer`
   align-items: center;
   text-align: center;
   width: 100%;
-  ${media.mobile`
-    img {
-      height: auto;
-      width: 40%;
-    }
+  ${media.mobile`	
+    img {	
+      height: auto;	
+      width: 40%;	
+    }	
   `}
+
+  max-height: ${props => (props.showForm ? '5.25rem' : '0')};
+  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
+  transition: all .5s ease;
+
 `
 const Bottom = styled.div`
   margin: 16px 0;
@@ -25,9 +30,9 @@ const Bottom = styled.div`
   }
 `
 
-const Footer = () => {
+const Footer = ({ showForm }) => {
   return (
-    <Wrapper>
+    <Wrapper showForm={showForm}>
       <Bottom>
         <Badge type='applestore' />
         <Badge type='googleplay' />
