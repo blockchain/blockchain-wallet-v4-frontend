@@ -14,7 +14,9 @@ import {
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+import EarnInterestForm from './EarnInterestForm'
 import EarnInterestInfo from './InterestInfo'
+
 import React from 'react'
 import styled from 'styled-components'
 
@@ -27,6 +29,7 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
+
 type LinkStatePropsType = {
   invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
@@ -97,6 +100,7 @@ class Interest extends React.PureComponent<Props, State> {
         </SceneSubHeaderText>
         <Container>
           <EarnInterestInfo {...this.state} {...this.props} />
+          <EarnInterestForm {...this.state} {...this.props} />
         </Container>
       </SceneWrapper>
     )
