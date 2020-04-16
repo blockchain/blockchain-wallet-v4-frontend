@@ -22,10 +22,22 @@ type MapStatePropsType = {
 
 export type PropsType = MapStatePropsType & DispatchPropTypes
 
-class RegisterContainer extends React.PureComponent<PropsType> {
+type StateType = {
+  showForm: boolean
+}
+
+class RegisterContainer extends React.PureComponent<PropsType, StateType> {
+  state = {
+    showForm: false
+  }
+
   onSubmit = () => {
-    const { email, password, language } = this.props
-    this.props.authActions.register(email, password, language)
+    const { authActions, email, password, language } = this.props
+    authActions.register(email, password, language)
+  }
+
+  toggleForm = () => {
+    this.setState({ showForm: true })
   }
 
   render () {
@@ -45,6 +57,8 @@ class RegisterContainer extends React.PureComponent<PropsType> {
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
+        showForm={this.state.showForm}
+        toggleForm={this.toggleForm}
         {...this.props}
       />
     )
@@ -60,7 +74,7 @@ const mapStateToProps = state => ({
   password: formValueSelector('register')(state, 'password') || ''
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchPropTypes => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
