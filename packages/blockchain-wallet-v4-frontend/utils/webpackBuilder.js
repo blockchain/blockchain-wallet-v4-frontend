@@ -271,7 +271,7 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `frame-src http://localhost:8081 ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',

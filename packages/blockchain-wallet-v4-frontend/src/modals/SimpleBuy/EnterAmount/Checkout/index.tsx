@@ -69,7 +69,7 @@ class Checkout extends PureComponent<Props> {
       // TODO: Simple Buy - select different cards?
       this.props.simpleBuyActions.setStep({
         step: 'ADD_CARD',
-        cardId: this.props.cards[0] ? this.props.cards[0].id : undefined
+        cardId: undefined
       })
     } else {
       this.props.simpleBuyActions.createSBOrder()

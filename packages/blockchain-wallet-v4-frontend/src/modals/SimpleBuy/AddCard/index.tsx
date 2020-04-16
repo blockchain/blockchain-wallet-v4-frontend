@@ -39,10 +39,14 @@ class AddCard extends PureComponent<Props, State> {
     this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
   }
 
+  handleRefresh = () => {
+    this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
-      Failure: () => <DataError />,
+      Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

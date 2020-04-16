@@ -128,6 +128,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
+  cardId: selectors.components.simpleBuy.getSBCardId(state),
   order: selectors.components.simpleBuy.getSBOrder(state)
 })
 

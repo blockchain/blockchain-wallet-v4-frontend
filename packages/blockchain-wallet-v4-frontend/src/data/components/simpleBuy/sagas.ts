@@ -54,11 +54,15 @@ export default ({
     let providerDetails: SBProviderDetailsType
     try {
       yield put(A.activateSBCardLoading())
+      const domainsR = selectors.core.walletOptions.getDomains(yield select())
+      const domains = domainsR.getOrElse({
+        walletHelper: 'https://wallet-helper.blockchain.com'
+      })
       if (card.partner === 'EVERYPAY') {
         providerDetails = yield call(
           api.activateSBCard,
           card.id,
-          'https://login.blockchain.com'
+          `${domains.walletHelper}/wallet-helper/everypay`
         )
         yield put(A.activateSBCardSuccess(providerDetails))
       } else {

@@ -5,17 +5,25 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
+const CustomFlyoutWrapper = styled(FlyoutWrapper)`
+  height: 100%;
+`
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
   margin-bottom: 24px;
+`
+const EverypayIframe = styled.iframe`
+  height: 100%;
+  width: 100%;
+  border: 0;
 `
 
 type Props = OwnProps & LinkDispatchPropsType & SuccessStateType
 
 const Success: React.FC<Props> = props => {
   return (
-    <FlyoutWrapper>
+    <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
         <Icon
           cursor
@@ -36,9 +44,12 @@ const Success: React.FC<Props> = props => {
           defaultMessage='Add Card'
         />
       </TopText>
-      {JSON.stringify(props.card)}
-      {JSON.stringify(props.providerDetails)}
-    </FlyoutWrapper>
+      <EverypayIframe
+        src={`http://localhost:8081/wallet-helper/everypay/#/customerUrl/${encodeURIComponent(
+          props.providerDetails.everypay.paymentLink
+        )}`}
+      />
+    </CustomFlyoutWrapper>
   )
 }
 
