@@ -58,7 +58,7 @@ class EarnInterestForm extends PureComponent<Props> {
           <TooltipHost id='earninterest.calculation.tooltop'>
             <TooltipIcon name='info' size='12px' />
           </TooltipHost>
-          <Text>
+          <Text size='12px' weight={500}>
             <FormattedMessage
               id='earninterest.form.earn3percent'
               defaultMessage='Earn 3% AER on your BTC'
