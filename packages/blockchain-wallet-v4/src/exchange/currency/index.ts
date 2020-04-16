@@ -11,18 +11,6 @@ export class Currency extends Type {
   'value': typeof BigRational
   'currency': CurrenciesType[keyof CurrenciesType]
 
-  constructor ({
-    value,
-    currency
-  }: {
-    currency: CurrenciesType[keyof CurrenciesType]
-    value: typeof BigRational
-  }) {
-    super()
-    this.value = value
-    this.currency = currency
-  }
-
   toString () {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
@@ -79,10 +67,9 @@ export class Currency extends Type {
     })
   }
 }
-const newCurrency = (o: {
-  currency: CurrenciesType[keyof CurrenciesType]
-  value: typeof BigRational
-}) => new Currency(o)
+
+// @ts-ignore
+const newCurrency = o => new Currency(o)
 
 export const isCurrency = is(Currency)
 export const value = Currency.define('value')
