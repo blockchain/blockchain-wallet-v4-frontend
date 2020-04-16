@@ -113,10 +113,7 @@ const BchImportedAddresses = props => {
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage
-                  id='scenes.settings.addresses.bch.importedaddresses.address'
-                  defaultMessage='Address'
-                />
+                <FormattedMessage id='copy.address' defaultMessage='Address' />
               </Text>
             </TableCell>
             <TableCell width='20%'>

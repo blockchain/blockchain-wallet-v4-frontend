@@ -238,10 +238,7 @@ const VerifyMobile = ({
       footer={
         <Footer>
           <BackButton onClick={onBack} disabled={submitting}>
-            <FormattedMessage
-              id='identityverification.personal.back'
-              defaultMessage='Back'
-            />
+            <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </BackButton>
           <Button
             nature='primary'

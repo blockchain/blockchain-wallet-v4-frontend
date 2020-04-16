@@ -91,10 +91,7 @@ const SecondStep = ({
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showbtcpriv.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -105,7 +102,7 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbtcpriv.priv_key'
+            id='copy.private_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
@@ -157,10 +154,7 @@ const ShowBtcPrivateKeyTemplate = ({
 }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
-      <FormattedMessage
-        id='modals.showbtcpriv.title'
-        defaultMessage='Private Key'
-      />
+      <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}

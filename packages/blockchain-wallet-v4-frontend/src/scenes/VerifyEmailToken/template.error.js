@@ -74,7 +74,7 @@ const Error = props => {
           height='50px'
         >
           <FormattedMessage
-            id='scenes.verifyemailtoken.error.support'
+            id='buttons.contact_support'
             defaultMessage='Contact Support'
           />
         </Button>

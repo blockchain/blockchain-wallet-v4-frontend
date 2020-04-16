@@ -1,20 +1,27 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import {
+  LinkDispatchPropsType,
+  LinkStatePropsType,
+  OwnPropsType
+} from '../index'
 import { SubmissionError } from 'redux-form'
-import React from 'react'
-import ThirdStep from './template'
+import ConfirmWordsForm from './template'
+import React, { PureComponent } from 'react'
 
-class ThirdStepContainer extends React.PureComponent {
+export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
+
+class ConfirmWords extends PureComponent<Props> {
   state = { indexes: [] }
 
   componentDidMount () {
+    // @ts-ignore
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
     const indexes = compose(
-      take(4),
+      take(5),
+      // @ts-ignore
       map(prop(1)),
       randomize,
       pair
@@ -23,15 +30,16 @@ class ThirdStepContainer extends React.PureComponent {
     this.setState({ indexes })
     /* eslint-enable */
   }
-
-  onSubmit = (values, dispatch, props) => {
+  handleSubmit = values => {
     const errors = {}
     compose(
       forEach(word => {
-        if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
+        // @ts-ignore
+        if (values[word] !== this.props.recoveryPhrase[split('w', word)[1]]) {
+          // @ts-ignore
           errors[word] = (
             <FormattedMessage
-              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword'
+              id='modals.recoveryphrase.confirmwords.incorrect'
               defaultMessage='Incorrect Word'
             />
           )
@@ -44,27 +52,20 @@ class ThirdStepContainer extends React.PureComponent {
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
-      this.props.handleClose()
+      this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS_SUCCESS')
     }
   }
 
   render () {
     const { ...rest } = this.props
     return (
-      <ThirdStep
+      <ConfirmWordsForm
         {...rest}
         indexes={this.state.indexes}
-        onSubmit={this.onSubmit}
+        onSubmit={this.handleSubmit}
       />
     )
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  walletActions: bindActionCreators(actions.wallet, dispatch)
-})
-
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(ThirdStepContainer)
+export default ConfirmWords

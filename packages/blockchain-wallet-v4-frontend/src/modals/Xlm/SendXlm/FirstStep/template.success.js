@@ -16,11 +16,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import {
-  CustodyToAccountMessage,
-  MnemonicRequiredForCustodySend,
-  Row
-} from 'components/Send'
+import { CustodyToAccountMessage, Row } from 'components/Send'
 import { ErrorBanner } from './ErrorBanner'
 import { Field, reduxForm } from 'redux-form'
 import {
@@ -43,6 +39,7 @@ import { SelectBoxMemo } from './SelectBoxMemo'
 import { XlmFiatConverter } from './XlmFiatConverter'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
@@ -271,7 +268,7 @@ const FirstStep = props => {
                       color='red600'
                     >
                       <FormattedMessage
-                        id='modals.sendxlm.firststep.sendtoexchangelearn'
+                        id='buttons.learn_more'
                         defaultMessage='Learn More'
                       />
                     </Link>

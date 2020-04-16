@@ -158,7 +158,7 @@ const RequestEth = props => {
         data-e2e='requestEthDoneButton'
         fullwidth
       >
-        <FormattedMessage id='modals.requesteth.done' defaultMessage='Done' />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

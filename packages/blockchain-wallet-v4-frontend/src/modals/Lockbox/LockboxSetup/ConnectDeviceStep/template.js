@@ -82,7 +82,7 @@ const ConnectDeviceStep = props => {
       </Text>
       <SupportText href={supportLink} target='_blank' size='10px' weight={500}>
         <FormattedMessage
-          id='modals.lockboxsetup.connectdevice.timeout.support'
+          id='buttons.contact_support'
           defaultMessage='Contact Support'
         />
       </SupportText>

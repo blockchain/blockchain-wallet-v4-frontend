@@ -188,7 +188,7 @@ const getButton = status => {
         >
           <Button fullwidth height='56px' nature='primary' weight={400}>
             <FormattedMessage
-              id='modals.exchangedetails.support'
+              id='buttons.contact_support'
               defaultMessage='Contact Support'
             />
           </Button>

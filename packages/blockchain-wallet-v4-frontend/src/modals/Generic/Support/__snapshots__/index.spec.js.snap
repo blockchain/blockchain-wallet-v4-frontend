@@ -34,7 +34,7 @@ exports[`Support modal component matches snapshot 1`] = `
       >
         <FormattedMessage
           defaultMessage="Contact Support"
-          id="modals.support.contact_support"
+          id="buttons.contact_support"
           values={Object {}}
         />
       </Styled(Button)>

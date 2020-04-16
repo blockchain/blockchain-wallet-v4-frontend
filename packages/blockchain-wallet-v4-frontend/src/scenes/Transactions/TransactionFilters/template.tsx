@@ -118,7 +118,7 @@ const TransactionFilters = ({
                 width='120px'
               >
                 <FormattedMessage
-                  id='scenes.transactions.export.private'
+                  id='copy.private_key'
                   defaultMessage='Private Key'
                 />
               </StyledIconButton>

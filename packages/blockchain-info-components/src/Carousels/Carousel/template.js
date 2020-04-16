@@ -135,10 +135,7 @@ const Carousel = props => {
           )}
           {index === total && (
             <Button width='70px' nature='light' onClick={handleNext}>
-              <FormattedMessage
-                id='components.emptyscenecarousel.goback'
-                defaultMessage='Go Back'
-              />
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Button>
           )}
           <Text size='14px' weight={600} color='grey400'>

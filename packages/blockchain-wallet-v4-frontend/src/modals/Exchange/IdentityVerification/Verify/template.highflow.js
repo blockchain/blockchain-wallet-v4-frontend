@@ -130,10 +130,7 @@ class Verify extends React.PureComponent {
           footer={
             <Footer>
               <BackButton data-e2e='highflowBackButton' onClick={onBack}>
-                <FormattedMessage
-                  id='identityverification.highflow.personal.back'
-                  defaultMessage='Back'
-                />
+                <FormattedMessage id='buttons.back' defaultMessage='Back' />
               </BackButton>
               <Button
                 nature='primary'

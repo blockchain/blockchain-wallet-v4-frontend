@@ -459,7 +459,7 @@ exports[`TierCard renders null w/o showBanner 1`] = `
             >
               <FormattedMessage
                 defaultMessage="Address"
-                id="components.identityverification.tiercard.address"
+                id="copy.address"
                 values={Object {}}
               />
             </Text>

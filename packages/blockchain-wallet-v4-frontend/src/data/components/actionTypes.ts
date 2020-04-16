@@ -14,6 +14,7 @@ import * as onboarding from './onboarding/actionTypes'
 import * as onfido from './onfido/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
+import * as recoveryPhrase from './recoveryPhrase/actionTypes'
 import * as refresh from './refresh/actionTypes'
 import * as requestBch from './requestBch/actionTypes'
 import * as requestBtc from './requestBtc/actionTypes'
@@ -50,6 +51,7 @@ export {
   onfido,
   priceChart,
   priceTicker,
+  recoveryPhrase,
   refresh,
   requestBtc,
   requestBch,

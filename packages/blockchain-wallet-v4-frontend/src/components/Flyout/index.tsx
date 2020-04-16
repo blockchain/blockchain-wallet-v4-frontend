@@ -118,7 +118,7 @@ export const Value = styled(Text)`
 
 type OwnProps = {
   'data-e2e': FlyoutE2EType
-  direction?: 'left' | 'right'
+  direction: 'left' | 'right'
   in: boolean
   onClose: () => void
   position: number

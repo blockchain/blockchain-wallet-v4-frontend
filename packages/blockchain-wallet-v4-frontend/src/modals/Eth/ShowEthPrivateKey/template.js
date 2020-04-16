@@ -71,10 +71,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showethpriv.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -89,7 +86,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showethpriv.priv_key'
+            id='copy.private_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
@@ -121,10 +118,7 @@ const ShowEthPrivateKeyTemplate = ({
       closeButton={false}
       data-e2e='ethPrivateKeyModalHeader'
     >
-      <FormattedMessage
-        id='modals.showethpriv.title'
-        defaultMessage='Private Key'
-      />
+      <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
