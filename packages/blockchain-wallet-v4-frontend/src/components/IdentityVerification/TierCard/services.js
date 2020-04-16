@@ -60,10 +60,7 @@ export const messages = {
   ),
   ADDRESS: (
     <Text size='12px'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.address'
-        defaultMessage='Address'
-      />
+      <FormattedMessage id='copy.address' defaultMessage='Address' />
     </Text>
   ),
   TIER1: (

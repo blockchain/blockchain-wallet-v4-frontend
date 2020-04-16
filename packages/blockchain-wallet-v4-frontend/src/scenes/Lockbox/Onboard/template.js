@@ -208,7 +208,7 @@ const Onboard = props => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

@@ -82,7 +82,7 @@ const FirstStep = props => {
         <Footer>
           <GoBackLink to='/help'>
             <Link size='13px' weight={400}>
-              <FormattedMessage id='buttons.goback' defaultMessage='Go Back' />
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
           <Button

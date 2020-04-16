@@ -171,7 +171,7 @@ const PairDeviceStep = props => {
           weight={500}
         >
           <FormattedHTMLMessage
-            id='modals.lockboxsetup.pairdevice.timeout.supportlink'
+            id='buttons.contact_support'
             defaultMessage='Contact Support'
           />
         </SupportText>

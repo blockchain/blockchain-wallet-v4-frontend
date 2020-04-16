@@ -33,7 +33,7 @@ const LowEthWarningForErc20 = () => {
           target='_blank'
         >
           <FormattedMessage
-            id='buttons.learnmore'
+            id='buttons.learn_more'
             defaultMessage='Learn More'
           />
         </Link>

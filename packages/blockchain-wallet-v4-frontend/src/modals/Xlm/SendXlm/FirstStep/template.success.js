@@ -268,7 +268,7 @@ const FirstStep = props => {
                       color='red600'
                     >
                       <FormattedMessage
-                        id='buttons.learnmore'
+                        id='buttons.learn_more'
                         defaultMessage='Learn More'
                       />
                     </Link>

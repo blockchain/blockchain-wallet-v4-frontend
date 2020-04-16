@@ -71,10 +71,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showxlmpriv.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}
         &nbsp;

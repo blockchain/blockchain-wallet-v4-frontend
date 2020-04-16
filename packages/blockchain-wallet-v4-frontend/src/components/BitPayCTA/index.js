@@ -47,7 +47,7 @@ const BitPayCTA = ({ coin, modalActions }) => {
         <BitPayIcon size='12px' name='bitpay-logo' color='#2A3F90' /> <>urls.</>
       </TextGroup>
       <CustomLink size='12px' weight={600} onClick={handleClick}>
-        <FormattedMessage id='buttons.learnmore' defaultMessage='Learn more' />
+        <FormattedMessage id='buttons.learn_more' defaultMessage='Learn more' />
         <ArrowIcon
           size='10px'
           weight={800}

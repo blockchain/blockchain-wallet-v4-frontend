@@ -34,7 +34,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -55,7 +55,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -76,7 +76,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -97,7 +97,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -118,7 +118,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

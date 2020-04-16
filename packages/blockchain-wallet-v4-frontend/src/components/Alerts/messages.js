@@ -316,7 +316,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
               size='12px'
             >
               <FormattedMessage
-                id='buttons.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </Link>
