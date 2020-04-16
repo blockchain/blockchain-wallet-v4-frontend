@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import { GoalsType } from 'data/goals/types'
 import React from 'react'
 import Register from './template'
 
@@ -15,7 +16,11 @@ type MapStatePropsType = {
   data: any
   domainsR: any
   email: string
-  goals: Array<any>
+  goals: Array<{
+    data: any
+    id: string
+    name: GoalsType
+  }>
   language: string
   password: string
 }
