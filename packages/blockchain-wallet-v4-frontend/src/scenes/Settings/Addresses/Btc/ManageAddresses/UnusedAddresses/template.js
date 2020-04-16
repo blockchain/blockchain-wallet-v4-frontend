@@ -87,10 +87,7 @@ const UnusedAddressesTemplate = ({
       <TableHeader>
         <TableCell width='40%'>
           <Text size='13px' weight={500}>
-            <FormattedMessage
-              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.address'
-              defaultMessage='Address'
-            />
+            <FormattedMessage id='copy.address' defaultMessage='Address' />
           </Text>
         </TableCell>
         <TableCell width='40%'>

@@ -80,10 +80,7 @@ const TwoStepSetup = props => {
       </ModalBody>
       <ModalFooter align='spaced'>
         <Link size='13px' weight={400} onClick={close}>
-          <FormattedMessage
-            id='modals.twostepsetup.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
         <Button nature='warning' onClick={handleDisable}>
           <FormattedMessage
@@ -148,10 +145,7 @@ const TwoStepSetup = props => {
       </ModalBody>
       <ModalFooter>
         <Link size='13px' weight={400} onClick={close}>
-          <FormattedMessage
-            id='modals.twostepsetup.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
       </ModalFooter>
     </Modal>

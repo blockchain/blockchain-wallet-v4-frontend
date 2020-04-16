@@ -208,7 +208,7 @@ const Onboard = props => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.lockbox.welcome.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

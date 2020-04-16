@@ -1,18 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SelectBox renders correctly 1`] = `
-.c0 {
-  position: relative;
-  width: 100%;
-  height: auto;
-  z-index: initial;
-}
-
-<div
-  className="c0"
+<styled.div
   data-e2e="dropdownSelect"
 >
-  <input
+  <SelectInput
     elements={
       Array [
         Object {
@@ -35,11 +27,12 @@ exports[`SelectBox renders correctly 1`] = `
       ]
     }
     errorState="initial"
+    getRef={[Function]}
     onBlur={[MockFunction]}
     onChange={[MockFunction]}
     onFocus={[MockFunction]}
     onKeyDown={[Function]}
     value=""
   />
-</div>
+</styled.div>
 `;

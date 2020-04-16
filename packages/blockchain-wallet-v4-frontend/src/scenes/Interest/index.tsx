@@ -76,7 +76,7 @@ class Interest extends React.PureComponent<Props, State> {
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.savings.blockchain'
+              id='scenes.interest.blockchain'
               defaultMessage='Earn Interest'
             />
           </SceneHeaderText>

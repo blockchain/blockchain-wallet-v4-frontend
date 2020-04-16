@@ -190,10 +190,7 @@ const Success = props => {
           weight={400}
           data-e2e='btcSendBackLink'
         >
-          <FormattedMessage
-            id='scenes.sendbtc.secondstep.goback'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

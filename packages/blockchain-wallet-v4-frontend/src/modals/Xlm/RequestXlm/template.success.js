@@ -156,7 +156,7 @@ const RequestXlm = ({
         fullwidth
         data-e2e='requestXlmDoneButton'
       >
-        <FormattedMessage id='modals.requestxlm.done' defaultMessage='Done' />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

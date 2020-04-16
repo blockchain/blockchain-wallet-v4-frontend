@@ -53,6 +53,7 @@ import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
+import recoverPadlock from './img/recover-padlock.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -188,6 +189,7 @@ const Images = {
   money: money,
   printer: printer,
   'qr-code': qrCode,
+  'recover-padlock': recoverPadlock,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,

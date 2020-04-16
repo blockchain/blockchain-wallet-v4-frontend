@@ -41,7 +41,7 @@ export const minimumAmount = (
     case 'CHECKOUT':
       return new BigNumber(value).isLessThan(props.limits.minFiat) ? (
         <FormattedMessage
-          id='borrow.validation.belowmin'
+          id='borrow.validation.belowmin.amt'
           defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
           values={{
             minFiat: Currency.fiatToString({
@@ -66,7 +66,7 @@ export const minimumAmount = (
             getCollateralAmtRequired(props.loan, props.offer)
           ) ? (
             <FormattedMessage
-              id='borrow.validation.belowmin'
+              id='borrow.validation.belowmin.amt'
               defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
               values={{
                 minFiat: Currency.fiatToString({

@@ -76,7 +76,7 @@ const ActionButton: React.FC<Props> = props => {
               <HeartbeatLoader height='16px' width='16px' color='white' />
             ) : (
               <FormattedMessage
-                id='modals.simplebuy.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             )}
@@ -108,10 +108,7 @@ const ActionButton: React.FC<Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage
-              id='modals.simplebuy.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           )}
         </Button>
       )

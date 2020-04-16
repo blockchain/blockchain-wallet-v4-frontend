@@ -254,10 +254,7 @@ const FirstStep = props => {
             nature='primary'
             data-e2e='requestBtcDoneButton'
           >
-            <FormattedMessage
-              id='modals.requestbtc.dont'
-              defaultMessage='Done'
-            />
+            <FormattedMessage id='buttons.done' defaultMessage='Done' />
           </ContinueButton>
           <ChangeViewContainer inline>
             <MakeRequestLinkText

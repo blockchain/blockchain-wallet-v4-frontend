@@ -56,7 +56,7 @@ const QRCode = props => {
       </ModalBody>
       <ModalFooter>
         <Link onClick={close} size='13px' weight={500} data-e2e='qrModalGoBack'>
-          <FormattedMessage id='modals.qrcode.back' defaultMessage='Go back' />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
     </Modal>

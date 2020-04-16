@@ -140,10 +140,7 @@ const Help = props => {
         <LinkContainer to='/login'>
           <Button nature='primary' height='56px' fullWidth>
             <Text size='16px' color='white' weight={500}>
-              <FormattedMessage
-                id='scenes.help.back'
-                defaultMessage='Go Back'
-              />
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Text>
           </Button>
         </LinkContainer>
@@ -161,7 +158,7 @@ const Help = props => {
             weight={500}
           >
             <FormattedMessage
-              id='scenes.help.contact'
+              id='buttons.contact_support'
               defaultMessage='Contact Support'
             />
           </Link>

@@ -178,7 +178,7 @@ const GetStarted = ({ step }) => {
             <Button nature='empty' width='264px' height='48px'>
               <Text weight={600} color='blue600'>
                 <FormattedMessage
-                  id='swap.getstarted.learnmore'
+                  id='buttons.learn_more'
                   defaultMessage='Learn More'
                 />
               </Text>

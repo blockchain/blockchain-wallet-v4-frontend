@@ -65,7 +65,7 @@ export const Support = ({ position, total }) => (
         <FooterButton nature='primary' size='20px' fullwidth>
           <FormattedMessage
             defaultMessage='Contact Support'
-            id='modals.support.contact_support'
+            id='buttons.contact_support'
           />
         </FooterButton>
       </FooterLink>

@@ -13,6 +13,7 @@ export type WalletFormType =
   | '@SEND.XLM.FORM'
   | 'borrowForm'
   | 'cancelSBOrderForm'
+  | 'confirmRecoveryWords'
   | 'initBorrow'
   | 'repayLoanForm'
   | 'sbCheckoutConfirm'

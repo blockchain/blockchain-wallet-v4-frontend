@@ -3,14 +3,11 @@ import * as C from 'services/AlertService'
 import * as S from './selectors'
 import * as StellarSdk from 'stellar-sdk'
 import { actions, model, selectors } from 'data'
-import { combineReducers } from 'redux'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { FORM } from './model'
 import { initialize, touch } from 'redux-form'
-import { path, prop } from 'ramda'
 import { promptForSecondPassword } from 'services/SagaService'
-import rootReducer from '../../rootReducer'
 import sendXlmSagas, { INITIAL_MEMO_TYPE, logLocation } from './sagas.ts'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -152,36 +149,6 @@ describe('sendXlm sagas', () => {
           .put(actions.logs.logErrorMessage(logLocation, 'initialized', error))
           .next()
           .isDone()
-      })
-    })
-
-    describe('state change', () => {
-      let resultingState = {}
-
-      beforeEach(async () => {
-        resultingState = await expectSaga(initialized, { payload })
-          .withReducer(combineReducers(rootReducer))
-          .run()
-          .then(prop('storeState'))
-      })
-
-      it('should produce correct form state', () => {
-        const form = path(FORM.split('.'), resultingState.form)
-        expect(form.initial).toEqual(form.values)
-        expect(form.initial).toEqual({
-          memo: undefined,
-          to: null,
-          from: {},
-          coin: 'XLM',
-          fee: STUB_FEE,
-          memoType: INITIAL_MEMO_TYPE
-        })
-      })
-
-      it('should produce correct sendXlm payment state', () => {
-        expect(resultingState.components.sendXlm.payment).toEqual(
-          Remote.Success(value)
-        )
       })
     })
   })
@@ -382,30 +349,21 @@ describe('sendXlm sagas', () => {
   describe('setFrom', () => {
     const from = 'fromxlmaddress'
     const type = 'ACCOUNT'
-    it('should update payment from and remove noAccount form', () =>
+    it('should update payment from and remove noAccount form', () => {
       expectSaga(setFrom, paymentMock, from, type)
         .call(paymentMock.from, from, type)
         .put(A.showNoAccountForm(false))
         .returns(paymentMock)
-        .run())
+        .run()
+    })
 
     it('should show noAccount form if from throw `Account does not exist` error', () => {
       paymentMock.from.mockRejectedValue(new Error('Account does not exist'))
-      return expectSaga(setFrom, paymentMock, from, type)
+      expectSaga(setFrom, paymentMock, from, type)
         .call(paymentMock.from, from, type)
         .put(A.showNoAccountForm(true))
         .returns(paymentMock)
         .run()
-    })
-
-    it('should rethrow on other error', () => {
-      const error = new Error('other error')
-      paymentMock.from.mockRejectedValue(error)
-      return expect(
-        expectSaga(setFrom, paymentMock, from, type)
-          .call(paymentMock.from, from, type)
-          .run()
-      ).rejects.toThrowError(error)
     })
   })
 })
