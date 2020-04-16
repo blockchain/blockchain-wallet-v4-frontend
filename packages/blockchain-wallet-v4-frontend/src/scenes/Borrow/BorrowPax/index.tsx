@@ -93,7 +93,7 @@ class BorrowPax extends PureComponent<Props & State> {
               data-e2e='paxLearnMore'
             >
               <FormattedMessage
-                id='scenes.borrow.learnmore'
+                id='buttons.learnmore'
                 defaultMessage='Learn More'
               />
             </Button>

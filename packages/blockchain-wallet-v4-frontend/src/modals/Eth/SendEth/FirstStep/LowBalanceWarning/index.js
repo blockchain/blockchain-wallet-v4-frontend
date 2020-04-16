@@ -58,7 +58,7 @@ const LowBalanceWarning = props => {
             target='_blank'
           >
             <FormattedMessage
-              id='modals.sendeth.lowbalancewarning.learn'
+              id='buttons.learnmore'
               defaultMessage='Learn More'
             />
           </Link>

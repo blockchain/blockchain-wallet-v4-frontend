@@ -179,7 +179,7 @@ class InitBorrowForm extends PureComponent<Props> {
                 href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
               >
                 <FormattedMessage
-                  id='scenes.initborrow.learnmore'
+                  id='buttons.learnmore'
                   defaultMessage='Learn More'
                 />
               </Link>

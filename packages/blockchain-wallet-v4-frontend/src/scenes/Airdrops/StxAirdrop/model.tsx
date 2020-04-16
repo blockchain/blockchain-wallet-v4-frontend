@@ -113,7 +113,7 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
             size='12px'
           >
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learnmore'
               defaultMessage='Learn More'
             />
           </Link>
@@ -356,7 +356,7 @@ export const StxFooterCta = ({
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learnmore'
               defaultMessage='Learn More'
             />
           </Button>
@@ -384,7 +384,7 @@ export const StxFooterCta = ({
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learnmore'
               defaultMessage='Learn More'
             />
           </Button>

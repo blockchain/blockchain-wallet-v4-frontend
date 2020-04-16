@@ -316,7 +316,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
               size='12px'
             >
               <FormattedMessage
-                id='components.alerts.first_pax_trade_info_learn_more'
+                id='buttons.learnmore'
                 defaultMessage='Learn More'
               />
             </Link>

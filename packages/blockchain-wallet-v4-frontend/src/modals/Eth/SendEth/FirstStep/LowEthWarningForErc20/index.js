@@ -33,7 +33,7 @@ const LowEthWarningForErc20 = () => {
           target='_blank'
         >
           <FormattedMessage
-            id='modals.sendeth.lowethwarningforerc20.learn'
+            id='buttons.learnmore'
             defaultMessage='Learn More'
           />
         </Link>

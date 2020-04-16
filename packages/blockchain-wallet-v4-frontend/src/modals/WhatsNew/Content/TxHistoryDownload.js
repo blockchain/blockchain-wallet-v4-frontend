@@ -62,7 +62,7 @@ export const TxHistoryDownload = () => (
       >
         <LearnMoreButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.learnmore'
+            id='buttons.learnmore'
             defaultMessage='Learn More'
           />
         </LearnMoreButton>

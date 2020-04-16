@@ -268,7 +268,7 @@ const FirstStep = props => {
                       color='red600'
                     >
                       <FormattedMessage
-                        id='modals.sendxlm.firststep.sendtoexchangelearn'
+                        id='buttons.learnmore'
                         defaultMessage='Learn More'
                       />
                     </Link>
