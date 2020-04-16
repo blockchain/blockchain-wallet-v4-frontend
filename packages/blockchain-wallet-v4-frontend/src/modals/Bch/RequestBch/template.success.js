@@ -181,7 +181,7 @@ const RequestBch = props => {
         disabled={submitting || invalid}
         data-e2e='requestBchDoneButton'
       >
-        <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

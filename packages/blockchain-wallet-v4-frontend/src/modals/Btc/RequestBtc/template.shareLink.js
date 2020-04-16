@@ -126,10 +126,7 @@ const ShareRequestLink = props => {
         nature='primary'
         data-e2e='btcShareLinkDoneButton'
       >
-        <FormattedMessage
-          id='modals.requestbtc.share.done'
-          defaultMessage='Done'
-        />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </React.Fragment>
   )

@@ -316,10 +316,7 @@ export const StxFooterCta = ({
               weight={500}
               style={{ textDecoration: 'underline' }}
             >
-              <FormattedMessage
-                id='scenes.airdrops.blockstack.wallet.here'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             {'.'}
           </Text>
