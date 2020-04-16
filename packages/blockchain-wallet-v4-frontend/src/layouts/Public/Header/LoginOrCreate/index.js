@@ -20,6 +20,14 @@ const ResponsiveLink = styled(Link)`
   `}
 `
 
+const StyledButton = styled(Button)`
+  margin-left: 22px;
+  ${media.mobile`	
+  margin-left: 16px,
+    
+  `};
+`
+
 const LoginOrCreate = props => {
   const { pathname } = props.location
   const isSignup = includes('/signup', pathname)
@@ -42,9 +50,9 @@ const LoginOrCreate = props => {
             />
           )}
         </ResponsiveText>
-        <Button
+        <StyledButton
           nature='white-blue'
-          style={{ minWidth: '94px', marginLeft: '22px', borderRadius: '8px' }}
+          style={{ minWidth: '94px', borderRadius: '8px' }}
         >
           {isSignup ? (
             <ResponsiveLink weight={600} data-e2e='signupLinkToLogin'>
@@ -61,7 +69,7 @@ const LoginOrCreate = props => {
               />
             </ResponsiveLink>
           )}
-        </Button>
+        </StyledButton>
       </TextGroup>
     </LinkContainer>
   ) : null
