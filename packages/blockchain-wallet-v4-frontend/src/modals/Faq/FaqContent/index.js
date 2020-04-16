@@ -118,10 +118,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.walletfunctionality.answer6.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer6.two'
@@ -232,10 +229,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.walletfunctionality.answer9.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.walletfunctionality.answer8.four'
@@ -554,10 +548,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.walletsecurity.answer4.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.walletsecurity.answer4.six'
@@ -597,10 +588,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.lockbox.answer1.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.lockbox.answer1.two'
@@ -657,10 +645,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.lockbox.answer4.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.lockbox.answer4.two'
@@ -711,10 +696,7 @@ const FaqContent = [
               size='14px'
               weight={400}
             >
-              <FormattedMessage
-                id='scenes.faq.group.lockbox.answer6.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             <FormattedMessage
               id='scenes.faq.group.lockbox.answer6.two'
@@ -890,10 +872,7 @@ const FaqContent = [
                 color: Color('blue600')
               }}
             >
-              <FormattedMessage
-                id='scenes.faq.group.walletsecurity.answer8.link'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </NavLink>
             <FormattedMessage
               id='scenes.faq.group.walletsecurity.answer8.two'

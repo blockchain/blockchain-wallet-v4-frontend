@@ -16,7 +16,6 @@ import {
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
-  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -49,6 +48,7 @@ import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -310,10 +310,7 @@ const FirstStep = props => {
               data-e2e={`${coin}CustomizeFeeLink`}
             >
               {feeToggled ? (
-                <FormattedMessage
-                  id='modals.sendeth.firststep.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               ) : (
                 <FormattedMessage
                   id='modals.sendeth.firststep.customizefee'
@@ -355,10 +352,7 @@ const FirstStep = props => {
           }
           data-e2e={`${coin}SendContinue`}
         >
-          <FormattedMessage
-            id='modals.sendeth.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>

@@ -151,10 +151,7 @@ const Success: React.FC<Props> = props => {
         {props.account.currency === 'USD' && (
           <Row>
             <Title size='14px' weight={500} color='grey600'>
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.address'
-                defaultMessage='Address'
-              />
+              <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Title>
             <Value>{props.account.agent.address}</Value>
           </Row>

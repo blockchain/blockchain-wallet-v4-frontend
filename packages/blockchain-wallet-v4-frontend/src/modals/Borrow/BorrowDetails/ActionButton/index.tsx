@@ -32,10 +32,7 @@ const ActionButton: React.FC<Props> = props => {
             data-e2e='closeBorrowDetails'
             onClick={() => props.handleClose()}
           >
-            <FormattedMessage
-              id='modals.details.borrow.close'
-              defaultMessage='Close'
-            />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
           <Button
             nature='primary'
@@ -61,10 +58,7 @@ const ActionButton: React.FC<Props> = props => {
           data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage
-            id='modals.details.borrow.close'
-            defaultMessage='Close'
-          />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     case 'ON_CALL':
@@ -150,10 +144,7 @@ const ActionButton: React.FC<Props> = props => {
           data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage
-            id='modals.details.borrow.close'
-            defaultMessage='Close'
-          />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     default: {
@@ -164,10 +155,7 @@ const ActionButton: React.FC<Props> = props => {
           data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage
-            id='modals.details.borrow.close'
-            defaultMessage='Close'
-          />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     }

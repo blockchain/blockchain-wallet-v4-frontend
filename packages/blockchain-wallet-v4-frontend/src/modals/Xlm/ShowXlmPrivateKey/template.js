@@ -61,10 +61,7 @@ const SecondStep = ({ addr, balance, priv }) => (
     <DetailTable>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showxlmpriv.balance'
-            defaultMessage='Balance'
-          />
+          <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -74,10 +71,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showxlmpriv.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -92,7 +86,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showxlmpriv.priv_key'
+            id='copy.private_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
@@ -124,10 +118,7 @@ const ShowPrivateKeyTemplate = ({
       closeButton={false}
       data-e2e='xlmPrivateKeyModalHeader'
     >
-      <FormattedMessage
-        id='modals.showxlmpriv.title'
-        defaultMessage='Private Key'
-      />
+      <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
@@ -141,10 +132,7 @@ const ShowPrivateKeyTemplate = ({
         onClick={close}
         data-e2e='xlmPrivateKeyModalClose'
       >
-        <FormattedMessage
-          id='modals.showxlmpriv.close'
-          defaultMessage='Close'
-        />
+        <FormattedMessage id='buttons.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
         <Button
@@ -152,10 +140,7 @@ const ShowPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='xlmPrivateKeyModalContinue'
         >
-          <FormattedMessage
-            id='modals.showxlmpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

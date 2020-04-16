@@ -76,10 +76,7 @@ const RenameDevice = props => {
             </FormGroup>
             <ButtonWrapper>
               <Button nature='empty' capitalize onClick={handleCancel}>
-                <FormattedMessage
-                  id='scenes.lockbox.settings.renamedevice.settings.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Button>
               <Button
                 type='submit'

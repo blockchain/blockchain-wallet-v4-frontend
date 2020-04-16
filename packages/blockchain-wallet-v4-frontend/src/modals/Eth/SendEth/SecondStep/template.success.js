@@ -184,10 +184,7 @@ const Success = props => {
           weight={400}
           data-e2e={`${coin}SendBackLink`}
         >
-          <FormattedMessage
-            id='modals.sendeth.sendconfirm.back'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

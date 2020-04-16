@@ -195,10 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               onClick={props.handleClose}
             >
               <Text size='16px' weight={600} color='blue600'>
-                <FormattedMessage
-                  id='modals.borrow.collateralform.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Text>
             </Button>
             <Button
@@ -209,7 +206,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <Text size='16px' weight={600} color='white'>
                 <FormattedMessage
-                  id='modals.borrow.collateralform.continue'
+                  id='buttons.continue'
                   defaultMessage='Continue'
                 />
               </Text>

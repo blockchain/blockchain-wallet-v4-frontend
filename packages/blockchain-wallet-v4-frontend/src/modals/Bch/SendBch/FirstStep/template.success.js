@@ -18,11 +18,7 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
-import {
-  CustodyToAccountMessage,
-  MnemonicRequiredForCustodySend,
-  Row
-} from 'components/Send'
+import { CustodyToAccountMessage, Row } from 'components/Send'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -36,6 +32,7 @@ import { required, validBchAddress } from 'services/FormHelper'
 import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
@@ -317,10 +314,7 @@ const FirstStep = props => {
           }
           data-e2e='bchSendContinue'
         >
-          <FormattedMessage
-            id='modals.sendBch.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>
