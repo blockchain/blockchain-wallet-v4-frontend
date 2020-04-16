@@ -143,7 +143,7 @@ const Navigation = (props: OwnProps & Props) => {
           <MenuIcon name='savings-icon' size='20px' />
           <Destination>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.earn_interest'
+              id='scenes.interest.earninterest'
               defaultMessage='Earn Interest'
             />
           </Destination>

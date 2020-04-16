@@ -11,11 +11,11 @@ import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
-import { CoinBalanceDropdown } from 'components/CoinBalanceDropdown'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
+import CoinBalanceDropdown from 'components/CoinBalanceDropdown'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
@@ -124,13 +124,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color="grey800" size="20px" weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
-            name="arrow-left"
-            size="20px"
-            color="grey600"
+            name='arrow-left'
+            size='20px'
+            color='grey600'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'DETAILS',
@@ -140,62 +140,62 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id="modals.borrow.addingcollateral"
-            defaultMessage="Adding Collateral"
+            id='modals.borrow.addingcollateral'
+            defaultMessage='Adding Collateral'
           />
         </TopText>
         <MaxAmountContainer>
           {isPositiveAmtRequired ? (
-            <Text color="grey600" weight={500} size="14px">
+            <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
-                id="modals.borrow.needtoadd"
-                defaultMessage="You need to add"
+                id='modals.borrow.needtoadd'
+                defaultMessage='You need to add'
               />{' '}
               <FiatContainer
                 onClick={() =>
                   props.borrowActions.handleAddCollateralRequiredClick()
                 }
               >
-                <Text cursor="pointer" color="blue600" size="14px" weight={500}>
+                <Text cursor='pointer' color='blue600' size='14px' weight={500}>
                   {'$' + getCollateralAmtRequired(props.loan, props.offer)}
                 </Text>
               </FiatContainer>{' '}
               <FormattedMessage
-                id="modals.borrow.maintainsafety"
-                defaultMessage="to maintain a safe collateral position."
+                id='modals.borrow.maintainsafety'
+                defaultMessage='to maintain a safe collateral position.'
               />
             </Text>
           ) : (
-            <Text color="grey600" weight={500} size="14px">
+            <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
-                id="modals.borrow.youaresafe"
-                defaultMessage="Your loan position is safe and you are not at risk of being liquidated, but you can still Add Collateral."
+                id='modals.borrow.youaresafe'
+                defaultMessage='Your loan position is safe and you are not at risk of being liquidated, but you can still Add Collateral.'
               />
             </Text>
           )}
         </MaxAmountContainer>
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.borrow.collateralfrom"
-              defaultMessage="Send collateral from"
+              id='modals.borrow.collateralfrom'
+              defaultMessage='Send collateral from'
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name="collateral" />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.borrow.enteradditional"
-              defaultMessage="Enter additional collateral"
+              id='modals.borrow.enteradditional'
+              defaultMessage='Enter additional collateral'
             />
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e="additionalCollateralInput"
-            name="additionalCollateral"
+            data-e2e='additionalCollateralInput'
+            name='additionalCollateral'
             validate={[maximumAmount, minimumAmount]}
             {...{
               errorBottom: true,
@@ -204,7 +204,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           <PrincipalCcyAbsolute>
-            <Text color="grey400" size="14px" weight={600}>
+            <Text color='grey400' size='14px' weight={600}>
               USD
             </Text>
           </PrincipalCcyAbsolute>
@@ -237,49 +237,49 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 <IconContainer>
                   <Icon
                     onClick={() => props.onToggleQrCode()}
-                    name="close"
-                    color="grey600"
+                    name='close'
+                    color='grey600'
                   />
                 </IconContainer>
                 <Note>
-                  <Text size="12px" weight={600} color="grey700">
+                  <Text size='12px' weight={600} color='grey700'>
                     Note
                   </Text>
                   <Text
-                    size="12px"
+                    size='12px'
                     weight={500}
-                    color="grey600"
+                    color='grey600'
                     style={{ marginTop: '4px', marginBottom: '24px' }}
                   >
                     <FormattedMessage
-                      id="modals.borrow.addcollateralform.sendcollateral"
-                      defaultMessage="You can send any amount of {ccy} to this address."
+                      id='modals.borrow.addcollateralform.sendcollateral'
+                      defaultMessage='You can send any amount of {ccy} to this address.'
                       values={{
                         ccy: props.offer.terms.collateralCcy
                       }}
                     />
                   </Text>
                   {props.isAddrCopied ? (
-                    <TooltipHost id="copied">
+                    <TooltipHost id='copied'>
                       <Button
-                        nature="light"
-                        data-e2e="addCollateralCopyAddress"
+                        nature='light'
+                        data-e2e='addCollateralCopyAddress'
                       >
                         <FormattedMessage
-                          id="modals.borrow.addcollateralform.copy"
-                          defaultMessage="Copy Address"
+                          id='modals.borrow.addcollateralform.copy'
+                          defaultMessage='Copy Address'
                         />
                       </Button>
                     </TooltipHost>
                   ) : (
                     <Button
-                      nature="light"
+                      nature='light'
                       onClick={() => props.onCopyAddress()}
-                      data-e2e="addCollateralCopyAddress"
+                      data-e2e='addCollateralCopyAddress'
                     >
                       <FormattedMessage
-                        id="modals.borrow.addcollateralform.copy"
-                        defaultMessage="Copy Address"
+                        id='modals.borrow.addcollateralform.copy'
+                        defaultMessage='Copy Address'
                       />
                     </Button>
                   )}
@@ -291,19 +291,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Top>
       <Bottom>
         <Button
-          nature="primary"
-          type="submit"
-          data-e2e="addCollateralSubmit"
+          nature='primary'
+          type='submit'
+          data-e2e='addCollateralSubmit'
           disabled={props.submitting || props.invalid}
           fullwidth
         >
           {props.submitting ? (
-            <HeartbeatLoader height="16px" width="16px" color="white" />
+            <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <Text size="16px" weight={600} color="white">
+            <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id="modals.borrow.addcollateralform.addcollateral"
-                defaultMessage="Add Collateral"
+                id='modals.borrow.addcollateralform.addcollateral'
+                defaultMessage='Add Collateral'
               />
             </Text>
           )}

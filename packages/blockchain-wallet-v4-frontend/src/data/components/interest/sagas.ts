@@ -1,13 +1,12 @@
 import * as A from './actions'
-import { selectors } from 'data'
 import { put, select } from 'redux-saga/effects'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { selectors } from 'data'
 
 import { initialize } from 'redux-form'
 import { nth } from 'ramda'
 
 export default () => {
-  const initializeInterest = function*({
+  const initializeInterest = function * ({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR
@@ -25,6 +24,7 @@ export default () => {
     }
 
     const initialValues = {
+      depositAmount: 0,
       interestDepositSelect: defaultAccountR.getOrElse()
     }
 

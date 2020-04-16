@@ -1,7 +1,7 @@
 import { actions } from 'data'
-import { FormattedMessage } from 'react-intl'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import {
   IconBackground,
@@ -18,24 +18,24 @@ export type LinkDispatchPropsType = {
 
 type Props = LinkDispatchPropsType
 class Interest extends React.PureComponent<Props> {
-  render() {
+  render () {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name="savings-icon" color="blue600" size="24px" />
+            <Icon name='savings-icon' color='blue600' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id="scenes.savings.blockchain"
-              defaultMessage="Earn Interest"
+              id='scenes.interest.earninterest'
+              defaultMessage='Earn Interest'
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id="scenes.interest.subheader"
-            defaultMessage="Deposit crypto and instantly earn interest with absolutely no fees."
+            id='scenes.interest.subheader'
+            defaultMessage='Deposit crypto and instantly earn interest with absolutely no fees.'
           />
         </SceneSubHeaderText>
         <div
