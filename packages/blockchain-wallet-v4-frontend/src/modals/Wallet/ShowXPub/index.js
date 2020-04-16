@@ -69,10 +69,7 @@ class ShowXPubContainer extends Component {
             onClick={closeAll}
             data-e2e='closeShowXpubModalButton'
           >
-            <FormattedMessage
-              id='modals.wallet.showxpub.close'
-              defaultMessage='Close'
-            />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>

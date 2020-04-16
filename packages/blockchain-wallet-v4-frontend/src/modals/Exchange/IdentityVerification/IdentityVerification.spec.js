@@ -1,11 +1,9 @@
 import { actions, model } from 'data'
 import { combineReducers } from 'redux'
 import { createTestStore, getDispatchSpyReducer, TestBed } from 'utils/testbed'
-import { flushPromises } from 'utils/test.utils'
 import { mount } from 'enzyme'
 import React from 'react'
 
-import * as actionTypes from 'data/actionTypes'
 import {
   coreReducers,
   coreSagasFactory,
@@ -27,11 +25,8 @@ import {
 import {
   getStates,
   getSteps,
-  getSupportedCountries,
-  getVerificationStep
+  getSupportedCountries
 } from 'data/components/identityVerification/selectors.ts'
-import { KYC_STATES, USER_ACTIVATION_STATES } from 'data/modules/profile/model'
-import { last } from 'ramda'
 import { ModalHeader } from 'blockchain-info-components'
 import IdentityVerification from './index'
 import identityVerificationReducer from 'data/components/identityVerification/reducers.ts'
@@ -43,8 +38,7 @@ import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
 import settingsSagas from 'data/modules/settings/sagaRegister'
 import Tray from 'components/Tray'
 
-const { KYC_MODAL, STEPS } = model.components.identityVerification
-
+const { KYC_MODAL } = model.components.identityVerification
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 jest.useFakeTimers()
@@ -75,7 +69,6 @@ const STUB_COUNTRY_CODE = 'FR'
 const SUPPORTED_COUNTRIES = [{ code: STUB_COUNTRY_CODE, name: 'France' }]
 
 const stubMail = 'mail@mail.com'
-const STUB_MOBILE = '212555555'
 
 const coreSagas = coreSagasFactory({ api: {} })
 const api = {
@@ -149,135 +142,6 @@ describe('IdentityVerification Modal', () => {
       wrapper.find(ModalHeader).prop('onClose')()
       wrapper.update()
       expect(wrapper.find(Tray).prop('in')).toBe(false)
-    })
-  })
-
-  describe('form behaviour', () => {
-    getVerificationStep.mockImplementation(() => STEPS.personal)
-    beforeEach(() => {
-      store.dispatch(actions.modals.showModal(KYC_MODAL))
-      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
-      coreSagas.settings.setMobile.mockClear()
-      wrapper.update()
-    })
-
-    describe('personal form', () => {
-      beforeEach(() => {
-        store.dispatch(
-          actions.modules.profile.fetchUserDataSuccess({
-            state: USER_ACTIVATION_STATES.NONE,
-            kycState: KYC_STATES.NONE
-          })
-        )
-        store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
-        store.dispatch(actions.core.settings.setEmail(stubMail))
-        store.dispatch(actions.core.settings.setEmailVerified())
-        store.dispatch(actions.core.settings.setMobile(STUB_MOBILE))
-        store.dispatch(actions.core.settings.setMobileVerified())
-        wrapper.update()
-      })
-
-      it('should be disabled and not submit by default', () => {
-        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-          true
-        )
-        wrapper.find('form').simulate('submit')
-        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
-          actionTypes.form.SET_SUBMIT_FAILED
-        )
-      })
-
-      it('should enable continue if all fields are filled', async () => {
-        wrapper
-          .find('Field[name="dob"]')
-          .find('input[name="date"]')
-          .simulate('change', {
-            target: { value: `11` }
-          })
-        wrapper
-          .find('Field[name="dob"]')
-          .find('SelectBox')
-          .prop('input')
-          .onChange('11')
-        wrapper
-          .find('Field[name="dob"]')
-          .find('input[name="year"]')
-          .simulate('change', {
-            target: { value: '1999' }
-          })
-        wrapper
-          .find('Field[name="lastName"]')
-          .find('input')
-          .simulate('change', { target: { value: 'Beloved' } })
-        wrapper
-          .find('Field[name="firstName"]')
-          .find('input')
-          .simulate('change', { target: { value: 'User' } })
-        wrapper
-          .find('Field[name="country"]')
-          .find('SelectBox')
-          .prop('input')
-          .onChange({ code: 'FR' })
-        wrapper.unmount().mount()
-        wrapper
-          .find('Field[name="postCode"]')
-          .find('input[name="postCode"]')
-          .simulate('change', {
-            target: { value: '75002' }
-          })
-        wrapper.unmount().mount()
-        wrapper
-          .find('Field[name="line1"]')
-          .find('input[name="line1"]')
-          .simulate('change', {
-            target: { value: POSSIBLE_ADDRESSES[0]['line1'] }
-          })
-        wrapper
-          .find('Field[name="city"]')
-          .find('input[name="city"]')
-          .simulate('change', {
-            target: { value: 'Paris' }
-          })
-        await jest.runAllTimers()
-        await flushPromises()
-        wrapper.update()
-
-        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-          false
-        )
-      })
-
-      it('should validate age to be over 18', () => {
-        wrapper
-          .find('Field[name="dob"]')
-          .find('input[name="date"]')
-          .simulate('change', {
-            target: { value: `11` }
-          })
-        wrapper
-          .find('Field[name="dob"]')
-          .find('SelectInputContainer')
-          .prop('onChange')('11')
-        wrapper
-          .find('Field[name="dob"]')
-          .find('input[name="year"]')
-          .simulate('change', {
-            target: { value: '2005' }
-          })
-        wrapper
-          .find('Field[name="lastName"]')
-          .find('input')
-          .simulate('change', { target: { value: 'Beloved' } })
-        wrapper
-          .find('Field[name="firstName"]')
-          .find('input')
-          .simulate('change', { target: { value: 'User' } })
-        jest.runAllTimers()
-        wrapper.update()
-        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
-          true
-        )
-      })
     })
   })
 })

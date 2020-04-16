@@ -104,7 +104,7 @@ describe('authSagas', () => {
 
     it('should not call obtainSessionToken if session was selected and use selected session in further calls', () => {
       const { guid, password, code, sharedKey } = payload
-      return expectSaga(login, { payload })
+      expectSaga(login, { payload })
         .provide([[select(selectors.session.getSession, guid), sessionIdStub]])
         .not.call(api.obtainSessionToken)
         .put(actions.session.saveSession({ [guid]: sessionIdStub }))
@@ -495,7 +495,7 @@ describe('authSagas', () => {
 
     it("should not display success if it's first login", () => {
       const firstLogin = true
-      return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
+      expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
         .provide([
           // Every async or value returning yield has to be mocked
           // for saga to progress
@@ -739,7 +739,7 @@ describe('authSagas', () => {
         const guidNotFound2faError = {
           toString: () => guidNotFound2faErrorMessage
         }
-        return expectSaga(reset2fa, { payload })
+        expectSaga(reset2fa, { payload })
           .provide({
             call (effect, next) {
               if (effect.fn === coreSagas.wallet.resetWallet2fa) {
@@ -757,7 +757,7 @@ describe('authSagas', () => {
         const notEnabled2faResponse = {
           message: notEnabled2faErrorMessage.replace(/^Error: /, '')
         }
-        return expectSaga(reset2fa, { payload })
+        expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), notEnabled2faResponse]
           ])
@@ -998,7 +998,7 @@ describe('authSagas', () => {
     })
 
     it('should stop rates scoket if user flow is supported', () => {
-      return expectSaga(logout)
+      expectSaga(logout)
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
           [select(selectors.modules.profile.userFlowSupported), Remote.of(true)]
@@ -1009,7 +1009,7 @@ describe('authSagas', () => {
     })
 
     it('should not stop rates scoket if user flow is supported', () => {
-      return expectSaga(logout)
+      expectSaga(logout)
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
           [
@@ -1023,7 +1023,7 @@ describe('authSagas', () => {
     })
 
     it('should stop sockets and redirect to logout if email is verified', () => {
-      return expectSaga(logout)
+      expectSaga(logout)
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)],
           [
@@ -1038,7 +1038,7 @@ describe('authSagas', () => {
     })
 
     it('should stop sockets and clear redux store if email is not verified', async () => {
-      return expectSaga(logout)
+      expectSaga(logout)
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(false)],
           [

@@ -18,10 +18,7 @@ const UsedTable = ({ children }) => (
     <TableHeader>
       <TableCell width='40%'>
         <Text size='13px' weight={500}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </Text>
       </TableCell>
       <TableCell width='40%'>
@@ -37,10 +34,7 @@ const UsedTable = ({ children }) => (
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         <Text size='13px' weight={500} style={{ marginRight: '8px' }}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.balance'
-            defaultMessage='Balance'
-          />
+          <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </Text>
         <TooltipHost id='settingsBtcUsedBalace'>
           <TooltipIcon name='info' />

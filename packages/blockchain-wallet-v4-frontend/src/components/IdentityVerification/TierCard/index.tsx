@@ -217,7 +217,7 @@ export const TierCard = ({
           >
             {tierStarted ? (
               <FormattedMessage
-                id='components.identityverification.tiercard.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             ) : (

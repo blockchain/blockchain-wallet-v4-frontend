@@ -219,7 +219,7 @@ const Register = ({
               ) : (
                 <Text color='white' size='16px' weight={600}>
                   <FormattedMessage
-                    id='scenes.register.continue'
+                    id='buttons.continue'
                     defaultMessage='Continue'
                   />
                 </Text>

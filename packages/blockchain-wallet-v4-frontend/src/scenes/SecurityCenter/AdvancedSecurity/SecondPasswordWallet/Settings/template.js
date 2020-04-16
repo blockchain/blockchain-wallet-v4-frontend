@@ -94,10 +94,7 @@ const Settings = props => {
                 onClick={handleCancel}
                 data-e2e='removeSecondPasswordCancelButton'
               >
-                <FormattedMessage
-                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Button>
               <Button
                 type='submit'
@@ -190,10 +187,7 @@ const Settings = props => {
                 onClick={handleCancel}
                 data-e2e='secondPasswordCancelButton'
               >
-                <FormattedMessage
-                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.cancel2'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Button>
               <Button
                 nature='primary'

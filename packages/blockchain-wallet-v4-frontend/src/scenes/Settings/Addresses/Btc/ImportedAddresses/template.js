@@ -83,7 +83,7 @@ const Success = ({
                       data-e2e='btcShowPrivKeyImportedAddressLink'
                     >
                       <FormattedMessage
-                        id='scenes.settings.addresses.show_priv'
+                        id='copy.private_key'
                         defaultMessage='Private Key'
                       />
                     </ClickableText>
@@ -167,10 +167,7 @@ const Success = ({
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.importedaddresses.success.address'
-                  defaultMessage='Address'
-                />
+                <FormattedMessage id='copy.address' defaultMessage='Address' />
               </Text>
             </TableCell>
             <TableCell width='20%'>
@@ -183,10 +180,7 @@ const Success = ({
             </TableCell>
             <TableCell width='10%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage
-                  id='scenes.settings.addresses.btc.importedaddresses.success.balance'
-                  defaultMessage='Balance'
-                />
+                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
               </Text>
             </TableCell>
             <TableCell

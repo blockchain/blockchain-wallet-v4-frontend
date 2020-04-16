@@ -51,10 +51,7 @@ function BitPayInformational ({ close }) {
             style={{ marginRight: '8px' }}
             size='22px'
           />
-          <FormattedMessage
-            id='modals.bitpay.info.back'
-            defaultMessage='Back'
-          />
+          <FormattedMessage id='buttons.back' defaultMessage='Back' />
         </HeaderLink>
       </ModalHeader>
       <ModalBody>

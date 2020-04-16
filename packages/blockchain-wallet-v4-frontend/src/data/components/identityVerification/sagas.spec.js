@@ -46,7 +46,7 @@ getUserTiers.mockReturnValue(Remote.NotAsked)
 getUserData.mockReturnValue(Remote.of({ mobileVerified: false }))
 
 describe('initializeVerification saga', () => {
-  it('should set default values: need more info as false, and "2" as desired tier', () =>
+  it('should set default values: need more info as false, and "2" as desired tier', () => {
     expectSaga(initializeVerification, { payload: {} })
       .provide([
         [call.fn(initializeStep), jest.fn()],
@@ -54,7 +54,8 @@ describe('initializeVerification saga', () => {
       ])
       .call(defineSteps, TIERS[2], false)
       .call(initializeStep)
-      .run())
+      .run()
+  })
 })
 
 describe('defineSteps saga', () => {
@@ -73,7 +74,7 @@ describe('defineSteps saga', () => {
 
   it('should put steps loading failure if selectTier fails', () => {
     const error = 'error'
-    return expectSaga(defineSteps, TIERS[2], false, false)
+    expectSaga(defineSteps, TIERS[2], false, false)
       .provide([[call.fn(selectTier), throwError(error)]])
       .put(A.setStepsLoading())
       .call(createUser)
@@ -85,17 +86,18 @@ describe('defineSteps saga', () => {
 
 describe('initializeStep saga', () => {
   const steps = ['personal', 'mobile', 'verify']
-  it('should select steps and initialize first step', () =>
+  it('should select steps and initialize first step', () => {
     expectSaga(initializeStep)
       .provide([[select(S.getSteps), Remote.of(steps)]])
       .select(S.getSteps)
       .put(A.setVerificationStep(steps[0]))
-      .run())
+      .run()
+  })
 })
 
 describe('goToPrevStep saga', () => {
   const steps = ['personal', 'mobile']
-  it('should direct user to prev step if it is available', () =>
+  it('should direct user to prev step if it is available', () => {
     expectSaga(goToPrevStep)
       .withState({
         components: {
@@ -111,8 +113,10 @@ describe('goToPrevStep saga', () => {
       ])
       .select()
       .put(A.setVerificationStep(steps[0]))
-      .run())
-  it('should close all modals if there is no prev step', () =>
+      .run()
+  })
+
+  it('should close all modals if there is no prev step', () => {
     expectSaga(goToPrevStep)
       .withState({
         components: {
@@ -128,12 +132,13 @@ describe('goToPrevStep saga', () => {
       ])
       .select()
       .put(actions.modals.closeAllModals())
-      .run())
+      .run()
+  })
 })
 
 describe('goToNextStep saga', () => {
   const steps = ['personal', 'mobile']
-  it('should direct user to next step if it is available', () =>
+  it('should direct user to next step if it is available', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[0]],
@@ -142,8 +147,10 @@ describe('goToNextStep saga', () => {
       .select(S.getSteps)
       .select(S.getVerificationStep)
       .put(A.setVerificationStep(steps[1]))
-      .run())
-  it('should close all modals if there is no next step', () =>
+      .run()
+  })
+
+  it('should close all modals if there is no next step', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[1]],
@@ -152,7 +159,8 @@ describe('goToNextStep saga', () => {
       .select(S.getSteps)
       .select(S.getVerificationStep)
       .put(actions.modals.closeAllModals())
-      .run())
+      .run()
+  })
 })
 
 describe('createRegisterUserCampaign', () => {

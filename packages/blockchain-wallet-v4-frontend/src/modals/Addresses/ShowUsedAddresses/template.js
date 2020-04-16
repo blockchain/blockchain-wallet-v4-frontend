@@ -63,10 +63,7 @@ const ShowUsedAddresses = props => {
           onClick={close}
           data-e2e='cancelShowUsedAddressesButton'
         >
-          <FormattedMessage
-            id='modals.showusedaddresses.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </CancelBtn>
         <Button
           nature='primary'

@@ -102,10 +102,7 @@ class FinishKyc extends PureComponent<Props> {
           data-e2e='openKycTier2'
           nature='primary'
         >
-          <FormattedMessage
-            id='scenes.home.banner.kyc'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </BannerButton>
       </Wrapper>
     )

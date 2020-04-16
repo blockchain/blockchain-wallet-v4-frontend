@@ -73,6 +73,7 @@ import Borrow from './Borrow'
 import Faq from './Faq'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
+import RecoveryPhrase from './RecoveryPhrase'
 import SignMessage from './SignMessage'
 import SimpleBuy from './SimpleBuy'
 import WhatsNew from './WhatsNew'
@@ -112,6 +113,7 @@ const Modals = () => (
     <PaxWelcome />
     <PromptInput />
     <QRCode />
+    <RecoveryPhrase />
     <RequestBch />
     <RequestBtc />
     <RequestEth />

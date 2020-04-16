@@ -212,10 +212,7 @@ const ShapeshiftTradeDetails = props => {
       </ModalBody>
       <ModalFooter align='right'>
         <Button nature='primary' size='13px' weight={400} onClick={close}>
-          <FormattedMessage
-            id='modals.exchange.shapeshifttradedetails.close'
-            defaultMessage='Close'
-          />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       </ModalFooter>
     </Modal>

@@ -160,8 +160,8 @@ class UpgradeForAirdrop extends React.PureComponent {
                 rel='noopener noreferrer'
               >
                 <FormattedMessage
-                  id='modals.upgradeforairdrop.learnmore'
-                  defaultMessage='Learn more'
+                  id='buttons.learn_more'
+                  defaultMessage='Learn More'
                 />
               </LearnMoreLink>
             </FooterTextGroup>

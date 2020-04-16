@@ -88,10 +88,7 @@ const ErrorBoundary = props => {
           onClick={onSubmit}
           data-e2e='oopsErrorContinueButton'
         >
-          <FormattedMessage
-            id='modal.errorboundary.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </ModalFooter>
     </Modal>

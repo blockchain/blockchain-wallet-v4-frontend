@@ -60,6 +60,7 @@ class WhatsNewContainer extends React.PureComponent<Props> {
         onClose={this.props.close}
         in={show}
         data-e2e='whatsNewModal'
+        direction='left'
       >
         <Container>
           {!prop('length', announcements) ? (

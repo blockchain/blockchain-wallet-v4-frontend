@@ -1,17 +1,17 @@
-import 'jest-styled-components'
+import { shallow } from 'enzyme'
 import React from 'react'
-import renderer from 'react-test-renderer'
+import toJson from 'enzyme-to-json'
 
 import Text from './Text'
 
 describe('Text component', () => {
   it('default renders correctly', () => {
-    const component = renderer.create(
+    const component = shallow(
       <Text colorgrey000 altFont>
         <span>Hello World</span>
       </Text>
     )
-    const tree = component.toJSON()
+    const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 })
