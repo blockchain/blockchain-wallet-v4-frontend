@@ -30,7 +30,7 @@ class EarnInterestInfo extends PureComponent<Props & State> {
             style={{ marginTop: '16px' }}
           >
             <FormattedMessage
-              id='scenes.interest.earnheader'
+              id='scenes.earninterest.earnheader'
               defaultMessage='Earn Crypto from Your Blockchain Wallet'
             />
           </Text>
@@ -46,7 +46,7 @@ class EarnInterestInfo extends PureComponent<Props & State> {
                   style={{ marginTop: '10px', lineHeight: 1.5 }}
                 >
                   <FormattedMessage
-                    id='scenes.interest.earnbody.unverified'
+                    id='scenes.earninterest.earnbody.unverified'
                     defaultMessage='Upgrade to Gold Level and be eligible to earn up to 3% on your crypto.'
                   />
                 </Text>
@@ -59,14 +59,14 @@ class EarnInterestInfo extends PureComponent<Props & State> {
                     this.props.identityVerificationActions.verifyIdentity(2)
                   }
                 >
-                  {val.kycState === 'UNDER_REVIEW' ? (
+                  {val.kycState === ('UNDER_REVIEW' || 'PENDING') ? (
                     <FormattedMessage
-                      id='scenes.borrow.kycunderreview'
+                      id='scenes.earninterst.kycunderreview'
                       defaultMessage='Gold Verification In Review'
                     />
                   ) : (
                     <FormattedMessage
-                      id='scenes.borrow.verifyid'
+                      id='scenes.earninterest.verifyid'
                       defaultMessage='Upgrade Now'
                     />
                   )}
@@ -86,7 +86,7 @@ class EarnInterestInfo extends PureComponent<Props & State> {
                   style={{ marginTop: '20px' }}
                 >
                   <FormattedMessage
-                    id='scenes.borrow.support'
+                    id='buttons.contact_support'
                     defaultMessage='Contact Support'
                   />
                 </Button>
@@ -104,7 +104,7 @@ class EarnInterestInfo extends PureComponent<Props & State> {
               style={{ marginTop: '4px', lineHeight: 1.5 }}
             >
               <FormattedMessage
-                id='scenes.interest.earnbody.verified'
+                id='scenes.earninterest.earnbody.verified'
                 defaultMessage='Earn up to 3% AER instantly when you deposit bitcoin to your Savings Wallet.'
               />
             </Text>
@@ -117,10 +117,10 @@ class EarnInterestInfo extends PureComponent<Props & State> {
                 style={{ marginTop: '16px' }}
                 nature='light'
                 fullwidth
-                data-e2e='paxLearnMore'
+                data-e2e='earnInterestLearnMore'
               >
                 <FormattedMessage
-                  id='scenes.borrow.learnmore'
+                  id='buttons.learn_more'
                   defaultMessage='Learn More'
                 />
               </Button>

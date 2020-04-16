@@ -7,7 +7,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '..'
+import { Props, State } from '..'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -39,7 +39,7 @@ const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
 
-class EarnInterestForm extends PureComponent<Props> {
+class InterestSummary extends PureComponent<Props & State> {
   render () {
     return (
       <DepositBox>
@@ -58,9 +58,13 @@ class EarnInterestForm extends PureComponent<Props> {
           <TooltipHost id='earninterest.calculation.tooltop'>
             <TooltipIcon name='info' size='12px' />
           </TooltipHost>
-          <Text size='12px' weight={500}>
+          <Text
+            size='12px'
+            weight={500}
+            style={{ marginLeft: '8px', lineHeight: '1.5' }}
+          >
             <FormattedMessage
-              id='earninterest.form.earn3percent'
+              id='scenes.earninterest.form.earn3percent'
               defaultMessage='Earn 3% AER on your BTC'
             />
           </Text>
@@ -96,13 +100,14 @@ class EarnInterestForm extends PureComponent<Props> {
         </AmountRow>
         <Button
           // disabled={this.isDisabled}
+          disabled={this.props.isDisabled}
           style={{ marginTop: '16px' }}
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
         >
           <FormattedMessage
-            id='scenes.earninterest.form.earnInterest'
+            id='scenes.earninterest.form.earnbutton'
             defaultMessage='Earn Interest'
           />
         </Button>
@@ -111,4 +116,4 @@ class EarnInterestForm extends PureComponent<Props> {
   }
 }
 
-export default EarnInterestForm
+export default InterestSummary

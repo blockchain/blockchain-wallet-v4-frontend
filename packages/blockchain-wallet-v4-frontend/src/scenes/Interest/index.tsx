@@ -14,8 +14,8 @@ import {
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import EarnInterestForm from './EarnInterestForm'
 import EarnInterestInfo from './InterestInfo'
+import InterestSummary from './InterestSummary'
 
 import React from 'react'
 import styled from 'styled-components'
@@ -92,7 +92,7 @@ class Interest extends React.PureComponent<Props, State> {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -100,7 +100,7 @@ class Interest extends React.PureComponent<Props, State> {
         </SceneSubHeaderText>
         <Container>
           <EarnInterestInfo {...this.state} {...this.props} />
-          <EarnInterestForm {...this.state} {...this.props} />
+          <InterestSummary {...this.state} {...this.props} />
         </Container>
       </SceneWrapper>
     )
