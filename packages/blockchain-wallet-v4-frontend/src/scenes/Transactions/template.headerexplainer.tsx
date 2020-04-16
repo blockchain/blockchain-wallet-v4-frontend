@@ -25,7 +25,7 @@ export const getHeaderExplainer = coinModel => {
       return (
         <ExplainerText>
           <FormattedMessage
-            id='scenes.transaction.headertext.explainer.btc'
+            id='scenes.transaction.headertext.explainer.btc1'
             defaultMessage='Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
           />
           <LearnMoreLink
