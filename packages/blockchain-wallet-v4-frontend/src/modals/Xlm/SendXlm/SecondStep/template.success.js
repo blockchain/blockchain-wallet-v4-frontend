@@ -194,10 +194,7 @@ const Success = props => {
           weight={400}
           data-e2e='xlmSendBackLink'
         >
-          <FormattedMessage
-            id='modals.sendxlm.sendconfirm.back'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='buttons.goback' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

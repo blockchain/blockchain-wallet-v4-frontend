@@ -90,10 +90,7 @@ const Reminder = props => {
         <Footer>
           <GoBackLink to='/help'>
             <Link size='13px' weight={500}>
-              <FormattedMessage
-                id='scenes.reminder.back'
-                defaultMessage='Go Back'
-              />
+              <FormattedMessage id='buttons.goback' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
           <Button
