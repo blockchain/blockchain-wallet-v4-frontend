@@ -1,5 +1,6 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Text } from 'blockchain-info-components'
+import Currencies from 'core/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -22,18 +23,20 @@ const PriceChangeColoredText = styled.span<{ priceChange: number }>`
 `
 
 export const PriceChange = ({
-  currencySymbol,
+  currency,
   priceChangeFiat,
   priceChangePercentage,
   children
 }) => {
   let priceFormatted
+  let price = Currency.fiatToString({
+    value: priceChangeFiat,
+    unit: Currencies[currency][currency]
+  })
   if (priceChangeFiat < 0) {
-    priceFormatted = `-${currencySymbol}${Currency.formatFiat(
-      priceChangeFiat
-    ).substring(1)}`
+    priceFormatted = `-${price}`
   } else {
-    priceFormatted = currencySymbol + Currency.formatFiat(priceChangeFiat)
+    priceFormatted = price
   }
 
   return (

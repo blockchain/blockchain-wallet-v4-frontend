@@ -7,7 +7,9 @@ import { RatesType } from 'data/types'
 import Currencies, { CurrenciesType } from './currencies'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
-type UnitType = KeysOfUnion<CurrenciesType[keyof CurrenciesType]['units']>
+export type UnitType = KeysOfUnion<
+  CurrenciesType[keyof CurrenciesType]['units']
+>
 
 const { BCH, BTC, ETH, PAX, XLM } = Currencies
 

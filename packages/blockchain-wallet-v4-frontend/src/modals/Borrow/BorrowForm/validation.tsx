@@ -5,6 +5,7 @@ import { Props as CheckoutProps } from './template.success'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import BigNumber from 'bignumber.js'
+import Currencies from 'core/exchange/currencies'
 import React from 'react'
 
 const {
@@ -46,7 +47,7 @@ export const minimumAmount = (
           values={{
             minFiat: Currency.fiatToString({
               value: props.limits.minFiat,
-              unit: { symbol: '$' }
+              unit: Currencies['USD']['USD']
             })
           }}
         />
@@ -71,7 +72,7 @@ export const minimumAmount = (
               values={{
                 minFiat: Currency.fiatToString({
                   value: getCollateralAmtRequired(props.loan, props.offer),
-                  unit: { symbol: '$' }
+                  unit: Currencies['USD']['USD']
                 })
               }}
             />
@@ -86,7 +87,7 @@ export const minimumAmount = (
               values={{
                 minFiat: Currency.fiatToString({
                   value: 0,
-                  unit: { symbol: '$' }
+                  unit: Currencies['USD']['USD']
                 })
               }}
             />

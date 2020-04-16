@@ -1,5 +1,4 @@
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { head, last, lift, prop } from 'ramda'
 import { selectors } from 'data'
 
@@ -16,7 +15,6 @@ export const getData = createDeepEqualSelector(
       const priceChangePercentage = (priceChangeFiat / priceStart) * 100
       return {
         currency,
-        currencySymbol: Exchange.getSymbol(currency),
         priceChangeFiat,
         priceCurrent,
         priceChangePercentage

@@ -8,6 +8,7 @@ import { RatesType } from 'data/types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
+import Currencies from 'core/exchange/currencies'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
@@ -51,7 +52,7 @@ export class Amount extends Component<Props> {
           Success: val => (
             <Text weight={600} size='32px'>
               {fiatToString({
-                unit: { symbol: '$' },
+                unit: Currencies['USD']['USD'],
                 value: val.offer
                   ? Math.min(
                       Exchange.convertCoinToFiat(

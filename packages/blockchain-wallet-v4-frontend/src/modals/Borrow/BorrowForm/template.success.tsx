@@ -11,6 +11,7 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
 import BorrowCoinDropdown from './BorrowCoinDropdown'
+import Currencies from 'core/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -132,7 +133,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
-                  unit: { symbol: '$' }
+                  unit: Currencies['USD']['USD']
                 })}
               </Text>
             </FiatContainer>{' '}

@@ -1,12 +1,28 @@
 import { BigNumber } from 'bignumber.js'
+// @ts-ignore
 import { compose, curry, flip, is, prop, sequence } from 'ramda'
 import { view } from 'ramda-lens'
 import BigRational from 'big-rational'
-import Currencies from '../currencies'
+import Currencies, { CurrenciesType } from '../currencies'
 import Maybe from 'data.maybe'
 import Type from '../../types/Type'
 
 export class Currency extends Type {
+  'value': typeof BigRational
+  'currency': CurrenciesType[keyof CurrenciesType]
+
+  constructor ({
+    value,
+    currency
+  }: {
+    currency: CurrenciesType[keyof CurrenciesType]
+    value: typeof BigRational
+  }) {
+    super()
+    this.value = value
+    this.currency = currency
+  }
+
   toString () {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
@@ -63,7 +79,10 @@ export class Currency extends Type {
     })
   }
 }
-const newCurrency = o => new Currency(o)
+const newCurrency = (o: {
+  currency: CurrenciesType[keyof CurrenciesType]
+  value: typeof BigRational
+}) => new Currency(o)
 
 export const isCurrency = is(Currency)
 export const value = Currency.define('value')
@@ -99,8 +118,20 @@ export const fromUnit = ({ value, unit }) => {
   )
 }
 
-export const fiatToString = ({ value, unit, digits = 2 }) =>
-  `${unit.symbol}${formatFiat(value, digits)}`
+export const fiatToString = ({
+  value,
+  unit,
+  digits = 2
+}: {
+  digits?: number
+  unit: {
+    currency: string
+    decimal_digits: number
+    rate: string
+    symbol: string
+  }
+  value: string | number
+}) => `${unit.symbol}${formatFiat(value, digits)}`
 
 export const coinToString = ({ value, unit, minDigits = 0, maxDigits = 8 }) =>
   `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
