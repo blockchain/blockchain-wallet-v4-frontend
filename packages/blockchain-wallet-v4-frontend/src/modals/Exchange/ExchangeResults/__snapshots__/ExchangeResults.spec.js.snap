@@ -140,7 +140,7 @@ exports[`Exchange Results EXPIRED renders correctly 1`] = `
       >
         <FormattedMessage
           defaultMessage="Contact Support"
-          id="modals.exchangedetails.support"
+          id="buttons.contact_support"
           values={Object {}}
         />
       </Button>
@@ -289,7 +289,7 @@ exports[`Exchange Results FAILED renders correctly 1`] = `
       >
         <FormattedMessage
           defaultMessage="Contact Support"
-          id="modals.exchangedetails.support"
+          id="buttons.contact_support"
           values={Object {}}
         />
       </Button>

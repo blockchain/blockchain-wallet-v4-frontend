@@ -150,7 +150,7 @@ exports[`HighFlow should render correctly 1`] = `
         >
           <FormattedMessage
             defaultMessage="Back"
-            id="identityverification.lowflow.personal.back"
+            id="buttons.back"
             values={Object {}}
           />
         </Styled(Button)>

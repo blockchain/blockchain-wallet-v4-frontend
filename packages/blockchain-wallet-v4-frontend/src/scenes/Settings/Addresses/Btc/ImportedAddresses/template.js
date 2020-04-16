@@ -83,7 +83,7 @@ const Success = ({
                       data-e2e='btcShowPrivKeyImportedAddressLink'
                     >
                       <FormattedMessage
-                        id='scenes.settings.addresses.show_priv'
+                        id='copy.private_key'
                         defaultMessage='Private Key'
                       />
                     </ClickableText>
