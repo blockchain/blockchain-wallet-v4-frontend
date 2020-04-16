@@ -1,4 +1,7 @@
+import { actions } from 'data'
 import { FormattedMessage } from 'react-intl'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect } from 'react-redux'
 import { Icon } from 'blockchain-info-components'
 import {
   IconBackground,
@@ -9,30 +12,47 @@ import {
 } from 'components/Layout'
 import React from 'react'
 
-class Interest extends React.PureComponent {
-  render () {
+export type LinkDispatchPropsType = {
+  modalActions: typeof actions.modals
+}
+
+type Props = LinkDispatchPropsType
+class Interest extends React.PureComponent<Props> {
+  render() {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='savings-icon' color='blue600' size='24px' />
+            <Icon name="savings-icon" color="blue600" size="24px" />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.savings.blockchain'
-              defaultMessage='Earn Interest'
+              id="scenes.savings.blockchain"
+              defaultMessage="Earn Interest"
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and instantly earn interest with absolutely no fees.'
+            id="scenes.interest.subheader"
+            defaultMessage="Deposit crypto and instantly earn interest with absolutely no fees."
           />
         </SceneSubHeaderText>
+        <div
+          onClick={() => this.props.modalActions.showModal('INTEREST_MODAL')}
+        >
+          Deposit
+        </div>
       </SceneWrapper>
     )
   }
 }
 
-export default Interest
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Interest)

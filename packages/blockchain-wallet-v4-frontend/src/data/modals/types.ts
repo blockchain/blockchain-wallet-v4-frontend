@@ -6,6 +6,7 @@ export type ModalNamesType =
   | 'BORROW_MODAL'
   | 'Confirm'
   | 'FAQ_MODAL'
+  | 'INTEREST_MODAL'
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'

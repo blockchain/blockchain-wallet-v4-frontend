@@ -37,13 +37,13 @@ type State = { direction: 'left' | 'right'; show: boolean }
 class Borrow extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (BorrowSteps[this.props.step] > BorrowSteps[prevProps.step]) {
       /* eslint-disable */
@@ -59,8 +59,9 @@ class Borrow extends PureComponent<Props, State> {
     setTimeout(this.props.close, duration)
   }
 
-  render () {
+  render() {
     const { position, total } = this.props
+    console.log(this.props)
     return (
       <Flyout
         position={position}
@@ -68,7 +69,7 @@ class Borrow extends PureComponent<Props, State> {
         direction={this.state.direction}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
-        data-e2e='borrowModal'
+        data-e2e="borrowModal"
         total={total}
       >
         {this.props.step === 'CHECKOUT' && (

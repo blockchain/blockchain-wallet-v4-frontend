@@ -19,7 +19,7 @@ import styled from 'styled-components'
 
 export type OwnProps = {
   coin: CoinType
-  name: 'collateral' | 'repay-principal'
+  name: 'collateral' | 'interestDepositSelect' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -75,7 +75,7 @@ const FiatContainer = styled.div`
   color: ${props => props.theme.grey400};
 `
 
-export class BorrowCoinDropdown extends PureComponent<Props> {
+export class CoinBalanceDropdown extends PureComponent<Props> {
   state = {}
 
   renderElements = (values: SuccessStateType) => {
@@ -99,16 +99,16 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon size='32px' color={color} name={icon} />
+        <Icon size="32px" color={color} name={icon} />
         <AccountContainer>
           {children || props.value.label}
           <AmountContainer>
             <CoinDisplay
               coin={props.value.coin}
-              size='12px'
+              size="12px"
               weight={500}
-              cursor='pointer'
-              color='grey800'
+              cursor="pointer"
+              color="grey800"
             >
               {props.value.balance}
             </CoinDisplay>
@@ -117,11 +117,11 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
               (
               <FiatDisplay
                 coin={props.value.coin}
-                size='12px'
+                size="12px"
                 weight={500}
-                color='grey400'
-                currency='USD'
-                cursor='pointer'
+                color="grey400"
+                currency="USD"
+                cursor="pointer"
                 rates={this.props.rates}
               >
                 {props.value.balance}
@@ -134,7 +134,8 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
+    console.log(this.props.data)
     return this.props.data.cata({
       Success: values => {
         return (
@@ -155,8 +156,8 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
           {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
         </Text>
       ),
-      Loading: () => <Text size='24px'>...</Text>,
-      NotAsked: () => <Text size='24px'>...</Text>
+      Loading: () => <Text size="24px">...</Text>,
+      NotAsked: () => <Text size="24px">...</Text>
     })
   }
 }
@@ -168,4 +169,4 @@ const mapStateToProps = (
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(BorrowCoinDropdown)
+export default connect(mapStateToProps)(CoinBalanceDropdown)

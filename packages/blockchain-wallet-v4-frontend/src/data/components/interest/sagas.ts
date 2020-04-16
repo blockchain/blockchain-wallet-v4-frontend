@@ -1,0 +1,35 @@
+import * as A from './actions'
+import { selectors } from 'data'
+import { put, select } from 'redux-saga/effects'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+
+import { initialize } from 'redux-form'
+import { nth } from 'ramda'
+
+export default () => {
+  const initializeInterest = function*({
+    payload
+  }: ReturnType<typeof A.initializeInterest>) {
+    let defaultAccountR
+
+    switch (payload.coin) {
+      case 'BTC':
+        const accountsR = yield select(
+          selectors.core.common.btc.getAccountsBalances
+        )
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = accountsR.map(nth(defaultIndex))
+        break
+    }
+
+    const initialValues = {
+      interestDepositSelect: defaultAccountR.getOrElse()
+    }
+
+    yield put(initialize('interestForm', initialValues))
+  }
+
+  return { initializeInterest }
+}
