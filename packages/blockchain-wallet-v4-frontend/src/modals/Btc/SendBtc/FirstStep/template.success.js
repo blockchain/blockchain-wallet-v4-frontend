@@ -17,7 +17,6 @@ import {
   FeeFormLabel,
   FeeOptionsContainer,
   FeePerByteContainer,
-  MnemonicRequiredForCustodySend,
   Row
 } from 'components/Send'
 import {
@@ -57,6 +56,7 @@ import {
 import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'

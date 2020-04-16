@@ -2,6 +2,7 @@ import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
+import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
 import { sendEthReducer } from './sendEth/reducers'
@@ -30,6 +31,7 @@ const componentReducer = combineReducers({
   onboarding,
   onfido,
   priceChart,
+  recoveryPhrase: recoveryPhraseReducer,
   send,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
