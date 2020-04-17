@@ -82,7 +82,7 @@ describe('TierCard', () => {
     )
     const button = component.find('.actionButton')
     expect(button).toHaveLength(1)
-    expect(button.children().prop('defaultMessage')).toBe('Swap Now')
+    expect(button.children().prop('defaultMessage')).toBe('Buy Crypto Now')
     button.simulate('click')
     expect(goToSwap).toHaveBeenCalledTimes(1)
   })
