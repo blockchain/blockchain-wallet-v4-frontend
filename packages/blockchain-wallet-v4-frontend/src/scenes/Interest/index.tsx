@@ -39,6 +39,7 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
+  modalActions: typeof actions.modals
 }
 
 export type Props = LinkDispatchPropsType & LinkStatePropsType & OwnProps
@@ -121,7 +122,8 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
-  )
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(

@@ -104,6 +104,7 @@ class InterestSummary extends PureComponent<Props, State> {
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
+          onClick={() => this.props.modalActions.showModal('INTEREST_MODAL')}
         >
           <FormattedMessage
             id='scenes.earninterest.form.earnbutton'
