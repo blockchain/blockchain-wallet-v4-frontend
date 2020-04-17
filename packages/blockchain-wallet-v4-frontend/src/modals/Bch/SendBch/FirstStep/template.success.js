@@ -29,9 +29,9 @@ import {
 } from './validation'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
-import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -199,12 +199,10 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        {isFromCustody ? (
-          isMnemonicVerified ? (
-            <CustodyToAccountMessage coin='BCH' />
-          ) : null
+        {isFromCustody && isMnemonicVerified ? (
+          <CustodyToAccountMessage coin='BCH' />
         ) : (
-          <BitPayCTA coin='BCH' />
+          <ExchangePromo />
         )}
       </FormGroup>
       <FormGroup margin={'15px'}>
