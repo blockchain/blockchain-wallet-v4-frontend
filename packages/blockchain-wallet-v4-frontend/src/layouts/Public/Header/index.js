@@ -10,10 +10,10 @@ const NavbarStyled = styled(Navbar)`
   background-color: ${props => props.theme.blue900};
 `
 const BlockchainLogoImage = styled(Image)`
-  width: 300px;
+  width: 240px;
   display: block;
   ${media.tablet`
-    width: 160px;
+    width: 200px;
   `}
 `
 

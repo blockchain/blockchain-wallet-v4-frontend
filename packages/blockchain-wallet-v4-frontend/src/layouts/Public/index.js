@@ -8,32 +8,21 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
-const DropdownWrapper = styled.div`
-  margin: 2rem 3rem 2.5rem 0;
+const FooterWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   width: 100%;
+  margin: 6rem 0 2rem;
 
   ${media.mobile`
     flex-direction: column;
     margin-top: 8px;
   `}
+`
 
-  ${media.tablet`
-    > div  {
-      position: relative;
-      left: -3rem;
-    }
-
-    > div:last-child  {
-      left: -2rem;
-    }
-  `}
-
-  > div > ul {
-    left: -7rem;
-  }
+const FooterInner = styled.div`
+  padding: 0 2rem;
 `
 
 const Wrapper = styled.div`
@@ -62,12 +51,9 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 25px;
+  padding: 0 32px;
   z-index: 1;
-
-  ${media.mobile`
-    margin: 0 10px;
-  `}
+  max-width: 100%;
 `
 
 const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
@@ -83,10 +69,12 @@ const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
           <ContentContainer>
             <Component {...matchProps} />
           </ContentContainer>
-          <DropdownWrapper>
-            <Footer />
-            <DropdownLanguage color='white' />
-          </DropdownWrapper>
+          <FooterWrapper>
+            <FooterInner>
+              <DropdownLanguage color='white' />
+              <Footer />
+            </FooterInner>
+          </FooterWrapper>
         </ErrorBoundary>
       </Wrapper>
     )}

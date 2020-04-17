@@ -93,7 +93,7 @@ const BrowserWarning = styled.div`
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 `
 
 const Login = props => {
@@ -133,7 +133,7 @@ const Login = props => {
       <PublicWrapper>
         <Modals />
         <Header>
-          <Text size='20px' color='blue900' weight={600} capitalize>
+          <Text size='20px' color='textBlack' weight={600} capitalize>
             <FormattedMessage
               id='scenes.login.welcome'
               defaultMessage='Welcome back!'

@@ -8,20 +8,24 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4.5rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 `
 const Column = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-direction: column;
+
+  ${media.tabletL`
+    align-items: flex-start;
+  `}
 `
 
 const HeaderText = styled(Text)`
-  font-size: 40px;
+  font-size: 32px;
 
   ${media.tabletL`
-    font-size: 36px;
+    font-size: 32px;
   `}
 `
 
@@ -37,7 +41,7 @@ const SubHeader = styled(Text)`
 const Header = () => (
   <Wrapper>
     <Column>
-      <HeaderText color='white' weight={600} data-e2e='signupSecureHeader'>
+      <HeaderText color='white' weight={700} data-e2e='signupSecureHeader'>
         <FormattedMessage
           id='scenes.register.securelybuy'
           defaultMessage='Securely buy, sell, and store crypto.'

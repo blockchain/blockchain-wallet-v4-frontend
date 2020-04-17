@@ -67,7 +67,7 @@ const Card = styled.div`
 
   ${media.tablet`
     width: 100%;
-    margin: 0 2rem;
+    padding: 1.5rem;
   `}
 `
 
@@ -85,11 +85,18 @@ const IconWrapper = styled.div`
   align-items: center;
   border-radius: 50%;
   margin-right: 1.25rem;
+
+  ${media.tablet`
+    height: 2.5rem;
+    width: 2.5rem;
+    flex-shrink: 0;
+  `}
 `
 
 const CardInfo = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 2rem;
 `
 
 const InfoTitle = styled(Text)`
@@ -99,13 +106,24 @@ const InfoTitle = styled(Text)`
 
 const InfoItem = styled.div`
   display: flex;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  > div:first-child {
+    margin-right: 8px;
+
+    ${media.tablet`
+      margin-bottom: 4px;
+    `}
+  }
 `
 
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
 `
 
 const ExchangeButton = styled(Button)`
@@ -122,6 +140,10 @@ const ExchangeButton = styled(Button)`
 const TabIcon = styled(Icon)`
   position: absolute;
   right: 1rem;
+
+  ${media.tablet`
+    display: none;
+  `}
 `
 
 const Line = styled.div`
@@ -140,11 +162,11 @@ const AppButtons = styled.footer`
   align-items: center;
   text-align: center;
   width: 100%;
-  ${media.mobile`	
-    img {	
-      height: auto;	
-      width: 40%;	
-    }	
+  ${media.mobile`
+    img {
+      height: auto;
+      width: 40%;
+    }
   `}
 
   max-height: ${props => (props.showForm ? '5.25rem' : '0')};
@@ -153,7 +175,7 @@ const AppButtons = styled.footer`
 
 `
 const Bottom = styled.div`
-  margin: 16px 0;
+  margin: 2rem 0 0;
   > a {
     margin: 0 8px;
   }
@@ -184,7 +206,7 @@ const Register = ({
               <IconWrapper color='blue600'>
                 <Icon color='white' name='wallet-filled' size='32px' />
               </IconWrapper>
-              <Text size='24px' color='black' weight={600}>
+              <Text size='24px' color='textBlack' weight={600}>
                 <FormattedMessage
                   id='scenes.register.walletcard.title'
                   defaultMessage='Blockchain Wallet'
@@ -207,7 +229,6 @@ const Register = ({
                     defaultMessage='Easily buy and sell'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.walletcard.item.1.regular'
@@ -223,7 +244,6 @@ const Register = ({
                     defaultMessage='Securely store your'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.walletcard.item.2.regular'
@@ -239,7 +259,6 @@ const Register = ({
                     defaultMessage='Control your money'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.walletcard.item.3.regular'
@@ -265,8 +284,7 @@ const Register = ({
               nature='primary'
               onClick={buttonSubmit}
               style={{
-                borderRadius: '8px',
-                marginTop: '1rem'
+                borderRadius: '8px'
               }}
               type='submit'
             >
@@ -318,7 +336,7 @@ const Register = ({
               <IconWrapper color='black'>
                 <Icon color='white' name='blockchain-logo' size='32px' />
               </IconWrapper>
-              <Text size='24px' color='black' weight={600}>
+              <Text size='24px' color='textBlack' weight={600}>
                 <FormattedMessage
                   id='scenes.register.exchangecard.title'
                   defaultMessage='Blockchain Exchange'
@@ -341,7 +359,6 @@ const Register = ({
                     defaultMessage='Lightning-fast trades'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.exchangecard.item.1.regular'
@@ -357,11 +374,10 @@ const Register = ({
                     defaultMessage='Over 20 trading pairs'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.exchangecard.item.2.regular'
-                    defaultMessage='Including USD, GBP, and EUR.'
+                    defaultMessage='including USD, GBP, and EUR.'
                   />
                 </Text>
               </InfoItem>
@@ -373,7 +389,6 @@ const Register = ({
                     defaultMessage='Control your money'
                   />
                 </Text>
-                &nbsp;
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.exchangecard.item.3.regular'
@@ -391,8 +406,7 @@ const Register = ({
                 height='48px'
                 nature='primary'
                 style={{
-                  borderRadius: '8px',
-                  marginTop: '1rem'
+                  borderRadius: '8px'
                 }}
               >
                 <Text color='white' size='16px' weight={600}>

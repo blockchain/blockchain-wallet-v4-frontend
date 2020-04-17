@@ -2,15 +2,15 @@ import { Link } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-const VersionWrapper = styled.div`
+const VersionWrapper = styled.span`
   margin-top: 0.125rem;
-  margin-right: 1rem;
+  margin-left: 1.5rem;
 `
 
 const Footer = () => (
   <VersionWrapper>
     <Link
-      color='white'
+      color='whiteFade600'
       href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
       size='14px'
       target='_blank'
