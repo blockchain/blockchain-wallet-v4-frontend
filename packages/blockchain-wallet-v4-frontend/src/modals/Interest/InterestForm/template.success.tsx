@@ -415,7 +415,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   weight={500}
                 >
                   <FormattedMessage
-                    id='mdoals.interest.privacy'
+                    id='modals.interest.privacy'
                     defaultMessage='Privacy'
                   />
                 </Link>
