@@ -211,6 +211,7 @@ type MessagesType = {
   'components.form.tabmenutransactionstatus.sent': 'Sent'
   'components.form.tabmenutransactionstatus.transferred': 'Transferred'
   'components.identityverification.tiercard.annuallimit': 'Annual Swap Limit'
+  'components.identityverification.tiercard.buy_now': 'Buy Crypto Now'
   'components.identityverification.tiercard.dailylimit': 'Daily Swap Limit'
   'components.identityverification.tiercard.dob': 'Date of Birth'
   'components.identityverification.tiercard.email': 'Verified Email'

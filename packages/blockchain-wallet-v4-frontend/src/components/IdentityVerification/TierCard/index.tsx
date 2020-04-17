@@ -108,6 +108,7 @@ const { TIERS_STATES } = model.profile
 type LinkDispatchPropsType = {
   goToSwap: () => void
   identityVerificationActions: typeof actions.components.identityVerification
+  simpleBuyActions: typeof actions.components.stxTransactions
 }
 
 type OwnProps = {
@@ -129,7 +130,8 @@ export const TierCard = ({
   tier,
   userData,
   userTiers,
-  identityVerificationActions
+  identityVerificationActions,
+  simpleBuyActions
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
@@ -142,11 +144,11 @@ export const TierCard = ({
   const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
 
   const tierStarted = userData.tiers && userData.tiers.selected >= tier
+  const tierLevel = path(['tiers', 'current'], userData)
 
   let className = ''
   if (column) className += ' column'
   if (isRejected) className += ' rejected'
-
   return (
     <Wrapper className={className}>
       {tier === 2 && (
@@ -225,21 +227,37 @@ export const TierCard = ({
             )}
           </ActionButton>
         )}
-        {tierData.state === TIERS_STATES.VERIFIED && (
-          <ActionButton
-            className='actionButton'
-            jumbo
-            fullwidth
-            nature='primary'
-            onClick={goToSwap}
-            data-e2e='swapNowBtn'
-          >
-            <FormattedMessage
-              id='components.identityverification.tiercard.swap_now'
-              defaultMessage='Swap Now'
-            />
-          </ActionButton>
-        )}
+
+        {tierData.state === TIERS_STATES.VERIFIED &&
+          (tierLevel === 1 ? (
+            <ActionButton
+              className='actionButton'
+              jumbo
+              fullwidth
+              nature='primary'
+              onClick={goToSwap}
+              data-e2e='swapNowBtn'
+            >
+              <FormattedMessage
+                id='components.identityverification.tiercard.swap_now'
+                defaultMessage='Swap Now'
+              />
+            </ActionButton>
+          ) : (
+            <ActionButton
+              className='actionButton'
+              jumbo
+              fullwidth
+              nature='primary'
+              onClick={() => simpleBuyActions.showModal('settingsProfile')}
+              data-e2e='buyNowBtn'
+            >
+              <FormattedMessage
+                id='components.identityverification.tiercard.buy_now'
+                defaultMessage='Buy Crypto Now'
+              />
+            </ActionButton>
+          ))}
       </Container>
     </Wrapper>
   )
@@ -250,7 +268,8 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
-  goToSwap: () => dispatch(actions.router.push('/swap'))
+  goToSwap: () => dispatch(actions.router.push('/swap')),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 export default connect(
