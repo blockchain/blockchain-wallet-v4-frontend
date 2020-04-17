@@ -14,6 +14,7 @@ const DropdownWrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+
   ${media.mobile`
     flex-direction: column;
     margin-top: 8px;
@@ -64,9 +65,6 @@ const ContentContainer = styled.div`
   margin: 0 25px;
   z-index: 1;
 
-  @media (min-width: 768px) {
-    height: 100%;
-  }
   ${media.mobile`
     margin: 0 10px;
   `}
