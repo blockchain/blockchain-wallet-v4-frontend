@@ -2,7 +2,7 @@ import * as AT from './actionTypes'
 import { AccountTypes, CoinType } from 'core/types'
 
 export enum InterestSteps {
-  'Deposit'
+  'DEPOSIT'
 }
 
 export interface InterestState {
