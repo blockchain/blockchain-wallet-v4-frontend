@@ -30,6 +30,7 @@ export default ({ nabuUrl, authorizedGet }) => {
   ): InterestPaymentAccountType =>
     authorizedGet({
       url: nabuUrl,
+      ignoreQueryParams: true,
       endPoint: `/payments/accounts/savings?ccy=${ccy}`
     })
 
