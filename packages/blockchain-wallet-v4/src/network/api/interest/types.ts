@@ -11,6 +11,8 @@ export type InterestEligibleType = {
   ineligibilityReason: IneligibilityReason
 }
 
+export type InterestInstrumentsType = Array<CoinType>
+
 export type InterestLimitsType = {
   [key in CoinType]?: {
     lockUp: number

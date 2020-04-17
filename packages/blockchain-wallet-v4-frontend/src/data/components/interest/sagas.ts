@@ -20,6 +20,19 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchInterestInstruments = function * () {
+    try {
+      yield put(A.fetchInterestInstrumentsLoading())
+      const response: ReturnType<
+        typeof api.getInterestInstruments
+      > = yield call(api.getInterestInstruments)
+      yield put(A.fetchInterestInstrumentsSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestInstrumentsFailure(error))
+    }
+  }
+
   const fetchInterestLimits = function * () {
     try {
       yield put(A.fetchInterestLimitsLoading())
@@ -58,5 +71,10 @@ export default ({ api }: { api: APIType }) => {
     yield put(initialize('interestForm', initialValues))
   }
 
-  return { fetchInterestEligible, fetchInterestLimits, initializeInterest }
+  return {
+    fetchInterestEligible,
+    fetchInterestInstruments,
+    fetchInterestLimits,
+    initializeInterest
+  }
 }

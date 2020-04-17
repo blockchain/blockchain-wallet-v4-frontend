@@ -3,6 +3,7 @@ import {
   AccountTypes,
   CoinType,
   InterestEligibleType,
+  InterestInstrumentsType,
   InterestLimitsType,
   RemoteDataType
 } from 'core/types'
@@ -23,6 +24,7 @@ export enum InterestSteps {
 export interface InterestState {
   coin: CoinType
   interestEligible: RemoteDataType<string, InterestEligibleType>
+  interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
 }
 
@@ -41,6 +43,22 @@ interface FetchInterestEligibleSuccess {
     interestEligible: InterestEligibleType
   }
   type: typeof AT.FETCH_INTEREST_ELIGIBLE_SUCCESS
+}
+
+interface FetchInterestInstrumentsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_INSTRUMENTS_FAILURE
+}
+interface FetchInterestInstrumentsLoading {
+  type: typeof AT.FETCH_INTEREST_INSTRUMENTS_LOADING
+}
+interface FetchInterestInstrumentsSuccess {
+  payload: {
+    interestInstruments: InterestInstrumentsType
+  }
+  type: typeof AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS
 }
 
 interface FetchInterestLimitsFailure {
@@ -70,6 +88,9 @@ export type InterestActionTypes =
   | FetchInterestEligibleFailure
   | FetchInterestEligibleLoading
   | FetchInterestEligibleSuccess
+  | FetchInterestInstrumentsFailure
+  | FetchInterestInstrumentsLoading
+  | FetchInterestInstrumentsSuccess
   | FetchInterestLimitsFailure
   | FetchInterestLimitsLoading
   | FetchInterestLimitsSuccess

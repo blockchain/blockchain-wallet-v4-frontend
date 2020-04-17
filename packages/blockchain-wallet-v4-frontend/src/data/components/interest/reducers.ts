@@ -5,6 +5,7 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 const INITIAL_STATE: InterestState = {
   coin: 'BTC',
   interestEligible: Remote.NotAsked,
+  interestInstruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked
 }
 
@@ -27,6 +28,21 @@ export function interestReducer (
       return {
         ...state,
         interestEligible: Remote.Success(action.payload.interestEligible)
+      }
+    case AT.FETCH_INTEREST_INSTRUMENTS_FAILURE:
+      return {
+        ...state,
+        interestInstruments: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_INTEREST_INSTRUMENTS_LOADING:
+      return {
+        ...state,
+        interestInstruments: Remote.Loading
+      }
+    case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
+      return {
+        ...state,
+        interestInstruments: Remote.Success(action.payload.interestInstruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {

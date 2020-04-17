@@ -3,6 +3,7 @@ import { CoinType } from 'core/types'
 import { InterestActionTypes } from './types'
 import {
   InterestEligibleType,
+  InterestInstrumentsType,
   InterestLimitsType
 } from 'core/network/api/interest/types'
 
@@ -26,6 +27,29 @@ export const fetchInterestEligibleSuccess = (
   type: AT.FETCH_INTEREST_ELIGIBLE_SUCCESS,
   payload: {
     interestEligible
+  }
+})
+
+export const fetchInterestInstruments = () => ({
+  type: AT.FETCH_INTEREST_INSTRUMENTS
+})
+export const fetchInterestInstrumentsFailure = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_INSTRUMENTS_FAILURE,
+  payload: {
+    error
+  }
+})
+export const fetchInterestInstrumentsLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_INSTRUMENTS_LOADING
+})
+export const fetchInterestInstrumentsSuccess = (
+  interestInstruments: InterestInstrumentsType
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS,
+  payload: {
+    interestInstruments
   }
 })
 

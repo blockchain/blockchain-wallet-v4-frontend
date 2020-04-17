@@ -12,6 +12,10 @@ export default ({ api }: { api: APIType }) => {
       interestSagas.fetchInterestEligible
     )
     yield takeLatest(
+      AT.FETCH_INTEREST_INSTRUMENTS,
+      interestSagas.fetchInterestInstruments
+    )
+    yield takeLatest(
       AT.FETCH_INTEREST_LIMITS,
       interestSagas.fetchInterestLimits
     )
