@@ -7,6 +7,7 @@ import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
+import * as interest from './interest/actionTypes'
 import * as layoutWallet from './layoutWallet/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
@@ -44,6 +45,7 @@ export {
   exchangeHistory,
   identityVerification,
   importBtcAddress,
+  interest,
   layoutWallet,
   lockbox,
   manageAddresses,

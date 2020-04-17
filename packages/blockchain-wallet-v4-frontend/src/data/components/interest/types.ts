@@ -1,0 +1,26 @@
+import * as AT from './actionTypes'
+import { AccountTypes, CoinType } from 'core/types'
+
+export enum InterestSteps {
+  'DEPOSIT'
+}
+
+export interface InterestState {
+  coin: CoinType
+}
+
+interface InitializeInterestAction {
+  payload: {
+    coin: CoinType
+  }
+  type: typeof AT.INITIALIZE_INTEREST
+}
+
+export type InterestFormValuesType = {
+  agreement: boolean
+  depositAmount: number
+  'interest-deposit-select': AccountTypes
+  terms: boolean
+}
+
+export type InterestActionTypes = InitializeInterestAction

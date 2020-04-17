@@ -1,15 +1,19 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
-import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
@@ -203,7 +207,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} coin='PAX' name='repay-principal' />
+        <CoinBalanceDropdown {...props} coin='PAX' name='repay-principal' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
