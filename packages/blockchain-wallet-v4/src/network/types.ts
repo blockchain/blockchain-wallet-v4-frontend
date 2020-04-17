@@ -4,3 +4,5 @@ export type NabuApiErrorType = {
 }
 
 export * from './api/borrow/types'
+export * from './api/interest/types'
+export * from './api/simpleBuy/types'

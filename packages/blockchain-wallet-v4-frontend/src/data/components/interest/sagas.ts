@@ -1,11 +1,38 @@
 import * as A from './actions'
-import { put, select } from 'redux-saga/effects'
-import { selectors } from 'data'
-
+import { APIType } from 'core/network/api'
+import { call, put, select } from 'redux-saga/effects'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { nth } from 'ramda'
+import { selectors } from 'data'
 
-export default () => {
+export default ({ api }: { api: APIType }) => {
+  const fetchInterestEligible = function * () {
+    try {
+      yield put(A.fetchInterestEligibleLoading())
+      const response: ReturnType<typeof api.getInterestEligible> = yield call(
+        api.getInterestEligible
+      )
+      yield put(A.fetchInterestEligibleSuccess(response.interestEligible))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestEligibleFailure(error))
+    }
+  }
+
+  const fetchInterestLimits = function * () {
+    try {
+      yield put(A.fetchInterestLimitsLoading())
+      const response: ReturnType<typeof api.getInterestLimits> = yield call(
+        api.getInterestLimits
+      )
+      yield put(A.fetchInterestLimitsSuccess(response.limits))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestLimitsFailure(error))
+    }
+  }
+
   const initializeInterest = function * ({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
@@ -31,5 +58,5 @@ export default () => {
     yield put(initialize('interestForm', initialValues))
   }
 
-  return { initializeInterest }
+  return { fetchInterestEligible, fetchInterestLimits, initializeInterest }
 }

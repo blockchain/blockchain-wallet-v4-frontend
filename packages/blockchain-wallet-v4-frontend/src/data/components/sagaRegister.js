@@ -43,7 +43,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(exchange({ api, coreSagas, networks }))
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))
-    yield fork(interest())
+    yield fork(interest({ api }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
