@@ -1969,7 +1969,7 @@ type MessagesType = {
   'scenes.transaction.content.empty.newcoinswap': 'Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.'
   'scenes.transaction.content.empty.transactions': 'Transactions'
   'scenes.transaction.headertext.explainer.bch': 'Bitcoin Cash (BCH) is a fork of Bitcoin built for everday transactions.'
-  'scenes.transaction.headertext.explainer.btc': 'Bitcoin (BTC) is the orginal crypto and the internet’s digital currency.'
+  'scenes.transaction.headertext.explainer.btc1': 'Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
   'scenes.transaction.headertext.explainer.eth': 'Ethereum (ETH) is a currency and computing platform. Built for developers and apps.'
   'scenes.transaction.headertext.explainer.usdd': 'The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
   'scenes.transaction.headertext.explainer.xlm': 'The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
