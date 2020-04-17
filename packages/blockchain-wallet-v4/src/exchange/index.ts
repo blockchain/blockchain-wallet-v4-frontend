@@ -689,7 +689,7 @@ const displayBtcToFiat = ({
   value: number | string
 }) => {
   return transformBtcToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -719,7 +719,7 @@ const displayEtherToFiat = ({
   value: number | string
 }) => {
   return transformEtherToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -735,7 +735,7 @@ const displayPaxToFiat = ({
   value: number | string
 }) => {
   return transformPaxToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -779,7 +779,7 @@ const displayBchToFiat = ({
   value: number | string
 }) => {
   return transformBchToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -806,7 +806,7 @@ const displayXlmToFiat = ({
 }) => {
   return transformXlmToFiat({ value, fromUnit, toCurrency, rates, digits })
     .map(assoc('digits', digits))
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 

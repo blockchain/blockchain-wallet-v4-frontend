@@ -1,10 +1,10 @@
 import { equals, lift, toLower } from 'ramda'
-import BigNumber from 'bignumber.js'
-
 import { erc20FromLabel, ethFromLabel } from 'services/PaymentHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'core/types'
 import { model, selectors } from 'data'
+import BigNumber from 'bignumber.js'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
 
@@ -17,7 +17,7 @@ export const getData = (state, coin) => {
     .getErc20Rates(state, toLower(coin))
     .getOrElse({})
 
-  const transform = (payment, ethRates, currency) => {
+  const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates
     // Convert WEI to base for amount
     const { value: amountStandard } = Exchange.convertCoinToCoin({
@@ -47,7 +47,7 @@ export const getData = (state, coin) => {
     )
     const totalFiat = fiatToString({
       value: Number(amount) + Number(fee),
-      unit: { symbol: Exchange.getSymbol(currency) }
+      unit: currency
     })
     const fromLabel = isErc20
       ? erc20FromLabel(coin, payment, state)
@@ -60,6 +60,7 @@ export const getData = (state, coin) => {
       toAddress: payment.to.label || payment.to.address,
       amount: payment.amount,
       fee: payment.fee,
+      // @ts-ignore
       totalCrypto: new BigNumber.sum(payment.amount, payment.fee).toString(),
       totalFiat
     }

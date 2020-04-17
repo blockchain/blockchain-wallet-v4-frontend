@@ -1,12 +1,11 @@
 import { connect } from 'react-redux'
 import { fiatToString } from 'core/exchange/currency'
+import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { PriceChange } from '../../model'
-import { RemoteDataType, SupportedCoinType } from 'core/types'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
 import { Text } from 'blockchain-info-components'
-import Currencies, { CurrenciesType } from 'core/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -34,7 +33,7 @@ type OwnProps = {
 }
 
 type SuccessStateType = {
-  currency: keyof CurrenciesType
+  currency: FiatType
   priceChangeFiat: number
   priceChangePercentage: number
   priceCurrent: number
@@ -66,7 +65,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             <PriceText>
               {fiatToString({
                 value: priceCurrent,
-                unit: Currencies[val.currency][val.currency]
+                unit: val.currency
               })}
             </PriceText>
             <PriceChange {...val}>

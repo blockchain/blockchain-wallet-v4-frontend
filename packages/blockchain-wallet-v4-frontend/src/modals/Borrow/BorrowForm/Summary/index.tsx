@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl'
 import { OfferType } from 'core/types'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import Currencies from 'core/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -80,7 +79,7 @@ const Summary: React.FC<Props> = props => {
               value: props.principal
                 ? Number(props.principal) * props.offer.terms.collateralRatio
                 : 0,
-              unit: Currencies['USD']['USD']
+              unit: 'USD'
             })}
             )
           </Value>

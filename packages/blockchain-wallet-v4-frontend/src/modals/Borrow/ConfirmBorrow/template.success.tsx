@@ -10,7 +10,6 @@ import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import Currencies from 'core/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
@@ -103,7 +102,7 @@ type Props = OwnProps &
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalAmt = fiatToString({
     value: props.values ? Number(props.values.principal) : 0,
-    unit: Currencies['USD']['USD']
+    unit: 'USD'
   })
 
   const collateralAmt =
