@@ -74,8 +74,8 @@ exports[`TierCard renders correctly with column view 1`] = `
               weight={400}
             >
               <FormattedMessage
-                defaultMessage="Daily Swap Limit"
-                id="components.identityverification.tiercard.dailylimit"
+                defaultMessage="Daily Trading Limit"
+                id="components.identityverification.tiercard.dailytradinglimit"
                 values={Object {}}
               />
             </Text>
@@ -313,8 +313,8 @@ exports[`TierCard renders null w/o showBanner 1`] = `
               weight={400}
             >
               <FormattedMessage
-                defaultMessage="Annual Swap Limit"
-                id="components.identityverification.tiercard.annuallimit"
+                defaultMessage="Annual Trading Limit"
+                id="components.identityverification.tiercard.annualtradinglimit"
                 values={Object {}}
               />
             </Text>
