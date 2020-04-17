@@ -39,7 +39,7 @@ const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
 
-class InterestSummary extends PureComponent<Props & State> {
+class InterestSummary extends PureComponent<Props, State> {
   render () {
     return (
       <DepositBox>
@@ -99,7 +99,6 @@ class InterestSummary extends PureComponent<Props & State> {
           </AmountColumn>
         </AmountRow>
         <Button
-          // disabled={this.isDisabled}
           disabled={this.props.isDisabled}
           style={{ marginTop: '16px' }}
           nature='primary'

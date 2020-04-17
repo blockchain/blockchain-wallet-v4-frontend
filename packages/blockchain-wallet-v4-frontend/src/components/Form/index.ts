@@ -2,6 +2,7 @@ import AutosizeTextBox from './AutosizeTextBox'
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
+import CoinBalanceDropdown from './CoinBalanceDropdown'
 import CountdownTimer from './CountdownTimer'
 import CreatableInputField from './CreatableInputField'
 import DateBox from './DateBox'
@@ -46,6 +47,7 @@ export {
   CaptchaBox,
   CheckBox,
   CodeInputBoxes,
+  CoinBalanceDropdown,
   CountdownTimer,
   CreatableInputField,
   DateBox,

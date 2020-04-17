@@ -19,7 +19,7 @@ import styled from 'styled-components'
 
 export type OwnProps = {
   coin: CoinType
-  name: 'collateral' | 'repay-principal'
+  name: 'collateral' | 'interest-deposit-select' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -75,7 +75,7 @@ const FiatContainer = styled.div`
   color: ${props => props.theme.grey400};
 `
 
-export class BorrowCoinDropdown extends PureComponent<Props> {
+export class CoinBalanceDropdown extends PureComponent<Props> {
   state = {}
 
   renderElements = (values: SuccessStateType) => {
@@ -168,4 +168,4 @@ const mapStateToProps = (
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(BorrowCoinDropdown)
+export default connect(mapStateToProps)(CoinBalanceDropdown)

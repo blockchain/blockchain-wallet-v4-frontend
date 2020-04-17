@@ -17,7 +17,7 @@ const ContentWrapper = styled.div`
   justify-content: space-between;
 `
 
-class EarnInterestInfo extends PureComponent<Props & State> {
+class EarnInterestInfo extends PureComponent<Props, State> {
   render () {
     return (
       <CustomBox>
@@ -59,7 +59,8 @@ class EarnInterestInfo extends PureComponent<Props & State> {
                     this.props.identityVerificationActions.verifyIdentity(2)
                   }
                 >
-                  {val.kycState === ('UNDER_REVIEW' || 'PENDING') ? (
+                  {val.kycState === 'UNDER_REVIEW' ||
+                  val.kycState === 'PENDING' ? (
                     <FormattedMessage
                       id='scenes.earninterst.kycunderreview'
                       defaultMessage='Gold Verification In Review'

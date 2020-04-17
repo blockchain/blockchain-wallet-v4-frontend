@@ -29,6 +29,9 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
+type OwnProps = {
+  isDisabled: boolean
+}
 
 type LinkStatePropsType = {
   invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
@@ -38,11 +41,12 @@ type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
 }
 
-export type Props = LinkDispatchPropsType & LinkStatePropsType
+export type Props = LinkDispatchPropsType & LinkStatePropsType & OwnProps
 export type State = {
   isDisabled: boolean
 }
 class Interest extends React.PureComponent<Props, State> {
+  state: State = { isDisabled: false }
   componentDidMount () {
     this.checkUserData()
   }
@@ -64,6 +68,7 @@ class Interest extends React.PureComponent<Props, State> {
     const isDisabled = tier < 2
     /* eslint-disable */
     this.setState({ isDisabled })
+    console.log('logging is disbaled from checkuserdata', isDisabled)
     /* eslint-enable */
   }
 
@@ -76,7 +81,7 @@ class Interest extends React.PureComponent<Props, State> {
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.blockchain'
+              id='scenes.interest.earninterest'
               defaultMessage='Earn Interest'
             />
           </SceneHeaderText>
