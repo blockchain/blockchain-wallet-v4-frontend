@@ -46,6 +46,21 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchInterestPaymentAccount = function * ({
+    cryptoCurrency
+  }: ReturnType<typeof A.fetchInterestPaymentAccount>) {
+    try {
+      yield put(A.fetchInterestPaymentAccountLoading())
+      const response: ReturnType<
+        typeof api.getInterestPaymentAccount
+      > = yield call(api.getInterestPaymentAccount, cryptoCurrency)
+      yield put(A.fetchInterestPaymentAccountSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestPaymentAccountFailure(error))
+    }
+  }
+
   const initializeInterest = function * ({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
@@ -75,6 +90,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
+    fetchInterestPaymentAccount,
     initializeInterest
   }
 }

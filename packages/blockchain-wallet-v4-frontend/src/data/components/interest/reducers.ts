@@ -3,6 +3,7 @@ import { InterestActionTypes, InterestState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: InterestState = {
+  account: Remote.NotAsked,
   coin: 'BTC',
   interestEligible: Remote.NotAsked,
   interestInstruments: Remote.NotAsked,
@@ -58,6 +59,21 @@ export function interestReducer (
       return {
         ...state,
         interestLimits: Remote.Success(action.payload.interestLimits)
+      }
+    case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        account: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING:
+      return {
+        ...state,
+        account: Remote.Loading
+      }
+    case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        account: Remote.Success(action.payload.account)
       }
     case AT.INITIALIZE_INTEREST: {
       return {

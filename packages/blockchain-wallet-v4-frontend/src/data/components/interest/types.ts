@@ -5,6 +5,7 @@ import {
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
+  InterestPaymentAccountType,
   RemoteDataType
 } from 'core/types'
 
@@ -22,6 +23,7 @@ export enum InterestSteps {
 
 // State
 export interface InterestState {
+  account: RemoteDataType<string, InterestPaymentAccountType>
   coin: CoinType
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
@@ -77,6 +79,22 @@ interface FetchInterestLimitsSuccess {
   type: typeof AT.FETCH_INTEREST_LIMITS_SUCCESS
 }
 
+interface FetchInterestPaymentAccountFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
+}
+interface FetchInterestPaymentAccountLoading {
+  type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
+}
+interface FetchInterestPaymentAccountSuccess {
+  payload: {
+    account: InterestPaymentAccountType
+  }
+  type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
+}
+
 interface InitializeInterestAction {
   payload: {
     coin: CoinType
@@ -94,4 +112,7 @@ export type InterestActionTypes =
   | FetchInterestLimitsFailure
   | FetchInterestLimitsLoading
   | FetchInterestLimitsSuccess
+  | FetchInterestPaymentAccountFailure
+  | FetchInterestPaymentAccountLoading
+  | FetchInterestPaymentAccountSuccess
   | InitializeInterestAction

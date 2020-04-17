@@ -20,3 +20,7 @@ export type InterestLimitsType = {
     minimumDeposit: number
   }
 }
+
+export type InterestPaymentAccountType = {
+  depositAddress: string
+}

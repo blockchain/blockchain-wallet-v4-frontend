@@ -1,7 +1,9 @@
+import { CoinType } from 'core/types'
 import {
   InterestEligibleType,
   InterestInstrumentsType,
-  InterestLimitsType
+  InterestLimitsType,
+  InterestPaymentAccountType
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
@@ -23,9 +25,18 @@ export default ({ nabuUrl, authorizedGet }) => {
       endPoint: '/savings/limits'
     })
 
+  const getInterestPaymentAccount = (
+    ccy: CoinType
+  ): InterestPaymentAccountType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/payments/accounts/savings?ccy=${ccy}`
+    })
+
   return {
     getInterestEligible,
     getInterestInstruments,
-    getInterestLimits
+    getInterestLimits,
+    getInterestPaymentAccount
   }
 }

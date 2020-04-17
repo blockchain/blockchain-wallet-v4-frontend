@@ -19,6 +19,10 @@ export default ({ api }: { api: APIType }) => {
       AT.FETCH_INTEREST_LIMITS,
       interestSagas.fetchInterestLimits
     )
+    yield takeLatest(
+      AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
+      interestSagas.fetchInterestPaymentAccount
+    )
     yield takeLatest(AT.INITIALIZE_INTEREST, interestSagas.initializeInterest)
   }
 }
