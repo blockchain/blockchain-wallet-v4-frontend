@@ -5,7 +5,7 @@ const INITIAL_STATE: InterestState = {
   coin: 'BTC'
 }
 
-export function interestReducer(
+export function interestReducer (
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {

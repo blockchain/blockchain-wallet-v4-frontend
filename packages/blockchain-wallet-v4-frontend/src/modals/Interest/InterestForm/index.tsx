@@ -1,9 +1,9 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, RatesType } from 'data/types'
 import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -32,7 +32,7 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class InterestForm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.initializeInterest('BTC')
   }
 
@@ -40,9 +40,8 @@ class InterestForm extends PureComponent<Props> {
     this.props.interestActions.initializeInterest('BTC')
   }
 
-  render() {
+  render () {
     const { data } = this.props
-    console.log(data)
     return data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,

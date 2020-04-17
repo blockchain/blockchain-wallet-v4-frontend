@@ -99,16 +99,16 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon size="32px" color={color} name={icon} />
+        <Icon size='32px' color={color} name={icon} />
         <AccountContainer>
           {children || props.value.label}
           <AmountContainer>
             <CoinDisplay
               coin={props.value.coin}
-              size="12px"
+              size='12px'
               weight={500}
-              cursor="pointer"
-              color="grey800"
+              cursor='pointer'
+              color='grey800'
             >
               {props.value.balance}
             </CoinDisplay>
@@ -117,11 +117,11 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
               (
               <FiatDisplay
                 coin={props.value.coin}
-                size="12px"
+                size='12px'
                 weight={500}
-                color="grey400"
-                currency="USD"
-                cursor="pointer"
+                color='grey400'
+                currency='USD'
+                cursor='pointer'
                 rates={this.props.rates}
               >
                 {props.value.balance}
@@ -134,8 +134,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     )
   }
 
-  render() {
-    console.log(this.props.data)
+  render () {
     return this.props.data.cata({
       Success: values => {
         return (
@@ -156,8 +155,8 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
           {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
         </Text>
       ),
-      Loading: () => <Text size="24px">...</Text>,
-      NotAsked: () => <Text size="24px">...</Text>
+      Loading: () => <Text size='24px'>...</Text>,
+      NotAsked: () => <Text size='24px'>...</Text>
     })
   }
 }

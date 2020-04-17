@@ -41,7 +41,7 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class BorrowForm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
@@ -56,9 +56,8 @@ class BorrowForm extends PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     const { data } = this.props
-    console.log(data)
     return data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />

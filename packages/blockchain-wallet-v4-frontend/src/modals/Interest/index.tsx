@@ -1,7 +1,7 @@
 import { compose } from 'redux'
 import { ModalPropsType } from '../types'
-import InterestForm from './InterestForm'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import InterestForm from './InterestForm'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
@@ -14,7 +14,7 @@ type State = { direction: 'left' | 'right'; show: boolean }
 class Interest extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount() {
+  componentDidMount () {
     this.setState({ show: true }) //eslint-disable-line
   }
 
@@ -23,9 +23,8 @@ class Interest extends PureComponent<Props, State> {
     setTimeout(this.props.close, duration)
   }
 
-  render() {
+  render () {
     const { position, total } = this.props
-    console.log(this.props)
     return (
       <Flyout
         position={position}
@@ -33,7 +32,7 @@ class Interest extends PureComponent<Props, State> {
         direction={this.state.direction}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
-        data-e2e="interestModal"
+        data-e2e='interestModal'
         total={total}
       >
         <FlyoutChild>

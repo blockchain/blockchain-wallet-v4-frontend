@@ -6,16 +6,20 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
-import CoinBalanceDropdown from 'components/CoinBalanceDropdown'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'

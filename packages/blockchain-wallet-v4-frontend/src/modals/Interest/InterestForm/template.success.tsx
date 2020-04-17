@@ -6,7 +6,13 @@ import {
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
-import { CheckBox, Form, FormLabel, NumberBox } from 'components/Form'
+import {
+  CheckBox,
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import {
   coinToString,
   formatFiat
@@ -20,7 +26,6 @@ import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
-import CoinBalanceDropdown from 'components/CoinBalanceDropdown'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 

@@ -1,15 +1,19 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
-import CoinBalanceDropdown from 'components/CoinBalanceDropdown'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
@@ -116,13 +120,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color="grey800" size="20px" weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
-            name="arrow-left"
-            size="20px"
-            color="grey600"
+            name='arrow-left'
+            size='20px'
+            color='grey600'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'DETAILS',
@@ -132,22 +136,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id="modals.borrow.repayloan"
-            defaultMessage="Repay Loan"
+            id='modals.borrow.repayloan'
+            defaultMessage='Repay Loan'
           />
         </TopText>
         <AmountsContainer>
           <div>
             <AmountsHeader>
               <FormattedMessage
-                id="scenes.borrow.repayloan.amount"
-                defaultMessage="Borrow Amount"
+                id='scenes.borrow.repayloan.amount'
+                defaultMessage='Borrow Amount'
               />
             </AmountsHeader>
             <CoinDisplay
               coin={props.loan.principal.amount[0].currency}
-              color="grey800"
-              size="20px"
+              color='grey800'
+              size='20px'
               weight={600}
             >
               {props.loan.principal.amount[0].amount}
@@ -156,15 +160,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <div>
             <AmountsHeader>
               <FormattedMessage
-                id="scenes.borrow.repayloan.collateral"
-                defaultMessage="Collateral Value"
+                id='scenes.borrow.repayloan.collateral'
+                defaultMessage='Collateral Value'
               />
             </AmountsHeader>
             <FiatDisplay
-              color="grey800"
-              size="20px"
+              color='grey800'
+              size='20px'
               weight={600}
-              currency="USD"
+              currency='USD'
               coin={props.loan.collateral.amounts[0].currency}
             >
               {props.loan.collateral.amounts[0].amount}
@@ -172,51 +176,51 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </div>
         </AmountsContainer>
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.repayloan.chooseamttorepay"
-              defaultMessage="Choose how much you want to repay"
+              id='modals.repayloan.chooseamttorepay'
+              defaultMessage='Choose how much you want to repay'
             />
           </Text>
         </CustomFormLabel>
-        <Field name="repay-type" component={TabMenuPaymentType} />
+        <Field name='repay-type' component={TabMenuPaymentType} />
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.repayloan.choosewaytopay"
-              defaultMessage="How do you want to repay?"
+              id='modals.repayloan.choosewaytopay'
+              defaultMessage='How do you want to repay?'
             />
           </Text>
         </CustomFormLabel>
         <Field
-          name="repay-method"
+          name='repay-method'
           component={TabMenuPaymentMethod}
           {...{
             coin: principalDisplayName
           }}
         />
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.repayloan.repayfrom"
-              defaultMessage="Repay from"
+              id='modals.repayloan.repayfrom'
+              defaultMessage='Repay from'
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} coin="PAX" name="repay-principal" />
+        <CoinBalanceDropdown {...props} coin='PAX' name='repay-principal' />
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.repayloan.repayamount"
-              defaultMessage="Repay amount"
+              id='modals.repayloan.repayamount'
+              defaultMessage='Repay amount'
             />
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e="repayInput"
-            name="amount"
+            data-e2e='repayInput'
+            name='amount'
             validate={[maximumAmount, minimumAmount]}
             {...{
               disabled: props.values
@@ -228,7 +232,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           <PrincipalCcyAbsolute>
-            <Text color="grey400" size="14px" weight={600}>
+            <Text color='grey400' size='14px' weight={600}>
               {principalDisplayName}
             </Text>
           </PrincipalCcyAbsolute>
@@ -237,15 +241,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Bottom>
         <InfoContainer>
           <Icon
-            name="info"
-            color="grey600"
-            size="20px"
+            name='info'
+            color='grey600'
+            size='20px'
             style={{ marginRight: '8px' }}
           />
-          <Text size="12px" color="grey600" weight={500}>
+          <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
-              id="modals.borrow.repayloan.info"
-              defaultMessage="If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral."
+              id='modals.borrow.repayloan.info'
+              defaultMessage='If we don’t receive the full outstanding amount in {principalCcy} we will automatically repay the remaining amount with {collateralCcy} collateral.'
               values={{
                 principalCcy: principalDisplayName,
                 collateralCcy: props.offer.terms.collateralCcy
@@ -256,8 +260,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.error && (
           <ErrorText>
             <Icon
-              name="alert-filled"
-              color="red600"
+              name='alert-filled'
+              color='red600'
               style={{ marginRight: '4px' }}
             />
             Error: {props.error}
@@ -266,33 +270,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {!isSufficientEthForErc20 && (
           <ErrorText>
             <Icon
-              name="alert-filled"
-              color="red600"
+              name='alert-filled'
+              color='red600'
               style={{ marginRight: '4px' }}
             />
             <FormattedMessage
-              id="modals.borrow.repayloan.notenougheth"
-              defaultMessage="ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction."
+              id='modals.borrow.repayloan.notenougheth'
+              defaultMessage='ETH is required to send {principalDisplayName}. You do not have enough ETH to perform a transaction.'
               values={{ principalDisplayName }}
             />
           </ErrorText>
         )}
         <Button
-          nature="primary"
-          type="submit"
-          data-e2e="repayLoanSubmit"
+          nature='primary'
+          type='submit'
+          data-e2e='repayLoanSubmit'
           disabled={
             props.submitting || props.invalid || !isSufficientEthForErc20
           }
           fullwidth
         >
           {props.submitting ? (
-            <HeartbeatLoader height="16px" width="16px" color="white" />
+            <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <Text size="16px" weight={600} color="white">
+            <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id="modals.borrow.repayloan.repay"
-                defaultMessage="Complete Repayment"
+                id='modals.borrow.repayloan.repay'
+                defaultMessage='Complete Repayment'
               />
             </Text>
           )}
