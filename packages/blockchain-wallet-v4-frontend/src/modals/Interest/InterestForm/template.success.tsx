@@ -233,7 +233,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </MaxAmountContainer>
-        <CoinBalanceDropdown {...props} name='interestDepositSelect' />
+        <CoinBalanceDropdown {...props} name='interest-deposit-select' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

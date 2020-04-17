@@ -19,7 +19,7 @@ interface InitializeInterestAction {
 export type InterestFormValuesType = {
   agreement: boolean
   depositAmount: number
-  interestDepositSelect: AccountTypes
+  'interest-deposit-select': AccountTypes
   terms: boolean
 }
 

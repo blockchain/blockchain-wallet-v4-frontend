@@ -25,7 +25,7 @@ export default () => {
 
     const initialValues = {
       depositAmount: 0,
-      interestDepositSelect: defaultAccountR.getOrElse()
+      'interest-deposit-select': defaultAccountR.getOrElse()
     }
 
     yield put(initialize('interestForm', initialValues))
