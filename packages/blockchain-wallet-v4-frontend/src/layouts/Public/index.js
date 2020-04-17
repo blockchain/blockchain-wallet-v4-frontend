@@ -2,22 +2,37 @@ import { Route } from 'react-router-dom'
 import Alerts from 'components/Alerts'
 import DropdownLanguage from 'components/DropdownLanguage'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import Footer from './Footer'
 import Header from './Header'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
 const DropdownWrapper = styled.div`
-  margin: 1rem 0 2.5rem 0;
+  margin: 2rem 3rem 2.5rem 0;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   ${media.mobile`
     flex-direction: column;
     margin-top: 8px;
   `}
+
+  ${media.tablet`
+    > div  {
+      position: relative;
+      left: -3rem;
+    }
+
+    > div:last-child  {
+      left: -2rem;
+    }
+  `}
+
+  > div > ul {
+    left: -7rem;
+  }
 `
 
 const Wrapper = styled.div`
@@ -44,7 +59,7 @@ const HeaderContainer = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 0 25px;
   z-index: 1;
@@ -57,8 +72,6 @@ const ContentContainer = styled.div`
   `}
 `
 
-const Spacer = styled.div``
-
 const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
   <Route
     {...rest}
@@ -67,15 +80,15 @@ const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
         <ErrorBoundary>
           <Alerts />
           <HeaderContainer>
-            <Header />
+            <Header path={path} />
           </HeaderContainer>
           <ContentContainer>
-            <Spacer />
             <Component {...matchProps} />
-            <DropdownWrapper>
-              <DropdownLanguage color='white' />
-            </DropdownWrapper>
           </ContentContainer>
+          <DropdownWrapper>
+            <Footer />
+            <DropdownLanguage color='white' />
+          </DropdownWrapper>
         </ErrorBoundary>
       </Wrapper>
     )}

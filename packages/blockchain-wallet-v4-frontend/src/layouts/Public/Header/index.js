@@ -1,15 +1,8 @@
 import React from 'react'
 
 import { Image, Link } from 'blockchain-info-components'
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarMenu,
-  NavbarNav,
-  NavbarNavItem
-} from 'components/Navbar'
+import { Navbar, NavbarBrand } from 'components/Navbar'
 import Announcements from 'components/Announcements'
-import LoginOrCreate from './LoginOrCreate'
 import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
@@ -29,12 +22,6 @@ const PublicBrand = styled.div`
   flex-direction: column;
 `
 
-const PublicNavbarNavItem = styled(NavbarNavItem)`
-  ${media.mobile`	
-    text-align: right;	
-  `}
-`
-
 const Header = () => (
   <React.Fragment>
     <NavbarStyled height='90px'>
@@ -45,13 +32,6 @@ const Header = () => (
           </Link>
         </PublicBrand>
       </NavbarBrand>
-      <NavbarMenu>
-        <NavbarNav>
-          <PublicNavbarNavItem>
-            <LoginOrCreate />
-          </PublicNavbarNavItem>
-        </NavbarNav>
-      </NavbarMenu>
     </NavbarStyled>
     <Announcements type='service' alertArea='public' />
   </React.Fragment>

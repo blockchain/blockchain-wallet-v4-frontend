@@ -43,6 +43,8 @@ export const removeWhitespace = string => string.replace(/\s/g, ``)
 
 const LoginWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 const PublicWrapper = styled(Wrapper)`
   position: relative;
@@ -86,6 +88,12 @@ const ResendSmsLink = styled(Link)`
 `
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
+`
+
+const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
 `
 
 const Login = props => {
@@ -357,6 +365,25 @@ const Login = props => {
           </Footer>
         )}
       </PublicWrapper>
+      <LinkContainer to='/signup'>
+        <Link>
+          <SubCard>
+            <Text size='14px' color='whiteFade600' weight={500}>
+              <FormattedMessage
+                id='scenes.login.wallet.link'
+                defaultMessage='Dont have a wallet?'
+              />
+            </Text>
+            &nbsp;
+            <Text size='14px' color='white' weight={500}>
+              <FormattedMessage
+                id='scenes.login.wallet.signup'
+                defaultMessage='Sign Up'
+              />
+            </Text>
+          </SubCard>
+        </Link>
+      </LinkContainer>
     </LoginWrapper>
   )
 }

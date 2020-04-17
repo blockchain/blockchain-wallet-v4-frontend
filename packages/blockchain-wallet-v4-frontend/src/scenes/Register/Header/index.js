@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 4rem 0 4.5rem 0;
+  margin-bottom: 4.5rem;
 `
 const Column = styled.div`
   display: flex;
@@ -50,7 +50,7 @@ const Header = () => (
       >
         <FormattedMessage
           id='scenes.register.getstarted'
-          defaultMessage='Get started by signing up'
+          defaultMessage='Get started by signing up.'
         />
       </SubHeader>
     </Column>

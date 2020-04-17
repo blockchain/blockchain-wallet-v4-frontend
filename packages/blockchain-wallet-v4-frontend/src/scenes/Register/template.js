@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   HeartbeatLoader,
   Icon,
@@ -10,7 +11,6 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { reduxForm } from 'redux-form'
 
-import Footer from '../../layouts/Public/Footer'
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import media from 'services/ResponsiveService'
@@ -127,10 +127,36 @@ const TabIcon = styled(Icon)`
 const Line = styled.div`
   height: 1px;
   width: 12.5rem;
-  margin: 1.5rem auto 0;
+  margin: ${props => (props.showForm ? '1.5rem auto 0' : '0')};
   background-color: ${props => props.theme.grey000};
   visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
   transition: all 0.5s ease;
+`
+
+const AppButtons = styled.footer`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  ${media.mobile`	
+    img {	
+      height: auto;	
+      width: 40%;	
+    }	
+  `}
+
+  max-height: ${props => (props.showForm ? '5.25rem' : '0')};
+  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
+  transition: all .5s ease;
+
+`
+const Bottom = styled.div`
+  margin: 16px 0;
+  > a {
+    margin: 0 8px;
+  }
 `
 
 const Register = ({
@@ -170,7 +196,7 @@ const Register = ({
               <InfoTitle color='grey800' size='18px' weight={600}>
                 <FormattedMessage
                   id='scenes.register.walletcard.infotitle'
-                  defaultMessage='Be your own bank'
+                  defaultMessage='Be your own bank.'
                 />
               </InfoTitle>
 
@@ -257,7 +283,12 @@ const Register = ({
             </Button>
 
             <Line showForm={showForm} />
-            <Footer showForm={showForm} />
+            <AppButtons showForm={showForm}>
+              <Bottom>
+                <Badge type='applestore' />
+                <Badge type='googleplay' />
+              </Bottom>
+            </AppButtons>
           </Card>
 
           <LinkContainer to='/login'>
@@ -379,7 +410,7 @@ const Register = ({
             <Text size='14px' color='whiteFade600' weight={500}>
               <FormattedMessage
                 id='scenes.register.exchange.subcard'
-                defaultMessage='You will be taken to our trading experience to continue Sign up.'
+                defaultMessage='You will be taken to our trading experience to continue sign up.'
               />
             </Text>
           </SubCard>
