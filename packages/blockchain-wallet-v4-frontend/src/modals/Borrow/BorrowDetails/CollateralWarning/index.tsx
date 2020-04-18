@@ -135,7 +135,6 @@ const CollateralWarning: React.FC<Props> = props => {
                   currentRatio: percentageFormatter(
                     props.loan.collateralisationRatio
                   ),
-                  // TODO: Borrow - make dynamic
                   collateralAmtRequired: fiatToString({
                     unit: props.offer.terms.principalCcy as FiatType,
                     value: getCollateralAmtRequired(props.loan, props.offer)
