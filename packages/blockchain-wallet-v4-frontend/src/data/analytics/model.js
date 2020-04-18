@@ -61,7 +61,6 @@ export const TRANSACTION_EVENTS = {
 
 export const GENERAL_EVENTS = {
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  VIEW_FAQ: ['general', 'view_faq'],
   WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_tour', 'dismissed'],
   WALLET_INTRO_OFFERED: ['general', 'wallet_intro_tour', 'offered'],
   WALLET_INTRO_STARTED: ['general', 'wallet_intro_tour', 'started'],
