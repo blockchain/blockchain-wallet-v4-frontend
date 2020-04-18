@@ -1,6 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
@@ -8,7 +9,6 @@ import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { ModalNamesType } from 'data/types'
 import { PriceChange } from '../model'
-import { RemoteDataType, SupportedCoinType } from 'core/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import Loading from './template.loading'
@@ -30,6 +30,7 @@ type LinkStatePropsType = {
     {
       addressData: { data: Array<any> }
       balanceData: number
+      currency: FiatType
       currencySymbol: string
       priceChangeFiat: number
       priceChangePercentage: number
@@ -235,6 +236,7 @@ export class WalletBalanceDropdown extends Component<Props> {
           {this.hasBalanceOrAccounts(props.selectProps.options) ? (
             <PriceChange
               {...this.props.data.getOrElse({
+                currency: 'USD',
                 currencySymbol: '$',
                 priceChangeFiat: 0,
                 priceChangePercentage: 0

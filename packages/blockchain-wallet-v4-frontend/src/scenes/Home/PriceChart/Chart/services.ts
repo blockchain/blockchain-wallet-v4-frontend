@@ -1,9 +1,18 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType, FiatType } from 'core/types'
 import { Color } from 'blockchain-info-components'
+import { DefaultTheme } from 'styled-components'
+import { fiatToString } from 'core/exchange/currency'
 import { head, last, map, sort } from 'ramda'
 import ReactHighcharts from 'react-highcharts'
 
-export const getConfig = (coin, currency, data, decimals, interval, start) => ({
+export const getConfig = (
+  coin: CoinType,
+  currency: FiatType,
+  data,
+  decimals,
+  interval,
+  start
+) => ({
   chart: {
     height: 400,
     type: 'area',
@@ -45,13 +54,17 @@ export const getConfig = (coin, currency, data, decimals, interval, start) => ({
         stops: [
           [
             0,
-            ReactHighcharts.Highcharts.Color(Color(coin.toLowerCase()))
+            ReactHighcharts.Highcharts.Color(
+              Color(coin.toLowerCase() as keyof DefaultTheme)
+            )
               .setOpacity(0.7)
               .get('rgba')
           ],
           [
             1,
-            ReactHighcharts.Highcharts.Color(Color(coin.toLowerCase()))
+            ReactHighcharts.Highcharts.Color(
+              Color(coin.toLowerCase() as keyof DefaultTheme)
+            )
               .setOpacity(0.1)
               .get('rgba')
           ]
@@ -61,7 +74,7 @@ export const getConfig = (coin, currency, data, decimals, interval, start) => ({
         radius: 0
       },
       lineWidth: 2,
-      color: Color(coin.toLowerCase()),
+      color: Color(coin.toLowerCase() as keyof DefaultTheme),
       states: {
         hover: {
           lineWidth: 2
@@ -81,7 +94,7 @@ export const getConfig = (coin, currency, data, decimals, interval, start) => ({
     borderWidth: 0,
     borderRadius: 4,
     valueDecimals: 2,
-    backgroundColor: Color(coin.toLowerCase()),
+    backgroundColor: Color(coin.toLowerCase() as keyof DefaultTheme),
     shadow: false,
     padding: 4,
     style: {
@@ -90,7 +103,8 @@ export const getConfig = (coin, currency, data, decimals, interval, start) => ({
     xDateFormat: '%b %d, %Y',
     useHTML: true,
     pointFormatter: function () {
-      return currency + Currency.formatFiat(this.y, decimals)
+      // @ts-ignore
+      return fiatToString({ value: this.y, decimals, unit: currency })
     }
   },
   credits: {
@@ -143,17 +157,20 @@ const renderPoint = (chart, pointData, isPointGreaterThanCounterPoint) => {
     .add()
 }
 
-export const renderMinMax = (chart, { currency, data, decimals }) => {
+export const renderMinMax = (
+  chart,
+  { currency, data, decimals }: { currency: FiatType; data; decimals: number }
+) => {
   const [min, max] = getMinMax(data)
   const [minIndex, maxIndex] = getMinMaxIndex(data)
 
   const maxPoint = [
     chart.series[0].data[maxIndex],
-    currency + Currency.formatFiat(max, decimals)
+    fiatToString({ value: max, unit: currency, digits: decimals })
   ]
   const minPoint = [
     chart.series[0].data[minIndex],
-    currency + Currency.formatFiat(min, decimals)
+    fiatToString({ value: min, unit: currency, digits: decimals })
   ]
 
   renderPoint(chart, maxPoint, maxIndex > minIndex)

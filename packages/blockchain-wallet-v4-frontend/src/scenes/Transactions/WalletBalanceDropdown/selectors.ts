@@ -101,6 +101,7 @@ export const getData = (state, ownProps: OwnProps) => {
     const changeFiat = currentValue - yesterdayValue
 
     return {
+      currency,
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),
