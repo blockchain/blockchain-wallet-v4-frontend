@@ -108,7 +108,7 @@ const { TIERS_STATES } = model.profile
 type LinkDispatchPropsType = {
   goToSwap: () => void
   identityVerificationActions: typeof actions.components.identityVerification
-  simpleBuyActions: typeof actions.components.stxTransactions
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 type OwnProps = {
