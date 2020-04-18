@@ -69,6 +69,10 @@ export const ComponentDropdown: React.ComponentClass<{
   callback?: () => void
 }>
 
+export function Color(
+  color: keyof DefaultTheme
+): DefaultTheme[keyof DefaultTheme]
+
 export const FontGlobalStyles: StatelessComponent<{}>
 export const HeartbeatLoader: StatelessComponent<{
   width?: string

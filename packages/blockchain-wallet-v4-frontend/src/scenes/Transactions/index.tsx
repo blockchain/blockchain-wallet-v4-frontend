@@ -68,7 +68,7 @@ const StatsContainer = styled.div`
   `}
 `
 
-type OwnProps = {
+export type OwnProps = {
   coin: CoinType
   coinModel: SupportedCoinType
   currency: FiatType

@@ -5,19 +5,22 @@ import { selectors } from 'data'
 export const getData = createDeepEqualSelector(
   [
     selectors.core.data.misc.getPriceIndexSeries,
+    selectors.components.priceChart.getTime,
     selectors.core.settings.getCurrency
   ],
-  (priceIndexSeriesR, currencyR) => {
+  (priceIndexSeriesR, priceChartTime, currencyR) => {
     const transform = (priceIndexSeries, currency) => {
+      // @ts-ignore
       const priceStart = prop('price', head(priceIndexSeries))
-      const priceCurrent = prop('price', last(priceIndexSeries))
-      const priceChangeFiat = priceCurrent - priceStart
-      const priceChangePercentage = (priceChangeFiat / priceStart) * 100
+      // @ts-ignore
+      const priceEnd = prop('price', last(priceIndexSeries))
+      const priceChange = priceEnd - priceStart
+      const pricePercentageChange = (priceChange / priceStart) * 100
       return {
         currency,
-        priceChangeFiat,
-        priceCurrent,
-        priceChangePercentage
+        priceChartTime,
+        priceChange,
+        pricePercentageChange
       }
     }
 

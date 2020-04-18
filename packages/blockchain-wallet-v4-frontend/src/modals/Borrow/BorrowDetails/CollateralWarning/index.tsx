@@ -1,5 +1,6 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType } from 'core/types'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import { percentageFormatter } from '../CollateralizationBar'
@@ -134,12 +135,10 @@ const CollateralWarning: React.FC<Props> = props => {
                   currentRatio: percentageFormatter(
                     props.loan.collateralisationRatio
                   ),
-                  // TODO: Borrow - make dynamic
-                  collateralAmtRequired:
-                    '$' +
-                    Currency.formatFiat(
-                      getCollateralAmtRequired(props.loan, props.offer)
-                    ),
+                  collateralAmtRequired: fiatToString({
+                    unit: props.offer.terms.principalCcy as FiatType,
+                    value: getCollateralAmtRequired(props.loan, props.offer)
+                  }),
                   liquidationHardPerc: percentageFormatter(
                     props.offer.callTerms.liquidationHardRatio
                   )

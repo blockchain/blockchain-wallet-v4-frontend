@@ -1,14 +1,13 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType, SBOrderType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { getOrderType } from 'data/components/simpleBuy/model'
-import { SBOrderType } from 'core/types'
 import { Status } from './model'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -81,8 +80,8 @@ class SimpleBuyListItem extends PureComponent<Props> {
 
     const inputAmt =
       getOrderType(order.pair) === 'BUY'
-        ? Currency.fiatToString({
-            unit: Currencies[order.inputCurrency].units[order.inputCurrency],
+        ? fiatToString({
+            unit: order.inputCurrency as FiatType,
             value: convertBaseToStandard('FIAT', order.inputQuantity)
           })
         : 'Not yet implemented'
