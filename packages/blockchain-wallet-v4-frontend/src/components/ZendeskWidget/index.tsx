@@ -11,10 +11,10 @@ import styled from 'styled-components'
 type LinkStatePropsType = {
   domains: { [key in string]: string }
   sbOrders: Array<SBOrderType>
-  userData: UserDataType
+  userData: UserDataType | null
 }
 type State = { widgetOpen: boolean }
-type CustomIframe = HTMLIFrameElement & State
+type CustomIframe = State
 type Props = LinkStatePropsType & CustomIframe
 
 const Wrapper = styled.div`
@@ -30,7 +30,7 @@ const Iframe = styled.iframe<CustomIframe>`
 `
 
 const postMsgToWalletHelper = (methodName, data) => {
-  const frame = document.getElementById('zendesk-iframe') as CustomIframe
+  const frame = document.getElementById('zendesk-iframe') as HTMLIFrameElement
   if (frame && frame.contentWindow) {
     frame.contentWindow.postMessage(
       {
@@ -73,8 +73,6 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
 
     return (
       <Wrapper>
-        {/*
-          // @ts-ignore */}
         <Iframe
           id='zendesk-iframe'
           src={domains.walletHelper + '/wallet-helper/zendesk/#/'}
@@ -90,8 +88,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
-  // @ts-ignore
-  userData: selectors.modules.profile.getUserData(state).getOrElse({})
+  userData: selectors.modules.profile.getUserData(state).getOrElse(null)
 })
 
 export default connect(mapStateToProps)(ZendeskWidget)
