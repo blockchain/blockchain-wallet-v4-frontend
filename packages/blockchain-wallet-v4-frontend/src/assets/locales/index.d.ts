@@ -1285,6 +1285,13 @@ type MessagesType = {
   'scenes.borrow.warning.safe': 'Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
   'scenes.borrow.warning.unsafe': 'Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated.'
   'scenes.buysell.exchangecheckout.rate': "The rate offered by your region's exchange partner. May include fees."
+  'scenes.earninterest.earnbody.unverified': 'Upgrade to Gold Level and be eligible to earn up to 3% on your crypto.'
+  'scenes.earninterest.earnbody.verified': 'Earn up to 3% AER instantly when you deposit bitcoin to your Savings Wallet.'
+  'scenes.earninterest.earnheader': 'Earn Crypto from Your Blockchain Wallet'
+  'scenes.earninterest.form.earn3percent': 'Earn 3% AER on your BTC'
+  'scenes.earninterest.form.earnbutton': 'Earn Interest'
+  'scenes.earninterest.verifyid': 'Upgrade Now'
+  'scenes.earninterst.kycunderreview': 'Gold Verification In Review'
   'scenes.exchange.blockchain': 'Exchange'
   'scenes.exchange.changeinput': 'Change Input'
   'scenes.exchange.confirm.annuallimitexceeded': 'There is a limit to how much crypto you can exchange. The value of your order must be less than your limit of {symbol}{annualLimit}.'

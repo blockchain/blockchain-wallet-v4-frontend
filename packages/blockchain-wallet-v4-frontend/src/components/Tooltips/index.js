@@ -284,6 +284,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Coming soon.'
           />
         </Tooltip>
+        <Tooltip id='earninterest.calculation.tooltop'>
+          <FormattedMessage
+            id='earninterestform.tooltip.calculation'
+            defaultMessage='Placeholder text on how we calculate interest.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

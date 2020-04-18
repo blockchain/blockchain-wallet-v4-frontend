@@ -50,7 +50,8 @@ class BorrowPax extends PureComponent<Props & State> {
                   this.props.identityVerificationActions.verifyIdentity(2)
                 }
               >
-                {val.kycState === 'UNDER_REVIEW' ? (
+                {val.kycState === 'UNDER_REVIEW' ||
+                val.kycState === 'PENDING' ? (
                   <FormattedMessage
                     id='scenes.borrow.kycunderreview'
                     defaultMessage='Gold Verification In Review'
