@@ -1,11 +1,12 @@
 import { calculateInterval, calculateStart } from 'services/ChartService'
+import { CoinType, FiatType } from 'core/types'
 import { getConfig, renderMinMax } from './services'
 import PropTypes from 'prop-types'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ coin: CoinType }>`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -45,7 +46,14 @@ const Wrapper = styled.div`
   }
 `
 
-const Chart = props => {
+type Props = {
+  coin: CoinType
+  currency: FiatType
+  data: any
+  time: string
+}
+
+const Chart = (props: Props) => {
   const { coin, time, data, currency } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)

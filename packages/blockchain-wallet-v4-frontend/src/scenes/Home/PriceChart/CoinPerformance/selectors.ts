@@ -10,7 +10,9 @@ export const getData = createDeepEqualSelector(
   ],
   (priceIndexSeriesR, priceChartTime, currencyR) => {
     const transform = (priceIndexSeries, currency) => {
+      // @ts-ignore
       const priceStart = prop('price', head(priceIndexSeries))
+      // @ts-ignore
       const priceEnd = prop('price', last(priceIndexSeries))
       const priceChange = priceEnd - priceStart
       const pricePercentageChange = (priceChange / priceStart) * 100

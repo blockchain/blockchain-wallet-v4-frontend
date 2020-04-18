@@ -3,7 +3,7 @@ import { compose } from 'ramda'
 import { iLensProp, typeGuard, typeLens } from './util'
 import { view } from 'ramda-lens'
 
-export default class Type extends eImmutable.Map {
+export default class Type extends eImmutable.Map<{}, {}> {
   static get guard () {
     return typeGuard(this)
   }
@@ -13,6 +13,7 @@ export default class Type extends eImmutable.Map {
   }
 
   get empty () {
+    // @ts-ignore
     return new this.constructor({})
   }
 

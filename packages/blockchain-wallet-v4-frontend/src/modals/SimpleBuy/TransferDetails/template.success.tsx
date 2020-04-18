@@ -1,10 +1,10 @@
 import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -187,10 +187,7 @@ const Success: React.FC<Props> = props => {
           </Title>
           <Value>
             {fiatToString({
-              unit:
-                Currencies[props.order.inputCurrency].units[
-                  props.order.inputCurrency
-                ],
+              unit: props.order.inputCurrency as FiatType,
               value: convertBaseToStandard('FIAT', props.order.inputQuantity)
             })}
           </Value>

@@ -1,5 +1,5 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'core/exchange/currency'
 import { getPriceChartTime } from './services'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -17,14 +17,13 @@ const Wrapper = styled.div`
 const buildPriceDisplay = (currency, priceChange, pricePercentageChange) => {
   let priceFormatted
   if (priceChange < 0) {
-    priceFormatted = `-${Exchange.getSymbol(currency)}${Currency.formatFiat(
+    priceFormatted = `-${Exchange.getSymbol(currency)}${formatFiat(
       priceChange
     ).substring(1)}`
   } else {
-    priceFormatted =
-      Exchange.getSymbol(currency) + Currency.formatFiat(priceChange)
+    priceFormatted = Exchange.getSymbol(currency) + formatFiat(priceChange)
   }
-  return `${priceFormatted} (${Currency.formatFiat(pricePercentageChange)}%)`
+  return `${priceFormatted} (${formatFiat(pricePercentageChange)}%)`
 }
 
 const Success = ({

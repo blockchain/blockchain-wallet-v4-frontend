@@ -1,10 +1,9 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { connect } from 'react-redux'
-import { CurrenciesType } from 'core/exchange/currencies'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { PriceChange } from '../../model'
-import { RemoteDataType, SupportedCoinType } from 'core/types'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -34,8 +33,7 @@ type OwnProps = {
 }
 
 type SuccessStateType = {
-  currency: keyof CurrenciesType
-  currencySymbol: string
+  currency: FiatType
   priceChangeFiat: number
   priceChangePercentage: number
   priceCurrent: number
@@ -53,7 +51,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
 
     return data.cata({
       Success: val => {
-        const { currencySymbol, priceCurrent } = val
+        const { priceCurrent } = val
 
         return (
           <Wrapper>
@@ -65,8 +63,10 @@ class CoinPricesContainer extends React.PureComponent<Props> {
               />
             </TitleText>
             <PriceText>
-              {currencySymbol}
-              {Currency.formatFiat(priceCurrent)}
+              {fiatToString({
+                value: priceCurrent,
+                unit: val.currency
+              })}
             </PriceText>
             <PriceChange {...val}>
               {' '}
