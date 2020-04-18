@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`PriceChart template loading renders correctly 1`] = `
-<image
-  height="200px"
-  name="chart-placeholder"
-  width="100%"
-/>
-`;

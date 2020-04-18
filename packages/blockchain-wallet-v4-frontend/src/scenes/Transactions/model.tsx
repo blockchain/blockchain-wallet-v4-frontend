@@ -1,5 +1,6 @@
-import { fiatToString, formatFiat } from 'core/exchange/currency'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FiatType } from 'core/types'
+import { formatFiat } from 'core/exchange/currency'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -34,14 +35,11 @@ export const PriceChange = ({
   priceChangePercentage: number
 }) => {
   let priceFormatted
-  let price = fiatToString({
-    value: priceChangeFiat,
-    unit: currency
-  })
+  let price = formatFiat(priceChangeFiat)
   if (priceChangeFiat < 0) {
-    priceFormatted = `-${price}`
+    priceFormatted = `-${Exchange.getSymbol(currency)}${price.substring(1)}`
   } else {
-    priceFormatted = price
+    priceFormatted = `${Exchange.getSymbol(currency)}${price}`
   }
 
   return (
