@@ -69,6 +69,24 @@ describe('TierCard', () => {
     ).toBe('Unlock Silver')
   })
 
+  it('should render buy crypto now button if tier is verified', () => {
+    const tiers = assocPath([1, 'state'], TIERS_STATES.VERIFIED, userTiers)
+    const goToSwap = jest.fn()
+    const component = shallow(
+      <TierCard
+        tier={1}
+        userData={{ tiers: { selected: 1 } }}
+        userTiers={tiers}
+        goToSwap={goToSwap}
+      />
+    )
+    const button = component.find('.actionButton')
+    expect(button).toHaveLength(1)
+    expect(button.children().prop('defaultMessage')).toBe('Swap Now')
+    button.simulate('click')
+    expect(goToSwap).toHaveBeenCalledTimes(1)
+  })
+
   it('should no button if tier state is neither none nor verified', () => {
     const tiers = assocPath([1, 'state'], TIERS_STATES.PENDING, userTiers)
     const component = shallow(
