@@ -187,6 +187,7 @@ interface ShowModalAction {
       | 'sideNav'
       | 'pendingOrder'
       | 'welcomeModal'
+      | 'settingsProfile'
       | 'priceChart'
       | 'emptyFeed'
   }
