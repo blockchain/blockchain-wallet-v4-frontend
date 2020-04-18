@@ -60,7 +60,7 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   > input {
-    padding-left: 50px;
+    padding-left: 30px;
   }
 `
 
@@ -188,7 +188,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     ? props.values.agreement
     : props.values
   const isCheckBoxDisabled = props.values
-    ? props.values.depositAmount < 100
+    ? props.values.depositAmount < props.minimumDeposit
     : false
 
   return (

@@ -19,6 +19,7 @@ export type LinkDispatchPropsType = {
 
 export type SuccessStateType = {
   coin: CoinType
+  minimumDeposit: number
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
