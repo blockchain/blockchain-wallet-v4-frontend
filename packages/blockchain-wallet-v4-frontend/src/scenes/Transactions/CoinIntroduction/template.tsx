@@ -1,7 +1,6 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -62,7 +61,7 @@ const Welcome = props => {
             </Text>
             <Content weight={400}>
               <FormattedMessage
-                id='scenes.transaction.content.empty.newcoinswap'
+                id='scenes.transaction.content.empty.cointxs'
                 defaultMessage='All your {coinName} transactions will show up here.'
                 values={{
                   coinName: currentCoin.displayName
@@ -73,9 +72,13 @@ const Welcome = props => {
         </Column>
       </Row>
       <Column style={{ paddingRight: '20px' }}>
-        <BuyButton nature='empty-blue' onClick={handleBuy}>
+        <BuyButton
+          data-e2e='buyCoinFromTxList'
+          nature='empty-blue'
+          onClick={handleBuy}
+        >
           <FormattedMessage
-            id='scenes.transaction.content.empty.newcoinbuy'
+            id='scenes.transaction.content.empty.buycoinnow'
             defaultMessage='Buy {coin} Now'
             values={{ coin: currentCoin.displayName }}
           />
@@ -83,12 +86,6 @@ const Welcome = props => {
       </Column>
     </Container>
   )
-}
-
-Welcome.propTypes = {
-  availability: PropTypes.object.isRequired,
-  currentCoin: PropTypes.object.isRequired,
-  handleRequest: PropTypes.func.isRequired
 }
 
 export default Welcome

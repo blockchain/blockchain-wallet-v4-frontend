@@ -1562,7 +1562,7 @@
   "scenes.register.exchangecard.item.3.bold": "Control your money",
   "scenes.register.exchangecard.item.3.regular": "by connecting your Wallet.",
   "scenes.register.exchangecard.title": "Blockchain Exchange",
-  "scenes.register.getstarted": "Get started by signing up",
+  "scenes.register.getstarted": "Get started by signing up.",
   "scenes.register.invalidstrongpassword": "Your password is not strong enough",
   "scenes.register.password": "Password",
   "scenes.register.registerform.blockchain.default.privacypolicy": "Privacy Policy.",

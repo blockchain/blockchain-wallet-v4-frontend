@@ -13,7 +13,7 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { required, validEmail } from 'services/FormHelper'
@@ -40,15 +40,8 @@ const SuccessMessages = styled(TextGroup)`
   margin: 25px 0;
 `
 
-const Reminder = props => {
-  const {
-    handleSubmit,
-    timestamp,
-    submitting,
-    invalid,
-    success,
-    loading
-  } = props
+const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
+  const { handleSubmit, submitting, invalid, success, loading } = props
 
   const renderForm = () => {
     return (
@@ -83,7 +76,6 @@ const Reminder = props => {
               name='code'
               validate={[required]}
               component={CaptchaBox}
-              props={{ timestamp: timestamp }}
             />
           </FormItem>
         </FormGroup>
@@ -96,6 +88,7 @@ const Reminder = props => {
           <Button
             type='submit'
             nature='primary'
+            data-e2e='reminderContinue'
             disabled={submitting || invalid || loading}
           >
             {loading ? (
@@ -124,7 +117,7 @@ const Reminder = props => {
           </Text>
         </SuccessMessages>
         <LinkContainer to='/login'>
-          <Button nature='primary' fullwidth>
+          <Button data-e2e='continueToLogin' nature='primary' fullwidth>
             <FormattedMessage
               id='scenes.reminder.login'
               defaultMessage='Continue to Login'
@@ -150,4 +143,9 @@ const Reminder = props => {
   )
 }
 
-export default reduxForm({ form: 'reminder' })(Reminder)
+type Props = {
+  loading: boolean
+  success: boolean
+}
+
+export default reduxForm<{}, Props>({ form: 'reminder' })(Reminder)

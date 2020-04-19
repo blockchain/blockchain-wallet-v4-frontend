@@ -269,7 +269,6 @@ const Register = ({
             </CardInfo>
 
             <SignupForm
-              busy={busy}
               handleSubmit={handleSubmit}
               password={password}
               passwordLength={passwordLength}
