@@ -19,26 +19,25 @@ import {
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import { UserDataType } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) =>
   state.profile.userCampaigns
 
 export const getUserId = compose(
-  lift((userData: UserDataType) => userData.id),
+  lift(prop('id')),
   getUserData
 )
 export const getWalletAddresses = compose(
-  lift((userData: UserDataType) => userData.walletAddresses),
+  lift(prop('walletAddresses')),
   getUserData
 )
 export const getUserActivationState = compose(
-  lift((userData: UserDataType) => userData.state),
+  lift(prop('state')),
   getUserData
 )
 export const getUserKYCState = compose(
-  lift((userData: UserDataType) => userData.kycState),
+  lift(prop('kycState')),
   getUserData
 )
 export const getTags = compose(
