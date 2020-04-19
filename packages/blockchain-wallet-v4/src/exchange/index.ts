@@ -957,7 +957,7 @@ const convertCoinToFiat = (
   }
 }
 
-const displayCoinToCoin = (value: number | string, toUnit: UnitType) => {
+const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
   switch (toUnit) {
     case 'BCH':
       return displayBchToBch({

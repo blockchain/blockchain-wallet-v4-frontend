@@ -12,6 +12,7 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
+  INVALID_COIN_TYPE,
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
@@ -304,6 +305,8 @@ export default ({
           defaultAccountR = accountsR.map(nth(defaultIndex))
           payment = yield call(createPayment, defaultIndex)
           break
+        default:
+          throw new Error(INVALID_COIN_TYPE)
       }
 
       yield call(createLimits, payment)
@@ -338,6 +341,8 @@ export default ({
           defaultAccountR = erc20AccountR.map(head)
           payment = yield call(createPayment)
           break
+        default:
+          throw new Error(INVALID_COIN_TYPE)
       }
 
       yield call(createLimits, payment)
