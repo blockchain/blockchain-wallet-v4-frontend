@@ -180,7 +180,7 @@ type Props = OwnProps &
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [tab, setTab] = useState<'long' | 'short'>('long')
-  const displayName = props.supportedCoins['PAX'].displayName
+  const displayName = props.supportedCoins[props.coin].displayName
   const savingsAmount = '$0.00' // replace this with future user savings' amount
   const handleClick = (x: 'long' | 'short') => setTab(x)
   const isTermsChecked = props.values ? props.values.terms : props.values

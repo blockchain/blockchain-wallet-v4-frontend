@@ -9,7 +9,7 @@ export const getData = state => {
 
   return lift((rates, supportedCoins, interestLimits) => ({
     coin,
-    minimumDeposit: interestLimits[coin].minimumDeposit,
+    minimumDeposit: interestLimits.BTC.minimumDeposit,
     rates,
     supportedCoins
   }))(ratesR, supportedCoinsR, interestLimitsR)
