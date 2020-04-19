@@ -16,7 +16,7 @@ import {
   OfferType,
   RemoteDataType
 } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
@@ -27,23 +27,6 @@ import Amount from './Amount'
 import React, { PureComponent } from 'react'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
-
-type OwnProps = {
-  isDisabled: boolean
-}
-type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-  modalActions: typeof actions.modals
-}
-type LinkStatePropsType = {
-  offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
-  userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
-  values: {
-    coin: CoinType
-  }
-}
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 const CustomBox = styled(Box)`
   display: flex;
@@ -204,12 +187,27 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
+type OwnProps = {
+  isDisabled: boolean
+}
+type LinkStatePropsType = {
+  offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
+  userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
+  values: {
+    coin: CoinType
+  }
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
 const enhance = compose<any>(
   reduxForm({ form: 'initBorrow', initialValues: { coin: 'BTC' } }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
 
 export default enhance(InitBorrowForm)

@@ -1,7 +1,6 @@
 import { actions, selectors } from 'data'
-import { AppActionTypes, UserCampaignsType, UserDataType } from 'data/types'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import {
@@ -13,6 +12,7 @@ import {
 import { lift } from 'ramda'
 import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { UserCampaignsType, UserDataType } from 'data/types'
 import EmailRequired from 'components/EmailRequired'
 import Loading from './template.loading'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
@@ -23,7 +23,6 @@ import Success from './template.success'
 const Wrapper = styled.div`
   width: 100%;
 `
-
 export const Header = styled.div`
   margin-bottom: 40px;
 `
@@ -33,18 +32,6 @@ export const History = styled.div`
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
-
-type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, UserDataType & UserCampaignsType>
-  hasEmail: boolean
-}
-
-export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-  profileActions: typeof actions.modules.profile
-}
-
-export type Props = LinkStatePropsType & LinkDispatchPropsType
 
 class Airdrops extends React.PureComponent<Props> {
   componentDidMount () {
@@ -60,6 +47,7 @@ class Airdrops extends React.PureComponent<Props> {
       NotAsked: () => <Loading />,
       Failure: e =>
         e.type === 'INVALID_CREDENTIALS' ? (
+          // @ts-ignore
           <Success
             {...this.props}
             userDoesNotExistYet
@@ -75,7 +63,7 @@ class Airdrops extends React.PureComponent<Props> {
         )
     })
     const PastAirdrops = data.cata({
-      Success: val => <PastAirdropsSuccess {...val} />,
+      Success: val => <PastAirdropsSuccess {...val} {...this.props} />,
       Loading: () => <Text weight={500}>Loading...</Text>,
       NotAsked: () => <Text weight={500}>Loading...</Text>,
       Failure: e =>
@@ -143,9 +131,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     .getOrElse(false)
 })
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<AppActionTypes>
-): LinkDispatchPropsType => ({
+const mapDispatchToProps = dispatch => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
@@ -153,7 +139,16 @@ const mapDispatchToProps = (
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Airdrops)
+)
+
+export type SuccessStateType = UserDataType & UserCampaignsType
+type LinkStatePropsType = {
+  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
+  hasEmail: boolean
+}
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(Airdrops)

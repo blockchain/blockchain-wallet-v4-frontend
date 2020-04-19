@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   FiatEligibleType,
   FiatType,
@@ -15,25 +15,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  handleClose: () => void
-}
-export type SuccessStateType = {
-  eligibility: FiatEligibleType
-  pairs: Array<SBPairType>
-}
-export type LinkDispatchPropsType = {
-  formActions: typeof actions.form
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-export type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class EnterAmount extends PureComponent<Props, State> {
+class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
@@ -58,12 +40,28 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+export const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EnterAmount)
+)
+
+type OwnProps = {
+  handleClose: () => void
+}
+export type SuccessStateType = {
+  eligibility: FiatEligibleType
+  pairs: Array<SBPairType>
+}
+export type LinkStatePropsType = {
+  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
+  fiatCurrency: undefined | FiatType
+}
+export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(EnterAmount)

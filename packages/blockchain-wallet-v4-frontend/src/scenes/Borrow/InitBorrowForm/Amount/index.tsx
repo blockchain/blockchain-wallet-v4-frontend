@@ -1,5 +1,5 @@
 import { CoinType, OfferType, RemoteDataType } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
@@ -9,26 +9,6 @@ import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
-type OwnProps = {
-  coin: CoinType
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<
-    Error | string,
-    {
-      balance: number
-      max: number
-      offer: OfferType
-      offers: Array<OfferType>
-      rates: RatesType
-      values: { coin: CoinType }
-    }
-  >
-}
-
-type Props = OwnProps & LinkStatePropsType
 
 const Wrapper = styled.div`
   margin-top: 8px;
@@ -89,4 +69,24 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getBalance(state)
 })
 
-export default connect(mapStateToProps)(Amount)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  coin: CoinType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<
+    Error | string,
+    {
+      balance: number
+      max: number
+      offer: OfferType
+      offers: Array<OfferType>
+      rates: RatesType
+      values: { coin: CoinType }
+    }
+  >
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Amount)

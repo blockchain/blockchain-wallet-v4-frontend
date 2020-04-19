@@ -8,7 +8,7 @@ import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -36,9 +36,6 @@ const Amount = styled.div`
     display: inline;
   }
 `
-type Props = OwnProps &
-  LinkDispatchPropsType &
-  SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const outputAmt = getOutputAmount(props.order, props.quote)
@@ -185,5 +182,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     </CustomForm>
   )
 }
+
+type Props = OwnProps &
+  SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 export default reduxForm<{}, Props>({ form: 'sbCheckoutConfirm' })(Success)

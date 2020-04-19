@@ -15,6 +15,7 @@ export type WalletFormType =
   | 'cancelSBOrderForm'
   | 'confirmRecoveryWords'
   | 'initBorrow'
+  | 'register'
   | 'repayLoanForm'
   | 'sbCheckoutConfirm'
   | 'sbCurrencySelection'

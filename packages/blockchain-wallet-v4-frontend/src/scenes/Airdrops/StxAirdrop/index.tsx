@@ -1,7 +1,6 @@
 import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
 import { Icon, Text } from 'blockchain-info-components'
-import { LinkDispatchPropsType } from '..'
 import { Props } from '../template.success'
 import {
   StxDateOrAmount,
@@ -27,7 +26,7 @@ const StatusContainer = styled.div`
   }
 `
 
-const StxAirdrop = (props: Props & LinkDispatchPropsType) => {
+const StxAirdrop = (props: Props) => {
   if (props.userDoesNotExistYet === true) return null
 
   const stxCampaign = props.userCampaignsInfoResponseList.find(
