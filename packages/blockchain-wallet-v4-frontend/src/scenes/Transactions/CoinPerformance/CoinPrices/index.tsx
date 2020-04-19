@@ -1,4 +1,4 @@
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
@@ -27,23 +27,6 @@ const PriceText = styled(Text)`
   line-height: 135%;
   color: ${props => props.theme.grey800};
 `
-
-type OwnProps = {
-  coinModel: SupportedCoinType
-}
-
-type SuccessStateType = {
-  currency: FiatType
-  priceChangeFiat: number
-  priceChangePercentage: number
-  priceCurrent: number
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-
-type Props = LinkStatePropsType & OwnProps
 
 class CoinPricesContainer extends React.PureComponent<Props> {
   render () {
@@ -85,8 +68,27 @@ class CoinPricesContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(CoinPricesContainer)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  coinModel: SupportedCoinType
+}
+
+type SuccessStateType = {
+  currency: FiatType
+  priceChangeFiat: number
+  priceChangePercentage: number
+  priceCurrent: number
+}
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CoinPricesContainer)
