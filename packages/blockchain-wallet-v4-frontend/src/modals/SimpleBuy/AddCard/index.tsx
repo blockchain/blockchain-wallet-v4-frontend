@@ -14,27 +14,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  cardId?: string
-  handleClose: () => void
-}
-export type SuccessStateType = {
-  card: SBCardType
-  fiatCurrency: FiatType
-  providerDetails: SBProviderDetailsType
-}
-export type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class AddCard extends PureComponent<Props, State> {
-  state = {}
-
+class AddCard extends PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
   }
@@ -60,6 +40,23 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
+
+export type OwnProps = {
+  cardId?: string
+  handleClose: () => void
+}
+export type SuccessStateType = {
+  card: SBCardType
+  fiatCurrency: FiatType
+  providerDetails: SBProviderDetailsType
+}
+export type LinkDispatchPropsType = {
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+}
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 export default connect(
   mapStateToProps,

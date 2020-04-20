@@ -1,5 +1,6 @@
 import {
   CreditCardBox,
+  CreditCardCVCBox,
   CreditCardExpiryBox,
   FormGroup,
   FormItem,
@@ -12,6 +13,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { normalizeCreditCard } from 'components/Form/CreditCardBox'
+import { normalizeCreditCardCVC } from 'components/Form/CreditCardCVCBox'
 import { normalizeCreditCardExpiry } from 'components/Form/CreditCardExpiryBox'
 import React from 'react'
 import styled from 'styled-components'
@@ -89,8 +91,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <FormLabel>CVC</FormLabel>
             <Field
               name='cvc'
-              component={CreditCardBox}
-              normalize={normalizeCreditCard}
+              component={CreditCardCVCBox}
+              normalize={normalizeCreditCardCVC}
             />
           </FormItem>
         </FormGroup>
