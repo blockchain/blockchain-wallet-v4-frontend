@@ -7,22 +7,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  currentTab: 'wallet' | 'hardware' | 'total'
-}
-export type SuccessStateType = {
-  totalBalance: string
-}
-type LinkDispatchPropsType = {}
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class TotalRow extends PureComponent<Props, State> {
-  state = {}
-
+class TotalRow extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
@@ -46,9 +31,17 @@ const mapStateToProps = (state: RootState, ownProps): LinkStatePropsType => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = () => ({})
+const connector = connect(mapStateToProps)
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TotalRow)
+export type OwnProps = {
+  currentTab: 'wallet' | 'hardware' | 'total'
+}
+export type SuccessStateType = {
+  totalBalance: string
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+type Props = OwnProps & LinkStatePropsType
+
+export default connector(TotalRow)

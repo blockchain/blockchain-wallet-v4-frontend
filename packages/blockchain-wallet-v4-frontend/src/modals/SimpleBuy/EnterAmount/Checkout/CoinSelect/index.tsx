@@ -1,4 +1,4 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'core/exchange/currency'
 import { Field } from 'redux-form'
 import {
   getCoinFromPair,
@@ -8,7 +8,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import { SBPairType, SupportedCoinType } from 'core/types'
 import { SelectBox } from 'components/Form'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -95,9 +94,9 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
           {children || displayName}
           <Rate>
             1 {coinTicker} ={' '}
-            {Currency.fiatToString({
+            {fiatToString({
               value: this.props.rates[coin][fiat].last,
-              unit: Currencies[fiat].units[fiat]
+              unit: fiat
             })}
           </Rate>
         </Display>

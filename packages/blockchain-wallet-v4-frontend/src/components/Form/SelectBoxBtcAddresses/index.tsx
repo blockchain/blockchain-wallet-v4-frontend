@@ -5,18 +5,6 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 import React from 'react'
 import SelectBoxBtc from './template'
 
-type LinkStatePropsType = {
-  data: RemoteDataType<
-    string,
-    {
-      data: Array<AccountTypes>
-    }
-  >
-  supportedCoins: SupportedCoinsType
-}
-
-type Props = LinkStatePropsType
-
 class SelectBoxBtcAddresses extends React.PureComponent<Props> {
   render () {
     const { data, ...rest } = this.props
@@ -42,4 +30,17 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(SelectBoxBtcAddresses)
+const connector = connect(mapStateToProps)
+
+type LinkStatePropsType = {
+  data: RemoteDataType<
+    string,
+    {
+      data: Array<AccountTypes>
+    }
+  >
+  supportedCoins: SupportedCoinsType
+}
+type Props = LinkStatePropsType
+
+export default connector(SelectBoxBtcAddresses)

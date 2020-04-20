@@ -1,20 +1,12 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
 import styled from 'styled-components'
-
-type OwnProps = {}
-type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,7 +66,7 @@ const BannerButton = styled(Button)`
   `}
 `
 
-class CoinifyToSBBanner extends PureComponent<Props, State> {
+class CoinifyToSBBanner extends PureComponent<Props> {
   state = {}
 
   render () {
@@ -129,7 +121,14 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   undefined,
   mapDispatchToProps
-)(CoinifyToSBBanner)
+)
+
+type LinkDispatchPropsType = {
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+type Props = ConnectedProps<typeof connector>
+
+export default connector(CoinifyToSBBanner)

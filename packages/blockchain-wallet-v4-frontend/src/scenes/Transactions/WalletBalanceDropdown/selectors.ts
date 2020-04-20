@@ -1,6 +1,7 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { CurrenciesType } from 'core/exchange/currencies'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { FiatType, RemoteDataType } from 'core/types'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
@@ -12,7 +13,20 @@ import { last, lift, nth, prop } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
 
-export const getData = (state, ownProps: OwnProps) => {
+export const getData = (
+  state,
+  ownProps: OwnProps
+): RemoteDataType<
+  string | Error,
+  {
+    addressData: { data: Array<any> }
+    balanceData: number
+    currency: FiatType
+    currencySymbol: string
+    priceChangeFiat: number
+    priceChangePercentage: number
+  }
+> => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
@@ -101,6 +115,7 @@ export const getData = (state, ownProps: OwnProps) => {
     const changeFiat = currentValue - yesterdayValue
 
     return {
+      currency,
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),

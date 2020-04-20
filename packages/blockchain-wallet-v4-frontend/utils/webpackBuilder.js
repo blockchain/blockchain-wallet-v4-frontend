@@ -75,6 +75,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
+      core: path.resolve(__dirname, '../../blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, '../src/components/'),
       data: path.resolve(__dirname, '../src/data/'),
       layouts: path.resolve(__dirname, '../src/layouts/'),
@@ -276,6 +277,7 @@ const buildDevServerConfig = (
         [
           'connect-src',
           "'self'",
+          'data:',
           'ws://localhost:8080',
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
@@ -290,13 +292,13 @@ const buildDevServerConfig = (
           envConfig.VERIFF_URL,
           'https://friendbot.stellar.org',
           'https://api.sfox.com',
-          'https://api.staging.sfox.com',
           'https://quotes.sfox.com',
-          `https://quotes.staging.sfox.com`,
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',
-          'https://bitpay.com'
+          'https://bitpay.com',
+          'https://static.zdassets.com',
+          'https://ekr.zdassets.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

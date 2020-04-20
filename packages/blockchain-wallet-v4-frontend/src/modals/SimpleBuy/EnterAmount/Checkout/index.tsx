@@ -20,26 +20,6 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
-export type SuccessStateType = {
-  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
-  formValues?: SBCheckoutFormValuesType
-  rates: { [key in CoinType]: RatesType }
-  suggestedAmounts: SBSuggestedAmountType
-  supportedCoins: SupportedCoinsType
-  userData: UserDataType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type LinkDispatchPropsType = {
-  formActions: typeof actions.form
-  identityVerificationActions: typeof actions.components.identityVerification
-  profileActions: typeof actions.modules.profile
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.initializeCheckout(
@@ -112,5 +92,26 @@ const enhance = connect(
   mapStateToProps,
   mapDispatchToProps
 )
+
+type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
+export type SuccessStateType = {
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  formValues?: SBCheckoutFormValuesType
+  rates: { [key in CoinType]: RatesType }
+  suggestedAmounts: SBSuggestedAmountType
+  supportedCoins: SupportedCoinsType
+  userData: UserDataType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  fiatCurrency: undefined | FiatType
+}
+export type LinkDispatchPropsType = {
+  formActions: typeof actions.form
+  identityVerificationActions: typeof actions.components.identityVerification
+  profileActions: typeof actions.modules.profile
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 export default enhance(Checkout)

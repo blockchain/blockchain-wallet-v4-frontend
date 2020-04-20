@@ -5,7 +5,7 @@ import {
   SupportedCoinsType,
   SupportedCoinType
 } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
@@ -16,21 +16,6 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { PureComponent } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
-
-export type OwnProps = {
-  coin: CoinType
-  name: 'collateral' | 'repay-principal'
-  rates: RatesType
-  supportedCoins: SupportedCoinsType
-}
-
-type SuccessStateType = Array<AccountTypes>
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-
-type Props = OwnProps & LinkStatePropsType
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -168,4 +153,18 @@ const mapStateToProps = (
   data: getData(state, ownProps)
 })
 
-export default connect(mapStateToProps)(BorrowCoinDropdown)
+const connector = connect(mapStateToProps)
+
+export type OwnProps = {
+  coin: CoinType
+  name: 'collateral' | 'repay-principal'
+  rates: RatesType
+  supportedCoins: SupportedCoinsType
+}
+type SuccessStateType = Array<AccountTypes>
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(BorrowCoinDropdown)

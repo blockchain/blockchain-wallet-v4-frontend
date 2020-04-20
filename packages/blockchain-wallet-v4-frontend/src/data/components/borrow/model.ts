@@ -77,6 +77,8 @@ export const isLastTxStatus = (
     case 'PENDING_CLOSE':
       txType = 'DEPOSIT_PRINCIPAL_AND_INTEREST'
       break
+    default:
+      txType = undefined
   }
 
   if (!txType) return

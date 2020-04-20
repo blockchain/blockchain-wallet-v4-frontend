@@ -172,7 +172,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Maximum {orderType}'
                   values={{
                     value: fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMax
@@ -189,7 +189,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value: fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMin
@@ -231,7 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     }
                   >
                     {fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard('FIAT', amount),
                       digits: 0
                     })}

@@ -1,7 +1,7 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { add, lift, pathOr, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'core/exchange/currency'
 import { RemoteDataType, SBBalancesType } from 'core/types'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
@@ -242,7 +242,7 @@ export const getTotalBalance = createDeepEqualSelector(
       xlmBalance,
       currency
     ) => {
-      const total = Currency.formatFiat(
+      const total = formatFiat(
         Number(btcBalance) +
           Number(ethBalance) +
           Number(bchBalance) +
