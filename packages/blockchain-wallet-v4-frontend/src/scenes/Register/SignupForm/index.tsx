@@ -42,22 +42,20 @@ const isSupportedBrowser = browser.satisfies({
   vivaldi: '>2'
 })
 
-const RegisterForm = styled(Form)<{ showForm: boolean }>`
-  margin-top: ${props => (props.showForm ? '20px' : '0')};
-  max-height: ${props => (props.showForm ? '26rem' : '0')};
+const RegisterForm = styled(Form)`
+  margin-top: 20px;
+  max-height: 26rem;
 
   > div * {
-    max-height: ${props => (props.showForm ? '26rem' : '0')};
-    opacity: ${props => (props.showForm ? '1' : '0')};
-    z-index: ${props => (props.showForm ? '1' : '-1')};
+    max-height: 26rem;
+    opacity: 1;
+    z-index: 1;
     transition: all 0.5s ease;
   }
 `
-
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
-
 const PasswordTip = styled(Text)`
   margin-top: 4px;
 `
@@ -74,11 +72,11 @@ const validStrongPassword = value =>
         />
       )
 
-const SignupForm = ({ handleSubmit, password, passwordLength, showForm }) => {
+const SignupForm = ({ handleSubmit, password, passwordLength }) => {
   // @ts-ignore
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   return (
-    <RegisterForm override onSubmit={handleSubmit} showForm={showForm}>
+    <RegisterForm override onSubmit={handleSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
           <Banner type='warning'>
@@ -98,6 +96,7 @@ const SignupForm = ({ handleSubmit, password, passwordLength, showForm }) => {
             />
           </FormLabel>
           <Field
+            autoFocus
             bgColor='grey000'
             component={TextBox}
             data-e2e='signupEmail'
