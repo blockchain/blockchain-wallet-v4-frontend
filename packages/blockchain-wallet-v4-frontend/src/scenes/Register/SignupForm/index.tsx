@@ -74,13 +74,7 @@ const validStrongPassword = value =>
         />
       )
 
-const SignupForm = ({
-  forwardedRef,
-  handleSubmit,
-  password,
-  passwordLength,
-  showForm
-}) => {
+const SignupForm = ({ handleSubmit, password, passwordLength, showForm }) => {
   // @ts-ignore
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   return (
@@ -109,7 +103,6 @@ const SignupForm = ({
             data-e2e='signupEmail'
             disabled={!isSupportedBrowser}
             name='email'
-            ref={forwardedRef}
             validate={[required, validEmail]}
           />
         </FormItem>

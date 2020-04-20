@@ -12,8 +12,6 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     showForm: false
   }
 
-  inputRef = React.createRef<HTMLInputElement>()
-
   onSubmit = () => {
     const { authActions, email, password, language } = this.props
     authActions.register(email, password, language)
@@ -21,14 +19,6 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
   toggleForm = () => {
     this.setState({ showForm: true })
-    if (this.inputRef) {
-      // this.inputRef.current.focus()
-      // debugger
-    }
-  }
-
-  getInputRef = input => {
-    if (input) this.inputRef = input
   }
 
   render () {
@@ -45,7 +35,6 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     return (
       <Register
         busy={busy}
-        forwardedRef={this.inputRef}
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
