@@ -55,7 +55,7 @@ import {
 } from 'services/FormHelper'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import ExchangePromo from 'components/ExchangePromo'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
