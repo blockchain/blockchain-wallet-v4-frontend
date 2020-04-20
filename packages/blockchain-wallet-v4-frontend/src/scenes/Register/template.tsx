@@ -131,10 +131,6 @@ const ExchangeButton = styled(Button)`
   background-color: ${props => props.theme.black};
   position: relative;
   border: none;
-
-  &:hover {
-    background-color: ${props => props.theme.grey900};
-  }
 `
 
 const TabIcon = styled(Icon)`
@@ -162,17 +158,15 @@ const AppButtons = styled.footer<{ showForm: boolean }>`
   align-items: center;
   text-align: center;
   width: 100%;
+  max-height: ${props => (props.showForm ? '5.25rem' : '0')};
+  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
+  transition: all 0.5s ease;
   ${media.mobile`
     img {
       height: auto;
       width: 40%;
     }
-  `}
-
-  max-height: ${props => (props.showForm ? '5.25rem' : '0')};
-  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
-  transition: all .5s ease;
-
+  `};
 `
 const Bottom = styled.div`
   margin: 2rem 0 0;
@@ -268,12 +262,13 @@ const Register = ({
               </InfoItem>
             </CardInfo>
 
-            <SignupForm
-              handleSubmit={handleSubmit}
-              password={password}
-              passwordLength={passwordLength}
-              showForm={showForm}
-            />
+            {showForm && (
+              <SignupForm
+                handleSubmit={handleSubmit}
+                password={password}
+                passwordLength={passwordLength}
+              />
+            )}
 
             <Button
               data-e2e='signupButton'
@@ -290,7 +285,7 @@ const Register = ({
               {busy ? (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
-                <Text color='white' size='16px' weight={600}>
+                <Text color='whiteFade900' size='16px' weight={600}>
                   <FormattedMessage
                     id='scenes.public.register.createWallet'
                     defaultMessage='Create Wallet'
@@ -318,7 +313,7 @@ const Register = ({
                   />
                 </Text>
                 &nbsp;
-                <Text size='14px' color='white' weight={500}>
+                <Text color='whiteFade900' size='14px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.wallet.signin'
                     defaultMessage='Sign In'
