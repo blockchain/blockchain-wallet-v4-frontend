@@ -1,5 +1,10 @@
 import { CoinType, CurrenciesType, FiatType } from 'core/types'
 
+export type Everypay3DSResponseType = {
+  payment_state: 'waiting_for_3ds_response'
+  processing_errors: null
+}
+
 export type ISBAccountType = {
   address: string
   id: string
@@ -132,7 +137,9 @@ export type SBProviderDetailsType = {
   everypay: {
     apiUsername: string
     mobileToken: string
+    orderReference: string
     paymentLink: string
+    paymentReference: string
     paymentState: 'INITIAL'
   }
 }

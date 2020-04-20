@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   CoinType,
   CurrenciesType,
+  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   SBAccountType,
@@ -381,5 +382,30 @@ export const showModal = (
   payload: {
     origin,
     cryptoCurrency
+  }
+})
+
+export const submitCardDetailsToEverypay = () => ({
+  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY
+})
+export const submitCardDetailsToEverypayFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const submitCardDetailsToEverypayLoading = (): SimpleBuyActionTypes => ({
+  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_LOADING
+})
+
+export const submitCardDetailsToEverypaySuccess = (
+  everypay3ds: Everypay3DSResponseType
+): SimpleBuyActionTypes => ({
+  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_SUCCESS,
+  payload: {
+    everypay3ds
   }
 })

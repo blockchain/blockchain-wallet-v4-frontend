@@ -9,6 +9,7 @@ import {
 } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
+  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   SBAccountType,
@@ -23,7 +24,7 @@ import {
   NO_FIAT_CURRENCY,
   NO_PAIR_SELECTED
 } from './model'
-import { SBCheckoutFormValuesType } from './types'
+import { SBAddCardFormValuesType, SBCheckoutFormValuesType } from './types'
 import profileSagas from '../../modules/profile/sagas'
 
 export default ({
@@ -367,6 +368,37 @@ export default ({
     }
   }
 
+  const submitCardDetailsToEverypay = function * () {
+    try {
+      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(A.submitCardDetailsToEverypayLoading())
+      const formValues: SBAddCardFormValuesType = yield select(
+        selectors.form.getFormValues('addCCForm')
+      )
+      const providerDetailsR = S.getSBProviderDetails(yield select())
+      const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
+
+      const response: Everypay3DSResponseType = yield call(
+        api.submitSBCardDetailsToEverypay,
+        {
+          ccNumber: formValues['card-number'],
+          cvc: formValues['cvc'],
+          month: formValues['expiry-date'].split('/')[0],
+          year: formValues['expiry-date'].split('/')[1],
+          accessToken: providerDetails.everypay.mobileToken,
+          apiUserName: providerDetails.everypay.apiUsername,
+          nonce: '1234'
+        }
+      )
+      yield put(actions.form.stopSubmit('addCCForm'))
+      yield put(A.submitCardDetailsToEverypaySuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('addCCForm', { _error: error }))
+      yield put(A.submitCardDetailsToEverypayFailure(error))
+    }
+  }
+
   return {
     activateSBCard,
     cancelSBOrder,
@@ -384,6 +416,7 @@ export default ({
     fetchSBSuggestedAmounts,
     handleSBSuggestedAmountClick,
     initializeCheckout,
-    showModal
+    showModal,
+    submitCardDetailsToEverypay
   }
 }

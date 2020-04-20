@@ -15,12 +15,14 @@ import {
 } from './types'
 
 export default ({
-  nabuUrl,
-  get,
+  authorizedDelete,
   authorizedGet,
   authorizedPost,
   authorizedPut,
-  authorizedDelete
+  everypayUrl,
+  get,
+  nabuUrl,
+  post
 }) => {
   const activateSBCard = (cardId: string, customerUrl: string): SBCardType =>
     authorizedPost({
@@ -194,6 +196,46 @@ export default ({
       }
     })
 
+  const submitSBCardDetailsToEverypay = ({
+    accessToken,
+    apiUserName,
+    ccNumber,
+    cvc,
+    month,
+    nonce,
+    year
+  }: {
+    accessToken: string
+    apiUserName: string
+    ccNumber: string
+    cvc: string
+    month: string
+    nonce: string
+    year: string
+  }) =>
+    post({
+      url: everypayUrl,
+      endPoint: '/api/v3/mobile_payments/card_details',
+      contentType: 'application/json',
+      withCrendentials: true,
+      headers: {
+        Authorization: 'Bearer ' + accessToken
+      },
+      data: {
+        api_username: apiUserName,
+        cc_details: {
+          cc_number: ccNumber,
+          month,
+          year,
+          cvc,
+          holder_name: 'EveryPay'
+        },
+        nonce,
+        token_consented: true,
+        timestamp: new Date().toISOString()
+      }
+    })
+
   const withdrawSBFunds = (
     address: string,
     currency: keyof CurrenciesType,
@@ -229,6 +271,7 @@ export default ({
     getSBFiatEligible,
     getSBQuote,
     getSBSuggestedAmounts,
+    submitSBCardDetailsToEverypay,
     withdrawSBFunds
   }
 }

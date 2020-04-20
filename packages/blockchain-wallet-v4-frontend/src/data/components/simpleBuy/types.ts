@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
+  Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   RemoteDataType,
@@ -17,6 +18,12 @@ import {
 } from 'core/types'
 
 // Types
+export type SBAddCardFormValuesType = {
+  'card-number': string
+  cvc: string
+  'expiry-date': string
+  'name-on-card': string
+}
 export type SBCheckoutFormValuesType = {
   amount: string
   method?: SBPaymentMethodType
@@ -44,6 +51,7 @@ export type SimpleBuyState = {
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
+  everypay3ds: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   methods: RemoteDataType<string, SBPaymentMethodsType>
@@ -272,6 +280,23 @@ interface ShowModalAction {
   type: typeof AT.SHOW_MODAL
 }
 
+interface SubmitSBCardDetailsToEverypayFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_FAILURE
+}
+interface SubmitSBCardDetailsToEverypayLoading {
+  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_LOADING
+}
+
+interface SubmitSBCardDetailsToEverypaySuccess {
+  payload: {
+    everypay3ds: Everypay3DSResponseType
+  }
+  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_SUCCESS
+}
+
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
   | ActivateSBCardLoading
@@ -309,3 +334,6 @@ export type SimpleBuyActionTypes =
   | FetchSBSuggestedAmountsSuccess
   | SetStepAction
   | ShowModalAction
+  | SubmitSBCardDetailsToEverypayFailure
+  | SubmitSBCardDetailsToEverypayLoading
+  | SubmitSBCardDetailsToEverypaySuccess

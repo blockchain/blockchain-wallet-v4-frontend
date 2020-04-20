@@ -15,6 +15,7 @@ const INITIAL_STATE: SimpleBuyState = {
   cardId: undefined,
   cards: Remote.NotAsked,
   cryptoCurrency: undefined,
+  everypay3ds: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
   methods: Remote.NotAsked,
@@ -247,6 +248,22 @@ export function simpleBuyReducer (
             step: action.payload.step
           }
         }
+      }
+    case AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_FAILURE: {
+      return {
+        ...state,
+        everypay3ds: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_LOADING:
+      return {
+        ...state,
+        everypay3ds: Remote.Loading
+      }
+    case AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_SUCCESS:
+      return {
+        ...state,
+        everypay3ds: Remote.Success(action.payload.everypay3ds)
       }
     default:
       return state

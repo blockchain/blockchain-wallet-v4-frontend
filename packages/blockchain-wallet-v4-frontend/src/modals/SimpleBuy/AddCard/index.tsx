@@ -23,9 +23,15 @@ class AddCard extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
   }
 
+  handleSubmit = () => {
+    this.props.simpleBuyActions.submitCardDetailsToEverypay()
+  }
+
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

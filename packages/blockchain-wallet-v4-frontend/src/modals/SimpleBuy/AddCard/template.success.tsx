@@ -1,3 +1,4 @@
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -10,7 +11,6 @@ import {
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { normalizeCreditCard } from 'components/Form/CreditCardBox'
 import { normalizeCreditCardCVC } from 'components/Form/CreditCardCVCBox'
@@ -50,7 +50,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           defaultMessage='Add Card'
         />
       </TopText>
-      <Form>
+      <Form onSubmit={props.handleSubmit}>
         <FormGroup>
           <FormLabel>
             <FormattedMessage
@@ -95,6 +95,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               normalize={normalizeCreditCardCVC}
             />
           </FormItem>
+        </FormGroup>
+        <FormGroup>
+          <Button
+            nature='primary'
+            data-e2e='addCardEnter'
+            height='48px'
+            size='16px'
+            type='submit'
+          >
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          </Button>
         </FormGroup>
       </Form>
     </CustomFlyoutWrapper>
