@@ -334,7 +334,7 @@ const Login = props => {
               {busy && !loginError ? (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
-                <Text color='white' size='16px' weight={600}>
+                <Text color='whiteFade900' size='16px' weight={600}>
                   <FormattedMessage
                     id='scenes.login.login'
                     defaultMessage='Log In'
@@ -375,7 +375,7 @@ const Login = props => {
               />
             </Text>
             &nbsp;
-            <Text size='14px' color='white' weight={500}>
+            <Text size='14px' color='whiteFade900' weight={500}>
               <FormattedMessage
                 id='scenes.login.wallet.signup'
                 defaultMessage='Sign Up'

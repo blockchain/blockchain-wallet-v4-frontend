@@ -290,7 +290,7 @@ const Register = ({
               {busy ? (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
-                <Text color='white' size='16px' weight={600}>
+                <Text color='whiteFade900' size='16px' weight={600}>
                   <FormattedMessage
                     id='scenes.public.register.createWallet'
                     defaultMessage='Create Wallet'
@@ -318,7 +318,7 @@ const Register = ({
                   />
                 </Text>
                 &nbsp;
-                <Text size='14px' color='white' weight={500}>
+                <Text color='whiteFade900' size='14px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.wallet.signin'
                     defaultMessage='Sign In'

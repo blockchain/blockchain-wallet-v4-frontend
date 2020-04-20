@@ -71,7 +71,7 @@ const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
           </ContentContainer>
           <FooterWrapper>
             <FooterInner>
-              <DropdownLanguage color='white' />
+              <DropdownLanguage color='whiteFade900' />
               <Footer />
             </FooterInner>
           </FooterWrapper>
