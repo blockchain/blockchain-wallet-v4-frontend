@@ -7,7 +7,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import { SBPaymentMethodType } from 'core/types'
 import { SelectBox } from 'components/Form'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -115,7 +114,7 @@ class MethodSelect extends PureComponent<Props> {
           <Limit>
             {Currency.fiatToString({
               value: convertBaseToStandard('FIAT', props.value.limits.max),
-              unit: Currencies[fiat]['units'][fiat]
+              unit: fiat
             })}
           </Limit>
         </Display>

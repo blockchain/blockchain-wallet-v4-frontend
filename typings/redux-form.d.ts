@@ -11,6 +11,7 @@ export type WalletFormType =
   | '@SEND.BTC.FORM'
   | '@SEND.ETH.FORM'
   | '@SEND.XLM.FORM'
+  | 'addCCForm'
   | 'borrowForm'
   | 'cancelSBOrderForm'
   | 'confirmRecoveryWords'
