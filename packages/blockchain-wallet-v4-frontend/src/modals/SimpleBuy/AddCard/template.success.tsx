@@ -1,10 +1,18 @@
-import { CreditCardBox, FormGroup, FormLabel, TextBox } from 'components/Form'
+import {
+  CreditCardBox,
+  CreditCardExpiryBox,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  TextBox
+} from 'components/Form'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { normalizeCreditCard } from 'components/Form/CreditCardBox'
+import { normalizeCreditCardExpiry } from 'components/Form/CreditCardExpiryBox'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -62,6 +70,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={CreditCardBox}
             normalize={normalizeCreditCard}
           />
+        </FormGroup>
+        <FormGroup inline>
+          <FormItem>
+            <FormLabel>
+              <FormattedMessage
+                id='modals.simplebuy.expiry_date'
+                defaultMessage='Expiry Date'
+              />
+            </FormLabel>
+            <Field
+              name='expiry-date'
+              component={CreditCardExpiryBox}
+              normalize={normalizeCreditCardExpiry}
+            />
+          </FormItem>
+          <FormItem>
+            <FormLabel>CVC</FormLabel>
+            <Field
+              name='cvc'
+              component={CreditCardBox}
+              normalize={normalizeCreditCard}
+            />
+          </FormItem>
         </FormGroup>
       </Form>
     </CustomFlyoutWrapper>

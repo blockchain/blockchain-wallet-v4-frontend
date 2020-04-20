@@ -1028,6 +1028,7 @@ type MessagesType = {
   'modals.simplebuy.eligible.failure': 'Oops. Something went wrong on our side. Please try again.'
   'modals.simplebuy.eligible.tryagain': 'Try Again'
   'modals.simplebuy.error': 'Trade Failed'
+  'modals.simplebuy.expiry_date': 'Expiry Date'
   'modals.simplebuy.failed': 'ID Verification Failed'
   'modals.simplebuy.fiataccountineligible': 'your region.'
   'modals.simplebuy.fiatregion': 'your region'
