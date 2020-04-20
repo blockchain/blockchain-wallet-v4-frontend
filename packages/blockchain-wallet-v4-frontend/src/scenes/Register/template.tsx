@@ -14,7 +14,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import media from 'services/ResponsiveService'
-import React from 'react'
+import React, { RefObject } from 'react'
 import SignupForm from './SignupForm'
 import styled, { DefaultTheme } from 'styled-components'
 
@@ -133,7 +133,7 @@ const ExchangeButton = styled(Button)`
   border: none;
 
   &:hover {
-    background-color: ${props => props.theme.grey900};
+    background-color: ${props => props.theme.black};
   }
 `
 
@@ -183,6 +183,7 @@ const Bottom = styled.div`
 
 const Register = ({
   busy,
+  forwardedRef,
   goals,
   handleSubmit,
   invalid,
@@ -269,6 +270,7 @@ const Register = ({
             </CardInfo>
 
             <SignupForm
+              forwardedRef={forwardedRef}
               handleSubmit={handleSubmit}
               password={password}
               passwordLength={passwordLength}
@@ -437,6 +439,7 @@ const Register = ({
 type Props = {
   busy: boolean
   email: string
+  forwardedRef: RefObject<HTMLInputElement>
   goals: Array<{ data: any; id: string; name: GoalsType }>
   language: string
   password: string
