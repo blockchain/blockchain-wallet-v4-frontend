@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RemoteDataType, SBAccountType, SBOrderType } from 'core/types'
 import { RootState } from 'data/rootReducer'
@@ -10,24 +10,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  handleClose: () => void
-  order: SBOrderType
-}
-export type SuccessStateType = {
-  account: SBAccountType
-  userData: UserDataType
-}
-export type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class TransferDetails extends PureComponent<Props, State> {
+class TransferDetails extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
@@ -44,6 +27,8 @@ class TransferDetails extends PureComponent<Props, State> {
           Loading: () => <Loading />,
           NotAsked: () => <Loading />
         })
+      default:
+        return null
     }
   }
 }
@@ -52,11 +37,26 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TransferDetails)
+)
+
+export type OwnProps = {
+  handleClose: () => void
+  order: SBOrderType
+}
+export type SuccessStateType = {
+  account: SBAccountType
+  userData: UserDataType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(TransferDetails)

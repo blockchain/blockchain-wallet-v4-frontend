@@ -10,7 +10,7 @@ import {
 } from 'data/components/borrow/model'
 import { model } from 'data'
 import { OfferType } from 'core/types'
-import { OwnProps, SuccessStateType } from '..'
+import { Props as OwnProps, SuccessStateType } from '..'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'

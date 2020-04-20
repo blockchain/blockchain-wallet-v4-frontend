@@ -84,6 +84,7 @@ const CollateralWarning: React.FC<Props> = props => {
     offer
   )
 
+  // eslint-disable-next-line @typescript-eslint/switch-exhaustiveness-check
   switch (props.loan.status) {
     case 'CLOSED':
     case 'FAILED':

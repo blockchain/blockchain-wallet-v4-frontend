@@ -1,7 +1,7 @@
 import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
+import { bindActionCreators, Dispatch } from 'redux'
+import { CoinType, SupportedCoinType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
@@ -15,34 +15,6 @@ import Loading from './template.loading'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
-
-// FIXME: TypeScript use CoinType and SupportedCoinType
-export type OwnProps = {
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
-  coinModel: SupportedCoinType
-  isCoinErc20: boolean
-}
-
-type LinkStatePropsType = {
-  // FIXME: TypeScript use AccountTypes
-  data: RemoteDataType<
-    string | Error,
-    {
-      addressData: { data: Array<any> }
-      balanceData: number
-      currency: FiatType
-      currencySymbol: string
-      priceChangeFiat: number
-      priceChangePercentage: number
-    }
-  >
-}
-
-type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals
-}
-
-type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -346,15 +318,25 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps): LinkStatePropsType => ({
+const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WalletBalanceDropdown)
+)
+
+export type OwnProps = {
+  coin: CoinType
+  coinModel: SupportedCoinType
+  isCoinErc20: boolean
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(WalletBalanceDropdown)

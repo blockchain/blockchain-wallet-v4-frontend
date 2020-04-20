@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 
 import { BlueCartridge } from 'components/Cartridge'
 import { FormattedMessage } from 'react-intl'
@@ -8,9 +8,6 @@ import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled, { css } from 'styled-components'
 
-type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals
-}
 const customCartridge = css`
   display: flex;
   align-items: center;
@@ -28,9 +25,7 @@ const BackupLink = styled.span`
   cursor: pointer;
 `
 
-class MnemonicRequiredForCustodySend extends React.PureComponent<
-  LinkDispatchPropsType
-> {
+class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
   handleClick = () => {
     this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL')
   }
@@ -60,11 +55,15 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   null,
   mapDispatchToProps
-)(MnemonicRequiredForCustodySend)
+)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(MnemonicRequiredForCustodySend)

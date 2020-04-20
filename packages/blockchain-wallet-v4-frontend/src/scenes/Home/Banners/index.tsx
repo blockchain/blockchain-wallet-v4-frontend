@@ -1,7 +1,7 @@
 import { actions } from 'data'
-import { BannerType, getData } from './selectors'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { getData } from './selectors'
 import CoinifyToSBBanner from './CoinifyToSBBanner'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
@@ -13,14 +13,6 @@ const BannerWrapper = styled.div`
   margin-bottom: 25px;
   max-width: 1200px;
 `
-
-type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {
-  bannerToShow: BannerType
-}
-type Props = LinkDispatchPropsType & LinkStatePropsType
 
 class Banners extends React.PureComponent<Props> {
   componentDidMount () {
@@ -67,7 +59,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Banners)
+)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(Banners)

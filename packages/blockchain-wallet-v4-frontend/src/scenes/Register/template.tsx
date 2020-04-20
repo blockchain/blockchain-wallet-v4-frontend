@@ -8,15 +8,15 @@ import {
 } from 'blockchain-info-components'
 import { find, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import { GoalsType } from 'data/goals/types'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-import { reduxForm } from 'redux-form'
-
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import SignupForm from './SignupForm'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -61,7 +61,7 @@ const CardWrapper = styled.div`
 
 const Card = styled.div`
   padding: 2rem;
-  background: white;
+  background: ${props => props.theme.white};
   border-radius: 0.75rem;
   box-sizing: border-box;
 
@@ -76,7 +76,7 @@ const CardHeader = styled.div`
   display: flex;
 `
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
   background: ${props => props.theme[props.color]};
   height: 3.5rem;
@@ -146,7 +146,7 @@ const TabIcon = styled(Icon)`
   `}
 `
 
-const Line = styled.div`
+const Line = styled.div<{ showForm: boolean }>`
   height: 1px;
   width: 12.5rem;
   margin: ${props => (props.showForm ? '1.5rem auto 0' : '0')};
@@ -155,7 +155,7 @@ const Line = styled.div`
   transition: all 0.5s ease;
 `
 
-const AppButtons = styled.footer`
+const AppButtons = styled.footer<{ showForm: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -190,7 +190,7 @@ const Register = ({
   passwordLength,
   showForm,
   toggleForm
-}) => {
+}: InjectedFormProps<{}, Props> & Props) => {
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
   const buttonSubmit = showForm ? handleSubmit : toggleForm
 
@@ -269,7 +269,6 @@ const Register = ({
             </CardInfo>
 
             <SignupForm
-              busy={busy}
               handleSubmit={handleSubmit}
               password={password}
               passwordLength={passwordLength}
@@ -402,6 +401,7 @@ const Register = ({
               target='_blank'
             >
               <ExchangeButton
+                data-e2e='createExchangeAccount'
                 fullwidth
                 height='48px'
                 nature='primary'
@@ -434,4 +434,15 @@ const Register = ({
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+type Props = {
+  busy: boolean
+  email: string
+  goals: Array<{ data: any; id: string; name: GoalsType }>
+  language: string
+  password: string
+  passwordLength: number
+  showForm: boolean
+  toggleForm: any
+}
+
+export default reduxForm<{}, Props>({ form: 'register' })(Register)

@@ -1,31 +1,11 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { GoalsType } from 'data/goals/types'
+import { RootState } from 'data/rootReducer'
 import React from 'react'
 import Register from './template'
-
-type DispatchPropTypes = {
-  alertActions: typeof actions.alerts
-  analyticsActions: typeof actions.analytics
-  authActions: typeof actions.auth
-}
-
-type MapStatePropsType = {
-  data: any
-  domainsR: any
-  email: string
-  goals: Array<{ data: any; id: string; name: GoalsType }>
-  language: string
-  password: string
-}
-
-export type PropsType = MapStatePropsType & DispatchPropTypes
-
-type StateType = {
-  showForm: boolean
-}
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   state = {
@@ -66,7 +46,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: selectors.auth.getRegistering(state),
   domainsR: selectors.core.walletOptions.getDomains(state),
   language: selectors.preferences.getLanguage(state),
@@ -81,7 +61,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RegisterContainer)
+)
+
+type LinkStatePropsType = {
+  data: any
+  domainsR: any
+  email: string
+  goals: Array<{ data: any; id: string; name: GoalsType }>
+  language: string
+  password: string
+}
+
+type StateType = {
+  showForm: boolean
+}
+
+export type PropsType = ConnectedProps<typeof connector>
+
+export default connector(RegisterContainer)

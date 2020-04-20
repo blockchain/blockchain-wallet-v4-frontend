@@ -1,21 +1,16 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
-import Reminder from './template.js'
+import Reminder from './template'
 
-class ReminderContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
+class ReminderContainer extends React.PureComponent<Props> {
   componentWillUnmount () {
     this.props.authActions.remindGuidNotAsked()
   }
 
-  onSubmit () {
+  onSubmit = () => {
     const { email, code, captcha, authActions } = this.props
     const { sessionToken } = captcha.getOrElse({})
 
@@ -48,7 +43,11 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ReminderContainer)
+)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(ReminderContainer)

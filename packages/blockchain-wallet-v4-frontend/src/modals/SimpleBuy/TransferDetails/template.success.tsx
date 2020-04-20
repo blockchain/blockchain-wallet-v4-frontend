@@ -4,11 +4,9 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
-
-type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -242,5 +240,7 @@ const Success: React.FC<Props> = props => {
     </Wrapper>
   )
 }
+
+type Props = OwnProps & SuccessStateType
 
 export default Success

@@ -2,7 +2,7 @@ import { actions, model } from 'data'
 import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { ctas, headers, limits, messages, status } from './services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'core/exchange/currency'
@@ -104,22 +104,6 @@ export const ActionButton = styled(Button)`
 `
 
 const { TIERS_STATES } = model.profile
-
-type LinkDispatchPropsType = {
-  goToSwap: () => void
-  identityVerificationActions: typeof actions.components.identityVerification
-}
-
-type OwnProps = {
-  column: boolean
-  emailVerified: boolean
-  mobileVerified: boolean
-  tier: 1 | 2
-  userData: UserDataType
-  userTiers: UserTiersType
-}
-
-type Props = LinkDispatchPropsType & OwnProps
 
 export const TierCard = ({
   column,
@@ -253,7 +237,19 @@ const mapDispatchToProps = dispatch => ({
   goToSwap: () => dispatch(actions.router.push('/swap'))
 })
 
-export default connect(
+const connector = connect(
   getData,
   mapDispatchToProps
-)(TierCard)
+)
+
+type OwnProps = {
+  column: boolean
+  emailVerified: boolean
+  mobileVerified: boolean
+  tier: 1 | 2
+  userData: UserDataType
+  userTiers: UserTiersType
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(TierCard)

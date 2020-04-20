@@ -1,7 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { BorrowMinMaxType, RatesType } from 'data/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import {
   LoanTransactionsType,
@@ -16,26 +16,6 @@ import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
-
-export type OwnProps = {
-  handleClose: () => void
-  loan: LoanType
-  offer: OfferType
-}
-export type SuccessStateType = {
-  limits: BorrowMinMaxType
-  loanTransactions: Array<LoanTransactionsType>
-  payment: PaymentValue
-  rates: RatesType
-  supportedCoins: SupportedCoinsType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-export type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class RepayLoan extends PureComponent<Props> {
   state = {}
@@ -70,11 +50,30 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(RepayLoan)
+)
+
+type OwnProps = {
+  handleClose: () => void
+  loan: LoanType
+  offer: OfferType
+}
+export type SuccessStateType = {
+  limits: BorrowMinMaxType
+  loanTransactions: Array<LoanTransactionsType>
+  payment: PaymentValue
+  rates: RatesType
+  supportedCoins: SupportedCoinsType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(RepayLoan)

@@ -23,8 +23,10 @@ import {
 import Terms from 'components/Terms'
 
 // load zxcvbn dependency async and set on window
+// @ts-ignore
 require.ensure(
   ['zxcvbn'],
+  // @ts-ignore
   require => (window.zxcvbn = require('zxcvbn')),
   'zxcvbn'
 )
@@ -40,7 +42,7 @@ const isSupportedBrowser = browser.satisfies({
   vivaldi: '>2'
 })
 
-const RegisterForm = styled(Form)`
+const RegisterForm = styled(Form)<{ showForm: boolean }>`
   margin-top: ${props => (props.showForm ? '20px' : '0')};
   max-height: ${props => (props.showForm ? '26rem' : '0')};
 
@@ -62,6 +64,7 @@ const PasswordTip = styled(Text)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 const validStrongPassword = value =>
+  // @ts-ignore
   value !== undefined && window.zxcvbn(value).score > 1
     ? undefined
     : () => (
@@ -71,14 +74,8 @@ const validStrongPassword = value =>
         />
       )
 
-const SignupForm = ({
-  busy,
-  handleSubmit,
-  invalid,
-  password,
-  passwordLength,
-  showForm
-}) => {
+const SignupForm = ({ handleSubmit, password, passwordLength, showForm }) => {
+  // @ts-ignore
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   return (
     <RegisterForm override onSubmit={handleSubmit} showForm={showForm}>

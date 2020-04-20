@@ -1,31 +1,13 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { CoinType, FiatType, RemoteDataType } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { pathOr, toUpper } from 'ramda'
 import Error from './template.error'
 import Loading from './template.loading'
 import React from 'react'
 import Success from './template.success'
-
-export type SuccessStateType = {
-  coin: CoinType
-  data: Array<any>
-  time: string
-}
-
-type LinkDispatchPropsType = {
-  priceChartActions: typeof actions.components.priceChart
-}
-
-type LinkStatePropsType = {
-  currency: FiatType
-  currencySymbol: string
-  data: RemoteDataType<string, SuccessStateType>
-}
-
-type Props = LinkDispatchPropsType & LinkStatePropsType
 
 export class ChartContainer extends React.PureComponent<Props> {
   componentDidMount () {
@@ -51,13 +33,29 @@ export class ChartContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state): LinkStatePropsType => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChartContainer)
+)
+
+export type SuccessStateType = {
+  coin: CoinType
+  data: Array<any>
+  time: string
+}
+
+type LinkStatePropsType = {
+  currency: FiatType
+  currencySymbol: string
+  data: RemoteDataType<string, SuccessStateType>
+}
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(ChartContainer)

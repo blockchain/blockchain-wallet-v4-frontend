@@ -1,34 +1,25 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
 import { actions, selectors } from 'data'
 
-import {
-  currentUserTier,
-  getAvailability,
-  getCurrentKYCState,
-  getTags
-} from './selectors'
+import { CoinType, SupportedCoinsType } from 'core/types'
+import { currentUserTier, getCurrentKYCState, getTags } from './selectors'
+import { ModalNamesType, TagsType, UserDataType } from 'data/types'
 import Welcome from './template'
 
-class CoinIntroductionContainer extends React.PureComponent {
+class CoinIntroductionContainer extends React.PureComponent<Props> {
   render () {
-    const {
-      availability,
-      coin,
-      modalActions,
-      supportedCoins,
-      simpleBuyActions
-    } = this.props
+    const { coin, modalActions, supportedCoins, simpleBuyActions } = this.props
     const currentCoin = supportedCoins[coin]
     return (
       <Welcome
-        availability={availability}
         currentCoin={currentCoin}
         handleRequest={() =>
-          modalActions.showModal('@MODAL.REQUEST.' + currentCoin.coinCode)
+          modalActions.showModal(
+            `@MODAL.REQUEST.${currentCoin.coinCode}` as ModalNamesType
+          )
         }
         handleBuy={() => simpleBuyActions.showModal('emptyFeed', coin)}
       />
@@ -36,8 +27,7 @@ class CoinIntroductionContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  availability: getAvailability(state, ownProps),
+const mapStateToProps = (state): LinkStatePropsType => ({
   currentUserTier: currentUserTier(state),
   currentTags: getTags(state),
   currentKYCState: getCurrentKYCState(state),
@@ -55,11 +45,20 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-CoinIntroductionContainer.propTypes = {
-  coin: PropTypes.string.isRequired
-}
-
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CoinIntroductionContainer)
+)
+
+type OwnProps = {
+  coin: CoinType
+}
+type LinkStatePropsType = {
+  currentKYCState: UserDataType['kycState']
+  currentTags: TagsType
+  currentUserTier: 0 | 1 | 2
+  supportedCoins: SupportedCoinsType | Error
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CoinIntroductionContainer)

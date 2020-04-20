@@ -8,15 +8,6 @@ import { UserDataType } from 'data/types'
 import React from 'react'
 import styled from 'styled-components'
 
-type LinkStatePropsType = {
-  domains: { [key in string]: string }
-  sbOrders: Array<SBOrderType>
-  userData: UserDataType | null
-}
-type State = { widgetOpen: boolean }
-type CustomIframe = State
-type Props = LinkStatePropsType & CustomIframe
-
 const Wrapper = styled.div`
   position: absolute;
   bottom: 0;
@@ -91,4 +82,15 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userData: selectors.modules.profile.getUserData(state).getOrElse(null)
 })
 
-export default connect(mapStateToProps)(ZendeskWidget)
+const connector = connect(mapStateToProps)
+
+type LinkStatePropsType = {
+  domains: { [key in string]: string }
+  sbOrders: Array<SBOrderType>
+  userData: UserDataType | null
+}
+type State = { widgetOpen: boolean }
+type CustomIframe = State
+type Props = LinkStatePropsType & CustomIframe
+
+export default connector(ZendeskWidget)
