@@ -9,6 +9,7 @@ import Page from './Page'
 import React from 'react'
 import styled from 'styled-components'
 import Tooltips from 'components/Tooltips'
+import ZendeskWidget from 'components/ZendeskWidget'
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ const WalletLayout = props => {
             <Page>{children}</Page>
           </Content>
         </Container>
+        <ZendeskWidget />
       </ErrorBoundary>
     </Wrapper>
   )

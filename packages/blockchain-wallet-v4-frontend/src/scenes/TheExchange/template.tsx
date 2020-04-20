@@ -8,7 +8,7 @@ import {
   SceneSubHeaderText
 } from 'components/Layout'
 import { Icon } from 'blockchain-info-components'
-import { LinkDispatchPropsType, LinkStatePropsType } from '.'
+import { Props as IProps } from '.'
 import ExchangeConnect from './template.connect'
 import ExchangeInfo from './template.info'
 import React from 'react'
@@ -22,7 +22,7 @@ type OwnProps = {
   onSignup: () => void
 }
 
-export type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
+export type Props = OwnProps & IProps
 
 const Exchange = (props: Props) => (
   <Wrapper>

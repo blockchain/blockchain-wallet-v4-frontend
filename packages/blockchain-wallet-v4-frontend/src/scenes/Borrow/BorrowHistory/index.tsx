@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import {
   LoanType,
@@ -18,23 +18,6 @@ const History = styled.div`
   margin-top: 72px;
   max-width: 1200px;
 `
-
-export type SuccessStateType = {
-  borrowHistory: Array<LoanType>
-  offers: Array<OfferType>
-  rates: RatesType
-  showLoanDetails: (loan: LoanType, offer: OfferType) => void
-  supportedCoins: SupportedCoinsType
-  userData: UserDataType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-}
-export type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-  modalActions: typeof actions.modals
-}
-type Props = LinkStatePropsType & LinkDispatchPropsType
 
 class BorrowHistory extends Component<Props> {
   state = {}
@@ -64,12 +47,27 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BorrowHistory)
+)
+
+export type SuccessStateType = {
+  borrowHistory: Array<LoanType>
+  offers: Array<OfferType>
+  rates: RatesType
+  showLoanDetails: (loan: LoanType, offer: OfferType) => void
+  supportedCoins: SupportedCoinsType
+  userData: UserDataType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
+}
+type Props = ConnectedProps<typeof connector>
+
+export default connector(BorrowHistory)

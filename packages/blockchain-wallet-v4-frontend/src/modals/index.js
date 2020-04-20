@@ -70,7 +70,6 @@ import {
   XlmReserveLearn
 } from './Xlm'
 import Borrow from './Borrow'
-import Faq from './Faq'
 import Interest from './Interest'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
@@ -96,7 +95,6 @@ const Modals = () => (
     <EthAirdrop />
     <ExchangeConfirm />
     <ExchangeResults />
-    <Faq />
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />

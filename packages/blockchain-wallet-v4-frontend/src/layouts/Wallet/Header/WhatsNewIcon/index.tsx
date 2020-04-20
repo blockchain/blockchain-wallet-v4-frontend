@@ -1,20 +1,10 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
 import React from 'react'
 import WhatsNewIcon from './template'
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string, { numOfNewAnnouncements: number }>
-}
-
-type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals
-}
-
-type Props = LinkStatePropsType & LinkDispatchPropsType
 
 class WhatsNewIconContainer extends React.PureComponent<Props> {
   handleClick = () => {
@@ -44,7 +34,17 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(WhatsNewIconContainer)
+)
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string, { numOfNewAnnouncements: number }>
+}
+type LinkDispatchPropsType = {
+  modalActions: typeof actions.modals
+}
+type Props = ConnectedProps<typeof connector>
+
+export default connector(WhatsNewIconContainer)

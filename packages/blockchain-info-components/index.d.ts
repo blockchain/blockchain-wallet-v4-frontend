@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 
+export const Badge: StatelessComponent<any>
 export const Banner: StatelessComponent<any>
 export const BlockchainLoader: StatelessComponent<{
   width?: string
@@ -68,6 +69,10 @@ export const ComponentDropdown: React.ComponentClass<{
   onClick?: () => void
   callback?: () => void
 }>
+
+export function Color(
+  color: keyof DefaultTheme
+): DefaultTheme[keyof DefaultTheme]
 
 export const FontGlobalStyles: StatelessComponent<{}>
 export const HeartbeatLoader: StatelessComponent<{

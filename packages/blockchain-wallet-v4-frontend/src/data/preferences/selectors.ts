@@ -2,7 +2,7 @@ import { path } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getCulture = path(['preferences', 'culture'])
-export const getLanguage = path(['preferences', 'language'])
+export const getLanguage = (state: RootState) => state.preferences.language
 export const getTheme = path(['preferences', 'theme'])
 export const getCoinDisplayed = path(['preferences', 'coinDisplayed'])
 export const getShowKycCompleted = path(['preferences', 'showKycCompleted'])

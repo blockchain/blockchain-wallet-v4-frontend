@@ -1,7 +1,7 @@
 import { actions, model } from 'data'
 import { CoinType, FiatType, SupportedCoinType } from 'core/types'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
+import { compose, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
 import { Icon, Text } from 'blockchain-info-components'
@@ -67,29 +67,6 @@ const StatsContainer = styled.div`
     }
   `}
 `
-
-type OwnProps = {
-  coin: CoinType
-  coinModel: SupportedCoinType
-  currency: FiatType
-  hasTxResults: boolean
-  isCoinErc20: boolean
-  isSearchEntered: boolean
-  pages: Array<any>
-}
-
-type LinkStatePropsType = {
-  data: any
-}
-
-type LinkDispatchPropsType = {
-  fetchData: () => void
-  initTxs: () => void
-  loadMoreTxs: () => void
-  setAddressArchived: (string) => void
-}
-
-type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
 
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
@@ -181,7 +158,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
 const mapStateToProps = (state, ownProps) =>
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
   const { coin, isCoinErc20 } = ownProps
   if (isCoinErc20) {
     return {
@@ -205,15 +182,33 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
+export type OwnProps = {
+  coin: CoinType
+  coinModel: SupportedCoinType
+  currency: FiatType
+  hasTxResults: boolean
+  isCoinErc20: boolean
+  isSearchEntered: boolean
+  pages: Array<any>
+}
+
+type LinkStatePropsType = {
+  data: any
+}
+
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+
 const enhance = compose(
   reduxForm({
     form: model.form.WALLET_TX_SEARCH,
     initialValues: { source: 'all' }
   }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
 
 export default enhance(TransactionsContainer)

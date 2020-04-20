@@ -1,35 +1,14 @@
-import { CoinType, OfferType } from 'blockchain-wallet-v4/src/types'
-import { connect } from 'react-redux'
+import { CoinType, OfferType, RemoteDataType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { getBalance } from './selectors'
 import { RatesType } from 'data/types'
-import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { Text } from 'blockchain-info-components'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-
-type OwnProps = {
-  coin: CoinType
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<
-    Error | string,
-    {
-      balance: number
-      max: number
-      offer: OfferType
-      offers: Array<OfferType>
-      rates: RatesType
-      values: { coin: CoinType }
-    }
-  >
-}
-
-type Props = OwnProps & LinkStatePropsType
 
 const Wrapper = styled.div`
   margin-top: 8px;
@@ -51,7 +30,7 @@ export class Amount extends Component<Props> {
           Success: val => (
             <Text weight={600} size='32px'>
               {fiatToString({
-                unit: { symbol: '$' },
+                unit: 'USD',
                 value: val.offer
                   ? Math.min(
                       Exchange.convertCoinToFiat(
@@ -90,4 +69,24 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getBalance(state)
 })
 
-export default connect(mapStateToProps)(Amount)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  coin: CoinType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<
+    Error | string,
+    {
+      balance: number
+      max: number
+      offer: OfferType
+      offers: Array<OfferType>
+      rates: RatesType
+      values: { coin: CoinType }
+    }
+  >
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Amount)

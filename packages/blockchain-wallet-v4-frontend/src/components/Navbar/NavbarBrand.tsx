@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const BaseBrand = styled.div`
   display: flex;
-  padding-left: 28px;
+  padding-left: 32px;
   align-items: center;
   width: 250px;
   > span {
@@ -14,7 +14,7 @@ const BaseBrand = styled.div`
     }
   }
   ${media.tablet`
-    padding-left: 15px;
+    padding-left: 32px;
     width: auto;
     > span:first-child {
       display: flex;

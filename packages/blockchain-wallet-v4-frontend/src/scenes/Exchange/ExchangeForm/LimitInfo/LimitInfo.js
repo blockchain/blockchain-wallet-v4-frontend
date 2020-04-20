@@ -2,7 +2,6 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ExchangeText } from 'components/Exchange'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Link } from 'blockchain-info-components'
@@ -11,6 +10,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { path } from 'ramda'
 import { Row } from '../Layout'
 import { TIERS } from 'components/IdentityVerification/TierCard/model'
+import { unsafe_deprecated_fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -61,7 +61,7 @@ const LimitMessage = ({
           id='scenes.exchange.exchangeform.limit_info.amount_available'
           defaultMessage='{amount} Available'
           values={{
-            amount: fiatToString({
+            amount: unsafe_deprecated_fiatToString({
               value: limit,
               unit: { symbol: currencySymbol }
             })

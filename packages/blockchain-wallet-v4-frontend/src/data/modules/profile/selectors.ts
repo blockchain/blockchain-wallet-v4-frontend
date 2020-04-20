@@ -21,12 +21,13 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getUserData = (state: RootState) => state.profile.userData
+export const getUserCampaigns = (state: RootState) =>
+  state.profile.userCampaigns
+
 export const getUserId = compose(
   lift(prop('id')),
   getUserData
 )
-export const getUserCampaigns = (state: RootState) =>
-  state.profile.userCampaigns
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData

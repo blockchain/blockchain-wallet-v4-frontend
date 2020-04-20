@@ -1,5 +1,5 @@
 import { FlyoutWrapper } from 'components/Flyout'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import Header from './Header'
 import Info from './Info'
@@ -14,8 +14,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `
-
-export type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Success: React.FC<Props> = props => {
   // debugging
@@ -37,5 +35,7 @@ const Success: React.FC<Props> = props => {
     </Wrapper>
   )
 }
+
+export type Props = OwnProps & SuccessStateType
 
 export default Success

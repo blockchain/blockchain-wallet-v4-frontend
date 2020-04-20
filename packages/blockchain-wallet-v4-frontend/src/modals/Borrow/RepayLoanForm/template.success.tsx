@@ -10,8 +10,8 @@ import { connect } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { Props as OwnProps, SuccessStateType } from '.'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -97,19 +97,7 @@ const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
-type LinkStatePropsType = {
-  values?: RepayLoanFormType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
+export type Props = OwnProps & SuccessStateType & LinkStatePropsType & FormProps
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
@@ -314,5 +302,13 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: RepayLoanFormType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
 
 export default enhance(Success) as React.FunctionComponent<Props>
