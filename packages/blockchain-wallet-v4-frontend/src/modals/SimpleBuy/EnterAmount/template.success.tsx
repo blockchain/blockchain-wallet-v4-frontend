@@ -1,17 +1,7 @@
-import {
-  LinkDispatchPropsType,
-  LinkStatePropsType,
-  OwnProps,
-  SuccessStateType
-} from '.'
+import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'
 import React from 'react'
 import Unsupported from './template.unsupported'
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType
 
 const Success: React.FC<Props> = props => {
   return props.pairs.length && props.eligibility.eligible ? (
@@ -20,5 +10,7 @@ const Success: React.FC<Props> = props => {
     <Unsupported {...props} />
   )
 }
+
+export type Props = OwnProps & SuccessStateType & LinkStatePropsType
 
 export default Success

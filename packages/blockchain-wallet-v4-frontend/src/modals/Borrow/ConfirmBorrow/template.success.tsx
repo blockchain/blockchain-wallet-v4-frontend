@@ -102,7 +102,7 @@ type Props = OwnProps &
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalAmt = fiatToString({
     value: props.values ? Number(props.values.principal) : 0,
-    unit: { symbol: '$' }
+    unit: 'USD'
   })
 
   const collateralAmt =

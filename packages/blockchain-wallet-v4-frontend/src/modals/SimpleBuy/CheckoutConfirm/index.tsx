@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import {
   RemoteDataType,
@@ -14,24 +14,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  handleClose: () => void
-  order: SBOrderType
-}
-export type SuccessStateType = {
-  quote: SBQuoteType
-}
-export type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedCoinsType
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class CheckoutConfirm extends PureComponent<Props, State> {
+class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
@@ -68,11 +51,26 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     })
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(CheckoutConfirm)
+)
+
+type OwnProps = {
+  handleClose: () => void
+  order: SBOrderType
+}
+export type SuccessStateType = {
+  quote: SBQuoteType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+  supportedCoins: SupportedCoinsType
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CheckoutConfirm)

@@ -118,6 +118,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='close'
             size='20px'
             color='grey600'
+            data-e2e='closeBorrow'
           />
         </TopText>
         <MaxAmountContainer>
@@ -132,7 +133,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
-                  unit: { symbol: '$' }
+                  unit: 'USD'
                 })}
               </Text>
             </FiatContainer>{' '}

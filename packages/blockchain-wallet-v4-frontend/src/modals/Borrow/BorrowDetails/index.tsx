@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import {
   LoanTransactionsType,
@@ -14,24 +14,6 @@ import { RootState } from 'data/rootReducer'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
-
-export type OwnProps = {
-  handleClose: () => void
-  loan: LoanType
-  offer: OfferType
-}
-export type SuccessStateType = {
-  loanTransactions: Array<LoanTransactionsType>
-  rates: RatesType
-  supportedCoins: SupportedCoinsType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-export type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class BorrowDetails extends PureComponent<Props> {
   state = {}
@@ -55,11 +37,28 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(BorrowDetails)
+)
+
+type OwnProps = {
+  handleClose: () => void
+  loan: LoanType
+  offer: OfferType
+}
+export type SuccessStateType = {
+  loanTransactions: Array<LoanTransactionsType>
+  rates: RatesType
+  supportedCoins: SupportedCoinsType
+}
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(BorrowDetails)

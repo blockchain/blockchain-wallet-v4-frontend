@@ -106,7 +106,7 @@ export type UserDataType = {
   resubmission: null
   settings: null
   state: UserActivationStateType
-  tags: Array<TagsType>
+  tags: TagsType
   tiers: {
     current: 0 | 1 | 2
     next: 0 | 1 | 2

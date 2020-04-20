@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
 import { SupportedCoinType } from 'core/types'
-
 import CoinBalance from '../CoinBalance'
 import React from 'react'
 import styled from 'styled-components'

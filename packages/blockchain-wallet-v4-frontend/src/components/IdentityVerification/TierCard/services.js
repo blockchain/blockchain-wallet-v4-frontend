@@ -93,16 +93,16 @@ export const limits = {
   ANNUAL: (
     <Text size='14px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.annuallimit'
-        defaultMessage='Annual Swap Limit'
+        id='components.identityverification.tiercard.annualtradinglimit'
+        defaultMessage='Annual Trading Limit'
       />
     </Text>
   ),
   DAILY: (
     <Text size='14px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.dailylimit'
-        defaultMessage='Daily Swap Limit'
+        id='components.identityverification.tiercard.dailytradinglimit'
+        defaultMessage='Daily Trading Limit'
       />
     </Text>
   )

@@ -9,7 +9,6 @@ import {
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType } from '..'
 import { model } from 'data'
 import { Props } from '../template.success'
 import React from 'react'
@@ -179,7 +178,7 @@ export const StxStatus = ({
   userCampaignsInfoResponseList,
   kycState,
   identityVerificationActions
-}: Props & LinkDispatchPropsType) => {
+}: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -301,6 +300,7 @@ export const StxFooterCta = ({
 
   if (stxCampaign) {
     switch (stxCampaign.userCampaignState) {
+      case 'REWARD_SENT':
       case 'TASK_FINISHED':
       case 'REWARD_RECEIVED':
         return (
@@ -336,6 +336,10 @@ export const StxFooterCta = ({
             </Button>
           </Link>
         )
+      case undefined:
+      case 'REGISTERED':
+      case 'NONE':
+        return null
     }
   }
 
