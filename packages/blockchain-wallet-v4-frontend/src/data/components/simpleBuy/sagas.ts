@@ -377,17 +377,18 @@ export default ({
       )
       const providerDetailsR = S.getSBProviderDetails(yield select())
       const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
+      const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: Everypay3DSResponseType = yield call(
         api.submitSBCardDetailsToEverypay,
         {
-          ccNumber: formValues['card-number'],
+          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
           cvc: formValues['cvc'],
           month: formValues['expiry-date'].split('/')[0],
           year: formValues['expiry-date'].split('/')[1],
           accessToken: providerDetails.everypay.mobileToken,
           apiUserName: providerDetails.everypay.apiUsername,
-          nonce: '1234'
+          nonce: nonce
         }
       )
       yield put(actions.form.stopSubmit('addCCForm'))

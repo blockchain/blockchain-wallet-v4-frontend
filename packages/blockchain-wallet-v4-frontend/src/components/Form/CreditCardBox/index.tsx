@@ -1,56 +1,57 @@
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
+import { DEFAULT_CARD_FORMAT, getCardTypeByValue } from './model'
+import { FormattedMessage } from 'react-intl'
 import { TextBox } from 'components/Form'
 import React from 'react'
 
 export const normalizeCreditCard = (value, previousValue) => {
   if (!value) return value
 
-  const onlyNums = value.replace(/[^\d]/g, '')
-
-  if (!previousValue || value.length > previousValue.length) {
-    // typing forward
-    if (onlyNums.length === 4) {
-      return onlyNums + ' '
-    }
-    if (onlyNums.length === 8) {
-      return onlyNums.slice(0, 4) + ' ' + onlyNums.slice(4) + ' '
-    }
-    if (onlyNums.length === 12) {
-      return (
-        onlyNums.slice(0, 4) +
-        ' ' +
-        onlyNums.slice(4, 8) +
-        ' ' +
-        onlyNums.slice(8, 12) +
-        ' '
-      )
-    }
+  const { format, maxCardNumberLength } = getCardTypeByValue(value) || {
+    format: DEFAULT_CARD_FORMAT,
+    maxCardNumberLength: 16
   }
 
-  if (onlyNums.length <= 4) {
-    return onlyNums
+  if (value.replace(/[^\d]/g, '').length > maxCardNumberLength) {
+    return previousValue
   }
-  if (onlyNums.length <= 8) {
-    return onlyNums.slice(0, 4) + ' ' + onlyNums.slice(4)
+
+  if (format.global) {
+    const match = value.match(format)
+    return match ? match.join(' ') : ''
   }
-  if (onlyNums.length <= 12) {
+
+  const execResult = format.exec(value.split(' ').join(''))
+  if (execResult) {
+    return execResult
+      .splice(1, 3)
+      .filter(x => x)
+      .join(' ')
+  }
+
+  return value
+}
+
+export const validateCreditCard = value => {
+  const cardType = getCardTypeByValue(value)
+
+  if (!cardType) {
     return (
-      onlyNums.slice(0, 4) +
-      ' ' +
-      onlyNums.slice(4, 8) +
-      ' ' +
-      onlyNums.slice(8, 12)
+      <FormattedMessage
+        id='formhelper.invalid_card_number'
+        defaultMessage='Invalid card number'
+      />
     )
   }
-  return (
-    onlyNums.slice(0, 4) +
-    ' ' +
-    onlyNums.slice(4, 8) +
-    ' ' +
-    onlyNums.slice(8, 12) +
-    ' ' +
-    onlyNums.slice(12, 16)
-  )
+
+  if (!cardType.supported) {
+    return (
+      <FormattedMessage
+        id='formhelper.card_type_unsupported'
+        defaultMessage='Card type not supported'
+      />
+    )
+  }
 }
 
 const CreditCardBox: React.FC<Props> = props => {

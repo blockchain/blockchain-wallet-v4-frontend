@@ -12,9 +12,16 @@ import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { normalizeCreditCard } from 'components/Form/CreditCardBox'
+import {
+  normalizeCreditCard,
+  validateCreditCard
+} from 'components/Form/CreditCardBox'
 import { normalizeCreditCardCVC } from 'components/Form/CreditCardCVCBox'
-import { normalizeCreditCardExpiry } from 'components/Form/CreditCardExpiryBox'
+import {
+  normalizeCreditCardExpiry,
+  validateCreditCardExpiry
+} from 'components/Form/CreditCardExpiryBox'
+import { required } from 'services/FormHelper'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -58,7 +65,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               defaultMessage='Name on Card'
             />
           </FormLabel>
-          <Field name='name-on-card' component={TextBox} />
+          <Field
+            name='name-on-card'
+            component={TextBox}
+            validate={[required]}
+          />
         </FormGroup>
         <FormGroup>
           <FormLabel>
@@ -71,6 +82,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='card-number'
             component={CreditCardBox}
             normalize={normalizeCreditCard}
+            validate={[required, validateCreditCard]}
           />
         </FormGroup>
         <FormGroup inline>
@@ -83,8 +95,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </FormLabel>
             <Field
               name='expiry-date'
+              placeholder='12/40'
               component={CreditCardExpiryBox}
               normalize={normalizeCreditCardExpiry}
+              validate={[required, validateCreditCardExpiry]}
             />
           </FormItem>
           <FormItem>
@@ -93,6 +107,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               name='cvc'
               component={CreditCardCVCBox}
               normalize={normalizeCreditCardCVC}
+              validate={[required]}
             />
           </FormItem>
         </FormGroup>
@@ -103,6 +118,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             height='48px'
             size='16px'
             type='submit'
+            disabled={props.invalid || props.submitting}
           >
             <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>

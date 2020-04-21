@@ -216,20 +216,17 @@ export default ({
     post({
       url: everypayUrl,
       endPoint: '/api/v3/mobile_payments/card_details',
-      contentType: 'application/json',
-      withCrendentials: true,
-      headers: {
-        Authorization: 'Bearer ' + accessToken
-      },
+      sessionToken: accessToken,
+      removeDefaultPostData: true,
       data: {
         api_username: apiUserName,
-        cc_details: {
+        cc_details: JSON.stringify({
           cc_number: ccNumber,
           month,
           year,
           cvc,
           holder_name: 'EveryPay'
-        },
+        }),
         nonce,
         token_consented: true,
         timestamp: new Date().toISOString()
