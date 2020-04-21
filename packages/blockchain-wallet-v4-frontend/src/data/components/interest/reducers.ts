@@ -7,7 +7,8 @@ const INITIAL_STATE: InterestState = {
   coin: 'BTC',
   interestEligible: Remote.NotAsked,
   interestInstruments: Remote.NotAsked,
-  interestLimits: Remote.NotAsked
+  interestLimits: Remote.NotAsked,
+  modalName: 'deposit'
 }
 
 export function interestReducer (

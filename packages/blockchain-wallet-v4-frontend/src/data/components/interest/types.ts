@@ -21,6 +21,8 @@ export enum InterestSteps {
   'DEPOSIT'
 }
 
+export type InterestModalName = 'deposit' | 'details'
+
 // State
 export interface InterestState {
   account: RemoteDataType<string, InterestPaymentAccountType>
@@ -28,6 +30,7 @@ export interface InterestState {
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
+  modalName: InterestModalName
 }
 
 // Actions
@@ -102,6 +105,20 @@ interface InitializeInterestAction {
   type: typeof AT.INITIALIZE_INTEREST
 }
 
+interface SetInterestModalName {
+  payload: {
+    modalName: InterestModalName
+  }
+  type: typeof AT.SET_INTEREST_MODAL_NAME
+}
+
+interface ShowInterestModal {
+  payload: {
+    modalName: InterestModalName
+  }
+  type: typeof AT.SHOW_INTEREST_MODAL
+}
+
 export type InterestActionTypes =
   | FetchInterestEligibleFailure
   | FetchInterestEligibleLoading
@@ -116,3 +133,5 @@ export type InterestActionTypes =
   | FetchInterestPaymentAccountLoading
   | FetchInterestPaymentAccountSuccess
   | InitializeInterestAction
+  | SetInterestModalName
+  | ShowInterestModal

@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
-import { InterestActionTypes } from './types'
+import { InterestActionTypes, InterestModalName } from './types'
 import {
   InterestEligibleType,
   InterestInstrumentsType,
@@ -106,4 +106,18 @@ export const initializeInterest = (coin: CoinType) => ({
     coin
   },
   type: AT.INITIALIZE_INTEREST
+})
+
+export const setInterestModalName = (modalName: InterestModalName) => ({
+  payload: {
+    modalName
+  },
+  type: AT.SET_INTEREST_MODAL_NAME
+})
+
+export const showInterestModal = (modalName: InterestModalName) => ({
+  payload: {
+    modalName
+  },
+  type: AT.SHOW_INTEREST_MODAL
 })

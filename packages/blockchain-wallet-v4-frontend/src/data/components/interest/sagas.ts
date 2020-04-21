@@ -1,10 +1,10 @@
 import * as A from './actions'
+import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { nth } from 'ramda'
-import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
   const fetchInterestEligible = function * () {
@@ -66,16 +66,14 @@ export default ({ api }: { api: APIType }) => {
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR
 
-    switch (payload.coin) {
-      case 'BTC':
-        const accountsR = yield select(
-          selectors.core.common.btc.getAccountsBalances
-        )
-        const defaultIndex = yield select(
-          selectors.core.wallet.getDefaultAccountIndex
-        )
-        defaultAccountR = accountsR.map(nth(defaultIndex))
-        break
+    if (payload.coin === 'BTC') {
+      const accountsR = yield select(
+        selectors.core.common.btc.getAccountsBalances
+      )
+      const defaultIndex = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      defaultAccountR = accountsR.map(nth(defaultIndex))
     }
 
     const initialValues = {
@@ -86,11 +84,19 @@ export default ({ api }: { api: APIType }) => {
     yield put(initialize('interestForm', initialValues))
   }
 
+  const showInterestModal = function * ({
+    payload
+  }: ReturnType<typeof A.showInterestModal>) {
+    yield put(A.setInterestModalName(payload.modalName))
+    yield put(actions.modals.showModal('INTEREST_MODAL'))
+  }
+
   return {
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
     fetchInterestPaymentAccount,
-    initializeInterest
+    initializeInterest,
+    showInterestModal
   }
 }
