@@ -74,11 +74,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Text size='32px' weight={600} color='grey800'>
             {outputAmt}
           </Text>
-          <Text
-            size='32px'
-            weight={600}
-            color={props.supportedCoins[props.order.outputCurrency].colorCode}
-          >
+          <Text size='32px' weight={600} color='grey800'>
             {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Text>
         </Amount>
