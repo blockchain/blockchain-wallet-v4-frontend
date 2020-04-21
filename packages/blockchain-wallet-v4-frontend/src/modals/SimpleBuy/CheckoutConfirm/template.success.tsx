@@ -70,15 +70,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Checkout'
           />
         </TopText>
-        <Amount>
+        <Amount data-e2e='sbTotalCryptoBuyAmount'>
           <Text size='32px' weight={600} color='grey800'>
             {outputAmt}
           </Text>
-          <Text
-            size='32px'
-            weight={600}
-            color={props.supportedCoins[props.order.outputCurrency].colorCode}
-          >
+          <Text size='32px' weight={600} color='grey800'>
             {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Text>
         </Amount>
@@ -90,7 +86,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Exchange Rate'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbExchangeRate'>
           {displayFiat(props.quote.rate)} /{' '}
           {props.supportedCoins[props.order.outputCurrency].coinTicker}
         </Value>
@@ -112,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Fees'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbFeeAmount'>
           {displayFiat(props.quote.fee)} {props.order.inputCurrency}
         </Value>
       </Row>
@@ -123,7 +119,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Total'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbFiatBuyAmount'>
           {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
         </Value>
       </Row>
