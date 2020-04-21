@@ -8,10 +8,12 @@ const INITIAL_STATE: InterestState = {
   coin: 'BTC',
   interestEligible: Remote.NotAsked,
   interestInstruments: Remote.NotAsked,
-  interestLimits: Remote.NotAsked
+  interestLimits: Remote.NotAsked,
+  interestRate: Remote.NotAsked,
+  interestTransactions: Remote.NotAsked
 }
 
-export function interestReducer (
+export function interestReducer(
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {
@@ -92,6 +94,38 @@ export function interestReducer (
       return {
         ...state,
         account: Remote.Success(action.payload.account)
+      }
+    case AT.FETCH_INTEREST_RATE_FAILURE:
+      return {
+        ...state,
+        interestRate: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_INTEREST_RATE_LOADING:
+      return {
+        ...state,
+        interestRate: Remote.Loading
+      }
+    case AT.FETCH_INTEREST_RATE_SUCCESS:
+      return {
+        ...state,
+        interestRate: Remote.Success(action.payload.interestRate)
+      }
+    case AT.FETCH_INTEREST_TRANSACTIONS_FAILURE:
+      return {
+        ...state,
+        interestTransactions: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_INTEREST_TRANSACTIONS_LOADING:
+      return {
+        ...state,
+        interestTransactions: Remote.Loading
+      }
+    case AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS:
+      return {
+        ...state,
+        interestTransactions: Remote.Success(
+          action.payload.interestTransactions
+        )
       }
     case AT.INITIALIZE_INTEREST: {
       return {

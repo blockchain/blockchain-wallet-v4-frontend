@@ -7,6 +7,8 @@ import {
   InterestInstrumentsType,
   InterestLimitsType,
   InterestPaymentAccountType,
+  InterestRateType,
+  InterestTransactionType,
   RemoteDataType
 } from 'core/types'
 
@@ -30,6 +32,8 @@ export interface InterestState {
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
+  interestRate: RemoteDataType<string, InterestRateType>
+  interestTransactions: RemoteDataType<string, InterestTransactionType>
 }
 
 // Actions
@@ -114,6 +118,40 @@ interface FetchInterestPaymentAccountSuccess {
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
 }
 
+interface FetchInterestRateFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_RATE_FAILURE
+}
+interface FetchInterestRateLoading {
+  type: typeof AT.FETCH_INTEREST_RATE_LOADING
+}
+
+interface FetchInterestRateSuccess {
+  payload: {
+    interestRate: InterestRateType
+  }
+  type: typeof AT.FETCH_INTEREST_RATE_SUCCESS
+}
+
+interface FetchInterestTransactionsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
+}
+interface FetchInterestTransactionsLoading {
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_LOADING
+}
+
+interface FetchInterestTransactionsSuccess {
+  payload: {
+    interestTransactions: InterestTransactionType
+  }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
+}
+
 interface InitializeInterestAction {
   payload: {
     coin: CoinType
@@ -137,4 +175,10 @@ export type InterestActionTypes =
   | FetchInterestPaymentAccountFailure
   | FetchInterestPaymentAccountLoading
   | FetchInterestPaymentAccountSuccess
+  | FetchInterestRateFailure
+  | FetchInterestRateLoading
+  | FetchInterestRateSuccess
+  | FetchInterestTransactionsFailure
+  | FetchInterestTransactionsLoading
+  | FetchInterestTransactionsSuccess
   | InitializeInterestAction
