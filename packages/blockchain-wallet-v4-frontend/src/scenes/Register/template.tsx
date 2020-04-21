@@ -24,7 +24,6 @@ const SignupWrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `
-
 const CardsWrapper = styled.div`
   display: flex;
 
@@ -37,7 +36,6 @@ const CardsWrapper = styled.div`
     width: 100%;
   `}
 `
-
 const CardWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -58,7 +56,6 @@ const CardWrapper = styled.div`
     width: 100%;
   `}
 `
-
 const Card = styled.div`
   padding: 2rem;
   background: ${props => props.theme.white};
@@ -70,12 +67,10 @@ const Card = styled.div`
     padding: 1.5rem;
   `}
 `
-
 const CardHeader = styled.div`
   align-items: center;
   display: flex;
 `
-
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
   background: ${props => props.theme[props.color]};
@@ -92,7 +87,6 @@ const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
     flex-shrink: 0;
   `}
 `
-
 const CardInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -103,7 +97,6 @@ const InfoTitle = styled(Text)`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 `
-
 const InfoItem = styled.div`
   display: flex;
   margin-bottom: 0.75rem;
@@ -118,21 +111,22 @@ const InfoItem = styled.div`
     `}
   }
 `
-
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1.25rem;
   margin-bottom: 2.5rem;
 `
-
 const ExchangeButton = styled(Button)`
   color: ${props => props.theme.white};
   background-color: ${props => props.theme.black};
   position: relative;
   border: none;
-`
 
+  &:hover {
+    background-color: ${props => props.theme.greyFade800};
+  }
+`
 const TabIcon = styled(Icon)`
   position: absolute;
   right: 1rem;
@@ -141,7 +135,6 @@ const TabIcon = styled(Icon)`
     display: none;
   `}
 `
-
 const Line = styled.div<{ showForm: boolean }>`
   height: 1px;
   width: 12.5rem;
@@ -150,7 +143,6 @@ const Line = styled.div<{ showForm: boolean }>`
   visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
   transition: all 0.5s ease;
 `
-
 const AppButtons = styled.footer<{ showForm: boolean }>`
   display: flex;
   flex-direction: column;
@@ -172,6 +164,12 @@ const Bottom = styled.div`
   margin: 2rem 0 0;
   > a {
     margin: 0 8px;
+  }
+`
+const SignInText = styled(Text)`
+  &:hover {
+    color: ${props => props.theme.white};
+    font-weight: 600;
   }
 `
 
@@ -241,7 +239,7 @@ const Register = ({
                 <Text color='grey600' size='16px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.walletcard.item.2.regular'
-                    defaultMessage='on mobile or desktop.'
+                    defaultMessage='crypto on mobile and desktop.'
                   />
                 </Text>
               </InfoItem>
@@ -313,12 +311,12 @@ const Register = ({
                   />
                 </Text>
                 &nbsp;
-                <Text color='whiteFade900' size='14px' weight={500}>
+                <SignInText color='whiteFade900' size='14px' weight={500}>
                   <FormattedMessage
                     id='scenes.register.wallet.signin'
                     defaultMessage='Sign In'
                   />
-                </Text>
+                </SignInText>
               </SubCard>
             </Link>
           </LinkContainer>
@@ -392,7 +390,7 @@ const Register = ({
               </InfoItem>
             </CardInfo>
             <Link
-              href='https://exchange.blockchain.com/trade/signup'
+              href='https://exchange.blockchain.com/trade/signup?utm_source=web_wallet&utm_medium=referral&utm_campaign=wallet_register_page'
               target='_blank'
             >
               <ExchangeButton
