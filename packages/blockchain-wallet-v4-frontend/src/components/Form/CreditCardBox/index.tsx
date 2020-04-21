@@ -6,8 +6,10 @@ import {
 } from './model'
 import { FormattedMessage } from 'react-intl'
 import { TextBox } from 'components/Form'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
+const duration = 250
 
 export const normalizeCreditCard = (value, previousValue) => {
   if (!value) return value
@@ -78,15 +80,37 @@ const CardLogo = styled.img`
   height: 24px;
   right: 8px;
   top: 11px;
+  transform: rotateX(0deg);
+  transition: all ${duration}ms linear;
+  &.active {
+    transform: rotateX(-90deg);
+  }
 `
 
 const CreditCardBox: React.FC<Props> = props => {
-  const cardType = getCardTypeByValue(props.input.value)
+  const [isActive, setIsActive] = useState(false)
+  const [cardType, setCardType] = useState({ logo: DEFAULT_CARD_SVG_LOGO })
+  const newCardType = getCardTypeByValue(props.input.value) || {
+    logo: DEFAULT_CARD_SVG_LOGO
+  }
+
+  useEffect(() => {
+    if (cardType.logo !== newCardType.logo) {
+      setIsActive(true)
+      setTimeout(() => {
+        setIsActive(false)
+        setCardType(newCardType)
+      }, duration)
+    }
+  }, [cardType, newCardType])
 
   return (
     <Wrapper>
       <TextBox {...props} />
-      <CardLogo src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+      <CardLogo
+        src={cardType.logo || DEFAULT_CARD_SVG_LOGO}
+        className={isActive ? 'active' : ''}
+      />
     </Wrapper>
   )
 }
