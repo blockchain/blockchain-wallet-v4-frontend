@@ -16,7 +16,10 @@ import {
   normalizeCreditCard,
   validateCreditCard
 } from 'components/Form/CreditCardBox'
-import { normalizeCreditCardCVC } from 'components/Form/CreditCardCVCBox'
+import {
+  normalizeCreditCardCVC,
+  validateCreditCardCVC
+} from 'components/Form/CreditCardCVCBox'
 import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
@@ -107,7 +110,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               name='cvc'
               component={CreditCardCVCBox}
               normalize={normalizeCreditCardCVC}
-              validate={[required]}
+              validate={[required, validateCreditCardCVC]}
             />
           </FormItem>
         </FormGroup>

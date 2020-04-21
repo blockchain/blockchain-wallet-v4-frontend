@@ -1,8 +1,13 @@
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
-import { DEFAULT_CARD_FORMAT, getCardTypeByValue } from './model'
+import {
+  DEFAULT_CARD_FORMAT,
+  DEFAULT_CARD_SVG_LOGO,
+  getCardTypeByValue
+} from './model'
 import { FormattedMessage } from 'react-intl'
 import { TextBox } from 'components/Form'
 import React from 'react'
+import styled from 'styled-components'
 
 export const normalizeCreditCard = (value, previousValue) => {
   if (!value) return value
@@ -44,6 +49,15 @@ export const validateCreditCard = value => {
     )
   }
 
+  if (value.replace(/[^\d]/g, '').length < cardType.minCardNumberLength) {
+    return (
+      <FormattedMessage
+        id='formhelper.invalid_card_number'
+        defaultMessage='Invalid card number'
+      />
+    )
+  }
+
   if (!cardType.supported) {
     return (
       <FormattedMessage
@@ -54,10 +68,32 @@ export const validateCreditCard = value => {
   }
 }
 
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+`
+const CardLogo = styled.img`
+  position: absolute;
+  height: 24px;
+  right: 8px;
+  top: 11px;
+`
+
 const CreditCardBox: React.FC<Props> = props => {
-  return <TextBox {...props} />
+  const cardType = getCardTypeByValue(props.input.value)
+
+  return (
+    <Wrapper>
+      <TextBox {...props} />
+      <CardLogo src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+    </Wrapper>
+  )
 }
 
-type Props = { input: CommonFieldProps; meta: WrappedFieldMetaProps }
+type Props = {
+  input: CommonFieldProps & { value: string }
+  meta: WrappedFieldMetaProps
+}
 
 export default CreditCardBox
