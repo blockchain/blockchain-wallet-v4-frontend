@@ -53,9 +53,9 @@ import {
   validBtcAddress,
   validBtcPrivateKey
 } from 'services/FormHelper'
-import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
@@ -198,7 +198,7 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
           <FormLabel htmlFor='to'>
             <FormattedMessage
@@ -255,12 +255,10 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        {isFromCustody ? (
-          isMnemonicVerified ? (
-            <CustodyToAccountMessage coin='BTC' />
-          ) : null
+        {isFromCustody && isMnemonicVerified ? (
+          <CustodyToAccountMessage coin='BTC' />
         ) : (
-          <BitPayCTA coin='BTC' />
+          <ExchangePromo />
         )}
       </FormGroup>
       <FormGroup margin={'15px'}>
