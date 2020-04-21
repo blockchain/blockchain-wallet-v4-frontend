@@ -34,7 +34,6 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
-  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 type LinkDispatchPropsType = {
@@ -82,15 +81,15 @@ class Interest extends React.PureComponent<Props, State> {
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.earninterest'
-              defaultMessage='Earn Interest'
+              id='scenes.interest.interestaccount'
+              defaultMessage='Interest Account'
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
             id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and instantly earn interest with absolutely no fees.'
+            defaultMessage='Deposit crypto and watch it grow without fees.'
           />
           <LearnMoreLink
             href='https://www.support.blockchain.com/'
@@ -114,7 +113,6 @@ class Interest extends React.PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  invitationsR: selectors.core.settings.getInvitations(state),
   userDataR: selectors.modules.profile.getUserData(state)
 })
 

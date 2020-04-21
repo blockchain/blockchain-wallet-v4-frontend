@@ -1,12 +1,39 @@
 import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
-import { InterestActionTypes } from './types'
 import {
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestPaymentAccountType
 } from 'core/network/api/interest/types'
+import { InterestActionTypes } from './types'
+
+export const fetchInterestBalance = () => ({
+  type: AT.FETCH_INTEREST_BALANCE
+})
+
+export const fetchInterestBalanceFailure = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchInterestBalanceLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_LOADING
+})
+
+export const fetchInterestBalanceSuccess = (
+  interestAccountBalance: InterestAccountBalanceType
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_SUCCESS,
+  payload: {
+    interestAccountBalance
+  }
+})
 
 export const fetchInterestEligible = () => ({
   type: AT.FETCH_INTEREST_ELIGIBLE

@@ -7,6 +7,18 @@ import { nth } from 'ramda'
 import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
+  const fetchInterestAccountBalance = function * () {
+    try {
+      yield put(A.fetchInterestBalanceLoading())
+      const response: ReturnType<
+        typeof api.getInterestAccountBalance
+      > = yield call(api.getInterestAccountBalance)
+      yield put(A.fetchInterestBalanceSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestBalanceFailure(error))
+    }
+  }
   const fetchInterestEligible = function * () {
     try {
       yield put(A.fetchInterestEligibleLoading())
@@ -87,6 +99,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    fetchInterestAccountBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,

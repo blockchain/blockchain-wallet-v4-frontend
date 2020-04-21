@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -25,12 +26,30 @@ export enum InterestSteps {
 export interface InterestState {
   account: RemoteDataType<string, InterestPaymentAccountType>
   coin: CoinType
+  interestAccountBalance: RemoteDataType<string, InterestAccountBalanceType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
 }
 
 // Actions
+
+interface FetchInterestBalanceFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_BALANCE_FAILURE
+}
+interface FetchInterestBalanceLoading {
+  type: typeof AT.FETCH_INTEREST_BALANCE_LOADING
+}
+
+interface FetchInterestBalanceSuccess {
+  payload: {
+    interestAccountBalance: InterestAccountBalanceType
+  }
+  type: typeof AT.FETCH_INTEREST_BALANCE_SUCCESS
+}
 interface FetchInterestEligibleFailure {
   payload: {
     error: string
@@ -103,6 +122,9 @@ interface InitializeInterestAction {
 }
 
 export type InterestActionTypes =
+  | FetchInterestBalanceFailure
+  | FetchInterestBalanceLoading
+  | FetchInterestBalanceSuccess
   | FetchInterestEligibleFailure
   | FetchInterestEligibleLoading
   | FetchInterestEligibleSuccess

@@ -8,6 +8,10 @@ export default ({ api }: { api: APIType }) => {
 
   return function * interestSaga () {
     yield takeLatest(
+      AT.FETCH_INTEREST_BALANCE,
+      interestSagas.fetchInterestAccountBalance
+    )
+    yield takeLatest(
       AT.FETCH_INTEREST_ELIGIBLE,
       interestSagas.fetchInterestEligible
     )

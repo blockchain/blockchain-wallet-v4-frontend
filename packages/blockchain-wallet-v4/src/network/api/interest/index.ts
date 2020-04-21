@@ -1,5 +1,6 @@
-import { CoinType } from 'core/types'
+import { CoinType, FiatType } from 'core/types'
 import {
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
@@ -7,6 +8,20 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
+  const getInterestAccountBalance = (
+    ccy?: CoinType,
+    din?: FiatType
+  ): InterestAccountBalanceType =>
+    authorizedGet({
+      url: nabuUrl,
+      ignoreQueryParams: true,
+      endpoint: `accounts/savings`,
+      data: {
+        ccy,
+        din
+      }
+    })
+
   const getInterestEligible = (): { interestEligible: InterestEligibleType } =>
     authorizedGet({
       url: nabuUrl,
@@ -35,6 +50,7 @@ export default ({ nabuUrl, authorizedGet }) => {
     })
 
   return {
+    getInterestAccountBalance,
     getInterestEligible,
     getInterestInstruments,
     getInterestLimits,

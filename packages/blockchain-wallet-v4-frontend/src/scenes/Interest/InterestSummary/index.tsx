@@ -6,8 +6,10 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { Props, State } from '..'
+import { selectors } from 'data'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -55,13 +57,13 @@ class InterestSummary extends PureComponent<Props, State> {
           </Text>
         </Row>
         <Row>
-          <TooltipHost id='earninterest.calculation.tooltop'>
-            <TooltipIcon name='info' size='12px' />
+          <TooltipHost id='earninterest.calculation.tooltip'>
+            <TooltipIcon name='info' size='14px' />
           </TooltipHost>
           <Text
             size='12px'
             weight={500}
-            style={{ marginLeft: '8px', lineHeight: '1.5' }}
+            style={{ marginLeft: '6px', lineHeight: '1.5' }}
           >
             <FormattedMessage
               id='scenes.earninterest.form.earn3percent'
@@ -116,4 +118,11 @@ class InterestSummary extends PureComponent<Props, State> {
   }
 }
 
-export default InterestSummary
+const mapStateToProps = state => ({
+  interestAccountR: selectors.components.interest.getInterestPaymentAccount(
+    state
+  ),
+  userDataR: selectors.modules.profile.getUserData(state)
+})
+
+export default connect(mapStateToProps)(InterestSummary)

@@ -6,6 +6,17 @@ enum IneligibilityReason {
   REGION
 }
 
+export type InterestAccountBalanceType = {
+  [key in CoinType]?: {
+    balanceAvailable: number
+    fiatAmount: number
+    fiatCurrency: string
+    pendingDeposit: number
+    pendingInterest: number
+    pendingWithdrawal: number
+  }
+}
+
 export type InterestEligibleType = {
   eligible: boolean
   ineligibilityReason: IneligibilityReason
