@@ -1,5 +1,4 @@
 {
-  "bitpaycta.nowsupporting": "Your {coin} wallet now supports",
   "borrow.amount.tooltip.description": "This amount does not include the required collateral network fee.",
   "borrow.collateral.tooltip.description": "The amount you need to deposit to open this loan.",
   "borrow.collateralpending.tooltip.description": "The collateral deposit is pending until it is confirmed by the network and a Blockchain.com agent.",
@@ -1863,8 +1862,6 @@
   "scenes.swap.title": "Swap",
   "scenes.transaction.content.empty.buycoinnow": "Buy {coin} Now",
   "scenes.transaction.content.empty.cointxs": "All your {coinName} transactions will show up here.",
-  "scenes.transaction.content.empty.newcoinbuy": "Buy {coin}",
-  "scenes.transaction.content.empty.newcoinswap": "Send, Request and Swap {coinName} ({coinCode}) directly from your Blockchain Wallet.",
   "scenes.transaction.content.empty.transactions": "Transactions",
   "scenes.transaction.headertext.explainer.bch": "Bitcoin Cash (BCH) is a fork of Bitcoin built for everday transactions.",
   "scenes.transaction.headertext.explainer.btc1": "Bitcoin (BTC) is the original crypto and the internet’s digital currency.",
