@@ -89,11 +89,16 @@ const ResendSmsLink = styled(Link)`
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
-
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1.25rem;
+`
+const SignUpText = styled(Text)`
+  &:hover {
+    color: ${props => props.theme.white};
+    font-weight: 600;
+  }
 `
 
 const Login = props => {
@@ -375,12 +380,12 @@ const Login = props => {
               />
             </Text>
             &nbsp;
-            <Text size='14px' color='whiteFade900' weight={500}>
+            <SignUpText size='14px' color='whiteFade900' weight={500}>
               <FormattedMessage
                 id='scenes.login.wallet.signup'
                 defaultMessage='Sign Up'
               />
-            </Text>
+            </SignUpText>
           </SubCard>
         </Link>
       </LinkContainer>
