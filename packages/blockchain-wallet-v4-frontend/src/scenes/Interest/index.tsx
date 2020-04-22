@@ -39,6 +39,7 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
   modalActions: typeof actions.modals
 }
 
@@ -50,6 +51,8 @@ class Interest extends React.PureComponent<Props, State> {
   state: State = { isDisabled: false }
   componentDidMount () {
     this.checkUserData()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestLimits()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -123,6 +126,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
     actions.components.identityVerification,
     dispatch
   ),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -13,7 +13,7 @@ export default ({ api }: { api: APIType }) => {
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
         api.getInterestEligible
       )
-      yield put(A.fetchInterestEligibleSuccess(response.interestEligible))
+      yield put(A.fetchInterestEligibleSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestEligibleFailure(error))

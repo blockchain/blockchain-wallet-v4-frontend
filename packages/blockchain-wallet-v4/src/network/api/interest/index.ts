@@ -7,7 +7,7 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
-  const getInterestEligible = (): { interestEligible: InterestEligibleType } =>
+  const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/savings/eligible'
