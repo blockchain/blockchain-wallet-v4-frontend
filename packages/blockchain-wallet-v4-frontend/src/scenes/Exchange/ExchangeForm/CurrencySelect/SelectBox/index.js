@@ -6,12 +6,12 @@ import styled from 'styled-components'
 
 const ExchangeSelect = styled(SelectBox)`
   .bc__control {
-    border: none;
+    border: none !important;
     :hover {
-      border: none;
+      border: none !important;
     }
     :active {
-      border: none;
+      border: none !important;
     }
   }
 
