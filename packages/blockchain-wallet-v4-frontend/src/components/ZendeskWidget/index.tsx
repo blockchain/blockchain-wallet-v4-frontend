@@ -20,29 +20,42 @@ const Iframe = styled.iframe<CustomIframe>`
   border: none;
 `
 
-const postMsgToWalletHelper = (methodName, data) => {
-  const frame = document.getElementById('zendesk-iframe') as HTMLIFrameElement
-  if (frame && frame.contentWindow) {
-    frame.contentWindow.postMessage(
-      {
-        method: methodName,
-        messageData: data
-      },
-      '*'
-    )
-  }
-}
-
 class ZendeskWidget extends React.PureComponent<Props, State> {
   state = {
+    chatEnabled: false,
     widgetOpen: false
   }
+
   componentDidMount () {
+    // listen for messages about widget open/close state
     window.addEventListener('message', this.updateWidgetState, false)
   }
 
   updateWidgetState = e => {
-    this.setState({ widgetOpen: e.data.widgetOpen })
+    const message = e.data
+    // HMR/zendesk combo sends empty messages sometimes that result in widget state
+    // being set to close when it really is still open
+    if (
+      message &&
+      (message.widgetOpen === false || message.widgetOpen === true)
+    ) {
+      this.setState({ widgetOpen: e.data.widgetOpen })
+    }
+  }
+
+  postMsgToWalletHelper = (methodName, data) => {
+    const frame = document.getElementById('zendesk-iframe') as HTMLIFrameElement
+    // ensure chat is not already enabled before sending message
+    if (frame && frame.contentWindow && !this.state.chatEnabled) {
+      this.setState({ chatEnabled: true })
+      frame.contentWindow.postMessage(
+        {
+          method: methodName,
+          messageData: data
+        },
+        '*'
+      )
+    }
   }
 
   render () {
@@ -53,13 +66,11 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     )
 
     // only show chat to users with pending sb orders for now
-    if (userData && pendingSbOrder) {
-      postMsgToWalletHelper('showChat', {
+    if (userData && pendingSbOrder && !this.state.chatEnabled) {
+      this.postMsgToWalletHelper('showChat', {
         fullName: `${userData.firstName} ${userData.lastName}`,
         email: userData.email
       })
-    } else {
-      postMsgToWalletHelper('showHelp', {})
     }
 
     return (
@@ -89,8 +100,8 @@ type LinkStatePropsType = {
   sbOrders: Array<SBOrderType>
   userData: UserDataType | null
 }
-type State = { widgetOpen: boolean }
-type CustomIframe = State
+type State = { chatEnabled: boolean; widgetOpen: boolean }
+type CustomIframe = { widgetOpen: boolean }
 type Props = LinkStatePropsType & CustomIframe
 
 export default connector(ZendeskWidget)
