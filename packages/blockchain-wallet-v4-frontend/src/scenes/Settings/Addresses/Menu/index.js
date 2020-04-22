@@ -63,6 +63,28 @@ const MenuTop = () => (
               />
             </TabMenuItem>
           </LinkContainer>
+          <LinkContainer to='/settings/addresses/eth'>
+            <TabMenuItem
+              activeClassName='active'
+              data-e2e='ethWalletSettingsLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.eth'
+                defaultMessage='Ether'
+              />
+            </TabMenuItem>
+          </LinkContainer>
+          <LinkContainer to='/settings/addresses/xlm'>
+            <TabMenuItem
+              activeClassName='active'
+              data-e2e='xlmWalletSettingsLink'
+            >
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.xlm'
+                defaultMessage='Stellar'
+              />
+            </TabMenuItem>
+          </LinkContainer>
         </TabMenu>
         <Search data-e2e='walletSettingsSearch'>
           <Field name='search' height='40px' component={TextBox} />

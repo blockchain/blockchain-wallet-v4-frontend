@@ -60,6 +60,7 @@ const IcoMoon = {
   home: '\\e914',
   'id-card': '\\e981',
   info: '\\e902',
+  key: '\\e92b',
   'lightning-bolt': '\\e921',
   'line-graph-up': '\\e933',
   lock: '\\e949',

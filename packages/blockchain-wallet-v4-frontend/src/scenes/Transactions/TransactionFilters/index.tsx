@@ -7,17 +7,17 @@ import Menu from './template'
 import React from 'react'
 
 class TransactionFiltersContainer extends React.PureComponent<Props> {
-  onShowPrivateKey = () => {
-    const { coin, modalActions } = this.props
+  // onShowPrivateKey = () => {
+  //   const { coin, modalActions } = this.props
 
-    if (coin === 'ETH')
-      modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
-    if (coin === 'XLM') modalActions.showModal('ShowXlmPrivateKey')
-  }
+  //   if (coin === 'ETH')
+  //     modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
+  //   if (coin === 'XLM') modalActions.showModal('ShowXlmPrivateKey')
+  // }
 
-  onShowEthPrivateKeyLegacy = () => {
-    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: true })
-  }
+  // onShowEthPrivateKeyLegacy = () => {
+  //   this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: true })
+  // }
 
   handleClickReporting = () => {
     const { coin, modalActions } = this.props
@@ -25,18 +25,10 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const isLegacyEthAddr =
-      this.props.coin === 'ETH' && this.props.legacyEthAddr
+    // const isLegacyEthAddr =
+    //   this.props.coin === 'ETH' && this.props.legacyEthAddr
 
-    return (
-      <Menu
-        coin={this.props.coin}
-        handleClickReporting={this.handleClickReporting}
-        onShowPrivateKey={this.onShowPrivateKey}
-        onShowEthPrivateKeyLegacy={this.onShowEthPrivateKeyLegacy}
-        isLegacyEthAddr={isLegacyEthAddr}
-      />
-    )
+    return <Menu handleClickReporting={this.handleClickReporting} />
   }
 }
 

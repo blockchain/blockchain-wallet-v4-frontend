@@ -56,7 +56,7 @@ const FirstStep = () => (
 const SecondStep = ({ addr, balance, priv }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
-      <QRCodeWrapper value={priv} size={120} />
+      <QRCodeWrapper value={priv} size={230} />
     </div>
     <DetailTable>
       <DetailRow>
