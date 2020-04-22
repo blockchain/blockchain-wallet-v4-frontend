@@ -187,8 +187,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const isAgreementChecked = props.values
     ? props.values.agreement
     : props.values
+
+  let minimumDeposit = 0
+  if (props.interestLimits[props.coin]) {
+    minimumDeposit = props.interestLimits[props.coin].minimumDeposit
+  }
   const isCheckBoxDisabled = props.values
-    ? props.values.depositAmount < props.minimumDeposit
+    ? props.values.depositAmount < minimumDeposit
     : false
 
   return (
