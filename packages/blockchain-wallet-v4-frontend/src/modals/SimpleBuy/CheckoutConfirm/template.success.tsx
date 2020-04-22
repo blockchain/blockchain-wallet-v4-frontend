@@ -139,7 +139,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Icon
               name='alert-filled'
               color='red600'
-              style={{ marginRight: '4px', marginTop: '16px' }}
+              style={{ marginRight: '4px' }}
             />
             Error: {props.error}
           </ErrorCartridge>

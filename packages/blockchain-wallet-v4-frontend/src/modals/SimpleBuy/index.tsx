@@ -14,6 +14,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import React, { PureComponent } from 'react'
+import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
 
 type OwnProps = ModalPropsType
@@ -23,7 +24,7 @@ export type LinkDispatchPropsType = {
 }
 type LinkStatePropsType =
   | {
-      step: 'CURRENCY_SELECTION'
+      step: 'CURRENCY_SELECTION' | '3DS_HANDLER'
     }
   | {
       step: 'ENTER_AMOUNT'
@@ -99,6 +100,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ADD_CARD' && (
           <FlyoutChild>
             <AddCard {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === '3DS_HANDLER' && (
+          <FlyoutChild>
+            <ThreeDSHandler {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'CHECKOUT_CONFIRM' && (

@@ -273,7 +273,7 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src http://localhost:8081 ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `frame-src http://localhost:8081 https://www.3dsecurempi.com ${envConfig.EVERYPAY_URL} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
@@ -300,7 +300,8 @@ const buildDevServerConfig = (
           'https://shapeshift.io',
           'https://bitpay.com',
           'https://static.zdassets.com',
-          'https://ekr.zdassets.com'
+          'https://ekr.zdassets.com',
+          'http://localhost:3000'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

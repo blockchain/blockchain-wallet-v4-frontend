@@ -13,16 +13,16 @@ import {
   SBQuoteType,
   SBSuggestedAmountType
 } from './types'
+import { Moment } from 'moment'
+import axios from 'axios'
 
 export default ({
   authorizedDelete,
   authorizedGet,
   authorizedPost,
   authorizedPut,
-  everypayUrl,
   get,
-  nabuUrl,
-  post
+  nabuUrl
 }) => {
   const activateSBCard = (cardId: string, customerUrl: string): SBCardType =>
     authorizedPost({
@@ -201,35 +201,37 @@ export default ({
     apiUserName,
     ccNumber,
     cvc,
-    month,
-    nonce,
-    year
+    expirationDate,
+    holderName,
+    nonce
   }: {
     accessToken: string
     apiUserName: string
     ccNumber: string
     cvc: string
-    month: string
+    expirationDate: Moment
+    holderName: string
     nonce: string
-    year: string
   }) =>
-    post({
-      url: everypayUrl,
-      endPoint: '/api/v3/mobile_payments/card_details',
-      sessionToken: accessToken,
-      removeDefaultPostData: true,
+    axios({
+      url: 'http://localhost:3000/api/v3/mobile_payments/card_details',
+      method: 'POST',
       data: {
         api_username: apiUserName,
         cc_details: JSON.stringify({
           cc_number: ccNumber,
-          month,
-          year,
+          month: expirationDate.month(),
+          year: expirationDate.year(),
           cvc,
-          holder_name: 'EveryPay'
+          holder_name: holderName
         }),
-        nonce,
+        nonce: nonce.slice(0, 8),
         token_consented: true,
         timestamp: new Date().toISOString()
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken
       }
     })
 

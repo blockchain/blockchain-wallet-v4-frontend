@@ -1,5 +1,8 @@
 import { RootState } from 'data/rootReducer'
 
+export const getEverypay3DSDetails = (state: RootState) =>
+  state.components.simpleBuy.everypay3DS
+
 export const getSBAccount = (state: RootState) =>
   state.components.simpleBuy.account
 

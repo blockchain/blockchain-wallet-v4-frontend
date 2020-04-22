@@ -24,7 +24,7 @@ class AddCard extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.simpleBuyActions.submitCardDetailsToEverypay()
+    this.props.simpleBuyActions.fetchEverypay3DSDetails()
   }
 
   render () {

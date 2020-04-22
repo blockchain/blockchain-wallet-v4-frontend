@@ -1,4 +1,5 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -114,6 +115,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </FormItem>
         </FormGroup>
+        {props.error && (
+          <FormGroup>
+            <ErrorCartridge>
+              <Icon
+                name='alert-filled'
+                color='red600'
+                style={{ marginRight: '4px' }}
+              />
+              Error: {props.error}
+            </ErrorCartridge>
+          </FormGroup>
+        )}
         <FormGroup>
           <Button
             nature='primary'
@@ -123,9 +136,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             type='submit'
             disabled={props.invalid || props.submitting}
           >
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            {props.submitting ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <FormattedMessage
+                id='buttons.continue'
+                defaultMessage='Continue'
+              />
+            )}
           </Button>
         </FormGroup>
+        {props.submitting && (
+          <FormGroup>
+            <BlueCartridge>
+              Hang tight. We are redirecting you to your bank provider. Things
+              might look a bit different.
+            </BlueCartridge>
+          </FormGroup>
+        )}
       </Form>
     </CustomFlyoutWrapper>
   )
@@ -133,4 +161,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
 type Props = OwnProps & LinkDispatchPropsType & SuccessStateType
 
-export default reduxForm<{}, Props>({ form: 'addCCForm' })(Success)
+export default reduxForm<{}, Props>({
+  form: 'addCCForm',
+  destroyOnUnmount: false
+})(Success)

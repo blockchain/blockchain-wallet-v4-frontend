@@ -1,7 +1,7 @@
 import { CoinType, CurrenciesType, FiatType } from 'core/types'
 
 export type Everypay3DSResponseType = {
-  payment_state: 'waiting_for_3ds_response'
+  payment_state: null | 'waiting_for_3DS_response'
   processing_errors: null
 }
 

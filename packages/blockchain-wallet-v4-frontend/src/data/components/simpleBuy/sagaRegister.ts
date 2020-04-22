@@ -39,8 +39,8 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
     yield takeLatest(
-      AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY,
-      simpleBuySagas.submitCardDetailsToEverypay
+      AT.FETCH_EVERYPAY_3DS_DETAILS,
+      simpleBuySagas.fetchEverypay3DSDetails
     )
     // Fetch balances when profile/user is fetched
     yield takeLatest(

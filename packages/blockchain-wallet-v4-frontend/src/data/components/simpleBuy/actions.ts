@@ -58,6 +58,31 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
+export const fetchEverypay3DSDetails = () => ({
+  type: AT.FETCH_EVERYPAY_3DS_DETAILS
+})
+export const fetchEverypay3DSDetailsFailure = (
+  error: string
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchEverypay3DSDetailsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING
+})
+
+export const fetchEverypay3DSDetailsSuccess = (
+  everypay3DS: Everypay3DSResponseType
+): SimpleBuyActionTypes => ({
+  type: AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS,
+  payload: {
+    everypay3DS
+  }
+})
+
 export const fetchSBBalances = (currency?: CoinType) => ({
   type: AT.FETCH_SB_BALANCES,
   currency
@@ -346,7 +371,7 @@ export const setStep = (
         step: 'ENTER_AMOUNT'
       }
     | { cardId?: string; step: 'ADD_CARD' }
-    | { step: 'CURRENCY_SELECTION' }
+    | { step: 'CURRENCY_SELECTION' | '3DS_HANDLER' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
@@ -382,30 +407,5 @@ export const showModal = (
   payload: {
     origin,
     cryptoCurrency
-  }
-})
-
-export const submitCardDetailsToEverypay = () => ({
-  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY
-})
-export const submitCardDetailsToEverypayFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const submitCardDetailsToEverypayLoading = (): SimpleBuyActionTypes => ({
-  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_LOADING
-})
-
-export const submitCardDetailsToEverypaySuccess = (
-  everypay3ds: Everypay3DSResponseType
-): SimpleBuyActionTypes => ({
-  type: AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_SUCCESS,
-  payload: {
-    everypay3ds
   }
 })

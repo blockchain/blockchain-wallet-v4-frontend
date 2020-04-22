@@ -37,6 +37,7 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
   'ADD_CARD',
+  '3DS_HANDLER',
   'CHECKOUT_CONFIRM',
   'ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -51,7 +52,7 @@ export type SimpleBuyState = {
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
-  everypay3ds: RemoteDataType<string, Everypay3DSResponseType>
+  everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
   methods: RemoteDataType<string, SBPaymentMethodsType>
@@ -127,47 +128,61 @@ interface FetchSBCardsFailure {
 interface FetchSBCardsLoading {
   type: typeof AT.FETCH_SB_CARDS_LOADING
 }
-
 interface FetchSBCardsSuccess {
   payload: {
     cards: Array<SBCardType>
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
 }
+
+interface FetchEverypay3DSFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE
+}
+interface FetchEverypay3DSLoading {
+  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING
+}
+interface FetchEverypay3DSSuccess {
+  payload: {
+    everypay3DS: Everypay3DSResponseType
+  }
+  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS
+}
+
 interface FetchSBFiatEligibleFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE
 }
-
 interface FetchSBFiatEligibleLoading {
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_LOADING
 }
-
 interface FetchSBFiatEligibleSuccess {
   payload: {
     fiatEligible: FiatEligibleType
   }
   type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
 }
+
 interface FetchSBOrdersFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_SB_ORDERS_FAILURE
 }
-
 interface FetchSBOrdersLoading {
   type: typeof AT.FETCH_SB_ORDERS_LOADING
 }
-
 interface FetchSBOrdersSuccess {
   payload: {
     orders: Array<SBOrderType>
   }
   type: typeof AT.FETCH_SB_ORDERS_SUCCESS
 }
+
 interface FetchSBPairsFailure {
   payload: {
     error: string
@@ -183,6 +198,7 @@ interface FetchSBPairsSuccess {
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
 }
+
 interface FetchSBPaymentAccountFailure {
   payload: {
     error: string
@@ -198,6 +214,7 @@ interface FetchSBPaymentAccountSuccess {
   }
   type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
 }
+
 interface FetchSBPaymentMethodsFailure {
   payload: {
     error: string
@@ -263,6 +280,9 @@ interface SetStepAction {
         step: 'ADD_CARD'
       }
     | {
+        step: '3DS_HANDLER'
+      }
+    | {
         step: 'CURRENCY_SELECTION'
       }
   type: typeof AT.SET_STEP
@@ -280,23 +300,6 @@ interface ShowModalAction {
   type: typeof AT.SHOW_MODAL
 }
 
-interface SubmitSBCardDetailsToEverypayFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_FAILURE
-}
-interface SubmitSBCardDetailsToEverypayLoading {
-  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_LOADING
-}
-
-interface SubmitSBCardDetailsToEverypaySuccess {
-  payload: {
-    everypay3ds: Everypay3DSResponseType
-  }
-  type: typeof AT.SUBMIT_CARD_DETAILS_TO_EVERYPAY_SUCCESS
-}
-
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
   | ActivateSBCardLoading
@@ -311,6 +314,9 @@ export type SimpleBuyActionTypes =
   | FetchSBCardsFailure
   | FetchSBCardsLoading
   | FetchSBCardsSuccess
+  | FetchEverypay3DSFailure
+  | FetchEverypay3DSLoading
+  | FetchEverypay3DSSuccess
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess
@@ -334,6 +340,3 @@ export type SimpleBuyActionTypes =
   | FetchSBSuggestedAmountsSuccess
   | SetStepAction
   | ShowModalAction
-  | SubmitSBCardDetailsToEverypayFailure
-  | SubmitSBCardDetailsToEverypayLoading
-  | SubmitSBCardDetailsToEverypaySuccess

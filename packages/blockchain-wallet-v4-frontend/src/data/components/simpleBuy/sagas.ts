@@ -2,7 +2,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -25,6 +25,7 @@ import {
   NO_PAIR_SELECTED
 } from './model'
 import { SBAddCardFormValuesType, SBCheckoutFormValuesType } from './types'
+import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
 export default ({
@@ -188,6 +189,7 @@ export default ({
 
   const fetchSBCards = function * () {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))
@@ -270,6 +272,7 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
+      yield call(waitForUserData)
       yield put(A.fetchSBPaymentMethodsLoading())
       const methods = yield call(api.getSBPaymentMethods, currency)
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
@@ -368,10 +371,10 @@ export default ({
     }
   }
 
-  const submitCardDetailsToEverypay = function * () {
+  const fetchEverypay3DSDetails = function * () {
     try {
       yield put(actions.form.startSubmit('addCCForm'))
-      yield put(A.submitCardDetailsToEverypayLoading())
+      yield put(A.fetchEverypay3DSDetailsLoading())
       const formValues: SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
@@ -379,24 +382,57 @@ export default ({
       const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
       const [nonce] = yield call(api.generateUUIDs, 1)
 
-      const response: Everypay3DSResponseType = yield call(
+      const response: { data: Everypay3DSResponseType } = yield call(
         api.submitSBCardDetailsToEverypay,
         {
           ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
           cvc: formValues['cvc'],
-          month: formValues['expiry-date'].split('/')[0],
-          year: formValues['expiry-date'].split('/')[1],
+          expirationDate: moment(formValues['expiry-date'], 'MM YY'),
+          holderName: formValues['name-on-card'],
           accessToken: providerDetails.everypay.mobileToken,
           apiUserName: providerDetails.everypay.apiUsername,
           nonce: nonce
         }
       )
       yield put(actions.form.stopSubmit('addCCForm'))
-      yield put(A.submitCardDetailsToEverypaySuccess(response))
+      yield put(A.fetchEverypay3DSDetailsSuccess(response.data))
+      yield put(
+        A.setStep({
+          step: '3DS_HANDLER'
+        })
+      )
+      yield call(pollSBCard)
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('addCCForm', { _error: error }))
-      yield put(A.submitCardDetailsToEverypayFailure(error))
+      yield put(A.fetchEverypay3DSDetailsFailure(error))
+    }
+  }
+
+  const pollSBCard = function * () {
+    const MAX_RETRY_ATTEMPTS = 15
+    let attempts = 0
+    let card: SBCardType = S.getSBCard(yield select()).getOrFail(
+      'NO_CARD_DETAILS'
+    )
+
+    while (
+      (card.state === 'CREATED' || card.state === 'PENDING') &&
+      attempts < MAX_RETRY_ATTEMPTS
+    ) {
+      attempts += 1
+      card = yield call(api.getSBCard, card.id)
+      yield delay(5000)
+    }
+
+    yield put(A.fetchSBCardSuccess(card))
+
+    switch (card.state) {
+      case 'ACTIVE':
+        return yield put(A.createSBOrder())
+      case 'BLOCKED':
+        return yield put(A.setStep({ step: 'ADD_CARD' }))
+      default:
     }
   }
 
@@ -418,6 +454,6 @@ export default ({
     handleSBSuggestedAmountClick,
     initializeCheckout,
     showModal,
-    submitCardDetailsToEverypay
+    fetchEverypay3DSDetails
   }
 }
