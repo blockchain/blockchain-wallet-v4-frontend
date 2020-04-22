@@ -39,6 +39,7 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
   modalActions: typeof actions.modals
 }
 
@@ -108,6 +109,13 @@ class Interest extends React.PureComponent<Props, State> {
           <EarnInterestInfo {...this.state} {...this.props} />
           <InterestSummary {...this.state} {...this.props} />
         </Container>
+        <div
+          onClick={() =>
+            this.props.interestActions.showInterestModal('details')
+          }
+        >
+          Show Details
+        </div>
       </SceneWrapper>
     )
   }
@@ -123,6 +131,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
     actions.components.identityVerification,
     dispatch
   ),
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

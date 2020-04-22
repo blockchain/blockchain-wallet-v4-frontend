@@ -1,13 +1,22 @@
 import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { InterestModalName } from 'data/types'
 import { ModalPropsType } from '../types'
+import { RootState } from 'data/rootReducer'
+import { selectors } from 'data'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import InterestDetails from './InterestDetails'
 import InterestForm from './InterestForm'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
 export type OwnProps = ModalPropsType
 
-type Props = OwnProps
+type LinkStatePropsType = {
+  modalName: InterestModalName
+}
+
+type Props = OwnProps & LinkStatePropsType
 
 type State = { direction: 'left' | 'right'; show: boolean }
 
@@ -24,7 +33,8 @@ class Interest extends PureComponent<Props, State> {
   }
 
   render () {
-    const { position, total } = this.props
+    const { modalName, position, total } = this.props
+    console.log(modalName)
     return (
       <Flyout
         position={position}
@@ -36,15 +46,25 @@ class Interest extends PureComponent<Props, State> {
         total={total}
       >
         <FlyoutChild>
-          <InterestForm handleClose={this.handleClose} />
+          {modalName === 'deposit' && (
+            <InterestForm handleClose={this.handleClose} />
+          )}
+          {modalName === 'details' && (
+            <InterestDetails handleClose={this.handleClose} />
+          )}
         </FlyoutChild>
       </Flyout>
     )
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  modalName: selectors.components.interest.getModalName(state)
+})
+
 const enhance = compose<any>(
-  modalEnhancer('INTEREST_MODAL', { transition: duration })
+  modalEnhancer('INTEREST_MODAL', { transition: duration }),
+  connect(mapStateToProps)
 )
 
 export default enhance(Interest)

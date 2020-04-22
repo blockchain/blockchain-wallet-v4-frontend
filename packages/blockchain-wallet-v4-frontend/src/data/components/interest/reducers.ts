@@ -82,6 +82,12 @@ export function interestReducer (
         coin: action.payload.coin
       }
     }
+    case AT.SET_INTEREST_MODAL_NAME: {
+      return {
+        ...state,
+        modalName: action.payload.modalName
+      }
+    }
 
     default:
       return state

@@ -115,9 +115,12 @@ export const setInterestModalName = (modalName: InterestModalName) => ({
   type: AT.SET_INTEREST_MODAL_NAME
 })
 
-export const showInterestModal = (modalName: InterestModalName) => ({
-  payload: {
-    modalName
-  },
-  type: AT.SHOW_INTEREST_MODAL
-})
+export const showInterestModal = (modalName: InterestModalName) => {
+  console.log(modalName)
+  return {
+    payload: {
+      modalName
+    },
+    type: AT.SHOW_INTEREST_MODAL
+  }
+}
