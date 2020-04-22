@@ -11,10 +11,16 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
+import {
+  InterestEligibleType,
+  InterestRateType,
+  NabuApiErrorType,
+  RemoteDataType
+} from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import EarnInterestInfo from './InterestInfo'
+import InterestHistory from './InterestHistory'
 import InterestSummary from './InterestSummary'
 
 import React from 'react'
@@ -34,10 +40,13 @@ type OwnProps = {
 }
 
 type LinkStatePropsType = {
+  interestEligibleR: RemoteDataType<string, InterestEligibleType>
+  interestRateR: RemoteDataType<string, InterestRateType>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
   modalActions: typeof actions.modals
 }
 
@@ -47,11 +56,15 @@ export type State = {
 }
 class Interest extends React.PureComponent<Props, State> {
   state: State = { isDisabled: false }
-  componentDidMount () {
+  componentDidMount() {
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestPaymentAccount('BTC')
+    this.props.interestActions.fetchInterestBalance()
     this.checkUserData()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       this.props.userDataR.getOrElse(null) !==
       prevProps.userDataR.getOrElse(null)
@@ -68,37 +81,43 @@ class Interest extends React.PureComponent<Props, State> {
     const isDisabled = tier < 2
     /* eslint-disable */
     this.setState({ isDisabled })
-    console.log('logging is disbaled from checkuserdata', isDisabled)
     /* eslint-enable */
   }
 
-  render () {
+  getInterestRate = () => {
+    this.props.interestActions.fetchInterestRate()
+    const interestRate = this.props.interestRateR
+  }
+
+  getInterestEligible = () => this.props
+
+  render() {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='savings-icon' color='blue600' size='24px' />
+            <Icon name="savings-icon" color="blue600" size="24px" />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.interestaccount'
-              defaultMessage='Interest Account'
+              id="scenes.interest.interestaccount"
+              defaultMessage="Interest Account"
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and watch it grow without fees.'
+            id="scenes.interest.subheader"
+            defaultMessage="Deposit crypto and watch it grow without fees."
           />
           <LearnMoreLink
-            href='https://www.support.blockchain.com/'
-            target='_blank'
+            href="https://www.support.blockchain.com/"
+            target="_blank"
           >
-            <LearnMoreText size='15px'>
+            <LearnMoreText size="15px">
               <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
+                id="buttons.learn_more"
+                defaultMessage="Learn More"
               />
             </LearnMoreText>
           </LearnMoreLink>
@@ -107,13 +126,16 @@ class Interest extends React.PureComponent<Props, State> {
           <EarnInterestInfo {...this.state} {...this.props} />
           <InterestSummary {...this.state} {...this.props} />
         </Container>
+        <InterestHistory />
       </SceneWrapper>
     )
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  userDataR: selectors.modules.profile.getUserData(state)
+  userDataR: selectors.modules.profile.getUserData(state),
+  interestRateR: selectors.components.interest.getInterestRate(state),
+  interestEligibleR: selectors.components.interest.getInterestEligible(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -121,7 +143,8 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
     actions.components.identityVerification,
     dispatch
   ),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 export default connect(
