@@ -66,14 +66,18 @@ export default ({ api }: { api: APIType }) => {
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR
 
-    if (payload.coin === 'BTC') {
-      const accountsR = yield select(
-        selectors.core.common.btc.getAccountsBalances
-      )
-      const defaultIndex = yield select(
-        selectors.core.wallet.getDefaultAccountIndex
-      )
-      defaultAccountR = accountsR.map(nth(defaultIndex))
+    switch (payload.coin) {
+      case 'BTC':
+        const accountsR = yield select(
+          selectors.core.common.btc.getAccountsBalances
+        )
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        defaultAccountR = accountsR.map(nth(defaultIndex))
+        break
+      default:
+        break
     }
 
     const initialValues = {
