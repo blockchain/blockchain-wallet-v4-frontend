@@ -129,6 +129,11 @@ export const addShownEthPrivateKey = priv => ({
   payload: { priv }
 })
 
+export const addShownEthLegacyPrivateKey = priv => ({
+  type: AT.ADD_SHOWN_ETH_LEGACY_PRIV_KEY,
+  payload: { priv }
+})
+
 export const addShownXlmPrivateKey = priv => ({
   type: AT.ADD_SHOWN_XLM_PRIV_KEY,
   payload: { priv }

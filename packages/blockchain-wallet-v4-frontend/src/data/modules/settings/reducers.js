@@ -19,6 +19,9 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.ADD_SHOWN_ETH_PRIV_KEY: {
       return assoc('shownEthPrivKey', payload.priv, state)
     }
+    case AT.ADD_SHOWN_ETH_LEGACY_PRIV_KEY: {
+      return assoc('shownEthLegacyPrivKey', payload.priv, state)
+    }
     case AT.ADD_SHOWN_XLM_PRIV_KEY: {
       return assoc('shownXlmPrivKey', payload.priv, state)
     }

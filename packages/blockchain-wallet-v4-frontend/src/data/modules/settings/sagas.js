@@ -326,15 +326,14 @@ export default ({ api, coreSagas }) => {
         const seedHexT = yield select(getSeedHex)
         const seedHex = yield call(() => taskToPromise(seedHexT))
         const legPriv = utils.eth.getLegacyPrivateKey(seedHex).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
-      } else {
-        const getMnemonic = state =>
-          selectors.core.wallet.getMnemonic(state, password)
-        const mnemonicT = yield select(getMnemonic)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
+        yield put(actions.modules.settings.addShownEthLegacyPrivateKey(legPriv))
       }
+      const getMnemonic = state =>
+        selectors.core.wallet.getMnemonic(state, password)
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
+      yield put(actions.modules.settings.addShownEthPrivateKey(priv))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e)

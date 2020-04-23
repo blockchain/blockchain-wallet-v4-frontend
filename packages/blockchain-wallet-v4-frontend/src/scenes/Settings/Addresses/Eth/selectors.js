@@ -10,7 +10,7 @@ export const getData = (state, props) => {
   const legacyAddressInfo = {
     addr: legacyEthAddr,
     balance: selectors.core.data.eth.getLegacyBalance(state).getOrElse(0),
-    priv: state.securityCenter.shownEthPrivKey
+    priv: state.securityCenter.shownEthLegacyPrivKey
   }
 
   const addressInfo = {
