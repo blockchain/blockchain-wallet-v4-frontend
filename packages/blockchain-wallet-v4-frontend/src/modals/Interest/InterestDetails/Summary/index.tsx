@@ -28,7 +28,7 @@ const LineVector = styled.div`
   margin: 10px 0;
 `
 
-const Summary: React.FC = () => {
+const Summary: React.FC<{}> = () => {
   return (
     <Wrapper>
       <Text color='grey900' weight={600} style={{ marginBottom: '6px' }}>

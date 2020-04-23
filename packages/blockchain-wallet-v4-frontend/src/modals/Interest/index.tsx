@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { InterestStep, InterestSteps } from 'data/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
@@ -9,20 +9,6 @@ import InterestDetails from './InterestDetails'
 import InterestForm from './InterestForm'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
-
-export type OwnProps = ModalPropsType
-
-type LinkStatePropsType = {
-  step: InterestStep
-}
-
-type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-
-type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
-
-type State = { direction: 'left' | 'right'; show: boolean }
 
 class Interest extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -87,7 +73,7 @@ class Interest extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   step: selectors.components.interest.getStep(state)
 })
 
@@ -95,12 +81,24 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
+type OwnProps = ModalPropsType
+type LinkStatePropsType = {
+  step: InterestStep
+}
+type LinkDispatchPropsType = {
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+type State = { direction: 'left' | 'right'; show: boolean }
+type Props = OwnProps & ConnectedProps<typeof connector>
+
 const enhance = compose<any>(
   modalEnhancer('INTEREST_MODAL', { transition: duration }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
 
 export default enhance(Interest)

@@ -68,13 +68,6 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
-type ParentProps = {
-  handleDepositClick: () => void
-  handleSBClick: () => void
-}
-
-type Props = OwnProps & LinkDispatchPropsType & SuccessStateType & ParentProps
-
 const Success: React.FC<Props> = ({
   coin,
   handleClose,
@@ -194,4 +187,12 @@ const Success: React.FC<Props> = ({
     </Wrapper>
   )
 }
+
+type ParentProps = {
+  handleDepositClick: () => void
+  handleSBClick: () => void
+}
+
+type Props = OwnProps & LinkDispatchPropsType & SuccessStateType & ParentProps
+
 export default Success
