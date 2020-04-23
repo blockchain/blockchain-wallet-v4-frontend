@@ -70,7 +70,7 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
 
 type ParentProps = {
   handleDepositClick: () => void
-  handleSimpleBuyClick: () => void
+  handleSBClick: () => void
 }
 
 type Props = OwnProps & LinkDispatchPropsType & SuccessStateType & ParentProps
@@ -79,7 +79,7 @@ const Success: React.FC<Props> = ({
   coin,
   handleClose,
   handleDepositClick,
-  handleSimpleBuyClick,
+  handleSBClick,
   supportedCoins
 }) => {
   const displayName = supportedCoins[coin].displayName
@@ -158,7 +158,7 @@ const Success: React.FC<Props> = ({
             data-e2e='borrowCancel'
             height='48px'
             nature='empty'
-            onClick={handleSimpleBuyClick}
+            onClick={handleSBClick}
             width='192px'
           >
             <Text size='16px' weight={600} color='blue600'>

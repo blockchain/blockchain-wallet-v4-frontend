@@ -11,6 +11,7 @@ import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
+  handleSBClick: () => void
 }
 
 export type LinkDispatchPropsType = {
@@ -33,10 +34,6 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class InterestForm extends PureComponent<Props> {
   state = {}
 
-  handleSimpleBuyClick = () => {
-    this.props.simpleBuyActions.showModal('sideNav')
-  }
-
   handleDepositClick = () => {
     this.props.interestActions.showInterestModal('DEPOSIT')
   }
@@ -53,7 +50,6 @@ class InterestForm extends PureComponent<Props> {
           {...val}
           {...this.props}
           handleDepositClick={this.handleDepositClick}
-          handleSimpleBuyClick={this.handleSimpleBuyClick}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,

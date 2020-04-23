@@ -1,12 +1,12 @@
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FormattedMessage } from 'react-intl'
-import { getNextMonth } from './model'
 import {
   Link,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -43,7 +43,10 @@ const Summary: React.FC = () => {
           />
         </Text>
         <Text color='grey600' size='14px' weight={500}>
-          {getNextMonth()}
+          {moment()
+            .add(1, 'month')
+            .startOf('month')
+            .format('MMMM D, YYYY')}
         </Text>
       </SummaryItemContainer>
       <LineVector />
@@ -99,7 +102,7 @@ const Summary: React.FC = () => {
           </Link>
         </Text>
         <Text color='grey600' size='14px' weight={500}>
-          {getNextMonth()}
+          3.00%
         </Text>
       </SummaryItemContainer>
     </Wrapper>

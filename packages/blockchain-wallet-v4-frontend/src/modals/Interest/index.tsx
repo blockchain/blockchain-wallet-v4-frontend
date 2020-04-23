@@ -1,9 +1,9 @@
-import { compose } from 'redux'
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { InterestStep, InterestSteps } from 'data/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import InterestDetails from './InterestDetails'
 import InterestForm from './InterestForm'
@@ -16,7 +16,11 @@ type LinkStatePropsType = {
   step: InterestStep
 }
 
-type Props = OwnProps & LinkStatePropsType
+type LinkDispatchPropsType = {
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+
+type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
 
 type State = { direction: 'left' | 'right'; show: boolean }
 
@@ -40,7 +44,17 @@ class Interest extends PureComponent<Props, State> {
 
   handleClose = () => {
     this.setState({ show: false })
-    setTimeout(this.props.close, duration)
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
+  }
+
+  handleSBClick = () => {
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+      this.props.simpleBuyActions.showModal('sideNav')
+    }, duration / 2)
   }
 
   render () {
@@ -62,7 +76,10 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step === 'DETAILS' && (
           <FlyoutChild>
-            <InterestDetails handleClose={this.handleClose} />
+            <InterestDetails
+              handleClose={this.handleClose}
+              handleSBClick={this.handleSBClick}
+            />
           </FlyoutChild>
         )}
       </Flyout>
@@ -74,9 +91,16 @@ const mapStateToProps = (state: RootState) => ({
   step: selectors.components.interest.getStep(state)
 })
 
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+})
+
 const enhance = compose<any>(
   modalEnhancer('INTEREST_MODAL', { transition: duration }),
-  connect(mapStateToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(Interest)
