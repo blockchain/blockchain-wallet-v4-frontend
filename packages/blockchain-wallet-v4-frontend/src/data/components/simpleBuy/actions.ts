@@ -46,8 +46,9 @@ export const cancelSBOrder = (order: SBOrderType) => ({
   order
 })
 
-export const createSBOrder = () => ({
-  type: AT.CREATE_ORDER
+export const createSBOrder = (paymentMethodId?: SBCardType['id']) => ({
+  type: AT.CREATE_ORDER,
+  paymentMethodId
 })
 
 export const confirmSBOrder = () => ({

@@ -104,7 +104,9 @@ export default ({
     }
   }
 
-  const createSBOrder = function * () {
+  const createSBOrder = function * ({
+    paymentMethodId
+  }: ReturnType<typeof A.createSBOrder>) {
     try {
       const values: SBCheckoutFormValuesType = yield select(
         selectors.form.getFormValues('simpleBuyCheckout')
@@ -121,7 +123,8 @@ export default ({
         action,
         true,
         { amount, symbol: getFiatFromPair(pair.pair) },
-        { symbol: getCoinFromPair(pair.pair) }
+        { symbol: getCoinFromPair(pair.pair) },
+        paymentMethodId
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
@@ -417,6 +420,7 @@ export default ({
 
     while (
       (card.state === 'CREATED' || card.state === 'PENDING') &&
+      (card.state === 'PENDING' && !card.card) &&
       retryAttempts < maxRetryAttempts
     ) {
       card = yield call(api.getSBCard, cardId)

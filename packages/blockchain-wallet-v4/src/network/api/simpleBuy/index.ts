@@ -63,7 +63,8 @@ export default ({
     input: SBMoneyType,
     output: {
       symbol: CoinType
-    }
+    },
+    paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -74,7 +75,8 @@ export default ({
         pair,
         action,
         input,
-        output
+        output,
+        paymentMethodId
       }
     })
 

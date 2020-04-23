@@ -1,13 +1,16 @@
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  CARD_TYPES,
+  DEFAULT_CARD_SVG_LOGO
+} from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Field } from 'redux-form'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
-import { SBPaymentMethodType } from 'core/types'
+import { SBCardType, SBPaymentMethodType } from 'core/types'
 import { SelectBox } from 'components/Form'
-import React, { PureComponent } from 'react'
+import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
 
 const SelectBoxMethod = styled(SelectBox)`
@@ -65,52 +68,91 @@ const Limit = styled(Text)`
 class MethodSelect extends PureComponent<Props> {
   state = {}
 
-  getType = (type: 'BANK_TRANSFER' | 'CARD') => {
-    switch (type) {
+  getType = (value: ElementValueType) => {
+    switch (value.type) {
       case 'BANK_TRANSFER':
         return 'Bank Wire Transfer'
       case 'CARD':
         return 'Credit or Debit Card'
+      case 'USER_CARD':
+        return value.card.label
     }
   }
 
-  getIcon = (type: 'BANK_TRANSFER' | 'CARD'): keyof IcoMoonType => {
-    switch (type) {
+  getIcon = (value: ElementValueType): ReactElement => {
+    switch (value.type) {
       case 'BANK_TRANSFER':
-        return 'bank-filled'
+        return (
+          <IconContainer>
+            <Icon size='18px' color='blue600' name='bank-filled' />
+          </IconContainer>
+        )
       case 'CARD':
-        return 'credit-card-filled'
+        return (
+          <IconContainer>
+            <Icon size='18px' color='blue600' name='credit-card-filled' />
+          </IconContainer>
+        )
+      case 'USER_CARD':
+        let cardType = CARD_TYPES.find(
+          card => card.type === value.card.type.toLowerCase()
+        )
+        return (
+          <img
+            height='18px'
+            width='auto'
+            src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
+          />
+        )
     }
   }
 
   renderElements = () => {
+    const availableCards = this.props.cards.filter(({ card }) => !!card)
+    const defaultCardMethod = this.props.paymentMethods.methods.find(
+      m => m.type === 'CARD'
+    )
+    const cardMethods = availableCards.map(card => ({
+      text: card.card.label,
+      value: {
+        ...card,
+        type: 'USER_CARD',
+        limits: defaultCardMethod
+          ? defaultCardMethod.limits
+          : { min: '1000', max: '500000' }
+      }
+    }))
+    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
+      text: this.getType(value),
+      value
+    }))
+
     return [
       {
         group: '',
-        items: this.props.paymentMethods.methods.map(value => ({
-          text: this.getType(value.type),
-          value
-        }))
+        items: [...cardMethods, ...defaultMethods]
       }
     ]
   }
 
-  renderDisplay = (props: { value: SBPaymentMethodType }, children) => {
+  renderDisplay = (
+    props: {
+      value: ElementValueType
+    },
+    children
+  ) => {
     if (!props.value) return
     if (!this.props.formValues) return
     if (!this.props.formValues.pair) return
 
-    const icon = this.getIcon(props.value.type)
     const fiat = getFiatFromPair(this.props.formValues.pair.pair)
     const isItem = !children
 
     return (
       <DisplayContainer isItem={isItem}>
-        <IconContainer>
-          <Icon size='18px' color='blue600' name={icon} />
-        </IconContainer>
+        {this.getIcon(props.value)}
         <Display>
-          {children || this.getType(props.value.type)}
+          {children || this.getType(props.value)}
           <Limit>
             {Currency.fiatToString({
               value: convertBaseToStandard('FIAT', props.value.limits.max),
@@ -137,5 +179,12 @@ class MethodSelect extends PureComponent<Props> {
     )
   }
 }
+
+type ElementValueType =
+  | SBPaymentMethodType
+  | SBCardType & {
+      limits: SBPaymentMethodType['limits']
+      type: 'USER_CARD'
+    }
 
 export default MethodSelect

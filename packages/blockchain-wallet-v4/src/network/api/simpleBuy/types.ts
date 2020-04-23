@@ -65,14 +65,25 @@ export type SBCardType = {
   addedAt: Date
   address: NabuAddressType
   attributes: {}
-  card: null
+  card: {
+    expireMonth: number
+    expireYear: number
+    label: string
+    number: string
+    type: 'VISA' | 'MASTERCARD'
+  }
   currency: 'EUR'
   id: string
   partner: 'EVERYPAY'
   state: SBCardStateType
 }
 
-export type SBCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED'
+export type SBCardStateType =
+  | 'PENDING'
+  | 'CREATED'
+  | 'ACTIVE'
+  | 'BLOCKED'
+  | 'FRAUD_REVIEW'
 
 export enum SBBuyPairsType {
   'BTC-EUR',
