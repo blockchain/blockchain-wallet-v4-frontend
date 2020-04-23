@@ -12,6 +12,7 @@ import {
   SceneWrapper
 } from 'components/Layout'
 import {
+  CoinType,
   InterestEligibleType,
   InterestRateType,
   NabuApiErrorType,
@@ -21,7 +22,7 @@ import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import EarnInterestInfo from './InterestInfo'
 import InterestHistory from './InterestHistory'
-import InterestSummary from './InterestSummary'
+import InterestSummary from './InterestDepositBox'
 
 import React from 'react'
 import styled from 'styled-components'
@@ -35,31 +36,11 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
-type OwnProps = {
-  isDisabled: boolean
-}
 
-type LinkStatePropsType = {
-  interestEligibleR: RemoteDataType<string, InterestEligibleType>
-  interestRateR: RemoteDataType<string, InterestRateType>
-  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
-}
-type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-  interestActions: typeof actions.components.interest
-  modalActions: typeof actions.modals
-}
-
-export type Props = LinkDispatchPropsType & LinkStatePropsType & OwnProps
-export type State = {
-  isDisabled: boolean
-}
-class Interest extends React.PureComponent<Props, State> {
-  state: State = { isDisabled: false }
+class Interest extends React.PureComponent<Props> {
   componentDidMount() {
     this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestRate()
-    this.props.interestActions.fetchInterestPaymentAccount('BTC')
+    this.props.interestActions.fetchInterestPaymentAccount(this.props.coin)
     this.props.interestActions.fetchInterestBalance()
     this.checkUserData()
   }
@@ -84,12 +65,7 @@ class Interest extends React.PureComponent<Props, State> {
     /* eslint-enable */
   }
 
-  getInterestRate = () => {
-    this.props.interestActions.fetchInterestRate()
-    const interestRate = this.props.interestRateR
-  }
-
-  getInterestEligible = () => this.props
+  // getInterestEligible = () => this.props
 
   render() {
     return (
@@ -111,7 +87,7 @@ class Interest extends React.PureComponent<Props, State> {
             defaultMessage="Deposit crypto and watch it grow without fees."
           />
           <LearnMoreLink
-            href="https://www.support.blockchain.com/"
+            href="https://support.blockchain.com/hc/en-us/sections/360008572552"
             target="_blank"
           >
             <LearnMoreText size="15px">
@@ -132,10 +108,28 @@ class Interest extends React.PureComponent<Props, State> {
   }
 }
 
+export type OwnProps = {
+  isDisabled: boolean
+  coin: CoinType
+}
+
+type LinkStatePropsType = {
+  interestEligibleR: RemoteDataType<string, InterestEligibleType>
+  interestRateR: RemoteDataType<string, InterestRateType>
+  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
+}
+export type LinkDispatchPropsType = {
+  identityVerificationActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
+  modalActions: typeof actions.modals
+}
+
+export type Props = LinkDispatchPropsType & LinkStatePropsType & OwnProps
+
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userDataR: selectors.modules.profile.getUserData(state),
-  interestRateR: selectors.components.interest.getInterestRate(state),
-  interestEligibleR: selectors.components.interest.getInterestEligible(state)
+  interestEligibleR: selectors.components.interest.getInterestEligible(state),
+  interestRateR: selectors.components.interest.getInterestRate(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

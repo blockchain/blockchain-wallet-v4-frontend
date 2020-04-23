@@ -7,7 +7,7 @@ import { nth } from 'ramda'
 import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchInterestAccountBalance = function * () {
+  const fetchInterestBalance = function*() {
     try {
       yield put(A.fetchInterestBalanceLoading())
       const response: ReturnType<
@@ -19,7 +19,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchInterestBalanceFailure(error))
     }
   }
-  const fetchInterestEligible = function * () {
+  const fetchInterestEligible = function*() {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -32,7 +32,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestInstruments = function * () {
+  const fetchInterestInstruments = function*() {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<
@@ -45,7 +45,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestLimits = function * () {
+  const fetchInterestLimits = function*() {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
@@ -58,35 +58,33 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestPaymentAccount = function * ({
-    cryptoCurrency
+  const fetchInterestPaymentAccount = function*({
+    coin
   }: ReturnType<typeof A.fetchInterestPaymentAccount>) {
     try {
       yield put(A.fetchInterestPaymentAccountLoading())
-      const response: ReturnType<
-        typeof api.getInterestPaymentAccount
-      > = yield call(api.getInterestPaymentAccount, cryptoCurrency)
-      yield put(A.fetchInterestPaymentAccountSuccess(response))
+      const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
+      yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestPaymentAccountFailure(error))
     }
   }
 
-  const fetchInterestRate = function * () {
+  const fetchInterestRate = function*({
+    coin
+  }): ReturnType<typeof api.getInterestSavingsRate> {
     try {
       yield put(A.fetchInterestRateLoading())
-      const response: ReturnType<
-        typeof api.getInterestSavingsRate
-      > = yield call(api.getInterestSavingsRate)
-      yield put(A.fetchInterestRateSuccess(response.interestRate))
+      const interestRate = yield call(api.getInterestSavingsRate)
+      yield put(A.fetchInterestRateSuccess(interestRate))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestRateFailure(error))
     }
   }
 
-  const fetchInterestTransactions = function * () {
+  const fetchInterestTransactions = function*() {
     try {
       yield put(A.fetchInterestTransactionsLoading())
       const response: ReturnType<
@@ -99,7 +97,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const initializeInterest = function * ({
+  const initializeInterest = function*({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR
@@ -125,7 +123,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    fetchInterestAccountBalance,
+    fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,

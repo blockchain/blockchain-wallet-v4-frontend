@@ -9,11 +9,12 @@ enum IneligibilityReason {
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
     balanceAvailable: number
-    fiatAmount: number
-    fiatCurrency: string
-    pendingDeposit: number
     pendingInterest: number
+    totalInterest: number
     pendingWithdrawal: number
+    pendingDeposit: number
+    fiatAmount: number
+    fiatCurrency: FiatType
   }
 }
 
@@ -37,9 +38,7 @@ export type InterestPaymentAccountType = {
 }
 
 export type InterestRateType = {
-  [key in CoinType]?: {
-    percentAER: number
-  }
+  coin: number
 }
 
 type MoneyType = {

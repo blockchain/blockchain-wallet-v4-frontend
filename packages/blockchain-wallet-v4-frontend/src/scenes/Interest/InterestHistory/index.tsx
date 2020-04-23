@@ -13,14 +13,14 @@ import styled from 'styled-components'
 import Success from './template.success'
 
 const History = styled.div`
-  margin-top: 72px;
+  margin-top: 48px;
   max-width: 1200px;
 `
 
 class InterestHistory extends Component {
   state = {}
 
-  render () {
+  render() {
     return (
       <History>
         <Success />
