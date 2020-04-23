@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import media from 'services/ResponsiveService'
@@ -22,6 +23,11 @@ const KeyWrapper = styled.div`
   display: flex;
   margin-top: 1.5rem;
   padding-right: 1.5rem;
+`
+
+const DualWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const DetailTable = styled.div`
@@ -54,61 +60,119 @@ const CodeWrapper = styled(Wrapper)`
 `
 
 const EthAddresses = ({
-  addr,
-  balance,
-  privateKey,
+  addressInfo,
+  legacyAddressInfo,
   showQrCode,
   toggleQrCode
 }) => (
   <Wrapper color='grey000' showQrCode={showQrCode}>
     <ViewKeys showQrCode={showQrCode} toggleQrCode={toggleQrCode} />
     {showQrCode && (
-      <KeyWrapper>
-        <CodeWrapper>
-          <QRCodeWrapper value={privateKey} size={230} />
-        </CodeWrapper>
-        <DetailTable>
-          <DetailColumn>
-            <DetailRowText color='grey600' size='12px' weight={500}>
-              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
-            </DetailRowText>
-            <CoinDisplay coin='ETH' size='14px' weight={600}>
-              {balance}
-            </CoinDisplay>
-          </DetailColumn>
-
-          <DetailColumn>
-            <DetailRowText color='grey600' size='12px' weight={500}>
-              <FormattedMessage id='copy.address' defaultMessage='Address' />
-            </DetailRowText>
-
-            <DataRowText
-              size='14px'
-              weight={600}
-              data-e2e='xlmPrivateKeyAddress'
-            >
-              {addr}
-            </DataRowText>
-          </DetailColumn>
-
-          <DetailColumn>
-            <DetailRowText color='grey600' size='12px' weight={500}>
-              <FormattedMessage
-                id='copy.private_key'
-                defaultMessage='Private Key'
+      <DualWrapper>
+        {legacyAddressInfo && (
+          <KeyWrapper>
+            <CodeWrapper>
+              <QRCodeWrapper
+                value={prop('priv', legacyAddressInfo)}
+                size={230}
               />
-            </DetailRowText>
+            </CodeWrapper>
+            <DetailTable>
+              <DetailColumn>
+                <DetailRowText color='grey600' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='copy.balance'
+                    defaultMessage='Balance'
+                  />
+                </DetailRowText>
+                <CoinDisplay coin='ETH' size='14px' weight={600}>
+                  {prop('balance', legacyAddressInfo)}
+                </CoinDisplay>
+              </DetailColumn>
 
-            <DataRowText
-              size='14px'
-              weight={600}
-              data-e2e='xlmPrivateKeyPrivKey'
-            >
-              {privateKey}
-            </DataRowText>
-          </DetailColumn>
-        </DetailTable>
-      </KeyWrapper>
+              <DetailColumn>
+                <DetailRowText color='grey600' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='copy.address'
+                    defaultMessage='Address'
+                  />
+                </DetailRowText>
+
+                <DataRowText
+                  size='14px'
+                  weight={600}
+                  data-e2e='xlmPrivateKeyAddress'
+                >
+                  {prop('addr', legacyAddressInfo)}
+                </DataRowText>
+              </DetailColumn>
+
+              <DetailColumn>
+                <DetailRowText color='grey600' size='12px' weight={500}>
+                  <FormattedMessage
+                    id='copy.private_key'
+                    defaultMessage='Private Key'
+                  />
+                </DetailRowText>
+
+                <DataRowText
+                  size='14px'
+                  weight={600}
+                  data-e2e='xlmPrivateKeyPrivKey'
+                >
+                  {prop('priv', legacyAddressInfo)}
+                </DataRowText>
+              </DetailColumn>
+            </DetailTable>
+          </KeyWrapper>
+        )}
+        <KeyWrapper>
+          <CodeWrapper>
+            <QRCodeWrapper value={prop('priv', addressInfo)} size={230} />
+          </CodeWrapper>
+          <DetailTable>
+            <DetailColumn>
+              <DetailRowText color='grey600' size='12px' weight={500}>
+                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
+              </DetailRowText>
+              <CoinDisplay coin='ETH' size='14px' weight={600}>
+                {prop('balance', addressInfo)}
+              </CoinDisplay>
+            </DetailColumn>
+
+            <DetailColumn>
+              <DetailRowText color='grey600' size='12px' weight={500}>
+                <FormattedMessage id='copy.address' defaultMessage='Address' />
+              </DetailRowText>
+
+              <DataRowText
+                size='14px'
+                weight={600}
+                data-e2e='xlmPrivateKeyAddress'
+              >
+                {prop('addr', addressInfo)}
+              </DataRowText>
+            </DetailColumn>
+
+            <DetailColumn>
+              <DetailRowText color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='copy.private_key'
+                  defaultMessage='Private Key'
+                />
+              </DetailRowText>
+
+              <DataRowText
+                size='14px'
+                weight={600}
+                data-e2e='xlmPrivateKeyPrivKey'
+              >
+                {prop('priv', addressInfo)}
+              </DataRowText>
+            </DetailColumn>
+          </DetailTable>
+        </KeyWrapper>
+      </DualWrapper>
     )}
   </Wrapper>
 )

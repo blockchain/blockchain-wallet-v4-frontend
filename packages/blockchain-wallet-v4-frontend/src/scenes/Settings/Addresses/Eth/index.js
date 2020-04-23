@@ -28,8 +28,8 @@ class ShowEthPrivateKeyContainer extends Component {
   render () {
     return (
       <ShowEthPrivateKeyTemplate
-        {...this.props}
-        privateKey={this.props.priv}
+        addressInfo={this.props.addressInfo}
+        legacyAddressInfo={this.props.legacyAddressInfo}
         showQrCode={this.state.showQrCode}
         toggleQrCode={this.toggleQrCode}
       />
