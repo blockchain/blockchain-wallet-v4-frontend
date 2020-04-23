@@ -296,9 +296,7 @@ const buildDevServerConfig = (
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',
-          'https://bitpay.com',
-          'https://static.zdassets.com',
-          'https://ekr.zdassets.com'
+          'https://bitpay.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

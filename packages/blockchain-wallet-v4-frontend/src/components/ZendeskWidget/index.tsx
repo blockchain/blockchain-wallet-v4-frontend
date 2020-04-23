@@ -45,8 +45,9 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
 
   postMsgToWalletHelper = (methodName, data) => {
     const frame = document.getElementById('zendesk-iframe') as HTMLIFrameElement
-    // ensure chat is not already enabled before sending message
-    if (frame && frame.contentWindow && !this.state.chatEnabled) {
+    // ensure iframe is loaded before sending message
+    const waitForFrameLoad = setInterval(() => {
+      if (!frame || !frame.contentWindow) return
       this.setState({ chatEnabled: true })
       frame.contentWindow.postMessage(
         {
@@ -55,7 +56,9 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
         },
         '*'
       )
-    }
+
+      clearInterval(waitForFrameLoad)
+    }, 3000)
   }
 
   render () {
