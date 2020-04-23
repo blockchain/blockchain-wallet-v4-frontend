@@ -31,8 +31,6 @@ const DualWrapper = styled.div`
 `
 
 const DetailTable = styled.div`
-  margin-top: 1.5rem;
-
   > div {
     word-break: break-word;
   }
@@ -45,6 +43,11 @@ const DetailTable = styled.div`
 const DetailColumn = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const DetailColTitle = styled(DetailColumn)`
+  border-bottom: ${props => `solid 1px ${props.theme.grey000}`};
+  padding-bottom: 0.5rem;
 `
 
 const DetailRowText = styled(Text)`
@@ -78,6 +81,14 @@ const EthAddresses = ({
               />
             </CodeWrapper>
             <DetailTable>
+              <DetailColTitle>
+                <DetailRowText color='blue600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.settings.address.eth.legacy'
+                    defaultMessage='Legacy Address Info'
+                  />
+                </DetailRowText>
+              </DetailColTitle>
               <DetailColumn>
                 <DetailRowText color='grey600' size='12px' weight={500}>
                   <FormattedMessage
@@ -131,6 +142,16 @@ const EthAddresses = ({
             <QRCodeWrapper value={prop('priv', addressInfo)} size={230} />
           </CodeWrapper>
           <DetailTable>
+            {legacyAddressInfo && (
+              <DetailColTitle>
+                <DetailRowText color='blue600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.settings.address.eth.address'
+                    defaultMessage='Address Info'
+                  />
+                </DetailRowText>
+              </DetailColTitle>
+            )}
             <DetailColumn>
               <DetailRowText color='grey600' size='12px' weight={500}>
                 <FormattedMessage id='copy.balance' defaultMessage='Balance' />
