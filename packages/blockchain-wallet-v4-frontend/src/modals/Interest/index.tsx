@@ -1,6 +1,6 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { InterestModalName } from 'data/types'
+import { InterestStep, InterestSteps } from 'data/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
@@ -13,7 +13,7 @@ import React, { PureComponent } from 'react'
 export type OwnProps = ModalPropsType
 
 type LinkStatePropsType = {
-  modalName: InterestModalName
+  step: InterestStep
 }
 
 type Props = OwnProps & LinkStatePropsType
@@ -27,14 +27,24 @@ class Interest extends PureComponent<Props, State> {
     this.setState({ show: true }) //eslint-disable-line
   }
 
+  componentDidUpdate (prevProps: Props) {
+    if (this.props.step === prevProps.step) return
+    if (InterestSteps[this.props.step] > InterestSteps[prevProps.step]) {
+      /* eslint-disable */
+      this.setState({ direction: 'left' })
+    } else {
+      this.setState({ direction: 'right' })
+      /* eslint-enable */
+    }
+  }
+
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(this.props.close, duration)
   }
 
   render () {
-    const { modalName, position, total } = this.props
-    console.log(modalName)
+    const { step, position, total } = this.props
     return (
       <Flyout
         position={position}
@@ -45,21 +55,23 @@ class Interest extends PureComponent<Props, State> {
         data-e2e='interestModal'
         total={total}
       >
-        <FlyoutChild>
-          {modalName === 'deposit' && (
+        {step === 'DEPOSIT' && (
+          <FlyoutChild>
             <InterestForm handleClose={this.handleClose} />
-          )}
-          {modalName === 'details' && (
+          </FlyoutChild>
+        )}
+        {step === 'DETAILS' && (
+          <FlyoutChild>
             <InterestDetails handleClose={this.handleClose} />
-          )}
-        </FlyoutChild>
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
-  modalName: selectors.components.interest.getModalName(state)
+  step: selectors.components.interest.getStep(state)
 })
 
 const enhance = compose<any>(

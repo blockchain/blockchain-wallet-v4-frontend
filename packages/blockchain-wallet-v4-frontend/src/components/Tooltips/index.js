@@ -290,6 +290,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Placeholder text on how we calculate interest.'
           />
         </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.tooltip.description'
+            defaultMessage='DONTFORGETTOCHANGEME'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.lock.tooltip.description'
+            defaultMessage='DONTFORGETTOCHANGEME'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

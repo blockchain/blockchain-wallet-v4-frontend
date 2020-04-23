@@ -14,5 +14,4 @@ export const getInterestLimits = (state: RootState) =>
 export const getInterestPaymentAccount = (state: RootState) =>
   state.components.interest.account
 
-export const getModalName = (state: RootState) =>
-  state.components.interest.modalName
+export const getStep = (state: RootState) => state.components.interest.step

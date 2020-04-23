@@ -20,6 +20,7 @@ export type LinkDispatchPropsType = {
 
 export type SuccessStateType = {
   coin: CoinType
+  rates: RatesType
   supportedCoins: SupportedCoinsType
 }
 
@@ -37,11 +38,11 @@ class InterestForm extends PureComponent<Props> {
   }
 
   handleDepositClick = () => {
-    this.props.interestActions.showInterestModal('deposit')
+    this.props.interestActions.showInterestModal('DEPOSIT')
   }
 
   handleRefresh = () => {
-    this.props.interestActions.showInterestModal('deposit')
+    this.props.interestActions.showInterestModal('DEPOSIT')
   }
 
   render () {

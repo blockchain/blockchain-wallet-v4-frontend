@@ -1,17 +1,11 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import {
-  coinToString,
-  fiatToString
-} from 'blockchain-wallet-v4/src/exchange/currency'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { InterestFormValuesType } from 'data/components/interest/types'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { selectors } from 'data'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import Summary from './Summary'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -61,7 +55,6 @@ const LineVector = styled.div`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
-  height: 100%;
   margin-top: 56px;
 `
 
@@ -135,15 +128,15 @@ const Success: React.FC<Props> = ({
           <Container>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.detailsbalance'
-                defaultMessage='Your {coin} Balance'
-                values={{ coin }}
+                id='modals.interest.totalearned'
+                defaultMessage='Total Interest Earned'
               />
             </Text>
             <Text color='grey800' size='20px' weight={600}>
               {fiatToString({
-                value: 6726.43,
-                unit: 'USD'
+                value: 0.00000254,
+                unit: 'USD',
+                digits: 8
               })}
             </Text>
           </Container>
@@ -177,13 +170,23 @@ const Success: React.FC<Props> = ({
             </Text>
           </Button>
         </ButtonContainer>
+        <Summary />
       </Top>
 
       <Bottom>
         <ButtonContainer>
-          <Button nature='empty' data-e2e='borrowCancel' onClick={handleClose}>
-            <Text size='16px' weight={600} color='blue600'>
-              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+          <Button
+            data-e2e='borrowCancel'
+            fullwidth
+            height='48px'
+            nature='grey800'
+            onClick={handleClose}
+          >
+            <Text color='white' size='16px' weight={600}>
+              <FormattedMessage
+                id='buttons.withdraw'
+                defaultMessage='Withdraw'
+              />
             </Text>
           </Button>
         </ButtonContainer>

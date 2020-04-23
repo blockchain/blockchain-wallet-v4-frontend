@@ -87,7 +87,7 @@ export default ({ api }: { api: APIType }) => {
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
-    yield put(A.setInterestModalName(payload.modalName))
+    yield put(A.setInterestStep(payload.step))
     yield put(actions.modals.showModal('INTEREST_MODAL'))
   }
 

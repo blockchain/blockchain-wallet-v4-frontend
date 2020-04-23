@@ -8,7 +8,7 @@ const INITIAL_STATE: InterestState = {
   interestEligible: Remote.NotAsked,
   interestInstruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
-  modalName: 'deposit'
+  step: 'DEPOSIT'
 }
 
 export function interestReducer (
@@ -82,10 +82,10 @@ export function interestReducer (
         coin: action.payload.coin
       }
     }
-    case AT.SET_INTEREST_MODAL_NAME: {
+    case AT.SET_INTEREST_STEP: {
       return {
         ...state,
-        modalName: action.payload.modalName
+        step: action.payload.step
       }
     }
 

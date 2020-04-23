@@ -111,7 +111,7 @@ class Interest extends React.PureComponent<Props, State> {
         </Container>
         <div
           onClick={() =>
-            this.props.interestActions.showInterestModal('details')
+            this.props.interestActions.showInterestModal('DETAILS')
           }
         >
           Show Details
