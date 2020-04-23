@@ -1,8 +1,9 @@
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -13,6 +14,7 @@ import {
   FiatEligibleType,
   FiatType,
   SBAccountType,
+  SBCardStateType,
   SBCardType,
   SBOrderType,
   SBProviderDetailsType,
@@ -64,7 +66,7 @@ export default ({
         providerDetails = yield call(
           api.activateSBCard,
           card.id,
-          `${domains.walletHelper}/wallet-helper/everypay`
+          `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
         )
         yield put(A.activateSBCardSuccess(providerDetails))
       } else {
@@ -142,6 +144,43 @@ export default ({
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+    }
+  }
+
+  const fetchEverypay3DSDetails = function * () {
+    try {
+      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(A.fetchEverypay3DSDetailsLoading())
+      const formValues: SBAddCardFormValuesType = yield select(
+        selectors.form.getFormValues('addCCForm')
+      )
+      const providerDetailsR = S.getSBProviderDetails(yield select())
+      const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
+      const [nonce] = yield call(api.generateUUIDs, 1)
+
+      const response: { data: Everypay3DSResponseType } = yield call(
+        api.submitSBCardDetailsToEverypay,
+        {
+          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+          cvc: formValues['cvc'],
+          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
+          holderName: formValues['name-on-card'],
+          accessToken: providerDetails.everypay.mobileToken,
+          apiUserName: providerDetails.everypay.apiUsername,
+          nonce: nonce
+        }
+      )
+      yield put(actions.form.stopSubmit('addCCForm'))
+      yield put(A.fetchEverypay3DSDetailsSuccess(response.data))
+      yield put(
+        A.setStep({
+          step: '3DS_HANDLER'
+        })
+      )
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('addCCForm', { _error: error }))
+      yield put(A.fetchEverypay3DSDetailsFailure(error))
     }
   }
 
@@ -355,6 +394,47 @@ export default ({
     }
   }
 
+  const pollErrorHandler = function * (state: SBCardStateType) {
+    yield put(A.setStep({ step: 'ADD_CARD' }))
+    yield take(AT.ACTIVATE_SB_CARD_SUCCESS)
+    yield put(actions.form.startSubmit('addCCForm'))
+    yield put(
+      actions.form.stopSubmit('addCCForm', {
+        _error: `Card state is: ${state}. Please try again or contact support if you believe this occured in error.`
+      })
+    )
+  }
+
+  const pollSBCard = function * ({ payload }: ReturnType<typeof A.pollSBCard>) {
+    let retryAttempts = 0
+    let maxRetryAttempts = 20
+
+    const { cardId } = payload
+    let card: ReturnType<typeof api.getSBCard> = yield call(
+      api.getSBCard,
+      cardId
+    )
+
+    while (
+      (card.state === 'CREATED' || card.state === 'PENDING') &&
+      retryAttempts < maxRetryAttempts
+    ) {
+      card = yield call(api.getSBCard, cardId)
+      retryAttempts++
+      yield delay(3000)
+    }
+
+    switch (card.state) {
+      case 'BLOCKED':
+        yield call(pollErrorHandler, card.state)
+        return
+      case 'ACTIVE':
+        return yield put(A.createSBOrder())
+      default:
+        yield call(pollErrorHandler, card.state)
+    }
+  }
+
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
     const { origin, cryptoCurrency } = payload
     yield put(
@@ -371,76 +451,12 @@ export default ({
     }
   }
 
-  const fetchEverypay3DSDetails = function * () {
-    try {
-      yield put(actions.form.startSubmit('addCCForm'))
-      yield put(A.fetchEverypay3DSDetailsLoading())
-      const formValues: SBAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCCForm')
-      )
-      const providerDetailsR = S.getSBProviderDetails(yield select())
-      const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
-      const [nonce] = yield call(api.generateUUIDs, 1)
-
-      const response: { data: Everypay3DSResponseType } = yield call(
-        api.submitSBCardDetailsToEverypay,
-        {
-          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-          cvc: formValues['cvc'],
-          expirationDate: moment(formValues['expiry-date'], 'MM YY'),
-          holderName: formValues['name-on-card'],
-          accessToken: providerDetails.everypay.mobileToken,
-          apiUserName: providerDetails.everypay.apiUsername,
-          nonce: nonce
-        }
-      )
-      yield put(actions.form.stopSubmit('addCCForm'))
-      yield put(A.fetchEverypay3DSDetailsSuccess(response.data))
-      yield put(
-        A.setStep({
-          step: '3DS_HANDLER'
-        })
-      )
-      yield call(pollSBCard)
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('addCCForm', { _error: error }))
-      yield put(A.fetchEverypay3DSDetailsFailure(error))
-    }
-  }
-
-  const pollSBCard = function * () {
-    const MAX_RETRY_ATTEMPTS = 15
-    let attempts = 0
-    let card: SBCardType = S.getSBCard(yield select()).getOrFail(
-      'NO_CARD_DETAILS'
-    )
-
-    while (
-      (card.state === 'CREATED' || card.state === 'PENDING') &&
-      attempts < MAX_RETRY_ATTEMPTS
-    ) {
-      attempts += 1
-      card = yield call(api.getSBCard, card.id)
-      yield delay(5000)
-    }
-
-    yield put(A.fetchSBCardSuccess(card))
-
-    switch (card.state) {
-      case 'ACTIVE':
-        return yield put(A.createSBOrder())
-      case 'BLOCKED':
-        return yield put(A.setStep({ step: 'ADD_CARD' }))
-      default:
-    }
-  }
-
   return {
     activateSBCard,
     cancelSBOrder,
     confirmSBOrder,
     createSBOrder,
+    fetchEverypay3DSDetails,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCards,
@@ -453,7 +469,7 @@ export default ({
     fetchSBSuggestedAmounts,
     handleSBSuggestedAmountClick,
     initializeCheckout,
-    showModal,
-    fetchEverypay3DSDetails
+    pollSBCard,
+    showModal
   }
 }

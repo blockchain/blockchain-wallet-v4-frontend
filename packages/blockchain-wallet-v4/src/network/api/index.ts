@@ -30,7 +30,7 @@ const api = ({
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const bitpayUrl = options.domains.bitpay
-  const everypayUrl = options.domains.everypay
+  // const everypayUrl = options.domains.everypay
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -69,7 +69,6 @@ const api = ({
     ...shapeShift({ shapeShiftApiKey, ...http }),
     ...simpleBuy({
       nabuUrl,
-      everypayUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,

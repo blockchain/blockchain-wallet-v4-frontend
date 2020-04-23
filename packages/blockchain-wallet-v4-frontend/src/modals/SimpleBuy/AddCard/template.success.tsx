@@ -62,7 +62,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         />
       </TopText>
       <Form onSubmit={props.handleSubmit}>
-        <FormGroup>
+        <FormGroup margin='24px'>
           <FormLabel>
             <FormattedMessage
               id='modals.simplebuy.name_on_card'
@@ -75,7 +75,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             validate={[required]}
           />
         </FormGroup>
-        <FormGroup>
+        <FormGroup margin='24px'>
           <FormLabel>
             <FormattedMessage
               id='modals.simplebuy.card_number'
@@ -89,7 +89,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             validate={[required, validateCreditCard]}
           />
         </FormGroup>
-        <FormGroup inline>
+        <FormGroup inline margin='24px'>
           <FormItem>
             <FormLabel>
               <FormattedMessage
@@ -149,8 +149,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.submitting && (
           <FormGroup>
             <BlueCartridge>
-              Hang tight. We are redirecting you to your bank provider. Things
-              might look a bit different.
+              Hang tight! We are redirecting you to your bank provider.
             </BlueCartridge>
           </FormGroup>
         )}

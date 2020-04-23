@@ -355,6 +355,13 @@ export const initializeCheckout = (
   orderType
 })
 
+export const pollSBCard = (cardId: SBCardType['id']) => ({
+  type: AT.POLL_SB_CARD,
+  payload: {
+    cardId
+  }
+})
+
 export const setStep = (
   payload:
     | {

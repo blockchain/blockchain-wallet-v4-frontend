@@ -220,7 +220,8 @@ export default ({
         api_username: apiUserName,
         cc_details: JSON.stringify({
           cc_number: ccNumber,
-          month: expirationDate.month(),
+          // months are 0 indexed
+          month: expirationDate.month() + 1,
           year: expirationDate.year(),
           cvc,
           holder_name: holderName
