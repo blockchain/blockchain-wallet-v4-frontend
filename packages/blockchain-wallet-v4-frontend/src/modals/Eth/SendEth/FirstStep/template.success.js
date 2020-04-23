@@ -121,10 +121,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel HtmlFor='from'>
-            <FormattedMessage
-              id='modals.sendEther.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -208,10 +205,7 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>
-            <FormattedMessage
-              id='modals.sendeth.firststep.sendamount'
-              defaultMessage='Amount'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </FormLabel>
           <Field
             name='amount'

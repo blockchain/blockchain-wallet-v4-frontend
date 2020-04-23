@@ -3,7 +3,7 @@ import { selectors } from 'data'
 
 export const getData = state => {
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const interestAccountR = selectors.components.interest.getInterestPaymentAccount(
+  const interestAccountBalanceR = selectors.components.interest.getInterestAccountBalance(
     state
   )
   // const interestEligibleR = selectors.components.interest.getInterestEligible(
@@ -13,19 +13,19 @@ export const getData = state => {
 
   const transform = (
     supportedCoins,
-    interestAccount,
+    interestAccountBalance,
     // interestEligible,
     interestRate
   ) => ({
     supportedCoins,
-    interestAccount,
+    interestAccountBalance,
     // interestEligible,
     interestRate
   })
 
   return lift(transform)(
     supportedCoinsR,
-    interestAccountR,
+    interestAccountBalanceR,
     // interestEligibleR,
     interestRateR
   )

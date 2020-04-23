@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api }: { api: APIType }) => {
   const interestSagas = sagas({ api })
 
-  return function* interestSaga() {
+  return function * interestSaga () {
     yield takeLatest(
       AT.FETCH_INTEREST_BALANCE,
       interestSagas.fetchInterestBalance
@@ -23,10 +23,10 @@ export default ({ api }: { api: APIType }) => {
       AT.FETCH_INTEREST_LIMITS,
       interestSagas.fetchInterestLimits
     )
-    yield takeLatest(
-      AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-      interestSagas.fetchInterestPaymentAccount
-    )
+    // yield takeLatest(
+    //   AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
+    //   interestSagas.fetchInterestPaymentAccount
+    // )
     yield takeLatest(AT.FETCH_INTEREST_RATE, interestSagas.fetchInterestRate)
     yield takeLatest(
       AT.FETCH_INTEREST_TRANSACTIONS,

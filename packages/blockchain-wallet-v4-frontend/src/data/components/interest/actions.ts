@@ -133,9 +133,8 @@ export const fetchInterestPaymentAccountSuccess = (
   }
 })
 
-export const fetchInterestRate = (coin: CoinType) => ({
-  type: AT.FETCH_INTEREST_RATE,
-  coin
+export const fetchInterestRate = () => ({
+  type: AT.FETCH_INTEREST_RATE
 })
 
 export const fetchInterestRateFailure = (

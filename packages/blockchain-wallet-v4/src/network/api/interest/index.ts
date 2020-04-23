@@ -1,4 +1,4 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestEligibleType,
@@ -67,9 +67,7 @@ export default ({ nabuUrl, authorizedGet }) => {
   //   })
 
   const getInterestSavingsRate = (): { interestRate: InterestRateType } => ({
-    interestRate: {
-      BTC: 3.2
-    }
+    interestRate: { BTC: 3.2 }
   })
 
   const getInterestPaymentAccount = (

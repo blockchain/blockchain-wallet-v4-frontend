@@ -1,17 +1,17 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import {
-  Button,
-  Icon,
-  Text,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
+// import {
+//   Button,
+//   Icon,
+//   Text,
+//   TooltipHost,
+//   TooltipIcon
+// } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from '../selectors'
+import { getData } from './selectors'
 import {
   InterestAccountBalanceType,
-  InterestEligibleType,
+  // InterestEligibleType,
   InterestRateType,
   RemoteDataType,
   SupportedCoinsType
@@ -20,10 +20,10 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class InterestSummary extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.fetchInterestRate()
   }
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: val => <Success {...this.props} {...val} />,
@@ -59,7 +59,7 @@ export type SuccessStateType = {
 }
 
 export type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
+  data: RemoteDataType<string, Array<SuccessStateType>>
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
