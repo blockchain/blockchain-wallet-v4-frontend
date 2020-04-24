@@ -7,7 +7,7 @@ import { nth } from 'ramda'
 import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchInterestBalance = function * () {
+  const fetchInterestBalance = function*() {
     try {
       yield put(A.fetchInterestBalanceLoading())
       const response: ReturnType<
@@ -19,7 +19,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchInterestBalanceFailure(error))
     }
   }
-  const fetchInterestEligible = function * () {
+  const fetchInterestEligible = function*() {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -32,7 +32,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestInstruments = function * () {
+  const fetchInterestInstruments = function*() {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<
@@ -45,7 +45,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestLimits = function * () {
+  const fetchInterestLimits = function*() {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
@@ -71,7 +71,7 @@ export default ({ api }: { api: APIType }) => {
   //   }
   // }
 
-  const fetchInterestRate = function * () {
+  const fetchInterestRate = function*() {
     try {
       yield put(A.fetchInterestRateLoading())
       const response: ReturnType<
@@ -84,7 +84,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestTransactions = function * () {
+  const fetchInterestTransactions = function*() {
     try {
       yield put(A.fetchInterestTransactionsLoading())
       const response: ReturnType<
@@ -97,7 +97,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const initializeInterest = function * ({
+  const initializeInterest = function*({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR

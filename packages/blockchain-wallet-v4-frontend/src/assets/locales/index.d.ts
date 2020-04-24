@@ -1268,9 +1268,7 @@ type MessagesType = {
   'scenes.earninterest.earnupgrade.header': 'Put your crypto to work by upgrading to Gold Level.'
   'scenes.earninterest.form.earn3percent': 'Earn {interestRate}% AER on your BTC'
   'scenes.earninterest.form.earnbutton': 'Earn Interest'
-
   'scenes.earninterest.history.header': 'History'
-
   'scenes.earninterest.history.type': 'Type'
   'scenes.earninterest.verifyid': 'Upgrade Now'
   'scenes.earninterst.kycunderreview': 'Gold Verification In Review'

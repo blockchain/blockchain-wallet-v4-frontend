@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import {
   CoinType,
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestRateType,
   NabuApiErrorType,
@@ -38,15 +39,12 @@ const LearnMoreText = styled(Text)`
 `
 
 class Interest extends React.PureComponent<Props> {
-  componentDidMount () {
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestPaymentAccount(this.props.coin)
-    this.props.interestActions.fetchInterestBalance()
-    this.props.interestActions.fetchInterestRate()
+  componentDidMount() {
     this.checkUserData()
+    this.props.interestActions.fetchInterestTransactions()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       this.props.userDataR.getOrElse(null) !==
       prevProps.userDataR.getOrElse(null)
@@ -64,37 +62,36 @@ class Interest extends React.PureComponent<Props> {
     /* eslint-disable */
     this.setState({ isDisabled })
     /* eslint-enable */
+    // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
-  // getInterestEligible = () => this.props
-
-  render () {
+  render() {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='savings-icon' color='blue600' size='24px' />
+            <Icon name="savings-icon" color="blue600" size="24px" />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.interestaccount'
-              defaultMessage='Interest Account'
+              id="scenes.interest.interestaccount"
+              defaultMessage="Interest Account"
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and watch it grow without fees.'
+            id="scenes.interest.subheader"
+            defaultMessage="Deposit crypto and watch it grow without fees."
           />
           <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/360008572552'
-            target='_blank'
+            href="https://support.blockchain.com/hc/en-us/sections/360008572552"
+            target="_blank"
           >
-            <LearnMoreText size='15px'>
+            <LearnMoreText size="15px">
               <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
+                id="buttons.learn_more"
+                defaultMessage="Learn More"
               />
             </LearnMoreText>
           </LearnMoreLink>
@@ -111,6 +108,7 @@ class Interest extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userDataR: selectors.modules.profile.getUserData(state),
+  // do i need this?
   interestEligibleR: selectors.components.interest.getInterestEligible(state),
   interestRateR: selectors.components.interest.getInterestRate(state)
 })
@@ -131,6 +129,8 @@ const connector = connect(
 
 export type OwnProps = {
   coin: CoinType
+  interestAccountBalance: InterestAccountBalanceType
+  interestRate: InterestRateType
   isDisabled: boolean
 }
 

@@ -46,12 +46,12 @@ type MoneyType = {
   value: string
 }
 export type InterestTransactionType = {
-  amount: MoneyType
+  amount: string
   extraAttributes?: {
     address: string
     confirmations: number
     hmac: string
-    yxHash: string
+    txHash: string
   }
   id: string
   insertedAt: string

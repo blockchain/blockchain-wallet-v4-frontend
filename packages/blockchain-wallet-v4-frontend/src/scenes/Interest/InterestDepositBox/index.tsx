@@ -16,11 +16,14 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
+import { OwnProps } from '..'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class InterestSummary extends PureComponent<Props> {
   componentDidMount () {
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestBalance()
     this.props.interestActions.fetchInterestRate()
   }
   render () {
@@ -46,10 +49,6 @@ const connector = connect(
   mapStateToProps,
   mapDispatchToProps
 )
-
-export type OwnProps = {
-  isDisabled: boolean
-}
 
 export type SuccessStateType = {
   interestAccount: InterestAccountBalanceType

@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, FiatType } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestEligibleType,
@@ -10,31 +10,15 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
-  // const getInterestAccountBalance = (
-  //   ccy?: CoinType,
-  //   din?: FiatType
-  // ): InterestAccountBalanceType =>
-  //   authorizedGet({
-  //     url: nabuUrl,
-  //     ignoreQueryParams: true,
-  //     endpoint: '/accounts/savings',
-  //     data: {
-  //       ccy,
-  //       din
-  //     }
-  //   })
-
-  const getInterestAccountBalance = (): InterestAccountBalanceType => ({
-    BTC: {
-      balanceAvailable: 1003414134,
-      pendingInterest: 300,
-      totalInterest: 900,
-      pendingWithdrawal: 500000,
-      pendingDeposit: 4000,
-      fiatAmount: 1234323,
-      fiatCurrency: 'EUR'
-    }
-  })
+  const getInterestAccountBalance = (): InterestAccountBalanceType => {
+    debugger
+    let x = authorizedGet({
+      url: nabuUrl,
+      endpoint: '/accounts/savings'
+    })
+    debugger
+    return x
+  }
 
   const getInterestEligible = (): { interestEligible: InterestEligibleType } =>
     authorizedGet({
@@ -59,16 +43,19 @@ export default ({ nabuUrl, authorizedGet }) => {
       url: nabuUrl,
       endPoint: '/payments/transactions?PRODUCT=savings'
     })
+  // const getInterestTransactions = (): InterestTransactionType => ({
+  //   amount: '$10000',
+  //   id: 'this payment',
+  //   insertedAt: 'May 5, 2019',
+  //   state: 'COMPLETE',
+  //   type: 'DEPOSIT'
+  // })
 
-  // const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
-  //   authorizedGet({
-  //     url: nabuUrl,
-  //     endPoint: '/savings/rates'
-  //   })
-
-  const getInterestSavingsRate = (): { interestRate: InterestRateType } => ({
-    interestRate: { BTC: 3.2 }
-  })
+  const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/rates'
+    })
 
   const getInterestPaymentAccount = (
     ccy: CoinType
