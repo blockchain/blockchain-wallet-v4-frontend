@@ -462,7 +462,7 @@ export default ({
         yield call(pollErrorHandler, card.state)
         return
       case 'ACTIVE':
-        return yield put(A.createSBOrder())
+        return yield put(A.createSBOrder(card.id))
       default:
         yield call(pollErrorHandler, card.state)
     }
