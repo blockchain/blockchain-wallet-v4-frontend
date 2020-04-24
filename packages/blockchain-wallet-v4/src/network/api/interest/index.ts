@@ -10,15 +10,18 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
-  const getInterestAccountBalance = (): InterestAccountBalanceType => {
-    debugger
-    let x = authorizedGet({
+  const getInterestAccountBalance = (
+    ccy?: CoinType,
+    din?: FiatType
+  ): InterestAccountBalanceType =>
+    authorizedGet({
       url: nabuUrl,
-      endpoint: '/accounts/savings'
+      endPoint: '/accounts/savings',
+      data: {
+        ccy,
+        din
+      }
     })
-    debugger
-    return x
-  }
 
   const getInterestEligible = (): { interestEligible: InterestEligibleType } =>
     authorizedGet({
@@ -43,13 +46,6 @@ export default ({ nabuUrl, authorizedGet }) => {
       url: nabuUrl,
       endPoint: '/payments/transactions?PRODUCT=savings'
     })
-  // const getInterestTransactions = (): InterestTransactionType => ({
-  //   amount: '$10000',
-  //   id: 'this payment',
-  //   insertedAt: 'May 5, 2019',
-  //   state: 'COMPLETE',
-  //   type: 'DEPOSIT'
-  // })
 
   const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
     authorizedGet({
