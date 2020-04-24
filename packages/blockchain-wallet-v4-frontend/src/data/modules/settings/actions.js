@@ -147,8 +147,12 @@ export const clearShownEthPrivateKey = () => ({
   type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
 })
 
+export const clearShownEthLegacyPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_ETH_LEGACY_PRIV_KEY
+})
+
 export const clearShownXlmPrivateKey = () => ({
-  type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
+  type: AT.CLEAR_SHOWN_XLM_PRIV_KEY
 })
 
 export const removeRecoveryPhrase = () => ({ type: AT.REMOVE_RECOVERY_PHRASE })

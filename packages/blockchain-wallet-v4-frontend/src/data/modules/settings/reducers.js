@@ -31,6 +31,9 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.CLEAR_SHOWN_ETH_PRIV_KEY: {
       return dissoc('shownEthPrivKey', state)
     }
+    case AT.CLEAR_SHOWN_ETH_LEGACY_PRIV_KEY: {
+      return dissoc('shownEthLegacyPrivKey', state)
+    }
     case AT.CLEAR_SHOWN_XLM_PRIV_KEY: {
       return dissoc('shownXlmPrivKey', state)
     }

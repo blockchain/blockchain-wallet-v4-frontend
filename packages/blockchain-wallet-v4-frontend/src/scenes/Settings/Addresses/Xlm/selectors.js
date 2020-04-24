@@ -9,12 +9,13 @@ export const getData = state => {
     .getAccountBalance(accountId, state)
     .getOrElse(0)
   return {
+    addr: accountId,
     balance: Exchange.convertCoinToCoin({
       coin: 'XLM',
       value: amount,
       baseToStandard: false
     }).value,
-    addr: accountId,
-    priv: state.securityCenter.shownXlmPrivKey
+    priv: state.securityCenter.shownXlmPrivKey,
+    secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state)
   }
 }

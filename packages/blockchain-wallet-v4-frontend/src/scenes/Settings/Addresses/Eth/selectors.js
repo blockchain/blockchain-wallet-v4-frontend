@@ -19,15 +19,10 @@ export const getData = (state, props) => {
     priv: state.securityCenter.shownEthPrivKey
   }
 
-  return legacyEthAddr
-    ? {
-        legacyAddressInfo: legacyAddressInfo,
-        addressInfo: addressInfo,
-        isLegacy: true
-      }
-    : {
-        legacyAddressInfo: null,
-        addressInfo: addressInfo,
-        isLegacy: false
-      }
+  return {
+    addressInfo,
+    isLegacy: !!legacyEthAddr,
+    legacyAddressInfo: legacyEthAddr ? legacyAddressInfo : null,
+    secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state)
+  }
 }

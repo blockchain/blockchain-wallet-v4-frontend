@@ -7,24 +7,34 @@ import XlmAddresses from './template'
 
 class XlmAddressContainer extends Component {
   state = {
+    checkSecondPassword: false,
     showQrCode: false
   }
 
-  componentDidMount () {
-    this.props.showXlmPrivateKey()
+  componentWillUnmount () {
+    this.props.clearShownXlmPrivateKey()
   }
 
-  toggleQrCode = () =>
-    this.setState(prevState => ({
-      showQrCode: !prevState.showQrCode
-    }))
+  toggleQrCode = () => {
+    if (this.props.secondPasswordEnabled && !this.state.checkSecondPassword) {
+      this.props.showXlmPrivateKey()
+      this.setState(prevState => ({
+        checkSecondPassword: true,
+        showQrCode: !prevState.showQrCode
+      }))
+    } else {
+      this.setState(prevState => ({
+        showQrCode: !prevState.showQrCode
+      }))
+    }
+  }
 
   render () {
     return (
       <XlmAddresses
         {...this.props}
         privateKey={this.props.priv}
-        showQrCode={this.state.showQrCode}
+        showQrCode={this.state.showQrCode && this.props.priv}
         toggleQrCode={this.toggleQrCode}
       />
     )
@@ -34,6 +44,8 @@ class XlmAddressContainer extends Component {
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
 const mapDispatchToProps = dispatch => ({
+  clearShownXlmPrivateKey: () =>
+    dispatch(actions.modules.settings.clearShownXlmPrivateKey()),
   showXlmPrivateKey: isLegacy =>
     dispatch(actions.modules.settings.showXlmPrivateKey(isLegacy))
 })
