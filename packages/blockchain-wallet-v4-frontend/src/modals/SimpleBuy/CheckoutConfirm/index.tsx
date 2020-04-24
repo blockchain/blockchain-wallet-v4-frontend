@@ -22,7 +22,13 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.simpleBuyActions.confirmSBOrder()
+    if (this.props.order.paymentMethodId) {
+      this.props.simpleBuyActions.confirmSBCreditCardOrder(
+        this.props.order.paymentMethodId
+      )
+    } else {
+      this.props.simpleBuyActions.confirmSBBankTransferOrder()
+    }
   }
 
   render () {

@@ -243,6 +243,7 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }
+        case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
         case 'TRANSFER_DETAILS':

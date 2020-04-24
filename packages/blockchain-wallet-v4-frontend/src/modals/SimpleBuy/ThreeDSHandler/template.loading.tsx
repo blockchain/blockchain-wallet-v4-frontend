@@ -14,7 +14,7 @@ const Wrapper = styled(FlyoutWrapper)`
   text-align: center;
 `
 
-const Loading: React.FC<Props> = ({ polling }) => {
+const Loading: React.FC<Props> = ({ order, polling }) => {
   return (
     <Wrapper>
       <SpinningLoader height='50px' width='50px' />
@@ -24,7 +24,7 @@ const Loading: React.FC<Props> = ({ polling }) => {
         color='grey800'
         style={{ marginTop: '24px' }}
       >
-        {polling ? (
+        {polling || order ? (
           <FormattedMessage
             id='modals.simplebuy.gatheringinfo'
             defaultMessage='Gathering Some Info...'
@@ -51,6 +51,6 @@ const Loading: React.FC<Props> = ({ polling }) => {
   )
 }
 
-type Props = { polling?: boolean }
+type Props = { order?: boolean; polling?: boolean }
 
 export default Loading

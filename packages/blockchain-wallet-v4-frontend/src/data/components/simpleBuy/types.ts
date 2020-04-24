@@ -26,7 +26,12 @@ export type SBAddCardFormValuesType = {
 }
 export type SBCheckoutFormValuesType = {
   amount: string
-  method?: SBPaymentMethodType
+  method?:
+    | SBPaymentMethodType
+    | SBCardType & {
+        limits: SBPaymentMethodType['limits']
+        type: 'USER_CARD'
+      }
   orderType: 'BUY' | 'SELL'
   pair?: SBPairType
 }
@@ -37,8 +42,8 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
   'ADD_CARD',
-  '3DS_HANDLER',
   'CHECKOUT_CONFIRM',
+  '3DS_HANDLER',
   'ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'CANCEL_ORDER'
@@ -280,6 +285,7 @@ interface SetStepAction {
         step: 'ADD_CARD'
       }
     | {
+        order?: SBOrderType
         step: '3DS_HANDLER'
       }
     | {

@@ -51,8 +51,15 @@ export const createSBOrder = (paymentMethodId?: SBCardType['id']) => ({
   paymentMethodId
 })
 
-export const confirmSBOrder = () => ({
-  type: AT.CONFIRM_ORDER
+export const confirmSBBankTransferOrder = () => ({
+  type: AT.CONFIRM_BANK_TRANSFER_ORDER
+})
+
+export const confirmSBCreditCardOrder = (
+  paymentMethodId: SBCardType['id']
+) => ({
+  type: AT.CONFIRM_CREDIT_CARD_ORDER,
+  paymentMethodId
 })
 
 export const destroyCheckout = () => ({
@@ -363,6 +370,13 @@ export const pollSBCard = (cardId: SBCardType['id']) => ({
   }
 })
 
+export const pollSBOrder = (orderId: string) => ({
+  type: AT.POLL_SB_ORDER,
+  payload: {
+    orderId
+  }
+})
+
 export const setStep = (
   payload:
     | {
@@ -379,7 +393,8 @@ export const setStep = (
         step: 'ENTER_AMOUNT'
       }
     | { cardId?: string; step: 'ADD_CARD' }
-    | { step: 'CURRENCY_SELECTION' | '3DS_HANDLER' }
+    | { order?: SBOrderType; step: '3DS_HANDLER' }
+    | { step: 'CURRENCY_SELECTION' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
@@ -396,6 +411,8 @@ export const setStep = (
       ? { step: payload.step, order: payload.order }
       : payload.step === 'ADD_CARD'
       ? { step: payload.step, cardId: payload.cardId }
+      : payload.step === '3DS_HANDLER'
+      ? { step: payload.step, order: payload.order }
       : {
           step: payload.step
         }

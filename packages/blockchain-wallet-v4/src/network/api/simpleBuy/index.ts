@@ -10,6 +10,7 @@ import {
   SBPairsType,
   SBPairType,
   SBPaymentMethodsType,
+  SBProviderAttributesType,
   SBQuoteType,
   SBSuggestedAmountType
 } from './types'
@@ -80,13 +81,17 @@ export default ({
       }
     })
 
-  const confirmSBOrder = (order: SBOrderType): SBOrderType =>
+  const confirmSBOrder = (
+    order: SBOrderType,
+    attributes?: SBProviderAttributesType
+  ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
       endPoint: `/simple-buy/trades/${order.id}`,
       contentType: 'application/json',
       data: {
-        action: 'confirm'
+        action: 'confirm',
+        attributes
       }
     })
 
@@ -120,6 +125,13 @@ export default ({
       data: {
         fiatCurrency: currency
       }
+    })
+
+  const getSBOrder = (orderId: string): SBOrderType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: `/simple-buy/trades/${orderId}`,
+      ignoreQueryParams: true
     })
 
   const getSBOrders = ({
@@ -266,6 +278,7 @@ export default ({
     getSBBalances,
     getSBCard,
     getSBCards,
+    getSBOrder,
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,

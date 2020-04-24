@@ -5,6 +5,7 @@ import {
   Everypay3DSResponseType,
   RemoteDataType,
   SBCardType,
+  SBOrderType,
   SBProviderDetailsType
 } from 'core/types'
 import { getData } from './selectors'
@@ -27,10 +28,20 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     if (event.data.from !== 'everypay') return
     if (event.data.to !== 'sb') return
     if (event.data.command !== 'finished') return
-    const { card } = this.props.data.getOrElse({ card: { id: '' } })
 
     this.setState({ threeDSCallbackReceived: true })
-    this.props.simpleBuyActions.pollSBCard(card.id)
+    // @ts-ignore
+    const { card, order, type } = this.props.data.getOrElse({
+      type: 'ORDER',
+      card: { id: '' },
+      order: { id: '' }
+    })
+
+    if (type === 'ORDER') {
+      this.props.simpleBuyActions.pollSBOrder(order.id)
+    } else if (type === 'CARD') {
+      this.props.simpleBuyActions.pollSBCard(card.id)
+    }
   }
 
   render () {
@@ -59,12 +70,15 @@ const connector = connect(
 type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = {
-  card: SBCardType
-  domains: { walletHelper: string }
-  providerDetails: SBProviderDetailsType
-  threeDSDetails: Everypay3DSResponseType
-}
+export type SuccessStateType =
+  | { domains: { walletHelper: string }; order: SBOrderType; type: 'ORDER' }
+  | {
+      card: SBCardType
+      domains: { walletHelper: string }
+      providerDetails: SBProviderDetailsType
+      threeDSDetails: Everypay3DSResponseType
+      type: 'CARD'
+    }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }

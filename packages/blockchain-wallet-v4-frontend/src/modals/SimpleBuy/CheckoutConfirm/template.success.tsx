@@ -9,6 +9,7 @@ import { FormattedMessage } from 'react-intl'
 import { getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -102,8 +103,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        {/* TODO: Simple Buy - payment method types */}
-        <Value>Bank Transfer</Value>
+        <Value>
+          {props.order.paymentMethodId ? 'Credit Card' : 'Bank Transfer'}
+        </Value>
       </Row>
       <Row>
         <Title>
@@ -113,7 +115,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {displayFiat(props.quote.fee)} {props.order.inputCurrency}
+          {props.order.fee
+            ? displayFiat(props.order.fee)
+            : displayFiat(props.quote.fee)}{' '}
+          {props.order.inputCurrency}
         </Value>
       </Row>
       <Row>
@@ -124,7 +129,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
+          {displayFiat(
+            new BigNumber(props.order.inputQuantity)
+              .plus(props.order.fee || '0')
+              .toString()
+          )}{' '}
+          {props.order.inputCurrency}
         </Value>
       </Row>
       <Bottom>
@@ -134,16 +144,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Your final amount may change due to market activity.'
           />
         </Text>
-        {props.error && (
-          <ErrorCartridge>
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
-            Error: {props.error}
-          </ErrorCartridge>
-        )}
         <Button
           fullwidth
           nature='primary'
@@ -165,6 +165,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Button>
         <Button
           data-e2e='sbCancelCheckout'
+          disabled={props.submitting}
           size='16px'
           height='48px'
           nature='light'
@@ -178,6 +179,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
+        {props.error && (
+          <ErrorCartridge style={{ marginTop: '16px' }}>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            Error: {props.error}
+          </ErrorCartridge>
+        )}
       </Bottom>
     </CustomForm>
   )

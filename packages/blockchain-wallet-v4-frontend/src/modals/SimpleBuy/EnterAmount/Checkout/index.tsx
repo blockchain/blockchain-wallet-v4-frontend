@@ -41,18 +41,20 @@ class Checkout extends PureComponent<Props> {
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(2)
-    } else if (
-      formValues &&
-      formValues.method &&
-      formValues.method.type === 'CARD'
-    ) {
-      // TODO: Simple Buy - select different cards?
-      this.props.simpleBuyActions.setStep({
-        step: 'ADD_CARD',
-        cardId: undefined
-      })
-    } else {
-      this.props.simpleBuyActions.createSBOrder()
+    } else if (formValues && formValues.method) {
+      switch (formValues.method.type) {
+        case 'CARD':
+          this.props.simpleBuyActions.setStep({
+            step: 'ADD_CARD',
+            cardId: undefined
+          })
+          break
+        case 'USER_CARD':
+          this.props.simpleBuyActions.createSBOrder(formValues.method.id)
+          break
+        case 'BANK_TRANSFER':
+          this.props.simpleBuyActions.createSBOrder()
+      }
     }
   }
 

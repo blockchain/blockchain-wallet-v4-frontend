@@ -135,7 +135,7 @@ export default ({
     }
   }
 
-  const confirmSBOrder = function * () {
+  const confirmSBBankTransferOrder = function * () {
     try {
       const order = S.getSBOrder(yield select())
       if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
@@ -143,6 +143,36 @@ export default ({
       const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.setStep({ step: 'TRANSFER_DETAILS', order: confirmedOrder }))
+      yield put(A.fetchSBOrders())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+    }
+  }
+
+  const confirmSBCreditCardOrder = function * () {
+    try {
+      const order = S.getSBOrder(yield select())
+      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
+      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const domainsR = selectors.core.walletOptions.getDomains(yield select())
+      const domains = domainsR.getOrElse({
+        walletHelper: 'https://wallet-helper.blockchain.com'
+      })
+      const attributes = order.paymentMethodId
+        ? {
+            everypay: {
+              customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+            }
+          }
+        : undefined
+      const confirmedOrder: SBOrderType = yield call(
+        api.confirmSBOrder,
+        order,
+        attributes
+      )
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
@@ -420,7 +450,6 @@ export default ({
 
     while (
       (card.state === 'CREATED' || card.state === 'PENDING') &&
-      (card.state === 'PENDING' && !card.card) &&
       retryAttempts < maxRetryAttempts
     ) {
       card = yield call(api.getSBCard, cardId)
@@ -437,6 +466,28 @@ export default ({
       default:
         yield call(pollErrorHandler, card.state)
     }
+  }
+
+  const pollSBOrder = function * ({ payload }: ReturnType<typeof A.pollSBOrder>) {
+    let retryAttempts = 0
+    let maxRetryAttempts = 20
+
+    const { orderId } = payload
+    let order: ReturnType<typeof api.getSBOrder> = yield call(
+      api.getSBOrder,
+      orderId
+    )
+
+    while (
+      order.state === 'PENDING_DEPOSIT' &&
+      retryAttempts < maxRetryAttempts
+    ) {
+      order = yield call(api.getSBOrder, orderId)
+      retryAttempts++
+      yield delay(3000)
+    }
+
+    yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
@@ -458,7 +509,8 @@ export default ({
   return {
     activateSBCard,
     cancelSBOrder,
-    confirmSBOrder,
+    confirmSBBankTransferOrder,
+    confirmSBCreditCardOrder,
     createSBOrder,
     fetchEverypay3DSDetails,
     fetchSBBalances,
@@ -474,6 +526,7 @@ export default ({
     handleSBSuggestedAmountClick,
     initializeCheckout,
     pollSBCard,
+    pollSBOrder,
     showModal
   }
 }

@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
-import { SBCardType, SBPaymentMethodType } from 'core/types'
+import { SBCheckoutFormValuesType } from 'data/types'
 import { SelectBox } from 'components/Form'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
@@ -108,7 +108,9 @@ class MethodSelect extends PureComponent<Props> {
   }
 
   renderElements = () => {
-    const availableCards = this.props.cards.filter(({ card }) => !!card)
+    const availableCards = this.props.cards.filter(
+      card => card.state === 'ACTIVE'
+    )
     const defaultCardMethod = this.props.paymentMethods.methods.find(
       m => m.type === 'CARD'
     )
@@ -180,11 +182,6 @@ class MethodSelect extends PureComponent<Props> {
   }
 }
 
-type ElementValueType =
-  | SBPaymentMethodType
-  | SBCardType & {
-      limits: SBPaymentMethodType['limits']
-      type: 'USER_CARD'
-    }
+type ElementValueType = Exclude<SBCheckoutFormValuesType['method'], undefined>
 
 export default MethodSelect

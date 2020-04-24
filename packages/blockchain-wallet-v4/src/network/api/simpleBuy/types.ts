@@ -144,6 +144,12 @@ export type SBPaymentMethodsType = {
   methods: Array<SBPaymentMethodType>
 }
 
+export type SBProviderAttributesType = {
+  everypay: {
+    customerUrl: string
+  }
+}
+
 export type SBProviderDetailsType = {
   everypay: {
     apiUsername: string
@@ -167,11 +173,20 @@ export type SBSuggestedAmountType = Array<
 >
 
 export type ISBBuyOrderType = {
+  attributes?: {
+    everypay: {
+      paymentLink: string
+      paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+    }
+    paymentId: string
+  }
   expiresAt: string
+  fee?: string
   id: string
   inputQuantity: string
   insertedAt: string
   outputQuantity: string
+  paymentMethodId?: string
   state: SBOrderStateType
   updatedAt: string
 }
