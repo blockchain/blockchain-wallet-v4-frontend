@@ -1,5 +1,4 @@
-import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -9,6 +8,7 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
+import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -136,23 +136,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             type='submit'
             disabled={props.invalid || props.submitting}
           >
-            {props.submitting ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            ) : (
-              <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
-              />
-            )}
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </FormGroup>
-        {props.submitting && (
-          <FormGroup>
-            <BlueCartridge>
-              Hang tight! We are redirecting you to your bank provider.
-            </BlueCartridge>
-          </FormGroup>
-        )}
       </Form>
     </CustomFlyoutWrapper>
   )

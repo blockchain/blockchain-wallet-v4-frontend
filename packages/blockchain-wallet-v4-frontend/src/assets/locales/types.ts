@@ -1038,6 +1038,8 @@ type MessagesType = {
   'modals.simplebuy.fiataccountineligible': 'your region.'
   'modals.simplebuy.fiatregion': 'your region'
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
+  'modals.simplebuy.linking_card': 'Securely Linking Your Card'
+  'modals.simplebuy.linking_card.time': 'This could take up to 20 seconds. Please do not close this window.'
   'modals.simplebuy.localcurrency': 'Select the local currency for your wallet.'
   'modals.simplebuy.name_on_card': 'Name on Card'
   'modals.simplebuy.ordersummary': 'Buy Order Summary'

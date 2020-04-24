@@ -20,10 +20,11 @@ class AddCard extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
+    this.props.simpleBuyActions.fetchSBCard()
   }
 
   handleSubmit = () => {
+    this.props.simpleBuyActions.setStep({ step: '3DS_HANDLER' })
     this.props.simpleBuyActions.fetchEverypay3DSDetails()
   }
 
