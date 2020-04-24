@@ -32,15 +32,20 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     this.setState({ threeDSCallbackReceived: true })
     // @ts-ignore
     const { card, order, type } = this.props.data.getOrElse({
-      type: 'ORDER',
+      type: null,
       card: { id: '' },
       order: { id: '' }
     })
 
-    if (type === 'ORDER') {
-      this.props.simpleBuyActions.pollSBOrder(order.id)
-    } else if (type === 'CARD') {
-      this.props.simpleBuyActions.pollSBCard(card.id)
+    switch (type) {
+      case 'ORDER':
+        this.props.simpleBuyActions.pollSBOrder(order.id)
+        break
+      case 'CARD':
+        this.props.simpleBuyActions.pollSBCard(card.id)
+        break
+      default:
+        this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
     }
   }
 
@@ -75,6 +80,7 @@ export type SuccessStateType =
   | {
       card: SBCardType
       domains: { walletHelper: string }
+      order: SBOrderType
       providerDetails: SBProviderDetailsType
       threeDSDetails: Everypay3DSResponseType
       type: 'CARD'

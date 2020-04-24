@@ -16,7 +16,7 @@ export const getData = (state: RootState) => {
     walletHelper: 'https://wallet-helper.blockchain.com'
   })
 
-  if (order && order.attributes) {
+  if (order && order.paymentMethodId) {
     return Remote.Success({
       type: 'ORDER',
       domains,
@@ -27,6 +27,7 @@ export const getData = (state: RootState) => {
   const transform = (card, providerDetails, threeDSDetails) => ({
     card,
     domains,
+    order,
     providerDetails,
     threeDSDetails,
     type: 'CARD'

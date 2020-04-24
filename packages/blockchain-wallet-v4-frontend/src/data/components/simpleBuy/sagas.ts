@@ -440,7 +440,7 @@ export default ({
 
   const pollSBCard = function * ({ payload }: ReturnType<typeof A.pollSBCard>) {
     let retryAttempts = 0
-    let maxRetryAttempts = 20
+    let maxRetryAttempts = 40
 
     const { cardId } = payload
     let card: ReturnType<typeof api.getSBCard> = yield call(

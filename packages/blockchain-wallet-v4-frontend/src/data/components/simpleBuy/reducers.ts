@@ -54,6 +54,7 @@ export function simpleBuyReducer (
         ...state,
         step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
+        order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
         suggestedAmounts: Remote.NotAsked
