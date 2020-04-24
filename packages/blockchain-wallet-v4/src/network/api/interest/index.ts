@@ -6,7 +6,7 @@ import {
   InterestLimitsType,
   InterestPaymentAccountType,
   InterestRateType,
-  InterestTransactionType
+  InterestTransactionReponseType
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
@@ -41,11 +41,55 @@ export default ({ nabuUrl, authorizedGet }) => {
       endPoint: '/savings/limits'
     })
 
-  const getInterestTransactions = (): InterestTransactionType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/payments/transactions?PRODUCT=savings'
-    })
+  // const getInterestTransactions = (): InterestTransactionType =>
+  //   authorizedGet({
+  //     url: nabuUrl,
+  //     endPoint: '/payments/transactions?PRODUCT=savings'
+  //   })
+
+  const getInterestTransactions = (): InterestTransactionReponseType => ({
+    items: [
+      {
+        id: '49b1b791-6213-44a9-b3b5-394f594f7a1f',
+        amount: {
+          symbol: 'BTC',
+          value: '1.00'
+        },
+        state: 'COMPLETE',
+        type: 'DEPOSIT',
+        extraAttributes: {
+          txHash: 'txhash'
+        },
+        insertedAt: '2020-04-24T18:12:02.334Z'
+      },
+      {
+        id: '81811adf-924a-48ce-be8a-c044f6eb18a7',
+        amount: {
+          symbol: 'BTC',
+          value: '0.20'
+        },
+        state: 'COMPLETE',
+        type: 'WITHDRAWAL',
+        extraAttributes: {
+          txHash: 'txhash'
+        },
+        insertedAt: '2020-04-24T18:12:02.334Z'
+      },
+      {
+        id: '5c79a5a1-bed5-4353-97e1-35c8c936daf6',
+        amount: {
+          symbol: 'BTC',
+          value: '0.000002'
+        },
+        state: 'COMPLETE',
+        type: 'INTEREST_OUTGOING',
+        extraAttributes: {
+          txHash: 'txhash'
+        },
+        insertedAt: '2020-04-24T18:12:02.334Z'
+      }
+    ]
+  })
 
   const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
     authorizedGet({

@@ -41,20 +41,20 @@ export type InterestRateType = {
   BTC: number
 }
 
-type MoneyType = {
-  symbol: FiatType
-  value: string
-}
 export type InterestTransactionType = {
-  amount: string
+  id: string
+  amount: {
+    symbol: CoinType
+    value: string
+  }
+  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
   extraAttributes?: {
-    address: string
-    confirmations: number
-    hmac: string
     txHash: string
   }
-  id: string
   insertedAt: string
-  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
-  type: 'DEPOSIT' | 'WITHDRAWAL'
+}
+
+export type InterestTransactionReponseType = {
+  items: Array<InterestTransactionType>
 }

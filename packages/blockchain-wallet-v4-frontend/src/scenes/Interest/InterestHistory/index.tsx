@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import { getData } from './selectors'
 import {
-  InterestTransactionType,
+  InterestTransactionReponseType,
   NabuApiErrorType,
   RemoteDataType,
   SupportedCoinsType
@@ -21,6 +21,9 @@ const History = styled.div`
 
 class InterestHistory extends Component<Props> {
   state = {}
+  componentDidMount() {
+    this.props.interestActions.fetchInterestTransactions()
+  }
 
   render() {
     return (
@@ -49,7 +52,7 @@ const connector = connect(
 )
 
 export type SuccessStateType = {
-  interestHistory: Array<InterestTransactionType>
+  interestHistory: InterestTransactionReponseType
   supportedCoins: SupportedCoinsType
   userData: UserDataType
 }

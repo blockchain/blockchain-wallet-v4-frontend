@@ -9,6 +9,7 @@ import {
   InterestPaymentAccountType,
   InterestRateType,
   InterestTransactionType,
+  InterestTransactionReponseType,
   RemoteDataType
 } from 'core/types'
 
@@ -33,7 +34,7 @@ export interface InterestState {
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType>
-  interestTransactions: RemoteDataType<string, InterestTransactionType>
+  interestTransactions: RemoteDataType<string, InterestTransactionReponseType>
 }
 
 // Actions
@@ -147,7 +148,7 @@ interface FetchInterestTransactionsLoading {
 
 interface FetchInterestTransactionsSuccess {
   payload: {
-    interestTransactions: InterestTransactionType
+    interestTransactions: InterestTransactionReponseType
   }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
 }

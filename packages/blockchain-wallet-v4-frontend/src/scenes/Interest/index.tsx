@@ -41,7 +41,6 @@ const LearnMoreText = styled(Text)`
 class Interest extends React.PureComponent<Props> {
   componentDidMount() {
     this.checkUserData()
-    this.props.interestActions.fetchInterestTransactions()
   }
 
   componentDidUpdate(prevProps: Props) {

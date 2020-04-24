@@ -6,27 +6,27 @@ export const getData = state => {
   const interestAccountBalanceR = selectors.components.interest.getInterestAccountBalance(
     state
   )
-  // const interestEligibleR = selectors.components.interest.getInterestEligible(
-  //   state
-  // )
+  const interestEligibleR = selectors.components.interest.getInterestEligible(
+    state
+  )
   const interestRateR = selectors.components.interest.getInterestRate(state)
 
   const transform = (
     supportedCoins,
     interestAccountBalance,
-    // interestEligible,
+    interestEligible,
     interestRate
   ) => ({
     supportedCoins,
     interestAccountBalance,
-    // interestEligible,
+    interestEligible,
     interestRate
   })
 
   return lift(transform)(
     supportedCoinsR,
     interestAccountBalanceR,
-    // interestEligibleR,
+    interestEligibleR,
     interestRateR
   )
 }

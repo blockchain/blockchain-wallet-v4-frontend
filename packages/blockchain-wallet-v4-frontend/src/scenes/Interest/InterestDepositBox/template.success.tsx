@@ -42,7 +42,7 @@ const Separator = styled.div`
 `
 
 function Success(props: Props): ReactElement {
-  console.log(props)
+  console.log('these are my props from deposit', props)
   return (
     <DepositBox>
       <Row>
