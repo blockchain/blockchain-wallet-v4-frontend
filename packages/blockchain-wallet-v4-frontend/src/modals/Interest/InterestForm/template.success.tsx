@@ -60,7 +60,7 @@ const CustomFormLabel = styled(FormLabel)`
 
 const CustomField = styled(Field)`
   > input {
-    padding-left: 50px;
+    padding-left: 30px;
   }
 `
 
@@ -171,15 +171,18 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [tab, setTab] = useState<'long' | 'short'>('long')
-  const displayName = props.supportedCoins['PAX'].displayName
+  const displayName = props.supportedCoins[props.coin].displayName
   const savingsAmount = '$0.00' // replace this with future user savings' amount
   const handleClick = (x: 'long' | 'short') => setTab(x)
   const isTermsChecked = props.values ? props.values.terms : props.values
   const isAgreementChecked = props.values
     ? props.values.agreement
     : props.values
+
+  const coinLimits = props.interestLimits[props.coin]
+  const minimumDeposit = coinLimits ? coinLimits.minimumDeposit : 0
   const isCheckBoxDisabled = props.values
-    ? props.values.depositAmount < 100
+    ? props.values.depositAmount < minimumDeposit
     : false
 
   return (

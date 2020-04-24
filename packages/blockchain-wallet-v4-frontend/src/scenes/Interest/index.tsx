@@ -51,6 +51,8 @@ class Interest extends React.PureComponent<Props, State> {
   state: State = { isDisabled: false }
   componentDidMount () {
     this.checkUserData()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestLimits()
   }
 
   componentDidUpdate (prevProps: Props) {

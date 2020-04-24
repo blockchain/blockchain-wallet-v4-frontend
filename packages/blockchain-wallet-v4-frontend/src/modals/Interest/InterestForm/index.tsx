@@ -1,6 +1,11 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
+import {
+  CoinType,
+  InterestLimitsType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RatesType } from 'data/types'
@@ -52,6 +57,7 @@ export type LinkDispatchPropsType = {
 }
 export type SuccessStateType = {
   coin: CoinType
+  interestLimits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
