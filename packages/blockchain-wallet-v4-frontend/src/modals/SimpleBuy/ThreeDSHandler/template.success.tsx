@@ -16,49 +16,47 @@ const Iframe = styled.iframe`
 `
 
 const Success: React.FC<Props> = props => {
-  return (
+  return props.threeDSCallbackReceived ? (
+    <Loading polling order={props.type === 'ORDER'} />
+  ) : (
     <CustomFlyoutWrapper>
-      {props.threeDSCallbackReceived ? (
-        <Loading polling order={props.type === 'ORDER'} />
-      ) : (
-        <>
-          <Icon
-            cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() => {
-              switch (props.type) {
-                case 'CARD':
-                  props.simpleBuyActions.setStep({
-                    step: 'ADD_CARD',
-                    cardId: props.card.id
-                  })
-                  break
-                case 'ORDER':
-                  props.simpleBuyActions.setStep({
-                    step: 'CHECKOUT_CONFIRM',
-                    order: props.order
-                  })
-              }
-            }}
-          />
-          <Iframe
-            src={
-              props.domains.walletHelper +
-              '/wallet-helper/everypay/#/paymentLink/' +
-              encodeURIComponent(
-                props.type === 'CARD'
-                  ? props.providerDetails.everypay.paymentLink
-                  : props.order.attributes
-                  ? props.order.attributes.everypay.paymentLink
-                  : ''
-              )
+      <>
+        <Icon
+          cursor
+          name='arrow-left'
+          size='20px'
+          color='grey600'
+          role='button'
+          onClick={() => {
+            switch (props.type) {
+              case 'CARD':
+                props.simpleBuyActions.setStep({
+                  step: 'ADD_CARD',
+                  cardId: props.card.id
+                })
+                break
+              case 'ORDER':
+                props.simpleBuyActions.setStep({
+                  step: 'CHECKOUT_CONFIRM',
+                  order: props.order
+                })
             }
-          />
-        </>
-      )}
+          }}
+        />
+        <Iframe
+          src={
+            props.domains.walletHelper +
+            '/wallet-helper/everypay/#/paymentLink/' +
+            encodeURIComponent(
+              props.type === 'CARD'
+                ? props.providerDetails.everypay.paymentLink
+                : props.order.attributes
+                ? props.order.attributes.everypay.paymentLink
+                : ''
+            )
+          }
+        />
+      </>
     </CustomFlyoutWrapper>
   )
 }

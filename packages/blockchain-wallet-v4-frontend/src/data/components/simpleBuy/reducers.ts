@@ -54,7 +54,6 @@ export function simpleBuyReducer (
         ...state,
         step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
-        order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
         suggestedAmounts: Remote.NotAsked
@@ -242,7 +241,8 @@ export function simpleBuyReducer (
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step
+            step: action.payload.step,
+            order: undefined
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':

@@ -137,29 +137,30 @@ const Success: React.FC<Props> = props => {
           </Value>
         </Row>
       </div>
-      {(props.order.state === 'PENDING_CONFIRMATION' ||
-        props.order.state === 'PENDING_DEPOSIT') && (
-        <Bottom>
-          <Button
-            data-e2e='sbCancelPending'
-            size='16px'
-            height='48px'
-            nature='light-red'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                step: 'CANCEL_ORDER',
-                order: props.order
-              })
-            }
-          >
-            {/* TODO: Simple Buy - order types */}
-            <FormattedMessage
-              id='modals.simplebuy.summary.cancelbuy'
-              defaultMessage='Cancel Buy'
-            />
-          </Button>
-        </Bottom>
-      )}
+      {props.order.state === 'PENDING_CONFIRMATION' ||
+        (props.order.state === 'PENDING_DEPOSIT' &&
+          !props.order.paymentMethodId && (
+            <Bottom>
+              <Button
+                data-e2e='sbCancelPending'
+                size='16px'
+                height='48px'
+                nature='light-red'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'CANCEL_ORDER',
+                    order: props.order
+                  })
+                }
+              >
+                {/* TODO: Simple Buy - order types */}
+                <FormattedMessage
+                  id='modals.simplebuy.summary.cancelbuy'
+                  defaultMessage='Cancel Buy'
+                />
+              </Button>
+            </Bottom>
+          ))}
     </Wrapper>
   )
 }

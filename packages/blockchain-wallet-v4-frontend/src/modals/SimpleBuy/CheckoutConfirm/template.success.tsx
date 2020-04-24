@@ -9,7 +9,6 @@ import { FormattedMessage } from 'react-intl'
 import { getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import BigNumber from 'bignumber.js'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -129,12 +128,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {displayFiat(
-            new BigNumber(props.order.inputQuantity)
-              .plus(props.order.fee || '0')
-              .toString()
-          )}{' '}
-          {props.order.inputCurrency}
+          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
         </Value>
       </Row>
       <Bottom>

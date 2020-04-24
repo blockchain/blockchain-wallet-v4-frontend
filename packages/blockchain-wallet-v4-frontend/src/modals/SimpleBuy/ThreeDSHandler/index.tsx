@@ -45,7 +45,6 @@ class ThreeDSHandler extends PureComponent<Props, State> {
         this.props.simpleBuyActions.pollSBCard(card.id)
         break
       default:
-        this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
     }
   }
 

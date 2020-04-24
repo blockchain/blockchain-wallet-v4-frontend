@@ -130,6 +130,18 @@ export default ({
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
       yield put(A.fetchSBOrders())
     } catch (e) {
+      // After CC has been activated we try to create an order
+      // If order creation fails go back to ENTER_AMOUNT step
+      // Wait for the form to be INITIALIZED and display err
+      const step = S.getStep(yield select())
+      if (step !== 'ENTER_AMOUNT') {
+        const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
+        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+        yield take(AT.INITIALIZE_CHECKOUT)
+        yield delay(3000)
+        yield put(actions.form.startSubmit('simpleBuyCheckout'))
+      }
+
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('simpleBuyCheckout', { _error: error }))
     }
