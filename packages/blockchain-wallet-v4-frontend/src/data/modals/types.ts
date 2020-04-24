@@ -16,8 +16,6 @@ export type ModalNamesType =
   | '@MODAL.SEND.PAX'
   | '@MODAL.SEND.XLM'
   | 'RECOVERY_PHRASE_MODAL'
-  | 'ShowEthPrivateKey'
-  | 'ShowXlmPrivateKey'
   | 'SIMPLE_BUY_MODAL'
   | 'SunRiverWelcome'
   | 'SwapGetStarted'

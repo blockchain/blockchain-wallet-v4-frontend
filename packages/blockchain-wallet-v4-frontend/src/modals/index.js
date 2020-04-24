@@ -53,18 +53,11 @@ import {
 } from './Lockbox'
 import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import { PairingCode, ShowXPub, UpgradeWallet } from './Wallet'
-import {
-  PaxWelcome,
-  RequestEth,
-  SendEth,
-  ShowEthPrivateKey,
-  TransferEth
-} from './Eth'
+import { PaxWelcome, RequestEth, SendEth, TransferEth } from './Eth'
 import { RequestBch, SendBch } from './Bch'
 import {
   RequestXlm,
   SendXlm,
-  ShowXlmPrivateKey,
   SunRiverWelcome,
   XlmCreateAccountLearn,
   XlmReserveLearn
@@ -123,8 +116,6 @@ const Modals = () => (
     <SendXlm />
     <ShapeshiftTradeDetails />
     <ShowBtcPrivateKey />
-    <ShowEthPrivateKey />
-    <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />

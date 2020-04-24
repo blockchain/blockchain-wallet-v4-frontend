@@ -33,39 +33,6 @@ const SearchField = styled<any>(Field)`
   }
 `
 
-// const PrivateKeysWrapper = styled.div`
-//   display: flex;
-//   flex-wrap: nowrap;
-
-//   > div > ul {
-//     border: 1px solid ${props => props.theme['grey100']};
-//     min-width: 180px;
-//     margin-top: 20px;
-//   }
-//   > div > div > span {
-//     display: none;
-//   }
-// `
-
-// const ExportEthPrivateKeyText = styled(Text)`
-//   cursor: pointer;
-// `
-// const PRIVATE_KEY_EXPORT_COINS = ['ETH', 'XLM']
-
-// const EthPrivateKeys = () => (
-//   <StyledIconButton
-//     data-e2e="ethPrivateKeysDropdown"
-//     height="45px"
-//     name="chevron-down-large"
-//     nature="light"
-//   >
-//     <FormattedMessage
-//       id="scenes.transactions.menu.ethprivatekeys"
-//       defaultMessage="Private Keys"
-//     />
-//   </StyledIconButton>
-// )
-
 const TransactionFilters = ({ handleClickReporting }) => (
   <StickyHeader>
     <HorizontalMenu marginBottom='0px'>
