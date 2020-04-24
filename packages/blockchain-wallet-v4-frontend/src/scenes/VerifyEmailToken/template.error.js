@@ -19,7 +19,7 @@ const Error = props => {
 
   return (
     <Wrapper>
-      {error.includes('already been verified') ? (
+      {error && error.includes('already been verified') ? (
         <React.Fragment>
           <LogoWrapper>
             <Image name='email-success' width='75px' height='75px' />
