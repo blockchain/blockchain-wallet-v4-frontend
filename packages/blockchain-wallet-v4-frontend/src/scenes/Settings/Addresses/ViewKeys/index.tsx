@@ -27,46 +27,46 @@ const Body = styled(Text)`
 const KeyIcon = styled(Icon)`
   margin-bottom: 1.5rem;
 `
-const ViewKeys = ({ showQrCode, toggleQrCode }) => (
+const ViewKeys = ({
+  showQrCode,
+  toggleQrCode
+}: {
+  showQrCode: boolean
+  toggleQrCode: () => void
+}) => (
   <ContentWrapper>
     <KeyIcon name='key' color='blue600' size='16px' />
     <Header color='grey800' size='20px' weight={600}>
       <FormattedMessage
-        id='scenes.settings.addresses.xlm.keys.header'
+        id='scenes.settings.addresses.viewkeys.header'
         defaultMessage='View Your Private Keys.'
       />
     </Header>
 
     <Warning color='error' size='14px' weight={600}>
       <FormattedMessage
-        id='scenes.settings.addresses.xlm.keys.warning'
+        id='scenes.settings.addresses.viewkeys.warning'
         defaultMessage='Warning'
       />
     </Warning>
 
     <Body color='grey600' size='14px' weight={500}>
       <FormattedMessage
-        id='scenes.settings.addresses.xlm.keys.warning-body'
+        id='scenes.settings.addresses.viewkeys.warning-body'
         defaultMessage='Do not share your private keys with anyone. We will never ask for them. Sharing your keys may result in a loss of funds.'
       />
     </Body>
 
     <Button
-      event='show_xlm_key'
+      data-e2e='show_private_key_button'
       width='262px'
       nature='empty-blue'
       onClick={toggleQrCode}
     >
       {showQrCode ? (
-        <FormattedMessage
-          id='scenes.settings.addresses.xlm.keys.hide-button'
-          defaultMessage='Hide'
-        />
+        <FormattedMessage id='buttons.hide' defaultMessage='Hide' />
       ) : (
-        <FormattedMessage
-          id='scenes.settings.addresses.xlm.keys.show-button'
-          defaultMessage='Show'
-        />
+        <FormattedMessage id='buttons.show' defaultMessage='Show' />
       )}
     </Button>
   </ContentWrapper>
