@@ -14,12 +14,12 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class InterestSummary extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
     this.props.interestActions.fetchInterestRate()
   }
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: val => <Success {...this.props} {...val} />,

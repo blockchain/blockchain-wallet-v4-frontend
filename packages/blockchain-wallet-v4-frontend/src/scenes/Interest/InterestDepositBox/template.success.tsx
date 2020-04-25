@@ -41,15 +41,14 @@ const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
 
-function Success(props: Props): ReactElement {
-  console.log('these are my props from deposit', props)
+function Success (props: Props): ReactElement {
   return (
     <DepositBox>
       <Row>
-        <Icon name="btc-circle-filled" color="btc" size="32px" />
+        <Icon name='btc-circle-filled' color='btc' size='32px' />
         <Text
-          size="20px"
-          color="grey800"
+          size='20px'
+          color='grey800'
           weight={600}
           style={{ marginLeft: '8px', lineHeight: '1.5' }}
         >
@@ -57,17 +56,17 @@ function Success(props: Props): ReactElement {
         </Text>
       </Row>
       <Row>
-        <TooltipHost id="earninterest.calculation.tooltip">
-          <TooltipIcon name="info" size="14px" />
+        <TooltipHost id='earninterest.calculation.tooltip'>
+          <TooltipIcon name='info' size='14px' />
         </TooltipHost>
         <Text
-          size="12px"
+          size='12px'
           weight={500}
           style={{ marginLeft: '6px', lineHeight: '1.5' }}
         >
           <FormattedMessage
-            id="scenes.earninterest.form.earn3percent"
-            defaultMessage="Earn {interestRate}% AER on your BTC"
+            id='scenes.earninterest.form.earn3percent'
+            defaultMessage='Earn {interestRate}% AER on your BTC'
           />
         </Text>
       </Row>
@@ -75,27 +74,27 @@ function Success(props: Props): ReactElement {
       <AmountRow>
         <AmountColumn>
           <Text
-            size="16px"
-            color="grey800"
+            size='16px'
+            color='grey800'
             weight={600}
             style={{ lineHeight: '1.5' }}
           >
             $0.00
           </Text>
-          <Text size="12px" style={{ lineHeight: '1.5' }}>
+          <Text size='12px' style={{ lineHeight: '1.5' }}>
             0 BTC
           </Text>
         </AmountColumn>
         <AmountColumn>
           <Text
-            size="16px"
-            color="grey800"
+            size='16px'
+            color='grey800'
             weight={600}
             style={{ lineHeight: '1.5' }}
           >
             $0
           </Text>
-          <Text size="12px" style={{ lineHeight: '1.5' }}>
+          <Text size='12px' style={{ lineHeight: '1.5' }}>
             Total Interest Earned
           </Text>
         </AmountColumn>
@@ -104,14 +103,14 @@ function Success(props: Props): ReactElement {
       <Button
         disabled={props.isDisabled}
         style={{ marginTop: '16px' }}
-        nature="primary"
+        nature='primary'
         fullwidth
-        data-e2e="earnInterest"
+        data-e2e='earnInterest'
         onClick={() => props.modalActions.showModal('INTEREST_MODAL')}
       >
         <FormattedMessage
-          id="scenes.earninterest.form.earnbutton"
-          defaultMessage="Earn Interest"
+          id='scenes.earninterest.form.earnbutton'
+          defaultMessage='Earn Interest'
         />
       </Button>
     </DepositBox>

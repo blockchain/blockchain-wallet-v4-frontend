@@ -42,17 +42,17 @@ export type InterestRateType = {
 }
 
 export type InterestTransactionType = {
-  id: string
   amount: {
     symbol: CoinType
     value: string
   }
-  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
-  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
   extraAttributes?: {
     txHash: string
   }
+  id: string
   insertedAt: string
+  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
+  type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 
 export type InterestTransactionReponseType = {

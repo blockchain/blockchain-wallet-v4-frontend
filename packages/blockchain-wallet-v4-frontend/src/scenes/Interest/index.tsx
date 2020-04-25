@@ -39,11 +39,11 @@ const LearnMoreText = styled(Text)`
 `
 
 class Interest extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.checkUserData()
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate (prevProps: Props) {
     if (
       this.props.userDataR.getOrElse(null) !==
       prevProps.userDataR.getOrElse(null)
@@ -64,33 +64,33 @@ class Interest extends React.PureComponent<Props> {
     // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
-  render() {
+  render () {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name="savings-icon" color="blue600" size="24px" />
+            <Icon name='savings-icon' color='blue600' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id="scenes.interest.interestaccount"
-              defaultMessage="Interest Account"
+              id='scenes.interest.interestaccount'
+              defaultMessage='Interest Account'
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id="scenes.interest.subheader"
-            defaultMessage="Deposit crypto and watch it grow without fees."
+            id='scenes.interest.subheader'
+            defaultMessage='Deposit crypto and watch it grow without fees.'
           />
           <LearnMoreLink
-            href="https://support.blockchain.com/hc/en-us/sections/360008572552"
-            target="_blank"
+            href='https://support.blockchain.com/hc/en-us/sections/360008572552'
+            target='_blank'
           >
-            <LearnMoreText size="15px">
+            <LearnMoreText size='15px'>
               <FormattedMessage
-                id="buttons.learn_more"
-                defaultMessage="Learn More"
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
               />
             </LearnMoreText>
           </LearnMoreLink>

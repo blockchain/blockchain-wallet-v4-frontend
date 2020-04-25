@@ -8,7 +8,6 @@ import {
   InterestLimitsType,
   InterestPaymentAccountType,
   InterestRateType,
-  InterestTransactionType,
   InterestTransactionReponseType,
   RemoteDataType
 } from 'core/types'

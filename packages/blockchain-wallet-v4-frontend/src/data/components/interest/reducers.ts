@@ -13,7 +13,7 @@ const INITIAL_STATE: InterestState = {
   interestTransactions: Remote.NotAsked
 }
 
-export function interestReducer(
+export function interestReducer (
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {

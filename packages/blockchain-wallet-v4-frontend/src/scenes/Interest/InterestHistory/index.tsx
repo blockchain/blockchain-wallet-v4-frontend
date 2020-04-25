@@ -2,13 +2,14 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { getData } from './selectors'
 import {
+  CoinType,
   InterestTransactionReponseType,
   NabuApiErrorType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
+import { getData } from './selectors'
 import { UserDataType } from 'data/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -21,11 +22,11 @@ const History = styled.div`
 
 class InterestHistory extends Component<Props> {
   state = {}
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.fetchInterestTransactions()
   }
 
-  render() {
+  render () {
     return (
       <History>
         {this.props.data.cata({
@@ -52,6 +53,7 @@ const connector = connect(
 )
 
 export type SuccessStateType = {
+  coin: CoinType
   interestHistory: InterestTransactionReponseType
   supportedCoins: SupportedCoinsType
   userData: UserDataType

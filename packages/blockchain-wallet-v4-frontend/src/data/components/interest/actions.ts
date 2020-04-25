@@ -7,7 +7,6 @@ import {
   InterestLimitsType,
   InterestPaymentAccountType,
   InterestRateType,
-  InterestTransactionType,
   InterestTransactionReponseType
 } from 'core/network/api/interest/types'
 import { InterestActionTypes } from './types'
