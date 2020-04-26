@@ -71,4 +71,4 @@ type OwnProps = {
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default TabsContainer
+export default connector(TabsContainer)
