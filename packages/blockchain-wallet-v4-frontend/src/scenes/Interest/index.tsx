@@ -40,6 +40,7 @@ const LearnMoreText = styled(Text)`
 
 class Interest extends React.PureComponent<Props> {
   componentDidMount () {
+    this.props.interestActions.fetchInterestEligible()
     this.checkUserData()
   }
 
@@ -56,8 +57,9 @@ class Interest extends React.PureComponent<Props> {
     const userData = this.props.userDataR.getOrElse({
       tiers: { current: 0 }
     })
+    const interestEligible = this.props.interestEligibleR.getOrElse(0)
     const tier = userData.tiers ? userData.tiers.current : 0
-    const isDisabled = tier < 2
+    const isDisabled = tier < 2 || !interestEligible
     /* eslint-disable */
     this.setState({ isDisabled })
     /* eslint-enable */

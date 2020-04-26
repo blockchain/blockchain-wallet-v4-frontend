@@ -22,9 +22,9 @@ class InterestSummary extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
-      Failure: val => <Success {...this.props} {...val} />,
-      Loading: () => <Success {...this.props} />,
-      NotAsked: () => <Success {...this.props} />
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null
     })
   }
 }

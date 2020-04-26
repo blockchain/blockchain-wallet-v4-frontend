@@ -42,6 +42,7 @@ const Separator = styled.div`
 `
 
 function Success (props: Props): ReactElement {
+  const { interestRate, interestAccountBalance } = props
   return (
     <DepositBox>
       <Row>
@@ -67,6 +68,8 @@ function Success (props: Props): ReactElement {
           <FormattedMessage
             id='scenes.earninterest.form.earn3percent'
             defaultMessage='Earn {interestRate}% AER on your BTC'
+            // TODO make this more coin interchangeable
+            values={{ interestRate: interestRate.BTC }}
           />
         </Text>
       </Row>
@@ -82,7 +85,7 @@ function Success (props: Props): ReactElement {
             $0.00
           </Text>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            0 BTC
+            {interestAccountBalance.BTC} BTC
           </Text>
         </AmountColumn>
         <AmountColumn>
