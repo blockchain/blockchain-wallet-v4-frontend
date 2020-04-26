@@ -18,11 +18,17 @@ import styled from 'styled-components'
 export const MainTitle = styled(Text)`
   margin-bottom: 8px;
 `
+const InterestTableCell = styled(TableCell)`
+  align-items: center;
+  > ${Value} {
+    margin-left: 20px;
+  }
+`
 
 function Success (props: SuccessStateType): ReactElement {
   const { interestHistory, supportedCoins } = props
   // how do i pass array of coins to supported Coins so I can make it any
-  const { colorCode } = supportedCoins.BTC
+  const { coinTicker, colorCode } = supportedCoins.BTC
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
@@ -70,14 +76,38 @@ function Success (props: SuccessStateType): ReactElement {
         {interestHistory.items.map(transaction => {
           return (
             <TableRow key={transaction.id}>
-              <TableCell width='20%'>
-                <IconBackground>
-                  <Icon name='arrow-down' size='18px' color={colorCode} />
-                </IconBackground>
-                <Value data-e2e='interestTransactionType'>
-                  {transaction.type}
-                </Value>
-              </TableCell>
+              <InterestTableCell width='20%'>
+                {transaction.type === 'WITHDRAWAL' ? (
+                  <React.Fragment>
+                    <IconBackground>
+                      <Icon
+                        name='arrow-up'
+                        color={colorCode}
+                        size='18px'
+                        weight={600}
+                      />
+                    </IconBackground>
+                    <Value>{coinTicker} Withdraw</Value>
+                  </React.Fragment>
+                ) : transaction.type === 'DEPOSIT' ? (
+                  <React.Fragment>
+                    <IconBackground>
+                      <Icon
+                        name='arrow-down'
+                        color={colorCode}
+                        size='18px'
+                        weight={600}
+                      />
+                    </IconBackground>
+                    <Value>{coinTicker} Deposit</Value>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Icon name='savings-icon' color={colorCode} size='32px' />
+                    <Value>{coinTicker} Interest Earned</Value>
+                  </React.Fragment>
+                )}
+              </InterestTableCell>
               <TableCell width='20%'>
                 <Value data-e2e='interestTransactionDate'>
                   {moment(transaction.insertedAt).format('llll')}

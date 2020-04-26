@@ -7,7 +7,7 @@ import {
   InterestLimitsType,
   InterestPaymentAccountType,
   InterestRateType,
-  InterestTransactionReponseType
+  InterestTransactionResponseType
 } from 'core/network/api/interest/types'
 import { InterestActionTypes } from './types'
 
@@ -177,7 +177,7 @@ export const fetchInterestTransactionsLoading = (): InterestActionTypes => ({
 })
 
 export const fetchInterestTransactionsSuccess = (
-  interestTransactions: InterestTransactionReponseType
+  interestTransactions: InterestTransactionResponseType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS,
   payload: {

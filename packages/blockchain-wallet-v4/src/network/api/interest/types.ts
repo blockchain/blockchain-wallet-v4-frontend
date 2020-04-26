@@ -50,11 +50,12 @@ export type InterestTransactionType = {
     txHash: string
   }
   id: string
+
   insertedAt: string
   state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 
-export type InterestTransactionReponseType = {
+export type InterestTransactionResponseType = {
   items: Array<InterestTransactionType>
 }

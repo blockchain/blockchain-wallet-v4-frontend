@@ -3,11 +3,12 @@ import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
+import { InterestTransactionResponseType } from 'core/types'
 import { nth } from 'ramda'
 import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchInterestBalance = function*() {
+  const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
       const response: ReturnType<
@@ -19,7 +20,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchInterestBalanceFailure(error))
     }
   }
-  const fetchInterestEligible = function*() {
+  const fetchInterestEligible = function * () {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -32,7 +33,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestInstruments = function*() {
+  const fetchInterestInstruments = function * () {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<
@@ -45,7 +46,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestLimits = function*() {
+  const fetchInterestLimits = function * () {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
@@ -71,7 +72,7 @@ export default ({ api }: { api: APIType }) => {
   //   }
   // }
 
-  const fetchInterestRate = function*() {
+  const fetchInterestRate = function * () {
     try {
       yield put(A.fetchInterestRateLoading())
       const response: ReturnType<
@@ -84,20 +85,20 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestTransactions = function*() {
+  const fetchInterestTransactions = function * () {
     try {
       yield put(A.fetchInterestTransactionsLoading())
-      const response: ReturnType<
-        typeof api.getInterestTransactions
-      > = yield call(api.getInterestTransactions)
-      yield put(A.fetchInterestTransactionsSuccess(response))
+      const transactions: InterestTransactionResponseType = yield call(
+        api.getInterestTransactions
+      )
+      yield put(A.fetchInterestTransactionsSuccess(transactions))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailue(error))
     }
   }
 
-  const initializeInterest = function*({
+  const initializeInterest = function * ({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
     let defaultAccountR

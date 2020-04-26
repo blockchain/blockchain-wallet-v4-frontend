@@ -6,7 +6,7 @@ import {
   InterestLimitsType,
   InterestPaymentAccountType,
   InterestRateType,
-  InterestTransactionReponseType
+  InterestTransactionResponseType
 } from './types'
 
 export default ({ nabuUrl, authorizedGet }) => {
@@ -47,7 +47,7 @@ export default ({ nabuUrl, authorizedGet }) => {
   //     endPoint: '/payments/transactions?PRODUCT=savings'
   //   })
 
-  const getInterestTransactions = (): InterestTransactionReponseType => ({
+  const getInterestTransactions = (): InterestTransactionResponseType => ({
     items: [
       {
         id: '49b1b791-6213-44a9-b3b5-394f594f7a1f',

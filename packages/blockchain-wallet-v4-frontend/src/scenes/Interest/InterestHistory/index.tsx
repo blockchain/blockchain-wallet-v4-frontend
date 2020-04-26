@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import {
   CoinType,
-  InterestTransactionReponseType,
+  InterestTransactionResponseType,
   NabuApiErrorType,
   RemoteDataType,
   SupportedCoinsType
@@ -54,7 +54,7 @@ const connector = connect(
 
 export type SuccessStateType = {
   coin: CoinType
-  interestHistory: InterestTransactionReponseType
+  interestHistory: InterestTransactionResponseType
   supportedCoins: SupportedCoinsType
   userData: UserDataType
 }
