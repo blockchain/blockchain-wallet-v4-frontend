@@ -109,7 +109,7 @@ class EarnInterestInfo extends PureComponent<Props> {
                 size='16px'
                 color='grey400'
                 role='button'
-                // onClick={() => props.handleClose()}
+                // onClick to handle close here
               />
             </IconWrapper>
             <Text

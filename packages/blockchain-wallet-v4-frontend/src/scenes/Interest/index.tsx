@@ -3,7 +3,6 @@ import { bindActionCreators, Dispatch } from 'redux'
 import {
   CoinType,
   InterestAccountBalanceType,
-  InterestEligibleType,
   InterestRateType,
   NabuApiErrorType,
   RemoteDataType
@@ -107,8 +106,6 @@ class Interest extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userDataR: selectors.modules.profile.getUserData(state),
-  // do i need this?
-  interestEligibleR: selectors.components.interest.getInterestEligible(state),
   interestRateR: selectors.components.interest.getInterestRate(state)
 })
 
@@ -134,7 +131,6 @@ export type OwnProps = {
 }
 
 type LinkStatePropsType = {
-  interestEligibleR: RemoteDataType<string, InterestEligibleType>
   interestRateR: RemoteDataType<string, InterestRateType>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
