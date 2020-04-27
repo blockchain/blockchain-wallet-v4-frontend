@@ -102,20 +102,32 @@ function Success (props: Props): ReactElement {
           </Text>
         </AmountColumn>
       </AmountRow>
-      {}
-      <Button
-        disabled={props.isDisabled}
-        style={{ marginTop: '16px' }}
-        nature='primary'
-        fullwidth
-        data-e2e='earnInterest'
-        onClick={() => props.modalActions.showModal('INTEREST_MODAL')}
-      >
-        <FormattedMessage
-          id='scenes.earninterest.form.earnbutton'
-          defaultMessage='Earn Interest'
-        />
-      </Button>
+      {interestAccountBalance.BTC ? (
+        <Button
+          style={{ marginTop: '16px' }}
+          nature='light'
+          data-e2e='viewInterestDetails'
+          fullwidth
+          // in details flyout PR
+          // onClick={() => props.interestActions.showInterestModal('DETAILS')}
+        >
+          <FormattedMessage id='copy.view' defaultMessage='View' />
+        </Button>
+      ) : (
+        <Button
+          disabled={props.isDisabled}
+          style={{ marginTop: '16px' }}
+          nature='primary'
+          fullwidth
+          data-e2e='earnInterest'
+          onClick={() => props.modalActions.showModal('INTEREST_MODAL')}
+        >
+          <FormattedMessage
+            id='scenes.earninterest.form.earnbutton'
+            defaultMessage='Earn Interest'
+          />
+        </Button>
+      )}
     </DepositBox>
   )
 }
