@@ -61,7 +61,10 @@ class ExchangePromo extends PureComponent<Props> {
   onSignup = () => {
     this.props.modalActions.closeAllModals()
     this.props.modalActions.showModal('LinkToExchangeAccount')
-    this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.CONNECT_NOW)
+    this.props.analyticsActions.logEvent([
+      ...EXCHANGE_EVENTS.PROMO,
+      'connect_modal'
+    ])
   }
 
   render () {
@@ -92,6 +95,12 @@ class ExchangePromo extends PureComponent<Props> {
               rel='noopener noreferrer'
               data-e2e='openExchange'
               target='_blank'
+              onClick={() =>
+                this.props.analyticsActions.logEvent([
+                  ...EXCHANGE_EVENTS.PROMO,
+                  'go_to_exchange'
+                ])
+              }
             >
               <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage
@@ -126,7 +135,16 @@ class ExchangePromo extends PureComponent<Props> {
             </ConnectContainer>
           )
         ) : (
-          <LinkContainer data-e2e='goSettingsProfile' to='/settings/profile'>
+          <LinkContainer
+            data-e2e='goSettingsProfile'
+            to='/settings/profile'
+            onClick={() =>
+              this.props.analyticsActions.logEvent([
+                ...EXCHANGE_EVENTS.PROMO,
+                'verify_account'
+              ])
+            }
+          >
             <GetStartedContainer>
               <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage
