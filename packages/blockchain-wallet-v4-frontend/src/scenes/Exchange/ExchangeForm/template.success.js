@@ -78,7 +78,7 @@ const ComplementaryRow = styled(Row)`
 
 const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
   height: 86px;
-  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '80%')};
+  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '50%')};
   > div {
     border: none;
     height: 100%;
@@ -86,12 +86,13 @@ const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
     display: flex !important;
     flex-direction: row;
     justify-content: center;
+    width: 100%;
   }
   input {
     outline: 0;
     position: relative;
     font-weight: 400;
-    font-size: 72px;
+    font-size: 62px;
     line-height: 88px;
     height: 88px;
     padding: 0;
@@ -137,8 +138,9 @@ const CurrencyBox = styled(Text)`
   justify-content: center;
   align-items: center;
   height: 88px;
-  font-size: 72px;
+  font-size: 62px;
   font-weight: 400;
+  margin-left: 2px;
   background-color: ${props =>
     props.disabled ? props.theme.grey000 : props.theme.white};
 `
@@ -280,7 +282,7 @@ const Success = ({
                 onUpdate={resizeSymbol.bind(null, fiatActive)}
                 component={AmountTextBox}
                 fiatActive={fiatActive}
-                maxFontSize='72px'
+                maxFontSize='62px'
                 data-e2e='exchangeAmountInput'
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}

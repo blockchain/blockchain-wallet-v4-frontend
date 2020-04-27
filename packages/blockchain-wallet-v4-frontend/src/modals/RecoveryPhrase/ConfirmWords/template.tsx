@@ -115,7 +115,7 @@ const ConfirmWordsForm: React.FC<
       <Bottom>
         <Button
           capitalize
-          data-e2e='toRecoveryTwo'
+          data-e2e='confirmButton'
           disabled={submitting || invalid}
           fullwidth
           height='48px'

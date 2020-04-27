@@ -124,8 +124,8 @@ const IdentityVerification = ({ userData, userTiers }) => {
             </SwapText>
             <SwapText size='14px' weight={400}>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.tradelimit'
-                defaultMessage='Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
+                id='scenes.profile.identityverification.swaplimit.tradelimits'
+                defaultMessage='Our trading limits is how much you can trade each day. That includes Swap and Buy transactions, as well as Borrow. Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
@@ -137,8 +137,8 @@ const IdentityVerification = ({ userData, userTiers }) => {
               </SwapText>
               <SwapText size='13px' weight={400}>
                 <FormattedHTMLMessage
-                  id='scenes.profile.identityverification.swaplimit.learnmorelimits'
-                  defaultMessage="We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                  id='scenes.profile.identityverification.swaplimit.learnmoreread'
+                  defaultMessage="Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
                 />
               </SwapText>
             </LearnMoreContainer>

@@ -122,6 +122,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='close'
             size='20px'
             color='grey600'
+            data-e2e='closeBorrow'
           />
         </TopText>
         <MaxAmountContainer>

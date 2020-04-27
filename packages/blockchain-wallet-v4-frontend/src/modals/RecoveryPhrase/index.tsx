@@ -64,10 +64,8 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     ) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
-      console.log('This should be left')
     } else {
       this.setState({ direction: 'right' })
-      console.log('this should be right')
       /* eslint-enable */
     }
   }

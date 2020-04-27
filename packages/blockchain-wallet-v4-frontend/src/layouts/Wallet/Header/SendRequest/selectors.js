@@ -12,7 +12,9 @@ export const getData = createSelector(
   ],
   (pathname, getCoinAvailability, erc20ListR, supportedCoinsR) => {
     const params = pathname.split('/')
-    const coin = toUpper(params[1])
+    let coin = toUpper(params[1])
+    // hack to support PAX rebrand 🤬
+    if (coin === 'USD-D') coin = 'PAX'
     const availability = getCoinAvailability(coin)
     return {
       coin: coin,
