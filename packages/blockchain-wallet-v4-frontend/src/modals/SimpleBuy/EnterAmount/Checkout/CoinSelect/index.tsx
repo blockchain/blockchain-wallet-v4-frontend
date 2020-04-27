@@ -27,7 +27,6 @@ const DisplayContainer = styled.div<{
 
 const SelectBoxBuyCoin = styled(SelectBox)`
   .bc__dropdown-indicator {
-    padding-right: 24px;
     color: ${props => props.theme.grey600};
   }
 `

@@ -16,18 +16,24 @@ import styled from 'styled-components'
 const SelectBoxMethod = styled(SelectBox)`
   margin-bottom: 24px;
   .bc__dropdown-indicator {
-    padding-right: 24px;
     color: ${props => props.theme.grey600};
   }
 `
 const DisplayContainer = styled.div<{
+  isCard?: boolean
   isItem: boolean
 }>`
   display: flex;
   width: 100%;
   align-items: center;
   box-sizing: border-box;
-  padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
+  justify-content: space-between;
+  padding: ${props =>
+    props.isItem
+      ? '0px 6px'
+      : props.isCard
+      ? '16px 0px 16px 12px'
+      : '16px 12px'};
 `
 const Display = styled.div`
   position: relative;
@@ -48,6 +54,10 @@ const Display = styled.div`
   input {
     height: 0;
   }
+`
+const CardLimitsDisplay = styled(Display)<{ isItem: boolean }>`
+  align-items: flex-end;
+  padding-right: ${props => (props.isItem ? '20px' : '0px')};
 `
 const IconContainer = styled.div`
   width: 38px;
@@ -148,10 +158,11 @@ class MethodSelect extends PureComponent<Props> {
     if (!this.props.formValues.pair) return
 
     const fiat = getFiatFromPair(this.props.formValues.pair.pair)
+    const isCard = props.value.type === 'USER_CARD'
     const isItem = !children
 
     return (
-      <DisplayContainer isItem={isItem}>
+      <DisplayContainer isItem={isItem} isCard={isCard}>
         {this.getIcon(props.value)}
         <Display>
           {children || this.getType(props.value)}
@@ -162,6 +173,14 @@ class MethodSelect extends PureComponent<Props> {
             })}
           </Limit>
         </Display>
+        {props.value.type === 'USER_CARD' && (
+          <CardLimitsDisplay isItem={isItem}>
+            ···· {props.value.card.number}
+            <Limit>
+              Exp: {props.value.card.expireMonth}/{props.value.card.expireYear}
+            </Limit>
+          </CardLimitsDisplay>
+        )}
       </DisplayContainer>
     )
   }
