@@ -4,6 +4,12 @@ import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
   const cardsR = selectors.components.simpleBuy.getSBCards(state)
+  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
+    state
+  )
 
-  return lift(cards => ({ cards }))(cardsR)
+  return lift((cards, paymentMethods) => ({ cards, paymentMethods }))(
+    cardsR,
+    paymentMethodsR
+  )
 }

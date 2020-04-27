@@ -424,6 +424,7 @@ export const showModal = (
     | 'emptyFeed'
     | 'pendingOrder'
     | 'priceChart'
+    | 'settingsGeneral'
     | 'settingsProfile'
     | 'sideNav'
     | 'welcomeModal',

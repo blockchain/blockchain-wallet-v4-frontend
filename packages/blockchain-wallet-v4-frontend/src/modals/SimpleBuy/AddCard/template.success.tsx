@@ -56,10 +56,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             })
           }
         />
-        <FormattedMessage
-          id='modals.simplebuy.addcard'
-          defaultMessage='Add Card'
-        />
+        <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
       </TopText>
       <Form onSubmit={props.handleSubmit}>
         <FormGroup margin='24px'>
