@@ -77,6 +77,17 @@ const validStrongPassword = value =>
         />
       )
 
+const scrollToId = id => {
+  const element = document.getElementById(id)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToPassword = () => scrollToId('password')
+
+const scrollToSecondPassword = () => scrollToId('confirmationPassword')
+
 const SignupForm = ({
   busy,
   handleSubmit,
@@ -119,7 +130,7 @@ const SignupForm = ({
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor='password'>
+          <FormLabel htmlFor='password' id='password'>
             <FormattedMessage
               defaultMessage='Password'
               id='scenes.register.password'
@@ -131,6 +142,7 @@ const SignupForm = ({
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
+            onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
             validate={[required, validStrongPassword]}
@@ -163,7 +175,7 @@ const SignupForm = ({
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor='confirmationPassword'>
+          <FormLabel htmlFor='confirmationPassword' id='confirmationPassword'>
             <FormattedMessage
               defaultMessage='Confirm Password'
               id='scenes.register.confirmpassword'
@@ -175,6 +187,7 @@ const SignupForm = ({
             data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
             name='confirmationPassword'
+            onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
