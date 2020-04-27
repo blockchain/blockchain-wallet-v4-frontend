@@ -61,7 +61,10 @@ class ExchangePromo extends PureComponent<Props> {
   onSignup = () => {
     this.props.modalActions.closeAllModals()
     this.props.modalActions.showModal('LinkToExchangeAccount')
-    this.props.analyticsActions.logEvent([...EXCHANGE_EVENTS.PROMO, 'connect'])
+    this.props.analyticsActions.logEvent([
+      ...EXCHANGE_EVENTS.PROMO,
+      'connect_modal'
+    ])
   }
 
   render () {
