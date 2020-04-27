@@ -459,12 +459,15 @@ export default ({
       api.getSBCard,
       cardId
     )
+    let step = S.getStep(yield select())
 
     while (
       (card.state === 'CREATED' || card.state === 'PENDING') &&
-      retryAttempts < maxRetryAttempts
+      retryAttempts < maxRetryAttempts &&
+      step === '3DS_HANDLER'
     ) {
       card = yield call(api.getSBCard, cardId)
+      step = S.getStep(yield select())
       retryAttempts++
       yield delay(3000)
     }
@@ -489,12 +492,15 @@ export default ({
       api.getSBOrder,
       orderId
     )
+    let step = S.getStep(yield select())
 
     while (
       order.state === 'PENDING_DEPOSIT' &&
-      retryAttempts < maxRetryAttempts
+      retryAttempts < maxRetryAttempts &&
+      step === '3DS_HANDLER'
     ) {
       order = yield call(api.getSBOrder, orderId)
+      step = S.getStep(yield select())
       retryAttempts++
       yield delay(3000)
     }

@@ -1052,6 +1052,7 @@ type MessagesType = {
   'modals.simplebuy.summary.created': 'Created'
   'modals.simplebuy.summary.paymentmethod': 'Payment Method'
   'modals.simplebuy.summary.purchasing': 'Purchasing'
+  'modals.simplebuy.summary.retry_card': 'Retry Card Payment'
   'modals.simplebuy.summary.txid': 'Transaction ID'
   'modals.simplebuy.summary.viewtransferdets': 'View Bank Transfer Details'
   'modals.simplebuy.transactionfeed.canceled': '{type} Canceled'
