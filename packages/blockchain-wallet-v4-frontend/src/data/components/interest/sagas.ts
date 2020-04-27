@@ -3,10 +3,23 @@ import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
+import { InterestTransactionResponseType } from 'core/types'
 import { nth } from 'ramda'
 import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
+  const fetchInterestBalance = function * () {
+    try {
+      yield put(A.fetchInterestBalanceLoading())
+      const response: ReturnType<
+        typeof api.getInterestAccountBalance
+      > = yield call(api.getInterestAccountBalance)
+      yield put(A.fetchInterestBalanceSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestBalanceFailure(error))
+    }
+  }
   const fetchInterestEligible = function * () {
     try {
       yield put(A.fetchInterestEligibleLoading())
@@ -46,18 +59,40 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestPaymentAccount = function * ({
-    cryptoCurrency
-  }: ReturnType<typeof A.fetchInterestPaymentAccount>) {
+  const fetchInterestPaymentAccount = function * (coin) {
     try {
       yield put(A.fetchInterestPaymentAccountLoading())
-      const response: ReturnType<
-        typeof api.getInterestPaymentAccount
-      > = yield call(api.getInterestPaymentAccount, cryptoCurrency)
-      yield put(A.fetchInterestPaymentAccountSuccess(response))
+      const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
+      yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestPaymentAccountFailure(error))
+    }
+  }
+
+  const fetchInterestRate = function * () {
+    try {
+      yield put(A.fetchInterestRateLoading())
+      const response: ReturnType<
+        typeof api.getInterestSavingsRate
+      > = yield call(api.getInterestSavingsRate)
+      yield put(A.fetchInterestRateSuccess(response.interestRate))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestRateFailure(error))
+    }
+  }
+
+  const fetchInterestTransactions = function * () {
+    try {
+      yield put(A.fetchInterestTransactionsLoading())
+      const transactions: InterestTransactionResponseType = yield call(
+        api.getInterestTransactions
+      )
+      yield put(A.fetchInterestTransactionsSuccess(transactions))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestTransactionsFailue(error))
     }
   }
 
@@ -76,8 +111,9 @@ export default ({ api }: { api: APIType }) => {
         )
         defaultAccountR = accountsR.map(nth(defaultIndex))
         break
+      default:
+        break
     }
-
     const initialValues = {
       depositAmount: 0,
       'interest-deposit-select': defaultAccountR.getOrElse()
@@ -87,10 +123,13 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    fetchInterestBalance,
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
     fetchInterestPaymentAccount,
+    fetchInterestRate,
+    fetchInterestTransactions,
     initializeInterest
   }
 }
