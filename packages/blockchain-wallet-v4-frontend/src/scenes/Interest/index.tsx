@@ -40,6 +40,8 @@ const LearnMoreText = styled(Text)`
 class Interest extends React.PureComponent<Props> {
   componentDidMount () {
     this.checkUserData()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestLimits()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -114,8 +116,8 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
     actions.components.identityVerification,
     dispatch
   ),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(
