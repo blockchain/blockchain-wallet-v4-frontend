@@ -298,6 +298,7 @@ interface ShowModalAction {
     cryptoCurrency?: CoinType
     origin:
       | 'sideNav'
+      | 'settingsProfile'
       | 'pendingOrder'
       | 'welcomeModal'
       | 'priceChart'

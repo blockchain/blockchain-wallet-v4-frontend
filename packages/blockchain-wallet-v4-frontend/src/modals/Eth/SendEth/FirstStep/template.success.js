@@ -46,6 +46,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEthAddress } from 'services/FormHelper'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
@@ -157,7 +158,7 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin={'8px'}>
         <FormItem>
           <FormLabel HtmlFor='to'>
             <FormattedMessage
@@ -199,6 +200,9 @@ const FirstStep = props => {
             </Text>
           )}
         </FormItem>
+      </FormGroup>
+      <FormGroup>
+        <ExchangePromo />
       </FormGroup>
       {isFromCustody && isMnemonicVerified ? (
         <FormGroup>
