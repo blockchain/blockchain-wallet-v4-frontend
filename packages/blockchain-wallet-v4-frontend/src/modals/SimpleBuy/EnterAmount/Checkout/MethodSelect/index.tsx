@@ -85,7 +85,7 @@ class MethodSelect extends PureComponent<Props> {
       case 'CARD':
         return 'Credit or Debit Card'
       case 'USER_CARD':
-        return value.card.label
+        return value && value.card ? value.card.label : 'Credit or Debit Card'
     }
   }
 
@@ -105,7 +105,8 @@ class MethodSelect extends PureComponent<Props> {
         )
       case 'USER_CARD':
         let cardType = CARD_TYPES.find(
-          card => card.type === value.card.type.toLowerCase()
+          card =>
+            card.type === (value.card ? value.card.type.toLowerCase() : '')
         )
         return (
           <img
@@ -125,7 +126,7 @@ class MethodSelect extends PureComponent<Props> {
       m => m.type === 'CARD'
     )
     const cardMethods = availableCards.map(card => ({
-      text: card.card.label,
+      text: card.card ? card.card.label : 'Credit or Debit Card',
       value: {
         ...card,
         type: 'USER_CARD',
@@ -173,7 +174,7 @@ class MethodSelect extends PureComponent<Props> {
             })}
           </Limit>
         </Display>
-        {props.value.type === 'USER_CARD' && (
+        {props.value.type === 'USER_CARD' && props.value.state === 'ACTIVE' && (
           <CardLimitsDisplay isItem={isItem}>
             ···· {props.value.card.number}
             <Limit>

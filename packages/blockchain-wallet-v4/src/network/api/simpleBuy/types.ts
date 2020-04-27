@@ -65,18 +65,21 @@ export type SBCardType = {
   addedAt: Date
   address: NabuAddressType
   attributes: {}
-  card: {
-    expireMonth: number
-    expireYear: number
-    label: string
-    number: string
-    type: 'VISA' | 'MASTERCARD'
-  }
   currency: 'EUR'
   id: string
   partner: 'EVERYPAY'
-  state: SBCardStateType
-}
+} & (
+  | {
+      card: {
+        expireMonth: number
+        expireYear: number
+        label: string
+        number: string
+        type: 'VISA' | 'MASTERCARD'
+      }
+      state: 'ACTIVE'
+    }
+  | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> })
 
 export type SBCardStateType =
   | 'PENDING'

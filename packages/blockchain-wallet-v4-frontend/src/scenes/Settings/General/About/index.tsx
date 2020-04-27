@@ -1,7 +1,5 @@
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-
 import { Button, Icon, Link } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
@@ -9,6 +7,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import React from 'react'
 
 const About = () => {
   return (
@@ -29,7 +28,7 @@ const About = () => {
       </SettingSummary>
       <SettingComponent>
         <Link href='https://www.blockchain.com/about' target='_blank'>
-          <Button nature='empty'>
+          <Button data-e2e='aboutLink' nature='empty'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>
