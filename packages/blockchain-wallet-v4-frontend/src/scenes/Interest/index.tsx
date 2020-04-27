@@ -40,8 +40,9 @@ const LearnMoreText = styled(Text)`
 
 class Interest extends React.PureComponent<Props> {
   componentDidMount () {
-    this.props.interestActions.fetchInterestEligible()
     this.checkUserData()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestLimits()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -57,9 +58,8 @@ class Interest extends React.PureComponent<Props> {
     const userData = this.props.userDataR.getOrElse({
       tiers: { current: 0 }
     })
-    const interestEligible = this.props.interestEligibleR.getOrElse(0)
     const tier = userData.tiers ? userData.tiers.current : 0
-    const isDisabled = tier < 2 || !interestEligible
+    const isDisabled = tier < 2
     /* eslint-disable */
     this.setState({ isDisabled })
     /* eslint-enable */
@@ -109,8 +109,6 @@ class Interest extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userDataR: selectors.modules.profile.getUserData(state),
-  // do i need this?
-  interestEligibleR: selectors.components.interest.getInterestEligible(state),
   interestRateR: selectors.components.interest.getInterestRate(state)
 })
 
@@ -119,8 +117,8 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
     actions.components.identityVerification,
     dispatch
   ),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(
@@ -131,12 +129,13 @@ const connector = connect(
 export type OwnProps = {
   coin: CoinType
   interestAccountBalance: InterestAccountBalanceType
+  interestEligible: InterestEligibleType
   interestRate: InterestRateType
   isDisabled: boolean
+  userData: UserDataType
 }
 
-type LinkStatePropsType = {
-  interestEligibleR: RemoteDataType<string, InterestEligibleType>
+export type LinkStatePropsType = {
   interestRateR: RemoteDataType<string, InterestRateType>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }

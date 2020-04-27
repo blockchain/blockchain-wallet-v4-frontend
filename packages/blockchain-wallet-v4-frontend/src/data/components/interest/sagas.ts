@@ -59,18 +59,16 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // const fetchInterestPaymentAccount = function*({
-  //   coin
-  // }: ReturnType<typeof A.fetchInterestPaymentAccount>) {
-  //   try {
-  //     yield put(A.fetchInterestPaymentAccountLoading())
-  //     const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
-  //     yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
-  //   } catch (e) {
-  //     const error = errorHandler(e)
-  //     yield put(A.fetchInterestPaymentAccountFailure(error))
-  //   }
-  // }
+  const fetchInterestPaymentAccount = function * (coin) {
+    try {
+      yield put(A.fetchInterestPaymentAccountLoading())
+      const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
+      yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchInterestPaymentAccountFailure(error))
+    }
+  }
 
   const fetchInterestRate = function * () {
     try {
@@ -129,7 +127,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
-    // fetchInterestPaymentAccount,
+    fetchInterestPaymentAccount,
     fetchInterestRate,
     fetchInterestTransactions,
     initializeInterest

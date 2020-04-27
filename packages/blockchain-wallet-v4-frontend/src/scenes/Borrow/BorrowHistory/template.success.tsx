@@ -33,48 +33,48 @@ const ViewDetailsCell = styled(TableCell)`
   justify-content: flex-end;
 `
 
-function Success(props: SuccessStateType): ReactElement {
+function Success (props: SuccessStateType): ReactElement {
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Table style={{ minWidth: '900px' }}>
         <TableHeader>
-          <TableCell width="20%">
-            <Text size="12px" weight={500}>
+          <TableCell width='20%'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.history.created"
-                defaultMessage="Created"
+                id='scenes.borrow.history.created'
+                defaultMessage='Created'
               />
             </Text>
           </TableCell>
-          <TableCell width="30%">
-            <Text size="12px" weight={500}>
+          <TableCell width='30%'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.history.status"
-                defaultMessage="Status/Collateralization"
+                id='scenes.borrow.history.status'
+                defaultMessage='Status/Collateralization'
               />
             </Text>
           </TableCell>
-          <TableCell width="15%">
-            <Text size="12px" weight={500}>
+          <TableCell width='15%'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.history.collateral"
-                defaultMessage="Collateral"
+                id='scenes.borrow.history.collateral'
+                defaultMessage='Collateral'
               />
             </Text>
           </TableCell>
-          <TableCell width="12.5%">
-            <Text size="12px" weight={500}>
+          <TableCell width='12.5%'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.history.amount"
-                defaultMessage="Loan Amount"
+                id='scenes.borrow.history.amount'
+                defaultMessage='Loan Amount'
               />
             </Text>
           </TableCell>
-          <TableCell width="12.5%">
-            <Text size="12px" weight={500}>
+          <TableCell width='12.5%'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.history.outstanding"
-                defaultMessage="Outstanding"
+                id='scenes.borrow.history.outstanding'
+                defaultMessage='Outstanding'
               />
             </Text>
           </TableCell>
@@ -90,15 +90,15 @@ function Success(props: SuccessStateType): ReactElement {
 
             return (
               <TableRow key={loan.loanId}>
-                <TableCell width="20%">
-                  <Value data-e2e="loanCreationDate">
+                <TableCell width='20%'>
+                  <Value data-e2e='loanCreationDate'>
                     {moment(loan.openedAt).format('lll')}
                   </Value>
                 </TableCell>
-                <CollateralizationTableCell data-e2e="loanStatus" width="30%">
+                <CollateralizationTableCell data-e2e='loanStatus' width='30%'>
                   <Status {...loan} />
                   {offer && (
-                    <CollateralizationBarWrapper data-e2e="collateralizationBar">
+                    <CollateralizationBarWrapper data-e2e='collateralizationBar'>
                       <CollateralizationBar
                         {...props}
                         loan={loan}
@@ -107,16 +107,16 @@ function Success(props: SuccessStateType): ReactElement {
                     </CollateralizationBarWrapper>
                   )}
                 </CollateralizationTableCell>
-                <TableCell width="15%">
+                <TableCell width='15%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
-                  <Value data-e2e="collateralAmount">
+                  <Value data-e2e='collateralAmount'>
                     <CollateralAmt loan={loan} />
                   </Value>
                 </TableCell>
-                <TableCell width="12.5%">
+                <TableCell width='12.5%'>
                   {/* TODO: Borrow - loop over all amounts in the future */}
                   <Value>
-                    <CoinDisplay coin="PAX">
+                    <CoinDisplay coin='PAX'>
                       {
                         loan.principal.amount.find(
                           amount => amount.currency === 'PAX'
@@ -125,8 +125,8 @@ function Success(props: SuccessStateType): ReactElement {
                     </CoinDisplay>
                   </Value>
                 </TableCell>
-                <TableCell width="12.5%">
-                  <Value data-e2e="outstandingInterest">
+                <TableCell width='12.5%'>
+                  <Value data-e2e='outstandingInterest'>
                     {loan.financials ? (
                       loan.financials.owedInterest[0] ? (
                         <CoinDisplay
@@ -143,11 +143,11 @@ function Success(props: SuccessStateType): ReactElement {
                   </Value>
                 </TableCell>
                 <ViewDetailsCell
-                  data-e2e="viewLoanDetails"
+                  data-e2e='viewLoanDetails'
                   onClick={() => props.showLoanDetails(loan, offer)}
-                  width="10%"
+                  width='10%'
                 >
-                  <Link size="14px">View Details</Link>
+                  <Link size='14px'>View Details</Link>
                 </ViewDetailsCell>
               </TableRow>
             )

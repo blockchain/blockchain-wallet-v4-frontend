@@ -2,7 +2,6 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
 import {
-  //   Link,
   Icon,
   Table,
   TableCell,
@@ -27,7 +26,7 @@ const InterestTableCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   const { interestHistory, supportedCoins } = props
-  // how do i pass array of coins to supported Coins so I can make it any
+  // ToDo: array of coins to supported Coins so I can make it any
   const { coinTicker, colorCode } = supportedCoins.BTC
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>

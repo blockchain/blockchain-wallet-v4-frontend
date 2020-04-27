@@ -152,6 +152,10 @@ interface FetchInterestTransactionsSuccess {
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
 }
 
+interface InitalizeDepositModalAction {
+  type: typeof AT.INTIALIZE_DEPOSIT_MODAL
+}
+
 interface InitializeInterestAction {
   payload: {
     coin: CoinType
@@ -181,4 +185,5 @@ export type InterestActionTypes =
   | FetchInterestTransactionsFailure
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
+  | InitalizeDepositModalAction
   | InitializeInterestAction
