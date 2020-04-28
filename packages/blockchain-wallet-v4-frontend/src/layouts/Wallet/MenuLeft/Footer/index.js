@@ -13,7 +13,8 @@ const Wrapper = styled.div`
   text-align: center;
 `
 const AdsButton = styled(Button)`
-  margin: 20px auto;
+  margin: 4px auto;
+  margin-top: 12px;
   transition: background 0.3s;
   line-height: normal;
   span > span:not(:first-child) {
