@@ -6,6 +6,15 @@ export const getEverypay3DSDetails = (state: RootState) =>
 export const getSBAccount = (state: RootState) =>
   state.components.simpleBuy.account
 
+export const getCryptoCurrency = (state: RootState) =>
+  state.components.simpleBuy.cryptoCurrency
+
+export const getFiatCurrency = (state: RootState) =>
+  state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
+
+export const getDefaultMethod = (state: RootState) =>
+  state.components.simpleBuy.defaultMethod
+
 export const getSBBalances = (state: RootState) =>
   state.components.simpleBuy.balances
 
@@ -15,12 +24,6 @@ export const getSBCardId = (state: RootState) =>
   state.components.simpleBuy.cardId
 
 export const getSBCards = (state: RootState) => state.components.simpleBuy.cards
-
-export const getCryptoCurrency = (state: RootState) =>
-  state.components.simpleBuy.cryptoCurrency
-
-export const getFiatCurrency = (state: RootState) =>
-  state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
 export const getSBFiatEligible = (state: RootState) =>
   state.components.simpleBuy.fiatEligible

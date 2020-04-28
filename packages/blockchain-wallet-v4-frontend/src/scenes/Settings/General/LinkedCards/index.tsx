@@ -10,6 +10,7 @@ import {
 import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
+import { SBFormPaymentMethod } from 'data/types'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -25,10 +26,11 @@ class LinkedCards extends PureComponent<Props> {
     return Remote.Success.is(nextProps.data)
   }
 
-  handleCreditCardClick = (/* id: string */) => {
+  handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
     this.props.simpleBuyActions.showModal('settingsGeneral')
     this.props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
+      defaultMethod: defaultMethod,
       fiatCurrency: this.props.fiatCurrency || 'USD'
     })
   }

@@ -15,7 +15,7 @@ import {
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
-import { SimpleBuyActionTypes } from './types'
+import { SBFormPaymentMethod, SimpleBuyActionTypes } from './types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -389,6 +389,7 @@ export const setStep = (
       }
     | {
         cryptoCurrency?: CoinType
+        defaultMethod?: SBFormPaymentMethod
         fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
@@ -402,6 +403,7 @@ export const setStep = (
       ? {
           step: payload.step,
           cryptoCurrency: payload.cryptoCurrency,
+          defaultMethod: payload.defaultMethod,
           fiatCurrency: payload.fiatCurrency
         }
       : payload.step === 'CHECKOUT_CONFIRM' ||

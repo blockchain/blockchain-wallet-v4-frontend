@@ -8,6 +8,7 @@ import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SBFormPaymentMethod } from 'data/types'
 import {
   SettingComponent,
   SettingContainer,
@@ -89,7 +90,13 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
             <CardWrapper
               key={i}
               onClick={() =>
-                props.simpleBuyActions.showModal('settingsGeneral')
+                props.handleCreditCardClick({
+                  ...card,
+                  type: 'USER_CARD',
+                  limits: ccPaymentMethod
+                    ? ccPaymentMethod.limits
+                    : { min: '500', max: '50000' }
+                })
               }
             >
               <Child>
@@ -145,7 +152,7 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
         <Button
           nature='primary'
           data-e2e='addCardFromSettings'
-          onClick={props.handleCreditCardClick}
+          onClick={() => props.handleCreditCardClick()}
         >
           <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
         </Button>
@@ -154,6 +161,9 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
   )
 }
 
-type Props = OwnProps & SuccessStateType & { handleCreditCardClick: () => void }
+type Props = OwnProps &
+  SuccessStateType & {
+    handleCreditCardClick: (defaultMethod?: SBFormPaymentMethod) => void
+  }
 
 export default Success

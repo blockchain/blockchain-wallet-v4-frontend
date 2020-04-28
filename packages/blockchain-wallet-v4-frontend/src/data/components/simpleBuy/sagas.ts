@@ -416,8 +416,9 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
 
-      const fiatCurrency = S.getFiatCurrency(yield select())
       const cryptoCurrency = S.getCryptoCurrency(yield select())
+      const defaultMethod = S.getDefaultMethod(yield select())
+      const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
@@ -428,7 +429,7 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method: paymentMethods.methods[0],
+          method: defaultMethod || paymentMethods.methods[0],
           orderType,
           pair: pair || pairs[0]
         } as SBCheckoutFormValuesType)
