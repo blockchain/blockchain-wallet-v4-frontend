@@ -29,9 +29,9 @@ import {
 } from './validation'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/FormHelper'
-import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -104,10 +104,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel htmlFor='from'>
-            <FormattedMessage
-              id='modals.sendBch.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -199,21 +196,16 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        {isFromCustody ? (
-          isMnemonicVerified ? (
-            <CustodyToAccountMessage coin='BCH' />
-          ) : null
+        {isFromCustody && isMnemonicVerified ? (
+          <CustodyToAccountMessage coin='BCH' />
         ) : (
-          <BitPayCTA coin='BCH' />
+          <ExchangePromo />
         )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel htmlFor='amount'>
-            <FormattedMessage
-              id='modals.sendbch.firststep.sendamount'
-              defaultMessage='Amount'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </FormLabel>
           <Field
             name='amount'

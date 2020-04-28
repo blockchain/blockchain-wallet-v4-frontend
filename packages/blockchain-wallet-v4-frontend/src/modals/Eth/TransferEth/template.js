@@ -74,10 +74,7 @@ const TransferEth = props => {
         <Container>
           <Row>
             <Text size='14px' weight={600}>
-              <FormattedMessage
-                id='modals.transfereth.from'
-                defaultMessage='From:'
-              />
+              <FormattedMessage id='copy.from:' defaultMessage='From:' />
             </Text>
             <Text size='14px' weight={400}>
               {legacyEthAddr}

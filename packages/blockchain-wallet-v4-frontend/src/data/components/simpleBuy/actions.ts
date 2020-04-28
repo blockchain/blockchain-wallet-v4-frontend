@@ -267,6 +267,7 @@ export const showModal = (
     | 'emptyFeed'
     | 'pendingOrder'
     | 'priceChart'
+    | 'settingsProfile'
     | 'sideNav'
     | 'welcomeModal',
   cryptoCurrency?: CoinType

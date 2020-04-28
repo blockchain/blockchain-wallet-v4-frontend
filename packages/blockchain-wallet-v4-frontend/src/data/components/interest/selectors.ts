@@ -1,5 +1,8 @@
 import { RootState } from '../../rootReducer'
 
+export const getInterestAccountBalance = (state: RootState) =>
+  state.components.interest.interestAccountBalance
+
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
 export const getInterestEligible = (state: RootState) =>
@@ -15,3 +18,9 @@ export const getInterestPaymentAccount = (state: RootState) =>
   state.components.interest.account
 
 export const getStep = (state: RootState) => state.components.interest.step
+
+export const getInterestRate = (state: RootState) =>
+  state.components.interest.interestRate
+
+export const getInterestTransactions = (state: RootState) =>
+  state.components.interest.interestTransactions

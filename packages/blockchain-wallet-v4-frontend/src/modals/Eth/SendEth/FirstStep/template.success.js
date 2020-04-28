@@ -46,6 +46,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEthAddress } from 'services/FormHelper'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
@@ -121,10 +122,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel HtmlFor='from'>
-            <FormattedMessage
-              id='modals.sendEther.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -157,7 +155,7 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin={'8px'}>
         <FormItem>
           <FormLabel HtmlFor='to'>
             <FormattedMessage
@@ -200,6 +198,9 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
+      <FormGroup>
+        <ExchangePromo />
+      </FormGroup>
       {isFromCustody && isMnemonicVerified ? (
         <FormGroup>
           <CustodyToAccountMessage coin={coin} />
@@ -208,10 +209,7 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>
-            <FormattedMessage
-              id='modals.sendeth.firststep.sendamount'
-              defaultMessage='Amount'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </FormLabel>
           <Field
             name='amount'

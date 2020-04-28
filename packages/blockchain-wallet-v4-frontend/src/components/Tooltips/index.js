@@ -284,10 +284,10 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Coming soon.'
           />
         </Tooltip>
-        <Tooltip id='earninterest.calculation.tooltop'>
+        <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
-            id='earninterestform.tooltip.calculation'
-            defaultMessage='Placeholder text on how we calculate interest.'
+            id='earninterestform.tooltip.calculations'
+            defaultMessage='The interest earned on a daily basis is based on 3% APY and is subject to change.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.accrued.tooltip'>

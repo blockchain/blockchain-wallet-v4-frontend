@@ -1,6 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import {
+  CoinType,
+  InterestAccountBalanceType,
+  InterestRateType,
+  NabuApiErrorType,
+  RemoteDataType
+} from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Link, Text } from 'blockchain-info-components'
@@ -11,11 +18,11 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import EarnInterestInfo from './InterestInfo'
-import InterestSummary from './InterestSummary'
+import InterestHistory from './InterestHistory'
+import InterestSummary from './InterestDepositBox'
 
 import React from 'react'
 import styled from 'styled-components'
@@ -29,26 +36,8 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
-type OwnProps = {
-  isDisabled: boolean
-}
 
-type LinkStatePropsType = {
-  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
-  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
-}
-type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-  interestActions: typeof actions.components.interest
-  modalActions: typeof actions.modals
-}
-
-export type Props = LinkDispatchPropsType & LinkStatePropsType & OwnProps
-export type State = {
-  isDisabled: boolean
-}
-class Interest extends React.PureComponent<Props, State> {
-  state: State = { isDisabled: false }
+class Interest extends React.PureComponent<Props> {
   componentDidMount () {
     this.checkUserData()
     this.props.interestActions.fetchInterestEligible()
@@ -72,8 +61,8 @@ class Interest extends React.PureComponent<Props, State> {
     const isDisabled = tier < 2
     /* eslint-disable */
     this.setState({ isDisabled })
-    console.log('logging is disbaled from checkuserdata', isDisabled)
     /* eslint-enable */
+    // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
   render () {
@@ -85,18 +74,18 @@ class Interest extends React.PureComponent<Props, State> {
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.earninterest'
-              defaultMessage='Earn Interest'
+              id='scenes.interest.interestaccount'
+              defaultMessage='Interest Account'
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
             id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and instantly earn interest with absolutely no fees.'
+            defaultMessage='Deposit crypto and watch it grow without fees.'
           />
           <LearnMoreLink
-            href='https://www.support.blockchain.com/'
+            href='https://support.blockchain.com/hc/en-us/sections/360008572552'
             target='_blank'
           >
             <LearnMoreText size='15px'>
@@ -111,21 +100,15 @@ class Interest extends React.PureComponent<Props, State> {
           <EarnInterestInfo {...this.state} {...this.props} />
           <InterestSummary {...this.state} {...this.props} />
         </Container>
-        <div
-          onClick={() =>
-            this.props.interestActions.showInterestModal('DETAILS')
-          }
-        >
-          Show Details
-        </div>
+        <InterestHistory />
       </SceneWrapper>
     )
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  invitationsR: selectors.core.settings.getInvitations(state),
-  userDataR: selectors.modules.profile.getUserData(state)
+  userDataR: selectors.modules.profile.getUserData(state),
+  interestRateR: selectors.components.interest.getInterestRate(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -137,7 +120,28 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Interest)
+)
+
+export type OwnProps = {
+  coin: CoinType
+  interestAccountBalance: InterestAccountBalanceType
+  interestRate: InterestRateType
+  isDisabled: boolean
+}
+
+type LinkStatePropsType = {
+  interestRateR: RemoteDataType<string, InterestRateType>
+  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
+}
+export type LinkDispatchPropsType = {
+  identityVerificationActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
+  modalActions: typeof actions.modals
+}
+
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Interest)

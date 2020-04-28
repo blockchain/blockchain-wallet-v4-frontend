@@ -2,10 +2,13 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestPaymentAccountType,
+  InterestRateType,
+  InterestTransactionResponseType,
   RemoteDataType
 } from 'core/types'
 
@@ -28,13 +31,34 @@ export type InterestStep = keyof typeof InterestSteps
 export interface InterestState {
   account: RemoteDataType<string, InterestPaymentAccountType>
   coin: CoinType
+  interestAccountBalance: RemoteDataType<string, InterestAccountBalanceType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
+
+  interestRate: RemoteDataType<string, InterestRateType>
+  interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
   step: InterestStep
 }
 
 // Actions
+
+interface FetchInterestBalanceFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_BALANCE_FAILURE
+}
+interface FetchInterestBalanceLoading {
+  type: typeof AT.FETCH_INTEREST_BALANCE_LOADING
+}
+
+interface FetchInterestBalanceSuccess {
+  payload: {
+    interestAccountBalance: InterestAccountBalanceType
+  }
+  type: typeof AT.FETCH_INTEREST_BALANCE_SUCCESS
+}
 interface FetchInterestEligibleFailure {
   payload: {
     error: string
@@ -99,6 +123,40 @@ interface FetchInterestPaymentAccountSuccess {
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
 }
 
+interface FetchInterestRateFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_RATE_FAILURE
+}
+interface FetchInterestRateLoading {
+  type: typeof AT.FETCH_INTEREST_RATE_LOADING
+}
+
+interface FetchInterestRateSuccess {
+  payload: {
+    interestRate: InterestRateType
+  }
+  type: typeof AT.FETCH_INTEREST_RATE_SUCCESS
+}
+
+interface FetchInterestTransactionsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
+}
+interface FetchInterestTransactionsLoading {
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_LOADING
+}
+
+interface FetchInterestTransactionsSuccess {
+  payload: {
+    interestTransactions: InterestTransactionResponseType
+  }
+  type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
+}
+
 interface InitializeInterestAction {
   payload: {
     coin: CoinType
@@ -121,6 +179,9 @@ interface ShowInterestModal {
 }
 
 export type InterestActionTypes =
+  | FetchInterestBalanceFailure
+  | FetchInterestBalanceLoading
+  | FetchInterestBalanceSuccess
   | FetchInterestEligibleFailure
   | FetchInterestEligibleLoading
   | FetchInterestEligibleSuccess
@@ -133,6 +194,12 @@ export type InterestActionTypes =
   | FetchInterestPaymentAccountFailure
   | FetchInterestPaymentAccountLoading
   | FetchInterestPaymentAccountSuccess
+  | FetchInterestRateFailure
+  | FetchInterestRateLoading
+  | FetchInterestRateSuccess
+  | FetchInterestTransactionsFailure
+  | FetchInterestTransactionsLoading
+  | FetchInterestTransactionsSuccess
   | InitializeInterestAction
   | SetInterestStep
   | ShowInterestModal

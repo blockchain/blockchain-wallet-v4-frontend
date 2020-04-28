@@ -1,12 +1,44 @@
 import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
-import { InterestActionTypes, InterestStep } from './types'
 import {
+  InterestAccountBalanceType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
-  InterestPaymentAccountType
+  InterestPaymentAccountType,
+  InterestRateType,
+  InterestTransactionResponseType
 } from 'core/network/api/interest/types'
+import { InterestActionTypes, InterestStep } from './types'
+
+export const fetchInterestBalance = (coin?: CoinType) => ({
+  type: AT.FETCH_INTEREST_BALANCE,
+  payload: {
+    coin
+  }
+})
+
+export const fetchInterestBalanceFailure = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchInterestBalanceLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_LOADING
+})
+
+export const fetchInterestBalanceSuccess = (
+  interestAccountBalance: InterestAccountBalanceType
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_BALANCE_SUCCESS,
+  payload: {
+    interestAccountBalance
+  }
+})
 
 export const fetchInterestEligible = () => ({
   type: AT.FETCH_INTEREST_ELIGIBLE
@@ -77,9 +109,9 @@ export const fetchInterestLimitsSuccess = (
   }
 })
 
-export const fetchInterestPaymentAccount = (cryptoCurrency: CoinType) => ({
+export const fetchInterestPaymentAccount = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-  cryptoCurrency
+  coin
 })
 export const fetchInterestPaymentAccountFailure = (
   error: string
@@ -101,6 +133,57 @@ export const fetchInterestPaymentAccountSuccess = (
   }
 })
 
+export const fetchInterestRate = () => ({
+  type: AT.FETCH_INTEREST_RATE
+})
+
+export const fetchInterestRateFailure = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_RATE_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchInterestRateLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_RATE_LOADING
+})
+
+export const fetchInterestRateSuccess = (
+  interestRate: InterestRateType
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_RATE_SUCCESS,
+  payload: {
+    interestRate
+  }
+})
+
+export const fetchInterestTransactions = () => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS
+})
+
+export const fetchInterestTransactionsFailue = (
+  error: string
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchInterestTransactionsLoading = (): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS_LOADING
+})
+
+export const fetchInterestTransactionsSuccess = (
+  interestTransactions: InterestTransactionResponseType
+): InterestActionTypes => ({
+  type: AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS,
+  payload: {
+    interestTransactions
+  }
+})
 export const initializeInterest = (coin: CoinType) => ({
   payload: {
     coin

@@ -39,6 +39,7 @@ import { SelectBoxMemo } from './SelectBoxMemo'
 import { XlmFiatConverter } from './XlmFiatConverter'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
@@ -117,10 +118,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel htmlFor='from'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -155,7 +153,7 @@ const FirstStep = props => {
               </Text>
             </WarningBanners>
           )}
-          <FormGroup margin={'15px'}>
+          <FormGroup margin={isFromCustody ? '15px' : '8px'}>
             <FormItem>
               <FormLabel htmlFor='to'>
                 <FormattedMessage
@@ -193,7 +191,9 @@ const FirstStep = props => {
             <FormGroup>
               <CustodyToAccountMessage coin={'XLM'} />
             </FormGroup>
-          ) : null}
+          ) : (
+            <ExchangePromo />
+          )}
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel htmlFor='amount'>

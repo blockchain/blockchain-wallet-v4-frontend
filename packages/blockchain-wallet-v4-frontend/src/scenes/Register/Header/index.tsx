@@ -23,10 +23,9 @@ const Column = styled.div`
 
 const HeaderText = styled(Text)`
   font-size: 32px;
-
-  ${media.tabletL`
+  color: ${media.tabletL`
     font-size: 32px;
-  `}
+  `};
 `
 
 const SubHeader = styled(Text)`
@@ -41,7 +40,11 @@ const SubHeader = styled(Text)`
 const Header = () => (
   <Wrapper>
     <Column>
-      <HeaderText color='white' weight={700} data-e2e='signupSecureHeader'>
+      <HeaderText
+        color='whiteFade900'
+        weight={700}
+        data-e2e='signupSecureHeader'
+      >
         <FormattedMessage
           id='scenes.register.securelybuy'
           defaultMessage='Securely buy, sell, and store crypto.'

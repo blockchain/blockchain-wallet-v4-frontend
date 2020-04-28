@@ -53,9 +53,9 @@ import {
   validBtcAddress,
   validBtcPrivateKey
 } from 'services/FormHelper'
-import BitPayCTA from 'components/BitPayCTA'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
@@ -142,10 +142,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel htmlFor='from'>
-            <FormattedMessage
-              id='modals.sendbtc.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -198,7 +195,7 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
           <FormLabel htmlFor='to'>
             <FormattedMessage
@@ -255,21 +252,16 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        {isFromCustody ? (
-          isMnemonicVerified ? (
-            <CustodyToAccountMessage coin='BTC' />
-          ) : null
+        {isFromCustody && isMnemonicVerified ? (
+          <CustodyToAccountMessage coin='BTC' />
         ) : (
-          <BitPayCTA coin='BTC' />
+          <ExchangePromo />
         )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel htmlFor='amount'>
-            <FormattedMessage
-              id='modals.sendbtc.firststep.sendamount'
-              defaultMessage='Amount'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </FormLabel>
           <Field
             name='amount'
