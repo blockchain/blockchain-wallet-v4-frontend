@@ -1,4 +1,9 @@
-import { Banner, Text } from 'blockchain-info-components'
+import {
+  Banner,
+  Button,
+  HeartbeatLoader,
+  Text
+} from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
@@ -72,7 +77,24 @@ const validStrongPassword = value =>
         />
       )
 
-const SignupForm = ({ handleSubmit, password, passwordLength }) => {
+const scrollToId = id => {
+  const element = document.getElementById(id)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const scrollToPassword = () => scrollToId('password')
+
+const scrollToSecondPassword = () => scrollToId('confirmationPassword')
+
+const SignupForm = ({
+  busy,
+  handleSubmit,
+  invalid,
+  password,
+  passwordLength
+}) => {
   // @ts-ignore
   let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
   return (
@@ -108,7 +130,7 @@ const SignupForm = ({ handleSubmit, password, passwordLength }) => {
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor='password'>
+          <FormLabel htmlFor='password' id='password'>
             <FormattedMessage
               defaultMessage='Password'
               id='scenes.register.password'
@@ -120,6 +142,7 @@ const SignupForm = ({ handleSubmit, password, passwordLength }) => {
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
+            onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
             validate={[required, validStrongPassword]}
@@ -152,7 +175,7 @@ const SignupForm = ({ handleSubmit, password, passwordLength }) => {
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor='confirmationPassword'>
+          <FormLabel htmlFor='confirmationPassword' id='confirmationPassword'>
             <FormattedMessage
               defaultMessage='Confirm Password'
               id='scenes.register.confirmpassword'
@@ -164,6 +187,7 @@ const SignupForm = ({ handleSubmit, password, passwordLength }) => {
             data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
             name='confirmationPassword'
+            onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
@@ -173,7 +197,31 @@ const SignupForm = ({ handleSubmit, password, passwordLength }) => {
           <Terms style={{ width: '397px' }} />
         </FormItem>
       </FormGroup>
+
+      <Button
+        data-e2e='signupButton'
+        disabled={busy || invalid}
+        fullwidth
+        height='48px'
+        nature='primary'
+        style={{
+          borderRadius: '8px'
+        }}
+        type='submit'
+      >
+        {busy ? (
+          <HeartbeatLoader height='20px' width='20px' color='white' />
+        ) : (
+          <Text color='whiteFade900' size='16px' weight={600}>
+            <FormattedMessage
+              id='scenes.public.register.createWallet'
+              defaultMessage='Create Wallet'
+            />
+          </Text>
+        )}
+      </Button>
     </RegisterForm>
   )
 }
+
 export default SignupForm
