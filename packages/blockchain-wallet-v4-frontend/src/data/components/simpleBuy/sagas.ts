@@ -407,6 +407,28 @@ export default ({
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
   }
 
+  const initializeBillingAddress = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse(null)
+    const address = userData
+      ? userData.address
+      : {
+          country: 'GB',
+          line1: '',
+          line2: '',
+          city: '',
+          postCode: '',
+          state: ''
+        }
+
+    yield put(
+      actions.form.initialize('ccBillingAddress', {
+        ...address
+      })
+    )
+  }
+
   const initializeCheckout = function * ({
     pairs,
     paymentMethods,
@@ -543,6 +565,7 @@ export default ({
     fetchSBQuote,
     fetchSBSuggestedAmounts,
     handleSBSuggestedAmountClick,
+    initializeBillingAddress,
     initializeCheckout,
     pollSBCard,
     pollSBOrder,

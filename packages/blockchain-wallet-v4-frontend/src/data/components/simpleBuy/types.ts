@@ -4,6 +4,7 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  NabuAddressType,
   RemoteDataType,
   SBAccountType,
   SBBalancesType,
@@ -24,6 +25,7 @@ export type SBAddCardFormValuesType = {
   'expiry-date': string
   'name-on-card': string
 }
+export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
   amount: string
   method?: SBFormPaymentMethod

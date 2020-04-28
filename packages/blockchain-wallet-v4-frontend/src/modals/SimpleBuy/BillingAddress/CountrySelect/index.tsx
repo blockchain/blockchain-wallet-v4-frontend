@@ -11,6 +11,12 @@ const SelectBoxCountry = styled(SelectBox)`
   .bc__dropdown-indicator {
     color: ${props => props.theme.grey600};
   }
+  .bc__single-value {
+    position: relative;
+    top: 0;
+    transform: initial;
+    margin: 0;
+  }
 `
 const DisplayContainer = styled.div<{
   isItem: boolean
@@ -30,20 +36,14 @@ const Display = styled.div`
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
+  margin-left: 12px;
   color: ${props => props.theme.grey800};
-  .bc__single-value {
-    position: relative;
-    top: 0;
-    transform: initial;
-    margin: 0;
-  }
-  input {
-    height: 0;
-  }
 `
 const IconContainer = styled.div`
-  width: 38px;
+  min-width: 32px;
   height: 32px;
+  font-size: 40px;
+  overflow: hidden;
   border-radius: 16px;
   background-color: ${props => props.theme.blue000};
   display: flex;

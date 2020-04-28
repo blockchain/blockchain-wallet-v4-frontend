@@ -4,13 +4,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
+import { SBBillingAddressFormValuesType, UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class BillingAddress extends PureComponent<Props> {
+  componentDidMount () {
+    this.props.simpleBuyActions.initializeBillingAddress()
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
@@ -44,7 +48,7 @@ type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
-  formValues: any
+  formValues: SBBillingAddressFormValuesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

@@ -352,6 +352,10 @@ export const handleSBSuggestedAmountClick = (amount: string) => ({
   }
 })
 
+export const initializeBillingAddress = () => ({
+  type: AT.INITIALIZE_BILLING_ADDRESS
+})
+
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
   paymentMethods: SBPaymentMethodsType,
