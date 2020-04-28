@@ -6,6 +6,7 @@ import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
+import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CurrencySelection from './CurrencySelection'
@@ -24,10 +25,11 @@ export type LinkDispatchPropsType = {
 }
 type LinkStatePropsType =
   | {
-      step: 'CURRENCY_SELECTION' | '3DS_HANDLER'
-    }
-  | {
-      step: 'ENTER_AMOUNT'
+      step:
+        | 'CURRENCY_SELECTION'
+        | '3DS_HANDLER'
+        | 'CC_BILLING_ADDRESS'
+        | 'ENTER_AMOUNT'
     }
   | {
       order: SBOrderType
@@ -100,6 +102,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ADD_CARD' && (
           <FlyoutChild>
             <AddCard {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CC_BILLING_ADDRESS' && (
+          <FlyoutChild>
+            <BillingAddress {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === '3DS_HANDLER' && (

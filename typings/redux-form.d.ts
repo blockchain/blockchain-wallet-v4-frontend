@@ -14,6 +14,7 @@ export type WalletFormType =
   | 'addCCForm'
   | 'borrowForm'
   | 'cancelSBOrderForm'
+  | 'ccBillingAddress'
   | 'confirmRecoveryWords'
   | 'initBorrow'
   | 'register'

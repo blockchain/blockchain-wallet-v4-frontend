@@ -43,6 +43,7 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
   'ADD_CARD',
+  'CC_BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
   '3DS_HANDLER',
   'ORDER_SUMMARY',
@@ -292,7 +293,7 @@ interface SetStepAction {
         step: '3DS_HANDLER'
       }
     | {
-        step: 'CURRENCY_SELECTION'
+        step: 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS'
       }
   type: typeof AT.SET_STEP
 }

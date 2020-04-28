@@ -395,7 +395,7 @@ export const setStep = (
       }
     | { cardId?: string; step: 'ADD_CARD' }
     | { order?: SBOrderType; step: '3DS_HANDLER' }
-    | { step: 'CURRENCY_SELECTION' }
+    | { step: 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
