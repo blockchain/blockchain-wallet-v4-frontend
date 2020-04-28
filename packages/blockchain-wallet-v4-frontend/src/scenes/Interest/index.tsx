@@ -19,8 +19,8 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
+import { RatesType, UserDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
 import EarnInterestInfo from './InterestInfo'
 import InterestHistory from './InterestHistory'
 import InterestSummary from './InterestDepositBox'
@@ -43,6 +43,7 @@ class Interest extends React.PureComponent<Props> {
     this.checkUserData()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestLimits()
+    this.props.interestActions.fetchInterestRate()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -132,6 +133,7 @@ export type OwnProps = {
   interestEligible: InterestEligibleType
   interestRate: InterestRateType
   isDisabled: boolean
+  rates: RatesType
   userData: UserDataType
 }
 

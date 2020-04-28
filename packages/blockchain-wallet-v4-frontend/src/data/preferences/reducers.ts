@@ -11,6 +11,7 @@ const INITIAL_STATE: PreferencesState = {
   coinDisplayed: true,
   showKycCompleted: true,
   showBackupReminder: true,
+  showInterestInfoBox: true,
   showKycGetStarted: true,
   showLockboxSoftwareDownload: true,
   showSwapBanner: true,
@@ -81,6 +82,9 @@ export function preferencesReducer (
     }
     case AT.HIDE_UPGRADE_FOR_AIRDROP_MODAL: {
       return assoc('showUpgradeForStxAirdropModal', false, state)
+    }
+    case AT.HIDE_INTEREST_INFO_BOX: {
+      return assoc('showInterestInfoBox', false, state)
     }
     case AT.HIDE_KYC_GET_STARTED: {
       return assoc('showKycGetStarted', false, state)

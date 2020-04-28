@@ -13,10 +13,11 @@ import { Props } from '.'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const DepositBox = styled(Box)`
+const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: ${props => (props.showInterestInfoBox ? 'auto' : '200px')};
 `
 
 const Row = styled.div`
@@ -42,9 +43,9 @@ const Separator = styled.div`
 `
 
 function Success (props: Props): ReactElement {
-  const { interestRate, interestAccountBalance } = props
+  const { interestRate, interestAccountBalance, showInterestInfoBox } = props
   return (
-    <DepositBox>
+    <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
         <Icon name='btc-circle-filled' color='btc' size='32px' />
         <Text

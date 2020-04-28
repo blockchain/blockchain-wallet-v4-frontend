@@ -1,4 +1,4 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
@@ -10,6 +10,7 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { OwnProps } from '..'
+import { RatesType } from 'data/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -17,9 +18,7 @@ import Success from './template.success'
 class InterestSummary extends PureComponent<Props> {
   componentDidMount () {
     this.props.profileActions.createUser()
-    this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestBalance()
-    this.props.interestActions.fetchInterestEligible()
   }
 
   fetchInterestInfo = () => {}
@@ -34,7 +33,8 @@ class InterestSummary extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -52,11 +52,13 @@ export type SuccessStateType = {
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   interestRate: InterestRateType
+  rates: RatesType
   supportedCoins: SupportedCoinsType
 }
 
 export type LinkStatePropsType = {
   data: RemoteDataType<string, Array<SuccessStateType>>
+  showInterestInfoBox: any
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
