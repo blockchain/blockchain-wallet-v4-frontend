@@ -26,7 +26,11 @@ import {
   NO_FIAT_CURRENCY,
   NO_PAIR_SELECTED
 } from './model'
-import { SBAddCardFormValuesType, SBCheckoutFormValuesType } from './types'
+import {
+  SBAddCardFormValuesType,
+  SBBillingAddressFormValuesType,
+  SBCheckoutFormValuesType
+} from './types'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
@@ -253,8 +257,14 @@ export default ({
 
       if (!cardId) {
         const userDataR = selectors.modules.profile.getUserData(yield select())
+        const billingAddressForm:
+          | SBBillingAddressFormValuesType
+          | undefined = yield select(
+          selectors.form.getFormValues('ccBillingAddress')
+        )
+
         const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-        const address = userData.address
+        const address = billingAddressForm || userData.address
         if (!address) throw new Error('NO_USER_ADDRESS')
 
         card = yield call(api.createSBCard, currency, {

@@ -15,9 +15,15 @@ class BillingAddress extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeBillingAddress()
   }
 
+  handleSubmit = () => {
+    this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+  }
+
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
       Loading: () => <Loading />,
       Failure: () => (
         <DataError

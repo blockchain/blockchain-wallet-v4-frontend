@@ -1023,6 +1023,7 @@ type MessagesType = {
   'modals.simplebuy.cancelorder.outcome': 'Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now.'
   'modals.simplebuy.card_number': 'Card Number'
   'modals.simplebuy.cc_info_received': 'Waiting for information from your bank...'
+  'modals.simplebuy.change_billing_address': 'Change Billing Address'
   'modals.simplebuy.checkingeligiblity': 'Checking Eligibility...'
   'modals.simplebuy.checkout.abovemax': '{value} Maximum {orderType}'
   'modals.simplebuy.checkout.belowmin': '{value} Minimum {orderType}'

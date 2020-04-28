@@ -1,3 +1,4 @@
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   countryUsesPostalcode,
   countryUsesZipcode,
@@ -14,7 +15,6 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
-import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 import React from 'react'
@@ -42,7 +42,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   return (
     <>
-      <Form>
+      <Form onSubmit={props.handleSubmit}>
         <CustomFlyoutWrapper>
           <Top color='grey800' size='20px' weight={600}>
             <Icon
@@ -155,6 +155,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               </FormItem>
             )}
           </FormGroup>
+          <Button
+            fullwidth
+            type='submit'
+            data-e2e='udpateBillingAddr'
+            nature='primary'
+            height='48px'
+            size='16px'
+          >
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          </Button>
         </FlyoutWrapper>
       </Form>
     </>

@@ -1,4 +1,4 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CreditCardBox,
   CreditCardCVCBox,
@@ -124,6 +124,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorCartridge>
           </FormGroup>
         )}
+        <FormGroup>
+          <Link
+            style={{ textAlign: 'center', width: '100%' }}
+            onClick={() =>
+              props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })
+            }
+          >
+            <FormattedMessage
+              id='modals.simplebuy.change_billing_address'
+              defaultMessage='Change Billing Address'
+            />
+          </Link>
+        </FormGroup>
         <FormGroup>
           <Button
             nature='primary'

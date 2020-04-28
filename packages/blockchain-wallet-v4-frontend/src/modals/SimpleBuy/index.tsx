@@ -18,35 +18,6 @@ import React, { PureComponent } from 'react'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
 
-type OwnProps = ModalPropsType
-export type LinkDispatchPropsType = {
-  settingsActions: typeof actions.modules.settings
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType =
-  | {
-      step:
-        | 'CURRENCY_SELECTION'
-        | '3DS_HANDLER'
-        | 'CC_BILLING_ADDRESS'
-        | 'ENTER_AMOUNT'
-    }
-  | {
-      order: SBOrderType
-      step:
-        | 'CHECKOUT_CONFIRM'
-        | 'TRANSFER_DETAILS'
-        | 'ORDER_SUMMARY'
-        | 'CANCEL_ORDER'
-    }
-  | {
-      cardId?: string
-      step: 'ADD_CARD'
-    }
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = { direction: 'left' | 'right'; show: boolean }
-
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
@@ -71,6 +42,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 
   componentWillUnmount () {
     this.props.simpleBuyActions.destroyCheckout()
+    this.props.formActions.destroy('ccBillingAddress')
   }
 
   handleClose = () => {
@@ -146,6 +118,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -157,5 +130,35 @@ const enhance = compose(
     mapDispatchToProps
   )
 )
+
+type OwnProps = ModalPropsType
+export type LinkDispatchPropsType = {
+  formActions: typeof actions.form
+  settingsActions: typeof actions.modules.settings
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+type LinkStatePropsType =
+  | {
+      step:
+        | 'CURRENCY_SELECTION'
+        | '3DS_HANDLER'
+        | 'CC_BILLING_ADDRESS'
+        | 'ENTER_AMOUNT'
+    }
+  | {
+      order: SBOrderType
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'TRANSFER_DETAILS'
+        | 'ORDER_SUMMARY'
+        | 'CANCEL_ORDER'
+    }
+  | {
+      cardId?: string
+      step: 'ADD_CARD'
+    }
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(SimpleBuy)

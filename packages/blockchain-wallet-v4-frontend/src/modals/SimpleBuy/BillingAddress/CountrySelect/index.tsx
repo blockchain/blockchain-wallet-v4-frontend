@@ -38,6 +38,15 @@ const Display = styled.div`
   font-weight: 500;
   margin-left: 12px;
   color: ${props => props.theme.grey800};
+  .bc__single-value {
+    position: relative;
+    top: 0;
+    transform: initial;
+    margin: 0;
+  }
+  input {
+    height: 0;
+  }
 `
 const IconContainer = styled.div`
   min-width: 32px;
