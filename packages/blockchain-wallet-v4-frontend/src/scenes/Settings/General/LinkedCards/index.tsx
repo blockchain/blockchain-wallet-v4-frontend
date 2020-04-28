@@ -8,6 +8,7 @@ import {
   SBPaymentMethodsType
 } from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -20,6 +21,10 @@ class LinkedCards extends PureComponent<Props> {
     )
   }
 
+  shouldComponentUpdate (nextProps: Props) {
+    return Remote.Success.is(nextProps.data)
+  }
+
   handleCreditCardClick = (/* id: string */) => {
     this.props.simpleBuyActions.showModal('settingsGeneral')
     this.props.simpleBuyActions.setStep({
@@ -30,7 +35,13 @@ class LinkedCards extends PureComponent<Props> {
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => (
+        <Success
+          {...val}
+          {...this.props}
+          handleCreditCardClick={this.handleCreditCardClick}
+        />
+      ),
       Loading: () => null,
       Failure: () => null,
       NotAsked: () => null

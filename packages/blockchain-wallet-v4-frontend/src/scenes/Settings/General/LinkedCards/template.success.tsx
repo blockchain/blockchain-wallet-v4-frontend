@@ -142,7 +142,11 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
         })}
       </SettingSummary>
       <CustomSettingComponent>
-        <Button nature='primary' data-e2e='addCardFromSettings'>
+        <Button
+          nature='primary'
+          data-e2e='addCardFromSettings'
+          onClick={props.handleCreditCardClick}
+        >
           <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
         </Button>
       </CustomSettingComponent>
@@ -150,6 +154,6 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & { handleCreditCardClick: () => void }
 
 export default Success
