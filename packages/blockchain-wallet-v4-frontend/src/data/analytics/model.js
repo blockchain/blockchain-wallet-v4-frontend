@@ -20,9 +20,6 @@ export const AB_TESTS = {}
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
-export const COINIFY_EVENTS = {
-  CONTINUE_COINIFY_CLICK: ['coinify', 'buy_sell_page', 'continue_coinify_click']
-}
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'
@@ -64,7 +61,6 @@ export const TRANSACTION_EVENTS = {
 
 export const GENERAL_EVENTS = {
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  VIEW_FAQ: ['general', 'view_faq'],
   WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_tour', 'dismissed'],
   WALLET_INTRO_OFFERED: ['general', 'wallet_intro_tour', 'offered'],
   WALLET_INTRO_STARTED: ['general', 'wallet_intro_tour', 'started'],
@@ -107,7 +103,8 @@ export const EXCHANGE_EVENTS = {
     'exchange',
     'homepage',
     'linked_wallet_linkout_clicked'
-  ]
+  ],
+  PROMO: ['exchange', 'send_modal', 'promo_clicked']
 }
 
 export const PRICE_CHART_EVENTS = {

@@ -60,7 +60,7 @@ export const HeaderTextWrapper = styled.div`
 
 export const SceneHeaderText = styled(Text)`
   font-size: 32px;
-  color: black;
+  color: ${props => props.theme.grey800};
   font-weight: 600;
   margin-right: 14px;
 `

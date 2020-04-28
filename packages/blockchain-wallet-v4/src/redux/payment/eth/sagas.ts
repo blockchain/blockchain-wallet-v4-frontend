@@ -214,7 +214,7 @@ export default ({ api }) => {
           const accountR = yield select(S.kvStore.eth.getDefaultAddress)
           account = accountR.getOrFail('missing_default_from')
         }
-        if (p.from.type === 'CUSTODIAL') {
+        if (p.from && p.from.type === 'CUSTODIAL') {
           return makePayment(
             mergeRight(p, {
               feeInGwei: 0,

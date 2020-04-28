@@ -79,7 +79,7 @@ const Summary: React.FC<Props> = props => {
               value: props.principal
                 ? Number(props.principal) * props.offer.terms.collateralRatio
                 : 0,
-              unit: { symbol: '$' }
+              unit: 'USD'
             })}
             )
           </Value>

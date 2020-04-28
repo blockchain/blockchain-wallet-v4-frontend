@@ -1,15 +1,14 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType, SupportedCoinsType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { getOutputAmount } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { SupportedCoinsType } from 'core/types'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Props as OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -37,17 +36,13 @@ const Amount = styled.div`
     display: inline;
   }
 `
-type Props = OwnProps &
-  LinkDispatchPropsType &
-  SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const outputAmt = getOutputAmount(props.order, props.quote)
 
   const displayFiat = (amt: string) => {
-    return Currency.fiatToString({
-      unit:
-        Currencies[props.order.inputCurrency].units[props.order.inputCurrency],
+    return fiatToString({
+      unit: props.order.inputCurrency as FiatType,
       value: convertBaseToStandard('FIAT', amt)
     })
   }
@@ -75,15 +70,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Checkout'
           />
         </TopText>
-        <Amount>
+        <Amount data-e2e='sbTotalCryptoBuyAmount'>
           <Text size='32px' weight={600} color='grey800'>
             {outputAmt}
           </Text>
-          <Text
-            size='32px'
-            weight={600}
-            color={props.supportedCoins[props.order.outputCurrency].colorCode}
-          >
+          <Text size='32px' weight={600} color='grey800'>
             {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Text>
         </Amount>
@@ -95,7 +86,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Exchange Rate'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbExchangeRate'>
           {displayFiat(props.quote.rate)} /{' '}
           {props.supportedCoins[props.order.outputCurrency].coinTicker}
         </Value>
@@ -117,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Fees'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbFeeAmount'>
           {displayFiat(props.quote.fee)} {props.order.inputCurrency}
         </Value>
       </Row>
@@ -128,7 +119,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Total'
           />
         </Title>
-        <Value>
+        <Value data-e2e='sbFiatBuyAmount'>
           {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
         </Value>
       </Row>
@@ -181,14 +172,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           }
           style={{ marginTop: '16px' }}
         >
-          <FormattedMessage
-            id='modals.simplebuy.confirm.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </Bottom>
     </CustomForm>
   )
 }
+
+type Props = OwnProps &
+  SuccessStateType & { supportedCoins: SupportedCoinsType }
 
 export default reduxForm<{}, Props>({ form: 'sbCheckoutConfirm' })(Success)

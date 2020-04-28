@@ -1,14 +1,12 @@
 import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Props as OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
-
-type Props = OwnProps & SuccessStateType & LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -151,10 +149,7 @@ const Success: React.FC<Props> = props => {
         {props.account.currency === 'USD' && (
           <Row>
             <Title size='14px' weight={500} color='grey600'>
-              <FormattedMessage
-                id='modals.simplebuy.transferdetails.address'
-                defaultMessage='Address'
-              />
+              <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Title>
             <Value>{props.account.agent.address}</Value>
           </Row>
@@ -190,10 +185,7 @@ const Success: React.FC<Props> = props => {
           </Title>
           <Value>
             {fiatToString({
-              unit:
-                Currencies[props.order.inputCurrency].units[
-                  props.order.inputCurrency
-                ],
+              unit: props.order.inputCurrency as FiatType,
               value: convertBaseToStandard('FIAT', props.order.inputQuantity)
             })}
           </Value>
@@ -248,5 +240,7 @@ const Success: React.FC<Props> = props => {
     </Wrapper>
   )
 }
+
+type Props = OwnProps & SuccessStateType
 
 export default Success

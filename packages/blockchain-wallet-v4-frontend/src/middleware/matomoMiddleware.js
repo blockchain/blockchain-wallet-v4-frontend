@@ -1,4 +1,4 @@
-import { contains, equals, path, prop } from 'ramda'
+import { equals, includes, path, prop } from 'ramda'
 
 const PAYLOAD = ['payload']
 const NAME = ['payload', 'name']
@@ -12,6 +12,7 @@ const _ERROR = ['payload', '_error']
 // keep alphabetized
 const TYPE_WHITELIST = [
   '@@redux-form/CHANGE',
+  '@@redux-form/INITIALIZE',
   '@@redux-form/SET_SUBMIT_SUCCEEDED',
   '@@redux-form/STOP_SUBMIT',
   '@@redux-form/START_SUBMIT',
@@ -48,18 +49,20 @@ const matomoMiddleware = () => store => next => action => {
       path(FIELD, action) || path(_ERROR, action) || path(PROPS, action)
     const eventAction = formatEvent(nextAction)
     const eventName = formatEvent(nextName)
-    const logEvent = contains(action.type, TYPE_WHITELIST)
+    const logEvent = includes(action.type, TYPE_WHITELIST)
     const nextEvent = [eventCategory, eventAction, eventName]
 
     if (logEvent && !equals(nextEvent, lastEvent)) {
       const frame = document.getElementById('matomo-iframe')
-      frame.contentWindow.postMessage(
-        {
-          method: 'trackEvent',
-          messageData: nextEvent
-        },
-        '*'
-      )
+      frame &&
+        frame.contentWindow &&
+        frame.contentWindow.postMessage(
+          {
+            method: 'trackEvent',
+            messageData: nextEvent
+          },
+          '*'
+        )
 
       lastEvent = nextEvent
     }

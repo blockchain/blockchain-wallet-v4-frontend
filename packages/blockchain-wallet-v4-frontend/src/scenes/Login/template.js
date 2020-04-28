@@ -43,6 +43,8 @@ export const removeWhitespace = string => string.replace(/\s/g, ``)
 
 const LoginWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 const PublicWrapper = styled(Wrapper)`
   position: relative;
@@ -87,6 +89,17 @@ const ResendSmsLink = styled(Link)`
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
+const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+`
+const SignUpText = styled(Text)`
+  &:hover {
+    color: ${props => props.theme.white};
+    font-weight: 600;
+  }
+`
 
 const Login = props => {
   const {
@@ -125,7 +138,7 @@ const Login = props => {
       <PublicWrapper>
         <Modals />
         <Header>
-          <Text size='20px' color='blue900' weight={600} capitalize>
+          <Text size='20px' color='textBlack' weight={600} capitalize>
             <FormattedMessage
               id='scenes.login.welcome'
               defaultMessage='Welcome back!'
@@ -326,7 +339,7 @@ const Login = props => {
               {busy && !loginError ? (
                 <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
-                <Text color='white' size='16px' weight={600}>
+                <Text color='whiteFade900' size='16px' weight={600}>
                   <FormattedMessage
                     id='scenes.login.login'
                     defaultMessage='Log In'
@@ -357,6 +370,25 @@ const Login = props => {
           </Footer>
         )}
       </PublicWrapper>
+      <LinkContainer to='/signup'>
+        <Link>
+          <SubCard>
+            <Text size='14px' color='whiteFade600' weight={500}>
+              <FormattedMessage
+                id='scenes.login.wallet.link'
+                defaultMessage='Dont have a wallet?'
+              />
+            </Text>
+            &nbsp;
+            <SignUpText size='14px' color='whiteFade900' weight={500}>
+              <FormattedMessage
+                id='scenes.login.wallet.signup'
+                defaultMessage='Sign Up'
+              />
+            </SignUpText>
+          </SubCard>
+        </Link>
+      </LinkContainer>
     </LoginWrapper>
   )
 }

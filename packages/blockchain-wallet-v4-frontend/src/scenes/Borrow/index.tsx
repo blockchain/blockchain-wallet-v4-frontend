@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
@@ -18,21 +18,6 @@ import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
 import React, { PureComponent } from 'react'
-
-type LinkStatePropsType = {
-  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
-  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
-}
-type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-  identityVerificationActions: typeof actions.components.identityVerification
-  routerActions: typeof actions.router
-}
-
-export type Props = LinkDispatchPropsType & LinkStatePropsType
-export type State = {
-  isDisabled: boolean
-}
 
 class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }
@@ -103,7 +88,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   userDataR: selectors.modules.profile.getUserData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
@@ -112,7 +97,17 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Borrow)
+)
+type LinkStatePropsType = {
+  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
+  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
+}
+export type Props = ConnectedProps<typeof connector>
+export type State = {
+  isDisabled: boolean
+}
+
+export default connector(Borrow)

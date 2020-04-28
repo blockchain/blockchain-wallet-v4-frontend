@@ -2,7 +2,6 @@ import * as activityList from './activityList/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as borrow from './borrow/actionTypes'
 import * as btcTransactions from './btcTransactions/actionTypes'
-import * as coinify from './coinify/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
@@ -15,6 +14,7 @@ import * as onboarding from './onboarding/actionTypes'
 import * as onfido from './onfido/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
+import * as recoveryPhrase from './recoveryPhrase/actionTypes'
 import * as refresh from './refresh/actionTypes'
 import * as requestBch from './requestBch/actionTypes'
 import * as requestBtc from './requestBtc/actionTypes'
@@ -38,7 +38,6 @@ export {
   bchTransactions,
   borrow,
   btcTransactions,
-  coinify,
   ethTransactions,
   xlmTransactions,
   exchange,
@@ -52,6 +51,7 @@ export {
   onfido,
   priceChart,
   priceTicker,
+  recoveryPhrase,
   refresh,
   requestBtc,
   requestBch,

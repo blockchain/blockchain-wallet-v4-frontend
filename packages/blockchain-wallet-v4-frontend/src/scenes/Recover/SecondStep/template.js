@@ -119,10 +119,7 @@ const SecondStep = props => {
         </FormGroup>
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>
-            <FormattedMessage
-              id='scenes.recover.secondstep.back'
-              defaultMessage='Go Back'
-            />
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </GoBackLink>
           <Button type='submit' nature='primary' disabled={busy || invalid}>
             {busy ? (

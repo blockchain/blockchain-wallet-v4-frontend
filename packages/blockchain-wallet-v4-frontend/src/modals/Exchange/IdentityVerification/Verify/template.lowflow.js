@@ -298,10 +298,7 @@ const Verify = ({
       footer={
         <Footer>
           <BackButton data-e2e='lowflowBackButton' onClick={onBack}>
-            <FormattedMessage
-              id='identityverification.lowflow.personal.back'
-              defaultMessage='Back'
-            />
+            <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </BackButton>
           {!showVeriff && (
             <Button
@@ -310,7 +307,7 @@ const Verify = ({
               onClick={handleSubmit}
             >
               <FormattedMessage
-                id='identityverification.lowflow.personal.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

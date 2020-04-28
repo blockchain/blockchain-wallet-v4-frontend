@@ -23,7 +23,7 @@
     "translate:ts-to-jsx": "tsc -p ../../tsconfig.json --jsx preserve --outDir src/extracted-ts",
     "translate:extract": "babel \"src/extracted-ts/**/*.jsx\"",
     "translate:ts": "yarn translate:ts-to-jsx && yarn translate:extract",
-    "manage:translations": "yarn build:prod && yarn translate:ts && node ./translationRunner.js",
+    "manage:translations": "yarn build:prod && yarn translate:ts && node ./utils/translationRunner.js",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell DISABLE_SSL=true NODE_ENV=production webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.dev.js --progress --colors --watch --devtool cheap-module-source-map",
@@ -94,7 +94,6 @@
       "src"
     ],
     "moduleNameMapper": {
-      "services/(.*)": "<rootDir>/src/services/$1",
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     }
@@ -163,7 +162,7 @@
     "rxjs": "6.5.2",
     "sanitize-html": "1.20.1",
     "slick-carousel": "1.8.1",
-    "styled-components": "4.2.0",
+    "styled-components": "4.4.1",
     "zxcvbn": "4.4.2"
   }
 }

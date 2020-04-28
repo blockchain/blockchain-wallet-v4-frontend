@@ -1,22 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-
-type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType = {
-  orders: Array<SBOrderType>
-}
-type Props = LinkDispatchPropsType & LinkStatePropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -138,12 +129,19 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SBOrderBanner)
+)
+
+type LinkStatePropsType = {
+  orders: Array<SBOrderType>
+}
+type Props = ConnectedProps<typeof connector>
+
+export default connector(SBOrderBanner)

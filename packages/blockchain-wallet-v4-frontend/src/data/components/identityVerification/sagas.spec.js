@@ -5,7 +5,6 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import * as A from './actions'
 import * as S from './selectors'
 import { actions, model, selectors } from 'data'
-import { EMAIL_STEPS } from './model'
 import { getSmsVerified } from 'blockchain-wallet-v4/src/redux/settings/selectors'
 import { getUserData, getUserTiers } from 'data/modules/profile/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -47,29 +46,13 @@ getUserTiers.mockReturnValue(Remote.NotAsked)
 getUserData.mockReturnValue(Remote.of({ mobileVerified: false }))
 
 describe('initializeVerification saga', () => {
-  it('should set default values: non-coinify kyc, need more info as false, and "2" as desired tier', () =>
+  it('should set default values: need more info as false, and "2" as desired tier', () => {
     expectSaga(initializeVerification, { payload: {} })
       .provide([
         [call.fn(initializeStep), jest.fn()],
         [call.fn(defineSteps), jest.fn()]
       ])
-      .call(defineSteps, TIERS[2], false, false)
-      .call(initializeStep)
-      .run())
-
-  it("should define if it's coinify kyc, set desired tier, and determine initial step", () => {
-    const isCoinify = true
-    const needMoreInfo = true
-    const tier = TIERS[1]
-    return expectSaga(initializeVerification, {
-      payload: { tier, isCoinify, needMoreInfo }
-    })
-      .provide([
-        [call.fn(initializeStep), jest.fn()],
-        [call.fn(defineSteps), jest.fn()]
-      ])
-      .put(A.setEmailStep(EMAIL_STEPS.edit))
-      .call(defineSteps, tier, isCoinify, needMoreInfo)
+      .call(defineSteps, TIERS[2], false)
       .call(initializeStep)
       .run()
   })
@@ -91,7 +74,7 @@ describe('defineSteps saga', () => {
 
   it('should put steps loading failure if selectTier fails', () => {
     const error = 'error'
-    return expectSaga(defineSteps, TIERS[2], false, false)
+    expectSaga(defineSteps, TIERS[2], false, false)
       .provide([[call.fn(selectTier), throwError(error)]])
       .put(A.setStepsLoading())
       .call(createUser)
@@ -103,17 +86,18 @@ describe('defineSteps saga', () => {
 
 describe('initializeStep saga', () => {
   const steps = ['personal', 'mobile', 'verify']
-  it('should select steps and initialize first step', () =>
+  it('should select steps and initialize first step', () => {
     expectSaga(initializeStep)
       .provide([[select(S.getSteps), Remote.of(steps)]])
       .select(S.getSteps)
       .put(A.setVerificationStep(steps[0]))
-      .run())
+      .run()
+  })
 })
 
 describe('goToPrevStep saga', () => {
   const steps = ['personal', 'mobile']
-  it('should direct user to prev step if it is available', () =>
+  it('should direct user to prev step if it is available', () => {
     expectSaga(goToPrevStep)
       .withState({
         components: {
@@ -129,8 +113,10 @@ describe('goToPrevStep saga', () => {
       ])
       .select()
       .put(A.setVerificationStep(steps[0]))
-      .run())
-  it('should close all modals if there is no prev step', () =>
+      .run()
+  })
+
+  it('should close all modals if there is no prev step', () => {
     expectSaga(goToPrevStep)
       .withState({
         components: {
@@ -146,12 +132,13 @@ describe('goToPrevStep saga', () => {
       ])
       .select()
       .put(actions.modals.closeAllModals())
-      .run())
+      .run()
+  })
 })
 
 describe('goToNextStep saga', () => {
   const steps = ['personal', 'mobile']
-  it('should direct user to next step if it is available', () =>
+  it('should direct user to next step if it is available', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[0]],
@@ -160,8 +147,10 @@ describe('goToNextStep saga', () => {
       .select(S.getSteps)
       .select(S.getVerificationStep)
       .put(A.setVerificationStep(steps[1]))
-      .run())
-  it('should close all modals if there is no next step', () =>
+      .run()
+  })
+
+  it('should close all modals if there is no next step', () => {
     expectSaga(goToNextStep)
       .provide([
         [select(S.getVerificationStep), steps[1]],
@@ -170,7 +159,8 @@ describe('goToNextStep saga', () => {
       .select(S.getSteps)
       .select(S.getVerificationStep)
       .put(actions.modals.closeAllModals())
-      .run())
+      .run()
+  })
 })
 
 describe('createRegisterUserCampaign', () => {

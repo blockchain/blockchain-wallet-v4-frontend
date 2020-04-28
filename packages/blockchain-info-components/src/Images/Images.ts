@@ -19,8 +19,6 @@ import buyWallet from './img/buy-wallet.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkGreen from './img/checkmark-green.svg'
 import closeError from './img/close-error.svg'
-import coinifyLanding from './img/coinify-landing.svg'
-import coinifyLogo from './img/coinify-logo.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins.png'
 import emailError from './img/email-error.svg'
@@ -53,9 +51,9 @@ import linkedinWhite from './img/linkedin-white.svg'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
-import poweredByCoinify from './img/powered_by_coinify.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
+import recoverPadlock from './img/recover-padlock.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -131,8 +129,6 @@ const Images = {
   'checkmark-green': checkmarkGreen,
   coins: coins,
   'coin-pax': coinPax,
-  'coinify-landing': coinifyLanding,
-  'coinify-logo': coinifyLogo,
   'close-error': closeError,
   'email-error': emailError,
   'email-success': emailSuccess,
@@ -191,9 +187,9 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
-  'powered-by-coinify': poweredByCoinify,
   printer: printer,
   'qr-code': qrCode,
+  'recover-padlock': recoverPadlock,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,

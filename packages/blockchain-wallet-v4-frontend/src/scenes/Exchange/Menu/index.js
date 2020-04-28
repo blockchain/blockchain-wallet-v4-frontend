@@ -17,9 +17,10 @@ const Wrapper = styled.div`
   top: 0;
 `
 const ButtonRow = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
 `
 const DownloadButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};
@@ -28,12 +29,7 @@ const DownloadButton = styled(IconButton)`
   margin-left: 8px;
 `
 
-const Menu = ({
-  downloadHistory,
-  showGetStarted,
-  showDownloadBtn,
-  showHelpModal
-}) =>
+const Menu = ({ downloadHistory, showGetStarted, showDownloadBtn }) =>
   !showGetStarted ? (
     <Wrapper>
       <Announcements type='service' alertArea='swap' />

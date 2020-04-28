@@ -90,10 +90,7 @@ const SoftwareDownloadStep = props => {
       </Text>
       <DownloadButton nature='primary' fullwidth onClick={onStepChange}>
         <Text size='16px' weight={500} color='white'>
-          <FormattedMessage
-            id='modals.lockboxsetup.softwaredownloadstep.downloaded.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Text>
       </DownloadButton>
       <DismissText size='12px' weight={500} onClick={onGoBackToDownload}>

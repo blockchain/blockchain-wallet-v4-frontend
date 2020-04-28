@@ -128,10 +128,7 @@ const PairDeviceStep = props => {
                   weight={400}
                   onClick={onGoToAppManager}
                 >
-                  <FormattedHTMLMessage
-                    id='modals.lockboxsetup.pairdevice.timeout.issue2.part2'
-                    defaultMessage='here'
-                  />
+                  <FormattedHTMLMessage id='copy.here' defaultMessage='here' />
                 </AppManagerLink>
                 <Text size='12px' weight={400}>
                   <FormattedHTMLMessage
@@ -174,7 +171,7 @@ const PairDeviceStep = props => {
           weight={500}
         >
           <FormattedHTMLMessage
-            id='modals.lockboxsetup.pairdevice.timeout.supportlink'
+            id='buttons.contact_support'
             defaultMessage='Contact Support'
           />
         </SupportText>

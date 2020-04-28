@@ -5,11 +5,6 @@ export const airdropClaimSubmitClicked = campaign => ({
   payload: { campaign }
 })
 
-export const coinifyUpgradeSubmitClicked = campaign => ({
-  type: AT.COINIFY_UPGRADE_SUBMIT_CLICKED,
-  payload: { campaign }
-})
-
 export const setWalletTourVisibility = visibility => ({
   type: AT.SET_WALLET_TOUR_VISIBILITY,
   payload: visibility

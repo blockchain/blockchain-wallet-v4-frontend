@@ -1,16 +1,11 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-
-type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
-}
-type Props = LinkDispatchPropsType
 
 const Wrapper = styled.div`
   display: flex;
@@ -102,24 +97,25 @@ class FinishKyc extends PureComponent<Props> {
           data-e2e='openKycTier2'
           nature='primary'
         >
-          <FormattedMessage
-            id='scenes.home.banner.kyc'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </BannerButton>
       </Wrapper>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   )
 })
 
-export default connect(
+const connector = connect(
   undefined,
   mapDispatchToProps
-)(FinishKyc)
+)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(FinishKyc)

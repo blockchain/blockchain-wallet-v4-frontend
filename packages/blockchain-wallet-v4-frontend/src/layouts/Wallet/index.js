@@ -10,7 +10,6 @@ class WalletLayoutContainer extends React.PureComponent {
   componentDidMount () {
     this.props.kvStoreWhatsNewActions.fetchMetadataWhatsnew()
     this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
-    this.props.kvStoreBuySellActions.fetchMetadataBuySell()
   }
 
   render () {
@@ -48,10 +47,6 @@ const mapDispatchToProps = dispatch => ({
   ),
   kvStoreWhatsNewActions: bindActionCreators(
     actions.core.kvStore.whatsNew,
-    dispatch
-  ),
-  kvStoreBuySellActions: bindActionCreators(
-    actions.core.kvStore.buySell,
     dispatch
   )
 })

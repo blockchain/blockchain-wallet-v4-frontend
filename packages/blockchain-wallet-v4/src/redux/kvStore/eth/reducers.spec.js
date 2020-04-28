@@ -80,8 +80,8 @@ describe('kvStore ethereum reducers', () => {
   it('should handle SET_LATEST_TX_ETH', () => {
     const latestTx = 'latest tx'
     const action = actions.setLatestTxEth(latestTx)
-    const setCoinifyTrades = assocPath(['ethereum', 'last_tx'], latestTx)
-    const expectedState = over(valueLens, setCoinifyTrades, ethMetadataSuccess)
+    const setLastTx = assocPath(['ethereum', 'last_tx'], latestTx)
+    const expectedState = over(valueLens, setLastTx, ethMetadataSuccess)
     expect(reducer(ethMetadataSuccess, action)).toEqual(expectedState)
   })
 

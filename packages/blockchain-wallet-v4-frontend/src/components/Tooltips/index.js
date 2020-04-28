@@ -24,12 +24,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
           />
         </Tooltip>
-        <Tooltip id='isx.expiredtooltip'>
-          <FormattedMessage
-            id='scenes.buysell.coinify.isx.expiredtooltip'
-            defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.'
-          />
-        </Tooltip>
         <Tooltip id='recurring.tooltip'>
           <FormattedMessage
             id='orderdetails.recurring.tooltip'
@@ -124,12 +118,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.sendxlm.firststep.memotooltip'
             defaultMessage='Memos are used to communicate optional information to the recipient.'
-          />
-        </Tooltip>
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
           />
         </Tooltip>
         <Tooltip id='exchangecheckout.rate'>
@@ -230,12 +218,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='txlist.change.tooltip.description'
             defaultMessage='This change address belongs to your wallet'
-          />
-        </Tooltip>
-        <Tooltip id='buysellOrderReview'>
-          <FormattedMessage
-            id='buysellOrderReview.tooltip'
-            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
           />
         </Tooltip>
         <Tooltip id='identityverification.headerhelper'>

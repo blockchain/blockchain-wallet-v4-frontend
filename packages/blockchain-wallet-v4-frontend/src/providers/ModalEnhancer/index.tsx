@@ -6,25 +6,6 @@ import { ModalNamesType, ModalType } from 'data/types'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
-type OwnProps = {
-  disableOutsideClose: boolean
-}
-type LinkDispatchPropsType = {
-  close: () => void
-  closeAll: () => void
-  update: () => void
-}
-type LinkStatePropsType = {
-  modals: Array<ModalType>
-}
-
-type OptionsType = {
-  preventEscapeClose?: boolean
-  transition?: number
-}
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   close: compose(
     dispatch,
@@ -48,6 +29,25 @@ const enhance = connect(
   mapStateToProps,
   mapDispatchToProps
 )
+
+type OwnProps = {
+  disableOutsideClose: boolean
+}
+type LinkDispatchPropsType = {
+  close: () => void
+  closeAll: () => void
+  update: () => void
+}
+type LinkStatePropsType = {
+  modals: Array<ModalType>
+}
+
+type OptionsType = {
+  preventEscapeClose?: boolean
+  transition?: number
+}
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
   enhance(

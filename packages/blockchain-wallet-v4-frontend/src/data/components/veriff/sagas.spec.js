@@ -22,17 +22,19 @@ api.fetchVeriffUrl.mockReturnValue({ data: { url }, applicantId })
 const { fetchVeriffUrl, syncVeriff } = sagas({ api, coreSagas })
 
 describe('fetchVeriffUrl', () => {
-  it('should fetch veriff url, respecting loading states and set applicantId', () =>
+  it('should fetch veriff url, respecting loading states and set applicantId', () => {
     expectSaga(fetchVeriffUrl)
       .put(A.fetchVeriffUrlLoading())
       .call(api.fetchVeriffUrl)
       .put(A.setApplicantId(applicantId))
       .put(A.fetchVeriffUrlSuccess(url))
-      .run())
+      .run()
+  })
+
   it('should set error if veriff fetch fails', () => {
     const error = {}
     api.fetchVeriffUrl.mockRejectedValue(error)
-    return expectSaga(fetchVeriffUrl)
+    expectSaga(fetchVeriffUrl)
       .put(A.fetchVeriffUrlLoading())
       .call(api.fetchVeriffUrl)
       .put(A.fetchVeriffUrlError(error))
@@ -41,7 +43,7 @@ describe('fetchVeriffUrl', () => {
 })
 
 describe('syncVeriff', () => {
-  it('should sync with applicant id, fetchUser, and setVerificationStep to submitted', () =>
+  it('should sync with applicant id, fetchUser, and setVerificationStep to submitted', () => {
     expectSaga(syncVeriff)
       .provide([[select(S.getApplicantId), applicantId]])
       .select(S.getApplicantId)
@@ -51,5 +53,6 @@ describe('syncVeriff', () => {
           STEPS.submitted
         )
       )
-      .run())
+      .run()
+  })
 })

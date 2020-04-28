@@ -64,16 +64,13 @@ const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
             </Text>
           </Status>
           <Button
-            nature='blue900'
+            nature='purple'
             height='56px'
             fullwidth
             onClick={onAccountLinkComplete}
           >
             <Text color='white' size='16px' weight={500}>
-              <FormattedMessage
-                id='modals.onboarding.linktoexchangeaccount.success.done'
-                defaultMessage='Done'
-              />
+              <FormattedMessage id='buttons.done' defaultMessage='Done' />
             </Text>
           </Button>
         </Content>

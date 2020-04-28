@@ -244,7 +244,7 @@ const LinkToExchangeAccountNotAsked = ({
                   </RightPointRow>
                 </RightColumnGroup>
               </div>
-              <ConnectNowButton nature='blue900' onClick={onConnectStart}>
+              <ConnectNowButton nature='purple' onClick={onConnectStart}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.connectnow'
@@ -270,7 +270,7 @@ const LinkToExchangeAccountNotAsked = ({
                   />
                 </Text>
               </EmailRequiredContent>
-              <ConnectNowButton nature='blue900' onClick={onResendEmail}>
+              <ConnectNowButton nature='purple' onClick={onResendEmail}>
                 <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.resendemail'

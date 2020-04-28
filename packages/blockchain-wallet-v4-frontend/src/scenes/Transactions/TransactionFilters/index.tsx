@@ -1,24 +1,10 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { CoinType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import Menu from './template'
 import React from 'react'
-
-// FIXME: TypeScript use CoinType
-type OwnProps = {
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
-}
-
-type LinkStatePropsType = {
-  legacyEthAddr: null | boolean
-}
-
-type LinkDispatchPropsType = {
-  modalActions: typeof actions.modals
-}
-
-type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
 
 class TransactionFiltersContainer extends React.PureComponent<Props> {
   onShowPrivateKey = () => {
@@ -66,7 +52,19 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TransactionFiltersContainer)
+)
+
+type OwnProps = {
+  coin: CoinType
+}
+
+type LinkStatePropsType = {
+  legacyEthAddr: null | boolean
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(TransactionFiltersContainer)

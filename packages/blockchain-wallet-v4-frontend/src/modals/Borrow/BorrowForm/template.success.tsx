@@ -118,6 +118,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='close'
             size='20px'
             color='grey600'
+            data-e2e='closeBorrow'
           />
         </TopText>
         <MaxAmountContainer>
@@ -132,7 +133,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
-                  unit: { symbol: '$' }
+                  unit: 'USD'
                 })}
               </Text>
             </FiatContainer>{' '}
@@ -195,10 +196,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               onClick={props.handleClose}
             >
               <Text size='16px' weight={600} color='blue600'>
-                <FormattedMessage
-                  id='modals.borrow.collateralform.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Text>
             </Button>
             <Button
@@ -209,7 +207,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <Text size='16px' weight={600} color='white'>
                 <FormattedMessage
-                  id='modals.borrow.collateralform.continue'
+                  id='buttons.continue'
                   defaultMessage='Continue'
                 />
               </Text>

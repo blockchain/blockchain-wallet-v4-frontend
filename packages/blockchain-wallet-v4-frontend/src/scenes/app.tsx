@@ -1,4 +1,4 @@
-import { connect, Provider } from 'react-redux'
+import { connect, ConnectedProps, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { createGlobalStyle } from 'styled-components'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
@@ -12,7 +12,6 @@ import Airdrops from './Airdrops'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
 import AuthorizeLogin from './AuthorizeLogin'
 import Borrow from './Borrow'
-import BuySell from './BuySell'
 import Exchange from './Exchange'
 import ExchangeHistory from './ExchangeHistory'
 import ExchangeProfile from './ExchangeProfile'
@@ -56,13 +55,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-class App extends React.PureComponent<{
-  history: any
-  isAuthenticated: boolean
-  persistor: any
-  store: any
-  supportedCoins: any
-}> {
+class App extends React.PureComponent<Props> {
   render () {
     const {
       store,
@@ -70,12 +63,6 @@ class App extends React.PureComponent<{
       persistor,
       isAuthenticated,
       supportedCoins
-    }: {
-      history: any
-      isAuthenticated: boolean
-      persistor: any
-      store: any
-      supportedCoins: any
     } = this.props
     return (
       <Provider store={store}>
@@ -119,7 +106,6 @@ class App extends React.PureComponent<{
                     />
                     <PublicLayout path='/wallet' component={Login} />
                     <WalletLayout path='/home' component={Home} />
-                    <WalletLayout path='/buy-sell' component={BuySell} />
                     <WalletLayout
                       path='/swap/history'
                       component={ExchangeHistory}
@@ -196,4 +182,14 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 
-export default connect(mapStateToProps)(App)
+const connector = connect(mapStateToProps)
+
+type Props = {
+  history: any
+  isAuthenticated: boolean
+  persistor: any
+  store: any
+  supportedCoins: any
+} & ConnectedProps<typeof connector>
+
+export default connector(App)

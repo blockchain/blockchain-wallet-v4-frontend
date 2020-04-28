@@ -143,13 +143,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Bank account set successfully'
         />
       )
-    case C.COINIFY_SIGNUP_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.coinify_signup_error'
-          defaultMessage='Failed to create Coinify account.'
-        />
-      )
     case C.BITPAY_INVOICE_NOT_FOUND_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -323,7 +316,7 @@ export const getAlertContent = (message, data = undefined) => {
               size='12px'
             >
               <FormattedMessage
-                id='components.alerts.first_pax_trade_info_learn_more'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </Link>
@@ -764,14 +757,14 @@ export const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.second_password_enabled_success'
-          defaultMessage='Second password successfully enabled'
+          defaultMessage='Second password enabled'
         />
       )
     case C.SECOND_PASSWORD_DISABLED_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.second_password_disabled_success'
-          defaultMessage='Second password successfully disabled'
+          defaultMessage='Second password disabled'
         />
       )
     case C.SEND_COIN_SUCCESS:
@@ -992,7 +985,7 @@ export const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.update_address_label_error'
-          defaultMessage='Failed to update address label'
+          defaultMessage='Failed to update address label.'
         />
       )
     case C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS:
@@ -1104,7 +1097,7 @@ export const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
-          defaultMessage='Not a valid bitcoin private key or address.'
+          defaultMessage='Not a valid Bitcoin Private Key or Address.'
         />
       )
     case C.LOCKBOX_SETUP_SUCCESS:

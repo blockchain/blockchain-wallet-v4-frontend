@@ -1,10 +1,9 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import { connect } from 'react-redux'
-import { CurrenciesType } from 'core/exchange/currencies'
+import { connect, ConnectedProps } from 'react-redux'
+import { fiatToString } from 'core/exchange/currency'
+import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { PriceChange } from '../../model'
-import { RemoteDataType, SupportedCoinType } from 'core/types'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -29,44 +28,28 @@ const PriceText = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
-type OwnProps = {
-  coinModel: SupportedCoinType
-}
-
-type SuccessStateType = {
-  currency: keyof CurrenciesType
-  currencySymbol: string
-  priceChangeFiat: number
-  priceChangePercentage: number
-  priceCurrent: number
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-
-type Props = LinkStatePropsType & OwnProps
-
 class CoinPricesContainer extends React.PureComponent<Props> {
   render () {
     const { data } = this.props
 
     return data.cata({
       Success: val => {
-        const { currencySymbol, priceCurrent } = val
+        const { priceCurrent } = val
 
         return (
           <Wrapper>
             <TitleText>
               <FormattedMessage
-                id='scenes.transactions.performance.prices.price'
+                id='scenes.transactions.performance.account.price'
                 defaultMessage='{account} Price'
                 values={{ account: this.props.coinModel.coinTicker }}
               />
             </TitleText>
             <PriceText>
-              {currencySymbol}
-              {Currency.formatFiat(priceCurrent)}
+              {fiatToString({
+                value: priceCurrent,
+                unit: val.currency
+              })}
             </PriceText>
             <PriceChange {...val}>
               {' '}
@@ -85,8 +68,27 @@ class CoinPricesContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(CoinPricesContainer)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  coinModel: SupportedCoinType
+}
+
+type SuccessStateType = {
+  currency: FiatType
+  priceChangeFiat: number
+  priceChangePercentage: number
+  priceCurrent: number
+}
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CoinPricesContainer)

@@ -61,7 +61,7 @@ const AmountFieldContainer = styled.div`
   }
 `
 const Amounts = styled.div`
-  margin: 24px 0px 40px 0px;
+  margin: 24px 0 40px;
   display: flex;
   justify-content: space-between;
 `
@@ -137,6 +137,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           <Icon
             cursor
+            data-e2e='sbCloseModalIcon'
             name='close'
             size='20px'
             color='grey600'
@@ -150,6 +151,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
           </Text>
           <Field
+            data-e2e='sbAmountInput'
             name='amount'
             component={NumberBox}
             validate={[maximumAmount, minimumAmount]}
@@ -171,7 +173,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Maximum {orderType}'
                   values={{
                     value: fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMax
@@ -188,7 +190,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value: fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard(
                         'FIAT',
                         props.formValues.pair.buyMin
@@ -201,7 +203,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               )}
             </CustomErrorCartridge>
-            <GreyBlueCartridge role='button' onClick={handleMinMaxClick}>
+            <GreyBlueCartridge
+              data-e2e='sbBuyMinMaxBtn'
+              role='button'
+              onClick={handleMinMaxClick}
+            >
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.simplebuy.checkout.buymax'
@@ -222,15 +228,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               {props.suggestedAmounts[0][fiatCurrency].map(amount => {
                 return (
                   <Amount
-                    role='button'
+                    data-e2e={`sbBuy${amount}Chip`}
                     onClick={() =>
                       props.simpleBuyActions.handleSBSuggestedAmountClick(
                         amount
                       )
                     }
+                    role='button'
                   >
                     {fiatToString({
-                      unit: Currencies[fiatCurrency].units[fiatCurrency],
+                      unit: fiatCurrency,
                       value: convertBaseToStandard('FIAT', amount),
                       digits: 0
                     })}
@@ -239,6 +246,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               })}
             </div>
             <GreyBlueCartridge
+              data-e2e='sbChangeCurrencyBtn'
               role='button'
               onClick={() =>
                 props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })

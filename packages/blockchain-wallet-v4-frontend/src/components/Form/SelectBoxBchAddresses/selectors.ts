@@ -1,4 +1,4 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
@@ -167,6 +167,9 @@ export const getData = (
     const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
     return sequence(Remote.of, [
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
       selectors.core.common.bch
         .getAccountsBalances(state)
         .map(isActive)
@@ -205,10 +208,7 @@ export const getData = (
             .getLockboxBchBalances(state)
             .map(excluded)
             .map(toDropdown)
-            .map(toGroup('Lockbox')),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([])
+            .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3, b4, b5]) => {
       // @ts-ignore
       const data = reduce(concat, [], [b1, b2, b3, b4, b5])

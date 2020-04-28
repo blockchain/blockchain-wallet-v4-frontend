@@ -1,7 +1,7 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { Props as AddCollateralProps } from '../AddCollateral/template.success'
 import { BorrowFormValuesType, BorrowSteps } from 'data/types'
 import { Props as CheckoutProps } from './template.success'
+import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
 import BigNumber from 'bignumber.js'
@@ -41,12 +41,12 @@ export const minimumAmount = (
     case 'CHECKOUT':
       return new BigNumber(value).isLessThan(props.limits.minFiat) ? (
         <FormattedMessage
-          id='borrow.validation.belowmin'
+          id='borrow.validation.belowmin.amt'
           defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
           values={{
-            minFiat: Currency.fiatToString({
+            minFiat: fiatToString({
               value: props.limits.minFiat,
-              unit: { symbol: '$' }
+              unit: 'USD'
             })
           }}
         />
@@ -66,12 +66,12 @@ export const minimumAmount = (
             getCollateralAmtRequired(props.loan, props.offer)
           ) ? (
             <FormattedMessage
-              id='borrow.validation.belowmin'
+              id='borrow.validation.belowmin.amt'
               defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
               values={{
-                minFiat: Currency.fiatToString({
+                minFiat: fiatToString({
                   value: getCollateralAmtRequired(props.loan, props.offer),
-                  unit: { symbol: '$' }
+                  unit: 'USD'
                 })
               }}
             />
@@ -84,9 +84,9 @@ export const minimumAmount = (
               id='borrow.validation.belowmin.safe'
               defaultMessage='You must enter an amount greater than {minFiat}.'
               values={{
-                minFiat: Currency.fiatToString({
+                minFiat: fiatToString({
                   value: 0,
-                  unit: { symbol: '$' }
+                  unit: 'USD'
                 })
               }}
             />

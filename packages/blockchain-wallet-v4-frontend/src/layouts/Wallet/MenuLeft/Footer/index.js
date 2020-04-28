@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { includes } from 'ramda'
+import { includes, not } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -13,7 +13,8 @@ const Wrapper = styled.div`
   text-align: center;
 `
 const AdsButton = styled(Button)`
-  margin: 20px auto;
+  margin: 4px auto;
+  margin-top: 12px;
   transition: background 0.3s;
   line-height: normal;
   span > span:not(:first-child) {
@@ -71,7 +72,7 @@ const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
           </AdsButton>
         </Wrapper>
       )
-    case includes(countryCode, adsBlacklist):
+    case not(includes(countryCode, adsBlacklist)):
       return (
         <Wrapper>
           <Text color='grey400' size='12px' weight={500}>

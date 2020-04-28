@@ -1,9 +1,8 @@
-import { Banner, Icon } from 'blockchain-info-components'
-import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { Banner } from 'blockchain-info-components'
+import { BlueCartridge } from 'components/Cartridge'
 import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
-import { LinkContainer } from 'react-router-bootstrap'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled, { css } from 'styled-components'
@@ -86,44 +85,6 @@ const customCartridge = css`
 const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
-const CustomErrorCartridge = styled(ErrorCartridge)`
-  ${customCartridge}
-`
-const BackupCopy = styled.div`
-  display: inline;
-`
-const BackupLink = styled.span`
-  color: ${props => props.theme.blue600};
-  text-decoration: underline;
-  cursor: pointer;
-`
-
-export const MnemonicRequiredForCustodySend = () => {
-  return (
-    <CustomErrorCartridge>
-      <Icon
-        name='alert-filled'
-        color='red600'
-        size='24px'
-        style={{ marginRight: '12px' }}
-      />
-      <BackupCopy>
-        <FormattedMessage
-          id='modals.send.firststep.fromcustody2'
-          defaultMessage='Please backup your Wallet before before sending crypto to it.'
-        />{' '}
-        <LinkContainer to='/security-center'>
-          <BackupLink>
-            <FormattedMessage
-              id='modals.send.firststep.backupnow'
-              defaultMessage='Backup now.'
-            />
-          </BackupLink>
-        </LinkContainer>
-      </BackupCopy>
-    </CustomErrorCartridge>
-  )
-}
 
 export const CustodyToAccountMessage = ({ coin }: { coin: CoinType }) => {
   return (

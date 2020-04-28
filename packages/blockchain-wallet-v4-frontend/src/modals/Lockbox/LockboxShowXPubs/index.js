@@ -165,10 +165,7 @@ export class LockboxShowXPubs extends React.PureComponent {
           </ModalBody>
           <ModalFooter align='right'>
             <Button nature='primary' onClick={closeAll}>
-              <FormattedMessage
-                id='modals.lockbox.showxpubs.close'
-                defaultMessage='Close'
-              />
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
             </Button>
           </ModalFooter>
         </Modal>

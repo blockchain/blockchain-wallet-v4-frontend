@@ -16,11 +16,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import {
-  CustodyToAccountMessage,
-  MnemonicRequiredForCustodySend,
-  Row
-} from 'components/Send'
+import { CustodyToAccountMessage, Row } from 'components/Send'
 import { ErrorBanner } from './ErrorBanner'
 import { Field, reduxForm } from 'redux-form'
 import {
@@ -43,6 +39,8 @@ import { SelectBoxMemo } from './SelectBoxMemo'
 import { XlmFiatConverter } from './XlmFiatConverter'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
@@ -158,7 +156,7 @@ const FirstStep = props => {
               </Text>
             </WarningBanners>
           )}
-          <FormGroup margin={'15px'}>
+          <FormGroup margin={isFromCustody ? '15px' : '8px'}>
             <FormItem>
               <FormLabel htmlFor='to'>
                 <FormattedMessage
@@ -196,7 +194,9 @@ const FirstStep = props => {
             <FormGroup>
               <CustodyToAccountMessage coin={'XLM'} />
             </FormGroup>
-          ) : null}
+          ) : (
+            <ExchangePromo />
+          )}
           <FormGroup margin={'15px'}>
             <FormItem>
               <FormLabel htmlFor='amount'>
@@ -271,7 +271,7 @@ const FirstStep = props => {
                       color='red600'
                     >
                       <FormattedMessage
-                        id='modals.sendxlm.firststep.sendtoexchangelearn'
+                        id='buttons.learn_more'
                         defaultMessage='Learn More'
                       />
                     </Link>
@@ -344,7 +344,7 @@ const FirstStep = props => {
               data-e2e='xlmSendContinue'
             >
               <FormattedMessage
-                id='modals.sendxlm.firststep.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

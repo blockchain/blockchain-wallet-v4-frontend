@@ -9,7 +9,6 @@ import {
 import { Button, Link, Text } from 'blockchain-info-components'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType } from '..'
 import { model } from 'data'
 import { Props } from '../template.success'
 import React from 'react'
@@ -113,7 +112,7 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
             size='12px'
           >
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Link>
@@ -179,7 +178,7 @@ export const StxStatus = ({
   userCampaignsInfoResponseList,
   kycState,
   identityVerificationActions
-}: Props & LinkDispatchPropsType) => {
+}: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -301,6 +300,7 @@ export const StxFooterCta = ({
 
   if (stxCampaign) {
     switch (stxCampaign.userCampaignState) {
+      case 'REWARD_SENT':
       case 'TASK_FINISHED':
       case 'REWARD_RECEIVED':
         return (
@@ -316,10 +316,7 @@ export const StxFooterCta = ({
               weight={500}
               style={{ textDecoration: 'underline' }}
             >
-              <FormattedMessage
-                id='scenes.airdrops.blockstack.wallet.here'
-                defaultMessage='here'
-              />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             {'.'}
           </Text>
@@ -333,12 +330,16 @@ export const StxFooterCta = ({
           >
             <Button nature='light' fullwidth data-e2e='contactSupport'>
               <FormattedMessage
-                id='scenes.airdrop.stx.contactsupport'
+                id='buttons.contact_support'
                 defaultMessage='Contact Support'
               />
             </Button>
           </Link>
         )
+      case undefined:
+      case 'REGISTERED':
+      case 'NONE':
+        return null
     }
   }
 
@@ -356,7 +357,7 @@ export const StxFooterCta = ({
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Button>
@@ -384,7 +385,7 @@ export const StxFooterCta = ({
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id='scenes.airdrop.stx.learnmore'
+              id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Button>

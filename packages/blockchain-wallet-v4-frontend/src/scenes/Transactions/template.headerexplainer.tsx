@@ -25,8 +25,8 @@ export const getHeaderExplainer = coinModel => {
       return (
         <ExplainerText>
           <FormattedMessage
-            id='scenes.transaction.headertext.explainer.btc'
-            defaultMessage='Bitcoin (BTC) is the orginal crypto and the internet’s digital currency.'
+            id='scenes.transaction.headertext.explainer.btc1'
+            defaultMessage='Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
           />
           <LearnMoreLink
             href='https://www.blockchain.com/learning-portal/bitcoin-faq'
@@ -34,7 +34,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -55,7 +55,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -76,7 +76,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -97,7 +97,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
@@ -118,7 +118,7 @@ export const getHeaderExplainer = coinModel => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.transaction.content.empty.getstarted.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>
