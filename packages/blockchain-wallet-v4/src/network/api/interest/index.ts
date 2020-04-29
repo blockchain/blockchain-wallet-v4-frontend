@@ -91,7 +91,7 @@ export default ({ nabuUrl, authorizedGet }) => {
     ]
   })
 
-  const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
+  const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/savings/rates'

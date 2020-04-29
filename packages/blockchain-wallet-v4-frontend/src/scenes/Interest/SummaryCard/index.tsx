@@ -5,26 +5,28 @@ import { getData } from './selectors'
 import {
   InterestAccountBalanceType,
   InterestEligibleType,
-  InterestRateType,
-  RemoteDataType,
-  SupportedCoinsType
+  RemoteDataType
 } from 'core/types'
-import { OwnProps } from '..'
 import React, { PureComponent } from 'react'
-import Success from './template.success'
+import SummaryCard from './template.success'
 
-class InterestSummary extends PureComponent<Props> {
+/*
+  TODO List:
+  1) fix TS errors
+  2) error state
+  3) show ineligible reason
+*/
+class SummaryCardContainer extends PureComponent<Props> {
   componentDidMount () {
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
-    this.props.interestActions.fetchInterestRate()
   }
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
-      Failure: val => <Success {...this.props} {...val} />,
-      Loading: () => <Success {...this.props} />,
-      NotAsked: () => <Success {...this.props} />
+      Success: val => <SummaryCard {...this.props} {...val} />,
+      Failure: () => <p>ERROR: TODO</p>,
+      Loading: () => null,
+      NotAsked: () => null
     })
   }
 }
@@ -43,17 +45,15 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type SuccessStateType = {
+export type OwnPropsType = {
   interestAccount: InterestAccountBalanceType
   interestEligible: InterestEligibleType
-  interestRate: InterestRateType
-  supportedCoins: SupportedCoinsType
 }
 
 export type LinkStatePropsType = {
-  data: RemoteDataType<string, Array<SuccessStateType>>
+  data: RemoteDataType<string, Array<OwnPropsType>>
 }
 
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnPropsType & ConnectedProps<typeof connector>
 
-export default connector(InterestSummary)
+export default connector(SummaryCardContainer)

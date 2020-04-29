@@ -76,7 +76,7 @@ export default ({ api }: { api: APIType }) => {
       const response: ReturnType<
         typeof api.getInterestSavingsRate
       > = yield call(api.getInterestSavingsRate)
-      yield put(A.fetchInterestRateSuccess(response.interestRate))
+      yield put(A.fetchInterestRateSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestRateFailure(error))
