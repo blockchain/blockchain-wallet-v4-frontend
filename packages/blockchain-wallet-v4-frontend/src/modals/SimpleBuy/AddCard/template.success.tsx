@@ -124,7 +124,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </ErrorCartridge>
           </FormGroup>
         )}
-        <FormGroup>
+        <FormGroup margin='24px'>
           <Link
             size='13px'
             style={{
@@ -141,7 +141,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Link>
         </FormGroup>
-        <FormGroup margin='20px'>
+        <FormGroup>
           <Button
             nature='primary'
             data-e2e='addCardEnter'

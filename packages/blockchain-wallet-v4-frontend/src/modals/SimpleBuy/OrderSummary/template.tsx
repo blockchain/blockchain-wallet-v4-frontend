@@ -176,8 +176,8 @@ const Success: React.FC<Props> = props => {
             }
           >
             <FormattedMessage
-              id='modals.simplebuy.summary.retry_card'
-              defaultMessage='Retry Card Payment'
+              id='modals.simplebuy.summary.complete_card_payment'
+              defaultMessage='Complete Card Payment'
             />
           </Button>
         </Bottom>

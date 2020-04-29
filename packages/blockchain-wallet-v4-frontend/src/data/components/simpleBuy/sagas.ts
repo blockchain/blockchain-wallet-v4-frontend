@@ -477,20 +477,31 @@ export default ({
     }
   }
 
-  const pollErrorHandler = function * (state: SBCardStateType) {
+  const pollSBCardErrorHandler = function * (state: SBCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
     yield take(AT.ACTIVATE_SB_CARD_SUCCESS)
     yield put(actions.form.startSubmit('addCCForm'))
+
+    let error
+    switch (state) {
+      case 'PENDING':
+        error =
+          'We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
+        break
+      default:
+        error = `Card state is: ${state}. Please try again or contact support if you believe this occured in error.`
+    }
+
     yield put(
       actions.form.stopSubmit('addCCForm', {
-        _error: `Card state is: ${state}. Please try again or contact support if you believe this occured in error.`
+        _error: error
       })
     )
   }
 
   const pollSBCard = function * ({ payload }: ReturnType<typeof A.pollSBCard>) {
     let retryAttempts = 0
-    let maxRetryAttempts = 40
+    let maxRetryAttempts = 20
 
     const { cardId } = payload
     let card: ReturnType<typeof api.getSBCard> = yield call(
@@ -512,12 +523,12 @@ export default ({
 
     switch (card.state) {
       case 'BLOCKED':
-        yield call(pollErrorHandler, card.state)
+        yield call(pollSBCardErrorHandler, card.state)
         return
       case 'ACTIVE':
         return yield put(A.createSBOrder(card.id))
       default:
-        yield call(pollErrorHandler, card.state)
+        yield call(pollSBCardErrorHandler, card.state)
     }
   }
 
