@@ -1,12 +1,5 @@
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import {
-  CoinType,
-  InterestAccountBalanceType,
-  InterestRateType,
-  NabuApiErrorType,
-  RemoteDataType
-} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
@@ -18,12 +11,14 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { RootState } from 'data/rootReducer'
-import { UserDataType } from 'data/types'
-import EarnInterestInfo from './InterestInfo'
-import InterestHistory from './InterestHistory'
-import InterestSummary from './InterestDepositBox'
+import { InterestRateType, RemoteDataType } from 'core/types'
+import { RatesType, UserDataType } from 'data/types'
+import InterestHistory, { SuccessStateType } from './InterestHistory'
+import IntroCard from './IntroCard'
+import SummaryCard from './SummaryCard'
 
+import { getData } from './selectors'
+import { Remote } from 'core'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -37,35 +32,41 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-class Interest extends React.PureComponent<Props> {
+/*
+  TODO List:
+  1) fix TS errors
+  2) fetch txs and show table if txs exist
+*/
+class Interest extends React.PureComponent<Props, StateType> {
+  state = { isGoldTier: true }
+
   componentDidMount () {
-    this.checkUserData()
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestLimits()
+    this.props.interestActions.fetchInterestRate()
   }
 
   componentDidUpdate (prevProps: Props) {
     if (
-      this.props.userDataR.getOrElse(null) !==
-      prevProps.userDataR.getOrElse(null)
+      !Remote.Success.is(prevProps.data) &&
+      Remote.Success.is(this.props.data)
     ) {
       this.checkUserData()
     }
   }
 
   checkUserData = () => {
-    const userData = this.props.userDataR.getOrElse({
-      tiers: { current: 0 }
+    // i think we might need to create nabu user here
+    const data = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } }
     })
-    const tier = userData.tiers ? userData.tiers.current : 0
-    const isDisabled = tier < 2
-    /* eslint-disable */
-    this.setState({ isDisabled })
-    /* eslint-enable */
-    // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
+    const tier = data.userData.tiers ? data.userData.tiers.current : 0
+    const isGoldTier = tier >= 2
+    this.setState({ isGoldTier })
   }
 
   render () {
+    const { isGoldTier } = this.state
+    const { data } = this.props
+
     return (
       <SceneWrapper>
         <SceneHeader>
@@ -96,28 +97,39 @@ class Interest extends React.PureComponent<Props> {
             </LearnMoreText>
           </LearnMoreLink>
         </SceneSubHeaderText>
-        <Container>
-          <EarnInterestInfo {...this.state} {...this.props} />
-          <InterestSummary {...this.state} {...this.props} />
-        </Container>
-        <InterestHistory />
+        {data.cata({
+          Success: val => (
+            <>
+              <Container>
+                {/*
+                // @ts-ignore PHIL HELP */}
+                <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
+                {/*
+                // @ts-ignore PHIL HELP */}
+                <SummaryCard {...val} {...this.props} isGoldTier={isGoldTier} />
+              </Container>
+              <InterestHistory />
+            </>
+          ),
+          Failure: () => null,
+          Loading: () => null,
+          NotAsked: () => null
+        })}
       </SceneWrapper>
     )
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  userDataR: selectors.modules.profile.getUserData(state),
-  interestRateR: selectors.components.interest.getInterestRate(state)
+const mapStateToProps = (state): LinkStatePropsType => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  identityVerificationActions: bindActionCreators(
+  idvActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(
@@ -125,23 +137,24 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type OwnProps = {
-  coin: CoinType
-  interestAccountBalance: InterestAccountBalanceType
-  interestRate: InterestRateType
-  isDisabled: boolean
+export type StateType = {
+  isGoldTier: boolean
 }
-
+export type SuccessStateType = {
+  btcRate: RatesType
+  interestRate: InterestRateType
+  userData: UserDataType
+}
 type LinkStatePropsType = {
-  interestRateR: RemoteDataType<string, InterestRateType>
-  userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
+  data: RemoteDataType<string, SuccessStateType>
 }
 export type LinkDispatchPropsType = {
-  identityVerificationActions: typeof actions.components.identityVerification
+  idvActions: typeof actions.components.identityVerification
   interestActions: typeof actions.components.interest
-  modalActions: typeof actions.modals
 }
 
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = StateType &
+  SuccessStateType &
+  ConnectedProps<typeof connector>
 
 export default connector(Interest)

@@ -33,5 +33,6 @@ export default ({ api }: { api: APIType }) => {
       interestSagas.fetchInterestTransactions
     )
     yield takeLatest(AT.INITIALIZE_INTEREST, interestSagas.initializeInterest)
+    yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

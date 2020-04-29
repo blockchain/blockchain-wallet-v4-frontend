@@ -38,7 +38,6 @@ const getRatesSelector = (coin: CoinType, state) => {
       return selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
 }
-
 export const getBalance = state => {
   const offersR = selectors.components.borrow.getOffers(state)
   const values = selectors.form.getFormValues('initBorrow')(state) as {

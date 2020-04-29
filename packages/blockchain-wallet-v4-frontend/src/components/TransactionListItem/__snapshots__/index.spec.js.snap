@@ -133,6 +133,7 @@ exports[`ListItemContainer renders correctly 1`] = `
     preferencesActions={
       Object {
         "hideAirdropClaimModal": [Function],
+        "hideInterestInfoBox": [Function],
         "hideKycCompleted": [Function],
         "hideKycGetStarted": [Function],
         "hideLockboxSoftwareDownload": [Function],
