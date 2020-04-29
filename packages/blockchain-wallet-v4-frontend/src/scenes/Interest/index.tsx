@@ -44,6 +44,7 @@ class Interest extends React.PureComponent<Props> {
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestLimits()
     this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestBalance()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -64,7 +65,6 @@ class Interest extends React.PureComponent<Props> {
     /* eslint-disable */
     this.setState({ isDisabled })
     /* eslint-enable */
-    // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
   render () {
@@ -109,8 +109,9 @@ class Interest extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  userDataR: selectors.modules.profile.getUserData(state),
-  interestRateR: selectors.components.interest.getInterestRate(state)
+  btcRateR: selectors.core.data.btc.getRates(state),
+  interestRateR: selectors.components.interest.getInterestRate(state),
+  userDataR: selectors.modules.profile.getUserData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -133,11 +134,11 @@ export type OwnProps = {
   interestEligible: InterestEligibleType
   interestRate: InterestRateType
   isDisabled: boolean
-  rates: RatesType
   userData: UserDataType
 }
 
 export type LinkStatePropsType = {
+  btcRateR: RemoteDataType<string, RatesType>
   interestRateR: RemoteDataType<string, InterestRateType>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }

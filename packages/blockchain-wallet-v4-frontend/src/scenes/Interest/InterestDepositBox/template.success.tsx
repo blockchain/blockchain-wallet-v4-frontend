@@ -6,8 +6,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-
 import { FormattedMessage } from 'react-intl'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props } from '.'
 import React, { ReactElement } from 'react'
@@ -77,14 +77,16 @@ function Success (props: Props): ReactElement {
       <Separator />
       <AmountRow>
         <AmountColumn>
-          <Text
-            size='16px'
+          <FiatDisplay
             color='grey800'
+            size='16px'
             weight={600}
+            currency='USD'
+            coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            $0.00
-          </Text>
+            100000000
+          </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
             {interestAccountBalance.BTC} BTC
           </Text>

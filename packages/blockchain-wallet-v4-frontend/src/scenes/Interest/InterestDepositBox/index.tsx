@@ -10,7 +10,6 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { OwnProps } from '..'
-import { RatesType } from 'data/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -18,7 +17,6 @@ import Success from './template.success'
 class InterestSummary extends PureComponent<Props> {
   componentDidMount () {
     this.props.profileActions.createUser()
-    this.props.interestActions.fetchInterestBalance()
   }
 
   fetchInterestInfo = () => {}
@@ -52,7 +50,6 @@ export type SuccessStateType = {
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   interestRate: InterestRateType
-  rates: RatesType
   supportedCoins: SupportedCoinsType
 }
 
