@@ -8,6 +8,7 @@ import {
 } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props } from '.'
@@ -57,6 +58,7 @@ function SummaryCard (props: Props): ReactElement {
     modalActions,
     showInterestInfoBox
   } = props
+
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
@@ -94,31 +96,31 @@ function SummaryCard (props: Props): ReactElement {
             color='grey800'
             size='16px'
             weight={600}
-            currency='USD'
             coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            100000000
+            {interestAccountBalance.BTC.balance}
           </FiatDisplay>
-          <Text size='12px' style={{ lineHeight: '1.5' }}>
-            {interestAccountBalance.BTC} BTC
-          </Text>
+          <CoinDisplay coin='BTC' size='12px' style={{ lineHeight: '1.5' }}>
+            {interestAccountBalance.BTC.balance}
+          </CoinDisplay>
         </AmountColumn>
         <AmountColumn>
-          <Text
-            size='16px'
+          <FiatDisplay
             color='grey800'
+            size='16px'
             weight={600}
+            coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            $0
-          </Text>
+            {interestAccountBalance.BTC.totalInterest}
+          </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
             Total Interest Earned
           </Text>
         </AmountColumn>
       </AmountRow>
-      {interestAccountBalance.BTC ? (
+      {interestAccountBalance.BTC.balance ? (
         <Button
           style={{ marginTop: '16px' }}
           nature='light'

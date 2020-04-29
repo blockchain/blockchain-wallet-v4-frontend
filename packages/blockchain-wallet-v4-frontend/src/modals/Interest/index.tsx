@@ -77,7 +77,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   step: selectors.components.interest.getStep(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
@@ -90,9 +91,7 @@ type OwnProps = ModalPropsType
 type LinkStatePropsType = {
   step: InterestStep
 }
-type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
+
 type State = { direction: 'left' | 'right'; show: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

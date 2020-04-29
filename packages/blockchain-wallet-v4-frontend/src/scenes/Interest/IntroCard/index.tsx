@@ -142,7 +142,6 @@ class IntroCard extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  // @ts-ignore PHIL HELP
   showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 

@@ -1,5 +1,6 @@
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import {
   Icon,
@@ -11,6 +12,7 @@ import {
 } from 'blockchain-info-components'
 import { IconBackground, Value } from './model'
 import { SuccessStateType } from '.'
+import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -121,9 +123,28 @@ function Success (props: SuccessStateType): ReactElement {
                 <Value data-e2e='interestTransactionTo'>To Placeholder</Value>
               </TableCell>
               <TableCell width='20%'>
-                <Value data-e2e='interestTransactionAmount'>
-                  {transaction.amount.value} {transaction.amount.symbol}
-                </Value>
+                <div>
+                  <FiatDisplay
+                    color='grey800'
+                    size='14px'
+                    weight={600}
+                    coin='BTC'
+                    style={{ marginBottom: '4px' }}
+                    data-e2e='interestFiatAmount'
+                  >
+                    {transaction.amount.value}
+                  </FiatDisplay>
+                  <CoinDisplay
+                    coin='BTC'
+                    color='grey600'
+                    weight={500}
+                    data-e2e='interestCoinAmount'
+                    size='13px'
+                    style={{ lineHeight: '1.5' }}
+                  >
+                    {transaction.amount.value}
+                  </CoinDisplay>
+                </div>
               </TableCell>
             </TableRow>
           )

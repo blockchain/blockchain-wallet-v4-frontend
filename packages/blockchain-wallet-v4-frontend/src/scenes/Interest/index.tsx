@@ -12,7 +12,7 @@ import {
   SceneWrapper
 } from 'components/Layout'
 import { InterestRateType, RemoteDataType } from 'core/types'
-import { RatesType, UserDataType } from 'data/types'
+import { UserDataType } from 'data/types'
 import InterestHistory, { SuccessStateType } from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
@@ -124,7 +124,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   idvActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
@@ -141,16 +141,11 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  btcRate: RatesType
   interestRate: InterestRateType
   userData: UserDataType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-}
-export type LinkDispatchPropsType = {
-  idvActions: typeof actions.components.identityVerification
-  interestActions: typeof actions.components.interest
 }
 
 export type Props = StateType &

@@ -16,7 +16,6 @@ import SummaryCard from './template.success'
   1) fix TS errors
   2) error state
   3) show ineligible reason
-  4) balance always shows in USD not wallet currency
 */
 class SummaryCardContainer extends PureComponent<Props> {
   componentDidMount () {

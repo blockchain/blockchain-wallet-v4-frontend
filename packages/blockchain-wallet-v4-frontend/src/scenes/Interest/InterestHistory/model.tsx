@@ -7,12 +7,12 @@ export const Value = styled(Text)<{ size?: string }>`
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
-  color: ${props => props.theme.grey800};
+  color: ${props => props.theme.grey600};
   line-height: 1.5;
   * {
     font-size: 14px !important;
     font-weight: 500 !important;
-    color: ${props => props.theme.grey800} !important;
+    color: ${props => props.theme.grey600} !important;
   }
 `
 

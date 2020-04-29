@@ -7,8 +7,8 @@ enum IneligibilityReason {
 }
 
 export type InterestAccountBalanceType = {
-  BTC: {
-    balanceAvailable: number
+  [key in CoinType]: {
+    balance: number
     fiatAmount: number
     fiatCurrency: FiatType
     pendingDeposit: number
