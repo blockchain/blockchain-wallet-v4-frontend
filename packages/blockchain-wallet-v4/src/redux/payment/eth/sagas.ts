@@ -350,6 +350,15 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { isErc20 }))
       },
 
+      setIsRetryAttempt (isRetryAttempt: boolean, nonce: string) {
+        return makePayment(
+          mergeRight(p, {
+            isRetryAttempt,
+            from: { ...p.from, nonce: Number(nonce) }
+          })
+        )
+      },
+
       setCoin (coin) {
         return makePayment(mergeRight(p, { coin }))
       },
@@ -380,6 +389,8 @@ export default ({ api }) => {
           setIsErc20: val => chain(gen, payment => payment.setIsErc20(val)),
           setIsContract: val =>
             chain(gen, payment => payment.setIsContract(val)),
+          setIsRetryAttempt: val =>
+            chain(gen, payment => payment.setIsRetryAttempt(val)),
           setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
           description: message =>
             chain(gen, payment => payment.description(message)),
