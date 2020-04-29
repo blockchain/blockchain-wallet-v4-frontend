@@ -132,6 +132,7 @@ type MessagesType = {
   'components.alerts.rename_bch_wallet_error': 'Failed to update Bitcoin Cash account label'
   'components.alerts.rename_bch_wallet_success': 'BCH wallet name updated'
   'components.alerts.rename_btc_wallet_success': 'BTC wallet name updated'
+  'components.alerts.resend_coin_success': 'Your {coinName} transaction has been resent.'
   'components.alerts.reset_twofa_info': 'Reset two-factor authentication has been successfully submitted.'
   'components.alerts.restore_error': 'Error restoring your wallet'
   'components.alerts.restore_success': 'Your wallet has been successfully restored'

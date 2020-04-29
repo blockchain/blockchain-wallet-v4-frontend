@@ -271,6 +271,7 @@ export default ({
     const fromType = payment.value().from.type
     const toAddress = path(['to', 'address'], payment.value())
     const fromAddress = path(['from', 'address'], payment.value())
+    const isRetryAttempt = payment.value().isRetryAttempt
 
     try {
       // Sign payment
@@ -372,9 +373,12 @@ export default ({
           yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
         }
         yield put(
-          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: coinModel.displayName
-          })
+          actions.alerts.displaySuccess(
+            isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
+            {
+              coinName: coinModel.displayName
+            }
+          )
         )
       }
       yield put(

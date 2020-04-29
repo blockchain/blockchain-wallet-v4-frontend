@@ -718,6 +718,14 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='BTC wallet name updated'
         />
       )
+    case C.RESEND_COIN_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.resend_coin_success'
+          defaultMessage='Your {coinName} transaction has been resent.'
+          values={data}
+        />
+      )
     case C.RESET_TWOFA_INFO:
       return buildMessageTemplate(
         <FormattedMessage

@@ -35,11 +35,11 @@ const Wrapper = styled.div`
 `
 
 const Chart = props => {
-  const { coin, time, data, currencySymbol } = props
+  const { coin, time, data, currency } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
   const interval = calculateInterval(coin, time)
-  let config = getConfig(coin, currencySymbol, data, decimals, interval, start)
+  let config = getConfig(coin, currency, data, decimals, interval, start)
 
   const [chartObj, setChartObj] = useState({
     config,
@@ -49,7 +49,7 @@ const Chart = props => {
   })
 
   useEffect(() => {
-    config = getConfig(coin, currencySymbol, data, decimals, interval, start)
+    config = getConfig(coin, currency, data, decimals, interval, start)
     setChartObj({ config })
   }, [])
 
