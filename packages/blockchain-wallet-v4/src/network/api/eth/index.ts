@@ -9,20 +9,10 @@ export default ({ apiUrl, get, post }) => {
     })
 
   const getEthFees = () =>
-    Promise.resolve({
-      gasLimit: 21000,
-      gasLimitContract: 65000,
-      limits: {
-        min: 1,
-        max: 1000
-      },
-      regular: 0.000001,
-      priority: 12
+    get({
+      url: apiUrl,
+      endPoint: '/mempool/fees/eth'
     })
-  // get({
-  //   url: apiUrl,
-  //   endPoint: '/mempool/fees/eth'
-  // })
 
   const getEthTicker = () =>
     get({
