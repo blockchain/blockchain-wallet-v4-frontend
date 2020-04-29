@@ -97,9 +97,9 @@ export const fetchTransactions = (address, reset) => ({
   type: AT.FETCH_ETH_TRANSACTIONS,
   payload: { address, reset }
 })
-export const fetchTransactionsLoading = (address, reset) => ({
+export const fetchTransactionsLoading = reset => ({
   type: AT.FETCH_ETH_TRANSACTIONS_LOADING,
-  payload: { address, reset }
+  payload: { reset }
 })
 export const fetchTransactionsSuccess = (transactions, reset) => ({
   type: AT.FETCH_ETH_TRANSACTIONS_SUCCESS,

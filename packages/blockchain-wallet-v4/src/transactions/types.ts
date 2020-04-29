@@ -39,6 +39,7 @@ export type EthTxType = {
   from: string
   hash: string
   insertedAt: number
+  state: 'PENDING' | 'CONFIRMED'
   time: string
   timeFormatted: string
   to: string
