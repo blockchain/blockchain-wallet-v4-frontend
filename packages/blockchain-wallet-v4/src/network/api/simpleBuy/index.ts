@@ -15,6 +15,7 @@ import {
   SBSuggestedAmountType
 } from './types'
 import { Moment } from 'moment'
+import { UserDataType } from 'data/types'
 import axios from 'axios'
 
 export default ({
@@ -45,15 +46,18 @@ export default ({
 
   const createSBCard = (
     currency: FiatType,
-    address: NabuAddressType
+    address: NabuAddressType,
+    email: UserDataType['email']
   ): SBCardType =>
     authorizedPost({
       url: nabuUrl,
       endPoint: '/payments/cards',
       contentType: 'application/json',
+      removeDefaultPostData: true,
       data: {
         currency,
-        address
+        address,
+        email
       }
     })
 

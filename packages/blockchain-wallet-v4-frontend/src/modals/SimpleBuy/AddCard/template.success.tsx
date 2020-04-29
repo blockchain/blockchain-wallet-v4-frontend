@@ -126,7 +126,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <FormGroup>
           <Link
-            style={{ textAlign: 'center', width: '100%' }}
+            size='13px'
+            style={{
+              textAlign: 'center',
+              width: '100%'
+            }}
             onClick={() =>
               props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })
             }
@@ -137,7 +141,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Link>
         </FormGroup>
-        <FormGroup>
+        <FormGroup margin='20px'>
           <Button
             nature='primary'
             data-e2e='addCardEnter'

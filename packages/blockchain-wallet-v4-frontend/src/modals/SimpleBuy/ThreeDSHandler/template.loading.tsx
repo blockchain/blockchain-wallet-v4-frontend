@@ -42,10 +42,17 @@ const Loading: React.FC<Props> = ({ order, polling }) => {
         color='grey600'
         style={{ marginTop: '20px' }}
       >
-        <FormattedMessage
-          id='modals.simplebuy.linking_card.time'
-          defaultMessage='This could take up to 20 seconds. Please do not close this window.'
-        />
+        {polling ? (
+          <FormattedMessage
+            id='modals.simplebuy.linking_card.time_extended'
+            defaultMessage='This could take up to 2 minutes. Please do not close this window.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.linking_card.time'
+            defaultMessage='This could take up to 20 seconds. Please do not close this window.'
+          />
+        )}
       </Text>
     </Wrapper>
   )

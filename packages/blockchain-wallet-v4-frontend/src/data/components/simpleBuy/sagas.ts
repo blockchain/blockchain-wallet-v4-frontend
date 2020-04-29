@@ -267,9 +267,14 @@ export default ({
         const address = billingAddressForm || userData.address
         if (!address) throw new Error('NO_USER_ADDRESS')
 
-        card = yield call(api.createSBCard, currency, {
-          ...address
-        })
+        card = yield call(
+          api.createSBCard,
+          currency,
+          {
+            ...address
+          },
+          userData.email
+        )
       } else {
         card = yield call(api.getSBCard, cardId)
       }

@@ -1047,6 +1047,7 @@ type MessagesType = {
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
   'modals.simplebuy.linking_card': 'Securely Linking Your Card'
   'modals.simplebuy.linking_card.time': 'This could take up to 20 seconds. Please do not close this window.'
+  'modals.simplebuy.linking_card.time_extended': 'This could take up to 2 minutes. Please do not close this window.'
   'modals.simplebuy.localcurrency': 'Select the local currency for your wallet.'
   'modals.simplebuy.name_on_card': 'Name on Card'
   'modals.simplebuy.ordersummary': 'Buy Order Summary'
