@@ -538,6 +538,7 @@ export default ({
       yield delay(3000)
     }
 
+    yield put(A.fetchSBOrders())
     yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
   }
 

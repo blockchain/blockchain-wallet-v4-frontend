@@ -1416,6 +1416,7 @@ type MessagesType = {
   'scenes.home.banner.coinifyToSB.revamped': "We've revamped the Buy Crypto experience"
   'scenes.home.banner.finishsigningup': 'Finish Signing Up'
   'scenes.home.banner.pendingbuy': 'Pending Buy'
+  'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
   'scenes.home.banner.receivetransfer': 'Once we receive your bank transfer, your buy order will complete.'
   'scenes.home.banner.sborder.details': 'View Details'
   'scenes.home.banner.signupapprove': 'Once you finish and get approved, start buying crypto.'
