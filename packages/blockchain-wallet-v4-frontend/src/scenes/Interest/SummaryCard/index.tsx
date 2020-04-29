@@ -1,12 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import {
+  CoinType,
   InterestAccountBalanceType,
   InterestEligibleType,
-  RemoteDataType
+  RemoteDataType,
+  SupportedCoinsType
 } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
+import { getData } from './selectors'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import SummaryCard from './template.success'
@@ -49,9 +51,11 @@ const connector = connect(
 )
 
 export type OwnPropsType = {
+  coin: CoinType
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   showInterestInfoBox: boolean
+  supportedCoins: SupportedCoinsType
 }
 
 export type LinkStatePropsType = {

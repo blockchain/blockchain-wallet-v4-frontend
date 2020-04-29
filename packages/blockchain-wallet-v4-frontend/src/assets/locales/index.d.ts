@@ -1288,7 +1288,7 @@ type MessagesType = {
   'scenes.earninterest.earninfo.verified.body': 'Earn up to {rate}% AER instantly when you deposit BTC to your Interest Account.'
   'scenes.earninterest.earnheaderverified': 'Earn interest on your Crypto today.'
   'scenes.earninterest.earnupgrade.header': 'Put your crypto to work by upgrading to Gold Level.'
-  'scenes.earninterest.form.earn3percent': 'Earn {interestRate}% AER on your BTC'
+  'scenes.earninterest.form.earn3percent': 'Earn up to {interestRate}% AER on your BTC.'
   'scenes.earninterest.form.earnbutton': 'Earn Interest'
   'scenes.earninterest.history.header': 'History'
   'scenes.earninterest.history.type': 'Type'

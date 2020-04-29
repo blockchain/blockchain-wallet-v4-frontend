@@ -27,9 +27,9 @@ const InterestTableCell = styled(TableCell)`
 `
 
 function Success (props: SuccessStateType): ReactElement {
-  const { interestHistory, supportedCoins } = props
+  const { coin, interestHistory, supportedCoins } = props
   // ToDo: array of coins to supported Coins so I can make it any
-  const { coinTicker, colorCode } = supportedCoins.BTC
+  const { coinTicker, colorCode } = supportedCoins[coin]
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
@@ -128,14 +128,14 @@ function Success (props: SuccessStateType): ReactElement {
                     color='grey800'
                     size='14px'
                     weight={600}
-                    coin='BTC'
+                    coin={coin}
                     style={{ marginBottom: '4px' }}
                     data-e2e='interestFiatAmount'
                   >
                     {transaction.amount.value}
                   </FiatDisplay>
                   <CoinDisplay
-                    coin='BTC'
+                    coin={coin}
                     color='grey600'
                     weight={500}
                     data-e2e='interestCoinAmount'

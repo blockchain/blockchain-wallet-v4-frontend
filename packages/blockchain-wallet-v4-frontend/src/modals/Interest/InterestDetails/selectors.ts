@@ -2,7 +2,7 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
-  const coin = selectors.components.borrow.getCoinType(state)
+  const coin = selectors.components.interest.getCoinType(state)
   const interestAccountBalanceR = selectors.components.interest.getInterestAccountBalance(
     state
   )

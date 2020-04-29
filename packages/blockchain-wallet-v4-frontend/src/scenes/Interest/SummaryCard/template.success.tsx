@@ -83,7 +83,7 @@ function SummaryCard (props: Props): ReactElement {
         >
           <FormattedMessage
             id='scenes.earninterest.form.earn3percent'
-            defaultMessage='Earn {interestRate}% AER on your BTC'
+            defaultMessage='Earn up to {interestRate}% AER on your BTC.'
             // TODO make this more coin interchangeable
             values={{ interestRate: prop('BTC', interestRate) }}
           />
