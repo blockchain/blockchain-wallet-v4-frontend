@@ -23,9 +23,9 @@ const IconWrapper = styled.div`
 
 class IntroCard extends PureComponent<Props> {
   render () {
-    // @ts-ignore PHIL HELP
     const {
       idvActions,
+      // @ts-ignore PHIL HELP
       interestRate,
       isGoldTier,
       showInterestInfoBox,
