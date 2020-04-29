@@ -290,6 +290,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The interest earned is based the current APY and is subject to change.'
           />
         </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.tooltip.description'
+            defaultMessage='DONTFORGETTOCHANGEME'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.lock.tooltip.description'
+            defaultMessage='DONTFORGETTOCHANGEME'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

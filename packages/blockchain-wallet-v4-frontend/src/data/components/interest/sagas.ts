@@ -1,11 +1,11 @@
 import * as A from './actions'
+import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { InterestTransactionResponseType } from 'core/types'
 import { nth } from 'ramda'
-import { selectors } from 'data'
 
 export default ({ api }: { api: APIType }) => {
   const fetchInterestBalance = function * () {
@@ -122,6 +122,13 @@ export default ({ api }: { api: APIType }) => {
     yield put(initialize('interestForm', initialValues))
   }
 
+  const showInterestModal = function * ({
+    payload
+  }: ReturnType<typeof A.showInterestModal>) {
+    yield put(A.setInterestStep(payload.step))
+    yield put(actions.modals.showModal('INTEREST_MODAL'))
+  }
+
   return {
     fetchInterestBalance,
     fetchInterestEligible,
@@ -130,6 +137,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestPaymentAccount,
     fetchInterestRate,
     fetchInterestTransactions,
-    initializeInterest
+    initializeInterest,
+    showInterestModal
   }
 }
