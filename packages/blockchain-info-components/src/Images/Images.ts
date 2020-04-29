@@ -1,3 +1,5 @@
+import adBitcoinGames from './img/ad-bitcoin-games.png'
+import adBitcoinGames2 from './img/ad-bitcoin-games@2x.png'
 import airdropEnrolled from './img/airdrop-enrolled.png'
 import airdropWelcome from './img/airdrop-welcome.png'
 import airdropWelcome2 from './img/airdrop-welcome@2x.png'
@@ -107,6 +109,8 @@ import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
 
 const Images = {
+  'ad-bitcoin-games': adBitcoinGames,
+  'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
   'airdrop-welcome-banner': airdropWelcomeBanner,
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
