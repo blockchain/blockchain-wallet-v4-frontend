@@ -89,9 +89,14 @@ export default ({
       url: nabuUrl,
       endPoint: `/simple-buy/trades/${order.id}`,
       contentType: 'application/json',
+      removeDefaultPostData: true,
       data: {
         action: 'confirm',
-        attributes
+        attributes: attributes || {
+          everypay: {
+            customerUrl: 'https://login.blockchain.com'
+          }
+        }
       }
     })
 
