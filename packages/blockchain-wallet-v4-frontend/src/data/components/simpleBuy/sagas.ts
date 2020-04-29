@@ -485,11 +485,10 @@ export default ({
     let error
     switch (state) {
       case 'PENDING':
-        error =
-          'We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
+        error = 'PENDING_CARD_AFTER_POLL'
         break
       default:
-        error = `Card state is: ${state}. Please try again or contact support if you believe this occured in error.`
+        error = `LINK_CARD_FAILED`
     }
 
     yield put(

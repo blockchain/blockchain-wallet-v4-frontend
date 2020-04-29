@@ -120,7 +120,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
-              Error: {props.error}
+              {props.error === 'PENDING_CARD_AFTER_POLL' && (
+                <FormattedMessage
+                  id='modals.simplebuy.card_pending_after_poll'
+                  defaultMessage='We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
+                />
+              )}
+              {props.error === 'LINK_CARD_FAILED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.link_card_failed'
+                  defaultMessage='Card failed to link. Please try again or contact support if you believe this occured in error.'
+                />
+              )}
             </ErrorCartridge>
           </FormGroup>
         )}
