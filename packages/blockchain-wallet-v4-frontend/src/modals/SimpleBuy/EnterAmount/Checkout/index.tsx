@@ -82,11 +82,11 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
+  formActions: bindActionCreators(actions.form, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

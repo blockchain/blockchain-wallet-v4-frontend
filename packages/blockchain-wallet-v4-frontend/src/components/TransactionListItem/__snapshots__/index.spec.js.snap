@@ -148,6 +148,29 @@ exports[`ListItemContainer renders correctly 1`] = `
         "toggleCoinDisplayed": [Function],
       }
     }
+    sendEthActions={
+      Object {
+        "destroyed": [Function],
+        "initialized": [Function],
+        "retrySendEth": [Function],
+        "sendEthCheckIsContract": [Function],
+        "sendEthCheckIsContractFailure": [Function],
+        "sendEthCheckIsContractLoading": [Function],
+        "sendEthCheckIsContractSuccess": [Function],
+        "sendEthFirstStepFeeToggled": [Function],
+        "sendEthFirstStepMaximumAmountClicked": [Function],
+        "sendEthFirstStepMaximumFeeClicked": [Function],
+        "sendEthFirstStepMinimumFeeClicked": [Function],
+        "sendEthFirstStepPriorityFeeClicked": [Function],
+        "sendEthFirstStepRegularFeeClicked": [Function],
+        "sendEthFirstStepSubmitClicked": [Function],
+        "sendEthPaymentUpdatedFailure": [Function],
+        "sendEthPaymentUpdatedLoading": [Function],
+        "sendEthPaymentUpdatedSuccess": [Function],
+        "sendEthSecondStepCancelClicked": [Function],
+        "sendEthSecondStepSubmitClicked": [Function],
+      }
+    }
     store={
       Object {
         "clearActions": [Function],
@@ -215,6 +238,7 @@ exports[`ListItemContainer renders correctly 1`] = `
   >
     <Component
       handleEditDescription={[Function]}
+      handleRetrySendEth={[Function]}
       handleToggle={[Function]}
       isToggled={false}
       onViewTxDetails={[Function]}

@@ -83,7 +83,7 @@ type MessagesType = {
   'components.alerts.hint_update_success': 'Hint has been successfully updated'
   'components.alerts.import_legacy_success': 'Address added successfully'
   'components.alerts.incorrect_bip38_password_error': 'Incorrect BIP38 password.'
-  'components.alerts.iprestriction_login_error': 'This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under'
+  'components.alerts.iprestriction_login_error': 'This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
   'components.alerts.iprestriction_login_error-link': 'Need some help?'
   'components.alerts.iprestriction_no_whitelist_error': 'You must add at least one IP address to the whitelist to enable Login IP Restriction'
   'components.alerts.iprestriction_update_error': 'Failed to update IP restriction'
@@ -121,8 +121,10 @@ type MessagesType = {
   'components.alerts.payment_received_eth': "You've just received an Ethereum payment"
   'components.alerts.payment_received_eth_pending': "You've just received a pending Ethereum payment"
   'components.alerts.payment_xlm_received': "You've just received a Stellar payment"
+  'components.alerts.paymentconfirmed': 'Your transaction has been confirmed.'
   'components.alerts.pbkdf2_update_success': 'PBKDF2 iterations changed successfully'
   'components.alerts.please_login': 'Please login to your wallet to proceed'
+  'components.alerts.pleasetryagain': 'Something went wrong. Please try again.'
   'components.alerts.private_key_incorrect': 'Invalid Private Key.'
   'components.alerts.qr_scanner_not_allowed': 'Please enable camera to use this feature'
   'components.alerts.receive_bch_success': 'You have received a bitcoin cash payment.'
@@ -133,7 +135,8 @@ type MessagesType = {
   'components.alerts.rename_bch_wallet_error': 'Failed to update Bitcoin Cash account label'
   'components.alerts.rename_bch_wallet_success': 'BCH wallet name updated'
   'components.alerts.rename_btc_wallet_success': 'BTC wallet name updated'
-  'components.alerts.reset_twofa_info': 'Reset 2-factor authentication has been successfully submitted.'
+  'components.alerts.resend_coin_success': 'Your {coinName} transaction has been resent.'
+  'components.alerts.reset_twofa_info': 'Reset two-factor authentication has been successfully submitted.'
   'components.alerts.restore_error': 'Error restoring your wallet'
   'components.alerts.restore_success': 'Your wallet has been successfully restored'
   'components.alerts.restore_wallet_info': 'Restoring wallet...'

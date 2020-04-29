@@ -53,6 +53,11 @@ class ListItemContainer extends React.PureComponent {
     }
   }
 
+  handleRetrySendEth = (e, txHash) => {
+    e.stopPropagation()
+    this.props.sendEthActions.retrySendEth(txHash)
+  }
+
   onViewTxDetails = coin => {
     this.props.analyticsActions.logEvent([
       ...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER,
@@ -68,6 +73,7 @@ class ListItemContainer extends React.PureComponent {
         coinTicker={coinTicker}
         currency={currency}
         handleEditDescription={this.handleEditDescription}
+        handleRetrySendEth={this.handleRetrySendEth}
         handleToggle={this.handleToggle}
         isToggled={this.state.isToggled}
         onViewTxDetails={this.onViewTxDetails}
@@ -88,6 +94,7 @@ const mapDispatchToProps = dispatch => ({
   ethTxActions: bindActionCreators(actions.core.data.eth, dispatch),
   logActions: bindActionCreators(actions.logs, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })

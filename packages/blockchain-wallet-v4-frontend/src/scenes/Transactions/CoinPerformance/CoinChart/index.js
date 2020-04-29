@@ -42,12 +42,12 @@ export class CoinPerformanceContainer extends React.PureComponent {
   }
 
   render () {
-    const { currencySymbol } = this.props
+    const { currency } = this.props
 
     return this.props.data.cata({
       Success: value => (
         <Chart
-          currencySymbol={currencySymbol}
+          currency={currency}
           coin={value.coin}
           time={value.time}
           data={value.data}

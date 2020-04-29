@@ -108,6 +108,7 @@ const dateHelper = (time, isMobile) =>
     .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = ({
+  buySellPartner,
   coin,
   coinTicker,
   currency,
@@ -115,6 +116,7 @@ const TransactionListItem = ({
   transaction,
   handleToggle,
   handleEditDescription,
+  handleRetrySendEth,
   onViewTxDetails
 }) => (
   <TransactionRowContainer
@@ -157,6 +159,16 @@ const TransactionListItem = ({
               <FormattedMessage
                 id='components.txlistitem.usddfee'
                 defaultMessage='USD Digital Fee'
+              />
+            </Banner>
+          </BannerWrapper>
+        )}
+        {transaction.state === 'PENDING' && (
+          <BannerWrapper onClick={e => handleRetrySendEth(e, transaction.hash)}>
+            <Banner label='true'>
+              <FormattedMessage
+                id='components.txlistitem.retrytx'
+                defaultMessage='Resend Transaction'
               />
             </Banner>
           </BannerWrapper>
