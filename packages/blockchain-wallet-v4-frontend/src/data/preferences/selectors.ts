@@ -13,6 +13,10 @@ export const getTotalBalancesDropdown = path([
 ])
 export const getSBFiatCurrency = (state: RootState) =>
   state.preferences.sbFiatCurrency
+export const getShowInterestInfoBox = path([
+  'preferences',
+  'showInterestInfoBox'
+])
 export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])
 export const getShowSwapBanner = path(['preferences', 'showSwapBanner'])
 export const getShowSwapUpgrade = path(['preferences', 'showSwapUpgradeModal'])

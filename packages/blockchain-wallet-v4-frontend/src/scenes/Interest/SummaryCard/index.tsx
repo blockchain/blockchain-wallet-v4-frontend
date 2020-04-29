@@ -7,6 +7,7 @@ import {
   InterestEligibleType,
   RemoteDataType
 } from 'core/types'
+import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import SummaryCard from './template.success'
 
@@ -18,6 +19,7 @@ import SummaryCard from './template.success'
 */
 class SummaryCardContainer extends PureComponent<Props> {
   componentDidMount () {
+    // this.props.profileActions.createUser()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
   }
@@ -25,8 +27,8 @@ class SummaryCardContainer extends PureComponent<Props> {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => <p>ERROR: TODO</p>,
-      Loading: () => null,
-      NotAsked: () => null
+      Loading: () => <SkeletonRectangle width='330px' height='275px' />,
+      NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
     })
   }
 }
@@ -37,7 +39,8 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const connector = connect(
@@ -46,8 +49,9 @@ const connector = connect(
 )
 
 export type OwnPropsType = {
-  interestAccount: InterestAccountBalanceType
+  interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
+  showInterestInfoBox: boolean
 }
 
 export type LinkStatePropsType = {

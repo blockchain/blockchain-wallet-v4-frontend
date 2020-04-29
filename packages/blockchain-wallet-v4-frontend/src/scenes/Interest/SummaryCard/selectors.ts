@@ -8,10 +8,14 @@ export const getData = state => {
   const interestEligibleR = selectors.components.interest.getInterestEligible(
     state
   )
+  const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(
+    state
+  )
 
   const transform = (interestAccountBalance, interestEligible) => ({
     interestAccountBalance,
-    interestEligible
+    interestEligible,
+    showInterestInfoBox
   })
 
   return lift(transform)(interestAccountBalanceR, interestEligibleR)

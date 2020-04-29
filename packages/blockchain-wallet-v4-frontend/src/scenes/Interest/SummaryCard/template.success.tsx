@@ -8,16 +8,18 @@ import {
 } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props } from '.'
 
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const DepositBox = styled(Box)`
+const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: ${props => (props.showInterestInfoBox ? 'auto' : '200px')};
 `
 const Row = styled.div`
   display: flex;
@@ -45,15 +47,17 @@ const IneligibleText = styled.div`
 
 function SummaryCard (props: Props): ReactElement {
   const {
+    interestAccountBalance,
     interestEligible,
     // @ts-ignore PHIL HELP
     interestRate,
     // @ts-ignore PHIL HELP
     isGoldTier,
-    modalActions
+    modalActions,
+    showInterestInfoBox
   } = props
   return (
-    <DepositBox>
+    <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
         <Icon name='btc-circle-filled' color='btc' size='32px' />
         <Text
@@ -77,6 +81,7 @@ function SummaryCard (props: Props): ReactElement {
           <FormattedMessage
             id='scenes.earninterest.form.earn3percent'
             defaultMessage='Earn {interestRate}% AER on your BTC'
+            // TODO make this more coin interchangeable
             values={{ interestRate: prop('BTC', interestRate) }}
           />
         </Text>
@@ -84,16 +89,18 @@ function SummaryCard (props: Props): ReactElement {
       <Separator />
       <AmountRow>
         <AmountColumn>
-          <Text
-            size='16px'
+          <FiatDisplay
             color='grey800'
+            size='16px'
             weight={600}
+            currency='USD'
+            coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            $0.00
-          </Text>
+            100000000
+          </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            0 BTC
+            {interestAccountBalance.BTC} BTC
           </Text>
         </AmountColumn>
         <AmountColumn>
@@ -110,19 +117,32 @@ function SummaryCard (props: Props): ReactElement {
           </Text>
         </AmountColumn>
       </AmountRow>
-      <Button
-        disabled={!isGoldTier || !interestEligible.eligible}
-        style={{ marginTop: '16px' }}
-        nature='primary'
-        fullwidth
-        data-e2e='earnInterest'
-        onClick={() => modalActions.showModal('INTEREST_MODAL')}
-      >
-        <FormattedMessage
-          id='scenes.earninterest.form.earnbutton'
-          defaultMessage='Earn Interest'
-        />
-      </Button>
+      {interestAccountBalance.BTC ? (
+        <Button
+          style={{ marginTop: '16px' }}
+          nature='light'
+          data-e2e='viewInterestDetails'
+          fullwidth
+          // in details flyout PR
+          // onClick={() => props.interestActions.showInterestModal('DETAILS')}
+        >
+          <FormattedMessage id='copy.view' defaultMessage='View' />
+        </Button>
+      ) : (
+        <Button
+          disabled={!isGoldTier || !interestEligible.eligible}
+          style={{ marginTop: '16px' }}
+          nature='primary'
+          fullwidth
+          data-e2e='earnInterest'
+          onClick={() => modalActions.showModal('INTEREST_MODAL')}
+        >
+          <FormattedMessage
+            id='scenes.earninterest.form.earnbutton'
+            defaultMessage='Earn Interest'
+          />
+        </Button>
+      )}
       {!interestEligible.eligible && <IneligibleText>TODO</IneligibleText>}
     </DepositBox>
   )

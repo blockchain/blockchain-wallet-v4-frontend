@@ -278,6 +278,7 @@ type MessagesType = {
   'copy.here': 'here'
   'copy.private_key': 'Private Key'
   'copy.to': 'To'
+  'copy.view': 'View'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
   'exchange-side-nav-tooltip-connected': 'connected'
   'exchangepromo.accesspairs': 'Access 26 trading pairs on the Exchange.'

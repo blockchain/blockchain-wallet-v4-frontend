@@ -12,13 +12,13 @@ import {
   SceneWrapper
 } from 'components/Layout'
 import { InterestRateType, RemoteDataType } from 'core/types'
+import { RatesType, UserDataType } from 'data/types'
 import InterestHistory, { SuccessStateType } from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 
 import { getData } from './selectors'
 import { Remote } from 'core'
-import { UserDataType } from 'data/modules/profile/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -54,13 +54,13 @@ class Interest extends React.PureComponent<Props, StateType> {
   }
 
   checkUserData = () => {
+    // i think we might need to create nabu user here
     const data = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } }
     })
     const tier = data.userData.tiers ? data.userData.tiers.current : 0
     const isGoldTier = tier >= 2
     this.setState({ isGoldTier })
-    // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
   render () {
@@ -141,6 +141,7 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
+  btcRate: RatesType
   interestRate: InterestRateType
   userData: UserDataType
 }
