@@ -157,8 +157,8 @@ interface FetchInterestTransactionsSuccess {
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
 }
 
-interface InitalizeDepositModalAction {
-  type: typeof AT.INTIALIZE_DEPOSIT_MODAL
+interface InitializeDepositModalAction {
+  type: typeof AT.INITIALIZE_DEPOSIT_MODAL
 }
 
 interface InitializeInterestAction {
@@ -204,7 +204,7 @@ export type InterestActionTypes =
   | FetchInterestTransactionsFailure
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
-  | InitalizeDepositModalAction
+  | InitializeDepositModalAction
   | InitializeInterestAction
   | SetInterestStep
   | ShowInterestModal

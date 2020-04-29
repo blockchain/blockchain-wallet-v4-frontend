@@ -186,7 +186,7 @@ export const fetchInterestTransactionsSuccess = (
 })
 
 export const initializeDepositModal = (): InterestActionTypes => ({
-  type: AT.INTIALIZE_DEPOSIT_MODAL
+  type: AT.INITIALIZE_DEPOSIT_MODAL
 })
 
 export const initializeInterest = (coin: CoinType) => ({

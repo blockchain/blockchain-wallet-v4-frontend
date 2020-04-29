@@ -48,6 +48,7 @@ const IneligibleText = styled.div`
 function SummaryCard (props: Props): ReactElement {
   const {
     interestAccountBalance,
+    interestActions,
     interestEligible,
     // @ts-ignore PHIL HELP
     interestRate,
@@ -123,8 +124,7 @@ function SummaryCard (props: Props): ReactElement {
           nature='light'
           data-e2e='viewInterestDetails'
           fullwidth
-          // in details flyout PR
-          // onClick={() => props.interestActions.showInterestModal('DETAILS')}
+          onClick={() => interestActions.showInterestModal('DETAILS')}
         >
           <FormattedMessage id='copy.view' defaultMessage='View' />
         </Button>
