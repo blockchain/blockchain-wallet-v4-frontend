@@ -65,7 +65,7 @@ const CardDetails = styled.div<{ right?: boolean }>`
 
 const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
-    m => m.type === 'CARD'
+    m => m.type === 'PAYMENT_CARD'
   )
   const activeCards = props.cards.filter(card => card.state === 'ACTIVE')
 

@@ -80,9 +80,9 @@ class MethodSelect extends PureComponent<Props> {
 
   getType = (value: ElementValueType) => {
     switch (value.type) {
-      case 'BANK_TRANSFER':
+      case 'BANK_ACCOUNT':
         return 'Bank Wire Transfer'
-      case 'CARD':
+      case 'PAYMENT_CARD':
         return 'Credit or Debit Card'
       case 'USER_CARD':
         return value && value.card ? value.card.label : 'Credit or Debit Card'
@@ -91,13 +91,13 @@ class MethodSelect extends PureComponent<Props> {
 
   getIcon = (value: ElementValueType): ReactElement => {
     switch (value.type) {
-      case 'BANK_TRANSFER':
+      case 'BANK_ACCOUNT':
         return (
           <IconContainer>
             <Icon size='18px' color='blue600' name='bank-filled' />
           </IconContainer>
         )
-      case 'CARD':
+      case 'PAYMENT_CARD':
         return (
           <IconContainer>
             <Icon size='18px' color='blue600' name='credit-card-filled' />
@@ -123,7 +123,7 @@ class MethodSelect extends PureComponent<Props> {
       card => card.state === 'ACTIVE'
     )
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'CARD'
+      m => m.type === 'PAYMENT_CARD'
     )
     const cardMethods = availableCards.map(card => ({
       text: card.card ? card.card.label : 'Credit or Debit Card',

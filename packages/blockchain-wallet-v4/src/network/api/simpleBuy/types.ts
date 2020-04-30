@@ -101,7 +101,7 @@ export type SBPaymentMethodType = {
     max: string
     min: string
   }
-  type: 'CARD' | 'BANK_TRANSFER'
+  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
 }
 
 export type SBPaymentMethodsType = {

@@ -34,7 +34,7 @@ class Checkout extends PureComponent<Props> {
     // if the user is tier 2 try to submit order, let BE fail
     const { formValues, userData } = this.props.data.getOrElse({
       formValues: {
-        method: { limits: { min: '0', max: '0' }, type: 'BANK_TRANSFER' }
+        method: { limits: { min: '0', max: '0' }, type: 'BANK_ACCOUNT' }
       } as SBCheckoutFormValuesType,
       userData: { tiers: { current: 0 } }
     })
@@ -43,7 +43,7 @@ class Checkout extends PureComponent<Props> {
       this.props.identityVerificationActions.verifyIdentity(2)
     } else if (formValues && formValues.method) {
       switch (formValues.method.type) {
-        case 'CARD':
+        case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD',
             cardId: undefined
@@ -52,7 +52,7 @@ class Checkout extends PureComponent<Props> {
         case 'USER_CARD':
           this.props.simpleBuyActions.createSBOrder(formValues.method.id)
           break
-        case 'BANK_TRANSFER':
+        case 'BANK_ACCOUNT':
           this.props.simpleBuyActions.createSBOrder()
       }
     }

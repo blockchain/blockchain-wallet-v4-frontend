@@ -242,14 +242,14 @@ export default ({
       method: 'POST',
       data: {
         api_username: apiUserName,
-        cc_details: JSON.stringify({
+        cc_details: {
           cc_number: ccNumber,
           // months are 0 indexed
           month: expirationDate.month() + 1,
           year: expirationDate.year(),
-          cvc,
+          cvc: cvc,
           holder_name: holderName
-        }),
+        },
         nonce: nonce.slice(0, 8),
         token_consented: true,
         timestamp: new Date().toISOString()
