@@ -35,6 +35,15 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
+  handleDepositSubmit = e => {
+    e.preventDefault()
+    this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+      // show next deposit modal here?
+    }, duration)
+  }
+
   handleSBClick = () => {
     this.setState({ show: false })
     setTimeout(() => {
@@ -57,7 +66,10 @@ class Interest extends PureComponent<Props, State> {
       >
         {step === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm handleClose={this.handleClose} />
+            <DepositForm
+              handleClose={this.handleClose}
+              handleDepositSubmit={this.handleDepositSubmit}
+            />
           </FlyoutChild>
         )}
         {step === 'DETAILS' && (

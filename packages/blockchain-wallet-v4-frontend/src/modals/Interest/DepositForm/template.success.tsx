@@ -149,6 +149,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
     handleClose,
+    handleDepositSubmit: handleSubmit,
     interestRate,
     invalid,
     // limits,
@@ -162,7 +163,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const displayName = supportedCoins[coin].displayName
 
   return (
-    <CustomForm>
+    <CustomForm onSubmit={handleSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
@@ -429,11 +430,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ButtonContainer>
           <Button
             data-e2e='interestDepositSubmit'
+            disabled={invalid}
             fullwidth
             height='48px'
             nature='primary'
-            onClick={handleClose}
-            disabled={invalid}
+            type='submit'
           >
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage

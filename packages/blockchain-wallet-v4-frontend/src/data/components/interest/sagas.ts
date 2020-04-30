@@ -101,7 +101,6 @@ export default ({ api }: { api: APIType }) => {
   }: ReturnType<typeof A.initializeDepositForm>) {
     let defaultAccountR
 
-    yield call(fetchInterestRate)
     yield call(fetchInterestLimits)
 
     switch (payload.coin) {

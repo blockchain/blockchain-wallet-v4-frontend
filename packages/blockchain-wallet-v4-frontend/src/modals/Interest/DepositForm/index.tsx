@@ -53,6 +53,7 @@ const connector = connect(
 
 export type OwnProps = {
   handleClose: () => void
+  handleDepositSubmit: (e) => void
 }
 export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest

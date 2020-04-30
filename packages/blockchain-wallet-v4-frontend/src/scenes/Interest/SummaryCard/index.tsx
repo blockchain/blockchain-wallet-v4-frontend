@@ -5,18 +5,22 @@ import { getData } from './selectors'
 import {
   InterestAccountBalanceType,
   InterestEligibleType,
+  InterestRateType,
   RemoteDataType
 } from 'core/types'
+import {
+  StateType as ParentStateType,
+  SuccessStateType as ParentSuccessStateType
+} from '..'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import SummaryCard from './template.success'
 
 /*
   TODO List:
-  1) fix TS errors
-  2) error state
-  3) show ineligible reason
-  4) balance always shows in USD not wallet currency
+  1) error state
+  2) show ineligible reason
+  3) figure out where/how to createUser
 */
 class SummaryCardContainer extends PureComponent<Props> {
   componentDidMount () {
@@ -49,16 +53,24 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type OwnPropsType = {
+export type SuccessStateType = {
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   showInterestInfoBox: boolean
 }
 
-export type LinkStatePropsType = {
-  data: RemoteDataType<string, Array<OwnPropsType>>
+export type OwnPropsType = {
+  interestRate: InterestRateType
+  isGoldTier: boolean
 }
 
-export type Props = OwnPropsType & ConnectedProps<typeof connector>
+export type LinkStatePropsType = {
+  data: RemoteDataType<string, SuccessStateType>
+}
+
+export type Props = OwnPropsType &
+  ParentSuccessStateType &
+  ParentStateType &
+  ConnectedProps<typeof connector>
 
 export default connector(SummaryCardContainer)
