@@ -85,7 +85,11 @@ class MethodSelect extends PureComponent<Props> {
       case 'PAYMENT_CARD':
         return 'Credit or Debit Card'
       case 'USER_CARD':
-        return value && value.card ? value.card.label : 'Credit or Debit Card'
+        return value && value.card
+          ? value.card.label
+            ? value.card.label
+            : value.card.type
+          : 'Credit or Debit Card'
     }
   }
 
@@ -126,7 +130,11 @@ class MethodSelect extends PureComponent<Props> {
       m => m.type === 'PAYMENT_CARD'
     )
     const cardMethods = availableCards.map(card => ({
-      text: card.card ? card.card.label : 'Credit or Debit Card',
+      text: card.card
+        ? card.card.label
+          ? card.card.label
+          : card.card.type
+        : 'Credit or Debit Card',
       value: {
         ...card,
         type: 'USER_CARD',
