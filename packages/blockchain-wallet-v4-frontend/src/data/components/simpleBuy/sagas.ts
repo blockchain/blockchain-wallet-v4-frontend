@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call, cancel, delay, put, select, take } from 'redux-saga/effects'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -511,12 +511,14 @@ export default ({
 
     while (
       (card.state === 'CREATED' || card.state === 'PENDING') &&
-      retryAttempts < maxRetryAttempts &&
-      step === '3DS_HANDLER'
+      retryAttempts < maxRetryAttempts
     ) {
       card = yield call(api.getSBCard, cardId)
-      step = S.getStep(yield select())
       retryAttempts++
+      step = S.getStep(yield select())
+      if (step !== '3DS_HANDLER') {
+        yield cancel()
+      }
       yield delay(3000)
     }
 
@@ -544,12 +546,14 @@ export default ({
 
     while (
       order.state === 'PENDING_DEPOSIT' &&
-      retryAttempts < maxRetryAttempts &&
-      step === '3DS_HANDLER'
+      retryAttempts < maxRetryAttempts
     ) {
       order = yield call(api.getSBOrder, orderId)
       step = S.getStep(yield select())
       retryAttempts++
+      if (step !== '3DS_HANDLER') {
+        yield cancel()
+      }
       yield delay(3000)
     }
 

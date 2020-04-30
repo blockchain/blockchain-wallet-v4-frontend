@@ -53,10 +53,13 @@ export function simpleBuyReducer (
     case AT.DESTROY_CHECKOUT:
       return {
         ...state,
-        step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
+        cardId: undefined,
+        defaultMethod: undefined,
+        order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
+        step: 'CURRENCY_SELECTION',
         suggestedAmounts: Remote.NotAsked
       }
     case AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE: {

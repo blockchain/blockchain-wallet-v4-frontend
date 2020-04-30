@@ -24,6 +24,10 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     window.addEventListener('message', this.handlePostMessage, false)
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('message', this.handlePostMessage, false)
+  }
+
   handlePostMessage = (event: MessageEvent) => {
     if (event.data.from !== 'everypay') return
     if (event.data.to !== 'sb') return
