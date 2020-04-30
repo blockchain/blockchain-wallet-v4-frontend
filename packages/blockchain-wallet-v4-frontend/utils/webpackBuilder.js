@@ -300,8 +300,7 @@ const buildDevServerConfig = (
           'https://shapeshift.io',
           'https://bitpay.com',
           'https://static.zdassets.com',
-          'https://ekr.zdassets.com',
-          'http://localhost:3000'
+          'https://ekr.zdassets.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

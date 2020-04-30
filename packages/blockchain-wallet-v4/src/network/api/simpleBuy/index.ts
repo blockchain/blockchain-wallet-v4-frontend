@@ -23,6 +23,7 @@ export default ({
   authorizedGet,
   authorizedPost,
   authorizedPut,
+  everypayUrl,
   get,
   nabuUrl
 }) => {
@@ -237,7 +238,7 @@ export default ({
     nonce: string
   }) =>
     axios({
-      url: 'http://localhost:3000/api/v3/mobile_payments/card_details',
+      url: `${everypayUrl}/api/v3/mobile_payments/card_details`,
       method: 'POST',
       data: {
         api_username: apiUserName,
