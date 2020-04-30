@@ -32,7 +32,10 @@ export default ({ api }: { api: APIType }) => {
       AT.FETCH_INTEREST_TRANSACTIONS,
       interestSagas.fetchInterestTransactions
     )
-    yield takeLatest(AT.INITIALIZE_INTEREST, interestSagas.initializeInterest)
+    yield takeLatest(
+      AT.INITIALIZE_DEPOSIT_FORM,
+      interestSagas.initializeDepositForm
+    )
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

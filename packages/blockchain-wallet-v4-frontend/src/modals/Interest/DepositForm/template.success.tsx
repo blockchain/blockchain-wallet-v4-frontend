@@ -4,7 +4,9 @@ import {
   Link,
   TabMenu,
   TabMenuItem,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import {
   CheckBox,
@@ -20,11 +22,13 @@ import {
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
+import { Exchange } from 'core'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { OwnProps, SuccessStateType } from '.'
+import { required } from 'services/FormHelper'
 import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -34,76 +38,57 @@ const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
-
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0;
 `
-
 const TopText = styled(Text)`
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
 `
-
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   height: 100%;
-  margin-top: 56px;
 `
-
 const CustomFormLabel = styled(FormLabel)`
   display: block;
   margin-top: 24px;
 `
-
 const CustomField = styled(Field)`
   > input {
     padding-left: 30px;
   }
 `
-
 const AmountFieldContainer = styled.div`
   display: flex;
   position: relative;
 `
-
 const PrincipalCcyAbsolute = styled.div`
   position: absolute;
   top: 16px;
   left: 12px;
 `
-
 const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
   margin: 24px 0;
 `
-
-// related to line 122
-// const FiatContainer = styled.div`
-//   cursor: pointer;
-//   display: inline-block;
-//   padding: 4px 8px;
-//   border-radius: 20px;
-//   background-color: ${props => props.theme.grey000};
-// `
-
 const CalculatorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 28px;
 `
-
 const CalculatorHeaderContainer = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
 `
-
 const CalculatorDesc = styled(Text)`
-  margin: 4px 0;
+  margin: 6px 0 8px;
 `
-
 const CalculatorContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -113,18 +98,15 @@ const CalculatorContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.grey000};
   box-sizing: border-box;
   border-radius: 8px;
-  height: 128px;
+  height: 140px;
 `
-
 const CustomTabMenu = styled(TabMenu)`
   width: 232px;
   margin-bottom: 12px;
 `
-
 const InterestTermWrapper = styled.div`
   display: flex;
 `
-
 const InterestTermContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -139,11 +121,6 @@ const InterestTermContainer = styled.div`
     margin-right: 0;
   }
 `
-
-const OpacityContainer = styled.div<{ isOpacityApplied?: boolean }>`
-  opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
-`
-
 const TermsContainer = styled.div`
   margin: -3px 0 24px 0;
 
@@ -158,7 +135,6 @@ const AgreementContainer = styled.div`
     display: inline-block;
   }
 `
-
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -169,21 +145,21 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const {
+    coin,
+    handleClose,
+    interestRate,
+    invalid,
+    // limits,
+    walletCurrency,
+    supportedCoins,
+    values
+  } = props
   const [tab, setTab] = useState<'long' | 'short'>('long')
-  const displayName = props.supportedCoins[props.coin].displayName
-  const savingsAmount = '$0.00' // replace this with future user savings' amount
   const handleClick = (x: 'long' | 'short') => setTab(x)
-  const isTermsChecked = props.values ? props.values.terms : props.values
-  const isAgreementChecked = props.values
-    ? props.values.agreement
-    : props.values
-
-  const coinLimits = props.interestLimits[props.coin]
-  const minimumDeposit = coinLimits ? coinLimits.minimumDeposit : 0
-  const isCheckBoxDisabled = props.values
-    ? props.values.depositAmount < minimumDeposit
-    : false
+  const currencySymbol = Exchange.getSymbol(walletCurrency) as string
+  const displayName = supportedCoins[coin].displayName
 
   return (
     <CustomForm>
@@ -195,7 +171,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             values={{ displayName }}
           />
           <Icon
-            onClick={props.handleClose}
+            onClick={handleClose}
             cursor
             name='close'
             size='20px'
@@ -205,29 +181,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.interest.candeposit'
-              defaultMessage='You can deposit up to'
-            />
-            {' $6888 '}
-            {/* leaving this for future implementation
-            <FiatContainer
-              onClick={() => props.borrowActions.handleMaxCollateralClick()}
-            >
-              <Text color='blue600' size='14px' weight={500}>
-                {fiatToString({
-                  value: props.limits.maxFiat,
-                  unit: { symbol: '$' }
-                })}
-              </Text>
-            </FiatContainer>{' '} */}
-            <FormattedMessage
-              id='modals.interest.earninterest'
-              defaultMessage='of {displayName} to your Savings Wallet and earn 3% interest.'
-              values={{ displayName }}
+              id='modals.interest.depositbtc'
+              defaultMessage='Deposit Bitcoin to your Interest Account and earn {rate}% interest.'
+              values={{ rate: interestRate[coin] }}
             />
           </Text>
         </MaxAmountContainer>
-        <CoinBalanceDropdown {...props} name='interest-deposit-select' />
+        <CoinBalanceDropdown
+          {...props}
+          fiatCurrency={walletCurrency}
+          name='interest-deposit-select'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -241,6 +205,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={NumberBox}
             data-e2e='depositAmount'
             name='depositAmount'
+            validate={[required]}
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -250,7 +215,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           <PrincipalCcyAbsolute>
             <Text color='grey800' size='14px' weight={600}>
-              $
+              {currencySymbol}
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
@@ -262,12 +227,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='Interest Calculator'
               />
             </Text>
+            <TooltipHost id='modals.interest.calculator.tooltip'>
+              <TooltipIcon name='info' size='14px' />
+            </TooltipHost>
           </CalculatorHeaderContainer>
           <CalculatorDesc color='grey600' size='12px' weight={500}>
             <FormattedMessage
               id='modals.interest.calculatordesc'
-              defaultMessage='With {savingsAmount} in your Savings Wallet you would earn:'
-              values={{ savingsAmount }}
+              defaultMessage='With {currencySymbol}{depositAmount} in your Interest Account you could earn:'
+              values={{
+                currencySymbol,
+                depositAmount: (values && values.depositAmount) || '0.00'
+              }}
             />
           </CalculatorDesc>
           <CalculatorContainer>
@@ -370,109 +341,108 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 </>
               )}
             </InterestTermWrapper>
+            <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
+              <FormattedMessage
+                id='modals.interest.deposit.calculator.footer'
+                defaultMessage='Estimates based on current BTC price earning {rate}% AER.'
+                values={{ rate: interestRate[coin] }}
+              />
+            </Text>
           </CalculatorContainer>
         </CalculatorWrapper>
       </Top>
       <Bottom>
-        <>
-          <OpacityContainer isOpacityApplied={isCheckBoxDisabled}>
-            <Field
-              name='terms'
-              component={CheckBox}
-              disabled={isCheckBoxDisabled}
+        <Field
+          component={CheckBox}
+          hideErrors
+          name='terms'
+          validate={[required]}
+        >
+          <TermsContainer>
+            <Text lineHeight='1.4' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.terms.read'
+                defaultMessage='I have read and agreed to the'
+              />
+            </Text>{' '}
+            <Link
+              href='https://www.blockchain.com/legal/terms'
+              target='_blank'
+              size='14px'
+              weight={500}
             >
-              <TermsContainer>
-                <Text lineHeight='1.4' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.interest.terms.read'
-                    defaultMessage='I have read and agreed to the'
-                  />
-                </Text>{' '}
-                <Link
-                  href='https://www.blockchain.com/legal/terms'
-                  target='_blank'
-                  size='14px'
-                  weight={500}
-                >
-                  <FormattedMessage
-                    id='modals.interest.termsservice'
-                    defaultMessage='Terms of Service'
-                  />
-                </Link>{' '}
-                <Text lineHeight='1.4' size='14px' weight={500}>
-                  &
-                </Text>{' '}
-                <Link
-                  href='https://www.blockchain.com/legal/privacy'
-                  target='_blank'
-                  size='14px'
-                  weight={500}
-                >
-                  <FormattedMessage
-                    id='modals.interest.privacy'
-                    defaultMessage='Privacy'
-                  />
-                </Link>
-                {'.'}
-              </TermsContainer>
-            </Field>
-            <Field
-              name='agreement'
-              component={CheckBox}
-              disabled={isCheckBoxDisabled}
+              <FormattedMessage
+                id='modals.interest.termsservice'
+                defaultMessage='Terms of Service'
+              />
+            </Link>{' '}
+            <Text lineHeight='1.4' size='14px' weight={500}>
+              {'&'}
+            </Text>{' '}
+            <Link
+              href='https://www.blockchain.com/legal/privacy'
+              target='_blank'
+              size='14px'
+              weight={500}
             >
-              <AgreementContainer>
-                <Text lineHeight='1.4' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.interest.agreement1'
-                    defaultMessage='By accepting this, you agree to transfer'
-                  />
-                </Text>{' '}
-                <Text lineHeight='1.4' size='14px' weight={600}>
-                  $
-                  {formatFiat(
-                    props.values
-                      ? props.values.depositAmount
-                        ? props.values.depositAmount
-                        : 0
-                      : 0
-                  )}
-                </Text>
-                {' ('}
-                <Text lineHeight='1.4' size='14px' weight={500}>
-                  {coinToString({
-                    value: 0,
-                    unit: { symbol: props.coin }
-                  })}
-                </Text>
-                {') '}
-                <Text lineHeight='1.4' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='modals.interest.agreement2'
-                    defaultMessage='from your Bitcoin Vault Wallet to your Savings Wallet. A lock-up period of 30 days will be applied to your funds.'
-                  />
-                </Text>
-              </AgreementContainer>
-            </Field>
-          </OpacityContainer>
-          <ButtonContainer>
-            <Button
-              data-e2e='interestDepositSubmit'
-              fullwidth
-              height='48px'
-              nature='primary'
-              onClick={props.handleClose}
-              disabled={!isTermsChecked || !isAgreementChecked}
-            >
-              <Text size='16px' weight={600} color='white'>
-                <FormattedMessage
-                  id='modals.interest.confirmdeposit'
-                  defaultMessage='Confirm Deposit'
-                />
-              </Text>
-            </Button>
-          </ButtonContainer>
-        </>
+              <FormattedMessage
+                id='modals.interest.privacy'
+                defaultMessage='Privacy'
+              />
+            </Link>
+            {'.'}
+          </TermsContainer>
+        </Field>
+        <Field
+          component={CheckBox}
+          hideErrors
+          name='agreement'
+          validate={[required]}
+        >
+          <AgreementContainer>
+            <Text lineHeight='1.4' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.agreement1'
+                defaultMessage='By accepting this, you agree to transfer'
+              />
+            </Text>{' '}
+            <Text lineHeight='1.4' size='14px' weight={600}>
+              {currencySymbol}
+              {formatFiat((values && values.depositAmount) || 0)}
+            </Text>
+            {' ('}
+            <Text lineHeight='1.4' size='14px' weight={500}>
+              {coinToString({
+                value: 0,
+                unit: { symbol: coin }
+              })}
+            </Text>
+            {') '}
+            <Text lineHeight='1.4' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.agreement2'
+                defaultMessage='from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
+              />
+            </Text>
+          </AgreementContainer>
+        </Field>
+        <ButtonContainer>
+          <Button
+            data-e2e='interestDepositSubmit'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={handleClose}
+            disabled={invalid}
+          >
+            <Text size='16px' weight={600} color='white'>
+              <FormattedMessage
+                id='modals.interest.confirmdeposit'
+                defaultMessage='Confirm Deposit'
+              />
+            </Text>
+          </Button>
+        </ButtonContainer>
       </Bottom>
     </CustomForm>
   )
@@ -495,4 +465,4 @@ const enhance = compose(
   connector
 )
 
-export default enhance(Success) as React.FunctionComponent<Props>
+export default enhance(DepositForm) as React.FunctionComponent<Props>

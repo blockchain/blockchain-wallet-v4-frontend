@@ -96,10 +96,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const initializeInterest = function * ({
+  const initializeDepositForm = function * ({
     payload
-  }: ReturnType<typeof A.initializeInterest>) {
+  }: ReturnType<typeof A.initializeDepositForm>) {
     let defaultAccountR
+
+    yield call(fetchInterestRate)
+    yield call(fetchInterestLimits)
 
     switch (payload.coin) {
       case 'BTC':
@@ -115,7 +118,6 @@ export default ({ api }: { api: APIType }) => {
         break
     }
     const initialValues = {
-      depositAmount: 0,
       'interest-deposit-select': defaultAccountR.getOrElse()
     }
 
@@ -137,7 +139,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestPaymentAccount,
     fetchInterestRate,
     fetchInterestTransactions,
-    initializeInterest,
+    initializeDepositForm,
     showInterestModal
   }
 }

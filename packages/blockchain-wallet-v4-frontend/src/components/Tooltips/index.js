@@ -290,16 +290,22 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The interest earned is based the current APY and is subject to change.'
           />
         </Tooltip>
+        <Tooltip id='modals.interest.calculator.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.calculator.tooltip'
+            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.summary.accrued.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.accrued.tooltip.description'
-            defaultMessage='DONTFORGETTOCHANGEME'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.lock.tooltip.description'
-            defaultMessage='DONTFORGETTOCHANGEME'
+            defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
           />
         </Tooltip>
       </TooltipWrapper>

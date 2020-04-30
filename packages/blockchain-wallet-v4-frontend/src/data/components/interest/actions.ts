@@ -189,11 +189,11 @@ export const initializeDepositModal = (): InterestActionTypes => ({
   type: AT.INITIALIZE_DEPOSIT_MODAL
 })
 
-export const initializeInterest = (coin: CoinType) => ({
+export const initializeDepositForm = (coin: CoinType) => ({
   payload: {
     coin
   },
-  type: AT.INITIALIZE_INTEREST
+  type: AT.INITIALIZE_DEPOSIT_FORM
 })
 
 export const setInterestStep = (step: InterestStep) => ({
