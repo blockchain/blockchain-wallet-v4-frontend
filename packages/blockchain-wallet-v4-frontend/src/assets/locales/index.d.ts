@@ -11,7 +11,6 @@ type MessagesType = {
   'borrow.validation.abovemax': 'The amount you entered is above the maximum amount.'
   'borrow.validation.belowmin.amt': 'The amount you entered is below the minimum amount of {minFiat}.'
   'borrow.validation.belowmin.safe': 'You must enter an amount greater than {minFiat}.'
-  'borrowhistory.model.pending': 'Pending'
   'buttons.back': 'Back'
   'buttons.buycoin': 'Buy {displayName}'
   'buttons.cancel': 'Cancel'
@@ -282,6 +281,7 @@ type MessagesType = {
   'copy.from': 'From'
   'copy.from:': 'From:'
   'copy.here': 'here'
+  'copy.pending': 'Pending'
   'copy.private_key': 'Private Key'
   'copy.to': 'To'
   'copy.view': 'View'
@@ -1063,7 +1063,6 @@ type MessagesType = {
   'modals.simplebuy.gatheringinfo': 'Gathering Some Info...'
   'modals.simplebuy.localcurrency': 'Select the local currency for your wallet.'
   'modals.simplebuy.ordersummary': 'Buy Order Summary'
-  'modals.simplebuy.pending': 'Pending'
   'modals.simplebuy.refresh': 'Refresh'
   'modals.simplebuy.selectcurrency': 'Select Your Currency'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."

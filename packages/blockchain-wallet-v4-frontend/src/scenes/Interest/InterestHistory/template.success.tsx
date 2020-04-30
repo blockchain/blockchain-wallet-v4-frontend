@@ -10,7 +10,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { IconBackground, Value } from './model'
+import { IconBackground, PendingTag, Value } from './model'
 import { SuccessStateType } from '.'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
@@ -28,7 +28,6 @@ const InterestTableCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   const { coin, interestHistory, supportedCoins } = props
-  // ToDo: array of coins to supported Coins so I can make it any
   const { coinTicker, colorCode } = supportedCoins[coin]
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
@@ -89,6 +88,14 @@ function Success (props: SuccessStateType): ReactElement {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
+                    {transaction.state === 'PENDING' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : transaction.type === 'DEPOSIT' ? (
                   <React.Fragment>
@@ -101,6 +108,14 @@ function Success (props: SuccessStateType): ReactElement {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Deposit</Value>
+                    {transaction.state === 'PENDING' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : (
                   <React.Fragment>

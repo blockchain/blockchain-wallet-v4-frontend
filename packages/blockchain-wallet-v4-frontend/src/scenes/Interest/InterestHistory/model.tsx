@@ -1,3 +1,4 @@
+import { GreyCartridge } from 'components/Cartridge'
 import { Text } from 'blockchain-info-components'
 
 import styled from 'styled-components'
@@ -25,4 +26,9 @@ export const IconBackground = styled.div`
   min-width: 32px;
   background-color: ${props => props.theme.orange000};
   border-radius: 32px;
+`
+
+export const PendingTag = styled(GreyCartridge)`
+  font-size: 12px;
+  margin-left: 8px;
 `
