@@ -6,8 +6,22 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { InterestTransactionResponseType } from 'core/types'
 import { nth } from 'ramda'
+import profileSagas from '../../modules/profile/sagas'
 
-export default ({ api }: { api: APIType }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const { createUser, waitForUserData } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
   const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
@@ -96,6 +110,16 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const intitalizeSummaryCard = function * () {
+    yield call(createUser)
+    yield call(waitForUserData)
+
+    yield call(fetchInterestRate)
+    yield call(fetchInterestEligible)
+    yield call(fetchInterestBalance)
+    yield call(fetchInterestTransactions)
+  }
+
   const initializeInterest = function * ({
     payload
   }: ReturnType<typeof A.initializeInterest>) {
@@ -137,6 +161,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestPaymentAccount,
     fetchInterestRate,
     fetchInterestTransactions,
+    intitalizeSummaryCard,
     initializeInterest,
     showInterestModal
   }

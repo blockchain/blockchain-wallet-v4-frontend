@@ -11,7 +11,11 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { InterestRateType, RemoteDataType } from 'core/types'
+import {
+  InterestRateType,
+  InterestTransactionResponseType,
+  RemoteDataType
+} from 'core/types'
 import { UserDataType } from 'data/types'
 import InterestHistory, { SuccessStateType } from './InterestHistory'
 import IntroCard from './IntroCard'
@@ -37,11 +41,11 @@ const LearnMoreText = styled(Text)`
   1) fix TS errors
   2) fetch txs and show table if txs exist
 */
-class Interest extends React.PureComponent<Props, StateType> {
-  state = { isGoldTier: true }
+class Interest extends React.PureComponent<Props, State> {
+  state: State = { isGoldTier: false }
 
   componentDidMount () {
-    this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.initializeSummaryCard()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -66,7 +70,6 @@ class Interest extends React.PureComponent<Props, StateType> {
   render () {
     const { isGoldTier } = this.state
     const { data } = this.props
-
     return (
       <SceneWrapper>
         <SceneHeader>
@@ -108,7 +111,9 @@ class Interest extends React.PureComponent<Props, StateType> {
                 // @ts-ignore PHIL HELP */}
                 <SummaryCard {...val} {...this.props} isGoldTier={isGoldTier} />
               </Container>
-              <InterestHistory />
+              {val.interestHistory.items.length > 0 && (
+                <InterestHistory {...this.props} />
+              )}
             </>
           ),
           Failure: () => null,
@@ -129,7 +134,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const connector = connect(
@@ -137,10 +143,11 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type StateType = {
+export type State = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
+  interestHistory: InterestTransactionResponseType
   interestRate: InterestRateType
   userData: UserDataType
 }
@@ -148,8 +155,6 @@ type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
 
-export type Props = StateType &
-  SuccessStateType &
-  ConnectedProps<typeof connector>
+export type Props = State & SuccessStateType & ConnectedProps<typeof connector>
 
 export default connector(Interest)

@@ -10,6 +10,7 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { getData } from './selectors'
+import { State } from '..'
 import { UserDataType } from 'data/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -20,11 +21,10 @@ const History = styled.div`
   max-width: 1200px;
 `
 
-class InterestHistory extends Component<Props> {
-  state = {}
-  componentDidMount () {
-    this.props.interestActions.fetchInterestTransactions()
-  }
+class InterestHistory extends Component<Props, State> {
+  // componentDidMount () {
+  //   this.props.interestActions.fetchInterestTransactions()
+  // }
 
   render () {
     return (
@@ -63,6 +63,6 @@ type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
 }
 
-type Props = ConnectedProps<typeof connector>
+type Props = State & ConnectedProps<typeof connector>
 
 export default connector(InterestHistory)

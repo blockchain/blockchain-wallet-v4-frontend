@@ -20,11 +20,9 @@ import SummaryCard from './template.success'
   3) show ineligible reason
 */
 class SummaryCardContainer extends PureComponent<Props> {
-  componentDidMount () {
-    // this.props.profileActions.createUser()
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestBalance()
-  }
+  // componentDidMount() {
+  //   this.props.interestActions.initializeSummaryCard()
+  // }
   render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,

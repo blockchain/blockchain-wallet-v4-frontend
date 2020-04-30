@@ -44,6 +44,9 @@ class IntroCard extends PureComponent<Props> {
                   size='16px'
                   color='grey400'
                   role='button'
+                  onClick={() =>
+                    this.props.preferencesActions.hideInterestInfoBox()
+                  }
                 />
               </IconWrapper>
               <Text
