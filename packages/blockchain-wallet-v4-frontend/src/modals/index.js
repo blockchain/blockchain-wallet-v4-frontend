@@ -44,6 +44,7 @@ import {
   UpgradeAddressLabels
 } from './Addresses'
 import { DownloadTransactions, EditTxDescription } from './Transactions'
+import { Interest, Withdrawal } from './Interest'
 import {
   LockboxAppManager,
   LockboxConnectionPrompt,
@@ -70,7 +71,6 @@ import {
   XlmReserveLearn
 } from './Xlm'
 import Borrow from './Borrow'
-import Interest from './Interest'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
@@ -148,6 +148,7 @@ const Modals = () => (
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
     <Welcome />
+    <Withdrawal />
     <WhatsNew />
   </div>
 )

@@ -106,12 +106,24 @@ function Success (props: Props): ReactElement {
         nature='primary'
         fullwidth
         data-e2e='earnInterest'
+        // TODO:  PUT THIS  BACK
         onClick={() => props.modalActions.showModal('INTEREST_MODAL')}
       >
         <FormattedMessage
           id='scenes.earninterest.form.earnbutton'
           defaultMessage='Earn Interest'
         />
+      </Button>
+      <Button
+        disabled={props.isDisabled}
+        style={{ marginTop: '16px' }}
+        nature='primary'
+        fullwidth
+        data-e2e='earnInterest'
+        // TODO:  PUT THIS  BACK
+        onClick={() => props.modalActions.showModal('WITHDRAWAL_MODAL')}
+      >
+        MY BUTTON
       </Button>
     </DepositBox>
   )

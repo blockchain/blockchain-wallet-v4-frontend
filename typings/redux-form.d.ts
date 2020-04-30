@@ -24,6 +24,7 @@ export type WalletFormType =
   | 'simpleBuyCheckout'
   | 'transactionReport'
   | 'walletTxSearch'
+  | 'withdrawalForm'
 
 declare module 'redux-form' {
   /* eslint-disable */

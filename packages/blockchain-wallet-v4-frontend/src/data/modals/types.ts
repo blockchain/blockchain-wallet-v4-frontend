@@ -28,6 +28,7 @@ export type ModalNamesType =
   | 'UpgradeForAirdrop'
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
+  | 'WITHDRAWAL_MODAL'
 
 export type ModalType = {
   options: any

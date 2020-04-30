@@ -37,7 +37,13 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-class Interest extends React.PureComponent<Props> {
+type StateType = {
+  isDisabled: boolean
+}
+class Interest extends React.PureComponent<Props, StateType> {
+  state = {
+    isDisabled: false
+  }
   componentDidMount () {
     this.checkUserData()
     this.props.interestActions.fetchInterestEligible()
@@ -59,9 +65,9 @@ class Interest extends React.PureComponent<Props> {
     })
     const tier = userData.tiers ? userData.tiers.current : 0
     const isDisabled = tier < 2
-    /* eslint-disable */
+
     this.setState({ isDisabled })
-    /* eslint-enable */
+
     // fetch users transactions history here this.props.interestActions.fetchInterestTransactions
   }
 
@@ -70,7 +76,7 @@ class Interest extends React.PureComponent<Props> {
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='savings-icon' color='blue600' size='24px' />
+            <Icon color='blue600' name='savings-icon' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
