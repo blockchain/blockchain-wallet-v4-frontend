@@ -40,7 +40,6 @@ class Airdrops extends React.PureComponent<Props> {
 
   render () {
     const { data, hasEmail } = this.props
-
     const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
@@ -82,6 +81,9 @@ class Airdrops extends React.PureComponent<Props> {
         )
     })
     if (!hasEmail) return <EmailRequired />
+    const userData = this.props.data.getOrElse({
+      kycState: 'NONE'
+    })
     return (
       <Wrapper>
         <SceneHeader>
@@ -101,17 +103,20 @@ class Airdrops extends React.PureComponent<Props> {
             defaultMessage='The safest and easiest way to try and discover new crypto.'
           />
         </SceneSubHeaderText>
-
         {AirdropCards}
-        <History>
-          <MainTitle size='24px' color='grey800' weight={600}>
-            <FormattedMessage
-              id='scenes.airdrops.pastairdrops'
-              defaultMessage='Past Airdrops'
-            />
-          </MainTitle>
-        </History>
-        {PastAirdrops}
+        {userData.kycState === 'VERIFIED' && (
+          <React.Fragment>
+            <History>
+              <MainTitle size='24px' color='grey800' weight={600}>
+                <FormattedMessage
+                  id='scenes.airdrops.pastairdrops'
+                  defaultMessage='Past Airdrops'
+                />
+              </MainTitle>
+            </History>
+            {PastAirdrops}
+          </React.Fragment>
+        )}
       </Wrapper>
     )
   }
