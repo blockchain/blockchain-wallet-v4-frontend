@@ -40,6 +40,9 @@ class Airdrops extends React.PureComponent<Props> {
 
   render () {
     const { data, hasEmail } = this.props
+    const userData = this.props.data.getOrElse({
+      kycState: 'NONE'
+    })
     const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,
@@ -81,9 +84,6 @@ class Airdrops extends React.PureComponent<Props> {
         )
     })
     if (!hasEmail) return <EmailRequired />
-    const userData = this.props.data.getOrElse({
-      kycState: 'NONE'
-    })
     return (
       <Wrapper>
         <SceneHeader>
