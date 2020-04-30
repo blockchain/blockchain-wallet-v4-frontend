@@ -88,45 +88,7 @@ export type SBCardStateType =
   | 'BLOCKED'
   | 'FRAUD_REVIEW'
 
-export enum SBBuyPairsType {
-  'BTC-EUR',
-  'BCH-EUR',
-  'ETH-EUR',
-  'PAX-EUR',
-  'XLM-EUR',
-  'BTC-GBP',
-  'BCH-GBP',
-  'ETH-GBP',
-  'PAX-GBP',
-  'XLM-GBP',
-  'BTC-USD',
-  'BCH-USD',
-  'ETH-USD',
-  'PAX-USD',
-  'XLM-USD'
-}
-
-export enum SBSellPairsType {
-  'EUR-BTC',
-  'EUR-BCH',
-  'EUR-ETH',
-  'EUR-PAX',
-  'EUR-XLM',
-  'GBP-BTC',
-  'GBP-BCH',
-  'GBP-ETH',
-  'GBP-PAX',
-  'GBP-XLM',
-  'USD-BTC',
-  'USD-BCH',
-  'USD-ETH',
-  'USD-PAX',
-  'USD-XLM'
-}
-
-export type SBPairsType =
-  | keyof typeof SBBuyPairsType
-  | keyof typeof SBSellPairsType
+export type SBPairsType = string
 
 export type SBPairType = {
   buyMax: string
@@ -196,12 +158,12 @@ export type ISBBuyOrderType = {
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
-  pair: keyof typeof SBBuyPairsType
+  pair: SBPairsType
 }
 export type SBSellOrderType = ISBBuyOrderType & {
   inputCurrency: CoinType
   outputCurrency: FiatType
-  pair: keyof typeof SBSellPairsType
+  pair: SBPairsType
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
