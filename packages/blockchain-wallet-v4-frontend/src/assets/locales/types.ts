@@ -1936,6 +1936,7 @@ type MessagesType = {
   'swap.getstarted.readytoswap.title': 'Ready to Swap? '
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'
+  'tooltip.transaction.pending.eth': 'Your transaction is currently pending. You can attempt to resend it with a higher fee.'
   'txlist.change.tooltip.description': 'This change address belongs to your wallet'
   'wallet.menutop.balance.error.refresh': 'Refresh {curr} data'
   'wallet.menutop.bchbalance.refresh': 'Refresh {curr} data'

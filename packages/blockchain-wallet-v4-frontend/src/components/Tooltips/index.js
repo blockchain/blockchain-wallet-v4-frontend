@@ -278,6 +278,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The collateral deposit is pending until it is confirmed by the network and a Blockchain.com agent.'
           />
         </Tooltip>
+        <Tooltip id='transaction.pending.eth'>
+          <FormattedMessage
+            id='tooltip.transaction.pending.eth'
+            defaultMessage='Your transaction is currently pending. You can attempt to resend it with a higher fee.'
+          />
+        </Tooltip>
         <Tooltip id='coming-soon'>
           <FormattedMessage
             id='tooltip.comingsoon'
