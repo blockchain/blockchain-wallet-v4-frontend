@@ -22,7 +22,9 @@
     "test:build": "cross-env rimraf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:update": "cross-env ./../../node_modules/.bin/jest -u",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -77,6 +79,8 @@
     "react-select": "3.0.3",
     "react-transition-group": "2.5.3",
     "styled-components": "4.4.1",
-    "universal-cookie": "4.0.0"
-  }
+    "universal-cookie": "4.0.0",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }
