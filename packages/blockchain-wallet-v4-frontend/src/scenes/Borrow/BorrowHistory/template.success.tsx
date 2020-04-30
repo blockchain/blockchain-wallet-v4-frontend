@@ -15,9 +15,6 @@ import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-export const MainTitle = styled(Text)`
-  margin-bottom: 8px;
-`
 const CollateralizationTableCell = styled(TableCell)`
   align-items: center;
 `

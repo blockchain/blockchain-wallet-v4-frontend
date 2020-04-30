@@ -9,7 +9,7 @@ import {
   InterestRateType,
   InterestTransactionResponseType
 } from 'core/network/api/interest/types'
-import { InterestActionTypes } from './types'
+import { InterestActionTypes, InterestStep } from './types'
 
 export const fetchInterestBalance = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_BALANCE,
@@ -184,9 +184,28 @@ export const fetchInterestTransactionsSuccess = (
     interestTransactions
   }
 })
+
+export const initializeDepositModal = (): InterestActionTypes => ({
+  type: AT.INITIALIZE_DEPOSIT_MODAL
+})
+
 export const initializeInterest = (coin: CoinType) => ({
   payload: {
     coin
   },
   type: AT.INITIALIZE_INTEREST
+})
+
+export const setInterestStep = (step: InterestStep) => ({
+  payload: {
+    step
+  },
+  type: AT.SET_INTEREST_STEP
+})
+
+export const showInterestModal = (step: InterestStep) => ({
+  payload: {
+    step
+  },
+  type: AT.SHOW_INTEREST_MODAL
 })

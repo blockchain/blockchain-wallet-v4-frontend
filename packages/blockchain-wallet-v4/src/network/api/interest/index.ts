@@ -41,7 +41,7 @@ export default ({ nabuUrl, authorizedGet }) => {
       endPoint: '/savings/limits'
     })
 
-  // const getInterestTransactions = (): InterestTransactionType =>
+  // const getInterestTransactions = (): InterestTransactionResponseType =>
   //   authorizedGet({
   //     url: nabuUrl,
   //     endPoint: '/payments/transactions?PRODUCT=savings'
@@ -91,7 +91,7 @@ export default ({ nabuUrl, authorizedGet }) => {
     ]
   })
 
-  const getInterestSavingsRate = (): { interestRate: InterestRateType } =>
+  const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/savings/rates'

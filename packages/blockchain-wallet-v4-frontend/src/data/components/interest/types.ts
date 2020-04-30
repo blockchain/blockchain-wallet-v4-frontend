@@ -21,8 +21,11 @@ export type InterestFormValuesType = {
 }
 
 export enum InterestSteps {
-  'DEPOSIT'
+  'DEPOSIT',
+  'DETAILS'
 }
+
+export type InterestStep = keyof typeof InterestSteps
 
 // State
 export interface InterestState {
@@ -32,8 +35,10 @@ export interface InterestState {
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
+
   interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
+  step: InterestStep
 }
 
 // Actions
@@ -152,11 +157,29 @@ interface FetchInterestTransactionsSuccess {
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
 }
 
+interface InitializeDepositModalAction {
+  type: typeof AT.INITIALIZE_DEPOSIT_MODAL
+}
+
 interface InitializeInterestAction {
   payload: {
     coin: CoinType
   }
   type: typeof AT.INITIALIZE_INTEREST
+}
+
+interface SetInterestStep {
+  payload: {
+    step: InterestStep
+  }
+  type: typeof AT.SET_INTEREST_STEP
+}
+
+interface ShowInterestModal {
+  payload: {
+    step: InterestStep
+  }
+  type: typeof AT.SHOW_INTEREST_MODAL
 }
 
 export type InterestActionTypes =
@@ -181,4 +204,7 @@ export type InterestActionTypes =
   | FetchInterestTransactionsFailure
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
+  | InitializeDepositModalAction
   | InitializeInterestAction
+  | SetInterestStep
+  | ShowInterestModal

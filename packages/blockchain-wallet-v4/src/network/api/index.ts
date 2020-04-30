@@ -46,7 +46,7 @@ const api = ({
       authorizedPost: authorizedHttp.post
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
-    ...eth({ rootUrl, apiUrl, ...http }),
+    ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,
@@ -91,6 +91,7 @@ export default api
 export type APIType = ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
+  ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof misc> &
   ReturnType<typeof simpleBuy> &

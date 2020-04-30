@@ -24,7 +24,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from './template'
+import { OwnProps, SuccessStateType } from './template'
 import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -168,15 +168,6 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
     padding: 15px !important;
   }
 `
-
-type LinkStatePropsType = {
-  values?: InterestFormValuesType
-}
-
-type Props = OwnProps &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  SuccessStateType
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [tab, setTab] = useState<'long' | 'short'>('long')
@@ -491,9 +482,17 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('interestForm')(state)
 })
 
+const connector = connect(mapStateToProps)
+
+type LinkStatePropsType = {
+  values?: InterestFormValuesType
+}
+
+type Props = OwnProps & LinkStatePropsType & SuccessStateType
+
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'interestForm', destroyOnUnmount: false }),
-  connect(mapStateToProps)
+  connector
 )
 
 export default enhance(Success) as React.FunctionComponent<Props>

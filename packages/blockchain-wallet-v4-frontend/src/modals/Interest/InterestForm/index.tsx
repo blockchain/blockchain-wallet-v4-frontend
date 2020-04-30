@@ -1,5 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+
 import {
   CoinType,
   InterestLimitsType,

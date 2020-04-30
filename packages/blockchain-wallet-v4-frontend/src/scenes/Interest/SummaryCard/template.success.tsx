@@ -6,19 +6,21 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props } from '.'
+
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const DepositBox = styled(Box)`
+const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: ${props => (props.showInterestInfoBox ? 'auto' : '200px')};
 `
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -31,7 +33,6 @@ const AmountRow = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-
 const AmountColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,10 +41,24 @@ const AmountColumn = styled.div`
 const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
+const IneligibleText = styled.div`
+  color: ${props => props.theme.grey500};
+`
 
-function Success (props: Props): ReactElement {
+function SummaryCard (props: Props): ReactElement {
+  const {
+    interestAccountBalance,
+    interestActions,
+    interestEligible,
+    // @ts-ignore PHIL HELP
+    interestRate,
+    // @ts-ignore PHIL HELP
+    isGoldTier,
+    modalActions,
+    showInterestInfoBox
+  } = props
   return (
-    <DepositBox>
+    <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
         <Icon name='btc-circle-filled' color='btc' size='32px' />
         <Text
@@ -67,22 +82,26 @@ function Success (props: Props): ReactElement {
           <FormattedMessage
             id='scenes.earninterest.form.earn3percent'
             defaultMessage='Earn {interestRate}% AER on your BTC'
+            // TODO make this more coin interchangeable
+            values={{ interestRate: prop('BTC', interestRate) }}
           />
         </Text>
       </Row>
       <Separator />
       <AmountRow>
         <AmountColumn>
-          <Text
-            size='16px'
+          <FiatDisplay
             color='grey800'
+            size='16px'
             weight={600}
+            currency='USD'
+            coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            $0.00
-          </Text>
+            100000000
+          </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            0 BTC
+            {interestAccountBalance.BTC} BTC
           </Text>
         </AmountColumn>
         <AmountColumn>
@@ -99,34 +118,34 @@ function Success (props: Props): ReactElement {
           </Text>
         </AmountColumn>
       </AmountRow>
-      {}
-      <Button
-        disabled={props.isDisabled}
-        style={{ marginTop: '16px' }}
-        nature='primary'
-        fullwidth
-        data-e2e='earnInterest'
-        // TODO:  PUT THIS  BACK
-        onClick={() => props.modalActions.showModal('INTEREST_MODAL')}
-      >
-        <FormattedMessage
-          id='scenes.earninterest.form.earnbutton'
-          defaultMessage='Earn Interest'
-        />
-      </Button>
-      <Button
-        disabled={props.isDisabled}
-        style={{ marginTop: '16px' }}
-        nature='primary'
-        fullwidth
-        data-e2e='earnInterest'
-        // TODO:  PUT THIS  BACK
-        onClick={() => props.modalActions.showModal('WITHDRAWAL_MODAL')}
-      >
-        MY BUTTON
-      </Button>
+      {interestAccountBalance.BTC ? (
+        <Button
+          style={{ marginTop: '16px' }}
+          nature='light'
+          data-e2e='viewInterestDetails'
+          fullwidth
+          onClick={() => interestActions.showInterestModal('DETAILS')}
+        >
+          <FormattedMessage id='copy.view' defaultMessage='View' />
+        </Button>
+      ) : (
+        <Button
+          disabled={!isGoldTier || !interestEligible.eligible}
+          style={{ marginTop: '16px' }}
+          nature='primary'
+          fullwidth
+          data-e2e='earnInterest'
+          onClick={() => modalActions.showModal('INTEREST_MODAL')}
+        >
+          <FormattedMessage
+            id='scenes.earninterest.form.earnbutton'
+            defaultMessage='Earn Interest'
+          />
+        </Button>
+      )}
+      {!interestEligible.eligible && <IneligibleText>TODO</IneligibleText>}
     </DepositBox>
   )
 }
 
-export default Success
+export default SummaryCard

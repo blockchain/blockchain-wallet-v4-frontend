@@ -85,6 +85,7 @@ const FirstStep = props => {
     invalid,
     isContractChecked,
     isMnemonicVerified,
+    isRetryAttempt,
     isSufficientEthForErc20,
     priorityFee,
     pristine,
@@ -127,6 +128,7 @@ const FirstStep = props => {
           <Field
             name='from'
             component={SelectBoxEthAddresses}
+            disabled={isRetryAttempt}
             includeAll={false}
             validate={[required]}
             excludeLockbox={excludeLockbox}
@@ -168,6 +170,7 @@ const FirstStep = props => {
               coin={coin}
               component={SelectBoxEthAddresses}
               dataE2e='sendEthAddressInput'
+              disabled={isRetryAttempt}
               exclude={[from.label]}
               includeAll={false}
               includeExchangeAddress={!isFromCustody}
@@ -181,14 +184,14 @@ const FirstStep = props => {
                 isFromCustody ? [required] : [required, validEthAddress]
               }
             />
-            {!isFromCustody && (
+            {isFromCustody || isRetryAttempt ? null : (
               <QRCodeCapture
                 scanType='ethAddress'
                 border={['top', 'bottom', 'right', 'left']}
               />
             )}
           </StyledRow>
-          {unconfirmedTx && (
+          {unconfirmedTx && !isRetryAttempt && (
             <Text color='error' size='12px' weight={400}>
               <FormattedMessage
                 id='modals.sendeth.unconfirmedtransactionmessage'

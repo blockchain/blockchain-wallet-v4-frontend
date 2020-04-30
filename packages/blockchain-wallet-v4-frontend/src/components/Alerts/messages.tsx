@@ -32,7 +32,7 @@ const buildMessageTemplate = messageText => (
   </Text>
 )
 
-export const getAlertContent = (message, data = undefined, handleClose, id) => {
+export const getAlertContent = (message, data = undefined) => {
   switch (message) {
     case C.ETH_LOW_BALANCE_WARNING:
       return (
@@ -41,14 +41,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
             <Icon size='24px' name='info' color='orange600' />
           </IconColumn>
           <ContentColumn>
-            <Text size='14px' weight='600' data-e2e='runningLowMessage'>
+            <Text size='14px' weight={600} data-e2e='runningLowMessage'>
               <FormattedMessage
                 id='components.alerts.loweth.header'
                 defaultMessage='Running Low!'
               />
             </Text>
             <TextGroup inline>
-              <Text size='12px' weight='500'>
+              <Text size='12px' weight={500}>
                 <FormattedMessage
                   id='components.alerts.loweth.body1'
                   defaultMessage='Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
@@ -397,7 +397,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return (
         <ContentColumn>
           <TextGroup inline>
-            <Text size='12px' weight='500'>
+            <Text size='12px' weight={500}>
               <FormattedMessage
                 id='components.alerts.iprestriction_login_error'
                 defaultMessage='This wallet is restricted to another IP address. To remove this restriction, submit a 2FA reset request under '
@@ -627,6 +627,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage="You've just received a Stellar payment"
         />
       )
+    case C.PAYMENT_CONFIRMED_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.paymentconfirmed'
+          defaultMessage='Your transaction has been confirmed.'
+        />
+      )
     case C.PBKDF2_UPDATE_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
@@ -639,6 +646,13 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
         <FormattedMessage
           id='components.alerts.please_login'
           defaultMessage='Please login to your wallet to proceed'
+        />
+      )
+    case C.PLEASE_TRY_AGAIN:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.pleasetryagain'
+          defaultMessage='Something went wrong. Please try again.'
         />
       )
     case C.QR_SCANNER_NOT_ALLOWED:
@@ -704,6 +718,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
           defaultMessage='BTC wallet name updated'
         />
       )
+    case C.RESEND_COIN_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.resend_coin_success'
+          defaultMessage='Your {coinName} transaction has been resent.'
+          values={data}
+        />
+      )
     case C.RESET_TWOFA_INFO:
       return buildMessageTemplate(
         <FormattedMessage
@@ -743,14 +765,14 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.second_password_enabled_success'
-          defaultMessage='Second password successfully enabled'
+          defaultMessage='Second password enabled'
         />
       )
     case C.SECOND_PASSWORD_DISABLED_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.second_password_disabled_success'
-          defaultMessage='Second password successfully disabled'
+          defaultMessage='Second password disabled'
         />
       )
     case C.SEND_COIN_SUCCESS:
@@ -971,7 +993,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.update_address_label_error'
-          defaultMessage='Failed to update address label'
+          defaultMessage='Failed to update address label.'
         />
       )
     case C.UPDATE_IMPORTED_ADDRESS_LABEL_SUCCESS:
@@ -1083,7 +1105,7 @@ export const getAlertContent = (message, data = undefined, handleClose, id) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.address_and_private_key_incorrect'
-          defaultMessage='Not a valid bitcoin private key or address.'
+          defaultMessage='Not a valid Bitcoin Private Key or Address.'
         />
       )
     case C.LOCKBOX_SETUP_SUCCESS:
