@@ -136,7 +136,7 @@ export default ({ api }) => {
         const gasLimit = isErc20
           ? prop('gasLimitContract', fees)
           : prop('gasLimit', fees)
-        const fee = calculateFee(gasPrice, gasLimit)
+        const fee = calculateFee(gasPrice, gasLimit, true)
         const isSufficientEthForErc20 = yield call(
           calculateIsSufficientEthForErc20,
           fee
@@ -237,7 +237,7 @@ export default ({ api }) => {
           p.isErc20 || p.isContract
             ? path(['fees', 'gasLimitContract'], p)
             : path(['fees', 'gasLimit'], p)
-        const fee = calculateFee(feeInGwei, gasLimit)
+        const fee = calculateFee(feeInGwei, gasLimit as string, true)
 
         const data = p.isErc20
           ? yield call(api.getErc20AccountSummaryV2, account, contract)
@@ -350,11 +350,16 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { isErc20 }))
       },
 
-      setIsRetryAttempt (isRetryAttempt: boolean, nonce: string) {
+      setIsRetryAttempt (
+        isRetryAttempt: boolean,
+        nonce: string,
+        minFeeRequiredForRetry: string
+      ) {
         return makePayment(
           mergeRight(p, {
+            from: { ...p.from, nonce: Number(nonce) },
             isRetryAttempt,
-            from: { ...p.from, nonce: Number(nonce) }
+            minFeeRequiredForRetry
           })
         )
       },

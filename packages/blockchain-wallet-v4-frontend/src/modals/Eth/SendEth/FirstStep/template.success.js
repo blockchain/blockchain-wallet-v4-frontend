@@ -44,11 +44,13 @@ import {
 import { model } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { required, validEthAddress } from 'services/FormHelper'
+import BigNumber from 'bignumber.js'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import ExchangePromo from 'components/Send/ExchangePromo'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
+import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'
 import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
 import PropTypes from 'prop-types'
@@ -87,6 +89,7 @@ const FirstStep = props => {
     isMnemonicVerified,
     isRetryAttempt,
     isSufficientEthForErc20,
+    minFeeRequiredForRetry,
     priorityFee,
     pristine,
     regularFee,
@@ -102,6 +105,9 @@ const FirstStep = props => {
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableDueToLowEth =
     coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
+  const disableRetryAttempt =
+    isRetryAttempt &&
+    new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
   const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
@@ -338,6 +344,7 @@ const FirstStep = props => {
           </Text>
         </CustomFeeAlertBanner>
       ) : null}
+      {disableRetryAttempt && <MinFeeForRetryInvalid />}
       {disableDueToLowEth && <LowEthWarningForErc20 />}
       {isFromCustody && !isMnemonicVerified ? (
         <MnemonicRequiredForCustodySend />
@@ -354,6 +361,7 @@ const FirstStep = props => {
             invalid ||
             !isContractChecked ||
             disableDueToLowEth ||
+            disableRetryAttempt ||
             disableCustodySend ||
             Remote.Loading.is(balanceStatus)
           }

@@ -11,6 +11,8 @@ import {
   prop,
   toLower
 } from 'ramda'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
+import { EthRawTxType } from 'core/network/api/eth/types'
 import {
   getDefaultAddress,
   getDefaultLabel,
@@ -19,7 +21,6 @@ import {
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
-import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import Remote from '../remote'
 
@@ -51,10 +52,6 @@ const getType = (tx, addresses) => {
 //
 // ETH
 //
-export const calculateEthTxFee = tx =>
-  new BigNumber(tx.gasPrice || 0)
-    .multipliedBy(tx.gasUsed || tx.gas || 0)
-    .toString()
 
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
@@ -65,13 +62,16 @@ export const getLabel = (address, state) => {
       case equals(toLower(defaultAddress), toLower(address)):
         return defaultLabel
       case any(
+        // @ts-ignore
         x => equals(toLower(x.addr), toLower(address)),
         lockboxEthAccounts
       ):
         const ethAccounts = filter(
+          // @ts-ignore
           x => equals(toLower(x.addr), toLower(address)),
           lockboxEthAccounts
         )
+        // @ts-ignore
         return prop('label', head(ethAccounts))
       default:
         return address
@@ -85,29 +85,36 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, erc20Contracts, state, tx) => {
-  const fee = calculateEthTxFee(tx)
-  const type = toLower(getType(tx, addresses))
-  const amount =
-    type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
-  const time = tx.timestamp || tx.timeStamp
+export const _transformTx = curry(
+  (addresses, erc20Contracts, state, tx: EthRawTxType) => {
+    const fee = calculateFee(
+      tx.gasPrice,
+      tx.state === 'CONFIRMED' ? tx.gasUsed : tx.gasLimit,
+      false
+    )
+    const type = toLower(getType(tx, addresses))
+    const amount =
+      type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+    // @ts-ignore
+    const time = tx.timestamp || tx.timeStamp
 
-  return {
-    amount,
-    blockHeight: tx.blockNumber,
-    description: getEthTxNote(state, tx.hash).getOrElse(''),
-    erc20: includes(tx.to, erc20Contracts.map(toLower)),
-    fee: Remote.Success(fee),
-    from: getLabel(tx.from, state, ''),
-    hash: tx.hash,
-    insertedAt: Number(time) * 1000,
-    state: tx.state,
-    time,
-    timeFormatted: getTime(time),
-    to: getLabel(tx.to, state, ''),
-    type
+    return {
+      amount,
+      blockHeight: tx.state === 'CONFIRMED' ? tx.blockNumber : undefined,
+      description: getEthTxNote(state, tx.hash).getOrElse(''),
+      erc20: includes(tx.to, erc20Contracts.map(toLower)),
+      fee: Remote.Success(fee),
+      from: getLabel(tx.from, state),
+      hash: tx.hash,
+      insertedAt: Number(time) * 1000,
+      state: tx.state,
+      time,
+      timeFormatted: getTime(time),
+      to: getLabel(tx.to, state),
+      type
+    }
   }
-})
+)
 
 //
 // ERC20
