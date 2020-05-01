@@ -8,10 +8,9 @@ import {
 } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import { Props } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -46,19 +45,16 @@ const IneligibleText = styled.div`
   color: ${props => props.theme.grey500};
 `
 
-function SummaryCard (props: Props): ReactElement {
+function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
     interestAccountBalance,
     interestActions,
     interestEligible,
-    // @ts-ignore PHIL HELP
     interestRate,
-    // @ts-ignore PHIL HELP
     isGoldTier,
     modalActions,
     showInterestInfoBox
   } = props
-
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
@@ -96,31 +92,32 @@ function SummaryCard (props: Props): ReactElement {
             color='grey800'
             size='16px'
             weight={600}
+            currency='USD'
             coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            {interestAccountBalance.BTC.balance}
+            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}
           </FiatDisplay>
-          <CoinDisplay coin='BTC' size='12px' style={{ lineHeight: '1.5' }}>
-            {interestAccountBalance.BTC.balance}
-          </CoinDisplay>
+          <Text size='12px' style={{ lineHeight: '1.5' }}>
+            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}{' '}
+            BTC
+          </Text>
         </AmountColumn>
         <AmountColumn>
-          <FiatDisplay
-            color='grey800'
+          <Text
             size='16px'
+            color='grey800'
             weight={600}
-            coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            {interestAccountBalance.BTC.totalInterest}
-          </FiatDisplay>
+            $0
+          </Text>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
             Total Interest Earned
           </Text>
         </AmountColumn>
       </AmountRow>
-      {interestAccountBalance.BTC.balance ? (
+      {interestAccountBalance.BTC && interestAccountBalance.BTC.balance > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
           nature='light'

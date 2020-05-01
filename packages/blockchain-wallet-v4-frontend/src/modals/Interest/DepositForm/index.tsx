@@ -3,32 +3,34 @@ import { bindActionCreators, Dispatch } from 'redux'
 import {
   CoinType,
   InterestLimitsType,
+  InterestRateType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
-import { RatesType } from 'data/types'
+import { RatesType, UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-class InterestForm extends PureComponent<Props> {
-  state = {}
+// change in future when more coins are supported
+const DEPOSIT_COIN = 'BTC'
 
+class DepositForm extends PureComponent<Props> {
   componentDidMount () {
-    this.props.interestActions.initializeInterest('BTC')
+    this.props.interestActions.initializeDepositForm(DEPOSIT_COIN)
   }
 
   handleRefresh = () => {
-    this.props.interestActions.initializeInterest('BTC')
+    this.props.interestActions.initializeDepositForm(DEPOSIT_COIN)
   }
 
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => <Success {...val} {...this.props} coin={DEPOSIT_COIN} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -57,13 +59,16 @@ export type LinkDispatchPropsType = {
 }
 export type SuccessStateType = {
   coin: CoinType
-  interestLimits: InterestLimitsType
+  interestRate: InterestRateType
+  limits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedCoinsType
+  userData: UserDataType
+  walletCurrency: string
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(InterestForm)
+export default connector(DepositForm)

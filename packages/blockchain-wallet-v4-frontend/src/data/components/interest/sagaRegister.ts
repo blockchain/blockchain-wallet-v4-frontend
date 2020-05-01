@@ -1,9 +1,10 @@
 import * as AT from './actionTypes'
+import { APIType } from 'core/network/api'
 import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default ({ api, coreSagas, networks }) => {
-  const interestSagas = sagas({ api, coreSagas, networks })
+export default ({ api }: { api: APIType }) => {
+  const interestSagas = sagas({ api })
 
   return function * interestSaga () {
     yield takeLatest(
@@ -24,7 +25,7 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-      interestSagas.fetchInterestPaymentAccount
+      interestSagas.fetchInterestAccount
     )
     yield takeLatest(AT.FETCH_INTEREST_RATE, interestSagas.fetchInterestRate)
     yield takeLatest(
@@ -32,11 +33,10 @@ export default ({ api, coreSagas, networks }) => {
       interestSagas.fetchInterestTransactions
     )
     yield takeLatest(
-      AT.INITIALIZE_SUMMARY_CARD,
-      interestSagas.intitalizeSummaryCard
+      AT.INITIALIZE_DEPOSIT_FORM,
+      interestSagas.initializeDepositForm
     )
-
-    yield takeLatest(AT.INITIALIZE_INTEREST, interestSagas.initializeInterest)
+    yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

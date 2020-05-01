@@ -14,7 +14,7 @@ export const getInterestInstruments = (state: RootState) =>
 export const getInterestLimits = (state: RootState) =>
   state.components.interest.interestLimits
 
-export const getInterestPaymentAccount = (state: RootState) =>
+export const getInterestAccount = (state: RootState) =>
   state.components.interest.account
 
 export const getStep = (state: RootState) => state.components.interest.step
@@ -24,3 +24,9 @@ export const getInterestRate = (state: RootState) =>
 
 export const getInterestTransactions = (state: RootState) =>
   state.components.interest.interestTransactions
+
+export const getDepositAddress = (state: RootState) => {
+  const account = getInterestAccount(state).getOrElse({ accountRef: null })
+  // @ts-ignore TODO: fixme
+  return account.accountRef
+}

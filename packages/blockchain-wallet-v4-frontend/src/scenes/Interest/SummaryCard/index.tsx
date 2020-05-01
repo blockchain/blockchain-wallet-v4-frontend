@@ -1,32 +1,36 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import {
-  CoinType,
-  InterestAccountBalanceType,
-  InterestEligibleType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
+import {
+  InterestAccountBalanceType,
+  InterestEligibleType,
+  InterestRateType,
+  RemoteDataType
+} from 'core/types'
+import {
+  StateType as ParentStateType,
+  SuccessStateType as ParentSuccessStateType
+} from '..'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import SummaryCard from './template.success'
 
 /*
   TODO List:
-  1) fix TS errors
-  2) error state
-  3) show ineligible reason
+  1) error state
+  2) show ineligible reason
+  3) figure out where/how to createUser
 */
 class SummaryCardContainer extends PureComponent<Props> {
-  // componentDidMount() {
-  //   this.props.interestActions.initializeSummaryCard()
-  // }
+  componentDidMount () {
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestBalance()
+  }
   render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
-      Failure: () => <p>ERROR: TODO</p>,
+      Failure: () => null,
       Loading: () => <SkeletonRectangle width='330px' height='275px' />,
       NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
     })
@@ -48,18 +52,24 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type OwnPropsType = {
-  coin: CoinType
+export type SuccessStateType = {
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   showInterestInfoBox: boolean
-  supportedCoins: SupportedCoinsType
+}
+
+export type OwnPropsType = {
+  interestRate: InterestRateType
+  isGoldTier: boolean
 }
 
 export type LinkStatePropsType = {
-  data: RemoteDataType<string, Array<OwnPropsType>>
+  data: RemoteDataType<string, SuccessStateType>
 }
 
-export type Props = OwnPropsType & ConnectedProps<typeof connector>
+export type Props = OwnPropsType &
+  ParentSuccessStateType &
+  ParentStateType &
+  ConnectedProps<typeof connector>
 
 export default connector(SummaryCardContainer)

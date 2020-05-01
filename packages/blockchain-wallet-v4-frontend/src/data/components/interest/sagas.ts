@@ -1,27 +1,14 @@
 import * as A from './actions'
+import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { InterestTransactionResponseType } from 'core/types'
 import { nth } from 'ramda'
-import profileSagas from '../../modules/profile/sagas'
 
-export default ({
-  api,
-  coreSagas,
-  networks
-}: {
-  api: APIType
-  coreSagas: any
-  networks: any
-}) => {
-  const { createUser, waitForUserData } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
+export default ({ api }: { api: APIType }) => {
   const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
@@ -73,14 +60,14 @@ export default ({
     }
   }
 
-  const fetchInterestPaymentAccount = function * (coin) {
+  const fetchInterestAccount = function * (coin) {
     try {
-      yield put(A.fetchInterestPaymentAccountLoading())
-      const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
-      yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
+      yield put(A.fetchInterestAccountLoading())
+      const paymentAccount = yield call(api.getInterestAccount, coin)
+      yield put(A.fetchInterestAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestPaymentAccountFailure(error))
+      yield put(A.fetchInterestAccountFailure(error))
     }
   }
 
@@ -110,20 +97,12 @@ export default ({
     }
   }
 
-  const intitalizeSummaryCard = function * () {
-    yield call(createUser)
-    yield call(waitForUserData)
-
-    yield call(fetchInterestRate)
-    yield call(fetchInterestEligible)
-    yield call(fetchInterestBalance)
-    yield call(fetchInterestTransactions)
-  }
-
-  const initializeInterest = function * ({
+  const initializeDepositForm = function * ({
     payload
-  }: ReturnType<typeof A.initializeInterest>) {
+  }: ReturnType<typeof A.initializeDepositForm>) {
     let defaultAccountR
+
+    yield call(fetchInterestLimits)
 
     switch (payload.coin) {
       case 'BTC':
@@ -139,11 +118,27 @@ export default ({
         break
     }
     const initialValues = {
-      depositAmount: 0,
       'interest-deposit-select': defaultAccountR.getOrElse()
     }
 
-    yield put(initialize('interestForm', initialValues))
+    yield put(initialize('interestDepositForm', initialValues))
+  }
+
+  const sendDeposit = function * () {
+    const FORM = 'interestDepositForm'
+    try {
+      yield put(actions.form.startSubmit(FORM))
+      yield call(fetchInterestAccount, 'BTC')
+      const depositAddress = yield select(S.getDepositAddress)
+      /* eslint-disable no-console */
+      console.log(depositAddress)
+      yield delay(4000)
+      yield put(actions.form.stopSubmit(FORM))
+      yield put(A.setInterestStep('DEPOSIT_SUCCESS'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+    }
   }
 
   const showInterestModal = function * ({
@@ -158,11 +153,11 @@ export default ({
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
-    fetchInterestPaymentAccount,
+    fetchInterestAccount,
     fetchInterestRate,
     fetchInterestTransactions,
-    intitalizeSummaryCard,
-    initializeInterest,
+    initializeDepositForm,
+    sendDeposit,
     showInterestModal
   }
 }

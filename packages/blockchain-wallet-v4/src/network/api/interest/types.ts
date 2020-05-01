@@ -1,4 +1,4 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType } from 'core/types'
 
 enum IneligibilityReason {
   KYC_TIER,
@@ -10,7 +10,6 @@ export type InterestAccountBalanceType = {
   [key in CoinType]: {
     balance: number
     fiatAmount: number
-    fiatCurrency: FiatType
     pendingDeposit: number
     pendingInterest: number
     pendingWithdrawal: number
@@ -33,8 +32,8 @@ export type InterestLimitsType = {
   }
 }
 
-export type InterestPaymentAccountType = {
-  depositAddress: string
+export type InterestAccountType = {
+  accountRef: string // actually the btc deposit address
 }
 
 export type InterestRateType = {

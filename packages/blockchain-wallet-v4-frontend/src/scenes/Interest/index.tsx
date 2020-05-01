@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -11,13 +11,9 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import {
-  InterestRateType,
-  InterestTransactionResponseType,
-  RemoteDataType
-} from 'core/types'
+import { InterestRateType, RemoteDataType } from 'core/types'
 import { UserDataType } from 'data/types'
-import InterestHistory, { SuccessStateType } from './InterestHistory'
+import InterestHistory from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 
@@ -38,14 +34,13 @@ const LearnMoreText = styled(Text)`
 
 /*
   TODO List:
-  1) fix TS errors
-  2) fetch txs and show table if txs exist
+  1) fetch txs and show table if txs exist
 */
-class Interest extends React.PureComponent<Props, State> {
-  state: State = { isGoldTier: false }
+class Interest extends React.PureComponent<Props, StateType> {
+  state = { isGoldTier: true }
 
   componentDidMount () {
-    this.props.interestActions.initializeSummaryCard()
+    this.props.interestActions.fetchInterestRate()
   }
 
   componentDidUpdate (prevProps: Props) {
@@ -70,6 +65,7 @@ class Interest extends React.PureComponent<Props, State> {
   render () {
     const { isGoldTier } = this.state
     const { data } = this.props
+
     return (
       <SceneWrapper>
         <SceneHeader>
@@ -104,21 +100,21 @@ class Interest extends React.PureComponent<Props, State> {
           Success: val => (
             <>
               <Container>
-                {/*
-                // @ts-ignore PHIL HELP */}
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
-                {/*
-                // @ts-ignore PHIL HELP */}
-                <SummaryCard {...val} {...this.props} isGoldTier={isGoldTier} />
+                {isGoldTier && (
+                  <SummaryCard
+                    {...val}
+                    {...this.props}
+                    isGoldTier={isGoldTier}
+                  />
+                )}
               </Container>
-              {val.interestHistory.items.length > 0 && (
-                <InterestHistory {...this.props} />
-              )}
+              <InterestHistory />
             </>
           ),
           Failure: () => null,
-          Loading: () => null,
-          NotAsked: () => null
+          Loading: () => <SkeletonRectangle width='330px' height='275px' />,
+          NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
         })}
       </SceneWrapper>
     )
@@ -129,13 +125,12 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   idvActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(
@@ -143,18 +138,21 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type State = {
+export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  interestHistory: InterestTransactionResponseType
   interestRate: InterestRateType
   userData: UserDataType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }
+export type LinkDispatchPropsType = {
+  idvActions: typeof actions.components.identityVerification
+  interestActions: typeof actions.components.interest
+}
 
-export type Props = State & SuccessStateType & ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(Interest)
