@@ -23,15 +23,11 @@ export default ({ nabuUrl, authorizedGet }) => {
       }
     })
 
-  const getInterestEligible = (): InterestEligibleType => ({
-    eligible: false,
-    ineligibilityReason: 2
-  })
-
-  // authorizedGet({
-  //   url: nabuUrl,
-  //   endPoint: '/savings/eligible'
-  // })
+  const getInterestEligible = (): InterestEligibleType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/savings/eligible'
+    })
 
   const getInterestInstruments = (): InterestInstrumentsType =>
     authorizedGet({

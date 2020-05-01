@@ -1,11 +1,5 @@
 import { CoinType } from 'core/types'
 
-enum IneligibilityReason {
-  KYC_TIER,
-  BLOCKED,
-  REGION
-}
-
 export type InterestAccountBalanceType = {
   [key in CoinType]: {
     balance: number
@@ -19,7 +13,7 @@ export type InterestAccountBalanceType = {
 
 export type InterestEligibleType = {
   eligible: boolean
-  ineligibilityReason: IneligibilityReason
+  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
 }
 
 export type InterestInstrumentsType = Array<CoinType>

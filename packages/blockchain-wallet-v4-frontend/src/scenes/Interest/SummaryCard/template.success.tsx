@@ -2,6 +2,7 @@ import { Box } from 'components/Box'
 import {
   Button,
   Icon,
+  Link,
   Text,
   TooltipHost,
   TooltipIcon
@@ -41,8 +42,21 @@ const AmountColumn = styled.div`
 const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
-const IneligibleText = styled.div`
-  color: ${props => props.theme.grey500};
+
+const AbsoluteWarning = styled(Text)`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+`
+
+const AbsoluteWarningRegion = styled(Text)`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: -60px;
+  left: 0;
 `
 
 function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
@@ -142,7 +156,53 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           />
         </Button>
       )}
-      {!interestEligible.eligible && <IneligibleText>TODO</IneligibleText>}
+      {!interestEligible.eligible &&
+        interestEligible.ineligibilityReason === 'REGION' && (
+          <AbsoluteWarningRegion size='12px' weight={500} color='grey600'>
+            <Icon name='info' color='grey600' />
+            <div style={{ marginLeft: '8px' }}>
+              <FormattedMessage
+                id='scenes.earninterest.userblocked'
+                defaultMessage='Blockchain Interest Account is currrently not available in your country or region at the moment.'
+              />{' '}
+              <Link
+                size='12px'
+                weight={500}
+                target='_blank'
+                // placeholder link
+                href='https://support.blockchain.com/hc/en-us'
+              >
+                <FormattedMessage
+                  id='buttons.learn_more'
+                  defaultMessage='Learn More'
+                />
+              </Link>
+            </div>
+          </AbsoluteWarningRegion>
+        )}
+      {interestEligible.ineligibilityReason === 'BLOCKED' && (
+        <AbsoluteWarning size='12px' weight={500} color='grey600'>
+          <Icon name='info' color='grey600' />
+          <div style={{ marginLeft: '8px' }}>
+            <FormattedMessage
+              id='scenes.earninterest.userblocked.bo'
+              defaultMessage='Blockchain Interest Account is currrently not available.'
+            />{' '}
+            <Link
+              size='12px'
+              weight={500}
+              target='_blank'
+              // placeholder link
+              href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
+            >
+              <FormattedMessage
+                id='buttons.contact_support'
+                defaultMessage='Contact Support'
+              />
+            </Link>
+          </div>
+        </AbsoluteWarning>
+      )}
     </DepositBox>
   )
 }
