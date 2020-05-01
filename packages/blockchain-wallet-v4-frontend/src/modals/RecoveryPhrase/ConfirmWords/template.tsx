@@ -67,6 +67,7 @@ const ConfirmWordsForm: React.FC<
         <Header>
           <Icon
             cursor
+            data-e2e='recoveryBackArrow'
             name='arrow-left'
             size='20px'
             color='grey600'
