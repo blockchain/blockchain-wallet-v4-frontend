@@ -24,7 +24,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
-import { OwnProps, SuccessStateType } from './template'
+import { OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -488,7 +488,11 @@ type LinkStatePropsType = {
   values?: InterestFormValuesType
 }
 
-type Props = OwnProps & LinkStatePropsType & SuccessStateType
+type SuccessOwnProps = {
+  handleClose: () => void
+}
+
+type Props = SuccessOwnProps & OwnProps & LinkStatePropsType & SuccessStateType
 
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'interestForm', destroyOnUnmount: false }),

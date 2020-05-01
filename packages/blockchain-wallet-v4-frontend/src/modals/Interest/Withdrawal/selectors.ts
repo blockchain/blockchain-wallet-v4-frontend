@@ -5,12 +5,14 @@ export const getData = state => {
   const coin = selectors.components.interest.getCoinType(state)
   const ratesR = selectors.components.borrow.getRates(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const interestLimitsR = selectors.components.interest.getInterestLimits(state)
+  const formValues = selectors.form.getFormValues('withdrawalForm')(state) || {
+    withdrawalAmount: 0
+  }
 
-  return lift((rates, supportedCoins, interestLimits) => ({
+  return lift((rates, supportedCoins) => ({
     coin,
-    interestLimits,
+    formValues,
     rates,
     supportedCoins
-  }))(ratesR, supportedCoinsR, interestLimitsR)
+  }))(ratesR, supportedCoinsR)
 }

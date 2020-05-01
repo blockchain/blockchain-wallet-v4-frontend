@@ -14,6 +14,7 @@ import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { maxValue, required } from 'services/FormHelper'
 import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -140,10 +141,17 @@ type LinkStatePropsType = {
   values?: InterestFormValuesType
 }
 
-type Props = OwnProps &
+type SuccessOwnProps = {
+  handleClose: () => void
+}
+
+type Props = SuccessOwnProps &
+  OwnProps &
   LinkDispatchPropsType &
   LinkStatePropsType &
   SuccessStateType
+
+const maxVal = maxValue(10000)
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [tab, setTab] = useState<'partial' | 'full'>('partial')
@@ -253,14 +261,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e='depositAmount'
-            name='depositAmount'
+            data-e2e='withdrawalAmount'
+            name='withdrawalAmount'
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'
             }}
+            validate={[required, maxVal]}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey800' size='14px' weight={600}>
@@ -317,6 +325,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ButtonContainer>
           <Button
             data-e2e='interestWithdrawalSubmit'
+            disabled={props.invalid}
             fullwidth
             height='48px'
             nature='primary'
