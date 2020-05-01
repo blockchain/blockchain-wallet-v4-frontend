@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 import { goalsReducer } from './goals/reducers'
 import { preferencesReducer } from './preferences/reducers'
+import { transferEthReducer } from './modules/transferEth/reducers'
 import alertsReducer from './alerts/reducers'
 import analyticsReducer from './analytics/reducers'
 import authReducer from './auth/reducers'
@@ -33,6 +34,7 @@ const rootReducer = {
   session: sessionReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
+  transferEth: transferEthReducer,
   qa: qaReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
