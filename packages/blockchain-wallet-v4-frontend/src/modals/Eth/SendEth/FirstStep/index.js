@@ -31,6 +31,7 @@ class FirstStep extends React.PureComponent {
           isSufficientEthForErc20={value.isSufficientEthForErc20}
           maxFee={value.maxFee}
           minFee={value.minFee}
+          minFeeRequiredForRetry={value.minFeeRequiredForRetry}
           onSubmit={actions.sendEthFirstStepSubmitClicked}
           priorityFee={value.priorityFee}
           regularFee={value.regularFee}

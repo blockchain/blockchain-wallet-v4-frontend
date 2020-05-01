@@ -30,7 +30,7 @@ export type BtcTxType = {
   type: 'sent' | 'received' | 'transferred'
 }
 export type BchTxType = BtcTxType
-export type EthTxType = {
+export type EthProcessedTxType = {
   amount: number
   blockHeight: string
   description: undefined | string
@@ -61,4 +61,8 @@ export type XlmTxType = {
   type: 'sent' | 'received' | 'transferred'
 }
 
-export type ProcessedTxType = BtcTxType | BchTxType | EthTxType | XlmTxType
+export type ProcessedTxType =
+  | BtcTxType
+  | BchTxType
+  | EthProcessedTxType
+  | XlmTxType
