@@ -31,7 +31,6 @@
     "packages/blockchain-info-components/src/",
     "packages/blockchain-wallet-v4-frontend/src/",
     "packages/blockchain-wallet-v4/src/",
-    "*/types.ts",
     "typings/*"
   ]
 }
