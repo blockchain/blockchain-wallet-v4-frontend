@@ -6,7 +6,7 @@ import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
-import { calculateFee } from 'core/utils/eth'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   change,

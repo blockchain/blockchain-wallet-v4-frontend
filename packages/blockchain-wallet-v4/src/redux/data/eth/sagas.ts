@@ -28,10 +28,10 @@ import {
   toUpper,
   values
 } from 'ramda'
-import { calculateFee } from 'core/utils/eth'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Erc20CoinType, SBOrderType } from 'core/types'
-import { errorHandler } from '../../../utils'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { EthProcessedTxType } from 'core/transactions/types'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
