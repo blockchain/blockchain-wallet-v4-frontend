@@ -1801,6 +1801,8 @@ type MessagesType = {
   'scenes.settings.addresses.eth.legacy': 'Legacy Address Info'
   'scenes.settings.addresses.menutop.bch': 'Bitcoin Cash'
   'scenes.settings.addresses.menutop.btc': 'Bitcoin'
+  'scenes.settings.addresses.menutop.eth': 'Ethereum'
+  'scenes.settings.addresses.menutop.xlm': 'Stellar'
   'scenes.settings.addresses.sign_message': 'Sign Message'
   'scenes.settings.addresses.unarchive': 'Unarchive'
   'scenes.settings.addresses.viewkeys.header': 'View Your Private Keys.'

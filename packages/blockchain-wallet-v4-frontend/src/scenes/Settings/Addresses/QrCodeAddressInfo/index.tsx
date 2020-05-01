@@ -64,9 +64,9 @@ const QrCodeAddressInfo = ({
 }: {
   addr: string
   balance: number
-  coin: string
-  isEth: boolean
-  isLegacy: boolean
+  coin: 'XLM' | 'ETH'
+  isEth?: boolean
+  isLegacy?: boolean
   priv: string
   showLegacyTitle?: boolean
 }) => (

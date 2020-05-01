@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import EthXlmAddresses from './template'
+import EthAddresses from './template'
 
 const isValid = item => !isNil(item) && !isEmpty(item)
 
@@ -20,24 +20,17 @@ export type AddressType = {
 }
 
 type LinkStatePropsType = {
-  coin: 'xlm' | 'eth'
-  eth: {
-    addressInfo: AddressType
-    legacyAddressInfo: AddressType
-  }
+  addressInfo: AddressType
+  coin: 'ETH'
   isLegacy: boolean
-  xlm: {
-    addressInfo: AddressType
-  }
+  legacyAddressInfo: AddressType
 }
 
 type LinkDispatchPropsType = {
   clearShownEthLegacyPrivateKey: () => void
   clearShownEthPrivateKey: () => void
-  clearShownXlmPrivateKey: () => void
   fetchLegacyBalance: () => void
   showEthPrivateKey: (isLegacy: boolean) => void
-  showXlmPrivateKey: () => void
 }
 
 export type OwnProps = {
@@ -46,7 +39,7 @@ export type OwnProps = {
 
 type PropsType = LinkStatePropsType & LinkDispatchPropsType & OwnProps
 
-class EthXlmContainer extends Component<PropsType, StateType> {
+class EthContainer extends Component<PropsType, StateType> {
   state = {
     checkSecondPassword: false,
     showQrCode: false
@@ -61,15 +54,11 @@ class EthXlmContainer extends Component<PropsType, StateType> {
   componentWillUnmount () {
     this.props.clearShownEthPrivateKey()
     this.props.clearShownEthLegacyPrivateKey()
-    this.props.clearShownXlmPrivateKey()
   }
 
   toggleQrCode = () => {
     if (!this.state.checkSecondPassword) {
-      this.props.coin === 'xlm'
-        ? this.props.showXlmPrivateKey()
-        : this.props.showEthPrivateKey(this.props.isLegacy)
-
+      this.props.showEthPrivateKey(this.props.isLegacy)
       this.setState(prevState => ({
         checkSecondPassword: true,
         showQrCode: !prevState.showQrCode
@@ -81,11 +70,8 @@ class EthXlmContainer extends Component<PropsType, StateType> {
     }
   }
 
-  checkQrCodeEth = () => {
-    const {
-      isLegacy,
-      eth: { legacyAddressInfo, addressInfo }
-    } = this.props
+  checkQrCode = () => {
+    const { addressInfo, isLegacy, legacyAddressInfo } = this.props
 
     return isLegacy
       ? isValid(prop('priv', legacyAddressInfo)) &&
@@ -94,26 +80,17 @@ class EthXlmContainer extends Component<PropsType, StateType> {
           isValid(prop('priv', addressInfo))
   }
 
-  checkQrCodeXLM = () => {
-    const {
-      xlm: { addressInfo }
-    } = this.props
-    return isValid(prop('priv', addressInfo))
-  }
-
   render () {
-    const { coin, isLegacy } = this.props
-    const isEth = coin === 'eth'
-    const checkQrCode = isEth ? this.checkQrCodeEth() : this.checkQrCodeXLM()
-    const addressInfo = this.props[this.props.coin].addressInfo
+    const { addressInfo, coin, isLegacy, legacyAddressInfo } = this.props
+    const checkQrCode = this.checkQrCode()
 
     return (
-      <EthXlmAddresses
+      <EthAddresses
         addressInfo={addressInfo}
         coin={coin}
-        isEth={isEth}
+        isEth={true}
         isLegacy={isLegacy}
-        legacyAddressInfo={this.props.eth.legacyAddressInfo}
+        legacyAddressInfo={legacyAddressInfo}
         showQrCode={this.state.showQrCode && checkQrCode}
         toggleQrCode={this.toggleQrCode}
       />
@@ -130,15 +107,11 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.modules.settings.clearShownEthLegacyPrivateKey()),
   clearShownEthPrivateKey: () =>
     dispatch(actions.modules.settings.clearShownEthPrivateKey()),
-  clearShownXlmPrivateKey: () =>
-    dispatch(actions.modules.settings.clearShownXlmPrivateKey()),
   showEthPrivateKey: isLegacy =>
-    dispatch(actions.modules.settings.showEthPrivateKey(isLegacy)),
-  showXlmPrivateKey: isLegacy =>
-    dispatch(actions.modules.settings.showXlmPrivateKey(isLegacy))
+    dispatch(actions.modules.settings.showEthPrivateKey(isLegacy))
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EthXlmContainer)
+)(EthContainer)

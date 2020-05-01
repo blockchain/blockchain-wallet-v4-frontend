@@ -25,7 +25,7 @@ const Body = styled(Text)`
 `
 
 const KeyIcon = styled(Icon)`
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
 `
 const ViewKeys = ({
   showQrCode,

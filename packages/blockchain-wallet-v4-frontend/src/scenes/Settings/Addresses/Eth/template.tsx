@@ -1,5 +1,4 @@
 import { AddressType } from './.'
-import { toUpper } from 'ramda'
 import media from 'services/ResponsiveService'
 import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import React from 'react'
@@ -26,13 +25,13 @@ const EthXlmAddresses = ({
   addressInfo,
   coin,
   isEth,
-  legacyAddressInfo,
   isLegacy,
+  legacyAddressInfo,
   showQrCode,
   toggleQrCode
 }: {
   addressInfo: AddressType
-  coin: 'eth' | 'xlm'
+  coin: 'ETH'
   isEth: boolean
   isLegacy: boolean
   legacyAddressInfo: AddressType
@@ -46,7 +45,7 @@ const EthXlmAddresses = ({
         {isEth && legacyAddressInfo && (
           <QrCodeAddressInfo
             {...legacyAddressInfo}
-            coin={toUpper(coin)}
+            coin={coin}
             isEth={isEth}
             isLegacy={isLegacy}
             showLegacyTitle={isEth}
@@ -54,7 +53,7 @@ const EthXlmAddresses = ({
         )}
         <QrCodeAddressInfo
           {...addressInfo}
-          coin={toUpper(coin)}
+          coin={coin}
           isEth={isEth}
           isLegacy={isLegacy}
         />

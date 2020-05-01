@@ -1,0 +1,96 @@
+import { connect } from 'react-redux'
+import { isEmpty, isNil, path } from 'ramda'
+import React, { Component } from 'react'
+
+import { actions } from 'data'
+import { getData } from './selectors'
+import XlmAddresses from './template'
+
+const isValid = item => !isNil(item) && !isEmpty(item)
+
+type StateType = {
+  checkSecondPassword: boolean
+  showQrCode: boolean
+}
+
+export type AddressType = {
+  addr: string
+  balance: number
+  priv: string
+}
+
+type LinkStatePropsType = {
+  addressInfo: AddressType
+  coin: 'XLM'
+  isLegacy: boolean
+}
+
+type LinkDispatchPropsType = {
+  clearShownXlmPrivateKey: () => void
+  fetchLegacyBalance: () => void
+  showXlmPrivateKey: () => void
+}
+
+export type OwnProps = {
+  toggleQrCode: () => void
+}
+
+type PropsType = LinkStatePropsType & LinkDispatchPropsType & OwnProps
+
+class XlmContainer extends Component<PropsType, StateType> {
+  state = {
+    checkSecondPassword: false,
+    showQrCode: false
+  }
+
+  componentWillUnmount () {
+    this.props.clearShownXlmPrivateKey()
+  }
+
+  toggleQrCode = () => {
+    if (!this.state.checkSecondPassword) {
+      this.props.showXlmPrivateKey()
+
+      this.setState(prevState => ({
+        checkSecondPassword: true,
+        showQrCode: !prevState.showQrCode
+      }))
+    } else {
+      this.setState(prevState => ({
+        showQrCode: !prevState.showQrCode
+      }))
+    }
+  }
+
+  checkQrCode = () => isValid(path(['addressInfo', 'priv'], this.props))
+
+  render () {
+    const { addressInfo, coin } = this.props
+    const checkQrCode = this.checkQrCode()
+
+    return (
+      <XlmAddresses
+        addressInfo={addressInfo}
+        coin={coin}
+        showQrCode={this.state.showQrCode && checkQrCode}
+        toggleQrCode={this.toggleQrCode}
+      />
+    )
+  }
+}
+
+const mapStateToProps = (state, ownProps) => getData(state, ownProps)
+
+const mapDispatchToProps = dispatch => ({
+  clearShownXlmPrivateKey: () =>
+    dispatch(actions.modules.settings.clearShownXlmPrivateKey()),
+  fetchLegacyBalance: () =>
+    dispatch(actions.core.data.eth.fetchLegacyBalance()),
+  showXlmPrivateKey: () =>
+    dispatch(actions.modules.settings.showXlmPrivateKey())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(XlmContainer)

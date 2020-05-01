@@ -117,7 +117,7 @@ const MenuTop = () => (
             >
               <FormattedMessage
                 id='scenes.settings.addresses.menutop.eth'
-                defaultMessage='Ether'
+                defaultMessage='Ethereum'
               />
             </TabMenuItem>
           </LinkContainer>
