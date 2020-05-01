@@ -541,7 +541,8 @@ export default ({ api, coreSagas, networks }) => {
     const feeAmount = yield call(
       utils.eth.calculateFee,
       fees.regular,
-      fees.gasLimit
+      fees.gasLimit,
+      true
     )
     // if not swept, get the legacy eth account balance and prompt sweep
     if (!correct && legacyEthAddr) {

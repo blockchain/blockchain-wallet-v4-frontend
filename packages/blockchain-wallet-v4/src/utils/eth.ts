@@ -58,15 +58,24 @@ export const deriveAddressFromXpub = xpub => {
   )
 }
 
-export const calculateFee = (gasPrice, gasLimit) => {
+export const calculateFee = (
+  gasPrice: string,
+  gasLimit: string,
+  toWei: boolean
+): string => {
   const feeGWei = new BigNumber(gasPrice)
     .multipliedBy(new BigNumber(gasLimit))
     .toString()
-  return Exchange.convertEtherToEther({
-    value: feeGWei,
-    fromUnit: 'GWEI',
-    toUnit: 'WEI'
-  }).value
+
+  if (toWei) {
+    return Exchange.convertEtherToEther({
+      value: feeGWei,
+      fromUnit: 'GWEI',
+      toUnit: 'WEI'
+    }).value
+  } else {
+    return feeGWei
+  }
 }
 
 export const calculateEffectiveBalance = (balance, fee, isErc20) => {
@@ -81,7 +90,7 @@ export const calculateEffectiveBalance = (balance, fee, isErc20) => {
 }
 
 export const calculateTransactionAmount = (amount, fee) => {
-  return new BigNumber.sum(amount, new BigNumber(fee)).toString()
+  return new BigNumber(amount).plus(new BigNumber(fee)).toString()
 }
 
 export const convertGweiToWei = amount => {

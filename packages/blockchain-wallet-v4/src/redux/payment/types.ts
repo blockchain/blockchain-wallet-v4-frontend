@@ -59,6 +59,7 @@ type EthPaymentValue = IPaymentValue & {
   }
   isRetryAttempt: boolean | undefined
   isSufficientEthForErc20: boolean
+  minFee?: string
   to?: EthAccountFromType | EthAddressFromType
   txId?: string
 }
@@ -104,7 +105,11 @@ export type EthPaymentType = IPaymentType & {
   coin: 'ETH' | 'PAX'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
-  setIsRetryAttempt: (isRetryAttempt: boolean, nonce: string) => EthPaymentType
+  setIsRetryAttempt: (
+    isRetryAttempt: boolean,
+    nonce: string,
+    minFeeRequiredForRetry: string
+  ) => EthPaymentType
   value: () => EthPaymentValue
 }
 
