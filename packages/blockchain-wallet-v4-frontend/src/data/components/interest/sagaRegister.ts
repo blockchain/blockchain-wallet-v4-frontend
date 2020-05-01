@@ -25,7 +25,7 @@ export default ({ api }: { api: APIType }) => {
     )
     yield takeLatest(
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-      interestSagas.fetchInterestPaymentAccount
+      interestSagas.fetchInterestAccount
     )
     yield takeLatest(AT.FETCH_INTEREST_RATE, interestSagas.fetchInterestRate)
     yield takeLatest(

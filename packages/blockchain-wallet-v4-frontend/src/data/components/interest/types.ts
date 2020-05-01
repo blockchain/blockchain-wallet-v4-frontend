@@ -3,10 +3,10 @@ import {
   AccountTypes,
   CoinType,
   InterestAccountBalanceType,
+  InterestAccountType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
-  InterestPaymentAccountType,
   InterestRateType,
   InterestTransactionResponseType,
   RemoteDataType
@@ -30,7 +30,7 @@ export type InterestStep = keyof typeof InterestSteps
 
 // State
 export interface InterestState {
-  account: RemoteDataType<string, InterestPaymentAccountType>
+  account: RemoteDataType<string, InterestAccountType>
   coin: CoinType
   interestAccountBalance: RemoteDataType<string, InterestAccountBalanceType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
@@ -107,18 +107,18 @@ interface FetchInterestLimitsSuccess {
   type: typeof AT.FETCH_INTEREST_LIMITS_SUCCESS
 }
 
-interface FetchInterestPaymentAccountFailure {
+interface fetchInterestAccountFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
 }
-interface FetchInterestPaymentAccountLoading {
+interface fetchInterestAccountLoading {
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
 }
-interface FetchInterestPaymentAccountSuccess {
+interface fetchInterestAccountSuccess {
   payload: {
-    account: InterestPaymentAccountType
+    account: InterestAccountType
   }
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
 }
@@ -195,9 +195,9 @@ export type InterestActionTypes =
   | FetchInterestLimitsFailure
   | FetchInterestLimitsLoading
   | FetchInterestLimitsSuccess
-  | FetchInterestPaymentAccountFailure
-  | FetchInterestPaymentAccountLoading
-  | FetchInterestPaymentAccountSuccess
+  | fetchInterestAccountFailure
+  | fetchInterestAccountLoading
+  | fetchInterestAccountSuccess
   | FetchInterestRateFailure
   | FetchInterestRateLoading
   | FetchInterestRateSuccess

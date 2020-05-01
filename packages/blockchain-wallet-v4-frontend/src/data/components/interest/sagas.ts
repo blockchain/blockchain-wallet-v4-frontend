@@ -1,4 +1,5 @@
 import * as A from './actions'
+import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { call, delay, put, select } from 'redux-saga/effects'
@@ -59,14 +60,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchInterestPaymentAccount = function * (coin) {
+  const fetchInterestAccount = function * (coin) {
     try {
-      yield put(A.fetchInterestPaymentAccountLoading())
-      const paymentAccount = yield call(api.getInterestPaymentAccount, coin)
-      yield put(A.fetchInterestPaymentAccountSuccess(paymentAccount))
+      yield put(A.fetchInterestAccountLoading())
+      const paymentAccount = yield call(api.getInterestAccount, coin)
+      yield put(A.fetchInterestAccountSuccess(paymentAccount))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestPaymentAccountFailure(error))
+      yield put(A.fetchInterestAccountFailure(error))
     }
   }
 
@@ -127,6 +128,10 @@ export default ({ api }: { api: APIType }) => {
     const FORM = 'interestDepositForm'
     try {
       yield put(actions.form.startSubmit(FORM))
+      yield call(fetchInterestAccount, 'BTC')
+      const depositAddress = yield select(S.getDepositAddress)
+      /* eslint-disable no-console */
+      console.log(depositAddress)
       yield delay(4000)
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('DEPOSIT_SUCCESS'))
@@ -148,7 +153,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestEligible,
     fetchInterestInstruments,
     fetchInterestLimits,
-    fetchInterestPaymentAccount,
+    fetchInterestAccount,
     fetchInterestRate,
     fetchInterestTransactions,
     initializeDepositForm,

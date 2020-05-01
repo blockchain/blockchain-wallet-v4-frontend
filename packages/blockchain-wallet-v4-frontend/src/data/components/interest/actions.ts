@@ -2,10 +2,10 @@ import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
 import {
   InterestAccountBalanceType,
+  InterestAccountType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
-  InterestPaymentAccountType,
   InterestRateType,
   InterestTransactionResponseType
 } from 'core/network/api/interest/types'
@@ -109,11 +109,11 @@ export const fetchInterestLimitsSuccess = (
   }
 })
 
-export const fetchInterestPaymentAccount = (coin?: CoinType) => ({
+export const fetchInterestAccount = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
   coin
 })
-export const fetchInterestPaymentAccountFailure = (
+export const fetchInterestAccountFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE,
@@ -121,11 +121,11 @@ export const fetchInterestPaymentAccountFailure = (
     error
   }
 })
-export const fetchInterestPaymentAccountLoading = (): InterestActionTypes => ({
+export const fetchInterestAccountLoading = (): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
 })
-export const fetchInterestPaymentAccountSuccess = (
-  account: InterestPaymentAccountType
+export const fetchInterestAccountSuccess = (
+  account: InterestAccountType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
   payload: {
