@@ -99,7 +99,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             100000000
           </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            {interestAccountBalance.BTC} BTC
+            {interestAccountBalance.BTC.balance} BTC
           </Text>
         </AmountColumn>
         <AmountColumn>
@@ -116,7 +116,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           </Text>
         </AmountColumn>
       </AmountRow>
-      {interestAccountBalance.BTC ? (
+      {interestAccountBalance.BTC.balance > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
           nature='light'
