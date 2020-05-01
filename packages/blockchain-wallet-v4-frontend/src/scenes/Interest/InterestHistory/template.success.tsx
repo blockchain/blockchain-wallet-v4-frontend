@@ -28,7 +28,7 @@ const InterestTableCell = styled(TableCell)`
 
 function Success (props: SuccessStateType): ReactElement {
   const { coin, interestHistory, supportedCoins } = props
-  const { coinTicker, colorCode } = supportedCoins[coin]
+  const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
@@ -129,14 +129,47 @@ function Success (props: SuccessStateType): ReactElement {
                   {moment(transaction.insertedAt).format('llll')}
                 </Value>
               </TableCell>
-              <TableCell width='20%'>
-                <Value data-e2e='interestTransactionFrom'>
-                  From Placeholder
-                </Value>
-              </TableCell>
-              <TableCell width='20%'>
-                <Value data-e2e='interestTransactionTo'>To Placeholder</Value>
-              </TableCell>
+              {transaction.type === 'DEPOSIT' ? (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      My {displayName} Wallet
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              ) : transaction.type === 'WITHDRAWAL' ? (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      My {displayName} Wallet
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      Blockchain.com
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              )}
+
               <TableCell width='20%'>
                 <div>
                   <FiatDisplay
