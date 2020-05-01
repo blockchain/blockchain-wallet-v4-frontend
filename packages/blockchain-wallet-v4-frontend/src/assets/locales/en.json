@@ -936,6 +936,7 @@
   "modals.sendeth.firststep.fee.priority": "Priority",
   "modals.sendeth.firststep.fee.regular": "Regular",
   "modals.sendeth.firststep.lockboxwarn": "You will need to connect your Lockbox to complete this transaction.",
+  "modals.sendeth.firststep.min_fee_for_retry": "Please use a higher fee to retry your transaction.",
   "modals.sendeth.firststep.networkfee": "Network Fee",
   "modals.sendeth.firststep.sendamount": "Amount",
   "modals.sendeth.firststep.tocoin": "To",

@@ -1,3 +1,5 @@
+import { EthRawTxType } from './types'
+
 export default ({ apiUrl, get, post }) => {
   //
   // Misc
@@ -39,13 +41,21 @@ export default ({ apiUrl, get, post }) => {
   //
   // V2
   //
-  const getEthTransactionV2 = hash =>
+  const getEthTransactionV2 = (hash): EthRawTxType =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/transaction/${hash}`
     })
 
-  const getEthTransactionsV2 = (account, page, pageSize) =>
+  const getEthTransactionsV2 = (
+    account,
+    page,
+    pageSize
+  ): {
+    page: string
+    size: number
+    transactions: Array<EthRawTxType>
+  } =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/account/${account}/transactions`,

@@ -6,6 +6,7 @@ import * as S from './selectors'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -561,7 +562,10 @@ export default ({
   }: ReturnType<typeof A.retrySendEth>) {
     const { txHash } = payload
     try {
-      const tx = yield call(api.getEthTransactionV2, txHash)
+      const tx: ReturnType<typeof api.getEthTransactionV2> = yield call(
+        api.getEthTransactionV2,
+        txHash
+      )
       if (tx.state === 'CONFIRMED') {
         yield put(actions.alerts.displaySuccess(C.PAYMENT_CONFIRMED_SUCCESS))
         yield put(actions.core.data.eth.fetchTransactions())
@@ -577,7 +581,11 @@ export default ({
       })
       payment = yield call(setAmount, tx.value, 'ETH', payment)
       payment = yield call(setTo, tx.to, payment)
-      payment = yield payment.setIsRetryAttempt(true, tx.nonce)
+      payment = yield payment.setIsRetryAttempt(
+        true,
+        tx.nonce,
+        calculateFee(tx.gasPrice, tx.gasLimit, false)
+      )
 
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
