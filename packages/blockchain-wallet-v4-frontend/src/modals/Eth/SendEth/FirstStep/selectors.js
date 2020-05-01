@@ -54,6 +54,7 @@ export const getData = createDeepEqualSelector(
       const maxFee = path(['fees', 'limits', 'max'], payment)
       const isSufficientEthForErc20 = path(['isSufficientEthForErc20'], payment)
       const isRetryAttempt = path(['isRetryAttempt'], payment)
+      const minFeeRequiredForRetry = path(['minFeeRequiredForRetry'], payment)
       const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
@@ -97,6 +98,7 @@ export const getData = createDeepEqualSelector(
         isSufficientEthForErc20,
         maxFee,
         minFee,
+        minFeeRequiredForRetry,
         priorityFee,
         regularFee,
         unconfirmedTx
