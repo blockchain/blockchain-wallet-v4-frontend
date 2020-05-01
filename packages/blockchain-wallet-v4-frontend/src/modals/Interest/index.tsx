@@ -5,6 +5,7 @@ import { InterestStep, InterestSteps } from 'data/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import DepositForm from './DepositForm'
+import DepositSuccess from './DepositSuccess'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import InterestDetails from './InterestDetails'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -35,15 +36,6 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleDepositSubmit = e => {
-    e.preventDefault()
-    this.setState({ show: false })
-    setTimeout(() => {
-      this.props.close()
-      // show next deposit modal here?
-    }, duration)
-  }
-
   handleSBClick = () => {
     this.setState({ show: false })
     setTimeout(() => {
@@ -66,10 +58,12 @@ class Interest extends PureComponent<Props, State> {
       >
         {step === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm
-              handleClose={this.handleClose}
-              handleDepositSubmit={this.handleDepositSubmit}
-            />
+            <DepositForm handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {step === 'DEPOSIT_SUCCESS' && (
+          <FlyoutChild>
+            <DepositSuccess handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {step === 'DETAILS' && (

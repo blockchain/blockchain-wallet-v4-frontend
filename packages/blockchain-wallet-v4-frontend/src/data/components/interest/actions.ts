@@ -196,6 +196,13 @@ export const initializeDepositForm = (coin: CoinType) => ({
   type: AT.INITIALIZE_DEPOSIT_FORM
 })
 
+export const submitDepositForm = (coin: CoinType) => ({
+  payload: {
+    coin
+  },
+  type: AT.SUBMIT_DEPOSIT_FORM
+})
+
 export const setInterestStep = (step: InterestStep) => ({
   payload: {
     step

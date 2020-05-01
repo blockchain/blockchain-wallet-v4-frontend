@@ -1,7 +1,10 @@
+import { actions, selectors } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   Button,
   Icon,
   Link,
+  SpinningLoader,
   TabMenu,
   TabMenuItem,
   Text,
@@ -19,7 +22,6 @@ import {
   coinToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
 import { Exchange } from 'core'
@@ -29,10 +31,17 @@ import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { OwnProps, SuccessStateType } from '.'
 import { required } from 'services/FormHelper'
-import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+const SendingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -149,21 +158,53 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
     handleClose,
-    handleDepositSubmit: handleSubmit,
+    interestActions,
     interestRate,
     invalid,
     // limits,
     walletCurrency,
+    submitting,
     supportedCoins,
     values
   } = props
   const [tab, setTab] = useState<'long' | 'short'>('long')
-  const handleClick = (x: 'long' | 'short') => setTab(x)
+  const handleTimeFrameChange = (x: 'long' | 'short') => setTab(x)
+  const handleFormSubmit = e => {
+    e.preventDefault()
+    interestActions.submitDepositForm(coin)
+  }
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const displayName = supportedCoins[coin].displayName
 
-  return (
-    <CustomForm onSubmit={handleSubmit}>
+  return submitting ? (
+    <SendingWrapper>
+      <SpinningLoader />
+      <Text
+        weight={600}
+        color='grey800'
+        size='20px'
+        style={{ marginTop: '24px' }}
+      >
+        <FormattedMessage
+          id='modals.interest.sendinprogress.title'
+          defaultMessage='In Progress...'
+        />
+      </Text>
+      <Text
+        weight={600}
+        color='grey600'
+        size='16px'
+        style={{ marginTop: '24px' }}
+      >
+        <FormattedMessage
+          id='modals.interest.sendinprogress.subtitle'
+          defaultMessage='Sending {displayName} to your Interest Account'
+          values={{ displayName }}
+        />
+      </Text>
+    </SendingWrapper>
+  ) : (
+    <CustomForm onSubmit={handleFormSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
@@ -248,7 +289,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 width='50%'
                 data-e2e='longTerm'
                 selected={equals(tab, 'long')}
-                onClick={() => handleClick('long')}
+                onClick={() => handleTimeFrameChange('long')}
               >
                 <FormattedMessage
                   id='modals.interest.longterm'
@@ -259,7 +300,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 width='50%'
                 data-e2e='shortTerm'
                 selected={equals(tab, 'short')}
-                onClick={() => handleClick('short')}
+                onClick={() => handleTimeFrameChange('short')}
               >
                 <FormattedMessage
                   id='modals.interest.shortterm'
@@ -450,19 +491,35 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('interestForm')(state)
+  values: selectors.form.getFormValues('interestDepositForm')(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
+})
+
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 
 type LinkStatePropsType = {
   values?: InterestFormValuesType
 }
+type LinkDispatchPropsType = {
+  interestActions: typeof actions.components.interest
+}
 
-type Props = OwnProps & LinkStatePropsType & SuccessStateType
+type Props = OwnProps &
+  SuccessStateType &
+  LinkStatePropsType &
+  LinkDispatchPropsType
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'interestForm', destroyOnUnmount: false }),
+  reduxForm<{}, Props>({
+    form: 'interestDepositForm',
+    destroyOnUnmount: false
+  }),
   connector
 )
 

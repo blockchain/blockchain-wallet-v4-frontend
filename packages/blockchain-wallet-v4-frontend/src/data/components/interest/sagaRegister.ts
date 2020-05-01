@@ -36,6 +36,7 @@ export default ({ api }: { api: APIType }) => {
       AT.INITIALIZE_DEPOSIT_FORM,
       interestSagas.initializeDepositForm
     )
+    yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

@@ -22,6 +22,7 @@ export type InterestFormValuesType = {
 
 export enum InterestSteps {
   'DEPOSIT',
+  'DEPOSIT_SUCCESS',
   'DETAILS'
 }
 
