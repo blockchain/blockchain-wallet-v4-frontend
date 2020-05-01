@@ -1,7 +1,7 @@
 import * as A from './actions'
 import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { initialize } from 'redux-form'
 import { InterestTransactionResponseType } from 'core/types'
@@ -96,10 +96,12 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const initializeInterest = function * ({
+  const initializeDepositForm = function * ({
     payload
-  }: ReturnType<typeof A.initializeInterest>) {
+  }: ReturnType<typeof A.initializeDepositForm>) {
     let defaultAccountR
+
+    yield call(fetchInterestLimits)
 
     switch (payload.coin) {
       case 'BTC':
@@ -115,11 +117,23 @@ export default ({ api }: { api: APIType }) => {
         break
     }
     const initialValues = {
-      depositAmount: 0,
       'interest-deposit-select': defaultAccountR.getOrElse()
     }
 
-    yield put(initialize('interestForm', initialValues))
+    yield put(initialize('interestDepositForm', initialValues))
+  }
+
+  const sendDeposit = function * () {
+    const FORM = 'interestDepositForm'
+    try {
+      yield put(actions.form.startSubmit(FORM))
+      yield delay(4000)
+      yield put(actions.form.stopSubmit(FORM))
+      yield put(A.setInterestStep('DEPOSIT_SUCCESS'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+    }
   }
 
   const showInterestModal = function * ({
@@ -137,7 +151,8 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestPaymentAccount,
     fetchInterestRate,
     fetchInterestTransactions,
-    initializeInterest,
+    initializeDepositForm,
+    sendDeposit,
     showInterestModal
   }
 }

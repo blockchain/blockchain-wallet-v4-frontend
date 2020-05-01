@@ -81,7 +81,6 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
     const isItem = !children
-
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
         <Icon size='32px' color={color} name={icon} />
@@ -105,7 +104,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
                 size='12px'
                 weight={500}
                 color='grey400'
-                currency='USD'
+                currency={this.props.fiatCurrency || 'USD'}
                 cursor='pointer'
                 rates={this.props.rates}
               >
@@ -126,6 +125,7 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
           <Field
             component={SelectBox}
             elements={this.renderElements(values)}
+            fiatCurrency={this.props.fiatCurrency}
             templateDisplay={this.renderDisplay}
             templateItem={this.renderDisplay}
             hideIndicator={values.length <= 1}
@@ -157,6 +157,7 @@ const connector = connect(mapStateToProps)
 
 export type OwnProps = {
   coin: CoinType
+  fiatCurrency?: string
   name: 'collateral' | 'interest-deposit-select' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType

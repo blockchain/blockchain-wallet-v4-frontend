@@ -128,7 +128,7 @@ export function interestReducer (
           action.payload.interestTransactions
         )
       }
-    case AT.INITIALIZE_INTEREST: {
+    case AT.INITIALIZE_DEPOSIT_FORM: {
       return {
         ...state,
         coin: action.payload.coin

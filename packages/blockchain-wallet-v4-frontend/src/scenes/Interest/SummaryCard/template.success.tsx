@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import { Props } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -45,14 +45,12 @@ const IneligibleText = styled.div`
   color: ${props => props.theme.grey500};
 `
 
-function SummaryCard (props: Props): ReactElement {
+function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
     interestAccountBalance,
     interestActions,
     interestEligible,
-    // @ts-ignore PHIL HELP
     interestRate,
-    // @ts-ignore PHIL HELP
     isGoldTier,
     modalActions,
     showInterestInfoBox

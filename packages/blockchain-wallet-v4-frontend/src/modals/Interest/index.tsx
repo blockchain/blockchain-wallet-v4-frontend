@@ -4,9 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { InterestStep, InterestSteps } from 'data/types'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
+import DepositForm from './DepositForm'
+import DepositSuccess from './DepositSuccess'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import InterestDetails from './InterestDetails'
-import InterestForm from './InterestForm'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React, { PureComponent } from 'react'
 
@@ -57,7 +58,12 @@ class Interest extends PureComponent<Props, State> {
       >
         {step === 'DEPOSIT' && (
           <FlyoutChild>
-            <InterestForm handleClose={this.handleClose} />
+            <DepositForm handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {step === 'DEPOSIT_SUCCESS' && (
+          <FlyoutChild>
+            <DepositSuccess handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {step === 'DETAILS' && (
