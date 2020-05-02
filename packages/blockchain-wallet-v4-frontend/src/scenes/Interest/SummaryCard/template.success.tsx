@@ -14,6 +14,7 @@ import {
 } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
+import { Exchange } from 'core'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
@@ -67,6 +68,14 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     isGoldTier,
     showInterestInfoBox
   } = props
+  const balanceSats =
+    interestAccountBalance.BTC && interestAccountBalance.BTC.balance
+  const balanceStandard = Exchange.convertCoinToCoin({
+    value: balanceSats || 0,
+    coin: 'BTC',
+    baseToStandard: true
+  }).value
+
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
@@ -92,7 +101,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           <FormattedMessage
             id='scenes.earninterest.form.earn3percent'
             defaultMessage='Earn up to {interestRate}% AER on your BTC.'
-            // TODO make this more coin interchangeable
             values={{ interestRate: prop('BTC', interestRate) }}
           />
         </Text>
@@ -108,11 +116,10 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             coin='BTC'
             style={{ lineHeight: '1.5' }}
           >
-            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}
+            {balanceSats}
           </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}{' '}
-            BTC
+            {`${balanceStandard} BTC`}
           </Text>
         </AmountColumn>
         <AmountColumn>
@@ -129,7 +136,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           </Text>
         </AmountColumn>
       </AmountRow>
-      {interestAccountBalance.BTC && interestAccountBalance.BTC.balance > 0 ? (
+      {balanceSats > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
           nature='light'
