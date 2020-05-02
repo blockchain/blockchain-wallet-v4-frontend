@@ -91,8 +91,8 @@ const Success: React.FC<Props> = props => {
               style={{ marginRight: '16px' }}
             />
             <FormattedMessage
-              id='modals.interest.deposittitle'
-              defaultMessage='Deposit {displayName}'
+              id='modals.interest.detailstitle'
+              defaultMessage='{displayName} Interest Account'
               values={{ displayName }}
             />
           </Row>

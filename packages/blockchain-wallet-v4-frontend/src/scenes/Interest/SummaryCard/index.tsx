@@ -16,12 +16,6 @@ import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import SummaryCard from './template.success'
 
-/*
-  TODO List:
-  1) error state
-  2) show ineligible reason
-  3) figure out where/how to createUser
-*/
 class SummaryCardContainer extends PureComponent<Props> {
   componentDidMount () {
     this.props.interestActions.fetchInterestEligible()
@@ -42,7 +36,6 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })

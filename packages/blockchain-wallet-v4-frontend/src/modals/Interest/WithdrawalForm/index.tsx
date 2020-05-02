@@ -3,13 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
-import Success from './template.success'
+import WithdrawalForm from './template.success'
 
-class Withdrawal extends PureComponent<Props> {
+class WithdrawalFormContainer extends PureComponent<Props> {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => <WithdrawalForm {...val} {...this.props} />,
       Failure: () => null,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -39,4 +39,4 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(Withdrawal)
+export default connector(WithdrawalFormContainer)

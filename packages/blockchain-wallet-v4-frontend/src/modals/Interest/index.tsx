@@ -1,16 +1,18 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import { InterestStep, InterestSteps } from 'data/types'
-import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import modalEnhancer from 'providers/ModalEnhancer'
+
+import { ModalPropsType } from '../types'
+import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
 import DepositSuccess from './DepositSuccess'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import InterestDetails from './InterestDetails'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React, { PureComponent } from 'react'
-import Withdrawal from './Withdrawal'
+import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -57,6 +59,14 @@ class Interest extends PureComponent<Props, State> {
         data-e2e='interestModal'
         total={total}
       >
+        {step === 'ACCOUNT_SUMMARY' && (
+          <FlyoutChild>
+            <AccountSummary
+              handleClose={this.handleClose}
+              handleSBClick={this.handleSBClick}
+            />
+          </FlyoutChild>
+        )}
         {step === 'DEPOSIT' && (
           <FlyoutChild>
             <DepositForm handleClose={this.handleClose} />
@@ -67,17 +77,9 @@ class Interest extends PureComponent<Props, State> {
             <DepositSuccess handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {step === 'DETAILS' && (
-          <FlyoutChild>
-            <InterestDetails
-              handleClose={this.handleClose}
-              handleSBClick={this.handleSBClick}
-            />
-          </FlyoutChild>
-        )}
         {step === 'WITHDRAWAL' && (
           <FlyoutChild>
-            <Withdrawal handleClose={this.handleClose} />
+            <WithdrawalForm handleClose={this.handleClose} />
           </FlyoutChild>
         )}
       </Flyout>

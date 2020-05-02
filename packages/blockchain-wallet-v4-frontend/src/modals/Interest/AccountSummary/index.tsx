@@ -15,7 +15,7 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-class InterestForm extends PureComponent<Props> {
+class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
 
   handleDepositClick = () => {
@@ -23,7 +23,7 @@ class InterestForm extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    this.props.interestActions.showInterestModal('DEPOSIT')
+    this.props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
   }
 
   render () {
@@ -81,4 +81,4 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(InterestForm)
+export default connector(AccountSummaryContainer)

@@ -24,11 +24,9 @@ const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
-
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0;
 `
-
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
@@ -149,7 +147,9 @@ type Props = SuccessOwnProps & OwnProps & LinkStatePropsType & SuccessStateType
 
 const maxVal = maxValue(10000)
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const WithdrawalForm: React.FC<
+  InjectedFormProps<{}, Props> & Props
+> = props => {
   const [tab, setTab] = useState<'partial' | 'full'>('partial')
   const displayName = props.supportedCoins[props.coin].displayName
   const setPartialTab = () => setTab('partial')
@@ -184,7 +184,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </Wrapper>
-
         <BalanceWrapper>
           <BalanceItem>
             <Text color='grey600' weight={500} size='14px'>
@@ -211,7 +210,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </BalanceAmount>
           </BalanceItem>
         </BalanceWrapper>
-
         <ButtonWrapper>
           <ButtonWrapperTitle color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -245,7 +243,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </TabMenuItem>
           </CustomTabMenu>
         </ButtonWrapper>
-
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -272,7 +269,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-
         <WarningWrapper>
           <WarningIcon color='orange600' cursor name='info' size='20px' />
           <Text color='orange800' size='14px' weight={500}>
@@ -349,4 +345,4 @@ const enhance = compose(
   connect(mapStateToProps)
 )
 
-export default enhance(Success) as React.FunctionComponent<Props>
+export default enhance(WithdrawalForm) as React.FunctionComponent<Props>

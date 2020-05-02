@@ -42,7 +42,6 @@ const AmountColumn = styled.div`
 const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
-
 const AbsoluteWarning = styled(Text)`
   display: flex;
   align-items: center;
@@ -50,7 +49,6 @@ const AbsoluteWarning = styled(Text)`
   bottom: -40px;
   left: 0;
 `
-
 const AbsoluteWarningRegion = styled(Text)`
   display: flex;
   align-items: center;
@@ -59,6 +57,7 @@ const AbsoluteWarningRegion = styled(Text)`
   left: 0;
 `
 
+// TODO: update support center links
 function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
     interestAccountBalance,
@@ -66,7 +65,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     interestEligible,
     interestRate,
     isGoldTier,
-    modalActions,
     showInterestInfoBox
   } = props
   return (
@@ -137,7 +135,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           nature='light'
           data-e2e='viewInterestDetails'
           fullwidth
-          onClick={() => interestActions.showInterestModal('DETAILS')}
+          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
         >
           <FormattedMessage id='copy.view' defaultMessage='View' />
         </Button>
@@ -148,7 +146,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
-          onClick={() => modalActions.showModal('INTEREST_MODAL')}
+          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
         >
           <FormattedMessage
             id='scenes.earninterest.form.earnbutton'
@@ -163,13 +161,12 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             <div style={{ marginLeft: '8px' }}>
               <FormattedMessage
                 id='scenes.earninterest.userblocked'
-                defaultMessage='Blockchain Interest Account is currrently not available in your country or region at the moment.'
+                defaultMessage='Blockchain Interest Account is currently unavailable in your country or region.'
               />{' '}
               <Link
                 size='12px'
                 weight={500}
                 target='_blank'
-                // placeholder link
                 href='https://support.blockchain.com/hc/en-us'
               >
                 <FormattedMessage
@@ -186,13 +183,12 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           <div style={{ marginLeft: '8px' }}>
             <FormattedMessage
               id='scenes.earninterest.userblocked.bo'
-              defaultMessage='Blockchain Interest Account is currrently not available.'
+              defaultMessage='Blockchain Interest Account is currently not available.'
             />{' '}
             <Link
               size='12px'
               weight={500}
               target='_blank'
-              // placeholder link
               href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
             >
               <FormattedMessage

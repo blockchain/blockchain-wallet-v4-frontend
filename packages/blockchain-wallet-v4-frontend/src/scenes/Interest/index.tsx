@@ -13,9 +13,9 @@ import {
 } from 'components/Layout'
 import { InterestRateType, RemoteDataType } from 'core/types'
 import { UserDataType } from 'data/types'
-import InterestHistory from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
+import TransactionList from './TransactionList'
 
 import { getData } from './selectors'
 import { Remote } from 'core'
@@ -109,7 +109,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                   />
                 )}
               </Container>
-              <InterestHistory />
+              <TransactionList />
             </>
           ),
           Failure: () => null,
