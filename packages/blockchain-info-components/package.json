@@ -66,7 +66,7 @@
     }
   },
   "dependencies": {
-    "polished": "3.3.0",
+    "polished": "3.5.1",
     "prop-types": "15.7.2",
     "ramda": "0.26.1",
     "react": "16.8.6",
