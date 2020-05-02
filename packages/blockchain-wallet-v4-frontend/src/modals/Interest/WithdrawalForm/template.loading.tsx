@@ -1,9 +1,8 @@
 import { FormattedMessage } from 'react-intl'
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-interface Props {}
+import { SpinningLoader, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading: React.FC<Props> = () => {
+const Loading: React.FC<{}> = () => {
   return (
     <Wrapper>
       <SpinningLoader />

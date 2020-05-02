@@ -1,8 +1,12 @@
-import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
+import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
+import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
+
 import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
@@ -21,7 +25,14 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   data: getData(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
+})
+
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
 
 export type OwnProps = {
   handleClose: () => void
@@ -35,6 +46,10 @@ export type SuccessStateType = {
 
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+export type LinkDispatchPropsType = {
+  interestActions: typeof actions.components.interest
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

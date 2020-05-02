@@ -1,3 +1,11 @@
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { equals } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -5,19 +13,13 @@ import {
   TabMenuItem,
   Text
 } from 'blockchain-info-components'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { maxValue, required } from 'services/FormHelper'
-import { OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
-import React, { useState } from 'react'
-import styled from 'styled-components'
+
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -31,75 +33,62 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 `
-
 const ArrowIcon = styled(Icon)`
   margin-right: 20px;
 `
-
 const BalanceWrapper = styled.div`
   display: flex;
   margin-top: 40px;
   padding-bottom: 32px;
   border-bottom: 1px solid ${props => props.theme.grey000};
 `
-
 const BalanceAmount = styled(Text)`
   margin-top: 8px;
 `
-
 const BalanceItem = styled.div`
   width: 100%;
   &:last-child {
     margin-left: 32px;
   }
 `
-
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 8px;
   margin-bottom: 14px;
 `
-
 const Spacer = styled.div`
   height: 48px;
   border-right: 1px solid ${props => props.theme.grey000};
 `
-
 const ButtonWrapperTitle = styled(Text)`
   margin-bottom: 14px;
 `
-
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   height: 100%;
   margin-top: 56px;
 `
-
 const CustomFormLabel = styled(FormLabel)`
   display: block;
   margin-top: 24px;
   margin-bottom: 4px;
 `
-
 const CustomField = styled(Field)`
   > input {
     padding-left: 30px;
   }
 `
-
 const AmountFieldContainer = styled.div`
   display: flex;
   position: relative;
 `
-
 const PrincipalCcyAbsolute = styled.div`
   position: absolute;
   top: 16px;
   left: 16px;
 `
-
 const WarningWrapper = styled.div`
   display: flex;
   background: ${props => props.theme.orange000};
@@ -107,24 +96,19 @@ const WarningWrapper = styled.div`
   padding: 16px;
   margin-top: 24px;
 `
-
 const WarningIcon = styled(Icon)`
   margin-right: 16px;
 `
-
 const NetworkFee = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const Availability = styled.div`
   margin-top: 24px;
 `
-
 const CustomTabMenu = styled(TabMenu)`
   margin-bottom: 12px;
 `
-
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -143,7 +127,11 @@ type SuccessOwnProps = {
   handleClose: () => void
 }
 
-type Props = SuccessOwnProps & OwnProps & LinkStatePropsType & SuccessStateType
+type Props = SuccessOwnProps &
+  OwnProps &
+  LinkStatePropsType &
+  SuccessStateType &
+  LinkDispatchPropsType
 
 const maxVal = maxValue(10000)
 
@@ -170,7 +158,9 @@ const WithdrawalForm: React.FC<
       <Top>
         <Wrapper>
           <ArrowIcon
-            onClick={props.handleClose}
+            onClick={() =>
+              props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
+            }
             cursor
             name='arrow-left'
             size='20px'
