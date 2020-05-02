@@ -88,7 +88,7 @@ class Interest extends React.PureComponent<Props, StateType> {
             href='https://support.blockchain.com/hc/en-us/sections/360008572552'
             target='_blank'
           >
-            <LearnMoreText size='15px'>
+            <LearnMoreText size='16px'>
               <FormattedMessage
                 id='buttons.learn_more'
                 defaultMessage='Learn More'
