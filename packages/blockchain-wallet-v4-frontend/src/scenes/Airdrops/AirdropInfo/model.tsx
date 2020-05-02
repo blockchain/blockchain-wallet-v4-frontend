@@ -1,4 +1,3 @@
-import { Button, Text } from 'blockchain-info-components'
 import {
   ErrorCartridge,
   GreyCartridge,
@@ -6,6 +5,7 @@ import {
 } from 'components/Cartridge'
 import { FormattedMessage } from 'react-intl'
 import { model } from 'data'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -16,37 +16,20 @@ const Copy = styled(Text)`
   line-height: 1.5;
 `
 
-export const AirdropInfoHeader = ({ kycState }) => {
-  switch (kycState) {
-    case KYC_STATES.VERIFIED:
-      return (
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage
-            id='scenes.airdrops.success.airdropprogram'
-            defaultMessage='Airdrop Program'
-          />
-        </Text>
-      )
-    default:
-      return (
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginTop: '16px' }}
-        >
-          <FormattedMessage
-            id='scenes.airdrops.success.getfreecrypto'
-            defaultMessage='Get Free Crypto'
-          />
-        </Text>
-      )
-  }
+export const AirdropInfoHeader = () => {
+  return (
+    <Text
+      size='20px'
+      color='grey800'
+      weight={600}
+      style={{ marginTop: '16px' }}
+    >
+      <FormattedMessage
+        id='scenes.airdrops.success.airdropprogram'
+        defaultMessage='Airdrop Program'
+      />
+    </Text>
+  )
 }
 
 export const AirdropInfoCopy = ({ kycState }) => {
@@ -74,18 +57,15 @@ export const AirdropInfoCopy = ({ kycState }) => {
       return (
         <Copy size='14px' color='grey600' weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.success.goldlevel1'
-            defaultMessage='Upgrade to Gold Level to enroll in the Blockchain Airdrop program. You will then be eligible for future Blockchain Airdrops.'
+            id='scenes.airdrops.success.noactive'
+            defaultMessage="There are no active Airdrops at the moment. We'll notify you if a new one starts."
           />
         </Copy>
       )
   }
 }
 
-export const AirdropInfoButton = ({
-  kycState,
-  identityVerificationActions
-}) => {
+export const AirdropInfoButton = ({ kycState }) => {
   switch (kycState) {
     case KYC_STATES.PENDING:
     case KYC_STATES.UNDER_REVIEW:
@@ -131,19 +111,6 @@ export const AirdropInfoButton = ({
         </>
       )
     default:
-      return (
-        <Button
-          nature='green'
-          fullwidth
-          onClick={() => identityVerificationActions.verifyIdentity(2)}
-          style={{ marginTop: '32px' }}
-          data-e2e='upgradeNow'
-        >
-          <FormattedMessage
-            id='scenes.airdrops.success.upgradenow'
-            defaultMessage='Upgrade Now'
-          />
-        </Button>
-      )
+      return <></>
   }
 }

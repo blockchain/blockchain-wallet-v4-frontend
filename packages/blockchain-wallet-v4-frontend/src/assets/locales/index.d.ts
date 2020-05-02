@@ -1243,8 +1243,8 @@ type MessagesType = {
   'scenes.airdrops.success.airdropprogram': 'Airdrop Program'
   'scenes.airdrops.success.getfreecrypto': 'Get Free Crypto'
   'scenes.airdrops.success.goldfailed': 'You are not enrolled in the Blockchain Airdrop program. There was an issue with your identity verification.'
-  'scenes.airdrops.success.goldlevel1': 'Upgrade to Gold Level to enroll in the Blockchain Airdrop program. You will then be eligible for future Blockchain Airdrops.'
   'scenes.airdrops.success.goldverified': 'You are enrolled in the Blockchain Airdrop program. The easiest way to try and discover new cryptos.'
+  'scenes.airdrops.success.noactive': "There are no active Airdrops at the moment. We'll notify you if a new one starts."
   'scenes.airdrops.success.upgradenow': 'Upgrade Now'
   'scenes.airdrops.upgradetoview': 'Please upgrade to view past airdrops.'
   'scenes.authorizelogin.accept': 'Accept'
