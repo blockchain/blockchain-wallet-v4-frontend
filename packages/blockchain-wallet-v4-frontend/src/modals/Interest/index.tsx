@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { InterestStep, InterestSteps } from 'data/types'
+import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -22,8 +22,9 @@ class Interest extends PureComponent<Props, State> {
   }
 
   componentDidUpdate (prevProps: Props) {
-    if (this.props.step === prevProps.step) return
-    if (InterestSteps[this.props.step] > InterestSteps[prevProps.step]) {
+    const { step } = this.props
+    if (step === prevProps.step) return
+    if (InterestSteps[step.name] > InterestSteps[prevProps.step.name]) {
       /* eslint-disable */
       this.setState({ direction: 'left' })
     } else {
@@ -59,25 +60,26 @@ class Interest extends PureComponent<Props, State> {
         data-e2e='interestModal'
         total={total}
       >
-        {step === 'ACCOUNT_SUMMARY' && (
+        {step.name === 'ACCOUNT_SUMMARY' && (
           <FlyoutChild>
             <AccountSummary
               handleClose={this.handleClose}
               handleSBClick={this.handleSBClick}
+              stepMetadata={step.data}
             />
           </FlyoutChild>
         )}
-        {step === 'DEPOSIT' && (
+        {step.name === 'DEPOSIT' && (
           <FlyoutChild>
             <DepositForm />
           </FlyoutChild>
         )}
-        {step === 'DEPOSIT_SUCCESS' && (
+        {step.name === 'DEPOSIT_SUCCESS' && (
           <FlyoutChild>
             <DepositSuccess handleClose={this.handleClose} />
           </FlyoutChild>
         )}
-        {step === 'WITHDRAWAL' && (
+        {step.name === 'WITHDRAWAL' && (
           <FlyoutChild>
             <WithdrawalForm handleClose={this.handleClose} />
           </FlyoutChild>
@@ -103,7 +105,10 @@ const connector = connect(
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
-  step: InterestStep
+  step: {
+    data: InterestStepMetadata
+    name: InterestStep
+  }
 }
 
 type State = { direction: 'left' | 'right'; show: boolean }

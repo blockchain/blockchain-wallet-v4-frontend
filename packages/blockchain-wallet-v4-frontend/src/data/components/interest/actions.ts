@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
 import {
   InterestAccountBalanceType,
@@ -9,7 +8,13 @@ import {
   InterestRateType,
   InterestTransactionResponseType
 } from 'core/network/api/interest/types'
-import { InterestActionTypes, InterestStep } from './types'
+
+import * as AT from './actionTypes'
+import {
+  InterestActionTypes,
+  InterestStep,
+  InterestStepMetadata
+} from './types'
 
 export const fetchInterestBalance = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_BALANCE,
@@ -163,7 +168,7 @@ export const fetchInterestTransactions = () => ({
   type: AT.FETCH_INTEREST_TRANSACTIONS
 })
 
-export const fetchInterestTransactionsFailue = (
+export const fetchInterestTransactionsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_TRANSACTIONS_FAILURE,
@@ -203,9 +208,13 @@ export const submitDepositForm = (coin: CoinType) => ({
   type: AT.SUBMIT_DEPOSIT_FORM
 })
 
-export const setInterestStep = (step: InterestStep) => ({
+export const setInterestStep = (
+  name: InterestStep,
+  data?: InterestStepMetadata
+) => ({
   payload: {
-    step
+    name,
+    data
   },
   type: AT.SET_INTEREST_STEP
 })

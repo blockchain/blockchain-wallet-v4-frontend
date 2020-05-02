@@ -12,6 +12,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { InterestStepMetadata } from 'data/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
@@ -30,7 +31,7 @@ const TopText = styled(Text)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 38px;
 `
 const Row = styled.div`
   display: flex;
@@ -49,7 +50,17 @@ const Container = styled(Row)`
     margin-left: 32px;
   }
 `
-
+const SendStatusWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: rgba(240, 242, 247, 0.5);
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid ${({ theme }) => theme.grey000};
+  box-sizing: border-box;
+  border-radius: 8px;
+`
 const DetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,21 +80,28 @@ const LineVector = styled.div`
   height: 1px;
   width: 100%;
   background: ${({ theme }) => theme.grey000};
-  margin: 40px 0 8px 0;
+  margin: 24px 0 8px 0;
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
-  margin-top: 56px;
+  justify-content: flex-end;
+  height: 100%;
 `
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
-  margin-top: 32px;
+  margin-top: 28px;
   opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
   > button {
     padding: 15px !important;
   }
+`
+const ViewStatusButton = styled(Button)`
+  height: 30px;
+  width: 100px;
+  padding: 0;
+  margin-top: 8px;
 `
 
 const AccountSummary: React.FC<Props> = props => {
@@ -95,6 +113,7 @@ const AccountSummary: React.FC<Props> = props => {
     interestActions,
     interestAccountBalance,
     interestRate,
+    stepMetadata,
     supportedCoins
   } = props
 
@@ -156,6 +175,42 @@ const AccountSummary: React.FC<Props> = props => {
           </Container>
         </Row>
         <LineVector />
+        {stepMetadata && stepMetadata.sendSuccess ? (
+          <SendStatusWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.depositsuccess'
+                defaultMessage='Your deposit has been sent to your Interest Account. Your balance will update once the transaction is confirmed by the network.  No further action is required.'
+                values={{ displayName }}
+              />
+            </Text>
+            <ViewStatusButton
+              data-e2e='viewDepositStatus'
+              nature='empty'
+              onClick={() => {}}
+              width='100px'
+            >
+              <Text color='blue600' size='13px' weight={600}>
+                <FormattedMessage
+                  id='buttons.viewstatus'
+                  defaultMessage='View Status'
+                />
+              </Text>
+            </ViewStatusButton>
+          </SendStatusWrapper>
+        ) : (
+          stepMetadata &&
+          stepMetadata.error && (
+            <SendStatusWrapper>
+              <Text color='red600' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.interest.depositfailure'
+                  defaultMessage='Something went wrong when sending your deposit. Please try again later or contact support if the issue persists.'
+                />
+              </Text>
+            </SendStatusWrapper>
+          )
+        )}
         <ButtonContainer>
           <Button
             data-e2e='interestDeposit'
@@ -260,7 +315,6 @@ const AccountSummary: React.FC<Props> = props => {
           </DetailsItemContainer>
         </DetailsWrapper>
       </Top>
-
       <Bottom>
         <ButtonContainer>
           <Button
@@ -286,6 +340,7 @@ const AccountSummary: React.FC<Props> = props => {
 type ParentProps = {
   handleDepositClick: () => void
   handleSBClick: () => void
+  stepMetadata: InterestStepMetadata
 }
 
 export type Props = OwnProps &

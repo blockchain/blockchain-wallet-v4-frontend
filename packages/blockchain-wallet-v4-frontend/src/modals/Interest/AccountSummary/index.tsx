@@ -10,7 +10,7 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { RatesType } from 'data/types'
+import { InterestStepMetadata, RatesType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -62,6 +62,7 @@ const connector = connect(
 export type OwnProps = {
   handleClose: () => void
   handleSBClick: () => void
+  stepMetadata: InterestStepMetadata
 }
 
 export type LinkDispatchPropsType = {

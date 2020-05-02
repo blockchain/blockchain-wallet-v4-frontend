@@ -93,7 +93,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchInterestTransactionsSuccess(transactions))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchInterestTransactionsFailue(error))
+      yield put(A.fetchInterestTransactionsFailure(error))
     }
   }
 
@@ -134,10 +134,13 @@ export default ({ api }: { api: APIType }) => {
       console.log(depositAddress)
       yield delay(4000)
       yield put(actions.form.stopSubmit(FORM))
-      yield put(A.setInterestStep('DEPOSIT_SUCCESS'))
+      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: true }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
+      yield put(
+        A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: false, error })
+      )
     }
   }
 

@@ -27,6 +27,11 @@ export enum InterestSteps {
   'WITHDRAWAL'
 }
 
+export type InterestStepMetadata = {
+  error?: string
+  sendSuccess?: boolean
+}
+
 export type InterestStep = keyof typeof InterestSteps
 
 // State
@@ -39,7 +44,10 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
-  step: InterestStep
+  step: {
+    data: InterestStepMetadata
+    name: InterestStep
+  }
 }
 
 // Actions
@@ -171,7 +179,8 @@ interface InitializeDepositFormAction {
 
 interface SetInterestStep {
   payload: {
-    step: InterestStep
+    data?: InterestStepMetadata
+    name: InterestStep
   }
   type: typeof AT.SET_INTEREST_STEP
 }
