@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { isEmpty, isNil, path } from 'ramda'
+import { isEmpty, isNil, prop } from 'ramda'
 import React, { Component } from 'react'
 
 import { actions } from 'data'
@@ -9,7 +9,7 @@ import XlmAddresses from './template'
 const isValid = item => !isNil(item) && !isEmpty(item)
 
 type StateType = {
-  checkSecondPassword: boolean
+  hasCheckedSecondPassword: boolean
   showQrCode: boolean
 }
 
@@ -39,7 +39,7 @@ type PropsType = LinkStatePropsType & LinkDispatchPropsType & OwnProps
 
 class XlmContainer extends Component<PropsType, StateType> {
   state = {
-    checkSecondPassword: false,
+    hasCheckedSecondPassword: false,
     showQrCode: false
   }
 
@@ -48,25 +48,22 @@ class XlmContainer extends Component<PropsType, StateType> {
   }
 
   toggleQrCode = () => {
-    if (!this.state.checkSecondPassword) {
-      this.props.showXlmPrivateKey()
-
+    if (this.state.hasCheckedSecondPassword) {
       this.setState(prevState => ({
-        checkSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
     } else {
+      this.props.showXlmPrivateKey()
       this.setState(prevState => ({
+        hasCheckedSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
     }
   }
 
-  checkQrCode = () => isValid(path(['addressInfo', 'priv'], this.props))
-
   render () {
     const { addressInfo, coin } = this.props
-    const checkQrCode = this.checkQrCode()
+    const checkQrCode = isValid(prop('priv', addressInfo))
 
     return (
       <XlmAddresses

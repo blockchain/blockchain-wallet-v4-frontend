@@ -9,7 +9,7 @@ import EthAddresses from './template'
 const isValid = item => !isNil(item) && !isEmpty(item)
 
 type StateType = {
-  checkSecondPassword: boolean
+  hasCheckedSecondPassword: boolean
   showQrCode: boolean
 }
 
@@ -41,7 +41,7 @@ type PropsType = LinkStatePropsType & LinkDispatchPropsType & OwnProps
 
 class EthContainer extends Component<PropsType, StateType> {
   state = {
-    checkSecondPassword: false,
+    hasCheckedSecondPassword: false,
     showQrCode: false
   }
 
@@ -57,32 +57,29 @@ class EthContainer extends Component<PropsType, StateType> {
   }
 
   toggleQrCode = () => {
-    if (!this.state.checkSecondPassword) {
-      this.props.showEthPrivateKey(this.props.isLegacy)
+    if (this.state.hasCheckedSecondPassword) {
       this.setState(prevState => ({
-        checkSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
     } else {
+      this.props.showEthPrivateKey(this.props.isLegacy)
       this.setState(prevState => ({
+        hasCheckedSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
     }
   }
 
-  checkQrCode = () => {
-    const { addressInfo, isLegacy, legacyAddressInfo } = this.props
-
-    return isLegacy
+  checkQrCode = ({ addressInfo, isLegacy, legacyAddressInfo }) =>
+    isLegacy
       ? isValid(prop('priv', legacyAddressInfo)) &&
-          isValid(prop('priv', addressInfo))
+        isValid(prop('priv', addressInfo))
       : isValid(prop('priv', legacyAddressInfo)) ||
-          isValid(prop('priv', addressInfo))
-  }
+        isValid(prop('priv', addressInfo))
 
   render () {
     const { addressInfo, coin, isLegacy, legacyAddressInfo } = this.props
-    const checkQrCode = this.checkQrCode()
+    const checkQrCode = this.checkQrCode(this.props)
 
     return (
       <EthAddresses
