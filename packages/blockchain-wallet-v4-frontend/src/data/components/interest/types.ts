@@ -3,10 +3,10 @@ import {
   AccountTypes,
   CoinType,
   InterestAccountBalanceType,
+  InterestAccountType,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
-  InterestPaymentAccountType,
   InterestRateType,
   InterestTransactionResponseType,
   RemoteDataType
@@ -22,20 +22,21 @@ export type InterestFormValuesType = {
 
 export enum InterestSteps {
   'DEPOSIT',
-  'DETAILS'
+  'DEPOSIT_SUCCESS',
+  'DETAILS',
+  'WITHDRAWAL'
 }
 
 export type InterestStep = keyof typeof InterestSteps
 
 // State
 export interface InterestState {
-  account: RemoteDataType<string, InterestPaymentAccountType>
+  account: RemoteDataType<string, InterestAccountType>
   coin: CoinType
   interestAccountBalance: RemoteDataType<string, InterestAccountBalanceType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
-
   interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
   step: InterestStep
@@ -107,18 +108,18 @@ interface FetchInterestLimitsSuccess {
   type: typeof AT.FETCH_INTEREST_LIMITS_SUCCESS
 }
 
-interface FetchInterestPaymentAccountFailure {
+interface fetchInterestAccountFailure {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
 }
-interface FetchInterestPaymentAccountLoading {
+interface fetchInterestAccountLoading {
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
 }
-interface FetchInterestPaymentAccountSuccess {
+interface fetchInterestAccountSuccess {
   payload: {
-    account: InterestPaymentAccountType
+    account: InterestAccountType
   }
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
 }
@@ -161,11 +162,11 @@ interface InitializeDepositModalAction {
   type: typeof AT.INITIALIZE_DEPOSIT_MODAL
 }
 
-interface InitializeInterestAction {
+interface InitializeDepositFormAction {
   payload: {
     coin: CoinType
   }
-  type: typeof AT.INITIALIZE_INTEREST
+  type: typeof AT.INITIALIZE_DEPOSIT_FORM
 }
 
 interface SetInterestStep {
@@ -195,9 +196,9 @@ export type InterestActionTypes =
   | FetchInterestLimitsFailure
   | FetchInterestLimitsLoading
   | FetchInterestLimitsSuccess
-  | FetchInterestPaymentAccountFailure
-  | FetchInterestPaymentAccountLoading
-  | FetchInterestPaymentAccountSuccess
+  | fetchInterestAccountFailure
+  | fetchInterestAccountLoading
+  | fetchInterestAccountSuccess
   | FetchInterestRateFailure
   | FetchInterestRateLoading
   | FetchInterestRateSuccess
@@ -205,6 +206,6 @@ export type InterestActionTypes =
   | FetchInterestTransactionsLoading
   | FetchInterestTransactionsSuccess
   | InitializeDepositModalAction
-  | InitializeInterestAction
+  | InitializeDepositFormAction
   | SetInterestStep
   | ShowInterestModal

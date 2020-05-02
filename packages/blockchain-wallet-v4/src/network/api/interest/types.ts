@@ -1,16 +1,9 @@
-import { CoinType, FiatType } from 'core/types'
-
-enum IneligibilityReason {
-  KYC_TIER,
-  BLOCKED,
-  REGION
-}
+import { CoinType } from 'core/types'
 
 export type InterestAccountBalanceType = {
-  BTC: {
-    balanceAvailable: number
+  [key in CoinType]: {
+    balance: number
     fiatAmount: number
-    fiatCurrency: FiatType
     pendingDeposit: number
     pendingInterest: number
     pendingWithdrawal: number
@@ -20,7 +13,7 @@ export type InterestAccountBalanceType = {
 
 export type InterestEligibleType = {
   eligible: boolean
-  ineligibilityReason: IneligibilityReason
+  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
 }
 
 export type InterestInstrumentsType = Array<CoinType>
@@ -33,8 +26,8 @@ export type InterestLimitsType = {
   }
 }
 
-export type InterestPaymentAccountType = {
-  depositAddress: string
+export type InterestAccountType = {
+  accountRef: string // actually the btc deposit address
 }
 
 export type InterestRateType = {
@@ -52,7 +45,7 @@ export type InterestTransactionType = {
   id: string
 
   insertedAt: string
-  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE'
+  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE' | 'PENDING'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 

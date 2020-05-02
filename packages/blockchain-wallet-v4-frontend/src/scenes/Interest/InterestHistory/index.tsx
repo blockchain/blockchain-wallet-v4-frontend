@@ -10,6 +10,7 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { getData } from './selectors'
+// import { State } from '..'
 import { UserDataType } from 'data/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
@@ -21,7 +22,6 @@ const History = styled.div`
 `
 
 class InterestHistory extends Component<Props> {
-  state = {}
   componentDidMount () {
     this.props.interestActions.fetchInterestTransactions()
   }

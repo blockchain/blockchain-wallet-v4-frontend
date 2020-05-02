@@ -15,7 +15,7 @@ export type WalletFormType =
   | 'cancelSBOrderForm'
   | 'confirmRecoveryWords'
   | 'initBorrow'
-  | 'interestForm'
+  | 'interestDepositForm'
   | 'register'
   | 'reminder'
   | 'repayLoanForm'

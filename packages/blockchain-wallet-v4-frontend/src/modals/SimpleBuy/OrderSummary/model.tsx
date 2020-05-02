@@ -51,10 +51,7 @@ export const Status = ({ order }: { order: SBOrderType }) => {
     case 'DEPOSIT_MATCHED':
       return (
         <OrangeCartridge>
-          <FormattedMessage
-            id='modals.simplebuy.pending'
-            defaultMessage='Pending'
-          />
+          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
         </OrangeCartridge>
       )
     default:

@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -12,8 +12,8 @@ import {
   SceneWrapper
 } from 'components/Layout'
 import { InterestRateType, RemoteDataType } from 'core/types'
-import { RatesType, UserDataType } from 'data/types'
-import InterestHistory, { SuccessStateType } from './InterestHistory'
+import { UserDataType } from 'data/types'
+import InterestHistory from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 
@@ -34,8 +34,7 @@ const LearnMoreText = styled(Text)`
 
 /*
   TODO List:
-  1) fix TS errors
-  2) fetch txs and show table if txs exist
+  1) fetch txs and show table if txs exist
 */
 class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
@@ -101,19 +100,21 @@ class Interest extends React.PureComponent<Props, StateType> {
           Success: val => (
             <>
               <Container>
-                {/*
-                // @ts-ignore PHIL HELP */}
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
-                {/*
-                // @ts-ignore PHIL HELP */}
-                <SummaryCard {...val} {...this.props} isGoldTier={isGoldTier} />
+                {isGoldTier && (
+                  <SummaryCard
+                    {...val}
+                    {...this.props}
+                    isGoldTier={isGoldTier}
+                  />
+                )}
               </Container>
               <InterestHistory />
             </>
           ),
           Failure: () => null,
-          Loading: () => null,
-          NotAsked: () => null
+          Loading: () => <SkeletonRectangle width='330px' height='275px' />,
+          NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
         })}
       </SceneWrapper>
     )
@@ -141,7 +142,6 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  btcRate: RatesType
   interestRate: InterestRateType
   userData: UserDataType
 }
@@ -153,8 +153,6 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-export type Props = StateType &
-  SuccessStateType &
-  ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(Interest)

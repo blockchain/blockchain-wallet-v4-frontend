@@ -84,10 +84,7 @@ export const CollateralAmt = (props: {
         </TooltipHost>
       ) : (
         <Text size='14px' weight={600} italic>
-          <FormattedMessage
-            id='borrowhistory.model.pending'
-            defaultMessage='Pending'
-          />
+          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
         </Text>
       )
     default:

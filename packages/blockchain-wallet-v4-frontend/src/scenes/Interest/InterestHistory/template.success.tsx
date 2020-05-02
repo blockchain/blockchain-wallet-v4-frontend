@@ -1,5 +1,6 @@
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 import {
   Icon,
@@ -9,8 +10,9 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { IconBackground, Value } from './model'
+import { IconBackground, PendingTag, Value } from './model'
 import { SuccessStateType } from '.'
+import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -25,9 +27,8 @@ const InterestTableCell = styled(TableCell)`
 `
 
 function Success (props: SuccessStateType): ReactElement {
-  const { interestHistory, supportedCoins } = props
-  // ToDo: array of coins to supported Coins so I can make it any
-  const { coinTicker, colorCode } = supportedCoins.BTC
+  const { coin, interestHistory, supportedCoins } = props
+  const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
@@ -87,6 +88,14 @@ function Success (props: SuccessStateType): ReactElement {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
+                    {transaction.state === 'PENDING' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : transaction.type === 'DEPOSIT' ? (
                   <React.Fragment>
@@ -99,6 +108,14 @@ function Success (props: SuccessStateType): ReactElement {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Deposit</Value>
+                    {transaction.state === 'PENDING' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
@@ -112,18 +129,70 @@ function Success (props: SuccessStateType): ReactElement {
                   {moment(transaction.insertedAt).format('llll')}
                 </Value>
               </TableCell>
+              {transaction.type === 'DEPOSIT' ? (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      My {displayName} Wallet
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              ) : transaction.type === 'WITHDRAWAL' ? (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      My {displayName} Wallet
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionFrom'>
+                      Blockchain.com
+                    </Value>
+                  </TableCell>
+                  <TableCell width='20%'>
+                    <Value data-e2e='interestTransactionTo'>
+                      {displayName} Interest Account
+                    </Value>
+                  </TableCell>
+                </React.Fragment>
+              )}
+
               <TableCell width='20%'>
-                <Value data-e2e='interestTransactionFrom'>
-                  From Placeholder
-                </Value>
-              </TableCell>
-              <TableCell width='20%'>
-                <Value data-e2e='interestTransactionTo'>To Placeholder</Value>
-              </TableCell>
-              <TableCell width='20%'>
-                <Value data-e2e='interestTransactionAmount'>
-                  {transaction.amount.value} {transaction.amount.symbol}
-                </Value>
+                <div>
+                  <FiatDisplay
+                    color='grey800'
+                    size='14px'
+                    weight={600}
+                    coin={coin}
+                    style={{ marginBottom: '4px' }}
+                    data-e2e='interestFiatAmount'
+                  >
+                    {transaction.amount.value}
+                  </FiatDisplay>
+                  <CoinDisplay
+                    coin={coin}
+                    color='grey600'
+                    weight={500}
+                    data-e2e='interestCoinAmount'
+                    size='13px'
+                    style={{ lineHeight: '1.5' }}
+                  >
+                    {transaction.amount.value}
+                  </CoinDisplay>
+                </div>
               </TableCell>
             </TableRow>
           )

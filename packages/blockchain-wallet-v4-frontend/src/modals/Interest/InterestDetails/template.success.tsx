@@ -1,8 +1,8 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -68,15 +68,17 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
-const Success: React.FC<Props> = ({
-  coin,
-  handleClose,
-  handleDepositClick,
-  handleSBClick,
-  supportedCoins
-}) => {
-  const displayName = supportedCoins[coin].displayName
+const Success: React.FC<Props> = props => {
+  const {
+    coin,
+    handleClose,
+    handleDepositClick,
+    handleSBClick,
+    interestAccountBalance,
+    supportedCoins
+  } = props
 
+  const displayName = supportedCoins[coin].displayName
   return (
     <Wrapper>
       <Top>
@@ -111,12 +113,9 @@ const Success: React.FC<Props> = ({
                 values={{ coin }}
               />
             </Text>
-            <Text color='grey800' size='20px' weight={600}>
-              {fiatToString({
-                value: 6726.43,
-                unit: 'USD'
-              })}
-            </Text>
+            <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
+              {interestAccountBalance[coin].balance}
+            </FiatDisplay>
           </Container>
           <Container>
             <Text color='grey600' size='14px' weight={500}>
@@ -125,13 +124,15 @@ const Success: React.FC<Props> = ({
                 defaultMessage='Total Interest Earned'
               />
             </Text>
-            <Text color='grey800' size='20px' weight={600}>
-              {fiatToString({
-                value: 0.00000254,
-                unit: 'USD',
-                digits: 8
-              })}
-            </Text>
+            <FiatDisplay
+              Text
+              color='grey800'
+              size='20px'
+              weight={600}
+              coin={coin}
+            >
+              {interestAccountBalance[coin].totalInterest}
+            </FiatDisplay>
           </Container>
         </Row>
         <LineVector />
@@ -163,7 +164,7 @@ const Success: React.FC<Props> = ({
             </Text>
           </Button>
         </ButtonContainer>
-        <Summary />
+        <Summary {...props} />
       </Top>
 
       <Bottom>
@@ -193,6 +194,9 @@ type ParentProps = {
   handleSBClick: () => void
 }
 
-type Props = OwnProps & LinkDispatchPropsType & SuccessStateType & ParentProps
+export type Props = OwnProps &
+  LinkDispatchPropsType &
+  SuccessStateType &
+  ParentProps
 
 export default Success

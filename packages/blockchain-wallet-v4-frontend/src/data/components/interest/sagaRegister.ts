@@ -25,14 +25,18 @@ export default ({ api }: { api: APIType }) => {
     )
     yield takeLatest(
       AT.FETCH_INTEREST_PAYMENT_ACCOUNT,
-      interestSagas.fetchInterestPaymentAccount
+      interestSagas.fetchInterestAccount
     )
     yield takeLatest(AT.FETCH_INTEREST_RATE, interestSagas.fetchInterestRate)
     yield takeLatest(
       AT.FETCH_INTEREST_TRANSACTIONS,
       interestSagas.fetchInterestTransactions
     )
-    yield takeLatest(AT.INITIALIZE_INTEREST, interestSagas.initializeInterest)
+    yield takeLatest(
+      AT.INITIALIZE_DEPOSIT_FORM,
+      interestSagas.initializeDepositForm
+    )
+    yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

@@ -2,6 +2,7 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
+  const coin = selectors.components.interest.getCoinType(state)
   const interestHistoryR = selectors.components.interest.getInterestTransactions(
     state
   )
@@ -17,6 +18,7 @@ export const getData = state => {
     supportedCoins,
     userData
   ) => ({
+    coin,
     interestHistory,
     interestTransactions,
     supportedCoins,

@@ -5,7 +5,11 @@ import { FormattedMessage } from 'react-intl'
 
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { Props as OwnProps } from '..'
+import {
+  Props as OwnProps,
+  StateType as ParentStateType,
+  SuccessStateType
+} from '..'
 import { prop } from 'ramda'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -21,11 +25,12 @@ const IconWrapper = styled.div`
   justify-content: space-between;
 `
 
-class IntroCard extends PureComponent<Props> {
+class IntroCard extends PureComponent<
+  ParentStateType & Props & SuccessStateType
+> {
   render () {
     const {
       idvActions,
-      // @ts-ignore PHIL HELP
       interestRate,
       isGoldTier,
       showInterestInfoBox,
@@ -44,6 +49,9 @@ class IntroCard extends PureComponent<Props> {
                   size='16px'
                   color='grey400'
                   role='button'
+                  onClick={() =>
+                    this.props.preferencesActions.hideInterestInfoBox()
+                  }
                 />
               </IconWrapper>
               <Text
@@ -142,7 +150,6 @@ class IntroCard extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
-  // @ts-ignore PHIL HELP
   showInterestInfoBox: selectors.preferences.getShowInterestInfoBox(state)
 })
 

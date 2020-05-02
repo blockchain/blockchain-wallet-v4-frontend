@@ -13,8 +13,8 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maxValue, required } from 'services/FormHelper'
+import { OwnProps, SuccessStateType } from '.'
 import { selectors } from 'data'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -145,11 +145,7 @@ type SuccessOwnProps = {
   handleClose: () => void
 }
 
-type Props = SuccessOwnProps &
-  OwnProps &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  SuccessStateType
+type Props = SuccessOwnProps & OwnProps & LinkStatePropsType & SuccessStateType
 
 const maxVal = maxValue(10000)
 

@@ -163,15 +163,19 @@ const TransactionListItem = ({
             </Banner>
           </BannerWrapper>
         )}
-        {transaction.state === 'PENDING' && (
-          <BannerWrapper onClick={e => handleRetrySendEth(e, transaction.hash)}>
-            <Banner label='true'>
-              <FormattedMessage
-                id='components.txlistitem.retrytx'
-                defaultMessage='Resend Transaction'
-              />
-            </Banner>
-          </BannerWrapper>
+        {transaction.state === 'PENDING' && transaction.type === 'sent' && (
+          <TooltipHost id='transaction.pending.eth' data-place='right'>
+            <BannerWrapper
+              onClick={e => handleRetrySendEth(e, transaction.hash)}
+            >
+              <Banner label='true'>
+                <FormattedMessage
+                  id='components.txlistitem.retrytx'
+                  defaultMessage='Resend Transaction'
+                />
+              </Banner>
+            </BannerWrapper>
+          </TooltipHost>
         )}
       </StatusColumn>
       <AddressesColumn data-e2e='transactionAddressesColumn'>

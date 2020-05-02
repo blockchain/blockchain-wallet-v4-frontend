@@ -1,4 +1,3 @@
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import {
   Link,
@@ -6,6 +5,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { SuccessStateType } from '..'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
@@ -27,8 +28,11 @@ const LineVector = styled.div`
   background: ${({ theme }) => theme.grey000};
   margin: 10px 0;
 `
-
-const Summary: React.FC<{}> = () => {
+const Summary: React.FC<SuccessStateType> = ({
+  coin,
+  interestRate,
+  interestAccountBalance
+}) => {
   return (
     <Wrapper>
       <Text color='grey900' weight={600} style={{ marginBottom: '6px' }}>
@@ -60,13 +64,9 @@ const Summary: React.FC<{}> = () => {
             <TooltipIcon name='info' size='12px' />
           </TooltipHost>
         </Text>
-        <Text color='grey600' size='14px' weight={500}>
-          {fiatToString({
-            value: 0.00001,
-            unit: 'USD',
-            digits: 8
-          })}
-        </Text>
+        <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
+          {interestAccountBalance[coin].pendingInterest}
+        </FiatDisplay>
       </SummaryItemContainer>
       <LineVector />
       <SummaryItemContainer>
@@ -102,7 +102,7 @@ const Summary: React.FC<{}> = () => {
           </Link>
         </Text>
         <Text color='grey600' size='14px' weight={500}>
-          3.00%
+          {interestRate[coin]}%
         </Text>
       </SummaryItemContainer>
     </Wrapper>
