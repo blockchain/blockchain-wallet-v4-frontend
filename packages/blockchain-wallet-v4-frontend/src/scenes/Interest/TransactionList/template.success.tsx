@@ -16,9 +16,6 @@ import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-export const MainTitle = styled(Text)`
-  margin-bottom: 8px;
-`
 const InterestTableCell = styled(TableCell)`
   align-items: center;
   > ${Value} {
@@ -26,7 +23,7 @@ const InterestTableCell = styled(TableCell)`
   }
 `
 
-function Success (props: SuccessStateType): ReactElement {
+function TransactionList (props: SuccessStateType): ReactElement {
   const { coin, interestHistory, supportedCoins } = props
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return (
@@ -202,4 +199,4 @@ function Success (props: SuccessStateType): ReactElement {
   )
 }
 
-export default Success
+export default TransactionList

@@ -10,18 +10,18 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { getData } from './selectors'
-// import { State } from '..'
+
 import { UserDataType } from 'data/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Success from './template.success'
+import TransactionList from './template.success'
 
 const History = styled.div`
   margin-top: 48px;
   max-width: 1200px;
 `
 
-class InterestHistory extends Component<Props> {
+class TransactionListContainer extends Component<Props> {
   componentDidMount () {
     this.props.interestActions.fetchInterestTransactions()
   }
@@ -30,7 +30,7 @@ class InterestHistory extends Component<Props> {
     return (
       <History>
         {this.props.data.cata({
-          Success: val => <Success {...val} {...this.props} />,
+          Success: val => <TransactionList {...val} {...this.props} />,
           Failure: () => null,
           Loading: () => null,
           NotAsked: () => null
@@ -65,4 +65,4 @@ type LinkStatePropsType = {
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(InterestHistory)
+export default connector(TransactionListContainer)

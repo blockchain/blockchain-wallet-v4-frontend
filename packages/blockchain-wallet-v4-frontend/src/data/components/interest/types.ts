@@ -21,9 +21,10 @@ export type InterestFormValuesType = {
 }
 
 export enum InterestSteps {
+  'ACCOUNT_SUMMARY',
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
-  'DETAILS'
+  'WITHDRAWAL'
 }
 
 export type InterestStep = keyof typeof InterestSteps

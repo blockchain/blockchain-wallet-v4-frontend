@@ -13,9 +13,9 @@ import {
 } from 'components/Layout'
 import { InterestRateType, RemoteDataType } from 'core/types'
 import { UserDataType } from 'data/types'
-import InterestHistory from './InterestHistory'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
+import TransactionList from './TransactionList'
 
 import { getData } from './selectors'
 import { Remote } from 'core'
@@ -70,7 +70,7 @@ class Interest extends React.PureComponent<Props, StateType> {
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='savings-icon' color='blue600' size='24px' />
+            <Icon color='blue600' name='savings-icon' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
@@ -109,7 +109,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                   />
                 )}
               </Container>
-              <InterestHistory />
+              <TransactionList />
             </>
           ),
           Failure: () => null,

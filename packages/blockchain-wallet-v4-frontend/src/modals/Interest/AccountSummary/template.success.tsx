@@ -74,6 +74,7 @@ const Success: React.FC<Props> = props => {
     handleClose,
     handleDepositClick,
     handleSBClick,
+    interestActions,
     interestAccountBalance,
     supportedCoins
   } = props
@@ -91,8 +92,8 @@ const Success: React.FC<Props> = props => {
               style={{ marginRight: '16px' }}
             />
             <FormattedMessage
-              id='modals.interest.deposittitle'
-              defaultMessage='Deposit {displayName}'
+              id='modals.interest.detailstitle'
+              defaultMessage='{displayName} Interest Account'
               values={{ displayName }}
             />
           </Row>
@@ -174,7 +175,7 @@ const Success: React.FC<Props> = props => {
             fullwidth
             height='48px'
             nature='grey800'
-            onClick={handleClose}
+            onClick={() => interestActions.showInterestModal('WITHDRAWAL')}
           >
             <Text color='white' size='16px' weight={600}>
               <FormattedMessage

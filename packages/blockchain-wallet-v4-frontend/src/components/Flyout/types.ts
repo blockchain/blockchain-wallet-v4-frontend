@@ -6,3 +6,4 @@ export type FlyoutE2EType =
   | 'simpleBuyModal'
   | 'welcomeModal'
   | 'whatsNewModal'
+  | 'withdrawalModal'
