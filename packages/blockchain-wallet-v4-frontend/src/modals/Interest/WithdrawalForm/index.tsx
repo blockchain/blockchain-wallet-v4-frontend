@@ -40,7 +40,6 @@ export type OwnProps = {
 
 export type SuccessStateType = {
   coin: CoinType
-  formValues: { withdrawalAmount: number }
   supportedCoins: SupportedCoinsType
 }
 

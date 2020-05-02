@@ -53,9 +53,6 @@ const connector = connect(
   mapDispatchToProps
 )
 
-export type OwnProps = {
-  handleClose: () => void
-}
 export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
@@ -71,6 +68,6 @@ export type SuccessStateType = {
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 export default connector(DepositForm)

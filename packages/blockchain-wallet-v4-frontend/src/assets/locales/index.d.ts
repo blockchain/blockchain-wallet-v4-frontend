@@ -634,7 +634,7 @@ type MessagesType = {
   'modals.interest.deposit.calculator.footer': 'Estimates based on current BTC price earning {rate}% AER.'
   'modals.interest.deposit.calculator.tooltip': 'This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
   'modals.interest.depositamount': 'Enter deposit amount'
-  'modals.interest.depositbtc': 'Deposit Bitcoin to your Interest Account and earn {rate}% interest.'
+  'modals.interest.depositbtc': 'Deposit into your Interest Account and earn {rate}% interest.'
   'modals.interest.deposittitle': 'Deposit {displayName}'
   'modals.interest.detailsbalance': 'Your {coin} Balance'
   'modals.interest.detailstitle': '{displayName} Interest Account'

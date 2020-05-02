@@ -34,7 +34,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { InterestFormValuesType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
-import { OwnProps, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 
 const SendingWrapper = styled.div`
   width: 100%;
@@ -55,7 +55,6 @@ const Top = styled(FlyoutWrapper)`
 const TopText = styled(Text)`
   display: flex;
   width: 100%;
-  justify-content: space-between;
   align-items: center;
 `
 const Bottom = styled(FlyoutWrapper)`
@@ -146,6 +145,9 @@ const AgreementContainer = styled.div`
     display: inline-block;
   }
 `
+const ArrowIcon = styled(Icon)`
+  margin-right: 20px;
+`
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -159,7 +161,6 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
-    handleClose,
     interestActions,
     interestRate,
     invalid,
@@ -209,24 +210,26 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     <CustomForm onSubmit={handleFormSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
+          <ArrowIcon
+            onClick={() =>
+              props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
+            }
+            cursor
+            name='arrow-left'
+            size='20px'
+            color='grey600'
+          />
           <FormattedMessage
             id='modals.interest.deposittitle'
             defaultMessage='Deposit {displayName}'
             values={{ displayName }}
-          />
-          <Icon
-            onClick={handleClose}
-            cursor
-            name='close'
-            size='20px'
-            color='grey600'
           />
         </TopText>
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.interest.depositbtc'
-              defaultMessage='Deposit Bitcoin to your Interest Account and earn {rate}% interest.'
+              defaultMessage='Deposit into your Interest Account and earn {rate}% interest.'
               values={{ rate: interestRate[coin] }}
             />
           </Text>
@@ -512,16 +515,10 @@ type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-type Props = OwnProps &
-  SuccessStateType &
-  LinkStatePropsType &
-  LinkDispatchPropsType
+type Props = SuccessStateType & LinkStatePropsType & LinkDispatchPropsType
 
 const enhance = compose(
-  reduxForm<{}, Props>({
-    form: 'interestDepositForm',
-    destroyOnUnmount: false
-  }),
+  reduxForm<{}, Props>({ form: 'interestDepositForm' }),
   connector
 )
 

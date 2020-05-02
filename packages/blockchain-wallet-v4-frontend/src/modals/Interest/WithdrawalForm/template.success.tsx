@@ -39,7 +39,7 @@ const ArrowIcon = styled(Icon)`
 const BalanceWrapper = styled.div`
   display: flex;
   margin-top: 40px;
-  padding-bottom: 32px;
+  padding-bottom: 30px;
   border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const BalanceAmount = styled(Text)`
@@ -54,7 +54,7 @@ const BalanceItem = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 8px;
+  margin-top: 10px;
   margin-bottom: 14px;
 `
 const Spacer = styled.div`
@@ -67,8 +67,8 @@ const ButtonWrapperTitle = styled(Text)`
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   height: 100%;
-  margin-top: 56px;
 `
 const CustomFormLabel = styled(FormLabel)`
   display: block;
@@ -247,6 +247,7 @@ const WithdrawalForm: React.FC<
             data-e2e='withdrawalAmount'
             name='withdrawalAmount'
             {...{
+              autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'
@@ -331,7 +332,7 @@ const mapStateToProps = state => ({
 })
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'withdrawalForm', destroyOnUnmount: false }),
+  reduxForm<{}, Props>({ form: 'withdrawalForm' }),
   connect(mapStateToProps)
 )
 

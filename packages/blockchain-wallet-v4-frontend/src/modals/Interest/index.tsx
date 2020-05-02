@@ -69,7 +69,7 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm handleClose={this.handleClose} />
+            <DepositForm />
           </FlyoutChild>
         )}
         {step === 'DEPOSIT_SUCCESS' && (
