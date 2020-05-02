@@ -1,7 +1,7 @@
+import styled from 'styled-components'
+
 import { GreyCartridge } from 'components/Cartridge'
 import { Text } from 'blockchain-info-components'
-
-import styled from 'styled-components'
 
 // same style for all children
 export const Value = styled(Text)<{ size?: string }>`

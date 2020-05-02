@@ -1,19 +1,22 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import {
   InterestAccountBalanceType,
   InterestEligibleType,
   InterestRateType,
   RemoteDataType
 } from 'core/types'
+import { SkeletonRectangle } from 'blockchain-info-components'
+
+import { getData } from './selectors'
 import {
   StateType as ParentStateType,
   SuccessStateType as ParentSuccessStateType
 } from '..'
-import { SkeletonRectangle } from 'blockchain-info-components'
-import React, { PureComponent } from 'react'
+
 import SummaryCard from './template.success'
 
 class SummaryCardContainer extends PureComponent<Props> {

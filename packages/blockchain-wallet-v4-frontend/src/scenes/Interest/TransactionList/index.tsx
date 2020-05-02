@@ -1,6 +1,8 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import {
   CoinType,
@@ -9,11 +11,9 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { getData } from './selectors'
-
 import { UserDataType } from 'data/types'
-import React, { Component } from 'react'
-import styled from 'styled-components'
+
+import { getData } from './selectors'
 import TransactionList from './template.success'
 
 const History = styled.div`

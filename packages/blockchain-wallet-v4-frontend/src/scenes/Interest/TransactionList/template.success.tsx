@@ -1,6 +1,7 @@
 import { FormattedMessage } from 'react-intl'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import moment from 'moment'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
 
 import {
   Icon,
@@ -10,11 +11,11 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+
 import { IconBackground, PendingTag, Value } from './model'
 import { SuccessStateType } from '.'
-import moment from 'moment'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const InterestTableCell = styled(TableCell)`
   align-items: center;

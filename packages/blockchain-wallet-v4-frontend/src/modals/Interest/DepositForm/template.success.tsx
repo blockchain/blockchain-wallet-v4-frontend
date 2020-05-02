@@ -1,5 +1,12 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { connect } from 'react-redux'
+import { equals } from 'ramda'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
 import {
   Button,
   Icon,
@@ -22,17 +29,12 @@ import {
   coinToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
 import { Exchange } from 'core'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
 import { InterestFormValuesType } from 'data/components/interest/types'
-import { OwnProps, SuccessStateType } from '.'
 import { required } from 'services/FormHelper'
-import React, { useState } from 'react'
-import styled from 'styled-components'
+
+import { OwnProps, SuccessStateType } from '.'
 
 const SendingWrapper = styled.div`
   width: 100%;

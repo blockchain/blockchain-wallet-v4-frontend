@@ -1,6 +1,7 @@
-import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

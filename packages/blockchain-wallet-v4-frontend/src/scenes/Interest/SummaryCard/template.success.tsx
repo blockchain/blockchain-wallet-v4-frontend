@@ -1,3 +1,8 @@
+import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
+
 import { Box } from 'components/Box'
 import {
   Button,
@@ -7,14 +12,9 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as OwnProps, SuccessStateType } from '.'
-
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
   display: flex;

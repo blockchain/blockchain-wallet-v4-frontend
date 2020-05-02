@@ -1,5 +1,8 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions } from 'data'
 import {
   CoinType,
   InterestAccountBalanceType,
@@ -7,13 +10,12 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
+
+import { getData } from './selectors'
+import AccountSummary from './template.success'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
-import Success from './template.success'
 
 class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
@@ -30,7 +32,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
     const { data } = this.props
     return data.cata({
       Success: val => (
-        <Success
+        <AccountSummary
           {...val}
           {...this.props}
           handleDepositClick={this.handleDepositClick}

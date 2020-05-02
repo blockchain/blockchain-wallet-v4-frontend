@@ -1,11 +1,20 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
-import Summary from './Summary'
+
+import {
+  Button,
+  Icon,
+  Link,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
+import FiatDisplay from 'components/Display/FiatDisplay'
+
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -13,11 +22,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `
-
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0;
 `
-
 const TopText = styled(Text)`
   display: flex;
   width: 100%;
@@ -25,11 +32,9 @@ const TopText = styled(Text)`
   align-items: center;
   margin-bottom: 40px;
 `
-
 const Row = styled.div`
   display: flex;
 `
-
 const Container = styled(Row)`
   flex-direction: column;
   height: 48px;
@@ -45,19 +50,32 @@ const Container = styled(Row)`
   }
 `
 
+const DetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 48px;
+`
+const DetailsItemContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`
+const LineVectorDetails = styled.div`
+  height: 1px;
+  background: ${({ theme }) => theme.grey000};
+  margin: 10px 0;
+`
 const LineVector = styled.div`
   height: 1px;
   width: 100%;
   background: ${({ theme }) => theme.grey000};
   margin: 40px 0 8px 0;
 `
-
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   flex-direction: column;
   margin-top: 56px;
 `
-
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -68,7 +86,7 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
-const Success: React.FC<Props> = props => {
+const AccountSummary: React.FC<Props> = props => {
   const {
     coin,
     handleClose,
@@ -76,6 +94,7 @@ const Success: React.FC<Props> = props => {
     handleSBClick,
     interestActions,
     interestAccountBalance,
+    interestRate,
     supportedCoins
   } = props
 
@@ -165,7 +184,81 @@ const Success: React.FC<Props> = props => {
             </Text>
           </Button>
         </ButtonContainer>
-        <Summary {...props} />
+        <DetailsWrapper>
+          <Text color='grey900' weight={600} style={{ marginBottom: '6px' }}>
+            <FormattedMessage
+              id='modals.borrow.summary'
+              defaultMessage='Summary'
+            />
+          </Text>
+          <LineVectorDetails />
+          <DetailsItemContainer>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.summary.next'
+                defaultMessage='Next interest payment'
+              />
+            </Text>
+            <Text color='grey600' size='14px' weight={500}>
+              {moment()
+                .add(1, 'month')
+                .startOf('month')
+                .format('MMMM D, YYYY')}
+            </Text>
+          </DetailsItemContainer>
+          <LineVectorDetails />
+          <DetailsItemContainer>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.summary.accrued'
+                defaultMessage='Accrued interest this month'
+              />
+              <TooltipHost id='modals.interest.summary.accrued.tooltip'>
+                <TooltipIcon name='info' size='12px' />
+              </TooltipHost>
+            </Text>
+            <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
+              {interestAccountBalance[coin].pendingInterest}
+            </FiatDisplay>
+          </DetailsItemContainer>
+          <LineVectorDetails />
+          <DetailsItemContainer>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.summary.lock'
+                defaultMessage='Lock-up period'
+              />
+              <TooltipHost id='modals.interest.summary.lock.tooltip'>
+                <TooltipIcon name='info' size='12px' />
+              </TooltipHost>
+            </Text>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.summary.thirtydays'
+                defaultMessage='30 days'
+              />
+            </Text>
+          </DetailsItemContainer>
+          <LineVectorDetails />
+          <DetailsItemContainer>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.summary.rate'
+                defaultMessage='Interest rate'
+              />
+              {' - '}
+              <Link href='#' target='_blank' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.interest.summary.moredetails'
+                  defaultMessage='More details'
+                />
+              </Link>
+            </Text>
+            <Text color='grey600' size='14px' weight={500}>
+              {interestRate[coin]}%
+            </Text>
+          </DetailsItemContainer>
+        </DetailsWrapper>
       </Top>
 
       <Bottom>
@@ -200,4 +293,4 @@ export type Props = OwnProps &
   SuccessStateType &
   ParentProps
 
-export default Success
+export default AccountSummary

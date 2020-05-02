@@ -1,18 +1,19 @@
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
 import { actions, selectors } from 'data'
 import { Box } from 'components/Box'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import {
   Props as OwnProps,
   StateType as ParentStateType,
   SuccessStateType
 } from '..'
-import { prop } from 'ramda'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 const ContentWrapper = styled.div`
   display: flex;
