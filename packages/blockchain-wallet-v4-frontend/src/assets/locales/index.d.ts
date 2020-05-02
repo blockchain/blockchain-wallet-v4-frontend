@@ -637,6 +637,7 @@ type MessagesType = {
   'modals.interest.depositamount': 'Enter deposit amount'
   'modals.interest.depositbtc': 'Deposit into your Interest Account and earn {rate}% interest.'
   'modals.interest.depositfailure': 'Something went wrong when sending your deposit. Please try again later or contact support if the issue persists.'
+  'modals.interest.depositfailurereason': 'Error: {error}'
   'modals.interest.depositsuccess': 'Your deposit has been sent to your Interest Account. Your balance will update once the transaction is confirmed by the network.  No further action is required.'
   'modals.interest.deposittitle': 'Deposit {displayName}'
   'modals.interest.detailsbalance': 'Your {coin} Balance'

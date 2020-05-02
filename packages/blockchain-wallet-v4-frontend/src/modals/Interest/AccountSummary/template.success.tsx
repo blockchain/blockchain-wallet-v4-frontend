@@ -183,19 +183,23 @@ const AccountSummary: React.FC<Props> = props => {
                 values={{ displayName }}
               />
             </Text>
-            <ViewStatusButton
-              data-e2e='viewDepositStatus'
-              nature='empty'
-              onClick={() => {}}
-              width='100px'
+            <Link
+              href={`${supportedCoins[coin].txExplorerBaseUrl}/${stepMetadata.depositTxHash}`}
+              target='_blank'
             >
-              <Text color='blue600' size='13px' weight={600}>
-                <FormattedMessage
-                  id='buttons.viewstatus'
-                  defaultMessage='View Status'
-                />
-              </Text>
-            </ViewStatusButton>
+              <ViewStatusButton
+                data-e2e='viewDepositStatus'
+                nature='empty'
+                width='100px'
+              >
+                <Text color='blue600' size='13px' weight={600}>
+                  <FormattedMessage
+                    id='buttons.viewstatus'
+                    defaultMessage='View Status'
+                  />
+                </Text>
+              </ViewStatusButton>
+            </Link>
           </SendStatusWrapper>
         ) : (
           stepMetadata &&
@@ -205,6 +209,18 @@ const AccountSummary: React.FC<Props> = props => {
                 <FormattedMessage
                   id='modals.interest.depositfailure'
                   defaultMessage='Something went wrong when sending your deposit. Please try again later or contact support if the issue persists.'
+                />
+              </Text>
+              <Text
+                color='red600'
+                size='14px'
+                style={{ marginTop: '8px' }}
+                weight={500}
+              >
+                <FormattedMessage
+                  id='modals.interest.depositfailurereason'
+                  defaultMessage='Error: {error}'
+                  values={{ error: stepMetadata.error }}
                 />
               </Text>
             </SendStatusWrapper>

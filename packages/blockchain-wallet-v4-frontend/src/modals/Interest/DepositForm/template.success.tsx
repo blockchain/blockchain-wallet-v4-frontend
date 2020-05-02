@@ -237,7 +237,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
-          name='interest-deposit-select'
+          name='interestDepositAccount'
         />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>

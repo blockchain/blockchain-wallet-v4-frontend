@@ -16,7 +16,7 @@ import {
 export type InterestFormValuesType = {
   agreement: boolean
   depositAmount: number
-  'interest-deposit-select': AccountTypes
+  interestDepositAccount: AccountTypes
   terms: boolean
 }
 
@@ -28,6 +28,7 @@ export enum InterestSteps {
 }
 
 export type InterestStepMetadata = {
+  depositTxHash?: string
   error?: string
   sendSuccess?: boolean
 }

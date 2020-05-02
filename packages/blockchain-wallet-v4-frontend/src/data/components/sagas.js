@@ -40,7 +40,7 @@ export default ({ api, coreSagas, networks }) => ({
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
-  interest: interest({ api }),
+  interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
