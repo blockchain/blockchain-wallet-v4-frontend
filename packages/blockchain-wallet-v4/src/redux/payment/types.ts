@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, Erc20CoinType } from 'core/types'
 import { EthAccountFromType, EthAddressFromType } from './eth/types'
 import { UTXOType } from './btc/types'
 import { XlmAccountFromType, XlmAddressFromType } from './xlm/types'
@@ -105,11 +105,16 @@ export type EthPaymentType = IPaymentType & {
   coin: 'ETH' | 'PAX'
   description: (arg: string) => EthPaymentType
   fee: (arg: number, account: string) => EthPaymentType
+  init: (arg: {
+    coin: 'ETH' | Erc20CoinType
+    isErc20?: boolean
+  }) => EthPaymentType
   setIsRetryAttempt: (
     isRetryAttempt: boolean,
     nonce: string,
     minFeeRequiredForRetry: string
   ) => EthPaymentType
+  signLegacy: (password: string) => EthPaymentType
   value: () => EthPaymentValue
 }
 

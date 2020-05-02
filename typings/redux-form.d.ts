@@ -21,6 +21,7 @@ export type WalletFormType =
   | 'sbCheckoutConfirm'
   | 'sbCurrencySelection'
   | 'simpleBuyCheckout'
+  | 'transferEth'
   | 'transactionReport'
   | 'walletTxSearch'
 
