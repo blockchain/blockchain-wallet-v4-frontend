@@ -661,7 +661,7 @@ type MessagesType = {
   'modals.interest.summary.moredetails': 'More details'
   'modals.interest.summary.next': 'Next interest payment'
   'modals.interest.summary.rate': 'Interest rate'
-  'modals.interest.summary.thirtydays': '30 days'
+  'modals.interest.summary.sevendays': '7 days'
   'modals.interest.terms.read': 'I have read and agreed to the'
   'modals.interest.termsservice': 'Terms of Service'
   'modals.interest.totalearned': 'Total Interest Earned'

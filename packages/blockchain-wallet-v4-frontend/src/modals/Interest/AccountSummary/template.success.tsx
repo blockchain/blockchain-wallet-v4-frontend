@@ -88,11 +88,10 @@ const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   height: 100%;
 `
-const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 28px;
-  opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
   > button {
     padding: 15px !important;
   }
@@ -116,8 +115,8 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-
   const displayName = supportedCoins[coin].displayName
+  const account = interestAccountBalance[coin]
   return (
     <Wrapper>
       <Top>
@@ -153,7 +152,7 @@ const AccountSummary: React.FC<Props> = props => {
               />
             </Text>
             <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-              {interestAccountBalance[coin].balance}
+              {account.balance}
             </FiatDisplay>
           </Container>
           <Container>
@@ -170,7 +169,7 @@ const AccountSummary: React.FC<Props> = props => {
               weight={600}
               coin={coin}
             >
-              {interestAccountBalance[coin].totalInterest}
+              {account.totalInterest}
             </FiatDisplay>
           </Container>
         </Row>
@@ -255,10 +254,12 @@ const AccountSummary: React.FC<Props> = props => {
               />
             </Text>
             <Text color='grey600' size='14px' weight={500}>
-              {moment()
-                .add(1, 'month')
-                .startOf('month')
-                .format('MMMM D, YYYY')}
+              {account.balance > 0 || (stepMetadata && stepMetadata.sendSuccess)
+                ? moment()
+                    .add(1, 'month')
+                    .startOf('month')
+                    .format('MMMM D, YYYY')
+                : '---'}
             </Text>
           </DetailsItemContainer>
           <LineVectorDetails />
@@ -273,7 +274,7 @@ const AccountSummary: React.FC<Props> = props => {
               </TooltipHost>
             </Text>
             <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
-              {interestAccountBalance[coin].pendingInterest}
+              {account.pendingInterest}
             </FiatDisplay>
           </DetailsItemContainer>
           <LineVectorDetails />
@@ -289,8 +290,8 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.summary.thirtydays'
-                defaultMessage='30 days'
+                id='modals.interest.summary.sevendays'
+                defaultMessage='7 days'
               />
             </Text>
           </DetailsItemContainer>
