@@ -169,6 +169,14 @@ interface InitializeDepositFormAction {
   type: typeof AT.INITIALIZE_DEPOSIT_FORM
 }
 
+interface RouteToTxHash {
+  payload: {
+    coin: CoinType
+    txHash: string
+  }
+  type: typeof AT.ROUTE_TO_TX_HASH
+}
+
 interface SetInterestStep {
   payload: {
     step: InterestStep
@@ -207,5 +215,6 @@ export type InterestActionTypes =
   | FetchInterestTransactionsSuccess
   | InitializeDepositModalAction
   | InitializeDepositFormAction
+  | RouteToTxHash
   | SetInterestStep
   | ShowInterestModal

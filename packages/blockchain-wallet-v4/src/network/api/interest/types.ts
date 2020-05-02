@@ -39,7 +39,7 @@ export type InterestTransactionType = {
     symbol: CoinType
     value: string
   }
-  extraAttributes?: {
+  extraAttributes: {
     txHash: string
   }
   id: string

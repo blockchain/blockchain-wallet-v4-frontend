@@ -63,6 +63,6 @@ type LinkStatePropsType = {
   data: RemoteDataType<NabuApiErrorType, SuccessStateType>
 }
 
-type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(TransactionListContainer)

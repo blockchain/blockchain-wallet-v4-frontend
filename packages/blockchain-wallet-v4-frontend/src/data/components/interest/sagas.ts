@@ -124,6 +124,15 @@ export default ({ api }: { api: APIType }) => {
     yield put(initialize('interestDepositForm', initialValues))
   }
 
+  const routeToTxHash = function * ({
+    payload
+  }: ReturnType<typeof A.routeToTxHash>) {
+    const { coin, txHash } = payload
+    yield put(actions.router.push(`/${coin}/transactions`))
+    yield delay(1000)
+    yield put(actions.form.change('walletTxSearch', 'search', txHash))
+  }
+
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
     try {
@@ -157,6 +166,7 @@ export default ({ api }: { api: APIType }) => {
     fetchInterestRate,
     fetchInterestTransactions,
     initializeDepositForm,
+    routeToTxHash,
     sendDeposit,
     showInterestModal
   }

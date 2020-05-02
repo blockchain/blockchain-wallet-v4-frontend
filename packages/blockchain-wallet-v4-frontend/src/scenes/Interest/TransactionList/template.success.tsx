@@ -3,6 +3,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import {
+  Button,
   Icon,
   Table,
   TableCell,
@@ -11,7 +12,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { IconBackground, PendingTag, Value } from './model'
-import { SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -23,7 +24,7 @@ const InterestTableCell = styled(TableCell)`
   }
 `
 
-function TransactionList (props: SuccessStateType): ReactElement {
+function TransactionList (props: Props): ReactElement {
   const { coin, interestHistory, supportedCoins } = props
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return (
@@ -82,6 +83,16 @@ function TransactionList (props: SuccessStateType): ReactElement {
                         color={colorCode}
                         size='18px'
                         weight={600}
+                      />
+                      <Button
+                        data-e2e='test'
+                        nature='primary'
+                        onClick={() =>
+                          props.interestActions.routeToTxHash(
+                            coin,
+                            transaction.extraAttributes.txHash
+                          )
+                        }
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
@@ -198,5 +209,7 @@ function TransactionList (props: SuccessStateType): ReactElement {
     </div>
   )
 }
+
+type Props = OwnProps & SuccessStateType
 
 export default TransactionList
