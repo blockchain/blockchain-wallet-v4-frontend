@@ -5,34 +5,32 @@ import React, { PureComponent } from 'react'
 import { actions } from 'data'
 import {
   CoinType,
+  FiatType,
   InterestLimitsType,
   InterestRateType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { RatesType, UserDataType } from 'data/types'
+import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-// change in future when more coins are supported
-const DEPOSIT_COIN = 'BTC'
-
 class DepositForm extends PureComponent<Props> {
   componentDidMount () {
-    this.props.interestActions.initializeDepositForm(DEPOSIT_COIN)
+    this.props.interestActions.initializeDepositForm('BTC')
   }
 
   handleRefresh = () => {
-    this.props.interestActions.initializeDepositForm(DEPOSIT_COIN)
+    this.props.interestActions.initializeDepositForm('BTC')
   }
 
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success {...val} {...this.props} coin={DEPOSIT_COIN} />,
+      Success: val => <Success {...val} {...this.props} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -62,8 +60,7 @@ export type SuccessStateType = {
   limits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedCoinsType
-  userData: UserDataType
-  walletCurrency: string
+  walletCurrency: FiatType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>

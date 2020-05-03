@@ -28,7 +28,7 @@ import {
 import { Exchange } from 'core'
 import { FlyoutWrapper } from 'components/Flyout'
 import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
-import { InterestFormValuesType } from 'data/components/interest/types'
+import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
 import { SuccessStateType } from '.'
@@ -176,14 +176,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
   const { coinTicker, displayName } = supportedCoins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const depositAmount = (values && values.depositAmount) || '0.00'
+  const depositAmount = formatFiat((values && values.depositAmount) || 0)
   const depositAmountCrypto = Exchange.convertCoinToCoin({
     value: Exchange.convertFiatToBtc({
-      // @ts-ignore
       fromCurrency: walletCurrency,
       toUnit: 'SAT',
       rates,
-      // @ts-ignore
       value: parseFloat(depositAmount)
     }).value,
     coin,
@@ -458,12 +456,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.agreement'
-                defaultMessage='By accepting this, you agree to transfer {currencySymbol} {fiatValue} ({depositAmountCrypto} {coinTicker}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
                 values={{
-                  coinTicker,
-                  currencySymbol,
-                  depositAmountCrypto,
-                  fiatValue: formatFiat(depositAmount)
+                  depositAmountCrypto: `${depositAmountCrypto}${coinTicker}`,
+                  depositAmountFiat: `${currencySymbol}${depositAmount}`
                 }}
               />
             </Text>
@@ -505,7 +501,7 @@ const connector = connect(
 )
 
 type LinkStatePropsType = {
-  values?: InterestFormValuesType
+  values?: InterestDepositFormType
 }
 type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest

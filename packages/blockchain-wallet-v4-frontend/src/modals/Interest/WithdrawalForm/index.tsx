@@ -5,10 +5,12 @@ import React, { PureComponent } from 'react'
 import { actions } from 'data'
 import {
   CoinType,
+  FiatType,
   InterestAccountBalanceType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
+import { RatesType } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -46,7 +48,9 @@ export type OwnProps = {
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
   coin: CoinType
+  rates: RatesType
   supportedCoins: SupportedCoinsType
+  walletCurrency: FiatType
 }
 
 type LinkStatePropsType = {

@@ -13,11 +13,15 @@ import {
 } from 'core/types'
 
 // Types
-export type InterestFormValuesType = {
+export type InterestDepositFormType = {
   agreement: boolean
   depositAmount: number
   interestDepositAccount: AccountTypes
   terms: boolean
+}
+
+export type InterestWithdrawalFormType = {
+  withdrawalAmount: number
 }
 
 export enum InterestSteps {
