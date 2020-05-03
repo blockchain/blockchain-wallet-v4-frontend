@@ -370,7 +370,7 @@ const Login = props => {
           </Footer>
         )}
       </PublicWrapper>
-      <LinkContainer to='/signup'>
+      <LinkContainer data-e2e='signupLink' to='/signup'>
         <Link>
           <SubCard>
             <Text size='14px' color='whiteFade600' weight={500}>

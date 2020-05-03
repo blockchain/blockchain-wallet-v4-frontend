@@ -80,7 +80,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
           if (index >= 6) {
             return (
               <WordBox>
-                <WordText>
+                <WordText data-e2e='backupWords'>
                   <Title>{index + 1}</Title>
                   <Value>{word}</Value>
                 </WordText>

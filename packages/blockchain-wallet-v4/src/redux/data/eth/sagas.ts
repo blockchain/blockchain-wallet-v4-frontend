@@ -28,15 +28,17 @@ import {
   toUpper,
   values
 } from 'ramda'
+import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, put, select, take } from 'redux-saga/effects'
 import { Erc20CoinType, SBOrderType } from 'core/types'
-import { errorHandler } from '../../../utils'
-import { EthTxType } from 'core/transactions/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { EthProcessedTxType } from 'core/transactions/types'
+import { EthRawTxType } from 'core/network/api/eth/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import simpleBuySagas from '../simpleBuy/sagas'
-const { calculateEthTxFee, transformTx, transformErc20Tx } = transactions.eth
+const { transformTx, transformErc20Tx } = transactions.eth
 const TX_PER_PAGE = 10
 const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
@@ -126,7 +128,10 @@ export default ({ api }) => {
       const atBounds = length(txPage) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
 
-      const processedTxPage: Array<EthTxType> = yield call(__processTxs, txPage)
+      const processedTxPage: Array<EthProcessedTxType> = yield call(
+        __processTxs,
+        txPage
+      )
       const sbPage = yield call(
         fetchSBOrders,
         processedTxPage,
@@ -297,7 +302,7 @@ export default ({ api }) => {
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
-      const walletPage: Array<EthTxType> = yield call(
+      const walletPage: Array<EthProcessedTxType> = yield call(
         __processErc20Txs,
         txs,
         token
@@ -323,8 +328,12 @@ export default ({ api }) => {
     const { hash, token } = action.payload
     try {
       yield put(A.fetchErc20TxFeeLoading(hash, token))
-      const txData = yield call(api.getEthTransactionV2, hash)
-      const fee = calculateEthTxFee(txData)
+      const txData: EthRawTxType = yield call(api.getEthTransactionV2, hash)
+      const fee = calculateFee(
+        txData.gasPrice,
+        txData.state === 'CONFIRMED' ? txData.gasUsed : txData.gasLimit,
+        false
+      )
       yield put(A.fetchErc20TxFeeSuccess(fee, hash, token))
     } catch (e) {
       yield put(A.fetchErc20TxFeeFailure(hash, token, e.message))

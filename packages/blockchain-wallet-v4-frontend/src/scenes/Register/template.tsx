@@ -262,35 +262,38 @@ const Register = ({
 
             {showForm && (
               <SignupForm
+                busy={busy}
                 handleSubmit={handleSubmit}
+                invalid={invalid}
                 password={password}
                 passwordLength={passwordLength}
               />
             )}
 
-            <Button
-              data-e2e='signupButton'
-              disabled={showForm ? busy || invalid : showForm}
-              fullwidth
-              height='48px'
-              nature='primary'
-              onClick={buttonSubmit}
-              style={{
-                borderRadius: '8px'
-              }}
-              type='submit'
-            >
-              {busy ? (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
-              ) : (
-                <Text color='whiteFade900' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.public.register.createWallet'
-                    defaultMessage='Create Wallet'
-                  />
-                </Text>
-              )}
-            </Button>
+            {!showForm && (
+              <Button
+                data-e2e='signupButton'
+                fullwidth
+                height='48px'
+                nature='primary'
+                onClick={buttonSubmit}
+                style={{
+                  borderRadius: '8px'
+                }}
+                type='submit'
+              >
+                {busy ? (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                ) : (
+                  <Text color='whiteFade900' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.public.register.createWallet'
+                      defaultMessage='Create Wallet'
+                    />
+                  </Text>
+                )}
+              </Button>
+            )}
 
             <Line showForm={showForm} />
             <AppButtons showForm={showForm}>
