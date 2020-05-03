@@ -4,10 +4,13 @@ import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
 import {
+  CoinType,
+  FiatType,
   InterestAccountBalanceType,
   InterestEligibleType,
   InterestRateType,
-  RemoteDataType
+  RemoteDataType,
+  SupportedCoinsType
 } from 'core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 
@@ -49,9 +52,12 @@ const connector = connect(
 )
 
 export type SuccessStateType = {
+  coin: CoinType
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   showInterestInfoBox: boolean
+  supportedCoins: SupportedCoinsType
+  walletCurrency: FiatType
 }
 
 export type OwnPropsType = {

@@ -36,7 +36,7 @@ function TransactionList (props: SuccessStateType): ReactElement {
         style={{ marginBottom: '16px', lineHeight: 1.5 }}
       >
         <FormattedMessage
-          id='scenes.earninterest.history.header'
+          id='scenes.interest.history.header'
           defaultMessage='History'
         />
       </Text>
@@ -45,7 +45,7 @@ function TransactionList (props: SuccessStateType): ReactElement {
           <TableCell width='20%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
-                id='scenes.earninterest.history.type'
+                id='scenes.interest.history.type'
                 defaultMessage='Type'
               />
             </Text>
