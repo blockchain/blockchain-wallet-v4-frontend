@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -14,6 +13,7 @@ import {
 } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
+import { Exchange } from 'core'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
@@ -60,13 +60,27 @@ const AbsoluteWarningRegion = styled(Text)`
 // TODO: update support center links
 function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
+    coin,
     interestAccountBalance,
     interestActions,
     interestEligible,
     interestRate,
     isGoldTier,
-    showInterestInfoBox
+    showInterestInfoBox,
+    supportedCoins,
+    walletCurrency
   } = props
+  const { coinTicker, displayName } = supportedCoins[coin]
+  const balanceSats =
+    interestAccountBalance.BTC && interestAccountBalance.BTC.balance
+  const balanceStandard = Exchange.convertCoinToCoin({
+    value: balanceSats || 0,
+    coin: 'BTC',
+    baseToStandard: true
+  }).value
+  const totalInterest =
+    interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
+
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
@@ -77,7 +91,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           weight={600}
           style={{ marginLeft: '8px', lineHeight: '1.5' }}
         >
-          Bitcoin
+          {displayName}
         </Text>
       </Row>
       <Row>
@@ -90,10 +104,12 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           style={{ marginLeft: '6px', lineHeight: '1.5' }}
         >
           <FormattedMessage
-            id='scenes.earninterest.form.earn3percent'
-            defaultMessage='Earn up to {interestRate}% AER on your BTC.'
-            // TODO make this more coin interchangeable
-            values={{ interestRate: prop('BTC', interestRate) }}
+            id='scenes.interest.summarycard.earn'
+            defaultMessage='Earn up to {interestRate}% AER on your {coinTicker}.'
+            values={{
+              coinTicker,
+              interestRate: interestRate[coinTicker]
+            }}
           />
         </Text>
       </Row>
@@ -102,34 +118,38 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         <AmountColumn>
           <FiatDisplay
             color='grey800'
+            coin={coinTicker}
+            currency={walletCurrency}
             size='16px'
-            weight={600}
-            currency='USD'
-            coin='BTC'
             style={{ lineHeight: '1.5' }}
+            weight={600}
           >
-            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}
+            {balanceSats}
           </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            {interestAccountBalance.BTC && interestAccountBalance.BTC.balance}{' '}
-            BTC
+            {balanceStandard} {coinTicker}
           </Text>
         </AmountColumn>
         <AmountColumn>
-          <Text
-            size='16px'
+          <FiatDisplay
             color='grey800'
-            weight={600}
+            coin={coinTicker}
+            currency={walletCurrency}
+            size='16px'
             style={{ lineHeight: '1.5' }}
+            weight={600}
           >
-            $0
-          </Text>
+            {totalInterest}
+          </FiatDisplay>
           <Text size='12px' style={{ lineHeight: '1.5' }}>
-            Total Interest Earned
+            <FormattedMessage
+              id='scenes.interest.summarycard.totalinterest'
+              defaultMessage='Total Interest Earned'
+            />
           </Text>
         </AmountColumn>
       </AmountRow>
-      {interestAccountBalance.BTC && interestAccountBalance.BTC.balance > 0 ? (
+      {balanceSats > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
           nature='light'
@@ -149,40 +169,39 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
         >
           <FormattedMessage
-            id='scenes.earninterest.form.earnbutton'
+            id='scenes.interest.summarycard.earnbutton'
             defaultMessage='Earn Interest'
           />
         </Button>
       )}
-      {!interestEligible.eligible &&
-        interestEligible.ineligibilityReason === 'REGION' && (
-          <AbsoluteWarningRegion size='12px' weight={500} color='grey600'>
-            <Icon name='info' color='grey600' />
-            <div style={{ marginLeft: '8px' }}>
+      {interestEligible.ineligibilityReason === 'REGION' && (
+        <AbsoluteWarningRegion size='12px' weight={500} color='grey600'>
+          <Icon name='info' color='grey600' />
+          <div style={{ marginLeft: '8px' }}>
+            <FormattedMessage
+              id='scenes.interest.userblocked'
+              defaultMessage='Blockchain Interest Account is currently unavailable in your country or region.'
+            />{' '}
+            <Link
+              size='12px'
+              weight={500}
+              target='_blank'
+              href='https://support.blockchain.com/hc/en-us'
+            >
               <FormattedMessage
-                id='scenes.earninterest.userblocked'
-                defaultMessage='Blockchain Interest Account is currently unavailable in your country or region.'
-              />{' '}
-              <Link
-                size='12px'
-                weight={500}
-                target='_blank'
-                href='https://support.blockchain.com/hc/en-us'
-              >
-                <FormattedMessage
-                  id='buttons.learn_more'
-                  defaultMessage='Learn More'
-                />
-              </Link>
-            </div>
-          </AbsoluteWarningRegion>
-        )}
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </Link>
+          </div>
+        </AbsoluteWarningRegion>
+      )}
       {interestEligible.ineligibilityReason === 'BLOCKED' && (
         <AbsoluteWarning size='12px' weight={500} color='grey600'>
           <Icon name='info' color='grey600' />
           <div style={{ marginLeft: '8px' }}>
             <FormattedMessage
-              id='scenes.earninterest.userblocked.bo'
+              id='scenes.interest.userblocked.bo'
               defaultMessage='Blockchain Interest Account is currently not available.'
             />{' '}
             <Link

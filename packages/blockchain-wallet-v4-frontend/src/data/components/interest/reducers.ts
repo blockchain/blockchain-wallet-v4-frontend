@@ -11,7 +11,10 @@ const INITIAL_STATE: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   interestTransactions: Remote.NotAsked,
-  step: 'DEPOSIT'
+  step: {
+    data: {},
+    name: 'ACCOUNT_SUMMARY'
+  }
 }
 
 export function interestReducer (
@@ -135,9 +138,13 @@ export function interestReducer (
       }
     }
     case AT.SET_INTEREST_STEP: {
+      const { data, name } = action.payload
       return {
         ...state,
-        step: action.payload.step
+        step: {
+          data: data || {},
+          name
+        }
       }
     }
 

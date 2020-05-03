@@ -13,11 +13,15 @@ import {
 } from 'core/types'
 
 // Types
-export type InterestFormValuesType = {
+export type InterestDepositFormType = {
   agreement: boolean
   depositAmount: number
-  'interest-deposit-select': AccountTypes
+  interestDepositAccount: AccountTypes
   terms: boolean
+}
+
+export type InterestWithdrawalFormType = {
+  withdrawalAmount: number
 }
 
 export enum InterestSteps {
@@ -25,6 +29,12 @@ export enum InterestSteps {
   'DEPOSIT',
   'DEPOSIT_SUCCESS',
   'WITHDRAWAL'
+}
+
+export type InterestStepMetadata = {
+  depositTxHash?: string
+  error?: string
+  sendSuccess?: boolean
 }
 
 export type InterestStep = keyof typeof InterestSteps
@@ -39,7 +49,10 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
-  step: InterestStep
+  step: {
+    data: InterestStepMetadata
+    name: InterestStep
+  }
 }
 
 // Actions
@@ -171,7 +184,8 @@ interface InitializeDepositFormAction {
 
 interface SetInterestStep {
   payload: {
-    step: InterestStep
+    data?: InterestStepMetadata
+    name: InterestStep
   }
   type: typeof AT.SET_INTEREST_STEP
 }

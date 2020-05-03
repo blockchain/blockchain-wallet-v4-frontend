@@ -12,12 +12,26 @@ export const getData = state => {
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(
     state
   )
+  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
-  const transform = (interestAccountBalance, interestEligible) => ({
+  const transform = (
     interestAccountBalance,
     interestEligible,
-    showInterestInfoBox
+    supportedCoins,
+    walletCurrency
+  ) => ({
+    interestAccountBalance,
+    interestEligible,
+    showInterestInfoBox,
+    supportedCoins,
+    walletCurrency
   })
 
-  return lift(transform)(interestAccountBalanceR, interestEligibleR)
+  return lift(transform)(
+    interestAccountBalanceR,
+    interestEligibleR,
+    supportedCoinsR,
+    walletCurrencyR
+  )
 }

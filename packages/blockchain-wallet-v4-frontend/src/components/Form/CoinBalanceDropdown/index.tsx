@@ -158,7 +158,7 @@ const connector = connect(mapStateToProps)
 export type OwnProps = {
   coin: CoinType
   fiatCurrency?: string
-  name: 'collateral' | 'interest-deposit-select' | 'repay-principal'
+  name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
