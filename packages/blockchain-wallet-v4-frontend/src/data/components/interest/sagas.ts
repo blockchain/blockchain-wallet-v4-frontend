@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 import { initialize } from 'redux-form'
 import { nth } from 'ramda'
 import BigNumber from 'bignumber.js'
@@ -138,6 +138,15 @@ export default ({
     yield put(initialize('interestDepositForm', initialValues))
   }
 
+  const routeToTxHash = function * ({
+    payload
+  }: ReturnType<typeof A.routeToTxHash>) {
+    const { coin, txHash } = payload
+    yield put(actions.router.push(`/${coin}/transactions`))
+    yield delay(1000)
+    yield put(actions.form.change('walletTxSearch', 'search', txHash))
+  }
+
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
     const COIN = 'BTC'
@@ -211,6 +220,7 @@ export default ({
     fetchInterestRate,
     fetchInterestTransactions,
     initializeDepositForm,
+    routeToTxHash,
     sendDeposit,
     showInterestModal
   }

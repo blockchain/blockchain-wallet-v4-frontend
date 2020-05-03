@@ -201,6 +201,14 @@ export const initializeDepositForm = (coin: CoinType) => ({
   type: AT.INITIALIZE_DEPOSIT_FORM
 })
 
+export const routeToTxHash = (coin: CoinType, txHash: string) => ({
+  payload: {
+    coin,
+    txHash
+  },
+  type: AT.ROUTE_TO_TX_HASH
+})
+
 export const submitDepositForm = (coin: CoinType) => ({
   payload: {
     coin

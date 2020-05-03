@@ -1,7 +1,14 @@
+import {
+  AmountTableCell,
+  CoinAmountWrapper,
+  FiatAmountWrapper,
+  IconBackground,
+  InterestTableCell,
+  PendingTag,
+  Value,
+  ViewTransaction
+} from './model'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 import {
   Icon,
@@ -11,22 +18,14 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { Props as OwnProps, SuccessStateType } from '.'
+import moment from 'moment'
+import React, { ReactElement } from 'react'
 
-import { IconBackground, PendingTag, Value } from './model'
-import { SuccessStateType } from '.'
-
-const InterestTableCell = styled(TableCell)`
-  align-items: center;
-  > ${Value} {
-    margin-left: 20px;
-  }
-`
-
-function TransactionList (props: SuccessStateType): ReactElement {
+function TransactionList (props: Props): ReactElement {
   const { coin, interestHistory, supportedCoins } = props
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
+
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
@@ -65,11 +64,11 @@ function TransactionList (props: SuccessStateType): ReactElement {
               <FormattedMessage id='copy.to' defaultMessage='To' />
             </Text>
           </TableCell>
-          <TableCell width='20%'>
+          <AmountTableCell width='20%'>
             <Text size='12px' weight={500}>
               <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
-          </TableCell>
+          </AmountTableCell>
         </TableHeader>
         {interestHistory.items.map(transaction => {
           return (
@@ -81,7 +80,7 @@ function TransactionList (props: SuccessStateType): ReactElement {
                       <Icon
                         name='arrow-up'
                         color={colorCode}
-                        size='18px'
+                        size='20px'
                         weight={600}
                       />
                     </IconBackground>
@@ -101,10 +100,11 @@ function TransactionList (props: SuccessStateType): ReactElement {
                       <Icon
                         name='arrow-down'
                         color={colorCode}
-                        size='18px'
+                        size='20px'
                         weight={600}
                       />
                     </IconBackground>
+
                     <Value>{coinTicker} Deposit</Value>
                     {transaction.state === 'PENDING' && (
                       <PendingTag>
@@ -168,19 +168,19 @@ function TransactionList (props: SuccessStateType): ReactElement {
                 </React.Fragment>
               )}
 
-              <TableCell width='20%'>
+              <AmountTableCell width='20%'>
                 <div>
-                  <FiatDisplay
+                  <FiatAmountWrapper
                     color='grey800'
                     size='14px'
                     weight={600}
                     coin={coin}
-                    style={{ marginBottom: '4px' }}
+                    style={{ marginBottom: '4px', alignItems: 'right' }}
                     data-e2e='interestFiatAmount'
                   >
                     {transaction.amount.value}
-                  </FiatDisplay>
-                  <CoinDisplay
+                  </FiatAmountWrapper>
+                  <CoinAmountWrapper
                     coin={coin}
                     color='grey600'
                     weight={500}
@@ -189,9 +189,20 @@ function TransactionList (props: SuccessStateType): ReactElement {
                     style={{ lineHeight: '1.5' }}
                   >
                     {transaction.amount.value}
-                  </CoinDisplay>
+                  </CoinAmountWrapper>
+                  <ViewTransaction
+                    data-e2e='viewTxHash'
+                    onClick={() =>
+                      props.interestActions.routeToTxHash(
+                        coin,
+                        transaction.extraAttributes.txHash
+                      )
+                    }
+                  >
+                    View Transaction
+                  </ViewTransaction>
                 </div>
-              </TableCell>
+              </AmountTableCell>
             </TableRow>
           )
         })}
@@ -199,5 +210,7 @@ function TransactionList (props: SuccessStateType): ReactElement {
     </div>
   )
 }
+
+type Props = OwnProps & SuccessStateType
 
 export default TransactionList

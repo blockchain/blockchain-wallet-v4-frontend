@@ -1,22 +1,22 @@
 import styled from 'styled-components'
 
 import { GreyCartridge } from 'components/Cartridge'
-import { Text } from 'blockchain-info-components'
+import { TableCell, Text } from 'blockchain-info-components'
 
-// same style for all children
-export const Value = styled(Text)<{ size?: string }>`
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  color: ${props => props.theme.grey600};
-  line-height: 1.5;
-  * {
-    font-size: 14px !important;
-    font-weight: 500 !important;
-    color: ${props => props.theme.grey600} !important;
-  }
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+
+export const AmountTableCell = styled(TableCell)`
+  flex-direction: column;
+  align-items: flex-end;
 `
 
+export const CoinAmountWrapper = styled(CoinDisplay)`
+  justify-content: flex-end;
+`
+export const FiatAmountWrapper = styled(FiatDisplay)`
+  justify-content: flex-end;
+`
 export const IconBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -31,4 +31,41 @@ export const IconBackground = styled.div`
 export const PendingTag = styled(GreyCartridge)`
   font-size: 12px;
   margin-left: 8px;
+`
+export const Value = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: ${props => props.theme.grey600};
+  line-height: 1.5;
+  * {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: ${props => props.theme.grey600} !important;
+  }
+`
+
+export const InterestTableCell = styled(TableCell)`
+  align-items: center;
+  > ${Value} {
+    margin-left: 20px;
+  }
+`
+
+export const StatusColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const ViewTransaction = styled(Text)`
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
+  font-weight: 600px;
+  cursor: pointer;
+`
+
+export const TransactionTypeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `
