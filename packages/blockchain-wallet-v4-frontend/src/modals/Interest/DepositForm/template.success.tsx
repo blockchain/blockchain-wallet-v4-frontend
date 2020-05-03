@@ -458,7 +458,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 id='modals.interest.deposit.agreement'
                 defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
                 values={{
-                  depositAmountCrypto: `${depositAmountCrypto}${coinTicker}`,
+                  depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   depositAmountFiat: `${currencySymbol}${depositAmount}`
                 }}
               />
