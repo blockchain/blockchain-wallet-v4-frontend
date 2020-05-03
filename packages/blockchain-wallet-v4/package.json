@@ -97,7 +97,7 @@
     "immutable-ext": "1.1.5",
     "isomorphic-fetch": "2.2.1",
     "pbkdf2": "3.0.17",
-    "query-string": "6.5.0",
+    "query-string": "6.12.0",
     "ramda": "0.26.1",
     "ramda-lens": "git+https://github.com/ramda/ramda-lens.git",
     "read-blob": "1.1.0",
