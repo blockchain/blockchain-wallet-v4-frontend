@@ -155,6 +155,16 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
+const calcCompoundInterest = (principal, rate, term) => {
+  const COMPOUNDS_PER_YEAR = 12
+  const principalInt = parseFloat(principal)
+  if (!principalInt) return '0.00'
+  const totalAmount =
+    principalInt *
+    Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * 100), COMPOUNDS_PER_YEAR * term)
+  return formatFiat(totalAmount - principalInt)
+}
+
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
@@ -176,13 +186,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
   const { coinTicker, displayName } = supportedCoins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const depositAmount = formatFiat((values && values.depositAmount) || 0)
+  const depositAmount = (values && values.depositAmount) || '0'
+  const depositAmountFiat = formatFiat(depositAmount)
   const depositAmountCrypto = Exchange.convertCoinToCoin({
     value: Exchange.convertFiatToBtc({
       fromCurrency: walletCurrency,
       toUnit: 'SAT',
       rates,
-      value: parseFloat(depositAmount)
+      value: depositAmount
     }).value,
     coin,
     baseToStandard: true
@@ -290,8 +301,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <CalculatorDesc color='grey600' size='12px' weight={500}>
             <FormattedMessage
               id='modals.interest.deposit.calcdesc'
-              defaultMessage='With {currencySymbol}{depositAmount} in your Interest Account you could earn:'
-              values={{ currencySymbol, depositAmount }}
+              defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you could earn:'
+              values={{ currencySymbol, depositAmountFiat }}
             />
           </CalculatorDesc>
           <CalculatorContainer>
@@ -326,11 +337,16 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey600' size='12px' weight={500}>
                       <FormattedMessage
                         id='modals.interest.deposit.year'
-                        defaultMessage='Year'
+                        defaultMessage='1 Year'
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        1
+                      )}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -341,7 +357,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        3
+                      )}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -352,7 +373,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        5
+                      )}
                     </Text>
                   </InterestTermContainer>
                 </>
@@ -366,7 +392,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        1 / 365
+                      )}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -377,7 +408,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        1 / 52
+                      )}
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
@@ -388,7 +424,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       />
                     </Text>
                     <Text color='grey800' weight={600}>
-                      $0.00
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        1 / 12
+                      )}
                     </Text>
                   </InterestTermContainer>
                 </>
@@ -459,7 +500,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
                 values={{
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
-                  depositAmountFiat: `${currencySymbol}${depositAmount}`
+                  depositAmountFiat: `${currencySymbol}${depositAmountFiat}`
                 }}
               />
             </Text>
