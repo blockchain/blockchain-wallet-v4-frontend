@@ -1,9 +1,10 @@
+import styled from 'styled-components'
+
 import { GreyCartridge } from 'components/Cartridge'
 import { TableCell, Text } from 'blockchain-info-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import styled from 'styled-components'
 
 export const AmountTableCell = styled(TableCell)`
   flex-direction: column;
@@ -16,7 +17,6 @@ export const CoinAmountWrapper = styled(CoinDisplay)`
 export const FiatAmountWrapper = styled(FiatDisplay)`
   justify-content: flex-end;
 `
-
 export const IconBackground = styled.div`
   display: flex;
   justify-content: center;

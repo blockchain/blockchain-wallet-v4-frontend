@@ -9,6 +9,7 @@ import {
   ViewTransaction
 } from './model'
 import { FormattedMessage } from 'react-intl'
+
 import {
   Icon,
   Table,
@@ -34,7 +35,7 @@ function TransactionList (props: Props): ReactElement {
         style={{ marginBottom: '16px', lineHeight: 1.5 }}
       >
         <FormattedMessage
-          id='scenes.earninterest.history.header'
+          id='scenes.interest.history.header'
           defaultMessage='History'
         />
       </Text>
@@ -43,7 +44,7 @@ function TransactionList (props: Props): ReactElement {
           <TableCell width='20%'>
             <Text size='12px' weight={500}>
               <FormattedMessage
-                id='scenes.earninterest.history.type'
+                id='scenes.interest.history.type'
                 defaultMessage='Type'
               />
             </Text>

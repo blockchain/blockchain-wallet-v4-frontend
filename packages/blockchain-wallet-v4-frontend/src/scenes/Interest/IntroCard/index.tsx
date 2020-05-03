@@ -1,18 +1,18 @@
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
 import { actions, selectors } from 'data'
 import { Box } from 'components/Box'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import {
   Props as OwnProps,
   StateType as ParentStateType,
   SuccessStateType
 } from '..'
-import { prop } from 'ramda'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -30,6 +30,7 @@ class IntroCard extends PureComponent<
 > {
   render () {
     const {
+      coin,
       idvActions,
       interestRate,
       isGoldTier,
@@ -61,7 +62,7 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '16px' }}
               >
                 <FormattedMessage
-                  id='scenes.earninterest.earnheaderverified'
+                  id='scenes.interest.earnheaderverified'
                   defaultMessage='Earn interest on your Crypto today.'
                 />
               </Text>
@@ -72,9 +73,9 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '4px', lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='scenes.earninterest.earninfo.verified.body'
-                  defaultMessage='Earn up to {rate}% AER instantly when you deposit BTC to your Interest Account.'
-                  values={{ rate: prop('BTC', interestRate) }}
+                  id='scenes.interest.earninfo.verified.body'
+                  defaultMessage='Earn up to {rate}% AER instantly when you deposit {coin} to your Interest Account.'
+                  values={{ coin, rate: interestRate[coin] }}
                 />
               </Text>
               <Link
@@ -105,7 +106,7 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '16px' }}
               >
                 <FormattedMessage
-                  id='scenes.earninterest.earnupgrade.header'
+                  id='scenes.interest.earnupgrade.header'
                   defaultMessage='Put your crypto to work by upgrading to Gold Level.'
                 />
               </Text>
@@ -116,9 +117,9 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '10px', lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='scenes.earninterest.earnbody.access'
+                  id='scenes.interest.earnbody.access'
                   defaultMessage='Upgrade to Gold Level and access benefits like earning up to {rate}% APY on your crypto.'
-                  values={{ rate: prop('BTC', interestRate) }}
+                  values={{ rate: interestRate[coin] }}
                 />
               </Text>
               <Button
@@ -131,12 +132,12 @@ class IntroCard extends PureComponent<
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (
                   <FormattedMessage
-                    id='scenes.earninterest.earnupgrade.header'
+                    id='scenes.interest.earnupgrade.header'
                     defaultMessage='Gold Verification In Review'
                   />
                 ) : (
                   <FormattedMessage
-                    id='scenes.earninterest.verifyid'
+                    id='scenes.interest.verifyid'
                     defaultMessage='Upgrade Now'
                   />
                 )}

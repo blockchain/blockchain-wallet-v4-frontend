@@ -1,8 +1,10 @@
 import { lift } from 'ramda'
+
 import { selectors } from 'data'
 
 export const getData = state => {
   const btcRateR = selectors.core.data.btc.getRates(state)
+  const coin = selectors.components.interest.getCoinType(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const limitsR = selectors.components.interest.getInterestLimits(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
@@ -10,6 +12,7 @@ export const getData = state => {
 
   return lift(
     (rates, interestRate, limits, supportedCoins, walletCurrency) => ({
+      coin,
       interestRate,
       limits,
       rates,

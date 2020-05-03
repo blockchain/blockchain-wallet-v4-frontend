@@ -3,15 +3,19 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
+  const btcRateR = selectors.core.data.btc.getRates(state)
   const coin = selectors.components.interest.getCoinType(state)
+  const accountBalancesR = selectors.components.interest.getInterestAccountBalance(
+    state
+  )
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const formValues = selectors.form.getFormValues('withdrawalForm')(state) || {
-    withdrawalAmount: 0
-  }
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
-  return lift(supportedCoins => ({
+  return lift((accountBalances, rates, supportedCoins, walletCurrency) => ({
+    accountBalances,
     coin,
-    formValues,
-    supportedCoins
-  }))(supportedCoinsR)
+    rates,
+    supportedCoins,
+    walletCurrency
+  }))(accountBalancesR, btcRateR, supportedCoinsR, walletCurrencyR)
 }

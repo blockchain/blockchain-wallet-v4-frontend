@@ -1,8 +1,12 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { Container } from 'components/Box'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
+import { actions } from 'data'
+import { CoinType, InterestRateType, RemoteDataType } from 'core/types'
+import { Container } from 'components/Box'
 import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
 import {
   IconBackground,
@@ -11,16 +15,13 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { InterestRateType, RemoteDataType } from 'core/types'
+import { Remote } from 'core'
 import { UserDataType } from 'data/types'
+
+import { getData } from './selectors'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 import TransactionList from './TransactionList'
-
-import { getData } from './selectors'
-import { Remote } from 'core'
-import React from 'react'
-import styled from 'styled-components'
 
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -32,10 +33,6 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-/*
-  TODO List:
-  1) fetch txs and show table if txs exist
-*/
 class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
 
@@ -53,7 +50,6 @@ class Interest extends React.PureComponent<Props, StateType> {
   }
 
   checkUserData = () => {
-    // i think we might need to create nabu user here
     const data = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } }
     })
@@ -142,6 +138,7 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
+  coin: CoinType
   interestRate: InterestRateType
   userData: UserDataType
 }

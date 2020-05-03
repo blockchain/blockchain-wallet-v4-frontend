@@ -24,7 +24,7 @@ const AirdropInfo = (props: Props) => {
   return (
     <AirdropBox>
       <Icon name='parachute' color='green600' size='32px' />
-      <AirdropInfoHeader {...props} />
+      <AirdropInfoHeader />
       <AirdropInfoCopy {...props} />
       <Footer>
         <AirdropInfoButton {...props} />

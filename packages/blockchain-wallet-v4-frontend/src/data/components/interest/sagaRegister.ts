@@ -3,8 +3,16 @@ import { APIType } from 'core/network/api'
 import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default ({ api }: { api: APIType }) => {
-  const interestSagas = sagas({ api })
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const interestSagas = sagas({ api, coreSagas, networks })
 
   return function * interestSaga () {
     yield takeLatest(
