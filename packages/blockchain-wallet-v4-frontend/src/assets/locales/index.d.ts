@@ -677,7 +677,7 @@ type MessagesType = {
   'modals.interest.withdrawal.partialamount': 'Partial amount'
   'modals.interest.withdrawal.title': 'Withdraw {displayName}'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
-  'modals.interest.withdrawal.warning': 'In the last 12 days you earned {interestAmount} {coin} in interest. Once you withdraw {withdrawalFiatAmount} ({withdrawalCryptoAmount}), you will continue to earn interest on the remaining balance.'
+  'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterest} {coin} in interest. Once you withdraw {withdrawalFiatAmount} ({withdrawalCryptoAmount}), you will continue to earn interest on the remaining balance.'
   'modals.lockbox.appmanager.close': 'Close App Manager'
   'modals.lockbox.appmanager.title': 'App Manager'
   'modals.lockbox.connectionprompt.connect.content': 'Connect and unlock your hardware device. Then open the {appName} app on the device.'

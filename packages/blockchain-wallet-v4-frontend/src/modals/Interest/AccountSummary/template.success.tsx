@@ -105,18 +105,18 @@ const ViewStatusButton = styled(Button)`
 
 const AccountSummary: React.FC<Props> = props => {
   const {
+    accountBalances,
     coin,
     handleClose,
     handleDepositClick,
     handleSBClick,
     interestActions,
-    interestAccountBalance,
     interestRate,
     stepMetadata,
     supportedCoins
   } = props
   const displayName = supportedCoins[coin].displayName
-  const account = interestAccountBalance[coin]
+  const account = accountBalances[coin]
   return (
     <Wrapper>
       <Top>
@@ -162,13 +162,7 @@ const AccountSummary: React.FC<Props> = props => {
                 defaultMessage='Total Interest Earned'
               />
             </Text>
-            <FiatDisplay
-              Text
-              color='grey800'
-              size='20px'
-              weight={600}
-              coin={coin}
-            >
+            <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
               {account.totalInterest}
             </FiatDisplay>
           </Container>

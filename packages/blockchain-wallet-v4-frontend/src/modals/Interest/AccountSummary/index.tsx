@@ -10,7 +10,7 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { InterestStepMetadata, RatesType } from 'data/types'
+import { InterestStepMetadata } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -71,10 +71,9 @@ export type LinkDispatchPropsType = {
 }
 
 export type SuccessStateType = {
+  accountBalances: InterestAccountBalanceType
   coin: CoinType
-  interestAccountBalance: InterestAccountBalanceType
   interestRate: InterestRateType
-  rates: RatesType
   supportedCoins: SupportedCoinsType
 }
 

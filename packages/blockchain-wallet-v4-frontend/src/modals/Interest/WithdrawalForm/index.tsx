@@ -3,7 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { CoinType, RemoteDataType, SupportedCoinsType } from 'core/types'
+import {
+  CoinType,
+  InterestAccountBalanceType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -39,6 +44,7 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
+  accountBalances: InterestAccountBalanceType
   coin: CoinType
   supportedCoins: SupportedCoinsType
 }
