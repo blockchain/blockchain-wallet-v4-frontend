@@ -3,32 +3,30 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
+  const btcRateR = selectors.core.data.btc.getRates(state)
   const coin = selectors.components.interest.getCoinType(state)
-  const interestHistoryR = selectors.components.interest.getInterestTransactions(
-    state
-  )
-  const interestTransactionsR = selectors.components.interest.getInterestTransactions(
+  const transactionsR = selectors.components.interest.getInterestTransactions(
     state
   )
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const userDataR = selectors.modules.profile.getUserData(state)
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   const transform = (
-    interestHistory,
-    interestTransactions,
+    btcRates,
     supportedCoins,
-    userData
+    transactions,
+    walletCurrency
   ) => ({
+    btcRates,
     coin,
-    interestHistory,
-    interestTransactions,
     supportedCoins,
-    userData
+    transactions,
+    walletCurrency
   })
   return lift(transform)(
-    interestHistoryR,
-    interestTransactionsR,
+    btcRateR,
     supportedCoinsR,
-    userDataR
+    transactionsR,
+    walletCurrencyR
   )
 }

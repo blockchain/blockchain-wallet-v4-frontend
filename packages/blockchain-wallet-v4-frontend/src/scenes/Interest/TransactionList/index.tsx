@@ -6,14 +6,15 @@ import styled from 'styled-components'
 
 import {
   CoinType,
+  FiatType,
   InterestTransactionResponseType,
   NabuApiErrorType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { UserDataType } from 'data/types'
 
 import { getData } from './selectors'
+import { RatesType } from 'data/components/borrow/types'
 import TransactionList from './template.success'
 
 const History = styled.div`
@@ -53,10 +54,11 @@ const connector = connect(
 )
 
 export type SuccessStateType = {
+  btcRates: RatesType
   coin: CoinType
-  interestHistory: InterestTransactionResponseType
   supportedCoins: SupportedCoinsType
-  userData: UserDataType
+  transactions: InterestTransactionResponseType
+  walletCurrency: FiatType
 }
 
 type LinkStatePropsType = {

@@ -14,9 +14,11 @@ export const AmountTableCell = styled(TableCell)`
 export const CoinAmountWrapper = styled(CoinDisplay)`
   justify-content: flex-end;
 `
+
 export const FiatAmountWrapper = styled(FiatDisplay)`
   justify-content: flex-end;
 `
+
 export const IconBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -32,6 +34,7 @@ export const PendingTag = styled(GreyCartridge)`
   font-size: 12px;
   margin-left: 8px;
 `
+
 export const Value = styled(Text)`
   font-size: 14px;
   font-weight: 500;
@@ -52,20 +55,10 @@ export const InterestTableCell = styled(TableCell)`
   }
 `
 
-export const StatusColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 export const ViewTransaction = styled(Text)`
   display: flex;
   justify-content: flex-end;
   font-size: 12px;
-  font-weight: 600px;
+  font-weight: 600;
   cursor: pointer;
-`
-
-export const TransactionTypeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
 `

@@ -40,7 +40,7 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
-    txHash: string
+    hash: string
   }
   id: string
 

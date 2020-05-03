@@ -1,3 +1,17 @@
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import React, { ReactElement } from 'react'
+
+import { Exchange } from 'core'
+import {
+  Icon,
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
+  Text
+} from 'blockchain-info-components'
+
 import {
   AmountTableCell,
   CoinAmountWrapper,
@@ -8,22 +22,17 @@ import {
   Value,
   ViewTransaction
 } from './model'
-import { FormattedMessage } from 'react-intl'
-
-import {
-  Icon,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Text
-} from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
-import moment from 'moment'
-import React, { ReactElement } from 'react'
 
 function TransactionList (props: Props): ReactElement {
-  const { coin, interestHistory, supportedCoins } = props
+  const {
+    btcRates,
+    coin,
+    interestActions,
+    transactions,
+    supportedCoins,
+    walletCurrency
+  } = props
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
 
   return (
@@ -70,11 +79,19 @@ function TransactionList (props: Props): ReactElement {
             </Text>
           </AmountTableCell>
         </TableHeader>
-        {interestHistory.items.map(transaction => {
+        {transactions.items.map(transaction => {
+          const {
+            amount,
+            extraAttributes,
+            id,
+            insertedAt,
+            state,
+            type
+          } = transaction
           return (
-            <TableRow key={transaction.id}>
+            <TableRow key={id}>
               <InterestTableCell width='20%'>
-                {transaction.type === 'WITHDRAWAL' ? (
+                {type === 'WITHDRAWAL' ? (
                   <React.Fragment>
                     <IconBackground>
                       <Icon
@@ -85,7 +102,7 @@ function TransactionList (props: Props): ReactElement {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
-                    {transaction.state === 'PENDING' && (
+                    {state === 'PENDING' && (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'
@@ -94,7 +111,7 @@ function TransactionList (props: Props): ReactElement {
                       </PendingTag>
                     )}
                   </React.Fragment>
-                ) : transaction.type === 'DEPOSIT' ? (
+                ) : type === 'DEPOSIT' ? (
                   <React.Fragment>
                     <IconBackground>
                       <Icon
@@ -106,7 +123,7 @@ function TransactionList (props: Props): ReactElement {
                     </IconBackground>
 
                     <Value>{coinTicker} Deposit</Value>
-                    {transaction.state === 'PENDING' && (
+                    {state === 'PENDING' && (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'
@@ -124,10 +141,10 @@ function TransactionList (props: Props): ReactElement {
               </InterestTableCell>
               <TableCell width='20%'>
                 <Value data-e2e='interestTransactionDate'>
-                  {moment(transaction.insertedAt).format('llll')}
+                  {moment(insertedAt).format('llll')}
                 </Value>
               </TableCell>
-              {transaction.type === 'DEPOSIT' ? (
+              {type === 'DEPOSIT' ? (
                 <React.Fragment>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
@@ -140,7 +157,7 @@ function TransactionList (props: Props): ReactElement {
                     </Value>
                   </TableCell>
                 </React.Fragment>
-              ) : transaction.type === 'WITHDRAWAL' ? (
+              ) : type === 'WITHDRAWAL' ? (
                 <React.Fragment>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionFrom'>
@@ -172,31 +189,42 @@ function TransactionList (props: Props): ReactElement {
                 <div>
                   <FiatAmountWrapper
                     color='grey800'
+                    coin={amount.symbol}
+                    currency={walletCurrency}
+                    data-e2e='interestTxFiatAmount'
+                    rates={btcRates}
                     size='14px'
-                    weight={600}
-                    coin={coin}
                     style={{ marginBottom: '4px', alignItems: 'right' }}
-                    data-e2e='interestFiatAmount'
+                    weight={600}
                   >
-                    {transaction.amount.value}
+                    {
+                      Exchange.convertCoinToCoin({
+                        value: amount.value,
+                        coin: amount.symbol,
+                        baseToStandard: false
+                      }).value
+                    }
                   </FiatAmountWrapper>
                   <CoinAmountWrapper
-                    coin={coin}
+                    coin={amount.symbol}
                     color='grey600'
                     weight={500}
-                    data-e2e='interestCoinAmount'
+                    data-e2e='interestTxCoinAmount'
                     size='13px'
                     style={{ lineHeight: '1.5' }}
                   >
-                    {transaction.amount.value}
+                    {
+                      Exchange.convertCoinToCoin({
+                        value: amount.value,
+                        coin: amount.symbol,
+                        baseToStandard: false
+                      }).value
+                    }
                   </CoinAmountWrapper>
                   <ViewTransaction
                     data-e2e='viewTxHash'
                     onClick={() =>
-                      props.interestActions.routeToTxHash(
-                        coin,
-                        transaction.extraAttributes.txHash
-                      )
+                      interestActions.routeToTxHash(coin, extraAttributes.hash)
                     }
                   >
                     View Transaction

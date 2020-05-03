@@ -631,7 +631,7 @@ type MessagesType = {
   'modals.interest.deposit.calcdesc': 'With {currencySymbol}{depositAmountFiat} in your Interest Account you could earn:'
   'modals.interest.deposit.confirm': 'Confirm Deposit'
   'modals.interest.deposit.agreement': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
-  'modals.interest.deposit.calcfooter': 'Estimates based on current BTC price earning {rate}% AER.'
+  'modals.interest.deposit.calcfooter': 'Estimates based on current {coin} deposits earning {rate}% AER.'
   'modals.interest.deposit.calculator.tooltip': 'This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
   'modals.interest.deposit.amount': 'Enter deposit amount'
   'modals.interest.deposit.subtitle': 'Deposit into your Interest Account and earn {rate}% interest.'

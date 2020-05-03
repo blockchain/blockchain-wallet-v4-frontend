@@ -145,18 +145,17 @@ const AgreementContainer = styled.div`
 const ArrowIcon = styled(Icon)`
   margin-right: 20px;
 `
-const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 32px;
-  opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
   > button {
     padding: 15px !important;
   }
 `
 
 const calcCompoundInterest = (principal, rate, term) => {
-  const COMPOUNDS_PER_YEAR = 12
+  const COMPOUNDS_PER_YEAR = 365
   const principalInt = parseFloat(principal)
   if (!principalInt) return '0.00'
   const totalAmount =
@@ -438,8 +437,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
                 id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current BTC price earning {rate}% AER.'
-                values={{ rate: interestRate[coin] }}
+                defaultMessage='Estimates based on current {coin} deposits earning {rate}% AER.'
+                values={{ coin, rate: interestRate[coin] }}
               />
             </Text>
           </CalculatorContainer>
