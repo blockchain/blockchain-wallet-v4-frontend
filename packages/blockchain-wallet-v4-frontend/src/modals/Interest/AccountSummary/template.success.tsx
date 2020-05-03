@@ -172,7 +172,7 @@ const AccountSummary: React.FC<Props> = props => {
           <SendStatusWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.depositsuccess'
+                id='modals.interest.deposit.success'
                 defaultMessage='Your deposit has been sent to your Interest Account. Your balance will update once the transaction is confirmed by the network.  No further action is required.'
                 values={{ displayName }}
               />
@@ -201,7 +201,7 @@ const AccountSummary: React.FC<Props> = props => {
             <SendStatusWrapper>
               <Text color='red600' size='14px' weight={500}>
                 <FormattedMessage
-                  id='modals.interest.depositfailure'
+                  id='modals.interest.deposit.failure'
                   defaultMessage='Something went wrong when sending your deposit. Please try again later or contact support if the issue persists.'
                 />
               </Text>
@@ -212,7 +212,7 @@ const AccountSummary: React.FC<Props> = props => {
                 weight={500}
               >
                 <FormattedMessage
-                  id='modals.interest.depositfailurereason'
+                  id='modals.interest.deposit.failurereason'
                   defaultMessage='Error: {error}'
                   values={{ error: stepMetadata.error }}
                 />
