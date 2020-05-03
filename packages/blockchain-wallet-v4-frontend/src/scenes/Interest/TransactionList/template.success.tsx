@@ -83,7 +83,6 @@ function TransactionList (props: Props): ReactElement {
                         weight={600}
                       />
                     </IconBackground>
-
                     <Value>{coinTicker} Withdraw</Value>
                     {transaction.state === 'PENDING' && (
                       <PendingTag>
