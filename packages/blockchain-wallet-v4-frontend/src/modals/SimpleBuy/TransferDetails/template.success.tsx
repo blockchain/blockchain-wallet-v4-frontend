@@ -83,7 +83,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Bank Name'
               />
             </Title>
-            <Value>{props.account.agent.name}</Value>
+            <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
           </Row>
         )}
         {props.account.currency === 'EUR' && (
@@ -94,7 +94,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Bank Country'
               />
             </Title>
-            <Value>
+            <Value data-e2e='sbCountryEstonia'>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.estonia'
                 defaultMessage='Estonia'
@@ -110,7 +110,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='IBAN'
               />
             </Title>
-            <Value>{props.account.address}</Value>
+            <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
           </Row>
         )}
         {props.account.currency === 'GBP' && (
@@ -121,7 +121,9 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Account Number'
               />
             </Title>
-            <Value>{props.account.agent.account}</Value>
+            <Value data-e2e='sbAccountNumber'>
+              {props.account.agent.account}
+            </Value>
           </Row>
         )}
         {props.account.currency === 'GBP' && (
@@ -132,7 +134,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Sort Code'
               />
             </Title>
-            <Value>{props.account.agent.code}</Value>
+            <Value data-e2e='sbSortCode'>{props.account.agent.code}</Value>
           </Row>
         )}
         {props.account.currency === 'EUR' && (
@@ -143,7 +145,7 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Bank Code (SWIFT / BIC)'
               />
             </Title>
-            <Value>{props.account.agent.code}</Value>
+            <Value data-e2e='sbBankCode'>{props.account.agent.code}</Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
@@ -151,7 +153,7 @@ const Success: React.FC<Props> = props => {
             <Title size='14px' weight={500} color='grey600'>
               <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Title>
-            <Value>{props.account.agent.address}</Value>
+            <Value data-e2e='sbAddress'>{props.account.agent.address}</Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
@@ -162,7 +164,9 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Routing Number'
               />
             </Title>
-            <Value>{props.account.agent.routingNumber}</Value>
+            <Value data-e2e='sbRoutingNumber'>
+              {props.account.agent.routingNumber}
+            </Value>
           </Row>
         )}
         <Row>
@@ -172,7 +176,7 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Recipient'
             />
           </Title>
-          <Value>
+          <Value data-e2e='sbRecipientName'>
             {props.userData.firstName} {props.userData.lastName}
           </Value>
         </Row>
@@ -183,7 +187,7 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Amount to Send'
             />
           </Title>
-          <Value>
+          <Value data-e2e='sbSentAmount'>
             {fiatToString({
               unit: props.order.inputCurrency as FiatType,
               value: convertBaseToStandard('FIAT', props.order.inputQuantity)
