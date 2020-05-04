@@ -56,7 +56,9 @@ const ViewInfoColumn = styled.div`
 
 class SimpleBuyListItem extends PureComponent<Props> {
   showModal = (order: SBOrderType) => {
-    this.props.modalActions.showModal('SIMPLE_BUY_MODAL')
+    this.props.modalActions.showModal('SIMPLE_BUY_MODAL', {
+      origin: 'TransactionList'
+    })
     this.props.simpleBuyActions.setStep({
       step:
         order.state === 'PENDING_CONFIRMATION'
@@ -110,10 +112,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  undefined,
-  mapDispatchToProps
-)
+const connector = connect(undefined, mapDispatchToProps)
 
 type OwnProps = {
   order: SBOrderType

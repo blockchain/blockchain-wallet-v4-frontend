@@ -147,7 +147,8 @@ export default ({
             actions.modals.showModal(
               `@MODAL.SEND.${modalName}` as ModalNamesType,
               {
-                coin: payload
+                coin: payload,
+                origin: 'SendEth'
               }
             )
           )
@@ -572,7 +573,9 @@ export default ({
         return
       }
 
-      yield put(actions.modals.showModal('@MODAL.SEND.ETH'))
+      yield put(
+        actions.modals.showModal('@MODAL.SEND.ETH', { origin: 'RetrySendEth' })
+      )
       yield take(AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS)
       let p = yield select(S.getPayment)
       let payment: EthPaymentType = coreSagas.payment.eth.create({

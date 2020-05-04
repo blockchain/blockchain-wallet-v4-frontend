@@ -18,10 +18,13 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
         currentCoin={currentCoin}
         handleRequest={() =>
           modalActions.showModal(
-            `@MODAL.REQUEST.${currentCoin.coinCode}` as ModalNamesType
+            `@MODAL.REQUEST.${currentCoin.coinCode}` as ModalNamesType,
+            {
+              origin: 'EmptyFeed'
+            }
           )
         }
-        handleBuy={() => simpleBuyActions.showModal('emptyFeed', coin)}
+        handleBuy={() => simpleBuyActions.showModal('EmptyFeed', coin)}
       />
     )
   }
@@ -45,10 +48,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType

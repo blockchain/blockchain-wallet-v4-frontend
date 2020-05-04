@@ -32,6 +32,8 @@ const TYPE_WHITELIST = [
   'SHOW_MODAL'
 ]
 
+const EVENT_ACTION_BLACKLIST = ['ShowXPub']
+
 let lastEvent = []
 
 const formatEvent = x => (typeof x !== 'string' ? JSON.stringify(x) : x)
@@ -52,7 +54,11 @@ const matomoMiddleware = () => store => next => action => {
     const logEvent = includes(action.type, TYPE_WHITELIST)
     const nextEvent = [eventCategory, eventAction, eventName]
 
-    if (logEvent && !equals(nextEvent, lastEvent)) {
+    if (
+      logEvent &&
+      !equals(nextEvent, lastEvent) &&
+      !includes(eventAction, EVENT_ACTION_BLACKLIST)
+    ) {
       const frame = document.getElementById('matomo-iframe')
       frame &&
         frame.contentWindow &&

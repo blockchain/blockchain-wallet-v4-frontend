@@ -10,7 +10,9 @@ const { EXCHANGE_EVENTS } = model.analytics
 
 class ExchangeContainer extends React.PureComponent<Props> {
   onSignup = () => {
-    this.props.modalActions.showModal('LinkToExchangeAccount')
+    this.props.modalActions.showModal('LinkToExchangeAccount', {
+      origin: 'TheExchangePage'
+    })
     this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.CONNECT_NOW)
   }
 
@@ -40,10 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<

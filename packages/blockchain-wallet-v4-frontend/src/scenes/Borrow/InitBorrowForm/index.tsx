@@ -69,10 +69,9 @@ class InitBorrowForm extends PureComponent<Props> {
     const offers = this.props.offersR.getOrElse([])
     const values = this.props.values
 
-    if (!values) return null
     const offer = offers.find(
       offer =>
-        offer.terms.collateralCcy === values.coin &&
+        offer.terms.collateralCcy === values?.coin &&
         offer.terms.principalCcy === 'PAX'
     )
     return offer
@@ -97,7 +96,9 @@ class InitBorrowForm extends PureComponent<Props> {
     const offer = this.getOfferForCoin()
     if (!offer) return
     this.props.borrowActions.setStep({ step: 'CHECKOUT', offer })
-    this.props.modalActions.showModal('BORROW_MODAL')
+    this.props.modalActions.showModal('BORROW_MODAL', {
+      origin: 'BorrowLandingPage'
+    })
   }
 
   render () {
@@ -113,7 +114,7 @@ class InitBorrowForm extends PureComponent<Props> {
               <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </Text>
-          <Amount {...this.props.values} />
+          <Amount {...(this.props.values || { coin: 'BTC' })} />
           <HorizontalBorder />
           <FormGroup>
             <CustomFormLabel>
@@ -187,10 +188,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   isDisabled: boolean
@@ -198,7 +196,7 @@ type OwnProps = {
 type LinkStatePropsType = {
   offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
   userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
-  values: {
+  values?: {
     coin: CoinType
   }
 }

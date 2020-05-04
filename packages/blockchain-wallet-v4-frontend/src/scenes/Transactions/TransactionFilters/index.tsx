@@ -1,14 +1,19 @@
 import { actions } from 'data'
-import { CoinType } from 'core/types'
+import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
+
+import { CoinType } from 'core/types'
 
 import Menu from './template'
-import React from 'react'
 
 class TransactionFiltersContainer extends React.PureComponent<Props> {
   handleClickReporting = () => {
-    const { coin, showModal } = this.props
-    showModal('TRANSACTION_REPORT', { coin })
+    const { coin, modalActions } = this.props
+    modalActions.showModal('TRANSACTION_REPORT', {
+      coin,
+      origin: 'TransactionList'
+    })
   }
 
   render () {
@@ -17,14 +22,10 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = dispatch => ({
-  showModal: (modal, options) =>
-    dispatch(actions.modals.showModal(modal, options))
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(
-  null,
-  mapDispatchToProps
-)
+const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType

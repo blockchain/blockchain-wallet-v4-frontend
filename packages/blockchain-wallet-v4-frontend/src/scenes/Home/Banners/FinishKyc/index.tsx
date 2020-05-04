@@ -91,7 +91,11 @@ class FinishKyc extends PureComponent<Props> {
         </Row>
         <BannerButton
           onClick={() =>
-            this.props.identityVerificationActions.verifyIdentity(2)
+            this.props.identityVerificationActions.verifyIdentity(
+              2,
+              false,
+              'RunKycGoal'
+            )
           }
           jumbo
           data-e2e='openKycTier2'
@@ -111,10 +115,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   )
 })
 
-const connector = connect(
-  undefined,
-  mapDispatchToProps
-)
+const connector = connect(undefined, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
