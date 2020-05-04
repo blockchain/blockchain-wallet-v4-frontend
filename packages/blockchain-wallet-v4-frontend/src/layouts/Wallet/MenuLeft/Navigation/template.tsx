@@ -104,6 +104,11 @@ const Navigation = (props: OwnProps & Props) => {
             className='destination'
           />
         </Destination>
+        <NewCartridge>
+          <Text color='orange600' weight={600} size='12' uppercase>
+            <FormattedMessage id='copy.new' defaultMessage='New' />
+          </Text>
+        </NewCartridge>
       </MenuItem>
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
@@ -149,10 +154,7 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
           <NewCartridge>
             <Text color='orange600' weight={600} size='12' uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow.new'
-                defaultMessage='New'
-              />
+              <FormattedMessage id='copy.new' defaultMessage='New' />
             </Text>
           </NewCartridge>
         </MenuItem>
@@ -166,14 +168,6 @@ const Navigation = (props: OwnProps & Props) => {
               defaultMessage='Borrow'
             />
           </Destination>
-          <NewCartridge>
-            <Text color='orange600' weight={600} size='12' uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
         </MenuItem>
       </LinkContainer>
       <LinkContainer to='/exchange' activeClassName='active'>
@@ -230,10 +224,7 @@ const Navigation = (props: OwnProps & Props) => {
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
                       <Text color='orange600' size='12' weight={500} uppercase>
-                        <FormattedMessage
-                          id='layouts.wallet.menuleft.navigation.transactions.new'
-                          defaultMessage='New'
-                        />
+                        <FormattedMessage id='copy.new' defaultMessage='New' />
                       </Text>
                     </NewCartridge>
                   )}

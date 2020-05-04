@@ -120,13 +120,14 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             color='grey800'
             coin={coinTicker}
             currency={walletCurrency}
+            loadingHeight='24px'
             size='16px'
             style={{ lineHeight: '1.5' }}
             weight={600}
           >
             {balanceSats}
           </FiatDisplay>
-          <Text size='12px' style={{ lineHeight: '1.5' }}>
+          <Text size='12px' weight={500} style={{ lineHeight: '1.5' }}>
             {balanceStandard} {coinTicker}
           </Text>
         </AmountColumn>
@@ -135,13 +136,14 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             color='grey800'
             coin={coinTicker}
             currency={walletCurrency}
+            loadingHeight='24px'
             size='16px'
             style={{ lineHeight: '1.5' }}
             weight={600}
           >
             {totalInterest}
           </FiatDisplay>
-          <Text size='12px' style={{ lineHeight: '1.5' }}>
+          <Text size='12px' weight={500} style={{ lineHeight: '1.5' }}>
             <FormattedMessage
               id='scenes.interest.summarycard.totalinterest'
               defaultMessage='Total Interest Earned'
