@@ -121,7 +121,9 @@ const Small: React.FC<Props> = props => {
                   <DropdownMenuItem
                     data-e2e='notificationsLink'
                     onClick={() =>
-                      props.modalActions.showModal('WHATS_NEW_MODAL')
+                      props.modalActions.showModal('WHATS_NEW_MODAL', {
+                        origin: 'WhatsNewHeader'
+                      })
                     }
                   >
                     <Destination>

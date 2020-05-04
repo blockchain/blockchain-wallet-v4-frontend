@@ -5,14 +5,16 @@ import {
   IdentityVerificationActionTypes,
   StepsType
 } from './types'
+import { ModalOriginType } from 'data/modals/types'
 import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
   tier = TIERS[2],
-  needMoreInfo = false
+  needMoreInfo = false,
+  origin: ModalOriginType
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, needMoreInfo }
+  payload: { tier, needMoreInfo, origin }
 })
 
 export const initializeVerification = (tier, needMoreInfo) => ({

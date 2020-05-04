@@ -29,9 +29,44 @@ export type ModalNamesType =
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
 
+export type ModalOriginType =
+  | 'AirdropClaimGoal'
+  | 'BorrowHistorySection'
+  | 'BorrowLandingPage'
+  | 'CoinifyToSB'
+  | 'EmptyFeed'
+  | 'KycDocResubmitGoal'
+  | 'PaymentProtocolGoal'
+  | 'PendingOrder'
+  | 'PriceChart'
+  | 'RetrySendEth'
+  | 'RunKycGoal'
+  | 'SBEnterAmountCheckout'
+  | 'Send'
+  | 'SendBch'
+  | 'SendBtc'
+  | 'SendEth'
+  | 'SendExchangePromo'
+  | 'SendXlm'
+  | 'SettingsGeneral'
+  | 'SettingsPage'
+  | 'SettingsProfile'
+  | 'SideNav'
+  | 'TheExchangePage'
+  | 'TransactionList'
+  | 'Unknown'
+  | 'WalletBalanceDropdown'
+  | 'WelcomeModal'
+  | 'WhatsNewHeader'
+
+export type ModalPropsType = {
+  [key: string]: any
+  origin: ModalOriginType
+}
+
 export type ModalType = {
   options: any
-  props: any
+  props: ModalPropsType
   type: ModalNamesType
 }
 
@@ -45,11 +80,6 @@ interface CloseAllModals {
 
 interface CloseModal {
   type: typeof AT.CLOSE_MODAL
-}
-
-interface ReplaceModal {
-  payload: ModalType
-  type: typeof AT.REPLACE_MODAL
 }
 
 interface ShowModal {
@@ -67,6 +97,5 @@ interface UpdateModalOptions {
 export type ModalActionTypes =
   | CloseAllModals
   | CloseModal
-  | ReplaceModal
   | ShowModal
   | UpdateModalOptions

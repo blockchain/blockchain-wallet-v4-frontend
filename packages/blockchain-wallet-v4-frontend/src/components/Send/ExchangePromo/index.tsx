@@ -60,7 +60,9 @@ type Props = LinkStatePropsType & LinkDispatchPropsType
 class ExchangePromo extends PureComponent<Props> {
   onSignup = () => {
     this.props.modalActions.closeAllModals()
-    this.props.modalActions.showModal('LinkToExchangeAccount')
+    this.props.modalActions.showModal('LinkToExchangeAccount', {
+      origin: 'SendExchangePromo'
+    })
     this.props.analyticsActions.logEvent([
       ...EXCHANGE_EVENTS.PROMO,
       'connect_modal'

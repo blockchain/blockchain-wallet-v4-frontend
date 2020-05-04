@@ -24,7 +24,7 @@ const BadgesContainer = styled.div`
 
 class PairingCode extends React.PureComponent<Props> {
   onShowCode = () => {
-    this.props.modalActions.showModal('PairingCode')
+    this.props.modalActions.showModal('PairingCode', { origin: 'SettingsPage' })
   }
 
   render () {

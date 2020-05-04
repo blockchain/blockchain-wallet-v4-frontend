@@ -24,7 +24,9 @@ class BorrowHistory extends Component<Props> {
 
   showLoanDetails = (loan: LoanType, offer: OfferType) => {
     this.props.borrowActions.setStep({ step: 'DETAILS', loan, offer })
-    this.props.modalActions.showModal('BORROW_MODAL')
+    this.props.modalActions.showModal('BORROW_MODAL', {
+      origin: 'BorrowHistorySection'
+    })
   }
 
   render () {

@@ -37,10 +37,10 @@ export type SBCurrencySelectFormType = {
 }
 export type SBFormPaymentMethod =
   | SBPaymentMethodType
-  | SBCardType & {
+  | (SBCardType & {
       limits: SBPaymentMethodType['limits']
       type: 'USER_CARD'
-    }
+    })
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
@@ -52,6 +52,15 @@ export enum SimpleBuyStepType {
   'TRANSFER_DETAILS',
   'CANCEL_ORDER'
 }
+export type SBShowModalOriginType =
+  | 'CoinifyToSB'
+  | 'EmptyFeed'
+  | 'PendingOrder'
+  | 'PriceChart'
+  | 'SettingsGeneral'
+  | 'SettingsProfile'
+  | 'SideNav'
+  | 'WelcomeModal'
 
 // State
 export type SimpleBuyState = {
@@ -302,13 +311,7 @@ interface SetStepAction {
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
-    origin:
-      | 'sideNav'
-      | 'settingsProfile'
-      | 'pendingOrder'
-      | 'welcomeModal'
-      | 'priceChart'
-      | 'emptyFeed'
+    origin: SBShowModalOriginType
   }
   type: typeof AT.SHOW_MODAL
 }
