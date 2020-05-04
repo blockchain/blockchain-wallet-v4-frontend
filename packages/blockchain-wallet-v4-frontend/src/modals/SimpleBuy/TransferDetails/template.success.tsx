@@ -79,12 +79,7 @@ const Success: React.FC<Props> = props => {
             />
           </TopText>
           <InfoContainer>
-            <Text
-              color='grey600'
-              weight={500}
-              size='14px'
-              style={{ marginBottom: '24px' }}
-            >
+            <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
                 id='modals.simplebuy.transferdetails.info_1'
                 defaultMessage='Securely transfer {fiatCurrency} from your bank account to Blockchain.com. Depending on the transfer method and availability of funds, this may take up to one business day.'
@@ -94,7 +89,12 @@ const Success: React.FC<Props> = props => {
               />
             </Text>
             {props.account.currency === 'GBP' && (
-              <Text color='grey600' weight={500} size='14px'>
+              <Text
+                color='grey600'
+                weight={500}
+                size='14px'
+                style={{ marginTop: '24px' }}
+              >
                 <FormattedMessage
                   id='modals.simplebuy.transferdetails.info.gbp'
                   defaultMessage='You’ll need to open your bank application in a different tab to transfer the funds.'
