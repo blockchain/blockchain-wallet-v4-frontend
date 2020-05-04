@@ -26,7 +26,7 @@ import {
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
 import { required } from 'services/FormHelper'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -97,7 +97,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Field
               name='expiry-date'
               placeholder='12/40'
-              component={CreditCardExpiryBox as any}
+              component={CreditCardExpiryBox as FunctionComponent}
               normalize={normalizeCreditCardExpiry}
               validate={[required, validateCreditCardExpiry]}
             />
@@ -106,7 +106,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <FormLabel>CVC</FormLabel>
             <Field
               name='cvc'
-              component={CreditCardCVCBox as any}
+              component={CreditCardCVCBox as FunctionComponent}
               normalize={normalizeCreditCardCVC}
               validate={[required, validateCreditCardCVC]}
             />
