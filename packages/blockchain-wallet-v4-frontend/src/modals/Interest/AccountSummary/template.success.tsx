@@ -52,15 +52,16 @@ const AccountSummary: React.FC<Props> = props => {
     accountBalances,
     coin,
     handleClose,
-    handleCloseDetailsClick,
+    // handleCloseDetailsClick,
     handleDepositClick,
-    handleMoreDetailsClick,
+    // handleMoreDetailsClick,
     handleSBClick,
     interestActions,
     interestRate,
     showMoreDetails,
     stepMetadata,
-    supportedCoins
+    supportedCoins,
+    toggleMoreDetails
   } = props
   const displayName = supportedCoins[coin].displayName
   const account = accountBalances[coin]
@@ -82,7 +83,7 @@ const AccountSummary: React.FC<Props> = props => {
               />
             </Text>
             <Icon
-              onClick={() => handleCloseDetailsClick()}
+              onClick={() => toggleMoreDetails()}
               cursor
               name='close'
               size='10px'
@@ -305,7 +306,7 @@ const AccountSummary: React.FC<Props> = props => {
               <Link
                 size='14px'
                 weight={500}
-                onClick={() => handleMoreDetailsClick()}
+                onClick={() => toggleMoreDetails()}
                 data-e2e='openMoreDetails'
               >
                 <FormattedMessage
@@ -344,11 +345,12 @@ const AccountSummary: React.FC<Props> = props => {
 }
 
 type ParentProps = {
-  handleCloseDetailsClick: () => void
+  // handleCloseDetailsClick: () => void
   handleDepositClick: () => void
-  handleMoreDetailsClick: () => void
+  // handleMoreDetailsClick: () => void
   handleSBClick: () => void
   stepMetadata: InterestStepMetadata
+  toggleMoreDetails: () => void
 }
 
 export type Props = OwnProps &
