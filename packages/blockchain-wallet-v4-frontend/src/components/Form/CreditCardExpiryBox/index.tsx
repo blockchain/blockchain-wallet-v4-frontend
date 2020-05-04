@@ -8,9 +8,27 @@ export const normalizeCreditCardExpiry = (value, previousValue) => {
   if (!value) return value
   if (value.length > 5) return previousValue
 
-  const onlyNumsOrSlash = value.replace(/[^\d/]/g, '')
+  const onlyNumsOrSlash = value.replace(/[^\d/]/g, '').replace(/\/{1,}/, '/')
+  const prevOnlyNumsOrSlash = previousValue || ''
 
-  return onlyNumsOrSlash
+  if (!prevOnlyNumsOrSlash && onlyNumsOrSlash === '/') return ''
+
+  if (
+    prevOnlyNumsOrSlash.length === 1 &&
+    onlyNumsOrSlash[onlyNumsOrSlash.length - 1] === '/'
+  ) {
+    return '0' + prevOnlyNumsOrSlash + '/'
+  }
+
+  if (onlyNumsOrSlash.length < prevOnlyNumsOrSlash.length) {
+    return onlyNumsOrSlash
+  } else {
+    if (onlyNumsOrSlash.length === 2) {
+      return onlyNumsOrSlash + '/'
+    } else {
+      return onlyNumsOrSlash
+    }
+  }
 }
 
 export const validateCreditCardExpiry = (value: string) => {
