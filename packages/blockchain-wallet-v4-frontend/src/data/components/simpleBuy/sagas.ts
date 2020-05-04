@@ -290,6 +290,7 @@ export default ({
 
   const fetchSBCards = function * () {
     try {
+      yield call(createUser)
       yield call(waitForUserData)
       yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
@@ -373,6 +374,7 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
+      yield call(createUser)
       yield call(waitForUserData)
       yield put(A.fetchSBPaymentMethodsLoading())
       const methods = yield call(api.getSBPaymentMethods, currency)
