@@ -115,10 +115,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   )
 })
 
-const connector = connect(
-  undefined,
-  mapDispatchToProps
-)
+const connector = connect(undefined, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

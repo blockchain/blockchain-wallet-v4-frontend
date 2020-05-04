@@ -186,10 +186,7 @@ const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
 
 const enhance = compose<any>(
   modalEnhancer('WELCOME_MODAL', { transition: duration }),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(WelcomeContainer)

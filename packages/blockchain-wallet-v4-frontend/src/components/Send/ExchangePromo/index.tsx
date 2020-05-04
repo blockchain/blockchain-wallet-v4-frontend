@@ -184,7 +184,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangePromo)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangePromo)

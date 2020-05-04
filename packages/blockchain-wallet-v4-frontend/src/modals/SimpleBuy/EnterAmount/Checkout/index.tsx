@@ -95,10 +95,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = {

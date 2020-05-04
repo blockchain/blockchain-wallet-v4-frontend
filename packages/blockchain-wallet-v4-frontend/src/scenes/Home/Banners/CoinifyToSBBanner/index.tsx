@@ -121,10 +121,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  undefined,
-  mapDispatchToProps
-)
+const connector = connect(undefined, mapDispatchToProps)
 
 type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy

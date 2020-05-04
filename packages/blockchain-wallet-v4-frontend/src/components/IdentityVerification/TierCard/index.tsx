@@ -261,10 +261,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  getData,
-  mapDispatchToProps
-)
+const connector = connect(getData, mapDispatchToProps)
 
 type OwnProps = {
   column: boolean

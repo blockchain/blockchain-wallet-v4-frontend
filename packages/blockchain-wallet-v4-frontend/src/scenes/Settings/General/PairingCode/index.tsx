@@ -81,10 +81,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(
-  null,
-  mapDispatchToProps
-)
+const connector = connect(null, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

@@ -112,10 +112,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  undefined,
-  mapDispatchToProps
-)
+const connector = connect(undefined, mapDispatchToProps)
 
 type OwnProps = {
   order: SBOrderType

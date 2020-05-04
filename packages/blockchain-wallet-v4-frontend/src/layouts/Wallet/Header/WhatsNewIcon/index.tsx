@@ -36,10 +36,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, { numOfNewAnnouncements: number }>
