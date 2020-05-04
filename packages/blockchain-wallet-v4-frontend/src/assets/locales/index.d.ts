@@ -654,6 +654,8 @@ type MessagesType = {
   'modals.interest.deposit.weekly': 'Weekly'
   'modals.interest.deposit.sendingsubtitle': 'Sending {displayName} to your Interest Account'
   'modals.interest.deposit.sendingtitle': 'In Progress...'
+  'modals.interest.moredetails.header': 'Interest Details'
+  'modals.interest.moredetails.body': 'Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
   'modals.interest.summary.accrued': 'Accrued interest this month'
   'modals.interest.summary.accrued.tooltip.description': 'Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
   'modals.interest.summary.lock': 'Lock-up period'

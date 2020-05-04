@@ -224,7 +224,10 @@ function TransactionList (props: Props): ReactElement {
                   <ViewTransaction
                     data-e2e='viewTxHash'
                     onClick={() =>
-                      interestActions.routeToTxHash(coin, extraAttributes.hash)
+                      interestActions.routeToTxHash(
+                        coin,
+                        extraAttributes.txHash
+                      )
                     }
                   >
                     View Transaction

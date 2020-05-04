@@ -17,11 +17,25 @@ import { getData } from './selectors'
 import AccountSummary from './template.success'
 import Loading from './template.loading'
 
-class AccountSummaryContainer extends PureComponent<Props> {
-  state = {}
+class AccountSummaryContainer extends PureComponent<Props, State> {
+  state: State = {
+    showMoreDetails: false
+  }
 
   handleDepositClick = () => {
     this.props.interestActions.showInterestModal('DEPOSIT')
+  }
+
+  handleMoreDetailsClick = () => {
+    this.setState({
+      showMoreDetails: true
+    })
+  }
+
+  handleCloseDetailsClick = () => {
+    this.setState({
+      showMoreDetails: false
+    })
   }
 
   handleRefresh = () => {
@@ -35,7 +49,10 @@ class AccountSummaryContainer extends PureComponent<Props> {
         <AccountSummary
           {...val}
           {...this.props}
+          {...this.state}
           handleDepositClick={this.handleDepositClick}
+          handleCloseDetailsClick={this.handleCloseDetailsClick}
+          handleMoreDetailsClick={this.handleMoreDetailsClick}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
@@ -75,6 +92,10 @@ export type SuccessStateType = {
   coin: CoinType
   interestRate: InterestRateType
   supportedCoins: SupportedCoinsType
+}
+
+export type State = {
+  showMoreDetails: boolean
 }
 
 type LinkStatePropsType = {
