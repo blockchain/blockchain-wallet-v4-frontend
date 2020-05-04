@@ -38,6 +38,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
