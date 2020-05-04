@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
       </SettingSummary>
       <SettingComponent>
         <Link href='https://www.blockchain.com/legal/privacy' target='_blank'>
-          <Button nature='empty'>
+          <Button data-e2e='privacyLink' nature='empty'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>

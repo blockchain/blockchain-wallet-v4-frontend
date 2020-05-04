@@ -33,16 +33,16 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     contentType: string,
     removeDefaultPostData?: boolean
   ) => {
-    if (removeDefaultPostData) return data
     const defaultData = {
       api_code: apiKey,
       ct: Date.now()
     }
+    const allData = removeDefaultPostData ? data : merge(defaultData, data)
 
     if (contentType === 'application/x-www-form-urlencoded') {
-      return queryString.stringify(merge(defaultData, data))
+      return queryString.stringify(allData)
     }
-    return merge(defaultData, data)
+    return allData
   }
 
   const getHeaders = (contentType: string, sessionToken?: string) => {
@@ -65,8 +65,8 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     sessionToken,
     url,
     ...options
-  }: RequestConfig): Promise<T> =>
-    axios
+  }: RequestConfig): Promise<T> => {
+    return axios
       .request<T>({
         url: `${url}${endPoint}`,
         method,
@@ -82,6 +82,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
         throw merge(errorData, { status })
       })
       .then(prop('data'))
+  }
 
   const get = <T>({
     ignoreQueryParams,

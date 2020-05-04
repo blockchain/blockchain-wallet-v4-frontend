@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.32.13",
+  "version": "4.32.13-cards.3",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -119,6 +119,7 @@
     "@storybook/storybook-deployer": "2.8.1",
     "@types/axios": "0.14.0",
     "@types/hoist-non-react-statics": "3.3.1",
+    "@types/moment": "2.13.0",
     "@types/node": "13.9.0",
     "@types/ramda": "0.26.39",
     "@types/react": "16.9.34",

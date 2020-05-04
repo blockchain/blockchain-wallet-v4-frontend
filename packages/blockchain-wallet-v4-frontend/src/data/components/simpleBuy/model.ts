@@ -1,7 +1,7 @@
 import {
   CoinType,
+  CoinTypeEnum,
   FiatType,
-  SBBuyPairsType,
   SBOrderType,
   SBPairsType,
   SBQuoteType
@@ -10,13 +10,16 @@ import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
+export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 
-const splitPair = (pair: SBPairsType) => {
-  return pair.split('-')
+const splitPair = (
+  pair: SBPairsType
+): [FiatType | CoinType, '-', FiatType | CoinType] => {
+  return pair.split('-') as [FiatType | CoinType, '-', FiatType | CoinType]
 }
 
 export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
-  return pair in SBBuyPairsType ? 'BUY' : 'SELL'
+  return splitPair(pair)[0] in CoinTypeEnum ? 'BUY' : 'SELL'
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {
@@ -33,7 +36,7 @@ export const getOutputAmount = (
   order: SBOrderType,
   quote: SBQuoteType
 ): string => {
-  if (order.pair in SBBuyPairsType) {
+  if (splitPair(order.pair)[0] in CoinTypeEnum) {
     const valueStandard = Number(order.inputQuantity) / Number(quote.rate)
     const valueBase = convertStandardToBase(
       order.outputCurrency as CoinType,

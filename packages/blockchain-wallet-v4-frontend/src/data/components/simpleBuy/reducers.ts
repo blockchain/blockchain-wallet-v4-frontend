@@ -11,12 +11,19 @@ const INITIAL_STATE: SimpleBuyState = {
     PAX: { pending: '0', available: '0' },
     XLM: { pending: '0', available: '0' }
   }),
-  order: undefined,
-  orders: Remote.NotAsked,
+  card: Remote.NotAsked,
+  cardId: undefined,
+  cards: Remote.NotAsked,
   cryptoCurrency: undefined,
+  defaultMethod: undefined,
+  everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  methods: Remote.NotAsked,
+  order: undefined,
+  orders: Remote.NotAsked,
   pairs: Remote.NotAsked,
+  providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
   suggestedAmounts: Remote.NotAsked
@@ -27,14 +34,49 @@ export function simpleBuyReducer (
   action: SimpleBuyActionTypes
 ): SimpleBuyState {
   switch (action.type) {
+    case AT.ACTIVATE_SB_CARD_FAILURE: {
+      return {
+        ...state,
+        providerDetails: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.ACTIVATE_SB_CARD_LOADING:
+      return {
+        ...state,
+        providerDetails: Remote.Loading
+      }
+    case AT.ACTIVATE_SB_CARD_SUCCESS:
+      return {
+        ...state,
+        providerDetails: Remote.Success(action.payload.providerDetails)
+      }
     case AT.DESTROY_CHECKOUT:
       return {
         ...state,
-        step: 'CURRENCY_SELECTION',
         account: Remote.NotAsked,
+        cardId: undefined,
+        defaultMethod: undefined,
+        order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
+        step: 'CURRENCY_SELECTION',
         suggestedAmounts: Remote.NotAsked
+      }
+    case AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE: {
+      return {
+        ...state,
+        everypay3DS: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING:
+      return {
+        ...state,
+        everypay3DS: Remote.Loading
+      }
+    case AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS:
+      return {
+        ...state,
+        everypay3DS: Remote.Success(action.payload.everypay3DS)
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {
@@ -51,6 +93,38 @@ export function simpleBuyReducer (
       return {
         ...state,
         balances: Remote.Success(action.payload.balances)
+      }
+    case AT.FETCH_SB_CARD_FAILURE: {
+      return {
+        ...state,
+        card: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_CARD_LOADING:
+      return {
+        ...state,
+        card: Remote.Loading
+      }
+    case AT.FETCH_SB_CARD_SUCCESS:
+      return {
+        ...state,
+        card: Remote.Success(action.payload.card)
+      }
+    case AT.FETCH_SB_CARDS_FAILURE: {
+      return {
+        ...state,
+        cards: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_CARDS_LOADING:
+      return {
+        ...state,
+        cards: Remote.Loading
+      }
+    case AT.FETCH_SB_CARDS_SUCCESS:
+      return {
+        ...state,
+        cards: Remote.Success(action.payload.cards)
       }
     case AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE: {
       return {
@@ -116,6 +190,22 @@ export function simpleBuyReducer (
         ...state,
         account: Remote.Success(action.payload.account)
       }
+    case AT.FETCH_SB_PAYMENT_METHODS_FAILURE: {
+      return {
+        ...state,
+        methods: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_SB_PAYMENT_METHODS_LOADING:
+      return {
+        ...state,
+        methods: Remote.Loading
+      }
+    case AT.FETCH_SB_PAYMENT_METHODS_SUCCESS:
+      return {
+        ...state,
+        methods: Remote.Success(action.payload.methods)
+      }
     case AT.FETCH_SB_QUOTE_FAILURE: {
       return {
         ...state,
@@ -154,9 +244,12 @@ export function simpleBuyReducer (
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
+            defaultMethod: action.payload.defaultMethod,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step
+            step: action.payload.step,
+            order: undefined
           }
+        case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
         case 'TRANSFER_DETAILS':
@@ -164,6 +257,12 @@ export function simpleBuyReducer (
           return {
             ...state,
             order: action.payload.order,
+            step: action.payload.step
+          }
+        case 'ADD_CARD':
+          return {
+            ...state,
+            cardId: action.payload.cardId,
             step: action.payload.step
           }
         default: {

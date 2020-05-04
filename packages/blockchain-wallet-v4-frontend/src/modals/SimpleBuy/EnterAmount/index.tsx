@@ -4,9 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import {
   FiatEligibleType,
   FiatType,
-  NabuApiErrorType,
   RemoteDataType,
-  SBPairType
+  SBCardType,
+  SBPairType,
+  SBPaymentMethodsType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
@@ -16,12 +17,12 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
-  state = {}
-
   componentDidMount () {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBCards()
     }
   }
 
@@ -50,15 +51,17 @@ const connector = connect(
   mapDispatchToProps
 )
 
-type OwnProps = {
+export type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = {
+  cards: Array<SBCardType>
   eligibility: FiatEligibleType
   pairs: Array<SBPairType>
+  paymentMethods: SBPaymentMethodsType
 }
 export type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
+  data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>

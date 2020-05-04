@@ -5,6 +5,8 @@ import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
+import AddCard from './AddCard'
+import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
 import CurrencySelection from './CurrencySelection'
@@ -13,31 +15,8 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import React, { PureComponent } from 'react'
+import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
-
-type OwnProps = ModalPropsType
-export type LinkDispatchPropsType = {
-  settingsActions: typeof actions.modules.settings
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-type LinkStatePropsType =
-  | {
-      step: 'CURRENCY_SELECTION'
-    }
-  | {
-      step: 'ENTER_AMOUNT'
-    }
-  | {
-      order: SBOrderType
-      step:
-        | 'CHECKOUT_CONFIRM'
-        | 'TRANSFER_DETAILS'
-        | 'ORDER_SUMMARY'
-        | 'CANCEL_ORDER'
-    }
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = { direction: 'left' | 'right'; show: boolean }
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -63,6 +42,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 
   componentWillUnmount () {
     this.props.simpleBuyActions.destroyCheckout()
+    this.props.formActions.destroy('ccBillingAddress')
   }
 
   handleClose = () => {
@@ -89,6 +69,21 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ENTER_AMOUNT' && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'ADD_CARD' && (
+          <FlyoutChild>
+            <AddCard {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CC_BILLING_ADDRESS' && (
+          <FlyoutChild>
+            <BillingAddress {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === '3DS_HANDLER' && (
+          <FlyoutChild>
+            <ThreeDSHandler {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'CHECKOUT_CONFIRM' && (
@@ -118,10 +113,12 @@ class SimpleBuy extends PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
+  cardId: selectors.components.simpleBuy.getSBCardId(state),
   order: selectors.components.simpleBuy.getSBOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -133,5 +130,35 @@ const enhance = compose(
     mapDispatchToProps
   )
 )
+
+type OwnProps = ModalPropsType
+export type LinkDispatchPropsType = {
+  formActions: typeof actions.form
+  settingsActions: typeof actions.modules.settings
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+type LinkStatePropsType =
+  | {
+      step:
+        | 'CURRENCY_SELECTION'
+        | '3DS_HANDLER'
+        | 'CC_BILLING_ADDRESS'
+        | 'ENTER_AMOUNT'
+    }
+  | {
+      order: SBOrderType
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'TRANSFER_DETAILS'
+        | 'ORDER_SUMMARY'
+        | 'CANCEL_ORDER'
+    }
+  | {
+      cardId?: string
+      step: 'ADD_CARD'
+    }
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(SimpleBuy)

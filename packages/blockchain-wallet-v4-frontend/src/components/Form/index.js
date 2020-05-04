@@ -4,6 +4,9 @@ import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
 import CountdownTimer from './CountdownTimer'
 import CreatableInputField from './CreatableInputField'
+import CreditCardBox from './CreditCardBox'
+import CreditCardCVCBox from './CreditCardCVCBox'
+import CreditCardExpiryBox from './CreditCardExpiryBox'
 import DateBox from './DateBox'
 import DateBoxDebounced from './DateBoxDebounced'
 import DateInputBox from './DateInputBox'
@@ -48,6 +51,9 @@ export {
   CodeInputBoxes,
   CountdownTimer,
   CreatableInputField,
+  CreditCardBox,
+  CreditCardCVCBox,
+  CreditCardExpiryBox,
   DateBox,
   DateBoxDebounced,
   DateInputBox,

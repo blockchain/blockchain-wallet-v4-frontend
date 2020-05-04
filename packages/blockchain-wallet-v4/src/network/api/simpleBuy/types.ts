@@ -1,5 +1,10 @@
 import { CoinType, CurrenciesType, FiatType } from 'core/types'
 
+export type Everypay3DSResponseType = {
+  payment_state: null | 'waiting_for_3DS_response'
+  processing_errors: null
+}
+
 export type ISBAccountType = {
   address: string
   id: string
@@ -47,50 +52,78 @@ export type SBBalancesType = {
   [key in keyof CurrenciesType]?: SBBalanceType
 }
 
-export enum SBBuyPairsType {
-  'BTC-EUR',
-  'BCH-EUR',
-  'ETH-EUR',
-  'PAX-EUR',
-  'XLM-EUR',
-  'BTC-GBP',
-  'BCH-GBP',
-  'ETH-GBP',
-  'PAX-GBP',
-  'XLM-GBP',
-  'BTC-USD',
-  'BCH-USD',
-  'ETH-USD',
-  'PAX-USD',
-  'XLM-USD'
+export type NabuAddressType = {
+  city: string
+  country: string
+  line1: string
+  line2?: string
+  postCode: string
+  state: string
 }
 
-export enum SBSellPairsType {
-  'EUR-BTC',
-  'EUR-BCH',
-  'EUR-ETH',
-  'EUR-PAX',
-  'EUR-XLM',
-  'GBP-BTC',
-  'GBP-BCH',
-  'GBP-ETH',
-  'GBP-PAX',
-  'GBP-XLM',
-  'USD-BTC',
-  'USD-BCH',
-  'USD-ETH',
-  'USD-PAX',
-  'USD-XLM'
-}
+export type SBCardType = {
+  addedAt: Date
+  address: NabuAddressType
+  attributes: {}
+  currency: 'EUR'
+  id: string
+  partner: 'EVERYPAY'
+} & (
+  | {
+      card: {
+        expireMonth: number
+        expireYear: number
+        label: string
+        number: string
+        type: 'VISA' | 'MASTERCARD'
+      }
+      state: 'ACTIVE'
+    }
+  | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> })
 
-export type SBPairsType =
-  | keyof typeof SBBuyPairsType
-  | keyof typeof SBSellPairsType
+export type SBCardStateType =
+  | 'PENDING'
+  | 'CREATED'
+  | 'ACTIVE'
+  | 'BLOCKED'
+  | 'FRAUD_REVIEW'
+
+export type SBPairsType = string
 
 export type SBPairType = {
   buyMax: string
   buyMin: string
   pair: SBPairsType
+}
+
+export type SBPaymentMethodType = {
+  limits: {
+    max: string
+    min: string
+  }
+  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
+}
+
+export type SBPaymentMethodsType = {
+  currency: FiatType
+  methods: Array<SBPaymentMethodType>
+}
+
+export type SBProviderAttributesType = {
+  everypay: {
+    customerUrl: string
+  }
+}
+
+export type SBProviderDetailsType = {
+  everypay: {
+    apiUsername: string
+    mobileToken: string
+    orderReference: string
+    paymentLink: string
+    paymentReference: string
+    paymentState: 'INITIAL'
+  }
 }
 
 export type SBMoneyType = {
@@ -105,23 +138,32 @@ export type SBSuggestedAmountType = Array<
 >
 
 export type ISBBuyOrderType = {
+  attributes?: {
+    everypay: {
+      paymentLink: string
+      paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+    }
+    paymentId: string
+  }
   expiresAt: string
+  fee?: string
   id: string
   inputQuantity: string
   insertedAt: string
   outputQuantity: string
+  paymentMethodId?: string
   state: SBOrderStateType
   updatedAt: string
 }
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
-  pair: keyof typeof SBBuyPairsType
+  pair: SBPairsType
 }
 export type SBSellOrderType = ISBBuyOrderType & {
   inputCurrency: CoinType
   outputCurrency: FiatType
-  pair: keyof typeof SBSellPairsType
+  pair: SBPairsType
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 

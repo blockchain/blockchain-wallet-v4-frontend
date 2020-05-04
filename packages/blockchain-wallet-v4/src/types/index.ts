@@ -16,7 +16,6 @@ import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
 import {
-  CryptoCurrenciesType,
   Erc20CurrenciesType,
   FiatCurrenciesType
 } from 'core/exchange/currencies'
@@ -43,7 +42,14 @@ export {
   KVStoreEntry
 }
 
-export type CoinType = keyof CryptoCurrenciesType
+export enum CoinTypeEnum {
+  BTC,
+  BCH,
+  ETH,
+  PAX,
+  XLM
+}
+export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
 export type FiatType = keyof FiatCurrenciesType
 
@@ -61,6 +67,7 @@ export type BtcAccountType = {
 export type AccountTypes = BtcAccountType
 
 export * from '../redux/payment/types'
+export * from '../redux/settings/'
 export * from '../redux/walletOptions/types'
 export * from '../network/api/borrow/types'
 export * from '../network/api/simpleBuy/types'

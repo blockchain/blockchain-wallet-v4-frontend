@@ -1,4 +1,4 @@
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
