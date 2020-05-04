@@ -27,7 +27,9 @@ const BackupLink = styled.span`
 
 class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
   handleClick = () => {
-    this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL')
+    this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL', {
+      origin: 'Send'
+    })
   }
   render () {
     return (

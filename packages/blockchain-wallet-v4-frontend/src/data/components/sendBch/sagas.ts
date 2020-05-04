@@ -122,6 +122,7 @@ export default ({
   const bitPayInvoiceEntered = function * (bip21Payload) {
     yield put(
       actions.modals.showModal('Confirm', {
+        origin: 'SendBch',
         title: CC.BITPAY_CONFIRM_TITLE,
         message: CC.BITPAY_CONFIRM_MSG
       })
@@ -143,7 +144,9 @@ export default ({
 
   const bitpayInvoiceExpired = function * () {
     yield put(actions.modals.closeAllModals())
-    yield put(actions.modals.showModal('BitPayInvoiceExpired'))
+    yield put(
+      actions.modals.showModal('BitPayInvoiceExpired', { origin: 'SendBch' })
+    )
     yield put(
       actions.analytics.logEvent([
         ...TRANSACTION_EVENTS.BITPAY_FAILURE,
@@ -193,7 +196,8 @@ export default ({
             actions.modals.showModal(
               `@MODAL.SEND.${modalName}` as ModalNamesType,
               {
-                coin: payload
+                coin: payload,
+                origin: 'SendBch'
               }
             )
           )

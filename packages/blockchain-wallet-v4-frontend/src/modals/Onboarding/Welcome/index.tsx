@@ -97,7 +97,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
-      this.props.simpleBuyActions.showModal('welcomeModal')
+      this.props.simpleBuyActions.showModal('WelcomeModal')
     }, duration / 2)
   }
 

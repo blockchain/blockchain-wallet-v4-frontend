@@ -19,9 +19,6 @@ const modals = (state = INITIAL_STATE, action) => {
         ? insert(nextIndex, payload, state)
         : state
     }
-    case AT.REPLACE_MODAL: {
-      return update(lastIndex, payload, state)
-    }
     case AT.UPDATE_MODAL: {
       const lastModal = state[state.length - 1]
       const updatedModal = merge(lastModal, payload)

@@ -97,7 +97,9 @@ class InitBorrowForm extends PureComponent<Props> {
     const offer = this.getOfferForCoin()
     if (!offer) return
     this.props.borrowActions.setStep({ step: 'CHECKOUT', offer })
-    this.props.modalActions.showModal('BORROW_MODAL')
+    this.props.modalActions.showModal('BORROW_MODAL', {
+      origin: 'BorrowLandingPage'
+    })
   }
 
   render () {

@@ -213,7 +213,11 @@ export default ({ api, coreSagas, networks }) => {
       const { instructions } = paymentRequest
 
       if (new Date() > new Date(paymentRequest.expires)) {
-        return yield put(actions.modals.showModal('BitPayInvoiceExpired'))
+        return yield put(
+          actions.modals.showModal('BitPayInvoiceExpired', {
+            origin: 'PaymentProtocolGoal'
+          })
+        )
       }
 
       const tx = path([0, 'outputs', 0], instructions)
@@ -387,7 +391,13 @@ export default ({ api, coreSagas, networks }) => {
         selectors.modules.profile.getUserTiers
       )).getOrElse({ current: 0 }) || { current: 0 }
       if (current >= Number(tier)) return
-      yield put(actions.components.identityVerification.verifyIdentity(tier))
+      yield put(
+        actions.components.identityVerification.verifyIdentity(
+          tier,
+          false,
+          'RunKycGoal'
+        )
+      )
     } catch (err) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message)
@@ -589,7 +599,11 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
     if (kycDocResubmit) {
-      return yield put(actions.modals.showModal(kycDocResubmit.name))
+      return yield put(
+        actions.modals.showModal(kycDocResubmit.name, {
+          origin: 'KycDocResubmitGoal'
+        })
+      )
     }
     if (sunriver) {
       // return yield put(actions.modals.showModal(sunriver.name, sunriver.data))
@@ -618,7 +632,11 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
     if (airdropClaim) {
-      return yield put(actions.modals.showModal(airdropClaim.name))
+      return yield put(
+        actions.modals.showModal(airdropClaim.name, {
+          origin: 'AirdropClaimGoal'
+        })
+      )
     }
     if (welcomeModal) {
       yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
