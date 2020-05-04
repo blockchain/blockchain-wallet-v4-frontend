@@ -314,7 +314,6 @@ const AccountSummary: React.FC<Props> = props => {
                 />
               </Link>
             </Text>
-
             <Text color='grey600' size='14px' weight={500}>
               {interestRate[coin]}%
             </Text>
