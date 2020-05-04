@@ -13,6 +13,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return state.map(
         compose(
           assoc('email', email),
+          // @ts-ignore
           assoc('email_verified', 0)
         )
       )
@@ -21,6 +22,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return state.map(
         compose(
           assoc('email_verified', 1),
+          // @ts-ignore
           assoc('email_verified_failed', 0)
         )
       )
@@ -34,6 +36,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
       return state.map(
         compose(
           assoc('sms_number', mobile),
+          // @ts-ignore
           assoc('sms_verified', 0)
         )
       )
@@ -63,6 +66,7 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
         return state.map(
           compose(
             assoc('ip_lock', ipLock),
+            // @ts-ignore
             assoc('ip_lock_on', 0)
           )
         )

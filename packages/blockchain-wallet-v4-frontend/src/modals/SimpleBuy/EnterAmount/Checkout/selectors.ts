@@ -7,6 +7,7 @@ export const getData = (state: RootState) => {
     state
   )
   const formValues = selectors.form.getFormValues('simpleBuyCheckout')(state)
+  const invitationsR = selectors.core.settings.getInvitations(state)
   const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
     state
   )
@@ -27,12 +28,15 @@ export const getData = (state: RootState) => {
     XLM: xlmRates
   }))(bchRatesR, btcRatesR, ethRatesR, paxRatesR, xlmRatesR)
 
-  return lift((rates, suggestedAmounts, supportedCoins, userData) => ({
-    formErrors,
-    formValues,
-    rates,
-    suggestedAmounts,
-    supportedCoins,
-    userData
-  }))(ratesR, suggestedAmountsR, supportedCoinsR, userDataR)
+  return lift(
+    (invitations, rates, suggestedAmounts, supportedCoins, userData) => ({
+      formErrors,
+      formValues,
+      invitations,
+      rates,
+      suggestedAmounts,
+      supportedCoins,
+      userData
+    })
+  )(invitationsR, ratesR, suggestedAmountsR, supportedCoinsR, userDataR)
 }

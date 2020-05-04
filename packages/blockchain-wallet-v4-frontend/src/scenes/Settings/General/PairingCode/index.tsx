@@ -1,11 +1,8 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import { actions } from 'data'
 import { Badge, Button, Text } from 'blockchain-info-components'
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
@@ -13,6 +10,8 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import React from 'react'
+import styled from 'styled-components'
 
 const BadgesContainer = styled.div`
   display: block;
@@ -23,7 +22,7 @@ const BadgesContainer = styled.div`
   }
 `
 
-class PairingCode extends React.PureComponent {
+class PairingCode extends React.PureComponent<Props> {
   onShowCode = () => {
     this.props.modalActions.showModal('PairingCode')
   }
@@ -42,8 +41,8 @@ class PairingCode extends React.PureComponent {
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description'
               defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
-              altFont
-              light
+              // altFont
+              // light
             />
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description2'
@@ -62,7 +61,11 @@ class PairingCode extends React.PureComponent {
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
-          <Button nature='primary' onClick={this.onShowCode}>
+          <Button
+            data-e2e='showQrCode'
+            nature='primary'
+            onClick={this.onShowCode}
+          >
             <FormattedMessage
               id='scenes.settings.general.pairingcode.settings.show'
               defaultMessage='Show Pairing Code'
@@ -78,7 +81,11 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
+const connector = connect(
   null,
   mapDispatchToProps
-)(PairingCode)
+)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(PairingCode)

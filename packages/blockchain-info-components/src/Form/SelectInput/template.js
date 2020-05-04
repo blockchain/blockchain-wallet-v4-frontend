@@ -120,6 +120,9 @@ export const sharedSelect = css`
   .bc__single-value {
     color: ${props => props.theme.grey800};
   }
+  .bc__dropdown-indicator {
+    padding-right: 12px;
+  }
 `
 
 const StyledSelect = styled(Select)`

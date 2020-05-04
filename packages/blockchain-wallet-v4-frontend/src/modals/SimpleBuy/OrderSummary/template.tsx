@@ -73,27 +73,27 @@ const Success: React.FC<Props> = props => {
           <div style={{ margin: '16px 0' }}>
             <Status {...props} />
           </div>
-          {/* TODO: Simple Buy - payment methods, don't show if payment method is cc */}
-          {props.order.state === 'PENDING_DEPOSIT' && (
-            <Button
-              fullwidth
-              data-e2e='sbViewDetails'
-              size='16px'
-              height='48px'
-              nature='primary'
-              onClick={() =>
-                props.simpleBuyActions.setStep({
-                  step: 'TRANSFER_DETAILS',
-                  order: props.order
-                })
-              }
-            >
-              <FormattedMessage
-                id='modals.simplebuy.summary.viewtransferdets'
-                defaultMessage='View Bank Transfer Details'
-              />
-            </Button>
-          )}
+          {props.order.state === 'PENDING_DEPOSIT' &&
+            !props.order.paymentMethodId && (
+              <Button
+                fullwidth
+                data-e2e='sbViewDetails'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'TRANSFER_DETAILS',
+                    order: props.order
+                  })
+                }
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.summary.viewtransferdets'
+                  defaultMessage='View Bank Transfer Details'
+                />
+              </Button>
+            )}
         </FlyoutWrapper>
         <Row>
           <Title size='14px' weight={500} color='grey600'>
@@ -132,29 +132,52 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Payment Method'
             />
           </Title>
-          {/* TODO: Simple Buy - payment method types */}
-          <Value>Bank Wire Transfer</Value>
+          <Value>
+            {props.order.paymentMethodId ? 'Credit Card' : 'Bank Wire Transfer'}
+          </Value>
         </Row>
       </div>
-      {(props.order.state === 'PENDING_CONFIRMATION' ||
-        props.order.state === 'PENDING_DEPOSIT') && (
+      {props.order.state === 'PENDING_CONFIRMATION' ||
+        (props.order.state === 'PENDING_DEPOSIT' &&
+          !props.order.paymentMethodId && (
+            <Bottom>
+              <Button
+                data-e2e='sbCancelPending'
+                size='16px'
+                height='48px'
+                nature='light-red'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'CANCEL_ORDER',
+                    order: props.order
+                  })
+                }
+              >
+                {/* TODO: Simple Buy - order types */}
+                <FormattedMessage
+                  id='modals.simplebuy.summary.cancelbuy'
+                  defaultMessage='Cancel Buy'
+                />
+              </Button>
+            </Bottom>
+          ))}
+      {props.order.paymentMethodId && props.order.state === 'PENDING_DEPOSIT' && (
         <Bottom>
           <Button
-            data-e2e='sbCancelPending'
+            data-e2e='sbRetryCard'
             size='16px'
             height='48px'
-            nature='light-red'
+            nature='primary'
             onClick={() =>
               props.simpleBuyActions.setStep({
-                step: 'CANCEL_ORDER',
+                step: '3DS_HANDLER',
                 order: props.order
               })
             }
           >
-            {/* TODO: Simple Buy - order types */}
             <FormattedMessage
-              id='modals.simplebuy.summary.cancelbuy'
-              defaultMessage='Cancel Buy'
+              id='modals.simplebuy.summary.complete_card_payment'
+              defaultMessage='Complete Card Payment'
             />
           </Button>
         </Bottom>

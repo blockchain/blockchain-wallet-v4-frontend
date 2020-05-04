@@ -1,7 +1,5 @@
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
-import React from 'react'
-
 import { selectors } from 'data'
 import {
   SettingComponent,
@@ -11,8 +9,9 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { Text } from 'blockchain-info-components'
+import React from 'react'
 
-const WalletId = props => {
+const WalletId = (props: Props) => {
   return (
     <SettingContainer>
       <SettingSummary>
@@ -46,4 +45,8 @@ const mapStateToProps = state => ({
   guid: selectors.core.wallet.getGuid(state)
 })
 
-export default connect(mapStateToProps)(WalletId)
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(WalletId)
