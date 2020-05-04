@@ -130,11 +130,15 @@ export class WalletBalanceDropdown extends Component<Props> {
   handleRequest = () => {
     if (this.props.isCoinErc20) {
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
-        coin: this.props.coin
+        coin: this.props.coin,
+        origin: 'WalletBalanceDropdown'
       })
     } else {
       const modal = `@MODAL.REQUEST.${this.props.coin}` as ModalNamesType
-      this.props.modalActions.showModal(modal, { coin: this.props.coin })
+      this.props.modalActions.showModal(modal, {
+        origin: 'WalletBalanceDropdown',
+        coin: this.props.coin
+      })
     }
   }
 

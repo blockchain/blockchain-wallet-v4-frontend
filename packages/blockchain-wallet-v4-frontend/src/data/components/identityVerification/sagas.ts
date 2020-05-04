@@ -127,7 +127,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const verifyIdentity = function * ({ payload }) {
     const { tier, needMoreInfo } = payload
-    yield put(actions.modals.showModal(KYC_MODAL, { tier, needMoreInfo }))
+    yield put(
+      actions.modals.showModal(KYC_MODAL, {
+        tier,
+        needMoreInfo,
+        origin: 'Unknown'
+      })
+    )
   }
 
   const defineSteps = function * (tier, needMoreInfo) {
