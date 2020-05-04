@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import {
   CoinType,
   FiatType,
+  InvitationsType,
   RemoteDataType,
   SBSuggestedAmountType,
   SupportedCoinsType
@@ -99,6 +100,7 @@ type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   formValues?: SBCheckoutFormValuesType
+  invitations: InvitationsType
   rates: { [key in CoinType]: RatesType }
   suggestedAmounts: SBSuggestedAmountType
   supportedCoins: SupportedCoinsType

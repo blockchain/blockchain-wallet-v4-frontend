@@ -257,7 +257,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
-        <MethodSelect {...props} />
+        {props.invitations.simpleBuyCC && <MethodSelect {...props} />}
         {props.error && (
           <ErrorText>
             <Icon

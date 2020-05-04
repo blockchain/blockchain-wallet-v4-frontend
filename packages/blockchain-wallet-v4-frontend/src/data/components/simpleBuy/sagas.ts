@@ -13,6 +13,8 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  InvitationsType,
+  RemoteDataType,
   SBAccountType,
   SBCardStateType,
   SBCardType,
@@ -453,6 +455,10 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
 
+      const invitationsR: RemoteDataType<
+        string,
+        InvitationsType
+      > = selectors.core.settings.getInvitations(yield select())
       const cryptoCurrency = S.getCryptoCurrency(yield select())
       const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
@@ -460,13 +466,21 @@ export default ({
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
+      const isSimpleBuyCCInvited = invitationsR.getOrElse({
+        simpleBuyCC: false
+      }).simpleBuyCC
       const pair = pairs.find(
         pair => getCoinFromPair(pair.pair) === cryptoCurrency
       )
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method: defaultMethod || paymentMethods.methods[0],
+          method:
+            defaultMethod || isSimpleBuyCCInvited
+              ? paymentMethods.methods[0]
+              : paymentMethods.methods.find(
+                  method => method.type === 'BANK_ACCOUNT'
+                ),
           orderType,
           pair: pair || pairs[0]
         } as SBCheckoutFormValuesType)
