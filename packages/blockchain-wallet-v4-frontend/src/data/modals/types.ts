@@ -16,6 +16,7 @@ export type ModalNamesType =
   | '@MODAL.SEND.ETH'
   | '@MODAL.SEND.PAX'
   | '@MODAL.SEND.XLM'
+  | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
   | 'ShowEthPrivateKey'
   | 'ShowXlmPrivateKey'

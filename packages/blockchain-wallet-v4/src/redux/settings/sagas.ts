@@ -296,9 +296,11 @@ export default ({ api }) => {
     const emailVerified = yield select(selectors.settings.getEmailVerified)
     const smsVerified = yield select(selectors.settings.getSmsVerified)
     if (prop('email', types) && emailVerified.getOrElse(0)) {
+      // @ts-ignore
       typesState.push(1)
     }
     if (prop('mobile', types) && smsVerified.getOrElse(0)) {
+      // @ts-ignore
       typesState.push(32)
     }
     const guid = yield select(wS.getGuid)

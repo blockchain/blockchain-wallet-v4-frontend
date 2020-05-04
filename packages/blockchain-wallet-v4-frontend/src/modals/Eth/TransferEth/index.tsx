@@ -1,23 +1,21 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import React from 'react'
-
 import { actions } from 'data'
+import { bindActionCreators, compose } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import modalEnhancer from 'providers/ModalEnhancer'
-
-import { getData } from './selectors'
+import React from 'react'
 import TransferEth from './template'
 
-class TransferEthContainer extends React.PureComponent {
+class TransferEthContainer extends React.PureComponent<Props> {
   componentDidMount () {
-    this.props.sendEthActions.initialized({
+    this.props.transferEthActions.initialized({
       from: this.props.legacyEthAddr,
       type: 'LEGACY'
     })
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate () {
     if (Remote.Success.is(this.props.data)) {
       const { txFee, ethBalance } = this.props.data.getOrElse({})
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
@@ -41,7 +39,7 @@ class TransferEthContainer extends React.PureComponent {
         <TransferEth
           ethAddr={val.ethAddr}
           ethBalance={val.ethBalance}
-          handleSubmit={this.handleSubmit}
+          onSubmit={this.handleSubmit}
           legacyEthAddr={legacyEthAddr}
           txFee={val.txFee}
           {...this.props}
@@ -60,16 +58,23 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
 })
 
+const connector = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)
+
 const enhance = compose(
   modalEnhancer('TransferEth'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
+
+type OwnProps = {
+  legacyEthAddr: string
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default enhance(TransferEthContainer)

@@ -229,6 +229,7 @@ const buildDevServerConfig = (
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: envConfig.COM_WALLET_APP,
+          everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
@@ -272,7 +273,7 @@ const buildDevServerConfig = (
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
+        `frame-src http://localhost:8081 ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://localhost:8080 http://localhost:8080`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         [
           'connect-src',
@@ -282,21 +283,24 @@ const buildDevServerConfig = (
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
           'wss://ws.testnet.blockchain.info/inv',
-          envConfig.WEB_SOCKET_URL,
-          envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
-          envConfig.WALLET_HELPER_DOMAIN,
-          envConfig.LEDGER_URL,
-          envConfig.LEDGER_SOCKET_URL,
+          envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
+          envConfig.LEDGER_SOCKET_URL,
+          envConfig.LEDGER_URL,
+          envConfig.ROOT_URL,
           envConfig.VERIFF_URL,
+          envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.WEB_SOCKET_URL,
           'https://friendbot.stellar.org',
           'https://api.sfox.com',
           'https://quotes.sfox.com',
           'https://testnet5.blockchain.info',
           'https://api.testnet.blockchain.info',
           'https://shapeshift.io',
-          'https://bitpay.com'
+          'https://bitpay.com',
+          'https://static.zdassets.com',
+          'https://ekr.zdassets.com'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",

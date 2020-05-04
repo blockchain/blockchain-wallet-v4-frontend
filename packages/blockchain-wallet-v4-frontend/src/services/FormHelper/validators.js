@@ -209,7 +209,8 @@ export const countryUsesPostalcode = countryCode => {
 export const countryUsesZipcode = countryCode => countryCode === 'US'
 
 export const requiredZipCode = (value, allVals) => {
-  const countryCode = path(['country', 'code'], allVals)
+  const countryCode =
+    path(['country', 'code'], allVals) || path(['country'], allVals)
   if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
   if (!value) return <M.RequiredMessage />
 
