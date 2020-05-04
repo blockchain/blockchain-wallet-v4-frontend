@@ -11,17 +11,27 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
     const { coin, modalActions } = this.props
 
     if (coin === 'ETH')
-      modalActions.showModal('ShowEthPrivateKey', { isLegacy: false })
-    if (coin === 'XLM') modalActions.showModal('ShowXlmPrivateKey')
+      modalActions.showModal('ShowEthPrivateKey', {
+        origin: 'TransactionList',
+        isLegacy: false
+      })
+    if (coin === 'XLM')
+      modalActions.showModal('ShowXlmPrivateKey', { origin: 'TransactionList' })
   }
 
   onShowEthPrivateKeyLegacy = () => {
-    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy: true })
+    this.props.modalActions.showModal('ShowEthPrivateKey', {
+      origin: 'TransactionList',
+      isLegacy: true
+    })
   }
 
   handleClickReporting = () => {
     const { coin, modalActions } = this.props
-    modalActions.showModal('TRANSACTION_REPORT', { coin })
+    modalActions.showModal('TRANSACTION_REPORT', {
+      coin,
+      origin: 'TransactionList'
+    })
   }
 
   render () {

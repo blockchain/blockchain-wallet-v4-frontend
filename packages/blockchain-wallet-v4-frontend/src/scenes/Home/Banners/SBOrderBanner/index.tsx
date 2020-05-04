@@ -70,7 +70,7 @@ const BannerButton = styled(Button)`
 class SBOrderBanner extends PureComponent<Props> {
   showModal = (latestPendingOrder: SBOrderType) => {
     if (!latestPendingOrder) return
-    this.props.simpleBuyActions.showModal('pendingOrder')
+    this.props.simpleBuyActions.showModal('PendingOrder')
     this.props.simpleBuyActions.setStep({
       step:
         latestPendingOrder.state === 'PENDING_CONFIRMATION'

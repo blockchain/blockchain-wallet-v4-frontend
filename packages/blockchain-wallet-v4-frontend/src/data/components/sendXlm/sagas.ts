@@ -96,7 +96,8 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             actions.modals.showModal(
               `@MODAL.SEND.${modalName}` as ModalNamesType,
               {
-                coin: payload
+                coin: payload,
+                origin: 'SendXlm'
               }
             )
           )

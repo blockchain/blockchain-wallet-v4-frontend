@@ -105,7 +105,7 @@ class CoinifyToSBBanner extends PureComponent<Props> {
           jumbo
           data-e2e='openCoinifyToSB'
           nature='primary'
-          onClick={() => this.props.simpleBuyActions.showModal('coinifyToSB')}
+          onClick={() => this.props.simpleBuyActions.showModal('CoinifyToSB')}
         >
           <FormattedMessage
             id='scenes.home.banner.coinifyToSB.checkitout'

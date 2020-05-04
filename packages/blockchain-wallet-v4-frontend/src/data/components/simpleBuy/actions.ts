@@ -15,7 +15,11 @@ import {
   SBQuoteType,
   SBSuggestedAmountType
 } from 'core/types'
-import { SBFormPaymentMethod, SimpleBuyActionTypes } from './types'
+import {
+  SBFormPaymentMethod,
+  SBShowModalOriginType,
+  SimpleBuyActionTypes
+} from './types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -425,15 +429,7 @@ export const setStep = (
 })
 
 export const showModal = (
-  origin:
-    | 'coinifyToSB'
-    | 'emptyFeed'
-    | 'pendingOrder'
-    | 'priceChart'
-    | 'settingsGeneral'
-    | 'settingsProfile'
-    | 'sideNav'
-    | 'welcomeModal',
+  origin: SBShowModalOriginType,
   cryptoCurrency?: CoinType
 ) => ({
   type: AT.SHOW_MODAL,

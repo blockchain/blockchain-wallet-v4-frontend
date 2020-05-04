@@ -27,7 +27,7 @@ class LinkedCards extends PureComponent<Props> {
   }
 
   handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
-    this.props.simpleBuyActions.showModal('settingsGeneral')
+    this.props.simpleBuyActions.showModal('SettingsGeneral')
     this.props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       defaultMethod: defaultMethod,
