@@ -10,5 +10,6 @@ export default ({ coreSagas, networks }) => {
       AT.CONFIRM_TRANSFER_ETH,
       transferEthSagas.confirmTransferEth
     )
+    yield takeLatest(AT.TRANSFER_ETH_INITIALIZED, transferEthSagas.initialized)
   }
 }
