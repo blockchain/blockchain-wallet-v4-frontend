@@ -1,8 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Button,
   Icon,
@@ -11,96 +6,45 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FormattedMessage } from 'react-intl'
 import { InterestStepMetadata } from 'data/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
 
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import {
+  Bottom,
+  ButtonContainer,
+  Container,
+  DetailsItemContainer,
+  DetailsWrapper,
+  LineVector,
+  LineVectorDetails,
+  Row,
+  SendStatusWrapper,
+  Top,
+  TopText,
+  ViewStatusButton,
+  Wrapper
+} from './model'
 
-const Wrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
-const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0;
-`
-const TopText = styled(Text)`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 38px;
-`
-const Row = styled.div`
-  display: flex;
-`
-const Container = styled(Row)`
-  flex-direction: column;
-  height: 48px;
-  justify-content: space-between;
+import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 
-  &:first-child {
-    border-right: 1px solid ${({ theme }) => theme.grey000};
-    width: 199px;
-  }
-
-  &:last-child {
-    margin-left: 32px;
-  }
-`
-const SendStatusWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: rgba(240, 242, 247, 0.5);
+const DetailsBackground = styled.div`
+  height: 105px;
+  width: 400px;
   margin-top: 16px;
+  background-color: ${props => props.theme.grey000};
+`
+
+const TextContainer = styled.div`
   padding: 16px;
-  border: 1px solid ${({ theme }) => theme.grey000};
-  box-sizing: border-box;
-  border-radius: 8px;
 `
-const DetailsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 48px;
-`
-const DetailsItemContainer = styled.div`
+
+const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
-`
-const LineVectorDetails = styled.div`
-  height: 1px;
-  background: ${({ theme }) => theme.grey000};
-  margin: 10px 0;
-`
-const LineVector = styled.div`
-  height: 1px;
-  width: 100%;
-  background: ${({ theme }) => theme.grey000};
-  margin: 24px 0 8px 0;
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-`
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 28px;
-  > button {
-    padding: 15px !important;
-  }
-`
-const ViewStatusButton = styled(Button)`
-  height: 30px;
-  width: 100px;
-  padding: 0;
-  margin-top: 8px;
 `
 
 const AccountSummary: React.FC<Props> = props => {
@@ -112,11 +56,55 @@ const AccountSummary: React.FC<Props> = props => {
     handleSBClick,
     interestActions,
     interestRate,
+    showMoreDetails,
     stepMetadata,
-    supportedCoins
+    supportedCoins,
+    toggleMoreDetails
   } = props
   const displayName = supportedCoins[coin].displayName
   const account = accountBalances[coin]
+
+  const MoreDetails = () => {
+    return (
+      <DetailsBackground>
+        <TextContainer>
+          <HeaderContainer>
+            <Text
+              size='14px'
+              weight={600}
+              color='grey800'
+              style={{ marginBottom: '8px', lineHeight: '1.5' }}
+            >
+              <FormattedMessage
+                id='modals.interest.moredetails.header'
+                defaultMessage='Interest Details'
+              />
+            </Text>
+            <Icon
+              onClick={() => toggleMoreDetails()}
+              cursor
+              name='close'
+              size='10px'
+              color='grey600'
+              data-e2e='closeMoreDetails'
+            />
+          </HeaderContainer>
+          <Text
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ lineHeight: '1.5' }}
+          >
+            <FormattedMessage
+              id='modals.interest.moredetails.body'
+              defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+            />
+          </Text>
+        </TextContainer>
+      </DetailsBackground>
+    )
+  }
+
   return (
     <Wrapper>
       <Top>
@@ -313,7 +301,12 @@ const AccountSummary: React.FC<Props> = props => {
                 defaultMessage='Interest rate'
               />
               {' - '}
-              <Link href='#' target='_blank' size='14px' weight={500}>
+              <Link
+                size='14px'
+                weight={500}
+                onClick={() => toggleMoreDetails()}
+                data-e2e='openMoreDetails'
+              >
                 <FormattedMessage
                   id='modals.interest.summary.moredetails'
                   defaultMessage='More details'
@@ -324,6 +317,7 @@ const AccountSummary: React.FC<Props> = props => {
               {interestRate[coin]}%
             </Text>
           </DetailsItemContainer>
+          {showMoreDetails && <MoreDetails />}
         </DetailsWrapper>
       </Top>
       <Bottom>
@@ -352,11 +346,12 @@ type ParentProps = {
   handleDepositClick: () => void
   handleSBClick: () => void
   stepMetadata: InterestStepMetadata
+  toggleMoreDetails: () => void
 }
 
 export type Props = OwnProps &
   LinkDispatchPropsType &
   SuccessStateType &
-  ParentProps
-
+  ParentProps &
+  State
 export default AccountSummary
