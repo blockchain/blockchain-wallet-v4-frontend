@@ -52,9 +52,7 @@ const AccountSummary: React.FC<Props> = props => {
     accountBalances,
     coin,
     handleClose,
-    // handleCloseDetailsClick,
     handleDepositClick,
-    // handleMoreDetailsClick,
     handleSBClick,
     interestActions,
     interestRate,
@@ -345,9 +343,7 @@ const AccountSummary: React.FC<Props> = props => {
 }
 
 type ParentProps = {
-  // handleCloseDetailsClick: () => void
   handleDepositClick: () => void
-  // handleMoreDetailsClick: () => void
   handleSBClick: () => void
   stepMetadata: InterestStepMetadata
   toggleMoreDetails: () => void

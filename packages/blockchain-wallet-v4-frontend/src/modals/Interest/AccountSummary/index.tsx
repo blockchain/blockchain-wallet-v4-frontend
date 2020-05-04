@@ -29,17 +29,6 @@ class AccountSummaryContainer extends PureComponent<Props, State> {
   toggleMoreDetails = () => {
     this.setState({ showMoreDetails: !this.state.showMoreDetails })
   }
-  // handleMoreDetailsClick = () => {
-  //   this.setState({
-  //     showMoreDetails: true
-  //   })
-  // }
-
-  // handleCloseDetailsClick = () => {
-  //   this.setState({
-  //     showMoreDetails: false
-  //   })
-  // }
 
   handleRefresh = () => {
     this.props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
@@ -55,8 +44,6 @@ class AccountSummaryContainer extends PureComponent<Props, State> {
           {...this.state}
           handleDepositClick={this.handleDepositClick}
           toggleMoreDetails={this.toggleMoreDetails}
-          // handleCloseDetailsClick={this.handleCloseDetailsClick}
-          // handleMoreDetailsClick={this.handleMoreDetailsClick}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
