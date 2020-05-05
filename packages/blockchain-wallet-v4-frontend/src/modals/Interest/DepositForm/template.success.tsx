@@ -100,8 +100,8 @@ const CalculatorContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(240, 242, 247, 0.5);
   padding: 16px;
+  background-color: ${props => props.theme.greyFade400};
   border: 1px solid ${({ theme }) => theme.grey000};
   box-sizing: border-box;
   border-radius: 8px;

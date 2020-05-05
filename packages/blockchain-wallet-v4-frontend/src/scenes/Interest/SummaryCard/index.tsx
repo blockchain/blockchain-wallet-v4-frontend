@@ -31,8 +31,8 @@ class SummaryCardContainer extends PureComponent<Props> {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => null,
-      Loading: () => <SkeletonRectangle width='330px' height='275px' />,
-      NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
+      Loading: () => <SkeletonRectangle width='330px' height='250px' />,
+      NotAsked: () => <SkeletonRectangle width='330px' height='250px' />
     })
   }
 }
@@ -46,10 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   coin: CoinType

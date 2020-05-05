@@ -109,8 +109,8 @@ class Interest extends React.PureComponent<Props, StateType> {
             </>
           ),
           Failure: () => null,
-          Loading: () => <SkeletonRectangle width='330px' height='275px' />,
-          NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
+          Loading: () => <SkeletonRectangle width='330px' height='250px' />,
+          NotAsked: () => <SkeletonRectangle width='330px' height='250px' />
         })}
       </SceneWrapper>
     )
