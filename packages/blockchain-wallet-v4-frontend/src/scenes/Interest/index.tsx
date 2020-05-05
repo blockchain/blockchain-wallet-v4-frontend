@@ -66,7 +66,7 @@ class Interest extends React.PureComponent<Props, StateType> {
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon color='blue600' name='savings-icon' size='24px' />
+            <Icon color='blue600' name='percentage' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
@@ -129,10 +129,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type StateType = {
   isGoldTier: boolean

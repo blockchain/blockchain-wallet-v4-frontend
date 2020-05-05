@@ -145,7 +145,7 @@ const Navigation = (props: OwnProps & Props) => {
       </SpotlightLinkContainer>
       <LinkContainer to='/interest' activeClassName='active'>
         <MenuItem data-e2e='interestLink'>
-          <MenuIcon name='savings-icon' size='20px' />
+          <MenuIcon name='percentage' size='20px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.earninterest'

@@ -43,7 +43,7 @@ class IntroCard extends PureComponent<
           {isGoldTier ? (
             <ContentWrapper>
               <IconWrapper>
-                <Icon name='savings-icon' color='blue600' size='32px' />
+                <Icon name='percentage' color='blue600' size='32px' />
                 <Icon
                   cursor
                   name='close'
@@ -98,7 +98,7 @@ class IntroCard extends PureComponent<
             </ContentWrapper>
           ) : (
             <ContentWrapper>
-              <Icon name='savings-icon' color='blue600' size='32px' />
+              <Icon name='percentage' color='blue600' size='32px' />
               <Text
                 size='20px'
                 color='grey800'
@@ -127,7 +127,9 @@ class IntroCard extends PureComponent<
                 data-e2e='verifyIdentityBorrow'
                 style={{ marginTop: '20px' }}
                 disabled={userData.kycState !== 'NONE'}
-                onClick={() => idvActions.verifyIdentity(2)}
+                onClick={() =>
+                  idvActions.verifyIdentity(2, false, 'SavingsPage')
+                }
               >
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (
@@ -158,10 +160,7 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

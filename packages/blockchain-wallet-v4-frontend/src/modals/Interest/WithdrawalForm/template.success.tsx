@@ -1,7 +1,7 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -75,7 +75,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
   margin-bottom: 4px;
 `
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 30px;
   }
@@ -121,9 +121,8 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
 
 const maxVal = maxValue(10000)
 
-const WithdrawalForm: React.FC<
-  InjectedFormProps<{}, Props> & Props
-> = props => {
+const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
+  Props> = props => {
   const {
     accountBalances,
     coin,
@@ -259,13 +258,13 @@ const WithdrawalForm: React.FC<
             component={NumberBox}
             data-e2e='withdrawalAmount'
             name='withdrawalAmount'
+            validate={[required, maxVal]}
             {...{
               autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'
             }}
-            validate={[required, maxVal]}
           />
           <PrincipalCcyAbsolute>
             <Text color='grey800' size='14px' weight={600}>

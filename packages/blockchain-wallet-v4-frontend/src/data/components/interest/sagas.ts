@@ -26,9 +26,9 @@ export default ({
   const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
-      const response: ReturnType<
-        typeof api.getInterestAccountBalance
-      > = yield call(api.getInterestAccountBalance)
+      const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
+        api.getInterestAccountBalance
+      )
       yield put(A.fetchInterestBalanceSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -51,9 +51,9 @@ export default ({
   const fetchInterestInstruments = function * () {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
-      const response: ReturnType<
-        typeof api.getInterestInstruments
-      > = yield call(api.getInterestInstruments)
+      const response: ReturnType<typeof api.getInterestInstruments> = yield call(
+        api.getInterestInstruments
+      )
       yield put(A.fetchInterestInstrumentsSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -88,9 +88,9 @@ export default ({
   const fetchInterestRate = function * () {
     try {
       yield put(A.fetchInterestRateLoading())
-      const response: ReturnType<
-        typeof api.getInterestSavingsRate
-      > = yield call(api.getInterestSavingsRate)
+      const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
+        api.getInterestSavingsRate
+      )
       yield put(A.fetchInterestRateSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -208,7 +208,9 @@ export default ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
     yield put(A.setInterestStep(payload.step))
-    yield put(actions.modals.showModal('INTEREST_MODAL'))
+    yield put(
+      actions.modals.showModal('INTEREST_MODAL', { origin: 'SavingsPage' })
+    )
   }
 
   return {

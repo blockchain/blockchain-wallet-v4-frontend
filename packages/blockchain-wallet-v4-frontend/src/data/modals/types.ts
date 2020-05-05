@@ -41,6 +41,7 @@ export type ModalOriginType =
   | 'PriceChart'
   | 'RetrySendEth'
   | 'RunKycGoal'
+  | 'SavingsPage'
   | 'SBEnterAmountCheckout'
   | 'Send'
   | 'SendBch'

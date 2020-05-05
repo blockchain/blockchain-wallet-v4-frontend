@@ -1,7 +1,7 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -64,7 +64,7 @@ const CustomFormLabel = styled(FormLabel)`
   display: block;
   margin-top: 24px;
 `
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 30px;
   }
@@ -535,10 +535,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   values?: InterestDepositFormType

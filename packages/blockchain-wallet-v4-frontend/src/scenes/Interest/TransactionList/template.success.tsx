@@ -134,7 +134,7 @@ function TransactionList (props: Props): ReactElement {
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <Icon name='savings-icon' color={colorCode} size='32px' />
+                    <Icon name='percentage' color={colorCode} size='32px' />
                     <Value>{coinTicker} Interest Earned</Value>
                   </React.Fragment>
                 )}
