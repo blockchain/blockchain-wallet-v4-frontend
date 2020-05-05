@@ -574,6 +574,7 @@ export default ({
     }
 
     yield put(A.fetchSBOrders())
+    yield put(A.fetchSBBalances())
     yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
   }
 
