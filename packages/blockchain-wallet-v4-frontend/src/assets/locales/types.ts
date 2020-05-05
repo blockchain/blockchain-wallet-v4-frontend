@@ -23,8 +23,8 @@ type MessagesType = {
   'buttons.hide': 'Hide'
   'buttons.learn_more': 'Learn More'
   'buttons.ok': 'OK'
-  'buttons.remove': 'Remove',
-  'buttons.show': 'Show',
+  'buttons.remove': 'Remove'
+  'buttons.show': 'Show'
   'components.DateInputBox.placeholder.month': 'Month'
   'components.EmailVerification.changeemail': 'Change Email'
   'components.EmailVerification.checkinbox': 'Check your inbox. We sent an email to:'
@@ -1101,6 +1101,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.swift': 'Bank Code (SWIFT / BIC)'
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
+  'modals.simplebuy.unsupported-subcontent': "Currently, we don't support buying crypto with"
   'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'
