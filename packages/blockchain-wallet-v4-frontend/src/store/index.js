@@ -107,7 +107,10 @@ const configureStore = () => {
               storage,
               whitelist: persistWhitelist
             },
-            rootReducer
+            {
+              router: connectRouter(history),
+              ...rootReducer
+            }
           )
         ),
         composeEnhancers(
