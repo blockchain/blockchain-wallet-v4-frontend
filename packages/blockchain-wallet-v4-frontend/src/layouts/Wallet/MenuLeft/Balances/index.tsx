@@ -54,6 +54,13 @@ const BalanceDropdown = styled.div`
     line-height: 135%;
     ${media.tablet`
       color: ${props => props.theme.white};
+      font-size: 20px;
+      padding-right: 4px;
+      max-width: 40vw;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
     `}
   }
   > div > div > span:last-child {
