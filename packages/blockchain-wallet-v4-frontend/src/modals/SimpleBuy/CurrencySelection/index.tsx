@@ -90,7 +90,11 @@ const CurrencyBoxComponent = (props: {
   selectedCurrency: FiatType | null
 }) => {
   return (
-    <CurrencyBox role='button' onClick={props.onClick}>
+    <CurrencyBox
+      data-e2e={`sb${props.cur.code}CurrencySelector`}
+      role='button'
+      onClick={props.onClick}
+    >
       <CurrencyText>
         <Value>{props.cur.displayName}</Value>
         <Title>{props.cur.code}</Title>
