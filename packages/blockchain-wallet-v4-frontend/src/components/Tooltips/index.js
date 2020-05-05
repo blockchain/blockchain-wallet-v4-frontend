@@ -314,6 +314,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
           />
         </Tooltip>
+        <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
+          <FormattedMessage
+            id='modals.interest.moredetails.tooltip.description'
+            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }
