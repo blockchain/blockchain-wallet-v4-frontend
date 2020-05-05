@@ -333,11 +333,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('withdrawalForm')(state)
+  values: selectors.form.getFormValues('interestWithdrawalForm')(state)
 })
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'withdrawalForm' }),
+  reduxForm<{}, Props>({ form: 'interestWithdrawalForm' }),
   connect(mapStateToProps)
 )
 

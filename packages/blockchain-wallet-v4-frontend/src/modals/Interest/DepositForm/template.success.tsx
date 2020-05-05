@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   Button,
   Icon,
@@ -33,6 +33,8 @@ import { required } from 'services/FormHelper'
 
 import { minimumAmount } from './validation'
 import { SuccessStateType } from '.'
+
+const { INTEREST_EVENTS } = model.analytics
 
 const SendingWrapper = styled.div`
   width: 100%;
@@ -166,6 +168,7 @@ const calcCompoundInterest = (principal, rate, term) => {
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
+    analyticsActions,
     coin,
     interestActions,
     interestRate,
@@ -178,7 +181,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     values
   } = props
   const [tab, setTab] = useState<'long' | 'short'>('long')
-  const handleTimeFrameChange = (x: 'long' | 'short') => setTab(x)
+  const handleTimeFrameChange = (tab: 'long' | 'short') => {
+    analyticsActions.logEvent([...INTEREST_EVENTS.DEPOSIT.CALC_SWITCH, tab])
+    setTab(tab)
+  }
   const handleFormSubmit = e => {
     e.preventDefault()
     interestActions.submitDepositForm(coin)
@@ -532,6 +538,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
@@ -541,6 +548,7 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   interestActions: typeof actions.components.interest
 }
 

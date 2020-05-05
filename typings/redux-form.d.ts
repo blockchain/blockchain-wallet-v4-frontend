@@ -18,6 +18,7 @@ export type WalletFormType =
   | 'confirmRecoveryWords'
   | 'initBorrow'
   | 'interestDepositForm'
+  | 'interestWithdrawalForm'
   | 'register'
   | 'reminder'
   | 'repayLoanForm'
@@ -27,7 +28,6 @@ export type WalletFormType =
   | 'transferEth'
   | 'transactionReport'
   | 'walletTxSearch'
-  | 'withdrawalForm'
 
 declare module 'redux-form' {
   /* eslint-disable */

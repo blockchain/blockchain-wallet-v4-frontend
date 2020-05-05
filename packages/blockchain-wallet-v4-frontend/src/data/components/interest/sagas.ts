@@ -3,7 +3,7 @@ import { initialize } from 'redux-form'
 import { nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -13,6 +13,8 @@ import { promptForSecondPassword } from 'services/SagaService'
 
 import * as A from './actions'
 import * as S from './selectors'
+
+const { INTEREST_EVENTS } = model.analytics
 
 export default ({
   api,
@@ -195,11 +197,17 @@ export default ({
           depositTxHash: payment.txId
         })
       )
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
       yield put(
         A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: false, error })
+      )
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
       )
     }
   }
@@ -209,7 +217,7 @@ export default ({
   }: ReturnType<typeof A.showInterestModal>) {
     yield put(A.setInterestStep(payload.step))
     yield put(
-      actions.modals.showModal('INTEREST_MODAL', { origin: 'SavingsPage' })
+      actions.modals.showModal('INTEREST_MODAL', { origin: 'InterestPage' })
     )
   }
 

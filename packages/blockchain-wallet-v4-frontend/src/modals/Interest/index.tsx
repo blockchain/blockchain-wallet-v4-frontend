@@ -44,7 +44,7 @@ class Interest extends PureComponent<Props, State> {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
-      this.props.simpleBuyActions.showModal('SavingsPage')
+      this.props.simpleBuyActions.showModal('InterestPage')
     }, duration / 2)
   }
 

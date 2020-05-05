@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { Box } from 'components/Box'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
@@ -13,6 +13,8 @@ import {
   StateType as ParentStateType,
   SuccessStateType
 } from '..'
+
+const { INTEREST_EVENTS } = model.analytics
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -30,10 +32,12 @@ class IntroCard extends PureComponent<
 > {
   render () {
     const {
+      analyticsActions,
       coin,
       idvActions,
       interestRate,
       isGoldTier,
+      preferencesActions,
       showInterestInfoBox,
       userData
     } = this.props
@@ -43,16 +47,14 @@ class IntroCard extends PureComponent<
           {isGoldTier ? (
             <ContentWrapper>
               <IconWrapper>
-                <Icon name='percentage' color='blue600' size='32px' />
+                <Icon color='blue600' name='percentage' size='32px' />
                 <Icon
                   cursor
                   name='close'
                   size='16px'
                   color='grey400'
                   role='button'
-                  onClick={() =>
-                    this.props.preferencesActions.hideInterestInfoBox()
-                  }
+                  onClick={preferencesActions.hideInterestInfoBox}
                 />
               </IconWrapper>
               <Text
@@ -79,15 +81,20 @@ class IntroCard extends PureComponent<
                 />
               </Text>
               <Link
+                href='https://support.blockchain.com/hc/en-us/sections/360008572552'
                 style={{ width: '100%' }}
                 target='_blank'
-                href='https://support.blockchain.com/hc/en-us/sections/360008572552'
               >
                 <Button
-                  style={{ marginTop: '16px' }}
-                  nature='light'
-                  fullwidth
                   data-e2e='earnInterestLearnMore'
+                  fullwidth
+                  nature='light'
+                  onClick={() =>
+                    analyticsActions.logEvent(
+                      INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
+                    )
+                  }
+                  style={{ marginTop: '16px' }}
                 >
                   <FormattedMessage
                     id='buttons.learn_more'
@@ -128,7 +135,7 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '20px' }}
                 disabled={userData.kycState !== 'NONE'}
                 onClick={() =>
-                  idvActions.verifyIdentity(2, false, 'SavingsPage')
+                  idvActions.verifyIdentity(2, false, 'InterestPage')
                 }
               >
                 {userData.kycState === 'UNDER_REVIEW' ||
@@ -157,6 +164,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
