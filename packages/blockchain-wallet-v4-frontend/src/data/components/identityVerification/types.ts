@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { ModalOriginType } from 'data/modals/types'
 import { RemoteDataType } from 'core/types'
 
 export type EmailSmsStepType = 'edit' | 'verify'
@@ -207,6 +208,7 @@ interface SetVerificationStepAction {
 interface VerifyIdentityAction {
   payload: {
     needMoreInfo?: boolean
+    origin: ModalOriginType
     tier: number
   }
   type: typeof AT.VERIFY_IDENTITY

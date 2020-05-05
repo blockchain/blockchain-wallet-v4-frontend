@@ -154,7 +154,7 @@
     "react-webcam": "1.1.1",
     "read-blob": "1.1.0",
     "redux": "4.0.1",
-    "redux-form": "7.4.2",
+    "redux-form": "8.3.5",
     "redux-logger": "3.0.6",
     "redux-persist": "5.10.0",
     "redux-saga": "1.1.3",

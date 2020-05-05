@@ -136,17 +136,27 @@ declare module 'redux-form' {
   export const hasSubmitSucceeded: BooleanSelector
   export const hasSubmitFailed: BooleanSelector
 
-  interface CustomConfigProps<FormData = {}, P = {}> extends ConfigProps {
+  interface CustomConfigProps<FormData = {}, P = {}, ErrorType = string>
+    extends ConfigProps {
     form: WalletFormType
   }
 
+  // 🚨
+  // Make sure to keep this updated with @types/redux-form/lib/reduxForm
+  // Changing ConfigProps to CustomConfigProps to keep form name typesafety
   /* eslint-disable */
-  export function reduxForm<FormData = {}, P = {}>(
-    config: CustomConfigProps<FormData, P>
-  ): FormDecorator<FormData, P, Partial<CustomConfigProps<FormData, P>>>
 
-  export function reduxForm<FormData = {}, P = {}>(
-    config: Partial<CustomConfigProps<FormData, P>>
-  ): FormDecorator<FormData, P, CustomConfigProps<FormData, P>>
-  /* eslint-disable */
+  export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
+    config: ConfigProps<FormData, P, ErrorType>
+  ): FormDecorator<
+    FormData,
+    P,
+    Partial<ConfigProps<FormData, P, ErrorType>>,
+    ErrorType
+  >
+
+  export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
+    config: Partial<ConfigProps<FormData, P, ErrorType>>
+  ): FormDecorator<FormData, P, ConfigProps<FormData, P, ErrorType>, ErrorType>
+  /* eslint-enable */
 }

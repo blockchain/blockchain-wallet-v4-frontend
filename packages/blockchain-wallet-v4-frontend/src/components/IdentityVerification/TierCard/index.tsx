@@ -198,7 +198,13 @@ export const TierCard = ({
             className='actionButton'
             fullwidth
             nature='primary'
-            onClick={() => identityVerificationActions.verifyIdentity(tier)}
+            onClick={() =>
+              identityVerificationActions.verifyIdentity(
+                tier,
+                false,
+                'SettingsProfile'
+              )
+            }
             data-e2e={`continueKycTier${tier}Btn`}
           >
             {tierStarted ? (
@@ -232,7 +238,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={() => simpleBuyActions.showModal('settingsProfile')}
+              onClick={() => simpleBuyActions.showModal('SettingsProfile')}
               data-e2e='buyNowBtn'
             >
               <FormattedMessage
@@ -255,10 +261,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  getData,
-  mapDispatchToProps
-)
+const connector = connect(getData, mapDispatchToProps)
 
 type OwnProps = {
   column: boolean

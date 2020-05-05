@@ -1,5 +1,10 @@
-import { CoinType, FiatType, RemoteDataType, SBOrderType } from 'core/types'
-import { ProcessedTxType } from 'core/transactions/types'
+import {
+  CoinType,
+  FiatType,
+  ProcessedTxType,
+  RemoteDataType,
+  SBOrderType
+} from 'core/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'

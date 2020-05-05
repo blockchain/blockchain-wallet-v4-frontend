@@ -97,7 +97,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
-      this.props.simpleBuyActions.showModal('welcomeModal')
+      this.props.simpleBuyActions.showModal('WelcomeModal')
     }, duration / 2)
   }
 
@@ -186,10 +186,7 @@ const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
 
 const enhance = compose<any>(
   modalEnhancer('WELCOME_MODAL', { transition: duration }),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(WelcomeContainer)

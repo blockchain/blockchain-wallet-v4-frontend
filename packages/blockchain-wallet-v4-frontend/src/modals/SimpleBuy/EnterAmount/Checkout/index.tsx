@@ -41,7 +41,11 @@ class Checkout extends PureComponent<Props> {
     })
 
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(2)
+      this.props.identityVerificationActions.verifyIdentity(
+        2,
+        false,
+        'SBEnterAmountCheckout'
+      )
     } else if (formValues && formValues.method) {
       switch (formValues.method.type) {
         case 'PAYMENT_CARD':
@@ -91,10 +95,7 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
 export type SuccessStateType = {

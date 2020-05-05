@@ -1,3 +1,4 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import {
   CoinBalanceDropdown,
@@ -7,7 +8,6 @@ import {
 } from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
@@ -64,7 +64,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 95px;
   }

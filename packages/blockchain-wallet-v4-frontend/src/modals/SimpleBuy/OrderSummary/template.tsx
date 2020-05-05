@@ -59,7 +59,7 @@ const Success: React.FC<Props> = props => {
             />
           </TopText>
           <Amount>
-            <Text size='32px' weight={600} color='grey800'>
+            <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
               {amount} of
             </Text>
             <Text
@@ -96,13 +96,13 @@ const Success: React.FC<Props> = props => {
             )}
         </FlyoutWrapper>
         <Row>
-          <Title size='14px' weight={500} color='grey600'>
+          <Title color='grey600' size='14px' weight={500}>
             <FormattedMessage
               id='modals.simplebuy.summary.txid'
               defaultMessage='Transaction ID'
             />
           </Title>
-          <Value>{props.order.id}</Value>
+          <Value data-e2e='sbTransactionId'>{props.order.id}</Value>
         </Row>
         <Row>
           <Title>
@@ -111,7 +111,9 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Created'
             />
           </Title>
-          <Value>{moment(props.order.insertedAt).format('LLL')}</Value>
+          <Value data-e2e='sbCreated'>
+            {moment(props.order.insertedAt).format('LLL')}
+          </Value>
         </Row>
         <Row>
           <Title>
@@ -120,7 +122,7 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Purchasing'
             />
           </Title>
-          <Value>
+          <Value data-e2e='sbPurchasing'>
             {amount} of{' '}
             {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Value>
@@ -132,7 +134,7 @@ const Success: React.FC<Props> = props => {
               defaultMessage='Payment Method'
             />
           </Title>
-          <Value>
+          <Value data-e2e='sbPaymentMethod'>
             {props.order.paymentMethodId ? 'Credit Card' : 'Bank Wire Transfer'}
           </Value>
         </Row>

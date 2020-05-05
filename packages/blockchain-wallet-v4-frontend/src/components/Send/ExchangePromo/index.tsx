@@ -60,7 +60,9 @@ type Props = LinkStatePropsType & LinkDispatchPropsType
 class ExchangePromo extends PureComponent<Props> {
   onSignup = () => {
     this.props.modalActions.closeAllModals()
-    this.props.modalActions.showModal('LinkToExchangeAccount')
+    this.props.modalActions.showModal('LinkToExchangeAccount', {
+      origin: 'SendExchangePromo'
+    })
     this.props.analyticsActions.logEvent([
       ...EXCHANGE_EVENTS.PROMO,
       'connect_modal'
@@ -182,7 +184,4 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangePromo)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangePromo)

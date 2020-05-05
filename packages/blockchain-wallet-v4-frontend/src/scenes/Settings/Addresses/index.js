@@ -2,9 +2,11 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import Bch from './Bch'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
+import Eth from './Eth'
 import Menu from './Menu'
 import React from 'react'
 import styled from 'styled-components'
+import Xlm from './Xlm'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,11 +26,13 @@ class AddressesContainer extends React.PureComponent {
         <ContentWrapper>
           <Switch>
             <Route
-              path='/settings/addresses/btc/:index'
               component={BtcManage}
+              path='/settings/addresses/btc/:index'
             />
-            <Route path='/settings/addresses/btc' component={Btc} exact />
-            <Route path='/settings/addresses/bch' component={Bch} />
+            <Route component={Btc} exact path='/settings/addresses/btc' />
+            <Route component={Bch} exact path='/settings/addresses/bch' />
+            <Route component={Eth} exact path='/settings/addresses/eth' />
+            <Route component={Xlm} exact path='/settings/addresses/xlm' />
             <Redirect from='/settings/addresses' to='/settings/addresses/btc' />
           </Switch>
         </ContentWrapper>

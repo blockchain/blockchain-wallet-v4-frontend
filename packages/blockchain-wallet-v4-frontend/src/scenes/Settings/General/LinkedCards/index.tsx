@@ -27,7 +27,7 @@ class LinkedCards extends PureComponent<Props> {
   }
 
   handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
-    this.props.simpleBuyActions.showModal('settingsGeneral')
+    this.props.simpleBuyActions.showModal('SettingsGeneral')
     this.props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       defaultMethod: defaultMethod,
@@ -60,10 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   cards: Array<SBCardType>

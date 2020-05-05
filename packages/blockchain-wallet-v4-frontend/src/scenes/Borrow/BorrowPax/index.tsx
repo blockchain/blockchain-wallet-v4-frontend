@@ -47,7 +47,11 @@ class BorrowPax extends PureComponent<Props & State> {
                 data-e2e='verifyIdentityBorrow'
                 disabled={val.kycState !== 'NONE'}
                 onClick={() =>
-                  this.props.identityVerificationActions.verifyIdentity(2)
+                  this.props.identityVerificationActions.verifyIdentity(
+                    2,
+                    false,
+                    'BorrowLandingPage'
+                  )
                 }
               >
                 {val.kycState === 'UNDER_REVIEW' ||

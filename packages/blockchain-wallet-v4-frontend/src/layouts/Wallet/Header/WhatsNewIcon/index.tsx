@@ -8,7 +8,9 @@ import WhatsNewIcon from './template'
 
 class WhatsNewIconContainer extends React.PureComponent<Props> {
   handleClick = () => {
-    this.props.modalActions.showModal('WHATS_NEW_MODAL')
+    this.props.modalActions.showModal('WHATS_NEW_MODAL', {
+      origin: 'WhatsNewHeader'
+    })
   }
 
   render () {
@@ -34,10 +36,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, { numOfNewAnnouncements: number }>
