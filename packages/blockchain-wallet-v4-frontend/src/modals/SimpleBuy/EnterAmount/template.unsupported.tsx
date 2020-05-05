@@ -76,19 +76,28 @@ const Unsupported: React.FC<Props> = props => {
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          <FormattedMessage
-            id='modals.simplebuy.unsupported-subcontent-1'
-            defaultMessage="Well this is awkward. We don't support buying crypto yet for"
-          />{' '}
           {paymentAccountEligible ? (
-            props.fiatCurrency
+            <>
+              <FormattedMessage
+                id='modals.simplebuy.unsupported-subcontent'
+                defaultMessage="Currently, we don't support buying crypto with"
+              />{' '}
+              {props.fiatCurrency}
+              {'. '}
+            </>
           ) : (
-            <FormattedMessage
-              id='modals.simplebuy.fiatregion'
-              defaultMessage='your region'
-            />
+            <>
+              <FormattedMessage
+                id='modals.simplebuy.unsupported-subcontent-1'
+                defaultMessage="Well this is awkward. We don't support buying crypto yet for"
+              />{' '}
+              <FormattedMessage
+                id='modals.simplebuy.fiatregion'
+                defaultMessage='your region'
+              />
+              {'. '}
+            </>
           )}
-          {'. '}
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-2'
             defaultMessage="We'll send you an update when we do."
