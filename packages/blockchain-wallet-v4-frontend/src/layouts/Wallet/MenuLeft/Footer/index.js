@@ -14,6 +14,7 @@ const Wrapper = styled.div`
 `
 const AdsButton = styled(Button)`
   padding: 0;
+  width: 100%;
   margin: 4px auto;
   margin-top: 12px;
   transition: background 0.3s;
@@ -105,7 +106,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.analytics, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Footer)
+export default connect(null, mapDispatchToProps)(Footer)

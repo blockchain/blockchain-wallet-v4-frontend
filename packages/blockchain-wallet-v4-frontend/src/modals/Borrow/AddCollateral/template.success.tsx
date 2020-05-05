@@ -1,3 +1,4 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import {
   Button,
@@ -8,7 +9,6 @@ import {
 } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -49,7 +49,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 50px;
   }
@@ -101,14 +101,6 @@ const FiatContainer = styled.div`
   border-radius: 20px;
   background-color: ${props => props.theme.grey000};
 `
-
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
 
 export type Props = OwnProps &
   SuccessStateType &
@@ -317,9 +309,19 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
+const connector = connect(mapStateToProps)
+
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
-  connect(mapStateToProps)
+  connector
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
 
 export default enhance(Success) as React.FunctionComponent<Props>

@@ -50,7 +50,7 @@ const HorizontalBorder = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-const CustomOrangeCartridge = styled<{ show: boolean }>(OrangeCartridge)`
+const CustomOrangeCartridge = styled(OrangeCartridge)<{ show: boolean }>`
   opacity: ${props => (props.show ? 1 : 0)};
 `
 

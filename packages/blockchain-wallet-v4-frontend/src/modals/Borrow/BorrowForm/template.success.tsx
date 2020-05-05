@@ -1,9 +1,9 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -44,7 +44,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 50px;
   }
