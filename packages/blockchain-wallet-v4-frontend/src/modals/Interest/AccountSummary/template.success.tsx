@@ -237,7 +237,7 @@ const AccountSummary: React.FC<Props> = props => {
           </Button>
         </ButtonContainer>
         <DetailsWrapper>
-          <Text color='grey900' weight={600} style={{ marginBottom: '6px' }}>
+          <Text color='grey800' weight={600} style={{ marginBottom: '6px' }}>
             <FormattedMessage
               id='modals.borrow.summary'
               defaultMessage='Summary'

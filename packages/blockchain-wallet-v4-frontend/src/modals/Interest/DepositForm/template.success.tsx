@@ -105,7 +105,6 @@ const CalculatorContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.grey000};
   box-sizing: border-box;
   border-radius: 8px;
-  height: 140px;
 `
 const CustomTabMenu = styled(TabMenu)`
   width: 232px;
