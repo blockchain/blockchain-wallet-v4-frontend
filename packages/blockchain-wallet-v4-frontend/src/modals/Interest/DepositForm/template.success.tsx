@@ -31,6 +31,7 @@ import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
+import { minimumAmount } from './validation'
 import { SuccessStateType } from '.'
 
 const SendingWrapper = styled.div`
@@ -270,7 +271,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={NumberBox}
             data-e2e='depositAmount'
             name='depositAmount'
-            validate={[required]}
+            validate={[required, minimumAmount]}
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -543,7 +544,9 @@ type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-type Props = SuccessStateType & LinkStatePropsType & LinkDispatchPropsType
+export type Props = SuccessStateType &
+  LinkStatePropsType &
+  LinkDispatchPropsType
 
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'interestDepositForm' }),
