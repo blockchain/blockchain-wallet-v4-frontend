@@ -11,7 +11,6 @@ import { InterestStepMetadata } from 'data/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import moment from 'moment'
 import React from 'react'
-import styled from 'styled-components'
 
 import {
   Bottom,
@@ -29,23 +28,7 @@ import {
   Wrapper
 } from './model'
 
-import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
-
-const DetailsBackground = styled.div`
-  height: 105px;
-  width: 400px;
-  margin-top: 16px;
-  background-color: ${props => props.theme.grey000};
-`
-
-const TextContainer = styled.div`
-  padding: 16px;
-`
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const AccountSummary: React.FC<Props> = props => {
   const {
@@ -56,54 +39,11 @@ const AccountSummary: React.FC<Props> = props => {
     handleSBClick,
     interestActions,
     interestRate,
-    showMoreDetails,
     stepMetadata,
-    supportedCoins,
-    toggleMoreDetails
+    supportedCoins
   } = props
   const displayName = supportedCoins[coin].displayName
   const account = accountBalances[coin]
-
-  const MoreDetails = () => {
-    return (
-      <DetailsBackground>
-        <TextContainer>
-          <HeaderContainer>
-            <Text
-              size='14px'
-              weight={600}
-              color='grey800'
-              style={{ marginBottom: '8px', lineHeight: '1.5' }}
-            >
-              <FormattedMessage
-                id='modals.interest.moredetails.header'
-                defaultMessage='Interest Details'
-              />
-            </Text>
-            <Icon
-              onClick={() => toggleMoreDetails()}
-              cursor
-              name='close'
-              size='10px'
-              color='grey600'
-              data-e2e='closeMoreDetails'
-            />
-          </HeaderContainer>
-          <Text
-            size='14px'
-            weight={500}
-            color='grey600'
-            style={{ lineHeight: '1.5' }}
-          >
-            <FormattedMessage
-              id='modals.interest.moredetails.body'
-              defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
-            />
-          </Text>
-        </TextContainer>
-      </DetailsBackground>
-    )
-  }
 
   return (
     <Wrapper>
@@ -300,24 +240,14 @@ const AccountSummary: React.FC<Props> = props => {
                 id='modals.interest.summary.rate'
                 defaultMessage='Interest rate'
               />
-              {' - '}
-              <Link
-                size='14px'
-                weight={500}
-                onClick={() => toggleMoreDetails()}
-                data-e2e='openMoreDetails'
-              >
-                <FormattedMessage
-                  id='modals.interest.summary.moredetails'
-                  defaultMessage='More details'
-                />
-              </Link>
+              <TooltipHost id='modals.interest.summary.moreinterestdetails.tooltip'>
+                <TooltipIcon name='info' size='12px' />
+              </TooltipHost>
             </Text>
             <Text color='grey600' size='14px' weight={500}>
               {interestRate[coin]}%
             </Text>
           </DetailsItemContainer>
-          {showMoreDetails && <MoreDetails />}
         </DetailsWrapper>
       </Top>
       <Bottom>
@@ -346,12 +276,10 @@ type ParentProps = {
   handleDepositClick: () => void
   handleSBClick: () => void
   stepMetadata: InterestStepMetadata
-  toggleMoreDetails: () => void
 }
 
 export type Props = OwnProps &
   LinkDispatchPropsType &
   SuccessStateType &
-  ParentProps &
-  State
+  ParentProps
 export default AccountSummary
