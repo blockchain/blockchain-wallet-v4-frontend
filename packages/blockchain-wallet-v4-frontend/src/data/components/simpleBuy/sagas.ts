@@ -292,6 +292,13 @@ export default ({
     try {
       yield call(createUser)
       yield call(waitForUserData)
+      const invitationsR: RemoteDataType<
+        string,
+        InvitationsType
+      > = selectors.core.settings.getInvitations(yield select())
+      const invited = invitationsR.getOrElse({ simpleBuyCC: false }).simpleBuyCC
+      if (!invited) return yield put(A.fetchSBCardsSuccess([]))
+      if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
       yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))
