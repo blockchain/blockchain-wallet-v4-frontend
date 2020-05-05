@@ -682,6 +682,8 @@ type MessagesType = {
   'modals.interest.withdrawal.loading': 'Doing work...'
   'modals.interest.withdrawal.recap': 'You are requesting to withdraw {withdrawalAmount} ({withdrawalAmountCrypto}) from your Savings Wallet to your Interest Account.'
   'modals.interest.withdrawal.partialamount': 'Partial amount'
+  'modals.interest.withdrawal.progress': 'In Progress'
+  'modals.interest.withdrawal.progressmsg': 'Requesting a withdrawal from your Interest Account'
   'modals.interest.withdrawal.title': 'Withdraw {displayName}'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'

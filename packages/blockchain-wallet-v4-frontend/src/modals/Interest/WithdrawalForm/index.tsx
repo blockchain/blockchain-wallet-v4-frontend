@@ -11,17 +11,26 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { RatesType } from 'data/types'
+import DataError from 'components/DataError'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
+  componentDidMount () {
+    this.props.interestActions.initializeWithdrawalForm('BTC')
+  }
+
+  handleRefresh = () => {
+    this.props.interestActions.initializeWithdrawalForm('BTC')
+  }
+
   render () {
     const { data } = this.props
     return data.cata({
       Success: val => <WithdrawalForm {...val} {...this.props} />,
-      Failure: () => null,
+      Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -36,10 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void

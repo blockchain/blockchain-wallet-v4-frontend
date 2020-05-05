@@ -44,8 +44,13 @@ export default ({
       AT.INITIALIZE_DEPOSIT_FORM,
       interestSagas.initializeDepositForm
     )
+    yield takeLatest(
+      AT.INITIALIZE_WITHDRAWAL_FORM,
+      interestSagas.initializeWithdrawalForm
+    )
     yield takeLatest(AT.ROUTE_TO_TX_HASH, interestSagas.routeToTxHash)
     yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
+    yield takeLatest(AT.REQUEST_WITHDRAWAL, interestSagas.requestWithdrawal)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
   }
 }

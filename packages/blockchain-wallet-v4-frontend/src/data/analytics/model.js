@@ -126,5 +126,9 @@ export const INTEREST_EVENTS = {
     CALC_SWITCH: ['interest', 'deposit', 'calc_term_click'],
     SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
     SEND_FAILURE: ['interest', 'deposit', 'send_failure']
+  },
+  WITHDRAWAL: {
+    REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
+    REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
   }
 }

@@ -18,18 +18,14 @@ import {
 
 export const fetchInterestBalance = (coin?: CoinType) => ({
   type: AT.FETCH_INTEREST_BALANCE,
-  payload: {
-    coin
-  }
+  payload: { coin }
 })
 
 export const fetchInterestBalanceFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_BALANCE_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 
 export const fetchInterestBalanceLoading = (): InterestActionTypes => ({
@@ -40,9 +36,7 @@ export const fetchInterestBalanceSuccess = (
   interestAccountBalance: InterestAccountBalanceType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_BALANCE_SUCCESS,
-  payload: {
-    interestAccountBalance
-  }
+  payload: { interestAccountBalance }
 })
 
 export const fetchInterestEligible = () => ({
@@ -52,9 +46,7 @@ export const fetchInterestEligibleFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_ELIGIBLE_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 export const fetchInterestEligibleLoading = (): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_ELIGIBLE_LOADING
@@ -63,9 +55,7 @@ export const fetchInterestEligibleSuccess = (
   interestEligible: InterestEligibleType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_ELIGIBLE_SUCCESS,
-  payload: {
-    interestEligible
-  }
+  payload: { interestEligible }
 })
 
 export const fetchInterestInstruments = () => ({
@@ -75,9 +65,7 @@ export const fetchInterestInstrumentsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_INSTRUMENTS_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 export const fetchInterestInstrumentsLoading = (): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_INSTRUMENTS_LOADING
@@ -86,9 +74,7 @@ export const fetchInterestInstrumentsSuccess = (
   interestInstruments: InterestInstrumentsType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS,
-  payload: {
-    interestInstruments
-  }
+  payload: { interestInstruments }
 })
 
 export const fetchInterestLimits = () => ({
@@ -98,9 +84,7 @@ export const fetchInterestLimitsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 export const fetchInterestLimitsLoading = (): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_LOADING
@@ -109,9 +93,7 @@ export const fetchInterestLimitsSuccess = (
   interestLimits: InterestLimitsType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_SUCCESS,
-  payload: {
-    interestLimits
-  }
+  payload: { interestLimits }
 })
 
 export const fetchInterestAccount = (coin?: CoinType) => ({
@@ -122,9 +104,7 @@ export const fetchInterestAccountFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 export const fetchInterestAccountLoading = (): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING
@@ -133,9 +113,7 @@ export const fetchInterestAccountSuccess = (
   account: InterestAccountType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
-  payload: {
-    account
-  }
+  payload: { account }
 })
 
 export const fetchInterestRate = () => ({
@@ -146,9 +124,7 @@ export const fetchInterestRateFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_RATE_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 
 export const fetchInterestRateLoading = (): InterestActionTypes => ({
@@ -159,9 +135,7 @@ export const fetchInterestRateSuccess = (
   interestRate: InterestRateType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_RATE_SUCCESS,
-  payload: {
-    interestRate
-  }
+  payload: { interestRate }
 })
 
 export const fetchInterestTransactions = () => ({
@@ -172,9 +146,7 @@ export const fetchInterestTransactionsFailure = (
   error: string
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_TRANSACTIONS_FAILURE,
-  payload: {
-    error
-  }
+  payload: { error }
 })
 
 export const fetchInterestTransactionsLoading = (): InterestActionTypes => ({
@@ -185,9 +157,7 @@ export const fetchInterestTransactionsSuccess = (
   interestTransactions: InterestTransactionResponseType
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS,
-  payload: {
-    interestTransactions
-  }
+  payload: { interestTransactions }
 })
 
 export const initializeDepositModal = (): InterestActionTypes => ({
@@ -195,24 +165,27 @@ export const initializeDepositModal = (): InterestActionTypes => ({
 })
 
 export const initializeDepositForm = (coin: CoinType) => ({
-  payload: {
-    coin
-  },
+  payload: { coin },
   type: AT.INITIALIZE_DEPOSIT_FORM
 })
 
+export const initializeWithdrawalForm = (coin: CoinType) => ({
+  payload: { coin },
+  type: AT.INITIALIZE_WITHDRAWAL_FORM
+})
+
 export const routeToTxHash = (coin: CoinType, txHash: string) => ({
-  payload: {
-    coin,
-    txHash
-  },
+  payload: { coin, txHash },
   type: AT.ROUTE_TO_TX_HASH
 })
 
+export const requestWithdrawal = (coin: CoinType) => ({
+  payload: { coin },
+  type: AT.REQUEST_WITHDRAWAL
+})
+
 export const submitDepositForm = (coin: CoinType) => ({
-  payload: {
-    coin
-  },
+  payload: { coin },
   type: AT.SUBMIT_DEPOSIT_FORM
 })
 
@@ -220,16 +193,11 @@ export const setInterestStep = (
   name: InterestStep,
   data?: InterestStepMetadata
 ) => ({
-  payload: {
-    name,
-    data
-  },
+  payload: { name, data },
   type: AT.SET_INTEREST_STEP
 })
 
 export const showInterestModal = (step: InterestStep) => ({
-  payload: {
-    step
-  },
+  payload: { step },
   type: AT.SHOW_INTEREST_MODAL
 })

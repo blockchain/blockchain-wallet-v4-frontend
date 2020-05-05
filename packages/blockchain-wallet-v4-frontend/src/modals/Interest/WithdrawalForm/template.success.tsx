@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import {
   Button,
   Icon,
+  SpinningLoader,
   TabMenu,
   TabMenuItem,
   Text
@@ -24,6 +25,14 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
+const SendingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -127,7 +136,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     accountBalances,
     coin,
     interestActions,
+    invalid,
     rates,
+    submitting,
     supportedCoins,
     values,
     walletCurrency
@@ -135,6 +146,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const [tab, setTab] = useState<'partial' | 'full'>('partial')
   const setPartialTab = () => setTab('partial')
   const setPartialFull = () => setTab('full')
+  const handleFormSubmit = e => {
+    e.preventDefault()
+    interestActions.requestWithdrawal(coin)
+  }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const displayName = supportedCoins[coin].displayName
@@ -156,8 +171,34 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     baseToStandard: true
   }).value
 
-  return (
-    <CustomForm>
+  return submitting ? (
+    <SendingWrapper>
+      <SpinningLoader />
+      <Text
+        weight={600}
+        color='grey800'
+        size='20px'
+        style={{ marginTop: '24px' }}
+      >
+        <FormattedMessage
+          id='modals.interest.withdrawal.progress'
+          defaultMessage='In Progress...'
+        />
+      </Text>
+      <Text
+        weight={600}
+        color='grey600'
+        size='16px'
+        style={{ marginTop: '24px' }}
+      >
+        <FormattedMessage
+          id='modals.interest.withdrawal.progressmsg'
+          defaultMessage='Requesting a withdrawal from your Interest Account'
+        />
+      </Text>
+    </SendingWrapper>
+  ) : (
+    <CustomForm onSubmit={handleFormSubmit}>
       <Top>
         <Wrapper>
           <ArrowIcon
@@ -313,11 +354,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         <ButtonContainer>
           <Button
             data-e2e='interestWithdrawalSubmit'
-            disabled={props.invalid}
+            disabled={invalid}
             fullwidth
             height='48px'
             nature='primary'
-            onClick={props.handleClose}
+            type='submit'
           >
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage

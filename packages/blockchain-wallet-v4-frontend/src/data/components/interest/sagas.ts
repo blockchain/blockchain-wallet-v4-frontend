@@ -133,11 +133,24 @@ export default ({
       default:
         break
     }
-    const initialValues = {
-      interestDepositAccount: defaultAccountR.getOrElse()
-    }
 
-    yield put(initialize('interestDepositForm', initialValues))
+    yield put(
+      initialize('interestDepositForm', {
+        interestDepositAccount: defaultAccountR.getOrElse()
+      })
+    )
+  }
+
+  const initializeWithdrawalForm = function * ({
+    // eslint-disable-next-line
+    payload
+  }: ReturnType<typeof A.initializeWithdrawalForm>) {
+    try {
+      // TODO: fetch available to withdrawal balance
+      yield put(initialize('interestWithdrawalForm', {})) // init form for analytics
+    } catch (e) {
+      // TODO?
+    }
   }
 
   const routeToTxHash = function * ({
@@ -212,6 +225,36 @@ export default ({
     }
   }
 
+  const requestWithdrawal = function * () {
+    const FORM = 'interestWithdrawalForm'
+    try {
+      yield put(actions.form.startSubmit(FORM))
+      yield delay(3000)
+      // get form values
+      // const formValues = yield select(selectors.form.getFormValues(FORM))
+      // notify success
+      yield put(actions.form.stopSubmit(FORM))
+      // yield put(
+      //   A.setInterestStep('ACCOUNT_SUMMARY', {
+      //     sendSuccess: true,
+      //     depositTxHash: payment.txId
+      //   })
+      // )
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
+      )
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+      // yield put(
+      //   A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: false, error })
+      // )
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_FAILURE)
+      )
+    }
+  }
+
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
@@ -230,6 +273,8 @@ export default ({
     fetchInterestRate,
     fetchInterestTransactions,
     initializeDepositForm,
+    initializeWithdrawalForm,
+    requestWithdrawal,
     routeToTxHash,
     sendDeposit,
     showInterestModal
