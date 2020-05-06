@@ -31,7 +31,8 @@ import {
 import {
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType
+  SBCheckoutFormValuesType,
+  SBFormPaymentMethod
 } from './types'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
@@ -200,6 +201,11 @@ export default ({
 
   const fetchEverypay3DSDetails = function * () {
     try {
+      const cardR = S.getSBCard(yield select())
+      const card = cardR.getOrFail('NO_CARD_TO_ACTIVATE')
+      yield put(A.activateSBCard(card))
+      yield take([AT.ACTIVATE_SB_CARD_SUCCESS, AT.ACTIVATE_SB_CARD_FAILURE])
+
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(A.fetchEverypay3DSDetailsLoading())
       const formValues: SBAddCardFormValuesType = yield select(
@@ -281,7 +287,6 @@ export default ({
         card = yield call(api.getSBCard, cardId)
       }
       yield put(A.fetchSBCardSuccess(card))
-      yield put(A.activateSBCard(card))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBCardFailure(error))
@@ -458,6 +463,7 @@ export default ({
   const initializeCheckout = function * ({
     pairs,
     paymentMethods,
+    cards,
     orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
@@ -481,15 +487,28 @@ export default ({
       const pair = pairs.find(
         pair => getCoinFromPair(pair.pair) === cryptoCurrency
       )
+      const cardMethod = paymentMethods.methods.find(
+        method => method.type === 'PAYMENT_CARD'
+      )
+      const method: SBFormPaymentMethod =
+        defaultMethod ||
+        (cards[0]
+          ? cardMethod
+            ? {
+                ...cards[0],
+                limits: cardMethod.limits,
+                type: 'USER_CARD'
+              }
+            : paymentMethods.methods[0]
+          : paymentMethods.methods[0])
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method:
-            defaultMethod || isSimpleBuyCCInvited
-              ? paymentMethods.methods[0]
-              : paymentMethods.methods.find(
-                  method => method.type === 'BANK_ACCOUNT'
-                ),
+          method: isSimpleBuyCCInvited
+            ? method
+            : paymentMethods.methods.find(
+                method => method.type === 'BANK_ACCOUNT'
+              ),
           orderType,
           pair: pair || pairs[0]
         } as SBCheckoutFormValuesType)

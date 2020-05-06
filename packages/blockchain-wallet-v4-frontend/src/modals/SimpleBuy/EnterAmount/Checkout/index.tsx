@@ -26,6 +26,7 @@ class Checkout extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.paymentMethods,
+      this.props.cards,
       'BUY'
     )
   }
