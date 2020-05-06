@@ -12,7 +12,6 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import {
   normalizeCreditCard,
   validateCreditCard
@@ -25,7 +24,9 @@ import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
+import { Props as OwnProps } from '.'
 import { required } from 'services/FormHelper'
+import { SBAddCardErrorType } from 'data/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -38,7 +39,8 @@ const TopText = styled(Text)`
   margin-bottom: 24px;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
+  Props> = props => {
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
@@ -120,6 +122,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
+              {props.error === 'CARD_CREATION_FAILED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.card_creation_failed'
+                  defaultMessage='We could not save your card. Please contact support.'
+                />
+              )}
+              {props.error === 'CARD_ACTIVATION_FAILED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.card_activation_failed'
+                  defaultMessage='We could not activate your card. Please contact support.'
+                />
+              )}
               {props.error === 'PENDING_CARD_AFTER_POLL' && (
                 <FormattedMessage
                   id='modals.simplebuy.card_pending_after_poll'
@@ -169,9 +183,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-type Props = OwnProps & LinkDispatchPropsType & SuccessStateType
+type Props = OwnProps
 
-export default reduxForm<{}, Props>({
+type ErrorType = SBAddCardErrorType
+
+export default reduxForm<{}, Props, ErrorType>({
   form: 'addCCForm',
   destroyOnUnmount: false
-})(Success)
+})(Template)

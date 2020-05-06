@@ -30,8 +30,7 @@ const Success: React.FC<Props> = props => {
             role='button'
             onClick={() => {
               props.simpleBuyActions.setStep({
-                step: 'ADD_CARD',
-                cardId: props.card.id
+                step: 'ADD_CARD'
               })
             }}
           />

@@ -259,12 +259,6 @@ export function simpleBuyReducer (
             order: action.payload.order,
             step: action.payload.step
           }
-        case 'ADD_CARD':
-          return {
-            ...state,
-            cardId: action.payload.cardId,
-            step: action.payload.step
-          }
         default: {
           return {
             ...state,
