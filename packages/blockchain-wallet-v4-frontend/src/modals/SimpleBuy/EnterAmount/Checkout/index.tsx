@@ -26,6 +26,7 @@ class Checkout extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.paymentMethods,
+      this.props.cards,
       'BUY'
     )
   }
@@ -50,8 +51,7 @@ class Checkout extends PureComponent<Props> {
       switch (formValues.method.type) {
         case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
-            step: 'ADD_CARD',
-            cardId: undefined
+            step: 'ADD_CARD'
           })
           break
         case 'USER_CARD':

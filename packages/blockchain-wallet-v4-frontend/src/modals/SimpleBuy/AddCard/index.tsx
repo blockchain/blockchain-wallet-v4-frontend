@@ -1,71 +1,40 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect } from 'react-redux'
-import {
-  FiatType,
-  RemoteDataType,
-  SBCardType,
-  SBProviderDetailsType
-} from 'core/types'
-import { getData } from './selectors'
+import { connect, ConnectedProps } from 'react-redux'
+import { FiatType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import DataError from 'components/DataError'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
-import Success from './template.success'
+import Template from './template'
 
 class AddCard extends PureComponent<Props> {
-  componentDidMount () {
-    this.props.simpleBuyActions.fetchSBCard(this.props.cardId)
-  }
-
-  handleRefresh = () => {
-    this.props.simpleBuyActions.fetchSBCard()
-  }
-
   handleSubmit = () => {
-    this.props.simpleBuyActions.setStep({ step: '3DS_HANDLER' })
     this.props.simpleBuyActions.fetchEverypay3DSDetails()
   }
 
   render () {
-    return this.props.data.cata({
-      Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
-      ),
-      Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    return <Template {...this.props} onSubmit={this.handleSubmit} />
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export type OwnProps = {
-  cardId?: string
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = {
-  card: SBCardType
-  fiatCurrency: FiatType
-  providerDetails: SBProviderDetailsType
-}
-export type LinkDispatchPropsType = {
+type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
+  fiatCurrency: FiatType
 }
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddCard)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCard)

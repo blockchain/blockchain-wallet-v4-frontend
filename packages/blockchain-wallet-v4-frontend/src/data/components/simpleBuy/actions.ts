@@ -122,9 +122,8 @@ export const fetchSBBalancesSuccess = (
   }
 })
 
-export const fetchSBCard = (cardId?: string) => ({
-  type: AT.FETCH_SB_CARD,
-  cardId
+export const fetchSBCard = () => ({
+  type: AT.FETCH_SB_CARD
 })
 
 export const fetchSBCardFailure = (error: string): SimpleBuyActionTypes => ({
@@ -363,11 +362,13 @@ export const initializeBillingAddress = () => ({
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
   paymentMethods: SBPaymentMethodsType,
+  cards: Array<SBCardType>,
   orderType: 'BUY' | 'SELL'
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   pairs,
   paymentMethods,
+  cards,
   orderType
 })
 
@@ -401,9 +402,8 @@ export const setStep = (
         fiatCurrency: FiatType
         step: 'ENTER_AMOUNT'
       }
-    | { cardId?: string; step: 'ADD_CARD' }
     | { order?: SBOrderType; step: '3DS_HANDLER' }
-    | { step: 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
+    | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
 ): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
   payload:
@@ -419,8 +419,6 @@ export const setStep = (
         payload.step === 'ORDER_SUMMARY' ||
         payload.step === 'CANCEL_ORDER'
       ? { step: payload.step, order: payload.order }
-      : payload.step === 'ADD_CARD'
-      ? { step: payload.step, cardId: payload.cardId }
       : payload.step === '3DS_HANDLER'
       ? { step: payload.step, order: payload.order }
       : {
