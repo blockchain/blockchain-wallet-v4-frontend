@@ -491,7 +491,8 @@ export default ({
         method => method.type === 'PAYMENT_CARD'
       )
       const method: SBFormPaymentMethod =
-        defaultMethod || cards[0]
+        defaultMethod ||
+        (cards[0]
           ? cardMethod
             ? {
                 ...cards[0],
@@ -499,7 +500,7 @@ export default ({
                 type: 'USER_CARD'
               }
             : paymentMethods.methods[0]
-          : paymentMethods.methods[0]
+          : paymentMethods.methods[0])
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
