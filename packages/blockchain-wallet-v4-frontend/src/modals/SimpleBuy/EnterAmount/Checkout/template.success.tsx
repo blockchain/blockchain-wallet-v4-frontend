@@ -10,8 +10,8 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
+import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
-import { maximumAmount, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
@@ -119,12 +119,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.formErrors.amount
 
   const handleMinMaxClick = () => {
-    const prop = amtError === 'ABOVE_MAX' ? 'buyMax' : 'buyMin'
-    const value = props.formValues
-      ? props.formValues.pair
-        ? props.formValues.pair[prop]
-        : '0'
-      : '0'
+    const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
+    const value = getMaxMin(props.formValues, prop)
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
 
@@ -175,10 +171,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: convertBaseToStandard(
-                        'FIAT',
-                        props.formValues.pair.buyMax
-                      ),
+                      value: getMaxMin(props.formValues, 'max'),
                       digits: 0
                     }),
                     orderType:
@@ -192,10 +185,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: convertBaseToStandard(
-                        'FIAT',
-                        props.formValues.pair.buyMin
-                      ),
+                      value: getMaxMin(props.formValues, 'min'),
                       digits: 0
                     }),
                     orderType:

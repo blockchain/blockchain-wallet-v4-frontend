@@ -105,7 +105,7 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
                 />
                 <CardDetails>
                   <Text size='16px' color='grey800' weight={600}>
-                    {card.card.label}
+                    {card.card.label || card.card.type}
                   </Text>
                   {ccPaymentMethod && (
                     <Text size='14px' color='grey600' weight={500}>

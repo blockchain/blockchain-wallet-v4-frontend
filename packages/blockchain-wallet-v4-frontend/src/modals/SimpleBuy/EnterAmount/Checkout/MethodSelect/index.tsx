@@ -179,7 +179,8 @@ class MethodSelect extends PureComponent<Props> {
             {Currency.fiatToString({
               value: convertBaseToStandard('FIAT', props.value.limits.max),
               unit: fiat
-            })}
+            })}{' '}
+            {fiat} Limit
           </Limit>
         </Display>
         {props.value.type === 'USER_CARD' && props.value.state === 'ACTIVE' && (
