@@ -29,6 +29,7 @@ import {
   NO_PAIR_SELECTED
 } from './model'
 import {
+  SBAddCardErrorType,
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
   SBCheckoutFormValuesType,
@@ -201,18 +202,30 @@ export default ({
 
   const fetchEverypay3DSDetails = function * () {
     try {
+      yield put(
+        A.setStep({
+          step: '3DS_HANDLER'
+        })
+      )
+      yield put(A.fetchEverypay3DSDetailsLoading())
+
+      // Create card
+      yield put(A.fetchSBCard())
+      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
       const cardR = S.getSBCard(yield select())
-      const card = cardR.getOrFail('NO_CARD_TO_ACTIVATE')
+      const card = cardR.getOrFail('CARD_CREATION_FAILED')
+
+      // Activate card
       yield put(A.activateSBCard(card))
       yield take([AT.ACTIVATE_SB_CARD_SUCCESS, AT.ACTIVATE_SB_CARD_FAILURE])
 
-      yield put(actions.form.startSubmit('addCCForm'))
-      yield put(A.fetchEverypay3DSDetailsLoading())
       const formValues: SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
       const providerDetailsR = S.getSBProviderDetails(yield select())
-      const providerDetails = providerDetailsR.getOrFail('NO_PROVIDER_DETAILS')
+      const providerDetails = providerDetailsR.getOrFail(
+        'CARD_ACTIVATION_FAILED'
+      )
       const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: { data: Everypay3DSResponseType } = yield call(
@@ -227,16 +240,20 @@ export default ({
           nonce: nonce
         }
       )
-      yield put(actions.form.stopSubmit('addCCForm'))
       yield put(A.fetchEverypay3DSDetailsSuccess(response.data))
+    } catch (e) {
       yield put(
         A.setStep({
-          step: '3DS_HANDLER'
+          step: 'ADD_CARD'
         })
       )
-    } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('addCCForm', { _error: error }))
+      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(
+        actions.form.stopSubmit('addCCForm', {
+          _error: error as SBAddCardErrorType
+        })
+      )
       yield put(A.fetchEverypay3DSDetailsFailure(error))
     }
   }
@@ -256,36 +273,32 @@ export default ({
     }
   }
 
-  const fetchSBCard = function * ({ cardId }: ReturnType<typeof A.fetchSBCard>) {
+  const fetchSBCard = function * () {
     let card: SBCardType
     try {
       yield put(A.fetchSBCardLoading())
       const currency = S.getFiatCurrency(yield select())
       if (!currency) throw new Error(NO_FIAT_CURRENCY)
 
-      if (!cardId) {
-        const userDataR = selectors.modules.profile.getUserData(yield select())
-        const billingAddressForm:
-          | SBBillingAddressFormValuesType
-          | undefined = yield select(
-          selectors.form.getFormValues('ccBillingAddress')
-        )
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const billingAddressForm:
+        | SBBillingAddressFormValuesType
+        | undefined = yield select(
+        selectors.form.getFormValues('ccBillingAddress')
+      )
 
-        const userData = userDataR.getOrFail('NO_USER_ADDRESS')
-        const address = billingAddressForm || userData.address
-        if (!address) throw new Error('NO_USER_ADDRESS')
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const address = billingAddressForm || userData.address
+      if (!address) throw new Error('NO_USER_ADDRESS')
 
-        card = yield call(
-          api.createSBCard,
-          currency,
-          {
-            ...address
-          },
-          userData.email
-        )
-      } else {
-        card = yield call(api.getSBCard, cardId)
-      }
+      card = yield call(
+        api.createSBCard,
+        currency,
+        {
+          ...address
+        },
+        userData.email
+      )
       yield put(A.fetchSBCardSuccess(card))
     } catch (e) {
       const error = errorHandler(e)
@@ -532,7 +545,7 @@ export default ({
         error = 'PENDING_CARD_AFTER_POLL'
         break
       default:
-        error = `LINK_CARD_FAILED`
+        error = 'LINK_CARD_FAILED'
     }
 
     yield put(

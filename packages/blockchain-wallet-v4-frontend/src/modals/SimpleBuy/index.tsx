@@ -43,6 +43,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   componentWillUnmount () {
     this.props.simpleBuyActions.destroyCheckout()
     this.props.formActions.destroy('ccBillingAddress')
+    this.props.formActions.destroy('addCCForm')
   }
 
   handleClose = () => {
@@ -125,10 +126,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const enhance = compose(
   ModalEnhancer('SIMPLE_BUY_MODAL', { transition: duration }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 type OwnProps = ModalPropsType
