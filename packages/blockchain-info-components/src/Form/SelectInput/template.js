@@ -109,7 +109,7 @@ export const sharedSelect = css`
         position: absolute;
         transform: translateY(-50%);
         font-size: 16px;
-        color: ${props => props.theme.green400};
+        color: ${props => props.theme.green500};
         background-color: ${props => props.theme.white};
       }
     }
