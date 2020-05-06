@@ -100,7 +100,7 @@
   },
   "dependencies": {
     "@blockchain-com/components": "6.1.1",
-    "@ledgerhq/hw-app-eth": "4.32.0",
+    "@ledgerhq/hw-app-eth": "4.78.0",
     "@ledgerhq/hw-app-btc": "4.33.7",
     "@ledgerhq/hw-app-str": "4.32.0",
     "@ledgerhq/hw-transport-u2f": "4.32.0",
