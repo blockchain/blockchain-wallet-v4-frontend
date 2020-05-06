@@ -13,6 +13,7 @@ export const getData = state => {
 
   return lift((accountBalances, rates, supportedCoins, walletCurrency) => ({
     accountBalances,
+    availToWithdraw: 5.21, // TODO: get from server
     coin,
     rates,
     supportedCoins,

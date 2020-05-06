@@ -11,11 +11,12 @@ import { fiatToString, formatFiat } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
-import { maxValue, required } from 'services/FormHelper'
+import { required } from 'services/FormHelper'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
 const SendingWrapper = styled.div`
   width: 100%;
@@ -122,12 +123,12 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
 `
 
 const FORM_NAME = 'interestWithdrawalForm'
-const maxVal = maxValue(10000)
 
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const {
     accountBalances,
+    availToWithdraw,
     coin,
     formActions,
     interestActions,
@@ -162,8 +163,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     coin,
     baseToStandard: true
   }).value
-  // TODO: get real value
-  const availToWithdraw = 4.21
 
   return submitting ? (
     <SendingWrapper>
@@ -285,7 +284,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             component={NumberBox}
             data-e2e='withdrawalAmount'
             name='withdrawalAmount'
-            validate={[required, maxVal]}
+            validate={[
+              required,
+              maximumWithdrawalAmount,
+              minimumWithdrawalAmount
+            ]}
             {...{
               autoFocus: true,
               errorBottom: true,

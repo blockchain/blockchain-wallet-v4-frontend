@@ -685,6 +685,8 @@ type MessagesType = {
   'modals.interest.withdrawal.title': 'Withdraw {displayName}'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
+  'interest.withdrawal.validation.abovemax': 'The amount you entered is above the maximum withdrawal amount.'
+  'interest.withdrawal.validation.belowmin': 'The amount you entered is below the minimum withdrawal amount.'
   'modals.lockbox.appmanager.close': 'Close App Manager'
   'modals.lockbox.appmanager.title': 'App Manager'
   'modals.lockbox.connectionprompt.connect.content': 'Connect and unlock your hardware device. Then open the {appName} app on the device.'

@@ -54,6 +54,7 @@ export type OwnProps = {
 
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
+  availToWithdraw: number
   coin: CoinType
   rates: RatesType
   supportedCoins: SupportedCoinsType
