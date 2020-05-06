@@ -490,12 +490,14 @@ export default ({
       const cardMethod = paymentMethods.methods.find(
         method => method.type === 'PAYMENT_CARD'
       )
+      const activeCard = cards.find(card => card.state === 'ACTIVE')
+
       const method: SBFormPaymentMethod =
         defaultMethod ||
-        (cards[0]
+        (activeCard
           ? cardMethod
             ? {
-                ...cards[0],
+                ...activeCard,
                 limits: cardMethod.limits,
                 type: 'USER_CARD'
               }
