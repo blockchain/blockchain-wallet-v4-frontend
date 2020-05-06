@@ -4,9 +4,9 @@ import BigNumber from 'bignumber.js'
 
 export const getMaxMin = (
   allValues?: SBCheckoutFormValuesType,
-  minOrMax: 'min' | 'max'
+  minOrMax?: 'min' | 'max'
 ) => {
-  switch (minOrMax) {
+  switch (minOrMax || 'max') {
     case 'max':
       const defaultMax = convertBaseToStandard('FIAT', 0)
       if (!allValues) return defaultMax
@@ -25,7 +25,7 @@ export const getMaxMin = (
       if (!allValues.method) return defaultMin
       if (!allValues.pair) return defaultMin
 
-      const min = BigNumber.minimum(
+      const min = BigNumber.maximum(
         allValues.method.limits.min,
         allValues.pair.buyMin
       ).toString()

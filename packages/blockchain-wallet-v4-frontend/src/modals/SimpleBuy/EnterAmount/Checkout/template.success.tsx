@@ -3,7 +3,10 @@ import {
   CustomCartridge,
   ErrorCartridge
 } from 'components/Cartridge'
-import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -120,7 +123,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
-    const value = getMaxMin(props.formValues, prop)
+    const value = convertStandardToBase(
+      'FIAT',
+      getMaxMin(props.formValues, prop)
+    )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
 
