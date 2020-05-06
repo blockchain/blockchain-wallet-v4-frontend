@@ -26,12 +26,15 @@ import {
   NumberBox
 } from 'components/Form'
 import { Exchange } from 'core'
+import {
+  fiatToString,
+  formatFiat
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
-import { minimumAmount } from './validation'
+import { maxDepositAmount, minDepositAmount } from './validation'
 import { SuccessStateType } from '.'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -85,6 +88,13 @@ const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
   margin: 24px 0;
+`
+const FiatMaxContainer = styled.div`
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background-color: ${props => props.theme.grey000};
 `
 const CalculatorWrapper = styled.div`
   display: flex;
@@ -166,14 +176,16 @@ const calcCompoundInterest = (principal, rate, term) => {
   return formatFiat(totalAmount - principalInt)
 }
 
+const FORM_NAME = 'interestDepositForm'
+
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     analyticsActions,
     coin,
+    formActions,
     interestActions,
     interestRate,
     invalid,
-    // limits,
     walletCurrency,
     rates,
     submitting,
@@ -197,14 +209,29 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const depositAmount = (values && values.depositAmount) || '0'
   const depositAmountFiat = formatFiat(depositAmount)
   const depositAmountCrypto = Exchange.convertCoinToCoin({
+    baseToStandard: true,
+    coin,
     value: Exchange.convertFiatToBtc({
       fromCurrency: walletCurrency,
       toUnit: 'SAT',
       rates,
       value: depositAmount
+    }).value
+  }).value
+  const maxFromSelectedAccountCrypto =
+    (values &&
+      values.interestDepositAccount &&
+      values.interestDepositAccount.balance) ||
+    0
+  const maxFromSelectedAccountFiat = Exchange.convertBtcToFiat({
+    toCurrency: walletCurrency,
+    fromUnit: 'BTC',
+    value: Exchange.convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: maxFromSelectedAccountCrypto
     }).value,
-    coin,
-    baseToStandard: true
+    rates
   }).value
 
   return submitting ? (
@@ -239,9 +266,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
-            onClick={() =>
-              props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
-            }
+            onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
             cursor
             name='arrow-left'
             size='20px'
@@ -256,12 +281,36 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.interest.deposit.subtitle'
-              defaultMessage='Deposit into your Interest Account and earn {rate}% interest.'
-              values={{ rate: interestRate[coin] }}
+              id='modals.interest.deposit.uptoamount1'
+              defaultMessage='You can deposit up to'
+            />{' '}
+            <FiatMaxContainer
+              onClick={() =>
+                formActions.change(
+                  FORM_NAME,
+                  'depositAmount',
+                  maxFromSelectedAccountFiat
+                )
+              }
+            >
+              <Text color='blue600' size='14px' weight={500}>
+                {fiatToString({
+                  value: maxFromSelectedAccountFiat,
+                  unit: walletCurrency
+                })}{' '}
+              </Text>
+            </FiatMaxContainer>
+            <FormattedMessage
+              id='modals.interest.deposit.uptoamount2'
+              defaultMessage='of {coin} into your Interest Account and earn {rate}% interest.'
+              values={{
+                coin,
+                rate: interestRate[coin]
+              }}
             />
           </Text>
         </MaxAmountContainer>
+
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
@@ -280,7 +329,16 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={NumberBox}
             data-e2e='depositAmount'
             name='depositAmount'
-            validate={[required, minimumAmount]}
+            validate={[
+              required,
+              minDepositAmount,
+              () =>
+                maxDepositAmount(
+                  maxFromSelectedAccountFiat,
+                  props,
+                  values && values.depositAmount
+                )
+            ]}
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -537,11 +595,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('interestDepositForm')(state)
+  values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
@@ -552,6 +611,7 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
+  formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
 
@@ -560,7 +620,7 @@ export type Props = SuccessStateType &
   LinkDispatchPropsType
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'interestDepositForm' }),
+  reduxForm<{}, Props>({ form: FORM_NAME }),
   connector
 )
 
