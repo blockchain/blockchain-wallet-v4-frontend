@@ -1,7 +1,7 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import { equals } from 'ramda'
+import { equals, update } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -182,7 +182,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   } = props
   const [tab, setTab] = useState<'long' | 'short'>('long')
   const handleTimeFrameChange = (tab: 'long' | 'short') => {
-    analyticsActions.logEvent([...INTEREST_EVENTS.DEPOSIT.CALC_SWITCH, tab])
+    analyticsActions.logEvent(
+      // @ts-ignore
+      update(-1, `calc_term_click_${tab}`, INTEREST_EVENTS.DEPOSIT.CALC_SWITCH)
+    )
     setTab(tab)
   }
   const handleFormSubmit = e => {
