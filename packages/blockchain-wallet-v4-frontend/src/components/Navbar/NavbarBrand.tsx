@@ -14,7 +14,7 @@ const BaseBrand = styled.div`
     }
   }
   ${media.tablet`
-    padding-left: 32px;
+    padding-left: 16px;
     width: auto;
     > span:first-child {
       display: flex;
