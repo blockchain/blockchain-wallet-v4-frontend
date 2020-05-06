@@ -1,23 +1,15 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { equals } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Icon,
-  SpinningLoader,
-  TabMenu,
-  TabMenuItem,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'core'
+import { fiatToString, formatFiat } from 'core/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormLabel, NumberBox } from 'components/Form'
-import { formatFiat } from 'core/exchange/currency'
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { maxValue, required } from 'services/FormHelper'
 import { selectors } from 'data'
@@ -60,18 +52,22 @@ const BalanceItem = styled.div`
     margin-left: 32px;
   }
 `
-const ButtonWrapper = styled.div`
+const MaxAmountContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 14px;
   margin-bottom: 14px;
 `
+const FiatAvailContainer = styled.div`
+  cursor: pointer;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background-color: ${props => props.theme.grey000};
+`
 const Spacer = styled.div`
   height: 48px;
   border-right: 1px solid ${props => props.theme.grey000};
-`
-const ButtonWrapperTitle = styled(Text)`
-  margin-bottom: 10px;
 `
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -103,7 +99,7 @@ const WarningWrapper = styled.div`
   background: ${props => props.theme.orange000};
   border-radius: 8px;
   padding: 16px;
-  margin-top: 24px;
+  margin-top: 28px;
 `
 const WarningIcon = styled(Icon)`
   margin-right: 16px;
@@ -115,9 +111,6 @@ const NetworkFee = styled.div`
 const Availability = styled.div`
   margin-top: 24px;
 `
-const CustomTabMenu = styled(TabMenu)`
-  margin-bottom: 12px;
-`
 const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   display: flex;
   justify-content: space-between;
@@ -128,6 +121,7 @@ const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
   }
 `
 
+const FORM_NAME = 'interestWithdrawalForm'
 const maxVal = maxValue(10000)
 
 const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
@@ -135,6 +129,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const {
     accountBalances,
     coin,
+    formActions,
     interestActions,
     invalid,
     rates,
@@ -143,9 +138,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     values,
     walletCurrency
   } = props
-  const [tab, setTab] = useState<'partial' | 'full'>('partial')
-  const setPartialTab = () => setTab('partial')
-  const setPartialFull = () => setTab('full')
   const handleFormSubmit = e => {
     e.preventDefault()
     interestActions.requestWithdrawal(coin)
@@ -170,6 +162,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     coin,
     baseToStandard: true
   }).value
+  // TODO: get real value
+  const availToWithdraw = 4.21
 
   return submitting ? (
     <SendingWrapper>
@@ -254,38 +248,30 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             </FiatDisplay>
           </BalanceItem>
         </BalanceWrapper>
-        <ButtonWrapper>
-          <ButtonWrapperTitle color='grey600' weight={500} size='14px'>
+        <MaxAmountContainer>
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.interest.withdrawal.howmuch'
-              defaultMessage='How much do you want to withdraw?'
-            />
-          </ButtonWrapperTitle>
-          <CustomTabMenu>
-            <TabMenuItem
-              width='50%'
-              data-e2e='partialAmount'
-              selected={equals(tab, 'partial')}
-              onClick={setPartialTab}
+              id='modals.interest.withdrawal.availamount'
+              defaultMessage='You can withdraw up to'
+            />{' '}
+            <FiatAvailContainer
+              onClick={() =>
+                formActions.change(
+                  FORM_NAME,
+                  'withdrawalAmount',
+                  availToWithdraw
+                )
+              }
             >
-              <FormattedMessage
-                id='modals.interest.withdrawal.partialamount'
-                defaultMessage='Partial amount'
-              />
-            </TabMenuItem>
-            <TabMenuItem
-              width='50%'
-              data-e2e='fullAmount'
-              selected={equals(tab, 'full')}
-              onClick={setPartialFull}
-            >
-              <FormattedMessage
-                id='modals.interest.withdrawal.fullamount'
-                defaultMessage='Full amount'
-              />
-            </TabMenuItem>
-          </CustomTabMenu>
-        </ButtonWrapper>
+              <Text color='blue600' size='14px' weight={500}>
+                {fiatToString({
+                  value: availToWithdraw,
+                  unit: walletCurrency
+                })}
+              </Text>
+            </FiatAvailContainer>
+          </Text>
+        </MaxAmountContainer>
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -313,20 +299,22 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-        <WarningWrapper>
-          <WarningIcon color='orange600' cursor name='info' size='20px' />
-          <Text color='orange800' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.interest.withdrawal.warning'
-              defaultMessage='In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
-              values={{
-                pendingInterestCrypto: `${pendingInterest} ${coin}`,
-                withdrawalAmount: `${currencySymbol}${withdrawalAmount}`,
-                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
-              }}
-            />
-          </Text>
-        </WarningWrapper>
+        {values && values.withdrawalAmount > 0 && (
+          <WarningWrapper>
+            <WarningIcon color='orange600' cursor name='info' size='20px' />
+            <Text color='orange800' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.withdrawal.warning'
+                defaultMessage='In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
+                values={{
+                  pendingInterestCrypto: `${pendingInterest} ${coin}`,
+                  withdrawalAmount: `${currencySymbol}${withdrawalAmount}`,
+                  withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
+                }}
+              />
+            </Text>
+          </WarningWrapper>
+        )}
       </Top>
       <Bottom>
         <NetworkFee>
@@ -374,11 +362,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('interestWithdrawalForm')(state)
+  values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: 'interestWithdrawalForm' }),
+  reduxForm<{}, Props>({ form: FORM_NAME }),
   connect(mapStateToProps)
 )
 
