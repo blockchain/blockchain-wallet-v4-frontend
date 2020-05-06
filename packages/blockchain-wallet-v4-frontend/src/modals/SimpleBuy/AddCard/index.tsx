@@ -1,12 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect } from 'react-redux'
-import {
-  FiatType,
-  RemoteDataType,
-  SBCardType,
-  SBProviderDetailsType
-} from 'core/types'
+import { FiatType, RemoteDataType, SBCardType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -55,7 +50,6 @@ export type OwnProps = {
 export type SuccessStateType = {
   card: SBCardType
   fiatCurrency: FiatType
-  providerDetails: SBProviderDetailsType
 }
 export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
@@ -65,7 +59,4 @@ type LinkStatePropsType = {
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddCard)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCard)

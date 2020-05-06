@@ -200,6 +200,11 @@ export default ({
 
   const fetchEverypay3DSDetails = function * () {
     try {
+      const cardR = S.getSBCard(yield select())
+      const card = cardR.getOrFail('NO_CARD_TO_ACTIVATE')
+      yield put(A.activateSBCard(card))
+      yield take([AT.ACTIVATE_SB_CARD_SUCCESS, AT.ACTIVATE_SB_CARD_FAILURE])
+
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(A.fetchEverypay3DSDetailsLoading())
       const formValues: SBAddCardFormValuesType = yield select(
@@ -281,7 +286,6 @@ export default ({
         card = yield call(api.getSBCard, cardId)
       }
       yield put(A.fetchSBCardSuccess(card))
-      yield put(A.activateSBCard(card))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBCardFailure(error))
