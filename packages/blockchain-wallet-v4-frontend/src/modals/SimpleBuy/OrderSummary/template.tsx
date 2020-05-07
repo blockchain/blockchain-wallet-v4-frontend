@@ -163,27 +163,30 @@ const Success: React.FC<Props> = props => {
               </Button>
             </Bottom>
           ))}
-      {props.order.paymentMethodId && props.order.state === 'PENDING_DEPOSIT' && (
-        <Bottom>
-          <Button
-            data-e2e='sbRetryCard'
-            size='16px'
-            height='48px'
-            nature='primary'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                step: '3DS_HANDLER',
-                order: props.order
-              })
-            }
-          >
-            <FormattedMessage
-              id='modals.simplebuy.summary.complete_card_payment'
-              defaultMessage='Complete Card Payment'
-            />
-          </Button>
-        </Bottom>
-      )}
+      {props.order.state === 'PENDING_DEPOSIT' &&
+        props.order.attributes &&
+        props.order.attributes.everypay.paymentState ===
+          'WAITING_FOR_3DS_RESPONSE' && (
+          <Bottom>
+            <Button
+              data-e2e='sbRetryCard'
+              size='16px'
+              height='48px'
+              nature='primary'
+              onClick={() =>
+                props.simpleBuyActions.setStep({
+                  step: '3DS_HANDLER',
+                  order: props.order
+                })
+              }
+            >
+              <FormattedMessage
+                id='modals.simplebuy.summary.complete_card_payment'
+                defaultMessage='Complete Card Payment'
+              />
+            </Button>
+          </Bottom>
+        )}
     </Wrapper>
   )
 }
