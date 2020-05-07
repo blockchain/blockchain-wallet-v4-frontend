@@ -127,7 +127,7 @@
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.2",
     "moment": "2.24.0",
-    "postal-codes-js": "2.0.0",
+    "postal-codes-js": "2.3.1",
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
     "qs": "6.7.0",
