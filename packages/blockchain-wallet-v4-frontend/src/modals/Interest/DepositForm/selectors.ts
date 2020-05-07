@@ -3,21 +3,23 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
-  const btcRateR = selectors.core.data.btc.getRates(state)
+  const ratesR = selectors.components.interest.getRates(state)
   const coin = selectors.components.interest.getCoinType(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
-  const limitsR = selectors.components.interest.getInterestLimits(state)
+  const limits = selectors.components.interest.getMinMaxLimits(state)
+  const paymentR = selectors.components.interest.getPayment(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
-    (rates, interestRate, limits, supportedCoins, walletCurrency) => ({
+    (rates, interestRate, payment, supportedCoins, walletCurrency) => ({
       coin,
       interestRate,
       limits,
+      payment,
       rates,
       supportedCoins,
       walletCurrency
     })
-  )(btcRateR, interestRateR, limitsR, supportedCoinsR, walletCurrencyR)
+  )(ratesR, interestRateR, paymentR, supportedCoinsR, walletCurrencyR)
 }

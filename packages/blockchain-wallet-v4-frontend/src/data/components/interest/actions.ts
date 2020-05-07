@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, PaymentValue } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestAccountType,
@@ -12,6 +12,7 @@ import {
 import * as AT from './actionTypes'
 import {
   InterestActionTypes,
+  InterestMinMaxType,
   InterestStep,
   InterestStepMetadata
 } from './types'
@@ -184,11 +185,6 @@ export const requestWithdrawal = (coin: CoinType) => ({
   type: AT.REQUEST_WITHDRAWAL
 })
 
-export const submitDepositForm = (coin: CoinType) => ({
-  payload: { coin },
-  type: AT.SUBMIT_DEPOSIT_FORM
-})
-
 export const setInterestStep = (
   name: InterestStep,
   data?: InterestStepMetadata
@@ -197,7 +193,35 @@ export const setInterestStep = (
   type: AT.SET_INTEREST_STEP
 })
 
+export const setLimits = (limits: InterestMinMaxType) => ({
+  payload: { limits },
+  type: AT.SET_INTEREST_LIMITS
+})
+
+export const setPaymentFailure = (error: string): InterestActionTypes => ({
+  type: AT.SET_PAYMENT_FAILURE,
+  payload: {
+    error
+  }
+})
+export const setPaymentLoading = (): InterestActionTypes => ({
+  type: AT.SET_PAYMENT_LOADING
+})
+export const setPaymentSuccess = (
+  payment: PaymentValue
+): InterestActionTypes => ({
+  type: AT.SET_PAYMENT_SUCCESS,
+  payload: {
+    payment
+  }
+})
+
 export const showInterestModal = (step: InterestStep) => ({
   payload: { step },
   type: AT.SHOW_INTEREST_MODAL
+})
+
+export const submitDepositForm = (coin: CoinType) => ({
+  payload: { coin },
+  type: AT.SUBMIT_DEPOSIT_FORM
 })

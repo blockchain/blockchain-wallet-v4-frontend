@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
+import { actionTypes } from 'redux-form'
 import { APIType } from 'core/network/api'
-import { takeLatest } from 'redux-saga/effects'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({
@@ -52,5 +53,6 @@ export default ({
     yield takeLatest(AT.SUBMIT_DEPOSIT_FORM, interestSagas.sendDeposit)
     yield takeLatest(AT.REQUEST_WITHDRAWAL, interestSagas.requestWithdrawal)
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
+    yield takeEvery(actionTypes.CHANGE, interestSagas.formChanged)
   }
 }

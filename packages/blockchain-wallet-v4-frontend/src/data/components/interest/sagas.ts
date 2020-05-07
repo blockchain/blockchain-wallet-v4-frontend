@@ -1,18 +1,23 @@
-import { call, delay, put, select } from 'redux-saga/effects'
-import { initialize } from 'redux-form'
+import { call, delay, put, select, take } from 'redux-saga/effects'
+import { FormAction, initialize } from 'redux-form'
 import { nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { actions, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { InterestTransactionResponseType } from 'core/types'
-import { promptForSecondPassword } from 'services/SagaService'
+import {
+  InterestTransactionResponseType,
+  PaymentType,
+  PaymentValue
+} from 'core/types'
 
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
+import { InterestDepositFormType } from './types'
+import exchangeSagaUtils from '../exchange/sagas.utils'
+import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
 
@@ -25,6 +30,18 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
+  const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
+    .calculateProvisionalPayment
+  const {
+    buildAndPublishPayment,
+    createLimits,
+    createPayment,
+    paymentGetOrElse
+  } = utils({
+    coreSagas,
+    networks
+  })
+
   const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
@@ -113,12 +130,56 @@ export default ({
     }
   }
 
+  const formChanged = function * (action: FormAction) {
+    const form = action.meta.form
+    if (form !== 'interestDepositForm') return
+
+    const coin = S.getCoinType(yield select())
+    const ratesR = S.getRates(yield select())
+    const userCurrency = (yield select(
+      selectors.core.settings.getCurrency
+    )).getOrFail('Failed to get user currency')
+    const rates = ratesR.getOrElse({})
+    const rate = rates[userCurrency].last
+    const paymentR = S.getPayment(yield select())
+    let payment = paymentGetOrElse(coin, paymentR)
+    const values: InterestDepositFormType = yield select(
+      selectors.form.getFormValues('interestDepositForm')
+    )
+
+    switch (action.meta.field) {
+      case 'depositAmount':
+        const value = new BigNumber(action.payload).dividedBy(rate).toNumber()
+        let provisionalPayment: PaymentValue = yield call(
+          calculateProvisionalPayment,
+          {
+            ...values.interestDepositAccount,
+            address: values.interestDepositAccount.index
+          },
+          value
+        )
+        yield put(A.setPaymentSuccess(provisionalPayment))
+        break
+      case 'interestDepositAccount':
+        yield put(A.setPaymentLoading())
+        payment = yield call(createPayment, action.payload.index)
+        yield call(createLimits, payment)
+        yield put(A.setPaymentSuccess(payment.value()))
+    }
+  }
+
   const initializeDepositForm = function * ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     let defaultAccountR
+    let payment: PaymentType = <PaymentType>{}
 
-    yield call(fetchInterestLimits)
+    yield put(A.setPaymentLoading())
+    yield put(A.fetchInterestLimits())
+    yield take([
+      AT.FETCH_INTEREST_LIMITS_SUCCESS,
+      AT.FETCH_INTEREST_LIMITS_FAILURE
+    ])
 
     switch (payload.coin) {
       case 'BTC':
@@ -129,11 +190,14 @@ export default ({
           selectors.core.wallet.getDefaultAccountIndex
         )
         defaultAccountR = accountsR.map(nth(defaultIndex))
+        payment = yield call(createPayment, defaultIndex)
         break
       default:
         break
     }
 
+    yield call(createLimits, payment)
+    yield put(A.setPaymentSuccess(payment.value()))
     yield put(
       initialize('interestDepositForm', {
         interestDepositAccount: defaultAccountR.getOrElse()
@@ -164,44 +228,17 @@ export default ({
 
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
-    const COIN = 'BTC'
     try {
       yield put(actions.form.startSubmit(FORM))
-      // get deposit address
-      yield call(fetchInterestAccount, COIN)
+
+      const coin = S.getCoinType(yield select())
+      yield call(fetchInterestAccount, coin)
       const depositAddress = yield select(S.getDepositAddress)
-      // get user currency
-      const userCurrency = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrFail('Failed to get user currency')
-      // get form values
-      const formValues = yield select(selectors.form.getFormValues(FORM))
-      // get btc rates
-      const btcRates = (yield select(
-        selectors.core.data.btc.getRates
-      )).getOrFail('Failed to get BTC rates.')
-      // convert deposit fiat amount to sats
-      const depositAmountSats = Exchange.convertFiatToBtc({
-        value: parseFloat(formValues.depositAmount),
-        fromCurrency: userCurrency,
-        toUnit: 'SAT',
-        rates: btcRates
-      }).value
-      // ask for second password
-      const password = yield call(promptForSecondPassword)
+      const paymentR = S.getPayment(yield select())
+      let payment = paymentGetOrElse(coin, paymentR)
+
       // build and publish payment to network
-      yield coreSagas.payment.btc
-        .create({ network: networks.btc })
-        .chain()
-        .init()
-        .from(formValues.interestDepositAccount.index, ADDRESS_TYPES.ACCOUNT)
-        .to(depositAddress, ADDRESS_TYPES.ADDRESS)
-        .amount(new BigNumber(depositAmountSats).toNumber())
-        .fee('priority')
-        .build()
-        .sign(password)
-        .publish()
-        .done()
+      yield call(buildAndPublishPayment, coin, payment, depositAddress)
       // notify success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
@@ -280,6 +317,7 @@ export default ({
     fetchInterestAccount,
     fetchInterestRate,
     fetchInterestTransactions,
+    formChanged,
     initializeDepositForm,
     initializeWithdrawalForm,
     requestWithdrawal,
