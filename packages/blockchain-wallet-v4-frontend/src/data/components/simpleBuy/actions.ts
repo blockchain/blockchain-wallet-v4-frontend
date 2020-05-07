@@ -195,8 +195,11 @@ export const fetchSBFiatEligibleSuccess = (
   }
 })
 
-export const fetchSBOrders = () => ({
-  type: AT.FETCH_SB_ORDERS
+export const fetchSBOrders = (skipLoading?: boolean) => ({
+  type: AT.FETCH_SB_ORDERS,
+  payload: {
+    skipLoading
+  }
 })
 
 export const fetchSBOrdersFailure = (error: string): SimpleBuyActionTypes => ({
@@ -384,6 +387,10 @@ export const pollSBOrder = (orderId: string) => ({
   payload: {
     orderId
   }
+})
+
+export const pollSBOrdersAndBalances = () => ({
+  type: AT.POLL_SB_ORDERS_AND_BALANCES
 })
 
 export const setStep = (

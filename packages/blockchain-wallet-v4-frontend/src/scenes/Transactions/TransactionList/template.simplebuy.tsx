@@ -21,6 +21,8 @@ const TransactionRow = styled.div`
   border-bottom: 1px solid ${props => props.theme.grey000} !important;
   box-sizing: border-box;
   padding: 14px;
+  padding-left: 0px;
+  margin-left: 14px;
 `
 const StatusColumn = styled.div`
   display: flex;

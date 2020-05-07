@@ -349,11 +349,14 @@ export default ({
     }
   }
 
-  const fetchSBOrders = function * () {
+  const fetchSBOrders = function * ({
+    payload
+  }: ReturnType<typeof A.fetchSBOrders>) {
     try {
+      const { skipLoading } = payload
       if (!(yield call(isTier2))) return
 
-      yield put(A.fetchSBOrdersLoading())
+      if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
     } catch (e) {
@@ -614,9 +617,28 @@ export default ({
       yield delay(3000)
     }
 
-    yield put(A.fetchSBOrders())
-    yield put(A.fetchSBBalances())
     yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
+  }
+
+  const pollSBOrdersAndBalances = function * () {
+    let retryAttempts = 0
+    const maxRetryAttempts = 10
+    const skipLoading = true
+
+    while (retryAttempts <= maxRetryAttempts) {
+      yield put(A.fetchSBOrders(skipLoading))
+      yield put(A.fetchSBBalances())
+      retryAttempts++
+      yield delay(2000)
+    }
+  }
+
+  const setStepChange = function * (action: ReturnType<typeof A.setStep>) {
+    if (action.type === '@EVENT.SET_SB_STEP') {
+      if (action.payload.step === 'ORDER_SUMMARY') {
+        yield call(pollSBOrdersAndBalances)
+      }
+    }
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
@@ -657,6 +679,8 @@ export default ({
     initializeCheckout,
     pollSBCard,
     pollSBOrder,
+    pollSBOrdersAndBalances,
+    setStepChange,
     showModal
   }
 }
