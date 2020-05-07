@@ -49,12 +49,10 @@ class PersonalContainer extends React.PureComponent {
   }
 
   selectAddress = (e, address) => {
-    e.preventDefault()
     this.props.actions.selectAddress(address)
   }
 
   onCountryChange = (e, value) => {
-    e.preventDefault()
     this.props.formActions.change(PERSONAL_FORM, 'country', value)
     this.props.formActions.clearFields(PERSONAL_FORM, false, false, 'state')
   }
@@ -164,7 +162,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(PersonalContainer)
+export default connect(getData, mapDispatchToProps)(PersonalContainer)

@@ -50,19 +50,22 @@ const BlockchainLogoImage = styled(Image)`
   height: 20px;
   width: 160px;
   ${media.tablet`
-    margin-left: 6px;
+    margin-left: 12px;
   `}
 `
 
 const NavbarStyled = styled(Navbar)``
 
 const NavbarBottomStyled = styled(Navbar)`
+  display: flex;
   width: auto;
   margin: 0 26px;
   box-sizing: border-box;
   border-top: 1px solid ${props => props.theme.whiteFade100};
   ${media.tablet`
-    margin: 0 15px;
+    margin: 0;
+    padding: 0 15px;
+    width: 100%;
   `}
 `
 

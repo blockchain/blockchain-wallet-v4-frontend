@@ -1080,6 +1080,8 @@ type MessagesType = {
   'modals.simplebuy.cancelorder.cancel': 'Yes. Cancel Order'
   'modals.simplebuy.cancelorder.goback': 'No. Go Back'
   'modals.simplebuy.cancelorder.outcome': 'Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now.'
+  'modals.simplebuy.card_activation_failed': 'We could not activate your card. Please contact support.'
+  'modals.simplebuy.card_creation_failed': 'We could not save your card. Please contact support.'
   'modals.simplebuy.card_number': 'Card Number'
   'modals.simplebuy.card_pending_after_poll': 'We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
   'modals.simplebuy.cc_info_received': 'Waiting for information from your bank...'

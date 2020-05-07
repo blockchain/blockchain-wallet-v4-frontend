@@ -105,7 +105,7 @@ export const EXCHANGE_EVENTS = {
     'homepage',
     'linked_wallet_linkout_clicked'
   ],
-  PROMO: ['exchange', 'send_modal', 'promo_clicked']
+  PROMO: ['exchange', 'send_modal']
 }
 
 export const PRICE_CHART_EVENTS = {

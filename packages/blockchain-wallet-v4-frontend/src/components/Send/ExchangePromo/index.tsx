@@ -65,7 +65,7 @@ class ExchangePromo extends PureComponent<Props> {
     })
     this.props.analyticsActions.logEvent([
       ...EXCHANGE_EVENTS.PROMO,
-      'connect_modal'
+      'connect_modal_promo_clicked'
     ])
   }
 
@@ -100,7 +100,7 @@ class ExchangePromo extends PureComponent<Props> {
               onClick={() =>
                 this.props.analyticsActions.logEvent([
                   ...EXCHANGE_EVENTS.PROMO,
-                  'go_to_exchange'
+                  'go_to_exchange_promo_clicked'
                 ])
               }
             >
@@ -143,7 +143,7 @@ class ExchangePromo extends PureComponent<Props> {
             onClick={() =>
               this.props.analyticsActions.logEvent([
                 ...EXCHANGE_EVENTS.PROMO,
-                'verify_account'
+                'verify_account_promo_clicked'
               ])
             }
           >

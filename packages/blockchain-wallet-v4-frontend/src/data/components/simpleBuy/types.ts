@@ -25,6 +25,11 @@ export type SBAddCardFormValuesType = {
   'expiry-date': string
   'name-on-card': string
 }
+export type SBAddCardErrorType =
+  | 'PENDING_CARD_AFTER_POLL'
+  | 'LINK_CARD_FAILED'
+  | 'CARD_ACTIVATION_FAILED'
+  | 'CARD_CREATION_FAILED'
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
   amount: string
@@ -297,15 +302,11 @@ interface SetStepAction {
           | 'CANCEL_ORDER'
       }
     | {
-        cardId?: string
-        step: 'ADD_CARD'
-      }
-    | {
         order?: SBOrderType
         step: '3DS_HANDLER'
       }
     | {
-        step: 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS'
+        step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS'
       }
   type: typeof AT.SET_STEP
 }

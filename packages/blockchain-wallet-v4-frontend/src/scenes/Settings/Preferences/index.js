@@ -1,6 +1,7 @@
 import AutoLogout from './AutoLogout'
 import CryptoLinkHandling from './CryptoLinkHandling'
 import LocalCurrency from './LocalCurrency'
+import media from 'services/ResponsiveService'
 import MobileNumber from './MobileNumber'
 import Notifications from './Notifications'
 import React from 'react'
@@ -12,6 +13,10 @@ const Wrapper = styled.section`
   width: 100%;
   padding: 10px 30px 30px;
   box-sizing: border-box;
+
+  ${media.mobile`
+    padding: 0;
+  `}
 `
 
 const Preferences = () => {

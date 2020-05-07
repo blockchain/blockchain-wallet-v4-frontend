@@ -75,10 +75,7 @@ export const getData = state => {
     activeFieldError:
       path([activeField, 'touched'], formMetaSelector(state)) &&
       includes(activeField, keys(formErrorSelector(state))),
-    userData: compose(
-      lift(formatUserData),
-      getUserData
-    )(state),
+    userData: compose(lift(formatUserData), getUserData)(state),
     pathName: selectors.router.getPathname(state)
   }
 }

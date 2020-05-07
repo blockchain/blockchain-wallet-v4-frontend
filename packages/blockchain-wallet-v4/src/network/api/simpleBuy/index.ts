@@ -97,11 +97,7 @@ export default ({
       removeDefaultPostData: true,
       data: {
         action: 'confirm',
-        attributes: attributes || {
-          everypay: {
-            customerUrl: 'https://login.blockchain.com'
-          }
-        }
+        attributes
       }
     })
 

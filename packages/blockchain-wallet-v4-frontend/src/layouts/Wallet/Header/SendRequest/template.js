@@ -15,6 +15,10 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     margin-top: 0;
   }
+
+  ${media.mobile`
+    flex-shrink: 0;
+  `}
 `
 const Divider = styled.div`
   height: 18px;
@@ -80,6 +84,10 @@ const ActionButton = styled(IconButton)`
     div:last-of-type {
       font-size: 13px;
     }
+    & > span {
+      display: none;
+    }
+
   `};
 `
 
