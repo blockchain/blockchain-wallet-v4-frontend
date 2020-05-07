@@ -8,6 +8,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return function * simpleBuySaga () {
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
+    yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
     yield takeLatest(
@@ -17,10 +18,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
-    )
-    yield takeLatest(
-      AT.FETCH_EVERYPAY_3DS_DETAILS,
-      simpleBuySagas.fetchEverypay3DSDetails
     )
     yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
     yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)

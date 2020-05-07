@@ -8,7 +8,7 @@ import Template from './template'
 
 class AddCard extends PureComponent<Props> {
   handleSubmit = () => {
-    this.props.simpleBuyActions.fetchEverypay3DSDetails()
+    this.props.simpleBuyActions.addCardDetails()
   }
 
   render () {

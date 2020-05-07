@@ -50,6 +50,22 @@ export function simpleBuyReducer (
         ...state,
         providerDetails: Remote.Success(action.payload.providerDetails)
       }
+    case AT.ADD_CARD_DETAILS_FAILURE: {
+      return {
+        ...state,
+        everypay3DS: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.ADD_CARD_DETAILS_LOADING:
+      return {
+        ...state,
+        everypay3DS: Remote.Loading
+      }
+    case AT.ADD_CARD_DETAILS_SUCCESS:
+      return {
+        ...state,
+        everypay3DS: Remote.Success(action.payload.everypay3DS)
+      }
     case AT.DESTROY_CHECKOUT:
       return {
         ...state,
@@ -61,22 +77,6 @@ export function simpleBuyReducer (
         quote: Remote.NotAsked,
         step: 'CURRENCY_SELECTION',
         suggestedAmounts: Remote.NotAsked
-      }
-    case AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE: {
-      return {
-        ...state,
-        everypay3DS: Remote.Failure(action.payload.error)
-      }
-    }
-    case AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING:
-      return {
-        ...state,
-        everypay3DS: Remote.Loading
-      }
-    case AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS:
-      return {
-        ...state,
-        everypay3DS: Remote.Success(action.payload.everypay3DS)
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {

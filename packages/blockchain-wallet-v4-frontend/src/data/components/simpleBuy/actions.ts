@@ -45,6 +45,28 @@ export const activateSBCardSuccess = (
     providerDetails
   }
 })
+
+export const addCardDetails = () => ({
+  type: AT.ADD_CARD_DETAILS
+})
+export const addCardDetailsFailure = (error: string): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_DETAILS_FAILURE,
+  payload: {
+    error
+  }
+})
+export const addCardDetailsLoading = (): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_DETAILS_LOADING
+})
+export const addCardDetailsSuccess = (
+  everypay3DS: Everypay3DSResponseType
+): SimpleBuyActionTypes => ({
+  type: AT.ADD_CARD_DETAILS_SUCCESS,
+  payload: {
+    everypay3DS
+  }
+})
+
 export const cancelSBOrder = (order: SBOrderType) => ({
   type: AT.CANCEL_ORDER,
   order
@@ -68,31 +90,6 @@ export const confirmSBCreditCardOrder = (
 
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
-})
-
-export const fetchEverypay3DSDetails = () => ({
-  type: AT.FETCH_EVERYPAY_3DS_DETAILS
-})
-export const fetchEverypay3DSDetailsFailure = (
-  error: string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const fetchEverypay3DSDetailsLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING
-})
-
-export const fetchEverypay3DSDetailsSuccess = (
-  everypay3DS: Everypay3DSResponseType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS,
-  payload: {
-    everypay3DS
-  }
 })
 
 export const fetchSBBalances = (currency?: CoinType) => ({
