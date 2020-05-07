@@ -1,8 +1,8 @@
 import { RatesType } from '../borrow/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RemoteDataType } from 'core/types'
 import { RootState } from '../../rootReducer'
 import { selectors } from 'data'
-import Remote from 'core/remote/remote'
 
 export const getInterestAccountBalance = (state: RootState) =>
   state.components.interest.interestAccountBalance
