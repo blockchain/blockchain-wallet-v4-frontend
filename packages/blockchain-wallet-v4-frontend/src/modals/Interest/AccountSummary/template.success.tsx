@@ -1,7 +1,6 @@
 import {
   Button,
   Icon,
-  Link,
   Text,
   TooltipHost,
   TooltipIcon
@@ -21,10 +20,11 @@ import {
   LineVector,
   LineVectorDetails,
   Row,
-  SendStatusWrapper,
+  StatusIcon,
+  StatusIconWrapper,
+  StatusWrapper,
   Top,
   TopText,
-  ViewStatusButton,
   Wrapper
 } from './model'
 
@@ -96,41 +96,42 @@ const AccountSummary: React.FC<Props> = props => {
           </Container>
         </Row>
         <LineVector />
-        {stepMetadata && stepMetadata.sendSuccess ? (
-          <SendStatusWrapper>
+        {stepMetadata && stepMetadata.depositSuccess && (
+          <StatusWrapper>
+            <StatusIconWrapper color='orange000'>
+              <StatusIcon color='orange600' name='timer' size='24px' />
+            </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.success'
-                defaultMessage='Your deposit has been sent to your Interest Account. Your balance will update once the transaction is confirmed by the network.  No further action is required.'
-                values={{ displayName }}
+                defaultMessage='Waiting on your deposit to be confirmed by the network and our team. You do not need to take any action at this point.'
               />
             </Text>
-            <Link
-              href={`${supportedCoins[coin].txExplorerBaseUrl}/${stepMetadata.depositTxHash}`}
-              target='_blank'
-            >
-              <ViewStatusButton
-                data-e2e='viewDepositStatus'
-                nature='empty'
-                width='100px'
-              >
-                <Text color='blue600' size='13px' weight={600}>
-                  <FormattedMessage
-                    id='buttons.viewstatus'
-                    defaultMessage='View Status'
-                  />
-                </Text>
-              </ViewStatusButton>
-            </Link>
-          </SendStatusWrapper>
-        ) : (
-          stepMetadata &&
-          stepMetadata.error && (
-            <SendStatusWrapper>
+          </StatusWrapper>
+        )}
+        {stepMetadata && stepMetadata.withdrawSuccess && (
+          <StatusWrapper>
+            <StatusIconWrapper color='orange000'>
+              <StatusIcon color='orange600' name='timer' size='24px' />
+            </StatusIconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.withdrawal.success'
+                defaultMessage='Waiting on your withdrawal to be confirmed by our team. You do not need to take any action at this point.'
+              />
+            </Text>
+          </StatusWrapper>
+        )}
+        {stepMetadata && stepMetadata.error && (
+          <StatusWrapper>
+            <StatusIconWrapper color='red000'>
+              <StatusIcon color='red600' name='forbidden' size='24px' />
+            </StatusIconWrapper>
+            <div>
               <Text color='red600' size='14px' weight={500}>
                 <FormattedMessage
                   id='modals.interest.deposit.failure'
-                  defaultMessage='Something went wrong when sending your deposit. Please try again later or contact support if the issue persists.'
+                  defaultMessage='Something went wrong. Please try again later or contact support if the issue persists.'
                 />
               </Text>
               <Text
@@ -145,8 +146,8 @@ const AccountSummary: React.FC<Props> = props => {
                   values={{ error: stepMetadata.error }}
                 />
               </Text>
-            </SendStatusWrapper>
-          )
+            </div>
+          </StatusWrapper>
         )}
         <ButtonContainer>
           <Button
@@ -179,11 +180,36 @@ const AccountSummary: React.FC<Props> = props => {
         <DetailsWrapper>
           <Text color='grey800' weight={600} style={{ marginBottom: '6px' }}>
             <FormattedMessage
-              id='modals.borrow.summary'
+              id='modals.interest.summary'
               defaultMessage='Summary'
             />
           </Text>
           <LineVectorDetails />
+          {stepMetadata &&
+            (stepMetadata.depositSuccess || stepMetadata.withdrawSuccess) && (
+              <>
+                <DetailsItemContainer>
+                  <Text color='grey600' size='14px' weight={500}>
+                    <FormattedMessage
+                      id='modals.interest.status'
+                      defaultMessage='Status'
+                    />
+                  </Text>
+                  <Text color='orange600' size='14px' weight={500}>
+                    <FormattedMessage
+                      id='modals.interest.statuspending'
+                      defaultMessage='Pending {action}'
+                      values={{
+                        action: stepMetadata.withdrawSuccess
+                          ? 'Withdrawal'
+                          : 'Deposit'
+                      }}
+                    />
+                  </Text>
+                </DetailsItemContainer>
+                <LineVectorDetails />
+              </>
+            )}
           <DetailsItemContainer>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
@@ -192,7 +218,8 @@ const AccountSummary: React.FC<Props> = props => {
               />
             </Text>
             <Text color='grey600' size='14px' weight={500}>
-              {account.balance > 0 || (stepMetadata && stepMetadata.sendSuccess)
+              {account.balance > 0 ||
+              (stepMetadata && stepMetadata.depositSuccess)
                 ? moment()
                     .add(1, 'month')
                     .startOf('month')

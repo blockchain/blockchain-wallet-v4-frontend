@@ -14,7 +14,7 @@ export const maximumWithdrawalAmount = (
   ) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'
-      defaultMessage='The amount you entered is above the maximum withdrawal amount.'
+      defaultMessage='Amount is above the maximum withdrawal amount.'
     />
   ) : (
     false
@@ -23,13 +23,13 @@ export const maximumWithdrawalAmount = (
 
 export const minimumWithdrawalAmount = (value: string) => {
   // someday there may be a minimum withdrawal amount
-  const MIN_WITHDRAWAL = 1
+  const MIN_WITHDRAWAL = 0
   return new BigNumber(Number(MIN_WITHDRAWAL)).isGreaterThanOrEqualTo(
     Number(value)
   ) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.belowmin'
-      defaultMessage='The amount you entered is below the minimum withdrawal amount.'
+      defaultMessage='Amount is below the minimum withdrawal amount.'
     />
   ) : (
     false

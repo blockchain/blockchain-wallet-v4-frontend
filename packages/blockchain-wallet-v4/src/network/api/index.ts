@@ -58,7 +58,8 @@ const api = ({
     }),
     ...interest({
       nabuUrl,
-      authorizedGet: authorizedHttp.get
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ rootUrl, apiUrl, ...http }),

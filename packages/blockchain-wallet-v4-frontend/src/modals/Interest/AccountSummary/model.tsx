@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Icon, Text } from 'blockchain-info-components'
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -35,17 +35,6 @@ export const Container = styled(Row)`
   &:last-child {
     margin-left: 32px;
   }
-`
-export const SendStatusWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 16px;
-  padding: 16px;
-  background-color: ${props => props.theme.greyFade400};
-  border: 1px solid ${({ theme }) => theme.grey000};
-  box-sizing: border-box;
-  border-radius: 8px;
 `
 export const DetailsWrapper = styled.div`
   display: flex;
@@ -82,9 +71,19 @@ export const ButtonContainer = styled.div`
     padding: 15px !important;
   }
 `
-export const ViewStatusButton = styled(Button)`
-  height: 30px;
-  width: 100px;
-  padding: 0;
-  margin-top: 8px;
+export const StatusWrapper = styled.div`
+  display: flex;
+  padding: 4px;
+  margin-top: 20px;
+`
+export const StatusIconWrapper = styled.div<{ color: string }>`
+  margin-right: 16px;
+  background: ${props => props.theme[props.color]};
+  border-radius: 20px;
+  min-height: 38px;
+  min-width: 38px;
+  max-height: 38px;
+`
+export const StatusIcon = styled(Icon)`
+  margin: 6px 0 0 8px;
 `

@@ -6,10 +6,11 @@ import {
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
-  InterestTransactionResponseType
+  InterestTransactionResponseType,
+  InterestWithdrawalResponseType
 } from './types'
 
-export default ({ nabuUrl, authorizedGet }) => {
+export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   const getInterestAccountBalance = (
     ccy?: CoinType,
     din?: FiatType
@@ -60,6 +61,22 @@ export default ({ nabuUrl, authorizedGet }) => {
       endPoint: `/payments/accounts/savings?ccy=${ccy}`
     })
 
+  const initiateInterestWithdrawal = (
+    amount: number,
+    currency: CoinType,
+    withdrawalAddress: string
+  ): InterestWithdrawalResponseType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        amount,
+        currency,
+        withdrawalAddress
+      },
+      endPoint: '/savings/withdrawals',
+      url: nabuUrl
+    })
+
   return {
     getInterestAccountBalance,
     getInterestEligible,
@@ -67,6 +84,7 @@ export default ({ nabuUrl, authorizedGet }) => {
     getInterestLimits,
     getInterestAccount,
     getInterestSavingsRate,
-    getInterestTransactions
+    getInterestTransactions,
+    initiateInterestWithdrawal
   }
 }

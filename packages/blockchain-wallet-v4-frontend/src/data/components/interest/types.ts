@@ -32,9 +32,9 @@ export enum InterestSteps {
 }
 
 export type InterestStepMetadata = {
-  depositTxHash?: string
+  depositSuccess?: boolean
   error?: string
-  sendSuccess?: boolean
+  withdrawSuccess?: boolean
 }
 
 export type InterestStep = keyof typeof InterestSteps

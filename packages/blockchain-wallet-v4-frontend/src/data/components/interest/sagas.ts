@@ -190,7 +190,7 @@ export default ({
       // ask for second password
       const password = yield call(promptForSecondPassword)
       // build and publish payment to network
-      const payment = (yield coreSagas.payment.btc
+      yield coreSagas.payment.btc
         .create({ network: networks.btc })
         .chain()
         .init()
@@ -201,15 +201,10 @@ export default ({
         .build()
         .sign(password)
         .publish()
-        .done()).value()
+        .done()
       // notify success
       yield put(actions.form.stopSubmit(FORM))
-      yield put(
-        A.setInterestStep('ACCOUNT_SUMMARY', {
-          sendSuccess: true,
-          depositTxHash: payment.txId
-        })
-      )
+      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
@@ -217,7 +212,7 @@ export default ({
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
       yield put(
-        A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: false, error })
+        A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
       )
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
@@ -230,25 +225,38 @@ export default ({
     try {
       yield put(actions.form.startSubmit(FORM))
       yield delay(3000)
-      // get form values
-      // const formValues = yield select(selectors.form.getFormValues(FORM))
+      // get withdrawal amount
+      const { withdrawalAmount } = yield select(
+        selectors.form.getFormValues(FORM)
+      )
+      // get default btc account
+      // TODO: in future make dynamic
+      const receiveAddress = selectors.core.common.btc
+        .getNextAvailableReceiveAddress(
+          networks.btc,
+          yield select(selectors.core.wallet.getDefaultAccountIndex),
+          yield select()
+        )
+        .getOrFail('Failed to get BTC receive address')
+      // initiate withdrawal request
+      yield call(
+        api.initiateInterestWithdrawal,
+        withdrawalAmount,
+        'BTC',
+        receiveAddress
+      )
       // notify success
       yield put(actions.form.stopSubmit(FORM))
-      // yield put(
-      //   A.setInterestStep('ACCOUNT_SUMMARY', {
-      //     sendSuccess: true,
-      //     depositTxHash: payment.txId
-      //   })
-      // )
+      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
       )
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
-      // yield put(
-      //   A.setInterestStep('ACCOUNT_SUMMARY', { sendSuccess: false, error })
-      // )
+      yield put(
+        A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: false, error })
+      )
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_FAILURE)
       )

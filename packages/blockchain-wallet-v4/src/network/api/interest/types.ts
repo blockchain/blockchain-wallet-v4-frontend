@@ -52,3 +52,11 @@ export type InterestTransactionType = {
 export type InterestTransactionResponseType = {
   items: Array<InterestTransactionType>
 }
+
+export type InterestWithdrawalResponseType = {
+  amount: number
+  id: string
+  product: string
+  state: string
+  user: string
+}
