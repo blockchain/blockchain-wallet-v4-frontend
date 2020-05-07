@@ -10,7 +10,12 @@ const INITIAL_STATE: InterestState = {
   interestInstruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
+  limits: {
+    maxFiat: 0,
+    minFiat: 0
+  },
   interestTransactions: Remote.NotAsked,
+  payment: Remote.NotAsked,
   step: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
@@ -137,6 +142,12 @@ export function interestReducer (
         coin: action.payload.coin
       }
     }
+    case AT.SET_INTEREST_LIMITS: {
+      return {
+        ...state,
+        limits: action.payload.limits
+      }
+    }
     case AT.SET_INTEREST_STEP: {
       const { data, name } = action.payload
       return {
@@ -147,6 +158,21 @@ export function interestReducer (
         }
       }
     }
+    case AT.SET_PAYMENT_FAILURE:
+      return {
+        ...state,
+        payment: Remote.Failure(action.payload.error)
+      }
+    case AT.SET_PAYMENT_LOADING:
+      return {
+        ...state,
+        payment: Remote.Loading
+      }
+    case AT.SET_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        payment: Remote.Success(action.payload.payment)
+      }
 
     default:
       return state

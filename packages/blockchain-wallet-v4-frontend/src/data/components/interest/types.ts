@@ -9,6 +9,7 @@ import {
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
+  PaymentValue,
   RemoteDataType
 } from 'core/types'
 
@@ -18,6 +19,11 @@ export type InterestDepositFormType = {
   depositAmount: number
   interestDepositAccount: AccountTypes
   terms: boolean
+}
+
+export type InterestMinMaxType = {
+  maxFiat: number
+  minFiat: number
 }
 
 export type InterestWithdrawalFormType = {
@@ -49,6 +55,8 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
+  limits: InterestMinMaxType
+  payment: RemoteDataType<string, PaymentValue>
   step: {
     data: InterestStepMetadata
     name: InterestStep
@@ -185,6 +193,29 @@ interface ShowInterestModal {
   type: typeof AT.SHOW_INTEREST_MODAL
 }
 
+interface SetLimitsAction {
+  payload: {
+    limits: InterestMinMaxType
+  }
+  type: typeof AT.SET_INTEREST_LIMITS
+}
+
+interface SetPaymentFailureAction {
+  payload: {
+    error: string
+  }
+  type: typeof AT.SET_PAYMENT_FAILURE
+}
+interface SetPaymentLoadingAction {
+  type: typeof AT.SET_PAYMENT_LOADING
+}
+interface SetPaymentSuccessAction {
+  payload: {
+    payment: PaymentValue
+  }
+  type: typeof AT.SET_PAYMENT_SUCCESS
+}
+
 export type InterestActionTypes =
   | FetchInterestBalanceFailure
   | FetchInterestBalanceLoading
@@ -213,3 +244,7 @@ export type InterestActionTypes =
   | RouteToTxHash
   | SetInterestStep
   | ShowInterestModal
+  | SetLimitsAction
+  | SetPaymentFailureAction
+  | SetPaymentLoadingAction
+  | SetPaymentSuccessAction

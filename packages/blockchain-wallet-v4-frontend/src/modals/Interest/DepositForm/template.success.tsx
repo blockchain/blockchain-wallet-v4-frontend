@@ -1,6 +1,6 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { equals, update } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import React, { useState } from 'react'
@@ -218,21 +218,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       value: depositAmount
     }).value
   }).value
-  const maxFromSelectedAccountCrypto =
-    (values &&
-      values.interestDepositAccount &&
-      values.interestDepositAccount.balance) ||
-    0
-  const maxFromSelectedAccountFiat = Exchange.convertBtcToFiat({
-    toCurrency: walletCurrency,
-    fromUnit: 'BTC',
-    value: Exchange.convertCoinToCoin({
-      baseToStandard: true,
-      coin,
-      value: maxFromSelectedAccountCrypto
-    }).value,
-    rates
-  }).value
 
   return submitting ? (
     <SendingWrapper>
@@ -266,8 +251,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
-            onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
+            onClick={() => interestActions.setInterestStep('ACCOUNT_SUMMARY')}
             cursor
+            role='button'
             name='arrow-left'
             size='20px'
             color='grey600'
@@ -289,13 +275,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 formActions.change(
                   FORM_NAME,
                   'depositAmount',
-                  maxFromSelectedAccountFiat
+                  props.limits.maxFiat
                 )
               }
             >
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
-                  value: maxFromSelectedAccountFiat,
+                  value: props.limits.maxFiat,
                   unit: walletCurrency
                 })}{' '}
               </Text>
@@ -334,7 +320,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               minDepositAmount,
               () =>
                 maxDepositAmount(
-                  maxFromSelectedAccountFiat,
+                  props.limits.maxFiat,
                   props,
                   values && values.depositAmount
                 )
@@ -594,11 +580,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 }
 
-const mapStateToProps = state => ({
-  values: selectors.form.getFormValues(FORM_NAME)(state)
+const mapStateToProps = (state): LinkStatePropsType => ({
+  values: selectors.form.getFormValues(FORM_NAME)(
+    state
+  ) as InterestDepositFormType
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
@@ -609,18 +597,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
-type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  formActions: typeof actions.form
-  interestActions: typeof actions.components.interest
-}
 
-export type Props = SuccessStateType &
-  LinkStatePropsType &
-  LinkDispatchPropsType
+export type Props = SuccessStateType & ConnectedProps<typeof connector>
 
 const enhance = compose(
-  reduxForm<{}, Props>({ form: FORM_NAME }),
+  reduxForm<{}, Props>({ form: FORM_NAME, destroyOnUnmount: false }),
   connector
 )
 
