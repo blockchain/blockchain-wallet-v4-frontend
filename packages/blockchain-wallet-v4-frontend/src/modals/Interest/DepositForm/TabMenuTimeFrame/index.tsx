@@ -23,7 +23,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
       <TabMenuItem
         width='50%'
         data-e2e='longTerm'
-        selected={props.input.value === equals(tab, 'long')}
+        selected={equals(tab, 'long')}
         onClick={() => handleTimeFrameChange('long')}
       >
         <FormattedMessage
@@ -34,7 +34,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
       <TabMenuItem
         width='50%'
         data-e2e='shortTerm'
-        selected={props.input.value === equals(tab, 'short')}
+        selected={equals(tab, 'short')}
         onClick={() => handleTimeFrameChange('short')}
       >
         <FormattedMessage
