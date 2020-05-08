@@ -123,7 +123,6 @@ export const INTEREST_EVENTS = {
     VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click']
   },
   DEPOSIT: {
-    CALC_SWITCH: ['interest', 'deposit', 'calc_term_click'],
     SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
     SEND_FAILURE: ['interest', 'deposit', 'send_failure']
   },

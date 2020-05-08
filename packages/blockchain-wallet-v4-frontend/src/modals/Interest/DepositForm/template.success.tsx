@@ -1,19 +1,16 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { equals, update } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import {
   Button,
   Icon,
   Link,
   SpinningLoader,
-  TabMenu,
-  TabMenuItem,
   Text,
   TooltipHost,
   TooltipIcon
@@ -36,8 +33,7 @@ import { required } from 'services/FormHelper'
 
 import { maxDepositAmount, minDepositAmount } from './validation'
 import { SuccessStateType } from '.'
-
-const { INTEREST_EVENTS } = model.analytics
+import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const SendingWrapper = styled.div`
   width: 100%;
@@ -119,10 +115,6 @@ const CalculatorContainer = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
 `
-const CustomTabMenu = styled(TabMenu)`
-  width: 232px;
-  margin-bottom: 12px;
-`
 const InterestTermWrapper = styled.div`
   display: flex;
 `
@@ -180,7 +172,6 @@ const FORM_NAME = 'interestDepositForm'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
-    analyticsActions,
     coin,
     formActions,
     interestActions,
@@ -192,14 +183,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     supportedCoins,
     values
   } = props
-  const [tab, setTab] = useState<'long' | 'short'>('long')
-  const handleTimeFrameChange = (tab: 'long' | 'short') => {
-    analyticsActions.logEvent(
-      // @ts-ignore
-      update(-1, `calc_term_click_${tab}`, INTEREST_EVENTS.DEPOSIT.CALC_SWITCH)
-    )
-    setTab(tab)
-  }
+
   const handleFormSubmit = e => {
     e.preventDefault()
     interestActions.submitDepositForm(coin)
@@ -218,7 +202,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       value: depositAmount
     }).value
   }).value
-
+  const loanTimeFrame = values && values.loanTimeFrame
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -357,32 +341,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </CalculatorDesc>
           <CalculatorContainer>
-            <CustomTabMenu>
-              <TabMenuItem
-                width='50%'
-                data-e2e='longTerm'
-                selected={equals(tab, 'long')}
-                onClick={() => handleTimeFrameChange('long')}
-              >
-                <FormattedMessage
-                  id='modals.interest.deposit.longterm'
-                  defaultMessage='Long-term'
-                />
-              </TabMenuItem>
-              <TabMenuItem
-                width='50%'
-                data-e2e='shortTerm'
-                selected={equals(tab, 'short')}
-                onClick={() => handleTimeFrameChange('short')}
-              >
-                <FormattedMessage
-                  id='modals.interest.deposit.shortterm'
-                  defaultMessage='Short-term'
-                />
-              </TabMenuItem>
-            </CustomTabMenu>
+            <Field component={TabMenuTimeFrame} name='loanTimeFrame' />
             <InterestTermWrapper>
-              {equals(tab, 'long') ? (
+              {loanTimeFrame === 'long' ? (
                 <>
                   <InterestTermContainer>
                     <Text color='grey600' size='12px' weight={500}>
@@ -586,7 +547,6 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
