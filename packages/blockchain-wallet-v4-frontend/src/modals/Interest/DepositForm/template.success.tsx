@@ -326,7 +326,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 )
             ]}
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'

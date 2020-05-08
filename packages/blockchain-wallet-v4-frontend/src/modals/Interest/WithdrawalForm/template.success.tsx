@@ -290,7 +290,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               minimumWithdrawalAmount
             ]}
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true,
               errorIcon: 'alert-filled'

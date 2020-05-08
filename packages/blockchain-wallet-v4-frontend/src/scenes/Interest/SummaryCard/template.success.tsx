@@ -154,7 +154,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
       {balanceSats > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
-          nature='light'
+          nature='primary'
           data-e2e='viewInterestDetails'
           fullwidth
           onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
