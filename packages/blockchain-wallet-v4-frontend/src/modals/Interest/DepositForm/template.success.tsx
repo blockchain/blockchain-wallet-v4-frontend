@@ -1,9 +1,8 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { equals } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
@@ -184,7 +183,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     supportedCoins,
     values
   } = props
-  const [tab] = useState<'long' | 'short'>('long')
 
   const handleFormSubmit = e => {
     e.preventDefault()
@@ -204,7 +202,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       value: depositAmount
     }).value
   }).value
-
+  const loanTimeFrame = values && values.loanTimeFrame
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -344,9 +342,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </CalculatorDesc>
           <CalculatorContainer>
-            <Field component={TabMenuTimeFrame} name='loan-timeframe-calc' />
+            <Field component={TabMenuTimeFrame} name='loanTimeFrame' />
             <InterestTermWrapper>
-              {equals(tab, 'long') ? (
+              {loanTimeFrame === 'long' ? (
                 <>
                   <InterestTermContainer>
                     <Text color='grey600' size='12px' weight={500}>
