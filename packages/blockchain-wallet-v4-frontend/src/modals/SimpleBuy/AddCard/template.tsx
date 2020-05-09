@@ -122,6 +122,12 @@ const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
+              {props.error === 'CARD_ALREADY_SAVED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.card_already_saved'
+                  defaultMessage='This card has already been saved.'
+                />
+              )}
               {props.error === 'CARD_CREATION_FAILED' && (
                 <FormattedMessage
                   id='modals.simplebuy.card_creation_failed'

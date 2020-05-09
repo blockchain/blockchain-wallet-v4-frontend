@@ -4,7 +4,7 @@ import { ModalsState } from './types'
 
 const INITIAL_STATE: ModalsState = []
 
-const modals = (state = INITIAL_STATE, action) => {
+export const modalsReducer = (state = INITIAL_STATE, action): ModalsState => {
   const { type, payload } = action
   const nextIndex = state.length
   const lastIndex = state.length - 1
@@ -28,5 +28,3 @@ const modals = (state = INITIAL_STATE, action) => {
       return state
   }
 }
-
-export default modals

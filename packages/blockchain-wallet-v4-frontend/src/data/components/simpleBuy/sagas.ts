@@ -86,6 +86,83 @@ export default ({
     }
   }
 
+  const addCardDetails = function * () {
+    try {
+      const formValues: SBAddCardFormValuesType = yield select(
+        selectors.form.getFormValues('addCCForm')
+      )
+      const existingCardsR = S.getSBCards(yield select())
+      const existingCards = existingCardsR.getOrElse([] as Array<SBCardType>)
+      const nextCardAlreadyExists = existingCards.find(card => {
+        if (!card.card) return false
+        if (card.card.number !== formValues['card-number'].slice(-4))
+          return false
+        if (
+          moment(
+            card.card.expireMonth + '/' + card.card.expireYear,
+            'MM/YYYY'
+          ).toString() !== moment(formValues['expiry-date'], 'MM/YY').toString()
+        )
+          return false
+
+        return true
+      })
+
+      if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
+
+      yield put(
+        A.setStep({
+          step: '3DS_HANDLER'
+        })
+      )
+      yield put(A.addCardDetailsLoading())
+
+      // Create card
+      yield put(A.fetchSBCard())
+      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
+      const cardR = S.getSBCard(yield select())
+      const card = cardR.getOrFail('CARD_CREATION_FAILED')
+
+      // Activate card
+      yield put(A.activateSBCard(card))
+      yield take([AT.ACTIVATE_SB_CARD_SUCCESS, AT.ACTIVATE_SB_CARD_FAILURE])
+
+      const providerDetailsR = S.getSBProviderDetails(yield select())
+      const providerDetails = providerDetailsR.getOrFail(
+        'CARD_ACTIVATION_FAILED'
+      )
+      const [nonce] = yield call(api.generateUUIDs, 1)
+
+      const response: { data: Everypay3DSResponseType } = yield call(
+        api.submitSBCardDetailsToEverypay,
+        {
+          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+          cvc: formValues['cvc'],
+          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
+          holderName: formValues['name-on-card'],
+          accessToken: providerDetails.everypay.mobileToken,
+          apiUserName: providerDetails.everypay.apiUsername,
+          nonce: nonce
+        }
+      )
+      yield put(A.addCardDetailsSuccess(response.data))
+    } catch (e) {
+      yield put(
+        A.setStep({
+          step: 'ADD_CARD'
+        })
+      )
+      const error = errorHandler(e)
+      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(
+        actions.form.stopSubmit('addCCForm', {
+          _error: error as SBAddCardErrorType
+        })
+      )
+      yield put(A.addCardDetailsFailure(error))
+    }
+  }
+
   const cancelSBOrder = function * ({
     order
   }: ReturnType<typeof A.cancelSBOrder>) {
@@ -200,64 +277,6 @@ export default ({
     }
   }
 
-  const fetchEverypay3DSDetails = function * () {
-    try {
-      yield put(
-        A.setStep({
-          step: '3DS_HANDLER'
-        })
-      )
-      yield put(A.fetchEverypay3DSDetailsLoading())
-
-      // Create card
-      yield put(A.fetchSBCard())
-      yield take([AT.FETCH_SB_CARD_SUCCESS, AT.FETCH_SB_CARD_FAILURE])
-      const cardR = S.getSBCard(yield select())
-      const card = cardR.getOrFail('CARD_CREATION_FAILED')
-
-      // Activate card
-      yield put(A.activateSBCard(card))
-      yield take([AT.ACTIVATE_SB_CARD_SUCCESS, AT.ACTIVATE_SB_CARD_FAILURE])
-
-      const formValues: SBAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCCForm')
-      )
-      const providerDetailsR = S.getSBProviderDetails(yield select())
-      const providerDetails = providerDetailsR.getOrFail(
-        'CARD_ACTIVATION_FAILED'
-      )
-      const [nonce] = yield call(api.generateUUIDs, 1)
-
-      const response: { data: Everypay3DSResponseType } = yield call(
-        api.submitSBCardDetailsToEverypay,
-        {
-          ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-          cvc: formValues['cvc'],
-          expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-          holderName: formValues['name-on-card'],
-          accessToken: providerDetails.everypay.mobileToken,
-          apiUserName: providerDetails.everypay.apiUsername,
-          nonce: nonce
-        }
-      )
-      yield put(A.fetchEverypay3DSDetailsSuccess(response.data))
-    } catch (e) {
-      yield put(
-        A.setStep({
-          step: 'ADD_CARD'
-        })
-      )
-      const error = errorHandler(e)
-      yield put(actions.form.startSubmit('addCCForm'))
-      yield put(
-        actions.form.stopSubmit('addCCForm', {
-          _error: error as SBAddCardErrorType
-        })
-      )
-      yield put(A.fetchEverypay3DSDetailsFailure(error))
-    }
-  }
-
   const fetchSBBalances = function * ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
@@ -349,11 +368,14 @@ export default ({
     }
   }
 
-  const fetchSBOrders = function * () {
+  const fetchSBOrders = function * ({
+    payload
+  }: ReturnType<typeof A.fetchSBOrders>) {
     try {
+      const { skipLoading } = payload
       if (!(yield call(isTier2))) return
 
-      yield put(A.fetchSBOrdersLoading())
+      if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
     } catch (e) {
@@ -614,9 +636,28 @@ export default ({
       yield delay(3000)
     }
 
-    yield put(A.fetchSBOrders())
-    yield put(A.fetchSBBalances())
     yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
+  }
+
+  const pollSBOrdersAndBalances = function * () {
+    let retryAttempts = 0
+    const maxRetryAttempts = 10
+    const skipLoading = true
+
+    while (retryAttempts <= maxRetryAttempts) {
+      yield put(A.fetchSBOrders(skipLoading))
+      yield put(A.fetchSBBalances())
+      retryAttempts++
+      yield delay(2000)
+    }
+  }
+
+  const setStepChange = function * (action: ReturnType<typeof A.setStep>) {
+    if (action.type === '@EVENT.SET_SB_STEP') {
+      if (action.payload.step === 'ORDER_SUMMARY') {
+        yield call(pollSBOrdersAndBalances)
+      }
+    }
   }
 
   const showModal = function * ({ payload }: ReturnType<typeof A.showModal>) {
@@ -641,7 +682,7 @@ export default ({
     confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
     createSBOrder,
-    fetchEverypay3DSDetails,
+    addCardDetails,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCards,
@@ -657,6 +698,8 @@ export default ({
     initializeCheckout,
     pollSBCard,
     pollSBOrder,
+    pollSBOrdersAndBalances,
+    setStepChange,
     showModal
   }
 }
