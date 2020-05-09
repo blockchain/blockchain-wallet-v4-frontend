@@ -120,7 +120,7 @@
     "country-region-data": "1.4.5",
     "data.either": "1.5.2",
     "data.maybe": "1.2.3",
-    "es6-promise": "4.2.6",
+    "es6-promise": "4.2.8",
     "fast-memoize": "2.5.1",
     "ibantools": "2.1.0",
     "libphonenumber-js": "0.4.40",
