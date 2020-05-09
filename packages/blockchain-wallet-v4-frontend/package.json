@@ -109,7 +109,7 @@
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",
     "bip21": "2.0.2",
-    "bip39": "2.5.0",
+    "bip39": "2.6.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.33",
