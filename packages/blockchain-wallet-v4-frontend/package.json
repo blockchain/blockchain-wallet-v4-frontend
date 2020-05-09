@@ -107,7 +107,7 @@
     "@veriff/incontext-sdk": "0.2.1",
     "awesome-phonenumber": "2.10.0",
     "base-64": "0.1.0",
-    "bignumber.js": "8.0.2",
+    "bignumber.js": "8.1.1",
     "bip21": "2.0.2",
     "bip39": "2.5.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
