@@ -43,7 +43,7 @@ const AccountSummary: React.FC<Props> = props => {
     supportedCoins
   } = props
   const displayName = supportedCoins[coin].displayName
-  const account = accountBalances[coin]
+  const account = accountBalances && accountBalances[coin]
 
   return (
     <Wrapper>
