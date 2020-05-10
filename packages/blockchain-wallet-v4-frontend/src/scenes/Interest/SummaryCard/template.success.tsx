@@ -80,7 +80,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   }).value
   const totalInterest =
     interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
-
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>

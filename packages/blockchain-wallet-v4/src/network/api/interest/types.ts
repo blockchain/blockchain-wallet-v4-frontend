@@ -31,7 +31,10 @@ export type InterestAccountType = {
 }
 
 export type InterestRateType = {
-  BTC: number
+  rates: {
+    BTC: number
+    ETH: number
+  }
 }
 
 export type InterestTransactionType = {
