@@ -13,9 +13,9 @@ const CustomTabMenu = styled(TabMenu)`
 `
 
 const TabMenuTimeFrame: React.FC<Props> = props => {
-  const [tab, setTab] = useState<'long' | 'short'>('long')
+  const [value, setTab] = useState<'long' | 'short'>('long')
   const handleTimeFrameChange = (value: 'long' | 'short') => {
-    setTab(tab)
+    setTab(value)
     props.input.onChange(value)
   }
   return (
@@ -23,7 +23,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
       <TabMenuItem
         width='50%'
         data-e2e='longTerm'
-        selected={equals(tab, 'long')}
+        selected={equals(value, 'long')}
         onClick={() => handleTimeFrameChange('long')}
       >
         <FormattedMessage
@@ -34,7 +34,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
       <TabMenuItem
         width='50%'
         data-e2e='shortTerm'
-        selected={equals(tab, 'short')}
+        selected={equals(value, 'short')}
         onClick={() => handleTimeFrameChange('short')}
       >
         <FormattedMessage

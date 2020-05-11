@@ -257,7 +257,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           <FormattedMessage
             id='modals.interest.deposit.subheader'
-            defaultMessage='Depost {displayName} to your interest account and earn up to {rate}% interest annually on your crypto.'
+            defaultMessage='Depost {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
             values={{
               displayName,
               rate: interestRate[coin]
@@ -288,7 +288,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </FiatMaxContainer>
             <FormattedMessage
               id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin}.'
+              defaultMessage='of {coin} from this wallet.'
               values={{
                 coin
               }}
