@@ -167,7 +167,7 @@ const FirstStep = props => {
                   dataE2e='sendXlmAddressInput'
                   exclude={[from.label]}
                   includeAll={false}
-                  includeExchangeAddress
+                  includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
                   name='to'

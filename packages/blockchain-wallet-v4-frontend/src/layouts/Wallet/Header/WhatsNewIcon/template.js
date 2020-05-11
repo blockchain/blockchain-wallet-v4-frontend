@@ -34,7 +34,7 @@ const WhatsNewIcon = props => {
         <NavbarIcon
           id='whatsnew-icon'
           name='bell'
-          color='white'
+          color='whiteFade900'
           size='22px'
           cursor
         />

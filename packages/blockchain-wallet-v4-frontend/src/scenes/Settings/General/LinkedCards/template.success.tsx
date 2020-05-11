@@ -80,8 +80,7 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
         </CustomSettingHeader>
         {activeCards.map((card, i) => {
           let cardType = CARD_TYPES.find(
-            cardType =>
-              cardType.type === (card.card ? card.card.type.toLowerCase() : '')
+            cardType => cardType.type === (card.card ? card.card.type : '')
           )
 
           if (card.state !== 'ACTIVE') return

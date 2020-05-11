@@ -24,7 +24,7 @@ import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
-import { Props as OwnProps } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import { required } from 'services/FormHelper'
 import { SBAddCardErrorType } from 'data/types'
 import React, { FunctionComponent } from 'react'
@@ -39,7 +39,7 @@ const TopText = styled(Text)`
   margin-bottom: 24px;
 `
 
-const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
+const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   Props> = props => {
   return (
     <CustomFlyoutWrapper>
@@ -86,6 +86,7 @@ const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             component={CreditCardBox}
             normalize={normalizeCreditCard}
             validate={[required, validateCreditCard]}
+            {...props}
           />
         </FormGroup>
         <FormGroup inline margin='24px'>
@@ -122,6 +123,12 @@ const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
+              {props.error === 'CARD_ALREADY_SAVED' && (
+                <FormattedMessage
+                  id='modals.simplebuy.card_already_saved'
+                  defaultMessage='This card has already been saved.'
+                />
+              )}
               {props.error === 'CARD_CREATION_FAILED' && (
                 <FormattedMessage
                   id='modals.simplebuy.card_creation_failed'
@@ -183,11 +190,10 @@ const Template: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   )
 }
 
-type Props = OwnProps
-
+export type Props = OwnProps & SuccessStateType
 type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
   form: 'addCCForm',
   destroyOnUnmount: false
-})(Template)
+})(Success)

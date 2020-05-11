@@ -1,3 +1,4 @@
+import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { CoinType, CurrenciesType, FiatType } from 'core/types'
 
 export type Everypay3DSResponseType = {
@@ -12,7 +13,7 @@ export type ISBAccountType = {
 }
 
 export type SBAccountType =
-  | ISBAccountType & {
+  | (ISBAccountType & {
       agent: {
         account: string
         address: string
@@ -23,8 +24,8 @@ export type SBAccountType =
         routingNumber: string
       }
       currency: 'USD'
-    }
-  | ISBAccountType & {
+    })
+  | (ISBAccountType & {
       agent: {
         account: string
         code: string
@@ -32,8 +33,8 @@ export type SBAccountType =
         recipient: string
       }
       currency: 'EUR'
-    }
-  | ISBAccountType & {
+    })
+  | (ISBAccountType & {
       agent: {
         account: string
         code: string
@@ -41,7 +42,7 @@ export type SBAccountType =
         recipient: string
       }
       currency: 'GBP'
-    }
+    })
 
 export type SBBalanceType = {
   available: string
@@ -79,7 +80,8 @@ export type SBCardType = {
       }
       state: 'ACTIVE'
     }
-  | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> })
+  | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> }
+)
 
 export type SBCardStateType =
   | 'PENDING'
@@ -101,6 +103,7 @@ export type SBPaymentMethodType = {
     max: string
     min: string
   }
+  subTypes: [] | [CardNameType]
   type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
 }
 

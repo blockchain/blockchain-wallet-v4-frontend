@@ -18,13 +18,13 @@ const SecurityCenter = () => {
         <NavbarNavItemTextIcon
           className='icon'
           size='18px'
-          color='white'
+          color='whiteFade900'
           name='shield'
         />
         <NavbarNavItemTextHeader
           size='14px'
           weight={600}
-          color='white'
+          color='whiteFade900'
           className='settings'
         >
           <FormattedMessage

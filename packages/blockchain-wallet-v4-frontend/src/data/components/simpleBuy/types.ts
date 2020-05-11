@@ -30,6 +30,7 @@ export type SBAddCardErrorType =
   | 'LINK_CARD_FAILED'
   | 'CARD_ACTIVATION_FAILED'
   | 'CARD_CREATION_FAILED'
+  | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
   amount: string
@@ -91,6 +92,22 @@ export type SimpleBuyState = {
 }
 
 // Actions
+interface AddCardDetailsFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.ADD_CARD_DETAILS_FAILURE
+}
+interface AddCardDetailsLoading {
+  type: typeof AT.ADD_CARD_DETAILS_LOADING
+}
+interface AddCardDetailsSuccess {
+  payload: {
+    everypay3DS: Everypay3DSResponseType
+  }
+  type: typeof AT.ADD_CARD_DETAILS_SUCCESS
+}
+
 interface ActivateSBCardFailure {
   payload: {
     error: string
@@ -158,22 +175,6 @@ interface FetchSBCardsSuccess {
     cards: Array<SBCardType>
   }
   type: typeof AT.FETCH_SB_CARDS_SUCCESS
-}
-
-interface FetchEverypay3DSFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_FAILURE
-}
-interface FetchEverypay3DSLoading {
-  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_LOADING
-}
-interface FetchEverypay3DSSuccess {
-  payload: {
-    everypay3DS: Everypay3DSResponseType
-  }
-  type: typeof AT.FETCH_EVERYPAY_3DS_DETAILS_SUCCESS
 }
 
 interface FetchSBFiatEligibleFailure {
@@ -322,6 +323,9 @@ export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
   | ActivateSBCardLoading
   | ActivateSBCardSuccess
+  | AddCardDetailsFailure
+  | AddCardDetailsLoading
+  | AddCardDetailsSuccess
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading
@@ -332,9 +336,6 @@ export type SimpleBuyActionTypes =
   | FetchSBCardsFailure
   | FetchSBCardsLoading
   | FetchSBCardsSuccess
-  | FetchEverypay3DSFailure
-  | FetchEverypay3DSLoading
-  | FetchEverypay3DSSuccess
   | FetchSBFiatEligibleFailure
   | FetchSBFiatEligibleLoading
   | FetchSBFiatEligibleSuccess

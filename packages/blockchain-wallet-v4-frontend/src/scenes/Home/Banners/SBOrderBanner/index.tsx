@@ -44,6 +44,7 @@ const PendingIconWrapper = styled.div`
   align-items: center;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
   background-color: ${props => props.theme.orange000};
@@ -84,7 +85,8 @@ class SBOrderBanner extends PureComponent<Props> {
     const latestPendingOrder = this.props.orders.find(order => {
       return (
         order.state === 'PENDING_CONFIRMATION' ||
-        order.state === 'PENDING_DEPOSIT'
+        order.state === 'PENDING_DEPOSIT' ||
+        order.state === 'DEPOSIT_MATCHED'
       )
     })
 
