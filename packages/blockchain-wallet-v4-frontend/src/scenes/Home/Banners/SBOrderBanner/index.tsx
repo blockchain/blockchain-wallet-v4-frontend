@@ -84,7 +84,8 @@ class SBOrderBanner extends PureComponent<Props> {
     const latestPendingOrder = this.props.orders.find(order => {
       return (
         order.state === 'PENDING_CONFIRMATION' ||
-        order.state === 'PENDING_DEPOSIT'
+        order.state === 'PENDING_DEPOSIT' ||
+        order.state === 'DEPOSIT_MATCHED'
       )
     })
 
