@@ -122,7 +122,7 @@
     "data.maybe": "1.2.3",
     "es6-promise": "4.2.6",
     "fast-memoize": "2.5.2",
-    "ibantools": "2.1.0",
+    "ibantools": "2.2.0",
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.2",
