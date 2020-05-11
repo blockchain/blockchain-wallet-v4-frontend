@@ -4,7 +4,9 @@ import React from 'react'
 import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = props => {
-  return props.pairs.length && props.eligibility.eligible ? (
+  return props.pairs.length &&
+    props.eligibility.eligible &&
+    props.paymentMethods.methods.length ? (
     <Checkout {...props} />
   ) : (
     <Unsupported {...props} />
