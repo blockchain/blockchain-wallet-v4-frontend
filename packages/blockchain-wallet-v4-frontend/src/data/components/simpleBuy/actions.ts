@@ -141,8 +141,11 @@ export const fetchSBCardSuccess = (card: SBCardType): SimpleBuyActionTypes => ({
   }
 })
 
-export const fetchSBCards = () => ({
-  type: AT.FETCH_SB_CARDS
+export const fetchSBCards = (skipLoading?: boolean) => ({
+  type: AT.FETCH_SB_CARDS,
+  payload: {
+    skipLoading
+  }
 })
 
 export const fetchSBCardsFailure = (error: string): SimpleBuyActionTypes => ({
