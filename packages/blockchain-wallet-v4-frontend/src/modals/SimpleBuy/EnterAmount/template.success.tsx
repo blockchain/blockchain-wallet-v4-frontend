@@ -6,7 +6,8 @@ import Unsupported from './template.unsupported'
 const Success: React.FC<Props> = props => {
   return props.pairs.length &&
     props.eligibility.eligible &&
-    props.paymentMethods.methods.length ? (
+    props.paymentMethods.methods.length &&
+    props.paymentMethods.methods.find(method => method.limits.max !== '0') ? (
     <Checkout {...props} />
   ) : (
     <Unsupported {...props} />

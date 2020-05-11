@@ -109,8 +109,7 @@ class MethodSelect extends PureComponent<Props> {
         )
       case 'USER_CARD':
         let cardType = CARD_TYPES.find(
-          card =>
-            card.type === (value.card ? value.card.type.toLowerCase() : '')
+          card => card.type === (value.card ? value.card.type : '')
         )
         return (
           <img

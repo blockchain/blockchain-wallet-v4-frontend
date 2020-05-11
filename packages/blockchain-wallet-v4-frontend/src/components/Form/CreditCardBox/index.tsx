@@ -1,3 +1,4 @@
+import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 import {
   DEFAULT_CARD_FORMAT,
@@ -39,8 +40,11 @@ export const normalizeCreditCard = (value, previousValue) => {
   return value
 }
 
-export const validateCreditCard = value => {
+export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   const cardType = getCardTypeByValue(value)
+  const cardMethod = props.paymentMethods.methods.find(
+    method => method.type === 'PAYMENT_CARD'
+  )
 
   if (!cardType) {
     return (
@@ -60,7 +64,7 @@ export const validateCreditCard = value => {
     )
   }
 
-  if (!cardType.supported) {
+  if (!cardMethod?.subTypes.find(subType => subType === cardType.type)) {
     return (
       <FormattedMessage
         id='formhelper.card_type_unsupported'
