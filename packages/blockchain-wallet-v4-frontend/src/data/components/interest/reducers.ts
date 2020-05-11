@@ -117,7 +117,7 @@ export function interestReducer (
     case AT.FETCH_INTEREST_RATE_SUCCESS:
       return {
         ...state,
-        interestRate: Remote.Success(action.payload.interestRate)
+        interestRate: Remote.Success(action.payload.interestRate.rates)
       }
     case AT.FETCH_INTEREST_TRANSACTIONS_FAILURE:
       return {
