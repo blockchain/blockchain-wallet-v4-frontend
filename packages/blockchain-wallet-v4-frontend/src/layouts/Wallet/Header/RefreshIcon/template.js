@@ -24,7 +24,7 @@ const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
     <Link
       size='14px'
       weight={400}
-      color='white'
+      color='whiteFade900'
       uppercase
       onClick={handleRefresh}
       data-e2e='refreshLink'
@@ -32,7 +32,7 @@ const RefreshIcon = ({ handleRefresh, rotating, animateTime }) => (
       <SpinningIcon
         name='refresh'
         size='24px'
-        color='white'
+        color='whiteFade900'
         cursor
         rotating={rotating}
         animateTime={animateTime}
