@@ -561,7 +561,6 @@ export default ({
 
   const pollSBCardErrorHandler = function * (state: SBCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield take(AT.ACTIVATE_SB_CARD_SUCCESS)
     yield put(actions.form.startSubmit('addCCForm'))
 
     let error
