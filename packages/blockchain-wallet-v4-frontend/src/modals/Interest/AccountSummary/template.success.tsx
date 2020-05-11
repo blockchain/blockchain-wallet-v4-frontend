@@ -104,7 +104,7 @@ const AccountSummary: React.FC<Props> = props => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.success'
-                defaultMessage='Waiting on your deposit to be confirmed by the network and our team. You do not need to take any action at this point.'
+                defaultMessage='Waiting on your deposit to be confirmed by the network and our team. No action required.'
               />
             </Text>
           </StatusWrapper>
@@ -246,8 +246,8 @@ const AccountSummary: React.FC<Props> = props => {
           <DetailsItemContainer>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.summary.lock'
-                defaultMessage='Lock-up period'
+                id='modals.interest.summary.hold'
+                defaultMessage='Initial hold period'
               />
               <TooltipHost id='modals.interest.summary.lock.tooltip'>
                 <TooltipIcon name='info' size='12px' />

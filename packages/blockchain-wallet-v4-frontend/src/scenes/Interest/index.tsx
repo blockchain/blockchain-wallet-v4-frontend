@@ -5,7 +5,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import { CoinType, InterestRateType, RemoteDataType } from 'core/types'
+import {
+  CoinType,
+  InterestRateType,
+  RemoteDataType,
+  SupportedCoinsType
+} from 'core/types'
 import { Container } from 'components/Box'
 import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
 import {
@@ -78,7 +83,7 @@ class Interest extends React.PureComponent<Props, StateType> {
         <SceneSubHeaderText>
           <FormattedMessage
             id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and watch it grow without fees.'
+            defaultMessage='Deposit crypto and watch it grow.'
           />
           <LearnMoreLink
             href='https://support.blockchain.com/hc/en-us/sections/360008572552'
@@ -137,6 +142,7 @@ export type StateType = {
 export type SuccessStateType = {
   coin: CoinType
   interestRate: InterestRateType
+  supportedCoins: SupportedCoinsType
   userData: UserDataType
 }
 type LinkStatePropsType = {

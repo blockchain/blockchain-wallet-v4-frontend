@@ -48,11 +48,17 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: '/payments/transactions?PRODUCT=savings&'
     })
 
-  const getInterestSavingsRate = (): InterestRateType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/rates'
-    })
+  const getInterestSavingsRate = (): InterestRateType => ({
+    rates: {
+      BTC: 1,
+      ETH: 1
+    }
+  })
+
+  // authorizedGet({
+  //   url: nabuUrl,
+  //   endPoint: '/savings/rates'
+  // })
 
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({

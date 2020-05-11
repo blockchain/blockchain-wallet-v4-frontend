@@ -80,10 +80,11 @@ const PrincipalCcyAbsolute = styled.div`
   top: 16px;
   left: 12px;
 `
+
 const MaxAmountContainer = styled.div`
   align-items: center;
   display: flex;
-  margin: 24px 0;
+  margin: 10px 0;
 `
 const FiatMaxContainer = styled.div`
   cursor: pointer;
@@ -248,6 +249,21 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             values={{ displayName }}
           />
         </TopText>
+        <Text
+          color='grey600'
+          weight={500}
+          size='14px'
+          style={{ marginTop: '24px' }}
+        >
+          <FormattedMessage
+            id='modals.interest.deposit.subheader'
+            defaultMessage='Depost {displayName} to your interest account and earn up to {rate}% interest annually on your crypto.'
+            values={{
+              displayName,
+              rate: interestRate[coin]
+            }}
+          />
+        </Text>
         <MaxAmountContainer>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -272,10 +288,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </FiatMaxContainer>
             <FormattedMessage
               id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin} into your Interest Account and earn {rate}% interest.'
+              defaultMessage='of {coin}.'
               values={{
-                coin,
-                rate: interestRate[coin]
+                coin
               }}
             />
           </Text>
@@ -336,7 +351,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <CalculatorDesc color='grey600' size='12px' weight={500}>
             <FormattedMessage
               id='modals.interest.deposit.calcdesc'
-              defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you could earn:'
+              defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:'
               values={{ currencySymbol, depositAmountFiat }}
             />
           </CalculatorDesc>
@@ -450,8 +465,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
                 id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current {coin} deposits earning {rate}% AER.'
-                values={{ coin, rate: interestRate[coin] }}
+                defaultMessage='Estimates based on current interest rate and {coin} price.'
+                values={{ coin }}
               />
             </Text>
           </CalculatorContainer>
@@ -509,7 +524,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.agreement'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your wallet to your Interest Account. A lock-up period of 7 days will be applied to your funds.'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your Bitcoin Wallet to your Interest Account. An initial hold period of 7 days will be applied to your funds.'
                 values={{
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   depositAmountFiat: `${currencySymbol}${depositAmountFiat}`
