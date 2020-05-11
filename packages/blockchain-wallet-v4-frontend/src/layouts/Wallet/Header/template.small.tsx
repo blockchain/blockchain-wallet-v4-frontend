@@ -115,7 +115,7 @@ const Small: React.FC<Props> = props => {
               <NavbarNavItemTextIcon
                 className='icon'
                 size='6px'
-                color='white'
+                color='whiteFade900'
                 name='ellipsis'
               />
               {isMenuOpen && (

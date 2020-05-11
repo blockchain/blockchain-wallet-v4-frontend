@@ -40,12 +40,12 @@ const Settings = props => {
         className='icon'
         name='cog-filled'
         size='18px'
-        color='white'
+        color='whiteFade900'
       />
       <NavbarNavItemTextHeader
         size='14px'
         weight={600}
-        color='white'
+        color='whiteFade900'
         className='settings'
       >
         <FormattedMessage
