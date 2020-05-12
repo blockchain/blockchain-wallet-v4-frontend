@@ -3,13 +3,22 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Text
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
-import { Form, RadioButton } from 'components/Form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import ImportExternalBtcAddress from './ImportExternalBtcAddress'
-import ImportInternalBtcAddress from './ImportInternalBtcAddress'
+import {
+  Form,
+  FormGroup,
+  FormItem,
+  SelectBoxBtcAddresses,
+  TextBox
+} from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { removeWhitespace } from 'services/FormHelper/normalizers'
+import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,100 +28,147 @@ const Wrapper = styled.div`
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
-const Title = styled.div`
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 15px;
+
+const Row = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `
-const RadioContainer = styled.div`
-  font-size: 12px;
-  margin-bottom: 10px;
-  label > span > span {
-    font-weight: 500;
+
+const LabelText = styled(Text)`
+  margin-bottom: 9px;
+`
+
+const ImportFormItem = styled(FormItem)`
+  margin-bottom: 32px;
+`
+
+const BorderRow = styled(Row)`
+  input {
+    border-radius: 8px 0 0 8px;
+  }
+
+  > div {
+    border-radius: 0 8px 8px 0;
   }
 `
 
-const ImportBtcAddress = props => {
-  const {
-    position,
-    close,
-    submitting,
-    invalid,
-    isAddressInternal,
-    isAddressExternal,
-    priv,
-    handleSubmit
-  } = props
+const ImportHeader = styled(ModalHeader)`
+  border-bottom: 0;
+  padding-bottom: 8px;
 
-  return (
-    <Modal size='large' position={position}>
-      <Form onSubmit={handleSubmit}>
-        <Wrapper>
-          <ModalHeader icon='arrow-up-circle' onClose={close}>
+  > div:first-child * {
+    font-weight: 600;
+    color: ${props => props.theme.grey900};
+  }
+`
+
+const ImportFooter = styled(ModalFooter)`
+  border-top: 0;
+`
+
+const ImportBtcAddress = ({
+  position,
+  close,
+  submitting,
+  invalid,
+  priv,
+  handleSubmit
+}) => (
+  <Modal size='large' position={position}>
+    <Form onSubmit={handleSubmit}>
+      <Wrapper>
+        <ImportHeader onClose={close}>
+          <FormattedMessage
+            id='modals.importkey.import'
+            defaultMessage='Import Private Key'
+          />
+        </ImportHeader>
+        <ModalBody>
+          <FormGroup>
+            <ImportFormItem width={'100%'}>
+              <label htmlFor='addrOrPriv'>
+                <LabelText color='grey600' size='14px' weight={500}>
+                  <FormattedMessage
+                    id='modals.importkey.label.privatekey'
+                    defaultMessage='Enter your private key'
+                  />
+                </LabelText>
+              </label>
+              <BorderRow>
+                <Field
+                  name='addrOrPriv'
+                  validate={[validBtcAddressOrPrivateKey, required]}
+                  normalize={removeWhitespace}
+                  component={TextBox}
+                  data-e2e='addressOrPrKeyInput'
+                />
+                <QRCodeCapture
+                  scanType='btcPrivOrAddress'
+                  border={['top', 'bottom', 'right']}
+                />
+              </BorderRow>
+            </ImportFormItem>
+            <ImportFormItem width={'100%'}>
+              <label htmlFor='addrOrPriv'>
+                <LabelText color='grey600' size='14px' weight={500}>
+                  <FormattedMessage
+                    id='modals.importkey.label.enterlabel'
+                    defaultMessage='Enter a label (optional)'
+                  />
+                </LabelText>
+              </label>
+              <Row>
+                <Field
+                  name='label'
+                  validate={[]}
+                  component={TextBox}
+                  data-e2e='labelInput'
+                />
+              </Row>
+            </ImportFormItem>
+            <ImportFormItem style={spacing('mt-10')}>
+              <label htmlFor='wallets'>
+                <LabelText color='grey600' size='14px' weight={500}>
+                  <FormattedMessage
+                    id='modals.importkey.label.transferfunds'
+                    defaultMessage='Transfer funds to an existing wallet (optional)'
+                  />
+                </LabelText>
+              </label>
+              <Row>
+                <Field
+                  name='to'
+                  component={SelectBoxBtcAddresses}
+                  optional
+                  excludeImported
+                  includeAll={false}
+                  disabled={!priv}
+                />
+              </Row>
+            </ImportFormItem>
+          </FormGroup>
+        </ModalBody>
+
+        <ImportFooter align='right'>
+          <Button
+            type='submit'
+            nature='primary'
+            capitalize
+            disabled={submitting || invalid}
+            data-e2e='importButton'
+          >
             <FormattedMessage
-              id='modals.importbtcaddress.title'
-              defaultMessage='Import Existing Bitcoin Address'
+              id='modals.importkey.import'
+              defaultMessage='Import Private Key'
             />
-          </ModalHeader>
-          <ModalBody>
-            <Title>
-              <FormattedMessage
-                id='modals.importbtcaddress.importtype'
-                defaultMessage='What do you want to import?'
-              />
-            </Title>
-            <RadioContainer>
-              <Field
-                name='address-type'
-                value='internal'
-                props={{ id: 'internal', value: 'internal' }}
-                validate={[]}
-                component={RadioButton}
-              >
-                <FormattedHTMLMessage
-                  id='modals.importbtcaddress.generated_in_wallet'
-                  defaultMessage='Existing address generated in <span>this wallet</span>.'
-                />
-              </Field>
-            </RadioContainer>
-            <RadioContainer>
-              <Field
-                name='address-type'
-                value='external'
-                props={{ id: 'external', value: 'external' }}
-                validate={[]}
-                component={RadioButton}
-              >
-                <FormattedHTMLMessage
-                  id='modals.importbtcaddress.generated_outside_wallet'
-                  defaultMessage='Existing address generated <span>outside this wallet</span>.'
-                />
-              </Field>
-            </RadioContainer>
-            {isAddressInternal && <ImportInternalBtcAddress />}
-            {isAddressExternal && <ImportExternalBtcAddress priv={priv} />}
-          </ModalBody>
-          {isAddressExternal && (
-            <ModalFooter align='right'>
-              <Button
-                type='submit'
-                nature='primary'
-                capitalize
-                disabled={submitting || invalid}
-                data-e2e='importButton'
-              >
-                <FormattedMessage
-                  id='modals.importbtcaddress.button'
-                  defaultMessage='Import'
-                />
-              </Button>
-            </ModalFooter>
-          )}
-        </Wrapper>
-      </Form>
-    </Modal>
-  )
-}
+          </Button>
+        </ImportFooter>
+      </Wrapper>
+    </Form>
+  </Modal>
+)
 
 export default reduxForm({
   form: 'importBtcAddress',
