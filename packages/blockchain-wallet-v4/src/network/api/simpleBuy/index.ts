@@ -129,7 +129,8 @@ export default ({
       url: nabuUrl,
       endPoint: '/simple-buy/eligible',
       data: {
-        fiatCurrency: currency
+        fiatCurrency: currency,
+        methods: 'PAYMENT_CARD,BANK_ACCOUNT'
       }
     })
 

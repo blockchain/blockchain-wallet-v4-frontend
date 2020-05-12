@@ -325,10 +325,13 @@ export default ({
     }
   }
 
-  const fetchSBCards = function * () {
+  const fetchSBCards = function * ({
+    payload
+  }: ReturnType<typeof A.fetchSBCards>) {
     try {
       yield call(createUser)
       yield call(waitForUserData)
+      const { skipLoading } = payload
       const invitationsR: RemoteDataType<
         string,
         InvitationsType
@@ -336,7 +339,7 @@ export default ({
       const invited = invitationsR.getOrElse({ simpleBuyCC: false }).simpleBuyCC
       if (!invited) return yield put(A.fetchSBCardsSuccess([]))
       if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
-      yield put(A.fetchSBCardsLoading())
+      if (!skipLoading) yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))
     } catch (e) {
@@ -558,7 +561,6 @@ export default ({
 
   const pollSBCardErrorHandler = function * (state: SBCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield take(AT.ACTIVATE_SB_CARD_SUCCESS)
     yield put(actions.form.startSubmit('addCCForm'))
 
     let error
@@ -606,6 +608,8 @@ export default ({
         yield call(pollSBCardErrorHandler, card.state)
         return
       case 'ACTIVE':
+        const skipLoading = true
+        yield put(A.fetchSBCards(skipLoading))
         return yield put(A.createSBOrder(card.id))
       default:
         yield call(pollSBCardErrorHandler, card.state)
