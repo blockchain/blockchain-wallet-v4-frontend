@@ -4,7 +4,9 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Text
+  Text,
+  TooltipHost,
+  TooltipIcon
 } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import {
@@ -16,7 +18,7 @@ import {
 } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { removeWhitespace } from 'services/FormHelper/normalizers'
-import { required, validBtcAddressOrPrivateKey } from 'services/FormHelper'
+import { required, validBtcPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import QRCodeCapture from 'components/QRCodeCapture'
 import React from 'react'
@@ -51,6 +53,12 @@ const BorderRow = styled(Row)`
 
   > div {
     border-radius: 0 8px 8px 0;
+  }
+`
+
+const Tooltip = styled(TooltipHost)`
+  & > span {
+    font-size: 12px;
   }
 `
 
@@ -95,14 +103,21 @@ const ImportBtcAddress = ({
                     defaultMessage='Enter your private key'
                   />
                 </LabelText>
+                <Tooltip
+                  id='import.privatekeys'
+                  data-place='right'
+                  style={{ marginTop: '3px' }}
+                >
+                  <TooltipIcon name='info' />
+                </Tooltip>
               </label>
               <BorderRow>
                 <Field
                   name='addrOrPriv'
-                  validate={[validBtcAddressOrPrivateKey, required]}
+                  validate={[validBtcPrivateKey, required]}
                   normalize={removeWhitespace}
                   component={TextBox}
-                  data-e2e='addressOrPrKeyInput'
+                  data-e2e='privateKeyInput'
                 />
                 <QRCodeCapture
                   scanType='btcPrivOrAddress'
