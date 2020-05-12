@@ -54,7 +54,7 @@ export interface InterestState {
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
-  interestRate: RemoteDataType<string, InterestRateType['rates']>
+  interestRate: RemoteDataType<string, InterestRateType>
   interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
   limits: InterestMinMaxType
   payment: RemoteDataType<string, PaymentValue>
