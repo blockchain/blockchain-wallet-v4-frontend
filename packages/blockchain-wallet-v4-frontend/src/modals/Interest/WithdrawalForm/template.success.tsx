@@ -95,16 +95,6 @@ const PrincipalCcyAbsolute = styled.div`
   top: 16px;
   left: 16px;
 `
-const WarningWrapper = styled.div`
-  display: flex;
-  background: ${props => props.theme.orange000};
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 28px;
-`
-const WarningIcon = styled(Icon)`
-  margin-right: 16px;
-`
 const NetworkFee = styled.div`
   display: flex;
   flex-direction: column;
@@ -155,11 +145,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
       rates,
       value: parseFloat(withdrawalAmount)
     }).value,
-    coin,
-    baseToStandard: true
-  }).value
-  const pendingInterest = Exchange.convertCoinToCoin({
-    value: account.pendingInterest,
     coin,
     baseToStandard: true
   }).value
@@ -301,29 +286,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-        {values && values.withdrawalAmount > 0 && (
-          <WarningWrapper>
-            <WarningIcon color='orange600' cursor name='info' size='20px' />
-            <Text color='orange800' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.withdrawal.warning'
-                defaultMessage='In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
-                values={{
-                  pendingInterestCrypto: `${pendingInterest} ${coin}`,
-                  withdrawalAmount: `${currencySymbol}${withdrawalAmount}`,
-                  withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
-                }}
-              />
-            </Text>
-          </WarningWrapper>
-        )}
       </Top>
       <Bottom>
         <NetworkFee>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.interest.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw {withdrawalAmount} ({withdrawalAmountCrypto}) from your Savings Wallet to your Interest Account.'
+              defaultMessage='You are requesting to withdraw {withdrawalAmount} ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
               values={{
                 withdrawalAmount: `${currencySymbol}${withdrawalAmount}`,
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
@@ -334,8 +303,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
                 id='modals.interest.withdrawal.availability'
-                defaultMessage='Your withdrawn {displayName} will be available in your Wallet within 5 days.'
-                values={{ displayName }}
+                defaultMessage='A small network fee will be applied, and your {coin} will be available in your {coin} Wallet within 2 days.'
+                values={{ coin }}
               />
             </Text>
           </Availability>
@@ -352,8 +321,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
           >
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id='buttons.confirm_withdrawal'
-                defaultMessage='Confirm Withdrawal'
+                id='buttons.confirm_withdraw'
+                defaultMessage='Confirm Withdraw'
               />
             </Text>
           </Button>

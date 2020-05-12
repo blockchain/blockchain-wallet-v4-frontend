@@ -20,7 +20,6 @@ import {
   LineVector,
   LineVectorDetails,
   Row,
-  StatusIcon,
   StatusIconWrapper,
   StatusWrapper,
   Top,
@@ -97,22 +96,35 @@ const AccountSummary: React.FC<Props> = props => {
         </Row>
         <LineVector />
         {stepMetadata && stepMetadata.depositSuccess && (
-          <StatusWrapper>
-            <StatusIconWrapper color='orange000'>
-              <StatusIcon color='orange600' name='timer' size='24px' />
-            </StatusIconWrapper>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.deposit.success'
-                defaultMessage='Waiting on your deposit to be confirmed by the network and our team. You do not need to take any action at this point.'
-              />
-            </Text>
-          </StatusWrapper>
+          <>
+            <StatusWrapper>
+              <StatusIconWrapper color='orange000'>
+                <Icon color='orange600' name='timer' size='24px' />
+              </StatusIconWrapper>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.interest.deposit.success'
+                  defaultMessage='Waiting on your deposit to be confirmed by the network and our team. No action required.'
+                />
+              </Text>
+            </StatusWrapper>
+            <StatusWrapper>
+              <StatusIconWrapper color='grey000'>
+                <Icon color='grey600' name='check' size='14px' />
+              </StatusIconWrapper>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.interest.deposit.success'
+                  defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
+                />
+              </Text>
+            </StatusWrapper>
+          </>
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
             <StatusIconWrapper color='orange000'>
-              <StatusIcon color='orange600' name='timer' size='24px' />
+              <Icon color='orange600' name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
@@ -125,7 +137,7 @@ const AccountSummary: React.FC<Props> = props => {
         {stepMetadata && stepMetadata.error && (
           <StatusWrapper>
             <StatusIconWrapper color='red000'>
-              <StatusIcon color='red600' name='forbidden' size='24px' />
+              <Icon color='red600' name='forbidden' size='24px' />
             </StatusIconWrapper>
             <div>
               <Text color='red600' size='14px' weight={500}>
@@ -246,8 +258,8 @@ const AccountSummary: React.FC<Props> = props => {
           <DetailsItemContainer>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.summary.lock'
-                defaultMessage='Lock-up period'
+                id='modals.interest.summary.hold'
+                defaultMessage='Initial hold period'
               />
               <TooltipHost id='modals.interest.summary.lock.tooltip'>
                 <TooltipIcon name='info' size='12px' />

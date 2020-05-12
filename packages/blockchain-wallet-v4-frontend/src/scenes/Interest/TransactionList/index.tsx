@@ -48,10 +48,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   btcRates: RatesType

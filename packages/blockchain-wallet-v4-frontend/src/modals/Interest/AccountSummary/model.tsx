@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -77,13 +77,13 @@ export const StatusWrapper = styled.div`
   margin-top: 20px;
 `
 export const StatusIconWrapper = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 16px;
   background: ${props => props.theme[props.color]};
   border-radius: 20px;
   min-height: 38px;
   min-width: 38px;
   max-height: 38px;
-`
-export const StatusIcon = styled(Icon)`
-  margin: 6px 0 0 8px;
 `

@@ -102,14 +102,25 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           weight={500}
           style={{ marginLeft: '6px', lineHeight: '1.5' }}
         >
-          <FormattedMessage
-            id='scenes.interest.summarycard.earn'
-            defaultMessage='Earn up to {interestRate}% AER on your {coinTicker}.'
-            values={{
-              coinTicker,
-              interestRate: interestRate[coinTicker]
-            }}
-          />
+          {balanceSats > 0 ? (
+            <FormattedMessage
+              id='scenes.interest.summarycard.earning'
+              defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
+              values={{
+                coinTicker,
+                interestRate: interestRate[coinTicker]
+              }}
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.interest.summarycard.earn'
+              defaultMessage='Earn up to {interestRate}% annually on your {coinTicker}.'
+              values={{
+                coinTicker,
+                interestRate: interestRate[coinTicker]
+              }}
+            />
+          )}
         </Text>
       </Row>
       <Separator />
@@ -153,7 +164,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
       {balanceSats > 0 ? (
         <Button
           style={{ marginTop: '16px' }}
-          nature='primary'
+          nature='light'
           data-e2e='viewInterestDetails'
           fullwidth
           onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
@@ -181,7 +192,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           <div style={{ marginLeft: '8px' }}>
             <FormattedMessage
               id='scenes.interest.userblocked'
-              defaultMessage='Blockchain Interest Account is currently unavailable in your country or region.'
+              defaultMessage='Blockchain Interest Account is currently not available in your country or region.'
             />{' '}
             <Link
               size='12px'

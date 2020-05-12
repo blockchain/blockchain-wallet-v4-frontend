@@ -39,8 +39,11 @@ class IntroCard extends PureComponent<
       isGoldTier,
       preferencesActions,
       showInterestInfoBox,
+      supportedCoins,
       userData
     } = this.props
+    const { coinTicker, displayName } = supportedCoins[coin]
+
     return (
       showInterestInfoBox && (
         <Box>
@@ -65,7 +68,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnheaderverified'
-                  defaultMessage='Earn interest on your Crypto today.'
+                  defaultMessage='Earn interest on your {displayName} today.'
+                  values={{ displayName }}
                 />
               </Text>
               <Text
@@ -76,8 +80,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earninfo.verified.body'
-                  defaultMessage='Earn up to {rate}% AER instantly when you deposit {coin} to your Interest Account.'
-                  values={{ coin, rate: interestRate[coin] }}
+                  defaultMessage='Earn up to {rate}% instantly when you deposit {coinTicker} to your Interest Account.'
+                  values={{ coinTicker, rate: interestRate[coin] }}
                 />
               </Text>
               <Link
@@ -114,7 +118,7 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnupgrade.header'
-                  defaultMessage='Put your crypto to work by upgrading to Gold Level.'
+                  defaultMessage='Upgrade to Gold Level so you can earn interest on your bitcoin.'
                 />
               </Text>
               <Text
@@ -125,7 +129,7 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnbody.access'
-                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {rate}% APY on your crypto.'
+                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {rate}% annually on your bitcoin.'
                   values={{ rate: interestRate[coin] }}
                 />
               </Text>

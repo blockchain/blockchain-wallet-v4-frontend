@@ -19,7 +19,7 @@ export const minDepositAmount = (
   return new BigNumber(value).isLessThan(min) ? (
     <FormattedMessage
       id='modals.interest.deposit.min'
-      defaultMessage='You must deposit at least {minFiat}'
+      defaultMessage='Minimum deposit: {minFiat}'
       values={{
         minFiat: fiatToString({
           value: min,
