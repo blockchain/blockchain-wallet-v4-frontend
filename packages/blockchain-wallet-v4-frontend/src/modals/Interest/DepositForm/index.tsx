@@ -6,6 +6,7 @@ import { actions } from 'data'
 import {
   CoinType,
   FiatType,
+  InterestLimitsType,
   InterestRateType,
   RemoteDataType,
   SupportedCoinsType
@@ -56,6 +57,7 @@ export type LinkDispatchPropsType = {
 }
 export type SuccessStateType = {
   coin: CoinType
+  interestLimits: InterestLimitsType
   interestRate: InterestRateType
   limits: InterestMinMaxType
   rates: RatesType
