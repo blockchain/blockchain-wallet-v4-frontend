@@ -62,6 +62,10 @@ const Tooltip = styled(TooltipHost)`
   }
 `
 
+const Label = styled.label`
+  display: flex;
+`
+
 const ImportHeader = styled(ModalHeader)`
   border-bottom: 0;
   padding-bottom: 8px;
@@ -96,7 +100,7 @@ const ImportBtcAddress = ({
         <ModalBody>
           <FormGroup>
             <ImportFormItem width={'100%'}>
-              <label htmlFor='addrOrPriv'>
+              <Label htmlFor='addrOrPriv'>
                 <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.importkey.label.privatekey'
@@ -110,7 +114,7 @@ const ImportBtcAddress = ({
                 >
                   <TooltipIcon name='info' />
                 </Tooltip>
-              </label>
+              </Label>
               <BorderRow>
                 <Field
                   name='addrOrPriv'
@@ -126,14 +130,14 @@ const ImportBtcAddress = ({
               </BorderRow>
             </ImportFormItem>
             <ImportFormItem width={'100%'}>
-              <label htmlFor='addrOrPriv'>
+              <Label htmlFor='addrOrPriv'>
                 <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.importkey.label.enterlabel'
                     defaultMessage='Enter a label (optional)'
                   />
                 </LabelText>
-              </label>
+              </Label>
               <Row>
                 <Field
                   name='label'
@@ -144,14 +148,14 @@ const ImportBtcAddress = ({
               </Row>
             </ImportFormItem>
             <ImportFormItem style={spacing('mt-10')}>
-              <label htmlFor='wallets'>
+              <Label htmlFor='wallets'>
                 <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.importkey.label.transferfunds'
                     defaultMessage='Transfer funds to an existing wallet (optional)'
                   />
                 </LabelText>
-              </label>
+              </Label>
               <Row>
                 <Field
                   name='to'
