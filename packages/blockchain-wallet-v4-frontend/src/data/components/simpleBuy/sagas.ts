@@ -277,6 +277,24 @@ export default ({
     }
   }
 
+  const deleteSBCard = function * ({
+    cardId
+  }: ReturnType<typeof A.deleteSBCard>) {
+    try {
+      if (!cardId) return
+      yield put(actions.form.startSubmit('linkedCards'))
+      yield call(api.deleteSBCard, cardId)
+      yield put(A.fetchSBCards(true))
+      yield take([AT.FETCH_SB_CARDS_SUCCESS, AT.FETCH_SB_CARDS_FAILURE])
+      yield put(actions.form.stopSubmit('linkedCards'))
+      yield put(actions.alerts.displaySuccess('Card removed.'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
+      yield put(actions.alerts.displayError('Error removing card.'))
+    }
+  }
+
   const fetchSBBalances = function * ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
@@ -682,11 +700,12 @@ export default ({
 
   return {
     activateSBCard,
+    addCardDetails,
     cancelSBOrder,
     confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
     createSBOrder,
-    addCardDetails,
+    deleteSBCard,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCards,

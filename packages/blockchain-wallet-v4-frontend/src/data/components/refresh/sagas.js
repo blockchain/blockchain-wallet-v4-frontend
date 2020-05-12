@@ -47,6 +47,9 @@ export default () => {
           yield put(actions.modules.profile.fetchUser())
           yield put(actions.modules.profile.fetchUserCampaigns())
           break
+        case contains('/settings/general', pathname):
+          yield put(actions.components.simpleBuy.fetchSBCards())
+          break
         case contains('/swap/history', pathname):
           yield put(actions.components.exchangeHistory.clearTrades())
           yield put(actions.components.exchangeHistory.fetchNextPage())

@@ -1,4 +1,4 @@
-import { Button, Text, TooltipHost } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
@@ -7,6 +7,7 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SBFormPaymentMethod } from 'data/types'
 import {
@@ -16,7 +17,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 import media from 'services/ResponsiveService'
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 
 const CardWrapper = styled.div`
@@ -63,7 +64,11 @@ const CardDetails = styled.div<{ right?: boolean }>`
   text-align: ${props => (props.right ? 'right' : 'initial')};
 `
 
-const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
+const Success: React.FC<InjectedFormProps<
+  {},
+  Props & { fiatCurrency?: FiatType }
+> &
+  Props & { fiatCurrency?: FiatType }> = props => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
     m => m.type === 'PAYMENT_CARD'
   )
@@ -88,7 +93,8 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
           return (
             <CardWrapper
               key={i}
-              onClick={() =>
+              onClick={() => {
+                if (props.submitting) return
                 props.handleCreditCardClick({
                   ...card,
                   type: 'USER_CARD',
@@ -96,7 +102,7 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
                     ? ccPaymentMethod.limits
                     : { min: '500', max: '50000' }
                 })
-              }
+              }}
             >
               <Child>
                 <CardImg
@@ -129,19 +135,22 @@ const Success: React.FC<Props & { fiatCurrency?: FiatType }> = props => {
                     Exp: {card.card.expireMonth}/{card.card.expireYear}
                   </Text>
                 </CardDetails>
-                <TooltipHost id='coming-soon' data-place='right'>
-                  <Button
-                    data-e2e='removeCard'
-                    nature='light-red'
-                    disabled
-                    style={{ marginLeft: '18px', minWidth: 'auto' }}
-                  >
-                    <FormattedMessage
-                      id='buttons.remove'
-                      defaultMessage='Remove'
-                    />
-                  </Button>
-                </TooltipHost>
+                <Button
+                  data-e2e='removeCard'
+                  nature='light-red'
+                  disabled={props.submitting}
+                  style={{ marginLeft: '18px', minWidth: 'auto' }}
+                  // @ts-ignore
+                  onClick={(e: SyntheticEvent) => {
+                    e.stopPropagation()
+                    props.simpleBuyActions.deleteSBCard(card.id)
+                  }}
+                >
+                  <FormattedMessage
+                    id='buttons.remove'
+                    defaultMessage='Remove'
+                  />
+                </Button>
               </Child>
             </CardWrapper>
           )
@@ -165,4 +174,4 @@ type Props = OwnProps &
     handleCreditCardClick: (defaultMethod?: SBFormPaymentMethod) => void
   }
 
-export default Success
+export default reduxForm<{}, Props>({ form: 'linkedCards' })(Success)
