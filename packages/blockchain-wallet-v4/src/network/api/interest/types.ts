@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType, FiatType } from 'core/types'
 
 export type InterestAccountBalanceType = {
   [key in CoinType]: {
@@ -19,10 +19,11 @@ export type InterestEligibleType = {
 export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestLimitsType = {
-  [key in CoinType]?: {
-    lockUp: number
-    maxAutomaticWithdrawal: number
-    minimumDeposit: number
+  [key in CoinType]: {
+    currency: FiatType
+    lockUpDuration: number
+    maxWithdrawalAmount: number
+    minDepositAmount: number
   }
 }
 
@@ -32,8 +33,7 @@ export type InterestAccountType = {
 
 export type InterestRateType = {
   rates: {
-    BTC: number
-    ETH: number
+    [key in CoinType]: number
   }
 }
 

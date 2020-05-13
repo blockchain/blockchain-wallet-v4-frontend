@@ -2888,13 +2888,13 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
-"@veriff/incontext-sdk@0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@veriff/incontext-sdk/-/incontext-sdk-0.2.1.tgz#ed7dcf1810f859e0299d67dd928a637961894b77"
-  integrity sha512-rVB6iVQWLGzpCPhRbtG+4ZeXSGFcwpHqYHgvoiQGKVtIO48jl3Gc2uoRznh7cpmV8NHYBX2bRyfxStANUjNuBg==
+"@veriff/incontext-sdk@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@veriff/incontext-sdk/-/incontext-sdk-0.3.0.tgz#f4ac5f9b8c1174c733872d2de82557c937756611"
+  integrity sha512-nlLqRmDf2zeRappq1oJcvyBzwbIsyUB3yPMsdMxkfYHS1vJJ3LCFPeS95UyRRkLHB01DNjUWmxRZMiT/039DIg==
   dependencies:
-    body-scroll-lock "^2.6.4"
     dom-focus-lock "^1.0.4"
+    tua-body-scroll-lock "1.0.0"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -5065,11 +5065,6 @@ body-parser@1.19.0:
     qs "6.7.0"
     raw-body "2.4.0"
     type-is "~1.6.17"
-
-body-scroll-lock@^2.6.4:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/body-scroll-lock/-/body-scroll-lock-2.7.1.tgz#caf3f9c91773af1ffb684cd66ed9137b5b737014"
-  integrity sha512-hS53SQ8RhM0e4DsQ3PKz6Gr2O7Kpdh59TWU98GHjaQznL7y4dFycEPk7pFQAikqBaUSCArkc5E3pe7CWIt2fZA==
 
 bonjour@^3.5.0:
   version "3.5.0"
@@ -8381,6 +8376,11 @@ fast-memoize@2.5.1:
   resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.1.tgz#c3519241e80552ce395e1a32dcdde8d1fd680f5d"
   integrity sha512-xdmw296PCL01tMOXx9mdJSmWY29jQgxyuZdq0rEHMu+Tpe1eOEtCycoG6chzlcrWsNgpZP7oL8RiQr7+G6Bl6g==
 
+fast-memoize@2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.2.tgz#79e3bb6a4ec867ea40ba0e7146816f6cdce9b57e"
+  integrity sha512-Ue0LwpDYErFbmNnZSF0UH6eImUwDmogUO1jyE+JbN2gsQz/jICm1Ve7t9QT0rNSsfJt+Hs4/S3GnsDVjL4HVrw==
+
 fastparse@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/fastparse/-/fastparse-1.1.2.tgz#91728c5a5942eced8531283c79441ee4122c35a9"
@@ -9776,10 +9776,10 @@ husky@3.0.5:
     run-node "^1.0.0"
     slash "^3.0.0"
 
-ibantools@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-2.1.0.tgz#6cba8bec7c63288e297b5d1c506cef0212331818"
-  integrity sha512-Jy22RiajBgJyQwqeJOp+8uDl0IpGtzcPLPqnDixfbGXPAf+PyxbcVKEingHxmpdSG6BweOR3A4ii7v+j9IWGVg==
+ibantools@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-2.2.0.tgz#39f73a88b54f760975929ed21bb0be1161de9c5b"
+  integrity sha512-avdGWvx7KCeb6HROtSdl2hvcvU5MJVU837dshNZjq2j6lVsgVmQGA9N7IAbI7bfXMTRvRXzTRaNNck9khL1CjA==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.17, iconv-lite@^0.4.24, iconv-lite@~0.4.13:
   version "0.4.24"
@@ -14849,18 +14849,18 @@ react-animations@1.0.0:
   resolved "https://registry.yarnpkg.com/react-animations/-/react-animations-1.0.0.tgz#d96222920dfeabec8984d9b2ef2c5a5aadb40f06"
   integrity sha512-ePPpVgdKnNEXm+LP1ww5s3n0JzebBw9QdRfxRqogzeg1PDIn6kf0pmvgeTeVZQXXpGmHImkIeTiaQR1O6xjntA==
 
-react-copy-to-clipboard@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.1.tgz#8eae107bb400be73132ed3b6a7b4fb156090208e"
-  integrity sha512-ELKq31/E3zjFs5rDWNCfFL4NvNFQvGRoJdAKReD/rUPA+xxiLPQmZBZBvy2vgH7V0GE9isIQpT9WXbwIVErYdA==
+react-copy-to-clipboard@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.2.tgz#d82a437e081e68dfca3761fbd57dbf2abdda1316"
+  integrity sha512-/2t5mLMMPuN5GmdXo6TebFa8IoFxZ+KTDDqYhcDm0PhkgEzSxVvIX26G20s1EB02A4h2UZgwtfymZ3lGJm0OLg==
   dependencies:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-csv@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.1.1.tgz#718dadd2607a1795bfc8dbd32ca282a043739634"
-  integrity sha512-eQSrkEfzPN+1IeXT58kJaDNmpFr3RhdjfE09jTrw+jdTEp0g0Ig9NOI+TpvMBbCukE1HQhOf4dyrLDRFKgZzbA==
+react-csv@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-csv/-/react-csv-1.1.2.tgz#6cb47e625f51878d24bb68a120efb45a30ad243a"
+  integrity sha512-pTOTYntW+gQWzCxyEGfS5ZeOfQw4Mu3B+DJd4jrJKNuAWFQ+EEyF2Earfg0+FVEkPwMr62OLtbYCHmc6vQWj2w==
 
 react-datetime@2.16.3:
   version "2.16.3"
@@ -17938,6 +17938,11 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
+
+tua-body-scroll-lock@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tua-body-scroll-lock/-/tua-body-scroll-lock-1.0.0.tgz#77bfefa58846fe49f2ef03fe8eb39e15e5e93f45"
+  integrity sha512-3ohEBWgwbFCtpt2Dls2dzgmMdAS3CmytbAsiIdh9OvGL91h0JSlbayJ7zG4wuf8KFEQtce2nFAd5/+pw7+Dc9w==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

@@ -176,6 +176,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     coin,
     formActions,
     interestActions,
+    interestLimits,
     interestRate,
     invalid,
     walletCurrency,
@@ -204,6 +205,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     }).value
   }).value
   const loanTimeFrame = values && values.loanTimeFrame
+  const lockupPeriod = interestLimits[coin].lockUpDuration / 1440
+
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -524,8 +527,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.agreement'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your Bitcoin Wallet to your Interest Account. An initial hold period of 7 days will be applied to your funds.'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your Bitcoin Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                 values={{
+                  lockupPeriod,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   depositAmountFiat: `${currencySymbol}${depositAmountFiat}`
                 }}

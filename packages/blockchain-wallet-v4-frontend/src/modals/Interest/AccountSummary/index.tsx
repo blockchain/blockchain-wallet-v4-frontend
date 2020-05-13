@@ -6,6 +6,7 @@ import { actions } from 'data'
 import {
   CoinType,
   InterestAccountBalanceType,
+  InterestLimitsType,
   InterestRateType,
   RemoteDataType,
   SupportedCoinsType
@@ -19,6 +20,10 @@ import Loading from './template.loading'
 
 class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
+
+  componentDidMount () {
+    this.props.interestActions.fetchInterestLimits()
+  }
 
   handleDepositClick = () => {
     this.props.interestActions.showInterestModal('DEPOSIT')
@@ -54,10 +59,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
@@ -73,6 +75,7 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
   coin: CoinType
+  interestLimits: InterestLimitsType
   interestRate: InterestRateType
   supportedCoins: SupportedCoinsType
 }

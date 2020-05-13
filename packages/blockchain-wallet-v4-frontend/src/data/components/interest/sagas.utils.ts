@@ -67,7 +67,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       yield put(
         A.setLimits({
           maxFiat: maxFiat,
-          minFiat: limits[coin]?.minimumDeposit || 0
+          minFiat: limits[coin]?.minDepositAmount || 0
         })
       )
     } catch (e) {
