@@ -8,9 +8,9 @@ import {
   SBPaymentMethodsType
 } from 'core/types'
 import { getData } from './selectors'
-import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import { SBFormPaymentMethod } from 'data/types'
+import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -20,10 +20,6 @@ class LinkedCards extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBPaymentMethods(
       this.props.fiatCurrency || 'USD'
     )
-  }
-
-  shouldComponentUpdate (nextProps: Props) {
-    return Remote.Success.is(nextProps.data)
   }
 
   handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
@@ -44,7 +40,7 @@ class LinkedCards extends PureComponent<Props> {
           handleCreditCardClick={this.handleCreditCardClick}
         />
       ),
-      Loading: () => null,
+      Loading: () => <Loading />,
       Failure: () => null,
       NotAsked: () => null
     })
