@@ -1063,6 +1063,7 @@ type MessagesType = {
   'modals.simplebuy.ordersummary': 'Buy Order Summary'
   'modals.simplebuy.pending': 'Pending'
   'modals.simplebuy.refresh': 'Refresh'
+  'modals.simplebuy.save_my_card': 'Save My Card'
   'modals.simplebuy.selectcurrency': 'Select Your Currency'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'

@@ -163,7 +163,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             height='48px'
             size='16px'
           >
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage
+              id='modals.simplebuy.save_my_card'
+              defaultMessage='Save My Card'
+            />
           </Button>
         </FlyoutWrapper>
       </Form>
