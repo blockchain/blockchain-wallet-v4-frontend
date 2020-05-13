@@ -116,7 +116,7 @@ const AccountSummary: React.FC<Props> = props => {
               </StatusIconWrapper>
               <Text color='grey600' size='14px' weight={500}>
                 <FormattedMessage
-                  id='modals.interest.deposit.success'
+                  id='modals.interest.deposit.clears'
                   defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
                 />
               </Text>

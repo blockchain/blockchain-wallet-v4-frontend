@@ -145,7 +145,7 @@ class IntroCard extends PureComponent<
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (
                   <FormattedMessage
-                    id='scenes.interest.earnupgrade.header'
+                    id='scenes.interest.kycunderreview'
                     defaultMessage='Gold Verification In Review'
                   />
                 ) : (
