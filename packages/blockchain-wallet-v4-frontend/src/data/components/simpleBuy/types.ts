@@ -124,6 +124,7 @@ interface ActivateSBCardSuccess {
   }
   type: typeof AT.ACTIVATE_SB_CARD_SUCCESS
 }
+
 interface DestroyCheckout {
   type: typeof AT.DESTROY_CHECKOUT
 }

@@ -277,6 +277,24 @@ export default ({
     }
   }
 
+  const deleteSBCard = function * ({
+    cardId
+  }: ReturnType<typeof A.deleteSBCard>) {
+    try {
+      if (!cardId) return
+      yield put(actions.form.startSubmit('linkedCards'))
+      yield call(api.deleteSBCard, cardId)
+      yield put(A.fetchSBCards(true))
+      yield take([AT.FETCH_SB_CARDS_SUCCESS, AT.FETCH_SB_CARDS_FAILURE])
+      yield put(actions.form.stopSubmit('linkedCards'))
+      yield put(actions.alerts.displaySuccess('Card removed.'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
+      yield put(actions.alerts.displayError('Error removing card.'))
+    }
+  }
+
   const fetchSBBalances = function * ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
@@ -325,10 +343,13 @@ export default ({
     }
   }
 
-  const fetchSBCards = function * () {
+  const fetchSBCards = function * ({
+    payload
+  }: ReturnType<typeof A.fetchSBCards>) {
     try {
       yield call(createUser)
       yield call(waitForUserData)
+      const { skipLoading } = payload
       const invitationsR: RemoteDataType<
         string,
         InvitationsType
@@ -336,7 +357,7 @@ export default ({
       const invited = invitationsR.getOrElse({ simpleBuyCC: false }).simpleBuyCC
       if (!invited) return yield put(A.fetchSBCardsSuccess([]))
       if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
-      yield put(A.fetchSBCardsLoading())
+      if (!skipLoading) yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
       yield put(A.fetchSBCardsSuccess(cards))
     } catch (e) {
@@ -558,7 +579,6 @@ export default ({
 
   const pollSBCardErrorHandler = function * (state: SBCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield take(AT.ACTIVATE_SB_CARD_SUCCESS)
     yield put(actions.form.startSubmit('addCCForm'))
 
     let error
@@ -606,6 +626,8 @@ export default ({
         yield call(pollSBCardErrorHandler, card.state)
         return
       case 'ACTIVE':
+        const skipLoading = true
+        yield put(A.fetchSBCards(skipLoading))
         return yield put(A.createSBOrder(card.id))
       default:
         yield call(pollSBCardErrorHandler, card.state)
@@ -678,11 +700,12 @@ export default ({
 
   return {
     activateSBCard,
+    addCardDetails,
     cancelSBOrder,
     confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
     createSBOrder,
-    addCardDetails,
+    deleteSBCard,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCards,

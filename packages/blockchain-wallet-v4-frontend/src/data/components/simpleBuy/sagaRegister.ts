@@ -19,6 +19,7 @@ export default ({ api, coreSagas, networks }) => {
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
     )
+    yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)
     yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
     yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
     yield takeLatest(

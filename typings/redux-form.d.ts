@@ -19,6 +19,7 @@ export type WalletFormType =
   | 'initBorrow'
   | 'interestDepositForm'
   | 'interestWithdrawalForm'
+  | 'linkedCards'
   | 'register'
   | 'reminder'
   | 'repayLoanForm'
@@ -147,16 +148,21 @@ declare module 'redux-form' {
   /* eslint-disable */
 
   export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
-    config: ConfigProps<FormData, P, ErrorType>
+    config: CustomConfigProps<FormData, P, ErrorType>
   ): FormDecorator<
     FormData,
     P,
-    Partial<ConfigProps<FormData, P, ErrorType>>,
+    Partial<CustomConfigProps<FormData, P, ErrorType>>,
     ErrorType
   >
 
   export function reduxForm<FormData = {}, P = {}, ErrorType = string>(
-    config: Partial<ConfigProps<FormData, P, ErrorType>>
-  ): FormDecorator<FormData, P, ConfigProps<FormData, P, ErrorType>, ErrorType>
+    config: Partial<CustomConfigProps<FormData, P, ErrorType>>
+  ): FormDecorator<
+    FormData,
+    P,
+    CustomConfigProps<FormData, P, ErrorType>,
+    ErrorType
+  >
   /* eslint-enable */
 }
