@@ -6,6 +6,7 @@ export const getData = state => {
   const coin = selectors.components.interest.getCoinType(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+
   const interestRateR = selectors.components.interest.getInterestRate(state)
 
   const transform = (interestRate, supportedCoins, userData) => ({
