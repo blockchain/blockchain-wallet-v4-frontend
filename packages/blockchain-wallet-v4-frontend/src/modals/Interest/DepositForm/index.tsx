@@ -57,9 +57,9 @@ export type LinkDispatchPropsType = {
 }
 export type SuccessStateType = {
   coin: CoinType
+  depositLimits: InterestMinMaxType
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
-  limits: InterestMinMaxType
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType

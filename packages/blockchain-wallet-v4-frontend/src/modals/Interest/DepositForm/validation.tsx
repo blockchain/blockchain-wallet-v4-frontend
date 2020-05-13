@@ -1,29 +1,20 @@
 import { FormattedMessage } from 'react-intl'
-import { InterestDepositFormType } from 'data/types'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 
 import { fiatToString } from 'core/exchange/currency'
 
-import { Props as DepositProps } from './template.success'
-
-export const minDepositAmount = (
-  value: string,
-  allValues: InterestDepositFormType,
-  props: DepositProps
-) => {
+export const minDepositAmount = (minValue, walletCurrency) => value => {
   if (!value) return true
-  // TODO: hook into real data
-  const min = 1 // props.limits[props.coin]?.minimumDeposit || 0
 
-  return new BigNumber(value).isLessThan(min) ? (
+  return new BigNumber(value).isLessThan(minValue) ? (
     <FormattedMessage
       id='modals.interest.deposit.min'
       defaultMessage='Minimum deposit: {minFiat}'
       values={{
         minFiat: fiatToString({
-          value: min,
-          unit: props.walletCurrency
+          value: minValue,
+          unit: walletCurrency
         })
       }}
     />
@@ -31,12 +22,7 @@ export const minDepositAmount = (
     false
   )
 }
-
-export const maxDepositAmount = (
-  maxValue: number,
-  props: DepositProps,
-  value?: number
-) => {
+export const maxDepositAmount = (maxValue, walletCurrency) => value => {
   if (!value) return true
 
   return new BigNumber(maxValue).isLessThan(value) ? (
@@ -46,7 +32,7 @@ export const maxDepositAmount = (
       values={{
         maxFiat: fiatToString({
           value: maxValue,
-          unit: props.walletCurrency
+          unit: walletCurrency
         })
       }}
     />

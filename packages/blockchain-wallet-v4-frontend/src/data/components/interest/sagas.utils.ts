@@ -64,10 +64,12 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           throw new Error(INVALID_COIN_TYPE)
       }
 
+      const minFiat = limits[coin]?.minDepositAmount || 100
+
       yield put(
-        A.setLimits({
+        A.setDepositLimits({
           maxFiat: maxFiat,
-          minFiat: limits[coin]?.minDepositAmount || 0
+          minFiat: minFiat / 100 // default unit is cents, convert to standard
         })
       )
     } catch (e) {

@@ -11,7 +11,6 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import AccountSummary from './AccountSummary'
 import DepositForm from './DepositForm'
-import DepositSuccess from './DepositSuccess'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
@@ -72,11 +71,6 @@ class Interest extends PureComponent<Props, State> {
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
             <DepositForm />
-          </FlyoutChild>
-        )}
-        {step.name === 'DEPOSIT_SUCCESS' && (
-          <FlyoutChild>
-            <DepositSuccess handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {step.name === 'WITHDRAWAL' && (

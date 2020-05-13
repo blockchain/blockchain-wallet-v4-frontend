@@ -4,22 +4,22 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
-  interestAccountBalance: Remote.NotAsked,
+  accountBalance: Remote.NotAsked,
   coin: 'BTC',
-  interestEligible: Remote.NotAsked,
-  interestInstruments: Remote.NotAsked,
-  interestLimits: Remote.NotAsked,
-  interestRate: Remote.NotAsked,
-  limits: {
+  depositLimits: {
     maxFiat: 0,
     minFiat: 0
   },
-  interestTransactions: Remote.NotAsked,
+  interestEligible: Remote.NotAsked,
+  instruments: Remote.NotAsked,
+  interestLimits: Remote.NotAsked,
+  interestRate: Remote.NotAsked,
   payment: Remote.NotAsked,
   step: {
     data: {},
     name: 'ACCOUNT_SUMMARY'
-  }
+  },
+  transactions: Remote.NotAsked
 }
 
 export function interestReducer (
@@ -30,19 +30,17 @@ export function interestReducer (
     case AT.FETCH_INTEREST_BALANCE_FAILURE:
       return {
         ...state,
-        interestAccountBalance: Remote.Failure(action.payload.error)
+        accountBalance: Remote.Failure(action.payload.error)
       }
     case AT.FETCH_INTEREST_BALANCE_LOADING:
       return {
         ...state,
-        interestAccountBalance: Remote.Loading
+        accountBalance: Remote.Loading
       }
     case AT.FETCH_INTEREST_BALANCE_SUCCESS:
       return {
         ...state,
-        interestAccountBalance: Remote.Success(
-          action.payload.interestAccountBalance
-        )
+        accountBalance: Remote.Success(action.payload.interestAccountBalance)
       }
     case AT.FETCH_INTEREST_ELIGIBLE_FAILURE:
       return {
@@ -62,17 +60,17 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_FAILURE:
       return {
         ...state,
-        interestInstruments: Remote.Failure(action.payload.error)
+        instruments: Remote.Failure(action.payload.error)
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_LOADING:
       return {
         ...state,
-        interestInstruments: Remote.Loading
+        instruments: Remote.Loading
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        interestInstruments: Remote.Success(action.payload.interestInstruments)
+        instruments: Remote.Success(action.payload.interestInstruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {
@@ -122,19 +120,17 @@ export function interestReducer (
     case AT.FETCH_INTEREST_TRANSACTIONS_FAILURE:
       return {
         ...state,
-        interestTransactions: Remote.Failure(action.payload.error)
+        transactions: Remote.Failure(action.payload.error)
       }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING:
       return {
         ...state,
-        interestTransactions: Remote.Loading
+        transactions: Remote.Loading
       }
     case AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS:
       return {
         ...state,
-        interestTransactions: Remote.Success(
-          action.payload.interestTransactions
-        )
+        transactions: Remote.Success(action.payload.interestTransactions)
       }
     case AT.INITIALIZE_DEPOSIT_FORM: {
       return {
@@ -142,10 +138,10 @@ export function interestReducer (
         coin: action.payload.coin
       }
     }
-    case AT.SET_INTEREST_LIMITS: {
+    case AT.SET_INTEREST_DEPOSIT_LIMITS: {
       return {
         ...state,
-        limits: action.payload.limits
+        depositLimits: action.payload.limits
       }
     }
     case AT.SET_INTEREST_STEP: {

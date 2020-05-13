@@ -193,9 +193,9 @@ export const setInterestStep = (
   type: AT.SET_INTEREST_STEP
 })
 
-export const setLimits = (limits: InterestMinMaxType) => ({
+export const setDepositLimits = (limits: InterestMinMaxType) => ({
   payload: { limits },
-  type: AT.SET_INTEREST_LIMITS
+  type: AT.SET_INTEREST_DEPOSIT_LIMITS
 })
 
 export const setPaymentFailure = (error: string): InterestActionTypes => ({

@@ -1,17 +1,17 @@
-import { RatesType } from '../borrow/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RemoteDataType } from 'core/types'
-import { RootState } from '../../rootReducer'
 import { selectors } from 'data'
 
+import { RatesType } from '../borrow/types'
+import { RootState } from '../../rootReducer'
+
 export const getInterestAccountBalance = (state: RootState) =>
-  state.components.interest.interestAccountBalance
+  state.components.interest.accountBalance
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
 export const getDepositAddress = (state: RootState) => {
   const account = getInterestAccount(state).getOrElse({ accountRef: null })
-  // @ts-ignore TODO: fixme
   return account.accountRef
 }
 
@@ -19,7 +19,7 @@ export const getInterestEligible = (state: RootState) =>
   state.components.interest.interestEligible
 
 export const getInterestInstruments = (state: RootState) =>
-  state.components.interest.interestInstruments
+  state.components.interest.instruments
 
 export const getInterestLimits = (state: RootState) =>
   state.components.interest.interestLimits
@@ -31,10 +31,10 @@ export const getInterestRate = (state: RootState) =>
   state.components.interest.interestRate
 
 export const getInterestTransactions = (state: RootState) =>
-  state.components.interest.interestTransactions
+  state.components.interest.transactions
 
-export const getMinMaxLimits = (state: RootState) =>
-  state.components.interest.limits
+export const getDepositLimits = (state: RootState) =>
+  state.components.interest.depositLimits
 
 export const getPayment = (state: RootState) =>
   state.components.interest.payment

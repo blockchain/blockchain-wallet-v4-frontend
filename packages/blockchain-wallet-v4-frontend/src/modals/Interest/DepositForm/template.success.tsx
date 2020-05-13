@@ -174,6 +174,7 @@ const FORM_NAME = 'interestDepositForm'
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
+    depositLimits,
     formActions,
     interestActions,
     interestLimits,
@@ -206,6 +207,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }).value
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 1440
+  const validateMinDepositAmount = minDepositAmount(
+    depositLimits.minFiat,
+    walletCurrency
+  )
+  const validateMaxDepositAmount = maxDepositAmount(
+    depositLimits.maxFiat,
+    walletCurrency
+  )
 
   return submitting ? (
     <SendingWrapper>
@@ -278,13 +287,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 formActions.change(
                   FORM_NAME,
                   'depositAmount',
-                  props.limits.maxFiat
+                  depositLimits.maxFiat
                 )
               }
             >
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
-                  value: props.limits.maxFiat,
+                  value: depositLimits.maxFiat,
                   unit: walletCurrency
                 })}{' '}
               </Text>
@@ -319,13 +328,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='depositAmount'
             validate={[
               required,
-              minDepositAmount,
-              () =>
-                maxDepositAmount(
-                  props.limits.maxFiat,
-                  props,
-                  values && values.depositAmount
-                )
+              validateMinDepositAmount,
+              validateMaxDepositAmount
             ]}
             {...{
               errorBottom: true,

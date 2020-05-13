@@ -49,19 +49,19 @@ export type InterestStep = keyof typeof InterestSteps
 // State
 export interface InterestState {
   account: RemoteDataType<string, InterestAccountType>
+  accountBalance: RemoteDataType<string, InterestAccountBalanceType>
   coin: CoinType
-  interestAccountBalance: RemoteDataType<string, InterestAccountBalanceType>
+  depositLimits: InterestMinMaxType
+  instruments: RemoteDataType<string, InterestInstrumentsType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
-  interestInstruments: RemoteDataType<string, InterestInstrumentsType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
-  interestTransactions: RemoteDataType<string, InterestTransactionResponseType>
-  limits: InterestMinMaxType
   payment: RemoteDataType<string, PaymentValue>
   step: {
     data: InterestStepMetadata
     name: InterestStep
   }
+  transactions: RemoteDataType<string, InterestTransactionResponseType>
 }
 
 // Actions
@@ -194,11 +194,11 @@ interface ShowInterestModal {
   type: typeof AT.SHOW_INTEREST_MODAL
 }
 
-interface SetLimitsAction {
+interface SetDepositLimitsAction {
   payload: {
     limits: InterestMinMaxType
   }
-  type: typeof AT.SET_INTEREST_LIMITS
+  type: typeof AT.SET_INTEREST_DEPOSIT_LIMITS
 }
 
 interface SetPaymentFailureAction {
@@ -245,7 +245,7 @@ export type InterestActionTypes =
   | RouteToTxHash
   | SetInterestStep
   | ShowInterestModal
-  | SetLimitsAction
+  | SetDepositLimitsAction
   | SetPaymentFailureAction
   | SetPaymentLoadingAction
   | SetPaymentSuccessAction
