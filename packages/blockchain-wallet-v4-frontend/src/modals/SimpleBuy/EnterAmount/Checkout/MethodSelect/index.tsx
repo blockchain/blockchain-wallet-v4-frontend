@@ -199,9 +199,15 @@ class MethodSelect extends PureComponent<Props> {
       <Field
         component={SelectBoxMethod}
         elements={this.renderElements()}
-        hideIndicator={this.props.paymentMethods.methods.length <= 1}
+        hideIndicator={
+          this.props.paymentMethods.methods.length <= 1 &&
+          this.props.cards.length < 1
+        }
         name='method'
-        openMenuOnClick={this.props.paymentMethods.methods.length > 1}
+        openMenuOnClick={
+          this.props.paymentMethods.methods.length > 1 ||
+          this.props.cards.length > 0
+        }
         searchEnabled={false}
         templateDisplay={this.renderDisplay}
         templateItem={this.renderDisplay}

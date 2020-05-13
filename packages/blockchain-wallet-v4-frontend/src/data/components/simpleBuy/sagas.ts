@@ -300,10 +300,11 @@ export default ({
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
       if (!(yield call(isTier2))) return
-
-      // yield put(A.fetchSBBalancesLoading())
-      const orders = yield call(api.getSBBalances, currency)
-      yield put(A.fetchSBBalancesSuccess(orders))
+      const balances: ReturnType<typeof api.getSBBalances> = yield call(
+        api.getSBBalances,
+        currency
+      )
+      yield put(A.fetchSBBalancesSuccess(balances))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBBalancesFailure(error))
