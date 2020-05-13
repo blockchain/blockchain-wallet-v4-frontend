@@ -4,7 +4,8 @@ import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { Props } from '.'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
 import moment from 'moment'
 import React from 'react'
@@ -35,10 +36,29 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<Props> = props => {
-  const amount = fiatToString({
-    unit: props.order.inputCurrency as FiatType,
-    value: convertBaseToStandard('FIAT', props.order.inputQuantity)
-  })
+  const inputAmt =
+    getOrderType(props.order.pair) === 'BUY'
+      ? fiatToString({
+          unit: props.order.inputCurrency as FiatType,
+          value: convertBaseToStandard('FIAT', props.order.inputQuantity)
+        })
+      : convertBaseToStandard(
+          getCoinFromPair(props.order.pair),
+          props.order.inputQuantity
+        )
+  const outputAmt =
+    getOrderType(props.order.pair) === 'BUY'
+      ? convertBaseToStandard(
+          getCoinFromPair(props.order.pair),
+          props.order.outputQuantity
+        )
+      : fiatToString({
+          unit: props.order.outputCurrency as FiatType,
+          value: convertBaseToStandard('FIAT', props.order.outputQuantity)
+        })
+  const card =
+    props.order.paymentMethodId &&
+    props.cards.find(card => card.id === props.order.paymentMethodId)?.card
 
   return (
     <Wrapper>
@@ -60,7 +80,7 @@ const Success: React.FC<Props> = props => {
           </TopText>
           <Amount>
             <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
-              {amount} of
+              {inputAmt} of
             </Text>
             <Text
               size='32px'
@@ -115,18 +135,93 @@ const Success: React.FC<Props> = props => {
             {moment(props.order.insertedAt).format('LLL')}
           </Value>
         </Row>
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.summary.purchasing'
-              defaultMessage='Purchasing'
-            />
-          </Title>
-          <Value data-e2e='sbPurchasing'>
-            {amount} of{' '}
-            {props.supportedCoins[props.order.outputCurrency].coinTicker}
-          </Value>
-        </Row>
+        {props.order.price ? (
+          <>
+            <Row>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.summary.rate'
+                  defaultMessage='Exchange Rate'
+                />
+              </Title>
+              <Value data-e2e='sbRate'>
+                {fiatToString({
+                  unit: props.order.inputCurrency as FiatType,
+                  value: convertBaseToStandard('FIAT', props.order.price)
+                })}{' '}
+                / {props.order.outputCurrency}
+              </Value>
+            </Row>
+            <Row>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.summary.value'
+                  defaultMessage='Value'
+                />
+              </Title>
+              <Value data-e2e='sbPurchasing'>
+                {inputAmt} of{' '}
+                {props.supportedCoins[props.order.outputCurrency].coinTicker}
+              </Value>
+            </Row>
+          </>
+        ) : (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.summary.purchasing'
+                defaultMessage='Purchasing'
+              />
+            </Title>
+            <Value data-e2e='sbPurchasing'>
+              {inputAmt} of{' '}
+              {props.supportedCoins[props.order.outputCurrency].coinTicker}
+            </Value>
+          </Row>
+        )}
+        {props.order.fee !== '0' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.summary.fee'
+                defaultMessage='Fee'
+              />
+            </Title>
+            <Value data-e2e='sbFee'>
+              {fiatToString({
+                unit: props.order.inputCurrency as FiatType,
+                value: convertBaseToStandard('FIAT', props.order.fee)
+              })}{' '}
+              {props.order.inputCurrency}
+            </Value>
+          </Row>
+        )}
+        {props.order.outputQuantity !== '0' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.summary.sent_to'
+                defaultMessage='Sent To'
+              />
+            </Title>
+            <Value data-e2e='sbSentTo'>
+              {props.order.outputCurrency} Trading Wallet
+            </Value>
+          </Row>
+        )}
+        {props.order.outputQuantity !== '0' && (
+          <Row>
+            <Title>
+              <FormattedMessage
+                id='modals.simplebuy.confirm.total'
+                defaultMessage='Total'
+              />
+            </Title>
+            <Value data-e2e='sbSentTo'>
+              {outputAmt} {props.order.outputCurrency}
+            </Value>
+          </Row>
+        )}
         <Row>
           <Title>
             <FormattedMessage
@@ -135,7 +230,9 @@ const Success: React.FC<Props> = props => {
             />
           </Title>
           <Value data-e2e='sbPaymentMethod'>
-            {props.order.paymentMethodId ? 'Credit Card' : 'Bank Wire Transfer'}
+            {card
+              ? `${card.label ? card.label : card.type} ····${card.number}`
+              : 'Bank Wire Transfer'}
           </Value>
         </Row>
       </div>
@@ -190,5 +287,7 @@ const Success: React.FC<Props> = props => {
     </Wrapper>
   )
 }
+
+type Props = OwnProps & SuccessStateType
 
 export default Success

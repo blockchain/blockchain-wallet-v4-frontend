@@ -8,6 +8,10 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
+import {
+  DEFAULT_SECURITY_CODE_NAME,
+  getCardTypeByValue
+} from 'components/Form/CreditCardBox/model'
 import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -106,7 +110,12 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             />
           </FormItem>
           <FormItem>
-            <FormLabel>CVC</FormLabel>
+            <FormLabel>
+              {(props.formValues &&
+                getCardTypeByValue(props.formValues['card-number'])
+                  ?.securityCodeName) ||
+                DEFAULT_SECURITY_CODE_NAME}
+            </FormLabel>
             <Field
               name='cvc'
               component={CreditCardCVCBox as FunctionComponent}
