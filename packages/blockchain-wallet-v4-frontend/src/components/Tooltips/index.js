@@ -24,6 +24,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
           />
         </Tooltip>
+        <Tooltip id='import.privatekeys'>
+          <FormattedMessage
+            id='modals.import.privatekeys.tooltip'
+            defaultMessage='Private key format must be compressed WIF. If you are importing a private key that is in an uncompressed format, please convert it to compressed prior to importing.'
+          />
+        </Tooltip>
         <Tooltip id='recurring.tooltip'>
           <FormattedMessage
             id='orderdetails.recurring.tooltip'
