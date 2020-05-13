@@ -17,7 +17,6 @@ const TYPE_WHITELIST = [
   '@@redux-form/STOP_SUBMIT',
   '@@redux-form/START_SUBMIT',
   '@@router/LOCATION_CHANGE',
-  '@ANALYTICS.LOG_EVENT',
   '@CORE.SET_ACCOUNT_ARCHIVED',
   '@CORE.SET_ACCOUNT_LABEL',
   '@CORE.SET_DEFAULT_ACCOUNT',
@@ -26,8 +25,6 @@ const TYPE_WHITELIST = [
   '@EVENT.KYC.UPDATE_EMAIL',
   '@EVENT.BORROW.SET_STEP',
   '@EVENT.SET_SB_STEP',
-  // Removing because https://blockc.slack.com/archives/CFE6HGEJD/p1578311066001100
-  // 'LOG_ERROR_MSG',
   'CLOSE_MODAL',
   'SHOW_MODAL'
 ]
@@ -59,6 +56,7 @@ const matomoMiddleware = () => store => next => action => {
       !equals(nextEvent, lastEvent) &&
       !includes(eventAction, EVENT_ACTION_BLACKLIST)
     ) {
+      // console.info('EVENT', nextEvent) // uncomment to assist with debugging
       const frame = document.getElementById('matomo-iframe')
       frame &&
         frame.contentWindow &&

@@ -2,6 +2,7 @@ import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
+import { interestReducer } from './interest/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
@@ -25,6 +26,7 @@ const componentReducer = combineReducers({
   exchange: exchangeReducer,
   exchangeHistory,
   identityVerification: identityVerificationReducer,
+  interest: interestReducer,
   layoutWallet,
   lockbox,
   manageAddresses,

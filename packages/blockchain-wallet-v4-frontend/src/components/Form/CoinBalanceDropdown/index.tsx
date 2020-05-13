@@ -60,7 +60,7 @@ const FiatContainer = styled.div`
   color: ${props => props.theme.grey400};
 `
 
-export class BorrowCoinDropdown extends PureComponent<Props> {
+export class CoinBalanceDropdown extends PureComponent<Props> {
   state = {}
 
   renderElements = (values: SuccessStateType) => {
@@ -81,7 +81,6 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
     const icon = coinType.icons.circleFilled
     const color = coinType.colorCode
     const isItem = !children
-
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
         <Icon size='32px' color={color} name={icon} />
@@ -105,7 +104,7 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
                 size='12px'
                 weight={500}
                 color='grey400'
-                currency='USD'
+                currency={this.props.fiatCurrency || 'USD'}
                 cursor='pointer'
                 rates={this.props.rates}
               >
@@ -126,6 +125,7 @@ export class BorrowCoinDropdown extends PureComponent<Props> {
           <Field
             component={SelectBox}
             elements={this.renderElements(values)}
+            fiatCurrency={this.props.fiatCurrency}
             templateDisplay={this.renderDisplay}
             templateItem={this.renderDisplay}
             hideIndicator={values.length <= 1}
@@ -157,7 +157,8 @@ const connector = connect(mapStateToProps)
 
 export type OwnProps = {
   coin: CoinType
-  name: 'collateral' | 'repay-principal'
+  fiatCurrency?: string
+  name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedCoinsType
 }
@@ -167,4 +168,4 @@ type LinkStatePropsType = {
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(BorrowCoinDropdown)
+export default connector(CoinBalanceDropdown)

@@ -2,7 +2,7 @@ declare module 'react-intl' {
   import {
     DefaultMessageType,
     MessageIdType
-  } from 'blockchain-wallet-v4-frontend/src/assets/locales/types'
+  } from 'blockchain-wallet-v4-frontend/src/assets/locales'
   import { StatelessComponent } from 'react'
 
   export const injectIntl

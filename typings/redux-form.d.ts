@@ -17,6 +17,8 @@ export type WalletFormType =
   | 'ccBillingAddress'
   | 'confirmRecoveryWords'
   | 'initBorrow'
+  | 'interestDepositForm'
+  | 'interestWithdrawalForm'
   | 'linkedCards'
   | 'register'
   | 'reminder'

@@ -72,6 +72,7 @@ const IcoMoon = {
   pax: '\\e929',
   pencil: '\\e96a',
   pending: '\\e915',
+  percentage: '\\e92c',
   phone: '\\e96c',
   'phone-regular': '\\e985',
   pie: '\\e911',

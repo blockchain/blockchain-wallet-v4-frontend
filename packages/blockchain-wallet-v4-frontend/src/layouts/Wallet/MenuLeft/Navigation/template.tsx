@@ -104,6 +104,11 @@ const Navigation = (props: OwnProps & Props) => {
             className='destination'
           />
         </Destination>
+        <NewCartridge>
+          <Text color='orange600' weight={600} size='12' uppercase>
+            <FormattedMessage id='copy.new' defaultMessage='New' />
+          </Text>
+        </NewCartridge>
       </MenuItem>
       <SpotlightLinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
@@ -138,12 +143,24 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
-          <ExchangeNavItem {...props} />
-        </MenuItem>
-      </LinkContainer>
-      {/* )} */}
+      {props.invitations.interest && (
+        <LinkContainer to='/interest' activeClassName='active'>
+          <MenuItem data-e2e='interestLink'>
+            <MenuIcon name='percentage' size='20px' />
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.earninterest'
+                defaultMessage='Earn Interest'
+              />
+            </Destination>
+            <NewCartridge>
+              <Text color='orange600' weight={600} size='12' uppercase>
+                <FormattedMessage id='copy.new' defaultMessage='New' />
+              </Text>
+            </NewCartridge>
+          </MenuItem>
+        </LinkContainer>
+      )}
       <LinkContainer to='/borrow' activeClassName='active'>
         <MenuItem data-e2e='borrowLink'>
           <MenuIcon name='borrow' size='20px' />
@@ -153,16 +170,14 @@ const Navigation = (props: OwnProps & Props) => {
               defaultMessage='Borrow'
             />
           </Destination>
-          <NewCartridge>
-            <Text color='orange600' weight={600} size='12' uppercase>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow.new'
-                defaultMessage='New'
-              />
-            </Text>
-          </NewCartridge>
         </MenuItem>
       </LinkContainer>
+      <LinkContainer to='/exchange' activeClassName='active'>
+        <MenuItem data-e2e='exchangeLink'>
+          <ExchangeNavItem {...props} />
+        </MenuItem>
+      </LinkContainer>
+      {/* )} */}
       {props.lockboxDevices.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
@@ -211,10 +226,7 @@ const Navigation = (props: OwnProps & Props) => {
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
                       <Text color='orange600' size='12' weight={500} uppercase>
-                        <FormattedMessage
-                          id='layouts.wallet.menuleft.navigation.transactions.new'
-                          defaultMessage='New'
-                        />
+                        <FormattedMessage id='copy.new' defaultMessage='New' />
                       </Text>
                     </NewCartridge>
                   )}

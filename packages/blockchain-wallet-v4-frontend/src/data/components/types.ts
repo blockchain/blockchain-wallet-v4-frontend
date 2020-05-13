@@ -13,6 +13,7 @@ export type ComponentsActionTypes =
 
 export * from './borrow/types'
 export * from './identityVerification/types'
+export * from './interest/types'
 export * from './recoveryPhrase/types'
 export * from './sendBch/types'
 export * from './sendBtc/types'
