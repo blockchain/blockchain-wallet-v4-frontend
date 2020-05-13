@@ -5,6 +5,7 @@ export type InvitationsType = {
   PAX: boolean
   STX: boolean
   XLM: boolean
+  interest: boolean
   borrow: boolean
   coinify: boolean
   kyc: boolean
