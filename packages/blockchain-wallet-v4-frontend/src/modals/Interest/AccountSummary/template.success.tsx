@@ -44,7 +44,7 @@ const AccountSummary: React.FC<Props> = props => {
   } = props
   const displayName = supportedCoins[coin].displayName
   const account = accountBalances && accountBalances[coin]
-  const lockupPeriod = interestLimits[coin].lockUpDuration / 1440
+  const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
 
   return (
     <Wrapper>
@@ -268,11 +268,19 @@ const AccountSummary: React.FC<Props> = props => {
               </TooltipHost>
             </Text>
             <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.summary.lockup'
-                defaultMessage='{lockupPeriod} Days'
-                values={{ lockupPeriod }}
-              />
+              {lockupPeriod === 1 ? (
+                <FormattedMessage
+                  id='modals.interest.summary.lockup.one'
+                  defaultMessage='1 Day'
+                  values={{ lockupPeriod }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.interest.summary.lockup'
+                  defaultMessage='{lockupPeriod} Days'
+                  values={{ lockupPeriod }}
+                />
+              )}
             </Text>
           </DetailsItemContainer>
           <LineVectorDetails />
