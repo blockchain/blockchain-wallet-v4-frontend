@@ -2,13 +2,13 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { concat, prop } from 'ramda'
 import { connect } from 'react-redux'
+import { InvitationsType, SupportedCoinsType } from 'core/types'
 import { KycStateType } from 'data/types'
-import { SupportedCoinsType } from 'core/types'
 import Navigation from './template'
 import React from 'react'
 
 type OwnProps = {
-  invitations?: { [key in string]: boolean }
+  invitations: InvitationsType
   lockboxDevices: Array<any>
   userKYCState: KycStateType
 }
@@ -57,11 +57,6 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(NavigationContainer)

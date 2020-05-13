@@ -118,10 +118,7 @@ const FirstStep = props => {
         </FormItem>
         <FormItem width={'60%'}>
           <FormLabel htmlFor='from'>
-            <FormattedMessage
-              id='modals.sendxlm.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'

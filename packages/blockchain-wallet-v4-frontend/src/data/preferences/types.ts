@@ -8,6 +8,7 @@ export type PreferencesState = {
   sbFiatCurrency: undefined | FiatType
   showAirdropClaimModal: boolean
   showBackupReminder: boolean
+  showInterestInfoBox: boolean
   showKycCompleted: boolean
   showKycGetStarted: boolean
   showLockboxSoftwareDownload: boolean

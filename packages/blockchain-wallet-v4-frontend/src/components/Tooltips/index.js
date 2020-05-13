@@ -296,6 +296,36 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Coming soon.'
           />
         </Tooltip>
+        <Tooltip id='earninterest.calculation.tooltip'>
+          <FormattedMessage
+            id='earninterestform.tooltip.calculations'
+            defaultMessage='This rate reflects annual return based on daily compounding. It is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.calculator.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.calculator.tooltip'
+            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.tooltip.description'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.lock.tooltip.description'
+            defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
+          <FormattedMessage
+            id='modals.interest.moredetails.tooltip.description'
+            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

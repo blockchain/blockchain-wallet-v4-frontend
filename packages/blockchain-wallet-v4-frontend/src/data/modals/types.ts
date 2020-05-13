@@ -6,6 +6,7 @@ export type ModalNamesType =
   | 'BORROW_MODAL'
   | 'Confirm'
   | 'FAQ_MODAL'
+  | 'INTEREST_MODAL'
   | 'KycDocResubmit'
   | 'LinkFromExchangeAccount'
   | 'LinkToExchangeAccount'
@@ -26,6 +27,7 @@ export type ModalNamesType =
   | 'UpgradeForAirdrop'
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
+  | 'WITHDRAWAL_MODAL'
 
 export type ModalOriginType =
   | 'AirdropClaimGoal'
@@ -39,6 +41,7 @@ export type ModalOriginType =
   | 'PriceChart'
   | 'RetrySendEth'
   | 'RunKycGoal'
+  | 'InterestPage'
   | 'SBEnterAmountCheckout'
   | 'Send'
   | 'SendBch'

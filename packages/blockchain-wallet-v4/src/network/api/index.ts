@@ -6,6 +6,7 @@ import borrow from './borrow'
 import btc from './btc'
 import eth from './eth'
 import httpService from './http'
+import interest from './interest'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import lockbox from './lockbox'
@@ -55,6 +56,11 @@ const api = ({
       authorizedPut: authorizedHttp.put,
       ...http
     }),
+    ...interest({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post
+    }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ rootUrl, apiUrl, ...http }),
     ...profile({
@@ -89,6 +95,7 @@ export type APIType = ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof eth> &
+  ReturnType<typeof interest> &
   ReturnType<typeof misc> &
   ReturnType<typeof simpleBuy> &
   ReturnType<typeof wallet> &

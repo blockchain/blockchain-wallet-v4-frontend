@@ -70,10 +70,7 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbtc.secondstep.from'
-              defaultMessage='From:'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From:' />
           </Text>
           <Text size='16px' weight={400} data-e2e='btcFromWallet'>
             {fromAddress}
@@ -105,10 +102,7 @@ const Success = props => {
         )}
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbtc.secondstep.amount'
-              defaultMessage='Amount:'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount:' />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>

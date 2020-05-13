@@ -126,12 +126,12 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const verifyIdentity = function * ({ payload }) {
-    const { tier, needMoreInfo } = payload
+    const { tier, needMoreInfo, origin } = payload
     yield put(
       actions.modals.showModal(KYC_MODAL, {
         tier,
         needMoreInfo,
-        origin: 'Unknown'
+        origin: origin || 'Unknown'
       })
     )
   }

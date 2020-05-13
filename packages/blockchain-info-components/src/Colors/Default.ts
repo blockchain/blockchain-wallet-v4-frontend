@@ -8,6 +8,7 @@ const Default = {
   whiteFade700: 'rgba(255, 255, 255, 0.7)',
   whiteFade800: 'rgba(255, 255, 255, 0.8)',
   whiteFade900: 'rgba(255, 255, 255, 0.9)',
+  greyFade000: 'rgba(5, 24, 61, 0.02)',
   greyFade100: 'rgba(5, 24, 61, 0.1)',
   greyFade200: 'rgba(5, 24, 61, 0.2)',
   greyFade300: 'rgba(5, 24, 61, 0.3)',

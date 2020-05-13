@@ -20,6 +20,12 @@ export const AB_TESTS = {}
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
+
+export const ADS_EVENTS = {
+  CLICK_AD: ['navigation', 'click_ad'],
+  CLICK_AD_TAX: ['navigation', 'click_ad_tax']
+}
+
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'
@@ -84,11 +90,6 @@ export const GENERAL_EVENTS = {
   WALLET_INTRO_AIRDROPS: ['general', 'wallet_intro_tour', 'step_view_airdrops']
 }
 
-export const ADS_EVENTS = {
-  CLICK_AD: ['navigation', 'click_ad'],
-  CLICK_AD_TAX: ['navigation', 'click_ad_tax']
-}
-
 export const EXCHANGE_EVENTS = {
   BANNER_GET_STARTED: ['exchange', 'homepage', 'homepage_banner_click'],
   BUY_SELL_LINKOUT_CLICKED: ['exchange', 'buy_sell_page', 'linkout_click'],
@@ -114,4 +115,19 @@ export const PRICE_CHART_EVENTS = {
 
 export const SB_EVENTS = {
   CLICK_SUPPORT_ARTICLE: ['simple_buy', 'transfer_flyout', 'read_it_now']
+}
+
+export const INTEREST_EVENTS = {
+  HOME: {
+    CLICK_SUPPORT_ARTICLE: ['interest', 'home', 'learn_more_click'],
+    VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click']
+  },
+  DEPOSIT: {
+    SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
+    SEND_FAILURE: ['interest', 'deposit', 'send_failure']
+  },
+  WITHDRAWAL: {
+    REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
+    REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
+  }
 }

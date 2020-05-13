@@ -1,5 +1,5 @@
 import * as M from './validationMessages'
-import { all, any, equals, path, prop, propOr } from 'ramda'
+import { all, any, equals, gt, path, prop, propOr } from 'ramda'
 import {
   isAlphaNumeric,
   isDOB,
@@ -24,6 +24,15 @@ import React from 'react'
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
+
+export const maxValue = (max, canEqual = false) => value =>
+  value && gt(value, max) ? (
+    <M.ValueOverMaxMessage />
+  ) : !canEqual && value && +value === max ? (
+    <M.ValueIsEqualToMaxMessage />
+  ) : (
+    undefined
+  )
 
 export const optional = validator => value =>
   value === undefined || value === '' ? undefined : validator(value)

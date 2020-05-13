@@ -69,6 +69,10 @@ export const SceneSubHeaderText = styled(Text)`
   color: ${props => props.theme.grey600};
   font-weight: 500;
   margin-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 export const CustomBox = styled(Box)`

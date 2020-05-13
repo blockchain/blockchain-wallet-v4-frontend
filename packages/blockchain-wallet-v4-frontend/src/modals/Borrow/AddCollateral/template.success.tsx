@@ -7,15 +7,19 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
-import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
@@ -174,7 +178,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

@@ -8,6 +8,7 @@ import exchange from './exchange/sagaRegister'
 import exchangeHistory from './exchangeHistory/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
+import interest from './interest/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
@@ -42,6 +43,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(exchange({ api, coreSagas, networks }))
     yield fork(exchangeHistory({ api, coreSagas }))
     yield fork(identityVerification({ api, coreSagas }))
+    yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))

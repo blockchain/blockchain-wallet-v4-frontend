@@ -63,6 +63,7 @@ export type SBShowModalOriginType =
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'
+  | 'InterestPage'
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
