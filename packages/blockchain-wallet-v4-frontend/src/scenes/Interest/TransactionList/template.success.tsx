@@ -24,7 +24,7 @@ import {
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
-function TransactionList (props: Props): ReactElement {
+function TransactionList (props: Props): ReactElement | null {
   const {
     btcRates,
     coin,
@@ -34,8 +34,7 @@ function TransactionList (props: Props): ReactElement {
     walletCurrency
   } = props
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
-
-  return (
+  return transactions && transactions.items.length > 0 ? (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
         size='24px'
@@ -241,7 +240,7 @@ function TransactionList (props: Props): ReactElement {
         })}
       </Table>
     </div>
-  )
+  ) : null
 }
 
 type Props = OwnProps & SuccessStateType

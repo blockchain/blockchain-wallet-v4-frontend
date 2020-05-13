@@ -66,7 +66,6 @@ class Interest extends React.PureComponent<Props, StateType> {
   render () {
     const { isGoldTier } = this.state
     const { data } = this.props
-
     return (
       <SceneWrapper>
         <SceneHeader>
