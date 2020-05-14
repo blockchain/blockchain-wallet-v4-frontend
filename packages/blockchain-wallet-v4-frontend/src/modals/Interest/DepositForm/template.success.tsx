@@ -72,6 +72,9 @@ const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 30px;
   }
+  > div:last-child {
+    display: none;
+  }
 `
 const AmountFieldContainer = styled.div`
   display: flex;
@@ -353,14 +356,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               validateMinDepositAmount,
               validateMaxDepositAmount
             ]}
+            {...{
+              autoFocus: true,
+              errorBottom: true,
+              errorLeft: true
+            }}
           />
           <PrincipalCcyAbsolute>
-            <Text
-              color='grey800'
-              size='14px'
-              weight={600}
-              style={{ marginRight: '30px' }}
-            >
+            <Text color='grey800' size='14px' weight={600}>
               {currencySymbol}
             </Text>
           </PrincipalCcyAbsolute>
