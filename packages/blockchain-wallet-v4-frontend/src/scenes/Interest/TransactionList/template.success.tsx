@@ -222,14 +222,19 @@ function TransactionList (props: Props): ReactElement | null {
                       }).value
                     }
                   </CoinAmountWrapper>
-                  <ViewTransaction
-                    data-e2e='viewTxHash'
-                    onClick={() =>
-                      interestActions.routeToTxHash(coin, extraAttributes.hash)
-                    }
-                  >
-                    View Transaction
-                  </ViewTransaction>
+                  {type !== 'INTEREST_OUTGOING' && (
+                    <ViewTransaction
+                      data-e2e='viewTxHash'
+                      onClick={() =>
+                        interestActions.routeToTxHash(
+                          coin,
+                          extraAttributes.hash
+                        )
+                      }
+                    >
+                      View Transaction
+                    </ViewTransaction>
+                  )}
                 </div>
               </AmountTableCell>
             </TableRow>
