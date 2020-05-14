@@ -293,7 +293,7 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
-      yield put(A.fetchSBCardsLoading())
+      yield put(A.fetchSBBalancesLoading())
       if (!(yield call(isTier2)))
         return yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
       const balances: ReturnType<typeof api.getSBBalances> = yield call(
