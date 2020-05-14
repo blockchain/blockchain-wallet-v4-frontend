@@ -4,13 +4,7 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
   account: Remote.NotAsked,
-  balances: Remote.Success({
-    BCH: { pending: '0', available: '0' },
-    BTC: { pending: '0', available: '0' },
-    ETH: { pending: '0', available: '0' },
-    PAX: { pending: '0', available: '0' },
-    XLM: { pending: '0', available: '0' }
-  }),
+  balances: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,

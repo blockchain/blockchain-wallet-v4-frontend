@@ -8,6 +8,13 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
+import {
+  DEFAULT_SB_BALANCES,
+  getCoinFromPair,
+  getFiatFromPair,
+  NO_FIAT_CURRENCY,
+  NO_PAIR_SELECTED
+} from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   Everypay3DSResponseType,
@@ -22,12 +29,6 @@ import {
   SBProviderDetailsType,
   SBQuoteType
 } from 'core/types'
-import {
-  getCoinFromPair,
-  getFiatFromPair,
-  NO_FIAT_CURRENCY,
-  NO_PAIR_SELECTED
-} from './model'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
@@ -47,18 +48,11 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const { createUser, waitForUserData } = profileSagas({
+  const { createUser, isTier2, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
   })
-
-  const isTier2 = function * () {
-    yield call(waitForUserData)
-    const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
-    return userData.tiers && userData.tiers.current >= 2
-  }
 
   const activateSBCard = function * ({
     card
@@ -299,7 +293,9 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
-      if (!(yield call(isTier2))) return
+      yield put(A.fetchSBBalancesLoading())
+      if (!(yield call(isTier2)))
+        return yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
       const balances: ReturnType<typeof api.getSBBalances> = yield call(
         api.getSBBalances,
         currency

@@ -9,6 +9,12 @@ import {
 import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
+export const DEFAULT_SB_BALANCES = Object.keys(CoinTypeEnum)
+  .filter(key => !isNaN(Number(CoinTypeEnum[key])))
+  .reduce((obj, item) => {
+    obj[item] = { pending: '0', available: '0' }
+    return obj
+  }, {})
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 

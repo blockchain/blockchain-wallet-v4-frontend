@@ -15,8 +15,10 @@ import {
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
+import { DEFAULT_INTEREST_BALANCE } from './model'
 import { InterestDepositFormType } from './types'
 import exchangeSagaUtils from '../exchange/sagas.utils'
+import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
 
 const { INTEREST_EVENTS } = model.analytics
@@ -32,6 +34,7 @@ export default ({
 }) => {
   const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
     .calculateProvisionalPayment
+  const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
     createLimits,
@@ -45,6 +48,10 @@ export default ({
   const fetchInterestBalance = function * () {
     try {
       yield put(A.fetchInterestBalanceLoading())
+      if (!(yield call(isTier2)))
+        return yield put(
+          A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCE)
+        )
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )

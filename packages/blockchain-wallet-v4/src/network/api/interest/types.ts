@@ -1,7 +1,7 @@
 import { CoinType, FiatType } from 'core/types'
 
 export type InterestAccountBalanceType = {
-  [key in CoinType]: {
+  [key in CoinType]?: {
     balance: number
     fiatAmount: number
     pendingDeposit: number
