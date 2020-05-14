@@ -91,7 +91,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
     return (
-      `BTC Trading Wallet` +
+      `BTC Interest Wallet` +
       ` (${Exchange.displayBtcToBtc({
         value: x ? x.balance : 0,
         fromUnit: 'SAT',
@@ -119,6 +119,7 @@ export const getData = (
       label: buildInterestDisplay(x),
       value: {
         ...x,
+        type: ADDRESS_TYPES.INTEREST,
         label: 'BTC Interest Wallet'
       }
     }

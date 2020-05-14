@@ -66,7 +66,7 @@ export const getData = (state, coin, isCoinErc20) =>
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
-      const sourceLabel = pathOr('', ['source', 'label'], userSearch)
+      const sourceType = pathOr('', ['source', 'type'], userSearch)
       const filteredPages =
         pages && !isEmpty(pages)
           ? pages.map(map(filterTransactions(status, search)))
@@ -78,7 +78,7 @@ export const getData = (state, coin, isCoinErc20) =>
         hasTxResults: !all(empty)(filteredPages),
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
-        sourceLabel
+        sourceType
       }
     }
   )(state)

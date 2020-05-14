@@ -101,7 +101,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       isSearchEntered,
       loadMoreTxs,
       pages,
-      sourceLabel
+      sourceType
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
 
@@ -149,7 +149,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
-                sourceLabel={sourceLabel}
+                sourceType={sourceType}
               />
             ))
           )}
@@ -199,7 +199,7 @@ export type SuccessStateType = {
   hasTxResults: boolean
   isSearchEntered: boolean
   pages: Array<any>
-  sourceLabel: string
+  sourceType: string
 }
 
 // data is not remote

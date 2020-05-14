@@ -28,10 +28,9 @@ const TransactionsWrapper = styled.div`
 
 class TransactionList extends PureComponent<Props> {
   render () {
-    const { coin, coinTicker, currency, data, sourceLabel } = this.props
+    const { coin, coinTicker, currency, data, sourceType } = this.props
 
-    if (sourceLabel && sourceLabel.includes('Interest'))
-      return <InterestTransactions />
+    if (sourceType && sourceType === 'INTEREST') return <InterestTransactions />
 
     return data.cata({
       Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
@@ -71,7 +70,7 @@ export type Props = {
   onArchive: (address: string) => void
   onLoadMore: () => void
   onRefresh: () => void
-  sourceLabel?: string
+  sourceType?: string
 }
 
 export default TransactionList
