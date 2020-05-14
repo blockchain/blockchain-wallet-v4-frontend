@@ -87,7 +87,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.initTxs()
   }
 
-  handleArchive = address => this.props.setAddressArchived(address)
+  handleArchive = address => {
+    this.props.setAddressArchived && this.props.setAddressArchived(address)
+  }
 
   render () {
     const {
@@ -98,7 +100,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
       isCoinErc20,
       isSearchEntered,
       loadMoreTxs,
-      pages
+      pages,
+      sourceLabel
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
 
@@ -146,6 +149,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
+                sourceLabel={sourceLabel}
               />
             ))
           )}
@@ -155,7 +159,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps) =>
+const mapStateToProps = (state, ownProps): LinkStatePropsType =>
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
 const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
@@ -182,24 +186,24 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
   }
 }
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: CoinType
+  isCoinErc20: boolean
+}
+
+export type SuccessStateType = {
   coinModel: SupportedCoinType
   currency: FiatType
   hasTxResults: boolean
-  isCoinErc20: boolean
   isSearchEntered: boolean
   pages: Array<any>
+  sourceLabel: string
 }
 
-type LinkStatePropsType = {
-  data: any
-}
+// data is not remote
+type LinkStatePropsType = SuccessStateType
 
 type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 

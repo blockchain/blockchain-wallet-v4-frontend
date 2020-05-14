@@ -9,6 +9,7 @@ import {
   isEmpty,
   map,
   path,
+  pathOr,
   propOr,
   propSatisfies,
   toLower,
@@ -28,12 +29,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
     )
   )
   const search = curry((text, txPath, tx) =>
-    compose(
-      includes(toUpper(text || '')),
-      toUpper,
-      String,
-      path(txPath)
-    )(tx)
+    compose(includes(toUpper(text || '')), toUpper, String, path(txPath))(tx)
   )
   const searchPredicate = anyPass(
     map(search(criteria), [
@@ -70,6 +66,7 @@ export const getData = (state, coin, isCoinErc20) =>
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
+      const sourceLabel = pathOr('', ['source', 'label'], userSearch)
       const filteredPages =
         pages && !isEmpty(pages)
           ? pages.map(map(filterTransactions(status, search)))
@@ -80,7 +77,8 @@ export const getData = (state, coin, isCoinErc20) =>
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
         isSearchEntered: search.length > 0 || status !== '',
-        pages: filteredPages
+        pages: filteredPages,
+        sourceLabel
       }
     }
   )(state)
