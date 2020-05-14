@@ -1,4 +1,4 @@
-import { CoinTypeEnum } from 'core/types'
+import { CoinTypeEnum } from 'blockchain-wallet-v4/src/types'
 
 export const DEFAULT_INTEREST_BALANCE = Object.keys(CoinTypeEnum)
   .filter(key => !isNaN(Number(CoinTypeEnum[key])))
