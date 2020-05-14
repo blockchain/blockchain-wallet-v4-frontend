@@ -43,10 +43,14 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
+    address: 'string'
+    confirmations: number
+    dsr: 100
+    hash: string
+    id: string
     txHash: string
   }
   id: string
-
   insertedAt: string
   state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE' | 'PENDING'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
