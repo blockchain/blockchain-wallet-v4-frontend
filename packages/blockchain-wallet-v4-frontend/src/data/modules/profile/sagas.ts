@@ -42,6 +42,13 @@ export default ({ api, coreSagas, networks }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    return userData.tiers && userData.tiers.current >= 2
+  }
+
   const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
@@ -516,6 +523,7 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     recoverUser,
