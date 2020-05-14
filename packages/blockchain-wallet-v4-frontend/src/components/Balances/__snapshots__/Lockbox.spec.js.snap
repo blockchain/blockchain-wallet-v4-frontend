@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lockbox Balances Component should prompt user to use Chrome if coin is not saved 1`] = `
+<styled.div>
+  <styled.div
+    coin="btc"
+  >
+    <Component
+      color="white"
+      size="32px"
+    />
+  </styled.div>
+  <Component
+    size="12px"
+    weight={400}
+  >
+    <FormattedMessage
+      defaultMessage="Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox"
+      id="components.balances.browserblock"
+      values={
+        Object {
+          "coin": "BTC",
+        }
+      }
+    />
+  </Component>
+</styled.div>
+`;
+
+exports[`Lockbox Balances Component should prompt user to user to add coin if not saved and browser Chrome 1`] = `
+<styled.div>
+  <styled.div
+    coin="btc"
+  >
+    <Component
+      color="white"
+      size="32px"
+    />
+  </styled.div>
+  <styled.div>
+    <Connect(FiatDisplayContainer)
+      coin="BTC"
+      size="14px"
+      weight={500}
+    />
+    <Connect(CoinDisplayContainer)
+      coin="BTC"
+      size="13px"
+      weight={400}
+    />
+  </styled.div>
+</styled.div>
+`;
+
+exports[`Lockbox Balances Component should render and match default snapshot 1`] = `
+<styled.div>
+  <styled.div
+    coin="btc"
+  >
+    <Component
+      color="white"
+      size="32px"
+    />
+  </styled.div>
+  <styled.div>
+    <Connect(FiatDisplayContainer)
+      coin="BTC"
+      size="14px"
+      weight={500}
+    />
+    <Connect(CoinDisplayContainer)
+      coin="BTC"
+      size="13px"
+      weight={400}
+    />
+  </styled.div>
+</styled.div>
+`;
