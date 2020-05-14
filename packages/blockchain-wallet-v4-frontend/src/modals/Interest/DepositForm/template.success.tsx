@@ -15,7 +15,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CustomCartridge, ErrorCartridge } from 'components/Cartridge'
+import { CustomCartridge } from 'components/Cartridge'
 
 import {
   CheckBox,
@@ -122,9 +122,11 @@ const CalculatorContainer = styled.div`
   border-radius: 8px;
 `
 
-const CustomErrorCartridge = styled(ErrorCartridge)`
-  cursor: pointer;
+const AmountError = styled.div`
   margin: 10px 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `
 
 const GreyBlueCartridge = styled(CustomCartridge)`
@@ -132,7 +134,7 @@ const GreyBlueCartridge = styled(CustomCartridge)`
   border: 1px solid ${props => props.theme.grey100};
   color: ${props => props.theme.blue600};
   cursor: pointer;
-  margin-top: 10px;
+  margin-left: 10px;
 `
 const InterestTermWrapper = styled.div`
   display: flex;
@@ -369,8 +371,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
         {amtError && (
-          <>
-            <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
+          <AmountError>
+            <Text size='14px' weight={500} color='red600'>
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.interest.deposit.max'
@@ -394,7 +396,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   }}
                 />
               )}
-            </CustomErrorCartridge>
+            </Text>
             <GreyBlueCartridge
               data-e2e='interestBuyMinMaxBtn'
               role='button'
@@ -412,7 +414,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               )}
             </GreyBlueCartridge>
-          </>
+          </AmountError>
         )}
         <CalculatorWrapper>
           <CalculatorHeaderContainer>
