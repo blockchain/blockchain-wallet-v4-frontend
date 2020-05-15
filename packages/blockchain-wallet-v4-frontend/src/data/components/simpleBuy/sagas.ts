@@ -290,10 +290,11 @@ export default ({
   }
 
   const fetchSBBalances = function * ({
-    currency
+    currency,
+    skipLoading
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
-      yield put(A.fetchSBBalancesLoading())
+      if (!skipLoading) yield put(A.fetchSBBalancesLoading())
       if (!(yield call(isTier2)))
         return yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
       const balances: ReturnType<typeof api.getSBBalances> = yield call(
@@ -665,7 +666,7 @@ export default ({
 
     while (retryAttempts <= maxRetryAttempts) {
       yield put(A.fetchSBOrders(skipLoading))
-      yield put(A.fetchSBBalances())
+      yield put(A.fetchSBBalances(undefined, skipLoading))
       retryAttempts++
       yield delay(2000)
     }
