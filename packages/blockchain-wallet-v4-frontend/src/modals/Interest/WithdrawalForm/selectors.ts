@@ -10,13 +10,29 @@ export const getData = state => {
   )
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const interestLimitsR = selectors.components.interest.getInterestLimits(state)
 
-  return lift((accountBalances, rates, supportedCoins, walletCurrency) => ({
-    accountBalances,
-    availToWithdraw: 5.21, // TODO: get from server
-    coin,
-    rates,
-    supportedCoins,
-    walletCurrency
-  }))(accountBalancesR, btcRateR, supportedCoinsR, walletCurrencyR)
+  return lift(
+    (
+      accountBalances,
+      rates,
+      supportedCoins,
+      walletCurrency,
+      interestLimits
+    ) => ({
+      accountBalances,
+      availToWithdraw: interestLimits[coin].maxWithdrawalAmount / 100,
+      coin,
+      rates,
+      supportedCoins,
+      walletCurrency,
+      interestLimits
+    })
+  )(
+    accountBalancesR,
+    btcRateR,
+    supportedCoinsR,
+    walletCurrencyR,
+    interestLimitsR
+  )
 }
