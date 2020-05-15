@@ -105,7 +105,7 @@
     "@ledgerhq/hw-app-str": "4.32.0",
     "@ledgerhq/hw-transport-u2f": "4.32.0",
     "@veriff/incontext-sdk": "0.3.0",
-    "awesome-phonenumber": "2.10.0",
+    "awesome-phonenumber": "2.31.0",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",
     "bip21": "2.0.2",
