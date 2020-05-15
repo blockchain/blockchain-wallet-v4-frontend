@@ -149,6 +149,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     baseToStandard: true
   }).value
 
+  if (!account) return null
+
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />

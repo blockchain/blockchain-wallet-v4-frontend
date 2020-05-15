@@ -36,7 +36,8 @@ export const getData = (
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getBtcBalance(state)
       coinRatesR = selectors.core.data.btc.getRates(state)

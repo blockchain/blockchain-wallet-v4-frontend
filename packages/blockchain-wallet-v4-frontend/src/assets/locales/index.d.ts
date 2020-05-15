@@ -2009,6 +2009,7 @@ type MessagesType = {
   'scenes.transactions.export.download': 'Download'
   'scenes.transactions.export.ethprivkey': 'ETH Private Key'
   'scenes.transactions.export.legacy': 'Legacy ETH Private Key'
+  'scenes.transaction.interest.view_txs': 'Visit the Earn Interest page to view your transaction history.'
   'scenes.transactions.menu.ethprivatekeys': 'Private Keys'
   'scenes.transactions.performance.account.price': '{account} Price'
   'scenes.transactions.performance.prices.day': 'today'

@@ -71,8 +71,9 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     walletCurrency
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
-  const balanceSats =
-    interestAccountBalance.BTC && interestAccountBalance.BTC.balance
+  const balanceSats = interestAccountBalance.BTC
+    ? interestAccountBalance.BTC.balance
+    : 0
   const balanceStandard = Exchange.convertCoinToCoin({
     value: balanceSats || 0,
     coin: 'BTC',

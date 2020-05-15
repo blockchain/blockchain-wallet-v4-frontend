@@ -94,9 +94,13 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const fetchSBBalances = (currency?: CoinType) => ({
+export const fetchSBBalances = (
+  currency?: CoinType,
+  skipLoading?: boolean
+) => ({
   type: AT.FETCH_SB_BALANCES,
-  currency
+  currency,
+  skipLoading
 })
 
 export const fetchSBBalancesFailure = (

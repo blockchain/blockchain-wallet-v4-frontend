@@ -1979,6 +1979,7 @@
   "scenes.transaction.headertext.explainer.eth": "Ethereum (ETH) is a currency and computing platform. Built for developers and apps.",
   "scenes.transaction.headertext.explainer.usdd": "The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.",
   "scenes.transaction.headertext.explainer.xlm": "The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.",
+  "scenes.transaction.interest.view_txs": "Visit the Earn Interest page to view your transaction history.",
   "scenes.transactions.bitcoin.content.list.listitem.status.received": "Received",
   "scenes.transactions.bitcoin.content.list.listitem.status.sent": "Sent",
   "scenes.transactions.bitcoin.content.list.listitem.status.transferred": "Transferred",

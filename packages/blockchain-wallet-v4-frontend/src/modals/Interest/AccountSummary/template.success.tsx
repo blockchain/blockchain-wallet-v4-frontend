@@ -46,6 +46,8 @@ const AccountSummary: React.FC<Props> = props => {
   const account = accountBalances && accountBalances[coin]
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
 
+  if (!account) return null
+
   return (
     <Wrapper>
       <Top>
