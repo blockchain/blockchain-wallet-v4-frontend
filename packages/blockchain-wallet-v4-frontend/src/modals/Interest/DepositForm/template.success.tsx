@@ -15,6 +15,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { CustomCartridge } from 'components/Cartridge'
+
 import {
   CheckBox,
   CoinBalanceDropdown,
@@ -70,6 +72,9 @@ const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 30px;
   }
+  > div:last-child {
+    display: none;
+  }
 `
 const AmountFieldContainer = styled.div`
   display: flex;
@@ -115,6 +120,21 @@ const CalculatorContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.grey000};
   box-sizing: border-box;
   border-radius: 8px;
+`
+
+const AmountError = styled.div`
+  margin: 10px 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`
+
+const GreyBlueCartridge = styled(CustomCartridge)`
+  background-color: ${props => props.theme.white};
+  border: 1px solid ${props => props.theme.grey100};
+  color: ${props => props.theme.blue600};
+  cursor: pointer;
+  margin-left: 10px;
 `
 const InterestTermWrapper = styled.div`
   display: flex;
@@ -176,6 +196,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     coin,
     depositLimits,
     formActions,
+    formErrors,
     interestActions,
     interestLimits,
     interestRate,
@@ -192,6 +213,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     interestActions.submitDepositForm(coin)
   }
   const { coinTicker, displayName } = supportedCoins[coin]
+
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const depositAmountFiat = formatFiat(depositAmount)
@@ -207,14 +229,19 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }).value
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  const validateMinDepositAmount = minDepositAmount(
-    depositLimits.minFiat,
-    walletCurrency
-  )
-  const validateMaxDepositAmount = maxDepositAmount(
-    depositLimits.maxFiat,
-    walletCurrency
-  )
+  const validateMinDepositAmount = minDepositAmount(depositLimits.minFiat)
+  const validateMaxDepositAmount = maxDepositAmount(depositLimits.maxFiat)
+
+  const amtError =
+    formErrors.depositAmount &&
+    typeof formErrors.depositAmount === 'string' &&
+    formErrors.depositAmount
+
+  const handleMinMaxClick = () => {
+    amtError === 'ABOVE_MAX'
+      ? formActions.change(FORM_NAME, 'depositAmount', depositLimits.maxFiat)
+      : formActions.change(FORM_NAME, 'depositAmount', depositLimits.minFiat)
+  }
 
   return submitting ? (
     <SendingWrapper>
@@ -332,9 +359,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               validateMaxDepositAmount
             ]}
             {...{
+              autoFocus: true,
               errorBottom: true,
-              errorLeft: true,
-              errorIcon: 'alert-filled'
+              errorLeft: true
             }}
           />
           <PrincipalCcyAbsolute>
@@ -343,6 +370,52 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
+        {amtError && (
+          <AmountError>
+            <Text size='14px' weight={500} color='red600'>
+              {amtError === 'ABOVE_MAX' ? (
+                <FormattedMessage
+                  id='modals.interest.deposit.max'
+                  defaultMessage='You cannot deposit more than {maxFiat}'
+                  values={{
+                    maxFiat: fiatToString({
+                      value: depositLimits.maxFiat,
+                      unit: walletCurrency
+                    })
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.interest.deposit.min'
+                  defaultMessage='Minimum deposit: {minFiat}'
+                  values={{
+                    minFiat: fiatToString({
+                      value: depositLimits.minFiat,
+                      unit: walletCurrency
+                    })
+                  }}
+                />
+              )}
+            </Text>
+            <GreyBlueCartridge
+              data-e2e='interestBuyMinMaxBtn'
+              role='button'
+              onClick={handleMinMaxClick}
+            >
+              {amtError === 'ABOVE_MAX' ? (
+                <FormattedMessage
+                  id='modals.interest.deposit.max.button'
+                  defaultMessage='Deposit Max'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.interest.deposit.min.button'
+                  defaultMessage='Deposit Min'
+                />
+              )}
+            </GreyBlueCartridge>
+          </AmountError>
+        )}
         <CalculatorWrapper>
           <CalculatorHeaderContainer>
             <Text color='grey800' weight={600}>
