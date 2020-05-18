@@ -438,58 +438,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <CalculatorContainer>
             <Field component={TabMenuTimeFrame} name='loanTimeFrame' />
             <InterestTermWrapper>
-              {loanTimeFrame === 'long' ? (
-                <>
-                  <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
-                      <FormattedMessage
-                        id='modals.interest.deposit.year'
-                        defaultMessage='1 Year'
-                      />
-                    </Text>
-                    <Text color='grey800' weight={600}>
-                      {currencySymbol}
-                      {calcCompoundInterest(
-                        depositAmount,
-                        interestRate[coin],
-                        1
-                      )}
-                    </Text>
-                  </InterestTermContainer>
-                  <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
-                      <FormattedMessage
-                        id='modals.interest.deposit.threeyear'
-                        defaultMessage='3 Years'
-                      />
-                    </Text>
-                    <Text color='grey800' weight={600}>
-                      {currencySymbol}
-                      {calcCompoundInterest(
-                        depositAmount,
-                        interestRate[coin],
-                        3
-                      )}
-                    </Text>
-                  </InterestTermContainer>
-                  <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
-                      <FormattedMessage
-                        id='modals.interest.deposit.fiveyears'
-                        defaultMessage='5 Years'
-                      />
-                    </Text>
-                    <Text color='grey800' weight={600}>
-                      {currencySymbol}
-                      {calcCompoundInterest(
-                        depositAmount,
-                        interestRate[coin],
-                        5
-                      )}
-                    </Text>
-                  </InterestTermContainer>
-                </>
-              ) : (
+              {loanTimeFrame === 'short' ? (
                 <>
                   <InterestTermContainer>
                     <Text color='grey600' size='12px' weight={500}>
@@ -536,6 +485,57 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         depositAmount,
                         interestRate[coin],
                         1 / 12
+                      )}
+                    </Text>
+                  </InterestTermContainer>
+                </>
+              ) : (
+                <>
+                  <InterestTermContainer>
+                    <Text color='grey600' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.interest.deposit.year'
+                        defaultMessage='1 Year'
+                      />
+                    </Text>
+                    <Text color='grey800' weight={600}>
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        1
+                      )}
+                    </Text>
+                  </InterestTermContainer>
+                  <InterestTermContainer>
+                    <Text color='grey600' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.interest.deposit.threeyear'
+                        defaultMessage='3 Years'
+                      />
+                    </Text>
+                    <Text color='grey800' weight={600}>
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        3
+                      )}
+                    </Text>
+                  </InterestTermContainer>
+                  <InterestTermContainer>
+                    <Text color='grey600' size='12px' weight={500}>
+                      <FormattedMessage
+                        id='modals.interest.deposit.fiveyears'
+                        defaultMessage='5 Years'
+                      />
+                    </Text>
+                    <Text color='grey800' weight={600}>
+                      {currencySymbol}
+                      {calcCompoundInterest(
+                        depositAmount,
+                        interestRate[coin],
+                        5
                       )}
                     </Text>
                   </InterestTermContainer>
