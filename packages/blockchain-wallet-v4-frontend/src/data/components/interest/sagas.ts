@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js'
 
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
+import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   InterestTransactionResponseType,
@@ -264,17 +265,18 @@ export default ({
     }
   }
 
-  const requestWithdrawal = function * () {
+  const requestWithdrawal = function * ({
+    payload
+  }: ReturnType<typeof A.requestWithdrawal>) {
+    const { coin, withdrawalAmountCrypto } = payload
     const FORM = 'interestWithdrawalForm'
     try {
       yield put(actions.form.startSubmit(FORM))
       yield delay(3000)
-      // get withdrawal amount
-      const { withdrawalAmount } = yield select(
-        selectors.form.getFormValues(FORM)
+      const withdrawalAmountSats = convertStandardToBase(
+        coin,
+        withdrawalAmountCrypto
       )
-      // get default btc account
-      // TODO: in future make dynamic
       const receiveAddress = selectors.core.common.btc
         .getNextAvailableReceiveAddress(
           networks.btc,
@@ -285,8 +287,8 @@ export default ({
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
-        withdrawalAmount,
-        'BTC',
+        Number(withdrawalAmountSats),
+        coin,
         receiveAddress
       )
       // notify success
