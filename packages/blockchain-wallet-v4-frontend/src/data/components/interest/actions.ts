@@ -180,8 +180,11 @@ export const routeToTxHash = (coin: CoinType, txHash: string) => ({
   type: AT.ROUTE_TO_TX_HASH
 })
 
-export const requestWithdrawal = (coin: CoinType) => ({
-  payload: { coin },
+export const requestWithdrawal = (
+  coin: CoinType,
+  withdrawalAmountCrypto: number
+) => ({
+  payload: { coin, withdrawalAmountCrypto },
   type: AT.REQUEST_WITHDRAWAL
 })
 

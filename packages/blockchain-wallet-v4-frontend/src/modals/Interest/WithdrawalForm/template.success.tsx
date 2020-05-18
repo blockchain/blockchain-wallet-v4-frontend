@@ -131,7 +131,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   } = props
   const handleFormSubmit = e => {
     e.preventDefault()
-    interestActions.requestWithdrawal(coin)
+    interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
   }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
