@@ -16,6 +16,7 @@ export type SupportedCoinType = {
   config: {
     network: string
   }
+  contractAddress?: string
   displayName: string
   hasLockboxSupport: boolean
   icons: {

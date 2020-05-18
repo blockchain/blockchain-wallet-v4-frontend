@@ -1,6 +1,7 @@
 type EthRawConfirmedTxType = {
   blockHash: string
   blockNumber: string
+  data?: string
   from: string
   gasLimit: string
   gasPrice: string
@@ -17,6 +18,7 @@ type EthRawConfirmedTxType = {
 }
 
 type EthRawPendingTxType = {
+  data?: string
   from: string
   gasLimit: string
   gasPrice: string
@@ -30,3 +32,7 @@ type EthRawPendingTxType = {
 }
 
 export type EthRawTxType = EthRawConfirmedTxType | EthRawPendingTxType
+
+export enum Erc20ListEnum {
+  '0x8e870d67f660d95d5be530380d0ec0bd388289e1' = 'PAX'
+}
