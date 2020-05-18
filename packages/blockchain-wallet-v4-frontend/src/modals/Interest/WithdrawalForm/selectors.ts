@@ -1,5 +1,7 @@
-import { lift } from 'ramda'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
+import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -21,7 +23,19 @@ export const getData = state => {
       interestLimits
     ) => ({
       accountBalances,
-      availToWithdraw: interestLimits[coin].maxWithdrawalAmount / 100,
+      availToWithdraw:
+        Exchange.convertCoinToFiat(
+          convertBaseToStandard(coin, accountBalances[coin].balance),
+          coin,
+          walletCurrency,
+          rates
+        ) -
+        Exchange.convertCoinToFiat(
+          convertBaseToStandard(coin, accountBalances[coin].locked),
+          coin,
+          walletCurrency,
+          rates
+        ),
       coin,
       rates,
       supportedCoins,
