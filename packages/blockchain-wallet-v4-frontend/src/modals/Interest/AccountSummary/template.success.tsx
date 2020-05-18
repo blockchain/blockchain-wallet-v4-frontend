@@ -46,8 +46,6 @@ const AccountSummary: React.FC<Props> = props => {
   const account = accountBalances && accountBalances[coin]
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
 
-  if (!account) return null
-
   return (
     <Wrapper>
       <Top>
@@ -82,9 +80,15 @@ const AccountSummary: React.FC<Props> = props => {
                 values={{ coin }}
               />
             </Text>
-            <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-              {account.balance}
-            </FiatDisplay>
+            {account ? (
+              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
+                {account.balance}
+              </FiatDisplay>
+            ) : (
+              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
+                0
+              </FiatDisplay>
+            )}
           </Container>
           <Container>
             <Text color='grey600' size='14px' weight={500}>
@@ -93,9 +97,15 @@ const AccountSummary: React.FC<Props> = props => {
                 defaultMessage='Total Interest Earned'
               />
             </Text>
-            <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-              {account.totalInterest}
-            </FiatDisplay>
+            {account ? (
+              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
+                {account.totalInterest}
+              </FiatDisplay>
+            ) : (
+              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
+                0
+              </FiatDisplay>
+            )}
           </Container>
         </Row>
         <LineVector />
@@ -233,15 +243,21 @@ const AccountSummary: React.FC<Props> = props => {
                 defaultMessage='Next interest payment'
               />
             </Text>
-            <Text color='grey600' size='14px' weight={500}>
-              {account.balance > 0 ||
-              (stepMetadata && stepMetadata.depositSuccess)
-                ? moment()
-                    .add(1, 'month')
-                    .startOf('month')
-                    .format('MMMM D, YYYY')
-                : '---'}
-            </Text>
+            {account ? (
+              <Text color='grey600' size='14px' weight={500}>
+                {account.balance > 0 ||
+                (stepMetadata && stepMetadata.depositSuccess)
+                  ? moment()
+                      .add(1, 'month')
+                      .startOf('month')
+                      .format('MMMM D, YYYY')
+                  : '---'}
+              </Text>
+            ) : (
+              <Text color='grey600' size='14px' weight={500}>
+                --
+              </Text>
+            )}
           </DetailsItemContainer>
           <LineVectorDetails />
           <DetailsItemContainer>
@@ -254,9 +270,15 @@ const AccountSummary: React.FC<Props> = props => {
                 <TooltipIcon name='info' size='12px' />
               </TooltipHost>
             </Text>
-            <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
-              {account.pendingInterest}
-            </FiatDisplay>
+            {account ? (
+              <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
+                {account.pendingInterest}
+              </FiatDisplay>
+            ) : (
+              <Text color='grey600' size='14px' weight={500}>
+                --
+              </Text>
+            )}
           </DetailsItemContainer>
           <LineVectorDetails />
           <DetailsItemContainer>
