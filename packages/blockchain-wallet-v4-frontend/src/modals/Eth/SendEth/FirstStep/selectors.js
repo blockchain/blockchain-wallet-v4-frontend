@@ -44,6 +44,7 @@ export const getData = createDeepEqualSelector(
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
     const transform = payment => {
+      const amount = prop('amount', payment)
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const fee = propOr('0', 'fee', payment)
@@ -83,6 +84,7 @@ export const getData = createDeepEqualSelector(
       ]
 
       return {
+        amount,
         balanceStatus: balanceR,
         effectiveBalance,
         enableToggle,

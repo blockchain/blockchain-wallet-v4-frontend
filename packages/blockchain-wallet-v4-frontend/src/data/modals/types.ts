@@ -14,7 +14,6 @@ export type ModalNamesType =
   | '@MODAL.SEND.BCH'
   | '@MODAL.SEND.BTC'
   | '@MODAL.SEND.ETH'
-  | '@MODAL.SEND.PAX'
   | '@MODAL.SEND.XLM'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'

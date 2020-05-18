@@ -11,12 +11,7 @@ class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
   handleToggle = () => {
-    const { coin, ethTxActions, erc20List, transaction } = this.props
-
     this.setState({ isToggled: !this.state.isToggled })
-    if (this.state.isToggled && includes(coin, erc20List)) {
-      ethTxActions.fetchTransaction(transaction.hash)
-    }
   }
 
   handleEditDescription = value => {
@@ -53,9 +48,9 @@ class ListItemContainer extends React.PureComponent {
     }
   }
 
-  handleRetrySendEth = (e, txHash) => {
+  handleRetrySendEth = (e, txHash, isErc20) => {
     e.stopPropagation()
-    this.props.sendEthActions.retrySendEth(txHash)
+    this.props.sendEthActions.retrySendEth(txHash, isErc20)
   }
 
   onViewTxDetails = coin => {
@@ -99,7 +94,4 @@ const mapDispatchToProps = dispatch => ({
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ListItemContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)

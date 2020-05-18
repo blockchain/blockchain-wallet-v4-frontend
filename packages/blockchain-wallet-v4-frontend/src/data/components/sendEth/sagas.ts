@@ -27,6 +27,7 @@ import {
   toLower
 } from 'ramda'
 import { Erc20CoinType, EthPaymentType } from 'core/types'
+import { Erc20ListEnum } from 'core/network/api/eth/types'
 import { EthAccountFromType } from 'core/redux/payment/eth/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
@@ -40,6 +41,9 @@ import {
   SendEthFormFromActionType,
   SendEthFormToActionType
 } from './types'
+import BigNumber from 'bignumber.js'
+import EthereumAbi from 'ethereumjs-abi'
+import EthUtil from 'ethereumjs-util'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
@@ -561,7 +565,7 @@ export default ({
   const retrySendEth = function * ({
     payload
   }: ReturnType<typeof A.retrySendEth>) {
-    const { txHash } = payload
+    const { txHash, isErc20 } = payload
     try {
       const tx: ReturnType<typeof api.getEthTransactionV2> = yield call(
         api.getEthTransactionV2,
@@ -572,22 +576,51 @@ export default ({
         yield put(actions.core.data.eth.fetchTransactions())
         return
       }
+      let coin: 'ETH' | Erc20CoinType = 'ETH'
+      if (isErc20) {
+        coin = Erc20ListEnum[tx.to]
+      }
 
       yield put(
-        actions.modals.showModal('@MODAL.SEND.ETH', { origin: 'RetrySendEth' })
+        actions.modals.showModal('@MODAL.SEND.ETH', {
+          origin: 'RetrySendEth',
+          coin
+        })
       )
+
       yield take(AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS)
       let p = yield select(S.getPayment)
       let payment: EthPaymentType = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),
         network: networks.eth
       })
-      payment = yield call(setAmount, tx.value, 'ETH', payment)
-      payment = yield call(setTo, tx.to, payment)
+      if (!isErc20) {
+        payment = yield call(setAmount, tx.value, 'ETH', payment)
+        payment = yield call(setTo, tx.to, payment)
+      } else {
+        if (!tx.data) throw new Error('NO_ERC20_DATA')
+        const value = EthereumAbi.rawDecode(
+          ['uint256'],
+          Buffer.from(tx.data.slice(120, 138), 'hex')
+        )
+        const to = EthUtil.toChecksumAddress('0x' + tx.data?.slice(32, 72))
+
+        payment = yield call(setAmount, value, coin, payment)
+        payment = yield call(setTo, to, payment)
+      }
+
+      const feeFromPrevTx = new BigNumber(
+        calculateFee(tx.gasPrice, tx.gasLimit, false)
+      )
+      const minFeeRequiredForRetry = feeFromPrevTx
+        .times(0.125)
+        .plus(feeFromPrevTx)
+        .toString()
+
       payment = yield payment.setIsRetryAttempt(
         true,
         tx.nonce,
-        calculateFee(tx.gasPrice, tx.gasLimit, false)
+        minFeeRequiredForRetry
       )
 
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))

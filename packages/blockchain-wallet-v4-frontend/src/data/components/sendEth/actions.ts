@@ -5,9 +5,9 @@ export const initialized = payload => ({
   payload
 })
 export const destroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
-export const retrySendEth = (txHash: string) => ({
+export const retrySendEth = (txHash: string, isErc20: boolean) => ({
   type: AT.RETRY_SEND_ETH,
-  payload: { txHash }
+  payload: { txHash, isErc20 }
 })
 export const sendEthPaymentUpdatedLoading = () => ({
   type: AT.SEND_ETH_PAYMENT_UPDATED_LOADING
