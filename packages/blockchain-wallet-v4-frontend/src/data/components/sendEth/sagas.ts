@@ -26,8 +26,7 @@ import {
   propOr,
   toLower
 } from 'ramda'
-import { Erc20CoinType, EthPaymentType } from 'core/types'
-import { Erc20ListEnum } from 'core/network/api/eth/types'
+import { Erc20CoinType, Erc20ListEnum, EthPaymentType } from 'core/types'
 import { EthAccountFromType } from 'core/redux/payment/eth/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
