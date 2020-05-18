@@ -1,9 +1,12 @@
 import { lift } from 'ramda'
-
+import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state: RootState) => {
   const ratesR = selectors.components.interest.getRates(state)
+  const formErrors = selectors.form.getFormSyncErrors('interestDepositForm')(
+    state
+  )
   const coin = selectors.components.interest.getCoinType(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
@@ -22,6 +25,7 @@ export const getData = state => {
       walletCurrency
     ) => ({
       coin,
+      formErrors,
       depositLimits,
       interestLimits,
       interestRate,
