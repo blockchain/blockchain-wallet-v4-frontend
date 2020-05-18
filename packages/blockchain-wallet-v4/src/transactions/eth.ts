@@ -97,12 +97,14 @@ export const _transformTx = curry(
       type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
     // @ts-ignore
     const time = tx.timestamp || tx.timeStamp
+    const isErc20 = includes(tx.to, erc20Contracts.map(toLower))
 
     return {
       amount,
       blockHeight: tx.state === 'CONFIRMED' ? tx.blockNumber : undefined,
+      data: isErc20 ? tx.data : null,
       description: getEthTxNote(state, tx.hash).getOrElse(''),
-      erc20: includes(tx.to, erc20Contracts.map(toLower)),
+      erc20: isErc20,
       fee: Remote.Success(fee),
       from: getLabel(tx.from, state),
       hash: tx.hash,

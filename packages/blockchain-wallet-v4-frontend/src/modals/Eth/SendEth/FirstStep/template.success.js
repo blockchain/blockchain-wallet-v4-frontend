@@ -74,6 +74,7 @@ const StyledRow = styled(Row)`
 
 const FirstStep = props => {
   const {
+    amount,
     balanceStatus,
     coin,
     excludeLockbox,
@@ -353,6 +354,7 @@ const FirstStep = props => {
             pristine ||
             submitting ||
             invalid ||
+            !amount ||
             !isContractChecked ||
             disableDueToLowEth ||
             disableRetryAttempt ||

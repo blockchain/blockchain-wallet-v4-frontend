@@ -49,7 +49,7 @@ export default () => {
           yield put(actions.modules.profile.fetchUserCampaigns())
           break
         case contains('/settings/general', pathname):
-          yield put(actions.components.simpleBuy.fetchSBCards())
+          yield put(actions.components.simpleBuy.fetchSBCards(true))
           break
         case contains('/swap/history', pathname):
           yield put(actions.components.exchangeHistory.clearTrades())

@@ -166,7 +166,9 @@ const TransactionListItem = ({
         {transaction.state === 'PENDING' && transaction.type === 'sent' && (
           <TooltipHost id='transaction.pending.eth' data-place='right'>
             <BannerWrapper
-              onClick={e => handleRetrySendEth(e, transaction.hash)}
+              onClick={e =>
+                handleRetrySendEth(e, transaction.hash, transaction.erc20)
+              }
             >
               <Banner label='true'>
                 <FormattedMessage

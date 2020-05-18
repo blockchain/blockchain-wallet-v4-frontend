@@ -14,28 +14,10 @@ class FirstStep extends React.PureComponent {
     return data.cata({
       Success: value => (
         <Success
-          balanceStatus={value.balanceStatus}
+          {...value}
           coin={coin}
-          effectiveBalance={value.effectiveBalance}
-          enableToggle={value.enableToggle}
-          excludeLockbox={value.excludeLockbox}
-          fee={value.fee}
-          feeElements={value.feeElements}
-          feeToggled={value.feeToggled}
-          from={value.from}
           handleFeeToggle={actions.sendEthFirstStepFeeToggled}
-          hasErc20Balance={value.hasErc20Balance}
-          isContractChecked={value.isContractChecked}
-          isMnemonicVerified={value.isMnemonicVerified}
-          isRetryAttempt={value.isRetryAttempt}
-          isSufficientEthForErc20={value.isSufficientEthForErc20}
-          maxFee={value.maxFee}
-          minFee={value.minFee}
-          minFeeRequiredForRetry={value.minFeeRequiredForRetry}
           onSubmit={actions.sendEthFirstStepSubmitClicked}
-          priorityFee={value.priorityFee}
-          regularFee={value.regularFee}
-          unconfirmedTx={value.unconfirmedTx}
         />
       ),
       Failure: message => <Error>{message}</Error>,
@@ -54,7 +36,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
