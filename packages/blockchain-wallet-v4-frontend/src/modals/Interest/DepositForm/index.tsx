@@ -58,6 +58,7 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   coin: CoinType
   depositLimits: InterestMinMaxType
+  formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
   rates: RatesType

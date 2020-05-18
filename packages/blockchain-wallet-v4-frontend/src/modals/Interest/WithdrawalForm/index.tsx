@@ -7,6 +7,7 @@ import {
   CoinType,
   FiatType,
   InterestAccountBalanceType,
+  InterestLimitsType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
@@ -56,6 +57,7 @@ export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
   availToWithdraw: number
   coin: CoinType
+  interestLimits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType

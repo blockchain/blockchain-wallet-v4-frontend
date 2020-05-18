@@ -645,6 +645,8 @@ type MessagesType = {
   'modals.interest.deposit.calculator.tooltip': 'This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
   'modals.interest.deposit.max': 'You cannot deposit more than {maxFiat}'
   'modals.interest.deposit.min': 'Minimum deposit: {minFiat}'
+  'modals.interest.deposit.max.button': 'Deposit Max'
+  'modals.interest.deposit.min.button': 'Deposit Min'
   'modals.interest.deposit.uptoamount1': 'You can deposit up to'
   'modals.interest.deposit.uptoamount2': 'of {coin} from this wallet.'
   'modals.interest.deposit.failure': 'Something went wrong. Please try again later or contact support if the issue persists.'
