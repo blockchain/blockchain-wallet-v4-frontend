@@ -52,7 +52,14 @@ export type InterestTransactionType = {
   }
   id: string
   insertedAt: string
-  state: 'FAILED' | 'REJECTED' | 'PROCESSING' | 'COMPLETE' | 'PENDING'
+  state:
+    | 'FAILED'
+    | 'REJECTED'
+    | 'PROCESSING'
+    | 'COMPLETE'
+    | 'PENDING'
+    | 'MANUAL_REVIEW'
+    | 'CLEARED'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 
