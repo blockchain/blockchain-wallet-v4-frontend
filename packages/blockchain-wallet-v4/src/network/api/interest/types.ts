@@ -45,8 +45,6 @@ export type InterestTransactionType = {
   extraAttributes: {
     address: 'string'
     confirmations: number
-    dsr: 100
-    hash: string
     id: string
     txHash: string
   }
