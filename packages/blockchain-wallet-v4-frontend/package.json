@@ -32,7 +32,9 @@
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env npx --inspect-brk jest --runInBand",
     "test:update": "cross-env npx jest -u",
-    "test:watch": "cross-env npx jest --watchAll"
+    "test:watch": "cross-env npx jest --watchAll",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "jest": {
     "automock": false,
@@ -163,6 +165,8 @@
     "sanitize-html": "1.20.1",
     "slick-carousel": "1.8.1",
     "styled-components": "4.4.1",
-    "zxcvbn": "4.4.2"
-  }
+    "zxcvbn": "4.4.2",
+    "snyk": "^1.321.0"
+  },
+  "snyk": true
 }
