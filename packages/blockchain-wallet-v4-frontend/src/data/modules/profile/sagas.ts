@@ -38,7 +38,9 @@ let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
+    const apiToken = yield select(selectors.modules.profile.getApiToken)
     if (Remote.Success.is(userData)) return
+    if (Remote.Failure.is(apiToken)) return
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
