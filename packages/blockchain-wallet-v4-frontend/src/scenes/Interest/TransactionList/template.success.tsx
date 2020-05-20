@@ -101,16 +101,14 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
-                    {state === 'PENDING' ||
-                      state === 'MANUAL_REVIEW' ||
-                      (state === 'CLEARED' && (
-                        <PendingTag>
-                          <FormattedMessage
-                            id='copy.pending'
-                            defaultMessage='Pending'
-                          />
-                        </PendingTag>
-                      ))}
+                    {state !== 'COMPLETE' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : type === 'DEPOSIT' ? (
                   <React.Fragment>
@@ -124,16 +122,14 @@ function TransactionList (props: Props): ReactElement | null {
                     </IconBackground>
 
                     <Value>{coinTicker} Deposit</Value>
-                    {state === 'PENDING' ||
-                      state === 'MANUAL_REVIEW' ||
-                      (state === 'CLEARED' && (
-                        <PendingTag>
-                          <FormattedMessage
-                            id='copy.pending'
-                            defaultMessage='Pending'
-                          />
-                        </PendingTag>
-                      ))}
+                    {state !== 'COMPLETE' && (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.pending'
+                          defaultMessage='Pending'
+                        />
+                      </PendingTag>
+                    )}
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
