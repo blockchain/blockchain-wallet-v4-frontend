@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 `
 const Iframe = styled.iframe<CustomIframe>`
   height: ${props => (props.widgetOpen ? '580px' : '60px')};
-  width: ${props => (props.widgetOpen ? '400px' : '150px')};
+  width: ${props => (props.widgetOpen ? '400px' : '190px')};
   border: none;
 `
 
