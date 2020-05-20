@@ -654,7 +654,7 @@
   "modals.interest.deposit.sendingtitle": "In Progress...",
   "modals.interest.deposit.shortterm": "Short-term",
   "modals.interest.deposit.subheader": "Depost {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.",
-  "modals.interest.deposit.success": "Waiting on your deposit to be confirmed by the network and our team. No action required.",
+  "modals.interest.deposit.success.confirm": "Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.",
   "modals.interest.deposit.termsread": "I have read and agreed to the",
   "modals.interest.deposit.termsservice": "Terms of Service",
   "modals.interest.deposit.threeyear": "3 Years",
