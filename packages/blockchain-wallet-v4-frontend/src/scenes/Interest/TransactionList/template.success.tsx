@@ -1,9 +1,12 @@
+import { flatten, last, map } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
+import styled from 'styled-components'
 
-import { Exchange } from 'core'
+import { Exchange, Remote } from 'core'
 import {
+  HeartbeatLoader,
   Icon,
   Table,
   TableCell,
@@ -11,6 +14,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { InterestTransactionType } from 'core/types'
 
 import {
   AmountTableCell,
@@ -24,17 +28,29 @@ import {
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+  width: 100%;
+`
+
 function TransactionList (props: Props): ReactElement | null {
   const {
     btcRates,
     coin,
     interestActions,
-    transactions,
+    txPages,
     supportedCoins,
     walletCurrency
   } = props
+  const txList = flatten(
+    txPages &&
+      // @ts-ignore
+      txPages.map(pages => map(page => page, (pages && pages.data) || []))
+  )
   const { coinTicker, colorCode, displayName } = supportedCoins[coin]
-  return transactions && transactions.items.length > 0 ? (
+  return txList && txList.length > 0 ? (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Text
         size='24px'
@@ -78,15 +94,8 @@ function TransactionList (props: Props): ReactElement | null {
             </Text>
           </AmountTableCell>
         </TableHeader>
-        {transactions.items.map(transaction => {
-          const {
-            amount,
-            extraAttributes,
-            id,
-            insertedAt,
-            state,
-            type
-          } = transaction
+        {txList.map((tx: InterestTransactionType) => {
+          const { amount, extraAttributes, id, insertedAt, state, type } = tx
           return (
             <TableRow key={id}>
               <InterestTableCell width='20%'>
@@ -241,6 +250,11 @@ function TransactionList (props: Props): ReactElement | null {
           )
         })}
       </Table>
+      {Remote.Loading.is(last(txPages)) && (
+        <LoadingWrapper>
+          <HeartbeatLoader />
+        </LoadingWrapper>
+      )}
     </div>
   ) : null
 }

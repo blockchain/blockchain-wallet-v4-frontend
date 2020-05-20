@@ -1,6 +1,9 @@
+import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
+
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { InterestActionTypes, InterestState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
@@ -19,18 +22,21 @@ const INITIAL_STATE: InterestState = {
     data: {},
     name: 'ACCOUNT_SUMMARY'
   },
-  transactions: Remote.NotAsked
+  transactions: [],
+  transactionsNextPage: null
 }
 
 export function interestReducer (
   state = INITIAL_STATE,
   action: InterestActionTypes
 ): InterestState {
-  switch (action.type) {
+  // @ts-ignore
+  const { payload, type } = action
+  switch (type) {
     case AT.FETCH_INTEREST_BALANCE_FAILURE:
       return {
         ...state,
-        accountBalance: Remote.Failure(action.payload.error)
+        accountBalance: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_BALANCE_LOADING:
       return {
@@ -40,12 +46,12 @@ export function interestReducer (
     case AT.FETCH_INTEREST_BALANCE_SUCCESS:
       return {
         ...state,
-        accountBalance: Remote.Success(action.payload.interestAccountBalance)
+        accountBalance: Remote.Success(payload.interestAccountBalance)
       }
     case AT.FETCH_INTEREST_ELIGIBLE_FAILURE:
       return {
         ...state,
-        interestEligible: Remote.Failure(action.payload.error)
+        interestEligible: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_ELIGIBLE_LOADING:
       return {
@@ -55,12 +61,12 @@ export function interestReducer (
     case AT.FETCH_INTEREST_ELIGIBLE_SUCCESS:
       return {
         ...state,
-        interestEligible: Remote.Success(action.payload.interestEligible)
+        interestEligible: Remote.Success(payload.interestEligible)
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_FAILURE:
       return {
         ...state,
-        instruments: Remote.Failure(action.payload.error)
+        instruments: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_INSTRUMENTS_LOADING:
       return {
@@ -70,12 +76,12 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        instruments: Remote.Success(action.payload.interestInstruments)
+        instruments: Remote.Success(payload.interestInstruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {
         ...state,
-        interestLimits: Remote.Failure(action.payload.error)
+        interestLimits: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_LIMITS_LOADING:
       return {
@@ -85,12 +91,12 @@ export function interestReducer (
     case AT.FETCH_INTEREST_LIMITS_SUCCESS:
       return {
         ...state,
-        interestLimits: Remote.Success(action.payload.interestLimits)
+        interestLimits: Remote.Success(payload.interestLimits)
       }
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE:
       return {
         ...state,
-        account: Remote.Failure(action.payload.error)
+        account: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_LOADING:
       return {
@@ -100,12 +106,12 @@ export function interestReducer (
     case AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS:
       return {
         ...state,
-        account: Remote.Success(action.payload.account)
+        account: Remote.Success(payload.account)
       }
     case AT.FETCH_INTEREST_RATE_FAILURE:
       return {
         ...state,
-        interestRate: Remote.Failure(action.payload.error)
+        interestRate: Remote.Failure(payload.error)
       }
     case AT.FETCH_INTEREST_RATE_LOADING:
       return {
@@ -115,37 +121,50 @@ export function interestReducer (
     case AT.FETCH_INTEREST_RATE_SUCCESS:
       return {
         ...state,
-        interestRate: Remote.Success(action.payload.interestRate.rates)
+        interestRate: Remote.Success(payload.interestRate.rates)
       }
-    case AT.FETCH_INTEREST_TRANSACTIONS_FAILURE:
+    case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
+      const { reset } = payload
+      return reset
+        ? assoc('transactions', [Remote.Loading], state)
+        : over(lensProp('transactions'), append(Remote.Loading), state)
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_FAILURE: {
+      return assoc('transactions', [Remote.Failure(payload)], state)
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS: {
+      const { reset, transactions } = payload
+      return reset
+        ? assoc('transactions', [Remote.Success(transactions)], state)
+        : over(
+            lensProp('transactions'),
+            compose(
+              // @ts-ignore
+              append(Remote.Success(transactions)),
+              dropLast(1)
+            ),
+            state
+          )
+    }
+    case AT.SET_TRANSACTIONS_NEXT_PAGE:
       return {
         ...state,
-        transactions: Remote.Failure(action.payload.error)
-      }
-    case AT.FETCH_INTEREST_TRANSACTIONS_LOADING:
-      return {
-        ...state,
-        transactions: Remote.Loading
-      }
-    case AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS:
-      return {
-        ...state,
-        transactions: Remote.Success(action.payload.interestTransactions)
+        transactionsNextPage: payload.nextPage
       }
     case AT.INITIALIZE_DEPOSIT_FORM: {
       return {
         ...state,
-        coin: action.payload.coin
+        coin: payload.coin
       }
     }
     case AT.SET_INTEREST_DEPOSIT_LIMITS: {
       return {
         ...state,
-        depositLimits: action.payload.limits
+        depositLimits: payload.limits
       }
     }
     case AT.SET_INTEREST_STEP: {
-      const { data, name } = action.payload
+      const { data, name } = payload
       return {
         ...state,
         step: {
@@ -157,7 +176,7 @@ export function interestReducer (
     case AT.SET_PAYMENT_FAILURE:
       return {
         ...state,
-        payment: Remote.Failure(action.payload.error)
+        payment: Remote.Failure(payload.error)
       }
     case AT.SET_PAYMENT_LOADING:
       return {
@@ -167,7 +186,7 @@ export function interestReducer (
     case AT.SET_PAYMENT_SUCCESS:
       return {
         ...state,
-        payment: Remote.Success(action.payload.payment)
+        payment: Remote.Success(payload.payment)
       }
 
     default:

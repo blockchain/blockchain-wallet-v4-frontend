@@ -8,12 +8,14 @@ import {
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
-  InterestTransactionResponseType,
+  InterestTransactionType,
   PaymentValue,
   RemoteDataType
 } from 'core/types'
 
+//
 // Types
+//
 export type InterestDepositFormType = {
   agreement: boolean
   depositAmount: number
@@ -46,7 +48,9 @@ export type InterestStepMetadata = {
 
 export type InterestStep = keyof typeof InterestSteps
 
+//
 // State
+//
 export interface InterestState {
   account: RemoteDataType<string, InterestAccountType>
   accountBalance: RemoteDataType<string, InterestAccountBalanceType>
@@ -61,11 +65,15 @@ export interface InterestState {
     data: InterestStepMetadata
     name: InterestStep
   }
-  transactions: RemoteDataType<string, InterestTransactionResponseType>
+  transactions: Array<InterestTransactionType>
+  transactionsNextPage: string | null
 }
 
+//
 // Actions
+//
 
+// BALANCES
 interface FetchInterestBalanceFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_BALANCE_FAILURE
@@ -73,11 +81,12 @@ interface FetchInterestBalanceFailure {
 interface FetchInterestBalanceLoading {
   type: typeof AT.FETCH_INTEREST_BALANCE_LOADING
 }
-
 interface FetchInterestBalanceSuccess {
   payload: { interestAccountBalance: InterestAccountBalanceType }
   type: typeof AT.FETCH_INTEREST_BALANCE_SUCCESS
 }
+
+// ELIGIBLE
 interface FetchInterestEligibleFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_ELIGIBLE_FAILURE
@@ -90,6 +99,7 @@ interface FetchInterestEligibleSuccess {
   type: typeof AT.FETCH_INTEREST_ELIGIBLE_SUCCESS
 }
 
+// INSTRUMENTS
 interface FetchInterestInstrumentsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_INSTRUMENTS_FAILURE
@@ -102,6 +112,7 @@ interface FetchInterestInstrumentsSuccess {
   type: typeof AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS
 }
 
+// LIMITS
 interface FetchInterestLimitsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_LIMITS_FAILURE
@@ -114,6 +125,7 @@ interface FetchInterestLimitsSuccess {
   type: typeof AT.FETCH_INTEREST_LIMITS_SUCCESS
 }
 
+// ACCOUNT
 interface fetchInterestAccountFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
@@ -126,6 +138,7 @@ interface fetchInterestAccountSuccess {
   type: typeof AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS
 }
 
+// INTEREST RATES
 interface FetchInterestRateFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_RATE_FAILURE
@@ -133,67 +146,42 @@ interface FetchInterestRateFailure {
 interface FetchInterestRateLoading {
   type: typeof AT.FETCH_INTEREST_RATE_LOADING
 }
-
 interface FetchInterestRateSuccess {
   payload: { interestRate: InterestRateType }
   type: typeof AT.FETCH_INTEREST_RATE_SUCCESS
 }
 
+// TRANSACTIONS
 interface FetchInterestTransactionsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
 }
 interface FetchInterestTransactionsLoading {
+  payload: { reset: boolean }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_LOADING
 }
-
 interface FetchInterestTransactionsSuccess {
-  payload: { interestTransactions: InterestTransactionResponseType }
+  payload: {
+    reset: boolean
+    transactions: Array<InterestTransactionType>
+  }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_SUCCESS
 }
+interface SetTransactionsNextPage {
+  payload: {
+    nextPage: string | null
+  }
+  type: typeof AT.SET_TRANSACTIONS_NEXT_PAGE
+}
 
+// DEPOSIT
 interface InitializeDepositModalAction {
   type: typeof AT.INITIALIZE_DEPOSIT_MODAL
 }
-
 interface InitializeDepositFormAction {
   payload: { coin: CoinType }
   type: typeof AT.INITIALIZE_DEPOSIT_FORM
 }
-
-interface InitializeWithdrawalFormAction {
-  payload: { coin: CoinType }
-  type: typeof AT.INITIALIZE_WITHDRAWAL_FORM
-}
-
-interface RequestWithdrawal {
-  payload: { coin: CoinType }
-  type: typeof AT.ROUTE_TO_TX_HASH
-}
-
-interface RouteToTxHash {
-  payload: {
-    coin: CoinType
-    txHash: string
-  }
-  type: typeof AT.ROUTE_TO_TX_HASH
-}
-
-interface SetInterestStep {
-  payload: {
-    data?: InterestStepMetadata
-    name: InterestStep
-  }
-  type: typeof AT.SET_INTEREST_STEP
-}
-
-interface ShowInterestModal {
-  payload: {
-    step: InterestStep
-  }
-  type: typeof AT.SHOW_INTEREST_MODAL
-}
-
 interface SetDepositLimitsAction {
   payload: {
     limits: InterestMinMaxType
@@ -201,6 +189,17 @@ interface SetDepositLimitsAction {
   type: typeof AT.SET_INTEREST_DEPOSIT_LIMITS
 }
 
+// WITHDRAWAL
+interface InitializeWithdrawalFormAction {
+  payload: { coin: CoinType }
+  type: typeof AT.INITIALIZE_WITHDRAWAL_FORM
+}
+interface RequestWithdrawal {
+  payload: { coin: CoinType }
+  type: typeof AT.ROUTE_TO_TX_HASH
+}
+
+// PAYMENTS
 interface SetPaymentFailureAction {
   payload: {
     error: string
@@ -215,6 +214,28 @@ interface SetPaymentSuccessAction {
     payment: PaymentValue
   }
   type: typeof AT.SET_PAYMENT_SUCCESS
+}
+
+// MISC
+interface RouteToTxHash {
+  payload: {
+    coin: CoinType
+    txHash: string
+  }
+  type: typeof AT.ROUTE_TO_TX_HASH
+}
+interface SetInterestStep {
+  payload: {
+    data?: InterestStepMetadata
+    name: InterestStep
+  }
+  type: typeof AT.SET_INTEREST_STEP
+}
+interface ShowInterestModal {
+  payload: {
+    step: InterestStep
+  }
+  type: typeof AT.SHOW_INTEREST_MODAL
 }
 
 export type InterestActionTypes =
@@ -249,3 +270,4 @@ export type InterestActionTypes =
   | SetPaymentFailureAction
   | SetPaymentLoadingAction
   | SetPaymentSuccessAction
+  | SetTransactionsNextPage

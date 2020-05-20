@@ -22,12 +22,20 @@ import {
 } from 'components/Layout'
 import { Remote } from 'core'
 import { UserDataType } from 'data/types'
+import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 import TransactionList from './TransactionList'
 
+const LazyLoadWrapper = styled(LazyLoadContainer)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+`
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
@@ -61,6 +69,10 @@ class Interest extends React.PureComponent<Props, StateType> {
     const tier = data.userData.tiers ? data.userData.tiers.current : 0
     const isGoldTier = tier >= 2
     this.setState({ isGoldTier })
+  }
+
+  onFetchMoreTransactions = () => {
+    this.props.interestActions.fetchInterestTransactions(false)
   }
 
   render () {
@@ -98,7 +110,7 @@ class Interest extends React.PureComponent<Props, StateType> {
         </SceneSubHeaderText>
         {data.cata({
           Success: val => (
-            <>
+            <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
               <Container>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier && (
@@ -110,7 +122,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                 )}
               </Container>
               <TransactionList />
-            </>
+            </LazyLoadWrapper>
           ),
           Failure: () => null,
           Loading: () => <SkeletonRectangle width='330px' height='250px' />,
