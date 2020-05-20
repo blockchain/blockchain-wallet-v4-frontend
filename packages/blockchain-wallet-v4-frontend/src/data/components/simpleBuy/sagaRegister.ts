@@ -60,7 +60,10 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
     // Fetch balances when profile/user is fetched
     yield takeLatest(
-      actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+      [
+        actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
+      ],
       simpleBuySagas.fetchSBBalances
     )
     // Fetch balances and orders when step changes to order summary
