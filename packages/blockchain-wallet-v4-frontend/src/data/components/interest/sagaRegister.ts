@@ -56,7 +56,10 @@ export default ({
     yield takeLatest(AT.SHOW_INTEREST_MODAL, interestSagas.showInterestModal)
     yield takeEvery(formActionTypes.CHANGE, interestSagas.formChanged)
     yield takeLatest(
-      actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+      [
+        actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
+      ],
       interestSagas.fetchInterestBalance
     )
   }
