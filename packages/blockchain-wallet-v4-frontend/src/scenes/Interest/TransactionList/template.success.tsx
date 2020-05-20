@@ -228,7 +228,7 @@ function TransactionList (props: Props): ReactElement | null {
                       onClick={() =>
                         interestActions.routeToTxHash(
                           coin,
-                          extraAttributes.txHash
+                          extraAttributes.hash
                         )
                       }
                     >
