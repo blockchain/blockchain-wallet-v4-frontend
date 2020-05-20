@@ -1,9 +1,9 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { testSaga } from 'redux-saga-test-plan'
 
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 import sagas from './sagas'
 
 const ethFetchData = {

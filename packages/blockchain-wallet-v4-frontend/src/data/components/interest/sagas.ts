@@ -8,7 +8,7 @@ import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { PaymentType, PaymentValue } from 'core/types'
-import { Remote } from 'core'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
