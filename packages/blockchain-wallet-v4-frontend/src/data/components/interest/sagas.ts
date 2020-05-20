@@ -296,6 +296,7 @@ export default ({
       // notify success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
+      yield put(A.fetchInterestTransactions())
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
       )
