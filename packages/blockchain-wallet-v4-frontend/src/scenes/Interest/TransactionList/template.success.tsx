@@ -101,7 +101,7 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
-                    {state === 'PENDING' && (
+                    {state !== 'COMPLETE' && (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'
@@ -122,7 +122,7 @@ function TransactionList (props: Props): ReactElement | null {
                     </IconBackground>
 
                     <Value>{coinTicker} Deposit</Value>
-                    {state === 'PENDING' && (
+                    {state !== 'COMPLETE' && (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'

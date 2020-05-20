@@ -75,6 +75,7 @@ export const StatusWrapper = styled.div`
   display: flex;
   padding: 4px;
   margin-top: 20px;
+  align-items: center;
 `
 export const StatusIconWrapper = styled.div<{ color: string }>`
   display: flex;

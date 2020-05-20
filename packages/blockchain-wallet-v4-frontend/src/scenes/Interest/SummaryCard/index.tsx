@@ -12,7 +12,7 @@ import {
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 
 import { getData } from './selectors'
 import {
@@ -30,7 +30,11 @@ class SummaryCardContainer extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
-      Failure: () => null,
+      Failure: () => (
+        <Text size='16px' weight={500}>
+          Oops. Something went wrong. Please refresh and try again.
+        </Text>
+      ),
       Loading: () => <SkeletonRectangle width='330px' height='250px' />,
       NotAsked: () => <SkeletonRectangle width='330px' height='250px' />
     })
