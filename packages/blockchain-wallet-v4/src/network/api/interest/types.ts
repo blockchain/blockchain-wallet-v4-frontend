@@ -58,6 +58,7 @@ export type InterestTransactionType = {
 
 export type InterestTransactionResponseType = {
   items: Array<InterestTransactionType>
+  next: string | null
 }
 
 export type InterestWithdrawalResponseType = {

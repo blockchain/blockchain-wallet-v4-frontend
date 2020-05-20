@@ -1,17 +1,14 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { nth } from 'ramda'
+import { last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import {
-  InterestTransactionResponseType,
-  PaymentType,
-  PaymentValue
-} from 'core/types'
+import { PaymentType, PaymentValue } from 'core/types'
+import { Remote } from 'core'
 
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -125,13 +122,18 @@ export default ({
     }
   }
 
-  const fetchInterestTransactions = function * () {
+  const fetchInterestTransactions = function * ({ payload }) {
+    const { reset } = payload
     try {
-      yield put(A.fetchInterestTransactionsLoading())
-      const transactions: InterestTransactionResponseType = yield call(
-        api.getInterestTransactions
-      )
-      yield put(A.fetchInterestTransactionsSuccess(transactions))
+      const nextPage = yield select(S.getTransactionsNextPage)
+      if (nextPage && !reset) {
+        const txList = yield select(S.getInterestTransactions)
+        if (Remote.Loading.is(last(txList))) return
+      }
+      yield put(A.fetchInterestTransactionsLoading(reset))
+      const t = yield call(api.getInterestTransactions, nextPage)
+      yield put(A.fetchInterestTransactionsSuccess(t.items, reset))
+      yield put(A.setTransactionsNextPage(t.next))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailure(error))
@@ -218,8 +220,8 @@ export default ({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
     try {
-      // TODO: fetch available to withdrawal balance
-      yield put(initialize('interestWithdrawalForm', {})) // init form for analytics
+      // init form for analytics
+      yield put(initialize('interestWithdrawalForm', {}))
     } catch (e) {
       // TODO?
     }

@@ -1,8 +1,10 @@
-import * as AT from './actionTypes'
+import { actionTypes as formActionTypes } from 'redux-form'
+import { takeEvery, takeLatest, takeLeading } from 'redux-saga/effects'
+
 import { actionTypes } from 'data'
 import { APIType } from 'core/network/api'
-import { actionTypes as formActionTypes } from 'redux-form'
-import { takeEvery, takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({
@@ -38,7 +40,8 @@ export default ({
       interestSagas.fetchInterestAccount
     )
     yield takeLatest(AT.FETCH_INTEREST_RATE, interestSagas.fetchInterestRate)
-    yield takeLatest(
+    yield takeLeading(
+      // @ts-ignore
       AT.FETCH_INTEREST_TRANSACTIONS,
       interestSagas.fetchInterestTransactions
     )

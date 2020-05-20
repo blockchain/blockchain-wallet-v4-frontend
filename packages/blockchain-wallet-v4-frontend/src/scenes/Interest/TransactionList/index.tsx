@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import {
   CoinType,
   FiatType,
-  InterestTransactionResponseType,
+  InterestTransactionType,
   NabuApiErrorType,
   RemoteDataType,
   SupportedCoinsType
@@ -24,7 +24,7 @@ const History = styled.div`
 
 class TransactionListContainer extends Component<Props> {
   componentDidMount () {
-    this.props.interestActions.fetchInterestTransactions()
+    this.props.interestActions.fetchInterestTransactions(true)
   }
 
   render () {
@@ -54,7 +54,7 @@ export type SuccessStateType = {
   btcRates: RatesType
   coin: CoinType
   supportedCoins: SupportedCoinsType
-  transactions: InterestTransactionResponseType
+  txPages: Array<Array<InterestTransactionType>>
   walletCurrency: FiatType
 }
 
