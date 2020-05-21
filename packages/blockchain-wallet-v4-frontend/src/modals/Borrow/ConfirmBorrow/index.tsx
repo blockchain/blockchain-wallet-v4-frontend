@@ -10,23 +10,6 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  handleClose: () => void
-  offer: OfferType
-}
-export type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-}
-export type SuccessStateType = {
-  payment: PaymentValue
-  rates: RatesType
-}
-export type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-
 class ConfirmBorrow extends PureComponent<Props> {
   state = {}
 
@@ -63,11 +46,23 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
+
+export type OwnProps = {
+  handleClose: () => void
+  offer: OfferType
+}
+export type LinkDispatchPropsType = {
+  borrowActions: typeof actions.components.borrow
+}
+export type SuccessStateType = {
+  payment: PaymentValue
+  rates: RatesType
+}
+export type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 export default enhance(ConfirmBorrow)

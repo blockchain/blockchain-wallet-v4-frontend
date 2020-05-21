@@ -89,20 +89,6 @@ const ButtonContainer = styled.div`
   }
 `
 
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
@@ -231,5 +217,19 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
+
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps
 
 export default enhance(Success) as React.FunctionComponent<Props>

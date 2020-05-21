@@ -85,20 +85,6 @@ const TermsFormItem = styled(FormItem)`
 
 const checkboxShouldBeChecked = value => (value ? undefined : true)
 
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalAmt = fiatToString({
     value: props.values ? Number(props.values.principal) : 0,
@@ -241,5 +227,19 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
+
+type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps
 
 export default enhance(Success) as React.FunctionComponent<Props>
