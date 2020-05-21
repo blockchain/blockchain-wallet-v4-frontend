@@ -106,13 +106,6 @@ const FiatContainer = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps &
-  State & { onCopyAddress: () => void; onToggleQrCode: () => void }
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const collateralRequired = getCollateralAmtRequired(props.loan, props.offer)
   const isPositiveAmtRequired = Number(collateralRequired) > 0
@@ -323,6 +316,13 @@ const enhance = compose(
 type LinkStatePropsType = {
   values?: BorrowFormValuesType
 }
+
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps &
+  State & { onCopyAddress: () => void; onToggleQrCode: () => void }
 
 type FormProps = {
   onSubmit: () => void

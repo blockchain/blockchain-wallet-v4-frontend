@@ -15,29 +15,6 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-export type OwnProps = {
-  handleClose: () => void
-  offer: OfferType
-}
-
-export type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-}
-
-export type SuccessStateType = {
-  coin: CoinType
-  limits: BorrowMinMaxType
-  payment: PaymentValue
-  rates: RatesType
-  supportedCoins: SupportedCoinsType
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-
 class BorrowForm extends PureComponent<Props> {
   state = {}
 
@@ -77,11 +54,29 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+export type OwnProps = {
+  handleClose: () => void
+  offer: OfferType
+}
+
+export type LinkDispatchPropsType = {
+  borrowActions: typeof actions.components.borrow
+}
+
+export type SuccessStateType = {
+  coin: CoinType
+  limits: BorrowMinMaxType
+  payment: PaymentValue
+  rates: RatesType
+  supportedCoins: SupportedCoinsType
+}
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
+
+type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(BorrowForm)

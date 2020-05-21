@@ -207,11 +207,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     supportedCoins,
     values
   } = props
-
-  const handleFormSubmit = e => {
-    e.preventDefault()
-    interestActions.submitDepositForm(coin)
-  }
   const { coinTicker, displayName } = supportedCoins[coin]
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
@@ -229,19 +224,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }).value
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  const validateMinDepositAmount = minDepositAmount(depositLimits.minFiat)
-  const validateMaxDepositAmount = maxDepositAmount(depositLimits.maxFiat)
 
   const amtError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
-
-  const handleMinMaxClick = () => {
-    amtError === 'ABOVE_MAX'
-      ? formActions.change(FORM_NAME, 'depositAmount', depositLimits.maxFiat)
-      : formActions.change(FORM_NAME, 'depositAmount', depositLimits.minFiat)
-  }
 
   return submitting ? (
     <SendingWrapper>
@@ -271,7 +258,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Text>
     </SendingWrapper>
   ) : (
-    <CustomForm onSubmit={handleFormSubmit}>
+    <CustomForm onSubmit={props.handleSubmit}>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
@@ -353,11 +340,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             component={NumberBox}
             data-e2e='depositAmount'
             name='depositAmount'
-            validate={[
-              required,
-              validateMinDepositAmount,
-              validateMaxDepositAmount
-            ]}
+            validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -400,7 +383,19 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <GreyBlueCartridge
               data-e2e='interestBuyMinMaxBtn'
               role='button'
-              onClick={handleMinMaxClick}
+              onClick={() => {
+                amtError === 'ABOVE_MAX'
+                  ? formActions.change(
+                      FORM_NAME,
+                      'depositAmount',
+                      depositLimits.maxFiat
+                    )
+                  : formActions.change(
+                      FORM_NAME,
+                      'depositAmount',
+                      depositLimits.minFiat
+                    )
+              }}
             >
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
@@ -665,7 +660,13 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = SuccessStateType & ConnectedProps<typeof connector>
+export type Props = SuccessStateType &
+  ConnectedProps<typeof connector> &
+  FormProps
+
+type FormProps = {
+  onSubmit: () => void
+}
 
 const enhance = compose(
   reduxForm<{}, Props>({ form: FORM_NAME, destroyOnUnmount: false }),

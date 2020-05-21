@@ -27,10 +27,17 @@ class DepositForm extends PureComponent<Props> {
     this.props.interestActions.initializeDepositForm('BTC')
   }
 
+  handleSubmit = () => {
+    const { coin } = this.props.data.getOrElse({ coin: 'BTC' as CoinType })
+    this.props.interestActions.submitDepositForm(coin)
+  }
+
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
