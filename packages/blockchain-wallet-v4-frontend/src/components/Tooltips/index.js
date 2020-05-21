@@ -302,6 +302,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This rate reflects annual return based on daily compounding. It is subject to change.'
           />
         </Tooltip>
+        <Tooltip id='modals.interest.depositmax.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.max.tooltip'
+            defaultMessage='Maximum deposit is determined by spendable balance minus priority fee.'
+          />
+        </Tooltip>
         <Tooltip id='modals.interest.calculator.tooltip'>
           <FormattedMessage
             id='modals.interest.deposit.calculator.tooltip'
