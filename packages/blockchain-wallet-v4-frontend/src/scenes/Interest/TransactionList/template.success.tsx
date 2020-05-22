@@ -19,6 +19,7 @@ import { InterestTransactionType } from 'core/types'
 import {
   AmountTableCell,
   CoinAmountWrapper,
+  ErrorTag,
   FiatAmountWrapper,
   IconBackground,
   InterestTableCell,
@@ -110,13 +111,29 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
                     <Value>{coinTicker} Withdraw</Value>
-                    {state !== 'COMPLETE' && (
+                    {state === 'REJECTED' || state === 'FAILED' ? (
+                      <ErrorTag>
+                        <FormattedMessage
+                          id='copy.failed'
+                          defaultMessage='Failed'
+                        />
+                      </ErrorTag>
+                    ) : state === 'REFUNDED' ? (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.refunded'
+                          defaultMessage='Refunded'
+                        />
+                      </PendingTag>
+                    ) : state !== 'COMPLETE' ? (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'
                           defaultMessage='Pending'
                         />
                       </PendingTag>
+                    ) : (
+                      <></>
                     )}
                   </React.Fragment>
                 ) : type === 'DEPOSIT' ? (
@@ -131,13 +148,29 @@ function TransactionList (props: Props): ReactElement | null {
                     </IconBackground>
 
                     <Value>{coinTicker} Deposit</Value>
-                    {state !== 'COMPLETE' && (
+                    {state === 'REJECTED' || state === 'FAILED' ? (
+                      <ErrorTag>
+                        <FormattedMessage
+                          id='copy.failed'
+                          defaultMessage='Failed'
+                        />
+                      </ErrorTag>
+                    ) : state === 'REFUNDED' ? (
+                      <PendingTag>
+                        <FormattedMessage
+                          id='copy.refunded'
+                          defaultMessage='Refunded'
+                        />
+                      </PendingTag>
+                    ) : state !== 'COMPLETE' ? (
                       <PendingTag>
                         <FormattedMessage
                           id='copy.pending'
                           defaultMessage='Pending'
                         />
                       </PendingTag>
+                    ) : (
+                      <></>
                     )}
                   </React.Fragment>
                 ) : (
