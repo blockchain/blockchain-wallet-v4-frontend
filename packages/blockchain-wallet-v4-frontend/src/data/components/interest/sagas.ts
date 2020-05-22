@@ -126,9 +126,11 @@ export default ({
     const { reset } = payload
     try {
       const nextPage = yield select(S.getTransactionsNextPage)
-      if (nextPage && !reset) {
+      // check if invoked from continuous scroll
+      if (!reset) {
         const txList = yield select(S.getInterestTransactions)
-        if (Remote.Loading.is(last(txList))) return
+        // return if next page is already being fetched or there is no next page
+        if (Remote.Loading.is(last(txList)) || !nextPage) return
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
       const resp = yield call(api.getInterestTransactions, nextPage)
