@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   box-sizing: border-box;
   background-color: ${props => props.theme.white};
@@ -10,10 +12,10 @@ const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   padding-bottom: 12px;
   width: 100%;
 
-  @media (max-width: 991px) {
+  ${media.tabletL`
     width: 100%;
     margin-left: 0px;
-  }
+  `}
 `
 const Container = styled.div`
   display: flex;
@@ -22,10 +24,10 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     flex-direction: row;
     justify-content: space-between;
-  }
+  `}
 `
 
 const HorizontalMenu = ({

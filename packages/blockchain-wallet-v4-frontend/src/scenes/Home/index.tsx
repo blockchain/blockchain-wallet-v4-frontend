@@ -1,0 +1,145 @@
+import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { SceneWrapper } from 'components/Layout'
+import { TOUR_STEPS, TourTooltip } from './model'
+import Balances from './Balances'
+import Banners from './Banners'
+import Joyride, { STATUS } from 'react-joyride/lib'
+import media from 'services/ResponsiveService'
+import PriceChart from './PriceChart'
+import React from 'react'
+import ReactHighcharts from 'react-highcharts'
+import styled, { createGlobalStyle, keyframes } from 'styled-components'
+
+ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
+
+const ColumnWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  ${media.atLeastTabletL`
+    flex-direction: row;
+  `}
+`
+const Column = styled.div`
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  max-width: 600px;
+  box-sizing: border-box;
+  padding-bottom: 25px;
+  @media (max-height: 800px) {
+    height: auto;
+    display: block;
+  }
+  ${media.tablet`
+    height: auto;
+    display: block;
+  `}
+`
+const ColumnLeft = styled(Column)`
+  ${media.atLeastTabletL`
+    padding-right: 30px;
+  `}
+`
+const ColumnRight = styled(Column)`
+  & > :not(:first-child) {
+    margin-top: 20px;
+  }
+`
+
+const Pulse = ({ theme }) => {
+  return keyframes`
+    0% {
+      box-shadow: 0 0 0 0 ${theme.blue600};
+      opacity: 1;
+    }
+    30%{
+      opacity: 0.7;
+    }
+    100% {
+      box-shadow: 0 0 0 32px ${theme.blue600};
+      opacity: 0;
+    }
+  `
+}
+
+const GlobalJoyrideStyles = createGlobalStyle`
+  .react-joyride__spotlight {
+    background-color: ${({ theme }) => theme.blue600} !important;
+    opacity: 0.25 !important;
+    border-radius: 50% !important;
+    animation: ${props => Pulse(props)} 1.4s infinite;
+    height: 16px !important;
+    width: 16px !important;
+    margin: 19px 0 0 19px;
+    top: 0px;
+    left: 0px;
+  }
+
+  .react-joyride__overlay {
+    mix-blend-mode: initial !important;
+  }
+
+  .__floater__open {
+    transition: none !important;
+    filter: none !important;
+  }
+`
+
+const Home = props => {
+  const { onboardingActions, showWalletTour } = props
+
+  const handleTourCallbacks = data => {
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
+      onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
+    }
+  }
+  return (
+    <SceneWrapper>
+      <Banners />
+      <ColumnWrapper>
+        <ColumnLeft>
+          <Balances />
+        </ColumnLeft>
+        <ColumnRight>
+          <PriceChart />
+        </ColumnRight>
+      </ColumnWrapper>
+      <Joyride
+        run={showWalletTour === true}
+        steps={TOUR_STEPS}
+        disableScrollParentFix={true}
+        callback={handleTourCallbacks}
+        tooltipComponent={TourTooltip}
+        showSkipButton={true}
+        styles={{
+          overlay: {
+            backgroundColor: 'none'
+          }
+        }}
+        {...props.Joyride}
+      />
+      <GlobalJoyrideStyles />
+    </SceneWrapper>
+  )
+}
+
+const mapStateToProps = state => ({
+  showWalletTour: selectors.components.onboarding.getWalletTourVisibility(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  onboardingActions: bindActionCreators(
+    actions.components.onboarding,
+    dispatch
+  ),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

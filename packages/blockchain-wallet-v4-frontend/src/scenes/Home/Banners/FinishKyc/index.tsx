@@ -16,10 +16,10 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 20px;
 
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     height: 80px;
     padding: 0 20px;
-  }
+  `}
   ${media.mobile`
     flex-direction: column;
   `}

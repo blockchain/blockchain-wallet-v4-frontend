@@ -427,7 +427,7 @@ type MessagesType = {
   'layouts.wallet.header.walletsaddresses': 'Wallets & Addresses'
   'layouts.wallet.header.whatsnew.whatsnew.empty': "🎉 You're all caught up!"
   'layouts.wallet.header.whatsnew.whatsnew.in_progress': "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>."
-  'layouts.wallet.menuleft.failure': 'Something went wrong. Please refresh'
+  'layouts.wallet.menuleft.failure.refresh': 'Something went wrong. Please refresh.'
   'layouts.wallet.menuleft.footer.ad': 'Ad by bitcoin.com'
   'layouts.wallet.menuleft.footer.adtax': 'Offer by LukkaTax'
   'layouts.wallet.menuleft.footer.adtaxsave': 'Save this tax season'
@@ -1599,7 +1599,7 @@ type MessagesType = {
   'scenes.login.findyourguid': 'Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
   'scenes.login.google': 'Authenticator App Code'
   'scenes.login.guid': 'Wallet ID'
-  'scenes.login.guiderror': 'Unknown Wallet ID. If you need a reminder'
+  'scenes.login.guiderror': 'Unknown Wallet ID. If you need a reminder '
   'scenes.login.isguidemailerror': '👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
   'scenes.login.isguidinvalid': "👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
   'scenes.login.login': 'Log In'
@@ -1663,6 +1663,7 @@ type MessagesType = {
   'scenes.profile.identityverification.swaplimit.goldcompleteairdropeligible-1': 'By completing the Gold Level requirements you are automatically eligible for our airdrop programs extended to your region.'
   'scenes.profile.identityverification.swaplimit.learnmorelimits': "We’ve put together an article on Trading Limits. <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'scenes.profile.identityverification.swaplimit.tradelimit': 'Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
+  'scenes.profile.identityverification.swaplimit.learnmoreread': "Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
   'scenes.profile.identityverification.swaplimit.wanttolearnmore': 'Want to learn more?'
   'scenes.profile.identityverification.tradingtitle': 'Trading Limits'
   'scenes.profile.idv.swaplimit.airdropdisclaimer1': "Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
@@ -1941,6 +1942,8 @@ type MessagesType = {
   'scenes.settings.general.walletid.title': 'Wallet ID'
   'scenes.settings.general.walletid.warning': 'Do not share your Wallet ID with others.'
   'scenes.settings.linked_cards': 'Linked Cards'
+  'scenes.settings.menu.title': 'Wallets & Addresses'
+  'scenes.settings.menu.subtitle': 'Manage your wallet names, addresses and private keys.'
   'scenes.settings.manage_addresses.archive': 'Archive'
   'scenes.settings.manage_addresses.edit_name': 'Edit Name'
   'scenes.settings.manage_addresses.make_default': 'Make Default'

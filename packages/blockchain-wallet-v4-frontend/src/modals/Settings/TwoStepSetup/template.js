@@ -1,7 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Button,
   Image,
@@ -13,6 +9,11 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,9 +23,9 @@ const Wrapper = styled.div`
   padding: 20px 0;
   box-sizing: border-box;
 
-  @media (min-width: 540px) {
+  ${media.atLeastMobile`
     flex-direction: row;
-  }
+  `}
 `
 const Container = styled.div`
   position: relative;
@@ -47,9 +48,9 @@ const Container = styled.div`
     background-color: ${props => props.theme.grey000};
   }
 
-  @media (min-width: 540px) {
+  ${media.atLeastMobile`
     width: 30%;
-  }
+  `}
 `
 
 const TwoStepSetup = props => {
