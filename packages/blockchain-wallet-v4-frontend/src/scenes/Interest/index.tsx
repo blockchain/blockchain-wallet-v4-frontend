@@ -62,6 +62,12 @@ class Interest extends React.PureComponent<Props, StateType> {
     }
   }
 
+  componentWillUnmount () {
+    // clear transactions related data on exit
+    this.props.interestActions.fetchInterestTransactionsSuccess([], true)
+    this.props.interestActions.setTransactionsNextPage(null)
+  }
+
   checkUserData = () => {
     const data = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } }
