@@ -131,9 +131,9 @@ export default ({
         if (Remote.Loading.is(last(txList))) return
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
-      const t = yield call(api.getInterestTransactions, nextPage)
-      yield put(A.fetchInterestTransactionsSuccess(t.items, reset))
-      yield put(A.setTransactionsNextPage(t.next))
+      const resp = yield call(api.getInterestTransactions, nextPage)
+      yield put(A.fetchInterestTransactionsSuccess(resp.items, reset))
+      yield put(A.setTransactionsNextPage(resp.next))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailure(error))

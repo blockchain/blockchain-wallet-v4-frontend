@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { GreyCartridge } from 'components/Cartridge'
+import { ErrorCartridge, GreyCartridge } from 'components/Cartridge'
 import { TableCell, Text } from 'blockchain-info-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -31,6 +31,10 @@ export const IconBackground = styled.div`
 `
 
 export const PendingTag = styled(GreyCartridge)`
+  font-size: 12px;
+  margin-left: 8px;
+`
+export const ErrorTag = styled(ErrorCartridge)`
   font-size: 12px;
   margin-left: 8px;
 `
