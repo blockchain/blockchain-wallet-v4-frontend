@@ -3,6 +3,7 @@ import * as S from './selectors'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
 import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'core/types'
+import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -69,7 +70,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       yield put(
         A.setDepositLimits({
           maxFiat: maxFiat,
-          minFiat: minFiat / 100 // default unit is cents, convert to standard
+          minFiat: Number(convertBaseToStandard('FIAT', minFiat)) // default unit is cents, convert to standard
         })
       )
     } catch (e) {
