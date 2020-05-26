@@ -85,7 +85,7 @@ class IntroCard extends PureComponent<
                 />
               </Text>
               <Link
-                href='https://support.blockchain.com/hc/en-us/sections/360008572552'
+                href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'
                 style={{ width: '100%' }}
                 target='_blank'
               >

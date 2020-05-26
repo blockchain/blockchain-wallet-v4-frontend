@@ -103,7 +103,7 @@ class Interest extends React.PureComponent<Props, StateType> {
             defaultMessage='Deposit crypto and watch it grow.'
           />
           <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/360008572552'
+            href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'
             target='_blank'
           >
             <LearnMoreText size='16px'>
