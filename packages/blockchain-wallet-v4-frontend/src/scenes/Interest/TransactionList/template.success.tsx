@@ -266,13 +266,26 @@ function TransactionList (props: Props): ReactElement | null {
                       }).value
                     }
                   </CoinAmountWrapper>
-                  {type !== 'INTEREST_OUTGOING' && (
+                  {type === 'DEPOSIT' && (
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
                         interestActions.routeToTxHash(
                           coin,
                           extraAttributes.hash
+                        )
+                      }
+                    >
+                      View Transaction
+                    </ViewTransaction>
+                  )}
+                  {type === 'WITHDRAWAL' && state === 'COMPLETE' && (
+                    <ViewTransaction
+                      data-e2e='viewTxHash'
+                      onClick={() =>
+                        interestActions.routeToTxHash(
+                          coin,
+                          extraAttributes.txHash
                         )
                       }
                     >
