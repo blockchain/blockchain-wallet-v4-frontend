@@ -327,6 +327,7 @@ const AccountSummary: React.FC<Props> = props => {
       <Bottom>
         <ButtonContainer>
           <Button
+            disabled={account && account.balance <= 0}
             data-e2e='borrowCancel'
             fullwidth
             height='48px'
