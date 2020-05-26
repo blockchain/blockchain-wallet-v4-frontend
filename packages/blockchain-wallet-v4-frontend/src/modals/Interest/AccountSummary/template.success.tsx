@@ -115,7 +115,12 @@ const AccountSummary: React.FC<Props> = props => {
               <StatusIconWrapper color='orange000'>
                 <Icon color='orange600' name='timer' size='24px' />
               </StatusIconWrapper>
-              <Text color='grey600' size='14px' weight={500}>
+              <Text
+                data-e2e='waitingConfirmation'
+                color='grey600'
+                size='14px'
+                weight={500}
+              >
                 <FormattedMessage
                   id='modals.interest.deposit.success.confirm'
                   defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
@@ -221,7 +226,12 @@ const AccountSummary: React.FC<Props> = props => {
                       defaultMessage='Status'
                     />
                   </Text>
-                  <Text color='orange600' size='14px' weight={500}>
+                  <Text
+                    data-e2e='statusText'
+                    color='orange600'
+                    size='14px'
+                    weight={500}
+                  >
                     <FormattedMessage
                       id='modals.interest.statuspending'
                       defaultMessage='Pending {action}'
@@ -237,7 +247,12 @@ const AccountSummary: React.FC<Props> = props => {
               </>
             )}
           <DetailsItemContainer>
-            <Text color='grey600' size='14px' weight={500}>
+            <Text
+              data-e2e='nextPayment'
+              color='grey600'
+              size='14px'
+              weight={500}
+            >
               <FormattedMessage
                 id='modals.interest.summary.next'
                 defaultMessage='Next interest payment'
@@ -291,7 +306,12 @@ const AccountSummary: React.FC<Props> = props => {
                 <TooltipIcon name='info' size='12px' />
               </TooltipHost>
             </Text>
-            <Text color='grey600' size='14px' weight={500}>
+            <Text
+              data-e2e='holdPeriod'
+              color='grey600'
+              size='14px'
+              weight={500}
+            >
               {lockupPeriod === 1 ? (
                 <FormattedMessage
                   id='modals.interest.summary.lockup.one'
@@ -318,7 +338,12 @@ const AccountSummary: React.FC<Props> = props => {
                 <TooltipIcon name='info' size='12px' />
               </TooltipHost>
             </Text>
-            <Text color='grey600' size='14px' weight={500}>
+            <Text
+              data-e2e='interestRate'
+              color='grey600'
+              size='14px'
+              weight={500}
+            >
               {interestRate[coin]}%
             </Text>
           </DetailsItemContainer>
