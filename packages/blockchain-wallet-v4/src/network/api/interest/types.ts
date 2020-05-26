@@ -45,8 +45,8 @@ export type InterestTransactionType = {
   extraAttributes: {
     address: 'string'
     confirmations: number
-    hash: string,
-    id: string,
+    hash: string
+    id: string
     txHash: string
   }
   id: string
@@ -59,6 +59,7 @@ export type InterestTransactionType = {
     | 'PENDING'
     | 'MANUAL_REVIEW'
     | 'CLEARED'
+    | 'REFUNDED'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 

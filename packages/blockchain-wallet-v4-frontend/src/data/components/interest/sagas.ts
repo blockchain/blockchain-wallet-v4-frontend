@@ -126,14 +126,16 @@ export default ({
     const { reset } = payload
     try {
       const nextPage = yield select(S.getTransactionsNextPage)
-      if (nextPage && !reset) {
+      // check if invoked from continuous scroll
+      if (!reset) {
         const txList = yield select(S.getInterestTransactions)
-        if (Remote.Loading.is(last(txList))) return
+        // return if next page is already being fetched or there is no next page
+        if (Remote.Loading.is(last(txList)) || !nextPage) return
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
-      const t = yield call(api.getInterestTransactions, nextPage)
-      yield put(A.fetchInterestTransactionsSuccess(t.items, reset))
-      yield put(A.setTransactionsNextPage(t.next))
+      const resp = yield call(api.getInterestTransactions, nextPage)
+      yield put(A.fetchInterestTransactionsSuccess(resp.items, reset))
+      yield put(A.setTransactionsNextPage(resp.next))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailure(error))
@@ -255,6 +257,7 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
+      yield put(A.fetchInterestBalance())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
@@ -296,6 +299,7 @@ export default ({
       // notify success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
+      yield put(A.fetchInterestBalance())
       yield put(A.fetchInterestTransactions(true))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)

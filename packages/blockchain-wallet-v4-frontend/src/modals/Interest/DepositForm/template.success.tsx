@@ -320,6 +320,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               }}
             />
           </Text>
+          <TooltipHost id='modals.interest.depositmax.tooltip'>
+            <TooltipIcon name='info' size='12px' />
+          </TooltipHost>
         </MaxAmountContainer>
 
         <CoinBalanceDropdown
