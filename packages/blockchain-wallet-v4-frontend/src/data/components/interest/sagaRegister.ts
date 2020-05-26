@@ -32,6 +32,7 @@ export default ({
       interestSagas.fetchInterestInstruments
     )
     yield takeLatest(
+      // @ts-ignore
       AT.FETCH_INTEREST_LIMITS,
       interestSagas.fetchInterestLimits
     )

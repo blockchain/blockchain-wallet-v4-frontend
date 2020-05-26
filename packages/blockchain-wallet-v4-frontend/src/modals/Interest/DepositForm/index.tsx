@@ -20,11 +20,19 @@ import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
   componentDidMount () {
-    this.props.interestActions.initializeDepositForm('BTC')
+    this.handleInitializeDepositForm()
   }
 
   handleRefresh = () => {
-    this.props.interestActions.initializeDepositForm('BTC')
+    this.handleInitializeDepositForm()
+  }
+
+  handleInitializeDepositForm = () => {
+    const { coin, walletCurrency } = this.props.data.getOrElse({
+      coin: 'BTC' as CoinType,
+      walletCurrency: 'GBP' as FiatType
+    })
+    this.props.interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
   handleSubmit = () => {

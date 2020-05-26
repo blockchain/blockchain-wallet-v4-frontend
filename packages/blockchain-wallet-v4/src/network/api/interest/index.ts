@@ -36,10 +36,13 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: '/savings/instruments'
     })
 
-  const getInterestLimits = (): { limits: InterestLimitsType } =>
+  const getInterestLimits = (
+    ccy?: CoinType,
+    currency?: FiatType
+  ): { limits: InterestLimitsType } =>
     authorizedGet({
       url: nabuUrl,
-      endPoint: '/savings/limits'
+      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`
     })
 
   const getInterestTransactions = (
