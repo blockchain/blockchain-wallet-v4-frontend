@@ -138,7 +138,12 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           >
             {balanceSats}
           </FiatDisplay>
-          <Text size='12px' weight={500} style={{ lineHeight: '1.5' }}>
+          <Text
+            data-e2e='btcBalance'
+            size='12px'
+            weight={500}
+            style={{ lineHeight: '1.5' }}
+          >
             {balanceStandard} {coinTicker}
           </Text>
         </AmountColumn>
@@ -200,7 +205,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
               size='12px'
               weight={500}
               target='_blank'
-              href='https://support.blockchain.com/hc/en-us'
+              href='https://blockchain.zendesk.com/hc/en-us/articles/360043221472'
             >
               <FormattedMessage
                 id='buttons.learn_more'
