@@ -2,7 +2,6 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
-  FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestEligibleType,
@@ -115,10 +114,6 @@ interface FetchInterestInstrumentsSuccess {
 
 // LIMITS
 
-interface FetchInterestLimits {
-  payload: { coin?: CoinType; currency?: FiatType }
-  type: typeof AT.FETCH_INTEREST_LIMITS
-}
 interface FetchInterestLimitsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_LIMITS_FAILURE

@@ -85,8 +85,10 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * ({ payload }) {
-    const { coin, currency } = payload
+  const fetchInterestLimits = function * ({
+    coin,
+    currency
+  }: ReturnType<typeof A.fetchInterestLimits>) {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
@@ -125,7 +127,9 @@ export default ({
     }
   }
 
-  const fetchInterestTransactions = function * ({ payload }) {
+  const fetchInterestTransactions = function * ({
+    payload
+  }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { reset } = payload
     try {
       const nextPage = yield select(S.getTransactionsNextPage)

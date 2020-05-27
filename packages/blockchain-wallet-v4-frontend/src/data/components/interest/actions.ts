@@ -79,9 +79,10 @@ export const fetchInterestInstrumentsSuccess = (
 })
 
 // LIMITS
-export const fetchInterestLimits = (coin?: CoinType, currency?: FiatType) => ({
+export const fetchInterestLimits = (coin: CoinType, currency: FiatType) => ({
   type: AT.FETCH_INTEREST_LIMITS,
-  payload: { coin, currency }
+  coin,
+  currency
 })
 export const fetchInterestLimitsFailure = (
   error: string

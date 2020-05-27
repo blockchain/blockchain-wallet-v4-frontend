@@ -37,8 +37,8 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     })
 
   const getInterestLimits = (
-    ccy?: CoinType,
-    currency?: FiatType
+    ccy: CoinType,
+    currency: FiatType
   ): { limits: InterestLimitsType } =>
     authorizedGet({
       url: nabuUrl,
