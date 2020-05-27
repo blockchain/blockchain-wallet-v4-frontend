@@ -23,10 +23,6 @@ import {
 import SummaryCard from './template.success'
 
 class SummaryCardContainer extends PureComponent<Props> {
-  componentDidMount () {
-    this.props.interestActions.fetchInterestEligible()
-    this.props.interestActions.fetchInterestBalance()
-  }
   render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
