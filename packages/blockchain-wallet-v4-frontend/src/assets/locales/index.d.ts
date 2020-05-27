@@ -1522,7 +1522,7 @@ type MessagesType = {
   'scenes.initborrow.userblocked': 'Blockchain Borrow is not available in your country or region at the moment.'
   'scenes.initborrow.youcanborrow': 'You can borrow up to'
   'scenes.interest.earnbody.access': 'Upgrade to Gold Level and access benefits like earning up to {rate}% annually on your bitcoin.'
-  'scenes.interest.earninfo.verified.body': 'Earn up to {rate}% instantly when you deposit {coinTicker} to your Interest Account.'
+  'scenes.interest.earninfo.verified.body': 'Earn up to {rate}% annually when you deposit {coinTicker} to your Interest Account.'
   'scenes.interest.earnheaderverified': 'Earn interest on your {displayName} today.'
   'scenes.interest.earnupgrade.header': 'Upgrade to Gold Level so you can earn interest on your bitcoin.'
   'scenes.interest.history.header': 'History'
