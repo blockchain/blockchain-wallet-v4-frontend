@@ -79,7 +79,7 @@ class ExchangePromo extends PureComponent<Props> {
           <Text color='blue800' size='14px' weight={500}>
             <FormattedMessage
               id='exchangepromo.accesspairs'
-              defaultMessage='Access 26 trading pairs on the Exchange.'
+              defaultMessage='Access 20+ trading pairs on the Exchange.'
             />
           </Text>
         ) : (
