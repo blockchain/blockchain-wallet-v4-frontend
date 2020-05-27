@@ -190,13 +190,17 @@ export default ({
       }
     })
 
-  const getSBPaymentMethods = (currency: FiatType): SBPaymentMethodsType =>
+  const getSBPaymentMethods = (
+    currency: FiatType,
+    checkEligibility?: true
+  ): SBPaymentMethodsType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/payments/methods',
       contentType: 'application/json',
       data: {
-        currency
+        currency,
+        checkEligibility
       }
     })
 
