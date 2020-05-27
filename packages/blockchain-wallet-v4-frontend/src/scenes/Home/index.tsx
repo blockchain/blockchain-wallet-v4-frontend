@@ -1,16 +1,12 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { SceneWrapper } from 'components/Layout'
-import { TOUR_STEPS, TourTooltip } from './model'
-import Balances from './Balances'
-import Banners from './Banners'
-import Joyride, { STATUS } from 'react-joyride/lib'
-import media from 'services/ResponsiveService'
-import PriceChart from './PriceChart'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
-import styled, { createGlobalStyle, keyframes } from 'styled-components'
+import styled from 'styled-components'
+
+import { SceneWrapper } from 'components/Layout'
+import Balances from './Balances'
+import Banners from './Banners'
+import media from 'services/ResponsiveService'
+import PriceChart from './PriceChart'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -53,53 +49,7 @@ const ColumnRight = styled(Column)`
   }
 `
 
-const Pulse = ({ theme }) => {
-  return keyframes`
-    0% {
-      box-shadow: 0 0 0 0 ${theme.blue600};
-      opacity: 1;
-    }
-    30%{
-      opacity: 0.7;
-    }
-    100% {
-      box-shadow: 0 0 0 32px ${theme.blue600};
-      opacity: 0;
-    }
-  `
-}
-
-const GlobalJoyrideStyles = createGlobalStyle`
-  .react-joyride__spotlight {
-    background-color: ${({ theme }) => theme.blue600} !important;
-    opacity: 0.25 !important;
-    border-radius: 50% !important;
-    animation: ${props => Pulse(props)} 1.4s infinite;
-    height: 16px !important;
-    width: 16px !important;
-    margin: 19px 0 0 19px;
-    top: 0px;
-    left: 0px;
-  }
-
-  .react-joyride__overlay {
-    mix-blend-mode: initial !important;
-  }
-
-  .__floater__open {
-    transition: none !important;
-    filter: none !important;
-  }
-`
-
-const Home = props => {
-  const { onboardingActions, showWalletTour } = props
-
-  const handleTourCallbacks = data => {
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(data.status)) {
-      onboardingActions.setWalletTourVisibility(STATUS.FINISHED)
-    }
-  }
+const Home = () => {
   return (
     <SceneWrapper>
       <Banners />
@@ -111,35 +61,8 @@ const Home = props => {
           <PriceChart />
         </ColumnRight>
       </ColumnWrapper>
-      <Joyride
-        run={showWalletTour === true}
-        steps={TOUR_STEPS}
-        disableScrollParentFix={true}
-        callback={handleTourCallbacks}
-        tooltipComponent={TourTooltip}
-        showSkipButton={true}
-        styles={{
-          overlay: {
-            backgroundColor: 'none'
-          }
-        }}
-        {...props.Joyride}
-      />
-      <GlobalJoyrideStyles />
     </SceneWrapper>
   )
 }
 
-const mapStateToProps = state => ({
-  showWalletTour: selectors.components.onboarding.getWalletTourVisibility(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  onboardingActions: bindActionCreators(
-    actions.components.onboarding,
-    dispatch
-  ),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home

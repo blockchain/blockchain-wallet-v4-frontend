@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 
 export type ModalNamesType =
   | 'AirdropClaim'
+  | 'AirdropSuccess'
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
   | 'Confirm'
@@ -52,6 +53,7 @@ export type ModalOriginType =
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
+  | 'SwapGetStarted'
   | 'TheExchangePage'
   | 'TransactionList'
   | 'Unknown'

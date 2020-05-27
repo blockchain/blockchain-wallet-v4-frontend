@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { IconButton, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
@@ -92,26 +92,6 @@ const ActionButton = styled(IconButton)`
   `};
 `
 
-const JoyrideSpotlight = css`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-`
-
-const RequestSpotlight = styled.div`
-  ${JoyrideSpotlight}
-  margin: auto 6px;
-`
-
-const SendSpotlight = styled.div`
-  ${JoyrideSpotlight}
-  margin: auto 8px;
-`
-
 const ButtonText = styled(Text)`
   margin-left: 6px;
 `
@@ -127,7 +107,6 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
         onClick={() => showModal('SEND')}
         width='70px'
       >
-        <SendSpotlight className='wallet-intro-tour-step-3' />
         <ButtonText size='16px' weight={600} color='blue900'>
           <FormattedMessage
             id='layouts.wallet.menutop.send'
@@ -143,7 +122,6 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
         onClick={() => showModal('REQUEST')}
         width='70px'
       >
-        <RequestSpotlight className='wallet-intro-tour-step-2' />
         <ButtonText size='16px' weight={600} color='blue900'>
           <FormattedMessage
             id='layouts.wallet.menutop.request'

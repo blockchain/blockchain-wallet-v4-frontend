@@ -7,6 +7,7 @@ export default () => {
 
   return function * swapGetStartedSaga () {
     yield takeLatest(
+      // @ts-ignore
       AT.AIRDROP_CLAIM_SUBMIT_CLICKED,
       onboardingSagas.airdropClaimSubmitClicked
     )
@@ -15,10 +16,7 @@ export default () => {
       onboardingSagas.swapGetStartedSubmitClicked
     )
     yield takeLatest(
-      AT.TAKE_WALLET_TOUR_CLICKED,
-      onboardingSagas.takeWalletTourClicked
-    )
-    yield takeLatest(
+      // @ts-ignore
       AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
       onboardingSagas.upgradeForAirdropSubmitClicked
     )

@@ -8,7 +8,6 @@ import {
   Wrapper
 } from 'components/MenuLeft'
 import { FormattedMessage } from 'react-intl'
-import { JoyrideSpotlight, SpotlightLinkContainer } from 'components/Tour'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
@@ -95,7 +94,6 @@ const Navigation = (props: OwnProps & Props) => {
         data-e2e='buyAndSellLink'
         onClick={() => props.simpleBuyActions.showModal('SideNav')}
       >
-        <JoyrideSpotlight className='wallet-intro-tour-step-5' />
         <MenuIcon name='cart-filled' size='24px' />
         <Destination>
           <FormattedMessage
@@ -110,9 +108,8 @@ const Navigation = (props: OwnProps & Props) => {
           </Text>
         </NewCartridge>
       </MenuItem>
-      <SpotlightLinkContainer to='/swap' activeClassName='active'>
+      <LinkContainer to='/swap' activeClassName='active'>
         <MenuItem data-e2e='exchangeLink'>
-          <JoyrideSpotlight className='wallet-intro-tour-step-4' />
           <MenuIcon name='arrow-switch-thick' size='24px' />
           <Destination>
             <FormattedMessage
@@ -121,10 +118,9 @@ const Navigation = (props: OwnProps & Props) => {
             />
           </Destination>
         </MenuItem>
-      </SpotlightLinkContainer>
-      <SpotlightLinkContainer to='/airdrops' activeClassName='active'>
+      </LinkContainer>
+      <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
-          <JoyrideSpotlight className='airdrop-tooltip' />
           <MenuIcon name='parachute' size='24px' />
           <Destination>
             <FormattedMessage
@@ -142,7 +138,7 @@ const Navigation = (props: OwnProps & Props) => {
           {/*  </Text> */}
           {/* </NewCartridge> */}
         </MenuItem>
-      </SpotlightLinkContainer>
+      </LinkContainer>
       {props.invitations.interest && (
         <LinkContainer to='/interest' activeClassName='active'>
           <MenuItem data-e2e='interestLink'>

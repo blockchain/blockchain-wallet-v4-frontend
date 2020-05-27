@@ -21,17 +21,6 @@ const HomeBalanceAmount = styled(Text)`
   color: ${props => props.theme.grey800};
 `
 
-const JoyrideSpotlight = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto auto;
-  width: 32px;
-  height: 32px;
-`
-
 const Success: React.FC<Props> = props => {
   return (
     <TotalRow>
@@ -43,7 +32,6 @@ const Success: React.FC<Props> = props => {
         />
       </Text>
       <HomeBalanceAmount data-e2e='homeBalanceAmt'>
-        <JoyrideSpotlight className='wallet-intro-tour-step-1' />
         {props.totalBalance}
       </HomeBalanceAmount>
     </TotalRow>

@@ -14,10 +14,6 @@ export const swapGetStartedSubmitClicked = () => ({
   type: AT.SWAP_GET_STARTED_SUBMIT_CLICKED
 })
 
-export const takeWalletTourClicked = () => ({
-  type: AT.TAKE_WALLET_TOUR_CLICKED
-})
-
 export const upgradeForAirdropSubmitClicked = campaign => ({
   type: AT.UPGRADE_FOR_AIRDROP_SUBMIT_CLICKED,
   payload: { campaign }

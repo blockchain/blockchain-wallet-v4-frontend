@@ -12,6 +12,7 @@ export type WalletFormType =
   | '@SEND.ETH.FORM'
   | '@SEND.XLM.FORM'
   | 'addCCForm'
+  | 'airdropClaim'
   | 'borrowForm'
   | 'cancelSBOrderForm'
   | 'ccBillingAddress'
