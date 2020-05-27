@@ -193,7 +193,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
           </Button>
           <Button
-            data-e2e='borrowCancel'
+            data-e2e='interestDeposit'
             height='48px'
             nature='empty'
             onClick={handleSBClick}
@@ -353,7 +353,7 @@ const AccountSummary: React.FC<Props> = props => {
         <ButtonContainer>
           <Button
             disabled={account && account.balance <= 0}
-            data-e2e='borrowCancel'
+            data-e2e='interestWithdraw'
             fullwidth
             height='48px'
             nature='grey800'
