@@ -113,6 +113,7 @@ interface FetchInterestInstrumentsSuccess {
 }
 
 // LIMITS
+
 interface FetchInterestLimitsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_LIMITS_FAILURE

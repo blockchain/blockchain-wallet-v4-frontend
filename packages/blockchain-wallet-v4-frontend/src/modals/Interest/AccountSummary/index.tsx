@@ -5,6 +5,7 @@ import React, { PureComponent } from 'react'
 import { actions } from 'data'
 import {
   CoinType,
+  FiatType,
   InterestAccountBalanceType,
   InterestLimitsType,
   InterestRateType,
@@ -22,11 +23,19 @@ class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.interestActions.fetchInterestLimits()
+    this.handleFetchInterestLimits()
   }
 
   handleDepositClick = () => {
     this.props.interestActions.showInterestModal('DEPOSIT')
+  }
+
+  handleFetchInterestLimits = () => {
+    const { coin, walletCurrency } = this.props.data.getOrElse({
+      coin: 'BTC' as CoinType,
+      walletCurrency: 'GBP' as FiatType
+    })
+    this.props.interestActions.fetchInterestLimits(coin, walletCurrency)
   }
 
   handleRefresh = () => {
@@ -78,6 +87,7 @@ export type SuccessStateType = {
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
   supportedCoins: SupportedCoinsType
+  walletCurrency: FiatType
 }
 
 type LinkStatePropsType = {
