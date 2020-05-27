@@ -85,11 +85,16 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * () {
+  const fetchInterestLimits = function * ({
+    coin,
+    currency
+  }: ReturnType<typeof A.fetchInterestLimits>) {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
-        api.getInterestLimits
+        api.getInterestLimits,
+        coin,
+        currency
       )
       yield put(A.fetchInterestLimitsSuccess(response.limits))
     } catch (e) {
@@ -122,7 +127,9 @@ export default ({
     }
   }
 
-  const fetchInterestTransactions = function * ({ payload }) {
+  const fetchInterestTransactions = function * ({
+    payload
+  }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { reset } = payload
     try {
       const nextPage = yield select(S.getTransactionsNextPage)
@@ -183,17 +190,17 @@ export default ({
   const initializeDepositForm = function * ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
+    const { coin, currency } = payload
     let defaultAccountR
     let payment: PaymentType = <PaymentType>{}
-
     yield put(A.setPaymentLoading())
-    yield put(A.fetchInterestLimits())
+    yield put(A.fetchInterestLimits(coin, currency))
     yield take([
       AT.FETCH_INTEREST_LIMITS_SUCCESS,
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
-    switch (payload.coin) {
+    switch (coin) {
       case 'BTC':
         const accountsR = yield select(
           selectors.core.common.btc.getAccountsBalances

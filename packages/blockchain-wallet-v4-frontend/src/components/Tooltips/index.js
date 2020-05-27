@@ -299,7 +299,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
             id='earninterestform.tooltip.calculations'
-            defaultMessage='This rate reflects annual return based on daily compounding. It is subject to change.'
+            defaultMessage='The rate is subject to change.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
