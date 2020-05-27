@@ -46,6 +46,7 @@ type OwnProps = {
 const ExchangeNavItem = props => (
   <>
     <MenuIcon
+      className='icon'
       name='blockchain-logo'
       style={{ marginLeft: '-2px' }}
       size='26px'
@@ -81,7 +82,7 @@ const Navigation = (props: OwnProps & Props) => {
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
         <MenuItem data-e2e='dashboardLink'>
-          <MenuIcon name='home' size='24px' />
+          <MenuIcon className='icon' name='home' size='24px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.dashboard'
@@ -90,38 +91,9 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      <MenuItem
-        data-e2e='buyAndSellLink'
-        onClick={() => props.simpleBuyActions.showModal('SideNav')}
-      >
-        <MenuIcon name='cart-filled' size='24px' />
-        <Destination>
-          <FormattedMessage
-            id='layouts.wallet.menuleft.navigation.buycrypto'
-            defaultMessage='Buy Crypto'
-            className='destination'
-          />
-        </Destination>
-        <NewCartridge>
-          <Text color='orange600' weight={600} size='12' uppercase>
-            <FormattedMessage id='copy.new' defaultMessage='New' />
-          </Text>
-        </NewCartridge>
-      </MenuItem>
-      <LinkContainer to='/swap' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
-          <MenuIcon name='arrow-switch-thick' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.swap'
-              defaultMessage='Swap'
-            />
-          </Destination>
-        </MenuItem>
-      </LinkContainer>
       <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
-          <MenuIcon name='parachute' size='24px' />
+          <MenuIcon className='icon' name='parachute' size='24px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.airdrops'
@@ -139,27 +111,9 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </LinkContainer>
-      {props.invitations.interest && (
-        <LinkContainer to='/interest' activeClassName='active'>
-          <MenuItem data-e2e='interestLink'>
-            <MenuIcon name='percentage' size='20px' />
-            <Destination>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.earninterest'
-                defaultMessage='Earn Interest'
-              />
-            </Destination>
-            <NewCartridge>
-              <Text color='orange600' weight={600} size='12' uppercase>
-                <FormattedMessage id='copy.new' defaultMessage='New' />
-              </Text>
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
       <LinkContainer to='/borrow' activeClassName='active'>
         <MenuItem data-e2e='borrowLink'>
-          <MenuIcon name='borrow' size='20px' />
+          <MenuIcon className='icon' name='borrow' size='20px' />
           <Destination>
             <FormattedMessage
               id='layouts.wallet.menuleft.navigation.borrow'
@@ -178,6 +132,7 @@ const Navigation = (props: OwnProps & Props) => {
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
             <MenuIcon
+              className='icon'
               name='hardware'
               style={{ paddingLeft: '2px' }}
               size='24px'
@@ -214,6 +169,7 @@ const Navigation = (props: OwnProps & Props) => {
                   className='coin'
                 >
                   <CoinIcon
+                    className='coin-icon'
                     color={coin.colorCode}
                     name={coin.icons.circleFilled}
                     size='24px'

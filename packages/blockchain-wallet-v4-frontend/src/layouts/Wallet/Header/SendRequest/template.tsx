@@ -1,10 +1,12 @@
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
+import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
 
 import { IconButton, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
+
+import { Props } from '.'
 
 const Wrapper = styled.div`
   display: flex;
@@ -96,15 +98,17 @@ const ButtonText = styled(Text)`
   margin-left: 6px;
 `
 
-const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
+const SendRequest = (
+  props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
+) => {
   return (
     <Wrapper>
       <Divider />
       <ActionButton
         data-e2e='sendButton'
-        disabled={!sendAvailable}
+        disabled={!props.sendAvailable}
         name='send'
-        onClick={() => showModal('SEND')}
+        onClick={() => props.showModal('SEND')}
         width='70px'
       >
         <ButtonText size='16px' weight={600} color='blue900'>
@@ -117,9 +121,9 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
       <Divider />
       <ActionButton
         data-e2e='requestButton'
-        disabled={!requestAvailable}
+        disabled={!props.requestAvailable}
         name='request'
-        onClick={() => showModal('REQUEST')}
+        onClick={() => props.showModal('REQUEST')}
         width='70px'
       >
         <ButtonText size='16px' weight={600} color='blue900'>
@@ -129,14 +133,39 @@ const SendRequest = ({ showModal, sendAvailable, requestAvailable }) => {
           />
         </ButtonText>
       </ActionButton>
+      <Divider />
+      <LinkContainer to='/swap' activeClassName='active'>
+        <ActionButton data-e2e='exchangeLink' name='arrow-switch-thick'>
+          <ButtonText>
+            <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+          </ButtonText>
+        </ActionButton>
+      </LinkContainer>
+      <Divider />
+      <ActionButton
+        data-e2e='buyAndSellLink'
+        onClick={() => props.simpleBuyActions.showModal('SideNav')}
+        name='cart-filled'
+      >
+        <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
+      </ActionButton>
+      {props.invitations.interest && (
+        <>
+          <Divider />
+          <LinkContainer to='/interest' activeClassName='active'>
+            <ActionButton data-e2e='interestLink' name='percentage'>
+              <ButtonText>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.earninterest'
+                  defaultMessage='Earn Interest'
+                />
+              </ButtonText>
+            </ActionButton>
+          </LinkContainer>
+        </>
+      )}
     </Wrapper>
   )
-}
-
-SendRequest.propTypes = {
-  sendAvailable: PropTypes.bool.isRequired,
-  requestAvailable: PropTypes.bool.isRequired,
-  showModal: PropTypes.func.isRequired
 }
 
 export default SendRequest

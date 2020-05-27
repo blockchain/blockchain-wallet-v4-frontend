@@ -44,23 +44,17 @@ class SendRequestContainer extends React.PureComponent<Props> {
   }
 
   render () {
-    const { sendAvailable, requestAvailable } = this.props
-    return (
-      <SendRequest
-        sendAvailable={sendAvailable}
-        requestAvailable={requestAvailable}
-        showModal={this.showModal}
-      />
-    )
+    return <SendRequest showModal={this.showModal} {...this.props} />
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(getData, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(SendRequestContainer)

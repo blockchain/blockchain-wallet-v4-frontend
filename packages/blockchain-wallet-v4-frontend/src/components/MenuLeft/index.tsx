@@ -1,6 +1,6 @@
 import { Icon } from 'blockchain-info-components'
 import { transparentize } from 'polished'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
 export const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const Wrapper = styled.div`
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
 `
-export const MenuItem = styled.button`
+export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   display: flex;
   justify-content: flex-start;
   align-items: center;

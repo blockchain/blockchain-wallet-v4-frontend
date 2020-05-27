@@ -123,6 +123,7 @@ export const IconButton: FunctionComponent<{
   height?: string
   jumbo?: boolean
   margin?: string
+  name: keyof IcoMoonType
   onClick?: () => void
   padding?: string
   rounded?: boolean
