@@ -70,7 +70,7 @@ const CustomFormLabel = styled(FormLabel)`
 `
 const CustomField = styled(Field)<BaseFieldProps>`
   > input {
-    padding-left: 30px;
+    padding-left: 42px;
   }
   > div:last-child {
     display: none;
