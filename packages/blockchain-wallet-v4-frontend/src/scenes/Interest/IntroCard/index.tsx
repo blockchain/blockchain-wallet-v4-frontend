@@ -80,7 +80,7 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earninfo.verified.body'
-                  defaultMessage='Earn up to {rate}% instantly when you deposit {coinTicker} to your Interest Account.'
+                  defaultMessage='Earn up to {rate}% annually when you deposit {coinTicker} to your Interest Account.'
                   values={{ coinTicker, rate: interestRate[coin] }}
                 />
               </Text>
