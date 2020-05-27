@@ -78,7 +78,7 @@ class ExchangePromo extends PureComponent<Props> {
         {isGoldVerified ? (
           <Text color='blue800' size='14px' weight={500}>
             <FormattedMessage
-              id='exchangepromo.accesspairs'
+              id='exchangepromo.pairs'
               defaultMessage='Access 20+ trading pairs on the Exchange.'
             />
           </Text>
