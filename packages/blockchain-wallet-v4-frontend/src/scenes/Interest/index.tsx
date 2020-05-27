@@ -51,6 +51,8 @@ class Interest extends React.PureComponent<Props, StateType> {
 
   componentDidMount () {
     this.props.interestActions.fetchInterestRate()
+    this.props.interestActions.fetchInterestEligible()
+    this.props.interestActions.fetchInterestBalance()
   }
 
   componentDidUpdate (prevProps: Props) {
