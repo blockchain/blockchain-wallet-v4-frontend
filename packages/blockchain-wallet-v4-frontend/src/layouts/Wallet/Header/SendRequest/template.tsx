@@ -147,7 +147,12 @@ const SendRequest = (
         onClick={() => props.simpleBuyActions.showModal('SideNav')}
         name='cart-filled'
       >
-        <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
+        <ButtonText>
+          <FormattedMessage
+            id='buttons.buy_crypto'
+            defaultMessage='Buy Crypto'
+          />
+        </ButtonText>
       </ActionButton>
       {props.invitations.interest && (
         <>
@@ -164,6 +169,17 @@ const SendRequest = (
           </LinkContainer>
         </>
       )}
+      <Divider />
+      <LinkContainer to='/borrow' activeClassName='active'>
+        <ActionButton data-e2e='borrowLink' name='borrow'>
+          <ButtonText>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.borrow'
+              defaultMessage='Borrow'
+            />
+          </ButtonText>
+        </ActionButton>
+      </LinkContainer>
     </Wrapper>
   )
 }

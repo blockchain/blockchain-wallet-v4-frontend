@@ -91,67 +91,6 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/airdrops' activeClassName='active'>
-        <MenuItem data-e2e='airdropLink' className='airdrop'>
-          <MenuIcon className='icon' name='parachute' size='24px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.airdrops'
-              defaultMessage='Airdrops'
-            />
-          </Destination>
-          {/* UNCOMMENT WHEN AIRDROPS ARE IN PROGRESS */}
-          {/* <NewCartridge> */}
-          {/*  <Text color='green600' size='12' weight={600} uppercase> */}
-          {/*    <FormattedMessage */}
-          {/*      id='layouts.wallet.menuleft.navigation.airdrop.active' */}
-          {/*      defaultMessage='Active' */}
-          {/*    /> */}
-          {/*  </Text> */}
-          {/* </NewCartridge> */}
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/borrow' activeClassName='active'>
-        <MenuItem data-e2e='borrowLink'>
-          <MenuIcon className='icon' name='borrow' size='20px' />
-          <Destination>
-            <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.borrow'
-              defaultMessage='Borrow'
-            />
-          </Destination>
-        </MenuItem>
-      </LinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
-          <ExchangeNavItem {...props} />
-        </MenuItem>
-      </LinkContainer>
-      {/* )} */}
-      {props.lockboxDevices.length > 0 ? (
-        <LinkContainer to='/lockbox' activeClassName='active'>
-          <MenuItem data-e2e='lockboxLink'>
-            <MenuIcon
-              className='icon'
-              name='hardware'
-              style={{ paddingLeft: '2px' }}
-              size='24px'
-            />
-            <Destination style={{ marginLeft: '-2px' }}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.hardware'
-                defaultMessage='Hardware'
-              />
-            </Destination>
-            <HelperTipContainer>
-              <HelperTip id='lockboxRequired'>
-                <TooltipIcon color='blue600' name='info' />
-              </HelperTip>
-            </HelperTipContainer>
-          </MenuItem>
-        </LinkContainer>
-      ) : null}
-      <Separator />
       {values(
         mapObjIndexed(
           (coin: SupportedCoinType, i) =>
@@ -188,6 +127,55 @@ const Navigation = (props: OwnProps & Props) => {
           coinOrder
         )
       )}
+      <Separator />
+      <LinkContainer to='/airdrops' activeClassName='active'>
+        <MenuItem data-e2e='airdropLink' className='airdrop'>
+          <MenuIcon className='icon' name='parachute' size='24px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.airdrops'
+              defaultMessage='Airdrops'
+            />
+          </Destination>
+          {/* UNCOMMENT WHEN AIRDROPS ARE IN PROGRESS */}
+          {/* <NewCartridge> */}
+          {/*  <Text color='green600' size='12' weight={600} uppercase> */}
+          {/*    <FormattedMessage */}
+          {/*      id='layouts.wallet.menuleft.navigation.airdrop.active' */}
+          {/*      defaultMessage='Active' */}
+          {/*    /> */}
+          {/*  </Text> */}
+          {/* </NewCartridge> */}
+        </MenuItem>
+      </LinkContainer>
+      <LinkContainer to='/exchange' activeClassName='active'>
+        <MenuItem data-e2e='exchangeLink'>
+          <ExchangeNavItem {...props} />
+        </MenuItem>
+      </LinkContainer>
+      {props.lockboxDevices.length > 0 ? (
+        <LinkContainer to='/lockbox' activeClassName='active'>
+          <MenuItem data-e2e='lockboxLink'>
+            <MenuIcon
+              className='icon'
+              name='hardware'
+              style={{ paddingLeft: '2px' }}
+              size='24px'
+            />
+            <Destination style={{ marginLeft: '-2px' }}>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.hardware'
+                defaultMessage='Hardware'
+              />
+            </Destination>
+            <HelperTipContainer>
+              <HelperTip id='lockboxRequired'>
+                <TooltipIcon color='blue600' name='info' />
+              </HelperTip>
+            </HelperTipContainer>
+          </MenuItem>
+        </LinkContainer>
+      ) : null}
     </Wrapper>
   )
 }
