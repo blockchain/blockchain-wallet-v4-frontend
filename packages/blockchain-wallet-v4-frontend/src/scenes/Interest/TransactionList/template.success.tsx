@@ -110,7 +110,7 @@ function TransactionList (props: Props): ReactElement | null {
                         weight={600}
                       />
                     </IconBackground>
-                    <Value>{coinTicker} Withdraw</Value>
+                    <Value data-e2e='withdrawalTx'>{coinTicker} Withdraw</Value>
                     {state === 'REJECTED' || state === 'FAILED' ? (
                       <ErrorTag>
                         <FormattedMessage
@@ -147,7 +147,7 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
 
-                    <Value>{coinTicker} Deposit</Value>
+                    <Value data-e2e='depositTx'>{coinTicker} Deposit</Value>
                     {state === 'REJECTED' || state === 'FAILED' ? (
                       <ErrorTag>
                         <FormattedMessage
@@ -176,7 +176,9 @@ function TransactionList (props: Props): ReactElement | null {
                 ) : (
                   <React.Fragment>
                     <Icon name='percentage' color={colorCode} size='32px' />
-                    <Value>{coinTicker} Interest Earned</Value>
+                    <Value data-e2e='interestEarnedTx'>
+                      {coinTicker} Interest Earned
+                    </Value>
                   </React.Fragment>
                 )}
               </InterestTableCell>
@@ -264,13 +266,26 @@ function TransactionList (props: Props): ReactElement | null {
                       }).value
                     }
                   </CoinAmountWrapper>
-                  {type !== 'INTEREST_OUTGOING' && (
+                  {type === 'DEPOSIT' && (
                     <ViewTransaction
                       data-e2e='viewTxHash'
                       onClick={() =>
                         interestActions.routeToTxHash(
                           coin,
                           extraAttributes.hash
+                        )
+                      }
+                    >
+                      View Transaction
+                    </ViewTransaction>
+                  )}
+                  {type === 'WITHDRAWAL' && state === 'COMPLETE' && (
+                    <ViewTransaction
+                      data-e2e='viewTxHash'
+                      onClick={() =>
+                        interestActions.routeToTxHash(
+                          coin,
+                          extraAttributes.txHash
                         )
                       }
                     >
