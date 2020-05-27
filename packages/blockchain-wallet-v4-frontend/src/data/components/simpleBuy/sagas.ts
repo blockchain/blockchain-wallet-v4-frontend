@@ -442,8 +442,13 @@ export default ({
     try {
       yield call(createUser)
       yield call(waitForUserData)
+      const isUserTier2: boolean = yield call(isTier2)
       yield put(A.fetchSBPaymentMethodsLoading())
-      const methods = yield call(api.getSBPaymentMethods, currency)
+      const methods = yield call(
+        api.getSBPaymentMethods,
+        currency,
+        isUserTier2 ? true : undefined
+      )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
     } catch (e) {
       const error = errorHandler(e)
