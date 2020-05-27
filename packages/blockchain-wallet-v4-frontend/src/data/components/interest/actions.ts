@@ -1,4 +1,4 @@
-import { CoinType, PaymentValue } from 'core/types'
+import { CoinType, FiatType, PaymentValue } from 'core/types'
 import {
   InterestAccountBalanceType,
   InterestAccountType,
@@ -79,8 +79,10 @@ export const fetchInterestInstrumentsSuccess = (
 })
 
 // LIMITS
-export const fetchInterestLimits = () => ({
-  type: AT.FETCH_INTEREST_LIMITS
+export const fetchInterestLimits = (coin: CoinType, currency: FiatType) => ({
+  type: AT.FETCH_INTEREST_LIMITS,
+  coin,
+  currency
 })
 export const fetchInterestLimitsFailure = (
   error: string
@@ -174,8 +176,8 @@ export const setTransactionsNextPage = (
 export const initializeDepositModal = (): InterestActionTypes => ({
   type: AT.INITIALIZE_DEPOSIT_MODAL
 })
-export const initializeDepositForm = (coin: CoinType) => ({
-  payload: { coin },
+export const initializeDepositForm = (coin: CoinType, currency: FiatType) => ({
+  payload: { coin, currency },
   type: AT.INITIALIZE_DEPOSIT_FORM
 })
 export const setDepositLimits = (limits: InterestMinMaxType) => ({
