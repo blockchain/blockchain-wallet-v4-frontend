@@ -100,9 +100,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         </Text>
       </Row>
       <Row>
-        <TooltipHost id='earninterest.calculation.tooltip'>
-          <TooltipIcon name='info' size='14px' />
-        </TooltipHost>
         <Text
           size='12px'
           weight={500}
@@ -128,6 +125,9 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             />
           )}
         </Text>
+        <TooltipHost id='earninterest.calculation.tooltip'>
+          <TooltipIcon name='info' size='14px' />
+        </TooltipHost>
       </Row>
       <Separator />
       <AmountRow>
