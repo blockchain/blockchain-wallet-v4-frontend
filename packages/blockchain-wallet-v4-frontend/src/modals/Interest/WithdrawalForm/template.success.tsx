@@ -83,7 +83,7 @@ const CustomFormLabel = styled(FormLabel)`
 `
 const CustomField = styled(Field)<BaseFieldProps>`
   > input {
-    padding-left: 30px;
+    padding-left: 45px;
   }
 `
 const AmountFieldContainer = styled.div`

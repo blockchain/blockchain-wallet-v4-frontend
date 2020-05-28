@@ -33,6 +33,7 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 const AccountSummary: React.FC<Props> = props => {
   const {
     accountBalances,
+    availToWithdraw,
     coin,
     handleClose,
     handleDepositClick,
@@ -408,7 +409,7 @@ const AccountSummary: React.FC<Props> = props => {
       <Bottom>
         <ButtonContainer>
           <Button
-            disabled={account && account.balance <= 0}
+            disabled={!account || availToWithdraw <= 0}
             data-e2e='interestWithdraw'
             fullwidth
             height='48px'
