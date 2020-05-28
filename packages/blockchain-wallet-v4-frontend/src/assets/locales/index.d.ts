@@ -298,7 +298,7 @@ type MessagesType = {
   'copy.view': 'View'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
   'exchange-side-nav-tooltip-connected': 'connected'
-  'exchangepromo.accesspairs': 'Access 26 trading pairs on the Exchange.'
+  'exchangepromo.pairs': 'Access 20+ trading pairs on the Exchange.'
   'exchangepromo.trade': 'Trade'
   'exchangepromo.upgradeaccount': 'Upgrade your account to buy, sell, and trade.'
   'faq.tooltip.description': 'Frequently Asked Questions'

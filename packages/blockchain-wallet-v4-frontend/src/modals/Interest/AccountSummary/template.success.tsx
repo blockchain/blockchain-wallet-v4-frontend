@@ -27,6 +27,7 @@ import {
   Wrapper
 } from './model'
 
+import { Exchange } from 'core'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const AccountSummary: React.FC<Props> = props => {
@@ -46,6 +47,21 @@ const AccountSummary: React.FC<Props> = props => {
   const account = accountBalances && accountBalances[coin]
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
 
+  const accountBalanceStandard =
+    account &&
+    Exchange.convertCoinToCoin({
+      value: account.balance || 0,
+      coin: 'BTC',
+      baseToStandard: true
+    }).value
+
+  const interestBalanceStandard =
+    account &&
+    Exchange.convertCoinToCoin({
+      value: account.totalInterest || 0,
+      coin: 'BTC',
+      baseToStandard: true
+    }).value
   return (
     <Wrapper>
       <Top>
@@ -73,7 +89,12 @@ const AccountSummary: React.FC<Props> = props => {
         </TopText>
         <Row>
           <Container>
-            <Text color='grey600' size='14px' weight={500}>
+            <Text
+              color='grey600'
+              size='14px'
+              weight={500}
+              style={{ marginBottom: '5px' }}
+            >
               <FormattedMessage
                 id='modals.interest.detailsbalance'
                 defaultMessage='Your {coin} Balance'
@@ -81,9 +102,24 @@ const AccountSummary: React.FC<Props> = props => {
               />
             </Text>
             {account ? (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                {account.balance}
-              </FiatDisplay>
+              <>
+                <FiatDisplay
+                  color='grey800'
+                  size='20px'
+                  weight={600}
+                  coin={coin}
+                >
+                  {account.balance}
+                </FiatDisplay>
+                <Text
+                  color='grey600'
+                  size='14px'
+                  weight={500}
+                  style={{ marginTop: '5px' }}
+                >
+                  {accountBalanceStandard} {coin}
+                </Text>
+              </>
             ) : (
               <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
                 0
@@ -91,16 +127,36 @@ const AccountSummary: React.FC<Props> = props => {
             )}
           </Container>
           <Container>
-            <Text color='grey600' size='14px' weight={500}>
+            <Text
+              color='grey600'
+              size='14px'
+              weight={500}
+              style={{ marginBottom: '5px' }}
+            >
               <FormattedMessage
                 id='modals.interest.totalearned'
                 defaultMessage='Total Interest Earned'
               />
             </Text>
             {account ? (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                {account.totalInterest}
-              </FiatDisplay>
+              <>
+                <FiatDisplay
+                  color='grey800'
+                  size='20px'
+                  weight={600}
+                  coin={coin}
+                >
+                  {account.totalInterest}
+                </FiatDisplay>
+                <Text
+                  color='grey600'
+                  size='14px'
+                  weight={500}
+                  style={{ marginTop: '5px' }}
+                >
+                  {interestBalanceStandard} {coin}
+                </Text>
+              </>
             ) : (
               <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
                 0

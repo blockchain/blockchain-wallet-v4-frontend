@@ -81,6 +81,11 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   }).value
   const totalInterest =
     interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
+  const totalInterestStandard = Exchange.convertCoinToCoin({
+    value: totalInterest || 0,
+    coin: 'BTC',
+    baseToStandard: true
+  }).value
   return (
     <DepositBox showInterestInfoBox={showInterestInfoBox}>
       <Row>
@@ -95,9 +100,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         </Text>
       </Row>
       <Row>
-        <TooltipHost id='earninterest.calculation.tooltip'>
-          <TooltipIcon name='info' size='14px' />
-        </TooltipHost>
         <Text
           size='12px'
           weight={500}
@@ -123,6 +125,9 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             />
           )}
         </Text>
+        <TooltipHost id='earninterest.calculation.tooltip'>
+          <TooltipIcon name='info' size='14px' />
+        </TooltipHost>
       </Row>
       <Separator />
       <AmountRow>
@@ -146,6 +151,17 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           >
             {balanceStandard} {coinTicker}
           </Text>
+          <Text
+            size='12px'
+            weight={500}
+            style={{ lineHeight: '1.5', marginTop: '5px' }}
+          >
+            <FormattedMessage
+              id='modals.interest.detailsbalance'
+              defaultMessage='Your {coin} Balance'
+              values={{ coin }}
+            />
+          </Text>
         </AmountColumn>
         <AmountColumn>
           <FiatDisplay
@@ -159,7 +175,19 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           >
             {totalInterest}
           </FiatDisplay>
-          <Text size='12px' weight={500} style={{ lineHeight: '1.5' }}>
+          <Text
+            data-e2e='btcInterest'
+            size='12px'
+            weight={500}
+            style={{ lineHeight: '1.5' }}
+          >
+            {totalInterestStandard} {coinTicker}
+          </Text>
+          <Text
+            size='12px'
+            weight={500}
+            style={{ lineHeight: '1.5', marginTop: '5px' }}
+          >
             <FormattedMessage
               id='scenes.interest.summarycard.totalinterest'
               defaultMessage='Total Interest Earned'
