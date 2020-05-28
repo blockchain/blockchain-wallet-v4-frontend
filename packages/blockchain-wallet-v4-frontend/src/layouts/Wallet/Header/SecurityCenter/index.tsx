@@ -1,8 +1,8 @@
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
+  NavbarNavItemIcon,
   NavbarNavItemTextHeader,
-  NavbarNavItemTextIcon,
   NavbarNavItemTextLink
 } from 'components/Navbar'
 import React from 'react'
@@ -15,22 +15,9 @@ const SecurityCenter = () => {
       to='/security-center'
     >
       <NavbarNavItemTextLink>
-        <NavbarNavItemTextIcon
-          className='icon'
-          size='18px'
-          color='whiteFade900'
-          name='shield'
-        />
-        <NavbarNavItemTextHeader
-          size='14px'
-          weight={600}
-          color='whiteFade900'
-          className='settings'
-        >
-          <FormattedMessage
-            id='layouts.wallet.header.seccenter'
-            defaultMessage='Security Center'
-          />
+        <NavbarNavItemIcon size='18px' name='shield' />
+        <NavbarNavItemTextHeader size='14px' weight={600}>
+          <FormattedMessage id='buttons.security' defaultMessage='Security' />
         </NavbarNavItemTextHeader>
       </NavbarNavItemTextLink>
     </LinkContainer>

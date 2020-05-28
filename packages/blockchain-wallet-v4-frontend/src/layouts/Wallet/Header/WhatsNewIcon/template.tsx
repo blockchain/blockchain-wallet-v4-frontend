@@ -1,14 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Link, TooltipHost } from 'blockchain-info-components'
-import { NavbarIcon } from 'components/Navbar'
+import { NavbarNavItemIcon, NavbarNavItemTextLink } from 'components/Navbar'
+import { TooltipHost } from 'blockchain-info-components'
 
-const WhatsNewLink = styled(Link)`
-  position: relative;
-  padding: 5px;
-  border-radius: 4px;
-`
 const NotificationBadge = styled.div`
   border-radius: 50%;
   width: 16px;
@@ -27,18 +22,12 @@ const WhatsNewIcon = props => {
   const { onClick, numOfNewAnnouncements = 0 } = props
   return (
     <TooltipHost id='whatsnew.tooltip'>
-      <WhatsNewLink onClick={onClick} data-e2e='notificationsLink'>
+      <NavbarNavItemTextLink onClick={onClick} data-e2e='notificationsLink'>
         {numOfNewAnnouncements > 0 ? (
           <NotificationBadge>{numOfNewAnnouncements}</NotificationBadge>
         ) : null}
-        <NavbarIcon
-          id='whatsnew-icon'
-          name='bell'
-          color='whiteFade900'
-          size='22px'
-          cursor
-        />
-      </WhatsNewLink>
+        <NavbarNavItemIcon name='bell' size='22px' cursor />
+      </NavbarNavItemTextLink>
     </TooltipHost>
   )
 }

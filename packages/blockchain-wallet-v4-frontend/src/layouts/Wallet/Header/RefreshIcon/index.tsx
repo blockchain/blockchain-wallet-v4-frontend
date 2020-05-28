@@ -1,13 +1,11 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
 import { actions } from 'data'
-import Refresh from './template.js'
+import Refresh from './template'
 
-const ANIMATE_TIME = 0.5
-
-class RefreshContainer extends React.PureComponent {
+class RefreshContainer extends React.PureComponent<Props> {
   state = {
     rotating: false
   }
@@ -16,7 +14,7 @@ class RefreshContainer extends React.PureComponent {
     this.setState({ rotating: true })
     setTimeout(() => {
       this.setState({ rotating: false })
-    }, ANIMATE_TIME * 1000)
+    }, 0.5 * 1000)
   }
 
   render () {
@@ -29,7 +27,6 @@ class RefreshContainer extends React.PureComponent {
           }
         }}
         rotating={this.state.rotating}
-        animateTime={ANIMATE_TIME}
       />
     )
   }
@@ -39,7 +36,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(RefreshContainer)
+const connector = connect(undefined, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(RefreshContainer)

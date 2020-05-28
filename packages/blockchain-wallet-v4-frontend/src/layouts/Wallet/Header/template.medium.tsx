@@ -6,7 +6,6 @@ import {
 } from 'components/Navbar/NavbarDropdown'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Image } from 'blockchain-info-components'
-import { LinkDispatchPropsType } from '.'
 import {
   Navbar,
   NavbarBrand,
@@ -14,9 +13,10 @@ import {
   NavbarMenu,
   NavbarNav,
   NavbarNavItem,
-  NavbarNavItemTextIcon
+  NavbarNavItemIcon
 } from 'components/Navbar'
 import { NavLink } from 'react-router-dom'
+import { Props as OwnProps } from '.'
 import { useOnClickOutside } from 'services/HooksService'
 import media from 'services/ResponsiveService'
 import React, { useRef, useState } from 'react'
@@ -27,7 +27,7 @@ import styled from 'styled-components'
 
 type Props = {
   handleToggle: () => void
-} & LinkDispatchPropsType
+} & OwnProps
 
 const NavbarContainer = styled.div`
   background-color: ${props => props.theme.grey900};
@@ -96,12 +96,7 @@ const Small: React.FC<Props> = props => {
             <NavbarNavItemWithText
               onClick={() => toggleIsMenuOpen(!isMenuOpen)}
             >
-              <NavbarNavItemTextIcon
-                className='icon'
-                size='6px'
-                color='whiteFade900'
-                name='ellipsis'
-              />
+              <NavbarNavItemIcon size='6px' name='ellipsis' />
               {isMenuOpen && (
                 <DropdownMenu ref={ref}>
                   <DropdownMenuArrowStyled />

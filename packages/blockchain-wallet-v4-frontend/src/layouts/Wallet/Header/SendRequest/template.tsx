@@ -1,186 +1,102 @@
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
-import styled from 'styled-components'
 
-import { IconButton, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
-
+import {
+  NavbarDivider,
+  NavbarMenu,
+  NavbarNavItem,
+  NavbarNavItemIcon,
+  NavbarNavItemTextHeader,
+  NavbarNavItemTextLink
+} from 'components/Navbar'
 import { Props } from '.'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: auto;
-
-  ${media.atLeastTablet`
-    margin-top: 0;
-  `}
-
-  ${media.mobile`
-    flex-shrink: 0;
-  `}
-`
-const Divider = styled.div`
-  height: 18px;
-  border-left: 1px solid ${props => props.theme.whiteFade400};
-`
-const ActionButton = styled(IconButton)`
-  position: relative;
-  border: none;
-  background-color: transparent;
-  margin: 0px 6px;
-
-  &:last-child {
-    margin-right: 0px;
-    padding-right: 0px;
-  }
-
-  & > span {
-    color: ${props => props.theme.whiteFade700};
-    font-size: 20px;
-  }
-  & > div > span {
-    color: ${props => props.theme.whiteFade700};
-    font-size: 14px;
-  }
-
-  &:hover {
-    background-color: transparent;
-    color: ${props => props.theme.whiteFade900};
-
-    & > span {
-      color: ${props => props.theme.whiteFade900};
-    }
-    & > div > span {
-      color: ${props => props.theme.whiteFade900};
-    }
-  }
-
-  ${media.tabletL`
-    & > span {
-      color: ${props => props.theme.whiteFade900};
-      font-size: 20px;
-    }
-    & > div > span {
-      color: ${props => props.theme.whiteFade900};
-      font-size: 14px;
-    }
-
-    &:hover {
-      background-color: transparent;
-      color: ${props => props.theme.whiteFade900};
-
-      & > span {
-        color: ${props => props.theme.whiteFade900};
-      }
-      & > div > span {
-        color: ${props => props.theme.whiteFade900};
-      }
-    }
-  `}
-
-  ${media.mobile`
-    padding: 10px 10px;
-    div:last-of-type {
-      font-size: 13px;
-    }
-    & > span {
-      display: none;
-    }
-
-  `};
-`
-
-const ButtonText = styled(Text)`
-  margin-left: 6px;
-`
 
 const SendRequest = (
   props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
 ) => {
   return (
-    <Wrapper>
-      <Divider />
-      <ActionButton
-        data-e2e='sendButton'
-        disabled={!props.sendAvailable}
-        name='send'
-        onClick={() => props.showModal('SEND')}
-        width='70px'
-      >
-        <ButtonText size='16px' weight={600} color='blue900'>
-          <FormattedMessage
-            id='layouts.wallet.menutop.send'
-            defaultMessage='Send'
-          />
-        </ButtonText>
-      </ActionButton>
-      <Divider />
-      <ActionButton
-        data-e2e='requestButton'
-        disabled={!props.requestAvailable}
-        name='request'
-        onClick={() => props.showModal('REQUEST')}
-        width='70px'
-      >
-        <ButtonText size='16px' weight={600} color='blue900'>
-          <FormattedMessage
-            id='layouts.wallet.menutop.request'
-            defaultMessage='Request'
-          />
-        </ButtonText>
-      </ActionButton>
-      <Divider />
+    <NavbarMenu>
+      <NavbarNavItem>
+        <NavbarNavItemTextLink
+          data-e2e='sendButton'
+          disabled={!props.sendAvailable}
+          onClick={() => props.showModal('SEND')}
+        >
+          <NavbarNavItemIcon size='18px' name='send' />
+          <NavbarNavItemTextHeader size='14px' weight={600}>
+            <FormattedMessage id='buttons.send' defaultMessage='Send' />
+          </NavbarNavItemTextHeader>
+        </NavbarNavItemTextLink>
+      </NavbarNavItem>
+      <NavbarDivider />
+      <NavbarNavItem>
+        <NavbarNavItemTextLink
+          data-e2e='requestButton'
+          disabled={!props.requestAvailable}
+          onClick={() => props.showModal('REQUEST')}
+        >
+          <NavbarNavItemIcon size='18px' name='request' />
+          <NavbarNavItemTextHeader size='14px' weight={600}>
+            <FormattedMessage id='buttons.request' defaultMessage='Request' />
+          </NavbarNavItemTextHeader>
+        </NavbarNavItemTextLink>
+      </NavbarNavItem>
+      <NavbarDivider />
       <LinkContainer to='/swap' activeClassName='active'>
-        <ActionButton data-e2e='exchangeLink' name='arrow-switch-thick'>
-          <ButtonText>
-            <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
-          </ButtonText>
-        </ActionButton>
+        <NavbarNavItem>
+          <NavbarNavItemTextLink data-e2e='exchangeLink'>
+            <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
+            <NavbarNavItemTextHeader size='14px' weight={600}>
+              <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
+            </NavbarNavItemTextHeader>
+          </NavbarNavItemTextLink>
+        </NavbarNavItem>
       </LinkContainer>
-      <Divider />
-      <ActionButton
-        data-e2e='buyAndSellLink'
-        onClick={() => props.simpleBuyActions.showModal('SideNav')}
-        name='cart-filled'
-      >
-        <ButtonText>
-          <FormattedMessage
-            id='buttons.buy_crypto'
-            defaultMessage='Buy Crypto'
-          />
-        </ButtonText>
-      </ActionButton>
-      {props.invitations.interest && (
-        <>
-          <Divider />
-          <LinkContainer to='/interest' activeClassName='active'>
-            <ActionButton data-e2e='interestLink' name='percentage'>
-              <ButtonText>
-                <FormattedMessage
-                  id='layouts.wallet.menuleft.navigation.earninterest'
-                  defaultMessage='Earn Interest'
-                />
-              </ButtonText>
-            </ActionButton>
-          </LinkContainer>
-        </>
-      )}
-      <Divider />
-      <LinkContainer to='/borrow' activeClassName='active'>
-        <ActionButton data-e2e='borrowLink' name='borrow'>
-          <ButtonText>
+      <NavbarDivider />
+      <NavbarNavItem>
+        <NavbarNavItemTextLink
+          data-e2e='buyAndSellLink'
+          onClick={() => props.simpleBuyActions.showModal('SideNav')}
+        >
+          <NavbarNavItemIcon size='18px' name='cart-filled' />
+          <NavbarNavItemTextHeader size='14px' weight={600}>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.borrow'
-              defaultMessage='Borrow'
+              id='buttons.buy_crypto'
+              defaultMessage='Buy Crypto'
             />
-          </ButtonText>
-        </ActionButton>
+          </NavbarNavItemTextHeader>
+        </NavbarNavItemTextLink>
+      </NavbarNavItem>
+      <NavbarDivider />
+      <LinkContainer to='/interest' activeClassName='active'>
+        <NavbarNavItem>
+          <NavbarNavItemTextLink data-e2e='interestLink'>
+            <NavbarNavItemIcon size='18px' name='percentage' />
+            <NavbarNavItemTextHeader size='14px' weight={600}>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.earninterest'
+                defaultMessage='Earn Interest'
+              />
+            </NavbarNavItemTextHeader>
+          </NavbarNavItemTextLink>
+        </NavbarNavItem>
       </LinkContainer>
-    </Wrapper>
+      <NavbarDivider />
+      <LinkContainer to='/borrow' activeClassName='active'>
+        <NavbarNavItem>
+          <NavbarNavItemTextLink data-e2e='interestLink'>
+            <NavbarNavItemIcon size='18px' name='borrow' />
+            <NavbarNavItemTextHeader size='14px' weight={600}>
+              <FormattedMessage
+                id='layouts.wallet.menuleft.navigation.borrow'
+                defaultMessage='Borrow'
+              />
+            </NavbarNavItemTextHeader>
+          </NavbarNavItemTextLink>
+        </NavbarNavItem>
+      </LinkContainer>
+    </NavbarMenu>
   )
 }
 

@@ -1,18 +1,10 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import React from 'react'
 
 import { actions } from 'data'
 import Header from './template'
-
-export type LinkDispatchPropsType = {
-  actions: typeof actions.components.layoutWallet
-  modalActions: typeof actions.modals
-  refreshActions: typeof actions.components.refresh
-}
-
-type Props = LinkDispatchPropsType
 
 class HeaderContainer extends React.PureComponent<Props> {
   render () {
@@ -31,9 +23,8 @@ const mapDispatchToProps = dispatch => ({
   refreshActions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(HeaderContainer)
-)
+const connector = connect(null, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+export default withRouter(connector(HeaderContainer))

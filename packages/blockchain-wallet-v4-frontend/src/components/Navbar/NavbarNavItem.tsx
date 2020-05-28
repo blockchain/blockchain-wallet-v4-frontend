@@ -1,22 +1,16 @@
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
-  margin-right: 8px;
+  padding: 0px 16px;
   cursor: pointer;
+  &:first-child {
+    padding-left: 0px;
+  }
   &:last-child {
     margin-right: 0px;
   }
-
-  ${media.tablet`
-    min-width: 26px;
-    > a  > span,
-    > div > a  > span {
-      font-size: 18px;
-    }
-  `};
 `
 
 const NavbarNavItem = props => {

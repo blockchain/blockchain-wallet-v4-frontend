@@ -23,7 +23,7 @@ export const DropdownMenuItem = styled(MenuItem)`
 export const DropdownMenuArrow = styled.div`
   position: absolute;
   top: -8px;
-  right: 64px;
+  right: 8px;
   ${props => {
     return triangle({
       pointingDirection: 'top',

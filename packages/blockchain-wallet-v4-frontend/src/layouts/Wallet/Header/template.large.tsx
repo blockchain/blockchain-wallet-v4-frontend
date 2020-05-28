@@ -2,6 +2,7 @@ import { Icon, Image } from 'blockchain-info-components'
 import {
   Navbar,
   NavbarBrand,
+  NavbarDivider,
   NavbarHeader,
   NavbarMenu,
   NavbarNav,
@@ -14,23 +15,11 @@ import SecurityCenter from './SecurityCenter'
 import SendRequest from './SendRequest'
 import Settings from './Settings'
 import styled from 'styled-components'
-import WhatsNewIcon from './WhatsNewIcon'
 
 type Props = {
   handleToggle: () => void
 }
 
-const NavbarNavItemSpacer = styled(NavbarNavItem)`
-  margin-right: 24px;
-`
-const NavbarNavItemWithText = styled(NavbarNavItem)`
-  padding: 0 26px;
-  margin: 0;
-  border-left: 1px solid ${props => props.theme.whiteFade400};
-  &:last-child {
-    padding-right: 0;
-  }
-`
 const BlockchainLogoImage = styled(Image)`
   width: 200px;
   display: block;
@@ -61,20 +50,21 @@ const Large: React.FC<Props> = props => {
         </NavbarBrand>
       </NavbarHeader>
       <NavbarMenuStyled>
-        <SendRequest />
-        <NavbarNav style={{ marginRight: '8px' }}>
+        <NavbarNav>
+          <SendRequest />
+        </NavbarNav>
+        <NavbarNav>
           <NavbarNavItem>
-            <WhatsNewIcon />
-          </NavbarNavItem>
-          <NavbarNavItemSpacer>
-            <RefreshIcon />
-          </NavbarNavItemSpacer>
-          <NavbarNavItemWithText>
             <SecurityCenter />
-          </NavbarNavItemWithText>
-          <NavbarNavItemWithText>
+          </NavbarNavItem>
+          <NavbarDivider />
+          <NavbarNavItem>
+            <RefreshIcon />
+          </NavbarNavItem>
+          <NavbarDivider />
+          <NavbarNavItem>
             <Settings {...props} />
-          </NavbarNavItemWithText>
+          </NavbarNavItem>
         </NavbarNav>
       </NavbarMenuStyled>
     </NavbarStyled>

@@ -27,6 +27,9 @@ type MessagesType = {
   'buttons.learn_more': 'Learn More'
   'buttons.ok': 'OK'
   'buttons.remove': 'Remove'
+  'buttons.request': 'Request'
+  'buttons.security': 'Security'
+  'buttons.send': 'Send'
   'buttons.show': 'Show'
   'buttons.swap': 'Swap'
   'buttons.viewstatus': 'View Status'
@@ -425,7 +428,6 @@ type MessagesType = {
   'layouts.wallet.header.preferences': 'Preferences'
   'layouts.wallet.header.profile': 'Profile'
   'layouts.wallet.header.seccenter': 'Security Center'
-  'layouts.wallet.header.settings': 'Settings'
   'layouts.wallet.header.small.refresh': 'Refresh'
   'layouts.wallet.header.small.whats_new': "What's New?"
   'layouts.wallet.header.walletsaddresses': 'Wallets & Addresses'

@@ -1,4 +1,3 @@
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -8,12 +7,9 @@ const BaseNav = styled.ul`
   justify-content: flex-start;
   align-items: center;
   margin: 0;
-  padding: 0 26px;
+  padding: 0;
   box-sizing: border-box;
   list-style-type: none;
-  ${media.tablet`
-    padding: 0 10px;
-  `};
 `
 
 const NavbarNav = props => {

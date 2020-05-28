@@ -6,11 +6,7 @@ import {
 } from 'components/Navbar/NavbarDropdown'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import {
-  NavbarNavItemTextHeader,
-  NavbarNavItemTextIcon,
-  NavbarNavItemTextLink
-} from 'components/Navbar'
+import { NavbarNavItemIcon, NavbarNavItemTextLink } from 'components/Navbar'
 import onClickOutside from 'react-onclickoutside'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
@@ -36,23 +32,7 @@ const Settings = props => {
       className={isMenuOpen && 'active'}
       onClick={() => toggleIsMenuOpen(!isMenuOpen)}
     >
-      <NavbarNavItemTextIcon
-        className='icon'
-        name='cog-filled'
-        size='18px'
-        color='whiteFade900'
-      />
-      <NavbarNavItemTextHeader
-        size='14px'
-        weight={600}
-        color='whiteFade900'
-        className='settings'
-      >
-        <FormattedMessage
-          id='layouts.wallet.header.settings'
-          defaultMessage='Settings'
-        />
-      </NavbarNavItemTextHeader>
+      <NavbarNavItemIcon name='cog-filled' size='18px' />
       {isMenuOpen && (
         <DropdownMenu>
           <DropdownMenuArrow />
