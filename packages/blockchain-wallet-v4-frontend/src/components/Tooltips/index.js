@@ -24,6 +24,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
           />
         </Tooltip>
+        <Tooltip id='import.privatekeys'>
+          <FormattedMessage
+            id='modals.import.privatekeys.tooltip'
+            defaultMessage='Private key format must be compressed WIF. If you are importing a private key that is in an uncompressed format, please convert it to compressed prior to importing.'
+          />
+        </Tooltip>
         <Tooltip id='recurring.tooltip'>
           <FormattedMessage
             id='orderdetails.recurring.tooltip'
@@ -288,6 +294,42 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='tooltip.comingsoon'
             defaultMessage='Coming soon.'
+          />
+        </Tooltip>
+        <Tooltip id='earninterest.calculation.tooltip'>
+          <FormattedMessage
+            id='earninterestform.tooltip.calculations'
+            defaultMessage='The rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.depositmax.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.max.tooltip'
+            defaultMessage='Maximum deposit is determined by spendable balance minus priority fee.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.calculator.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.calculator.tooltip'
+            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.tooltip.description'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.lock.tooltip.description'
+            defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
+          <FormattedMessage
+            id='modals.interest.moredetails.tooltip.description'
+            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
           />
         </Tooltip>
       </TooltipWrapper>

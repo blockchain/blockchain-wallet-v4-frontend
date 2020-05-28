@@ -38,8 +38,17 @@ let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
+    const apiToken = yield select(selectors.modules.profile.getApiToken)
     if (Remote.Success.is(userData)) return
+    if (Remote.Failure.is(apiToken)) return
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    return userData.tiers && userData.tiers.current >= 2
   }
 
   const getCampaignData = function * (campaign) {
@@ -516,6 +525,7 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     recoverUser,

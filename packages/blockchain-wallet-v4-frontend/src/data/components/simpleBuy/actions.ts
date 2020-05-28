@@ -25,18 +25,15 @@ export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
   card
 })
-
 export const activateSBCardFailure = (error: string): SimpleBuyActionTypes => ({
   type: AT.ACTIVATE_SB_CARD_FAILURE,
   payload: {
     error
   }
 })
-
 export const activateSBCardLoading = (): SimpleBuyActionTypes => ({
   type: AT.ACTIVATE_SB_CARD_LOADING
 })
-
 export const activateSBCardSuccess = (
   providerDetails: SBProviderDetailsType
 ): SimpleBuyActionTypes => ({
@@ -88,13 +85,22 @@ export const confirmSBCreditCardOrder = (
   paymentMethodId
 })
 
+export const deleteSBCard = (cardId?: SBCardType['id']) => ({
+  type: AT.DELETE_SB_CARD,
+  cardId
+})
+
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const fetchSBBalances = (currency?: CoinType) => ({
+export const fetchSBBalances = (
+  currency?: CoinType,
+  skipLoading?: boolean
+) => ({
   type: AT.FETCH_SB_BALANCES,
-  currency
+  currency,
+  skipLoading
 })
 
 export const fetchSBBalancesFailure = (

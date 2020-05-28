@@ -7,6 +7,7 @@ import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
+import * as interest from './interest/actions'
 import * as layoutWallet from './layoutWallet/actions'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
@@ -44,6 +45,7 @@ export {
   exchangeHistory,
   identityVerification,
   importBtcAddress,
+  interest,
   manageAddresses,
   onboarding,
   onfido,

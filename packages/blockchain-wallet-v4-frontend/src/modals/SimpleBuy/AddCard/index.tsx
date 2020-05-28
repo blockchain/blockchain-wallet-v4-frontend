@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { FiatType, RemoteDataType, SBPaymentMethodsType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
+import { SBAddCardFormValuesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -52,6 +53,7 @@ type LinkStatePropsType = {
 }
 export type SuccessStateType = {
   fiatCurrency: FiatType
+  formValues?: SBAddCardFormValuesType
   paymentMethods: SBPaymentMethodsType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

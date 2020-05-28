@@ -13,6 +13,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data('pax'))
+      yield put(actions.components.interest.fetchInterestAccountBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
       yield put(actions.components.simpleBuy.fetchSBOrders())
       // Rates
@@ -46,6 +47,9 @@ export default () => {
           yield put(actions.modules.profile.fetchUserDataLoading())
           yield put(actions.modules.profile.fetchUser())
           yield put(actions.modules.profile.fetchUserCampaigns())
+          break
+        case contains('/settings/general', pathname):
+          yield put(actions.components.simpleBuy.fetchSBCards(true))
           break
         case contains('/swap/history', pathname):
           yield put(actions.components.exchangeHistory.clearTrades())

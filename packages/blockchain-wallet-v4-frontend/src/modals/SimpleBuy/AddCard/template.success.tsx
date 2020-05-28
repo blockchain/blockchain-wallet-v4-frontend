@@ -8,6 +8,10 @@ import {
   FormLabel,
   TextBox
 } from 'components/Form'
+import {
+  DEFAULT_SECURITY_CODE_NAME,
+  getCardTypeByValue
+} from 'components/Form/CreditCardBox/model'
 import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -27,7 +31,7 @@ import {
 import { Props as OwnProps, SuccessStateType } from '.'
 import { required } from 'services/FormHelper'
 import { SBAddCardErrorType } from 'data/types'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -100,16 +104,21 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             <Field
               name='expiry-date'
               placeholder='12/40'
-              component={CreditCardExpiryBox}
+              component={CreditCardExpiryBox as FunctionComponent}
               normalize={normalizeCreditCardExpiry}
               validate={[required, validateCreditCardExpiry]}
             />
           </FormItem>
           <FormItem>
-            <FormLabel>CVC</FormLabel>
+            <FormLabel>
+              {(props.formValues &&
+                getCardTypeByValue(props.formValues['card-number'])
+                  ?.securityCodeName) ||
+                DEFAULT_SECURITY_CODE_NAME}
+            </FormLabel>
             <Field
               name='cvc'
-              component={CreditCardCVCBox}
+              component={CreditCardCVCBox as FunctionComponent}
               normalize={normalizeCreditCardCVC}
               validate={[required, validateCreditCardCVC]}
             />

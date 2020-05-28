@@ -6,6 +6,7 @@ import {
   SBOrderType
 } from 'core/types'
 import DataError from 'components/DataError'
+import InterestTransactions from './template.interest'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import SimpleBuyListItem from './template.simplebuy'
@@ -24,22 +25,12 @@ const TransactionsWrapper = styled.div`
     }
   }
 `
-export type Props = {
-  coin: CoinType
-  coinTicker: string
-  currency: FiatType
-  data: RemoteDataType<
-    { message: string },
-    Array<SBOrderType | ProcessedTxType>
-  >
-  onArchive: (address: string) => void
-  onLoadMore: () => void
-  onRefresh: () => void
-}
 
 class TransactionList extends PureComponent<Props> {
   render () {
-    const { coin, coinTicker, currency, data } = this.props
+    const { coin, coinTicker, currency, data, sourceType } = this.props
+
+    if (sourceType && sourceType === 'INTEREST') return <InterestTransactions />
 
     return data.cata({
       Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
@@ -66,6 +57,20 @@ class TransactionList extends PureComponent<Props> {
       NotAsked: () => <Loading />
     })
   }
+}
+
+export type Props = {
+  coin: CoinType
+  coinTicker: string
+  currency: FiatType
+  data: RemoteDataType<
+    { message: string },
+    Array<SBOrderType | ProcessedTxType>
+  >
+  onArchive: (address: string) => void
+  onLoadMore: () => void
+  onRefresh: () => void
+  sourceType?: string
 }
 
 export default TransactionList

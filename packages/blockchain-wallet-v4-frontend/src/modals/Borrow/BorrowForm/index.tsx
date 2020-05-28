@@ -15,6 +15,45 @@ import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
+class BorrowForm extends PureComponent<Props> {
+  state = {}
+
+  componentDidMount () {
+    this.props.borrowActions.initializeBorrow('BTC')
+  }
+
+  handleRefresh = () => {
+    this.props.borrowActions.initializeBorrow('BTC')
+  }
+
+  handleSubmit = () => {
+    this.props.borrowActions.setStep({
+      step: 'CONFIRM',
+      offer: this.props.offer
+    })
+  }
+
+  render () {
+    const { data } = this.props
+    return data.cata({
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      ),
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
+  }
+}
+
+const mapStateToProps = (state): LinkStatePropsType => ({
+  data: getData(state)
+})
+
+const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  borrowActions: bindActionCreators(actions.components.borrow, dispatch)
+})
+
 export type OwnProps = {
   handleClose: () => void
   offer: OfferType
@@ -38,51 +77,6 @@ type LinkStatePropsType = {
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-class BorrowForm extends PureComponent<Props> {
-  state = {}
-
-  componentDidMount () {
-    this.props.borrowActions.initializeBorrow('BTC')
-  }
-
-  handleRefresh = () => {
-    this.props.borrowActions.initializeBorrow('BTC')
-  }
-
-  handleSubmit = () => {
-    this.props.borrowActions.setStep({
-      step: 'CONFIRM',
-      offer: this.props.offer
-    })
-  }
-
-  render () {
-    const { data } = this.props
-
-    return data.cata({
-      Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
-      ),
-      Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
-  }
-}
-
-const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
-})
-
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  borrowActions: bindActionCreators(actions.components.borrow, dispatch)
-})
-
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(BorrowForm)

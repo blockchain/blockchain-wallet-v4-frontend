@@ -8,6 +8,13 @@ import {
   convertBaseToStandard,
   convertStandardToBase
 } from '../exchange/services'
+import {
+  DEFAULT_SB_BALANCES,
+  getCoinFromPair,
+  getFiatFromPair,
+  NO_FIAT_CURRENCY,
+  NO_PAIR_SELECTED
+} from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   Everypay3DSResponseType,
@@ -22,12 +29,6 @@ import {
   SBProviderDetailsType,
   SBQuoteType
 } from 'core/types'
-import {
-  getCoinFromPair,
-  getFiatFromPair,
-  NO_FIAT_CURRENCY,
-  NO_PAIR_SELECTED
-} from './model'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
@@ -47,18 +48,11 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const { createUser, waitForUserData } = profileSagas({
+  const { createUser, isTier2, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
   })
-
-  const isTier2 = function * () {
-    yield call(waitForUserData)
-    const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
-    return userData.tiers && userData.tiers.current >= 2
-  }
 
   const activateSBCard = function * ({
     card
@@ -277,15 +271,37 @@ export default ({
     }
   }
 
+  const deleteSBCard = function * ({
+    cardId
+  }: ReturnType<typeof A.deleteSBCard>) {
+    try {
+      if (!cardId) return
+      yield put(actions.form.startSubmit('linkedCards'))
+      yield call(api.deleteSBCard, cardId)
+      yield put(A.fetchSBCards(true))
+      yield take([AT.FETCH_SB_CARDS_SUCCESS, AT.FETCH_SB_CARDS_FAILURE])
+      yield put(actions.form.stopSubmit('linkedCards'))
+      yield put(actions.alerts.displaySuccess('Card removed.'))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
+      yield put(actions.alerts.displayError('Error removing card.'))
+    }
+  }
+
   const fetchSBBalances = function * ({
-    currency
+    currency,
+    skipLoading
   }: ReturnType<typeof A.fetchSBBalances>) {
     try {
-      if (!(yield call(isTier2))) return
-
-      // yield put(A.fetchSBBalancesLoading())
-      const orders = yield call(api.getSBBalances, currency)
-      yield put(A.fetchSBBalancesSuccess(orders))
+      if (!skipLoading) yield put(A.fetchSBBalancesLoading())
+      if (!(yield call(isTier2)))
+        return yield put(A.fetchSBBalancesSuccess(DEFAULT_SB_BALANCES))
+      const balances: ReturnType<typeof api.getSBBalances> = yield call(
+        api.getSBBalances,
+        currency
+      )
+      yield put(A.fetchSBBalancesSuccess(balances))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBBalancesFailure(error))
@@ -426,8 +442,13 @@ export default ({
     try {
       yield call(createUser)
       yield call(waitForUserData)
+      const isUserTier2: boolean = yield call(isTier2)
       yield put(A.fetchSBPaymentMethodsLoading())
-      const methods = yield call(api.getSBPaymentMethods, currency)
+      const methods = yield call(
+        api.getSBPaymentMethods,
+        currency,
+        isUserTier2 ? true : undefined
+      )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
     } catch (e) {
       const error = errorHandler(e)
@@ -650,7 +671,7 @@ export default ({
 
     while (retryAttempts <= maxRetryAttempts) {
       yield put(A.fetchSBOrders(skipLoading))
-      yield put(A.fetchSBBalances())
+      yield put(A.fetchSBBalances(undefined, skipLoading))
       retryAttempts++
       yield delay(2000)
     }
@@ -682,11 +703,12 @@ export default ({
 
   return {
     activateSBCard,
+    addCardDetails,
     cancelSBOrder,
     confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
     createSBOrder,
-    addCardDetails,
+    deleteSBCard,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCards,

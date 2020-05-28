@@ -74,7 +74,7 @@ export type SBCardType = {
       card: {
         expireMonth: number
         expireYear: number
-        label: string
+        label: null | string
         number: string
         type: 'VISA' | 'MASTERCARD'
       }
@@ -155,6 +155,7 @@ export type ISBBuyOrderType = {
   insertedAt: string
   outputQuantity: string
   paymentMethodId?: string
+  price?: string
   state: SBOrderStateType
   updatedAt: string
 }

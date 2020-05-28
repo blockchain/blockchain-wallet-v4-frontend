@@ -33,3 +33,7 @@ export const hideUpgradeForAirdropModal = () => ({
 export const hideLockboxSoftwareDownload = () => ({
   type: AT.HIDE_LOCKBOX_SOFTWARE_DOWNLOAD
 })
+
+export const hideInterestInfoBox = () => ({
+  type: AT.HIDE_INTEREST_INFO_BOX
+})

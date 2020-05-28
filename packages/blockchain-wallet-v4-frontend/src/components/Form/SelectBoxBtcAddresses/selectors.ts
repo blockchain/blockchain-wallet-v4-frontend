@@ -21,6 +21,7 @@ import {
   sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestAccountBalanceType } from 'core/types'
 import { selectors } from 'data'
 
 const allWallets = {
@@ -53,6 +54,7 @@ export const getData = (
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -62,7 +64,8 @@ export const getData = (
     excludeLockbox,
     includeAll = true,
     includeCustodial,
-    includeExchangeAddress
+    includeExchangeAddress,
+    includeInterest
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -86,6 +89,16 @@ export const getData = (
       })})`
     )
   }
+  const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
+    return (
+      `BTC Interest Wallet` +
+      ` (${Exchange.displayBtcToBtc({
+        value: x ? x.balance : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      })})`
+    )
+  }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
@@ -98,6 +111,16 @@ export const getData = (
         ...x,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BTC Trading Wallet'
+      }
+    }
+  ]
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'BTC Interest Wallet'
       }
     }
   ]
@@ -125,6 +148,13 @@ export const getData = (
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map<any, any>(prop('BTC'))
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
+        : Remote.of([]),
       excludeImported
         ? Remote.of([])
         : selectors.core.common.btc
@@ -134,10 +164,7 @@ export const getData = (
             .map(x =>
               set(
                 // @ts-ignore
-                compose(
-                  lensIndex(0),
-                  lensProp('options')
-                ),
+                compose(lensIndex(0), lensProp('options')),
                 sort(
                   descend(path(['value', 'balance'])),
                   // @ts-ignore

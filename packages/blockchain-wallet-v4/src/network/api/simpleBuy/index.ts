@@ -27,7 +27,10 @@ export default ({
   get,
   nabuUrl
 }) => {
-  const activateSBCard = (cardId: string, customerUrl: string): SBCardType =>
+  const activateSBCard = (
+    cardId: SBCardType['id'],
+    customerUrl: string
+  ): SBCardType =>
     authorizedPost({
       url: nabuUrl,
       endPoint: `/payments/cards/${cardId}/activate`,
@@ -101,6 +104,12 @@ export default ({
       }
     })
 
+  const deleteSBCard = (cardId: SBCardType['id']): SBCardType =>
+    authorizedDelete({
+      url: nabuUrl,
+      endPoint: `/payments/cards/${cardId}`
+    })
+
   const getSBBalances = (currency?: CoinType): SBBalancesType =>
     authorizedGet({
       url: nabuUrl,
@@ -110,7 +119,7 @@ export default ({
       }
     })
 
-  const getSBCard = (cardId: string): SBCardType =>
+  const getSBCard = (cardId: SBCardType['id']): SBCardType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: `/payments/cards/${cardId}`
@@ -181,13 +190,17 @@ export default ({
       }
     })
 
-  const getSBPaymentMethods = (currency: FiatType): SBPaymentMethodsType =>
+  const getSBPaymentMethods = (
+    currency: FiatType,
+    checkEligibility?: true
+  ): SBPaymentMethodsType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/payments/methods',
       contentType: 'application/json',
       data: {
-        currency
+        currency,
+        checkEligibility
       }
     })
 
@@ -282,6 +295,7 @@ export default ({
     createSBCard,
     createSBOrder,
     confirmSBOrder,
+    deleteSBCard,
     getSBBalances,
     getSBCard,
     getSBCards,

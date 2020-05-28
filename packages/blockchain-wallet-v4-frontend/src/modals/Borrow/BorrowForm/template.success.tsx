@@ -1,16 +1,20 @@
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
-import BorrowCoinDropdown from './BorrowCoinDropdown'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -85,20 +89,6 @@ const ButtonContainer = styled.div`
   }
 `
 
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
@@ -152,7 +142,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -227,5 +217,19 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
+
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps
 
 export default enhance(Success) as React.FunctionComponent<Props>

@@ -18,6 +18,7 @@ import ExchangeProfile from './ExchangeProfile'
 import General from './Settings/General'
 import Help from './Help'
 import Home from './Home'
+import Interest from './Interest'
 import Lockbox from './Lockbox'
 import Login from './Login'
 import Logout from './Logout'
@@ -139,6 +140,7 @@ class App extends React.PureComponent<Props> {
                       component={General}
                     />
                     <WalletLayout path='/lockbox' component={Lockbox} />
+                    <WalletLayout path='/interest' component={Interest} />
                     {values(
                       map(
                         coin =>

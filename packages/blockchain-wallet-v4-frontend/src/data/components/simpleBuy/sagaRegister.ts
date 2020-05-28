@@ -19,6 +19,8 @@ export default ({ api, coreSagas, networks }) => {
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
     )
+    yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
+    yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)
     yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
     yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
     yield takeLatest(
@@ -58,11 +60,13 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
     // Fetch balances when profile/user is fetched
     yield takeLatest(
-      actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+      [
+        actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.SET_API_TOKEN_FAILURE
+      ],
       simpleBuySagas.fetchSBBalances
     )
     // Fetch balances and orders when step changes to order summary
     yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
-    // yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
   }
 }

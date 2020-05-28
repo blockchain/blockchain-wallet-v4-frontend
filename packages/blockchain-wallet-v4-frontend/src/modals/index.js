@@ -63,6 +63,7 @@ import {
   XlmReserveLearn
 } from './Xlm'
 import Borrow from './Borrow'
+import Interest from './Interest'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
@@ -90,6 +91,7 @@ const Modals = () => (
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
+    <Interest />
     <LockboxAppManager disableOutsideClose />
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
