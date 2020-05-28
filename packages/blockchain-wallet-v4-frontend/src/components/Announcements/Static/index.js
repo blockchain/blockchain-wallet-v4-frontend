@@ -9,7 +9,7 @@ import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
-  padding: 8px 25px 8px 26px;
+  padding: 8px 25px 8px 25px;
   align-items: center;
   justify-content: space-between;
   background: ${props => props.theme.blue600};

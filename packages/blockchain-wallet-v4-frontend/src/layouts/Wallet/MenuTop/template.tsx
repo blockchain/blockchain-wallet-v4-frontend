@@ -1,19 +1,20 @@
+import React from 'react'
+
 import { useMedia } from 'services/ResponsiveService'
 import Announcements from 'components/Announcements'
 import Large from './template.large'
 import Medium from './template.medium'
-import React from 'react'
 import Small from './template.small'
 
 const Header = props => {
-  const isTabletL = useMedia('tabletL')
+  const isLaptop = useMedia('laptop')
   const isTablet = useMedia('tablet')
 
   return (
     <>
       {isTablet ? (
         <Small {...props} />
-      ) : isTabletL ? (
+      ) : isLaptop ? (
         <Medium {...props} />
       ) : (
         <Large {...props} />

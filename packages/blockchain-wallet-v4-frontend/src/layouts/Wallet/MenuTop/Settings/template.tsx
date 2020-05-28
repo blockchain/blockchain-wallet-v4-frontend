@@ -9,7 +9,7 @@ import {
   DropdownMenuArrow,
   DropdownMenuItem
 } from 'components/Navbar/NavbarDropdown'
-import { NavbarNavItemIcon, NavbarNavItemTextLink } from 'components/Navbar'
+import { NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
 import { useOnClickOutside } from 'services/HooksService'
 
 import { Props } from '.'
@@ -28,11 +28,11 @@ const Settings = (props: Props) => {
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
   return (
-    <NavbarNavItemTextLink
+    <NavbarNavItemButton
       data-e2e='settingsLink'
       onClick={() => toggleIsMenuOpen(!isMenuOpen)}
     >
-      <NavbarNavItemIcon name='cog-filled' size='18px' />
+      <NavbarNavItemIcon persist name='cog-filled' size='18px' />
       {isMenuOpen && (
         <DropdownMenu ref={ref}>
           <DropdownMenuArrow />
@@ -105,7 +105,7 @@ const Settings = (props: Props) => {
           </DropdownMenuItem>
         </DropdownMenu>
       )}
-    </NavbarNavItemTextLink>
+    </NavbarNavItemButton>
   )
 }
 

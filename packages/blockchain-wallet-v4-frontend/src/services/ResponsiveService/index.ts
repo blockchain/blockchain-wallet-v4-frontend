@@ -8,7 +8,8 @@ export const sizes = {
   tablet: 767,
   tabletL: 991,
   laptop: 1023,
-  laptopL: 1440,
+  laptopM: 1279,
+  laptopL: 1439,
   desktop: 2560
 }
 
@@ -18,12 +19,14 @@ export type MediaServiceType = {
   atLeastDesktop: (...args) => any
   atLeastLaptop: (...args) => any
   atLeastLaptopL: (...args) => any
+  atLeastLaptopM: (...args) => any
   atLeastMobile: (...args) => any
   atLeastTablet: (...args) => any
   atLeastTabletL: (...args) => any
   desktop: (...args) => any
   laptop: (...args) => any
   laptopL: (...args) => any
+  laptopM: (...args) => any
   mobile: (...args) => any
   tablet: (...args) => any
   tabletL: (...args) => any
@@ -51,7 +54,7 @@ const media = Object.keys(sizes).reduce((acc, label) => {
 
 export function useMedia (size: Sizes): boolean {
   const getSize = () => {
-    if (window.outerWidth <= sizes[size]) {
+    if (window.innerWidth <= sizes[size]) {
       return true
     }
 

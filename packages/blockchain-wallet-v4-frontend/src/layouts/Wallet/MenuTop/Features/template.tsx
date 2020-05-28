@@ -6,19 +6,19 @@ import {
   NavbarDivider,
   NavbarMenu,
   NavbarNavItem,
+  NavbarNavItemButton,
   NavbarNavItemIcon,
-  NavbarNavItemTextHeader,
-  NavbarNavItemTextLink
+  NavbarNavItemTextHeader
 } from 'components/Navbar'
 import { Props } from '.'
 
-const SendRequest = (
+const Features = (
   props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
 ) => {
   return (
     <NavbarMenu>
       <NavbarNavItem>
-        <NavbarNavItemTextLink
+        <NavbarNavItemButton
           data-e2e='sendButton'
           disabled={!props.sendAvailable}
           onClick={() => props.showModal('SEND')}
@@ -27,11 +27,11 @@ const SendRequest = (
           <NavbarNavItemTextHeader size='14px' weight={600}>
             <FormattedMessage id='buttons.send' defaultMessage='Send' />
           </NavbarNavItemTextHeader>
-        </NavbarNavItemTextLink>
+        </NavbarNavItemButton>
       </NavbarNavItem>
       <NavbarDivider />
       <NavbarNavItem>
-        <NavbarNavItemTextLink
+        <NavbarNavItemButton
           data-e2e='requestButton'
           disabled={!props.requestAvailable}
           onClick={() => props.showModal('REQUEST')}
@@ -40,22 +40,22 @@ const SendRequest = (
           <NavbarNavItemTextHeader size='14px' weight={600}>
             <FormattedMessage id='buttons.request' defaultMessage='Request' />
           </NavbarNavItemTextHeader>
-        </NavbarNavItemTextLink>
+        </NavbarNavItemButton>
       </NavbarNavItem>
       <NavbarDivider />
       <LinkContainer to='/swap' activeClassName='active'>
         <NavbarNavItem>
-          <NavbarNavItemTextLink data-e2e='exchangeLink'>
+          <NavbarNavItemButton data-e2e='exchangeLink'>
             <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
             <NavbarNavItemTextHeader size='14px' weight={600}>
               <FormattedMessage id='buttons.swap' defaultMessage='Swap' />
             </NavbarNavItemTextHeader>
-          </NavbarNavItemTextLink>
+          </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
       <NavbarDivider />
       <NavbarNavItem>
-        <NavbarNavItemTextLink
+        <NavbarNavItemButton
           data-e2e='buyAndSellLink'
           onClick={() => props.simpleBuyActions.showModal('SideNav')}
         >
@@ -66,12 +66,12 @@ const SendRequest = (
               defaultMessage='Buy Crypto'
             />
           </NavbarNavItemTextHeader>
-        </NavbarNavItemTextLink>
+        </NavbarNavItemButton>
       </NavbarNavItem>
       <NavbarDivider />
       <LinkContainer to='/interest' activeClassName='active'>
         <NavbarNavItem>
-          <NavbarNavItemTextLink data-e2e='interestLink'>
+          <NavbarNavItemButton data-e2e='interestLink'>
             <NavbarNavItemIcon size='18px' name='percentage' />
             <NavbarNavItemTextHeader size='14px' weight={600}>
               <FormattedMessage
@@ -79,13 +79,13 @@ const SendRequest = (
                 defaultMessage='Earn Interest'
               />
             </NavbarNavItemTextHeader>
-          </NavbarNavItemTextLink>
+          </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
       <NavbarDivider />
       <LinkContainer to='/borrow' activeClassName='active'>
         <NavbarNavItem>
-          <NavbarNavItemTextLink data-e2e='interestLink'>
+          <NavbarNavItemButton data-e2e='interestLink'>
             <NavbarNavItemIcon size='18px' name='borrow' />
             <NavbarNavItemTextHeader size='14px' weight={600}>
               <FormattedMessage
@@ -93,11 +93,11 @@ const SendRequest = (
                 defaultMessage='Borrow'
               />
             </NavbarNavItemTextHeader>
-          </NavbarNavItemTextLink>
+          </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
     </NavbarMenu>
   )
 }
 
-export default SendRequest
+export default Features

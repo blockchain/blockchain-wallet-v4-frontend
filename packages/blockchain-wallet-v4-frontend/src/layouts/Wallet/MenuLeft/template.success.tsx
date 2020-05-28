@@ -43,11 +43,11 @@ const Overflow = styled.div`
 `
 
 const MenuLeft = props => {
-  const isTablet = useMedia('tablet')
+  const isLaptop = useMedia('laptop')
 
   return (
     <Container toggled={props.menuOpened}>
-      {!isTablet && <Balances />}
+      {!isLaptop && <Balances />}
       <Overflow>
         <Navigation {...props} />
         <Footer {...props} />

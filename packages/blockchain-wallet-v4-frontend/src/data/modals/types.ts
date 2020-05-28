@@ -48,7 +48,7 @@ export type ModalOriginType =
   | 'SendBtc'
   | 'SendEth'
   | 'SendExchangePromo'
-  | 'SendRequestTopNav'
+  | 'FeaturesTopNav'
   | 'SendXlm'
   | 'SettingsGeneral'
   | 'SettingsPage'

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   margin: 6px 0 16px;
   padding-left: 16px;
   box-sizing: border-box;
-  ${media.tablet`
+  ${media.laptop`
     padding-left: 0px;
     margin: 0px;
   `}
@@ -38,7 +38,7 @@ const BalanceDropdown = styled.div`
     right: 2px;
     padding: 0;
     width: 230px;
-    ${media.tablet`
+    ${media.laptop`
       right: initial;
       top: 38px;
       z-index: 12;
@@ -52,7 +52,7 @@ const BalanceDropdown = styled.div`
     font-weight: 600;
     font-size: 24px;
     line-height: 135%;
-    ${media.tablet`
+    ${media.laptop`
       color: ${props => props.theme.whiteFade900};
       font-size: 20px;
       padding-right: 4px;
@@ -77,7 +77,7 @@ const BalanceDropdown = styled.div`
       color: ${props => props.theme.blue600};
     }
 
-    ${media.tablet`
+    ${media.laptop`
       position: static;
       right: initial;
       border: 0px;
@@ -91,11 +91,11 @@ const BalanceDropdown = styled.div`
 `
 
 const BalancesContainer = () => {
-  const isTablet = useMedia('tablet')
+  const isLaptop = useMedia('laptop')
 
   return (
     <Wrapper>
-      {!isTablet && (
+      {!isLaptop && (
         <TitleText data-e2e='totalBalance'>
           <FormattedMessage
             id='scenes.wallet.menutop.balance.totalbalance'

@@ -1,4 +1,6 @@
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import styled from 'styled-components'
+
 import media from 'services/ResponsiveService'
 import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
@@ -6,44 +8,69 @@ import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
 import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
-import styled from 'styled-components'
 
-export const NavbarNavItemIcon = styled(Icon)`
+export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
   color: ${props => props.theme.grey400};
-  margin-right: 8px;
   transition: color 0.3s;
+  display: ${props => (props.persist ? 'block !important' : '')};
 `
 
 export const NavbarNavItemTextHeader = styled(Text)`
   color: ${props => props.theme.grey400};
   transition: color 0.3s;
-  ${media.tabletL`
-    display: none;
-  `}
 `
 
-export const NavbarNavItemTextLink = styled(Link)<{ disabled?: boolean }>`
+export const NavbarNavItemButton = styled(Button)`
   display: flex;
   align-items: center;
   position: relative;
   transition: color 0.3s;
-  &.active,
+  background: transparent;
+  min-width: auto;
+  width: auto;
+  padding: 0;
+  border: 0;
   &:hover {
+    background-color: transparent;
     ${NavbarNavItemIcon},
     ${NavbarNavItemTextHeader} {
       color: ${props => props.theme.whiteFade900};
     }
   }
-  ${media.tabletL`
-    ${NavbarNavItemIcon},
+
+  ${media.atLeastLaptopM`
+    ${NavbarNavItemIcon} {
+      margin-right: 8px;
+    }
+  `}
+
+  ${media.laptopM`
     ${NavbarNavItemTextHeader} {
-      color: ${props => props.theme.whiteFade900};
+      margin-top: 4px;
+    }
+    flex-direction: column;
+  `}
+
+  ${media.laptop`
+    ${NavbarNavItemTextHeader} {
+      margin-top: 0px;
+    }
+    ${NavbarNavItemIcon} {
+      display: none;
     }
   `}
 `
 export const NavbarDivider = styled.div`
-  height: 18px;
-  border-left: 1px solid ${props => props.theme.grey400};
+  height: 20px;
+  border-left: 1px solid ${props => props.theme.whiteFade400};
+
+  ${media.laptopM`
+    height: 40px;
+  `}
+
+  ${media.laptop`
+    height: 20px;
+  `}
 `
 
 export {

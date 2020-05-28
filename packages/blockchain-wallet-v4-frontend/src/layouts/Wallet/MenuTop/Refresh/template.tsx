@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { NavbarNavItemIcon, NavbarNavItemTextLink } from 'components/Navbar'
+import { NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
 import { TooltipHost } from 'blockchain-info-components'
 
 const rotation = keyframes`
@@ -15,28 +15,22 @@ const animationRule = css`
 `
 
 export const SpinningIcon = styled(NavbarNavItemIcon)<{ rotating: boolean }>`
+  margin-top: 2px;
   margin-right: 0px;
+  display: initial !important;
   ${({ rotating }) => rotating && animationRule};
 `
 
 const Refresh = ({ handleRefresh, rotating }) => (
   <TooltipHost id='refresh.tooltip'>
-    <NavbarNavItemTextLink
+    <NavbarNavItemButton
       size='14px'
-      weight={400}
-      color='whiteFade900'
       uppercase
       onClick={handleRefresh}
       data-e2e='refreshLink'
     >
-      <SpinningIcon
-        name='refresh'
-        size='24px'
-        color='whiteFade900'
-        cursor
-        rotating={rotating}
-      />
-    </NavbarNavItemTextLink>
+      <SpinningIcon name='refresh' size='24px' rotating={rotating} />
+    </NavbarNavItemButton>
   </TooltipHost>
 )
 

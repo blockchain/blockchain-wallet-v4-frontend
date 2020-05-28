@@ -8,9 +8,6 @@ const BaseNavItem = styled.li`
   &:first-child {
     padding-left: 0px;
   }
-  &:last-child {
-    margin-right: 0px;
-  }
 `
 
 const NavbarNavItem = props => {

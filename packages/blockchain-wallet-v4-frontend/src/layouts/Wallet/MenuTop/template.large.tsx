@@ -9,10 +9,10 @@ import {
   NavbarNavItem
 } from 'components/Navbar'
 import { NavLink } from 'react-router-dom'
+import Features from './Features'
 import React from 'react'
 import Refresh from './Refresh'
 import SecurityCenter from './SecurityCenter'
-import SendRequest from './SendRequest'
 import Settings from './Settings'
 import styled from 'styled-components'
 
@@ -28,9 +28,6 @@ const BlockchainLogoImage = styled(Image)`
 `
 const NavbarStyled = styled(Navbar)`
   background-color: ${props => props.theme.grey900};
-`
-const NavbarMenuStyled = styled(NavbarMenu)`
-  width: 100%;
 `
 
 const Large: React.FC<Props> = props => {
@@ -49,9 +46,9 @@ const Large: React.FC<Props> = props => {
           </NavLink>
         </NavbarBrand>
       </NavbarHeader>
-      <NavbarMenuStyled>
+      <NavbarMenu>
         <NavbarNav>
-          <SendRequest />
+          <Features />
         </NavbarNav>
         <NavbarNav>
           <NavbarNavItem>
@@ -66,7 +63,7 @@ const Large: React.FC<Props> = props => {
             <Settings {...props} />
           </NavbarNavItem>
         </NavbarNav>
-      </NavbarMenuStyled>
+      </NavbarMenu>
     </NavbarStyled>
   )
 }

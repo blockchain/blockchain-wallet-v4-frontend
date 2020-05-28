@@ -18,16 +18,19 @@ import {
 import { NavLink } from 'react-router-dom'
 import { Props as OwnProps } from '.'
 import { useOnClickOutside } from 'services/HooksService'
+import Balances from '../MenuLeft/Balances'
+import Features from './Features'
 import media from 'services/ResponsiveService'
 import React, { useRef, useState } from 'react'
 import SecurityCenter from './SecurityCenter'
-import SendRequest from './SendRequest'
 import Settings from './Settings'
 import styled from 'styled-components'
 
 type Props = {
   handleToggle: () => void
 } & OwnProps
+
+const Spacer = styled.div``
 
 const NavbarContainer = styled.div`
   background-color: ${props => props.theme.grey900};
@@ -47,14 +50,21 @@ const BlockchainLogoImage = styled(Image)`
   height: 20px;
   width: 160px;
   ${media.tablet`
-    margin-left: 6px;
+    margin-left: 12px;
   `}
 `
 
-const NavbarStyled = styled(Navbar)``
-
-const NavbarMenuStyled = styled(NavbarMenu)`
-  width: 100%;
+const NavbarBottomStyled = styled(Navbar)`
+  display: flex;
+  width: auto;
+  margin: 0 26px;
+  box-sizing: border-box;
+  border-top: 1px solid ${props => props.theme.whiteFade100};
+  ${media.tablet`
+    margin: 0;
+    padding: 0 15px;
+    width: 100%;
+  `}
 `
 
 const DropdownMenuArrowStyled = styled(DropdownMenuArrow)`
@@ -70,7 +80,7 @@ const Small: React.FC<Props> = props => {
 
   return (
     <NavbarContainer>
-      <NavbarStyled height='60px'>
+      <Navbar>
         <NavbarHeader>
           <NavbarBrand>
             <Icon
@@ -84,8 +94,8 @@ const Small: React.FC<Props> = props => {
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>
-        <NavbarMenuStyled>
-          <SendRequest />
+        <NavbarMenu>
+          <Spacer />
           <NavbarNav>
             <NavbarNavItemWithText>
               <SecurityCenter />
@@ -96,7 +106,7 @@ const Small: React.FC<Props> = props => {
             <NavbarNavItemWithText
               onClick={() => toggleIsMenuOpen(!isMenuOpen)}
             >
-              <NavbarNavItemIcon size='6px' name='ellipsis' />
+              <NavbarNavItemIcon name='cog-filled' />
               {isMenuOpen && (
                 <DropdownMenu ref={ref}>
                   <DropdownMenuArrowStyled />
@@ -130,8 +140,12 @@ const Small: React.FC<Props> = props => {
               )}
             </NavbarNavItemWithText>
           </NavbarNav>
-        </NavbarMenuStyled>
-      </NavbarStyled>
+        </NavbarMenu>
+      </Navbar>
+      <NavbarBottomStyled height='60px'>
+        <Balances />
+        <Features />
+      </NavbarBottomStyled>
     </NavbarContainer>
   )
 }

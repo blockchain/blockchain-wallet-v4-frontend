@@ -8,6 +8,7 @@ const BaseMenu = styled.div`
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
 `
 
 const NavbarMenu = props => {

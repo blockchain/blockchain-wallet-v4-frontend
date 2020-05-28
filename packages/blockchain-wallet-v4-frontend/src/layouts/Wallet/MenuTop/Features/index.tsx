@@ -6,9 +6,9 @@ import React from 'react'
 import { actions } from 'data'
 import { getData } from './selectors'
 import { ModalNamesType } from 'data/types'
-import SendRequest from './template'
+import Features from './template'
 
-class SendRequestContainer extends React.PureComponent<Props> {
+class FeaturesContainer extends React.PureComponent<Props> {
   showModal = type => {
     const {
       coin,
@@ -22,7 +22,7 @@ class SendRequestContainer extends React.PureComponent<Props> {
         `@MODAL.${type}.ETH` as ModalNamesType,
         {
           coin: toUpper(coin),
-          origin: 'SendRequestTopNav'
+          origin: 'FeaturesTopNav'
         }
       )
     } else if (includes(coin, keys(supportedCoins))) {
@@ -30,7 +30,7 @@ class SendRequestContainer extends React.PureComponent<Props> {
         `@MODAL.${type}.${coin}` as ModalNamesType,
         {
           lockboxIndex: lockboxPath ? lockboxDeviceId : null,
-          origin: 'SendRequestTopNav'
+          origin: 'FeaturesTopNav'
         }
       )
     }
@@ -38,13 +38,13 @@ class SendRequestContainer extends React.PureComponent<Props> {
       `@MODAL.${type}.BTC` as ModalNamesType,
       {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
-        origin: 'SendRequestTopNav'
+        origin: 'FeaturesTopNav'
       }
     )
   }
 
   render () {
-    return <SendRequest showModal={this.showModal} {...this.props} />
+    return <Features showModal={this.showModal} {...this.props} />
   }
 }
 
@@ -57,4 +57,4 @@ const connector = connect(getData, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(SendRequestContainer)
+export default connector(FeaturesContainer)
