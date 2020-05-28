@@ -34,6 +34,7 @@ export type ModalOriginType =
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
   | 'EmptyFeed'
+  | 'Header'
   | 'KycDocResubmitGoal'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'

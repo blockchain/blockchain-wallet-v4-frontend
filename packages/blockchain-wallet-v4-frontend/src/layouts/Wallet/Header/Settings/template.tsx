@@ -1,16 +1,18 @@
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import React, { useRef, useState } from 'react'
+import styled from 'styled-components'
+
 import { Destination } from 'components/MenuLeft'
 import {
   DropdownMenu,
   DropdownMenuArrow,
   DropdownMenuItem
 } from 'components/Navbar/NavbarDropdown'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { NavbarNavItemIcon, NavbarNavItemTextLink } from 'components/Navbar'
-import onClickOutside from 'react-onclickoutside'
-import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import { useOnClickOutside } from 'services/HooksService'
+
+import { Props } from '.'
 
 const DropdownSeparator = styled.div`
   height: 1px;
@@ -20,21 +22,19 @@ const DropdownSeparator = styled.div`
   background: ${props => props.theme.grey000};
 `
 
-const Settings = props => {
-  const { handleLogout } = props
+const Settings = (props: Props) => {
+  const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
-
-  Settings.handleClickOutside = () => toggleIsMenuOpen(false)
+  useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
   return (
     <NavbarNavItemTextLink
       data-e2e='settingsLink'
-      className={isMenuOpen && 'active'}
       onClick={() => toggleIsMenuOpen(!isMenuOpen)}
     >
       <NavbarNavItemIcon name='cog-filled' size='18px' />
       {isMenuOpen && (
-        <DropdownMenu>
+        <DropdownMenu ref={ref}>
           <DropdownMenuArrow />
           <LinkContainer to='/settings/general' activeClassName='active'>
             <DropdownMenuItem data-e2e='settings_generalLink'>
@@ -46,6 +46,21 @@ const Settings = props => {
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
+          <DropdownMenuItem
+            data-e2e='notificationsLink'
+            onClick={() =>
+              props.modalActions.showModal('WHATS_NEW_MODAL', {
+                origin: 'Header'
+              })
+            }
+          >
+            <Destination>
+              <FormattedMessage
+                id='layouts.wallet.header.small.whats_new'
+                defaultMessage="What's New?"
+              />
+            </Destination>
+          </DropdownMenuItem>
           <LinkContainer to='/settings/profile' activeClassName='active'>
             <DropdownMenuItem data-e2e='settings_profileLink'>
               <Destination>
@@ -77,7 +92,10 @@ const Settings = props => {
             </DropdownMenuItem>
           </LinkContainer>
           <DropdownSeparator />
-          <DropdownMenuItem onClick={handleLogout} data-e2e='logoutLink'>
+          <DropdownMenuItem
+            onClick={props.authActions.logout}
+            data-e2e='logoutLink'
+          >
             <Destination>
               <FormattedMessage
                 id='layouts.wallet.header.Sign Out'
@@ -91,12 +109,4 @@ const Settings = props => {
   )
 }
 
-const clickOutsideConfig = {
-  handleClickOutside: () => Settings.handleClickOutside
-}
-
-Settings.propTypes = {
-  handleLogout: PropTypes.func.isRequired
-}
-
-export default onClickOutside(Settings, clickOutsideConfig)
+export default Settings

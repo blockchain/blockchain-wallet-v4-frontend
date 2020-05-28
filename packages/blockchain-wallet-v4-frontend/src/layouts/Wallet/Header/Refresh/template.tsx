@@ -15,11 +15,11 @@ const animationRule = css`
 `
 
 export const SpinningIcon = styled(NavbarNavItemIcon)<{ rotating: boolean }>`
-  margin-top: 2px;
+  margin-right: 0px;
   ${({ rotating }) => rotating && animationRule};
 `
 
-const RefreshIcon = ({ handleRefresh, rotating }) => (
+const Refresh = ({ handleRefresh, rotating }) => (
   <TooltipHost id='refresh.tooltip'>
     <NavbarNavItemTextLink
       size='14px'
@@ -40,8 +40,8 @@ const RefreshIcon = ({ handleRefresh, rotating }) => (
   </TooltipHost>
 )
 
-RefreshIcon.propTypes = {
+Refresh.propTypes = {
   handleRefresh: PropTypes.func.isRequired
 }
 
-export default RefreshIcon
+export default Refresh

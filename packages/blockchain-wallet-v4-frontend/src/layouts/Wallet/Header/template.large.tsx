@@ -10,7 +10,7 @@ import {
 } from 'components/Navbar'
 import { NavLink } from 'react-router-dom'
 import React from 'react'
-import RefreshIcon from './RefreshIcon'
+import Refresh from './Refresh'
 import SecurityCenter from './SecurityCenter'
 import SendRequest from './SendRequest'
 import Settings from './Settings'
@@ -59,7 +59,7 @@ const Large: React.FC<Props> = props => {
           </NavbarNavItem>
           <NavbarDivider />
           <NavbarNavItem>
-            <RefreshIcon />
+            <Refresh />
           </NavbarNavItem>
           <NavbarDivider />
           <NavbarNavItem>
