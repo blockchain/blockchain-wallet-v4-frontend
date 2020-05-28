@@ -33,7 +33,6 @@ import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 const AccountSummary: React.FC<Props> = props => {
   const {
     accountBalances,
-    availToWithdraw,
     coin,
     handleClose,
     handleDepositClick,
@@ -47,6 +46,8 @@ const AccountSummary: React.FC<Props> = props => {
   const displayName = supportedCoins[coin].displayName
   const account = accountBalances && accountBalances[coin]
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+
+  const availToWithdraw = account && account.balance - account.locked
 
   const accountBalanceStandard =
     account &&
@@ -409,7 +410,7 @@ const AccountSummary: React.FC<Props> = props => {
       <Bottom>
         <ButtonContainer>
           <Button
-            disabled={!account || availToWithdraw <= 0}
+            disabled={!account || !availToWithdraw}
             data-e2e='interestWithdraw'
             fullwidth
             height='48px'
