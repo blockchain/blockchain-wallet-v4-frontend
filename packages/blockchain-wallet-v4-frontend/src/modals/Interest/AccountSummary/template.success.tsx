@@ -409,7 +409,7 @@ const AccountSummary: React.FC<Props> = props => {
       <Bottom>
         <ButtonContainer>
           <Button
-            disabled={!account || availToWithdraw === 0}
+            disabled={!account || availToWithdraw <= 0}
             data-e2e='interestWithdraw'
             fullwidth
             height='48px'
