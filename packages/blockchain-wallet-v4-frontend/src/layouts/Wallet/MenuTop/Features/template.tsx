@@ -10,12 +10,18 @@ import {
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
 } from 'components/Navbar'
+import { useMedia } from 'services/ResponsiveService'
+
 import { Props } from '.'
 
 const Features = (
   props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
 ) => {
-  return (
+  const isTablet = useMedia('tablet')
+
+  return isTablet ? (
+    <div />
+  ) : (
     <NavbarMenu>
       <NavbarNavItem>
         <NavbarNavItemButton

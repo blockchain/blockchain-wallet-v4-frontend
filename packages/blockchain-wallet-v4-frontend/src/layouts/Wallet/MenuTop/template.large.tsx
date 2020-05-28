@@ -1,4 +1,7 @@
-import { Icon, Image } from 'blockchain-info-components'
+import { Image } from 'blockchain-info-components'
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+
 import {
   Navbar,
   NavbarBrand,
@@ -8,13 +11,11 @@ import {
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
-import { NavLink } from 'react-router-dom'
 import Features from './Features'
 import React from 'react'
 import Refresh from './Refresh'
 import SecurityCenter from './SecurityCenter'
 import Settings from './Settings'
-import styled from 'styled-components'
 
 type Props = {
   handleToggle: () => void
@@ -35,12 +36,6 @@ const Large: React.FC<Props> = props => {
     <NavbarStyled height='60px'>
       <NavbarHeader>
         <NavbarBrand>
-          <Icon
-            name='hamburger-menu'
-            color='whiteFade600'
-            size='16px'
-            onClick={props.handleToggle}
-          />
           <NavLink to='/home' data-e2e='homeLink'>
             <BlockchainLogoImage name='blockchain-logo' />
           </NavLink>

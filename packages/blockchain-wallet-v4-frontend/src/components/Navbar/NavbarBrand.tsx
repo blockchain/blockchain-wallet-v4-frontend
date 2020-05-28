@@ -4,14 +4,11 @@ import styled from 'styled-components'
 
 const BaseBrand = styled.div`
   display: flex;
-  padding-left: 25px;
+  padding-left: 24px;
   align-items: center;
   width: 250px;
   > span {
     cursor: pointer;
-    &:first-child {
-      display: none;
-    }
   }
   ${media.tabletL`
     width: 200px;
@@ -19,9 +16,6 @@ const BaseBrand = styled.div`
   `}
   ${media.tablet`
     width: auto;
-    > span:first-child {
-      display: flex;
-    }
   `}
 `
 

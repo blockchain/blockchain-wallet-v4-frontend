@@ -51,10 +51,9 @@ const BalanceDropdown = styled.div`
     color: ${props => props.theme.grey800};
     font-weight: 600;
     font-size: 24px;
-    line-height: 135%;
     ${media.laptop`
-      color: ${props => props.theme.whiteFade900};
-      font-size: 20px;
+      color: ${props => props.theme.white};
+      font-size: 16px;
       padding-right: 4px;
       max-width: 40vw;
       white-space: nowrap;
@@ -66,8 +65,8 @@ const BalanceDropdown = styled.div`
   > div > div > span:last-child {
     position: absolute;
     top: 0;
-    right: 22px;
-    font-size: 22px;
+    right: 0;
+    font-size: 24px;
     color: ${props => props.theme.grey400};
     border: 1px solid ${props => props.theme.grey100};
     border-radius: 4px;
@@ -81,10 +80,10 @@ const BalanceDropdown = styled.div`
       position: static;
       right: initial;
       border: 0px;
-      color: ${props => props.theme.whiteFade900};
+      color: ${props => props.theme.white};
       &:hover {
         border: 0px;
-        color: ${props => props.theme.whiteFade900};
+        color: ${props => props.theme.white};
       }
     `}
   }
