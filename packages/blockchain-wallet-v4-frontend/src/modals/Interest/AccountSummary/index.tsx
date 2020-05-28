@@ -83,6 +83,7 @@ export type LinkDispatchPropsType = {
 
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
+  availToWithdraw: number
   coin: CoinType
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
