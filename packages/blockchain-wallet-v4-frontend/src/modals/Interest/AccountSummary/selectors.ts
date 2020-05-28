@@ -21,8 +21,6 @@ export const getData = state => {
       walletCurrency
     ) => ({
       accountBalances,
-      availToWithdraw:
-        accountBalances[coin].balance - accountBalances[coin].locked,
       coin,
       interestLimits,
       interestRate,
