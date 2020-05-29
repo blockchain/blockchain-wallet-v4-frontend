@@ -4,6 +4,7 @@ export type InterestAccountBalanceType = {
   [key in CoinType]?: {
     balance: number
     fiatAmount: number
+    locked: number
     pendingDeposit: number
     pendingInterest: number
     pendingWithdrawal: number
