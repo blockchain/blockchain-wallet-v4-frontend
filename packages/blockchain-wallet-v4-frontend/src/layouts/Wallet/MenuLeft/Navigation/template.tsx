@@ -143,24 +143,22 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </SpotlightLinkContainer>
-      {props.invitations.interest && (
-        <LinkContainer to='/interest' activeClassName='active'>
-          <MenuItem data-e2e='interestLink'>
-            <MenuIcon name='percentage' size='20px' />
-            <Destination>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.earninterest'
-                defaultMessage='Earn Interest'
-              />
-            </Destination>
-            <NewCartridge>
-              <Text color='orange600' weight={600} size='12' uppercase>
-                <FormattedMessage id='copy.new' defaultMessage='New' />
-              </Text>
-            </NewCartridge>
-          </MenuItem>
-        </LinkContainer>
-      )}
+      <LinkContainer to='/interest' activeClassName='active'>
+        <MenuItem data-e2e='interestLink'>
+          <MenuIcon name='percentage' size='20px' />
+          <Destination>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.earninterest'
+              defaultMessage='Earn Interest'
+            />
+          </Destination>
+          <NewCartridge>
+            <Text color='orange600' weight={600} size='12' uppercase>
+              <FormattedMessage id='copy.new' defaultMessage='New' />
+            </Text>
+          </NewCartridge>
+        </MenuItem>
+      </LinkContainer>
       <LinkContainer to='/borrow' activeClassName='active'>
         <MenuItem data-e2e='borrowLink'>
           <MenuIcon name='borrow' size='20px' />
