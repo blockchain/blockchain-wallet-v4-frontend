@@ -1527,7 +1527,7 @@ type MessagesType = {
   'scenes.interest.history.header': 'History'
   'scenes.interest.history.type': 'Type'
   'scenes.interest.interestaccount': 'Interest Account'
-  'scenes.interest.legal.one': 'Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities InvestorProtection Corporation or any other non-US governmental or government-backed protections.'
+  'scenes.interest.legal.one': 'Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
   'scenes.interest.legal.two': 'Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
   'scenes.interest.userblocked': 'Blockchain Interest Account is currently not available in your country or region.'
   'scenes.interest.userblocked.bo': 'Blockchain Interest Account is currently not available.'
