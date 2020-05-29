@@ -13,7 +13,6 @@ const Wrapper = styled.div<{ border: boolean; marginBottom: string }>`
   width: 100%;
 
   ${media.tabletL`
-    width: 100%;
     margin-left: 0px;
   `}
 `
