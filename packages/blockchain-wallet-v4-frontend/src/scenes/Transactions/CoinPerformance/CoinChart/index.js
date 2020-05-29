@@ -20,7 +20,6 @@ const CustomImage = styled(Image)`
   width: auto;
   margin-left: 50px;
   display: block;
-  flex: 1;
 `
 
 const Loading = () => (

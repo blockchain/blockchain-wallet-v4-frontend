@@ -4,6 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import {
+  NavbarNavItem,
   NavbarNavItemButton,
   NavbarNavItemIcon,
   NavbarNavItemTextHeader
@@ -19,12 +20,14 @@ const StyledNavbarNavItemTextHeader = styled(NavbarNavItemTextHeader)`
 const SecurityCenter = () => {
   return (
     <LinkContainer activeClassName='active' to='/security-center'>
-      <NavbarNavItemButton data-e2e='securityCenterLink'>
-        <NavbarNavItemIcon persist size='18px' name='shield' />
-        <StyledNavbarNavItemTextHeader size='14px' weight={600}>
-          <FormattedMessage id='buttons.security' defaultMessage='Security' />
-        </StyledNavbarNavItemTextHeader>
-      </NavbarNavItemButton>
+      <NavbarNavItem>
+        <NavbarNavItemButton data-e2e='securityCenterLink'>
+          <NavbarNavItemIcon persist size='18px' name='shield' />
+          <StyledNavbarNavItemTextHeader size='14px' weight={600}>
+            <FormattedMessage id='buttons.security' defaultMessage='Security' />
+          </StyledNavbarNavItemTextHeader>
+        </NavbarNavItemButton>
+      </NavbarNavItem>
     </LinkContainer>
   )
 }

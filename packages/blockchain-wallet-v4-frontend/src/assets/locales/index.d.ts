@@ -1275,7 +1275,6 @@ type MessagesType = {
   'orderdetails.recurring.tooltip': 'Recurring orders will be placed automatically on a regular basis from your linked credit card.'
   'price.chart.buy.coin': 'Buy {coinName}'
   'price.chart.swap.coin': 'Swap {coinName}'
-  'refresh.tooltip.description': 'Refresh'
   'scenes.airdrop.enrolled': 'Enrolled'
   'scenes.airdrop.enrollmentpending': 'Enrollment Pending'
   'scenes.airdrop.ineligible': 'Ineligible KYC State: {kycState}'

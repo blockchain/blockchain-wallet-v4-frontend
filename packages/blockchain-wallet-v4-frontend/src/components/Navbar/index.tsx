@@ -6,7 +6,6 @@ import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
 import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
-import NavbarNavItem from './NavbarNavItem'
 
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
   color: ${props => props.theme[props.color || 'grey400']};
@@ -62,9 +61,39 @@ export const NavbarNavItemButton = styled(Button)`
     }
   `}
 `
+
+export const NavbarNavItem = styled.li`
+  box-sizing: border-box;
+  padding: 0px 16px;
+  cursor: pointer;
+  &:first-child {
+    padding-left: 0px;
+  }
+
+  &.active {
+    background: ${props => props.theme.grey800};
+    border-radius: 8px;
+    ${NavbarNavItemIcon},
+    ${NavbarNavItemTextHeader} {
+      color: ${props => props.theme.white} !important;
+    }
+  }
+
+  ${media.laptopM`
+    padding: 4px 12px;
+  `}
+
+  ${media.tablet`
+    padding: 0px 8px;
+    &:last-child {
+      padding-right: 0px;
+    }
+`}
+`
+
 export const NavbarDivider = styled.div`
   height: 20px;
-  border-left: 1px solid ${props => props.theme.whiteFade400};
+  border-left: 1px solid ${props => props.theme.grey800};
 
   ${media.laptopM`
     height: 40px;
@@ -92,4 +121,4 @@ export const NavbarNav = styled.ul`
   }
 `
 
-export { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNavItem }
+export { Navbar, NavbarBrand, NavbarHeader, NavbarMenu }

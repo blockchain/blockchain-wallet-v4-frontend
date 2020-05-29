@@ -8,8 +8,7 @@ import {
   NavbarBrand,
   NavbarDivider,
   NavbarHeader,
-  NavbarNav,
-  NavbarNavItem
+  NavbarNav
 } from 'components/Navbar'
 import Balances from '../MenuLeft/Balances'
 import Features from './Features'
@@ -56,17 +55,11 @@ const Medium: React.FC<Props> = props => {
         </NavbarHeader>
         <Spacer />
         <NavbarNav>
-          <NavbarNavItem>
-            <SecurityCenter />
-          </NavbarNavItem>
+          <SecurityCenter />
           <NavbarDivider />
-          <NavbarNavItem>
-            <Refresh />
-          </NavbarNavItem>
+          <Refresh />
           <NavbarDivider />
-          <NavbarNavItem>
-            <Settings {...props} />
-          </NavbarNavItem>
+          <Settings {...props} />
         </NavbarNav>
       </Navbar>
       <NavbarBottomStyled height='60px'>

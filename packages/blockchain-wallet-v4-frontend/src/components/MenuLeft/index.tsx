@@ -23,7 +23,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   width: 100%;
   transition: background 0.3s;
   background: ${props => props.theme.white};
@@ -35,7 +35,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
     transition: color 0.3s;
   }
   .icon {
-    width: 30px;
+    width: 26px;
     margin-right: 10px;
     color: ${props => props.theme['grey400']};
   }
@@ -83,7 +83,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   }
   &.coin {
     .coin-icon {
-      width: 30px;
+      width: 26px;
       margin-right: 10px;
     }
     &:hover {

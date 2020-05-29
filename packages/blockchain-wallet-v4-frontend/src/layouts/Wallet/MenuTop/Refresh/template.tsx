@@ -2,8 +2,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import { NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
-import { TooltipHost } from 'blockchain-info-components'
+import {
+  NavbarNavItem,
+  NavbarNavItemButton,
+  NavbarNavItemIcon
+} from 'components/Navbar'
 
 const rotation = keyframes`
   from { transform: rotate(0deg); }
@@ -22,7 +25,7 @@ export const SpinningIcon = styled(NavbarNavItemIcon)<{ rotating: boolean }>`
 `
 
 const Refresh = ({ handleRefresh, rotating }) => (
-  <TooltipHost id='refresh.tooltip'>
+  <NavbarNavItem>
     <NavbarNavItemButton
       size='14px'
       uppercase
@@ -31,7 +34,7 @@ const Refresh = ({ handleRefresh, rotating }) => (
     >
       <SpinningIcon name='refresh' size='24px' rotating={rotating} />
     </NavbarNavItemButton>
-  </TooltipHost>
+  </NavbarNavItem>
 )
 
 Refresh.propTypes = {

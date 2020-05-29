@@ -56,15 +56,9 @@ const Small: React.FC<Props> = props => {
         </NavbarHeader>
         <Spacer />
         <NavbarNav>
-          <NavbarNavItem>
-            <SecurityCenter />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Refresh />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Settings {...props} />
-          </NavbarNavItem>
+          <SecurityCenter />
+          <Refresh />
+          <Settings {...props} />
         </NavbarNav>
       </Navbar>
       <NavbarBottomStyled height='60px'>

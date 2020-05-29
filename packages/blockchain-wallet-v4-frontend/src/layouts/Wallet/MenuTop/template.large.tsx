@@ -8,8 +8,7 @@ import {
   NavbarDivider,
   NavbarHeader,
   NavbarMenu,
-  NavbarNav,
-  NavbarNavItem
+  NavbarNav
 } from 'components/Navbar'
 import Features from './Features'
 import React from 'react'
@@ -46,17 +45,11 @@ const Large: React.FC<Props> = props => {
           <Features />
         </NavbarNav>
         <NavbarNav>
-          <NavbarNavItem>
-            <SecurityCenter />
-          </NavbarNavItem>
+          <SecurityCenter />
           <NavbarDivider />
-          <NavbarNavItem>
-            <Refresh />
-          </NavbarNavItem>
+          <Refresh />
           <NavbarDivider />
-          <NavbarNavItem>
-            <Settings {...props} />
-          </NavbarNavItem>
+          <Settings {...props} />
         </NavbarNav>
       </NavbarMenu>
     </NavbarStyled>
