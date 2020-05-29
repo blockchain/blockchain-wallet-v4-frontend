@@ -8,7 +8,7 @@ import Navigation from './template'
 import React from 'react'
 
 type OwnProps = {
-  invitations: InvitationsType
+  invitations?: InvitationsType
   lockboxDevices: Array<any>
   userKYCState: KycStateType
 }
