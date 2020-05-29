@@ -6,7 +6,6 @@ import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
 import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
-import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
 
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
@@ -35,7 +34,7 @@ export const NavbarNavItemButton = styled(Button)`
     background-color: transparent;
     ${NavbarNavItemIcon},
     ${NavbarNavItemTextHeader} {
-      color: ${props => props.theme.whiteFade900};
+      color: ${props => props.theme.whiteFade900} !important;
     }
   }
 
@@ -76,11 +75,21 @@ export const NavbarDivider = styled.div`
   `}
 `
 
-export {
-  Navbar,
-  NavbarBrand,
-  NavbarHeader,
-  NavbarMenu,
-  NavbarNav,
-  NavbarNavItem
-}
+export const NavbarNav = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  &:hover {
+    ${NavbarNavItemIcon},
+    ${NavbarNavItemTextHeader} {
+      color: ${props => props.theme.grey600};
+    }
+  }
+`
+
+export { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNavItem }
