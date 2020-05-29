@@ -283,7 +283,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           <FormattedMessage
             id='modals.interest.deposit.subheader'
-            defaultMessage='Depost {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
+            defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
             values={{
               displayName,
               rate: interestRate[coin]

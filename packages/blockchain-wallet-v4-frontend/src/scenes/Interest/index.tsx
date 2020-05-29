@@ -73,13 +73,6 @@ const Legal = () => {
           defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
         />
       </LegalText>
-
-      <LegalText>
-        <FormattedMessage
-          id='scenes.interest.legal.three'
-          defaultMessage='The interest you receive is simple daily interest and will not be compounded.'
-        />
-      </LegalText>
     </LegalTextWrapper>
   )
 }
