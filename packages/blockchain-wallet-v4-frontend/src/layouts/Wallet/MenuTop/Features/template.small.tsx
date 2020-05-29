@@ -36,7 +36,7 @@ const FeaturesSmall = (
         size='18px'
         color='alwaysWhite'
       />
-      <NavbarNavItemTextHeader persist color='alwaysWhite'>
+      <NavbarNavItemTextHeader persist color='alwaysWhite' weight={600}>
         <FormattedMessage id='buttons.transact' defaultMessage='Transact' />
       </NavbarNavItemTextHeader>
       <Icon
