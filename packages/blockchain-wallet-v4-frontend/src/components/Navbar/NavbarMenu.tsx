@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -15,10 +14,6 @@ const NavbarMenu = props => {
   const { children, ...rest } = props
 
   return <BaseMenu {...rest}>{children}</BaseMenu>
-}
-
-NavbarMenu.propTypes = {
-  toggled: PropTypes.bool
 }
 
 NavbarMenu.defaultProps = {

@@ -1,4 +1,5 @@
 import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import React, { useRef, useState } from 'react'
 
@@ -38,6 +39,11 @@ const FeaturesSmall = (
       <NavbarNavItemTextHeader persist color='alwaysWhite'>
         <FormattedMessage id='buttons.transact' defaultMessage='Transact' />
       </NavbarNavItemTextHeader>
+      <Icon
+        name={isMenuOpen ? 'chevron-up' : 'chevron-down'}
+        size='24px'
+        color='alwaysWhite'
+      />
       {isMenuOpen && (
         <DropdownMenu ref={ref}>
           <DropdownMenuArrow />
