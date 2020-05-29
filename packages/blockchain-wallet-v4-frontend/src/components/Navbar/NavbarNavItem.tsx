@@ -13,6 +13,9 @@ const BaseNavItem = styled.li`
 
   ${media.tablet`
     padding: 0px 8px;
+    &:last-child {
+      padding-right: 0px;
+    }
   `}
 `
 

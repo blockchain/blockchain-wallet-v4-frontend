@@ -52,7 +52,7 @@ const BalanceDropdown = styled.div`
     font-weight: 600;
     font-size: 24px;
     ${media.laptop`
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.alwaysWhite};
       font-size: 16px;
       padding-right: 4px;
       max-width: 40vw;
@@ -80,10 +80,10 @@ const BalanceDropdown = styled.div`
       position: static;
       right: initial;
       border: 0px;
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.alwaysWhite};
       &:hover {
         border: 0px;
-        color: ${props => props.theme.white};
+        color: ${props => props.theme.alwaysWhite};
       }
     `}
   }

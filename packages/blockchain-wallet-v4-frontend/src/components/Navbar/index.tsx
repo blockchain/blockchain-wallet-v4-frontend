@@ -10,14 +10,15 @@ import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
 
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
-  color: ${props => props.theme.grey400};
+  color: ${props => props.theme[props.color || 'grey400']};
   transition: color 0.3s;
   display: ${props => (props.persist ? 'block !important' : '')};
 `
 
-export const NavbarNavItemTextHeader = styled(Text)`
-  color: ${props => props.theme.grey400};
+export const NavbarNavItemTextHeader = styled(Text)<{ persist?: boolean }>`
+  color: ${props => props.theme[props.color || 'grey400']};
   transition: color 0.3s;
+  display: ${props => (props.persist ? 'block !important' : '')};
 `
 
 export const NavbarNavItemButton = styled(Button)`
@@ -45,14 +46,16 @@ export const NavbarNavItemButton = styled(Button)`
   `}
 
   ${media.laptopM`
+    flex-direction: column;
     ${NavbarNavItemTextHeader} {
       margin-top: 4px;
     }
-    flex-direction: column;
   `}
 
   ${media.laptop`
+    flex-direction: row;
     ${NavbarNavItemTextHeader} {
+      margin-left: 8px;
       margin-top: 0px;
     }
     ${NavbarNavItemIcon} {

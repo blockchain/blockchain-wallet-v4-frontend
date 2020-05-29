@@ -32,6 +32,7 @@ type MessagesType = {
   'buttons.send': 'Send'
   'buttons.show': 'Show'
   'buttons.swap': 'Swap'
+  'buttons.transact': 'Transact'
   'buttons.viewstatus': 'View Status'
   'buttons.withdraw': 'Withdraw'
   'components.DateInputBox.placeholder.month': 'Month'

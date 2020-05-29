@@ -1,4 +1,4 @@
-import { Image } from 'blockchain-info-components'
+import { Icon, Image } from 'blockchain-info-components'
 import { NavLink } from 'react-router-dom'
 import React from 'react'
 import styled from 'styled-components'
@@ -6,8 +6,8 @@ import styled from 'styled-components'
 import {
   Navbar,
   NavbarBrand,
+  NavbarDivider,
   NavbarHeader,
-  NavbarMenu,
   NavbarNav,
   NavbarNavItem
 } from 'components/Navbar'
@@ -39,6 +39,7 @@ const BlockchainLogoImage = styled(Image)`
 const NavbarBottomStyled = styled(Navbar)`
   display: flex;
   box-sizing: border-box;
+  justify-content: space-between;
   border-top: 1px solid ${props => props.theme.whiteFade100};
 `
 
@@ -53,24 +54,39 @@ const Small: React.FC<Props> = props => {
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>
-        <NavbarMenu>
-          <Spacer />
-          <NavbarNav>
-            <NavbarNavItem>
-              <SecurityCenter />
-            </NavbarNavItem>
-            <NavbarNavItem>
-              <Refresh />
-            </NavbarNavItem>
-            <NavbarNavItem>
-              <Settings {...props} />
-            </NavbarNavItem>
-          </NavbarNav>
-        </NavbarMenu>
+        <Spacer />
+        <NavbarNav>
+          <NavbarNavItem>
+            <SecurityCenter />
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <Refresh />
+          </NavbarNavItem>
+          <NavbarNavItem>
+            <Settings {...props} />
+          </NavbarNavItem>
+        </NavbarNav>
       </Navbar>
       <NavbarBottomStyled height='60px'>
-        <Balances />
-        <Features />
+        <NavbarNav>
+          <NavbarNavItem>
+            <Icon
+              name='hamburger-menu'
+              color='alwaysWhite'
+              size='16px'
+              onClick={props.handleToggle}
+            />
+          </NavbarNavItem>
+          <NavbarDivider />
+          <NavbarNavItem>
+            <Balances />
+          </NavbarNavItem>
+        </NavbarNav>
+        <NavbarNav>
+          <NavbarNavItem>
+            <Features />
+          </NavbarNavItem>
+        </NavbarNav>
       </NavbarBottomStyled>
     </NavbarContainer>
   )

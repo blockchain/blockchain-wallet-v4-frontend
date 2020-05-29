@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const CoinText = styled(Text)<{ mobileSize: string }>`
+  white-space: nowrap;
   font-size: ${props => props.mobileSize};
   text-transform: ${props => (props.italic ? 'italic' : 'none')};
   ${media.atLeastMobile`
