@@ -45,6 +45,44 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
+const LegalTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  margin-top: 8px;
+`
+const LegalText = styled(Text)`
+  font-size: 11px;
+  line-height: 14px;
+  margin-bottom: 10px;
+  font-weight: 400;
+  color: ${props => props.theme['grey500']};
+`
+const Legal = () => {
+  return (
+    <LegalTextWrapper>
+      <LegalText>
+        <FormattedMessage
+          id='scenes.interest.legal.one'
+          defaultMessage='Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities InvestorProtection Corporation or any other non-US governmental or government-backed protections.'
+        />
+      </LegalText>
+      <LegalText>
+        <FormattedMessage
+          id='scenes.interest.legal.two'
+          defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
+        />
+      </LegalText>
+
+      <LegalText>
+        <FormattedMessage
+          id='scenes.interest.legal.three'
+          defaultMessage='The interest you receive is simple daily interest and will not be compounded.'
+        />
+      </LegalText>
+    </LegalTextWrapper>
+  )
+}
 
 class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
@@ -128,6 +166,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                     isGoldTier={isGoldTier}
                   />
                 )}
+                <Legal />
               </Container>
               <TransactionList />
             </LazyLoadWrapper>
