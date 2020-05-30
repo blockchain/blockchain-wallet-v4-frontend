@@ -153,7 +153,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           color='grey600'
           weight={500}
           size='14px'
-          style={{ marginTop: '24px' }}
+          style={{ margin: '18px 0 8px 0' }}
         >
           <FormattedMessage
             id='modals.interest.deposit.subheader'
