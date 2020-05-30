@@ -1,183 +1,57 @@
-import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import {
   Button,
-  Icon,
   Link,
   SpinningLoader,
   Text,
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { CustomCartridge } from 'components/Cartridge'
 
-import {
-  CheckBox,
-  CoinBalanceDropdown,
-  Form,
-  FormLabel,
-  NumberBox
-} from 'components/Form'
+import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
 import {
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
+import {
+  AgreementContainer,
+  AmountError,
+  AmountFieldContainer,
+  ArrowIcon,
+  Bottom,
+  ButtonContainer,
+  CalculatorContainer,
+  CalculatorDesc,
+  CalculatorHeaderContainer,
+  CalculatorWrapper,
+  CustomField,
+  CustomForm,
+  CustomFormLabel,
+  FiatMaxContainer,
+  GreyBlueCartridge,
+  InterestTermContainer,
+  InterestTermWrapper,
+  MaxAmountContainer,
+  PrincipalCcyAbsolute,
+  SendingWrapper,
+  TermsContainer,
+  Top,
+  TopText
+} from './model'
 import { maxDepositAmount, minDepositAmount } from './validation'
 import { SuccessStateType } from '.'
+
 import TabMenuTimeFrame from './TabMenuTimeFrame'
-
-const SendingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-`
-const CustomForm = styled(Form)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0;
-`
-const TopText = styled(Text)`
-  display: flex;
-  width: 100%;
-  align-items: center;
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-`
-const CustomFormLabel = styled(FormLabel)`
-  display: block;
-  margin-top: 24px;
-`
-const CustomField = styled(Field)<BaseFieldProps>`
-  > input {
-    padding-left: 42px;
-  }
-  > div:last-child {
-    display: none;
-  }
-`
-const AmountFieldContainer = styled.div`
-  display: flex;
-  position: relative;
-`
-const PrincipalCcyAbsolute = styled.div`
-  position: absolute;
-  top: 16px;
-  left: 12px;
-`
-
-const MaxAmountContainer = styled.div`
-  align-items: center;
-  display: flex;
-  margin: 10px 0;
-`
-const FiatMaxContainer = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
-`
-const CalculatorWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 28px;
-`
-const CalculatorHeaderContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
-const CalculatorDesc = styled(Text)`
-  margin: 6px 0 8px;
-`
-const CalculatorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 16px;
-  background-color: ${props => props.theme.greyFade000};
-  border: 1px solid ${({ theme }) => theme.grey000};
-  box-sizing: border-box;
-  border-radius: 8px;
-`
-
-const AmountError = styled.div`
-  margin: 10px 5px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`
-
-const GreyBlueCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.grey100};
-  color: ${props => props.theme.blue600};
-  cursor: pointer;
-  margin-left: 10px;
-`
-const InterestTermWrapper = styled.div`
-  display: flex;
-`
-const InterestTermContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  border-right: 1px solid ${({ theme }) => theme.grey000};
-  margin-right: 16px;
-  width: 114px;
-  height: 48px;
-
-  &:last-child {
-    border-right: 1px solid transparent;
-    margin-right: 0;
-  }
-`
-const TermsContainer = styled.div`
-  margin: -3px 0 24px 0;
-
-  & > * {
-    display: inline-block;
-  }
-`
-const AgreementContainer = styled.div`
-  margin-top: -3px;
-
-  & > * {
-    display: inline-block;
-  }
-`
-const ArrowIcon = styled(Icon)`
-  margin-right: 20px;
-`
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 32px;
-  > button {
-    padding: 15px !important;
-  }
-`
 
 const calcCompoundInterest = (principal, rate, term) => {
   const COMPOUNDS_PER_YEAR = 365
@@ -290,41 +164,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </Text>
-        <MaxAmountContainer>
-          <Text color='grey600' weight={500} size='14px'>
-            <FormattedMessage
-              id='modals.interest.deposit.uptoamount1'
-              defaultMessage='You can deposit up to'
-            />{' '}
-            <FiatMaxContainer
-              onClick={() =>
-                formActions.change(
-                  FORM_NAME,
-                  'depositAmount',
-                  depositLimits.maxFiat
-                )
-              }
-            >
-              <Text color='blue600' size='14px' weight={500}>
-                {fiatToString({
-                  value: depositLimits.maxFiat,
-                  unit: walletCurrency
-                })}{' '}
-              </Text>
-            </FiatMaxContainer>
-            <FormattedMessage
-              id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin} from this wallet.'
-              values={{
-                coin
-              }}
-            />
-          </Text>
-          <TooltipHost id='modals.interest.depositmax.tooltip'>
-            <TooltipIcon name='info' size='12px' />
-          </TooltipHost>
-        </MaxAmountContainer>
-
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
@@ -356,7 +195,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </Text>
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-        {amtError && (
+        {amtError ? (
           <AmountError>
             <Text size='14px' weight={500} color='red600'>
               {amtError === 'ABOVE_MAX' ? (
@@ -413,6 +252,41 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               )}
             </GreyBlueCartridge>
           </AmountError>
+        ) : (
+          <MaxAmountContainer>
+            <Text color='grey600' weight={500} size='14px'>
+              <FormattedMessage
+                id='modals.interest.deposit.uptoamount1'
+                defaultMessage='You can deposit up to'
+              />{' '}
+              <FiatMaxContainer
+                onClick={() =>
+                  formActions.change(
+                    FORM_NAME,
+                    'depositAmount',
+                    depositLimits.maxFiat
+                  )
+                }
+              >
+                <Text color='blue600' size='14px' weight={500}>
+                  {fiatToString({
+                    value: depositLimits.maxFiat,
+                    unit: walletCurrency
+                  })}{' '}
+                </Text>
+              </FiatMaxContainer>
+              <FormattedMessage
+                id='modals.interest.deposit.uptoamount2'
+                defaultMessage='of {coin} from this wallet.'
+                values={{
+                  coin
+                }}
+              />
+            </Text>
+            <TooltipHost id='modals.interest.depositmax.tooltip'>
+              <TooltipIcon name='info' size='12px' />
+            </TooltipHost>
+          </MaxAmountContainer>
         )}
         <CalculatorWrapper>
           <CalculatorHeaderContainer>
