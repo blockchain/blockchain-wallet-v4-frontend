@@ -640,6 +640,7 @@ type MessagesType = {
   'modals.interest.deposit.amount': 'Enter deposit amount'
   'modals.interest.deposit.calc': 'Interest Calculator'
   'modals.interest.deposit.calcdesc': 'With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:'
+
   'modals.interest.deposit.confirm': 'Confirm Deposit'
   'modals.interest.deposit.agreement1': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your Bitcoin Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
   'modals.interest.deposit.calcfooter': 'Estimates based on current interest rate and {coin} price.'
@@ -652,6 +653,8 @@ type MessagesType = {
   'modals.interest.deposit.uptoamount2': 'of {coin} from this wallet.'
   'modals.interest.deposit.failure': 'Something went wrong. Please try again later or contact support if the issue persists.'
   'modals.interest.deposit.failurereason': 'Error: {error}'
+  'modals.interest.deposit.showcoin': 'Show {coinTicker}'
+  'modals.interest.deposit.showfiat': 'Show {walletCurrency}'
   'modals.interest.deposit.subheader': 'Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
   'modals.interest.deposit.success.confirm': 'Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
   'modals.interest.deposit.clears': 'Once the deposit clears, your balance will update and you’ll start earning interest.'

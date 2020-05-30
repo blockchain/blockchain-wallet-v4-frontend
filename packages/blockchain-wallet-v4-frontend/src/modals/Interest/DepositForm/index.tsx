@@ -18,11 +18,18 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class DepositForm extends PureComponent<Props> {
+class DepositForm extends PureComponent<Props, State> {
+  state: State = { displayCoin: true }
+
   componentDidMount () {
     this.handleInitializeDepositForm()
   }
 
+  handleDisplayToggle = () => {
+    this.setState({
+      displayCoin: !this.state.displayCoin
+    })
+  }
   handleRefresh = () => {
     this.handleInitializeDepositForm()
   }
@@ -44,7 +51,13 @@ class DepositForm extends PureComponent<Props> {
     const { data } = this.props
     return data.cata({
       Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+        <Success
+          {...val}
+          {...this.props}
+          onSubmit={this.handleSubmit}
+          handleDisplayToggle={this.handleDisplayToggle}
+          displayCoin={this.state.displayCoin}
+        />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
@@ -64,6 +77,10 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+
+export type State = {
+  displayCoin: boolean
+}
 
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics

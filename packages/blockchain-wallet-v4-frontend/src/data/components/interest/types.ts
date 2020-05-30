@@ -25,7 +25,9 @@ export type InterestDepositFormType = {
 }
 
 export type InterestMinMaxType = {
+  maxCoin: number
   maxFiat: number
+  minCoin: number
   minFiat: number
 }
 

@@ -11,7 +11,9 @@ const INITIAL_STATE: InterestState = {
   coin: 'BTC',
   depositLimits: {
     maxFiat: 0,
-    minFiat: 0
+    minFiat: 0,
+    maxCoin: 0,
+    minCoin: 0
   },
   interestEligible: Remote.NotAsked,
   instruments: Remote.NotAsked,

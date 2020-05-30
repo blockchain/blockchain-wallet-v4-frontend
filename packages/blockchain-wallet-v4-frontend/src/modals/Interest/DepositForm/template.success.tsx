@@ -49,8 +49,7 @@ import {
   TopText
 } from './model'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { SuccessStateType } from '.'
-
+import { State, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const calcCompoundInterest = (principal, rate, term) => {
@@ -69,16 +68,18 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
     depositLimits,
+    displayCoin,
     formActions,
     formErrors,
+    handleDisplayToggle,
     interestActions,
     interestLimits,
     interestRate,
     invalid,
-    walletCurrency,
     rates,
     submitting,
     supportedCoins,
+    walletCurrency,
     values
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
@@ -176,6 +177,26 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               defaultMessage='Enter deposit amount'
             />
           </Text>
+          <Button
+            nature='empty-secondary'
+            data-e2e='toggleFiatCrypto'
+            width='20px'
+            onClick={handleDisplayToggle}
+          >
+            {displayCoin ? (
+              <FormattedMessage
+                id='modals.interest.deposit.showfiat'
+                defaultMessage='Show {walletCurrency}'
+                values={{ walletCurrency }}
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.interest.deposit.showcoin'
+                defaultMessage='Show {coinTicker}'
+                values={{ coinTicker }}
+              />
+            )}
+          </Button>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -190,9 +211,15 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           <PrincipalCcyAbsolute>
-            <Text color='grey800' size='14px' weight={600}>
-              {currencySymbol}
-            </Text>
+            {displayCoin ? (
+              <Text color='grey800' size='14px' weight={600}>
+                {coinTicker}
+              </Text>
+            ) : (
+              <Text color='grey800' size='14px' weight={600}>
+                {currencySymbol}
+              </Text>
+            )}
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
         {amtError ? (
@@ -203,10 +230,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='modals.interest.deposit.max'
                   defaultMessage='You cannot deposit more than {maxFiat}'
                   values={{
-                    maxFiat: fiatToString({
-                      value: depositLimits.maxFiat,
-                      unit: walletCurrency
-                    })
+                    maxFiat: displayCoin
+                      ? depositLimits.maxCoin
+                      : fiatToString({
+                          value: depositLimits.maxFiat,
+                          unit: walletCurrency
+                        })
                   }}
                 />
               ) : (
@@ -214,10 +243,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='modals.interest.deposit.min'
                   defaultMessage='Minimum deposit: {minFiat}'
                   values={{
-                    minFiat: fiatToString({
-                      value: depositLimits.minFiat,
-                      unit: walletCurrency
-                    })
+                    minFiat: displayCoin
+                      ? depositLimits.minCoin
+                      : fiatToString({
+                          value: depositLimits.minFiat,
+                          unit: walletCurrency
+                        })
                   }}
                 />
               )}
@@ -525,11 +556,13 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = SuccessStateType &
+export type Props = State &
+  SuccessStateType &
   ConnectedProps<typeof connector> &
   FormProps
 
 type FormProps = {
+  handleDisplayToggle: () => void
   onSubmit: () => void
 }
 

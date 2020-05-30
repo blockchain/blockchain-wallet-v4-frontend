@@ -35,7 +35,6 @@ export const Bottom = styled(FlyoutWrapper)`
   height: 100%;
 `
 export const CustomFormLabel = styled(FormLabel)`
-  display: block;
   margin-top: 24px;
 `
 export const CustomField = styled(Field)<BaseFieldProps>`
