@@ -8,7 +8,6 @@ import {
   NavbarNavItem
 } from 'components/Navbar'
 import { NavLink } from 'react-router-dom'
-import FaqIcon from './FaqIcon'
 import React from 'react'
 import RefreshIcon from './RefreshIcon'
 import SecurityCenter from './SecurityCenter'
@@ -22,7 +21,7 @@ type Props = {
 }
 
 const NavbarNavItemSpacer = styled(NavbarNavItem)`
-  margin-right: 12px;
+  margin-right: 24px;
 `
 const NavbarNavItemWithText = styled(NavbarNavItem)`
   padding: 0 26px;
@@ -63,15 +62,12 @@ const Large: React.FC<Props> = props => {
       </NavbarHeader>
       <NavbarMenuStyled>
         <SendRequest />
-        <NavbarNav>
+        <NavbarNav style={{ marginRight: '8px' }}>
           <NavbarNavItem>
             <WhatsNewIcon />
           </NavbarNavItem>
-          <NavbarNavItem>
-            <RefreshIcon />
-          </NavbarNavItem>
           <NavbarNavItemSpacer>
-            <FaqIcon />
+            <RefreshIcon />
           </NavbarNavItemSpacer>
           <NavbarNavItemWithText>
             <SecurityCenter />

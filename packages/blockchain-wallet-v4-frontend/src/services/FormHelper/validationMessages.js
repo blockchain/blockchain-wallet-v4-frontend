@@ -214,3 +214,17 @@ export const UniqueWalletName = () => (
     defaultMessage='Wallet name is already taken.'
   />
 )
+
+export const ValueOverMaxMessage = () => (
+  <FormattedMessage
+    id='formhelper.valueovermax'
+    defaultMessage='Value is over the max'
+  />
+)
+
+export const ValueIsEqualToMaxMessage = () => (
+  <FormattedMessage
+    id='formhelper.valueisequaltomax'
+    defaultMessage='Value must not be equal to the max'
+  />
+)

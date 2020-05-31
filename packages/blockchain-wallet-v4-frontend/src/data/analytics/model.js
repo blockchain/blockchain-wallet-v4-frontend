@@ -20,9 +20,12 @@ export const AB_TESTS = {}
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
 //
-export const COINIFY_EVENTS = {
-  CONTINUE_COINIFY_CLICK: ['coinify', 'buy_sell_page', 'continue_coinify_click']
+
+export const ADS_EVENTS = {
+  CLICK_AD: ['navigation', 'click_ad'],
+  CLICK_AD_TAX: ['navigation', 'click_ad_tax']
 }
+
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'
@@ -64,7 +67,6 @@ export const TRANSACTION_EVENTS = {
 
 export const GENERAL_EVENTS = {
   VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  VIEW_FAQ: ['general', 'view_faq'],
   WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_tour', 'dismissed'],
   WALLET_INTRO_OFFERED: ['general', 'wallet_intro_tour', 'offered'],
   WALLET_INTRO_STARTED: ['general', 'wallet_intro_tour', 'started'],
@@ -88,10 +90,6 @@ export const GENERAL_EVENTS = {
   WALLET_INTRO_AIRDROPS: ['general', 'wallet_intro_tour', 'step_view_airdrops']
 }
 
-export const ADS_EVENTS = {
-  CLICK_AD: ['navigation', 'click_ad']
-}
-
 export const EXCHANGE_EVENTS = {
   BANNER_GET_STARTED: ['exchange', 'homepage', 'homepage_banner_click'],
   BUY_SELL_LINKOUT_CLICKED: ['exchange', 'buy_sell_page', 'linkout_click'],
@@ -106,10 +104,30 @@ export const EXCHANGE_EVENTS = {
     'exchange',
     'homepage',
     'linked_wallet_linkout_clicked'
-  ]
+  ],
+  PROMO: ['exchange', 'send_modal']
 }
 
 export const PRICE_CHART_EVENTS = {
   CLICK_BUY_BITCOIN: ['price_chart', 'footer_button', 'buy_bitcoin'],
   CLICK_SWAP_COIN: ['price_chart', 'footer_button', 'swap_coin']
+}
+
+export const SB_EVENTS = {
+  CLICK_SUPPORT_ARTICLE: ['simple_buy', 'transfer_flyout', 'read_it_now']
+}
+
+export const INTEREST_EVENTS = {
+  HOME: {
+    CLICK_SUPPORT_ARTICLE: ['interest', 'home', 'learn_more_click'],
+    VIEW_TX_SUMMARY: ['interest', 'home', 'view_tx_click']
+  },
+  DEPOSIT: {
+    SEND_SUCCESS: ['interest', 'deposit', 'send_success'],
+    SEND_FAILURE: ['interest', 'deposit', 'send_failure']
+  },
+  WITHDRAWAL: {
+    REQUEST_SUCCESS: ['interest', 'withdrawal', 'request_success'],
+    REQUEST_FAILURE: ['interest', 'withdrawal', 'request_failure']
+  }
 }

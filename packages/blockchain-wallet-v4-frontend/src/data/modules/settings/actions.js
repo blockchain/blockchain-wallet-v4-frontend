@@ -43,9 +43,9 @@ export const updateLanguage = language => ({
   payload: { language }
 })
 
-export const updateCurrency = currency => ({
+export const updateCurrency = (currency, hideAlert) => ({
   type: AT.UPDATE_CURRENCY,
-  payload: { currency }
+  payload: { currency, hideAlert }
 })
 
 export const updateAutoLogout = autoLogout => ({
@@ -129,6 +129,11 @@ export const addShownEthPrivateKey = priv => ({
   payload: { priv }
 })
 
+export const addShownEthLegacyPrivateKey = priv => ({
+  type: AT.ADD_SHOWN_ETH_LEGACY_PRIV_KEY,
+  payload: { priv }
+})
+
 export const addShownXlmPrivateKey = priv => ({
   type: AT.ADD_SHOWN_XLM_PRIV_KEY,
   payload: { priv }
@@ -142,8 +147,12 @@ export const clearShownEthPrivateKey = () => ({
   type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
 })
 
+export const clearShownEthLegacyPrivateKey = () => ({
+  type: AT.CLEAR_SHOWN_ETH_LEGACY_PRIV_KEY
+})
+
 export const clearShownXlmPrivateKey = () => ({
-  type: AT.CLEAR_SHOWN_ETH_PRIV_KEY
+  type: AT.CLEAR_SHOWN_XLM_PRIV_KEY
 })
 
 export const removeRecoveryPhrase = () => ({ type: AT.REMOVE_RECOVERY_PHRASE })

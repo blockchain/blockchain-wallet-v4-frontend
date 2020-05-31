@@ -32,13 +32,22 @@ export class CoinPerformanceContainer extends React.PureComponent {
     this.props.priceChartActions.initialized(toUpper(this.props.coin), '1week')
   }
 
+  componentDidUpdate (prevProps) {
+    if (this.props.coin !== prevProps.coin) {
+      this.props.priceChartActions.initialized(
+        toUpper(this.props.coin),
+        '1week'
+      )
+    }
+  }
+
   render () {
-    const { currencySymbol } = this.props
+    const { currency } = this.props
 
     return this.props.data.cata({
       Success: value => (
         <Chart
-          currencySymbol={currencySymbol}
+          currency={currency}
           coin={value.coin}
           time={value.time}
           data={value.data}

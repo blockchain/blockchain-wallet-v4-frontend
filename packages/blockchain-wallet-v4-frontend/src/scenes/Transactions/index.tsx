@@ -1,7 +1,9 @@
 import { actions, model } from 'data'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
+import { CoinType, FiatType, SupportedCoinType } from 'core/types'
+import { compose, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
+import { getHeaderExplainer } from './template.headerexplainer'
 import { Icon, Text } from 'blockchain-info-components'
 import { path, toLower } from 'ramda'
 import { reduxForm } from 'redux-form'
@@ -28,6 +30,9 @@ const PageTitle = styled.div`
   }
 `
 const Header = styled.div`
+  width: 100%;
+`
+const ExplainerWrapper = styled.div`
   width: 100%;
 `
 const StatsContainer = styled.div`
@@ -63,32 +68,6 @@ const StatsContainer = styled.div`
   `}
 `
 
-type OwnProps = {
-  buySellPartner: 'coinify' | 'sfox'
-  // FIXME: TypeScript use CoinType
-  coin: 'BTC' | 'BCH' | 'ETH' | 'PAX' | 'XLM'
-  // FIXME: TypeScript use SupportedCoinType
-  coinModel: any
-  // FIXME: TypeScript use CurrencyType
-  currency: any
-  hasTxResults: boolean
-  isSearchEntered: boolean
-  pages: Array<any>
-}
-
-type LinkStatePropsType = {
-  data: any
-}
-
-type LinkDispatchPropsType = {
-  fetchData: () => void
-  initTxs: () => void
-  loadMoreTxs: () => void
-  setAddressArchived: (string) => void
-}
-
-type Props = OwnProps & LinkStatePropsType & LinkDispatchPropsType
-
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
@@ -108,18 +87,21 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.initTxs()
   }
 
-  handleArchive = address => this.props.setAddressArchived(address)
+  handleArchive = address => {
+    this.props.setAddressArchived && this.props.setAddressArchived(address)
+  }
 
   render () {
     const {
-      buySellPartner,
       coin,
       coinModel,
       currency,
       hasTxResults,
+      isCoinErc20,
       isSearchEntered,
       loadMoreTxs,
-      pages
+      pages,
+      sourceType
     } = this.props
     const { colorCode, coinTicker, displayName, icons } = coinModel
 
@@ -133,9 +115,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 {displayName}
               </Text>
             </PageTitle>
+            <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown coin={coin} coinModel={coinModel} />
-              <CoinPerformance coin={coin} />
+              <WalletBalanceDropdown
+                coin={coin}
+                coinModel={coinModel}
+                isCoinErc20={isCoinErc20}
+              />
+              <CoinPerformance coin={coin} coinModel={coinModel} />
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && (
@@ -154,7 +141,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
           ) : (
             pages.map((value, index) => (
               <TransactionList
-                buySellPartner={buySellPartner}
                 coin={coin}
                 coinTicker={coinTicker}
                 currency={currency}
@@ -163,6 +149,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
+                sourceType={sourceType}
               />
             ))
           )}
@@ -172,10 +159,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps) =>
+const mapStateToProps = (state, ownProps): LinkStatePropsType =>
   getData(state, ownProps.coin, ownProps.isCoinErc20)
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
   const { coin, isCoinErc20 } = ownProps
   if (isCoinErc20) {
     return {
@@ -199,15 +186,33 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+export type OwnProps = {
+  coin: CoinType
+  isCoinErc20: boolean
+}
+
+export type SuccessStateType = {
+  coinModel: SupportedCoinType
+  currency: FiatType
+  hasTxResults: boolean
+  isSearchEntered: boolean
+  pages: Array<any>
+  sourceType: string
+}
+
+// data is not remote
+type LinkStatePropsType = SuccessStateType
+
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
+
 const enhance = compose(
   reduxForm({
     form: model.form.WALLET_TX_SEARCH,
     initialValues: { source: 'all' }
   }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
 
 export default enhance(TransactionsContainer)

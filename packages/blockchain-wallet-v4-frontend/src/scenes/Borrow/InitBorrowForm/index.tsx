@@ -16,7 +16,7 @@ import {
   OfferType,
   RemoteDataType
 } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
@@ -25,26 +25,8 @@ import { RootState } from 'data/rootReducer'
 import { USER_BLOCKED } from 'data/components/borrow/model'
 import Amount from './Amount'
 import React, { PureComponent } from 'react'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 import styled from 'styled-components'
-
-type OwnProps = {
-  isDisabled: boolean
-}
-type LinkDispatchPropsType = {
-  borrowActions: typeof actions.components.borrow
-  modalActions: typeof actions.modals
-}
-type LinkStatePropsType = {
-  offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
-  userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
-  values: {
-    coin: CoinType
-  }
-}
-
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 const CustomBox = styled(Box)`
   display: flex;
@@ -68,7 +50,7 @@ const HorizontalBorder = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-const CustomOrangeCartridge = styled<{ show: boolean }>(OrangeCartridge)`
+const CustomOrangeCartridge = styled(OrangeCartridge)<{ show: boolean }>`
   opacity: ${props => (props.show ? 1 : 0)};
 `
 
@@ -87,10 +69,9 @@ class InitBorrowForm extends PureComponent<Props> {
     const offers = this.props.offersR.getOrElse([])
     const values = this.props.values
 
-    if (!values) return null
     const offer = offers.find(
       offer =>
-        offer.terms.collateralCcy === values.coin &&
+        offer.terms.collateralCcy === values?.coin &&
         offer.terms.principalCcy === 'PAX'
     )
     return offer
@@ -115,7 +96,9 @@ class InitBorrowForm extends PureComponent<Props> {
     const offer = this.getOfferForCoin()
     if (!offer) return
     this.props.borrowActions.setStep({ step: 'CHECKOUT', offer })
-    this.props.modalActions.showModal('BORROW_MODAL')
+    this.props.modalActions.showModal('BORROW_MODAL', {
+      origin: 'BorrowLandingPage'
+    })
   }
 
   render () {
@@ -131,7 +114,7 @@ class InitBorrowForm extends PureComponent<Props> {
               <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </Text>
-          <Amount {...this.props.values} />
+          <Amount {...(this.props.values || { coin: 'BTC' })} />
           <HorizontalBorder />
           <FormGroup>
             <CustomFormLabel>
@@ -180,7 +163,7 @@ class InitBorrowForm extends PureComponent<Props> {
                 href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
               >
                 <FormattedMessage
-                  id='scenes.initborrow.learnmore'
+                  id='buttons.learn_more'
                   defaultMessage='Learn More'
                 />
               </Link>
@@ -195,7 +178,9 @@ class InitBorrowForm extends PureComponent<Props> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   offersR: selectors.components.borrow.getOffers(state),
   userHistoryR: selectors.components.borrow.getBorrowHistory(state),
-  values: selectors.form.getFormValues('initBorrow')(state)
+  values: selectors.form.getFormValues('initBorrow')(state) as {
+    coin: CoinType
+  }
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -203,12 +188,24 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  isDisabled: boolean
+}
+type LinkStatePropsType = {
+  offersR: RemoteDataType<NabuApiErrorType, Array<OfferType>>
+  userHistoryR: RemoteDataType<NabuApiErrorType, Array<LoanType>>
+  values?: {
+    coin: CoinType
+  }
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
 const enhance = compose<any>(
   reduxForm({ form: 'initBorrow', initialValues: { coin: 'BTC' } }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connector
 )
 
 export default enhance(InitBorrowForm)

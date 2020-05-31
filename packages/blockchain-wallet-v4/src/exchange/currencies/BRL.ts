@@ -1,6 +1,7 @@
 export default {
   code: 'BRL',
   base: 'CENT',
+  displayName: 'Brazil Real',
   trade: 'BRL',
   units: {
     CENT: {

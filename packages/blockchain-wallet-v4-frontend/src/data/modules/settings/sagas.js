@@ -7,7 +7,7 @@ import {
   promptForSecondPassword
 } from 'services/SagaService'
 import { call, put, select } from 'redux-saga/effects'
-import { contains, head, prop, propEq, toLower } from 'ramda'
+import { propEq } from 'ramda'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 import profileSagas from 'data/modules/profile/sagas.ts'
 
@@ -113,17 +113,8 @@ export default ({ api, coreSagas }) => {
 
   const verifyMobile = function * (action) {
     try {
-      const response = yield call(
-        coreSagas.settings.setMobileVerified,
-        action.payload
-      )
-      const modals = yield select(selectors.modals.getModals)
+      yield call(coreSagas.settings.setMobileVerified, action.payload)
 
-      if (
-        contains('successfully', toLower(response)) &&
-        prop('type', head(modals)) !== 'SfoxExchangeData'
-      )
-        yield put(actions.modals.closeAllModals())
       const userFlowSupported = (yield select(
         selectors.modules.profile.userFlowSupported
       )).getOrElse(false)
@@ -151,7 +142,10 @@ export default ({ api, coreSagas }) => {
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
-      yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
+      yield put(actions.preferences.setSBFiatCurrency(action.payload.currency))
+      if (!action.payload.hideAlert) {
+        yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))
@@ -332,15 +326,14 @@ export default ({ api, coreSagas }) => {
         const seedHexT = yield select(getSeedHex)
         const seedHex = yield call(() => taskToPromise(seedHexT))
         const legPriv = utils.eth.getLegacyPrivateKey(seedHex).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
-      } else {
-        const getMnemonic = state =>
-          selectors.core.wallet.getMnemonic(state, password)
-        const mnemonicT = yield select(getMnemonic)
-        const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
-        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
+        yield put(actions.modules.settings.addShownEthLegacyPrivateKey(legPriv))
       }
+      const getMnemonic = state =>
+        selectors.core.wallet.getMnemonic(state, password)
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      let priv = utils.eth.getPrivateKey(mnemonic, 0).toString('hex')
+      yield put(actions.modules.settings.addShownEthPrivateKey(priv))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e)

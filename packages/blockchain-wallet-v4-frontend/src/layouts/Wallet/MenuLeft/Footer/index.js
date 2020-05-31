@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { connect } from 'react-redux'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { includes } from 'ramda'
+import { includes, not } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -13,7 +13,9 @@ const Wrapper = styled.div`
   text-align: center;
 `
 const AdsButton = styled(Button)`
-  margin: 8px auto 0px auto;
+  width: 100%;
+  margin: 4px auto;
+  margin-top: 12px;
   transition: background 0.3s;
   line-height: normal;
   span > span:not(:first-child) {
@@ -40,39 +42,70 @@ const SpadeIcon = styled(Icon)`
 `
 
 const Footer = ({ actions, countryCode, adsBlacklist, adsUrl }) => {
-  const isBlacklisted = includes(countryCode, adsBlacklist)
-  return isBlacklisted ? null : (
-    <Wrapper>
-      <Text color='gray-3' size='12px' weight={500}>
-        <FormattedMessage
-          id='layouts.wallet.menuleft.footer.ad'
-          defaultMessage='Ad by bitcoin.com'
-        />
-      </Text>
-      <AdsButton
-        height='48px'
-        onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD)}
-      >
-        <Link href={adsUrl} rel='noopener noreferrer' target='_blank'>
-          <ButtonText color='gray-4' size='14px' weight={500}>
-            <SpadeIcon name='spade' color='gray4' />
-            <FormattedHTMLMessage
-              id='layouts.wallet.menuleft.footer.bitcoingames2'
-              defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
+  switch (true) {
+    case countryCode === 'US':
+      return (
+        <Wrapper>
+          <Text color='grey400' size='12px' weight={500}>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.footer.adtax'
+              defaultMessage='Offer by LukkaTax'
             />
-            <ArrowIcon name='arrow-right' color='blue600' />
-          </ButtonText>
-        </Link>
-      </AdsButton>
-    </Wrapper>
-  )
+          </Text>
+          <AdsButton
+            height='48px'
+            onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD_TAX)}
+          >
+            <Link
+              href='https://diy.lukkatax.com/?referralCode=1blockchain'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <ButtonText color='grey500' size='14px' weight={500}>
+                <span>💰</span>
+                <FormattedHTMLMessage
+                  id='layouts.wallet.menuleft.footer.adtaxsave'
+                  defaultMessage='Save this tax season'
+                />
+                <ArrowIcon name='arrow-right' color='blue600' />
+              </ButtonText>
+            </Link>
+          </AdsButton>
+        </Wrapper>
+      )
+    case not(includes(countryCode, adsBlacklist)):
+      return (
+        <Wrapper>
+          <Text color='grey400' size='12px' weight={500}>
+            <FormattedMessage
+              id='layouts.wallet.menuleft.footer.ad'
+              defaultMessage='Ad by bitcoin.com'
+            />
+          </Text>
+          <AdsButton
+            height='48px'
+            onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD)}
+          >
+            <Link href={adsUrl} rel='noopener noreferrer' target='_blank'>
+              <ButtonText color='grey500' size='14px' weight={500}>
+                <SpadeIcon color='gray4' name='spade' />
+                <FormattedHTMLMessage
+                  id='layouts.wallet.menuleft.footer.bitcoingames2'
+                  defaultMessage='<span>Bitcoin Games.</span> <span>Play Now</span>'
+                />
+                <ArrowIcon color='blue600' name='arrow-right' />
+              </ButtonText>
+            </Link>
+          </AdsButton>
+        </Wrapper>
+      )
+    default:
+      return null
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.analytics, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Footer)
+export default connect(null, mapDispatchToProps)(Footer)

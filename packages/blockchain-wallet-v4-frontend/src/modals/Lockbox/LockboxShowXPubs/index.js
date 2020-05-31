@@ -31,7 +31,7 @@ const WarningBanner = styled(Banner)`
   margin-bottom: 20px;
 `
 const XPubText = styled(Text)`
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
   padding: 25px;
   margin-bottom: 20px;
   word-break: break-all;
@@ -39,7 +39,7 @@ const XPubText = styled(Text)`
 `
 const Tabs = styled.div`
   display: flex;
-  border-bottom: 2px solid ${props => props.theme['gray-1']};
+  border-bottom: 2px solid ${props => props.theme.grey000};
   margin-bottom: 35px;
 `
 const Tab = styled.div`
@@ -62,7 +62,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 2px ${props => props.theme['gray-6']};
+    border-bottom: solid 2px ${props => props.theme['grey800']};
   }
   > * {
     transition: color 0.3s;
@@ -165,10 +165,7 @@ export class LockboxShowXPubs extends React.PureComponent {
           </ModalBody>
           <ModalFooter align='right'>
             <Button nature='primary' onClick={closeAll}>
-              <FormattedMessage
-                id='modals.lockbox.showxpubs.close'
-                defaultMessage='Close'
-              />
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
             </Button>
           </ModalFooter>
         </Modal>
@@ -190,10 +187,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('LockboxShowXPubs'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(LockboxShowXPubs)

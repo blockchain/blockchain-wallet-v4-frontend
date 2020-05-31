@@ -38,6 +38,9 @@ const devToolsConfig = {
     // '@@redux-form/BLUR',
     // '@@redux-form/DESTROY',
     // '@@redux-form/RESET'
+    '@CORE.COINS_WEBSOCKET_MESSAGE',
+    '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
+    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
   ]
 }
 
@@ -104,7 +107,10 @@ const configureStore = () => {
               storage,
               whitelist: persistWhitelist
             },
-            rootReducer
+            {
+              router: connectRouter(history),
+              ...rootReducer
+            }
           )
         ),
         composeEnhancers(

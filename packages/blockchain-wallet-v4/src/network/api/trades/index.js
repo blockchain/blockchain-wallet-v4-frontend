@@ -65,12 +65,20 @@ export default ({ nabuUrl, post, put, get }) => {
     })
   }
 
+  const requestTradeHistory = () => {
+    return get({
+      url: nabuUrl,
+      endPoint: '/trades/trade-history-csv'
+    })
+  }
+
   return {
     executeTrade,
     failTrade,
     fetchLimits,
     fetchTrade,
     fetchTrades,
-    fetchTradeCounterFees
+    fetchTradeCounterFees,
+    requestTradeHistory
   }
 }

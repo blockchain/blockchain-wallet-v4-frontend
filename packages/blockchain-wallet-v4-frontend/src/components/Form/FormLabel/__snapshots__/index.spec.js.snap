@@ -1,18 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FormItem renders correctly 1`] = `
-.c0 > div {
-  margin-bottom: 5px;
-}
-
-<label
-  className="c0"
+<styled.label
   htmlFor="comp"
 >
   <text
-    color="gray-6"
+    color="grey800"
     size="14px"
     weight={600}
   />
-</label>
+</styled.label>
 `;

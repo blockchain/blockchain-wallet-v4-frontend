@@ -19,7 +19,6 @@ import Description from './Description'
 import FiatAtTime from './FiatAtTime'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import media from 'services/ResponsiveService'
-import PartnerLabel from './PartnerLabel'
 import Status from './Status'
 import TransactionFee from './TransactionFee'
 
@@ -45,7 +44,7 @@ const TransactionRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 16px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const DetailsRow = styled.div`
   width: 100%;
@@ -109,14 +108,15 @@ const dateHelper = (time, isMobile) =>
     .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = ({
+  buySellPartner,
   coin,
   coinTicker,
   currency,
   isToggled,
   transaction,
-  buySellPartner,
   handleToggle,
   handleEditDescription,
+  handleRetrySendEth,
   onViewTxDetails
 }) => (
   <TransactionRowContainer
@@ -163,13 +163,22 @@ const TransactionListItem = ({
             </Banner>
           </BannerWrapper>
         )}
-        {prop('partnerLabel', transaction) ? (
-          <PartnerLabel
-            txType={prop('type', transaction)}
-            partnerLabel={prop('partnerLabel', transaction)}
-            buySellPartner={buySellPartner}
-          />
-        ) : null}
+        {transaction.state === 'PENDING' && transaction.type === 'sent' && (
+          <TooltipHost id='transaction.pending.eth' data-place='right'>
+            <BannerWrapper
+              onClick={e =>
+                handleRetrySendEth(e, transaction.hash, transaction.erc20)
+              }
+            >
+              <Banner label='true'>
+                <FormattedMessage
+                  id='components.txlistitem.retrytx'
+                  defaultMessage='Resend Transaction'
+                />
+              </Banner>
+            </BannerWrapper>
+          </TooltipHost>
+        )}
       </StatusColumn>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses

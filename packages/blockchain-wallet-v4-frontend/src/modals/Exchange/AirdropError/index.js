@@ -83,10 +83,7 @@ export const AirdropError = ({ position, total, error, closeAll }) => {
       </ModalBody>
       <Footer>
         <Button nature='primary' onClick={closeAll}>
-          <FormattedMessage
-            id='modals.sunriverlinkerror.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </Footer>
     </Modal>

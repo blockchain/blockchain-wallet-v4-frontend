@@ -1,6 +1,7 @@
 export default {
   code: 'RUB',
   base: 'CENT',
+  displayName: 'Russian Ruble',
   trade: 'RUB',
   units: {
     CENT: {

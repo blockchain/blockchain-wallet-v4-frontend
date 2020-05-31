@@ -51,7 +51,7 @@ class RequestEthContainer extends React.PureComponent {
     } else if (coin === 'PAX' && prevProps.coin !== coin) {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
-        coin: 'PAX',
+        coin,
         lockboxIndex: this.props.lockboxIndex
       })
     } else if (coin === 'ETH' && prevProps.coin !== coin) {
@@ -147,10 +147,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('@MODAL.REQUEST.ETH'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(RequestEthContainer)

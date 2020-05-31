@@ -3,11 +3,12 @@ import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { prop } from 'ramda'
-import EmptyContent from 'services/WhatsNewService/WhatsNewContent/EmptyContent'
 import Flyout, { duration } from 'components/Flyout'
 import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import styled from 'styled-components'
+
+import EmptyContent from './Content/EmptyContent'
 
 type OwnPropsType = {
   close: () => void
@@ -59,6 +60,7 @@ class WhatsNewContainer extends React.PureComponent<Props> {
         onClose={this.props.close}
         in={show}
         data-e2e='whatsNewModal'
+        direction='left'
       >
         <Container>
           {!prop('length', announcements) ? (
@@ -81,10 +83,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose<any>(
   modalEnhancer('WHATS_NEW_MODAL', { transition: duration }),
-  connect(
-    getData,
-    mapDispatchToProps
-  )
+  connect(getData, mapDispatchToProps)
 )
 
 export default enhance(WhatsNewContainer)

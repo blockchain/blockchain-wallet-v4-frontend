@@ -1,15 +1,19 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { Props as OwnProps, SuccessStateType } from '.'
 import { RepayLoanFormType } from 'data/components/borrow/types'
 import { selectors } from 'data'
-import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React from 'react'
@@ -60,7 +64,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 95px;
   }
@@ -93,19 +97,7 @@ const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
-type LinkStatePropsType = {
-  values?: RepayLoanFormType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
+export type Props = OwnProps & SuccessStateType & LinkStatePropsType & FormProps
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
@@ -116,7 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
@@ -203,7 +195,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} coin='PAX' name='repay-principal' />
+        <CoinBalanceDropdown {...props} coin='PAX' name='repay-principal' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -310,5 +302,13 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: RepayLoanFormType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
 
 export default enhance(Success) as React.FunctionComponent<Props>

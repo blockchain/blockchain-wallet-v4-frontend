@@ -24,10 +24,10 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
           />
         </Tooltip>
-        <Tooltip id='isx.expiredtooltip'>
+        <Tooltip id='import.privatekeys'>
           <FormattedMessage
-            id='scenes.buysell.coinify.isx.expiredtooltip'
-            defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.'
+            id='modals.import.privatekeys.tooltip'
+            defaultMessage='Private key format must be compressed WIF. If you are importing a private key that is in an uncompressed format, please convert it to compressed prior to importing.'
           />
         </Tooltip>
         <Tooltip id='recurring.tooltip'>
@@ -124,12 +124,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.sendxlm.firststep.memotooltip'
             defaultMessage='Memos are used to communicate optional information to the recipient.'
-          />
-        </Tooltip>
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
           />
         </Tooltip>
         <Tooltip id='exchangecheckout.rate'>
@@ -232,12 +226,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='This change address belongs to your wallet'
           />
         </Tooltip>
-        <Tooltip id='buysellOrderReview'>
-          <FormattedMessage
-            id='buysellOrderReview.tooltip'
-            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
-          />
-        </Tooltip>
         <Tooltip id='identityverification.headerhelper'>
           <TextGroup inline>
             <Text color='white' weight={400} size='12px'>
@@ -296,10 +284,52 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The collateral deposit is pending until it is confirmed by the network and a Blockchain.com agent.'
           />
         </Tooltip>
+        <Tooltip id='transaction.pending.eth'>
+          <FormattedMessage
+            id='tooltip.transaction.pending.eth'
+            defaultMessage='Your transaction is currently pending. You can attempt to resend it with a higher fee.'
+          />
+        </Tooltip>
         <Tooltip id='coming-soon'>
           <FormattedMessage
             id='tooltip.comingsoon'
             defaultMessage='Coming soon.'
+          />
+        </Tooltip>
+        <Tooltip id='earninterest.calculation.tooltip'>
+          <FormattedMessage
+            id='earninterestform.tooltip.calculations'
+            defaultMessage='The rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.depositmax.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.max.tooltip'
+            defaultMessage='Maximum deposit is determined by spendable balance minus priority fee.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.calculator.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.calculator.tooltip'
+            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.tooltip.description'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.lock.tooltip.description'
+            defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
+          <FormattedMessage
+            id='modals.interest.moredetails.tooltip.description'
+            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
           />
         </Tooltip>
       </TooltipWrapper>

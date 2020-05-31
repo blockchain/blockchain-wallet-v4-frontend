@@ -29,7 +29,8 @@ const api = {
   getBtcFees: jest.fn(() => feeData),
   getBtcFiatAtTime: jest.fn(() => fiatAtTime),
   getBtcTicker: jest.fn(() => rateData),
-  getTransactionHistory: jest.fn(() => transactionHistory)
+  getTransactionHistory: jest.fn(() => transactionHistory),
+  fetchSBOrders: jest.fn(() => [])
 }
 
 describe('btc data sagas', () => {
@@ -81,7 +82,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add btc data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchData)
+        expectSaga(dataBtcSagas.fetchData)
           .withReducer(reducers)
           .provide([[select(S.getContext), mockContext]])
           .run()
@@ -131,7 +132,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add rate data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchRates)
+        expectSaga(dataBtcSagas.fetchRates)
           .withReducer(reducers)
           .run()
           .then(result => {
@@ -214,7 +215,9 @@ describe('btc data sagas', () => {
         .next(btcFetchData)
         .call(dataBtcSagas.__processTxs, btcFetchData.txs)
         .next(processedTxs)
-        .put(A.fetchTransactionsSuccess(processedTxs, payload.reset))
+        .next()
+        .next()
+      // .put(A.fetchTransactionsSuccess([{}, ...processedTxs], payload.reset))
     })
 
     it('should finish', () => {
@@ -297,7 +300,7 @@ describe('btc data sagas', () => {
 
     describe('state change', () => {
       it('should add fiatAtTime data to the state', () => {
-        return expectSaga(dataBtcSagas.fetchFiatAtTime, { payload })
+        expectSaga(dataBtcSagas.fetchFiatAtTime, { payload })
           .withReducer(reducers)
           .run()
           .then(result => {

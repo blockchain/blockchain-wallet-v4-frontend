@@ -6,7 +6,6 @@ import {
   OfferType
 } from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
-import { head } from 'ramda'
 
 export const INVALID_COIN_TYPE = 'Invalid coin type'
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'
@@ -78,6 +77,8 @@ export const isLastTxStatus = (
     case 'PENDING_CLOSE':
       txType = 'DEPOSIT_PRINCIPAL_AND_INTEREST'
       break
+    default:
+      txType = undefined
   }
 
   if (!txType) return

@@ -9,7 +9,7 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { NO_OFFER_EXISTS } from './model'
+import { INVALID_COIN_TYPE, NO_OFFER_EXISTS } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 
@@ -99,6 +99,9 @@ export default ({
             toCurrency: 'USD',
             rates
           }).value
+          break
+        default:
+          throw new Error(INVALID_COIN_TYPE)
       }
 
       yield put(
@@ -132,6 +135,9 @@ export default ({
         payment = yield payment.init({ isErc20: true, coin })
         payment = yield payment.from()
         payment = yield payment.fee('priority')
+        break
+      default:
+        throw new Error(INVALID_COIN_TYPE)
     }
 
     return payment

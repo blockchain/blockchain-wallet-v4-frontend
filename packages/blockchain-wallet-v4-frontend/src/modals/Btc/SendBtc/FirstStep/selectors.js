@@ -12,6 +12,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveHDAccounts,
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
+    selectors.core.wallet.isMnemonicVerified,
     selectors.core.walletOptions.getBtcNetwork,
     selectors.form.getFormValues(model.components.sendBtc.FORM),
     selectors.core.walletOptions.getCoinAvailability
@@ -22,6 +23,7 @@ export const getData = createDeepEqualSelector(
     btcAccountsR,
     btcAddressesR,
     lockboxDevicesR,
+    isMnemonicVerified,
     networkTypeR,
     formValues,
     coinAvailabilityR
@@ -76,21 +78,22 @@ export const getData = createDeepEqualSelector(
       const network = Bitcoin.networks[networkType]
 
       return {
-        from,
-        network,
-        enableToggle,
-        feePerByte,
-        feePerByteToggled,
-        feePerByteElements,
-        effectiveBalance,
-        minFeePerByte,
-        maxFeePerByte,
-        regularFeePerByte,
-        priorityFeePerByte,
         destination,
+        effectiveBalance,
+        enableToggle,
+        excludeLockbox,
+        feePerByte,
+        feePerByteElements,
+        feePerByteToggled,
+        from,
+        isMnemonicVerified,
+        maxFeePerByte,
+        minFeePerByte,
+        network,
+        priorityFeePerByte,
+        regularFeePerByte,
         totalFee,
-        watchOnly,
-        excludeLockbox
+        watchOnly
       }
     }
 

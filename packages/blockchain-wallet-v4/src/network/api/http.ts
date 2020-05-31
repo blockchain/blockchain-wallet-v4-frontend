@@ -20,6 +20,7 @@ type Header = {
 }
 
 export type HTTPService = {
+  deleteRequest: <T>(options: Partial<RequestConfig>) => Promise<T>
   get: <T>(options: Partial<RequestConfig>) => Promise<T>
   patch: <T>(options: Partial<RequestConfig>) => Promise<T>
   post: <T>(options: Partial<RequestConfig>) => Promise<T>
@@ -32,16 +33,16 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     contentType: string,
     removeDefaultPostData?: boolean
   ) => {
-    if (removeDefaultPostData) return data
     const defaultData = {
       api_code: apiKey,
       ct: Date.now()
     }
+    const allData = removeDefaultPostData ? data : merge(defaultData, data)
 
     if (contentType === 'application/x-www-form-urlencoded') {
-      return queryString.stringify(merge(defaultData, data))
+      return queryString.stringify(allData)
     }
-    return merge(defaultData, data)
+    return allData
   }
 
   const getHeaders = (contentType: string, sessionToken?: string) => {
@@ -64,8 +65,8 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     sessionToken,
     url,
     ...options
-  }: RequestConfig): Promise<T> =>
-    axios
+  }: RequestConfig): Promise<T> => {
+    return axios
       .request<T>({
         url: `${url}${endPoint}`,
         method,
@@ -81,6 +82,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
         throw merge(errorData, { status })
       })
       .then(prop('data'))
+  }
 
   const get = <T>({
     ignoreQueryParams,
@@ -95,6 +97,8 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
         ? endPoint
         : `${endPoint}?${encodeData(data, 'application/x-www-form-urlencoded')}`
     })
+  const deleteRequest = <T>(options: Partial<RequestConfig>) =>
+    request<T>({ method: 'DELETE', ...options })
   const post = <T>(options: Partial<RequestConfig>) =>
     request<T>({ method: 'POST', ...options })
   const put = <T>(options: Partial<RequestConfig>) =>
@@ -103,6 +107,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     request<T>({ method: 'PATCH', ...options })
 
   return {
+    deleteRequest,
     get,
     post,
     put,

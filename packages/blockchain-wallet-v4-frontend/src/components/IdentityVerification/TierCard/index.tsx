@@ -1,11 +1,11 @@
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { actions, model } from 'data'
-import { all, any, path, propEq } from 'ramda'
+import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { ctas, headers, limits, messages, status } from './services'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { TIERS } from './model'
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   position: relative;
   flex-direction: column;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   width: 375px;
   &.column {
@@ -74,14 +74,14 @@ const Column = styled.div`
   width: ${(props: { width?: string }) => props.width || '100%'};
   &:first-child {
     margin-right: 20px;
-    border-right: 1px solid ${props => props.theme['gray-1']};
+    border-right: 1px solid ${props => props.theme.grey000};
   }
   ${Wrapper}.column & {
     text-align: center;
     &:first-child {
       margin-right: 0px;
       border-right: 0px;
-      border-bottom: 1px solid ${props => props.theme['gray-1']};
+      border-bottom: 1px solid ${props => props.theme.grey000};
       padding-bottom: 15px;
       margin-bottom: 15px;
     }
@@ -105,22 +105,6 @@ export const ActionButton = styled(Button)`
 
 const { TIERS_STATES } = model.profile
 
-type LinkDispatchPropsType = {
-  goToSwap: () => void
-  identityVerificationActions: typeof actions.components.identityVerification
-}
-
-type OwnProps = {
-  column: boolean
-  emailVerified: boolean
-  mobileVerified: boolean
-  tier: 1 | 2
-  userData: UserDataType
-  userTiers: UserTiersType
-}
-
-type Props = LinkDispatchPropsType & OwnProps
-
 export const TierCard = ({
   column,
   emailVerified,
@@ -129,19 +113,21 @@ export const TierCard = ({
   tier,
   userData,
   userTiers,
-  identityVerificationActions
+  identityVerificationActions,
+  simpleBuyActions
 }: Props) => {
   const tierData = userTiers.find(userTier => userTier.index === tier)
   if (!tierData) return null
   const limitType: 'daily' | 'annual' = TIERS[tier].limit.toLowerCase()
   const tierFiatLimit =
     Exchange.getSymbol(tierData.limits.currency) +
-    Currency.formatFiat(tierData.limits[limitType], 0)
+    formatFiat(tierData.limits[limitType], 0)
   const tierLimit = limits[path([tier, 'limit'], TIERS)]
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
   const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
 
   const tierStarted = userData.tiers && userData.tiers.selected >= tier
+  const tierLevel = path(['tiers', 'current'], userData)
 
   let className = ''
   if (column) className += ' column'
@@ -178,7 +164,7 @@ export const TierCard = ({
               <Text
                 size='14px'
                 weight={500}
-                color='gray-3'
+                color='grey400'
                 style={{ marginTop: '7px' }}
               >
                 {tierStatus}
@@ -212,12 +198,18 @@ export const TierCard = ({
             className='actionButton'
             fullwidth
             nature='primary'
-            onClick={() => identityVerificationActions.verifyIdentity(tier)}
+            onClick={() =>
+              identityVerificationActions.verifyIdentity(
+                tier,
+                false,
+                'SettingsProfile'
+              )
+            }
             data-e2e={`continueKycTier${tier}Btn`}
           >
             {tierStarted ? (
               <FormattedMessage
-                id='components.identityverification.tiercard.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             ) : (
@@ -225,21 +217,36 @@ export const TierCard = ({
             )}
           </ActionButton>
         )}
-        {tierData.state === TIERS_STATES.VERIFIED && (
-          <ActionButton
-            className='actionButton'
-            jumbo
-            fullwidth
-            nature='primary'
-            onClick={goToSwap}
-            data-e2e='swapNowBtn'
-          >
-            <FormattedMessage
-              id='components.identityverification.tiercard.swap_now'
-              defaultMessage='Swap Now'
-            />
-          </ActionButton>
-        )}
+        {tierData.state === TIERS_STATES.VERIFIED &&
+          (tierLevel === 1 ? (
+            <ActionButton
+              className='actionButton'
+              jumbo
+              fullwidth
+              nature='primary'
+              onClick={goToSwap}
+              data-e2e='swapNowBtn'
+            >
+              <FormattedMessage
+                id='components.identityverification.tiercard.swap_now'
+                defaultMessage='Swap Now'
+              />
+            </ActionButton>
+          ) : (
+            <ActionButton
+              className='actionButton'
+              jumbo
+              fullwidth
+              nature='primary'
+              onClick={() => simpleBuyActions.showModal('SettingsProfile')}
+              data-e2e='buyNowBtn'
+            >
+              <FormattedMessage
+                id='components.identityverification.tiercard.buy_now'
+                defaultMessage='Buy Crypto Now'
+              />
+            </ActionButton>
+          ))}
       </Container>
     </Wrapper>
   )
@@ -250,10 +257,20 @@ const mapDispatchToProps = dispatch => ({
     actions.components.identityVerification,
     dispatch
   ),
-  goToSwap: () => dispatch(actions.router.push('/swap'))
+  goToSwap: () => dispatch(actions.router.push('/swap')),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(TierCard)
+const connector = connect(getData, mapDispatchToProps)
+
+type OwnProps = {
+  column: boolean
+  emailVerified: boolean
+  mobileVerified: boolean
+  tier: 1 | 2
+  userData: UserDataType
+  userTiers: UserTiersType
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(TierCard)

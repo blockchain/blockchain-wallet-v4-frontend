@@ -1,6 +1,7 @@
 export default {
   code: 'CAD',
   base: 'CENT',
+  displayName: 'Canadian Dollar',
   trade: 'CAD',
   units: {
     CENT: {

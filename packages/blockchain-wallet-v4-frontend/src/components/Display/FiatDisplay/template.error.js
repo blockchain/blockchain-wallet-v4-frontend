@@ -11,14 +11,22 @@ const Wrapper = styled.div`
   align-items: center;
   box-sizing: border-box;
 `
+const ErrorText = styled(Text)`
+  font-weight: 500;
+  color: ${props => props.theme.red600};
+  font-size: ${props => props.mobileSize};
+  @media (min-width: 480px) {
+    font-size: ${props => props.size};
+  }
+`
 
-export default () => (
+export default props => (
   <Wrapper>
-    <Text size='10px' weight={400} color='red600'>
+    <ErrorText weight={400} {...props}>
       <FormattedMessage
         id='components.fiatdisplay.error'
         defaultMessage='Failed to fetch rates'
       />
-    </Text>
+    </ErrorText>
   </Wrapper>
 )

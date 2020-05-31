@@ -11,13 +11,12 @@ const ErrorWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px;
   box-sizing: border-box;
 `
 
 const SuccessWrapper = styled.div`
   text-align: right;
-  color: ${props => props.theme['gray-5']};
+  color: ${props => props.theme.grey700};
   font-size: ${props => (props.large ? '20px' : '12px')};
   font-weight: ${props => (props.large ? '200' : '300')};
   padding-right: ${props => (props.large ? '15px' : '25px')};
@@ -27,7 +26,7 @@ const SuccessWrapper = styled.div`
     text-transform: capitalize;
     &:last-child {
       margin-left: 10px;
-      color: ${props => props.theme['gray-3']};
+      color: ${props => props.theme['grey400']};
     }
   }
 `
@@ -55,16 +54,16 @@ class TotalBalance extends React.PureComponent {
       ),
       Failure: e => (
         <ErrorWrapper>
-          <Text size='12px' weight={400} color='red600'>
-            {typeof e === 'object' ? (e.message ? e.message : 'N/A') : e}
+          <Text size='14px' weight={600} color='red600'>
+            Error Fetching Balance
           </Text>
         </ErrorWrapper>
       ),
       Loading: () => (
-        <SkeletonRectangle width='120px' height='28px' bgColor='gray-1' />
+        <SkeletonRectangle width='120px' height='28px' bgColorgrey000 />
       ),
       NotAsked: () => (
-        <SkeletonRectangle width='120px' height='28px' bgColor='gray-1' />
+        <SkeletonRectangle width='120px' height='28px' bgColorgrey000 />
       )
     })
   }

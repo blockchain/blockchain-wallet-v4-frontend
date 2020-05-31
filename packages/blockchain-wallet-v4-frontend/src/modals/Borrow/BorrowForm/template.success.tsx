@@ -1,16 +1,20 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
-import BorrowCoinDropdown from './BorrowCoinDropdown'
 import React from 'react'
 import styled from 'styled-components'
 import Summary from './Summary'
@@ -44,7 +48,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 50px;
   }
@@ -85,20 +89,6 @@ const ButtonContainer = styled.div`
   }
 `
 
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   // TODO: Borrow - make dynamic
   const displayName = props.supportedCoins['PAX'].displayName
@@ -106,7 +96,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
             id='modals.borrow.borrowusd'
             defaultMessage='Borrow {displayName}'
@@ -118,6 +108,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='close'
             size='20px'
             color='grey600'
+            data-e2e='closeBorrow'
           />
         </TopText>
         <MaxAmountContainer>
@@ -132,7 +123,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
-                  unit: { symbol: '$' }
+                  unit: 'USD'
                 })}
               </Text>
             </FiatContainer>{' '}
@@ -151,7 +142,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -195,10 +186,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               onClick={props.handleClose}
             >
               <Text size='16px' weight={600} color='blue600'>
-                <FormattedMessage
-                  id='modals.borrow.collateralform.cancel'
-                  defaultMessage='Cancel'
-                />
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Text>
             </Button>
             <Button
@@ -209,7 +197,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               <Text size='16px' weight={600} color='white'>
                 <FormattedMessage
-                  id='modals.borrow.collateralform.continue'
+                  id='buttons.continue'
                   defaultMessage='Continue'
                 />
               </Text>
@@ -229,5 +217,19 @@ const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+type FormProps = {
+  onSubmit: () => void
+}
+
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps
 
 export default enhance(Success) as React.FunctionComponent<Props>

@@ -15,6 +15,10 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     margin-top: 0;
   }
+
+  ${media.mobile`
+    flex-shrink: 0;
+  `}
 `
 const Divider = styled.div`
   height: 18px;
@@ -54,23 +58,23 @@ const ActionButton = styled(IconButton)`
 
   ${media.tabletL`
     & > span {
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.whiteFade900};
       font-size: 20px;
     }
     & > div > span {
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.whiteFade900};
       font-size: 14px;
     }
 
     &:hover {
       background-color: transparent;
-      color: ${props => props.theme.white};
+      color: ${props => props.theme.whiteFade900};
 
       & > span {
-        color: ${props => props.theme.white};
+        color: ${props => props.theme.whiteFade900};
       }
       & > div > span {
-        color: ${props => props.theme.white};
+        color: ${props => props.theme.whiteFade900};
       }
     }
   `}
@@ -80,6 +84,10 @@ const ActionButton = styled(IconButton)`
     div:last-of-type {
       font-size: 13px;
     }
+    & > span {
+      display: none;
+    }
+
   `};
 `
 

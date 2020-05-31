@@ -21,7 +21,7 @@ const DropdownSeparator = styled.div`
   width: 24px;
   margin-left: 16px;
   margin-bottom: 8px;
-  background: ${props => props.theme['gray-1']};
+  background: ${props => props.theme.grey000};
 `
 
 const Settings = props => {
@@ -40,12 +40,12 @@ const Settings = props => {
         className='icon'
         name='cog-filled'
         size='18px'
-        color='white'
+        color='whiteFade900'
       />
       <NavbarNavItemTextHeader
         size='14px'
         weight={600}
-        color='white'
+        color='whiteFade900'
         className='settings'
       >
         <FormattedMessage

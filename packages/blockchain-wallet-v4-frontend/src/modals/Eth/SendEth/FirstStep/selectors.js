@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.core.wallet.isMnemonicVerified,
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
@@ -27,6 +28,7 @@ export const getData = createDeepEqualSelector(
       selectors.core.walletOptions.getCoinAvailability(state, coin)
   ],
   (
+    isMnemonicVerified,
     paymentR,
     isContractR,
     feeToggled,
@@ -42,6 +44,7 @@ export const getData = createDeepEqualSelector(
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
     const transform = payment => {
+      const amount = prop('amount', payment)
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const fee = propOr('0', 'fee', payment)
@@ -51,6 +54,8 @@ export const getData = createDeepEqualSelector(
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
       const isSufficientEthForErc20 = path(['isSufficientEthForErc20'], payment)
+      const isRetryAttempt = path(['isRetryAttempt'], payment)
+      const minFeeRequiredForRetry = path(['minFeeRequiredForRetry'], payment)
       const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
@@ -79,22 +84,26 @@ export const getData = createDeepEqualSelector(
       ]
 
       return {
-        effectiveBalance,
-        unconfirmedTx,
-        isContractChecked,
-        isSufficientEthForErc20,
-        fee,
-        feeToggled,
-        enableToggle,
-        from,
-        regularFee,
-        priorityFee,
-        minFee,
-        maxFee,
-        feeElements,
+        amount,
         balanceStatus: balanceR,
+        effectiveBalance,
+        enableToggle,
+        excludeLockbox,
+        fee,
+        feeElements,
+        feeToggled,
+        from,
         hasErc20Balance,
-        excludeLockbox
+        isContractChecked,
+        isMnemonicVerified,
+        isRetryAttempt,
+        isSufficientEthForErc20,
+        maxFee,
+        minFee,
+        minFeeRequiredForRetry,
+        priorityFee,
+        regularFee,
+        unconfirmedTx
       }
     }
     return paymentR.map(transform)

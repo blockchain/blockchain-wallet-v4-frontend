@@ -1,15 +1,18 @@
-import { connect, Provider } from 'react-redux'
+import { connect, ConnectedProps, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { createGlobalStyle } from 'styled-components'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Redirect, Switch } from 'react-router-dom'
+import React, { Suspense } from 'react'
+
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import { selectors } from 'data'
 import AnalyticsTracker from 'providers/AnalyticsTracker'
-import React, { Suspense } from 'react'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
+
+import Loading from './loading'
 const WalletSwitch = React.lazy(() => import('./wallet'))
 const PublicSwitch = React.lazy(() => import('./public'))
 
@@ -27,13 +30,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-class App extends React.PureComponent<{
-  history: any
-  isAuthenticated: boolean
-  persistor: any
-  store: any
-  supportedCoins: any
-}> {
+class App extends React.PureComponent<Props> {
   render () {
     const {
       store,
@@ -41,22 +38,16 @@ class App extends React.PureComponent<{
       persistor,
       isAuthenticated,
       supportedCoins
-    }: {
-      history: any
-      isAuthenticated: boolean
-      persistor: any
-      store: any
-      supportedCoins: any
     } = this.props
     return (
       <Provider store={store}>
         <TranslationsProvider>
-          <PersistGate loading={null} persistor={persistor}>
+          <PersistGate loading={<Loading />} persistor={persistor}>
             <ThemeProvider>
               <MediaContextProvider>
                 <ConnectedRouter history={history}>
                   <Switch>
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<Loading />}>
                       <PublicSwitch />
                       {isAuthenticated && (
                         <WalletSwitch supportedCoins={supportedCoins} />
@@ -89,4 +80,14 @@ const mapStateToProps = state => ({
     .getOrFail()
 })
 
-export default connect(mapStateToProps)(App)
+const connector = connect(mapStateToProps)
+
+type Props = {
+  history: any
+  isAuthenticated: boolean
+  persistor: any
+  store: any
+  supportedCoins: any
+} & ConnectedProps<typeof connector>
+
+export default connector(App)

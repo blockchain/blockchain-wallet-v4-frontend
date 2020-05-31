@@ -1,12 +1,15 @@
 import * as Currency from './currency'
 import * as Pairs from './pairs'
 import { assoc, assocPath, path, prop } from 'ramda'
+import { BigNumber } from 'bignumber.js'
 import { CoinType } from 'core/types'
 import { RatesType } from 'data/types'
 import Currencies, { CurrenciesType } from './currencies'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
-type UnitType = KeysOfUnion<CurrenciesType[keyof CurrenciesType]['units']>
+export type UnitType = KeysOfUnion<
+  CurrenciesType[keyof CurrenciesType]['units']
+>
 
 const { BCH, BTC, ETH, PAX, XLM } = Currencies
 
@@ -624,7 +627,7 @@ const convertCoinToCoin = ({
   baseToStandard
 }: {
   baseToStandard: boolean
-  coin: CoinType
+  coin: CoinType | 'FIAT'
   value: number | string
 }) => {
   switch (coin) {
@@ -648,6 +651,10 @@ const convertCoinToCoin = ({
       return baseToStandard
         ? convertXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
         : convertXlmToXlm({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
+    case 'FIAT':
+      return baseToStandard
+        ? { value: new BigNumber(value).dividedBy(100).valueOf() }
+        : { value: new BigNumber(value).multipliedBy(100).valueOf() }
   }
 }
 
@@ -682,7 +689,7 @@ const displayBtcToFiat = ({
   value: number | string
 }) => {
   return transformBtcToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -712,7 +719,7 @@ const displayEtherToFiat = ({
   value: number | string
 }) => {
   return transformEtherToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -728,7 +735,7 @@ const displayPaxToFiat = ({
   value: number | string
 }) => {
   return transformPaxToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -772,7 +779,7 @@ const displayBchToFiat = ({
   value: number | string
 }) => {
   return transformBchToFiat({ value, fromUnit, toCurrency, rates })
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -799,7 +806,7 @@ const displayXlmToFiat = ({
 }) => {
   return transformXlmToFiat({ value, fromUnit, toCurrency, rates, digits })
     .map(assoc('digits', digits))
-    .map(Currency.fiatToString)
+    .map(Currency.unsafe_deprecated_fiatToString)
     .getOrElse(DefaultDisplay)
 }
 
@@ -950,7 +957,7 @@ const convertCoinToFiat = (
   }
 }
 
-const displayCoinToCoin = (value: number | string, toUnit: UnitType) => {
+const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
   switch (toUnit) {
     case 'BCH':
       return displayBchToBch({

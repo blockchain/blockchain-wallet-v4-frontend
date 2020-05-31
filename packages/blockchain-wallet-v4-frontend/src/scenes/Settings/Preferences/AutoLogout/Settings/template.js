@@ -46,7 +46,7 @@ const Settings = props => {
               />
             </Text>
           </Wrapper>
-          <Text size='12px' color='gray-3' weight={400}>
+          <Text size='12px' color='grey400' weight={400}>
             <FormattedMessage
               id='scenes.preferences.autologout.settings.updateform.bounds'
               defaultMessage='Must be between 1 and 1440 minutes.'
@@ -60,10 +60,7 @@ const Settings = props => {
             onClick={handleToggle}
             data-e2e='cancelAutoLogout'
           >
-            <FormattedMessage
-              id='scenes.preferences.autologout.settings.updateform.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
           <Button
             type='submit'

@@ -20,7 +20,7 @@ exports[`EmailRequired component renders correctly 1`] = `
     <Text
       altFont={false}
       capitalize={false}
-      color="gray-5"
+      color="grey700"
       cursor="inherit"
       italic={false}
       lineHeight="inherit"

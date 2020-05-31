@@ -119,10 +119,7 @@ class Submitted extends React.PureComponent {
               disabled={submitting}
               onClick={onClose}
             >
-              <FormattedMessage
-                id='modals.exchange.identityverification.submitted.close'
-                defaultMessage='Close'
-              />
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
             </CloseButton>
           </Form>
         </SubmittedWrapper>
@@ -144,10 +141,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   reduxForm({ form: ID_VERIFICATION_SUBMITTED_FORM }),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(Submitted)

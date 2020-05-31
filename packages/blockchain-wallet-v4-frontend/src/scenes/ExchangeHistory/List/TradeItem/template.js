@@ -95,8 +95,8 @@ const TradeItem = props => {
               weight={400}
               color={
                 status === 'complete' || status === FINISHED
-                  ? 'gray-5'
-                  : 'gray-2'
+                  ? 'grey700'
+                  : 'grey200'
               }
             >{`${withdrawalAmount} ${pathOr(
               targetCoin,

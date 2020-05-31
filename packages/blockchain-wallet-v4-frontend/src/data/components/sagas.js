@@ -2,12 +2,12 @@ import activityList from './activityList/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
 import btcTransactions from './btcTransactions/sagas'
-import coinify from './coinify/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import identityVerification from './identityVerification/sagas.ts'
 import importBtcAddress from './importBtcAddress/sagas'
+import interest from './interest/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import onfido from './onfido/sagas'
@@ -25,6 +25,7 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
+import simpleBuy from './simpleBuy/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
@@ -34,12 +35,12 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   borrow: borrow({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
-  coinify: coinify({ api, coreSagas }),
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
+  interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
@@ -58,6 +59,7 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ api, coreSagas }),
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
+  simpleBuy: simpleBuy({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas })
 })

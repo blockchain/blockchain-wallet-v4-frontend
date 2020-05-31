@@ -82,7 +82,7 @@ const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
           <ComponentDropdown
             down
             forceSelected
-            color={'gray-5'}
+            color={'grey700'}
             selectedComponent={<MoreOptions />}
             components={renderOptions()}
           />

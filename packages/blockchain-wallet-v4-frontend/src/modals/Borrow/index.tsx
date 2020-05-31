@@ -3,6 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { BorrowSteps } from 'data/types'
 import { connect } from 'react-redux'
 import { LoanType, OfferType } from 'core/types'
+import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import AddCollateral from './AddCollateral'
 import BorrowDetails from './BorrowDetails'
@@ -27,12 +28,7 @@ type LinkStatePropsType =
 type LinkDispatchPropsType = {
   borrowActions: typeof actions.components.borrow
 }
-export type OwnProps = {
-  close: () => void
-  position: number
-  total: number
-  userClickedOutside: boolean
-}
+export type OwnProps = ModalPropsType
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
@@ -117,10 +113,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const enhance = compose<any>(
   modalEnhancer('BORROW_MODAL', { transition: duration }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(Borrow)

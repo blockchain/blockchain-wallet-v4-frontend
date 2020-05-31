@@ -11,12 +11,7 @@ class ListItemContainer extends React.PureComponent {
   state = { isToggled: false }
 
   handleToggle = () => {
-    const { coin, ethTxActions, erc20List, transaction } = this.props
-
     this.setState({ isToggled: !this.state.isToggled })
-    if (this.state.isToggled && includes(coin, erc20List)) {
-      ethTxActions.fetchTransaction(transaction.hash)
-    }
   }
 
   handleEditDescription = value => {
@@ -53,6 +48,11 @@ class ListItemContainer extends React.PureComponent {
     }
   }
 
+  handleRetrySendEth = (e, txHash, isErc20) => {
+    e.stopPropagation()
+    this.props.sendEthActions.retrySendEth(txHash, isErc20)
+  }
+
   onViewTxDetails = coin => {
     this.props.analyticsActions.logEvent([
       ...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER,
@@ -61,20 +61,14 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
-    const {
-      coin,
-      coinTicker,
-      currency,
-      transaction,
-      buySellPartner
-    } = this.props
+    const { coin, coinTicker, currency, transaction } = this.props
     return (
       <TransactionListItem
-        buySellPartner={buySellPartner}
         coin={coin}
         coinTicker={coinTicker}
         currency={currency}
         handleEditDescription={this.handleEditDescription}
+        handleRetrySendEth={this.handleRetrySendEth}
         handleToggle={this.handleToggle}
         isToggled={this.state.isToggled}
         onViewTxDetails={this.onViewTxDetails}
@@ -95,11 +89,9 @@ const mapDispatchToProps = dispatch => ({
   ethTxActions: bindActionCreators(actions.core.data.eth, dispatch),
   logActions: bindActionCreators(actions.logs, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ListItemContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)

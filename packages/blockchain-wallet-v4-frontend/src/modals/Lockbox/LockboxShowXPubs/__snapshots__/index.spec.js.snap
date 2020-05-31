@@ -115,7 +115,7 @@ exports[`LockboxShowXPubs Modal should match snapshot 1`] = `
     >
       <FormattedMessage
         defaultMessage="Close"
-        id="modals.lockbox.showxpubs.close"
+        id="buttons.close"
         values={Object {}}
       />
     </Component>

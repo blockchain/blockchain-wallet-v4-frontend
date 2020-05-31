@@ -8,7 +8,7 @@ exports[`WhatsNewIcon renders correctly 1`] = `
     data-e2e="notificationsLink"
   >
     <styled.icon
-      color="white"
+      color="whiteFade900"
       cursor={true}
       id="whatsnew-icon"
       name="bell"

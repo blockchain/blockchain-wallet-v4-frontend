@@ -1,3 +1,4 @@
+import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { BorrowFormValuesType } from 'data/components/borrow/types'
 import {
   Button,
@@ -6,16 +7,19 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import {
+  CoinBalanceDropdown,
+  Form,
+  FormLabel,
+  NumberBox
+} from 'components/Form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { model, selectors } from 'data'
-import BorrowCoinDropdown from '../BorrowForm/BorrowCoinDropdown'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
@@ -49,7 +53,7 @@ const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
 `
 
-const CustomField = styled(Field)`
+const CustomField = styled(Field)<BaseFieldProps>`
   > input {
     padding-left: 50px;
   }
@@ -75,10 +79,10 @@ const MaxAmountContainer = styled.div`
 const QRCodeContainer = styled.div`
   cursor: pointer;
 `
-const QRTitle = styled.div`
-  display: flex;
-  margin: 24px 0;
-`
+// const QRTitle = styled.div`
+//   display: flex;
+//   margin: 24px 0;
+// `
 const QRCodeBox = styled.div`
   display: flex;
   padding: 16px;
@@ -102,21 +106,6 @@ const FiatContainer = styled.div`
   background-color: ${props => props.theme.grey000};
 `
 
-type LinkStatePropsType = {
-  values?: BorrowFormValuesType
-}
-
-type FormProps = {
-  onSubmit: () => void
-}
-
-export type Props = OwnProps &
-  SuccessStateType &
-  LinkDispatchPropsType &
-  LinkStatePropsType &
-  FormProps &
-  State & { onCopyAddress: () => void; onToggleQrCode: () => void }
-
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const collateralRequired = getCollateralAmtRequired(props.loan, props.offer)
   const isPositiveAmtRequired = Number(collateralRequired) > 0
@@ -124,7 +113,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey900' size='20px' weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
@@ -182,7 +171,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <BorrowCoinDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -317,9 +306,26 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
+const connector = connect(mapStateToProps)
+
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
-  connect(mapStateToProps)
+  connector
 )
+
+type LinkStatePropsType = {
+  values?: BorrowFormValuesType
+}
+
+export type Props = OwnProps &
+  SuccessStateType &
+  LinkDispatchPropsType &
+  LinkStatePropsType &
+  FormProps &
+  State & { onCopyAddress: () => void; onToggleQrCode: () => void }
+
+type FormProps = {
+  onSubmit: () => void
+}
 
 export default enhance(Success) as React.FunctionComponent<Props>

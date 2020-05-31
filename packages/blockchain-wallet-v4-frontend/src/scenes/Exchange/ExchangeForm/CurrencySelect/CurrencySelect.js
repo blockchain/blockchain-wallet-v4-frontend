@@ -15,10 +15,10 @@ const CoinSwapIcon = styled(Icon)`
   margin: 0 15px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme['gray-6']};
+    props.disabled ? props.theme.grey000 : props.theme['grey800']};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
+      props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
 `
 
@@ -40,10 +40,7 @@ export class CurrencySelect extends React.Component {
         <Cell data-e2e='exchangeSourceCurrency'>
           <Field
             name='source'
-            onChange={compose(
-              actions.changeSource,
-              extractFieldValue
-            )}
+            onChange={compose(actions.changeSource, extractFieldValue)}
             component={SelectBox}
             elements={fromElements}
           />
@@ -66,10 +63,7 @@ export class CurrencySelect extends React.Component {
         <Cell data-e2e='exchangeTargetCurrency'>
           <Field
             name='target'
-            onChange={compose(
-              actions.changeTarget,
-              extractFieldValue
-            )}
+            onChange={compose(actions.changeTarget, extractFieldValue)}
             component={SelectBox}
             elements={toElements}
           />
@@ -83,7 +77,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(CurrencySelect)
+export default connect(getData, mapDispatchToProps)(CurrencySelect)

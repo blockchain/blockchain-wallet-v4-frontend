@@ -10,12 +10,13 @@ export type SupportedCoinType = {
     send: boolean
     syncToPit: boolean
   }
-  coinCode: string
+  coinCode: CoinType
   coinTicker: string
-  colorCode: string
+  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx'
   config: {
     network: string
   }
+  contractAddress?: string
   displayName: string
   hasLockboxSupport: boolean
   icons: {
@@ -23,8 +24,10 @@ export type SupportedCoinType = {
     circleFilled: keyof IcoMoonType
     default: keyof IcoMoonType
   }
+  invited?: boolean
   learnMoreLink: string
   minConfirmations: number
+  showNewTagSidenav: boolean
   txExplorerBaseUrl: string
   txListAppRoute: string
 }

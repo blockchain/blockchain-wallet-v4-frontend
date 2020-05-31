@@ -19,11 +19,10 @@ export default (state = INITIAL_STATE, action) => {
       const pathname = path(['location', 'pathname'], payload)
       const settingsOpened = pathname && pathname.split('/')[1] === 'settings'
       const lockboxOpened = pathname && pathname.split('/')[1] === 'lockbox'
-      const shouldOpenSettings = !state.settingsOpened && settingsOpened
       return merge(state, {
         trayOpened: false,
         trayContent: '',
-        menuOpened: shouldOpenSettings,
+        menuOpened: false,
         settingsOpened,
         lockboxOpened
       })

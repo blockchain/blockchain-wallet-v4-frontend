@@ -37,7 +37,7 @@ Icon.propTypes = {
 Icon.defaultProps = {
   weight: 400,
   size: '16px',
-  color: 'gray-5',
+  color: 'grey700',
   cursor: false
 }
 

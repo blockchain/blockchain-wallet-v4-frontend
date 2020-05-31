@@ -4,10 +4,9 @@ import bch from './bch'
 import bitpay from './bitpay'
 import borrow from './borrow'
 import btc from './btc'
-import coinify from './coinify'
-import delegate from './delegate'
 import eth from './eth'
 import httpService from './http'
+import interest from './interest'
 import kvStore from './kvStore'
 import kyc from './kyc'
 import lockbox from './lockbox'
@@ -15,8 +14,8 @@ import misc from './misc'
 import profile from './profile'
 import rates from './rates'
 import settings from './settings'
-import sfox from './sfox'
 import shapeShift from './shapeShift'
+import simpleBuy from './simpleBuy'
 import trades from './trades'
 import wallet from './wallet'
 import xlm from './xlm'
@@ -32,7 +31,7 @@ const api = ({
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
   const bitpayUrl = options.domains.bitpay
-  const coinifyUrl = options.domains.coinify
+  const everypayUrl = options.domains.everypay
   const horizonUrl = options.domains.horizon
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
@@ -40,7 +39,7 @@ const api = ({
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
   return {
     ...analytics({ rootUrl, ...http }),
-    ...bch({ rootUrl, apiUrl, ...http }),
+    ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
       nabuUrl,
@@ -48,9 +47,7 @@ const api = ({
       authorizedPost: authorizedHttp.post
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
-    ...coinify({ coinifyUrl, ...http }),
-    ...delegate({ rootUrl, apiUrl, ...http }),
-    ...eth({ rootUrl, apiUrl, ...http }),
+    ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       nabuUrl,
@@ -58,6 +55,11 @@ const api = ({
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
       ...http
+    }),
+    ...interest({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ rootUrl, apiUrl, ...http }),
@@ -69,9 +71,17 @@ const api = ({
       authorizedPut: authorizedHttp.put,
       ...http
     }),
-    ...sfox(),
     ...settings({ rootUrl, ...http }),
     ...shapeShift({ shapeShiftApiKey, ...http }),
+    ...simpleBuy({
+      everypayUrl,
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      authorizedDelete: authorizedHttp.deleteRequest,
+      ...http
+    }),
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),
@@ -81,4 +91,12 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow>
+export type APIType = ReturnType<typeof borrow> &
+  ReturnType<typeof bch> &
+  ReturnType<typeof btc> &
+  ReturnType<typeof eth> &
+  ReturnType<typeof interest> &
+  ReturnType<typeof misc> &
+  ReturnType<typeof simpleBuy> &
+  ReturnType<typeof wallet> &
+  ReturnType<typeof xlm>

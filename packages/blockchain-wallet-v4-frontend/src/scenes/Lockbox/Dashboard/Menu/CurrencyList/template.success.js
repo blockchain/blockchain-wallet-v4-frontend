@@ -10,7 +10,7 @@ const CurrencyList = styled.div`
   width: calc(100% - 340px);
   padding: 16px 30px;
   overflow-x: scroll;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   @media (max-width: 770px) {
     padding: 4px;
   }

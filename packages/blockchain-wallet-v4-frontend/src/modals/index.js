@@ -11,12 +11,11 @@ import {
 import {
   AirdropClaim,
   AirdropSuccess,
-  CoinifyUpgrade,
   LinkFromExchangeAccount,
   LinkToExchangeAccount,
   SwapGetStarted,
   UpgradeForAirdrop,
-  WalletTour
+  Welcome
 } from './Onboarding'
 import {
   AirdropError,
@@ -38,11 +37,6 @@ import {
   TwoStepYubico
 } from './Settings'
 import { BitpayInformational, BitpayInvoiceExpired } from './BitPay'
-import {
-  CoinifyBuyViaCard,
-  CoinifyDeleteBank,
-  CoinifyTradeDetails
-} from './Coinify'
 import { Confirm, PromptInput, Support } from './Generic'
 import {
   DeleteAddressLabel,
@@ -59,28 +53,22 @@ import {
 } from './Lockbox'
 import { MobileNumberChange, MobileNumberVerify } from './Mobile'
 import { PairingCode, ShowXPub, UpgradeWallet } from './Wallet'
-import {
-  PaxWelcome,
-  RequestEth,
-  SendEth,
-  ShowEthPrivateKey,
-  TransferEth
-} from './Eth'
+import { PaxWelcome, RequestEth, SendEth, TransferEth } from './Eth'
 import { RequestBch, SendBch } from './Bch'
 import {
   RequestXlm,
   SendXlm,
-  ShowXlmPrivateKey,
   SunRiverWelcome,
   XlmCreateAccountLearn,
   XlmReserveLearn
 } from './Xlm'
-import { SfoxTradeDetails } from './Sfox'
 import Borrow from './Borrow'
-import Faq from './Faq'
+import Interest from './Interest'
 import Onfido from './Onfido'
 import QRCode from './QRCode'
+import RecoveryPhrase from './RecoveryPhrase'
 import SignMessage from './SignMessage'
+import SimpleBuy from './SimpleBuy'
 import WhatsNew from './WhatsNew'
 
 const Modals = () => (
@@ -92,10 +80,6 @@ const Modals = () => (
     <BitpayInformational />
     <Borrow />
     <AutoDisconnection />
-    <CoinifyBuyViaCard />
-    <CoinifyDeleteBank />
-    <CoinifyTradeDetails />
-    <CoinifyUpgrade />
     <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
@@ -104,10 +88,10 @@ const Modals = () => (
     <EthAirdrop />
     <ExchangeConfirm />
     <ExchangeResults />
-    <Faq />
     <KycDocResubmit />
     <IdentityVerification />
     <ImportBtcAddress />
+    <Interest />
     <LockboxAppManager disableOutsideClose />
     <LockboxConnectionPrompt disableOutsideClose />
     <LockboxFirmware disableOutsideClose />
@@ -122,6 +106,7 @@ const Modals = () => (
     <PaxWelcome />
     <PromptInput />
     <QRCode />
+    <RecoveryPhrase />
     <RequestBch />
     <RequestBtc />
     <RequestEth />
@@ -133,12 +118,9 @@ const Modals = () => (
     <SendXlm />
     <ShapeshiftTradeDetails />
     <ShowBtcPrivateKey />
-    <ShowEthPrivateKey />
-    <ShowXlmPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
-    <SfoxTradeDetails />
     <AirdropError />
     <Support />
     <SwapGetStarted />
@@ -151,11 +133,12 @@ const Modals = () => (
     <UpgradeForAirdrop />
     <UpgradeWallet />
     <UserExists />
-    <WalletTour />
     <XlmCreateAccountLearn />
     <XlmReserveLearn />
+    <SimpleBuy />
     <SunRiverWelcome disableOutsideClose />
     <VerifyMessage />
+    <Welcome />
     <WhatsNew />
   </div>
 )

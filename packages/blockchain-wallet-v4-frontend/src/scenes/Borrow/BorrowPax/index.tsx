@@ -1,4 +1,3 @@
-import { Box } from 'components/Box'
 import {
   Button,
   Icon,
@@ -6,31 +5,17 @@ import {
   SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
+import { CustomBox } from 'components/Layout'
 import { FormattedMessage } from 'react-intl'
 import { Props, State } from '..'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-
-const CustomBox = styled(Box)`
-  background-image: url('/img/buy-sell-learn-more.png');
-  /* stylelint-disable */
-  background-image: -webkit-image-set(
-    url('/img/buy-sell-learn-more.png') 1x,
-    url('/img/buy-sell-learn-more@2x.png') 2x
-  );
-  /* stylelint-enable */
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
 
 class BorrowPax extends PureComponent<Props & State> {
   render () {
     return (
       <CustomBox>
         <div>
-          <Icon name='borrow' color='blue600' size='32px' />
+          <Icon name='usd-d' color='usd-d' size='32px' />
           <Text
             size='20px'
             color='grey800'
@@ -62,10 +47,15 @@ class BorrowPax extends PureComponent<Props & State> {
                 data-e2e='verifyIdentityBorrow'
                 disabled={val.kycState !== 'NONE'}
                 onClick={() =>
-                  this.props.identityVerificationActions.verifyIdentity(2)
+                  this.props.identityVerificationActions.verifyIdentity(
+                    2,
+                    false,
+                    'BorrowLandingPage'
+                  )
                 }
               >
-                {val.kycState === 'UNDER_REVIEW' ? (
+                {val.kycState === 'UNDER_REVIEW' ||
+                val.kycState === 'PENDING' ? (
                   <FormattedMessage
                     id='scenes.borrow.kycunderreview'
                     defaultMessage='Gold Verification In Review'
@@ -86,7 +76,7 @@ class BorrowPax extends PureComponent<Props & State> {
               >
                 <Button fullwidth nature='primary' data-e2e='contactSupport'>
                   <FormattedMessage
-                    id='scenes.borrow.support'
+                    id='buttons.contact_support'
                     defaultMessage='Contact Support'
                   />
                 </Button>
@@ -108,7 +98,7 @@ class BorrowPax extends PureComponent<Props & State> {
               data-e2e='paxLearnMore'
             >
               <FormattedMessage
-                id='scenes.borrow.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </Button>

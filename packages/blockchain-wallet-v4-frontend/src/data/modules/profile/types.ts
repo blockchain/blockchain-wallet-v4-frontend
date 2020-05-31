@@ -1,18 +1,9 @@
 import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
 import { CampaignsType } from 'data/types'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
+import { NabuAddressType, NabuApiErrorType, RemoteDataType } from 'core/types'
 
 // Types
-
-export type AddressType = {
-  city: string
-  country: string
-  line1: string
-  line2?: string
-  postCode: string
-  state?: string
-}
 
 export type CampaignState = 'NONE' | 'STARTED' | 'ENDED'
 
@@ -92,7 +83,7 @@ export type UserCampaignsType = {
 }
 
 export type UserDataType = {
-  address?: AddressType
+  address?: NabuAddressType
   dob: string
   email: string
   emailVerified: boolean
@@ -106,7 +97,7 @@ export type UserDataType = {
   resubmission: null
   settings: null
   state: UserActivationStateType
-  tags: Array<TagsType>
+  tags: TagsType
   tiers: {
     current: 0 | 1 | 2
     next: 0 | 1 | 2

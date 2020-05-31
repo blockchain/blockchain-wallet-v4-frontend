@@ -5,7 +5,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Codechecks](https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true)](https://codechecks.io)
 
-# Blockchain Wallet v4
+# Blockchain.com Wallet
 Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
@@ -88,6 +88,8 @@ It is recommended to setup a Prettier plugin for your IDE plugins/packages that 
  * [Atom](https://atom.io/packages/prettier-atom)
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
  * [WebStorm](https://prettier.io/docs/en/webstorm.html)
+ 
+ *When installing the plugin for VS Code make sure you are on [v3.7.0 or lower](https://github.com/prettier/prettier-vscode/issues/1085#issuecomment-557027886)*
  
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).

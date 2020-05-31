@@ -4,7 +4,7 @@ import { ModalsState } from './types'
 
 const INITIAL_STATE: ModalsState = []
 
-const modals = (state = INITIAL_STATE, action) => {
+export const modalsReducer = (state = INITIAL_STATE, action): ModalsState => {
   const { type, payload } = action
   const nextIndex = state.length
   const lastIndex = state.length - 1
@@ -19,9 +19,6 @@ const modals = (state = INITIAL_STATE, action) => {
         ? insert(nextIndex, payload, state)
         : state
     }
-    case AT.REPLACE_MODAL: {
-      return update(lastIndex, payload, state)
-    }
     case AT.UPDATE_MODAL: {
       const lastModal = state[state.length - 1]
       const updatedModal = merge(lastModal, payload)
@@ -31,5 +28,3 @@ const modals = (state = INITIAL_STATE, action) => {
       return state
   }
 }
-
-export default modals

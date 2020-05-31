@@ -38,8 +38,17 @@ let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
+    const apiToken = yield select(selectors.modules.profile.getApiToken)
     if (Remote.Success.is(userData)) return
+    if (Remote.Failure.is(apiToken)) return
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+  }
+
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    return userData.tiers && userData.tiers.current >= 2
   }
 
   const getCampaignData = function * (campaign) {
@@ -277,6 +286,7 @@ export default ({ api, coreSagas, networks }) => {
       state: undefined,
       kycState: undefined
     })
+    /* eslint-disable */
     const {
       id,
       address,
@@ -286,6 +296,7 @@ export default ({ api, coreSagas, networks }) => {
       kycState,
       ...userData
     } = user
+    /* eslint-enable */
     const updatedData = { ...userData, ...data }
 
     if (equals(updatedData, userData)) return user
@@ -324,8 +335,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchTiers = function * () {
     try {
-      const tiers = yield select(S.getTiers)
-      if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
       yield put(
         A.fetchTiersSuccess(
@@ -382,8 +392,16 @@ export default ({ api, coreSagas, networks }) => {
         remainingAddresses
       )
       yield put(A.shareWalletAddressesWithExchangeSuccess(data))
+      yield put(
+        actions.alerts.displaySuccess('Wallet addresses successfully linked.')
+      )
     } catch (e) {
       yield put(A.shareWalletAddressesWithExchangeFailure(e))
+      yield put(
+        actions.alerts.displayError(
+          'There was a problem linking your Wallet addresses.'
+        )
+      )
     }
   }
 
@@ -507,6 +525,7 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     recoverUser,

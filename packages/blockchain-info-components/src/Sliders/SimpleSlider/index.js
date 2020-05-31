@@ -43,7 +43,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     cursor: pointer;
     background: #ffffff;
     border-radius: 1.3px;
-    border: 0.1px solid ${props => props.theme['gray-2']};
+    border: 0.1px solid ${props => props.theme.grey200};
   }
 
   &::-ms-track {

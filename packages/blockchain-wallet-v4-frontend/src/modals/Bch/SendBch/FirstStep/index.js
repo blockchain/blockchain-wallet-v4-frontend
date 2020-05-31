@@ -17,10 +17,11 @@ class FirstStep extends React.Component {
         <Success
           destination={value.destination}
           effectiveBalance={value.effectiveBalance}
-          excludeLockbox={value.excludeLockbox}
           excludeHDWallets={excludeHDWallets}
+          excludeLockbox={value.excludeLockbox}
           from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
+          isMnemonicVerified={value.isMnemonicVerified}
           network={value.network}
           onSubmit={actions.sendBchFirstStepSubmitClicked}
           payPro={payPro}
@@ -43,7 +44,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

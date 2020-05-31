@@ -12,7 +12,6 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(SettingsContainer)
+const connector = connect(undefined, mapDispatchToProps)
+
+export default connector(SettingsContainer)

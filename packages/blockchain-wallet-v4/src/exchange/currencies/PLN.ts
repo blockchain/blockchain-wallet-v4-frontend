@@ -1,6 +1,7 @@
 export default {
   code: 'PLN',
   base: 'CENT',
+  displayName: 'Polish Zloty',
   trade: 'PLN',
   units: {
     CENT: {

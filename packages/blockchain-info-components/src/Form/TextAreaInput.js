@@ -9,7 +9,7 @@ const BaseTextAreaInput = styled.textarea`
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
@@ -32,6 +32,11 @@ const BaseTextAreaInput = styled.textarea`
     color: ${props => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme.grey100};
+    border: '1px solid transparent';
   }
 `
 

@@ -63,7 +63,7 @@ class PaxWelcomeContainer extends React.PureComponent {
             </Text>
             <GetButton nature='primary' fullwidth onClick={this.onGetPax}>
               <FormattedMessage
-                id='modals.usddwelcome.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </GetButton>
@@ -81,10 +81,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('PaxWelcome'),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(PaxWelcomeContainer)

@@ -1,6 +1,7 @@
 export default {
   code: 'CLP',
   base: 'CENT',
+  displayName: 'Chilean Peso',
   trade: 'CLP',
   units: {
     CENT: {

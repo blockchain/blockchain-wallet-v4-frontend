@@ -11,14 +11,6 @@ export default () => {
       onboardingSagas.airdropClaimSubmitClicked
     )
     yield takeLatest(
-      AT.COINIFY_UPGRADE_SUBMIT_CLICKED,
-      onboardingSagas.coinifyUpgradeSubmitClicked
-    )
-    yield takeLatest(
-      AT.SKIP_WALLET_TOUR_CLICKED,
-      onboardingSagas.skipWalletTourClicked
-    )
-    yield takeLatest(
       AT.SWAP_GET_STARTED_SUBMIT_CLICKED,
       onboardingSagas.swapGetStartedSubmitClicked
     )

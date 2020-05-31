@@ -102,10 +102,7 @@ export default ({ api, coreSagas, networks }) => {
   const asyncValidatingSelector = selectors.form.isAsyncValidating(
     EXCHANGE_FORM
   )
-  const getActiveFieldName = compose(
-    mapFixToFieldName,
-    prop('fix')
-  )
+  const getActiveFieldName = compose(mapFixToFieldName, prop('fix'))
   const getCurrentVolume = form => propOr(0, getActiveFieldName(form), form)
   const getCurrentPair = converge(formatPair, [
     path(['source', 'coin']),
@@ -196,16 +193,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeFormInitialized = function * ({ payload }) {
-    yield put(actions.modules.rates.fetchAvailablePairs())
-    const {
-      payload: { pairs }
-    } = yield take(actionTypes.modules.rates.AVAILABLE_PAIRS_SUCCESS)
-
     const initialValues = yield select(
       S.getInitialValues,
-      pairs,
       payload.requestedValues
     )
+
     yield put(actions.form.initialize(EXCHANGE_FORM, initialValues))
     yield call(changeSubscription, true)
     yield call(fetchLimits)

@@ -33,6 +33,7 @@ export const transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE +
   inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
   outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
+export const changeBytes = () => Coin.TX_OUTPUT_BASE + Coin.TX_OUTPUT_PUBKEYHASH
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
@@ -56,7 +57,10 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
     const nextAcc = acc + newCoin.value
     return acc > target + partialFee
       ? false
-      : [[nextAcc, partialFee, newCoin], [nextAcc, partialFee, restCoins]]
+      : [
+          [nextAcc, partialFee, newCoin],
+          [nextAcc, partialFee, restCoins]
+        ]
   }
   const partialFee = transactionBytes([], targets) * feePerByte
   const effectiveCoins = filter(
@@ -76,15 +80,17 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
       return { fee: fee, inputs: [], outputs: targets }
     } else {
       const extra = maxBalance - target - fee
-      if (extra >= dustThreshold(feePerByte)) {
+      const feeChange = changeBytes() * feePerByte
+      const extraWithChangeFee = extra - feeChange
+      if (extraWithChangeFee >= dustThreshold(feePerByte)) {
         // add change
         const change = Coin.fromJS({
-          value: extra,
+          value: extraWithChangeFee,
           address: changeAddress,
           change: true
         })
         return {
-          fee: fee,
+          fee: fee + feeChange,
           inputs: selectedCoins,
           outputs: [...targets, change]
         }

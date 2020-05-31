@@ -1,21 +1,26 @@
-import { DefaultTheme } from 'styled-components'
-
 const Default = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
+  whiteFade200: 'rgba(255, 255, 255, 0.2)',
+  whiteFade300: 'rgba(255, 255, 255, 0.3)',
   whiteFade400: 'rgba(255, 255, 255, 0.4)',
   whiteFade600: 'rgba(255, 255, 255, 0.6)',
   whiteFade700: 'rgba(255, 255, 255, 0.7)',
   whiteFade800: 'rgba(255, 255, 255, 0.8)',
   whiteFade900: 'rgba(255, 255, 255, 0.9)',
+  greyFade000: 'rgba(5, 24, 61, 0.02)',
   greyFade100: 'rgba(5, 24, 61, 0.1)',
   greyFade200: 'rgba(5, 24, 61, 0.2)',
+  greyFade300: 'rgba(5, 24, 61, 0.3)',
   greyFade400: 'rgba(5, 24, 61, 0.4)',
   greyFade600: 'rgba(3, 17, 47, 0.6)',
   greyFade800: 'rgba(18, 29, 51, 0.8)',
   grey000: '#F0F2F7',
   grey100: '#DFE3EB',
+  grey200: '#CCD2DE',
+  grey300: '#B1B8C7',
   grey400: '#98A1B2',
+  grey500: '#828B9E',
   grey600: '#677185',
   grey700: '#50596B',
   grey800: '#353F52',
@@ -80,9 +85,9 @@ const Default = {
   exchangeNight: '#0A0D10',
   exchangeTurquoise: '#42F1B8',
   // Action
-  sent: '#F26C57',
-  received: '#00BABC',
-  transferred: '#828B9E',
+  sent: '#D93B30',
+  received: '#00994C',
+  transferred: '#3D89F5',
   // State
   error: '#D93B30',
   warn: '#F28979',
@@ -90,13 +95,6 @@ const Default = {
   // Marketing
   'marketing-primary': '#0C6CF2',
   'marketing-secondary': '#144699',
-  // Grays
-  'gray-1': '#F0F2F7',
-  'gray-2': '#CCD2DE',
-  'gray-3': '#98A1B2',
-  'gray-4': '#757679',
-  'gray-5': '#50596B',
-  'gray-6': '#353F52',
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
@@ -105,7 +103,6 @@ const Default = {
   textBlack: '#121D33',
   // Blues
   purple: '#4C18BA',
-  'deep-blue': '#144699',
   // Service Announcements
   info: '#4A90E2'
 }

@@ -68,10 +68,7 @@ const SecondStep = props => {
         </WaitingText>
         <Footer>
           <BackLink onClick={previousStep} size='13px' weight={400}>
-            <FormattedMessage
-              id='scenes.reset2fa.secondstep.back'
-              defaultMessage='Go Back'
-            />
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </BackLink>
           <Button type='submit' nature='primary' disabled={busy || invalid}>
             {busy ? (

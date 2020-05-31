@@ -1,6 +1,7 @@
 export default {
   code: 'TWD',
   base: 'CENT',
+  displayName: 'New Taiwan Dollar',
   trade: 'TWD',
   units: {
     CENT: {

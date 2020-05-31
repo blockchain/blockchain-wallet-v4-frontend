@@ -99,27 +99,18 @@ const Small: React.FC<Props> = props => {
               <NavbarNavItemTextIcon
                 className='icon'
                 size='6px'
-                color='white'
+                color='whiteFade900'
                 name='ellipsis'
               />
               {isMenuOpen && (
                 <DropdownMenu ref={ref}>
                   <DropdownMenuArrowStyled />
                   <DropdownMenuItem
-                    data-e2e='faqLink'
-                    onClick={() => props.modalActions.showModal('FAQ_MODAL')}
-                  >
-                    <Destination>
-                      <FormattedMessage
-                        id='layouts.wallet.header.small.faq'
-                        defaultMessage='FAQ'
-                      />
-                    </Destination>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
                     data-e2e='notificationsLink'
                     onClick={() =>
-                      props.modalActions.showModal('WHATS_NEW_MODAL')
+                      props.modalActions.showModal('WHATS_NEW_MODAL', {
+                        origin: 'WhatsNewHeader'
+                      })
                     }
                   >
                     <Destination>

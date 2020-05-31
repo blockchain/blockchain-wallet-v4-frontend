@@ -91,8 +91,8 @@ const Circle = styled.div`
   width: 6px;
   min-width: 6px;
   display: block;
-  background-color: ${props => props.theme['gray-6']};
-  border: 1px solid ${props => props.theme['gray-6']};
+  background-color: ${props => props.theme['grey800']};
+  border: 1px solid ${props => props.theme['grey800']};
   border-radius: 6px;
   margin-top: 5px;
 `

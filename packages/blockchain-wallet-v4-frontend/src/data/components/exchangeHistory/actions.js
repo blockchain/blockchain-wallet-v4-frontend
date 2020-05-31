@@ -39,3 +39,6 @@ export const updateTrade = (id, trade) => ({
 export const stopPollingTrades = () => ({
   type: AT.STOP_POLLING_TRADES
 })
+export const downloadHistory = () => ({
+  type: AT.DOWNLOAD_HISTORY
+})

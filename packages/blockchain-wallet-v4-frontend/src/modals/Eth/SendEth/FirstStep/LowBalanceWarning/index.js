@@ -58,7 +58,7 @@ const LowBalanceWarning = props => {
             target='_blank'
           >
             <FormattedMessage
-              id='modals.sendeth.lowbalancewarning.learn'
+              id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Link>
@@ -73,7 +73,4 @@ const mapStateToProps = state => ({
   ethRates: selectors.core.data.eth.getRates(state).getOrFail()
 })
 
-export default connect(
-  mapStateToProps,
-  null
-)(LowBalanceWarning)
+export default connect(mapStateToProps, null)(LowBalanceWarning)

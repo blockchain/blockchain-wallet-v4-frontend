@@ -80,10 +80,7 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbch.secondstep.from'
-              defaultMessage='From:'
-            />
+            <FormattedMessage id='copy.from:' defaultMessage='From:' />
           </Text>
           <Text size='16px' weight={400} data-e2e='bchFromWallet'>
             {fromAddress}
@@ -115,10 +112,7 @@ const Success = props => {
         )}
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbch.secondstep.amount'
-              defaultMessage='Amount:'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount:' />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
@@ -212,10 +206,7 @@ const Success = props => {
           weight={400}
           data-e2e='bchSendBackLink'
         >
-          <FormattedMessage
-            id='modals.sendbch.secondstep.goback'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

@@ -1,3 +1,4 @@
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { collapse } from 'utils/helpers'
 import {
   compose,
@@ -20,6 +21,7 @@ import {
   sort
 } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestAccountBalanceType } from 'core/types'
 import { selectors } from 'data'
 
 const allWallets = {
@@ -50,7 +52,9 @@ export const getData = (
     excludeImported?: boolean
     excludeLockbox?: boolean
     includeAll?: boolean
+    includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -59,7 +63,9 @@ export const getData = (
     excludeImported,
     excludeLockbox,
     includeAll = true,
-    includeExchangeAddress
+    includeCustodial,
+    includeExchangeAddress,
+    includeInterest
   } = ownProps
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -73,11 +79,51 @@ export const getData = (
     }
     return label
   }
+  const buildCustodialDisplay = x => {
+    return (
+      `BTC Trading Wallet` +
+      ` (${Exchange.displayBtcToBtc({
+        value: x ? x.available : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      })})`
+    )
+  }
+  const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
+    return (
+      `BTC Interest Wallet` +
+      ` (${Exchange.displayBtcToBtc({
+        value: x ? x.balance : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
+      })})`
+    )
+  }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
+  const toCustodialDropdown = x => [
+    {
+      label: buildCustodialDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'BTC Trading Wallet'
+      }
+    }
+  ]
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'BTC Interest Wallet'
+      }
+    }
+  ]
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     'BTC',
@@ -87,11 +133,28 @@ export const getData = (
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
       selectors.core.common.btc
         .getActiveAccountsBalances(state)
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
+      includeCustodial
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map<any, any>(prop('BTC'))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map<any, any>(prop('BTC'))
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
+        : Remote.of([]),
       excludeImported
         ? Remote.of([])
         : selectors.core.common.btc
@@ -101,10 +164,7 @@ export const getData = (
             .map(x =>
               set(
                 // @ts-ignore
-                compose(
-                  lensIndex(0),
-                  lensProp('options')
-                ),
+                compose(lensIndex(0), lensProp('options')),
                 sort(
                   descend(path(['value', 'balance'])),
                   // @ts-ignore
@@ -119,13 +179,10 @@ export const getData = (
             .getLockboxBtcBalances(state)
             .map(excluded)
             .map(toDropdown)
-            .map(toGroup('Lockbox')),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
-        : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
+            .map(toGroup('Lockbox'))
+    ]).map(([b1, b2, b3, b4, b5]) => {
       // @ts-ignore
-      const data = reduce(concat, [], [b1, b2, b3, b4])
+      const data = reduce(concat, [], [b1, b2, b3, b4, b5])
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {

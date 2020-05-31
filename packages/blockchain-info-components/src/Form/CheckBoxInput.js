@@ -29,7 +29,7 @@ const BaseCheckBoxInput = styled.input.attrs({
     & + label {
       &:before {
         cursor: not-allowed;
-        border: 1px solid ${props => props.theme['gray-2']};
+        border: 1px solid ${props => props.theme.grey200};
       }
     }
   }
@@ -38,11 +38,13 @@ const Label = styled.label`
   display: flex;
   cursor: pointer;
   position: relative;
-  align-items: center;
+
   &:before {
     content: '';
     min-width: 12px;
     min-height: 12px;
+    width: 12px;
+    height: 12px;
     margin-right: 8px;
     background: white;
     border-radius: 2px;
@@ -57,7 +59,7 @@ const Label = styled.label`
     font-weight: 600;
     font-size: 8px;
     left: 2px;
-    top: 50%;
+    top: 8px;
     margin-top: -5px;
   }
 `

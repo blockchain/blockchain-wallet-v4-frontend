@@ -15,7 +15,7 @@ export const MinMaxButton = styled(Button)`
   height: 48px;
   border-radius: 4px;
   justify-content: space-between;
-  border-color: ${props => props.theme['gray-2']};
+  border-color: ${props => props.theme.grey200};
   > * {
     color: ${props => props.theme.blue900};
     font-weight: 500;
@@ -82,7 +82,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(MinMaxButtons)
+export default connect(getData, mapDispatchToProps)(MinMaxButtons)

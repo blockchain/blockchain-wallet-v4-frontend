@@ -35,7 +35,7 @@ const BaseButton = styled.button.attrs({
   color: ${props => props.theme[props.color]};
   background-color: ${props =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
-  border-radius: ${props => (props.rounded ? '20px' : '4px')};
+  border-radius: ${props => (props.rounded ? '20px' : '8px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
@@ -65,8 +65,8 @@ const selectColor = (nature, disabled, small) => {
     case 'dark':
       return {
         color: 'white',
-        backgroundColor: 'gray-6',
-        borderColor: 'gray-6'
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
       }
     case 'dark-grey':
       return {
@@ -76,26 +76,43 @@ const selectColor = (nature, disabled, small) => {
       }
     case 'empty':
       return {
-        color: small ? 'blue600' : 'gray-6',
+        color: small ? 'blue600' : 'grey800',
         backgroundColor: 'white',
         borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
+
+    case 'empty-blue': {
+      return {
+        color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey100',
+        hoverBorderColor: 'blue600'
+      }
+    }
+
     case 'empty-secondary':
       return {
         color: 'blue600',
         backgroundColor: 'white',
         borderColor: 'blue600'
       }
+
     case 'gray':
       return {
         color: 'white',
-        backgroundColor: 'gray-4',
-        borderColor: 'gray-4'
+        backgroundColor: 'grey500',
+        borderColor: 'grey500'
       }
     case 'light':
       return {
         color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey000'
+      }
+    case 'light-red':
+      return {
+        color: 'red600',
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
@@ -162,11 +179,17 @@ const selectColor = (nature, disabled, small) => {
         backgroundColor: 'green600',
         borderColor: 'green600'
       }
+    case 'grey800':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     default:
       return {
-        color: 'gray-6',
+        color: 'grey800',
         backgroundColor: 'grey000',
-        borderColor: 'gray-2',
+        borderColor: 'grey200',
         hoverBorderColor: 'white'
       }
   }

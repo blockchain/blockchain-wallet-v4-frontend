@@ -1,2 +1,9 @@
-// export type E2EType = 'borrowModal' | 'xyzModal'
-export type E2EType = 'borrowModal' | 'faqModal' | 'whatsNewModal'
+export type FlyoutE2EType =
+  | 'borrowModal'
+  | 'faqModal'
+  | 'interestModal'
+  | 'recoveryPhraseModal'
+  | 'simpleBuyModal'
+  | 'welcomeModal'
+  | 'whatsNewModal'
+  | 'withdrawalModal'

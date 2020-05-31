@@ -5,20 +5,21 @@ import {
   IdentityVerificationActionTypes,
   StepsType
 } from './types'
+import { ModalOriginType } from 'data/modals/types'
 import { TIERS } from '../../modules/profile/model'
 
 export const verifyIdentity = (
   tier = TIERS[2],
-  isCoinify = false,
-  needMoreInfo = false
+  needMoreInfo = false,
+  origin: ModalOriginType
 ): IdentityVerificationActionTypes => ({
   type: AT.VERIFY_IDENTITY,
-  payload: { tier, isCoinify, needMoreInfo }
+  payload: { tier, needMoreInfo, origin }
 })
 
-export const initializeVerification = (tier, isCoinify, needMoreInfo) => ({
+export const initializeVerification = (tier, needMoreInfo) => ({
   type: AT.INITIALIZE_VERIFICATION,
-  payload: { tier, isCoinify, needMoreInfo }
+  payload: { tier, needMoreInfo }
 })
 export const goToPrevStep = () => ({
   type: AT.GO_TO_PREV_STEP
@@ -72,11 +73,8 @@ export const setSupportedDocumentsFailure = (
   payload: { e }
 })
 
-export const fetchStates = isCoinify => ({
-  type: AT.FETCH_STATES,
-  payload: {
-    isCoinify
-  }
+export const fetchStates = () => ({
+  type: AT.FETCH_STATES
 })
 export const setStatesLoading = (): IdentityVerificationActionTypes => ({
   type: AT.SET_STATES_LOADING

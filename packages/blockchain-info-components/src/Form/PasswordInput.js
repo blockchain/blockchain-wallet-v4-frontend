@@ -19,7 +19,7 @@ const BasePasswordInput = styled.input.attrs({
   letter-spacing: 4px;
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
@@ -43,7 +43,7 @@ const BasePasswordInput = styled.input.attrs({
   }
   &::-webkit-input-placeholder {
     opacity: 0.4;
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
     font-size: 14px;
     font-weight: 500;
   }

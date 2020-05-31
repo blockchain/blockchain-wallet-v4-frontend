@@ -32,12 +32,14 @@ export const isValidAddressOrIndex = curry((wallet, candidate) =>
 // From
 export const ADDRESS_TYPES = {
   ACCOUNT: 'ACCOUNT',
-  LEGACY: 'LEGACY',
-  WATCH_ONLY: 'WATCH_ONLY',
-  EXTERNAL: 'EXTERNAL',
-  LOCKBOX: 'LOCKBOX',
   ADDRESS: 'ADDRESS',
-  SCRIPT: 'SCRIPT'
+  CUSTODIAL: 'CUSTODIAL',
+  EXTERNAL: 'EXTERNAL',
+  INTEREST: 'INTEREST',
+  LEGACY: 'LEGACY',
+  LOCKBOX: 'LOCKBOX',
+  SCRIPT: 'SCRIPT',
+  WATCH_ONLY: 'WATCH_ONLY'
 }
 
 // fromLegacy :: String -> Object
@@ -67,10 +69,7 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
   fromType: ADDRESS_TYPES.EXTERNAL,
   from: [addrComp, addrUncomp],
   change: addrComp,
-  wifKeys: compose(
-    assoc(addrComp, wifComp),
-    assoc(addrUncomp, wifUncomp)
-  )({})
+  wifKeys: compose(assoc(addrComp, wifComp), assoc(addrUncomp, wifUncomp))({})
 })
 
 // fromAccount :: Network -> ReduxState -> Object
@@ -112,6 +111,13 @@ export const fromLockbox = (network, state, xpub, coin) => {
     from: [xpub],
     change: changeAddress,
     changeIndex: changeIndex.getOrElse(0)
+  }
+}
+
+export const fromCustodial = origin => {
+  return {
+    fromType: ADDRESS_TYPES.CUSTODIAL,
+    from: origin
   }
 }
 

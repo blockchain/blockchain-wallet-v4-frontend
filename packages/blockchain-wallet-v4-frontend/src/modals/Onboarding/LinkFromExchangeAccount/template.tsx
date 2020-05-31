@@ -15,7 +15,7 @@ import styled from 'styled-components'
 
 const ModalStyled = styled(Modal)`
   background: ${props =>
-    `linear-gradient(321.54deg, ${props.theme.purple} -15.42%, ${props.theme.black} 54.12%)`};
+    `linear-gradient(321.54deg, ${props.theme.blue900} -15.42%, ${props.theme.black} 54.12%)`};
 `
 const ModalHeaderStyled = styled(ModalHeader)`
   position: absolute;
@@ -95,10 +95,7 @@ const LinkFromExchangeAccount = ({
                 data-e2e='linkDone'
               >
                 <Text color='white' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.successdone'
-                    defaultMessage='Done'
-                  />
+                  <FormattedMessage id='buttons.done' defaultMessage='Done' />
                 </Text>
               </Button>
             </Content>
@@ -136,10 +133,7 @@ const LinkFromExchangeAccount = ({
                 data-e2e='linkDone'
               >
                 <Text color='white' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.failuredone'
-                    defaultMessage='Done'
-                  />
+                  <FormattedMessage id='buttons.done' defaultMessage='Done' />
                 </Text>
               </Button>
             </Content>

@@ -152,16 +152,6 @@ describe('settingsSagas', () => {
       saga.next().call(coreSagas.settings.setMobileVerified, action.payload)
     })
 
-    it('should select the modal stack', () => {
-      let response = 'updated successfully'
-      saga.next(response).select(selectors.modals.getModals)
-    })
-
-    it('should close all modals if not SfoxExchangeData modal', () => {
-      let modals = [{ type: 'modal_type' }]
-      saga.next(modals).put(actions.modals.closeAllModals())
-    })
-
     it('should select userFlowSupported', () => {
       saga.next().select(selectors.modules.profile.userFlowSupported)
     })
@@ -230,6 +220,7 @@ describe('settingsSagas', () => {
     })
 
     it('should display a success alert', () => {
+      saga.next()
       saga.next().put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     })
 
@@ -680,7 +671,7 @@ describe('settingsSagas', () => {
     let action = { payload: { isLegacy: false } }
 
     it('should get the mnemonic', () => {
-      return expectSaga(showEthPrivateKey, action)
+      expectSaga(showEthPrivateKey, action)
         .provide([
           [matchers.call.fn(promptForSecondPassword), 'password'],
           [select(getMnemonic), 'mnemonicT'],

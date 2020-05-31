@@ -1,4 +1,4 @@
-import { Button, Text } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import {
   IconContainer,
@@ -7,11 +7,9 @@ import {
   SecurityDescription,
   SecurityHeader,
   SecurityIcon,
-  SecuritySummary,
-  SecurityTip
+  SecuritySummary
 } from 'components/Security'
 import React from 'react'
-import RecordBackupPhrase from './RecordBackupPhrase'
 import styled from 'styled-components'
 
 const SecurityGridContainer = styled(SecurityContainer)`
@@ -19,9 +17,7 @@ const SecurityGridContainer = styled(SecurityContainer)`
   border-bottom-right-radius: 0;
   grid-template-columns: 85% 15%;
 `
-const SecurityTipContainer = styled(SecurityTip)`
-  width: auto;
-`
+
 const IconAndHeaderContainer = styled.div`
   display: grid;
   @media (min-width: 480px) {
@@ -48,48 +44,40 @@ const BackupButton = styled(Button)`
 `
 
 const WalletRecoveryPhrase = props => {
-  const {
-    changeDescription,
-    descriptionToggled,
-    isMnemonicVerified,
-    nextStepToggled,
-    recoveryPhrase
-  } = props
+  const { handleBackupNow, isMnemonicVerified } = props
 
   const buttonHelper = () => {
     const securityComponent = components => (
       <SecurityComponent>{components}</SecurityComponent>
     )
-    if (!nextStepToggled) {
-      if (!descriptionToggled && isMnemonicVerified) {
-        const againBtn = (
-          <BackupButton
-            nature='primary'
-            onClick={props.toggleNextStep}
-            data-e2e='backupFundsButton'
-          >
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
-              defaultMessage='Backup Again'
-            />
-          </BackupButton>
-        )
-        return securityComponent(againBtn)
-      } else if (!descriptionToggled) {
-        const backupBtn = (
-          <BackupButton
-            nature='primary'
-            onClick={props.toggleNextStep}
-            data-e2e='backupFundsButton'
-          >
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
-              defaultMessage='Backup Funds'
-            />
-          </BackupButton>
-        )
-        return securityComponent(backupBtn)
-      }
+    if (isMnemonicVerified) {
+      const againBtn = (
+        <BackupButton
+          nature='primary'
+          onClick={handleBackupNow}
+          data-e2e='backupFundsButton'
+        >
+          <FormattedMessage
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
+            defaultMessage='Backup Again'
+          />
+        </BackupButton>
+      )
+      return securityComponent(againBtn)
+    } else {
+      const backupBtn = (
+        <BackupButton
+          nature='primary'
+          onClick={handleBackupNow}
+          data-e2e='backupFundsButton'
+        >
+          <FormattedMessage
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+            defaultMessage='Backup Funds'
+          />
+        </BackupButton>
+      )
+      return securityComponent(backupBtn)
     }
   }
 
@@ -101,15 +89,13 @@ const WalletRecoveryPhrase = props => {
             <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
           </IconContainer>
           <SecuritySummary>
-            <SecurityHeader greyOut={isMnemonicVerified && nextStepToggled}>
+            <SecurityHeader greyOut={isMnemonicVerified}>
               <FormattedMessage
                 id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
                 defaultMessage='Backup Phrase'
               />
             </SecurityHeader>
-            <SecurityDescription
-              greyOut={isMnemonicVerified && nextStepToggled}
-            >
+            <SecurityDescription greyOut={isMnemonicVerified}>
               <span>
                 <FormattedMessage
                   id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
@@ -125,39 +111,7 @@ const WalletRecoveryPhrase = props => {
           </SecuritySummary>
         </IconAndHeaderContainer>
         {buttonHelper()}
-        {nextStepToggled && (
-          <React.Fragment>
-            <div />
-            <RecordBackupPhrase
-              handleClose={props.handleClose}
-              phrase={recoveryPhrase}
-              triggerCopyChange={changeDescription}
-              isMnemonicVerified={isMnemonicVerified}
-            />
-          </React.Fragment>
-        )}
       </SecurityGridContainer>
-      {nextStepToggled && (
-        <SecurityTipContainer>
-          <Text
-            color='blue900'
-            size='14px'
-            weight={500}
-            style={{ marginBottom: '4px' }}
-          >
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip'
-              defaultMessage='Security Tip'
-            />
-          </Text>
-          <Text weight={400} size='12px'>
-            <FormattedMessage
-              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore'
-              defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.'
-            />
-          </Text>
-        </SecurityTipContainer>
-      )}
     </React.Fragment>
   )
 }

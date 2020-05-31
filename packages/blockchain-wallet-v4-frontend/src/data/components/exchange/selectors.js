@@ -31,12 +31,7 @@ import { model, selectors } from 'data'
 export const canUseExchange = state =>
   selectors.modules.profile
     .getUserTiers(state)
-    .map(
-      compose(
-        lt(0),
-        prop('current')
-      )
-    )
+    .map(compose(lt(0), prop('current')))
     .getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
@@ -319,7 +314,9 @@ const findAccountIndexOr = (defaultIndex, targetAccount, accounts) => {
   return index
 }
 
-export const getInitialValues = (state, availablePairs, requested) => {
+const fallbackPairs = ['BTC-ETH', 'BTC-PAX', 'BTC-BCH', 'BTC-XLM']
+
+export const getInitialValues = (state, requested) => {
   const availableAccounts = getActiveAccounts(state)
   const defaultValues = {
     sourceFiat: 0,
@@ -327,6 +324,7 @@ export const getInitialValues = (state, availablePairs, requested) => {
     from: 'BTC',
     to: 'ETH'
   }
+  const availablePairs = getAvailablePairs(state).getOrElse(fallbackPairs)
 
   const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const prevSource = prop('source', prevValues)
