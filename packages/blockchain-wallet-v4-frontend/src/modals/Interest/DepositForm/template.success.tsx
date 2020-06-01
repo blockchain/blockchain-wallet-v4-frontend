@@ -45,6 +45,7 @@ import {
   PrincipalCcyAbsolute,
   SendingWrapper,
   TermsContainer,
+  ToggleCoinFiat,
   Top,
   TopText
 } from './model'
@@ -85,6 +86,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { coinTicker, displayName } = supportedCoins[coin]
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
+  // const depositAmountAbsolute = (values && values.depositAmount) || '0'
   const depositAmount = (values && values.depositAmount) || '0'
   const depositAmountFiat = formatFiat(depositAmount)
   const depositAmountCrypto = Exchange.convertCoinToCoin({
@@ -99,6 +101,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }).value
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+  const maxDepositFiat = fiatToString({
+    value: depositLimits.maxFiat,
+    unit: walletCurrency
+  })
+  // const minDepositFiat = fiatToString({
+  //   value: depositLimits.minFiat,
+  //   unit: walletCurrency
+  // })
 
   const amtError =
     formErrors.depositAmount &&
@@ -176,27 +186,25 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.interest.deposit.amount'
               defaultMessage='Enter deposit amount'
             />
+            <ToggleCoinFiat
+              data-e2e='toggleFiatCrypto'
+              onClick={handleDisplayToggle}
+            >
+              {displayCoin ? (
+                <FormattedMessage
+                  id='modals.interest.deposit.showfiat'
+                  defaultMessage='Show {walletCurrency}'
+                  values={{ walletCurrency }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.interest.deposit.showcoin'
+                  defaultMessage='Show {coinTicker}'
+                  values={{ coinTicker }}
+                />
+              )}
+            </ToggleCoinFiat>
           </Text>
-          <Button
-            nature='empty-secondary'
-            data-e2e='toggleFiatCrypto'
-            width='20px'
-            onClick={handleDisplayToggle}
-          >
-            {displayCoin ? (
-              <FormattedMessage
-                id='modals.interest.deposit.showfiat'
-                defaultMessage='Show {walletCurrency}'
-                values={{ walletCurrency }}
-              />
-            ) : (
-              <FormattedMessage
-                id='modals.interest.deposit.showcoin'
-                defaultMessage='Show {coinTicker}'
-                values={{ coinTicker }}
-              />
-            )}
-          </Button>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -228,7 +236,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.interest.deposit.max'
-                  defaultMessage='You cannot deposit more than {maxFiat}'
+                  defaultMessage='Maximum deposit: {maxFiat}'
                   values={{
                     maxFiat: displayCoin
                       ? depositLimits.maxCoin
@@ -245,10 +253,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     minFiat: displayCoin
                       ? depositLimits.minCoin
-                      : fiatToString({
-                          value: depositLimits.minFiat,
-                          unit: walletCurrency
-                        })
+                      : maxDepositFiat
                   }}
                 />
               )}
@@ -261,12 +266,16 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   ? formActions.change(
                       FORM_NAME,
                       'depositAmount',
-                      depositLimits.maxFiat
+                      displayCoin
+                        ? depositLimits.maxCoin
+                        : depositLimits.maxFiat
                     )
                   : formActions.change(
                       FORM_NAME,
                       'depositAmount',
-                      depositLimits.minFiat
+                      displayCoin
+                        ? depositLimits.minCoin
+                        : depositLimits.minFiat
                     )
               }}
             >
@@ -295,16 +304,19 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   formActions.change(
                     FORM_NAME,
                     'depositAmount',
-                    depositLimits.maxFiat
+                    displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
                   )
                 }
               >
-                <Text color='blue600' size='14px' weight={500}>
-                  {fiatToString({
-                    value: depositLimits.maxFiat,
-                    unit: walletCurrency
-                  })}{' '}
-                </Text>
+                {displayCoin ? (
+                  <Text color='blue600' size='14px' weight={500}>
+                    {depositLimits.maxCoin}{' '}
+                  </Text>
+                ) : (
+                  <Text color='blue600' size='14px' weight={500}>
+                    {maxDepositFiat}{' '}
+                  </Text>
+                )}
               </FiatMaxContainer>
               <FormattedMessage
                 id='modals.interest.deposit.uptoamount2'
@@ -332,11 +344,19 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </TooltipHost>
           </CalculatorHeaderContainer>
           <CalculatorDesc color='grey600' size='12px' weight={500}>
-            <FormattedMessage
-              id='modals.interest.deposit.calcdesc'
-              defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:'
-              values={{ currencySymbol, depositAmountFiat }}
-            />
+            {displayCoin ? (
+              <FormattedMessage
+                id='modals.interest.deposit.calcdesccoin'
+                defaultMessage='With {depositAmountCrypto} {coinTicker} in your Interest Account you can earn:'
+                values={{ depositAmountCrypto, coinTicker }}
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.interest.deposit.calcdesc'
+                defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:'
+                values={{ currencySymbol, depositAmountFiat }}
+              />
+            )}
           </CalculatorDesc>
           <CalculatorContainer>
             <Field component={TabMenuTimeFrame} name='loanTimeFrame' />

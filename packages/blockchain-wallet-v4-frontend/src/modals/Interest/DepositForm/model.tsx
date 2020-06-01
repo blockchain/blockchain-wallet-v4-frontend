@@ -36,6 +36,7 @@ export const Bottom = styled(FlyoutWrapper)`
 `
 export const CustomFormLabel = styled(FormLabel)`
   margin-top: 24px;
+  display: flex;
 `
 export const CustomField = styled(Field)<BaseFieldProps>`
   > input {
@@ -146,4 +147,11 @@ export const ButtonContainer = styled.div`
   > button {
     padding: 15px !important;
   }
+`
+
+export const ToggleCoinFiat = styled(Text)`
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme.blue600};
+  cursor: pointer;
 `
