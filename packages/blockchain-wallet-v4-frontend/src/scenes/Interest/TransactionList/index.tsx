@@ -18,7 +18,6 @@ import { RatesType } from 'data/components/borrow/types'
 import TransactionList from './template.success'
 
 const History = styled.div`
-  margin-top: 48px;
   max-width: 1200px;
 `
 
