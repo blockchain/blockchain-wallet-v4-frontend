@@ -13,11 +13,10 @@ import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 
-import Loading from './loading.public'
 import PublicLayout from 'layouts/Public'
+import PublicLoading from './loading.public'
 import WalletLayout from 'layouts/Wallet'
-// const WalletSwitch = React.lazy(() => import('./wallet'))
-// const PublicSwitch = React.lazy(() => import('./public'))
+import WalletLoading from './loading.wallet'
 
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
@@ -70,6 +69,7 @@ const GlobalStyle = createGlobalStyle`
 class App extends React.PureComponent<Props> {
   render () {
     const { store, history, persistor, isAuthenticated } = this.props
+    const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>
         <TranslationsProvider>

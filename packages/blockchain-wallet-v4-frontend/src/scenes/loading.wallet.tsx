@@ -3,13 +3,13 @@ import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import Header from 'layouts/Public/Header'
+import Header from 'layouts/Wallet/MenuTop'
 import media from 'services/ResponsiveService'
 
 interface Props {}
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.blue900};
+  background-color: ${props => props.theme.grey900};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -35,7 +35,7 @@ const LoaderContainer = styled.div`
   margin-top: -90px;
 `
 
-const PublicLoading: React.FC<Props> = () => {
+const WalletLoading: React.FC<Props> = () => {
   return (
     <Wrapper>
       <Header />
@@ -54,4 +54,4 @@ const PublicLoading: React.FC<Props> = () => {
   )
 }
 
-export default PublicLoading
+export default WalletLoading
