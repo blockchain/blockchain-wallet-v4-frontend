@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const SecurityComponent = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,10 +11,10 @@ const SecurityComponent = styled.div`
   padding: 15px 0 10px 0;
   box-sizing: border-box;
 
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     align-items: flex-end;
     width: 100%;
-  }
+  `}
 `
 
 export default SecurityComponent

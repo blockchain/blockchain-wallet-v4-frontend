@@ -2,7 +2,6 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
-import CoinifyToSBBanner from './CoinifyToSBBanner'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import React from 'react'
@@ -41,12 +40,6 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
-      case 'coinifyToSb':
-        return (
-          <BannerWrapper>
-            <CoinifyToSBBanner />
-          </BannerWrapper>
-        )
       default:
         return null
     }
@@ -59,10 +52,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

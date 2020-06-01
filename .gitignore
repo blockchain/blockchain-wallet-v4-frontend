@@ -43,11 +43,11 @@ packages/blockchain-wallet-v4/package-lock.json
 packages/blockchain-wallet-v4-frontend/.awcache
 packages/blockchain-wallet-v4-frontend/build
 packages/blockchain-wallet-v4-frontend/dist
+packages/blockchain-wallet-v4-frontend/extracted-ts
 packages/blockchain-wallet-v4-frontend/node_modules
 packages/blockchain-wallet-v4-frontend/package-lock.json
 packages/blockchain-wallet-v4-frontend/src/assets/locales/defaultMessages.json
 packages/blockchain-wallet-v4-frontend/src/assets/locales/whitelists
-packages/blockchain-wallet-v4-frontend/src/extracted-ts
 
 # Config Files
 config/env/development.js

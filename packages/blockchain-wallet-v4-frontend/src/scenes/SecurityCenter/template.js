@@ -16,10 +16,10 @@ const StatusWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  @media (max-width: 992px) {
+  ${media.tabletL`
     flex-direction: column;
     text-align: center;
-  }
+  `}
 `
 const IntroText = styled.div`
   display: flex;
@@ -31,9 +31,9 @@ const IntroText = styled.div`
     padding: 20px 0;
   }
 
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     width: 40%;
-  }
+  `}
 `
 const SecurityStepsWrapper = styled.div`
   display: flex;

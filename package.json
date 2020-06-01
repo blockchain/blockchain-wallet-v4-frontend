@@ -41,7 +41,7 @@
       "git add"
     ],
     "*.{js,tsx}": [
-      "stylelint"
+      "stylelint './packages/*/src/**/*.{js,tsx}'"
     ],
     "*.json": [
       "prettier --write",

@@ -6,7 +6,6 @@ import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
-import * as onboarding from './onboarding/selectors'
 import * as onfido from './onfido/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
@@ -30,7 +29,6 @@ export {
   layoutWallet,
   lockbox,
   manageAddresses,
-  onboarding,
   onfido,
   priceChart,
   priceTicker,

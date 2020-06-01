@@ -25,10 +25,10 @@ const Container = styled.div`
   width: 100%;
   height: auto;
 
-  @media (min-width: 1024px) {
+  ${media.atLeastLaptop`
     justify-content: center;
     width: 100%;
-  }
+  `}
 `
 const Column = styled.div`
   display: flex;
@@ -39,9 +39,9 @@ const Column = styled.div`
   height: auto;
   box-sizing: border-box;
 
-  @media (min-width: 1200px) {
-    width: 'auto';
-  }
+  ${media.atLeastLaptop`
+    width: auto;
+  `}
 `
 const Row = styled.div`
   display: flex;
@@ -52,20 +52,20 @@ const Row = styled.div`
   margin-bottom: 15px;
   flex-wrap: wrap;
 
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     flex-direction: row;
-    width: '100%';
-    margin-bottom: 'none';
-  }
+    width: 100%;
+    margin-bottom: none;
+  `}
 `
 const TierRow = styled(Row)`
   margin-top: 10px;
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     align-items: flex-start;
-    > :first-child {
-      padding-top: 50px;
-    }
-  }
+      > :first-child {
+        padding-top: 50px;
+      }
+  `}
 `
 const SwapText = styled(Text)`
   margin-bottom: 10px;
