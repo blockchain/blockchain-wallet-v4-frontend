@@ -10,10 +10,6 @@ import React from 'react'
 import Success from './template.success'
 
 class Balance extends React.PureComponent<Props> {
-  componentDidMount () {
-    this.handleRefresh()
-  }
-
   handleRefresh = () => {
     const { coin } = this.props
     const coinLower = toLower(coin)
@@ -43,7 +39,7 @@ class Balance extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps): LinkStatePropsType => ({
   data: getData(state, ownProps),
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
 })
@@ -62,13 +58,6 @@ type OwnProps = {
   coin: CoinType
   coinTicker: string
   large: boolean
-}
-type LinkDispatchPropsType = {
-  bchActions: typeof actions.core.data.bch
-  btcActions: typeof actions.core.data.btc
-  ethActions: typeof actions.core.data.eth
-  stxActions: typeof actions.core.data.stx
-  xlmActions: typeof actions.core.data.xlm
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, string | number>
