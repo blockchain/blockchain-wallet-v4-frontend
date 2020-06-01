@@ -157,7 +157,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
             </Button>
             <Button
               capitalize
-              data-e2e='toWalletTour'
+              data-e2e='skipTour'
               fullwidth
               height='48px'
               nature='light'

@@ -1,19 +1,21 @@
 import { FormattedMessage } from 'react-intl'
+import { SpinningLoader } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   SettingContainer,
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import { SpinningLoader } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const CustomSettingContainer = styled(SettingContainer)`
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-  }
+  `}
 `
 const CustomSettingHeader = styled(SettingHeader)`
   margin-bottom: 18px;

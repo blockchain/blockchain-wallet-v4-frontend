@@ -98,6 +98,8 @@ const Default = {
   // Whites
   white: '#FFFFFF',
   silver: '#B1B8C7',
+  // alwaysWhite for darkmode
+  alwaysWhite: '#FFFFFF',
   // Blacks
   black: '#000000',
   textBlack: '#121D33',

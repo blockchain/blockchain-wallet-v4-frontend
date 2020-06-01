@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { actions, model } from 'data'
 import { getData } from './selectors'
 import { ModalBody, ModalHeader } from 'blockchain-info-components'
+import { ModalPropsType } from '../../types'
 import { RemoteDataType } from 'core/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -44,7 +45,7 @@ const StepHeader = styled(ModalHeader)`
 const ErrorHeader = styled(ModalHeader)`
   border-bottom: 0px;
 `
-const IdentityVerificationTray = styled(Tray)`
+const IdentityVerificationTray = styled(Tray)<ModalPropsType>`
   margin-top: 0;
   border-radius: 0;
   > div:first-child {
@@ -195,6 +196,7 @@ class IdentityVerification extends React.PureComponent<Props> {
     return (
       <IdentityVerificationTray
         in={show}
+        // @ts-ignore
         class='tray'
         position={position}
         total={total}

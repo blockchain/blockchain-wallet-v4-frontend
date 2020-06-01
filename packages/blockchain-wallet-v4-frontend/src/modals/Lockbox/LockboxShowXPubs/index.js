@@ -7,6 +7,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
+import media from 'services/ResponsiveService'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import {
@@ -50,9 +51,9 @@ const Tab = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  @media (min-width: 768px) {
+  ${media.atLeastTablet`
     padding: 15px 5px;
-  }
+  `}
   &:after {
     display: block;
     content: '';
@@ -76,15 +77,15 @@ const Tab = styled.div`
 `
 const TabHeader = styled(Text)`
   font-weight: 400;
-  @media (min-width: 768px) {
+  ${media.atLeastTablet`
     font-size: 20px;
-  }
+  `}
 `
 const TabIcon = styled(Icon)`
   margin-right: 10px;
-  @media (min-width: 768px) {
+  ${media.atLeastTablet`
     font-size: ${props => props.size || '20px'};
-  }
+  `}
 `
 
 export class LockboxShowXPubs extends React.PureComponent {

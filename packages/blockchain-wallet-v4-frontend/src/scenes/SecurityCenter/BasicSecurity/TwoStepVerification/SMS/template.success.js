@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 import { Button, Link, Text } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { Form, PhoneNumberBox, TextBox } from 'components/Form'

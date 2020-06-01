@@ -7,6 +7,7 @@ import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 const NavbarStyled = styled(Navbar)`
+  padding: 0 16px;
   background-color: ${props => props.theme.blue900};
 `
 const BlockchainLogoImage = styled(Image)`

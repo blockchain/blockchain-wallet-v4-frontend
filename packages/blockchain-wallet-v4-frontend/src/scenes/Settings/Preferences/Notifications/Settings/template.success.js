@@ -6,15 +6,16 @@ import styled from 'styled-components'
 
 import { CheckBox } from 'components/Form'
 import { Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  @media (min-width: 992px) {
+  ${media.atLeastLaptopL`
     align-items: flex-end;
-  }
+  `}
 
   & > * {
     padding: 2px 0;
