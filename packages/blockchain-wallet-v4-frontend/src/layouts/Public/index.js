@@ -56,7 +56,7 @@ const ContentContainer = styled.div`
   max-width: 100%;
 `
 
-const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
+const PublicLayoutContainer = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={matchProps => (
@@ -64,7 +64,7 @@ const PublicLayoutContainer = ({ component: Component, path, ...rest }) => (
         <ErrorBoundary>
           <Alerts />
           <HeaderContainer>
-            <Header path={path} />
+            <Header />
           </HeaderContainer>
           <ContentContainer>
             <Component {...matchProps} />

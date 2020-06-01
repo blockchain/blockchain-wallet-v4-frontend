@@ -12,7 +12,7 @@ import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 
-import Loading from './loading'
+import Loading from './loading.public'
 const WalletSwitch = React.lazy(() => import('./wallet'))
 const PublicSwitch = React.lazy(() => import('./public'))
 
