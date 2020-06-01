@@ -14,7 +14,7 @@ export default ({ api, networks } = {}) => {
     try {
       const mnemonicT = yield select(getMnemonic, password)
       const mnemonic = yield callTask(mnemonicT)
-      const keypair = getKeyPair(mnemonic)
+      const keypair = yield call(getKeyPair, mnemonic)
       const xlm = {
         default_account_idx: 0,
         accounts: [

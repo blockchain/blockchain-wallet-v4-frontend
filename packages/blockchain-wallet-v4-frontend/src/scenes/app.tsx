@@ -52,11 +52,7 @@ class App extends React.PureComponent<Props> {
                       {isAuthenticated && (
                         <WalletSwitch supportedCoins={supportedCoins} />
                       )}
-                      {isAuthenticated ? (
-                        <Redirect from='/' to='/home' />
-                      ) : (
-                        <Redirect from='/' to='/login' />
-                      )}
+                      {!isAuthenticated && <Redirect from='/' to='/login' />}
                     </Suspense>
                   </Switch>
                 </ConnectedRouter>
