@@ -1509,6 +1509,7 @@
   "scenes.interest.kycunderreview": "Gold Verification In Review",
   "scenes.interest.legal.one": "Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.",
   "scenes.interest.legal.two": "Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.",
+  "scenes.interest.legaldiscalimer": "Legal disclaimer",
   "scenes.interest.subheader": "Deposit crypto and watch it grow.",
   "scenes.interest.summarycard.earn": "Earn up to {interestRate}% annually on your {coinTicker}.",
   "scenes.interest.summarycard.earnbutton": "Earn Interest",
