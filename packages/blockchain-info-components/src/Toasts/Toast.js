@@ -1,4 +1,3 @@
-import { darken } from 'polished'
 import { Icon } from '../Icons'
 import { propOr } from 'ramda'
 import PropTypes from 'prop-types'
@@ -47,9 +46,6 @@ const CustomIcon = styled(Icon)`
 `
 const CloseIcon = styled(Icon)`
   margin-right: 8px;
-  &:hover {
-    color: ${props => darken(0.5, props.theme['grey500'])}!important;
-  }
 `
 
 const selectColor = (type, coin) => {

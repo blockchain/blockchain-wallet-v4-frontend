@@ -72,9 +72,9 @@ class App extends React.PureComponent<Props> {
     const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>
-        <TranslationsProvider>
-          <PersistGate loading={<Loading />} persistor={persistor}>
-            <ThemeProvider>
+        <ThemeProvider>
+          <TranslationsProvider>
+            <PersistGate loading={<Loading />} persistor={persistor}>
               <MediaContextProvider>
                 <ConnectedRouter history={history}>
                   <Suspense fallback={<Loading />}>
@@ -172,9 +172,9 @@ class App extends React.PureComponent<Props> {
                 <IconGlobalStyles />
                 <GlobalStyle />
               </MediaContextProvider>
-            </ThemeProvider>
-          </PersistGate>
-        </TranslationsProvider>
+            </PersistGate>
+          </TranslationsProvider>
+        </ThemeProvider>
       </Provider>
     )
   }
