@@ -1,13 +1,14 @@
 import { prop, toLower } from 'ramda'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { Suspense } from 'react'
 import styled from 'styled-components'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { Text } from 'blockchain-info-components'
-import IntlTelInput from 'react-intl-tel-input'
+import { SpinningLoader, Text } from 'blockchain-info-components'
+
+const IntlTelInput = React.lazy(() => import('react-intl-tel-input'))
 
 const Container = styled.div`
   position: relative;
@@ -78,41 +79,43 @@ class PhoneNumberBox extends React.Component {
     const countryCode = upperCountryCode && toLower(upperCountryCode)
 
     return (
-      <Container>
-        <IntlTelInput
-          ref={this.bindTel}
-          disabled={disabled}
-          defaultValue={defaultValue || input.value}
-          onPhoneNumberChange={this.changeHandler}
-          onPhoneNumberBlur={this.blurHandler}
-          format
-          defaultCountry={countryCode}
-          preferredCountries={['us', 'gb']}
-          css={['intl-tel-input', 'form-control']}
-          utilsScript={'libphonenumber.js'}
-          placeholder='555-555-5555'
-        />
-        {touched && error && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
-            {error}
-          </Error>
-        )}
-        {touched && !error && warning && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
-            {warning}
-          </Error>
-        )}
-      </Container>
+      <Suspense fallback={<SpinningLoader width='24px' height='24px' />}>
+        <Container>
+          <IntlTelInput
+            ref={this.bindTel}
+            disabled={disabled}
+            defaultValue={defaultValue || input.value}
+            onPhoneNumberChange={this.changeHandler}
+            onPhoneNumberBlur={this.blurHandler}
+            format
+            defaultCountry={countryCode}
+            preferredCountries={['us', 'gb']}
+            css={['intl-tel-input', 'form-control']}
+            utilsScript={'libphonenumber.js'}
+            placeholder='555-555-5555'
+          />
+          {touched && error && (
+            <Error
+              size='12px'
+              weight={500}
+              color='error'
+              errorBottom={errorBottom}
+            >
+              {error}
+            </Error>
+          )}
+          {touched && !error && warning && (
+            <Error
+              size='12px'
+              weight={500}
+              color='error'
+              errorBottom={errorBottom}
+            >
+              {warning}
+            </Error>
+          )}
+        </Container>
+      </Suspense>
     )
   }
 }

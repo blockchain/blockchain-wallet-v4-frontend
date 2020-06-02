@@ -163,7 +163,11 @@ class App extends React.PureComponent<Props> {
                           this.props.supportedCoins
                         )
                       )}
-                      {!isAuthenticated && <Redirect from='/' to='/login' />}
+                      {isAuthenticated ? (
+                        <Redirect to='/home' />
+                      ) : (
+                        <Redirect to='/login' />
+                      )}
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
