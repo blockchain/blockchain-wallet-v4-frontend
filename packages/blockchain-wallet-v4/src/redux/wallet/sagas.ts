@@ -29,14 +29,9 @@ import Task from 'data.task'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, networks }) => {
+export default ({ api, libcoins, networks }) => {
   const runTask = function * (task, setActionCreator) {
-    let result = yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
+    let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
   }
 
@@ -94,7 +89,7 @@ export default ({ api, networks }) => {
   }
 
   const createWalletSaga = function * ({ password, email, language }) {
-    const mnemonic = yield call(generateMnemonic, api)
+    const mnemonic = yield call(generateMnemonic, api, libcoins)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
       guid,
@@ -131,13 +126,15 @@ export default ({ api, networks }) => {
   const upgradeToHd = function * ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
+      // @ts-ignore
       i => i.toJS(),
       Wallet.selectHdWallets,
       Wrapper.selectWallet
+      // @ts-ignore
     )(wrapper)
 
     if (isEmpty(hdwallets)) {
-      let mnemonic = yield call(generateMnemonic, api)
+      let mnemonic = yield call(generateMnemonic, api, libcoins)
       let upgradeWallet = Wallet.upgradeToHd(
         mnemonic,
         'My Bitcoin Wallet',
@@ -162,6 +159,7 @@ export default ({ api, networks }) => {
           .deriveHardened(i)
           .neutered()
           .toBase58()
+      // @ts-ignore
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
       const result = yield call(api.fetchBlockchainData, xpubs, {

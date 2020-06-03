@@ -1,6 +1,4 @@
 import { AppContainer } from 'react-hot-loader'
-import { BrowserRouter as Router } from 'react-router-dom'
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -13,11 +11,9 @@ import Error from './index.error'
 const renderApp = (Component, store, history, persistor) => {
   const render = (Component, store, history, persistor) => {
     ReactDOM.render(
-      <Router>
-        <AppContainer key={Math.random()} warnings={false}>
-          <Component store={store} history={history} persistor={persistor} />
-        </AppContainer>
-      </Router>,
+      <AppContainer key={Math.random()} warnings={false}>
+        <Component store={store} history={history} persistor={persistor} />
+      </AppContainer>,
       document.getElementById('app')
     )
   }

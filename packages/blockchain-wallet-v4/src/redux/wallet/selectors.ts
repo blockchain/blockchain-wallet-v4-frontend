@@ -168,6 +168,7 @@ export const getPbkdf2Iterations = compose(
   getWrapper
 )
 export const isHdWallet = compose(
+  // @ts-ignore
   wallets => wallets.size > 0,
   Wallet.selectHdWallets,
   getWallet

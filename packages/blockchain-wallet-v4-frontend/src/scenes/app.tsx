@@ -1,6 +1,5 @@
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { createGlobalStyle } from 'styled-components'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 import { has, map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -51,20 +50,6 @@ const Profile = React.lazy(() => import('./Settings/Profile'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
-
-const GlobalStyle = createGlobalStyle`
-  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  html, body {overflow: hidden;}
-  /* hide scrollbars */
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-font-smoothing: antialiased;
-  }
-`
 
 class App extends React.PureComponent<Props> {
   render () {
@@ -174,7 +159,6 @@ class App extends React.PureComponent<Props> {
                 <AnalyticsTracker />
                 <FontGlobalStyles />
                 <IconGlobalStyles />
-                <GlobalStyle />
               </MediaContextProvider>
             </PersistGate>
           </TranslationsProvider>

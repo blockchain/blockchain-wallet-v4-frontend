@@ -42,7 +42,7 @@ const WalletId = (props: Props) => {
 }
 
 const mapStateToProps = state => ({
-  guid: selectors.core.wallet.getGuid(state)
+  guid: selectors.core.wallet.getGuid(state) as string
 })
 
 const connector = connect(mapStateToProps)

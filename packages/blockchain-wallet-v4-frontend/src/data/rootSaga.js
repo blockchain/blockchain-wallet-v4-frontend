@@ -55,11 +55,12 @@ const languageInitSaga = function * () {
 export default function * rootSaga ({
   api,
   ratesSocket,
+  libcoins,
   networks,
   options,
   coinsSocket
 }) {
-  const coreSagas = coreSagasFactory({ api, networks, options })
+  const coreSagas = coreSagasFactory({ api, libcoins, networks, options })
   yield all([
     call(welcomeSaga),
     fork(alerts),
