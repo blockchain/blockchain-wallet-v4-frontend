@@ -21,6 +21,10 @@ const Wrapper = styled.div`
     padding-left: 0px;
     margin: 0px;
   `}
+
+  ${media.tablet`
+    margin-left: 16px;
+  `}
 `
 const TitleText = styled(Text)`
   margin-right: 8px;
