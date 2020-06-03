@@ -45,7 +45,7 @@ const GoBackLink = styled(Link)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const validStrongPassword = value =>
-  value !== undefined && window.zxcvbn(value).score > 1
+  value !== undefined && window.zxcbvn && window.zxcvbn(value).score > 1
     ? undefined
     : () => (
         <FormattedMessage
