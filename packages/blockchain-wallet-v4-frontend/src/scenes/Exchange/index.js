@@ -22,9 +22,9 @@ const Container = styled.section`
   align-items: start;
   width: 100%;
   box-sizing: border-box;
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     flex-direction: row;
-  }
+  `}
 
   ${media.mobile`
     align-items: center;
@@ -80,7 +80,4 @@ const mapDispatchToProps = dispatch => ({
   showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangeScene)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeScene)

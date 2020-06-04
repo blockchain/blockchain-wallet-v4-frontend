@@ -83,9 +83,9 @@ const AddressesColumn = styled.div`
   align-items: flex-start;
   white-space: nowrap;
   width: 50%;
-  @media (min-width: 992px) {
-    display: flex;
-  }
+  ${media.atLeastTabletL`
+    display: flex;  
+  `}
 `
 const AmountColumn = styled.div`
   display: flex;

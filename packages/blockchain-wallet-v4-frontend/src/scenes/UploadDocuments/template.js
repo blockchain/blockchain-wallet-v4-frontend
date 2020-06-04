@@ -1,3 +1,10 @@
+import {
+  Button,
+  HeartbeatLoader,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
@@ -6,13 +13,7 @@ import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const FileContainer = styled.div`
   display: flex;
@@ -86,9 +87,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme.grey000};
 
-  @media (max-width: 760px) {
+  ${media.tablet`
     flex-direction: column;
-  }
+  `}
 `
 
 const isMobile = window.matchMedia('(max-width: 760px)')

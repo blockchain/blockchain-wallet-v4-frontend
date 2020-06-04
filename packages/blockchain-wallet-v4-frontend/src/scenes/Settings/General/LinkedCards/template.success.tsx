@@ -35,11 +35,11 @@ const CardWrapper = styled.div`
   `}
 `
 const CustomSettingContainer = styled(SettingContainer)`
-  @media (min-width: 992px) {
+  ${media.atLeastLaptopL`
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-  }
+  `}
 `
 const CustomSettingHeader = styled(SettingHeader)`
   margin-bottom: 18px;

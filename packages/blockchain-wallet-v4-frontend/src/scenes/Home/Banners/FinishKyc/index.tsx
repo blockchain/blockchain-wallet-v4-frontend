@@ -16,10 +16,10 @@ const Wrapper = styled.div`
   border-radius: 8px;
   padding: 20px;
 
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     height: 80px;
     padding: 0 20px;
-  }
+  `}
   ${media.mobile`
     flex-direction: column;
   `}
@@ -43,6 +43,7 @@ const PendingIconWrapper = styled.div`
   align-items: center;
   height: 40px;
   width: 40px;
+  min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
   background-color: ${props => props.theme.orange000};

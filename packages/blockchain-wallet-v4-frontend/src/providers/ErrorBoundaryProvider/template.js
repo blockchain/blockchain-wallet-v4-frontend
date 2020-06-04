@@ -1,7 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Button,
   Icon,
@@ -12,6 +8,11 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
+import media from 'services/ResponsiveService'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
@@ -27,9 +28,9 @@ const ErrorDetails = styled.details`
   ::-webkit-scrollbar {
     display: none;
   }
-  @media (max-width: 768px) {
+  ${media.tablet`
     max-height: 200px;
-  }
+  `}
   > summary {
     &:hover {
       cursor: pointer;

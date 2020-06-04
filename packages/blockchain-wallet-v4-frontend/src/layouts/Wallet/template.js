@@ -1,15 +1,17 @@
 import { replace } from 'ramda'
-import Alerts from 'components/Alerts'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import Header from './Header'
-import media from 'services/ResponsiveService'
-import MenuLeft from './MenuLeft'
-import Modals from 'modals'
-import Page from './Page'
 import React from 'react'
 import styled from 'styled-components'
+
+import Alerts from 'components/Alerts'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import media from 'services/ResponsiveService'
+import Modals from 'modals'
 import Tooltips from 'components/Tooltips'
 import ZendeskWidget from 'components/ZendeskWidget'
+
+import MenuLeft from './MenuLeft'
+import MenuTop from './MenuTop'
+import Page from './Page'
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,7 +54,7 @@ const WalletLayout = props => {
         <Tooltips />
         <Modals />
         <Nav>
-          <Header />
+          <MenuTop />
         </Nav>
         <Container>
           <MenuLeft location={location} />

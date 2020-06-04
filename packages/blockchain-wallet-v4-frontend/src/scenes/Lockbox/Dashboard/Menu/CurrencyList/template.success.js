@@ -5,15 +5,17 @@ import Bowser from 'bowser'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const CurrencyList = styled.div`
   display: flex;
   width: calc(100% - 340px);
   padding: 16px 30px;
   overflow-x: scroll;
   border-bottom: 1px solid ${props => props.theme.grey000};
-  @media (max-width: 770px) {
+  ${media.tablet`
     padding: 4px;
-  }
+  `}
 `
 const TourWrapper = styled.div`
   display: flex;
@@ -22,9 +24,9 @@ const TourWrapper = styled.div`
 const Coin = styled(CurrencyItem)`
   padding: 10px;
   margin-right: 10px;
-  @media (max-width: 770px) {
+  ${media.tablet`
     margin-right: 4px;
-  }
+  `}
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isBrowserSupported = browser.satisfies(

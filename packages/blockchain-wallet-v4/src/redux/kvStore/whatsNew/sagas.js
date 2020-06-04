@@ -8,8 +8,7 @@ import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
 
 const whatsNewDefaultEntry = {
-  lastViewed: 0,
-  hasSkippedWalletTour: false
+  lastViewed: 0
 }
 
 export default ({ api, networks }) => {
