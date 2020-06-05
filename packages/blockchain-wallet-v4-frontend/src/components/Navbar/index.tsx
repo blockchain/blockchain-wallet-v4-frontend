@@ -10,7 +10,7 @@ import NavbarMenu from './NavbarMenu'
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
   color: ${props => props.theme[props.color || 'grey400']};
   transition: color 0.3s;
-  display: ${props => (props.persist ? 'block !important' : '')};
+  display: ${props => (props.persist ? 'flex !important' : '')};
 `
 
 export const NavbarNavItemTextHeader = styled(Text)<{ persist?: boolean }>`
@@ -53,7 +53,6 @@ export const NavbarNavItemButton = styled(Button)`
   ${media.laptop`
     flex-direction: row;
     ${NavbarNavItemTextHeader} {
-      margin-left: 8px;
       margin-top: 0px;
     }
     ${NavbarNavItemIcon} {
@@ -65,6 +64,7 @@ export const NavbarNavItemButton = styled(Button)`
 export const NavbarNavItem = styled.li`
   box-sizing: border-box;
   padding: 0px 16px;
+  margin: 0 -1px;
   cursor: pointer;
   &:first-child {
     padding-left: 0px;
@@ -80,7 +80,13 @@ export const NavbarNavItem = styled.li`
   }
 
   ${media.laptopM`
-    padding: 4px 12px;
+    padding: 4px 16px;
+    margin: 0 -2px;
+  `}
+
+  ${media.laptop`
+    padding: 0 16px;
+    margin: 0 -2px;
   `}
 
   ${media.tablet`

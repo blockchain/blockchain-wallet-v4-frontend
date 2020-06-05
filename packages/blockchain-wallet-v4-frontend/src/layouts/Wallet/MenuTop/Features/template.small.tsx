@@ -2,6 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import React, { useRef, useState } from 'react'
+import styled from 'styled-components'
 
 import { Destination } from 'components/MenuLeft'
 import {
@@ -18,6 +19,10 @@ import { useOnClickOutside } from 'services/HooksService'
 
 import { Props } from '.'
 
+const TransactIcon = styled(NavbarNavItemIcon)`
+  margin-right: 4px;
+`
+
 const FeaturesSmall = (
   props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
 ) => {
@@ -30,7 +35,7 @@ const FeaturesSmall = (
       data-e2e='featuresSmall'
       onClick={() => toggleIsMenuOpen(!isMenuOpen)}
     >
-      <NavbarNavItemIcon
+      <TransactIcon
         persist
         name='plus-in-circle-filled'
         size='18px'

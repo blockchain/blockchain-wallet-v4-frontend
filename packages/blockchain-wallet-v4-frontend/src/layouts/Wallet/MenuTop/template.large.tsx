@@ -21,7 +21,6 @@ type Props = {
 }
 
 const BlockchainLogoImage = styled(Image)`
-  width: 200px;
   display: block;
   height: 20px;
   margin-left: 0;

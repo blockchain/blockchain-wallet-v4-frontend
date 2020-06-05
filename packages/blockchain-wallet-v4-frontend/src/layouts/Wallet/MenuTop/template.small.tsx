@@ -43,6 +43,10 @@ const NavbarBottomStyled = styled(Navbar)`
   border-top: 1px solid ${props => props.theme.whiteFade100};
 `
 
+const HamburgerIcon = styled(Icon)`
+  margin-right: 16px;
+`
+
 const Small: React.FC<Props> = props => {
   return (
     <NavbarContainer>
@@ -64,7 +68,7 @@ const Small: React.FC<Props> = props => {
       <NavbarBottomStyled height='60px'>
         <NavbarNav>
           <NavbarNavItem>
-            <Icon
+            <HamburgerIcon
               name='hamburger-menu'
               color='alwaysWhite'
               size='16px'

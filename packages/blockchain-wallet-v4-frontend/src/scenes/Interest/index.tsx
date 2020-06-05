@@ -12,7 +12,13 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { Container } from 'components/Box'
-import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  SkeletonRectangle,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -45,35 +51,31 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
-const LegalTextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 250px;
-  margin-top: 8px;
-`
 const LegalText = styled(Text)`
-  font-size: 11px;
-  line-height: 14px;
-  margin-bottom: 10px;
-  font-weight: 400;
-  color: ${props => props.theme['grey500']};
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 1200px;
+  margin-top: 50px;
 `
 const Legal = () => {
   return (
-    <LegalTextWrapper>
-      <LegalText>
+    <LegalText>
+      <TooltipHost id='scenes.interest.legaldisclaimer'>
+        <Icon name='info' size='12px' color='blue600' />
+      </TooltipHost>
+      <Text
+        size='12px'
+        color='blue600'
+        weight={500}
+        style={{ marginLeft: '5px' }}
+      >
         <FormattedMessage
-          id='scenes.interest.legal.one'
-          defaultMessage='Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
+          id='scenes.interest.legaldiscalimer'
+          defaultMessage='Legal disclaimer'
         />
-      </LegalText>
-      <LegalText>
-        <FormattedMessage
-          id='scenes.interest.legal.two'
-          defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
-        />
-      </LegalText>
-    </LegalTextWrapper>
+      </Text>
+    </LegalText>
   )
 }
 
@@ -159,8 +161,8 @@ class Interest extends React.PureComponent<Props, StateType> {
                     isGoldTier={isGoldTier}
                   />
                 )}
-                <Legal />
               </Container>
+              <Legal />
               <TransactionList />
             </LazyLoadWrapper>
           ),
