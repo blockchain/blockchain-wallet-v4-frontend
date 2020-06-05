@@ -19,6 +19,7 @@ const INITIAL_STATE: InterestState = {
   instruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
+  isCoinDisplayed: true,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -173,6 +174,13 @@ export function interestReducer (
           data: data || {},
           name
         }
+      }
+    }
+
+    case AT.SET_COIN_DISPLAY: {
+      return {
+        ...state,
+        isCoinDisplayed: payload.isCoinDisplayed
       }
     }
     case AT.SET_PAYMENT_FAILURE:

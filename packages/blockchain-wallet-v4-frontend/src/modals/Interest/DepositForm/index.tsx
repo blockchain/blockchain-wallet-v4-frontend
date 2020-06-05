@@ -29,6 +29,7 @@ class DepositForm extends PureComponent<Props, State> {
     this.setState({
       displayCoin: !this.state.displayCoin
     })
+    this.props.interestActions.setCoinDisplay(!this.state.displayCoin)
   }
   handleRefresh = () => {
     this.handleInitializeDepositForm()

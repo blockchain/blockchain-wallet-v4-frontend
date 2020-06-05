@@ -63,18 +63,19 @@ const Legal = () => {
     <LegalText>
       <TooltipHost id='scenes.interest.legaldisclaimer'>
         <Icon name='info' size='12px' color='blue600' />
+        <Text
+          size='12px'
+          color='blue600'
+          weight={500}
+          style={{ marginLeft: '5px' }}
+          cursor='default'
+        >
+          <FormattedMessage
+            id='scenes.interest.legaldiscalimer'
+            defaultMessage='Legal disclaimer'
+          />
+        </Text>
       </TooltipHost>
-      <Text
-        size='12px'
-        color='blue600'
-        weight={500}
-        style={{ marginLeft: '5px' }}
-      >
-        <FormattedMessage
-          id='scenes.interest.legaldiscalimer'
-          defaultMessage='Legal disclaimer'
-        />
-      </Text>
     </LegalText>
   )
 }

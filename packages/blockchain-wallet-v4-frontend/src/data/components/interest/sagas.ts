@@ -165,19 +165,33 @@ export default ({
     const values: InterestDepositFormType = yield select(
       selectors.form.getFormValues('interestDepositForm')
     )
-
+    const isDisplayed = S.getCoinDisplay(yield select())
     switch (action.meta.field) {
       case 'depositAmount':
-        const value = new BigNumber(action.payload).dividedBy(rate).toNumber()
-        let provisionalPayment: PaymentValue = yield call(
-          calculateProvisionalPayment,
-          {
-            ...values.interestDepositAccount,
-            address: values.interestDepositAccount.index
-          },
-          value
-        )
-        yield put(A.setPaymentSuccess(provisionalPayment))
+        if (isDisplayed) {
+          const value = new BigNumber(action.payload).toNumber()
+          let provisionalPayment: PaymentValue = yield call(
+            calculateProvisionalPayment,
+            {
+              ...values.interestDepositAccount,
+              address: values.interestDepositAccount.index
+            },
+            value
+          )
+          yield put(A.setPaymentSuccess(provisionalPayment))
+        } else {
+          const value = new BigNumber(action.payload).dividedBy(rate).toNumber()
+
+          let provisionalPayment: PaymentValue = yield call(
+            calculateProvisionalPayment,
+            {
+              ...values.interestDepositAccount,
+              address: values.interestDepositAccount.index
+            },
+            value
+          )
+          yield put(A.setPaymentSuccess(provisionalPayment))
+        }
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())

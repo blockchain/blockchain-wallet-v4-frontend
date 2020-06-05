@@ -10,6 +10,9 @@ export const getInterestAccountBalance = (state: RootState) =>
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
+export const getCoinDisplay = (state: RootState) =>
+  state.components.interest.isCoinDisplayed
+
 export const getDepositAddress = (state: RootState) => {
   const account = getInterestAccount(state).getOrElse({ accountRef: null })
   return account.accountRef

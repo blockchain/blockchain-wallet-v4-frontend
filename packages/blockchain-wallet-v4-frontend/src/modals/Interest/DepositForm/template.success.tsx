@@ -86,35 +86,33 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { coinTicker, displayName } = supportedCoins[coin]
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  // const depositAmountAbsolute = (values && values.depositAmount) || '0'
   const depositAmount = (values && values.depositAmount) || '0'
-  const depositAmountFiat = formatFiat(depositAmount)
-  const depositAmountCrypto = Exchange.convertCoinToCoin({
-    baseToStandard: true,
-    coin,
-    value: Exchange.convertFiatToBtc({
-      fromCurrency: walletCurrency,
-      toUnit: 'SAT',
-      rates,
-      value: depositAmount
-    }).value
-  }).value
+  const depositAmountFiat = displayCoin
+    ? Exchange.convertCoinToFiat(depositAmount, coin, walletCurrency, rates)
+    : formatFiat(depositAmount)
+  const depositAmountCrypto = displayCoin
+    ? depositAmount
+    : Exchange.convertCoinToCoin({
+        baseToStandard: true,
+        coin,
+        value: Exchange.convertFiatToBtc({
+          fromCurrency: walletCurrency,
+          toUnit: 'SAT',
+          rates,
+          value: depositAmount
+        }).value
+      }).value
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
   const maxDepositFiat = fiatToString({
     value: depositLimits.maxFiat,
     unit: walletCurrency
   })
-  // const minDepositFiat = fiatToString({
-  //   value: depositLimits.minFiat,
-  //   unit: walletCurrency
-  // })
 
   const amtError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
-
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -185,7 +183,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <FormattedMessage
               id='modals.interest.deposit.amount'
               defaultMessage='Enter deposit amount'
-            />
+            />{' '}
             <ToggleCoinFiat
               data-e2e='toggleFiatCrypto'
               onClick={handleDisplayToggle}
@@ -347,13 +345,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             {displayCoin ? (
               <FormattedMessage
                 id='modals.interest.deposit.calcdesccoin'
-                defaultMessage='With {depositAmountCrypto} {coinTicker} in your Interest Account you can earn:'
-                values={{ depositAmountCrypto, coinTicker }}
+                defaultMessage='With {depositAmount} {coinTicker} in your Interest Account you can earn:'
+                values={{ depositAmount, coinTicker }}
               />
             ) : (
               <FormattedMessage
                 id='modals.interest.deposit.calcdesc'
-                defaultMessage='With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:'
+                defaultMessage='With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:'
                 values={{ currencySymbol, depositAmountFiat }}
               />
             )}
@@ -373,7 +371,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         1 / 365
                       )}
@@ -389,7 +387,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         1 / 52
                       )}
@@ -405,7 +403,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         1 / 12
                       )}
@@ -424,7 +422,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         1
                       )}
@@ -440,7 +438,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         3
                       )}
@@ -456,7 +454,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     <Text color='grey800' weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
-                        depositAmount,
+                        depositAmountFiat,
                         interestRate[coin],
                         5
                       )}

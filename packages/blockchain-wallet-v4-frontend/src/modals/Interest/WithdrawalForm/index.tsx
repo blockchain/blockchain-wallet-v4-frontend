@@ -18,9 +18,17 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
-class WithdrawalFormContainer extends PureComponent<Props> {
+class WithdrawalFormContainer extends PureComponent<Props, State> {
+  state: State = { displayCoin: true }
   componentDidMount () {
     this.props.interestActions.initializeWithdrawalForm('BTC')
+  }
+
+  handleDisplayToggle = () => {
+    this.setState({
+      displayCoin: !this.state.displayCoin
+    })
+    this.props.interestActions.setCoinDisplay(!this.state.displayCoin)
   }
 
   handleRefresh = () => {
@@ -30,7 +38,14 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <WithdrawalForm {...val} {...this.props} />,
+      Success: val => (
+        <WithdrawalForm
+          {...val}
+          {...this.props}
+          displayCoin={this.state.displayCoin}
+          handleDisplayToggle={this.handleDisplayToggle}
+        />
+      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -53,11 +68,16 @@ export type OwnProps = {
   handleClose: () => void
 }
 
+export type State = {
+  displayCoin: boolean
+}
+
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
-  availToWithdraw: number
+  availToWithdrawFiat: number
   coin: CoinType
   interestLimits: InterestLimitsType
+  lockedCoin: number
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType

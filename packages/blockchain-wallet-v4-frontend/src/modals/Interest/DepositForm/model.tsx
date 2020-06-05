@@ -5,7 +5,7 @@ import { Icon, Text } from 'blockchain-info-components'
 
 import { CustomCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel } from 'components/Form'
+import { Form } from 'components/Form'
 
 export const SendingWrapper = styled.div`
   width: 100%;
@@ -34,8 +34,8 @@ export const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   height: 100%;
 `
-export const CustomFormLabel = styled(FormLabel)`
-  margin-top: 24px;
+export const CustomFormLabel = styled.div`
+  margin: 24px 0 10px 0;
   display: flex;
 `
 export const CustomField = styled(Field)<BaseFieldProps>`
@@ -154,4 +154,7 @@ export const ToggleCoinFiat = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
   cursor: pointer;
+  display: inline;
+  padding: 5px;
+  border: 1px solid ${({ theme }) => theme.grey000};
 `

@@ -23,7 +23,8 @@ export const getData = state => {
       interestLimits
     ) => ({
       accountBalances,
-      availToWithdraw:
+      lockedCoin: convertBaseToStandard(coin, accountBalances[coin].locked),
+      availToWithdrawFiat:
         Exchange.convertCoinToFiat(
           convertBaseToStandard(coin, accountBalances[coin].balance),
           coin,
