@@ -105,14 +105,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         use: {
           loader: 'file-loader',
-          options: { name: 'img/[name]-[hash].[ext]' }
+          options: { name: 'img/[name].[ext]?[hash]' }
         }
       },
       {
         test: /\.(pdf)$/,
         use: {
           loader: 'file-loader',
-          options: { name: 'resources/[name]-[hash].[ext]' }
+          options: { name: 'resources/[name].[ext]?[hash]' }
         }
       },
       {
