@@ -228,10 +228,10 @@ export const TextGroup: FunctionComponent<{
 }>
 export const Toast: FunctionComponent<{
   nature?: 'success' | 'error' | 'warn'
-  coin: CoinType
+  coin?: CoinType
   onClose?: () => void
-  persist: boolean
-  timeout: number
+  persist?: boolean
+  timeout?: number
 }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
