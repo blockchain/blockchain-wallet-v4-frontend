@@ -112,7 +112,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         test: /\.(pdf)$/,
         use: {
           loader: 'file-loader',
-          options: { name: 'resources/[name].[ext]' }
+          options: { name: 'resources/[name].[ext]?[hash]' }
         }
       },
       {
