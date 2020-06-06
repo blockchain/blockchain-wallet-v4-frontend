@@ -1,124 +1,42 @@
-import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
-import styled from 'styled-components'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'core'
 import { fiatToString, formatFiat } from 'core/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
+
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
+import { NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
+import {
+  AmountAvailContainer,
+  AmountFieldContainer,
+  ArrowIcon,
+  Availability,
+  BalanceItem,
+  BalanceWrapper,
+  Bottom,
+  ButtonContainer,
+  CustomField,
+  CustomForm,
+  CustomFormLabel,
+  MaxAmountContainer,
+  NetworkFee,
+  PrincipalCcyAbsolute,
+  SendingWrapper,
+  Spacer,
+  ToggleCoinFiat,
+  Top,
+  Wrapper
+} from './model'
 import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
-
-const SendingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-`
-const CustomForm = styled(Form)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0;
-`
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-const ArrowIcon = styled(Icon)`
-  margin-right: 20px;
-`
-const BalanceWrapper = styled.div`
-  display: flex;
-  margin-top: 40px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-`
-const BalanceItem = styled.div`
-  width: 100%;
-  &:last-child {
-    margin-left: 32px;
-  }
-`
-const MaxAmountContainer = styled.div`
-  display: flex;
-  margin-top: 24px;
-`
-const AmountAvailContainer = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
-`
-const Spacer = styled.div`
-  height: 48px;
-  border-right: 1px solid ${props => props.theme.grey000};
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-`
-const CustomFormLabel = styled(FormLabel)`
-  display: block;
-  margin-top: 24px;
-  margin-bottom: 10px;
-`
-const CustomField = styled(Field)<BaseFieldProps>`
-  > input {
-    padding-left: 45px;
-  }
-`
-const AmountFieldContainer = styled.div`
-  display: flex;
-  position: relative;
-`
-const PrincipalCcyAbsolute = styled.div`
-  position: absolute;
-  top: 16px;
-  left: 16px;
-`
-const NetworkFee = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const Availability = styled.div`
-  margin-top: 24px;
-`
-const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 32px;
-  opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
-  > button {
-    padding: 15px !important;
-  }
-`
-const ToggleCoinFiat = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  color: ${props => props.theme.blue600};
-  cursor: pointer;
-  display: inline;
-  padding: 5px;
-  border: 1px solid ${({ theme }) => theme.grey000};
-  margin: 0 0 5px 5px;
-`
 
 const FORM_NAME = 'interestWithdrawalForm'
 
@@ -457,7 +375,7 @@ type SuccessOwnProps = {
   handleDisplayToggle: () => void
 }
 
-type Props = SuccessOwnProps &
+export type Props = SuccessOwnProps &
   OwnProps &
   LinkStatePropsType &
   SuccessStateType &
