@@ -146,7 +146,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         contextRegExp: /moment$/
       }),
       new FaviconsWebpackPlugin({
-        devMode: 'webapp',
+        devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
         mode: 'webapp',
         prefix: 'img',
