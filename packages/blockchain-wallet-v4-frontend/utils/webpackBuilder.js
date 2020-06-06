@@ -149,7 +149,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
         mode: 'webapp',
-        prefix: 'img',
+        prefix: 'img/favicons-[hash]/',
         icons: {
           android: true,
           appleIcon: true,
