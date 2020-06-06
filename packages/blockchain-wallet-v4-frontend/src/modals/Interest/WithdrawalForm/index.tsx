@@ -29,6 +29,12 @@ class WithdrawalFormContainer extends PureComponent<Props, State> {
       displayCoin: !this.state.displayCoin
     })
     this.props.interestActions.setCoinDisplay(!this.state.displayCoin)
+    this.props.formActions.clearFields(
+      'interestWithdrawalForm',
+      false,
+      false,
+      'withdrawalAmount'
+    )
   }
 
   handleRefresh = () => {
@@ -73,10 +79,10 @@ export type State = {
 }
 
 export type SuccessStateType = {
-  accountBalanceStandard: number,
-  accountBalances: InterestAccountBalanceType,
-  availToWithdrawFiat: number,
-  coin: CoinType,
+  accountBalanceStandard: number
+  accountBalances: InterestAccountBalanceType
+  availToWithdrawFiat: number
+  coin: CoinType
   interestLimits: InterestLimitsType
   lockedCoin: number
   rates: RatesType
