@@ -9,16 +9,30 @@ export const maximumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  return new BigNumber(Number(props.availToWithdraw)).isLessThan(
-    Number(value)
-  ) ? (
-    <FormattedMessage
-      id='interest.withdrawal.validation.abovemax'
-      defaultMessage='Amount is above the maximum withdrawal amount.'
-    />
-  ) : (
-    false
-  )
+  const availToWithdrawCrypto = props.accountBalanceStandard - props.lockedCoin
+  if (props.displayCoin) {
+    return new BigNumber(Number(availToWithdrawCrypto)).isLessThan(
+      Number(value)
+    ) ? (
+      <FormattedMessage
+        id='interest.withdrawal.validation.abovemax'
+        defaultMessage='Amount is above the maximum withdrawal amount.'
+      />
+    ) : (
+      false
+    )
+  } else {
+    return new BigNumber(Number(props.availToWithdraw)).isLessThan(
+      Number(value)
+    ) ? (
+      <FormattedMessage
+        id='interest.withdrawal.validation.abovemax'
+        defaultMessage='Amount is above the maximum withdrawal amount.'
+      />
+    ) : (
+      false
+    )
+  }
 }
 
 export const minimumWithdrawalAmount = (value: string) => {

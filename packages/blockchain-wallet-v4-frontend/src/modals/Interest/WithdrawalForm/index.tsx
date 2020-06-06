@@ -73,9 +73,10 @@ export type State = {
 }
 
 export type SuccessStateType = {
-  accountBalances: InterestAccountBalanceType
-  availToWithdrawFiat: number
-  coin: CoinType
+  accountBalanceStandard: number,
+  accountBalances: InterestAccountBalanceType,
+  availToWithdrawFiat: number,
+  coin: CoinType,
   interestLimits: InterestLimitsType
   lockedCoin: number
   rates: RatesType

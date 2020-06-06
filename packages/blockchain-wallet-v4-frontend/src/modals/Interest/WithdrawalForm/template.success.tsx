@@ -126,14 +126,16 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const {
     accountBalances,
-    lockedCoin,
+
     availToWithdrawFiat,
     coin,
+    accountBalanceStandard,
     displayCoin,
     formActions,
     handleDisplayToggle,
     interestActions,
     invalid,
+    lockedCoin,
     rates,
     submitting,
     supportedCoins,
@@ -148,13 +150,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinTicker, displayName } = supportedCoins[coin]
   const account = accountBalances[coin]
-  const accountCryptoBalance = account && account.balance
   const accountInterestBalance = account && account.totalInterest
   const withdrawalAmount = (values && values.withdrawalAmount) || 0
 
   const withdrawalAmountFiat = displayCoin
     ? Exchange.convertCoinToFiat(withdrawalAmount, coin, walletCurrency, rates)
     : formatFiat(withdrawalAmount)
+
   const withdrawalAmountCrypto = displayCoin
     ? withdrawalAmount
     : Exchange.convertFiatToBtc({
@@ -177,18 +179,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         baseToStandard: true
       }).value
 
-  const coinBalanceStandard = Exchange.convertCoinToCoin({
-    value: accountCryptoBalance || 0,
-    coin: 'BTC',
-    baseToStandard: true
-  }).value
-
   const interestBalanceStandard = Exchange.convertCoinToCoin({
     value: accountInterestBalance || 0,
     coin: 'BTC',
     baseToStandard: true
   }).value
-  const availToWithdrawCrypto = coinBalanceStandard - lockedCoin
+  const availToWithdrawCrypto = accountBalanceStandard - lockedCoin
 
   if (!account) return null
 
@@ -253,7 +249,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
                 style={{ marginTop: '8px' }}
                 weight={600}
               >
-                {coinBalanceStandard}
+                {accountBalanceStandard}
               </Text>
             ) : (
               <FiatDisplay
