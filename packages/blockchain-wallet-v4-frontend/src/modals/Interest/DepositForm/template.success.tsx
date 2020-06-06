@@ -88,7 +88,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const depositAmountFiat = displayCoin
-    ? Exchange.convertCoinToFiat(depositAmount, coin, walletCurrency, rates)
+    ? formatFiat(
+        Exchange.convertCoinToFiat(depositAmount, coin, walletCurrency, rates)
+      )
     : formatFiat(depositAmount)
   const depositAmountCrypto = displayCoin
     ? depositAmount
