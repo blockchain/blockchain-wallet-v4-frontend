@@ -142,7 +142,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   } = props
   const handleFormSubmit = e => {
     e.preventDefault()
-    interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
+    interestActions.requestWithdrawal(coin, withdrawalAmountForm)
   }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
@@ -150,18 +150,28 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const account = accountBalances[coin]
   const accountCryptoBalance = account && account.balance
   const accountInterestBalance = account && account.totalInterest
-  const withdrawalAmount = formatFiat((values && values.withdrawalAmount) || 0)
+  const withdrawalAmount = (values && values.withdrawalAmount) || 0
+
   const withdrawalAmountFiat = displayCoin
     ? Exchange.convertCoinToFiat(withdrawalAmount, coin, walletCurrency, rates)
     : formatFiat(withdrawalAmount)
   const withdrawalAmountCrypto = displayCoin
+    ? withdrawalAmount
+    : Exchange.convertFiatToBtc({
+        fromCurrency: walletCurrency,
+        toUnit: 'BTC',
+        rates,
+        value: withdrawalAmount
+      }).value
+
+  const withdrawalAmountForm = displayCoin
     ? withdrawalAmount
     : Exchange.convertCoinToCoin({
         value: Exchange.convertFiatToBtc({
           fromCurrency: walletCurrency,
           toUnit: 'SAT',
           rates,
-          value: parseFloat(withdrawalAmount)
+          value: withdrawalAmount
         }).value,
         coin,
         baseToStandard: true
