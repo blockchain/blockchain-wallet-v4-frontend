@@ -22,7 +22,7 @@ export const maximumWithdrawalAmount = (
       false
     )
   } else {
-    return new BigNumber(Number(props.availToWithdraw)).isLessThan(
+    return new BigNumber(Number(props.availToWithdrawFiat)).isLessThan(
       Number(value)
     ) ? (
       <FormattedMessage
