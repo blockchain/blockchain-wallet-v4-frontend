@@ -20,7 +20,7 @@ const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: ${props => (props.showInterestInfoBox ? 'auto' : '200px')};
+  height: ${props => (props.showInterestInfoBox ? '225px' : '225px')};
 `
 const Row = styled.div`
   display: flex;

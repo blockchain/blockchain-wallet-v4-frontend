@@ -31,8 +31,8 @@ class SummaryCardContainer extends PureComponent<Props> {
           Oops. Something went wrong. Please refresh and try again.
         </Text>
       ),
-      Loading: () => <SkeletonRectangle width='330px' height='250px' />,
-      NotAsked: () => <SkeletonRectangle width='330px' height='250px' />
+      Loading: () => <SkeletonRectangle width='330px' height='275px' />,
+      NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
     })
   }
 }

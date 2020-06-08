@@ -1,7 +1,9 @@
+import { FormattedMessage } from 'react-intl'
+import React from 'react'
 import styled from 'styled-components'
 
 import { ErrorCartridge, GreyCartridge } from 'components/Cartridge'
-import { TableCell, Text } from 'blockchain-info-components'
+import { Icon, TableCell, Text, TooltipHost } from 'blockchain-info-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -66,3 +68,35 @@ export const ViewTransaction = styled(Text)`
   font-weight: 600;
   cursor: pointer;
 `
+const LegalText = styled(Text)`
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin-top: 20px;
+`
+
+export const LegalWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+`
+export const Legal = () => {
+  return (
+    <LegalText>
+      <TooltipHost id='scenes.interest.legaldisclaimer'>
+        <Icon name='info' size='12px' color='blue600' />
+        <Text
+          size='12px'
+          color='blue600'
+          weight={500}
+          style={{ marginLeft: '5px' }}
+        >
+          <FormattedMessage
+            id='scenes.interest.legaldiscalimer'
+            defaultMessage='Legal disclaimer'
+          />
+        </Text>
+      </TooltipHost>
+    </LegalText>
+  )
+}
