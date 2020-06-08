@@ -1,6 +1,7 @@
 /* eslint-disable */
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { concat, prepend } = require('ramda')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 let mockWalletOptions = require('./../../../config/mocks/wallet-options-v4')
@@ -105,14 +106,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         use: {
           loader: 'file-loader',
-          options: { name: 'img/[name]-[hash].[ext]' }
+          options: { name: 'img/[name].[ext]?[hash]' }
         }
       },
       {
         test: /\.(pdf)$/,
         use: {
           loader: 'file-loader',
-          options: { name: 'resources/[name]-[hash].[ext]' }
+          options: { name: 'resources/[name].[ext]?[hash]' }
         }
       },
       {
@@ -143,6 +144,22 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/
+      }),
+      new FaviconsWebpackPlugin({
+        devMode: 'light',
+        logo: CONFIG_PATH.src + '/assets/favicon.png',
+        mode: 'webapp',
+        prefix: 'img/favicons-[hash]/',
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+          coast: true,
+          favicons: true,
+          firefox: true,
+          windows: true,
+          yandex: true
+        }
       })
     ],
     extraPluginsList
