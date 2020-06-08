@@ -16,11 +16,11 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import { Exchange } from 'core'
 import { Props as OwnProps, SuccessStateType } from '.'
 
-const DepositBox = styled(Box)<{ showInterestInfoBox: boolean }>`
+const DepositBox = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: ${props => (props.showInterestInfoBox ? '225px' : '225px')};
+  height: 225px;
 `
 const Row = styled.div`
   display: flex;
@@ -66,7 +66,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     interestEligible,
     interestRate,
     isGoldTier,
-    showInterestInfoBox,
     supportedCoins,
     walletCurrency
   } = props
@@ -87,7 +86,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     baseToStandard: true
   }).value
   return (
-    <DepositBox showInterestInfoBox={showInterestInfoBox}>
+    <DepositBox>
       <Row>
         <Icon name='btc-circle-filled' color='btc' size='32px' />
         <Text
