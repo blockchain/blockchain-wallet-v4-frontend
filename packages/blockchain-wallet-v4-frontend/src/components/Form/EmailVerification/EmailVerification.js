@@ -21,9 +21,9 @@ const InputRow = styled(Row)`
     flex-direction: column;
   `};
   input {
-    @media screen and (min-width: 480px) {
+    ${media.atLeastMobile`
       border-right: none;
-    }
+    `}
   }
 `
 

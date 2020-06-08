@@ -2,6 +2,8 @@ import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const Circle = styled.div`
   display: none;
   justify-content: center;
@@ -15,9 +17,9 @@ const Circle = styled.div`
   &.active {
     background: ${props => props.theme.grey000};
   }
-  @media (min-width: 480px) {
+  ${media.atLeastMobile`
     display: flex;
-  }
+  `}
 `
 const StyledIcon = styled(Icon)`
   display: flex;

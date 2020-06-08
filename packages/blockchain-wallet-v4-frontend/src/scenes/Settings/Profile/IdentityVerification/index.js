@@ -31,11 +31,11 @@ const Container = styled.div`
   width: 100%;
   height: auto;
 
-  @media (min-width: 1024px) {
+  ${media.atLeastLaptop`
     flex-direction: row;
     justify-content: flex-start;
     width: 100%;
-  }
+  `}
 `
 const Column = styled.div`
   display: flex;
@@ -44,9 +44,9 @@ const Column = styled.div`
   height: auto;
   box-sizing: border-box;
 
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     width: ${props => props.width || 'auto'};
-  }
+  `}
 `
 const Row = styled.div`
   display: flex;
@@ -63,12 +63,12 @@ const Row = styled.div`
     margin-top: 16px;
   }
 
-  @media (min-width: 1200px) {
+  ${media.atLeastLaptop`
     flex-direction: row;
     min-height: 100%;
     width: ${props => props.width || '100%'};
     margin-bottom: 0;
-  }
+  `}
 `
 
 const SwapText = styled(Text)`
@@ -124,8 +124,8 @@ const IdentityVerification = ({ userData, userTiers }) => {
             </SwapText>
             <SwapText size='14px' weight={400}>
               <FormattedMessage
-                id='scenes.profile.identityverification.swaplimit.tradelimits'
-                defaultMessage='Our trading limits is how much you can trade each day. That includes Swap and Buy transactions, as well as Borrow. Limits are necessary for compliance and fraud prevention.'
+                id='scenes.profile.identityverification.swaplimit.tradelimit'
+                defaultMessage='Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>

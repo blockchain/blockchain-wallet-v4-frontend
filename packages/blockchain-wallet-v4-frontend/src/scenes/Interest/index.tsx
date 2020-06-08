@@ -12,7 +12,13 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { Container } from 'components/Box'
-import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  SkeletonRectangle,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -45,6 +51,33 @@ const LearnMoreText = styled(Text)`
   font-weight: 500;
   color: ${props => props.theme.blue600};
 `
+const LegalText = styled(Text)`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 1200px;
+  margin-top: 50px;
+`
+const Legal = () => {
+  return (
+    <LegalText>
+      <TooltipHost id='scenes.interest.legaldisclaimer'>
+        <Icon name='info' size='12px' color='blue600' />
+      </TooltipHost>
+      <Text
+        size='12px'
+        color='blue600'
+        weight={500}
+        style={{ marginLeft: '5px' }}
+      >
+        <FormattedMessage
+          id='scenes.interest.legaldiscalimer'
+          defaultMessage='Legal disclaimer'
+        />
+      </Text>
+    </LegalText>
+  )
+}
 
 class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
@@ -129,6 +162,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                   />
                 )}
               </Container>
+              <Legal />
               <TransactionList />
             </LazyLoadWrapper>
           ),

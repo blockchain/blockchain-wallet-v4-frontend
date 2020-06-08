@@ -7,6 +7,7 @@ import {
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
+import { CoinType } from 'core/types'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
@@ -122,6 +123,7 @@ export const IconButton: FunctionComponent<{
   height?: string
   jumbo?: boolean
   margin?: string
+  name: keyof IcoMoonType
   onClick?: () => void
   padding?: string
   rounded?: boolean
@@ -173,6 +175,11 @@ export const ModalHeader: FunctionComponent<{
   icon?: keyof IcoMoonType
 }>
 export function Palette(theme: string): DefaultTheme
+export const SkeletonCircle: FunctionComponent<{
+  width?: string
+  height?: string
+  bgColor?: keyof DefaultTheme
+}>
 export const SkeletonRectangle: FunctionComponent<{
   width?: string
   height?: string
@@ -184,9 +191,10 @@ export const SpinningLoader: FunctionComponent<{
 }>
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
+  activeClassName?: string
   disabled?: boolean
   onClick?: () => void
-  selected: boolean
+  selected?: boolean
   width?: string
 }>
 export const Table: FunctionComponent<{
@@ -217,6 +225,13 @@ export const TextGroup: FunctionComponent<{
   nowrap?: boolean
   inline?: boolean
   style?: CSSProperties
+}>
+export const Toast: FunctionComponent<{
+  nature?: 'success' | 'error' | 'warn'
+  coin: CoinType
+  onClose?: () => void
+  persist: boolean
+  timeout: number
 }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{

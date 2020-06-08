@@ -13,7 +13,6 @@ import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
-import onboarding from './onboarding/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
 import send from './send/reducers'
@@ -30,7 +29,6 @@ const componentReducer = combineReducers({
   layoutWallet,
   lockbox,
   manageAddresses,
-  onboarding,
   onfido,
   priceChart,
   recoveryPhrase: recoveryPhraseReducer,

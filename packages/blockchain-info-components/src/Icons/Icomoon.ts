@@ -77,6 +77,7 @@ const IcoMoon = {
   'phone-regular': '\\e985',
   pie: '\\e911',
   plus: '\\ea0a',
+  'plus-in-circle-filled': '\\e92d',
   present: '\\e96d',
   'qr-code': '\\e946',
   'question-in-circle': '\\e96e',

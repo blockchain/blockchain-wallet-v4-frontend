@@ -8,6 +8,3 @@ export const getState = state => getMetadata(state).map(prop('value'))
 
 export const getLastViewed = state =>
   getMetadata(state).map(path(['value', 'lastViewed']))
-
-export const getHasSkippedTour = state =>
-  getMetadata(state).map(path(['value', 'hasSkippedWalletTour']))

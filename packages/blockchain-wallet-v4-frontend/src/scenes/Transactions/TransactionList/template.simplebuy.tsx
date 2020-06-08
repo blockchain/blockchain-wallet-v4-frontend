@@ -41,9 +41,9 @@ const AmountColumn = styled.div`
   align-items: flex-start;
   white-space: nowrap;
   width: 50%;
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     display: flex;
-  }
+  `}
 `
 const ViewInfoColumn = styled.div`
   display: flex;
