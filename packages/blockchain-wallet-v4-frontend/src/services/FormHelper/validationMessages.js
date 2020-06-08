@@ -119,6 +119,12 @@ export const PartnerStateWhitelist = () => (
     defaultMessage='State not available for buy & sell'
   />
 )
+export const InvalidStrongPassword = () => (
+  <FormattedMessage
+    id='scenes.register.invalidstrongpassword'
+    defaultMessage='Your password is not strong enough'
+  />
+)
 export const PasswordsDoNotMatch = () => (
   <FormattedMessage
     id='formhelper.passwordsdonotmatch'

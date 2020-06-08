@@ -9,7 +9,8 @@ import { FormattedMessage } from 'react-intl'
 import {
   required,
   validEmail,
-  validPasswordConfirmation
+  validPasswordConfirmation,
+  validStrongPassword
 } from 'services/FormHelper'
 
 import Bowser from 'bowser'
@@ -25,15 +26,6 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
-
-// load zxcvbn dependency async and set on window
-// @ts-ignore
-require.ensure(
-  ['zxcvbn'],
-  // @ts-ignore
-  require => (window.zxcvbn = require('zxcvbn')),
-  'zxcvbn'
-)
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -65,16 +57,6 @@ const PasswordTip = styled(Text)`
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-const validStrongPassword = value =>
-  // @ts-ignore
-  value !== undefined && window.zxcvbn && window.zxcvbn(value).score > 1 ? (
-    undefined
-  ) : (
-    <FormattedMessage
-      id='scenes.register.invalidstrongpassword'
-      defaultMessage='Your password is not strong enough'
-    />
-  )
 
 const scrollToId = id => {
   const element = document.getElementById(id)

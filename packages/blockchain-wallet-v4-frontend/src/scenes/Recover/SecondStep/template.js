@@ -12,19 +12,13 @@ import { has } from 'ramda'
 import {
   required,
   validEmail,
-  validPasswordConfirmation
+  validPasswordConfirmation,
+  validStrongPassword
 } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
-
-// load zxcvbn dependency async and set on window
-require.ensure(
-  ['zxcvbn'],
-  require => (window.zxcvbn = require('zxcvbn')),
-  'zxcvbn'
-)
 
 const Header = styled.div`
   display: flex;
@@ -43,16 +37,6 @@ const GoBackLink = styled(Link)`
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-
-const validStrongPassword = value =>
-  value !== undefined && window.zxcbvn && window.zxcvbn(value).score > 1
-    ? undefined
-    : () => (
-        <FormattedMessage
-          id='scenes.register.invalidstrongpassword'
-          defaultMessage='Your password is not strong enough'
-        />
-      )
 
 const SecondStep = props => {
   const { busy, invalid, handleSubmit, password, previousStep } = props

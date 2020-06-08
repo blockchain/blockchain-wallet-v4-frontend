@@ -23,6 +23,13 @@ import React from 'react'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
+// load zxcvbn dependency async and set on window
+require.ensure(
+  ['zxcvbn'],
+  require => (window.zxcvbn = require('zxcvbn')),
+  'zxcvbn'
+)
+
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
 export const maxValue = (max, canEqual = false) => value =>
@@ -66,6 +73,16 @@ export const validIpList = ipList => {
     undefined
   ) : (
     <M.InvalidIpListMessage />
+  )
+}
+
+export const validStrongPassword = value => {
+  return value !== undefined &&
+    window.zxcvbn &&
+    window.zxcvbn(value).score > 1 ? (
+    undefined
+  ) : (
+    <M.InvalidStrongPassword />
   )
 }
 
