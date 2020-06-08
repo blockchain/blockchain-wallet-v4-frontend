@@ -121,8 +121,7 @@ export const sha256 = data =>
     .digest()
 
 // generateMnemonic :: Api -> Promise String
-export const generateMnemonic = (api, libcoins) => {
-  console.log(libcoins)
+export const generateMnemonic = api => {
   return createRng(16, api).then(rng => BIP39.generateMnemonic(null, rng))
 }
 

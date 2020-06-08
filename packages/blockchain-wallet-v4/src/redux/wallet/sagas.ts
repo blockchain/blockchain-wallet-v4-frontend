@@ -29,7 +29,7 @@ import Task from 'data.task'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, libcoins, networks }) => {
+export default ({ api, networks }) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
@@ -89,7 +89,7 @@ export default ({ api, libcoins, networks }) => {
   }
 
   const createWalletSaga = function * ({ password, email, language }) {
-    const mnemonic = yield call(generateMnemonic, api, libcoins)
+    const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
       guid,
@@ -134,7 +134,7 @@ export default ({ api, libcoins, networks }) => {
     )(wrapper)
 
     if (isEmpty(hdwallets)) {
-      let mnemonic = yield call(generateMnemonic, api, libcoins)
+      let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(
         mnemonic,
         'My Bitcoin Wallet',

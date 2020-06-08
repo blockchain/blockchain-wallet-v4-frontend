@@ -1,4 +1,3 @@
-import * as LIB_COINS from 'libcoins'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
@@ -125,12 +124,10 @@ const configureStore = async function () {
     )
   )
   const persistor = persistStore(store, null)
-  const libcoins = LIB_COINS()
-  
+
   sagaMiddleware.run(rootSaga, {
     api,
     coinsSocket,
-    libcoins,
     networks,
     options,
     ratesSocket
