@@ -48,7 +48,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CaptchaBoxContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CaptchaBoxContainer)

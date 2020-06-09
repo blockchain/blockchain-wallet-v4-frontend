@@ -18,12 +18,9 @@ export const selectLogoutTime = view(logoutTime)
 
 export const setLogoutTime = set(logoutTime)
 
-export const toJS = pipe(
-  Options.guard,
-  txnotes => {
-    return txnotes.toObject()
-  }
-)
+export const toJS = pipe(Options.guard, txnotes => {
+  return txnotes.toObject()
+})
 
 export const fromJS = object => {
   if (isOptions(object)) {

@@ -81,9 +81,11 @@ export const validAddressOrWallet = value => {
 
 type Props = OwnProps & StateProps
 
-const DownloadTransactions: React.FunctionComponent<
-  InjectedFormProps<{}, Props> & Props
-> = props => {
+const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
+  {},
+  Props
+> &
+  Props> = props => {
   const {
     closeAll,
     coin,

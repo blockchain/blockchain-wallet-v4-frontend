@@ -30,7 +30,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(PriorityFeeLink)
+export default connect(undefined, mapDispatchToProps)(PriorityFeeLink)

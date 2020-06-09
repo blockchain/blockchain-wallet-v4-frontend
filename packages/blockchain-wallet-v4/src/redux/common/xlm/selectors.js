@@ -16,18 +16,12 @@ const addBalance = curry((state, account) =>
 
 export const getAccountBalances = state =>
   getAccounts(state).map(
-    compose(
-      map(addBalance(state)),
-      map(digest(ADDRESS_TYPES.ACCOUNT))
-    )
+    compose(map(addBalance(state)), map(digest(ADDRESS_TYPES.ACCOUNT)))
   )
 
 export const getLockboxXlmBalances = state =>
   getLockboxXlmAccounts(state).map(
-    compose(
-      map(addBalance(state)),
-      map(digest(ADDRESS_TYPES.LOCKBOX))
-    )
+    compose(map(addBalance(state)), map(digest(ADDRESS_TYPES.LOCKBOX)))
   )
 
 export const getAccountsInfo = state => {

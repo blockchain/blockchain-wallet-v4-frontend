@@ -38,7 +38,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EthLockboxBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(EthLockboxBalance)

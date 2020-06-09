@@ -11,31 +11,23 @@ export const isAddressLabelMap = is(AddressLabelMap)
 export const addressLabel = iLensProp
 
 export const selectAddressLabel = curry((index, as) =>
-  pipe(
-    AddressLabelMap.guard,
-    view(addressLabel(index))
-  )(as)
+  pipe(AddressLabelMap.guard, view(addressLabel(index)))(as)
 )
 
-export const toJS = pipe(
-  AddressLabelMap.guard,
-  addressLabelMap => {
-    const addressLabelList = addressLabelMap.toList()
-    return map(AddressLabel.toJS, addressLabelList).toArray()
-  }
-)
+export const toJS = pipe(AddressLabelMap.guard, addressLabelMap => {
+  const addressLabelList = addressLabelMap.toList()
+  return map(AddressLabel.toJS, addressLabelList).toArray()
+})
 
 export const deleteLabel = curry((index, addressLabelMap) =>
-  pipe(
-    AddressLabelMap.guard,
-    amap => amap.delete(index.toString())
-  )(addressLabelMap)
+  pipe(AddressLabelMap.guard, amap => amap.delete(index.toString()))(
+    addressLabelMap
+  )
 )
 
 export const setLabel = curry((index, label, addressLabelMap) =>
-  pipe(
-    AddressLabelMap.guard,
-    amap => amap.set(index.toString(), AddressLabel.fromJS({ index, label }))
+  pipe(AddressLabelMap.guard, amap =>
+    amap.set(index.toString(), AddressLabel.fromJS({ index, label }))
   )(addressLabelMap)
 )
 

@@ -73,7 +73,4 @@ const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SecondStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

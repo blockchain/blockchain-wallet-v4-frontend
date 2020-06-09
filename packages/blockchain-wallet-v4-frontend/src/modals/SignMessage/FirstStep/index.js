@@ -34,7 +34,4 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)

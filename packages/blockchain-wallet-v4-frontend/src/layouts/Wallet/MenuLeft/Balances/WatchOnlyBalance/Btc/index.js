@@ -60,7 +60,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BtcWatchOnlyBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(BtcWatchOnlyBalance)

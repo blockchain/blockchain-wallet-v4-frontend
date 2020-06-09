@@ -37,7 +37,4 @@ const mapStateToProps = state => ({
   siteId: selectors.core.walletOptions.getAnalyticsSiteId(state).getOrElse(3) // prod siteId is 3
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AnalyticsTracker)
+export default connect(mapStateToProps, mapDispatchToProps)(AnalyticsTracker)

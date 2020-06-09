@@ -48,10 +48,7 @@ const wizard = (name, totalSteps) => Component => {
     actions: bindActionCreators(actions.wizard, dispatch)
   })
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WizardProvider)
+  return connect(mapStateToProps, mapDispatchToProps)(WizardProvider)
 }
 
 export default wizard

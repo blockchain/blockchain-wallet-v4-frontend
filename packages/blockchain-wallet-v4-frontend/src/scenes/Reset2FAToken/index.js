@@ -44,7 +44,4 @@ const mapDispatchToProps = dispatch => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Reset2FAToken)
+export default connect(mapStateToProps, mapDispatchToProps)(Reset2FAToken)

@@ -40,7 +40,4 @@ CoinTickerContainer.propTypes = {
   selected: PropTypes.bool
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CoinTickerContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinTickerContainer)

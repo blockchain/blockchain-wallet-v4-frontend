@@ -57,7 +57,4 @@ ServiceAnnouncement.propTypes = {
   ]).isRequired
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ServiceAnnouncement)
+export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)

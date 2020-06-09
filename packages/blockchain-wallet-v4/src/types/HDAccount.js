@@ -44,23 +44,11 @@ export const selectXpriv = view(xpriv)
 export const selectXpub = view(xpub)
 export const selectAddressLabels = view(addressLabels)
 export const selectIndex = view(index)
-export const isArchived = compose(
-  Boolean,
-  view(archived)
-)
-export const isActive = compose(
-  not,
-  isArchived
-)
-export const isWatchOnly = compose(
-  isNil,
-  view(xpriv)
-)
+export const isArchived = compose(Boolean, view(archived))
+export const isActive = compose(not, isArchived)
+export const isWatchOnly = compose(isNil, view(xpriv))
 export const isXpub = curry((myxpub, account) =>
-  compose(
-    equals(myxpub),
-    view(xpub)
-  )(account)
+  compose(equals(myxpub), view(xpub))(account)
 )
 
 export const getAddress = (account, path, network) => {
@@ -68,10 +56,7 @@ export const getAddress = (account, path, network) => {
   const i = parseInt(index)
   const c = parseInt(chain)
   const derive = acc => Cache.getAddress(selectCache(acc), c, i, network)
-  return pipe(
-    HDAccount.guard,
-    derive
-  )(account)
+  return pipe(HDAccount.guard, derive)(account)
 }
 
 export const getReceiveAddress = (account, receiveIndex, network) => {
@@ -104,21 +89,15 @@ export const fromJS = (x, i) => {
   return accountCons(new HDAccount(assoc('index', i, x)))
 }
 
-export const toJSwithIndex = pipe(
-  HDAccount.guard,
-  acc => {
-    const accountDecons = compose(
-      over(addressLabels, AddressLabelMap.toJS),
-      over(cache, Cache.toJS)
-    )
-    return accountDecons(acc).toJS()
-  }
-)
+export const toJSwithIndex = pipe(HDAccount.guard, acc => {
+  const accountDecons = compose(
+    over(addressLabels, AddressLabelMap.toJS),
+    over(cache, Cache.toJS)
+  )
+  return accountDecons(acc).toJS()
+})
 
-export const toJS = compose(
-  dissoc('index'),
-  toJSwithIndex
-)
+export const toJS = compose(dissoc('index'), toJSwithIndex)
 
 export const reviver = jsObject => {
   return new HDAccount(jsObject)

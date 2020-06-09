@@ -146,10 +146,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', 'eth']),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
     }
@@ -243,10 +240,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', token]),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
     }
@@ -260,15 +254,7 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
       const { fee, hash, token } = payload
@@ -276,15 +262,7 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
       const { hash, token, error } = payload
@@ -292,15 +270,7 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
       const { token, isAtBound } = payload

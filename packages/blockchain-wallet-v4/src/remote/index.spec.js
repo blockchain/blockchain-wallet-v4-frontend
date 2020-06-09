@@ -40,16 +40,8 @@ describe('Remote', () => {
     it('ii) composition: map(g . f) == map(g) . map(f)', () => {
       let f = add(3)
       let g = multiply(5)
-      let left = compose(
-        map(f),
-        map(g)
-      )
-      let right = map(
-        compose(
-          f,
-          g
-        )
-      )
+      let left = compose(map(f), map(g))
+      let right = map(compose(f, g))
       expect(map(left, options)).toEqual(map(right, options))
     })
   })

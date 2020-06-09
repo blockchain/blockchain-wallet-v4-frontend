@@ -54,7 +54,4 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LogoutContainer)
+export default connect(null, mapDispatchToProps)(LogoutContainer)

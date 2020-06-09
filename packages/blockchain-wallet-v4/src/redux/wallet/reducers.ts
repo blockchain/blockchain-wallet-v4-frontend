@@ -40,10 +40,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
     case AT.SET_AUTOLOGOUT: {
       const { time } = action.payload
       return over(
-        compose(
-          Wrapper.wallet,
-          Wallet.options
-        ),
+        compose(Wrapper.wallet, Wallet.options),
         Options.setLogoutTime(time),
         state
       )

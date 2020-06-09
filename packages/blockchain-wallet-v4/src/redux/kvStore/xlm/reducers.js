@@ -11,23 +11,13 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
     case AT.UPDATE_METADATA_XLM: {
-      return set(
-        compose(
-          mapped,
-          KVStoreEntry.value
-        ),
-        payload,
-        state
-      )
+      return set(compose(mapped, KVStoreEntry.value), payload, state)
     }
     case AT.FETCH_METADATA_XLM_LOADING: {
       return Remote.Loading
     }
     case AT.SET_TRANSACTION_NOTE_XLM: {
-      let valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
+      let valueLens = compose(mapped, KVStoreEntry.value)
       let setNote = assocPath(['tx_notes', payload.txHash], payload.txNote)
       return over(valueLens, setNote, state)
     }

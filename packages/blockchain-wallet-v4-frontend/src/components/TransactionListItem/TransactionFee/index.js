@@ -67,7 +67,4 @@ const mapDispatchToProps = dispatch => ({
   ethActions: bindActionCreators(actions.core.data.eth, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TransactionFee)
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionFee)

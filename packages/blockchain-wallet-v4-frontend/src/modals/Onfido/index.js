@@ -92,9 +92,6 @@ const mapDispatchToProps = dispatch => ({
 })
 const enhance = compose(
   modalEnhancer(MODAL_NAME),
-  connect(
-    getData,
-    mapDispatchToProps
-  )
+  connect(getData, mapDispatchToProps)
 )
 export default enhance(OnfidoContainer)

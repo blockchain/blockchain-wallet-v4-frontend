@@ -60,7 +60,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.bch, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BchWatchOnlyBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(BchWatchOnlyBalance)

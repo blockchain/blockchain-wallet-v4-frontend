@@ -27,11 +27,5 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  withRouter,
-  connect(
-    null,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(withRouter, connect(null, mapDispatchToProps))
 export default enhance(CompleteStepContainer)

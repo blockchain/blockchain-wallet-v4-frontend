@@ -23,13 +23,6 @@ import React from 'react'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
-// load zxcvbn dependency async and set on window
-require.ensure(
-  ['zxcvbn'],
-  require => (window.zxcvbn = require('zxcvbn')),
-  'zxcvbn'
-)
-
 export const required = value => (value ? undefined : <M.RequiredMessage />)
 
 export const maxValue = (max, canEqual = false) => value =>

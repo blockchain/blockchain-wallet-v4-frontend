@@ -18,11 +18,7 @@ export const getUsState = state =>
   getMetadata(state).map(path(['value', 'USAState']))
 export const getTrades = state =>
   getMetadata(state).map(
-    compose(
-      reverse,
-      sortBy(prop('timestamp')),
-      path(['value', 'trades'])
-    )
+    compose(reverse, sortBy(prop('timestamp')), path(['value', 'trades']))
   )
 export const getTrade = curry((address, state) =>
   getTrades(state).map(

@@ -59,7 +59,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(VerifyMobileContainer)
+export default connect(getData, mapDispatchToProps)(VerifyMobileContainer)

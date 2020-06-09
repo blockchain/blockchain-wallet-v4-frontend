@@ -23,7 +23,8 @@ export const testPropTypes = (
     return (
       errorCount === testValues.length &&
       expectError &&
-      (errorCount === 0 && !expectError)
+      errorCount === 0 &&
+      !expectError
     )
   }
 

@@ -73,7 +73,4 @@ const mapStateToProps = state => ({
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BtcWalletsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(BtcWalletsContainer)

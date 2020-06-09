@@ -31,7 +31,4 @@ const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(Profile)
+export default connect(getData, mapDispatchToProps)(Profile)

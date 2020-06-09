@@ -20,10 +20,7 @@ export const selectLabel = view(label)
 
 export const fromJS = x => (is(AddressLabel, x) ? x : new AddressLabel(x))
 
-export const toJS = pipe(
-  AddressLabel.guard,
-  iToJS
-)
+export const toJS = pipe(AddressLabel.guard, iToJS)
 
 export const reviver = jsObject => {
   return new AddressLabel(jsObject)

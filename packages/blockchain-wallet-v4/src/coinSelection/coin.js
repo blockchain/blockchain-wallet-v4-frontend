@@ -97,10 +97,7 @@ export const outputBytes = ifElse(
   compose(
     add(TX_OUTPUT_BASE),
     tryCatch(
-      compose(
-        s => s.length,
-        selectScript
-      ),
+      compose(s => s.length, selectScript),
       always(TX_OUTPUT_PUBKEYHASH)
     )
   )
