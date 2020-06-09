@@ -17,7 +17,7 @@ import {
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import {
   convertBaseToStandard,
   convertStandardToBase
