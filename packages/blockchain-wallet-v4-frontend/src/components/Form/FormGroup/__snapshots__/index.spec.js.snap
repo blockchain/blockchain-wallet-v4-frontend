@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FormGroup renders correctly 1`] = `
-<styled.div
-  margin="20px"
-/>
-`;

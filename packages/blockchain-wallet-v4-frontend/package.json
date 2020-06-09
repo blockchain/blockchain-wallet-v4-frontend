@@ -67,15 +67,6 @@
       "json",
       "html"
     ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "ignoreCodes": [
-            2321
-          ]
-        }
-      }
-    },
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
       "<rootDir>/../../config/jest/jest.config.js"
