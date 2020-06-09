@@ -22,24 +22,13 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.js",
-      "src/**/*.ts",
-      "!src/**/rootSaga.js",
+      "src/**/*.{js,ts}",
       "!src/exchange/currencies/*.js",
-      "!src/network/**/*.js",
-      "!src/network/api/**/*.js",
-      "!src/network/api/**/*.ts",
-      "!src/network/index.js",
-      "!src/redux/**/**/sagas.js",
-      "!src/redux/**/**/sagas.ts",
-      "!src/redux/**/sagaRegister.js",
-      "!src/redux/actions.js",
-      "!src/redux/actionTypes.js",
-      "!src/redux/middleware.js",
-      "!src/redux/reducers.js",
-      "!src/redux/reducers.js",
-      "!src/redux/rootSaga.js",
-      "!src/redux/sagas.js"
+      "!src/network/*.{js,ts}",
+      "!src/network/api/**/*.{js,ts}",
+      "!src/redux/**/**/sagas.{js,ts}",
+      "!src/redux/**/**/sagaRegister.{js,ts}",
+      "!src/redux/*.{js,ts}"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4",
     "coverageReporters": [
