@@ -91,7 +91,4 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(DownloadUpdaterContainer)
+export default connect(null, mapDispatchToProps)(DownloadUpdaterContainer)

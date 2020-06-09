@@ -27,7 +27,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(InProgress)
+export default connect(undefined, mapDispatchToProps)(InProgress)

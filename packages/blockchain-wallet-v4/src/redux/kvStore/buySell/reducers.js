@@ -12,14 +12,7 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.UPDATE_METADATA_BUYSELL: {
-      return set(
-        compose(
-          mapped,
-          KVStoreEntry.value
-        ),
-        payload,
-        state
-      )
+      return set(compose(mapped, KVStoreEntry.value), payload, state)
     }
     case AT.FETCH_METADATA_BUYSELL_LOADING: {
       return Remote.Loading
@@ -32,10 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.WIPE_EXTERNAL: {
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
+      const valueLens = compose(mapped, KVStoreEntry.value)
       const wipe = assoc('coinify', { trades: [] })
       return over(valueLens, wipe, state)
     }

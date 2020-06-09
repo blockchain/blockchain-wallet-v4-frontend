@@ -4,7 +4,7 @@
     "baseUrl": "./packages",
     "esModuleInterop": true,
     "jsx": "react",
-    "module": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": false,
     "noResolve": false,

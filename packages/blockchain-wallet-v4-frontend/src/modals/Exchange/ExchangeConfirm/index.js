@@ -74,10 +74,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer(CONFIRM_MODAL),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ExchangeConfirmContainer)

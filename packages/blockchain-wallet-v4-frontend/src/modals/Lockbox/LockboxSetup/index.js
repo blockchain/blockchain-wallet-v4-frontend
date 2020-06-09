@@ -159,10 +159,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('LockboxSetup'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(LockboxSetupContainer)

@@ -1,4 +1,4 @@
-import * as T from './actionTypes.js'
+import * as AT from './actionTypes'
 import { compose } from 'ramda'
 import { HDWallet, HDWalletList, Options, Wallet, Wrapper } from '../../types'
 import { over, set } from 'ramda-lens'
@@ -10,18 +10,18 @@ export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
   const { type } = action
   switch (type) {
-    case T.SET_PAYLOAD_CHECKSUM: {
+    case AT.SET_PAYLOAD_CHECKSUM: {
       const checksum = action.payload
       return set(Wrapper.payloadChecksum, checksum, state)
     }
-    case T.REFRESH_WRAPPER:
-    case T.SET_WRAPPER: {
+    case AT.REFRESH_WRAPPER:
+    case AT.SET_WRAPPER: {
       return action.payload
     }
-    case T.DELETE_WRAPPER: {
+    case AT.DELETE_WRAPPER: {
       return WRAPPER_INITIAL_STATE
     }
-    case T.SET_LEGACY_ADDRESS_LABEL: {
+    case AT.SET_LEGACY_ADDRESS_LABEL: {
       const { address, label } = action.payload
       return over(
         Wrapper.wallet,
@@ -29,7 +29,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.SET_ADDRESS_ARCHIVED: {
+    case AT.SET_ADDRESS_ARCHIVED: {
       const { address, archived } = action.payload
       return over(
         Wrapper.wallet,
@@ -37,26 +37,23 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.SET_AUTOLOGOUT: {
+    case AT.SET_AUTOLOGOUT: {
       const { time } = action.payload
       return over(
-        compose(
-          Wrapper.wallet,
-          Wallet.options
-        ),
+        compose(Wrapper.wallet, Wallet.options),
         Options.setLogoutTime(time),
         state
       )
     }
-    case T.DELETE_LEGACY_ADDRESS: {
+    case AT.DELETE_LEGACY_ADDRESS: {
       const address = action.payload
       return over(Wrapper.wallet, Wallet.deleteLegacyAddress(address), state)
     }
-    case T.SET_MAIN_PASSWORD: {
+    case AT.SET_MAIN_PASSWORD: {
       const password = action.payload
       return set(Wrapper.password, password, state)
     }
-    case T.SET_HD_ADDRESS_LABEL: {
+    case AT.SET_HD_ADDRESS_LABEL: {
       let { accountIdx, addressIdx, label } = action.payload
       return over(
         Wrapper.wallet,
@@ -64,7 +61,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.DELETE_HD_ADDRESS_LABEL: {
+    case AT.DELETE_HD_ADDRESS_LABEL: {
       const { accountIdx, addressIdx } = action.payload
       return over(
         Wrapper.wallet,
@@ -72,7 +69,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.SET_ACCOUNT_LABEL: {
+    case AT.SET_ACCOUNT_LABEL: {
       const { accountIdx, label } = action.payload
       return over(
         Wrapper.wallet,
@@ -80,7 +77,7 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.SET_ACCOUNT_ARCHIVED: {
+    case AT.SET_ACCOUNT_ARCHIVED: {
       const { accountIdx, archived } = action.payload
       return over(
         Wrapper.wallet,
@@ -88,19 +85,19 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
         state
       )
     }
-    case T.SET_DEFAULT_ACCOUNT: {
+    case AT.SET_DEFAULT_ACCOUNT: {
       const { index } = action.payload
       return over(Wrapper.wallet, Wallet.setDefaultAccountIdx(index), state)
     }
-    case T.SET_TRANSACTION_NOTE: {
+    case AT.SET_TRANSACTION_NOTE: {
       const { txHash, txNote } = action.payload
       return over(Wrapper.wallet, Wallet.setTxNote(txHash, txNote), state)
     }
-    case T.SET_SYNC_PUB_KEYS: {
+    case AT.SET_SYNC_PUB_KEYS: {
       const { syncPubKeys } = action.payload
       return set(Wrapper.syncPubKeys, syncPubKeys, state)
     }
-    case T.VERIFY_MNEMONIC: {
+    case AT.VERIFY_MNEMONIC: {
       const mvLens = compose(
         Wrapper.wallet,
         Wallet.hdWallets,

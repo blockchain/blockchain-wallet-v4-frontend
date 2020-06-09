@@ -7,18 +7,12 @@ const socket = socket => store => {
 
     if (type === actionTypes.middleware.webSocket.coins.START_SOCKET) {
       socket.connect(
-        compose(
-          store.dispatch,
-          actions.middleware.webSocket.coins.openSocket
-        ),
+        compose(store.dispatch, actions.middleware.webSocket.coins.openSocket),
         compose(
           store.dispatch,
           actions.middleware.webSocket.coins.messageSocket
         ),
-        compose(
-          store.dispatch,
-          actions.middleware.webSocket.coins.closeSocket
-        )
+        compose(store.dispatch, actions.middleware.webSocket.coins.closeSocket)
       )
     }
 

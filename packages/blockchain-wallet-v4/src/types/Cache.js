@@ -28,10 +28,7 @@ const _getAddress = (cache, chain, index, network) => {
     const node = getNode(c, chain, network)
     return node.derive(index).getAddress()
   }
-  return pipe(
-    Cache.guard,
-    derive
-  )(cache)
+  return pipe(Cache.guard, derive)(cache)
 }
 export const getAddress = memoize(_getAddress)
 
@@ -49,10 +46,7 @@ export const getNode = memoize(_getNode)
 
 export const fromJS = x => (is(Cache, x) ? x : new Cache(x))
 
-export const toJS = pipe(
-  Cache.guard,
-  iToJS
-)
+export const toJS = pipe(Cache.guard, iToJS)
 
 export const reviver = jsObject => {
   return new Cache(jsObject)

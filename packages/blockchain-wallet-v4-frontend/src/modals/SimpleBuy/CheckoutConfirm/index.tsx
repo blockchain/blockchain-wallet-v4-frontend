@@ -61,10 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void

@@ -148,10 +148,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('BitPayInformational'),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(BitPayInformational)

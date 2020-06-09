@@ -24,10 +24,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_USER_CREDENTIALS: {
       const { user_id, lifetime_token } = payload
       return over(
-        compose(
-          mapped,
-          KVStoreEntry.value
-        ),
+        compose(mapped, KVStoreEntry.value),
         merge(__, { user_id, lifetime_token }),
         state
       )

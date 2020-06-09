@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
+import Announcements from 'components/Announcements'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import media from 'services/ResponsiveService'
 import Modals from 'modals'
@@ -55,6 +56,8 @@ const WalletLayout = props => {
         <Modals />
         <Nav>
           <MenuTop />
+          <Announcements type='service' alertArea='wallet' />
+          <Announcements type='static' />
         </Nav>
         <Container>
           <MenuLeft location={location} />

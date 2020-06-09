@@ -83,9 +83,6 @@ UserExists.propTypes = {
   email: PropTypes.string.isRequired
 }
 
-const enhance = compose(
-  modalEnhancer(USER_EXISTS_MODAL),
-  connect(getData)
-)
+const enhance = compose(modalEnhancer(USER_EXISTS_MODAL), connect(getData))
 
 export default enhance(UserExists)

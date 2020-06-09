@@ -1,5 +1,3 @@
-import onClickOutside from 'react-onclickoutside'
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import Dropdown from './template'
@@ -60,12 +58,4 @@ ComponentDropdown.defaultProps = {
   down: false
 }
 
-ComponentDropdown.propTypes = {
-  callback: PropTypes.func,
-  toggleOnCallback: PropTypes.bool,
-  opened: PropTypes.bool,
-  uppercase: PropTypes.bool,
-  down: PropTypes.bool
-}
-
-export default onClickOutside(ComponentDropdown)
+export default ComponentDropdown

@@ -3,9 +3,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 const VersionWrapper = styled.span`
-  margin-top: 0.125rem;
-  margin-left: 1.5rem;
+  margin-top: 4px;
+  margin-left: 16px;
 `
+
+// @ts-ignore
+const V = APP_VERSION
 
 const Footer = () => (
   <VersionWrapper>
@@ -16,7 +19,7 @@ const Footer = () => (
       target='_blank'
       weight={500}
     >
-      Version {APP_VERSION}
+      Version {V}
     </Link>
   </VersionWrapper>
 )

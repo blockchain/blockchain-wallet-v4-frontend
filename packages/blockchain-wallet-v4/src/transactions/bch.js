@@ -173,14 +173,8 @@ let appender = curry((tagger, acc, coin) => {
 })
 
 const selectFromAndto = (inputs, outputs, type) => {
-  const preceived = compose(
-    not,
-    propEq('coinType', 'external')
-  )
-  const psent = compose(
-    not,
-    propEq('address', inputs[0].address)
-  )
+  const preceived = compose(not, propEq('coinType', 'external'))
+  const psent = compose(not, propEq('address', inputs[0].address))
   const predicate = type === 'Sent' ? psent : preceived
   const myOutput =
     find(allPass([propEq('change', false), predicate]))(outputs) || outputs[0]
@@ -201,20 +195,11 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
     const index = findIndex(propEq('address', address))(outputs)
     if (index < 0) return [outputData, outputs] // no change
     const newOutputs = over(
-      compose(
-        lensIndex(index),
-        lensProp('change')
-      ),
+      compose(lensIndex(index), lensProp('change')),
       not,
       outputs
     )
-    const change = view(
-      compose(
-        lensIndex(index),
-        lensProp('amount')
-      ),
-      outputs
-    )
+    const change = view(compose(lensIndex(index), lensProp('amount')), outputs)
     const newOutputData = over(lensProp('change'), c => c + change, outputData)
     return [newOutputData, newOutputs]
   } else {
@@ -247,17 +232,11 @@ export const getTime = tx => {
 
 export const _transformTx = (wallet, accountList, txNotes, tx) => {
   const type = txtype(tx.result, tx.fee)
-  const inputTagger = compose(
-    tagCoin(wallet, accountList),
-    unpackInput
-  )
+  const inputTagger = compose(tagCoin(wallet, accountList), unpackInput)
   const outputTagger = tagCoin(wallet, accountList)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   let [inputData, inputs] = ifElse(
-    compose(
-      isCoinBase,
-      prop('inputs')
-    ),
+    compose(isCoinBase, prop('inputs')),
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
     t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)

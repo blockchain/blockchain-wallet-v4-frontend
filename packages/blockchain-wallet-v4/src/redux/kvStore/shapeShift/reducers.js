@@ -34,11 +34,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.ADD_STATE_METADATA_SHAPESHIFT: {
       return set(
-        compose(
-          mapped,
-          value,
-          lensProp('USAState')
-        ),
+        compose(mapped, value, lensProp('USAState')),
         {
           Code: payload.usState.code,
           Name: payload.usState.name
@@ -49,11 +45,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
       const { trade } = payload
       return over(
-        compose(
-          mapped,
-          lensProp('value'),
-          lensProp('trades')
-        ),
+        compose(mapped, lensProp('value'), lensProp('trades')),
         append(trade),
         state
       )
@@ -62,16 +54,10 @@ export default (state = INITIAL_STATE, action) => {
       const { depositAddress, status, hashOut } = payload
 
       return state.map(trades => {
-        const lensTrades = compose(
-          lensProp('value'),
-          lensProp('trades')
-        )
+        const lensTrades = compose(lensProp('value'), lensProp('trades'))
 
         const i = findIndex(
-          compose(
-            equals(depositAddress),
-            path(['quote', 'deposit'])
-          )
+          compose(equals(depositAddress), path(['quote', 'deposit']))
         )(view(lensTrades, trades))
 
         switch (status) {
@@ -79,11 +65,7 @@ export default (state = INITIAL_STATE, action) => {
           case 'received':
           case 'failed':
             return set(
-              compose(
-                lensTrades,
-                lensIndex(i),
-                lensProp('status')
-              ),
+              compose(lensTrades, lensIndex(i), lensProp('status')),
               status,
               trades
             )
@@ -93,10 +75,7 @@ export default (state = INITIAL_STATE, action) => {
               assoc('hashOut', hashOut)
             )
             return over(
-              compose(
-                lensTrades,
-                lensIndex(i)
-              ),
+              compose(lensTrades, lensIndex(i)),
               updateStatusAndHashOut,
               trades
             )
@@ -116,26 +95,13 @@ export default (state = INITIAL_STATE, action) => {
       } = payload
 
       return state.map(trades => {
-        const lensTrades = compose(
-          lensProp('value'),
-          lensProp('trades')
-        )
+        const lensTrades = compose(lensProp('value'), lensProp('trades'))
         const i = findIndex(
-          compose(
-            equals(address),
-            path(['quote', 'deposit'])
-          )
+          compose(equals(address), path(['quote', 'deposit']))
         )(view(lensTrades, trades))
 
         const setTradePropValue = (prop, value) =>
-          set(
-            compose(
-              lensTrades,
-              lensIndex(i),
-              lensProp(prop)
-            ),
-            value
-          )
+          set(compose(lensTrades, lensIndex(i), lensProp(prop)), value)
 
         const setQuotePropValue = (prop, value) =>
           set(

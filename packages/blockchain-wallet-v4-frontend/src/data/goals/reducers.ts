@@ -15,7 +15,11 @@ export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
     }
     case AT.DELETE_GOAL: {
       const { id } = action.payload
-      return assoc('goals', filter(a => a.id !== id, state.goals), state)
+      return assoc(
+        'goals',
+        filter(a => a.id !== id, state.goals),
+        state
+      )
     }
     case AT.ADD_INITIAL_MODAL: {
       return {

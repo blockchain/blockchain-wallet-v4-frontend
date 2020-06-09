@@ -60,8 +60,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SecurityCenterContainer)
+  connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)
 )

@@ -110,11 +110,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(BorrowForm)

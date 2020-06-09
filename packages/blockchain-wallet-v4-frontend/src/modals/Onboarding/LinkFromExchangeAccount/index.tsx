@@ -61,8 +61,5 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 export default compose<any>(
   modalEnhancer('LinkFromExchangeAccount'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(LinkFromExchangeAccountContainer)

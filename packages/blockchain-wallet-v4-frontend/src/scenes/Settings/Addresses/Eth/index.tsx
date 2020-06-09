@@ -108,7 +108,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.modules.settings.showEthPrivateKey(isLegacy))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EthContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(EthContainer)

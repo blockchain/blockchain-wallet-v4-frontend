@@ -19,30 +19,14 @@ export const getActivePairs = compose(
 const getPair = curry((pair, state) => path(['rates', 'pairs', pair], state))
 
 export const getPairQuote = curry(
-  compose(
-    propOr(Remote.NotAsked, 'quote'),
-    getPair
-  )
+  compose(propOr(Remote.NotAsked, 'quote'), getPair)
 )
 
 export const getPairAdvice = curry(
-  compose(
-    lift(prop('currencyRatio')),
-    getPairQuote
-  )
+  compose(lift(prop('currencyRatio')), getPairQuote)
 )
-export const getPairConfig = curry(
-  compose(
-    prop('config'),
-    getPair
-  )
-)
-export const getPairFix = curry(
-  compose(
-    prop('fix'),
-    getPairConfig
-  )
-)
+export const getPairConfig = curry(compose(prop('config'), getPair))
+export const getPairFix = curry(compose(prop('fix'), getPairConfig))
 
 export const getBestRates = path(['rates', 'bestRates'])
 export const getBestRate = curry((pair, state) =>

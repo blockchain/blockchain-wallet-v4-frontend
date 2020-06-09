@@ -73,7 +73,4 @@ const mapStateToProps = state => ({
   ethRates: selectors.core.data.eth.getRates(state).getOrFail()
 })
 
-export default connect(
-  mapStateToProps,
-  null
-)(LowBalanceWarning)
+export default connect(mapStateToProps, null)(LowBalanceWarning)

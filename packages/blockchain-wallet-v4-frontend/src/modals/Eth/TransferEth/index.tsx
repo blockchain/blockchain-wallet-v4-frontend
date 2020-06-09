@@ -61,15 +61,9 @@ const mapDispatchToProps = dispatch => ({
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(
-  modalEnhancer('TransferEth'),
-  connector
-)
+const enhance = compose(modalEnhancer('TransferEth'), connector)
 
 type OwnProps = {
   legacyEthAddr: string

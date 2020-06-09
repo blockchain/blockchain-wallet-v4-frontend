@@ -39,10 +39,7 @@ const mapDispatchToProps = dispatch => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   coin: CoinType

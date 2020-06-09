@@ -31,12 +31,7 @@ import { model, selectors } from 'data'
 export const canUseExchange = state =>
   selectors.modules.profile
     .getUserTiers(state)
-    .map(
-      compose(
-        lt(0),
-        prop('current')
-      )
-    )
+    .map(compose(lt(0), prop('current')))
     .getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])

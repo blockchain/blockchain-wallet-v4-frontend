@@ -56,9 +56,8 @@ const languageHelper = num => {
   }
 }
 
-const ConfirmWordsForm: React.FC<
-  InjectedFormProps<{}, Props> & Props
-> = props => {
+const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
+  Props> = props => {
   const { handleBackArrow, submitting, indexes, invalid, ...rest } = props
   const { handleSubmit } = rest
   return (

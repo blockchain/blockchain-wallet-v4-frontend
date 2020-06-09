@@ -222,9 +222,11 @@ export const ExchangeResults = ({
   rate,
   refundAmount
 }) => {
-  const color = ifElse(equals('transferred'), always('brand-yellow'), identity)(
-    selectColor(status)
-  )
+  const color = ifElse(
+    equals('transferred'),
+    always('brand-yellow'),
+    identity
+  )(selectColor(status))
   return (
     <Modal size='small' position={position} total={total}>
       <Header onClose={close} />
@@ -365,9 +367,6 @@ const mapStateToProps = (state, ownProps) => ({
     .getOrFail()
 })
 
-const enhance = compose(
-  modalEnhancer(RESULTS_MODAL),
-  connect(mapStateToProps)
-)
+const enhance = compose(modalEnhancer(RESULTS_MODAL), connect(mapStateToProps))
 
 export default enhance(ExchangeResults)

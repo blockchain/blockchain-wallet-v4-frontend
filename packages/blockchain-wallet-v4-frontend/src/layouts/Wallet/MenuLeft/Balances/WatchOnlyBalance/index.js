@@ -45,7 +45,4 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Balance)
+export default connect(mapStateToProps, mapDispatchToProps)(Balance)

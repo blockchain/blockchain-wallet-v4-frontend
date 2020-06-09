@@ -87,7 +87,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.modules.settings.showXlmPrivateKey())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(XlmContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(XlmContainer)

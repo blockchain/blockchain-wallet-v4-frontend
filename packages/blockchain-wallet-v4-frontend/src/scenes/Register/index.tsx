@@ -61,10 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   data: any

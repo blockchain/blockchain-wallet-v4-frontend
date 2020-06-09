@@ -1,9 +1,11 @@
 import * as StellarSdk from 'stellar-sdk'
-import { getKeyPair } from '../utils/xlm'
+import { call } from 'redux-saga/effects'
 import Str from '@ledgerhq/hw-app-str'
 
-export const sign = ({ transaction }, mnemonic) => {
-  const keyPair = getKeyPair(mnemonic)
+import { getKeyPair } from '../utils/xlm'
+
+export const sign = function * ({ transaction }, mnemonic) {
+  const keyPair = yield call(getKeyPair, mnemonic)
   transaction.sign(keyPair)
   return transaction
 }

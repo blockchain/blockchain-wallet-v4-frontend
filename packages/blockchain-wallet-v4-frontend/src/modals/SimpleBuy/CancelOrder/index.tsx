@@ -34,11 +34,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(CancelOrder)

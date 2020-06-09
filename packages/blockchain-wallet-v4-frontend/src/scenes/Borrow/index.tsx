@@ -97,10 +97,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
   invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>

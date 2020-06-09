@@ -105,10 +105,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer(ETH_AIRDROP_MODAL),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(EthAirdrop)

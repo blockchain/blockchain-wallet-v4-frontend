@@ -1,5 +1,6 @@
 import * as A from './actions'
-import { call, put, select } from 'redux-saga/effects'
+import * as actionTypes from '../actionTypes'
+import { call, put, select, take } from 'redux-saga/effects'
 import { callTask } from '../../../utils/functional'
 import { derivationMap, SHAPESHIFT } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
@@ -29,6 +30,7 @@ export default ({ api, networks }) => {
   const fetchMetadataShapeshift = function * () {
     try {
       const typeId = derivationMap[SHAPESHIFT]
+      yield take(actionTypes.root.FETCH_METADATA_ROOT_SUCCESS)
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId, networks.btc)
       yield put(A.fetchMetadataShapeshiftLoading())

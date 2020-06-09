@@ -43,10 +43,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('ShowUsedAddresses'),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(ShowUsedAddressesContainer)

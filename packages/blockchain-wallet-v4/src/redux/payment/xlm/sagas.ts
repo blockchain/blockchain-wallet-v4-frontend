@@ -77,7 +77,7 @@ export default ({ api }) => {
         if (!transaction) throw new Error(NO_TX_ERROR)
         const mnemonicT = yield select(S.wallet.getMnemonic, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        return xlmSigner.sign({ transaction }, mnemonic)
+        return yield call(xlmSigner.sign, { transaction }, mnemonic)
       case ADDRESS_TYPES.LOCKBOX:
         return yield call(
           xlmSigner.signWithLockbox,

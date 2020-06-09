@@ -7,28 +7,16 @@ import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
-  close: compose(
-    dispatch,
-    actions.modals.closeModal
-  ),
-  closeAll: compose(
-    dispatch,
-    actions.modals.closeAllModals
-  ),
-  update: compose(
-    dispatch,
-    actions.modals.updateModalOptions
-  )
+  close: compose(dispatch, actions.modals.closeModal),
+  closeAll: compose(dispatch, actions.modals.closeAllModals),
+  update: compose(dispatch, actions.modals.updateModalOptions)
 })
 
 const mapStateToProps = (state): LinkStatePropsType => ({
   modals: selectors.modals.getModals(state)
 })
 
-const enhance = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   disableOutsideClose: boolean

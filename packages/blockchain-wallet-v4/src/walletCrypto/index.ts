@@ -1,5 +1,6 @@
 import * as crypto from 'crypto'
 import * as U from './utils'
+// @ts-ignore
 import { compose, curry, has, is, isNil, propSatisfies, sequence } from 'ramda'
 import { pbkdf2 } from 'pbkdf2'
 import assert from 'assert'
@@ -14,11 +15,7 @@ const SUPPORTED_ENCRYPTION_VERSION = 3
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
 // TaskTry :: (a -> b) -> (a -> Task Error b)
-const TaskTry = f =>
-  compose(
-    eitherToTask,
-    Either.try(f)
-  )
+const TaskTry = f => compose(eitherToTask, Either.try(f))
 
 // satisfy :: [Bool, String] => Task Error Bool
 const satisfy = ([bool, message]) =>
@@ -112,6 +109,7 @@ export const decryptDataWithKey = curry((data, key) => {
   let dataHex = Buffer.from(data, 'base64')
   let iv = dataHex.slice(0, U.SALT_BYTES)
   let payload = dataHex.slice(U.SALT_BYTES)
+  // @ts-ignore
   return decryptBufferWithKey(payload, iv, key)
 })
 
@@ -152,8 +150,10 @@ export const decryptDataWithPassword = (
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required']
   ]).chain(() =>
+    // @ts-ignore
     TaskTry(toPayloadAndIV)(data).chain(({ iv, payload }) =>
       stretchPassword(password, iv, iterations, U.KEY_BIT_LEN).chain(key =>
+        // @ts-ignore
         TaskTry(decryptBufferWithKey)(payload, iv, key, options)
       )
     )
@@ -164,12 +164,15 @@ export const decryptDataWithPassword = (
 export const encryptDataWithPassword = (data, password, iterations) => {
   if (!data) return Task.of(data)
   let salt = crypto.randomBytes(U.SALT_BYTES)
-  return satisfyAll([
-    [is(String, password), 'password_required'],
-    [is(Number, iterations) && iterations > 0, 'iterations_required']
-  ])
-    .chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
-    .chain(key => TaskTry(encryptDataWithKey)(data, key, salt))
+  return (
+    satisfyAll([
+      [is(String, password), 'password_required'],
+      [is(Number, iterations) && iterations > 0, 'iterations_required']
+    ])
+      .chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
+      // @ts-ignore
+      .chain(key => TaskTry(encryptDataWithKey)(data, key, salt))
+  )
 }
 
 // encryptSecPass :: String -> Integer -> String -> String -> Task, Error String
@@ -185,6 +188,7 @@ const checkFailure = curry((pass, fail, str) =>
 // decryptSecPass :: String -> Integer -> String -> String -> Task, Error String
 export const decryptSecPass = curry(
   (sharedKey, pbkdf2Iterations, password, message) =>
+    // @ts-ignore
     decryptDataWithPassword(
       message,
       sharedKey + password,
@@ -216,6 +220,7 @@ export const decryptWalletV1 = (password, data) => {
     )
   // v1: CBC, ISO10126, 10 iterations
   return (
+    // @ts-ignore
     decrypt(10)
       // v1: OFB, nopad, 1 iteration
       .orElse(decrypt.bind(null, 1, { mode: U.AES.OFB, padding: U.NoPadding }))
@@ -238,6 +243,7 @@ const validateWrapper = (
       'v2v3 wrapper: pbkdf2_iterations_required'
     ],
     [
+      // @ts-ignore
       propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper),
       'Wallet version ' + wrapper.version + ' not supported.'
     ]
@@ -250,6 +256,7 @@ export const decryptWalletV2V3 = (password, data) => {
       .chain(validateWrapper)
       // v2/v3: CBC, ISO10126, iterations in wrapper
       .chain(w =>
+        // @ts-ignore
         decryptDataWithPassword(w.payload, password, w.pbkdf2_iterations)
       )
       .chain(p => safeParse(p, 'v2v3: wrong_wallet_password'))

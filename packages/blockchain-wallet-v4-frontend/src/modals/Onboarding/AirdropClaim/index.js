@@ -150,10 +150,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('AirdropClaim'),
   reduxForm({ form: 'airdropClaim' }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(AirdropClaim)

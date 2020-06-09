@@ -116,10 +116,7 @@ const flattenAddress = addr => ({
   label: prop('label', addr) ? prop('label', addr) : prop('addr', addr),
   balance: path(['info', 'final_balance'], addr),
   address: prop('addr', addr),
-  watchOnly: compose(
-    isNil,
-    prop('priv')
-  )(addr),
+  watchOnly: compose(isNil, prop('priv'))(addr),
   type: ADDRESS_TYPES.LEGACY
 })
 

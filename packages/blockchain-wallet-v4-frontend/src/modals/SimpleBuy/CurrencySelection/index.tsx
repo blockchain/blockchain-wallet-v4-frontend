@@ -112,9 +112,9 @@ const CurrencyBoxComponent = (props: {
   )
 }
 
-const CurrencySelection: React.FC<
-  InjectedFormProps<{}, Props> & Props & LinkStatePropsType
-> = props => {
+const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
+  Props &
+  LinkStatePropsType> = props => {
   const [selectedCurrency] = useState<FiatType | null>(
     props.defaultSelectedCurrency
   )

@@ -24,26 +24,14 @@ export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) =>
   state.profile.userCampaigns
 
-export const getUserId = compose(
-  lift(prop('id')),
-  getUserData
-)
+export const getUserId = compose(lift(prop('id')), getUserData)
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData
 )
-export const getUserActivationState = compose(
-  lift(prop('state')),
-  getUserData
-)
-export const getUserKYCState = compose(
-  lift(prop('kycState')),
-  getUserData
-)
-export const getTags = compose(
-  lift(path(['tags'])),
-  getUserData
-)
+export const getUserActivationState = compose(lift(prop('state')), getUserData)
+export const getUserKYCState = compose(lift(prop('kycState')), getUserData)
+export const getTags = compose(lift(path(['tags'])), getUserData)
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
@@ -94,14 +82,8 @@ export const getUserStateCode = compose(
   lift(path(['address', 'state'])),
   getUserData
 )
-export const getUserTiers = compose(
-  lift(prop('tiers')),
-  getUserData
-)
-export const getUserLimits = compose(
-  lift(prop('limits')),
-  getUserData
-)
+export const getUserTiers = compose(lift(prop('tiers')), getUserData)
+export const getUserLimits = compose(lift(prop('limits')), getUserData)
 export const getKycDocResubmissionStatus = compose(
   lift(path(['resubmission', 'reason'])),
   getUserData

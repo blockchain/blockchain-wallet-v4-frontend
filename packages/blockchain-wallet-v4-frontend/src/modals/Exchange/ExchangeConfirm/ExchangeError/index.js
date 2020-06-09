@@ -61,7 +61,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangeError)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeError)
