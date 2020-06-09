@@ -19,23 +19,30 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class DepositForm extends PureComponent<Props, State> {
-  state: State = { displayCoin: true }
+  state: State = { displayCoin: false }
 
-  componentDidMount () {
-    this.handleInitializeDepositForm()
+  handleCoinClick = () => {
+    !this.state.displayCoin &&
+      this.props.formActions.clearFields(
+        'interestDepositForm',
+        false,
+        false,
+        'depositAmount'
+      )
+    this.setState({ displayCoin: true })
+    this.props.interestActions.setCoinDisplay(true)
   }
 
-  handleDisplayToggle = () => {
-    this.setState({
-      displayCoin: !this.state.displayCoin
-    })
-    this.props.interestActions.setCoinDisplay(!this.state.displayCoin)
-    this.props.formActions.clearFields(
-      'interestDepositForm',
-      false,
-      false,
-      'depositAmount'
-    )
+  handleFiatClick = () => {
+    this.state.displayCoin &&
+      this.props.formActions.clearFields(
+        'interestDepositForm',
+        false,
+        false,
+        'depositAmount'
+      )
+    this.setState({ displayCoin: false })
+    this.props.interestActions.setCoinDisplay(false)
   }
   handleRefresh = () => {
     this.handleInitializeDepositForm()
@@ -62,7 +69,8 @@ class DepositForm extends PureComponent<Props, State> {
           {...val}
           {...this.props}
           onSubmit={this.handleSubmit}
-          handleDisplayToggle={this.handleDisplayToggle}
+          handleCoinClick={this.handleCoinClick}
+          handleFiatClick={this.handleFiatClick}
           displayCoin={this.state.displayCoin}
         />
       ),

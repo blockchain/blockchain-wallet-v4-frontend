@@ -39,13 +39,15 @@ import {
   CustomFormLabel,
   FiatMaxContainer,
   GreyBlueCartridge,
+  InfoText,
   InterestTermContainer,
   InterestTermWrapper,
-  MaxAmountContainer,
   PrincipalCcyAbsolute,
   SendingWrapper,
   TermsContainer,
   ToggleCoinFiat,
+  ToggleCoinText,
+  ToggleFiatText,
   Top,
   TopText
 } from './model'
@@ -72,7 +74,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     displayCoin,
     formActions,
     formErrors,
-    handleDisplayToggle,
+    handleCoinClick,
+    handleFiatClick,
     interestActions,
     interestLimits,
     interestRate,
@@ -160,21 +163,52 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             values={{ displayName }}
           />
         </TopText>
-        <Text
-          color='grey600'
-          weight={500}
-          size='14px'
-          style={{ margin: '18px 0 8px 0' }}
-        >
-          <FormattedMessage
-            id='modals.interest.deposit.subheader'
-            defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
-            values={{
-              displayName,
-              rate: interestRate[coin]
-            }}
-          />
-        </Text>
+        <InfoText>
+          <Text
+            color='grey600'
+            weight={500}
+            size='14px'
+            style={{ margin: '18px 0 8px 0', lineHeight: '1.5' }}
+          >
+            <FormattedMessage
+              id='modals.interest.deposit.subheader'
+              defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto. You can deposit up to'
+              values={{
+                displayName,
+                rate: interestRate[coin]
+              }}
+            />{' '}
+            <FiatMaxContainer
+              onClick={() =>
+                formActions.change(
+                  FORM_NAME,
+                  'depositAmount',
+                  displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
+                )
+              }
+            >
+              {displayCoin ? (
+                <Text color='blue600' size='14px' weight={500}>
+                  {depositLimits.maxCoin}{' '}
+                </Text>
+              ) : (
+                <Text color='blue600' size='14px' weight={500}>
+                  {maxDepositFiat}{' '}
+                </Text>
+              )}
+            </FiatMaxContainer>
+            <FormattedMessage
+              id='modals.interest.deposit.uptoamount2'
+              defaultMessage='of {coin} from this wallet.'
+              values={{
+                coin
+              }}
+            />
+            <TooltipHost id='modals.interest.depositmax.tooltip'>
+              <TooltipIcon name='info' size='12px' />
+            </TooltipHost>
+          </Text>
+        </InfoText>
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
@@ -186,25 +220,16 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.interest.deposit.amount'
               defaultMessage='Enter deposit amount'
             />{' '}
-            <ToggleCoinFiat
-              data-e2e='toggleFiatCrypto'
-              onClick={handleDisplayToggle}
-            >
-              {displayCoin ? (
-                <FormattedMessage
-                  id='modals.interest.deposit.showfiat'
-                  defaultMessage='Show {walletCurrency}'
-                  values={{ walletCurrency }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.interest.deposit.showcoin'
-                  defaultMessage='Show {coinTicker}'
-                  values={{ coinTicker }}
-                />
-              )}
-            </ToggleCoinFiat>
           </Text>
+          <ToggleCoinFiat>
+            <ToggleFiatText displayCoin={displayCoin} onClick={handleFiatClick}>
+              {walletCurrency}
+            </ToggleFiatText>
+            |{' '}
+            <ToggleCoinText displayCoin={displayCoin} onClick={handleCoinClick}>
+              {coinTicker}
+            </ToggleCoinText>
+          </ToggleCoinFiat>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -230,7 +255,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             )}
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-        {amtError ? (
+        {amtError && (
           <AmountError>
             <Text size='14px' weight={500} color='red600'>
               {amtError === 'ABOVE_MAX' ? (
@@ -292,44 +317,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               )}
             </GreyBlueCartridge>
           </AmountError>
-        ) : (
-          <MaxAmountContainer>
-            <Text color='grey600' weight={500} size='14px'>
-              <FormattedMessage
-                id='modals.interest.deposit.uptoamount1'
-                defaultMessage='You can deposit up to'
-              />{' '}
-              <FiatMaxContainer
-                onClick={() =>
-                  formActions.change(
-                    FORM_NAME,
-                    'depositAmount',
-                    displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
-                  )
-                }
-              >
-                {displayCoin ? (
-                  <Text color='blue600' size='14px' weight={500}>
-                    {depositLimits.maxCoin}{' '}
-                  </Text>
-                ) : (
-                  <Text color='blue600' size='14px' weight={500}>
-                    {maxDepositFiat}{' '}
-                  </Text>
-                )}
-              </FiatMaxContainer>
-              <FormattedMessage
-                id='modals.interest.deposit.uptoamount2'
-                defaultMessage='of {coin} from this wallet.'
-                values={{
-                  coin
-                }}
-              />
-            </Text>
-            <TooltipHost id='modals.interest.depositmax.tooltip'>
-              <TooltipIcon name='info' size='12px' />
-            </TooltipHost>
-          </MaxAmountContainer>
         )}
         <CalculatorWrapper>
           <CalculatorHeaderContainer>
@@ -582,7 +569,8 @@ export type Props = State &
   FormProps
 
 type FormProps = {
-  handleDisplayToggle: () => void
+  handleCoinClick: () => void
+  handleFiatClick: () => void
   onSubmit: () => void
 }
 

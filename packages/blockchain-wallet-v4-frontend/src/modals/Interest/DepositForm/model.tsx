@@ -37,6 +37,7 @@ export const Bottom = styled(FlyoutWrapper)`
 export const CustomFormLabel = styled.div`
   margin: 24px 0 10px 0;
   display: flex;
+  justify-content: space-between;
 `
 export const CustomField = styled(Field)<BaseFieldProps>`
   > input {
@@ -55,17 +56,11 @@ export const PrincipalCcyAbsolute = styled.div`
   top: 16px;
   left: 12px;
 `
-
-export const MaxAmountContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin: 5px 0;
-`
 export const FiatMaxContainer = styled.div`
   cursor: pointer;
   display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
+  padding: 2px;
+  border-radius: 10px;
   background-color: ${props => props.theme.grey000};
 `
 export const CalculatorWrapper = styled.div`
@@ -149,12 +144,27 @@ export const ButtonContainer = styled.div`
   }
 `
 
-export const ToggleCoinFiat = styled(Text)`
+export const ToggleCoinFiat = styled.div`
+  display: inline;
+`
+export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
   cursor: pointer;
   display: inline;
-  padding: 5px;
-  border: 1px solid ${({ theme }) => theme.grey000};
+  color: ${props =>
+    props.displayCoin ? props.theme.grey800 : props.theme.blue600};
+`
+
+export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline;
+  color: ${props =>
+    props.displayCoin ? props.theme.blue600 : props.theme.grey800};
+`
+
+export const InfoText = styled.div`
+  display: inline;
 `
