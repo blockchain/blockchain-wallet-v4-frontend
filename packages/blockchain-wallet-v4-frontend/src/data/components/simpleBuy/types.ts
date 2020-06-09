@@ -59,7 +59,6 @@ export enum SimpleBuyStepType {
   'CANCEL_ORDER'
 }
 export type SBShowModalOriginType =
-  | 'CoinifyToSB'
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'

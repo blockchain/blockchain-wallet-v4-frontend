@@ -14,15 +14,16 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 import { selectors } from 'data'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   z-index: 9;
-  @media (min-width: 480px) {
+  ${media.atLeastMobile`
     flex-direction: row;
-  }
+  `}
 `
 const ConfirmationsText = styled(Text)`
   * {

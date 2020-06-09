@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'

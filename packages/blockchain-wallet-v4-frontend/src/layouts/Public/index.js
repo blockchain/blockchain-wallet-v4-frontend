@@ -32,13 +32,13 @@ const Wrapper = styled.div`
   width: 100%;
   overflow: auto;
 
-  @media (min-width: 768px) {
+  ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     height: 100%;
-  }
+  `}
 `
 
 const HeaderContainer = styled.div`

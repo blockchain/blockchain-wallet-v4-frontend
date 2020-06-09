@@ -1,6 +1,5 @@
 import { anyPass, equals } from 'ramda'
 import { model, selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { SBOrderType } from 'core/types'
 
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
@@ -29,19 +28,10 @@ export const getData = (state): { bannerToShow: BannerType } => {
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
   const isFirstLogin = selectors.auth.getFirstLogin(state)
-  const isCoinifyUser = selectors.core.kvStore.buySell
-    .getCoinifyUser(state)
-    .getOrElse(false)
 
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (
-    isCoinifyUser &&
-    !isSimpleBuyOrderPending &&
-    Remote.Success.is(ordersR)
-  ) {
-    bannerToShow = 'coinifyToSb'
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
   } else if (isSimpleBuyOrderPending) {

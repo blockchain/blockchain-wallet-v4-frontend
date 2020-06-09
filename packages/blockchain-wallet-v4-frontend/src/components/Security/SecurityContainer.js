@@ -7,10 +7,10 @@ const SecurityContainer = styled.div`
   border: 1px solid ${props => props.theme.grey200};
   border-radius: 4px;
   padding: 20px;
-  @media (min-width: 320px) and (max-width: 991px) {
+  ${media.tablet`
     display: block;
     width: auto;
-  }
+  `}
   ${media.mobile`
     padding: 0px;
   `};

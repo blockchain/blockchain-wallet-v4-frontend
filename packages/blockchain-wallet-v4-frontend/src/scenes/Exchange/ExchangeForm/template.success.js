@@ -54,11 +54,11 @@ const ColumnRight = styled.div`
   max-width: 350px;
   width: 100%;
   align-self: center;
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     align-self: flex-start;
     max-width: 345px;
     width: 40%;
-  }
+  `}
 `
 const SwapReceiveRow = styled(Row)`
   padding: 22px 32px 0 32px;

@@ -65,31 +65,6 @@ export const TRANSACTION_EVENTS = {
   BITPAY_SUCCESS: ['transactions', 'bitpay', 'bitpay_payment_success']
 }
 
-export const GENERAL_EVENTS = {
-  VIEW_WHATS_NEW: ['general', 'view_whats_new'],
-  WALLET_INTRO_DISMISSED: ['general', 'wallet_intro_tour', 'dismissed'],
-  WALLET_INTRO_OFFERED: ['general', 'wallet_intro_tour', 'offered'],
-  WALLET_INTRO_STARTED: ['general', 'wallet_intro_tour', 'started'],
-  WALLET_INTRO_PORTFOLIO_VIEWED: [
-    'general',
-    'wallet_intro_tour',
-    'step_view_portfolio'
-  ],
-  WALLET_INTRO_REQUEST_VIEWED: [
-    'general',
-    'wallet_intro_tour',
-    'step_view_request'
-  ],
-  WALLET_INTRO_SEND_VIEWED: ['general', 'wallet_intro_tour', 'step_view_send'],
-  WALLET_INTRO_SWAP_VIEWED: ['general', 'wallet_intro_tour', 'step_view_swap'],
-  WALLET_INTRO_BUYSELL_VIEWED: [
-    'general',
-    'wallet_intro_tour',
-    'step_view_buysell'
-  ],
-  WALLET_INTRO_AIRDROPS: ['general', 'wallet_intro_tour', 'step_view_airdrops']
-}
-
 export const EXCHANGE_EVENTS = {
   BANNER_GET_STARTED: ['exchange', 'homepage', 'homepage_banner_click'],
   BUY_SELL_LINKOUT_CLICKED: ['exchange', 'buy_sell_page', 'linkout_click'],
