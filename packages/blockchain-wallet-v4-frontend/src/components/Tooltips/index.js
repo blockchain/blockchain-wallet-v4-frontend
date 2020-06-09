@@ -212,12 +212,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Frequently Asked Questions'
           />
         </Tooltip>
-        <Tooltip id='refresh.tooltip'>
-          <FormattedMessage
-            id='refresh.tooltip.description'
-            defaultMessage='Refresh'
-          />
-        </Tooltip>
         <Tooltip id='verifyMessage'>
           <FormattedMessage
             id='modals.verifymessage.tooltip'

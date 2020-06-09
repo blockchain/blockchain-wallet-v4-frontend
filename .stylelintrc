@@ -6,6 +6,7 @@
   ],
   "rules": {
     "property-no-vendor-prefix": null,
+    "media-feature-name-blacklist": ["max-width", "min-width"],
     "no-descending-specificity": null
   }
 }

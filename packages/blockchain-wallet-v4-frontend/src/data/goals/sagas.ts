@@ -35,7 +35,7 @@ import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 import profileSagas from 'data/modules/profile/sagas.ts'
 
-const { GENERAL_EVENTS, TRANSACTION_EVENTS } = model.analytics
+const { TRANSACTION_EVENTS } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const { TIERS, KYC_STATES, DOC_RESUBMISSION_REASONS } = model.profile
@@ -640,9 +640,6 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (welcomeModal) {
       yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
-      return yield put(
-        actions.analytics.logEvent(GENERAL_EVENTS.WALLET_INTRO_OFFERED)
-      )
     }
   }
 

@@ -101,6 +101,7 @@ const DarkTheme: DefaultTheme = {
   // Whites
   white: '#1c1c1c',
   silver: '#838383',
+  alwaysWhite: '#FFFFFF',
   // Blacks
   black: lighten(0.1, '#B1B8C7'),
   textBlack: '#9c9c9c',

@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const SecurityHeader = styled.div`
   display: flex;
   flex-direction: row;
@@ -10,9 +12,9 @@ const SecurityHeader = styled.div`
   font-size: 18px;
   color: ${props => props.theme.grey700};
   width: 100%;
-  @media (min-width: 480px) {
-    font-size: 16px;
-  }
+  ${media.atLeastMobile`
+  font-size: 16px;
+  `}
 
   & > * {
     margin-right: 10px;

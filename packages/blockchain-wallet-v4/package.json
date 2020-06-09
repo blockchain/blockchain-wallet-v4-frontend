@@ -23,32 +23,29 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
+      "src/**/*.ts",
       "!src/**/rootSaga.js",
       "!src/exchange/currencies/*.js",
+      "!src/network/**/*.js",
+      "!src/network/api/**/*.js",
+      "!src/network/api/**/*.ts",
       "!src/network/index.js",
+      "!src/redux/**/**/sagas.js",
+      "!src/redux/**/**/sagas.ts",
       "!src/redux/**/sagaRegister.js",
       "!src/redux/actions.js",
       "!src/redux/actionTypes.js",
+      "!src/redux/middleware.js",
       "!src/redux/reducers.js",
-      "!src/redux/sagas.js",
+      "!src/redux/reducers.js",
       "!src/redux/rootSaga.js",
-      "!src/redux/reducers.js",
-      "!src/redux/middleware.js"
+      "!src/redux/sagas.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4",
     "coverageReporters": [
       "json",
       "html"
     ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": {
-          "ignoreCodes": [
-            2321
-          ]
-        }
-      }
-    },
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
     ],

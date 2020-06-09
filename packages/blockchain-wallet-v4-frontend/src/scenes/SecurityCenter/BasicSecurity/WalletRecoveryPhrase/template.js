@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import {
