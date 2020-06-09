@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`FormError renders correctly 1`] = `
-<styled.text
-  color="error"
-  size="12px"
-  weight={400}
-/>
-`;

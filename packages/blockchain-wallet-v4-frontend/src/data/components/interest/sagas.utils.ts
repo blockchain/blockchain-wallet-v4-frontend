@@ -111,7 +111,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         })
         payment = yield payment.init()
         payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.fee('priority')
+        payment = yield payment.fee('regular')
         break
       case 'PAX':
         payment = coreSagas.payment.eth.create({

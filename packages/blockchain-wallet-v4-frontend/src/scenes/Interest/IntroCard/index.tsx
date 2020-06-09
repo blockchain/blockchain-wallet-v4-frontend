@@ -98,7 +98,7 @@ class IntroCard extends PureComponent<
                       INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
                     )
                   }
-                  style={{ marginTop: '16px' }}
+                  style={{ marginTop: '45px' }}
                 >
                   <FormattedMessage
                     id='buttons.learn_more'
