@@ -19,22 +19,33 @@ import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props, State> {
-  state: State = { displayCoin: true }
+  state: State = { displayCoin: false }
   componentDidMount () {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
-  handleDisplayToggle = () => {
-    this.setState({
-      displayCoin: !this.state.displayCoin
-    })
-    this.props.interestActions.setCoinDisplay(!this.state.displayCoin)
-    this.props.formActions.clearFields(
-      'interestWithdrawalForm',
-      false,
-      false,
-      'withdrawalAmount'
-    )
+  handleCoinClick = () => {
+    !this.state.displayCoin &&
+      this.props.formActions.clearFields(
+        'interestDepositForm',
+        false,
+        false,
+        'depositAmount'
+      )
+    this.setState({ displayCoin: true })
+    this.props.interestActions.setCoinDisplay(true)
+  }
+
+  handleFiatClick = () => {
+    this.state.displayCoin &&
+      this.props.formActions.clearFields(
+        'interestDepositForm',
+        false,
+        false,
+        'depositAmount'
+      )
+    this.setState({ displayCoin: false })
+    this.props.interestActions.setCoinDisplay(false)
   }
 
   handleRefresh = () => {
@@ -49,7 +60,8 @@ class WithdrawalFormContainer extends PureComponent<Props, State> {
           {...val}
           {...this.props}
           displayCoin={this.state.displayCoin}
-          handleDisplayToggle={this.handleDisplayToggle}
+          handleCoinClick={this.handleCoinClick}
+          handleFiatClick={this.handleFiatClick}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
@@ -69,10 +81,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type OwnProps = {
-  handleClose: () => void
-}
 
 export type State = {
   displayCoin: boolean
@@ -99,6 +107,6 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 export default connector(WithdrawalFormContainer)

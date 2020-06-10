@@ -32,10 +32,12 @@ import {
   SendingWrapper,
   Spacer,
   ToggleCoinFiat,
+  ToggleCoinText,
+  ToggleFiatText,
   Top,
   Wrapper
 } from './model'
-import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
+import { LinkDispatchPropsType, State, SuccessStateType } from '.'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
 const FORM_NAME = 'interestWithdrawalForm'
@@ -49,7 +51,8 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     accountBalanceStandard,
     displayCoin,
     formActions,
-    handleDisplayToggle,
+    handleCoinClick,
+    handleFiatClick,
     interestActions,
     invalid,
     lockedCoin,
@@ -263,25 +266,16 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               id='modals.interest.withdrawal.enteramount'
               defaultMessage='Enter withdrawal amount'
             />
-            <ToggleCoinFiat
-              data-e2e='toggleFiatCrypto'
-              onClick={handleDisplayToggle}
-            >
-              {displayCoin ? (
-                <FormattedMessage
-                  id='modals.interest.deposit.showfiat'
-                  defaultMessage='Show {walletCurrency}'
-                  values={{ walletCurrency }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.interest.deposit.showcoin'
-                  defaultMessage='Show {coinTicker}'
-                  values={{ coinTicker }}
-                />
-              )}
-            </ToggleCoinFiat>
           </Text>
+          <ToggleCoinFiat>
+            <ToggleFiatText displayCoin={displayCoin} onClick={handleFiatClick}>
+              {walletCurrency}
+            </ToggleFiatText>
+            |{' '}
+            <ToggleCoinText displayCoin={displayCoin} onClick={handleCoinClick}>
+              {coinTicker}
+            </ToggleCoinText>
+          </ToggleCoinFiat>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -361,25 +355,24 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
-const enhance = compose(
-  reduxForm<{}, Props>({ form: FORM_NAME }),
-  connect(mapStateToProps)
-)
-
 type LinkStatePropsType = {
   values?: InterestWithdrawalFormType
 }
 
-type SuccessOwnProps = {
-  handleClose: () => void
-  handleDisplayToggle: () => void
+type OwnProps = {
+  handleCoinClick: () => void
+  handleFiatClick: () => void
 }
 
-export type Props = SuccessOwnProps &
-  OwnProps &
+export type Props = OwnProps &
   LinkStatePropsType &
   SuccessStateType &
   LinkDispatchPropsType &
   State
+
+const enhance = compose(
+  reduxForm<{}, Props>({ form: FORM_NAME }),
+  connect(mapStateToProps)
+)
 
 export default enhance(WithdrawalForm) as React.FunctionComponent<Props>

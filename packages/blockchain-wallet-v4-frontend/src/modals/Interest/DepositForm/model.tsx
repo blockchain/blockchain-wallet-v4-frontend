@@ -59,7 +59,7 @@ export const PrincipalCcyAbsolute = styled.div`
 export const FiatMaxContainer = styled.div`
   cursor: pointer;
   display: inline-block;
-  padding: 2px;
+  padding: 0px 6px;
   border-radius: 10px;
   background-color: ${props => props.theme.grey000};
 `
@@ -150,6 +150,7 @@ export const ToggleCoinFiat = styled.div`
 export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
   font-size: 14px;
   font-weight: 500;
+  padding-right: 5px;
   cursor: pointer;
   display: inline;
   color: ${props =>
@@ -159,6 +160,7 @@ export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
 export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
   font-size: 14px;
   font-weight: 500;
+  padding-left: 5px;
   cursor: pointer;
   display: inline;
   color: ${props =>

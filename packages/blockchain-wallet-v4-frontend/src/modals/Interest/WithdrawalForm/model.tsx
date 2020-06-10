@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 
 import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel } from 'components/Form'
+import { Form } from 'components/Form'
 
 export const SendingWrapper = styled.div`
   width: 100%;
@@ -63,8 +63,9 @@ export const Bottom = styled(FlyoutWrapper)`
   justify-content: flex-end;
   height: 100%;
 `
-export const CustomFormLabel = styled(FormLabel)`
-  display: block;
+export const CustomFormLabel = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin-top: 24px;
   margin-bottom: 10px;
 `
@@ -98,13 +99,25 @@ export const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
     padding: 15px !important;
   }
 `
-export const ToggleCoinFiat = styled(Text)`
+export const ToggleCoinFiat = styled.div`
+  display: inline;
+`
+export const ToggleFiatText = styled(Text)<{ displayCoin: boolean }>`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  padding-right: 5px;
   cursor: pointer;
   display: inline;
-  padding: 5px;
-  border: 1px solid ${({ theme }) => theme.grey000};
-  margin: 0 0 5px 5px;
+  color: ${props =>
+    props.displayCoin ? props.theme.grey800 : props.theme.blue600};
+`
+
+export const ToggleCoinText = styled(Text)<{ displayCoin: boolean }>`
+  font-size: 14px;
+  font-weight: 500;
+  padding-left: 5px;
+  cursor: pointer;
+  display: inline;
+  color: ${props =>
+    props.displayCoin ? props.theme.blue600 : props.theme.grey800};
 `

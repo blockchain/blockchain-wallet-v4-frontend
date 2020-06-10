@@ -196,7 +196,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   {maxDepositFiat}{' '}
                 </Text>
               )}
-            </FiatMaxContainer>
+            </FiatMaxContainer>{' '}
             <FormattedMessage
               id='modals.interest.deposit.uptoamount2'
               defaultMessage='of {coin} from this wallet.'

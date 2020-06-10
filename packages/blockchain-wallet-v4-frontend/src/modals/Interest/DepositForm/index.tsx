@@ -21,6 +21,10 @@ import Success from './template.success'
 class DepositForm extends PureComponent<Props, State> {
   state: State = { displayCoin: false }
 
+  componentDidMount () {
+    this.handleInitializeDepositForm()
+  }
+
   handleCoinClick = () => {
     !this.state.displayCoin &&
       this.props.formActions.clearFields(
