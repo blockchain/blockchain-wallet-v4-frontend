@@ -18,34 +18,37 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class DepositForm extends PureComponent<Props, State> {
-  state: State = { displayCoin: false }
-
+class DepositForm extends PureComponent<Props> {
   componentDidMount () {
     this.handleInitializeDepositForm()
   }
 
   handleCoinClick = () => {
-    !this.state.displayCoin &&
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    !displayCoin &&
       this.props.formActions.clearFields(
         'interestDepositForm',
         false,
         false,
         'depositAmount'
       )
-    this.setState({ displayCoin: true })
+
     this.props.interestActions.setCoinDisplay(true)
   }
 
   handleFiatClick = () => {
-    this.state.displayCoin &&
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    displayCoin &&
       this.props.formActions.clearFields(
         'interestDepositForm',
         false,
         false,
         'depositAmount'
       )
-    this.setState({ displayCoin: false })
     this.props.interestActions.setCoinDisplay(false)
   }
   handleRefresh = () => {
@@ -75,7 +78,6 @@ class DepositForm extends PureComponent<Props, State> {
           onSubmit={this.handleSubmit}
           handleCoinClick={this.handleCoinClick}
           handleFiatClick={this.handleFiatClick}
-          displayCoin={this.state.displayCoin}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
@@ -97,10 +99,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type State = {
-  displayCoin: boolean
-}
-
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
   formActions: typeof actions.form
@@ -109,6 +107,7 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   coin: CoinType
   depositLimits: InterestMinMaxType
+  displayCoin: boolean
   formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType

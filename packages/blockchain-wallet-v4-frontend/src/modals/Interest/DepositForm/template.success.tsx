@@ -52,7 +52,7 @@ import {
   TopText
 } from './model'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { State, SuccessStateType } from '.'
+import { SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const calcCompoundInterest = (principal, rate, term) => {
@@ -563,8 +563,7 @@ type LinkStatePropsType = {
   values?: InterestDepositFormType
 }
 
-export type Props = State &
-  SuccessStateType &
+export type Props = SuccessStateType &
   ConnectedProps<typeof connector> &
   FormProps
 

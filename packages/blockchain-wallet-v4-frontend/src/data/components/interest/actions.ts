@@ -196,9 +196,9 @@ export const initializeWithdrawalForm = (coin: CoinType) => ({
 })
 export const requestWithdrawal = (
   coin: CoinType,
-  withdrawalAmountCrypto: number
+  withdrawalAmount: number
 ) => ({
-  payload: { coin, withdrawalAmountCrypto },
+  payload: { coin, withdrawalAmount },
   type: AT.REQUEST_WITHDRAWAL
 })
 

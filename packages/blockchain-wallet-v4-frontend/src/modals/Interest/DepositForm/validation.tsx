@@ -4,25 +4,17 @@ import { Props } from './template.success'
 
 export const minDepositAmount = (value, allValues, props: Props) => {
   if (!value) return true
-  if (props.displayCoin) {
-    return new BigNumber(value).isLessThan(props.depositLimits.minCoin)
-      ? 'BELOW_MIN'
-      : false
-  } else {
-    return new BigNumber(value).isLessThan(props.depositLimits.minFiat)
-      ? 'BELOW_MIN'
-      : false
-  }
+  const minDeposit = props.displayCoin
+    ? props.depositLimits.minCoin
+    : props.depositLimits.minFiat
+  return new BigNumber(value).isLessThan(minDeposit) ? 'BELOW_MIN' : false
 }
+
 export const maxDepositAmount = (value, allValues, props: Props) => {
   if (!value) return true
-  if (props.displayCoin) {
-    return new BigNumber(props.depositLimits.maxCoin).isLessThan(value)
-      ? 'ABOVE_MAX'
-      : false
-  } else {
-    return new BigNumber(props.depositLimits.maxFiat).isLessThan(value)
-      ? 'ABOVE_MAX'
-      : false
-  }
+  const maxDeposit = props.displayCoin
+    ? props.depositLimits.maxCoin
+    : props.depositLimits.maxFiat
+
+  return new BigNumber(maxDeposit).isLessThan(value) ? 'ABOVE_MAX' : false
 }

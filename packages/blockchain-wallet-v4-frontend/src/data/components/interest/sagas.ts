@@ -168,30 +168,19 @@ export default ({
     const isDisplayed = S.getCoinDisplay(yield select())
     switch (action.meta.field) {
       case 'depositAmount':
-        if (isDisplayed) {
-          const value = new BigNumber(action.payload).toNumber()
-          let provisionalPayment: PaymentValue = yield call(
-            calculateProvisionalPayment,
-            {
-              ...values.interestDepositAccount,
-              address: values.interestDepositAccount.index
-            },
-            value
-          )
-          yield put(A.setPaymentSuccess(provisionalPayment))
-        } else {
-          const value = new BigNumber(action.payload).dividedBy(rate).toNumber()
+        const value = isDisplayed
+          ? new BigNumber(action.payload).toNumber()
+          : new BigNumber(action.payload).dividedBy(rate).toNumber()
 
-          let provisionalPayment: PaymentValue = yield call(
-            calculateProvisionalPayment,
-            {
-              ...values.interestDepositAccount,
-              address: values.interestDepositAccount.index
-            },
-            value
-          )
-          yield put(A.setPaymentSuccess(provisionalPayment))
-        }
+        let provisionalPayment: PaymentValue = yield call(
+          calculateProvisionalPayment,
+          {
+            ...values.interestDepositAccount,
+            address: values.interestDepositAccount.index
+          },
+          value
+        )
+        yield put(A.setPaymentSuccess(provisionalPayment))
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
@@ -294,15 +283,11 @@ export default ({
   const requestWithdrawal = function * ({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
-    const { coin, withdrawalAmountCrypto } = payload
+    const { coin, withdrawalAmount } = payload
     const FORM = 'interestWithdrawalForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-      yield delay(3000)
-      const withdrawalAmountSats = convertStandardToBase(
-        coin,
-        withdrawalAmountCrypto
-      )
+      const withdrawalAmountSats = convertStandardToBase(coin, withdrawalAmount)
       const receiveAddress = selectors.core.common.btc
         .getNextAvailableReceiveAddress(
           networks.btc,

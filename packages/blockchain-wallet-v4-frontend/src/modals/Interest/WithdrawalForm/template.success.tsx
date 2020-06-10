@@ -37,7 +37,7 @@ import {
   Top,
   Wrapper
 } from './model'
-import { LinkDispatchPropsType, State, SuccessStateType } from '.'
+import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
 const FORM_NAME = 'interestWithdrawalForm'
@@ -46,6 +46,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const {
     accountBalances,
+    availToWithdrawCrypto,
     availToWithdrawFiat,
     coin,
     accountBalanceStandard,
@@ -55,7 +56,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     handleFiatClick,
     interestActions,
     invalid,
-    lockedCoin,
     rates,
     submitting,
     supportedCoins,
@@ -64,7 +64,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   } = props
   const handleFormSubmit = e => {
     e.preventDefault()
-    interestActions.requestWithdrawal(coin, withdrawalAmountForm)
+    interestActions.requestWithdrawal(coin, withdrawalAmountCrypto)
   }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
@@ -93,25 +93,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         value: withdrawalAmount
       }).value
 
-  const withdrawalAmountForm = displayCoin
-    ? withdrawalAmount
-    : Exchange.convertCoinToCoin({
-        value: Exchange.convertFiatToBtc({
-          fromCurrency: walletCurrency,
-          toUnit: 'SAT',
-          rates,
-          value: withdrawalAmount
-        }).value,
-        coin,
-        baseToStandard: true
-      }).value
-
   const interestBalanceStandard = Exchange.convertCoinToCoin({
     value: accountInterestBalance || 0,
     coin: 'BTC',
     baseToStandard: true
   }).value
-  const availToWithdrawCrypto = accountBalanceStandard - lockedCoin
 
   if (!account) return null
 
@@ -367,8 +353,7 @@ type OwnProps = {
 export type Props = OwnProps &
   LinkStatePropsType &
   SuccessStateType &
-  LinkDispatchPropsType &
-  State
+  LinkDispatchPropsType
 
 const enhance = compose(
   reduxForm<{}, Props>({ form: FORM_NAME }),

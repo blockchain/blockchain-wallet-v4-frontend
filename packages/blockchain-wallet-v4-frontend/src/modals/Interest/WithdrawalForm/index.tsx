@@ -18,33 +18,37 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
-class WithdrawalFormContainer extends PureComponent<Props, State> {
-  state: State = { displayCoin: false }
+class WithdrawalFormContainer extends PureComponent<Props> {
   componentDidMount () {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
   handleCoinClick = () => {
-    !this.state.displayCoin &&
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    !displayCoin &&
       this.props.formActions.clearFields(
-        'interestDepositForm',
+        'interestWithdrawalForm',
         false,
         false,
-        'depositAmount'
+        'withdrawalAmount'
       )
-    this.setState({ displayCoin: true })
+
     this.props.interestActions.setCoinDisplay(true)
   }
 
   handleFiatClick = () => {
-    this.state.displayCoin &&
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    displayCoin &&
       this.props.formActions.clearFields(
-        'interestDepositForm',
+        'interestWithdrawalForm',
         false,
         false,
-        'depositAmount'
+        'withdrawalAmount'
       )
-    this.setState({ displayCoin: false })
     this.props.interestActions.setCoinDisplay(false)
   }
 
@@ -59,7 +63,6 @@ class WithdrawalFormContainer extends PureComponent<Props, State> {
         <WithdrawalForm
           {...val}
           {...this.props}
-          displayCoin={this.state.displayCoin}
           handleCoinClick={this.handleCoinClick}
           handleFiatClick={this.handleFiatClick}
         />
@@ -82,17 +85,14 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type State = {
-  displayCoin: boolean
-}
-
 export type SuccessStateType = {
   accountBalanceStandard: number
   accountBalances: InterestAccountBalanceType
+  availToWithdrawCrypto: number
   availToWithdrawFiat: number
   coin: CoinType
+  displayCoin: boolean
   interestLimits: InterestLimitsType
-  lockedCoin: number
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
