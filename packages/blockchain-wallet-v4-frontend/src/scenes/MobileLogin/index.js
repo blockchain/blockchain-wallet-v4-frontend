@@ -36,11 +36,6 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
-)
+const enhance = compose(connect(undefined, mapDispatchToProps))
 
 export default enhance(MobileLoginContainer)

@@ -21,10 +21,7 @@ export const selectLabel = view(label)
 export const fromJS = x =>
   is(AddressBookEntry, x) ? x : new AddressBookEntry(x)
 
-export const toJS = pipe(
-  AddressBookEntry.guard,
-  iToJS
-)
+export const toJS = pipe(AddressBookEntry.guard, iToJS)
 
 export const reviver = jsObject => {
   return new AddressBookEntry(jsObject)

@@ -1,14 +1,16 @@
-import { darken } from 'polished'
 import { Icon } from '../Icons'
 import { propOr } from 'ramda'
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Transition from 'react-transition-group/Transition'
+
+const duration = 200
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 5px;
   background-color: ${props => props.theme.white};
+
   @media (min-width: 768px) {
     width: 450px;
     border-radius: 8px;
@@ -44,9 +46,6 @@ const CustomIcon = styled(Icon)`
 `
 const CloseIcon = styled(Icon)`
   margin-right: 8px;
-  &:hover {
-    color: ${props => darken(0.5, props.theme['grey500'])}!important;
-  }
 `
 
 const selectColor = (type, coin) => {
@@ -62,69 +61,36 @@ const selectColor = (type, coin) => {
   }
 }
 
-const duration = 200
-
-const defaultStyle = {
-  transition: `all ${duration}ms ease-in-out`,
-  transform: 'translate(80px)',
-  opacity: 0
-}
-
-const transitionStyles = {
-  entered: { opacity: 1, transform: 'translate(0)' },
-  exiting: { transform: 'translate(80px)' },
-  exited: { opacity: 0, transform: 'translate(80px)' }
-}
-
 const Toast = props => {
-  const [transitionIn, setTransitionIn] = useState(false)
   const { children, nature, coin, onClose, persist, timeout } = props
   const color = selectColor(nature, coin)
 
   useEffect(() => {
-    setTransitionIn(true)
     if (!persist) {
-      setTimeout(() => handleClose(), timeout - duration)
+      setTimeout(() => onClose(), timeout - duration)
     }
   }, [])
 
-  const handleClose = () => {
-    setTimeout(() => onClose(), duration)
-    setTransitionIn(false)
-  }
-
   return (
-    <Transition in={transitionIn} timeout={duration}>
-      {status => (
-        <Wrapper
-          style={{
-            ...defaultStyle,
-            ...transitionStyles[status]
-          }}
-        >
-          <Container color={color} data-e2e='toastMessage'>
-            <Content>
-              {coin && (
-                <CustomIcon
-                  name={coin.icons.circleFilled}
-                  color={coin.colorCode}
-                />
-              )}
-              {children}
-            </Content>
-            <CloseIcon
-              data-e2e='toastMessageClose'
-              name='close'
-              size='14px'
-              weight={600}
-              color='grey500'
-              cursor
-              onClick={handleClose}
-            />
-          </Container>
-        </Wrapper>
-      )}
-    </Transition>
+    <Wrapper>
+      <Container color={color} data-e2e='toastMessage'>
+        <Content>
+          {coin && (
+            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
+          )}
+          {children}
+        </Content>
+        <CloseIcon
+          data-e2e='toastMessageClose'
+          name='close'
+          size='14px'
+          weight={600}
+          color='grey500'
+          cursor
+          onClick={onClose}
+        />
+      </Container>
+    </Wrapper>
   )
 }
 

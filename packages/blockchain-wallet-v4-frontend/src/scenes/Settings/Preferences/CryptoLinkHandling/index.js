@@ -78,7 +78,4 @@ const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CryptoLinkHandlingContainer)
+export default connect(null, mapDispatchToProps)(CryptoLinkHandlingContainer)

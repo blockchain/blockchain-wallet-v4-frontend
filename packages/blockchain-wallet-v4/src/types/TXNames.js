@@ -7,12 +7,9 @@ export class TXNames extends List {}
 
 export const isTXNames = is(TXNames)
 
-export const toJS = pipe(
-  TXNames.guard,
-  txnames => {
-    return txnames.toArray()
-  }
-)
+export const toJS = pipe(TXNames.guard, txnames => {
+  return txnames.toArray()
+})
 
 export const fromJS = object => {
   if (isTXNames(object)) {

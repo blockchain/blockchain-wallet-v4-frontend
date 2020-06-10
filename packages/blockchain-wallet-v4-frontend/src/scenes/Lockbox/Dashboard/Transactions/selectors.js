@@ -33,12 +33,7 @@ const filterTransactions = curry((searches, transactions) => {
       return isEmpty(searches) || any(containText, searches)
     }
 
-    return compose(
-      checkSearch,
-      toUpper,
-      String,
-      path(property)
-    )(tx)
+    return compose(checkSearch, toUpper, String, path(property))(tx)
   })
   const searchPredicate = anyPass(
     map(search(searches), [

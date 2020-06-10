@@ -6,11 +6,11 @@ import {
 } from 'blockchain-info-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import {
   required,
   validEmail,
-  validPasswordConfirmation
+  validPasswordConfirmation,
+  validStrongPassword
 } from 'services/FormHelper'
 
 import Bowser from 'bowser'
@@ -26,15 +26,6 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
-
-// load zxcvbn dependency async and set on window
-// @ts-ignore
-require.ensure(
-  ['zxcvbn'],
-  // @ts-ignore
-  require => (window.zxcvbn = require('zxcvbn')),
-  'zxcvbn'
-)
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -66,16 +57,6 @@ const PasswordTip = styled(Text)`
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-const validStrongPassword = value =>
-  // @ts-ignore
-  value !== undefined && window.zxcvbn(value).score > 1
-    ? undefined
-    : () => (
-        <FormattedMessage
-          id='scenes.register.invalidstrongpassword'
-          defaultMessage='Your password is not strong enough'
-        />
-      )
 
 const scrollToId = id => {
   const element = document.getElementById(id)
@@ -95,8 +76,7 @@ const SignupForm = ({
   password,
   passwordLength
 }) => {
-  // @ts-ignore
-  let passwordScore = has('zxcvbn', window) ? window.zxcvbn(password).score : 0
+  let passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
   return (
     <RegisterForm override onSubmit={handleSubmit}>
       {!isSupportedBrowser && (

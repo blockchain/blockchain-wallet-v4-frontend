@@ -30,7 +30,4 @@ AddDeviceContainer.propTypes = {
   isBrowserSupported: PropTypes.bool.isRequired
 }
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(AddDeviceContainer)
+export default connect(null, mapDispatchToProps)(AddDeviceContainer)

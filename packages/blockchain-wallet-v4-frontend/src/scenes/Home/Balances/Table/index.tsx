@@ -21,10 +21,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   supportedCoins: SupportedCoinsType

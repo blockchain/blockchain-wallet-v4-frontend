@@ -57,11 +57,7 @@ export const addressToScript = (value, network) => {
     if (value.toLowerCase().startsWith('bc')) {
       const words = decode(value).words
       const version = words[0]
-      const program = compose(
-        Buffer.from,
-        fromWords,
-        w => w.slice(1)
-      )(words)
+      const program = compose(Buffer.from, fromWords, w => w.slice(1))(words)
 
       return compile([OP[`OP_${version}`], program])
     } else {
@@ -261,10 +257,7 @@ export const compressPublicKey = publicKey => {
 }
 
 export const fingerprint = publickey => {
-  let pkh = compose(
-    crypto.ripemd160,
-    crypto.sha256
-  )(publickey)
+  let pkh = compose(crypto.ripemd160, crypto.sha256)(publickey)
   return ((pkh[0] << 24) | (pkh[1] << 16) | (pkh[2] << 8) | pkh[3]) >>> 0
 }
 

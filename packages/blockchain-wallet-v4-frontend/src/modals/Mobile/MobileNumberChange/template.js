@@ -36,7 +36,6 @@ const MobileNumberChange = props => {
     submitting,
     invalid,
     pristine,
-    countryCode,
     smsNumber,
     handleSubmit
   } = props
@@ -68,7 +67,6 @@ const MobileNumberChange = props => {
               name='mobileNumber'
               validate={[validMobileNumber, required]}
               component={PhoneNumberBox}
-              countryCode={countryCode}
               defaultValue={smsNumber}
               errorBottom
             />

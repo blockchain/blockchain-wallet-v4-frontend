@@ -2,6 +2,7 @@ import {
   CoinType,
   CoinTypeEnum,
   FiatType,
+  FiatTypeEnum,
   SBOrderType,
   SBPairsType,
   SBQuoteType
@@ -18,14 +19,14 @@ export const DEFAULT_SB_BALANCES = Object.keys(CoinTypeEnum)
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 
-const splitPair = (
+export const splitPair = (
   pair: SBPairsType
 ): [FiatType | CoinType, '-', FiatType | CoinType] => {
   return pair.split('-') as [FiatType | CoinType, '-', FiatType | CoinType]
 }
 
 export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
-  return splitPair(pair)[0] in CoinTypeEnum ? 'BUY' : 'SELL'
+  return splitPair(pair)[0] in FiatTypeEnum ? 'SELL' : 'BUY'
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {

@@ -348,7 +348,7 @@ export default ({ api, coreSagas }) => {
         selectors.core.wallet.getMnemonic(state, password)
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      const keyPair = utils.xlm.getKeyPair(mnemonic)
+      const keyPair = yield call(utils.xlm.getKeyPair, mnemonic)
       yield put(
         actions.modules.settings.addShownXlmPrivateKey(keyPair.secret())
       )

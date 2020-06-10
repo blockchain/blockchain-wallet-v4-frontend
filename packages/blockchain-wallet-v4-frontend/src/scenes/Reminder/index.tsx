@@ -43,10 +43,7 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

@@ -34,10 +34,7 @@ describe('kvStore ethereum reducers', () => {
   )
 
   const ethMetadataSuccess = Remote.Success(ethMetadata)
-  const valueLens = compose(
-    mapped,
-    KVStoreEntry.value
-  )
+  const valueLens = compose(mapped, KVStoreEntry.value)
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)

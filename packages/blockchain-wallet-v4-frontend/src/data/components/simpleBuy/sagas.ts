@@ -5,18 +5,7 @@ import { actions, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { call, cancel, delay, put, select, take } from 'redux-saga/effects'
 import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
-import {
-  DEFAULT_SB_BALANCES,
-  getCoinFromPair,
-  getFiatFromPair,
-  NO_FIAT_CURRENCY,
-  NO_PAIR_SELECTED
-} from './model'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import {
+  CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -28,7 +17,19 @@ import {
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
+import {
+  DEFAULT_SB_BALANCES,
+  getCoinFromPair,
+  getFiatFromPair,
+  NO_FIAT_CURRENCY,
+  NO_PAIR_SELECTED
+} from './model'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
@@ -409,8 +410,14 @@ export default ({
     try {
       yield put(A.fetchSBPairsLoading())
       yield put(actions.preferences.setSBFiatCurrency(currency))
-      const { pairs } = yield call(api.getSBPairs, currency)
-      yield put(A.fetchSBPairsSuccess(pairs))
+      const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(
+        api.getSBPairs,
+        currency
+      )
+      const filteredPairs = pairs.filter(pair => {
+        return getCoinFromPair(pair.pair) in CoinTypeEnum
+      })
+      yield put(A.fetchSBPairsSuccess(filteredPairs))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBPairsFailure(error))

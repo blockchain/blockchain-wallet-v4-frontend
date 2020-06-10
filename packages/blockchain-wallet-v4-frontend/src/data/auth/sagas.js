@@ -87,6 +87,15 @@ export default ({ api, coreSagas }) => {
     )).getOrElse(false)
     if (userFlowSupported) yield put(actions.modules.profile.signIn())
   }
+
+  const fetchBalances = function * () {
+    yield put(actions.core.data.bch.fetchData())
+    yield put(actions.core.data.btc.fetchData())
+    yield put(actions.core.data.eth.fetchData())
+    yield put(actions.core.data.xlm.fetchData())
+    yield put(actions.core.data.eth.fetchErc20Data('pax'))
+  }
+
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -109,11 +118,13 @@ export default ({ api, coreSagas }) => {
       )
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      // yield call(coreSagas.kvStore.whatsNew.fetchMetadataWhatsnew)
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
       yield put(actions.router.push('/home'))
       yield call(authNabu)
+      yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield call(upgradeAddressLabelsSaga)

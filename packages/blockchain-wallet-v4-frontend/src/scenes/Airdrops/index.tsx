@@ -144,10 +144,7 @@ const mapDispatchToProps = dispatch => ({
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = UserDataType & UserCampaignsType
 type LinkStatePropsType = {

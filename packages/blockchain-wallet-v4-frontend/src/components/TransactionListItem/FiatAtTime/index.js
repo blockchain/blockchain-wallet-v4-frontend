@@ -41,7 +41,4 @@ FiatAtTime.propTypes = {
   currency: PropTypes.string.isRequired
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FiatAtTime)
+export default connect(mapStateToProps, mapDispatchToProps)(FiatAtTime)

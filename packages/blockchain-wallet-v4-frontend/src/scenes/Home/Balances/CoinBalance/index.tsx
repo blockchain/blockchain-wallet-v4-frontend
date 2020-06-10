@@ -51,10 +51,7 @@ const mapDispatchToProps = dispatch => ({
   xlmActions: bindActionCreators(actions.core.data.xlm, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = TableProps & { coin: CoinType }
 type LinkStatePropsType = {

@@ -13,25 +13,14 @@ import { walletPath } from '../paths'
 
 const ImtoJS = i => i.toJS()
 export const getWrapper = prop(walletPath)
-export const getWallet = compose(
-  Wrapper.selectWallet,
-  getWrapper
-)
+export const getWallet = compose(Wrapper.selectWallet, getWrapper)
 export const getDefaultHDWallet = compose(
   HDWalletList.selectHDWallet,
   Wallet.selectHdWallets,
   getWallet
 )
-export const getWalletContext = compose(
-  ImtoJS,
-  Wallet.selectContext,
-  getWallet
-)
-export const getContext = compose(
-  ImtoJS,
-  Wallet.selectContext,
-  getWallet
-)
+export const getWalletContext = compose(ImtoJS, Wallet.selectContext, getWallet)
+export const getContext = compose(ImtoJS, Wallet.selectContext, getWallet)
 export const getSpendableContext = compose(
   ImtoJS,
   Wallet.selectSpendableContext,
@@ -57,14 +46,8 @@ export const getXpubsContext = compose(
   Wallet.selectXpubsContext,
   getWallet
 )
-export const getSharedKey = compose(
-  Wallet.selectSharedKey,
-  getWallet
-)
-export const getGuid = compose(
-  Wallet.selectGuid,
-  getWallet
-)
+export const getSharedKey = compose(Wallet.selectSharedKey, getWallet)
+export const getGuid = compose(Wallet.selectGuid, getWallet)
 export const getAddresses = compose(
   ImtoJS,
   map(Address.toJS),
@@ -92,16 +75,10 @@ export const getHDAccounts = compose(
   getWallet
 )
 export const getSeedHex = curry((state, password) =>
-  compose(
-    Wallet.getSeedHex(password),
-    getWallet
-  )(state)
+  compose(Wallet.getSeedHex(password), getWallet)(state)
 )
 export const getMnemonic = curry((state, password) =>
-  compose(
-    Wallet.getMnemonic(password),
-    getWallet
-  )(state)
+  compose(Wallet.getMnemonic(password), getWallet)(state)
 )
 export const getDefaultAccount = compose(
   HDWallet.selectDefaultAccount,
@@ -112,10 +89,7 @@ export const getDefaultAccountIndex = compose(
   getDefaultHDWallet
 )
 export const getAccount = curry((index, state) =>
-  compose(
-    HDWallet.selectAccount(index),
-    getDefaultHDWallet
-  )(state)
+  compose(HDWallet.selectAccount(index), getDefaultHDWallet)(state)
 )
 export const getAccountXpub = curry((index, state) =>
   compose(
@@ -151,23 +125,18 @@ export const getLogoutTime = compose(
   Wallet.selectOptions,
   getWallet
 )
-export const isSecondPasswordOn = compose(
-  Wallet.isDoubleEncrypted,
-  getWallet
-)
+export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, getWallet)
 export const isMnemonicVerified = compose(
   HDWallet.selectMnemonicVerified,
   getDefaultHDWallet
 )
-export const getMainPassword = compose(
-  Wrapper.selectPassword,
-  getWrapper
-)
+export const getMainPassword = compose(Wrapper.selectPassword, getWrapper)
 export const getPbkdf2Iterations = compose(
   Wrapper.selectPbkdf2Iterations,
   getWrapper
 )
 export const isHdWallet = compose(
+  // @ts-ignore
   wallets => wallets.size > 0,
   Wallet.selectHdWallets,
   getWallet
@@ -177,12 +146,6 @@ export const getSpendableActiveAddresses = compose(
   getWallet
 )
 export const getAddress = curry((address, state) =>
-  compose(
-    Wallet.getAddress(address),
-    getWallet
-  )(state)
+  compose(Wallet.getAddress(address), getWallet)(state)
 )
-export const shouldSyncPubKeys = compose(
-  Wrapper.selectSyncPubKeys,
-  getWrapper
-)
+export const shouldSyncPubKeys = compose(Wrapper.selectSyncPubKeys, getWrapper)

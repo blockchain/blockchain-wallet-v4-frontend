@@ -61,10 +61,7 @@ export const mapDispatchToProps = dispatch => ({
   layoutActions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
-const connector = connect(
-  null,
-  mapDispatchToProps
-)
+const connector = connect(null, mapDispatchToProps)
 
 type OwnProps = {
   currentTab: 'total' | 'wallet' | 'lockbox'

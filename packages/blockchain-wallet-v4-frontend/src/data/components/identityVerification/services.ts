@@ -21,10 +21,7 @@ export const computeSteps = ({
       return false
     if (skipMobile && step === STEPS.mobile) return false
 
-    return compose(
-      both(lte(next), gte(selected)),
-      getStepTier
-    )(step)
+    return compose(both(lte(next), gte(selected)), getStepTier)(step)
   }
   return filter(isStepRequired, values(STEPS))
 }

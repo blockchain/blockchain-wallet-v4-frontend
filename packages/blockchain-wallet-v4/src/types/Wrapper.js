@@ -62,13 +62,10 @@ export const fromJS = x => {
 }
 
 // toJS :: wrapper -> JSON
-export const toJS = pipe(
-  Wrapper.guard,
-  wrapper => {
-    const wrapperDecons = over(wallet, Wallet.toJS)
-    return wrapperDecons(wrapper).toJS()
-  }
-)
+export const toJS = pipe(Wrapper.guard, wrapper => {
+  const wrapperDecons = over(wallet, Wallet.toJS)
+  return wrapperDecons(wrapper).toJS()
+})
 
 export const reviver = jsObject => {
   return new Wrapper(jsObject)
@@ -144,14 +141,8 @@ export const fromEncPayload = curry((password, payload) => {
 export const toEncJSON = wrapper => {
   const plens = lensProp('payload')
   const response = {
-    guid: compose(
-      Wallet.selectGuid,
-      selectWallet
-    )(wrapper),
-    sharedKey: compose(
-      Wallet.selectSharedKey,
-      selectWallet
-    )(wrapper),
+    guid: compose(Wallet.selectGuid, selectWallet)(wrapper),
+    sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
@@ -190,14 +181,7 @@ export const js = (
 
 export const setBothPbkdf2Iterations = curry((iterations, wrapper) =>
   compose(
-    set(
-      compose(
-        wallet,
-        Wallet.options,
-        Options.pbkdf2Iterations
-      ),
-      iterations
-    ),
+    set(compose(wallet, Wallet.options, Options.pbkdf2Iterations), iterations),
     set(pbkdf2Iterations, iterations)
   )(wrapper)
 )

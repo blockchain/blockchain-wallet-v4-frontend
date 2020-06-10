@@ -22,11 +22,7 @@ export default class Type extends eImmutable.Map<{}, {}> {
   }
 
   static define (prop) {
-    let defineProp = prop =>
-      compose(
-        this.lens,
-        iLensProp(prop)
-      )
+    let defineProp = prop => compose(this.lens, iLensProp(prop))
     let propLens = defineProp(prop)
     Object.defineProperty(this.prototype, prop, {
       configurable: false,

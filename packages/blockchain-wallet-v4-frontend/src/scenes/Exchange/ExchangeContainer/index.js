@@ -30,7 +30,4 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ExchangeContainer)
+export default connect(null, mapDispatchToProps)(ExchangeContainer)

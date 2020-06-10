@@ -83,10 +83,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose<any>(
   modalEnhancer('WHATS_NEW_MODAL', { transition: duration }),
-  connect(
-    getData,
-    mapDispatchToProps
-  )
+  connect(getData, mapDispatchToProps)
 )
 
 export default enhance(WhatsNewContainer)

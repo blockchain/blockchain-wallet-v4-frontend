@@ -6,7 +6,7 @@ import wallet from './wallet/sagas'
 import walletOptions from './walletOptions/sagas'
 
 export default ({ api, networks, options }) => ({
-  data: data({ api, options, networks }),
+  data: data({ api, networks }),
   settings: settings({ api }),
   wallet: wallet({ api, networks }),
   walletOptions: walletOptions({ api }),

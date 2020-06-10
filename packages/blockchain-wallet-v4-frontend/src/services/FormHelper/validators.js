@@ -69,6 +69,16 @@ export const validIpList = ipList => {
   )
 }
 
+export const validStrongPassword = value => {
+  return value !== undefined &&
+    window.zxcvbn &&
+    window.zxcvbn(value).score > 1 ? (
+    undefined
+  ) : (
+    <M.InvalidStrongPassword />
+  )
+}
+
 export const validPasswordConfirmation = passwordFieldName => (
   value,
   allValues

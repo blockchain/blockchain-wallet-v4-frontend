@@ -39,7 +39,4 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(SettingContainer)
+export default connect(null, mapDispatchToProps)(SettingContainer)

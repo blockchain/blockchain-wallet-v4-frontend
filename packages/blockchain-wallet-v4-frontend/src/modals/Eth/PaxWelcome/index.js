@@ -81,10 +81,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('PaxWelcome'),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(PaxWelcomeContainer)

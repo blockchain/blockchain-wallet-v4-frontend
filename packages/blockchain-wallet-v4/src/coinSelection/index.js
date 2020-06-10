@@ -57,7 +57,10 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
     const nextAcc = acc + newCoin.value
     return acc > target + partialFee
       ? false
-      : [[nextAcc, partialFee, newCoin], [nextAcc, partialFee, restCoins]]
+      : [
+          [nextAcc, partialFee, newCoin],
+          [nextAcc, partialFee, restCoins]
+        ]
   }
   const partialFee = transactionBytes([], targets) * feePerByte
   const effectiveCoins = filter(

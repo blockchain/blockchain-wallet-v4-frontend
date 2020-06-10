@@ -62,7 +62,4 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(Veriff)
+export default connect(getData, mapDispatchToProps)(Veriff)

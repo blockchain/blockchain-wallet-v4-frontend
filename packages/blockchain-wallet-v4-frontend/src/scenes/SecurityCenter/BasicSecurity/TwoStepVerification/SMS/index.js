@@ -106,7 +106,4 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SmsAuthContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SmsAuthContainer)

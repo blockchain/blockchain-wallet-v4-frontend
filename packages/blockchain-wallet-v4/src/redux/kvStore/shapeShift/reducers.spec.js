@@ -35,10 +35,7 @@ describe('kvStore shapeshift reducers', () => {
   )
 
   const shapeshiftMetadataSuccess = Remote.Success(shapeshiftMetadata)
-  const valueLens = compose(
-    mapped,
-    KVStoreEntry.value
-  )
+  const valueLens = compose(mapped, KVStoreEntry.value)
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
@@ -93,10 +90,7 @@ describe('kvStore shapeshift reducers', () => {
     }
     const action = actions.addTradeMetadataShapeshift(trade)
     const setShapeshiftTrade = append(trade)
-    const tradesLens = compose(
-      valueLens,
-      lensProp('trades')
-    )
+    const tradesLens = compose(valueLens, lensProp('trades'))
     const expectedState = over(
       tradesLens,
       setShapeshiftTrade,

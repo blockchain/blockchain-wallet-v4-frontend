@@ -77,7 +77,4 @@ const mapDispatchToProps = dispatch => ({
   closeAllModals: () => dispatch(actions.modals.closeAllModals())
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(MoreInfo)
+export default connect(undefined, mapDispatchToProps)(MoreInfo)

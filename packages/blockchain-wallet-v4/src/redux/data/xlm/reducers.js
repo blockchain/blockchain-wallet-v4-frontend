@@ -71,10 +71,7 @@ export default (state = INITIAL_STATE, action) => {
         ? assoc('transactions', [Remote.Success(txs)], state)
         : over(
             lensProp('transactions'),
-            compose(
-              append(Remote.Success(txs)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(txs)), dropLast(1)),
             state
           )
     }

@@ -22,7 +22,12 @@ class PageContainer extends React.Component {
       prevProps.children.props.computedMatch.url !==
       this.props.children.props.computedMatch.url
     ) {
-      ReactDOM.findDOMNode(this).scrollTop = 0
+      try {
+        ReactDOM.findDOMNode(this).scrollTop = 0
+      } catch (e) {
+        /* eslint-disable-next-line */
+        console.log(e)
+      }
     }
   }
 

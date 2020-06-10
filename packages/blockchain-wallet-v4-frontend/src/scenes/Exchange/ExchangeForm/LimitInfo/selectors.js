@@ -10,10 +10,7 @@ const {
   getLastVerifiedTier
 } = model.profile
 
-const getLimit = compose(
-  limit => (isNil(limit) ? Infinity : limit),
-  prop
-)
+const getLimit = compose(limit => (isNil(limit) ? Infinity : limit), prop)
 const getMinLimit = limits => {
   const dailyLimit = getLimit('daily', limits)
   const weeklyLimit = getLimit('weekly', limits)
@@ -51,10 +48,7 @@ export const getData = createDeepEqualSelector(
 
     const lastVerifiedTier = getLastVerifiedTier(tiers)
 
-    const limit = compose(
-      reduce(max, 0),
-      map(getMinLimit)
-    )(userLimits)
+    const limit = compose(reduce(max, 0), map(getMinLimit))(userLimits)
 
     const nextTierAvailable = next > last
 

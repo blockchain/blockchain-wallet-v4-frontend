@@ -25,7 +25,4 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FooterContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FooterContainer)

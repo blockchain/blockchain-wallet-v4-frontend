@@ -2,10 +2,7 @@ import * as crypto from '../walletCrypto'
 import { compose, isNil, not, propEq, propSatisfies } from 'ramda'
 import Task from 'data.task'
 
-const isNotNil = compose(
-  not,
-  isNil
-)
+const isNotNil = compose(not, isNil)
 
 const TaskFromPredicate = (predicate, value, errorMsg) =>
   predicate(value) ? Task.of(value) : Task.rejected(errorMsg)

@@ -41,7 +41,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

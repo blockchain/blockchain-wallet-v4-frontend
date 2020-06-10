@@ -49,10 +49,7 @@ const streamingMiddleware = (streamingService, api) => {
           store.dispatch,
           actions.middleware.webSocket.xlm.onStreamMessage
         ),
-        compose(
-          store.dispatch,
-          actions.middleware.webSocket.xlm.onStreamError
-        )
+        compose(store.dispatch, actions.middleware.webSocket.xlm.onStreamError)
       )
     }
     if (type === actionTypes.core.kvStore.xlm.FETCH_METADATA_XLM_SUCCESS) {

@@ -48,10 +48,7 @@ export const SUPPORTED_DOCUMENTS = {
   NATIONAL_IDENTITY_CARD: 'NATIONAL_IDENTITY_CARD'
 }
 
-export const isStateSupported = compose(
-  includes('KYC'),
-  propOr([], 'scopes')
-)
+export const isStateSupported = compose(includes('KYC'), propOr([], 'scopes'))
 
 export const FLOW_TYPES = {
   HIGH: 'HIGH',

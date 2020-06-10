@@ -41,10 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   borrowActions: bindActionCreators(actions.components.borrow, dispatch)
 })
 
-const connector = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void

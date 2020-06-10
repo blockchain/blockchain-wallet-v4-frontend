@@ -5,9 +5,11 @@ import styled from 'styled-components'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Text } from 'blockchain-info-components'
-import IntlTelInput from 'react-intl-tel-input'
+
+const IntlTelInput = React.lazy(() => import('react-intl-tel-input'))
 
 const Container = styled.div`
   position: relative;

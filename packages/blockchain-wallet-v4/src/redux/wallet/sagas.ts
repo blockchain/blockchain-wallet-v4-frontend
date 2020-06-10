@@ -31,12 +31,7 @@ const taskToPromise = t =>
 
 export default ({ api, networks }) => {
   const runTask = function * (task, setActionCreator) {
-    let result = yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
+    let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
   }
 
@@ -131,9 +126,11 @@ export default ({ api, networks }) => {
   const upgradeToHd = function * ({ password }) {
     let wrapper = yield select(S.getWrapper)
     let hdwallets = compose(
+      // @ts-ignore
       i => i.toJS(),
       Wallet.selectHdWallets,
       Wrapper.selectWallet
+      // @ts-ignore
     )(wrapper)
 
     if (isEmpty(hdwallets)) {
@@ -162,6 +159,7 @@ export default ({ api, networks }) => {
           .deriveHardened(i)
           .neutered()
           .toBase58()
+      // @ts-ignore
       const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
       const result = yield call(api.fetchBlockchainData, xpubs, {

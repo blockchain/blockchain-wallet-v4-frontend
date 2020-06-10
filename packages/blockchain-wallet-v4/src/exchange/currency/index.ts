@@ -78,10 +78,7 @@ export const currency = Currency.define('currency')
 
 export const selectValue = view(value)
 export const selectCurrency = view(currency)
-export const selectUnits = compose(
-  prop('units'),
-  selectCurrency
-)
+export const selectUnits = compose(prop('units'), selectCurrency)
 
 export const convert = curry((pairs, toCurrency, currencyObject) =>
   currencyObject.convert(pairs, toCurrency)

@@ -133,10 +133,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
 
 const enhance = compose<any>(
   modalEnhancer('TRANSACTION_REPORT'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(DownloadTransactionsModal)

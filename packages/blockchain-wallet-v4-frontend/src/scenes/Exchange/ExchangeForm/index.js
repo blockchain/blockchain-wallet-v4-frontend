@@ -74,10 +74,7 @@ class ExchangeForm extends React.Component {
               actions.changeTarget,
               extractFieldValue
             )}
-            handleAmountChange={compose(
-              this.changeAmount,
-              extractFieldValue
-            )}
+            handleAmountChange={compose(this.changeAmount, extractFieldValue)}
             handleInputFocus={e => {
               this.clearZero(e, value.inputField)
             }}
@@ -118,10 +115,7 @@ const enhance = compose(
     destroyOnUnmount: true,
     persistentSubmitErrors: true
   }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ExchangeForm)

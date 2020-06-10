@@ -190,10 +190,7 @@ export const getData = (
             .map(x =>
               set(
                 // @ts-ignore
-                compose(
-                  lensIndex(0),
-                  lensProp('options')
-                ),
+                compose(lensIndex(0), lensProp('options')),
                 sort(
                   descend(path(['value', 'balance'])),
                   // @ts-ignore

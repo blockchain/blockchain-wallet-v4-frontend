@@ -16,8 +16,8 @@ export const maximumAmount = (
   value: string,
   allValues: BorrowFormValuesType,
   props:
-    | { step: BorrowSteps.CHECKOUT } & CheckoutProps
-    | { step: BorrowSteps.ADD_COLLATERAL } & AddCollateralProps
+    | ({ step: BorrowSteps.CHECKOUT } & CheckoutProps)
+    | ({ step: BorrowSteps.ADD_COLLATERAL } & AddCollateralProps)
 ) => {
   return new BigNumber(props.limits.maxFiat).isLessThan(Number(value)) ? (
     <FormattedMessage
@@ -33,8 +33,8 @@ export const minimumAmount = (
   value: string,
   allValues: BorrowFormValuesType,
   props:
-    | { step: 'CHECKOUT' } & CheckoutProps
-    | { step: 'ADD_COLLATERAL' } & AddCollateralProps
+    | ({ step: 'CHECKOUT' } & CheckoutProps)
+    | ({ step: 'ADD_COLLATERAL' } & AddCollateralProps)
 ) => {
   if (!value) return true
   switch (props.step) {

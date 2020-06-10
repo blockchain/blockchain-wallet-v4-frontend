@@ -113,10 +113,7 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const enhance = compose<any>(
   modalEnhancer('BORROW_MODAL', { transition: duration }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(Borrow)

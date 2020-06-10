@@ -1,177 +1,168 @@
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { createGlobalStyle } from 'styled-components'
 import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 import { has, map, values } from 'ramda'
-import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Redirect, Switch } from 'react-router-dom'
-import { selectors } from 'data'
-import Addresses from './Settings/Addresses'
-import Airdrops from './Airdrops'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
-import AuthorizeLogin from './AuthorizeLogin'
-import Borrow from './Borrow'
-import Exchange from './Exchange'
-import ExchangeHistory from './ExchangeHistory'
-import ExchangeProfile from './ExchangeProfile'
-import General from './Settings/General'
-import Help from './Help'
-import Home from './Home'
-import Interest from './Interest'
-import Lockbox from './Lockbox'
-import Login from './Login'
-import Logout from './Logout'
-import MobileLogin from './MobileLogin'
-import Preferences from './Settings/Preferences'
-import Profile from './Settings/Profile'
-import PublicLayout from 'layouts/Public'
-import React from 'react'
-import Recover from './Recover'
-import Register from './Register'
-import Reminder from './Reminder'
-import Reset2FA from './Reset2FA'
-import Reset2FAToken from './Reset2FAToken'
-import SecurityCenter from './SecurityCenter'
-import TheExchange from './TheExchange'
-import ThemeProvider from 'providers/ThemeProvider'
-import Transactions from './Transactions'
-import TranslationsProvider from 'providers/TranslationsProvider'
-import UploadDocuments from './UploadDocuments'
-import UploadDocumentsSuccess from './UploadDocuments/Success'
-import VerifyEmailToken from './VerifyEmailToken'
-import WalletLayout from 'layouts/Wallet'
+import React, { Suspense } from 'react'
 
-const GlobalStyle = createGlobalStyle`
-  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-  html, body {overflow: hidden;}
-  /* hide scrollbars */
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-font-smoothing: antialiased;
-  }
-`
+import { MediaContextProvider } from 'providers/MatchMediaProvider'
+import { selectors } from 'data'
+import AnalyticsTracker from 'providers/AnalyticsTracker'
+import ThemeProvider from 'providers/ThemeProvider'
+import TranslationsProvider from 'providers/TranslationsProvider'
+
+import PublicLayout from 'layouts/Public'
+import PublicLoading from './loading.public'
+import WalletLayout from 'layouts/Wallet'
+import WalletLoading from './loading.wallet'
+
+// PUBLIC
+const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
+const Help = React.lazy(() => import('./Help'))
+const Login = React.lazy(() => import('./Login'))
+const Logout = React.lazy(() => import('./Logout'))
+const MobileLogin = React.lazy(() => import('./MobileLogin'))
+const Recover = React.lazy(() => import('./Recover'))
+const Register = React.lazy(() => import('./Register'))
+const Reminder = React.lazy(() => import('./Reminder'))
+const Reset2FA = React.lazy(() => import('./Reset2FA'))
+const Reset2FAToken = React.lazy(() => import('./Reset2FAToken'))
+const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
+const UploadDocumentsSuccess = React.lazy(() =>
+  import('./UploadDocuments/Success')
+)
+const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
+
+// WALLET
+const Addresses = React.lazy(() => import('./Settings/Addresses'))
+const Airdrops = React.lazy(() => import('./Airdrops'))
+const Borrow = React.lazy(() => import('./Borrow'))
+const Exchange = React.lazy(() => import('./Exchange'))
+const ExchangeHistory = React.lazy(() => import('./ExchangeHistory'))
+const ExchangeProfile = React.lazy(() => import('./ExchangeProfile'))
+const General = React.lazy(() => import('./Settings/General'))
+const Home = React.lazy(() => import('./Home'))
+const Interest = React.lazy(() => import('./Interest'))
+const Lockbox = React.lazy(() => import('./Lockbox'))
+const Preferences = React.lazy(() => import('./Settings/Preferences'))
+const Profile = React.lazy(() => import('./Settings/Profile'))
+const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
+const TheExchange = React.lazy(() => import('./TheExchange'))
+const Transactions = React.lazy(() => import('./Transactions'))
 
 class App extends React.PureComponent<Props> {
   render () {
-    const {
-      store,
-      history,
-      persistor,
-      isAuthenticated,
-      supportedCoins
-    } = this.props
+    const { store, history, persistor, isAuthenticated } = this.props
+    const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>
-        <TranslationsProvider>
-          <PersistGate loading={null} persistor={persistor}>
-            <ThemeProvider>
+        <ThemeProvider>
+          <TranslationsProvider>
+            <PersistGate loading={<Loading />} persistor={persistor}>
               <MediaContextProvider>
                 <ConnectedRouter history={history}>
-                  <Switch>
-                    <PublicLayout path='/login' component={Login} />
-                    <PublicLayout path='/logout' component={Logout} />
-                    <PublicLayout path='/help' component={Help} />
-                    <PublicLayout path='/recover' component={Recover} />
-                    <PublicLayout path='/reminder' component={Reminder} />
-                    <PublicLayout path='/reset-2fa' component={Reset2FA} />
-                    <PublicLayout
-                      path='/mobile-login'
-                      component={MobileLogin}
-                    />
-                    <PublicLayout
-                      path='/reset-two-factor'
-                      component={Reset2FAToken}
-                    />
-                    <PublicLayout
-                      path='/verify-email'
-                      component={VerifyEmailToken}
-                    />
-                    <PublicLayout path='/signup' component={Register} />
-                    <PublicLayout
-                      path='/authorize-approve'
-                      component={AuthorizeLogin}
-                    />
-                    <PublicLayout
-                      path='/upload-document/success'
-                      component={UploadDocumentsSuccess}
-                      exact
-                    />
-                    <PublicLayout
-                      path='/upload-document/:token'
-                      component={UploadDocuments}
-                    />
-                    <PublicLayout path='/wallet' component={Login} />
-                    <WalletLayout path='/home' component={Home} />
-                    <WalletLayout
-                      path='/swap/history'
-                      component={ExchangeHistory}
-                    />
-                    <WalletLayout
-                      path='/swap/profile'
-                      component={ExchangeProfile}
-                    />
-                    <WalletLayout path='/airdrops' component={Airdrops} />
-                    <WalletLayout path='/borrow' component={Borrow} />
-                    <WalletLayout path='/swap' component={Exchange} exact />
-                    <WalletLayout path='/exchange' component={TheExchange} />
-                    <WalletLayout
-                      path='/security-center'
-                      component={SecurityCenter}
-                    />
-                    <WalletLayout
-                      path='/settings/preferences'
-                      component={Preferences}
-                    />
-                    <WalletLayout
-                      path='/settings/profile'
-                      component={Profile}
-                    />
-                    <WalletLayout
-                      path='/settings/addresses'
-                      component={Addresses}
-                    />
-                    <WalletLayout
-                      path='/settings/general'
-                      component={General}
-                    />
-                    <WalletLayout path='/lockbox' component={Lockbox} />
-                    <WalletLayout path='/interest' component={Interest} />
-                    {values(
-                      map(
-                        coin =>
-                          coin.txListAppRoute &&
-                          coin.invited && (
-                            <WalletLayout
-                              path={coin.txListAppRoute}
-                              component={Transactions}
-                              coin={coin.coinCode}
-                              isCoinErc20={has('contractAddress', coin)}
-                              // key={coin.coinCode}
-                            />
-                          ),
-                        supportedCoins
-                      )
-                    )}
-                    {isAuthenticated ? (
-                      <Redirect from='/' to='/home' />
-                    ) : (
-                      <Redirect from='/' to='/login' />
-                    )}
-                  </Switch>
+                  <Suspense fallback={<Loading />}>
+                    <Switch>
+                      <PublicLayout
+                        path='/authorize-approve'
+                        component={AuthorizeLogin}
+                      />
+                      <PublicLayout path='/help' component={Help} />
+                      <PublicLayout path='/login' component={Login} />
+                      <PublicLayout path='/logout' component={Logout} />
+                      <PublicLayout
+                        path='/mobile-login'
+                        component={MobileLogin}
+                      />
+                      <PublicLayout path='/recover' component={Recover} />
+                      <PublicLayout path='/reminder' component={Reminder} />
+                      <PublicLayout path='/reset-2fa' component={Reset2FA} />
+                      <PublicLayout
+                        path='/reset-two-factor'
+                        component={Reset2FAToken}
+                      />
+                      <PublicLayout path='/signup' component={Register} />
+                      <PublicLayout
+                        path='/verify-email'
+                        component={VerifyEmailToken}
+                      />
+                      <PublicLayout
+                        path='/upload-document/success'
+                        component={UploadDocumentsSuccess}
+                        exact
+                      />
+                      <PublicLayout
+                        path='/upload-document/:token'
+                        component={UploadDocuments}
+                      />
+                      <PublicLayout path='/wallet' component={Login} />
+                      <WalletLayout path='/airdrops' component={Airdrops} />
+                      <WalletLayout path='/borrow' component={Borrow} />
+                      <WalletLayout path='/exchange' component={TheExchange} />
+                      <WalletLayout path='/home' component={Home} />
+                      <WalletLayout path='/interest' component={Interest} />
+                      <WalletLayout path='/lockbox' component={Lockbox} />
+                      <WalletLayout
+                        path='/security-center'
+                        component={SecurityCenter}
+                      />
+                      <WalletLayout
+                        path='/settings/addresses'
+                        component={Addresses}
+                      />
+                      <WalletLayout
+                        path='/settings/general'
+                        component={General}
+                      />
+                      <WalletLayout
+                        path='/settings/preferences'
+                        component={Preferences}
+                      />
+                      <WalletLayout
+                        path='/settings/profile'
+                        component={Profile}
+                      />
+                      <WalletLayout path='/swap' component={Exchange} exact />
+                      <WalletLayout
+                        path='/swap/history'
+                        component={ExchangeHistory}
+                      />
+                      <WalletLayout
+                        path='/swap/profile'
+                        component={ExchangeProfile}
+                      />
+                      {values(
+                        map(
+                          coin =>
+                            coin.txListAppRoute &&
+                            coin.invited && (
+                              <WalletLayout
+                                path={coin.txListAppRoute}
+                                component={Transactions}
+                                coin={coin.coinCode}
+                                isCoinErc20={has('contractAddress', coin)}
+                                key={coin.coinCode}
+                              />
+                            ),
+                          this.props.supportedCoins
+                        )
+                      )}
+                      {isAuthenticated ? (
+                        <Redirect to='/home' />
+                      ) : (
+                        <Redirect to='/login' />
+                      )}
+                    </Switch>
+                  </Suspense>
                 </ConnectedRouter>
                 <AnalyticsTracker />
                 <FontGlobalStyles />
                 <IconGlobalStyles />
-                <GlobalStyle />
               </MediaContextProvider>
-            </ThemeProvider>
-          </PersistGate>
-        </TranslationsProvider>
+            </PersistGate>
+          </TranslationsProvider>
+        </ThemeProvider>
       </Provider>
     )
   }

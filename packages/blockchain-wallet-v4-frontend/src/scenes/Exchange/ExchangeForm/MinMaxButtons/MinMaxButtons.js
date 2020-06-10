@@ -82,7 +82,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(MinMaxButtons)
+export default connect(getData, mapDispatchToProps)(MinMaxButtons)

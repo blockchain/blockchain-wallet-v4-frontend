@@ -30,10 +30,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('UpgradeWallet'),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(UpgradeWizardContainer)

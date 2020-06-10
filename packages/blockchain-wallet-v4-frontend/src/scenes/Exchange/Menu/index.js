@@ -87,7 +87,4 @@ const mapDispatchToProps = dispatch => ({
   showHelpModal: () => dispatch(actions.modals.showModal('Support'))
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(Menu)
+export default connect(getData, mapDispatchToProps)(Menu)

@@ -232,10 +232,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('SunRiverWelcome'),
-  connect(
-    getData,
-    mapDispatchToProps
-  )
+  connect(getData, mapDispatchToProps)
 )
 
 export default enhance(SunRiverWelcomeContainer)
