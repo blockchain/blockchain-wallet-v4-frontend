@@ -278,7 +278,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     minFiat: displayCoin
                       ? depositLimits.minCoin
-                      : maxDepositFiat
+                      : fiatToString({
+                          value: depositLimits.minFiat,
+                          unit: walletCurrency
+                        })
                   }}
                 />
               )}
