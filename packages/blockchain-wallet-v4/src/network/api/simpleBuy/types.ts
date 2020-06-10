@@ -63,12 +63,12 @@ export type NabuAddressType = {
 }
 
 export type SBCardType = {
-  addedAt: Date
-  address: NabuAddressType
+  addedAt: string
+  address: null | NabuAddressType
   attributes: {}
-  currency: 'EUR'
+  currency: FiatType
   id: string
-  partner: 'EVERYPAY'
+  partner: SBCardPartnerType
 } & (
   | {
       card: {
@@ -82,6 +82,8 @@ export type SBCardType = {
     }
   | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> }
 )
+
+export type SBCardPartnerType = 'EVERYPAY'
 
 export type SBCardStateType =
   | 'PENDING'

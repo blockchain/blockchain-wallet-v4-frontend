@@ -26,6 +26,7 @@ import {
   DEFAULT_SB_BALANCES,
   getCoinFromPair,
   getFiatFromPair,
+  getNextCardExists,
   NO_FIAT_CURRENCY,
   NO_PAIR_SELECTED
 } from './model'
@@ -88,20 +89,7 @@ export default ({
       )
       const existingCardsR = S.getSBCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<SBCardType>)
-      const nextCardAlreadyExists = existingCards.find(card => {
-        if (!card.card) return false
-        if (card.card.number !== formValues['card-number'].slice(-4))
-          return false
-        if (
-          moment(
-            card.card.expireMonth + '/' + card.card.expireYear,
-            'MM/YYYY'
-          ).toString() !== moment(formValues['expiry-date'], 'MM/YY').toString()
-        )
-          return false
-
-        return true
-      })
+      const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
 
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
 

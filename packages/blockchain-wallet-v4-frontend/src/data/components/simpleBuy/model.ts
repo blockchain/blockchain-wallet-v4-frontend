@@ -3,12 +3,15 @@ import {
   CoinTypeEnum,
   FiatType,
   FiatTypeEnum,
+  SBCardType,
   SBOrderType,
   SBPairsType,
   SBQuoteType
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { SBAddCardFormValuesType } from './types'
+import moment from 'moment'
 
 export const DEFAULT_SB_BALANCES = Object.keys(CoinTypeEnum)
   .filter(key => !isNaN(Number(CoinTypeEnum[key])))
@@ -57,4 +60,29 @@ export const getOutputAmount = (
   } else {
     return 'Not yet implemented'
   }
+}
+
+export const getNextCardExists = (
+  existingCards: Array<SBCardType>,
+  formValues: SBAddCardFormValuesType
+) => {
+  return existingCards.find(card => {
+    if (
+      card.state === 'BLOCKED' ||
+      card.state === 'FRAUD_REVIEW' ||
+      card.state === 'CREATED'
+    )
+      return false
+    if (!card.card) return false
+    if (card.card.number !== formValues['card-number'].slice(-4)) return false
+    if (
+      moment(
+        card.card.expireMonth + '/' + card.card.expireYear,
+        'MM/YYYY'
+      ).toString() !== moment(formValues['expiry-date'], 'MM/YY').toString()
+    )
+      return false
+
+    return true
+  })
 }
