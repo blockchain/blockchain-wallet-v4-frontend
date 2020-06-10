@@ -2,6 +2,7 @@ import {
   CoinType,
   CoinTypeEnum,
   FiatType,
+  FiatTypeEnum,
   SBOrderType,
   SBPairsType,
   SBQuoteType
@@ -25,7 +26,7 @@ export const splitPair = (
 }
 
 export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
-  return splitPair(pair)[0] in CoinTypeEnum ? 'BUY' : 'SELL'
+  return splitPair(pair)[0] in FiatTypeEnum ? 'SELL' : 'BUY'
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {

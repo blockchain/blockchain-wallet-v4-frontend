@@ -27,8 +27,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   NO_FIAT_CURRENCY,
-  NO_PAIR_SELECTED,
-  splitPair
+  NO_PAIR_SELECTED
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
@@ -415,13 +414,9 @@ export default ({
         api.getSBPairs,
         currency
       )
-      // 🚨 Start Hack!!! 🚨
-      // BE can send unsupported coin pairs
-      // This will need to change when we do SELL!
       const filteredPairs = pairs.filter(pair => {
-        return splitPair(pair.pair)[0] in CoinTypeEnum
+        return getCoinFromPair(pair.pair) in CoinTypeEnum
       })
-      // 🚨 End Hack!!! 🚨
       yield put(A.fetchSBPairsSuccess(filteredPairs))
     } catch (e) {
       const error = errorHandler(e)

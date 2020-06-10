@@ -49,6 +49,30 @@ export enum CoinTypeEnum {
   PAX,
   XLM
 }
+export enum FiatTypeEnum {
+  EUR,
+  USD,
+  AUD,
+  BRL,
+  CAD,
+  CHF,
+  CLP,
+  CNY,
+  DKK,
+  GBP,
+  HKD,
+  INR,
+  ISK,
+  JPY,
+  KRW,
+  NZD,
+  PLN,
+  RUB,
+  SEK,
+  SGD,
+  THB,
+  TWD
+}
 export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
 export type FiatType = keyof FiatCurrenciesType
