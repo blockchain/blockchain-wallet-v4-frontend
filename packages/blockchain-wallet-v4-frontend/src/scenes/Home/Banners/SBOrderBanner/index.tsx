@@ -69,26 +69,12 @@ const BannerButton = styled(Button)`
 `
 
 class SBOrderBanner extends PureComponent<Props> {
-  showModal = (latestPendingOrder: SBOrderType) => {
-    if (!latestPendingOrder) return
+  showModal = () => {
     this.props.simpleBuyActions.showModal('PendingOrder')
-    this.props.simpleBuyActions.setStep({
-      step:
-        latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
-          : 'ORDER_SUMMARY',
-      order: latestPendingOrder
-    })
   }
 
   render () {
-    const latestPendingOrder = this.props.orders.find(order => {
-      return (
-        order.state === 'PENDING_CONFIRMATION' ||
-        order.state === 'PENDING_DEPOSIT' ||
-        order.state === 'DEPOSIT_MATCHED'
-      )
-    })
+    const { latestPendingOrder } = this.props
 
     if (!latestPendingOrder) return null
 
@@ -121,7 +107,7 @@ class SBOrderBanner extends PureComponent<Props> {
           </Column>
         </Row>
         <BannerButton
-          onClick={() => this.showModal(latestPendingOrder)}
+          onClick={() => this.showModal()}
           jumbo
           data-e2e='openPendingSBOrder'
           nature='primary'
@@ -137,7 +123,9 @@ class SBOrderBanner extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(
+    state
+  )
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -148,7 +136,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  orders: Array<SBOrderType>
+  latestPendingOrder?: SBOrderType
 }
 type Props = ConnectedProps<typeof connector>
 

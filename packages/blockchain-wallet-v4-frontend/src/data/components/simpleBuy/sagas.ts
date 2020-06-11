@@ -383,8 +383,6 @@ export default ({
   }: ReturnType<typeof A.fetchSBOrders>) {
     try {
       const { skipLoading } = payload
-      if (!(yield call(isTier2))) return
-
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
@@ -688,9 +686,21 @@ export default ({
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
     const fiatCurrency = selectors.preferences.getSBFiatCurrency(yield select())
+    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     if (!fiatCurrency) {
       yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
+    } else if (latestPendingOrder) {
+      const step =
+        latestPendingOrder.state === 'PENDING_CONFIRMATION'
+          ? 'CHECKOUT_CONFIRM'
+          : 'ORDER_SUMMARY'
+      yield put(
+        A.setStep({
+          step,
+          order: latestPendingOrder
+        })
+      )
     } else {
       yield put(
         A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
