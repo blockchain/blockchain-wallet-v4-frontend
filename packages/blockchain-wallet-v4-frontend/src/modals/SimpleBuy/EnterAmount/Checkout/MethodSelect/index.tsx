@@ -90,6 +90,8 @@ class MethodSelect extends PureComponent<Props> {
             ? value.card.label
             : value.card.type
           : 'Credit or Debit Card'
+      case 'FUNDS':
+        return ''
     }
   }
 
@@ -118,6 +120,8 @@ class MethodSelect extends PureComponent<Props> {
             src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
           />
         )
+      case 'FUNDS':
+        return <></>
     }
   }
 

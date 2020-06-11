@@ -173,7 +173,8 @@ export default ({
   }
 
   const createSBOrder = function * ({
-    paymentMethodId
+    paymentMethodId,
+    paymentType
   }: ReturnType<typeof A.createSBOrder>) {
     try {
       const values: SBCheckoutFormValuesType = yield select(
@@ -192,7 +193,8 @@ export default ({
         true,
         { amount, symbol: getFiatFromPair(pair.pair) },
         { symbol: getCoinFromPair(pair.pair) },
-        paymentMethodId
+        paymentMethodId,
+        paymentType
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))

@@ -10,6 +10,7 @@ import {
   SBPairsType,
   SBPairType,
   SBPaymentMethodsType,
+  SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
   SBSuggestedAmountType
@@ -73,7 +74,8 @@ export default ({
     output: {
       symbol: CoinType
     },
-    paymentMethodId?: SBCardType['id']
+    paymentMethodId?: SBCardType['id'],
+    paymentType?: SBPaymentMethodType['type']
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -85,7 +87,8 @@ export default ({
         action,
         input,
         output,
-        paymentMethodId
+        paymentMethodId,
+        paymentType
       }
     })
 

@@ -11,6 +11,7 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
+  SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
   SBSuggestedAmountType
@@ -69,9 +70,13 @@ export const cancelSBOrder = (order: SBOrderType) => ({
   order
 })
 
-export const createSBOrder = (paymentMethodId?: SBCardType['id']) => ({
+export const createSBOrder = (
+  paymentMethodId?: SBCardType['id'],
+  paymentType?: SBPaymentMethodType['type']
+) => ({
   type: AT.CREATE_ORDER,
-  paymentMethodId
+  paymentMethodId,
+  paymentType
 })
 
 export const confirmSBBankTransferOrder = () => ({
