@@ -382,6 +382,7 @@ export default ({
     payload
   }: ReturnType<typeof A.fetchSBOrders>) {
     try {
+      yield call(waitForUserData)
       const { skipLoading } = payload
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
