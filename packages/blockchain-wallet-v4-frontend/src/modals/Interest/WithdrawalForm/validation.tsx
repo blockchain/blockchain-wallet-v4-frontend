@@ -1,3 +1,4 @@
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import React from 'react'
@@ -22,12 +23,23 @@ export const maximumWithdrawalAmount = (
   )
 }
 
-export const minimumWithdrawalAmount = (value: string) => {
-  // someday there may be a minimum withdrawal amount
-  const MIN_WITHDRAWAL = 0
-  return new BigNumber(Number(MIN_WITHDRAWAL)).isGreaterThanOrEqualTo(
-    Number(value)
-  ) ? (
+export const minimumWithdrawalAmount = (
+  value: string,
+  allValues: InterestWithdrawalFormType,
+  props: any
+) => {
+  // withdrawal min across all products .0005 BTC
+  const MIN_WITHDRAWAL = 0.0005
+  const withdrawalMin = props.displayCoin
+    ? MIN_WITHDRAWAL
+    : Exchange.convertCoinToFiat(
+        MIN_WITHDRAWAL,
+        props.coin,
+        props.walletCurrency,
+        props.rates
+      )
+
+  return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.belowmin'
       defaultMessage='Amount is below the minimum withdrawal amount.'
