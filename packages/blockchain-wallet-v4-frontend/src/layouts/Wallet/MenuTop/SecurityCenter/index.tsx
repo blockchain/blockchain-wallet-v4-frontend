@@ -17,17 +17,38 @@ const StyledNavbarNavItemTextHeader = styled(NavbarNavItemTextHeader)`
   `}
 `
 
+const StyledNavbarNavItem = styled(NavbarNavItem)`
+  &:first-child {
+    ${media.laptopM`
+      padding: 4px 16px;
+      margin: 0 -2px;
+    `}
+
+    ${media.laptop`
+      padding: 0 16px;
+      margin: 0 2px;
+    `}
+
+    ${media.tablet`
+      padding: 0px 8px;
+      &:last-child {
+        padding-right: 0px;
+      }
+    `}   
+  }
+`
+
 const SecurityCenter = () => {
   return (
     <LinkContainer activeClassName='active' to='/security-center'>
-      <NavbarNavItem>
+      <StyledNavbarNavItem>
         <NavbarNavItemButton data-e2e='securityCenterLink'>
           <NavbarNavItemIcon persist size='18px' name='shield' />
           <StyledNavbarNavItemTextHeader size='14px' weight={600}>
             <FormattedMessage id='buttons.security' defaultMessage='Security' />
           </StyledNavbarNavItemTextHeader>
         </NavbarNavItemButton>
-      </NavbarNavItem>
+      </StyledNavbarNavItem>
     </LinkContainer>
   )
 }

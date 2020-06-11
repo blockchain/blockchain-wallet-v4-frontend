@@ -94,7 +94,7 @@ export const NavbarNavItem = styled.li`
     &:last-child {
       padding-right: 0px;
     }
-`}
+  `}
 `
 
 export const NavbarDivider = styled.div`

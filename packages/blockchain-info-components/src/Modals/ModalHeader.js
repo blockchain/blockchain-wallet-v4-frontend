@@ -20,6 +20,10 @@ const Wrapper = styled.div`
   & > :first-child {
     margin-right: 10px;
   }
+
+  @media (max-width: 425px) {
+    padding: 16px 16px;
+  }
 `
 const Header = styled.div`
   display: flex;

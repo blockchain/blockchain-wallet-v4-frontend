@@ -9,8 +9,7 @@ const BaseModalBody = styled.div`
   padding: ${props => (props.tray ? '60px 15%' : '25px 30px')};
   box-sizing: border-box;
   @media (max-width: 425px) {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 16px 18px;
   }
 `
 const SplashScreen = styled.div`

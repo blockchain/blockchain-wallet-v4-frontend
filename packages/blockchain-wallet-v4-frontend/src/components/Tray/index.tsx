@@ -23,7 +23,9 @@ const TrayModal = styled(Modal)`
   overflow: hidden;
   position: absolute;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  /* stylelint-disable-next-line */
+  min-height: -webkit-fill-available;
   color: ${props => props.theme.grey700};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -60,7 +62,6 @@ const TrayModal = styled(Modal)`
     left: 0px;
   `};
   ${media.mobile`
-    height: calc(100vh - 60px):
     padding-top: 20px;
     padding-bottom: 20px;
   `};
