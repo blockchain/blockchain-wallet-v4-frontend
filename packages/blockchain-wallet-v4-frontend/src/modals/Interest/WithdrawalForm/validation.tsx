@@ -10,9 +10,10 @@ export const maximumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  const withdrawalLimit = props.displayCoin
-    ? props.availToWithdrawCrypto
-    : props.availToWithdrawFiat
+  const { displayCoin, availToWithdrawCrypto, availToWithdrawFiat } = props
+  const withdrawalLimit = displayCoin
+    ? availToWithdrawCrypto
+    : availToWithdrawFiat
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'
@@ -29,15 +30,11 @@ export const minimumWithdrawalAmount = (
   props: any
 ) => {
   // withdrawal min across all products .0005 BTC
+  const { coin, displayCoin, rates, walletCurrency } = props
   const MIN_WITHDRAWAL = 0.0005
-  const withdrawalMin = props.displayCoin
+  const withdrawalMin = displayCoin
     ? MIN_WITHDRAWAL
-    : Exchange.convertCoinToFiat(
-        MIN_WITHDRAWAL,
-        props.coin,
-        props.walletCurrency,
-        props.rates
-      )
+    : Exchange.convertCoinToFiat(MIN_WITHDRAWAL, coin, walletCurrency, rates)
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage
