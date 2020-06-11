@@ -28,7 +28,7 @@ const DeviceInfoHeader = styled.div`
   justify-content: flex-start;
   align-items: center;
   ${media.mobile`
-  justify-content: flex-start;`}
+  justify-content: center;`}
 `
 const DeviceDiff = styled.div`
   margin-top: 10px;
@@ -63,7 +63,6 @@ const ApproveWrapper = styled.div`
   justify-content: center;
   margin-top: 20px;
   align-items: center;
-
   > div:nth-child(2) {
     margin: 0px 5px;
   }
