@@ -96,7 +96,7 @@
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.2",
-    "moment": "2.24.0",
+    "moment": "2.26.0",
     "postal-codes-js": "2.0.0",
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
