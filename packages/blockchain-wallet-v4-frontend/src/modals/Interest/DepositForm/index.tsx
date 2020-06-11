@@ -23,34 +23,21 @@ class DepositForm extends PureComponent<Props> {
     this.handleInitializeDepositForm()
   }
 
-  handleCoinClick = () => {
+  handleDisplayToggle = isCoin => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
     })
-    !displayCoin &&
-      this.props.formActions.clearFields(
-        'interestDepositForm',
-        false,
-        false,
-        'depositAmount'
-      )
+    if (isCoin === displayCoin) return
+    this.props.formActions.clearFields(
+      'interestDepositForm',
+      false,
+      false,
+      'depositAmount'
+    )
 
-    this.props.interestActions.setCoinDisplay(true)
+    this.props.interestActions.setCoinDisplay(isCoin)
   }
 
-  handleFiatClick = () => {
-    const { displayCoin } = this.props.data.getOrElse({
-      displayCoin: false
-    })
-    displayCoin &&
-      this.props.formActions.clearFields(
-        'interestDepositForm',
-        false,
-        false,
-        'depositAmount'
-      )
-    this.props.interestActions.setCoinDisplay(false)
-  }
   handleRefresh = () => {
     this.handleInitializeDepositForm()
   }
@@ -76,8 +63,7 @@ class DepositForm extends PureComponent<Props> {
           {...val}
           {...this.props}
           onSubmit={this.handleSubmit}
-          handleCoinClick={this.handleCoinClick}
-          handleFiatClick={this.handleFiatClick}
+          handleDisplayToggle={this.handleDisplayToggle}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,

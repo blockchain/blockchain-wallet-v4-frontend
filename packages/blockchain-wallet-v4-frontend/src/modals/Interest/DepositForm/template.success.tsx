@@ -74,8 +74,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     displayCoin,
     formActions,
     formErrors,
-    handleCoinClick,
-    handleFiatClick,
+    handleDisplayToggle,
     interestActions,
     interestLimits,
     interestRate,
@@ -222,11 +221,17 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />{' '}
           </Text>
           <ToggleCoinFiat>
-            <ToggleFiatText displayCoin={displayCoin} onClick={handleFiatClick}>
+            <ToggleFiatText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(false)}
+            >
               {walletCurrency}
             </ToggleFiatText>
             |{' '}
-            <ToggleCoinText displayCoin={displayCoin} onClick={handleCoinClick}>
+            <ToggleCoinText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(true)}
+            >
               {coinTicker}
             </ToggleCoinText>
           </ToggleCoinFiat>
@@ -571,8 +576,7 @@ export type Props = SuccessStateType &
   FormProps
 
 type FormProps = {
-  handleCoinClick: () => void
-  handleFiatClick: () => void
+  handleDisplayToggle: (boolean) => void
   onSubmit: () => void
 }
 

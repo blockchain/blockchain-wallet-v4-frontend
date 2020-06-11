@@ -23,33 +23,18 @@ class WithdrawalFormContainer extends PureComponent<Props> {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
-  handleCoinClick = () => {
+  handleDisplayToggle = isCoin => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
     })
-    !displayCoin &&
-      this.props.formActions.clearFields(
-        'interestWithdrawalForm',
-        false,
-        false,
-        'withdrawalAmount'
-      )
-
-    this.props.interestActions.setCoinDisplay(true)
-  }
-
-  handleFiatClick = () => {
-    const { displayCoin } = this.props.data.getOrElse({
-      displayCoin: false
-    })
-    displayCoin &&
-      this.props.formActions.clearFields(
-        'interestWithdrawalForm',
-        false,
-        false,
-        'withdrawalAmount'
-      )
-    this.props.interestActions.setCoinDisplay(false)
+    if (isCoin === displayCoin) return
+    this.props.formActions.clearFields(
+      'interestWithdrawalForm',
+      false,
+      false,
+      'withdrawalAmount'
+    )
+    this.props.interestActions.setCoinDisplay(isCoin)
   }
 
   handleRefresh = () => {
@@ -63,8 +48,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
         <WithdrawalForm
           {...val}
           {...this.props}
-          handleCoinClick={this.handleCoinClick}
-          handleFiatClick={this.handleFiatClick}
+          handleDisplayToggle={this.handleDisplayToggle}
         />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
@@ -86,7 +70,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
-  accountBalanceStandard: number
   accountBalances: InterestAccountBalanceType
   availToWithdrawCrypto: number
   availToWithdrawFiat: number

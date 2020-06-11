@@ -49,11 +49,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     availToWithdrawCrypto,
     availToWithdrawFiat,
     coin,
-    accountBalanceStandard,
     displayCoin,
     formActions,
-    handleCoinClick,
-    handleFiatClick,
+    handleDisplayToggle,
     interestActions,
     invalid,
     rates,
@@ -93,9 +91,15 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         value: withdrawalAmount
       }).value
 
+  const accountBalanceStandard = Exchange.convertCoinToCoin({
+    value: (account && account.balance) || 0,
+    coin,
+    baseToStandard: true
+  }).value
+
   const interestBalanceStandard = Exchange.convertCoinToCoin({
     value: accountInterestBalance || 0,
-    coin: 'BTC',
+    coin,
     baseToStandard: true
   }).value
 
@@ -254,11 +258,17 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             />
           </Text>
           <ToggleCoinFiat>
-            <ToggleFiatText displayCoin={displayCoin} onClick={handleFiatClick}>
+            <ToggleFiatText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(false)}
+            >
               {walletCurrency}
             </ToggleFiatText>
             |{' '}
-            <ToggleCoinText displayCoin={displayCoin} onClick={handleCoinClick}>
+            <ToggleCoinText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(true)}
+            >
               {coinTicker}
             </ToggleCoinText>
           </ToggleCoinFiat>
@@ -346,8 +356,7 @@ type LinkStatePropsType = {
 }
 
 type OwnProps = {
-  handleCoinClick: () => void
-  handleFiatClick: () => void
+  handleDisplayToggle: (boolean) => void
 }
 
 export type Props = OwnProps &
