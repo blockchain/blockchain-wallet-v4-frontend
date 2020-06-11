@@ -1,5 +1,6 @@
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import media from 'services/ResponsiveService'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
@@ -10,9 +11,13 @@ const Wrapper = styled.div`
   text-align: center;
   align-items: center;
   flex-direction: column;
+  height: 100%;
 `
 const InfoWrapper = styled.div`
+  width: 100%;
   text-align: left;
+  ${media.mobile`
+  text-align: center;`}
 `
 const DeviceInfoWrapper = styled.div`
   margin-top: 20px;
@@ -20,6 +25,10 @@ const DeviceInfoWrapper = styled.div`
 const DeviceInfoHeader = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  ${media.mobile`
+  justify-content: flex-start;`}
 `
 const DeviceDiff = styled.div`
   margin-top: 10px;
@@ -27,18 +36,47 @@ const DeviceDiff = styled.div`
 const DeviceInfoRow = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  padding: 0px;
   align-items: center;
   margin-top: 5px;
+  ${media.mobile` 
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 10px;
+`}
+`
+const DeviceInfoTitleRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+const OrText = styled(Text)`
+  visibility: visible;
+  ${media.mobile` 
+  visibility: hidden;
+`}
 `
 const ApproveWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
   margin-top: 20px;
+  align-items: center;
+
   > div:nth-child(2) {
     margin: 0px 5px;
   }
+  ${media.mobile` 
+  flex-direction: column;
+`}
+`
+
+const ApproveRejectButtons = styled(Button)`
+  margin: 8px;
+  ${media.mobile` 
+  margin: 0;
+`}
 `
 
 const Title = styled(Text)`
@@ -120,24 +158,26 @@ const Success = props => {
               </DeviceInfoHeader>
               <DeviceDiff>
                 <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_device_description ===
-                  requester_device_description ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close" color="error" size="22px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.browser"
-                      defaultMessage="Browser: "
-                    />
-                  </Text>
+                  <DeviceInfoTitleRow>
+                    {/* eslint-disable */}
+                    {approver_device_description ===
+                    requester_device_description ? (
+                      <Icon
+                        name="checkmark-in-circle-filled"
+                        color="success"
+                        size="15px"
+                      />
+                    ) : (
+                      <Icon name="close" color="error" size="22px" />
+                    )}
+                    &nbsp;
+                    <Text size="14px" style={{ paddingLeft: '6px' }}>
+                      <FormattedMessage
+                        id="scenes.authorizelogin.browser"
+                        defaultMessage="Browser: "
+                      />
+                    </Text>
+                  </DeviceInfoTitleRow>
                   <Banner type="success" inline>
                     {approver_device_description}
                   </Banner>
@@ -150,23 +190,25 @@ const Success = props => {
                   {/* eslint-enable */}
                 </DeviceInfoRow>
                 <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_ip === requester_ip ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close" color="error" size="22px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.ipaddress"
-                      defaultMessage="IP Address: "
-                    />
-                  </Text>
+                  <DeviceInfoTitleRow>
+                    {/* eslint-disable */}
+                    {approver_ip === requester_ip ? (
+                      <Icon
+                        name="checkmark-in-circle-filled"
+                        color="success"
+                        size="13px"
+                      />
+                    ) : (
+                      <Icon name="close" color="error" size="22px" />
+                    )}
+                    &nbsp;
+                    <Text size="14px">
+                      <FormattedMessage
+                        id="scenes.authorizelogin.ipaddress"
+                        defaultMessage="IP Address: "
+                      />
+                    </Text>
+                  </DeviceInfoTitleRow>
                   <Banner type="success" inline>
                     {approver_ip}
                   </Banner>
@@ -178,23 +220,25 @@ const Success = props => {
                   {/* eslint-enable */}
                 </DeviceInfoRow>
                 <DeviceInfoRow>
-                  {/* eslint-disable */}
-                  {approver_country === requester_country ? (
-                    <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="13px"
-                    />
-                  ) : (
-                    <Icon name="close" color="error" size="22px" />
-                  )}
-                  &nbsp;
-                  <Text size="14px">
-                    <FormattedMessage
-                      id="scenes.authorizelogin.country"
-                      defaultMessage="Country of Origin: "
-                    />
-                  </Text>
+                  <DeviceInfoTitleRow>
+                    {/* eslint-disable */}
+                    {approver_country === requester_country ? (
+                      <Icon
+                        name="checkmark-in-circle-filled"
+                        color="success"
+                        size="13px"
+                      />
+                    ) : (
+                      <Icon name="close" color="error" size="22px" />
+                    )}
+                    &nbsp;
+                    <Text size="14px">
+                      <FormattedMessage
+                        id="scenes.authorizelogin.country"
+                        defaultMessage="Country of Origin: "
+                      />
+                    </Text>
+                  </DeviceInfoTitleRow>
                   <Banner type="success" inline>
                     {approver_country}
                   </Banner>
@@ -208,26 +252,24 @@ const Success = props => {
               </DeviceDiff>
             </DeviceInfoWrapper>
             <ApproveWrapper>
-              <Button nature='warning' onClick={props.onAccept}>
+              <ApproveRejectButtons nature='warning' onClick={props.onAccept}>
                 <FormattedMessage
                   id='scenes.authorizelogin.accept'
                   defaultMessage='Accept'
                 />
-              </Button>
-              &nbsp;
-              <Text size='12px' weight={400}>
+              </ApproveRejectButtons>
+              <OrText size='12px' weight={400}>
                 <FormattedMessage
                   id='scenes.authorizelogin.or'
                   defaultMessage='Or'
                 />
-              </Text>
-              &nbsp;
-              <Button nature='primary' onClick={props.onReject}>
+              </OrText>
+              <ApproveRejectButtons nature='primary' onClick={props.onReject}>
                 <FormattedMessage
                   id='scenes.authorizelogin.reject'
                   defaultMessage='Reject'
                 />
-              </Button>
+              </ApproveRejectButtons>
             </ApproveWrapper>
           </InfoWrapper>
         </Fragment>

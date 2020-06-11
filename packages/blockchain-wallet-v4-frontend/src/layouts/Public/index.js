@@ -45,15 +45,19 @@ const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 `
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0 32px;
+
   z-index: 1;
   max-width: 100%;
+
+  ${media.mobile`
+    padding: 0 15px;
+  `}
 `
 
 const PublicLayoutContainer = ({ component: Component, ...rest }) => (
