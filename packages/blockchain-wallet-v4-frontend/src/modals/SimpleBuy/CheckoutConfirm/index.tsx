@@ -40,6 +40,10 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.simpleBuyActions.confirmSBCreditCardOrder(
         this.props.order.paymentMethodId
       )
+    } else if (this.props.order.paymentType === 'PAYMENT_CARD') {
+      this.props.simpleBuyActions.setStep({
+        step: 'ADD_CARD'
+      })
     } else {
       this.props.simpleBuyActions.confirmSBBankTransferOrder()
     }

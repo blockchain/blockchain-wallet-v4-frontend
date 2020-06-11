@@ -626,8 +626,15 @@ export default ({
         return
       case 'ACTIVE':
         const skipLoading = true
+        const order = S.getSBOrder(yield select())
         yield put(A.fetchSBCards(skipLoading))
-        return yield put(A.createSBOrder(card.id))
+        // If the order was already created
+        // TODO: test locally!
+        if (order) {
+          return yield put(A.confirmSBCreditCardOrder(card.id))
+        } else {
+          return yield put(A.createSBOrder(card.id))
+        }
       default:
         yield call(pollSBCardErrorHandler, card.state)
     }
@@ -661,16 +668,10 @@ export default ({
   }
 
   const pollSBOrdersAndBalances = function * () {
-    let retryAttempts = 0
-    const maxRetryAttempts = 10
     const skipLoading = true
 
-    while (retryAttempts <= maxRetryAttempts) {
-      yield put(A.fetchSBOrders(skipLoading))
-      yield put(A.fetchSBBalances(undefined, skipLoading))
-      retryAttempts++
-      yield delay(2000)
-    }
+    yield put(A.fetchSBOrders(skipLoading))
+    yield put(A.fetchSBBalances(undefined, skipLoading))
   }
 
   const setStepChange = function * (action: ReturnType<typeof A.setStep>) {
