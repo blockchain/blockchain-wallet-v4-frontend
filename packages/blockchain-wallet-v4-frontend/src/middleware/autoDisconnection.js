@@ -58,6 +58,8 @@ let blackListedActivityTypes = [
   actionTypes.modules.profile.SET_API_TOKEN_SUCCESS,
   actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
   actionTypes.modules.profile.FETCH_TIERS_SUCCESS,
+  // LOGS
+  actionTypes.logs.LOG_ERROR_MSG,
   // FORMS
   '@@redux-form/CLEAR_SUBMIT_ERRORS',
   '@@redux-form/STOP_ASYNC_VALIDATION',
