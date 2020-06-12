@@ -8,6 +8,7 @@ import {
 } from '../../../utils/eth'
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
+import { EthRawTxType } from 'core/types'
 import { FETCH_FEES_FAILURE } from '../model'
 import { FromType } from '../types'
 import {
@@ -108,10 +109,14 @@ export default ({ api }) => {
 
   const calculateUnconfirmed = function * (address: string) {
     const data: {
-      transactions: Array<{ state: 'CONFIRMED' | 'PENDING' }>
+      transactions: Array<EthRawTxType>
     } = yield call(api.getEthTransactionsV2, address, 0, 1)
 
-    if (data.transactions[0] && data.transactions[0].state === 'PENDING')
+    if (
+      data.transactions[0] &&
+      data.transactions[0].state === 'PENDING' &&
+      data.transactions[0].from === address
+    )
       return true
 
     return false
