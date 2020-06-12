@@ -41,14 +41,20 @@ const SelectBoxMethod = styled(SelectBox)`
     &.bc__option--is-focused {
       background-color: ${props => props.theme.white};
     }
-    * {
-      font-weight: 600;
+    &.bc__option--is-selected {
+      &:after {
+        content: none;
+      }
+      * {
+        font-weight: 600;
+      }
     }
-  }
-  .bc__single-value {
-    font-size: 16px;
-    font-weight: 600;
-    color: ${props => props.theme.grey800};
+    .bc__single-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: ${props => props.theme.grey800};
+      padding-right: 12px;
+    }
   }
 `
 const DisplayContainer = styled.div<{
@@ -101,6 +107,7 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
+
 const Limit = styled(Text)`
   font-size: 14px;
   font-weight: 500;
@@ -175,6 +182,7 @@ class MethodSelect extends PureComponent<Props> {
           : { min: '1000', max: '500000' }
       }
     }))
+
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
       text: this.getType(value),
       value
