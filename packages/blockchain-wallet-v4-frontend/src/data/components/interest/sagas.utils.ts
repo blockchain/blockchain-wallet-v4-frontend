@@ -2,7 +2,13 @@ import * as A from './actions'
 import * as S from './selectors'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'core/types'
+import {
+  CoinType,
+  FiatType,
+  PaymentType,
+  PaymentValue,
+  RemoteDataType
+} from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from './model'
@@ -42,6 +48,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const userCurrency = (yield select(
         selectors.core.settings.getCurrency
       )).getOrFail('Failed to get user currency')
+      const walletCurrencyR = S.getWalletCurrency(yield select())
+      const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
 
       let maxFiat
       switch (coin) {
@@ -64,13 +72,27 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         default:
           throw new Error(INVALID_COIN_TYPE)
       }
-
       const minFiat = limits[coin]?.minDepositAmount || 100
+
+      const maxCoin = Exchange.convertCoinToCoin({
+        value: balance,
+        coin: 'BTC',
+        baseToStandard: true
+      }).value
+
+      const minCoin = Exchange.convertFiatToBtc({
+        fromCurrency: walletCurrency,
+        toUnit: 'BTC',
+        rates,
+        value: Number(convertBaseToStandard('FIAT', minFiat))
+      }).value
 
       yield put(
         A.setDepositLimits({
           maxFiat: maxFiat,
-          minFiat: Number(convertBaseToStandard('FIAT', minFiat)) // default unit is cents, convert to standard
+          minFiat: Number(convertBaseToStandard('FIAT', minFiat)), // default unit is cents, convert to standard
+          maxCoin: maxCoin,
+          minCoin: minCoin
         })
       )
     } catch (e) {

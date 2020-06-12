@@ -23,6 +23,20 @@ class WithdrawalFormContainer extends PureComponent<Props> {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
+  handleDisplayToggle = isCoin => {
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    if (isCoin === displayCoin) return
+    this.props.formActions.clearFields(
+      'interestWithdrawalForm',
+      false,
+      false,
+      'withdrawalAmount'
+    )
+    this.props.interestActions.setCoinDisplay(isCoin)
+  }
+
   handleRefresh = () => {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
@@ -30,7 +44,13 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => <WithdrawalForm {...val} {...this.props} />,
+      Success: val => (
+        <WithdrawalForm
+          {...val}
+          {...this.props}
+          handleDisplayToggle={this.handleDisplayToggle}
+        />
+      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -49,14 +69,12 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = {
-  handleClose: () => void
-}
-
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
-  availToWithdraw: number
+  availToWithdrawCrypto: number
+  availToWithdrawFiat: number
   coin: CoinType
+  displayCoin: boolean
   interestLimits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedCoinsType
@@ -72,6 +90,6 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 export default connector(WithdrawalFormContainer)

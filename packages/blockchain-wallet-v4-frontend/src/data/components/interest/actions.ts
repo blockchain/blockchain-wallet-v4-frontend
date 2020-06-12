@@ -196,9 +196,9 @@ export const initializeWithdrawalForm = (coin: CoinType) => ({
 })
 export const requestWithdrawal = (
   coin: CoinType,
-  withdrawalAmountCrypto: number
+  withdrawalAmount: number
 ) => ({
-  payload: { coin, withdrawalAmountCrypto },
+  payload: { coin, withdrawalAmount },
   type: AT.REQUEST_WITHDRAWAL
 })
 
@@ -232,6 +232,11 @@ export const setInterestStep = (
 ) => ({
   payload: { name, data },
   type: AT.SET_INTEREST_STEP
+})
+
+export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
+  payload: { isCoinDisplayed },
+  type: AT.SET_COIN_DISPLAY
 })
 export const showInterestModal = (step: InterestStep) => ({
   payload: { step },
