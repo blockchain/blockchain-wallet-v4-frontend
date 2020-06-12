@@ -1,3 +1,4 @@
+import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
@@ -8,7 +9,9 @@ import Error from './index.error'
 
 const renderApp = (Component, store, history, persistor) => {
   ReactDOM.render(
-    <Component store={store} history={history} persistor={persistor} />,
+    <BrowserRouter>
+      <Component store={store} history={history} persistor={persistor} />
+    </BrowserRouter>,
     document.getElementById('app')
   )
 }
