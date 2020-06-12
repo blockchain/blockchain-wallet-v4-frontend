@@ -159,3 +159,10 @@ export const isExchangeAccountLinked = state =>
       not(isNil(prop('settings', user))) &&
       length(keys(prop('walletAddresses', user))) > 0
   )(getUserData(state))
+
+export const isExchangeRelinkRequired = state =>
+  lift(
+    user =>
+      not(isNil(prop('settings', user))) &&
+      length(keys(prop('walletAddresses', user))) === 0
+  )(getUserData(state))
