@@ -165,10 +165,13 @@ export default ({
     const values: InterestDepositFormType = yield select(
       selectors.form.getFormValues('interestDepositForm')
     )
-
+    const isDisplayed = S.getCoinDisplay(yield select())
     switch (action.meta.field) {
       case 'depositAmount':
-        const value = new BigNumber(action.payload).dividedBy(rate).toNumber()
+        const value = isDisplayed
+          ? new BigNumber(action.payload).toNumber()
+          : new BigNumber(action.payload).dividedBy(rate).toNumber()
+
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           {
@@ -280,15 +283,11 @@ export default ({
   const requestWithdrawal = function * ({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
-    const { coin, withdrawalAmountCrypto } = payload
+    const { coin, withdrawalAmount } = payload
     const FORM = 'interestWithdrawalForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-      yield delay(3000)
-      const withdrawalAmountSats = convertStandardToBase(
-        coin,
-        withdrawalAmountCrypto
-      )
+      const withdrawalAmountSats = convertStandardToBase(coin, withdrawalAmount)
       const receiveAddress = selectors.core.common.btc
         .getNextAvailableReceiveAddress(
           networks.btc,

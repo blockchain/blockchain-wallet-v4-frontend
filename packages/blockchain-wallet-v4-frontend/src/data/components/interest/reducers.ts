@@ -11,12 +11,15 @@ const INITIAL_STATE: InterestState = {
   coin: 'BTC',
   depositLimits: {
     maxFiat: 0,
-    minFiat: 0
+    minFiat: 0,
+    maxCoin: 0,
+    minCoin: 0
   },
   interestEligible: Remote.NotAsked,
   instruments: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
+  isCoinDisplayed: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -171,6 +174,13 @@ export function interestReducer (
           data: data || {},
           name
         }
+      }
+    }
+
+    case AT.SET_COIN_DISPLAY: {
+      return {
+        ...state,
+        isCoinDisplayed: payload.isCoinDisplayed
       }
     }
     case AT.SET_PAYMENT_FAILURE:

@@ -25,7 +25,9 @@ export type InterestDepositFormType = {
 }
 
 export type InterestMinMaxType = {
+  maxCoin: number
   maxFiat: number
+  minCoin: number
   minFiat: number
 }
 
@@ -60,6 +62,7 @@ export interface InterestState {
   interestEligible: RemoteDataType<string, InterestEligibleType>
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
+  isCoinDisplayed: boolean
   payment: RemoteDataType<string, PaymentValue>
   step: {
     data: InterestStepMetadata
@@ -232,6 +235,13 @@ interface SetInterestStep {
   }
   type: typeof AT.SET_INTEREST_STEP
 }
+
+interface SetCoinDisplay {
+  payload: {
+    boolean
+  }
+  type: typeof AT.SET_COIN_DISPLAY
+}
 interface ShowInterestModal {
   payload: {
     step: InterestStep
@@ -267,6 +277,7 @@ export type InterestActionTypes =
   | RouteToTxHash
   | SetInterestStep
   | ShowInterestModal
+  | SetCoinDisplay
   | SetDepositLimitsAction
   | SetPaymentFailureAction
   | SetPaymentLoadingAction

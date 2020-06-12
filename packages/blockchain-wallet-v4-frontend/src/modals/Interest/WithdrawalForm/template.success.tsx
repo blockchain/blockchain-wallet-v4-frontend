@@ -1,116 +1,44 @@
-import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
-import styled from 'styled-components'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'core'
 import { fiatToString, formatFiat } from 'core/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
-import { Form, FormLabel, NumberBox } from 'components/Form'
+
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
+import { NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { selectors } from 'data'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
+import {
+  AmountAvailContainer,
+  AmountFieldContainer,
+  ArrowIcon,
+  Availability,
+  BalanceItem,
+  BalanceWrapper,
+  Bottom,
+  ButtonContainer,
+  CustomField,
+  CustomForm,
+  CustomFormLabel,
+  MaxAmountContainer,
+  NetworkFee,
+  PrincipalCcyAbsolute,
+  SendingWrapper,
+  Spacer,
+  ToggleCoinFiat,
+  ToggleCoinText,
+  ToggleFiatText,
+  Top,
+  Wrapper
+} from './model'
+import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
-
-const SendingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-`
-const CustomForm = styled(Form)`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0;
-`
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-`
-const ArrowIcon = styled(Icon)`
-  margin-right: 20px;
-`
-const BalanceWrapper = styled.div`
-  display: flex;
-  margin-top: 40px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-`
-const BalanceItem = styled.div`
-  width: 100%;
-  &:last-child {
-    margin-left: 32px;
-  }
-`
-const MaxAmountContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-  margin-bottom: 14px;
-`
-const FiatAvailContainer = styled.div`
-  cursor: pointer;
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 20px;
-  background-color: ${props => props.theme.grey000};
-`
-const Spacer = styled.div`
-  height: 48px;
-  border-right: 1px solid ${props => props.theme.grey000};
-`
-const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
-`
-const CustomFormLabel = styled(FormLabel)`
-  display: block;
-  margin-top: 24px;
-  margin-bottom: 4px;
-`
-const CustomField = styled(Field)<BaseFieldProps>`
-  > input {
-    padding-left: 45px;
-  }
-`
-const AmountFieldContainer = styled.div`
-  display: flex;
-  position: relative;
-`
-const PrincipalCcyAbsolute = styled.div`
-  position: absolute;
-  top: 16px;
-  left: 16px;
-`
-const NetworkFee = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-const Availability = styled.div`
-  margin-top: 24px;
-`
-const ButtonContainer = styled.div<{ isOpacityApplied?: boolean }>`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 32px;
-  opacity: ${({ isOpacityApplied }) => (isOpacityApplied ? 0.25 : 1)};
-  > button {
-    padding: 15px !important;
-  }
-`
 
 const FORM_NAME = 'interestWithdrawalForm'
 
@@ -118,9 +46,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const {
     accountBalances,
-    availToWithdraw,
+    availToWithdrawCrypto,
+    availToWithdrawFiat,
     coin,
+    displayCoin,
     formActions,
+    handleDisplayToggle,
     interestActions,
     invalid,
     rates,
@@ -135,16 +66,39 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   }
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const displayName = supportedCoins[coin].displayName
+  const { coinTicker, displayName } = supportedCoins[coin]
   const account = accountBalances[coin]
-  const withdrawalAmount = formatFiat((values && values.withdrawalAmount) || 0)
-  const withdrawalAmountCrypto = Exchange.convertCoinToCoin({
-    value: Exchange.convertFiatToBtc({
-      fromCurrency: walletCurrency,
-      toUnit: 'SAT',
-      rates,
-      value: parseFloat(withdrawalAmount)
-    }).value,
+  const accountInterestBalance = account && account.totalInterest
+  const withdrawalAmount = (values && values.withdrawalAmount) || 0
+
+  const withdrawalAmountFiat = displayCoin
+    ? formatFiat(
+        Exchange.convertCoinToFiat(
+          withdrawalAmount,
+          coin,
+          walletCurrency,
+          rates
+        )
+      )
+    : formatFiat(withdrawalAmount)
+
+  const withdrawalAmountCrypto = displayCoin
+    ? withdrawalAmount
+    : Exchange.convertFiatToBtc({
+        fromCurrency: walletCurrency,
+        toUnit: 'BTC',
+        rates,
+        value: withdrawalAmount
+      }).value
+
+  const accountBalanceStandard = Exchange.convertCoinToCoin({
+    value: (account && account.balance) || 0,
+    coin,
+    baseToStandard: true
+  }).value
+
+  const interestBalanceStandard = Exchange.convertCoinToCoin({
+    value: accountInterestBalance || 0,
     coin,
     baseToStandard: true
   }).value
@@ -205,15 +159,26 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
                 values={{ coin }}
               />
             </Text>
-            <FiatDisplay
-              coin={coin}
-              color='grey800'
-              size='20px'
-              style={{ marginTop: '8px' }}
-              weight={600}
-            >
-              {account.balance}
-            </FiatDisplay>
+            {displayCoin ? (
+              <Text
+                color='grey800'
+                size='20px'
+                style={{ marginTop: '8px' }}
+                weight={600}
+              >
+                {accountBalanceStandard}
+              </Text>
+            ) : (
+              <FiatDisplay
+                coin={coin}
+                color='grey800'
+                size='20px'
+                style={{ marginTop: '8px' }}
+                weight={600}
+              >
+                {account.balance}
+              </FiatDisplay>
+            )}
           </BalanceItem>
           <Spacer />
           <BalanceItem>
@@ -223,15 +188,26 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
                 defaultMessage='Total Interest Earned'
               />
             </Text>
-            <FiatDisplay
-              coin={coin}
-              color='grey800'
-              size='20px'
-              style={{ marginTop: '8px' }}
-              weight={600}
-            >
-              {account.totalInterest}
-            </FiatDisplay>
+            {displayCoin ? (
+              <Text
+                color='grey800'
+                size='20px'
+                style={{ marginTop: '8px' }}
+                weight={600}
+              >
+                {interestBalanceStandard}
+              </Text>
+            ) : (
+              <FiatDisplay
+                coin={coin}
+                color='grey800'
+                size='20px'
+                style={{ marginTop: '8px' }}
+                weight={600}
+              >
+                {account.totalInterest}
+              </FiatDisplay>
+            )}
           </BalanceItem>
         </BalanceWrapper>
         <MaxAmountContainer>
@@ -240,22 +216,38 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               id='modals.interest.withdrawal.availamount'
               defaultMessage='You can withdraw up to'
             />{' '}
-            <FiatAvailContainer
-              onClick={() =>
-                formActions.change(
-                  FORM_NAME,
-                  'withdrawalAmount',
-                  availToWithdraw
-                )
-              }
-            >
-              <Text color='blue600' size='14px' weight={500}>
-                {fiatToString({
-                  value: availToWithdraw,
-                  unit: walletCurrency
-                })}
-              </Text>
-            </FiatAvailContainer>
+            {displayCoin ? (
+              <AmountAvailContainer
+                onClick={() =>
+                  formActions.change(
+                    FORM_NAME,
+                    'withdrawalAmount',
+                    availToWithdrawCrypto
+                  )
+                }
+              >
+                <Text color='blue600' size='14px' weight={500}>
+                  {availToWithdrawCrypto} {coinTicker}
+                </Text>
+              </AmountAvailContainer>
+            ) : (
+              <AmountAvailContainer
+                onClick={() =>
+                  formActions.change(
+                    FORM_NAME,
+                    'withdrawalAmount',
+                    availToWithdrawFiat
+                  )
+                }
+              >
+                <Text color='blue600' size='14px' weight={500}>
+                  {fiatToString({
+                    value: availToWithdrawFiat,
+                    unit: walletCurrency
+                  })}
+                </Text>
+              </AmountAvailContainer>
+            )}
           </Text>
         </MaxAmountContainer>
         <CustomFormLabel>
@@ -265,6 +257,21 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               defaultMessage='Enter withdrawal amount'
             />
           </Text>
+          <ToggleCoinFiat>
+            <ToggleFiatText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(false)}
+            >
+              {walletCurrency}
+            </ToggleFiatText>
+            |{' '}
+            <ToggleCoinText
+              displayCoin={displayCoin}
+              onClick={() => handleDisplayToggle(true)}
+            >
+              {coinTicker}
+            </ToggleCoinText>
+          </ToggleCoinFiat>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
@@ -283,9 +290,15 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             }}
           />
           <PrincipalCcyAbsolute>
-            <Text color='grey800' size='14px' weight={600}>
-              {currencySymbol}
-            </Text>
+            {displayCoin ? (
+              <Text color='grey800' size='14px' weight={600}>
+                {coinTicker}
+              </Text>
+            ) : (
+              <Text color='grey800' size='14px' weight={600}>
+                {currencySymbol}
+              </Text>
+            )}
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
       </Top>
@@ -294,9 +307,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.interest.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw {withdrawalAmount} ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
+              defaultMessage='You are requesting to withdraw {withdrawalAmountFiat} ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
               values={{
-                withdrawalAmount: `${currencySymbol}${withdrawalAmount}`,
+                withdrawalAmountFiat: `${currencySymbol}${withdrawalAmountFiat}`,
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
               }}
             />
@@ -338,23 +351,22 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues(FORM_NAME)(state)
 })
 
-const enhance = compose(
-  reduxForm<{}, Props>({ form: FORM_NAME }),
-  connect(mapStateToProps)
-)
-
 type LinkStatePropsType = {
   values?: InterestWithdrawalFormType
 }
 
-type SuccessOwnProps = {
-  handleClose: () => void
+type OwnProps = {
+  handleDisplayToggle: (boolean) => void
 }
 
-type Props = SuccessOwnProps &
-  OwnProps &
+export type Props = OwnProps &
   LinkStatePropsType &
   SuccessStateType &
   LinkDispatchPropsType
+
+const enhance = compose(
+  reduxForm<{}, Props>({ form: FORM_NAME }),
+  connect(mapStateToProps)
+)
 
 export default enhance(WithdrawalForm) as React.FunctionComponent<Props>

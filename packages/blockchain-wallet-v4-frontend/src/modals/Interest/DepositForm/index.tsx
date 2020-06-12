@@ -23,6 +23,21 @@ class DepositForm extends PureComponent<Props> {
     this.handleInitializeDepositForm()
   }
 
+  handleDisplayToggle = isCoin => {
+    const { displayCoin } = this.props.data.getOrElse({
+      displayCoin: false
+    })
+    if (isCoin === displayCoin) return
+    this.props.formActions.clearFields(
+      'interestDepositForm',
+      false,
+      false,
+      'depositAmount'
+    )
+
+    this.props.interestActions.setCoinDisplay(isCoin)
+  }
+
   handleRefresh = () => {
     this.handleInitializeDepositForm()
   }
@@ -44,7 +59,12 @@ class DepositForm extends PureComponent<Props> {
     const { data } = this.props
     return data.cata({
       Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+        <Success
+          {...val}
+          {...this.props}
+          onSubmit={this.handleSubmit}
+          handleDisplayToggle={this.handleDisplayToggle}
+        />
       ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
@@ -73,6 +93,7 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   coin: CoinType
   depositLimits: InterestMinMaxType
+  displayCoin: boolean
   formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
