@@ -32,10 +32,10 @@ export const getData = (state): { bannerToShow: BannerType } => {
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
-  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
-    bannerToShow = 'finishKyc'
   } else if (isSimpleBuyOrderPending) {
     bannerToShow = 'sbOrder'
+  } else if (isKycStateNone && isUserActive && !isFirstLogin) {
+    bannerToShow = 'finishKyc'
   } else {
     bannerToShow = null
   }
