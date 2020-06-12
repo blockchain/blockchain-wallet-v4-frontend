@@ -73,7 +73,7 @@ const Toast = props => {
 
   return (
     <Wrapper>
-      <Container color={color} data-e2e='toastMessage'>
+      <Container color={color}>
         <Content>
           {coin && (
             <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />

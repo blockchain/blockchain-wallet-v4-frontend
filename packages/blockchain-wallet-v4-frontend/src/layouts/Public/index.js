@@ -14,7 +14,6 @@ const FooterWrapper = styled.div`
   align-items: center;
   width: 100%;
   margin: 6rem 0 2rem;
-
   ${media.mobile`
     flex-direction: column;
     margin-top: 8px;
@@ -45,7 +44,6 @@ const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 `
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,6 +52,9 @@ const ContentContainer = styled.div`
   padding: 0 32px;
   z-index: 1;
   max-width: 100%;
+  ${media.mobile`
+    padding: 0 15px;
+  `}
 `
 
 const PublicLayoutContainer = ({ component: Component, ...rest }) => (
