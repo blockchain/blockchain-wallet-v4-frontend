@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
-import { actionTypes } from 'data'
-import { takeLatest } from 'redux-saga/effects'
+import { actions, actionTypes } from 'data'
+import { put, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
@@ -51,12 +51,9 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.initializeBillingAddress
     )
     yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
+    yield takeLatest(AT.POLL_SB_BALANCES, simpleBuySagas.pollSBBalances)
     yield takeLatest(AT.POLL_SB_CARD, simpleBuySagas.pollSBCard)
     yield takeLatest(AT.POLL_SB_ORDER, simpleBuySagas.pollSBOrder)
-    yield takeLatest(
-      AT.POLL_SB_ORDERS_AND_BALANCES,
-      simpleBuySagas.pollSBOrdersAndBalances
-    )
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
     // Fetch balances when profile/user is fetched
     yield takeLatest(
@@ -68,5 +65,13 @@ export default ({ api, coreSagas, networks }) => {
     )
     // Fetch balances and orders when step changes to order summary
     yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
+    // Refresh coin tx lists
+    yield takeLatest(AT.FETCH_SB_ORDERS, function * () {
+      yield put(actions.core.data.bch.fetchTransactions('', true))
+      yield put(actions.core.data.btc.fetchTransactions('', true))
+      yield put(actions.core.data.eth.fetchTransactions('', true))
+      yield put(actions.core.data.eth.fetchErc20Transactions('pax', true))
+      yield put(actions.core.data.xlm.fetchTransactions('', true))
+    })
   }
 }

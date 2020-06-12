@@ -386,6 +386,10 @@ export const initializeCheckout = (
   orderType
 })
 
+export const pollSBBalances = () => ({
+  type: AT.POLL_SB_BALANCES
+})
+
 export const pollSBCard = (cardId: SBCardType['id']) => ({
   type: AT.POLL_SB_CARD,
   payload: {
@@ -398,10 +402,6 @@ export const pollSBOrder = (orderId: string) => ({
   payload: {
     orderId
   }
-})
-
-export const pollSBOrdersAndBalances = () => ({
-  type: AT.POLL_SB_ORDERS_AND_BALANCES
 })
 
 export const setStep = (

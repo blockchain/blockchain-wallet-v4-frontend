@@ -48,7 +48,6 @@ const ErrorHeader = styled(ModalHeader)`
 const IdentityVerificationTray = styled(Tray)<ModalPropsType>`
   margin-top: 0;
   border-radius: 0;
-  height: 100%;
   > div:first-child {
     padding: 20px;
     > span:last-child {

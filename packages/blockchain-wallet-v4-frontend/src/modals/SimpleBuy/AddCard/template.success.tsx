@@ -31,6 +31,7 @@ import {
 import { Props as OwnProps, SuccessStateType } from '.'
 import { required } from 'services/FormHelper'
 import { SBAddCardErrorType } from 'data/types'
+import { SBBuyOrderType, SBSellOrderType } from 'core/types'
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
@@ -40,6 +41,7 @@ const CustomFlyoutWrapper = styled(FlyoutWrapper)`
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 24px;
 `
 
@@ -48,21 +50,37 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
-        <Icon
-          cursor
-          name='arrow-left'
-          size='20px'
-          color='grey600'
-          style={{ marginRight: '24px' }}
-          role='button'
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              fiatCurrency: props.fiatCurrency,
-              step: 'ENTER_AMOUNT'
-            })
-          }
-        />
+        {!props.order && (
+          <Icon
+            cursor
+            name='arrow-left'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={() =>
+              props.simpleBuyActions.setStep({
+                fiatCurrency: props.fiatCurrency,
+                step: 'ENTER_AMOUNT'
+              })
+            }
+          />
+        )}
         <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
+        {props.order && (
+          <Icon
+            cursor
+            name='arrow-right'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={() =>
+              props.simpleBuyActions.setStep({
+                step: 'CHECKOUT_CONFIRM',
+                order: props.order as SBSellOrderType | SBBuyOrderType
+              })
+            }
+          />
+        )}
       </TopText>
       <Form onSubmit={props.handleSubmit}>
         <FormGroup margin='24px'>

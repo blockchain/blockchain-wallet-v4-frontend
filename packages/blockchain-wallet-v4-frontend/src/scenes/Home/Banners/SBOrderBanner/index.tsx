@@ -23,6 +23,7 @@ const Wrapper = styled.div`
     padding: 0 20px;
   `}
   ${media.mobile`
+    padding: 12px;
     flex-direction: column;
   `}
 `
@@ -63,7 +64,7 @@ const BannerButton = styled(Button)`
   height: 48px;
   ${media.mobile`
     font-size: 14px;
-    margin-top: 8px;
+    margin-top: 16px;
     padding: 10px;
   `}
 `
