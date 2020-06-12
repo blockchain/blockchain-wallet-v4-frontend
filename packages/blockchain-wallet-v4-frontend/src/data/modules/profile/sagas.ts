@@ -458,7 +458,7 @@ export default ({ api, coreSagas, networks }) => {
 
       if (isRelinkAttempt) {
         yield put(A.shareWalletAddressesWithExchange())
-        return yield put(A.linkToExchangeAccountSuccess())
+        return yield put(actions.modals.closeAllModals())
       } else {
         // get or create nabu user
         const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
