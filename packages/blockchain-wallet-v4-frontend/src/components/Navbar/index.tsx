@@ -8,13 +8,13 @@ import NavbarHeader from './NavbarHeader'
 import NavbarMenu from './NavbarMenu'
 
 export const NavbarNavItemIcon = styled(Icon)<{ persist?: boolean }>`
-  color: ${props => props.theme[props.color || 'grey400']};
+  color: ${props => props.theme[props.color || 'whiteFade900']};
   transition: color 0.3s;
   display: ${props => (props.persist ? 'flex !important' : '')};
 `
 
 export const NavbarNavItemTextHeader = styled(Text)<{ persist?: boolean }>`
-  color: ${props => props.theme[props.color || 'grey400']};
+  color: ${props => props.theme[props.color || 'whiteFade900']};
   transition: color 0.3s;
   display: ${props => (props.persist ? 'block !important' : '')};
 `
