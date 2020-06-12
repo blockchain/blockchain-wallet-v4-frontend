@@ -29,7 +29,7 @@ import Task from 'data.task'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api, networks }) => {
+export default ({ api, /* libcoins, */ networks }) => {
   const runTask = function * (task, setActionCreator) {
     let result = yield call(compose(taskToPromise, () => task))
     yield put(setActionCreator(result))
@@ -182,9 +182,11 @@ export default ({ api, networks }) => {
   }
 
   const restoreWalletSaga = function * ({ mnemonic, email, password, language }) {
+    // console.log(libcoins)
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, networks.btc)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
+    // debugger
     const nAccounts = yield call(findUsedAccounts, {
       batch: 10,
       node: node,

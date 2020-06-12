@@ -2,15 +2,15 @@ import { AppContainer } from 'react-hot-loader'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from 'scenes/app.tsx'
-import configureStore from 'store'
+import App from './scenes/app'
+import configureStore from './store'
 
 import Error from './index.error'
 
 const renderApp = (Component, store, history, persistor) => {
   const render = (Component, store, history, persistor) => {
     ReactDOM.render(
-      <AppContainer key={Math.random()} warnings={false}>
+      <AppContainer key={Math.random()}>
         <Component store={store} history={history} persistor={persistor} />
       </AppContainer>,
       document.getElementById('app')
@@ -19,7 +19,9 @@ const renderApp = (Component, store, history, persistor) => {
 
   render(App, store, history, persistor)
 
+  // @ts-ignore
   if (module.hot) {
+    // @ts-ignore
     module.hot.accept('./scenes/app.tsx', () =>
       render(require('./scenes/app.tsx').default, store, history, persistor)
     )

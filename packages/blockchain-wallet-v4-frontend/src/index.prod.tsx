@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from 'scenes/app.tsx'
-import configureStore from 'store'
+import App from './scenes/app'
+import configureStore from './store'
 
 import Error from './index.error'
 
@@ -24,5 +24,5 @@ configureStore()
   .catch(e => {
     // eslint-disable-next-line no-console
     console.info(e)
-    renderError(e)
+    renderError()
   })

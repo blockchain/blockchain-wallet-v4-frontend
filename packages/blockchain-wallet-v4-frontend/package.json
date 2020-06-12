@@ -7,7 +7,7 @@
     "name": "Blockchain.com",
     "url": "https://blockchain.com"
   },
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "analyze": "cross-env-shell ANALYZE=true NODE_ENV=production webpack-cli --config webpack.config.ci.js",
     "build:dev": "cross-env-shell NODE_ENV=development webpack-cli --config webpack.config.dev.js --progress --colors",
@@ -93,6 +93,7 @@
     "es6-promise": "4.2.6",
     "fast-memoize": "2.5.2",
     "ibantools": "2.2.0",
+    "libcoins": "0.0.3",
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.2",

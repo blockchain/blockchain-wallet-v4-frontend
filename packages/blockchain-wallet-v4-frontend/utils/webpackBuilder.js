@@ -64,7 +64,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   node: { fs: 'empty' },
   devtool: false,
   entry: {
-    app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
+    app: ['@babel/polyfill', CONFIG_PATH.src + '/index.ts']
   },
   output: {
     path: CONFIG_PATH.ciBuild,
@@ -285,7 +285,7 @@ const buildDevServerConfig = (
       'Content-Security-Policy': [
         `img-src 'self' data: blob:`,
         allowUnsafeScripts
-          ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
+          ? `script-src 'nonce-${CSP_NONCE}' 'self'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,
         allowUnsafeStyles
           ? `style-src 'self' 'unsafe-inline'`

@@ -1,3 +1,4 @@
+import * as LIBCOINS from 'libcoins'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
@@ -15,7 +16,7 @@ import {
   createWalletApi,
   HorizonStreamingService,
   Socket
-} from 'blockchain-wallet-v4/src/network/index.ts'
+} from 'blockchain-wallet-v4/src/network/index'
 import {
   autoDisconnection,
   matomoMiddleware,
@@ -25,6 +26,13 @@ import {
 } from '../middleware'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { serializer } from 'blockchain-wallet-v4/src/types'
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any
+    createTestXlmAccounts: any
+  }
+}
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -93,6 +101,7 @@ const configureStore = async function () {
 
   // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
   const store = createStore(
+    // @ts-ignore
     connectRouter(history)(
       persistCombineReducers(
         {
@@ -104,6 +113,7 @@ const configureStore = async function () {
           whitelist: persistWhitelist
         },
         {
+          // @ts-ignore
           router: connectRouter(history),
           ...rootReducer
         }
@@ -123,11 +133,14 @@ const configureStore = async function () {
       )
     )
   )
-  const persistor = persistStore(store, null)
+  const persistor = persistStore(store)
+
+  const libcoins = LIBCOINS()
 
   sagaMiddleware.run(rootSaga, {
     api,
     coinsSocket,
+    libcoins,
     networks,
     options,
     ratesSocket
