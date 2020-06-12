@@ -23,6 +23,7 @@ const TrayModal = styled(Modal)`
   overflow: hidden;
   position: absolute;
   width: 100%;
+  height: 100%;
   min-height: 100vh;
   /* stylelint-disable-next-line */
   min-height: -webkit-fill-available;
