@@ -75,7 +75,7 @@ class Interest extends PureComponent<Props, State> {
         )}
         {step.name === 'WITHDRAWAL' && (
           <FlyoutChild>
-            <WithdrawalForm handleClose={this.handleClose} />
+            <WithdrawalForm />
           </FlyoutChild>
         )}
       </Flyout>

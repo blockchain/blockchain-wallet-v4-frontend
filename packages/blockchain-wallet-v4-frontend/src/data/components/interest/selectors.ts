@@ -1,5 +1,5 @@
+import { FiatType, RemoteDataType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
@@ -9,6 +9,9 @@ export const getInterestAccountBalance = (state: RootState) =>
   state.components.interest.accountBalance
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
+
+export const getCoinDisplay = (state: RootState) =>
+  state.components.interest.isCoinDisplayed
 
 export const getDepositAddress = (state: RootState) => {
   const account = getInterestAccount(state).getOrElse({ accountRef: null })
@@ -58,3 +61,9 @@ export const getStep = (state: RootState) => state.components.interest.step
 
 export const getTransactionsNextPage = (state: RootState) =>
   state.components.interest.transactionsNextPage
+
+export const getWalletCurrency = (
+  state: RootState
+): RemoteDataType<string, FiatType> => {
+  return selectors.core.settings.getCurrency(state)
+}

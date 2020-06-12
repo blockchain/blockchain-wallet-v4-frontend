@@ -12718,10 +12718,10 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-libcoins@0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/libcoins/-/libcoins-0.0.3.tgz#bd4b5b370955410330bdeb0f9bcf2ffbbc59d92b"
-  integrity sha512-l7CbjTZnS8tCtVlNbddiXHackY87q60FhIcJOAYJ8k9mA9zbhW1cSezU1MegKTZAOcMj2d77Sgef2prp38WpAw==
+libcoins@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/libcoins/-/libcoins-0.0.4.tgz#ac7db070879c96ce5da3ed6534dc8db33e4f3f54"
+  integrity sha512-i4ineODAMOOwEed4f+xmVPmoNVYmb8lHux/vQ0BIIufl3Ba3NlaxtvMX03MBdjxSLlTl+/0ZU5oa1oOKKVNeOw==
 
 libphonenumber-js@0.4.40:
   version "0.4.40"

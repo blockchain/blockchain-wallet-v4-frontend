@@ -89,7 +89,7 @@ const AccountSummary: React.FC<Props> = props => {
             color='grey600'
           />
         </TopText>
-        <Row>
+        <Row style={{ paddingBottom: '8px' }}>
           <Container>
             <Text
               color='grey600'

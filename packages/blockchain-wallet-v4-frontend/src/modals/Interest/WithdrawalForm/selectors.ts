@@ -7,6 +7,7 @@ import { selectors } from 'data'
 export const getData = state => {
   const btcRateR = selectors.core.data.btc.getRates(state)
   const coin = selectors.components.interest.getCoinType(state)
+  const displayCoin = selectors.components.interest.getCoinDisplay(state)
   const accountBalancesR = selectors.components.interest.getInterestAccountBalance(
     state
   )
@@ -23,7 +24,13 @@ export const getData = state => {
       interestLimits
     ) => ({
       accountBalances,
-      availToWithdraw:
+      accountBalanceStandard: accountBalances[coin].balance,
+      availToWithdrawCrypto: Exchange.convertCoinToCoin({
+        value: accountBalances[coin].balance - accountBalances[coin].locked,
+        coin,
+        baseToStandard: true
+      }).value,
+      availToWithdrawFiat:
         Exchange.convertCoinToFiat(
           convertBaseToStandard(coin, accountBalances[coin].balance),
           coin,
@@ -37,6 +44,7 @@ export const getData = state => {
           rates
         ),
       coin,
+      displayCoin,
       rates,
       supportedCoins,
       walletCurrency,

@@ -434,6 +434,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
+
       // check if wallet is already linked
       const isExchangeAccountLinked = (yield select(
         S.isExchangeAccountLinked
@@ -441,6 +442,7 @@ export default ({ api, coreSagas, networks }) => {
       if (isExchangeAccountLinked) {
         throw new Error('Account has already been linked.')
       }
+
       // ensure email address is verified
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
@@ -448,37 +450,50 @@ export default ({ api, coreSagas, networks }) => {
       if (!isEmailVerified) {
         throw new Error('Email address is not verified.')
       }
-      // get or create nabu user
-      const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
-      if (isUserStateNone) yield call(createUser)
-      // get exchange linkId, exchange domain and user email
-      const domains = (yield select(
-        selectors.core.walletOptions.getDomains
+
+      // check if wallet relink should be attempted
+      const isRelinkAttempt = (yield select(
+        S.isExchangeRelinkRequired
       )).getOrFail()
-      const exchangeDomain = prop('exchange', domains)
-      const data = yield call(api.createLinkAccountId)
-      const exchangeLinkId = prop('linkId', data)
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
-        email
-      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-        'wallet_exchange_page'}`
-      // share addresses
-      yield put(A.shareWalletAddressesWithExchange())
-      // simulate wait while allowing user to read modal
-      yield delay(2000)
-      // attempt to open url for user
-      window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
-      yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
-      // poll for account link
-      yield race({
-        task: call(pollForAccountLinkSuccess, 0),
-        cancel: take([
-          AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
-          AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
-          actionTypes.modals.CLOSE_MODAL
-        ])
-      })
+
+      if (isRelinkAttempt) {
+        yield put(A.shareWalletAddressesWithExchange())
+        return yield put(actions.modals.closeAllModals())
+      } else {
+        // get or create nabu user
+        const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
+        if (isUserStateNone) yield call(createUser)
+        // get exchange linkId, exchange domain and user email
+        const domains = (yield select(
+          selectors.core.walletOptions.getDomains
+        )).getOrFail()
+        const exchangeDomain = prop('exchange', domains)
+        const data = yield call(api.createLinkAccountId)
+        const exchangeLinkId = prop('linkId', data)
+        const email = (yield select(
+          selectors.core.settings.getEmail
+        )).getOrFail()
+        const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
+          email
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
+          'wallet_exchange_page'}`
+        // share addresses
+        yield put(A.shareWalletAddressesWithExchange())
+        // simulate wait while allowing user to read modal
+        yield delay(2000)
+        // attempt to open url for user
+        window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
+        yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
+        // poll for account link
+        yield race({
+          task: call(pollForAccountLinkSuccess, 0),
+          cancel: take([
+            AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
+            AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
+            actionTypes.modals.CLOSE_MODAL
+          ])
+        })
+      }
     } catch (e) {
       yield put(A.linkToExchangeAccountFailure(e.message))
     }
