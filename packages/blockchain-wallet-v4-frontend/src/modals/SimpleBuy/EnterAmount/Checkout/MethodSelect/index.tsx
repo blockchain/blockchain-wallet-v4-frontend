@@ -83,13 +83,13 @@ class MethodSelect extends PureComponent<Props> {
       case 'BANK_ACCOUNT':
         return 'Bank Wire Transfer'
       case 'PAYMENT_CARD':
-        return 'Credit or Debit Card'
+        return 'Add a Credit or Debit Card'
       case 'USER_CARD':
         return value && value.card
           ? value.card.label
             ? value.card.label
             : value.card.type
-          : 'Credit or Debit Card'
+          : 'Add a Credit or Debit Card'
     }
   }
 
@@ -104,7 +104,7 @@ class MethodSelect extends PureComponent<Props> {
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='credit-card-filled' />
+            <Icon size='16px' color='blue600' name='credit-card-sb' />
           </IconContainer>
         )
       case 'USER_CARD':
