@@ -50,6 +50,7 @@ class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
 
   componentDidMount () {
+    this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
@@ -121,13 +122,17 @@ class Interest extends React.PureComponent<Props, StateType> {
             <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
               <Container>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
-                {isGoldTier && (
-                  <SummaryCard
-                    {...val}
-                    {...this.props}
-                    isGoldTier={isGoldTier}
-                  />
-                )}
+                {isGoldTier &&
+                  val.instruments.map(instrument => {
+                    return (
+                      <SummaryCard
+                        {...val}
+                        {...this.props}
+                        isGoldTier={isGoldTier}
+                        coin={instrument}
+                      />
+                    )
+                  })}
               </Container>
               <TransactionList />
             </LazyLoadWrapper>
@@ -159,7 +164,7 @@ export type StateType = {
   isGoldTier: boolean
 }
 export type SuccessStateType = {
-  coin: CoinType
+  instruments: Array<CoinType>
   interestRate: InterestRateType
   supportedCoins: SupportedCoinsType
   userData: UserDataType

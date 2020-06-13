@@ -69,26 +69,26 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     supportedCoins,
     walletCurrency
   } = props
-  const { coinTicker, displayName } = supportedCoins[coin]
+  const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
   const balanceSats = interestAccountBalance.BTC
     ? interestAccountBalance.BTC.balance
     : 0
   const balanceStandard = Exchange.convertCoinToCoin({
     value: balanceSats || 0,
-    coin: 'BTC',
+    coin,
     baseToStandard: true
   }).value
   const totalInterest =
     interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
   const totalInterestStandard = Exchange.convertCoinToCoin({
     value: totalInterest || 0,
-    coin: 'BTC',
+    coin,
     baseToStandard: true
   }).value
   return (
     <DepositBox>
       <Row>
-        <Icon name='btc-circle-filled' color='btc' size='32px' />
+        <Icon name={icons.circleFilled} color={colorCode} size='32px' />
         <Text
           size='20px'
           color='grey800'

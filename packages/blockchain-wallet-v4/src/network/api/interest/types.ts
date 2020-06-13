@@ -17,7 +17,9 @@ export type InterestEligibleType = {
   ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
 }
 
-export type InterestInstrumentsType = Array<CoinType>
+export type InterestInstrumentsType = {
+  instruments: Array<CoinType>
+}
 
 export type InterestLimitsType = {
   [key in CoinType]: {

@@ -30,11 +30,14 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: '/savings/eligible'
     })
 
-  const getInterestInstruments = (): InterestInstrumentsType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/instruments'
-    })
+  const getInterestInstruments = (): InterestInstrumentsType => ({
+    instruments: ['BTC', 'ETH']
+  })
+
+  // authorizedGet({
+  //   url: nabuUrl,
+  //   endPoint: '/savings/instruments'
+  // })
 
   const getInterestLimits = (
     ccy: CoinType,
