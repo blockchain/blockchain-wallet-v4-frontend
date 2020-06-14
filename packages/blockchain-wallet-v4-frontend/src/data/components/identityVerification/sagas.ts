@@ -18,6 +18,8 @@ import {
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { computeSteps } from './services'
 import { isEmpty, prop, toUpper } from 'ramda'
+import { KycStateType } from 'data/modules/types'
+import { RemoteDataType } from 'core/types'
 import { StateType, StepsType } from './types'
 import { Types } from 'blockchain-wallet-v4/src'
 import profileSagas from '../../modules/profile/sagas'
@@ -158,8 +160,12 @@ export default ({ api, coreSagas, networks }) => {
       selectors.core.settings.getSmsVerified
     )).getOrElse(0)
     const currentStep = yield select(S.getVerificationStep)
+    const kycState = (selectors.modules.profile.getUserKYCState(
+      yield select()
+    ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
     const steps = computeSteps({
       currentStep,
+      kycState,
       mobileVerified,
       needMoreInfo,
       smsVerified,
