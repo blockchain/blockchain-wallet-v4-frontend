@@ -28,7 +28,7 @@ export const getBtcBalance = createDeepEqualSelector(
         pathOr(0, [a, 'final_balance'], balances)
       )
       const interestBalance = interestAccountBalance.BTC
-        ? interestAccountBalance.BTC.balance
+        ? parseInt(interestAccountBalance.BTC.balance)
         : 0
       const sbBalance = Number(sbBalances.BTC ? sbBalances.BTC.available : 0)
       return walletBalances.concat(sbBalance).concat(interestBalance)
@@ -61,7 +61,7 @@ export const getBchBalance = createDeepEqualSelector(
         pathOr(0, [a, 'final_balance'], balances)
       )
       const interestBalance = interestAccountBalance.BCH
-        ? interestAccountBalance.BCH.balance
+        ? parseInt(interestAccountBalance.BCH.balance)
         : 0
       const sbBalance = Number(sbBalances.BCH ? sbBalances.BCH.available : 0)
       return walletBalances.concat(sbBalance).concat(interestBalance)
