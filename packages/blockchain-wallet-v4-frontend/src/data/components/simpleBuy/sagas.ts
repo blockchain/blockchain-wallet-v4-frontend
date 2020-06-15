@@ -128,12 +128,12 @@ export default ({
       )
       yield put(A.addCardDetailsSuccess(response.data))
     } catch (e) {
+      const error = errorHandler(e)
       yield put(
         A.setStep({
           step: 'ADD_CARD'
         })
       )
-      const error = errorHandler(e)
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(
         actions.form.stopSubmit('addCCForm', {

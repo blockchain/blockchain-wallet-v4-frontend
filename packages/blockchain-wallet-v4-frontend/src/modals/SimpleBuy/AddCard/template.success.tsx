@@ -12,6 +12,7 @@ import {
   DEFAULT_SECURITY_CODE_NAME,
   getCardTypeByValue
 } from 'components/Form/CreditCardBox/model'
+import { Error } from './model'
 import { ErrorCartridge } from 'components/Cartridge'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -41,7 +42,6 @@ const CustomFlyoutWrapper = styled(FlyoutWrapper)`
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 24px;
 `
 
@@ -50,37 +50,26 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   return (
     <CustomFlyoutWrapper>
       <TopText color='grey800' size='20px' weight={600}>
-        {!props.order && (
-          <Icon
-            cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                fiatCurrency: props.fiatCurrency,
-                step: 'ENTER_AMOUNT'
-              })
-            }
-          />
-        )}
+        <Icon
+          cursor
+          name='arrow-left'
+          size='20px'
+          color='grey600'
+          role='button'
+          style={{ marginRight: '24px' }}
+          onClick={() =>
+            props.order
+              ? props.simpleBuyActions.setStep({
+                  step: 'CHECKOUT_CONFIRM',
+                  order: props.order as SBSellOrderType | SBBuyOrderType
+                })
+              : props.simpleBuyActions.setStep({
+                  fiatCurrency: props.fiatCurrency,
+                  step: 'ENTER_AMOUNT'
+                })
+          }
+        />
         <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
-        {props.order && (
-          <Icon
-            cursor
-            name='arrow-right'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                step: 'CHECKOUT_CONFIRM',
-                order: props.order as SBSellOrderType | SBBuyOrderType
-              })
-            }
-          />
-        )}
       </TopText>
       <Form onSubmit={props.handleSubmit}>
         <FormGroup margin='24px'>
@@ -150,36 +139,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
-              {props.error === 'CARD_ALREADY_SAVED' && (
-                <FormattedMessage
-                  id='modals.simplebuy.card_already_saved'
-                  defaultMessage='This card has already been saved.'
-                />
-              )}
-              {props.error === 'CARD_CREATION_FAILED' && (
-                <FormattedMessage
-                  id='modals.simplebuy.card_creation_failed'
-                  defaultMessage='We could not save your card. Please contact support.'
-                />
-              )}
-              {props.error === 'CARD_ACTIVATION_FAILED' && (
-                <FormattedMessage
-                  id='modals.simplebuy.card_activation_failed'
-                  defaultMessage='We could not activate your card. Please contact support.'
-                />
-              )}
-              {props.error === 'PENDING_CARD_AFTER_POLL' && (
-                <FormattedMessage
-                  id='modals.simplebuy.card_pending_after_poll'
-                  defaultMessage='We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
-                />
-              )}
-              {props.error === 'LINK_CARD_FAILED' && (
-                <FormattedMessage
-                  id='modals.simplebuy.link_card_failed'
-                  defaultMessage='Card failed to link. Please try again or contact support if you believe this occured in error.'
-                />
-              )}
+              <Error {...props} />
             </ErrorCartridge>
           </FormGroup>
         )}
@@ -218,7 +178,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
 }
 
 export type Props = OwnProps & SuccessStateType
-type ErrorType = SBAddCardErrorType
+export type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
   form: 'addCCForm',
