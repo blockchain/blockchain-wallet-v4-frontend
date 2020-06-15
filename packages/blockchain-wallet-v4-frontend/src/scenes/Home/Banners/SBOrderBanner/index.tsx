@@ -23,6 +23,7 @@ const Wrapper = styled.div`
     padding: 0 20px;
   `}
   ${media.mobile`
+    padding: 12px;
     flex-direction: column;
   `}
 `
@@ -63,32 +64,18 @@ const BannerButton = styled(Button)`
   height: 48px;
   ${media.mobile`
     font-size: 14px;
-    margin-top: 8px;
+    margin-top: 16px;
     padding: 10px;
   `}
 `
 
 class SBOrderBanner extends PureComponent<Props> {
-  showModal = (latestPendingOrder: SBOrderType) => {
-    if (!latestPendingOrder) return
+  showModal = () => {
     this.props.simpleBuyActions.showModal('PendingOrder')
-    this.props.simpleBuyActions.setStep({
-      step:
-        latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
-          : 'ORDER_SUMMARY',
-      order: latestPendingOrder
-    })
   }
 
   render () {
-    const latestPendingOrder = this.props.orders.find(order => {
-      return (
-        order.state === 'PENDING_CONFIRMATION' ||
-        order.state === 'PENDING_DEPOSIT' ||
-        order.state === 'DEPOSIT_MATCHED'
-      )
-    })
+    const { latestPendingOrder } = this.props
 
     if (!latestPendingOrder) return null
 
@@ -106,7 +93,8 @@ class SBOrderBanner extends PureComponent<Props> {
               />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
-              {latestPendingOrder.paymentMethodId ? (
+              {latestPendingOrder.paymentMethodId ||
+              latestPendingOrder.paymentType === 'PAYMENT_CARD' ? (
                 <FormattedMessage
                   id='scenes.home.banner.receive_cc_order'
                   defaultMessage='Once you finalize your credit card information, your buy order will complete.'
@@ -121,7 +109,7 @@ class SBOrderBanner extends PureComponent<Props> {
           </Column>
         </Row>
         <BannerButton
-          onClick={() => this.showModal(latestPendingOrder)}
+          onClick={() => this.showModal()}
           jumbo
           data-e2e='openPendingSBOrder'
           nature='primary'
@@ -137,7 +125,9 @@ class SBOrderBanner extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(
+    state
+  )
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -148,7 +138,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  orders: Array<SBOrderType>
+  latestPendingOrder?: SBOrderType
 }
 type Props = ConnectedProps<typeof connector>
 

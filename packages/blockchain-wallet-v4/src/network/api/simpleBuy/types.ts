@@ -106,7 +106,7 @@ export type SBPaymentMethodType = {
     min: string
   }
   subTypes: [] | [CardNameType]
-  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
+  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT' | 'FUNDS'
 }
 
 export type SBPaymentMethodsType = {
@@ -157,6 +157,7 @@ export type ISBBuyOrderType = {
   insertedAt: string
   outputQuantity: string
   paymentMethodId?: string
+  paymentType?: SBPaymentMethodType['type']
   price?: string
   state: SBOrderStateType
   updatedAt: string

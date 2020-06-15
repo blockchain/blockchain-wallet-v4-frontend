@@ -127,6 +127,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   name='state'
                   component={SelectBoxUSState}
                   validate={[required]}
+                  normalize={val => val.name}
                 />
               ) : (
                 <Field name='state' component={TextBox} />

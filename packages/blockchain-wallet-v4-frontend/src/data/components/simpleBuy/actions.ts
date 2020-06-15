@@ -11,6 +11,7 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
+  SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
   SBSuggestedAmountType
@@ -69,9 +70,13 @@ export const cancelSBOrder = (order: SBOrderType) => ({
   order
 })
 
-export const createSBOrder = (paymentMethodId?: SBCardType['id']) => ({
+export const createSBOrder = (
+  paymentMethodId?: SBCardType['id'],
+  paymentType?: SBPaymentMethodType['type']
+) => ({
   type: AT.CREATE_ORDER,
-  paymentMethodId
+  paymentMethodId,
+  paymentType
 })
 
 export const confirmSBBankTransferOrder = () => ({
@@ -381,6 +386,10 @@ export const initializeCheckout = (
   orderType
 })
 
+export const pollSBBalances = () => ({
+  type: AT.POLL_SB_BALANCES
+})
+
 export const pollSBCard = (cardId: SBCardType['id']) => ({
   type: AT.POLL_SB_CARD,
   payload: {
@@ -393,10 +402,6 @@ export const pollSBOrder = (orderId: string) => ({
   payload: {
     orderId
   }
-})
-
-export const pollSBOrdersAndBalances = () => ({
-  type: AT.POLL_SB_ORDERS_AND_BALANCES
 })
 
 export const setStep = (

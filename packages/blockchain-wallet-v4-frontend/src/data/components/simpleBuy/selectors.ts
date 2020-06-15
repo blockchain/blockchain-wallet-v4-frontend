@@ -43,6 +43,15 @@ export const getSBOrder = (state: RootState) => state.components.simpleBuy.order
 export const getSBOrders = (state: RootState) =>
   state.components.simpleBuy.orders
 
+export const getSBLatestPendingOrder = (state: RootState) =>
+  state.components.simpleBuy.orders.getOrElse([]).find(order => {
+    return (
+      order.state === 'PENDING_CONFIRMATION' ||
+      order.state === 'PENDING_DEPOSIT' ||
+      order.state === 'DEPOSIT_MATCHED'
+    )
+  })
+
 export const getSBSuggestedAmounts = (state: RootState) =>
   state.components.simpleBuy.suggestedAmounts
 
