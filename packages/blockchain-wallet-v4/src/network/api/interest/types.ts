@@ -2,13 +2,13 @@ import { CoinType, FiatType } from 'core/types'
 
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
-    balance: number
-    fiatAmount: number
-    locked: number
-    pendingDeposit: number
-    pendingInterest: number
-    pendingWithdrawal: number
-    totalInterest: number
+    balance: string
+    fiatAmount: string
+    locked: string
+    pendingDeposit: string
+    pendingInterest: string
+    pendingWithdrawal: string
+    totalInterest: string
   }
 }
 
