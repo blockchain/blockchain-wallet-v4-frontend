@@ -104,6 +104,10 @@ export type SuccessStateType = {
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
-type Props = ConnectedProps<typeof connector>
+
+export type OwnProps = {
+  coin: CoinType
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DepositForm)

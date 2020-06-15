@@ -325,9 +325,13 @@ export default ({
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
-    yield put(A.setInterestStep(payload.step))
+    const { step, coin } = payload
+    yield put(A.setInterestStep(step))
     yield put(
-      actions.modals.showModal('INTEREST_MODAL', { origin: 'InterestPage' })
+      actions.modals.showModal('INTEREST_MODAL', {
+        origin: 'InterestPage',
+        coin
+      })
     )
   }
 

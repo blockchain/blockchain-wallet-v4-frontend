@@ -139,7 +139,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             color='grey600'
             cursor
             name='arrow-left'
-            onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
+            onClick={() =>
+              interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
+            }
             size='20px'
           />
           <Text color='grey800' size='20px' weight={600}>

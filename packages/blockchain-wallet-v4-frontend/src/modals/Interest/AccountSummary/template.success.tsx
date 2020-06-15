@@ -5,6 +5,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InterestStepMetadata } from 'data/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -415,7 +416,9 @@ const AccountSummary: React.FC<Props> = props => {
             fullwidth
             height='48px'
             nature='grey800'
-            onClick={() => interestActions.showInterestModal('WITHDRAWAL')}
+            onClick={() =>
+              interestActions.showInterestModal('WITHDRAWAL', coin)
+            }
           >
             <Text color='white' size='16px' weight={600}>
               <FormattedMessage
@@ -431,6 +434,7 @@ const AccountSummary: React.FC<Props> = props => {
 }
 
 type ParentProps = {
+  coin: CoinType
   handleDepositClick: () => void
   handleSBClick: () => void
   stepMetadata: InterestStepMetadata

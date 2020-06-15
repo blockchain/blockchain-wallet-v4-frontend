@@ -199,6 +199,12 @@ export function interestReducer (
         payment: Remote.Success(payload.payment)
       }
 
+    case AT.SHOW_INTEREST_MODAL:
+      return {
+        ...state,
+        coin: payload.coin
+      }
+
     default:
       return state
   }
