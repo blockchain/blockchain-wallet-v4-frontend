@@ -99,7 +99,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </Title>
         <Value>
-          {props.order.paymentMethodId ? 'Credit Card' : 'Bank Transfer'}
+          {props.order.paymentMethodId ||
+          props.order.paymentType === 'PAYMENT_CARD'
+            ? 'Credit Card'
+            : 'Bank Transfer'}
         </Value>
       </Row>
       <Row>

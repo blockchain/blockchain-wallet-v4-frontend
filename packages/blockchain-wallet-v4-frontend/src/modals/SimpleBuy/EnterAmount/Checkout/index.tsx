@@ -5,6 +5,7 @@ import {
   FiatType,
   InvitationsType,
   RemoteDataType,
+  SBPaymentMethodType,
   SBSuggestedAmountType,
   SupportedCoinsType
 } from 'core/types'
@@ -47,6 +48,10 @@ class Checkout extends PureComponent<Props> {
         false,
         'SBEnterAmountCheckout'
       )
+      this.props.simpleBuyActions.createSBOrder(
+        undefined,
+        formValues?.method?.type as SBPaymentMethodType['type']
+      )
     } else if (formValues && formValues.method) {
       switch (formValues.method.type) {
         case 'PAYMENT_CARD':
@@ -59,6 +64,10 @@ class Checkout extends PureComponent<Props> {
           break
         case 'BANK_ACCOUNT':
           this.props.simpleBuyActions.createSBOrder()
+          break
+        case 'FUNDS':
+          // eslint-disable-next-line
+          console.log('Payment method type not supported.')
       }
     }
   }

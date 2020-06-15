@@ -9,8 +9,6 @@ import {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
-  InvitationsType,
-  RemoteDataType,
   SBAccountType,
   SBCardStateType,
   SBCardType,
@@ -130,12 +128,12 @@ export default ({
       )
       yield put(A.addCardDetailsSuccess(response.data))
     } catch (e) {
+      const error = errorHandler(e)
       yield put(
         A.setStep({
           step: 'ADD_CARD'
         })
       )
-      const error = errorHandler(e)
       yield put(actions.form.startSubmit('addCCForm'))
       yield put(
         actions.form.stopSubmit('addCCForm', {
@@ -173,7 +171,8 @@ export default ({
   }
 
   const createSBOrder = function * ({
-    paymentMethodId
+    paymentMethodId,
+    paymentType
   }: ReturnType<typeof A.createSBOrder>) {
     try {
       const values: SBCheckoutFormValuesType = yield select(
@@ -192,7 +191,8 @@ export default ({
         true,
         { amount, symbol: getFiatFromPair(pair.pair) },
         { symbol: getCoinFromPair(pair.pair) },
-        paymentMethodId
+        paymentMethodId,
+        paymentType
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
@@ -337,12 +337,6 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
       const { skipLoading } = payload
-      const invitationsR: RemoteDataType<
-        string,
-        InvitationsType
-      > = selectors.core.settings.getInvitations(yield select())
-      const invited = invitationsR.getOrElse({ simpleBuyCC: false }).simpleBuyCC
-      if (!invited) return yield put(A.fetchSBCardsSuccess([]))
       if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
       if (!skipLoading) yield put(A.fetchSBCardsLoading())
       const cards = yield call(api.getSBCards)
@@ -380,9 +374,8 @@ export default ({
     payload
   }: ReturnType<typeof A.fetchSBOrders>) {
     try {
+      yield call(waitForUserData)
       const { skipLoading } = payload
-      if (!(yield call(isTier2))) return
-
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
@@ -524,10 +517,6 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
 
-      const invitationsR: RemoteDataType<
-        string,
-        InvitationsType
-      > = selectors.core.settings.getInvitations(yield select())
       const cryptoCurrency = S.getCryptoCurrency(yield select())
       const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
@@ -535,9 +524,7 @@ export default ({
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
-      const isSimpleBuyCCInvited = invitationsR.getOrElse({
-        simpleBuyCC: false
-      }).simpleBuyCC
+      const isSimpleBuyCCInvited = true
       const pair = pairs.find(
         pair => getCoinFromPair(pair.pair) === cryptoCurrency
       )
@@ -595,11 +582,18 @@ export default ({
     )
   }
 
+  const pollSBBalances = function * () {
+    const skipLoading = true
+
+    yield put(A.fetchSBBalances(undefined, skipLoading))
+  }
+
   const pollSBCard = function * ({ payload }: ReturnType<typeof A.pollSBCard>) {
     let retryAttempts = 0
     let maxRetryAttempts = 20
 
     const { cardId } = payload
+
     let card: ReturnType<typeof api.getSBCard> = yield call(
       api.getSBCard,
       cardId
@@ -625,8 +619,15 @@ export default ({
         return
       case 'ACTIVE':
         const skipLoading = true
+        const order = S.getSBOrder(yield select())
         yield put(A.fetchSBCards(skipLoading))
-        return yield put(A.createSBOrder(card.id))
+        // If the order was already created
+        // TODO: test locally!
+        if (order && order.state === 'PENDING_CONFIRMATION') {
+          return yield put(A.confirmSBCreditCardOrder(card.id))
+        } else {
+          return yield put(A.createSBOrder(card.id))
+        }
       default:
         yield call(pollSBCardErrorHandler, card.state)
     }
@@ -659,23 +660,10 @@ export default ({
     yield put(A.setStep({ step: 'ORDER_SUMMARY', order }))
   }
 
-  const pollSBOrdersAndBalances = function * () {
-    let retryAttempts = 0
-    const maxRetryAttempts = 10
-    const skipLoading = true
-
-    while (retryAttempts <= maxRetryAttempts) {
-      yield put(A.fetchSBOrders(skipLoading))
-      yield put(A.fetchSBBalances(undefined, skipLoading))
-      retryAttempts++
-      yield delay(2000)
-    }
-  }
-
   const setStepChange = function * (action: ReturnType<typeof A.setStep>) {
     if (action.type === '@EVENT.SET_SB_STEP') {
       if (action.payload.step === 'ORDER_SUMMARY') {
-        yield call(pollSBOrdersAndBalances)
+        yield call(pollSBBalances)
       }
     }
   }
@@ -686,9 +674,21 @@ export default ({
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
     const fiatCurrency = selectors.preferences.getSBFiatCurrency(yield select())
+    const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     if (!fiatCurrency) {
       yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
+    } else if (latestPendingOrder) {
+      const step =
+        latestPendingOrder.state === 'PENDING_CONFIRMATION'
+          ? 'CHECKOUT_CONFIRM'
+          : 'ORDER_SUMMARY'
+      yield put(
+        A.setStep({
+          step,
+          order: latestPendingOrder
+        })
+      )
     } else {
       yield put(
         A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
@@ -717,9 +717,9 @@ export default ({
     handleSBSuggestedAmountClick,
     initializeBillingAddress,
     initializeCheckout,
+    pollSBBalances,
     pollSBCard,
     pollSBOrder,
-    pollSBOrdersAndBalances,
     setStepChange,
     showModal
   }

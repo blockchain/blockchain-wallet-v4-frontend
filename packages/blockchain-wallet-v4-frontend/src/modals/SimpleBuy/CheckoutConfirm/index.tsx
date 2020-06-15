@@ -9,6 +9,7 @@ import {
   SupportedCoinsType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -22,10 +23,27 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
+    const { userData } = this.props.data.getOrElse({
+      userData: { tiers: { current: 0 } }
+    })
+
+    if (userData.tiers.current < 2) {
+      this.props.identityVerificationActions.verifyIdentity(
+        2,
+        false,
+        'SBEnterAmountCheckout'
+      )
+      return
+    }
+
     if (this.props.order.paymentMethodId) {
       this.props.simpleBuyActions.confirmSBCreditCardOrder(
         this.props.order.paymentMethodId
       )
+    } else if (this.props.order.paymentType === 'PAYMENT_CARD') {
+      this.props.simpleBuyActions.setStep({
+        step: 'ADD_CARD'
+      })
     } else {
       this.props.simpleBuyActions.confirmSBBankTransferOrder()
     }
@@ -58,6 +76,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
@@ -69,6 +91,7 @@ type OwnProps = {
 }
 export type SuccessStateType = {
   quote: SBQuoteType
+  userData: UserDataType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>

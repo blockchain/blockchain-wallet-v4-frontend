@@ -46,6 +46,7 @@ const IcoMoon = {
   'comment-alt-regular': '\\e982',
   'credit-card': '\\e941',
   'credit-card-filled': '\\e90e',
+  'credit-card-sb': '\\e92e',
   dollars: '\\e942',
   download: '\\e911',
   ellipsis: '\\e947',

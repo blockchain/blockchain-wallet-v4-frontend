@@ -50,11 +50,11 @@ export type SBFormPaymentMethod =
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'ENTER_AMOUNT',
+  'ORDER_SUMMARY',
+  'CHECKOUT_CONFIRM',
   'ADD_CARD',
   'CC_BILLING_ADDRESS',
-  'CHECKOUT_CONFIRM',
   '3DS_HANDLER',
-  'ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'CANCEL_ORDER'
 }

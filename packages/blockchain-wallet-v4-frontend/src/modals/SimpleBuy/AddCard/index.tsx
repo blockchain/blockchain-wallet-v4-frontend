@@ -1,8 +1,15 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, RemoteDataType, SBPaymentMethodsType } from 'core/types'
+import {
+  FiatType,
+  RemoteDataType,
+  SBBuyOrderType,
+  SBPaymentMethodsType,
+  SBSellOrderType
+} from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import { SBAddCardFormValuesType } from 'data/types'
 import DataError from 'components/DataError'
@@ -11,6 +18,12 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
+  componentDidMount () {
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+    }
+  }
+
   handleSubmit = () => {
     this.props.simpleBuyActions.addCardDetails()
   }
@@ -33,7 +46,8 @@ class AddCard extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state)
+  data: getData(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -50,10 +64,11 @@ type LinkDispatchPropsType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  fiatCurrency: FiatType
 }
 export type SuccessStateType = {
-  fiatCurrency: FiatType
   formValues?: SBAddCardFormValuesType
+  order: SBBuyOrderType | SBSellOrderType | undefined
   paymentMethods: SBPaymentMethodsType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

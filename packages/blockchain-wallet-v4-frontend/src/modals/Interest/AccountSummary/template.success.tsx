@@ -48,7 +48,8 @@ const AccountSummary: React.FC<Props> = props => {
   const account = accountBalances && accountBalances[coin]
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
 
-  const availToWithdraw = account && account.balance - account.locked
+  const availToWithdraw =
+    account && parseInt(account.balance) - parseInt(account.locked)
 
   const accountBalanceStandard =
     account &&
@@ -319,7 +320,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
-                {account.balance > 0 ||
+                {parseInt(account.balance) > 0 ||
                 (stepMetadata && stepMetadata.depositSuccess)
                   ? moment()
                       .add(1, 'month')
