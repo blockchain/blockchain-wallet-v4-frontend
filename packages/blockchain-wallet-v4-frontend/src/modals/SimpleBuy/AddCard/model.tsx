@@ -4,8 +4,8 @@ import React from 'react'
 
 import { ErrorType, Props as OwnProps } from './template.success'
 
-export const Error = (props: Props) => {
-  switch (props.error) {
+export const Error = ({ error }: { error: Props['error'] }) => {
+  switch (error) {
     case 'CARD_ALREADY_SAVED':
       return (
         <FormattedMessage
@@ -47,7 +47,7 @@ export const Error = (props: Props) => {
       )
 
     default:
-      return <>{'System Error: ' + JSON.stringify(props.error)}</>
+      return <>{'System Error: ' + JSON.stringify(error)}</>
   }
 }
 
