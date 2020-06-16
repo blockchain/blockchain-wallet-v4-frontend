@@ -240,31 +240,13 @@ function TransactionList (props: Props): ReactElement | null {
 
                 <AmountTableCell width='20%'>
                   <div>
-                    <FiatAmountWrapper
-                      color='grey800'
-                      coin={amount.symbol}
-                      currency={walletCurrency}
-                      data-e2e='interestTxFiatAmount'
-                      rates={btcRates}
-                      size='14px'
-                      style={{ marginBottom: '4px', alignItems: 'right' }}
-                      weight={600}
-                    >
-                      {
-                        Exchange.convertCoinToCoin({
-                          value: amount.value,
-                          coin: amount.symbol,
-                          baseToStandard: false
-                        }).value
-                      }
-                    </FiatAmountWrapper>
                     <CoinAmountWrapper
                       coin={amount.symbol}
-                      color='grey600'
-                      weight={500}
+                      color='grey800'
+                      weight={600}
                       data-e2e='interestTxCoinAmount'
-                      size='13px'
-                      style={{ lineHeight: '1.5' }}
+                      size='14px'
+                      style={{ marginBottom: '4px', lineHeight: '1.5' }}
                     >
                       {
                         Exchange.convertCoinToCoin({
@@ -274,6 +256,24 @@ function TransactionList (props: Props): ReactElement | null {
                         }).value
                       }
                     </CoinAmountWrapper>
+                    <FiatAmountWrapper
+                      color='grey600'
+                      coin={amount.symbol}
+                      currency={walletCurrency}
+                      data-e2e='interestTxFiatAmount'
+                      rates={btcRates}
+                      size='12px'
+                      style={{ alignItems: 'right' }}
+                      weight={500}
+                    >
+                      {
+                        Exchange.convertCoinToCoin({
+                          value: amount.value,
+                          coin: amount.symbol,
+                          baseToStandard: false
+                        }).value
+                      }
+                    </FiatAmountWrapper>
                     {type === 'DEPOSIT' && (
                       <ViewTransaction
                         data-e2e='viewTxHash'

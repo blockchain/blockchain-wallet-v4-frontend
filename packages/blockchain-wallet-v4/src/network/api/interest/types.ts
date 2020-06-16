@@ -22,7 +22,8 @@ export type InterestInstrumentsType = {
 }
 
 export type InterestLimitsType = {
-  [key in CoinType]: {
+  ETH: {
+    // [key in CoinType]: {
     currency: FiatType
     lockUpDuration: number
     maxWithdrawalAmount: number

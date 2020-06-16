@@ -39,14 +39,16 @@ const AccountSummary: React.FC<Props> = props => {
     handleDepositClick,
     handleSBClick,
     interestActions,
-    interestLimits,
+    // interestLimits,
     interestRate,
     stepMetadata,
     supportedCoins
   } = props
-  const displayName = supportedCoins[coin].displayName
+  const { colorCode, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
-  const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+  // comments add to dev up eth
+  // const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+  const lockupPeriod = 1
 
   const availToWithdraw =
     account && parseInt(account.balance) - parseInt(account.locked)
@@ -55,7 +57,7 @@ const AccountSummary: React.FC<Props> = props => {
     account &&
     Exchange.convertCoinToCoin({
       value: account.balance || 0,
-      coin: 'BTC',
+      coin,
       baseToStandard: true
     }).value
 
@@ -63,17 +65,26 @@ const AccountSummary: React.FC<Props> = props => {
     account &&
     Exchange.convertCoinToCoin({
       value: account.totalInterest || 0,
-      coin: 'BTC',
+      coin,
       baseToStandard: true
     }).value
+
+  const pendingInterestStandard =
+    account &&
+    Exchange.convertCoinToCoin({
+      value: account.pendingInterest || 0,
+      coin,
+      baseToStandard: true
+    }).value
+
   return (
     <Wrapper>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <Row>
             <Icon
-              name='btc-circle-filled'
-              color='btc'
+              name={icons.circleFilled}
+              color={colorCode}
               size='24px'
               style={{ marginRight: '16px' }}
             />
@@ -107,27 +118,23 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
+                <Text color='grey800' size='20px' weight={600}>
+                  {accountBalanceStandard} {coin}
+                </Text>
                 <FiatDisplay
-                  color='grey800'
-                  size='20px'
-                  weight={600}
-                  coin={coin}
-                >
-                  {account.balance}
-                </FiatDisplay>
-                <Text
                   color='grey600'
                   size='14px'
                   weight={500}
+                  coin={coin}
                   style={{ marginTop: '5px' }}
                 >
-                  {accountBalanceStandard} {coin}
-                </Text>
+                  {account.balance}
+                </FiatDisplay>
               </>
             ) : (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                0
-              </FiatDisplay>
+              <Text color='grey800' size='20px' weight={600}>
+                0 {coin}
+              </Text>
             )}
           </Container>
           <Container>
@@ -144,27 +151,23 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
+                <Text color='grey800' size='20px' weight={600}>
+                  {interestBalanceStandard} {coin}
+                </Text>
                 <FiatDisplay
-                  color='grey800'
-                  size='20px'
-                  weight={600}
-                  coin={coin}
-                >
-                  {account.totalInterest}
-                </FiatDisplay>
-                <Text
                   color='grey600'
                   size='14px'
                   weight={500}
+                  coin={coin}
                   style={{ marginTop: '5px' }}
                 >
-                  {interestBalanceStandard} {coin}
-                </Text>
+                  {account.totalInterest}
+                </FiatDisplay>
               </>
             ) : (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                0
-              </FiatDisplay>
+              <Text color='grey800' size='20px' weight={600}>
+                0 {coin}
+              </Text>
             )}
           </Container>
         </Row>
@@ -346,9 +349,9 @@ const AccountSummary: React.FC<Props> = props => {
               </TooltipHost>
             </Text>
             {account ? (
-              <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
-                {account.pendingInterest}
-              </FiatDisplay>
+              <Text color='grey600' size='14px' weight={500}>
+                {pendingInterestStandard} {coin}
+              </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>
                 --

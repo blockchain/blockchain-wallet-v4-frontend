@@ -99,6 +99,9 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         </Text>
       </Row>
       <Row>
+        <TooltipHost id='earninterest.calculation.tooltip'>
+          <TooltipIcon name='info' size='14px' />
+        </TooltipHost>
         <Text
           size='12px'
           weight={500}
@@ -124,74 +127,73 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             />
           )}
         </Text>
-        <TooltipHost id='earninterest.calculation.tooltip'>
-          <TooltipIcon name='info' size='14px' />
-        </TooltipHost>
       </Row>
       <Separator />
       <AmountRow>
         <AmountColumn>
-          <FiatDisplay
-            color='grey800'
-            coin={coinTicker}
-            currency={walletCurrency}
-            loadingHeight='24px'
-            size='16px'
-            style={{ lineHeight: '1.5' }}
-            weight={600}
-          >
-            {balanceSats}
-          </FiatDisplay>
           <Text
-            data-e2e='btcBalance'
             size='12px'
             weight={500}
+            style={{ lineHeight: '1.5', marginTop: '5px' }}
+            color='grey600'
+          >
+            <FormattedMessage
+              id='modals.interest.detailsbalance'
+              defaultMessage='{coin} Balance'
+              values={{ coin }}
+            />
+          </Text>
+          <Text
+            data-e2e='btcBalance'
+            size='14px'
+            weight={600}
             style={{ lineHeight: '1.5' }}
           >
             {balanceStandard} {coinTicker}
           </Text>
-          <Text
-            size='12px'
-            weight={500}
-            style={{ lineHeight: '1.5', marginTop: '5px' }}
-          >
-            <FormattedMessage
-              id='modals.interest.detailsbalance'
-              defaultMessage='Your {coin} Balance'
-              values={{ coin }}
-            />
-          </Text>
-        </AmountColumn>
-        <AmountColumn>
           <FiatDisplay
-            color='grey800'
+            color='grey600'
             coin={coinTicker}
             currency={walletCurrency}
             loadingHeight='24px'
-            size='16px'
-            style={{ lineHeight: '1.5' }}
-            weight={600}
-          >
-            {totalInterest}
-          </FiatDisplay>
-          <Text
-            data-e2e='btcInterest'
             size='12px'
-            weight={500}
             style={{ lineHeight: '1.5' }}
+            weight={500}
           >
-            {totalInterestStandard} {coinTicker}
-          </Text>
+            {balanceSats}
+          </FiatDisplay>
+        </AmountColumn>
+        <AmountColumn>
           <Text
             size='12px'
             weight={500}
             style={{ lineHeight: '1.5', marginTop: '5px' }}
+            color='grey600'
           >
             <FormattedMessage
               id='scenes.interest.summarycard.totalinterest'
               defaultMessage='Total Interest Earned'
             />
           </Text>
+          <Text
+            data-e2e='btcInterest'
+            size='14px'
+            weight={600}
+            style={{ lineHeight: '1.5' }}
+          >
+            {totalInterestStandard} {coinTicker}
+          </Text>
+          <FiatDisplay
+            color='grey600'
+            coin={coinTicker}
+            currency={walletCurrency}
+            loadingHeight='24px'
+            size='12px'
+            style={{ lineHeight: '1.5' }}
+            weight={500}
+          >
+            {totalInterest}
+          </FiatDisplay>
         </AmountColumn>
       </AmountRow>
       {balanceSats > 0 ? (

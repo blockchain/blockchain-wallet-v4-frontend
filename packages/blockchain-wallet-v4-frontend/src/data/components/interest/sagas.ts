@@ -1,6 +1,6 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { last, nth } from 'ramda'
+import { head, last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { actions, model, selectors } from 'data'
@@ -85,18 +85,22 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * ({
-    coin,
-    currency
-  }: ReturnType<typeof A.fetchInterestLimits>) {
+  const fetchInterestLimits = function * () {
+    //   {
+    //   // coin,
+    //   // currency
+    // }:
+    // ReturnType<typeof A.fetchInterestLimits>) {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
-        api.getInterestLimits,
-        coin,
-        currency
+        api.getInterestLimits
+        // ,
+        // coin,
+        // currency
       )
-      yield put(A.fetchInterestLimitsSuccess(response.limits))
+      yield put(A.fetchInterestLimitsSuccess(response))
+      // yield put(A.fetchInterestLimitsSuccess(response.limits))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestLimitsFailure(error))
@@ -205,24 +209,34 @@ export default ({
 
     switch (coin) {
       case 'BTC':
-        const accountsR = yield select(
+        const btcAccountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
         const defaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
-        defaultAccountR = accountsR.map(nth(defaultIndex))
+        defaultAccountR = btcAccountsR.map(nth(defaultIndex))
         payment = yield call(createPayment, defaultIndex)
         break
-      default:
+
+      case 'ETH':
+        const ethAccountR = yield select(
+          selectors.core.common.eth.getAccountBalances
+        )
+        defaultAccountR = ethAccountR.map(head)
+        payment = yield call(createPayment, defaultAccountR)
         break
+      default:
+        throw new Error('Invalid Coin Type')
     }
 
     yield call(createLimits, payment)
     yield put(A.setPaymentSuccess(payment.value()))
     yield put(
       initialize('interestDepositForm', {
-        interestDepositAccount: defaultAccountR.getOrElse()
+        interestDepositAccount: defaultAccountR.getOrElse(),
+        coin,
+        currency
       })
     )
   }

@@ -61,6 +61,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             rates
           }).value
           break
+        case 'ETH':
+          maxFiat = Exchange.convertEthToFiat({
+            value: balance,
+            fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
         case 'PAX':
           maxFiat = Exchange.convertPaxToFiat({
             value: balance,
@@ -76,16 +84,16 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
       const maxCoin = Exchange.convertCoinToCoin({
         value: balance,
-        coin: 'BTC',
+        coin,
         baseToStandard: true
       }).value
 
-      const minCoin = Exchange.convertFiatToBtc({
-        fromCurrency: walletCurrency,
-        toUnit: 'BTC',
-        rates,
-        value: Number(convertBaseToStandard('FIAT', minFiat))
-      }).value
+      const minCoin = Exchange.convertFiatToCoin(
+        Number(convertBaseToStandard('FIAT', minFiat)),
+        coin,
+        walletCurrency,
+        rates
+      )
 
       yield put(
         A.setDepositLimits({
@@ -112,6 +120,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         payment = yield payment.init()
         payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
         payment = yield payment.fee('regular')
+        break
+      case 'ETH':
+        payment = coreSagas.payment.eth.create({
+          network: networks.eth
+        })
+        payment = yield payment.init({ isErc20: false, coin })
+        payment = yield payment.from()
+        payment = yield payment.fee('priority')
         break
       case 'PAX':
         payment = coreSagas.payment.eth.create({

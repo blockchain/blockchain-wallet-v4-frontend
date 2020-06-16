@@ -39,13 +39,23 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   //   endPoint: '/savings/instruments'
   // })
 
-  const getInterestLimits = (
-    ccy: CoinType,
-    currency: FiatType
-  ): { limits: InterestLimitsType } =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`
+  const getInterestLimits = (): InterestLimitsType =>
+    // (
+    //   ccy: CoinType,
+    //   currency: FiatType
+    // ): { limits: InterestLimitsType } =>
+    //   authorizedGet({
+    //     url: nabuUrl,
+    //     endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`
+    //   })
+
+    ({
+      ETH: {
+        currency: 'GBP',
+        lockUpDuration: 7200,
+        maxWithdrawalAmount: 80000000,
+        minDepositAmount: 80
+      }
     })
 
   const getInterestTransactions = (
@@ -58,11 +68,20 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
         : '/payments/transactions?product=savings&'
     })
 
-  const getInterestSavingsRate = (): InterestRateType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/rates'
-    })
+  const getInterestSavingsRate = (): InterestRateType => ({
+    rates: {
+      BTC: 5.2,
+      ETH: 4.5,
+      BCH: 0,
+      PAX: 0,
+      XLM: 0
+    }
+  })
+
+  // authorizedGet({
+  //   url: nabuUrl,
+  //   endPoint: '/savings/rates'
+  // })
 
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({
