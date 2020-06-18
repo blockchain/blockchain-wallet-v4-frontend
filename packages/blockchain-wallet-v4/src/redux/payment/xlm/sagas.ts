@@ -1,5 +1,10 @@
-import * as S from '../../selectors'
 import * as StellarSdk from 'stellar-sdk'
+import { call, select } from 'redux-saga/effects'
+import { contains, merge, path, prop, values } from 'ramda'
+
+import { convertXlmToXlm } from 'core/exchange'
+
+import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
 import {
   calculateEffectiveBalance,
@@ -9,9 +14,6 @@ import {
   overflowsFullBalance,
   calculateFee as utilsCalculateFee
 } from '../../../utils/xlm'
-import { call, select } from 'redux-saga/effects'
-import { contains, merge, path, prop, values } from 'ramda'
-import { convertXlmToXlm } from '../../../exchange'
 import { FromType } from '../types'
 import {
   isPositiveInteger,
@@ -46,7 +48,6 @@ export const INVALID_ADDRESS_ERROR = 'Invalid address'
 export const INVALID_AMOUNT_ERROR = 'Invalid amount'
 export const INSUFFICIENT_FUNDS_ERROR = 'Insufficient funds'
 export const RESERVE_ERROR = 'Reserve exceeds remaining funds'
-export const NEW_ACCOUNT_ERROR = 'Not enough funds to create new account'
 export const NO_DESTINATION_ERROR = 'No destination'
 export const NO_AMOUNT_ERROR = 'No amount'
 export const NO_SOURCE_ERROR = 'No source account'
@@ -254,6 +255,7 @@ export default ({ api }) => {
         const timebounds = yield call(api.getTimebounds, timeout)
         const txBuilder = new StellarSdk.TransactionBuilder(account, {
           fee,
+          networkPassphrase: StellarSdk.Networks.PUBLIC, // TODO: pass in app config to detect env and thus add testnet support
           timebounds
         })
         const operation = yield call(

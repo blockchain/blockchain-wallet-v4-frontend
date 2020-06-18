@@ -85,7 +85,7 @@ const api = ({
     ...rates({ nabuUrl, ...authorizedHttp }),
     ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),
-    ...xlm({ apiUrl, horizonUrl, network: networks.xlm, ...http })
+    ...xlm({ apiUrl, horizonUrl, ...http })
   }
 }
 
