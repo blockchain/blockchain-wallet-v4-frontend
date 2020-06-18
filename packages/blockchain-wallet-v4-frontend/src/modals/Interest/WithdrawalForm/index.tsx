@@ -71,8 +71,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
-  availToWithdrawCrypto: number
-  availToWithdrawFiat: number
+  availToWithdraw: number
   coin: CoinType
   displayCoin: boolean
   interestLimits: InterestLimitsType

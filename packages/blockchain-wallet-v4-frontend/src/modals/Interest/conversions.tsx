@@ -1,3 +1,4 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'core'
 import {
   fiatToString,
@@ -13,6 +14,13 @@ export const calcCompoundInterest = (principal, rate, term) => {
     Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * 100), COMPOUNDS_PER_YEAR * term)
   return formatFiat(totalAmount - principalInt)
 }
+
+export const amountConverter = (amount, coin) =>
+  Exchange.convertCoinToCoin({
+    value: amount || 0,
+    coin,
+    baseToStandard: true
+  }).value
 
 export const amountToFiat = (
   displayCoin,
@@ -37,16 +45,7 @@ export const amountToCrypto = (
   if (displayCoin) {
     return amount
   } else {
-    return Exchange.convertCoinToCoin({
-      baseToStandard: true,
-      coin,
-      value: Exchange.convertFiatToBtc({
-        fromCurrency: walletCurrency,
-        toUnit: coin === 'BTC' ? 'SAT' : 'WEI',
-        rates,
-        value: amount
-      }).value
-    }).value
+    return Exchange.convertFiatToCoin(amount, coin, walletCurrency, rates)
   }
 }
 
@@ -55,3 +54,17 @@ export const maxFiat = (maxFiat, walletCurrency) =>
     value: maxFiat,
     unit: walletCurrency
   })
+
+export const availToWithdrawFiatConverter = (
+  amount,
+  coin,
+  walletCurrency,
+  rates
+) => {
+  return Exchange.convertCoinToFiat(
+    convertBaseToStandard(amount, coin),
+    coin,
+    walletCurrency,
+    rates
+  )
+}

@@ -85,22 +85,18 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * () {
-    //   {
-    //   // coin,
-    //   // currency
-    // }:
-    // ReturnType<typeof A.fetchInterestLimits>) {
+  const fetchInterestLimits = function * ({
+    coin,
+    currency
+  }: ReturnType<typeof A.fetchInterestLimits>) {
     try {
       yield put(A.fetchInterestLimitsLoading())
       const response: ReturnType<typeof api.getInterestLimits> = yield call(
-        api.getInterestLimits
-        // ,
-        // coin,
-        // currency
+        api.getInterestLimits,
+        coin,
+        currency
       )
-      yield put(A.fetchInterestLimitsSuccess(response))
-      // yield put(A.fetchInterestLimitsSuccess(response.limits))
+      yield put(A.fetchInterestLimitsSuccess(response.limits))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestLimitsFailure(error))

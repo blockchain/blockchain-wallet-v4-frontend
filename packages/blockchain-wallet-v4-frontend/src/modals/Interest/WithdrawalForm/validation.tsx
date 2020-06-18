@@ -1,8 +1,10 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 
+import { availToWithdrawFiatConverter } from '../conversions'
 import { InterestWithdrawalFormType } from 'data/types'
 
 export const maximumWithdrawalAmount = (
@@ -10,10 +12,10 @@ export const maximumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  const { displayCoin, availToWithdrawCrypto, availToWithdrawFiat } = props
+  const { coin, displayCoin, availToWithdraw, walletCurrency, rates } = props
   const withdrawalLimit = displayCoin
-    ? availToWithdrawCrypto
-    : availToWithdrawFiat
+    ? convertBaseToStandard(coin, availToWithdraw)
+    : availToWithdrawFiatConverter(availToWithdraw, coin, walletCurrency, rates)
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'

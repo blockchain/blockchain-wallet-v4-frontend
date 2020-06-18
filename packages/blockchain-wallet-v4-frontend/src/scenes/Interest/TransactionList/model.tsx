@@ -21,14 +21,14 @@ export const FiatAmountWrapper = styled(FiatDisplay)`
   justify-content: flex-end;
 `
 
-export const IconBackground = styled.div`
+export const IconBackground = styled.div<{ colorCodeLight }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 32px;
   height: 32px;
   min-width: 32px;
-  background-color: ${props => props.theme.orange000};
+  background-color: ${props => props.colorCodeLight};
   border-radius: 32px;
 `
 

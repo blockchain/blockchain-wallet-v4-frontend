@@ -11,9 +11,9 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import { Exchange } from 'core'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)`
@@ -70,21 +70,15 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     walletCurrency
   } = props
   const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
-  const balanceSats = interestAccountBalance.BTC
-    ? interestAccountBalance.BTC.balance
-    : 0
-  const balanceStandard = Exchange.convertCoinToCoin({
-    value: balanceSats || 0,
+  const account = interestAccountBalance && interestAccountBalance[coin]
+  const accountBalanceBase = account ? account.balance : 0
+  const interestBalanceBase = account && account.totalInterest
+
+  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
+  const interestBalanceStandard = convertBaseToStandard(
     coin,
-    baseToStandard: true
-  }).value
-  const totalInterest =
-    interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
-  const totalInterestStandard = Exchange.convertCoinToCoin({
-    value: totalInterest || 0,
-    coin,
-    baseToStandard: true
-  }).value
+    interestBalanceBase
+  )
   return (
     <DepositBox>
       <Row>
@@ -107,7 +101,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           weight={500}
           style={{ marginLeft: '6px', lineHeight: '1.5' }}
         >
-          {balanceSats > 0 ? (
+          {accountBalanceBase > 0 ? (
             <FormattedMessage
               id='scenes.interest.summarycard.earning'
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
@@ -149,7 +143,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             weight={600}
             style={{ lineHeight: '1.5' }}
           >
-            {balanceStandard} {coinTicker}
+            {accountBalanceStandard} {coinTicker}
           </Text>
           <FiatDisplay
             color='grey600'
@@ -160,7 +154,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             style={{ lineHeight: '1.5' }}
             weight={500}
           >
-            {balanceSats}
+            {accountBalanceBase}
           </FiatDisplay>
         </AmountColumn>
         <AmountColumn>
@@ -181,7 +175,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             weight={600}
             style={{ lineHeight: '1.5' }}
           >
-            {totalInterestStandard} {coinTicker}
+            {interestBalanceStandard} {coinTicker}
           </Text>
           <FiatDisplay
             color='grey600'
@@ -192,11 +186,11 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             style={{ lineHeight: '1.5' }}
             weight={500}
           >
-            {totalInterest}
+            {interestBalanceBase}
           </FiatDisplay>
         </AmountColumn>
       </AmountRow>
-      {balanceSats > 0 ? (
+      {accountBalanceBase > 0 ? (
         <Button
           disabled={!isGoldTier || !interestEligible.eligible}
           style={{ marginTop: '16px' }}

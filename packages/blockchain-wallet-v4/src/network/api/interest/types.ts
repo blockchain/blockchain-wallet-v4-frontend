@@ -3,7 +3,7 @@ import { CoinType, FiatType } from 'core/types'
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
     balance: string
-    fiatAmount: string
+    fiatAmount: string | null
     locked: string
     pendingDeposit: string
     pendingInterest: string
@@ -17,13 +17,10 @@ export type InterestEligibleType = {
   ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
 }
 
-export type InterestInstrumentsType = {
-  instruments: Array<CoinType>
-}
+export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestLimitsType = {
-  ETH: {
-    // [key in CoinType]: {
+  [key in CoinType]: {
     currency: FiatType
     lockUpDuration: number
     maxWithdrawalAmount: number

@@ -6,6 +6,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import { CoinType } from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
 import { InterestStepMetadata } from 'data/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -28,7 +29,6 @@ import {
   Wrapper
 } from './model'
 
-import { Exchange } from 'core'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const AccountSummary: React.FC<Props> = props => {
@@ -44,39 +44,28 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, displayName, icons } = supportedCoins[coin]
+  const { colorCode, colorCodeLight, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
   // comments add to dev up eth
   // const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
   const lockupPeriod = 1
 
+  const accountBalanceBase = account && account.balance
+  const interestBalanceBase = account && account.totalInterest
+  const pendingInterestBase = account && account.pendingInterest
+
   const availToWithdraw =
     account && parseInt(account.balance) - parseInt(account.locked)
 
-  const accountBalanceStandard =
-    account &&
-    Exchange.convertCoinToCoin({
-      value: account.balance || 0,
-      coin,
-      baseToStandard: true
-    }).value
-
-  const interestBalanceStandard =
-    account &&
-    Exchange.convertCoinToCoin({
-      value: account.totalInterest || 0,
-      coin,
-      baseToStandard: true
-    }).value
-
-  const pendingInterestStandard =
-    account &&
-    Exchange.convertCoinToCoin({
-      value: account.pendingInterest || 0,
-      coin,
-      baseToStandard: true
-    }).value
-
+  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
+  const interestBalanceStandard = convertBaseToStandard(
+    coin,
+    interestBalanceBase
+  )
+  const pendingInterestStandard = convertBaseToStandard(
+    coin,
+    pendingInterestBase
+  )
   return (
     <Wrapper>
       <Top>
@@ -118,7 +107,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
-                <Text color='grey800' size='20px' weight={600}>
+                <Text color='grey800' size='18px' weight={600}>
                   {accountBalanceStandard} {coin}
                 </Text>
                 <FiatDisplay
@@ -132,7 +121,7 @@ const AccountSummary: React.FC<Props> = props => {
                 </FiatDisplay>
               </>
             ) : (
-              <Text color='grey800' size='20px' weight={600}>
+              <Text color='grey800' size='18px' weight={600}>
                 0 {coin}
               </Text>
             )}
@@ -151,7 +140,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
-                <Text color='grey800' size='20px' weight={600}>
+                <Text color='grey800' size='18px' weight={600}>
                   {interestBalanceStandard} {coin}
                 </Text>
                 <FiatDisplay
@@ -165,44 +154,44 @@ const AccountSummary: React.FC<Props> = props => {
                 </FiatDisplay>
               </>
             ) : (
-              <Text color='grey800' size='20px' weight={600}>
+              <Text color='grey800' size='18px' weight={600}>
                 0 {coin}
               </Text>
             )}
           </Container>
         </Row>
         <LineVector />
-        {stepMetadata && stepMetadata.depositSuccess && (
-          <>
-            <StatusWrapper>
-              <StatusIconWrapper color='orange000'>
-                <Icon color='orange600' name='timer' size='24px' />
-              </StatusIconWrapper>
-              <Text
-                data-e2e='waitingConfirmation'
-                color='grey600'
-                size='14px'
-                weight={500}
-              >
-                <FormattedMessage
-                  id='modals.interest.deposit.success.confirm'
-                  defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
-                />
-              </Text>
-            </StatusWrapper>
-            <StatusWrapper>
-              <StatusIconWrapper color='grey000'>
-                <Icon color='grey600' name='check' size='14px' />
-              </StatusIconWrapper>
-              <Text color='grey600' size='14px' weight={500}>
-                <FormattedMessage
-                  id='modals.interest.deposit.clears'
-                  defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
-                />
-              </Text>
-            </StatusWrapper>
-          </>
-        )}
+        {/* {stepMetadata && stepMetadata.depositSuccess && ( */}
+        <>
+          <StatusWrapper>
+            <StatusIconWrapper color={colorCodeLight}>
+              <Icon color={colorCode} name='timer' size='24px' />
+            </StatusIconWrapper>
+            <Text
+              data-e2e='waitingConfirmation'
+              color='grey600'
+              size='14px'
+              weight={500}
+            >
+              <FormattedMessage
+                id='modals.interest.deposit.success.confirm'
+                defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
+              />
+            </Text>
+          </StatusWrapper>
+          <StatusWrapper>
+            <StatusIconWrapper color='grey000'>
+              <Icon color='grey600' name='check' size='14px' />
+            </StatusIconWrapper>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedMessage
+                id='modals.interest.deposit.clears'
+                defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
+              />
+            </Text>
+          </StatusWrapper>
+        </>
+        {/* )} */}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
             <StatusIconWrapper color='orange000'>

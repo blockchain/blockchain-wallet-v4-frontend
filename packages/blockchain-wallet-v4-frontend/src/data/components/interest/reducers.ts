@@ -8,7 +8,7 @@ import { InterestActionTypes, InterestState } from './types'
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
   accountBalance: Remote.NotAsked,
-  coin: 'BTC',
+  coin: 'ETH',
   depositLimits: {
     maxFiat: 0,
     minFiat: 0,

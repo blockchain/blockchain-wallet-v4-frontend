@@ -108,7 +108,7 @@ function TransactionList (props: Props): ReactElement | null {
                 <InterestTableCell width='20%'>
                   {type === 'WITHDRAWAL' ? (
                     <React.Fragment>
-                      <IconBackground>
+                      <IconBackground colorCodeLight>
                         <Icon
                           name='arrow-up'
                           color={colorCode}
@@ -146,7 +146,7 @@ function TransactionList (props: Props): ReactElement | null {
                     </React.Fragment>
                   ) : type === 'DEPOSIT' ? (
                     <React.Fragment>
-                      <IconBackground>
+                      <IconBackground colorCodeLight>
                         <Icon
                           name='arrow-down'
                           color={colorCode}

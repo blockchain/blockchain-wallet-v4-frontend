@@ -1,8 +1,6 @@
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Exchange } from 'blockchain-wallet-v4/src'
-
 import { lift } from 'ramda'
 import { selectors } from 'data'
+import BigNumber from 'bignumber.js'
 
 export const getData = state => {
   const btcRateR = selectors.core.data.btc.getRates(state)
@@ -24,25 +22,9 @@ export const getData = state => {
       interestLimits
     ) => ({
       accountBalances,
-      accountBalanceStandard: accountBalances[coin].balance,
-      availToWithdrawCrypto: Exchange.convertCoinToCoin({
-        value: accountBalances[coin].balance - accountBalances[coin].locked,
-        coin,
-        baseToStandard: true
-      }).value,
-      availToWithdrawFiat:
-        Exchange.convertCoinToFiat(
-          convertBaseToStandard(coin, accountBalances[coin].balance),
-          coin,
-          walletCurrency,
-          rates
-        ) -
-        Exchange.convertCoinToFiat(
-          convertBaseToStandard(coin, accountBalances[coin].locked),
-          coin,
-          walletCurrency,
-          rates
-        ),
+      availToWithdraw: new BigNumber(
+        Number(accountBalances[coin].balance)
+      ).minus(accountBalances[coin].locked),
       coin,
       displayCoin,
       rates,
