@@ -41,15 +41,15 @@ const AccountSummary: React.FC<Props> = props => {
     interestActions,
     // interestLimits,
     interestRate,
+    lockupPeriod,
     stepMetadata,
     supportedCoins
   } = props
   const { colorCode, colorCodeLight, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
-  // comments add to dev up eth
-  // const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  const lockupPeriod = 1
 
+  // const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+  // const lockupPeriod = 1
   const accountBalanceBase = account && account.balance
   const interestBalanceBase = account && account.totalInterest
   const pendingInterestBase = account && account.pendingInterest
@@ -161,37 +161,37 @@ const AccountSummary: React.FC<Props> = props => {
           </Container>
         </Row>
         <LineVector />
-        {/* {stepMetadata && stepMetadata.depositSuccess && ( */}
-        <>
-          <StatusWrapper>
-            <StatusIconWrapper color={colorCodeLight}>
-              <Icon color={colorCode} name='timer' size='24px' />
-            </StatusIconWrapper>
-            <Text
-              data-e2e='waitingConfirmation'
-              color='grey600'
-              size='14px'
-              weight={500}
-            >
-              <FormattedMessage
-                id='modals.interest.deposit.success.confirm'
-                defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
-              />
-            </Text>
-          </StatusWrapper>
-          <StatusWrapper>
-            <StatusIconWrapper color='grey000'>
-              <Icon color='grey600' name='check' size='14px' />
-            </StatusIconWrapper>
-            <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.deposit.clears'
-                defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
-              />
-            </Text>
-          </StatusWrapper>
-        </>
-        {/* )} */}
+        {stepMetadata && stepMetadata.depositSuccess && (
+          <>
+            <StatusWrapper>
+              <StatusIconWrapper color={colorCodeLight}>
+                <Icon color={colorCode} name='timer' size='24px' />
+              </StatusIconWrapper>
+              <Text
+                data-e2e='waitingConfirmation'
+                color='grey600'
+                size='14px'
+                weight={500}
+              >
+                <FormattedMessage
+                  id='modals.interest.deposit.success.confirm'
+                  defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
+                />
+              </Text>
+            </StatusWrapper>
+            <StatusWrapper>
+              <StatusIconWrapper color='grey000'>
+                <Icon color='grey600' name='check' size='14px' />
+              </StatusIconWrapper>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.interest.deposit.clears'
+                  defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
+                />
+              </Text>
+            </StatusWrapper>
+          </>
+        )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
             <StatusIconWrapper color='orange000'>
@@ -248,7 +248,7 @@ const AccountSummary: React.FC<Props> = props => {
             data-e2e='interestDeposit'
             height='48px'
             nature='empty'
-            onClick={handleSBClick}
+            onClick={() => handleSBClick(coin)}
             width='192px'
           >
             <Text size='16px' weight={600} color='blue600'>
@@ -429,7 +429,7 @@ const AccountSummary: React.FC<Props> = props => {
 type ParentProps = {
   coin: CoinType
   handleDepositClick: () => void
-  handleSBClick: () => void
+  handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
 }
 

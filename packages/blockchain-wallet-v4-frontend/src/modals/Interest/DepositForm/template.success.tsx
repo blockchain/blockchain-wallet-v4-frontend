@@ -101,7 +101,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  // const lockupPeriod = 1
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
   const amtError =

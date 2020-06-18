@@ -40,9 +40,8 @@ const LoadingWrapper = styled.div`
 
 function TransactionList (props: Props): ReactElement | null {
   const {
-    btcRates,
-    coin,
     interestActions,
+    rates,
     txPages,
     supportedCoins,
     walletCurrency
@@ -52,7 +51,6 @@ function TransactionList (props: Props): ReactElement | null {
       // @ts-ignore
       txPages.map(pages => map(page => page, (pages && pages.data) || []))
   )
-  const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return txList && txList.length > 0 ? (
     <>
       <LegalWrapper>
@@ -103,12 +101,20 @@ function TransactionList (props: Props): ReactElement | null {
           </TableHeader>
           {txList.map((tx: InterestTransactionType) => {
             const { amount, extraAttributes, id, insertedAt, state, type } = tx
+            const {
+              coinTicker,
+              colorCode,
+              colorCodeLight,
+              displayName
+            } = supportedCoins[amount.symbol]
             return (
               <TableRow key={id}>
                 <InterestTableCell width='20%'>
                   {type === 'WITHDRAWAL' ? (
                     <React.Fragment>
-                      <IconBackground colorCodeLight>
+                      <IconBackground
+                        style={{ backgroundColor: colorCodeLight }}
+                      >
                         <Icon
                           name='arrow-up'
                           color={colorCode}
@@ -146,7 +152,9 @@ function TransactionList (props: Props): ReactElement | null {
                     </React.Fragment>
                   ) : type === 'DEPOSIT' ? (
                     <React.Fragment>
-                      <IconBackground colorCodeLight>
+                      <IconBackground
+                        style={{ backgroundColor: colorCodeLight }}
+                      >
                         <Icon
                           name='arrow-down'
                           color={colorCode}
@@ -261,7 +269,7 @@ function TransactionList (props: Props): ReactElement | null {
                       coin={amount.symbol}
                       currency={walletCurrency}
                       data-e2e='interestTxFiatAmount'
-                      rates={btcRates}
+                      rates={rates}
                       size='12px'
                       style={{ alignItems: 'right' }}
                       weight={500}
@@ -279,7 +287,7 @@ function TransactionList (props: Props): ReactElement | null {
                         data-e2e='viewTxHash'
                         onClick={() =>
                           interestActions.routeToTxHash(
-                            coin,
+                            amount.symbol,
                             extraAttributes.hash
                           )
                         }
@@ -292,7 +300,7 @@ function TransactionList (props: Props): ReactElement | null {
                         data-e2e='viewTxHash'
                         onClick={() =>
                           interestActions.routeToTxHash(
-                            coin,
+                            amount.symbol,
                             extraAttributes.txHash
                           )
                         }

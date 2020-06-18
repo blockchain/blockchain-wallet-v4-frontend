@@ -75,7 +75,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   coin: CoinType
   handleClose: () => void
-  handleSBClick: () => void
+  handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
 }
 
@@ -89,6 +89,7 @@ export type SuccessStateType = {
   availToWithdraw: number
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
+  lockupPeriod: number
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
 }

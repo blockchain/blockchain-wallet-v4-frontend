@@ -38,11 +38,8 @@ import {
   Top,
   Wrapper
 } from './model'
-import {
-  amountToCrypto,
-  amountToFiat,
-  availToWithdrawFiatConverter
-} from '../conversions'
+import { amountToCrypto, amountToFiat } from '../conversions'
+import { convertCoinToFiat } from 'core/exchange'
 import { LinkDispatchPropsType, SuccessStateType } from '.'
 import { maximumWithdrawalAmount, minimumWithdrawalAmount } from './validation'
 
@@ -75,15 +72,21 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
   const account = accountBalances[coin]
   const accountBalanceBase = account && account.balance
   const interestBalanceBase = account && account.totalInterest
+  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
+  const interestBalanceStandard = convertBaseToStandard(
+    coin,
+    interestBalanceBase
+  )
   const withdrawalAmount = (values && values.withdrawalAmount) || 0
 
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
-  const availToWithdrawFiat = availToWithdrawFiatConverter(
-    availToWithdraw,
+  const availToWithdrawFiat = convertCoinToFiat(
+    availToWithdrawCrypto,
     coin,
     walletCurrency,
     rates
   )
+
   const withdrawalAmountFiat = amountToFiat(
     displayCoin,
     withdrawalAmount,
@@ -91,6 +94,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
+
   const withdrawalAmountCrypto = amountToCrypto(
     displayCoin,
     withdrawalAmount,
@@ -98,33 +102,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
-
-  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
-  const interestBalanceStandard = convertBaseToStandard(
-    coin,
-    interestBalanceBase
-  )
-
-  // const withdrawalAmountCrypto = displayCoin
-  //   ? withdrawalAmount
-  //   : Exchange.convertFiatToBtc({
-  //       fromCurrency: walletCurrency,
-  //       toUnit: 'BTC',
-  //       rates,
-  //       value: withdrawalAmount
-  //     }).value
-
-  // const accountBalanceStandard = Exchange.convertCoinToCoin({
-  //   value: (account && account.balance) || 0,
-  //   coin,
-  //   baseToStandard: true
-  // }).value
-
-  // const interestBalanceStandard = Exchange.convertCoinToCoin({
-  //   value: accountInterestBalance || 0,
-  //   coin,
-  //   baseToStandard: true
-  // }).value
 
   if (!account) return null
 

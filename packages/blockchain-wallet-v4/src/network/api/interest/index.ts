@@ -1,6 +1,6 @@
 import { CoinType, FiatType } from 'core/types'
 import {
-  InterestAccountBalanceType,
+  // InterestAccountBalanceType,
   InterestAccountType,
   InterestEligibleType,
   InterestInstrumentsType,
@@ -11,18 +11,39 @@ import {
 } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
-  const getInterestAccountBalance = (
-    ccy?: CoinType,
-    din?: FiatType
-  ): InterestAccountBalanceType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/accounts/savings',
-      data: {
-        ccy,
-        din
-      }
-    })
+  const getInterestAccountBalance = () => ({
+    BTC: {
+      balance: '354425',
+      fiatAmount: null,
+      locked: '0',
+      pendingDeposit: '377176',
+      pendingInterest: '2',
+      pendingWithdrawal: '-1447491',
+      totalInterest: '203318'
+    },
+    ETH: {
+      balance: '35444853000989043825',
+      fiatAmount: null,
+      locked: '25444853000989043825',
+      pendingDeposit: '377176',
+      pendingInterest: '24732332432423',
+      pendingWithdrawal: '0',
+      totalInterest: '35444853000989043'
+    }
+  })
+
+  // (
+  //   ccy?: CoinType,
+  //   din?: FiatType
+  // ): InterestAccountBalanceType =>
+  //   authorizedGet({
+  //     url: nabuUrl,
+  //     endPoint: '/accounts/savings',
+  //     data: {
+  //       ccy,
+  //       din
+  //     }
+  //   })
 
   const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
