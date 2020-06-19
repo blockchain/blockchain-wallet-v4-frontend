@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 
-import { availToWithdrawFiatConverter } from '../conversions'
+import { convertCoinToFiat } from 'core/exchange'
 import { InterestWithdrawalFormType } from 'data/types'
 
 export const maximumWithdrawalAmount = (
@@ -13,9 +13,10 @@ export const maximumWithdrawalAmount = (
   props: any
 ) => {
   const { coin, displayCoin, availToWithdraw, walletCurrency, rates } = props
+  const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const withdrawalLimit = displayCoin
-    ? convertBaseToStandard(coin, availToWithdraw)
-    : availToWithdrawFiatConverter(availToWithdraw, coin, walletCurrency, rates)
+    ? availToWithdrawCrypto
+    : convertCoinToFiat(availToWithdrawCrypto, coin, walletCurrency, rates)
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'

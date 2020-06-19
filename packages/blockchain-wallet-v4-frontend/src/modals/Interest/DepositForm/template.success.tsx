@@ -512,11 +512,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.agreement1'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your Bitcoin Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                 values={{
                   lockupPeriod,
                   depositAmountFiat: `${currencySymbol}${depositAmountFiat}`,
-                  depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`
+                  depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
+                  displayName
                 }}
               />
             </Text>

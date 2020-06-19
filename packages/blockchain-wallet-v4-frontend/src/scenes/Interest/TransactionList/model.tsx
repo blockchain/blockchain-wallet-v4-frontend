@@ -21,7 +21,7 @@ export const FiatAmountWrapper = styled(FiatDisplay)`
   justify-content: flex-end;
 `
 
-export const IconBackground = styled.div`
+export const IconBackground = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +29,7 @@ export const IconBackground = styled.div`
   height: 32px;
   min-width: 32px;
   border-radius: 32px;
+  background: ${props => props.theme[props.color]};
 `
 
 export const PendingTag = styled(GreyCartridge)`

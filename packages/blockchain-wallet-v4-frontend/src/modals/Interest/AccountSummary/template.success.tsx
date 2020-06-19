@@ -9,6 +9,7 @@ import { CoinType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
 import { InterestStepMetadata } from 'data/types'
+import { pathOr } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import moment from 'moment'
 import React from 'react'
@@ -39,17 +40,16 @@ const AccountSummary: React.FC<Props> = props => {
     handleDepositClick,
     handleSBClick,
     interestActions,
-    // interestLimits,
+    interestLimits,
     interestRate,
-    lockupPeriod,
     stepMetadata,
     supportedCoins
   } = props
   const { colorCode, colorCodeLight, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
-  // const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  // const lockupPeriod = 1
+  const lockupPeriod =
+    pathOr(1, [coin, 'lockUpDuration'], interestLimits) / 86400
   const accountBalanceBase = account && account.balance
   const interestBalanceBase = account && account.totalInterest
   const pendingInterestBase = account && account.pendingInterest

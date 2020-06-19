@@ -89,7 +89,6 @@ export type SuccessStateType = {
   availToWithdraw: number
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
-  lockupPeriod: number
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
 }
