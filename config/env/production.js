@@ -5,7 +5,7 @@ module.exports = {
   COM_WALLET_APP: 'https://login.blockchain.com',
   EVERYPAY_URL: 'https://pay.every-pay.eu',
   EXCHANGE_URL: 'https://exchange.blockchain.com',
-  HORIZON_URL: 'https://horizon.blockchain.info',
+  HORIZON_URL: 'https://horizon.stellar.org',
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
   ROOT_URL: 'https://blockchain.info',

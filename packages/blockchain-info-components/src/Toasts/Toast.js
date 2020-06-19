@@ -67,7 +67,10 @@ const Toast = props => {
 
   useEffect(() => {
     if (!persist) {
-      setTimeout(() => onClose(), timeout - duration)
+      const timer = setTimeout(() => {
+        onClose()
+      }, timeout - duration)
+      return () => clearTimeout(timer)
     }
   }, [])
 

@@ -21,36 +21,23 @@ const Success: React.FC<Props> = props => {
   ) : (
     <CustomFlyoutWrapper>
       <>
-        {props.type === 'CARD' && (
-          <Icon
-            cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
-            role='button'
-            onClick={() => {
-              props.simpleBuyActions.setStep({
-                step: 'ADD_CARD'
-              })
-            }}
-          />
-        )}
-        {props.type === 'ORDER' && (
-          <Icon
-            cursor
-            name='arrow-right'
-            size='20px'
-            color='grey600'
-            role='button'
-            style={{ justifyContent: 'flex-end' }}
-            onClick={() => {
-              props.simpleBuyActions.setStep({
-                step: 'ORDER_SUMMARY',
-                order: props.order
-              })
-            }}
-          />
-        )}
+        <Icon
+          cursor
+          name='arrow-left'
+          size='20px'
+          color='grey600'
+          role='button'
+          onClick={() => {
+            props.type === 'ORDER'
+              ? props.simpleBuyActions.setStep({
+                  step: 'ORDER_SUMMARY',
+                  order: props.order
+                })
+              : props.simpleBuyActions.setStep({
+                  step: 'ADD_CARD'
+                })
+          }}
+        />
         <Iframe
           src={
             props.domains.walletHelper +

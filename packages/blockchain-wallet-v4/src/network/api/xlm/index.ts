@@ -1,19 +1,8 @@
 import * as StellarSDK from 'stellar-sdk'
 import { compose, head, prop } from 'ramda'
 
-const TESTNET_NETWORK = 'testnet'
-const PUBLIC_NETWORK = 'public'
-
-export default ({ apiUrl, horizonUrl, network, get }) => {
+export default ({ apiUrl, horizonUrl, get }) => {
   const server = new StellarSDK.Server(horizonUrl)
-  if (network === TESTNET_NETWORK) StellarSDK.Network.useTestNetwork()
-  else if (network === PUBLIC_NETWORK) StellarSDK.Network.usePublicNetwork()
-  else {
-    throw new Error(
-      `invalid xlm network ${network},
-      expected ${TESTNET_NETWORK} or ${PUBLIC_NETWORK}`
-    )
-  }
   const createXlmAccount = publicKey =>
     get({
       url: `https://friendbot.stellar.org`,
@@ -41,7 +30,7 @@ export default ({ apiUrl, horizonUrl, network, get }) => {
     order = 'desc'
   }: {
     limit?: number
-    order?: string
+    order?: 'asc' | 'desc'
     pagingToken?: string
     publicKey: string
     reset?: boolean

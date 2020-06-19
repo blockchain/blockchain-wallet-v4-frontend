@@ -53,7 +53,7 @@ export const transformTx = curry((accounts, txNotes, tx, operation) => {
   const to = getDestination(operation)
   const from = prop('source_account', tx)
   const type = getType({ to, from }, addresses)
-  const fee = prop('fee_paid', tx)
+  const fee = prop('fee_charged', tx)
   const time = moment(prop('created_at', tx)).format('X')
   const hash = prop('hash', tx)
   const memo = prop('memo', tx)
@@ -86,6 +86,7 @@ export const decodeOperations = tx =>
   map(
     operation => operation.body().value(),
     StellarSdk.xdr.TransactionEnvelope.fromXDR(tx.envelope_xdr, 'base64')
+      .value()
       .tx()
       .operations()
   )

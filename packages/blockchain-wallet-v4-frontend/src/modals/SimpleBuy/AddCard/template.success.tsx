@@ -139,7 +139,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 color='red600'
                 style={{ marginRight: '4px' }}
               />
-              <Error {...props} />
+              <Error error={props.error} />
             </ErrorCartridge>
           </FormGroup>
         )}
