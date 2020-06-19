@@ -35,11 +35,12 @@ class IntroCard extends PureComponent<
       analyticsActions,
       idvActions,
       isGoldTier,
+      interestRateArray,
       preferencesActions,
       showInterestInfoBox,
       userData
     } = this.props
-
+    const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
     return (
       showInterestInfoBox && (
         <Box>
@@ -75,7 +76,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earninfo.verified.body'
-                  defaultMessage='Earn up to placeholder% annually when you deposit crypto to your Interest Account.'
+                  defaultMessage='Earn up to {highestRate}% annually when you deposit crypto to your Interest Account.'
+                  values={{ highestRate }}
                 />
               </Text>
               <Link
@@ -123,7 +125,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnbody.access'
-                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to placeholder% annually on your crypto.'
+                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.'
+                  values={{ highestRate }}
                 />
               </Text>
               <Button

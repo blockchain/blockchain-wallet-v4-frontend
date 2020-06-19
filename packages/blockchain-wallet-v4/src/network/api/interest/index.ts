@@ -5,7 +5,7 @@ import {
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
-  InterestRateType,
+  // InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType
 } from './types'
@@ -76,11 +76,17 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
         : '/payments/transactions?product=savings&'
     })
 
-  const getInterestSavingsRate = (): InterestRateType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/rates'
-    })
+  const getInterestSavingsRate = () => ({
+    rates: {
+      BTC: 4.9,
+      ETH: 5.1
+    }
+  })
+
+  // authorizedGet({
+  //   url: nabuUrl,
+  //   endPoint: '/savings/rates'
+  // })
 
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({

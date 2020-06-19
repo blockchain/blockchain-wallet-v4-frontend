@@ -166,6 +166,7 @@ export type StateType = {
 export type SuccessStateType = {
   instruments: Array<CoinType>
   interestRate: InterestRateType
+  interestRateArray: Array<number>
   supportedCoins: SupportedCoinsType
   userData: UserDataType
 }

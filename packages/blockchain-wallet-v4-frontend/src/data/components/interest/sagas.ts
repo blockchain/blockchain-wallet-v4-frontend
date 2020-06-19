@@ -117,9 +117,10 @@ export default ({
   const fetchInterestRate = function * () {
     try {
       yield put(A.fetchInterestRateLoading())
-      const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
-        api.getInterestSavingsRate
-      )
+      // const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
+      //   api.getInterestSavingsRate
+      // )
+      const response = yield call(api.getInterestSavingsRate)
       yield put(A.fetchInterestRateSuccess(response))
     } catch (e) {
       const error = errorHandler(e)

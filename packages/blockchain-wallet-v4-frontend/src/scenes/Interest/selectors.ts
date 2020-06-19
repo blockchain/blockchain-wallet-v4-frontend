@@ -1,4 +1,4 @@
-import { lift } from 'ramda'
+import { lift, values } from 'ramda'
 
 import { selectors } from 'data'
 
@@ -14,6 +14,7 @@ export const getData = state => {
   const transform = (instruments, interestRate, supportedCoins, userData) => ({
     instruments,
     interestRate,
+    interestRateArray: values(interestRate),
     supportedCoins,
     userData
   })
