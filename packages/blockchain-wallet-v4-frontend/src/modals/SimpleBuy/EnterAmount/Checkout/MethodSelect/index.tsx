@@ -187,11 +187,15 @@ class MethodSelect extends PureComponent<Props> {
       text: this.getType(value),
       value
     }))
+    // TODO: remove when adding FUNDS type
+    const defaultMethodsNoFunds = defaultMethods.filter(
+      method => method.value.type !== 'FUNDS'
+    )
 
     return [
       {
         group: '',
-        items: [...cardMethods, ...defaultMethods]
+        items: [...cardMethods, ...defaultMethodsNoFunds]
       }
     ]
   }
