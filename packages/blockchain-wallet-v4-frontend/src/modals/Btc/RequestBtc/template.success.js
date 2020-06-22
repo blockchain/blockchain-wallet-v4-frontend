@@ -155,7 +155,7 @@ const FirstStep = props => {
                 name='message'
                 component={TextArea}
                 validate={[required]}
-                placeholder="What's this transaction for? (optional)"
+                placeholder="What's this transaction for?"
                 data-e2e='requestBtcDescription'
               />
             </FormItem>
