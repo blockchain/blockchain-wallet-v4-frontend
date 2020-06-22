@@ -24,27 +24,6 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       }
     })
 
-  // ({
-  //   BTC: {
-  //     balance: '354425',
-  //     fiatAmount: null,
-  //     locked: '0',
-  //     pendingDeposit: '377176',
-  //     pendingInterest: '2',
-  //     pendingWithdrawal: '-1447491',
-  //     totalInterest: '203318'
-  //   },
-  //   ETH: {
-  //     balance: '35444853000989043825',
-  //     fiatAmount: null,
-  //     locked: '25444853000989043825',
-  //     pendingDeposit: '377176',
-  //     pendingInterest: '24732332432423',
-  //     pendingWithdrawal: '0',
-  //     totalInterest: '35444853000989043'
-  //   }
-  // })
-
   const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
       url: nabuUrl,
