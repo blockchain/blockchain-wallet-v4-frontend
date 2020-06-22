@@ -2,8 +2,6 @@ import * as StellarSdk from 'stellar-sdk'
 import { call, select } from 'redux-saga/effects'
 import { contains, merge, path, prop, values } from 'ramda'
 
-import { convertXlmToXlm } from 'core/exchange'
-
 import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
 import {
@@ -14,6 +12,7 @@ import {
   overflowsFullBalance,
   calculateFee as utilsCalculateFee
 } from '../../../utils/xlm'
+import { convertXlmToXlm } from '../../../exchange'
 import { FromType } from '../types'
 import {
   isPositiveInteger,
