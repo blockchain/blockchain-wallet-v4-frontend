@@ -50,6 +50,7 @@ import introSendGif from './img/intro-send.gif'
 import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
+import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
@@ -188,6 +189,7 @@ const Images = {
   'lockbox-success': lockboxSuccess,
   'lockbox-success2': lockboxSuccess2,
   'lockbox-success3': lockboxSuccess3,
+  'logo-loader': logoLoader,
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
