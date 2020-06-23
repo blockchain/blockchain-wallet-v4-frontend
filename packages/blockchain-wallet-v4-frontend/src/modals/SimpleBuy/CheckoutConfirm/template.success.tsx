@@ -173,7 +173,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
         {props.error && (
-          <ErrorCartridge style={{ marginTop: '16px' }}>
+          <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='buyError'>
             <Icon
               name='alert-filled'
               color='red600'
