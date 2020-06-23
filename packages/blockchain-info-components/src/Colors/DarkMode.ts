@@ -71,12 +71,15 @@ const DarkTheme: DefaultTheme = {
   btc: '#FF9B22',
   'btc-light': '#FFF2E5',
   bch: '#8DC351',
+  'bch-light': 'rgba(141, 195, 81, 0.15)',
   eth: '#473BCB',
   'eth-light': '#EFECFE',
   pax: '#00522C',
   stx: '#211F6D',
   'usd-d': '#00522C',
+  'usd-d-light': 'rgba(0, 82, 44, 0.15)',
   xlm: '#797979',
+  'xlm-light': 'rgba(0, 0, 0, 0.15)',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',

@@ -65,7 +65,7 @@ export default ({ coreSagas, networks }) => {
         .from(addressOrIndex, addressType)
         .done()
       if (isSourceErc20 || includes(coin, ['ETH', 'XLM'])) {
-        return payment.value()
+        return payment.amount(convertStandardToBase(coin, amount)).value()
       }
 
       return (yield payment

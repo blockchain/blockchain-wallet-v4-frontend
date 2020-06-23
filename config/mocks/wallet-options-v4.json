@@ -56,6 +56,7 @@
           "coinCode": "BCH",
           "coinTicker": "BCH",
           "colorCode": "bch",
+          "colorCodeLight": "bch-light",
           "displayName": "Bitcoin Cash",
           "config": {},
           "hasLockboxSupport": true,
@@ -131,6 +132,7 @@
           "coinCode": "PAX",
           "coinTicker": "USD-D",
           "colorCode": "usd-d",
+          "colorCodeLight": "usd-d-light",
           "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
           "displayName": "USD Digital",
           "hasLockboxSupport": false,
@@ -161,6 +163,7 @@
           "coinCode": "XLM",
           "coinTicker": "XLM",
           "colorCode": "xlm",
+          "colorCodeLight": "xlm-light",
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 10

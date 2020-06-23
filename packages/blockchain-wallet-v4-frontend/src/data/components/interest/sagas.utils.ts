@@ -9,10 +9,7 @@ import {
   PaymentValue,
   RemoteDataType
 } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
+import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -23,16 +20,11 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const buildAndPublishPayment = function * (
     coin: CoinType,
     payment: PaymentType,
-    destination: string,
-    amount: number
+    destination: string
   ): Generator<PaymentType | CallEffect, boolean, any> {
     let paymentError
 
     try {
-      if (coin === 'ETH') {
-        // @ts-ignore
-        payment = yield payment.amount(convertStandardToBase(coin, amount))
-      }
       payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
       payment = yield payment.build()
       // ask for second password

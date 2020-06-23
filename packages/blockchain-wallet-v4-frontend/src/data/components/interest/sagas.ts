@@ -175,7 +175,10 @@ export default ({
           calculateProvisionalPayment,
           {
             ...values.interestDepositAccount,
-            address: values.interestDepositAccount.index
+            address:
+              coin === 'ETH'
+                ? values.interestDepositAccount.address
+                : values.interestDepositAccount.index
           },
           value
         )
@@ -263,27 +266,13 @@ export default ({
     const FORM = 'interestDepositForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-
       const coin = S.getCoinType(yield select())
-      const ratesR = S.getRates(yield select())
-      const userCurrency = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrFail('Failed to get user currency')
-      const rates = ratesR.getOrElse({})
-      const rate = rates[userCurrency].last
-      const values: InterestDepositFormType = yield select(
-        selectors.form.getFormValues('interestDepositForm')
-      )
-      const isDisplayed = S.getCoinDisplay(yield select())
-      const value = isDisplayed
-        ? new BigNumber(values.depositAmount).toNumber()
-        : new BigNumber(values.depositAmount).dividedBy(rate).toNumber()
       yield call(fetchInterestAccount, coin)
       const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
       // build and publish payment to network
-      yield call(buildAndPublishPayment, coin, payment, depositAddress, value)
+      yield call(buildAndPublishPayment, coin, payment, depositAddress)
       // notify success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
