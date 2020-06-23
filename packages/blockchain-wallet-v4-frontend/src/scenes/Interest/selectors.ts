@@ -1,19 +1,27 @@
-import { lift } from 'ramda'
+import { lift, values } from 'ramda'
 
 import { selectors } from 'data'
 
 export const getData = state => {
-  const coin = selectors.components.interest.getCoinType(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
 
   const interestRateR = selectors.components.interest.getInterestRate(state)
+  const instrumentsR = selectors.components.interest.getInterestInstruments(
+    state
+  )
 
-  const transform = (interestRate, supportedCoins, userData) => ({
-    coin,
+  const transform = (instruments, interestRate, supportedCoins, userData) => ({
+    instruments,
     interestRate,
+    interestRateArray: values(interestRate),
     supportedCoins,
     userData
   })
-  return lift(transform)(interestRateR, supportedCoinsR, userDataR)
+  return lift(transform)(
+    instrumentsR,
+    interestRateR,
+    supportedCoinsR,
+    userDataR
+  )
 }

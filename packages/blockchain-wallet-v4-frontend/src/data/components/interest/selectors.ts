@@ -50,6 +50,8 @@ export const getRates = (
   switch (coinType) {
     case 'BTC':
       return selectors.core.data.btc.getRates(state)
+    case 'ETH':
+      return selectors.core.data.eth.getRates(state)
     case 'PAX':
       return selectors.core.data.eth.getErc20Rates(state, 'pax')
     default:

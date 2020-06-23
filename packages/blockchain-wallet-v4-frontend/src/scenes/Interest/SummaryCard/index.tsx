@@ -49,7 +49,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
-  coin: CoinType
   interestAccountBalance: InterestAccountBalanceType
   interestEligible: InterestEligibleType
   showInterestInfoBox: boolean
@@ -58,6 +57,7 @@ export type SuccessStateType = {
 }
 
 export type OwnPropsType = {
+  coin: CoinType
   interestRate: InterestRateType
   isGoldTier: boolean
 }

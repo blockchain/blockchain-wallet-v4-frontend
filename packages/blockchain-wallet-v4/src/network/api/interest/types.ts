@@ -3,7 +3,7 @@ import { CoinType, FiatType } from 'core/types'
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
     balance: string
-    fiatAmount: string
+    fiatAmount: string | null
     locked: string
     pendingDeposit: string
     pendingInterest: string

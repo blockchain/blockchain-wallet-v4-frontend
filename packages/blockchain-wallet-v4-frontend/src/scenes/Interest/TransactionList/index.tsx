@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 import {
-  CoinType,
   FiatType,
   InterestTransactionType,
   NabuApiErrorType,
@@ -50,8 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
-  btcRates: RatesType
-  coin: CoinType
+  rates: RatesType
   supportedCoins: SupportedCoinsType
   txPages: Array<Array<InterestTransactionType>>
   walletCurrency: FiatType

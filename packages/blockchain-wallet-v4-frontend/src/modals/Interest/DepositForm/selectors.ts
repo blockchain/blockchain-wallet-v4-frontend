@@ -7,7 +7,6 @@ export const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('interestDepositForm')(
     state
   )
-  const coin = selectors.components.interest.getCoinType(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const depositLimits = selectors.components.interest.getDepositLimits(state)
@@ -25,7 +24,6 @@ export const getData = (state: RootState) => {
       supportedCoins,
       walletCurrency
     ) => ({
-      coin,
       formErrors,
       depositLimits,
       displayCoin,

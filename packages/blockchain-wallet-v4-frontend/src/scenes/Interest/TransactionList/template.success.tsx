@@ -39,20 +39,12 @@ const LoadingWrapper = styled.div`
 `
 
 function TransactionList (props: Props): ReactElement | null {
-  const {
-    btcRates,
-    coin,
-    interestActions,
-    txPages,
-    supportedCoins,
-    walletCurrency
-  } = props
+  const { interestActions, txPages, supportedCoins, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore
       txPages.map(pages => map(page => page, (pages && pages.data) || []))
   )
-  const { coinTicker, colorCode, displayName } = supportedCoins[coin]
   return txList && txList.length > 0 ? (
     <>
       <LegalWrapper>
@@ -103,12 +95,15 @@ function TransactionList (props: Props): ReactElement | null {
           </TableHeader>
           {txList.map((tx: InterestTransactionType) => {
             const { amount, extraAttributes, id, insertedAt, state, type } = tx
+            const { coinTicker, colorCode, displayName } = supportedCoins[
+              amount.symbol
+            ]
             return (
               <TableRow key={id}>
                 <InterestTableCell width='20%'>
                   {type === 'WITHDRAWAL' ? (
                     <React.Fragment>
-                      <IconBackground>
+                      <IconBackground color={`${colorCode}-light`}>
                         <Icon
                           name='arrow-up'
                           color={colorCode}
@@ -146,7 +141,7 @@ function TransactionList (props: Props): ReactElement | null {
                     </React.Fragment>
                   ) : type === 'DEPOSIT' ? (
                     <React.Fragment>
-                      <IconBackground>
+                      <IconBackground color={`${colorCode}-light`}>
                         <Icon
                           name='arrow-down'
                           color={colorCode}
@@ -240,31 +235,13 @@ function TransactionList (props: Props): ReactElement | null {
 
                 <AmountTableCell width='20%'>
                   <div>
-                    <FiatAmountWrapper
-                      color='grey800'
-                      coin={amount.symbol}
-                      currency={walletCurrency}
-                      data-e2e='interestTxFiatAmount'
-                      rates={btcRates}
-                      size='14px'
-                      style={{ marginBottom: '4px', alignItems: 'right' }}
-                      weight={600}
-                    >
-                      {
-                        Exchange.convertCoinToCoin({
-                          value: amount.value,
-                          coin: amount.symbol,
-                          baseToStandard: false
-                        }).value
-                      }
-                    </FiatAmountWrapper>
                     <CoinAmountWrapper
                       coin={amount.symbol}
-                      color='grey600'
-                      weight={500}
+                      color='grey800'
+                      weight={600}
                       data-e2e='interestTxCoinAmount'
-                      size='13px'
-                      style={{ lineHeight: '1.5' }}
+                      size='14px'
+                      style={{ marginBottom: '4px', lineHeight: '1.5' }}
                     >
                       {
                         Exchange.convertCoinToCoin({
@@ -274,12 +251,29 @@ function TransactionList (props: Props): ReactElement | null {
                         }).value
                       }
                     </CoinAmountWrapper>
+                    <FiatAmountWrapper
+                      color='grey600'
+                      coin={amount.symbol}
+                      currency={walletCurrency}
+                      data-e2e='interestTxFiatAmount'
+                      size='12px'
+                      style={{ alignItems: 'right' }}
+                      weight={500}
+                    >
+                      {
+                        Exchange.convertCoinToCoin({
+                          value: amount.value,
+                          coin: amount.symbol,
+                          baseToStandard: false
+                        }).value
+                      }
+                    </FiatAmountWrapper>
                     {type === 'DEPOSIT' && (
                       <ViewTransaction
                         data-e2e='viewTxHash'
                         onClick={() =>
                           interestActions.routeToTxHash(
-                            coin,
+                            amount.symbol,
                             extraAttributes.hash
                           )
                         }
@@ -292,7 +286,7 @@ function TransactionList (props: Props): ReactElement | null {
                         data-e2e='viewTxHash'
                         onClick={() =>
                           interestActions.routeToTxHash(
-                            coin,
+                            amount.symbol,
                             extraAttributes.txHash
                           )
                         }

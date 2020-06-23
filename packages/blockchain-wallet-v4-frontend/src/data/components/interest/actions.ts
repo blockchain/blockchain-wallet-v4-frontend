@@ -184,6 +184,7 @@ export const setDepositLimits = (limits: InterestMinMaxType) => ({
   payload: { limits },
   type: AT.SET_INTEREST_DEPOSIT_LIMITS
 })
+
 export const submitDepositForm = (coin: CoinType) => ({
   payload: { coin },
   type: AT.SUBMIT_DEPOSIT_FORM
@@ -238,7 +239,8 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   payload: { isCoinDisplayed },
   type: AT.SET_COIN_DISPLAY
 })
-export const showInterestModal = (step: InterestStep) => ({
-  payload: { step },
+
+export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
+  payload: { step, coin },
   type: AT.SHOW_INTEREST_MODAL
 })

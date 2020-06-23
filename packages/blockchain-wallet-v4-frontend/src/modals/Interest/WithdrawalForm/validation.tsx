@@ -1,8 +1,10 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 
+import { convertCoinToFiat } from 'core/exchange'
 import { InterestWithdrawalFormType } from 'data/types'
 
 export const maximumWithdrawalAmount = (
@@ -10,10 +12,11 @@ export const maximumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  const { displayCoin, availToWithdrawCrypto, availToWithdrawFiat } = props
+  const { coin, displayCoin, availToWithdraw, walletCurrency, rates } = props
+  const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const withdrawalLimit = displayCoin
     ? availToWithdrawCrypto
-    : availToWithdrawFiat
+    : convertCoinToFiat(availToWithdrawCrypto, coin, walletCurrency, rates)
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
       id='interest.withdrawal.validation.abovemax'
@@ -31,7 +34,8 @@ export const minimumWithdrawalAmount = (
 ) => {
   // withdrawal min across all products .0005 BTC
   const { coin, displayCoin, rates, walletCurrency } = props
-  const MIN_WITHDRAWAL = 0.0005
+  // todo: remove hardcode of this value, use min endpoint
+  const MIN_WITHDRAWAL = coin === 'BTC' ? 0.0005 : 0.002
   const withdrawalMin = displayCoin
     ? MIN_WITHDRAWAL
     : Exchange.convertCoinToFiat(MIN_WITHDRAWAL, coin, walletCurrency, rates)

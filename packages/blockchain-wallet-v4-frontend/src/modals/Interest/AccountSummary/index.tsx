@@ -27,19 +27,21 @@ class AccountSummaryContainer extends PureComponent<Props> {
   }
 
   handleDepositClick = () => {
-    this.props.interestActions.showInterestModal('DEPOSIT')
+    const { coin } = this.props
+    this.props.interestActions.showInterestModal('DEPOSIT', coin)
   }
 
   handleFetchInterestLimits = () => {
-    const { coin, walletCurrency } = this.props.data.getOrElse({
-      coin: 'BTC' as CoinType,
+    const { coin } = this.props
+    const { walletCurrency } = this.props.data.getOrElse({
       walletCurrency: 'GBP' as FiatType
     })
     this.props.interestActions.fetchInterestLimits(coin, walletCurrency)
   }
 
   handleRefresh = () => {
-    this.props.interestActions.showInterestModal('ACCOUNT_SUMMARY')
+    const { coin } = this.props
+    this.props.interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
   }
 
   render () {
@@ -71,8 +73,9 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  coin: CoinType
   handleClose: () => void
-  handleSBClick: () => void
+  handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
 }
 
@@ -84,7 +87,6 @@ export type LinkDispatchPropsType = {
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
   availToWithdraw: number
-  coin: CoinType
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
   supportedCoins: SupportedCoinsType

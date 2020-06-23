@@ -1,6 +1,6 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { last, nth } from 'ramda'
+import { head, last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { actions, model, selectors } from 'data'
@@ -171,16 +171,20 @@ export default ({
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
-
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           {
             ...values.interestDepositAccount,
-            address: values.interestDepositAccount.index
+            address:
+              coin === 'ETH'
+                ? values.interestDepositAccount.address
+                : values.interestDepositAccount.index
           },
           value
         )
+
         yield put(A.setPaymentSuccess(provisionalPayment))
+
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
@@ -205,24 +209,34 @@ export default ({
 
     switch (coin) {
       case 'BTC':
-        const accountsR = yield select(
+        const btcAccountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
         const defaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
-        defaultAccountR = accountsR.map(nth(defaultIndex))
+        defaultAccountR = btcAccountsR.map(nth(defaultIndex))
         payment = yield call(createPayment, defaultIndex)
         break
-      default:
+
+      case 'ETH':
+        const ethAccountR = yield select(
+          selectors.core.common.eth.getAccountBalances
+        )
+        defaultAccountR = ethAccountR.map(head)
+        payment = yield call(createPayment, defaultAccountR)
         break
+      default:
+        throw new Error('Invalid Coin Type')
     }
 
     yield call(createLimits, payment)
     yield put(A.setPaymentSuccess(payment.value()))
     yield put(
       initialize('interestDepositForm', {
-        interestDepositAccount: defaultAccountR.getOrElse()
+        interestDepositAccount: defaultAccountR.getOrElse(),
+        coin,
+        currency
       })
     )
   }
@@ -252,13 +266,11 @@ export default ({
     const FORM = 'interestDepositForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-
       const coin = S.getCoinType(yield select())
       yield call(fetchInterestAccount, coin)
       const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
-
       // build and publish payment to network
       yield call(buildAndPublishPayment, coin, payment, depositAddress)
       // notify success
@@ -287,18 +299,30 @@ export default ({
     const FORM = 'interestWithdrawalForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-      const withdrawalAmountSats = convertStandardToBase(coin, withdrawalAmount)
-      const receiveAddress = selectors.core.common.btc
-        .getNextAvailableReceiveAddress(
-          networks.btc,
-          yield select(selectors.core.wallet.getDefaultAccountIndex),
-          yield select()
-        )
-        .getOrFail('Failed to get BTC receive address')
+      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
+      let receiveAddress
+      switch (coin) {
+        case 'ETH':
+          receiveAddress = selectors.core.data.eth
+            .getDefaultAddress(yield select())
+            .getOrFail('Failed to get ETH receive address')
+          break
+        case 'BTC':
+          receiveAddress = selectors.core.common.btc
+            .getNextAvailableReceiveAddress(
+              networks.btc,
+              yield select(selectors.core.wallet.getDefaultAccountIndex),
+              yield select()
+            )
+            .getOrFail('Failed to get BTC receive address')
+          break
+        default:
+          throw new Error('Invalid Coin Type')
+      }
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
-        Number(withdrawalAmountSats),
+        Number(withdrawalAmountBase),
         coin,
         receiveAddress
       )
@@ -325,9 +349,13 @@ export default ({
   const showInterestModal = function * ({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
-    yield put(A.setInterestStep(payload.step))
+    const { step, coin } = payload
+    yield put(A.setInterestStep(step))
     yield put(
-      actions.modals.showModal('INTEREST_MODAL', { origin: 'InterestPage' })
+      actions.modals.showModal('INTEREST_MODAL', {
+        origin: 'InterestPage',
+        coin
+      })
     )
   }
 

@@ -5,8 +5,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { CoinType } from 'core/types'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
 import { InterestStepMetadata } from 'data/types'
+import { pathOr } from 'ramda'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import moment from 'moment'
 import React from 'react'
@@ -27,7 +30,6 @@ import {
   Wrapper
 } from './model'
 
-import { Exchange } from 'core'
 import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const AccountSummary: React.FC<Props> = props => {
@@ -43,36 +45,35 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const displayName = supportedCoins[coin].displayName
+  const { colorCode, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
-  const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
+
+  const lockupPeriod =
+    pathOr(1, [coin, 'lockUpDuration'], interestLimits) / 86400
+  const accountBalanceBase = account && account.balance
+  const interestBalanceBase = account && account.totalInterest
+  const pendingInterestBase = account && account.pendingInterest
 
   const availToWithdraw =
     account && parseInt(account.balance) - parseInt(account.locked)
 
-  const accountBalanceStandard =
-    account &&
-    Exchange.convertCoinToCoin({
-      value: account.balance || 0,
-      coin: 'BTC',
-      baseToStandard: true
-    }).value
-
-  const interestBalanceStandard =
-    account &&
-    Exchange.convertCoinToCoin({
-      value: account.totalInterest || 0,
-      coin: 'BTC',
-      baseToStandard: true
-    }).value
+  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
+  const interestBalanceStandard = convertBaseToStandard(
+    coin,
+    interestBalanceBase
+  )
+  const pendingInterestStandard = convertBaseToStandard(
+    coin,
+    pendingInterestBase
+  )
   return (
     <Wrapper>
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <Row>
             <Icon
-              name='btc-circle-filled'
-              color='btc'
+              name={icons.circleFilled}
+              color={colorCode}
               size='24px'
               style={{ marginRight: '16px' }}
             />
@@ -106,27 +107,23 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
+                <Text color='grey800' size='18px' weight={600}>
+                  {accountBalanceStandard} {coin}
+                </Text>
                 <FiatDisplay
-                  color='grey800'
-                  size='20px'
-                  weight={600}
-                  coin={coin}
-                >
-                  {account.balance}
-                </FiatDisplay>
-                <Text
                   color='grey600'
                   size='14px'
                   weight={500}
+                  coin={coin}
                   style={{ marginTop: '5px' }}
                 >
-                  {accountBalanceStandard} {coin}
-                </Text>
+                  {account.balance}
+                </FiatDisplay>
               </>
             ) : (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                0
-              </FiatDisplay>
+              <Text color='grey800' size='18px' weight={600}>
+                0 {coin}
+              </Text>
             )}
           </Container>
           <Container>
@@ -143,27 +140,23 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <>
+                <Text color='grey800' size='18px' weight={600}>
+                  {interestBalanceStandard} {coin}
+                </Text>
                 <FiatDisplay
-                  color='grey800'
-                  size='20px'
-                  weight={600}
-                  coin={coin}
-                >
-                  {account.totalInterest}
-                </FiatDisplay>
-                <Text
                   color='grey600'
                   size='14px'
                   weight={500}
+                  coin={coin}
                   style={{ marginTop: '5px' }}
                 >
-                  {interestBalanceStandard} {coin}
-                </Text>
+                  {account.totalInterest}
+                </FiatDisplay>
               </>
             ) : (
-              <FiatDisplay color='grey800' size='20px' weight={600} coin={coin}>
-                0
-              </FiatDisplay>
+              <Text color='grey800' size='18px' weight={600}>
+                0 {coin}
+              </Text>
             )}
           </Container>
         </Row>
@@ -171,8 +164,8 @@ const AccountSummary: React.FC<Props> = props => {
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
-              <StatusIconWrapper color='orange000'>
-                <Icon color='orange600' name='timer' size='24px' />
+              <StatusIconWrapper color={`${colorCode}-light`}>
+                <Icon color={colorCode} name='timer' size='24px' />
               </StatusIconWrapper>
               <Text
                 data-e2e='waitingConfirmation'
@@ -255,7 +248,7 @@ const AccountSummary: React.FC<Props> = props => {
             data-e2e='interestDeposit'
             height='48px'
             nature='empty'
-            onClick={handleSBClick}
+            onClick={() => handleSBClick(coin)}
             width='192px'
           >
             <Text size='16px' weight={600} color='blue600'>
@@ -345,9 +338,9 @@ const AccountSummary: React.FC<Props> = props => {
               </TooltipHost>
             </Text>
             {account ? (
-              <FiatDisplay color='grey600' size='14px' weight={500} coin={coin}>
-                {account.pendingInterest}
-              </FiatDisplay>
+              <Text color='grey600' size='14px' weight={500}>
+                {pendingInterestStandard} {coin}
+              </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>
                 --
@@ -416,7 +409,9 @@ const AccountSummary: React.FC<Props> = props => {
             fullwidth
             height='48px'
             nature='grey800'
-            onClick={() => interestActions.showInterestModal('WITHDRAWAL')}
+            onClick={() =>
+              interestActions.showInterestModal('WITHDRAWAL', coin)
+            }
           >
             <Text color='white' size='16px' weight={600}>
               <FormattedMessage
@@ -432,8 +427,9 @@ const AccountSummary: React.FC<Props> = props => {
 }
 
 type ParentProps = {
+  coin: CoinType
   handleDepositClick: () => void
-  handleSBClick: () => void
+  handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
 }
 

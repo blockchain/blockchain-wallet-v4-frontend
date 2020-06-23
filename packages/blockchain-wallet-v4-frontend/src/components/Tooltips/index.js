@@ -308,8 +308,8 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
-            id='earninterestform.tooltip.calculations'
-            defaultMessage='The rate is subject to change.'
+            id='scenes.interest.summarycard.tooltip'
+            defaultMessage='The rate is subject to change. Interest will be paid in crypto.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>

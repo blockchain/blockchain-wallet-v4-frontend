@@ -33,17 +33,14 @@ class IntroCard extends PureComponent<
   render () {
     const {
       analyticsActions,
-      coin,
       idvActions,
-      interestRate,
       isGoldTier,
+      interestRateArray,
       preferencesActions,
       showInterestInfoBox,
-      supportedCoins,
       userData
     } = this.props
-    const { coinTicker, displayName } = supportedCoins[coin]
-
+    const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
     return (
       showInterestInfoBox && (
         <Box>
@@ -68,8 +65,7 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnheaderverified'
-                  defaultMessage='Earn interest on your {displayName} today.'
-                  values={{ displayName }}
+                  defaultMessage='Earn interest on your crypto today.'
                 />
               </Text>
               <Text
@@ -80,8 +76,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earninfo.verified.body'
-                  defaultMessage='Earn up to {rate}% annually when you deposit {coinTicker} to your Interest Account.'
-                  values={{ coinTicker, rate: interestRate[coin] }}
+                  defaultMessage='Earn up to {highestRate}% annually when you deposit crypto to your Interest Account.'
+                  values={{ highestRate }}
                 />
               </Text>
               <Link
@@ -118,7 +114,7 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnupgrade.header'
-                  defaultMessage='Upgrade to Gold Level so you can earn interest on your bitcoin.'
+                  defaultMessage='Upgrade to Gold Level so you can earn interest on your crypto.'
                 />
               </Text>
               <Text
@@ -129,8 +125,8 @@ class IntroCard extends PureComponent<
               >
                 <FormattedMessage
                   id='scenes.interest.earnbody.access'
-                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {rate}% annually on your bitcoin.'
-                  values={{ rate: interestRate[coin] }}
+                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.'
+                  values={{ highestRate }}
                 />
               </Text>
               <Button

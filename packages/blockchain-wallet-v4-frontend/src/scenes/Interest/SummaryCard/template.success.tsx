@@ -11,9 +11,9 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-import { Exchange } from 'core'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const DepositBox = styled(Box)`
@@ -69,26 +69,20 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     supportedCoins,
     walletCurrency
   } = props
-  const { coinTicker, displayName } = supportedCoins[coin]
-  const balanceSats = interestAccountBalance.BTC
-    ? interestAccountBalance.BTC.balance
-    : 0
-  const balanceStandard = Exchange.convertCoinToCoin({
-    value: balanceSats || 0,
-    coin: 'BTC',
-    baseToStandard: true
-  }).value
-  const totalInterest =
-    interestAccountBalance.BTC && interestAccountBalance.BTC.totalInterest
-  const totalInterestStandard = Exchange.convertCoinToCoin({
-    value: totalInterest || 0,
-    coin: 'BTC',
-    baseToStandard: true
-  }).value
+  const { coinTicker, colorCode, displayName, icons } = supportedCoins[coin]
+  const account = interestAccountBalance && interestAccountBalance[coin]
+  const accountBalanceBase = account ? account.balance : 0
+  const interestBalanceBase = account && account.totalInterest
+
+  const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
+  const interestBalanceStandard = convertBaseToStandard(
+    coin,
+    interestBalanceBase
+  )
   return (
     <DepositBox>
       <Row>
-        <Icon name='btc-circle-filled' color='btc' size='32px' />
+        <Icon name={icons.circleFilled} color={colorCode} size='32px' />
         <Text
           size='20px'
           color='grey800'
@@ -99,12 +93,15 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         </Text>
       </Row>
       <Row>
+        <TooltipHost id='earninterest.calculation.tooltip'>
+          <TooltipIcon name='info' size='14px' />
+        </TooltipHost>
         <Text
           size='12px'
           weight={500}
           style={{ marginLeft: '6px', lineHeight: '1.5' }}
         >
-          {balanceSats > 0 ? (
+          {accountBalanceBase > 0 ? (
             <FormattedMessage
               id='scenes.interest.summarycard.earning'
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
@@ -124,84 +121,85 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             />
           )}
         </Text>
-        <TooltipHost id='earninterest.calculation.tooltip'>
-          <TooltipIcon name='info' size='14px' />
-        </TooltipHost>
       </Row>
       <Separator />
       <AmountRow>
         <AmountColumn>
-          <FiatDisplay
-            color='grey800'
-            coin={coinTicker}
-            currency={walletCurrency}
-            loadingHeight='24px'
-            size='16px'
-            style={{ lineHeight: '1.5' }}
-            weight={600}
-          >
-            {balanceSats}
-          </FiatDisplay>
-          <Text
-            data-e2e='btcBalance'
-            size='12px'
-            weight={500}
-            style={{ lineHeight: '1.5' }}
-          >
-            {balanceStandard} {coinTicker}
-          </Text>
           <Text
             size='12px'
             weight={500}
             style={{ lineHeight: '1.5', marginTop: '5px' }}
+            color='grey600'
           >
             <FormattedMessage
               id='modals.interest.detailsbalance'
-              defaultMessage='Your {coin} Balance'
+              defaultMessage='{coin} Balance'
               values={{ coin }}
             />
           </Text>
-        </AmountColumn>
-        <AmountColumn>
+          <Text
+            data-e2e='btcBalance'
+            size='14px'
+            weight={600}
+            style={{ lineHeight: '1.5' }}
+          >
+            {accountBalanceStandard} {coinTicker}
+          </Text>
           <FiatDisplay
-            color='grey800'
+            color='grey600'
             coin={coinTicker}
             currency={walletCurrency}
             loadingHeight='24px'
-            size='16px'
-            style={{ lineHeight: '1.5' }}
-            weight={600}
-          >
-            {totalInterest}
-          </FiatDisplay>
-          <Text
-            data-e2e='btcInterest'
             size='12px'
-            weight={500}
             style={{ lineHeight: '1.5' }}
+            weight={500}
           >
-            {totalInterestStandard} {coinTicker}
-          </Text>
+            {accountBalanceBase}
+          </FiatDisplay>
+        </AmountColumn>
+        <AmountColumn>
           <Text
             size='12px'
             weight={500}
             style={{ lineHeight: '1.5', marginTop: '5px' }}
+            color='grey600'
           >
             <FormattedMessage
               id='scenes.interest.summarycard.totalinterest'
               defaultMessage='Total Interest Earned'
             />
           </Text>
+          <Text
+            data-e2e='btcInterest'
+            size='14px'
+            weight={600}
+            style={{ lineHeight: '1.5' }}
+          >
+            {interestBalanceStandard} {coinTicker}
+          </Text>
+          <FiatDisplay
+            color='grey600'
+            coin={coinTicker}
+            currency={walletCurrency}
+            loadingHeight='24px'
+            size='12px'
+            style={{ lineHeight: '1.5' }}
+            weight={500}
+          >
+            {interestBalanceBase}
+          </FiatDisplay>
         </AmountColumn>
       </AmountRow>
-      {balanceSats > 0 ? (
+      {accountBalanceBase > 0 ? (
         <Button
           disabled={!isGoldTier || !interestEligible.eligible}
           style={{ marginTop: '16px' }}
           nature='primary'
           data-e2e='viewInterestDetails'
           fullwidth
-          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
+          onClick={() =>
+            interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
+          }
         >
           <FormattedMessage id='copy.view' defaultMessage='View' />
         </Button>
@@ -212,7 +210,9 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
-          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY')}
+          onClick={() =>
+            interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
+          }
         >
           <FormattedMessage
             id='scenes.interest.summarycard.earnbutton'

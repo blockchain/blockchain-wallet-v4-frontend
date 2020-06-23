@@ -43,15 +43,15 @@ class DepositForm extends PureComponent<Props> {
   }
 
   handleInitializeDepositForm = () => {
-    const { coin, walletCurrency } = this.props.data.getOrElse({
-      coin: 'BTC' as CoinType,
+    const { coin } = this.props
+    const { walletCurrency } = this.props.data.getOrElse({
       walletCurrency: 'GBP' as FiatType
     })
     this.props.interestActions.initializeDepositForm(coin, walletCurrency)
   }
 
   handleSubmit = () => {
-    const { coin } = this.props.data.getOrElse({ coin: 'BTC' as CoinType })
+    const { coin } = this.props
     this.props.interestActions.submitDepositForm(coin)
   }
 
@@ -104,6 +104,10 @@ export type SuccessStateType = {
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
-type Props = ConnectedProps<typeof connector>
+
+export type OwnProps = {
+  coin: CoinType
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(DepositForm)

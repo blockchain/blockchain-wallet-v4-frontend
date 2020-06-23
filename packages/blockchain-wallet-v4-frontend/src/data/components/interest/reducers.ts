@@ -79,7 +79,7 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        instruments: Remote.Success(payload.interestInstruments)
+        instruments: Remote.Success(payload.interestInstruments.instruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {
@@ -183,6 +183,7 @@ export function interestReducer (
         isCoinDisplayed: payload.isCoinDisplayed
       }
     }
+
     case AT.SET_PAYMENT_FAILURE:
       return {
         ...state,
@@ -197,6 +198,12 @@ export function interestReducer (
       return {
         ...state,
         payment: Remote.Success(payload.payment)
+      }
+
+    case AT.SHOW_INTEREST_MODAL:
+      return {
+        ...state,
+        coin: payload.coin
       }
 
     default:

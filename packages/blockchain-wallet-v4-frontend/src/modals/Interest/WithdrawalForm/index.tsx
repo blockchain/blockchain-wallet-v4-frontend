@@ -71,8 +71,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
-  availToWithdrawCrypto: number
-  availToWithdrawFiat: number
+  availToWithdraw: number
   coin: CoinType
   displayCoin: boolean
   interestLimits: InterestLimitsType
@@ -85,11 +84,15 @@ type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
 }
 
+export type OwnProps = {
+  coin: CoinType
+}
+
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
 
-type Props = ConnectedProps<typeof connector>
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(WithdrawalFormContainer)

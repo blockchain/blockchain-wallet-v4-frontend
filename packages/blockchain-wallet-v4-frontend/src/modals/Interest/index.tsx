@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
+import { CoinType } from 'core/types'
 import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -39,16 +40,16 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSBClick = () => {
+  handleSBClick = coin => {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
-      this.props.simpleBuyActions.showModal('InterestPage')
+      this.props.simpleBuyActions.showModal('InterestPage', coin)
     }, duration / 2)
   }
 
   render () {
-    const { step, position, total } = this.props
+    const { coin, step, position, total } = this.props
     return (
       <Flyout
         position={position}
@@ -63,19 +64,20 @@ class Interest extends PureComponent<Props, State> {
           <FlyoutChild>
             <AccountSummary
               handleClose={this.handleClose}
-              handleSBClick={this.handleSBClick}
+              handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
+              coin={coin}
             />
           </FlyoutChild>
         )}
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm />
+            <DepositForm coin={coin} />
           </FlyoutChild>
         )}
         {step.name === 'WITHDRAWAL' && (
           <FlyoutChild>
-            <WithdrawalForm />
+            <WithdrawalForm coin={coin} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -84,7 +86,8 @@ class Interest extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  step: selectors.components.interest.getStep(state)
+  step: selectors.components.interest.getStep(state),
+  coin: selectors.components.interest.getCoinType(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -96,6 +99,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {
+  coin: CoinType
   step: {
     data: InterestStepMetadata
     name: InterestStep

@@ -16,10 +16,7 @@ import {
 
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
-import {
-  fiatToString,
-  formatFiat
-} from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
@@ -51,19 +48,15 @@ import {
   Top,
   TopText
 } from './model'
+import {
+  amountToCrypto,
+  amountToFiat,
+  calcCompoundInterest,
+  maxFiat
+} from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
 import { SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
-
-const calcCompoundInterest = (principal, rate, term) => {
-  const COMPOUNDS_PER_YEAR = 365
-  const principalInt = parseFloat(principal)
-  if (!principalInt) return '0.00'
-  const totalAmount =
-    principalInt *
-    Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * 100), COMPOUNDS_PER_YEAR * term)
-  return formatFiat(totalAmount - principalInt)
-}
 
 const FORM_NAME = 'interestDepositForm'
 
@@ -89,29 +82,26 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
-  const depositAmountFiat = displayCoin
-    ? formatFiat(
-        Exchange.convertCoinToFiat(depositAmount, coin, walletCurrency, rates)
-      )
-    : formatFiat(depositAmount)
-  const depositAmountCrypto = displayCoin
-    ? depositAmount
-    : Exchange.convertCoinToCoin({
-        baseToStandard: true,
-        coin,
-        value: Exchange.convertFiatToBtc({
-          fromCurrency: walletCurrency,
-          toUnit: 'SAT',
-          rates,
-          value: depositAmount
-        }).value
-      }).value
+
+  const depositAmountFiat = amountToFiat(
+    displayCoin,
+    depositAmount,
+    coin,
+    walletCurrency,
+    rates
+  )
+
+  const depositAmountCrypto = amountToCrypto(
+    displayCoin,
+    depositAmount,
+    coin,
+    walletCurrency,
+    rates
+  )
+
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
-  const maxDepositFiat = fiatToString({
-    value: depositLimits.maxFiat,
-    unit: walletCurrency
-  })
+  const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
   const amtError =
     formErrors.depositAmount &&
@@ -522,11 +512,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.deposit.agreement1'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your Bitcoin Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                 values={{
                   lockupPeriod,
+                  depositAmountFiat: `${currencySymbol}${depositAmountFiat}`,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
-                  depositAmountFiat: `${currencySymbol}${depositAmountFiat}`
+                  displayName
                 }}
               />
             </Text>
