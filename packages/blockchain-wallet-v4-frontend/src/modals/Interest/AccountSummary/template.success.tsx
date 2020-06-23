@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, colorCodeLight, displayName, icons } = supportedCoins[coin]
+  const { colorCode, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -164,7 +164,7 @@ const AccountSummary: React.FC<Props> = props => {
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
-              <StatusIconWrapper color={colorCodeLight}>
+              <StatusIconWrapper color={`${colorCode}-light`}>
                 <Icon color={colorCode} name='timer' size='24px' />
               </StatusIconWrapper>
               <Text
