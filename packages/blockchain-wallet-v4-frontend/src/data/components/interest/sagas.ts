@@ -311,13 +311,25 @@ export default ({
     try {
       yield put(actions.form.startSubmit(FORM))
       const withdrawalAmountSats = convertStandardToBase(coin, withdrawalAmount)
-      const receiveAddress = selectors.core.common.btc
-        .getNextAvailableReceiveAddress(
-          networks.btc,
-          yield select(selectors.core.wallet.getDefaultAccountIndex),
-          yield select()
-        )
-        .getOrFail('Failed to get BTC receive address')
+      let receiveAddress
+      switch (coin) {
+        case 'ETH':
+          receiveAddress = selectors.core.data.eth
+            .getDefaultAddress(yield select())
+            .getOrFail('Failed to get ETH receive address')
+          break
+        case 'BTC':
+          receiveAddress = selectors.core.common.btc
+            .getNextAvailableReceiveAddress(
+              networks.btc,
+              yield select(selectors.core.wallet.getDefaultAccountIndex),
+              yield select()
+            )
+            .getOrFail('Failed to get BTC receive address')
+          break
+        default:
+          throw new Error('Invalid Coin Type')
+      }
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
