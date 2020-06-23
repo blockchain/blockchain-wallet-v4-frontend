@@ -34,7 +34,7 @@ export const minimumWithdrawalAmount = (
 ) => {
   // withdrawal min across all products .0005 BTC
   const { coin, displayCoin, rates, walletCurrency } = props
-  const MIN_WITHDRAWAL = 0.0005
+  const MIN_WITHDRAWAL = coin === 'BTC' ? 0.0005 : 0.002
   const withdrawalMin = displayCoin
     ? MIN_WITHDRAWAL
     : Exchange.convertCoinToFiat(MIN_WITHDRAWAL, coin, walletCurrency, rates)
