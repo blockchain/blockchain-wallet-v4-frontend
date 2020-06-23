@@ -57,7 +57,6 @@ export interface InterestState {
   account: RemoteDataType<string, InterestAccountType>
   accountBalance: RemoteDataType<string, InterestAccountBalanceType>
   coin: CoinType
-  depositAmount: number
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
   interestEligible: RemoteDataType<string, InterestEligibleType>
@@ -193,12 +192,6 @@ interface SetDepositLimitsAction {
   }
   type: typeof AT.SET_INTEREST_DEPOSIT_LIMITS
 }
-interface SetDepositAmountAction {
-  payload: {
-    depositAmount: number
-  }
-  type: typeof AT.SET_DEPOSIT_AMOUNT
-}
 
 // WITHDRAWAL
 interface InitializeWithdrawalFormAction {
@@ -285,7 +278,6 @@ export type InterestActionTypes =
   | SetInterestStep
   | ShowInterestModal
   | SetCoinDisplay
-  | SetDepositAmountAction
   | SetDepositLimitsAction
   | SetPaymentFailureAction
   | SetPaymentLoadingAction

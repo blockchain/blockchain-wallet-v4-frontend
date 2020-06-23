@@ -185,10 +185,6 @@ export const setDepositLimits = (limits: InterestMinMaxType) => ({
   type: AT.SET_INTEREST_DEPOSIT_LIMITS
 })
 
-export const setDepositAmount = (depositAmount: number) => ({
-  payload: { depositAmount },
-  type: AT.SET_DEPOSIT_AMOUNT
-})
 export const submitDepositForm = (coin: CoinType) => ({
   payload: { coin },
   type: AT.SUBMIT_DEPOSIT_FORM
