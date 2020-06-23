@@ -39,13 +39,7 @@ const LoadingWrapper = styled.div`
 `
 
 function TransactionList (props: Props): ReactElement | null {
-  const {
-    interestActions,
-    rates,
-    txPages,
-    supportedCoins,
-    walletCurrency
-  } = props
+  const { interestActions, txPages, supportedCoins, walletCurrency } = props
   const txList = flatten(
     txPages &&
       // @ts-ignore
@@ -265,7 +259,6 @@ function TransactionList (props: Props): ReactElement | null {
                       coin={amount.symbol}
                       currency={walletCurrency}
                       data-e2e='interestTxFiatAmount'
-                      rates={rates}
                       size='12px'
                       style={{ alignItems: 'right' }}
                       weight={500}

@@ -102,7 +102,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     walletCurrency,
     rates
   )
-
   if (!account) return null
 
   return submitting ? (

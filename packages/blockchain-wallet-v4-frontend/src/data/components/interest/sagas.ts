@@ -172,7 +172,7 @@ export default ({
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
-
+        yield put(A.setDepositAmount(value))
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           {
@@ -181,7 +181,9 @@ export default ({
           },
           value
         )
+
         yield put(A.setPaymentSuccess(provisionalPayment))
+
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
@@ -265,13 +267,14 @@ export default ({
       yield put(actions.form.startSubmit(FORM))
 
       const coin = S.getCoinType(yield select())
+      const value = S.getDepositAmount(yield select())
       yield call(fetchInterestAccount, coin)
       const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
 
       // build and publish payment to network
-      yield call(buildAndPublishPayment, coin, payment, depositAddress)
+      yield call(buildAndPublishPayment, coin, payment, depositAddress, value)
       // notify success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
