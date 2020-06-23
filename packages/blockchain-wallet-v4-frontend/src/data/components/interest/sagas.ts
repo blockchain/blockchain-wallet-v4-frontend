@@ -310,7 +310,7 @@ export default ({
     const FORM = 'interestWithdrawalForm'
     try {
       yield put(actions.form.startSubmit(FORM))
-      const withdrawalAmountSats = convertStandardToBase(coin, withdrawalAmount)
+      const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
       switch (coin) {
         case 'ETH':
@@ -333,7 +333,7 @@ export default ({
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
-        Number(withdrawalAmountSats),
+        Number(withdrawalAmountBase),
         coin,
         receiveAddress
       )
