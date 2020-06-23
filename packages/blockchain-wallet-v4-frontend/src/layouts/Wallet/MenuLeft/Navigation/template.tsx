@@ -49,7 +49,7 @@ const ExchangeNavItem = props => (
       className='icon'
       name='blockchain-logo'
       style={{ marginLeft: '-2px' }}
-      size='26px'
+      size='21px'
     />
     <Destination style={{ marginLeft: '2px' }}>
       <FormattedMessage
