@@ -101,10 +101,20 @@ export const fetchInterestLimitsSuccess = (
   payload: { interestLimits }
 })
 
-export const setWithdrawalMinimimums = (
+export const setWithdrawalMinimimumsFailure = (error: string) => ({
+  type: AT.SET_WITHDRAWAL_MINIMUMS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const setWithdrawalMinimimumsLoading = () => ({
+  type: AT.SET_WITHDRAWAL_MINIMUMS_LOADING
+})
+export const setWithdrawalMinimimumsSuccess = (
   withdrawalMinimums: WithdrawalMinimumType
 ) => ({
-  type: AT.SET_WITHDRAWAL_MINIMUMS,
+  type: AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS,
   payload: { withdrawalMinimums }
 })
 

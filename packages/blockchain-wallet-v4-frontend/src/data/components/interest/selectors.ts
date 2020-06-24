@@ -1,6 +1,4 @@
 import { FiatType, RemoteDataType } from 'core/types'
-
-import { propEq } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
@@ -72,13 +70,5 @@ export const getWalletCurrency = (
   return selectors.core.settings.getCurrency(state)
 }
 
-export const getWithdrawalMinimums = (state: RootState, coin) =>
-  state.components.interest.withdrawalMinimums.find(propEq('symbol', coin))
-
-// export const getWithdrawalMinimumCoin: (
-//   state: RootState,
-//   coin: CoinType
-// ) => WithdrawalMinimumType = (state, coin) =>
-//   createSelector(getWithdrawalMinimums, withdrawalMins => {
-//     return find(propEq('symbol', coin))(withdrawalMins)
-//   })(state)
+export const getWithdrawalMinimums = (state: RootState) =>
+  state.components.interest.withdrawalMinimums

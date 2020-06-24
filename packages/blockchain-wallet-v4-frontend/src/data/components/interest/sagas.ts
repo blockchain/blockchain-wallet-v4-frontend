@@ -249,8 +249,14 @@ export default ({
       const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
         api.getWithdrawalMinsAndFees
       )
-      yield put(A.setWithdrawalMinimimums(response))
-      // init form for analytics
+      yield put(A.setWithdrawalMinimimumsLoading())
+      yield put(A.setWithdrawalMinimimumsSuccess(response))
+      // setWithdrawalMinimimumsSuccess init form for analytics
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.setWithdrawalMinimimumsFailure(error))
+    }
+    try {
       yield put(initialize('interestWithdrawalForm', {}))
     } catch (e) {
       // TODO?
