@@ -18,8 +18,8 @@ BlockchainLoader.propTypes = {
 }
 
 BlockchainLoader.defaultProps = {
-  width: '150px',
-  height: '150px'
+  width: '100px',
+  height: '100px'
 }
 
 export default BlockchainLoader

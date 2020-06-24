@@ -36,7 +36,7 @@ const QRReader = props => {
 
   return isLoading ? (
     <Wrapper>
-      <BlockchainLoader width='150px' height='150px' />
+      <BlockchainLoader width='80px' height='80px' />
     </Wrapper>
   ) : hasWebcam ? (
     <Container>
