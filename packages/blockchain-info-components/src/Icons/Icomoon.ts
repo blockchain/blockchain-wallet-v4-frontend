@@ -1,4 +1,5 @@
 const IcoMoon = {
+  algo: '\\e939',
   'alert-filled': '\\e900',
   'arrow-down': '\\e91d',
   'arrow-down-circle': '\\e935',
@@ -95,6 +96,7 @@ const IcoMoon = {
   trash: '\\e951',
   twitter: '\\e916',
   'usd-d': '\\e948',
+  usdt: '\\e94a',
   user: '\\e955',
   users: '\\e928',
   'vertical-arrow-switch': '\\e980',
