@@ -37,7 +37,7 @@ const CheckVersionsStep = props => {
         </Text>
       </Title>
       <LoaderContainer>
-        <BlockchainLoader width='100px' height='100px' />
+        <BlockchainLoader width='80px' height='80px' />
       </LoaderContainer>
       <Content>
         {status ? (

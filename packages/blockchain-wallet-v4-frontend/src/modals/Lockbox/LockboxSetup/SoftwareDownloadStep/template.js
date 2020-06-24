@@ -74,7 +74,7 @@ const SoftwareDownloadStep = props => {
   return hasDownloaded ? (
     <Wrapper>
       <HeadingWrapper>
-        <BlockchainLoader width='90px' height='90px' />
+        <BlockchainLoader width='80px' height='80px' />
       </HeadingWrapper>
       <Text size='13px' weight={500}>
         <FormattedMessage
