@@ -75,6 +75,7 @@ const Navigation = (props: OwnProps & Props) => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
+    supportedCoins.ALGO,
     supportedCoins.XLM
   ]
 

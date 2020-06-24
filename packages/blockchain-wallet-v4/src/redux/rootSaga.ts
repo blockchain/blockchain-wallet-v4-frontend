@@ -10,7 +10,7 @@ export default ({ api, networks, options }) =>
     yield all([
       fork(data({ api, options, networks })),
       fork(kvStore({ api, networks })),
-      fork(walletOptions({ api, options })),
+      fork(walletOptions({ options })),
       fork(settings({ api })),
       fork(wallet({ api, networks }))
     ])
