@@ -50,9 +50,10 @@ export default ({
         return yield put(
           A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCE)
         )
-      const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
-        api.getInterestAccountBalance
-      )
+      // const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
+      //   api.getInterestAccountBalance
+      // )
+      const response = yield call(api.getInterestAccountBalance)
       yield put(A.fetchInterestBalanceSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
