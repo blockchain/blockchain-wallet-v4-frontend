@@ -10,8 +10,11 @@ export const getData = state => {
   )
   const ratesR = selectors.components.interest.getRates(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
+  const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(
+    state,
+    coin
+  )
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
 
   return lift(
@@ -20,6 +23,7 @@ export const getData = state => {
       rates,
       supportedCoins,
       walletCurrency,
+      withdrawalMinimums,
       interestLimits
     ) => ({
       accountBalances,
@@ -31,7 +35,15 @@ export const getData = state => {
       rates,
       supportedCoins,
       walletCurrency,
+      withdrawalMinimums,
       interestLimits
     })
-  )(accountBalancesR, ratesR, supportedCoinsR, walletCurrencyR, interestLimitsR)
+  )(
+    accountBalancesR,
+    ratesR,
+    supportedCoinsR,
+    walletCurrencyR,
+    withdrawalMinimumsR,
+    interestLimitsR
+  )
 }

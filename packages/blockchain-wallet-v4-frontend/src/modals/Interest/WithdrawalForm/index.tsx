@@ -10,6 +10,7 @@ import {
   InterestLimitsType,
   RemoteDataType,
   SupportedCoinsType
+  // WithdrawalMinimumType
 } from 'core/types'
 import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
@@ -78,6 +79,7 @@ export type SuccessStateType = {
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
+  withdrawalMinimums: any
 }
 
 type LinkStatePropsType = {

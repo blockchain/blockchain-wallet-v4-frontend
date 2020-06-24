@@ -26,7 +26,17 @@ const INITIAL_STATE: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   transactions: [],
-  transactionsNextPage: null
+  transactionsNextPage: null,
+  withdrawalMinimums: [
+    {
+      symbol: 'BTC',
+      value: '.0005'
+    },
+    {
+      symbol: 'ETH',
+      value: '.002'
+    }
+  ]
 }
 
 export function interestReducer (
@@ -200,6 +210,11 @@ export function interestReducer (
         payment: Remote.Success(payload.payment)
       }
 
+    case AT.SET_WITHDRAWAL_MINIMUMS:
+      return {
+        ...state,
+        withdrawalMinimums: payload.withdrawalMinimums.minAmounts
+      }
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,

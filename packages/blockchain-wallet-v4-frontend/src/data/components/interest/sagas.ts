@@ -50,10 +50,9 @@ export default ({
         return yield put(
           A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCE)
         )
-      // const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
-      //   api.getInterestAccountBalance
-      // )
-      const response = yield call(api.getInterestAccountBalance)
+      const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
+        api.getInterestAccountBalance
+      )
       yield put(A.fetchInterestBalanceSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
@@ -247,6 +246,10 @@ export default ({
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
     try {
+      const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
+        api.getWithdrawalMinsAndFees
+      )
+      yield put(A.setWithdrawalMinimimums(response))
       // init form for analytics
       yield put(initialize('interestWithdrawalForm', {}))
     } catch (e) {
