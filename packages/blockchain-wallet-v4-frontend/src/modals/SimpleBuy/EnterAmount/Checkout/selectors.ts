@@ -19,14 +19,18 @@ export const getData = (state: RootState) => {
   const ethRatesR = selectors.core.data.eth.getRates(state)
   const paxRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   const xlmRatesR = selectors.core.data.xlm.getRates(state)
+  const algoRatesR = selectors.core.data.algo.getRates(state)
 
-  const ratesR = lift((bchRates, btcRates, ethRates, paxRates, xlmRates) => ({
-    BCH: bchRates,
-    BTC: btcRates,
-    ETH: ethRates,
-    PAX: paxRates,
-    XLM: xlmRates
-  }))(bchRatesR, btcRatesR, ethRatesR, paxRatesR, xlmRatesR)
+  const ratesR = lift(
+    (bchRates, btcRates, ethRates, paxRates, xlmRates, algoRates) => ({
+      BCH: bchRates,
+      BTC: btcRates,
+      ETH: ethRates,
+      PAX: paxRates,
+      XLM: xlmRates,
+      ALGO: algoRates
+    })
+  )(bchRatesR, btcRatesR, ethRatesR, paxRatesR, xlmRatesR, algoRatesR)
 
   return lift(
     (invitations, rates, suggestedAmounts, supportedCoins, userData) => ({

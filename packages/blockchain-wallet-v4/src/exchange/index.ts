@@ -1189,6 +1189,8 @@ export {
   convertXlmToFiat,
   convertXlmToXlm,
   convertCoinToCoin,
+  displayAlgoToFiat,
+  displayAlgoToAlgo,
   displayBtcToFiat,
   displayBtcToBtc,
   displayBchToFiat,

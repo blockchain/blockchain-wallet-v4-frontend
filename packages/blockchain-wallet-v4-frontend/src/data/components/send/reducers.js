@@ -8,7 +8,8 @@ const INITIAL_STATE = {
     BCH: Remote.NotAsked,
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    XLM: Remote.NotAsked
+    XLM: Remote.NotAsked,
+    ALGO: Remote.NotAsked
   }
 }
 

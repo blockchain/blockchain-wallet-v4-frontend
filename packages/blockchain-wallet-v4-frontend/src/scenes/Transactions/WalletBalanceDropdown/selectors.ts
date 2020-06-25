@@ -2,6 +2,7 @@ import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { CurrenciesType } from 'core/exchange/currencies'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { FiatType, RemoteDataType } from 'core/types'
+import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
@@ -74,6 +75,13 @@ export const getData = (
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
       coinRatesR = selectors.core.data.xlm.getRates(state)
+      break
+    case 'ALGO':
+      addressDataR = getAlgoAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getAlgoBalance(state)
+      coinRatesR = selectors.core.data.algo.getRates(state)
       break
     default:
       addressDataR = Remote.Success({ data: [] })

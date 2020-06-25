@@ -18,8 +18,8 @@
       "coins": {
         "ALGO": {
           "availability": {
-            "send": true,
-            "request": true,
+            "send": false,
+            "request": false,
             "lockbox": false,
             "exchangeTo": false,
             "exchangeFrom": false,
