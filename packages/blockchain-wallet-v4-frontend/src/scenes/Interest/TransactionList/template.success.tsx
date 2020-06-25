@@ -109,6 +109,7 @@ function TransactionList (props: Props): ReactElement | null {
                           color={colorCode}
                           size='20px'
                           weight={600}
+                          data-e2e={id}
                         />
                       </IconBackground>
                       <Value data-e2e='withdrawalTx'>
