@@ -8,7 +8,7 @@ import walletOptions from './walletOptions/sagaRegister'
 export default ({ api, networks, options }) =>
   function * coreSaga () {
     yield all([
-      fork(data({ api, options, networks })),
+      fork(data({ api, networks })),
       fork(kvStore({ api, networks })),
       fork(walletOptions({ options })),
       fork(settings({ api })),
