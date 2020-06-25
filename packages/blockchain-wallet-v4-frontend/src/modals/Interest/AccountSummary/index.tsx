@@ -18,6 +18,7 @@ import DataError from 'components/DataError'
 import { getData } from './selectors'
 import AccountSummary from './template.success'
 import Loading from './template.loading'
+import Unsupported from './template.unsupported'
 
 class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
@@ -47,13 +48,16 @@ class AccountSummaryContainer extends PureComponent<Props> {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: val => (
-        <AccountSummary
-          {...val}
-          {...this.props}
-          handleDepositClick={this.handleDepositClick}
-        />
-      ),
+      Success: val =>
+        val.walletCurrency === 'TWD' || val.walletCurrency === 'CLP' ? (
+          <Unsupported {...val} {...this.props} />
+        ) : (
+          <AccountSummary
+            {...val}
+            {...this.props}
+            handleDepositClick={this.handleDepositClick}
+          />
+        ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

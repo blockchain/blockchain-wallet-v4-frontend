@@ -89,6 +89,7 @@ const AccountSummary: React.FC<Props> = props => {
             name='close'
             size='20px'
             color='grey600'
+            data-e2e='close'
           />
         </TopText>
         <Row style={{ paddingBottom: '8px' }}>
