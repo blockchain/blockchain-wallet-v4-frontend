@@ -7,5 +7,9 @@ export default ({ api }) => {
 
   return function * coreDataAlgoSaga () {
     yield takeLatest(AT.FETCH_ALGO_RATES, dataAlgoSagas.fetchRates)
+    yield takeLatest(
+      AT.FETCH_ALGO_TRANSACTIONS,
+      dataAlgoSagas.fetchTransactions
+    )
   }
 }

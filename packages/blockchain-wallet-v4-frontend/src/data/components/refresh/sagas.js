@@ -13,7 +13,7 @@ export default () => {
       yield put(actions.core.data.eth.fetchData())
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data('pax'))
-      yield put(actions.components.interest.fetchInterestAccountBalance())
+      yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
       yield put(actions.components.simpleBuy.fetchSBOrders())
       // Rates
@@ -38,6 +38,9 @@ export default () => {
           break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
+          break
+        case contains('/algo/transactions', pathname):
+          yield call(refreshAlgoTransactions)
           break
         case contains('/lockbox/', pathname):
           yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
@@ -66,6 +69,8 @@ export default () => {
           yield put(actions.core.data.xlm.fetchTransactions('', true))
       }
     } catch (e) {
+      // eslint-disable-next-line
+      console.log(e)
       yield put(
         actions.logs.logErrorMessage(
           'components/refresh/sagas',
@@ -94,6 +99,10 @@ export default () => {
 
   const refreshXlmTransactions = function * () {
     yield put(actions.core.data.xlm.fetchTransactions(null, true))
+  }
+
+  const refreshAlgoTransactions = function * () {
+    yield put(actions.core.data.algo.fetchTransactions(null, true))
   }
 
   return {

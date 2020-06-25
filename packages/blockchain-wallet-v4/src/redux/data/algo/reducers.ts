@@ -35,14 +35,22 @@ export const algoReducer = (
         transactions: [Remote.Failure(action.payload)]
       }
     case AT.FETCH_ALGO_TRANSACTIONS_LOADING:
+      const { reset } = action.payload
       return {
         ...state,
-        transactions: [...state.transactions, Remote.Loading]
+        transactions: reset
+          ? [Remote.Loading]
+          : [...state.transactions, Remote.Loading]
       }
     case AT.FETCH_ALGO_TRANSACTIONS_SUCCESS:
       return {
         ...state,
-        transactions: [...state.transactions, Remote.Success(action.payload)]
+        transactions: [
+          Remote.Success(action.payload.transactions),
+          ...state.transactions.filter(
+            (tx, i) => i !== state.transactions.length - 1
+          )
+        ]
       }
     default: {
       return state
