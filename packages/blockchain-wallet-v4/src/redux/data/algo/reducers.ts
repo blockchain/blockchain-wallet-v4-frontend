@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 
 import { AlgoActionTypes, AlgoState } from './types'
-import { Remote } from 'core'
+import Remote from '../../../remote'
 
 const INITIAL_STATE: AlgoState = {
   rates: Remote.NotAsked,
@@ -14,6 +14,21 @@ export const algoReducer = (
   action: AlgoActionTypes
 ): AlgoState => {
   switch (action.type) {
+    case AT.FETCH_ALGO_RATES_FAILURE:
+      return {
+        ...state,
+        rates: Remote.Failure(action.payload)
+      }
+    case AT.FETCH_ALGO_RATES_LOADING:
+      return {
+        ...state,
+        rates: Remote.Loading
+      }
+    case AT.FETCH_ALGO_RATES_SUCCESS:
+      return {
+        ...state,
+        rates: Remote.Success(action.payload)
+      }
     case AT.FETCH_ALGO_TRANSACTIONS_FAILURE:
       return {
         ...state,
@@ -22,7 +37,7 @@ export const algoReducer = (
     case AT.FETCH_ALGO_TRANSACTIONS_LOADING:
       return {
         ...state,
-        transactions: [...state.transactions, Remote.Loading()]
+        transactions: [...state.transactions, Remote.Loading]
       }
     case AT.FETCH_ALGO_TRANSACTIONS_SUCCESS:
       return {

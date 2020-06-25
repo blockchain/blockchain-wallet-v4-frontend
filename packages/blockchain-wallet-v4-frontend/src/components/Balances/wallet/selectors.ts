@@ -172,6 +172,17 @@ export const getXlmBalance = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalance = createDeepEqualSelector(
+  [selectors.components.simpleBuy.getSBBalances],
+  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbAlgoBalance = sbBalancesR.getOrElse({ ALGO: { available: '0' } })
+      .ALGO
+    const sbBalance = sbAlgoBalance ? sbAlgoBalance.available : '0'
+
+    return Remote.of(new BigNumber(sbBalance))
+  }
+)
+
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
@@ -264,6 +275,24 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
         rates
       }).value
     return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
+  }
+)
+
+export const getAlgoBalanceInfo = createDeepEqualSelector(
+  [
+    getAlgoBalance,
+    selectors.core.data.algo.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (algoBalanceR, algoRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertAlgoToFiat({
+        value,
+        fromUnit: 'mALGO',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(algoBalanceR, algoRatesR, currencyR)
   }
 )
 

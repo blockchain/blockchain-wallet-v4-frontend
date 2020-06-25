@@ -77,6 +77,8 @@ export const getData = (
       break
     default:
       addressDataR = Remote.Success({ data: [] })
+      balanceDataR = Remote.Success(0)
+      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
   const priceIndexSeriesR = selectors.core.data.misc.getPriceIndexSeries(state)
   const currencyR = selectors.core.settings.getCurrency(state)

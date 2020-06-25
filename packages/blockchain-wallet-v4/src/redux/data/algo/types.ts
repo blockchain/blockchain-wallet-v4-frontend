@@ -11,6 +11,19 @@ export type AlgoState = {
 }
 
 // actions
+interface FetchRatesFailureActionType {
+  payload: string
+  type: typeof AT.FETCH_ALGO_RATES_FAILURE
+}
+interface FetchRatesLoadingActionType {
+  type: typeof AT.FETCH_ALGO_RATES_LOADING
+}
+interface FetchRatesSuccessActionType {
+  payload: {
+    rates: RatesType
+  }
+  type: typeof AT.FETCH_ALGO_RATES_SUCCESS
+}
 interface FetchTransactionsFailureActionType {
   payload: string
   type: typeof AT.FETCH_ALGO_TRANSACTIONS_FAILURE
@@ -29,6 +42,9 @@ interface FetchTransactionsSuccessActionType {
 }
 
 export type AlgoActionTypes =
+  | FetchRatesFailureActionType
+  | FetchRatesLoadingActionType
+  | FetchRatesSuccessActionType
   | FetchTransactionsFailureActionType
   | FetchTransactionsLoadingActionType
   | FetchTransactionsSuccessActionType

@@ -1,4 +1,5 @@
 import activityList from './activityList/sagas'
+import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
 import btcTransactions from './btcTransactions/sagas'
@@ -31,6 +32,7 @@ import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
   activityList: activityList(),
+  algoTransactions: algoTransactions(),
   bchTransactions: bchTransactions(),
   borrow: borrow({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
