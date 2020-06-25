@@ -260,6 +260,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             <ToggleFiatText
               displayCoin={displayCoin}
               onClick={() => handleDisplayToggle(false)}
+              data-e2e='toggleFiat'
             >
               {walletCurrency}
             </ToggleFiatText>
@@ -267,6 +268,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
             <ToggleCoinText
               displayCoin={displayCoin}
               onClick={() => handleDisplayToggle(true)}
+              data-e2e='toggleCoin'
             >
               {coinTicker}
             </ToggleCoinText>

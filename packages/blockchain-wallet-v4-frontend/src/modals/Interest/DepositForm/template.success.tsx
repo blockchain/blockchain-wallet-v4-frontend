@@ -214,6 +214,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <ToggleFiatText
               displayCoin={displayCoin}
               onClick={() => handleDisplayToggle(false)}
+              data-e2e='toggleFiat'
             >
               {walletCurrency}
             </ToggleFiatText>
@@ -221,6 +222,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <ToggleCoinText
               displayCoin={displayCoin}
               onClick={() => handleDisplayToggle(true)}
+              data-e2e='toggleCoin'
             >
               {coinTicker}
             </ToggleCoinText>
