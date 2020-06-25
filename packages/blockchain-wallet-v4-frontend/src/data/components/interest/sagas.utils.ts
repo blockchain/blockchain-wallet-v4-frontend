@@ -78,6 +78,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
             rates
           }).value
           break
+        case 'USDT':
+          maxFiat = Exchange.convertUsdtToFiat({
+            value: balance,
+            fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
         default:
           throw new Error(INVALID_COIN_TYPE)
       }

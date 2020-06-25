@@ -72,12 +72,12 @@ const Navigation = (props: OwnProps & Props) => {
   const { supportedCoins } = rest
   const coinOrder = [
     supportedCoins.PAX,
+    supportedCoins.USDT,
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
     supportedCoins.XLM
   ]
-
   return (
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
@@ -95,8 +95,7 @@ const Navigation = (props: OwnProps & Props) => {
         mapObjIndexed(
           (coin: SupportedCoinType, i) =>
             coin &&
-            coin.txListAppRoute &&
-            coin.invited && (
+            coin.txListAppRoute && (
               <LinkContainer
                 key={i}
                 to={coin.txListAppRoute}

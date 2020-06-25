@@ -103,6 +103,7 @@ export default ({ coreSagas, networks }) => {
           .amount(parseInt(amount))
         break
       case 'PAX':
+      case 'USDT':
       case 'ETH':
         payment = coreSagas.payment.eth
           .create({ network: networks.eth })

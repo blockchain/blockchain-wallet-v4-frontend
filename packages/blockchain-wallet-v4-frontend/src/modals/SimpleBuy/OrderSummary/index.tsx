@@ -47,6 +47,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       BCH: { colorCode: 'bch' },
       ETH: { colorCode: 'eth' },
       PAX: { colorCode: 'pax' },
+      USDT: { colorCode: 'usdt' },
       STX: { colorCode: 'stx' },
       XLM: { colorCode: 'xlm' }
     })

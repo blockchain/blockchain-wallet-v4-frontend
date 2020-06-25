@@ -4,6 +4,7 @@ import {
   getBtcBalance,
   getEthBalance,
   getPaxBalance,
+  getUsdtBalance,
   getXlmBalance
 } from 'components/Balances/wallet/selectors'
 import { lift } from 'ramda'
@@ -19,6 +20,8 @@ const getBalanceSelector = (coin: CoinType) => {
       return getEthBalance
     case 'PAX':
       return getPaxBalance
+    case 'USDT':
+      return getUsdtBalance
     case 'XLM':
       return getXlmBalance
   }
@@ -36,6 +39,8 @@ const getRatesSelector = (coin: CoinType, state) => {
       return selectors.core.data.xlm.getRates(state)
     case 'PAX':
       return selectors.core.data.eth.getErc20Rates(state, 'pax')
+    case 'USDT':
+      return selectors.core.data.eth.getErc20Rates(state, 'usdt')
   }
 }
 export const getBalance = state => {

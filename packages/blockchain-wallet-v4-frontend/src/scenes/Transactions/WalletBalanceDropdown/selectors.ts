@@ -67,6 +67,14 @@ export const getData = (
       balanceDataR = balanceSelectors.getPaxBalance(state)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
       break
+    case 'USDT':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDT',
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getUsdtBalance(state)
+      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'usdt')
+      break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
