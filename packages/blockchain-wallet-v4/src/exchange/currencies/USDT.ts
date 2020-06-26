@@ -18,7 +18,7 @@ export default {
     },
     USDT: {
       rate: '1000000000000000000',
-      symbol: 'Tether',
+      symbol: 'USDT',
       decimal_digits: 2,
       currency: 'USDT'
     }
