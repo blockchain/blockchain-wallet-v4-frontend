@@ -17,7 +17,7 @@ import {
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
-import { INVALID_COIN_TYPE } from 'core/model'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import {
   LoanFinancialsType,
   LoanType,

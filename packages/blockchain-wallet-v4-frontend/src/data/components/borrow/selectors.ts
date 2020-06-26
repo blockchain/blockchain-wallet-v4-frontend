@@ -1,7 +1,7 @@
-import { getRatesSelector } from 'core/redux/data/misc/selectors'
 import { RatesType } from './types'
 import { RemoteDataType } from 'core/types'
 import { RootState } from '../../rootReducer'
+import { selectors } from 'data'
 
 export const getCoinType = (state: RootState) => state.components.borrow.coin
 
@@ -26,7 +26,7 @@ export const getRates = (
 ): RemoteDataType<string | Error, RatesType> => {
   const coinType = getCoinType(state)
 
-  return getRatesSelector(coinType, state)
+  return selectors.core.data.misc.getRatesSelector(coinType, state)
 }
 
 export const getStep = (state: RootState) => state.components.borrow.step

@@ -1,10 +1,10 @@
 import { CoinType, RemoteDataType } from 'core/types'
 import { dataPath } from '../../paths'
-import { INVALID_COIN_TYPE } from 'core/model'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { path } from 'ramda'
 import { RatesType } from 'data/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import Remote from 'core/remote/remote'
 
 export const getCaptcha = path([dataPath, 'misc', 'captcha'])
 
