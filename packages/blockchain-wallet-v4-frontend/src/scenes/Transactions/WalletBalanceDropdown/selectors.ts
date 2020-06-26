@@ -54,7 +54,8 @@ export const getData = (
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getEthBalance(state)
       coinRatesR = selectors.core.data.eth.getRates(state)
