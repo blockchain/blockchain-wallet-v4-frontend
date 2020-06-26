@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { fork, takeLatest } from 'redux-saga/effects'
+import { fork, takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api }) => {
@@ -10,8 +10,8 @@ export default ({ api }) => {
     yield fork(dataEthSagas.watchErc20Transactions)
     yield takeLatest(AT.FETCH_ETH_DATA, dataEthSagas.fetchData)
     yield takeLatest(AT.FETCH_ETH_RATES, dataEthSagas.fetchRates)
-    yield takeLatest(AT.FETCH_ERC20_RATES, dataEthSagas.fetchErc20Rates)
-    yield takeLatest(AT.FETCH_ERC20_TOKEN_DATA, dataEthSagas.fetchErc20Data)
+    yield takeEvery(AT.FETCH_ERC20_TOKEN_DATA, dataEthSagas.fetchErc20Data)
+    yield takeEvery(AT.FETCH_ERC20_RATES, dataEthSagas.fetchErc20Rates)
     yield takeLatest(
       AT.FETCH_ETH_TRANSACTION_HISTORY,
       dataEthSagas.fetchTransactionHistory
