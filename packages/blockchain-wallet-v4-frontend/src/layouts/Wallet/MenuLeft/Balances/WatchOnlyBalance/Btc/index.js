@@ -24,30 +24,30 @@ class BtcWatchOnlyBalance extends React.PureComponent {
     this.props.actions.fetchData()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({
       Success: balance => (
-        <LinkContainer to='/btc/transactions'>
+        <LinkContainer to="/btc/transactions">
           <div>
-            <CoinBalanceWrapper coin='BTC' balance={balance} />
+            <CoinBalanceWrapper coin="BTC" balance={balance} />
           </div>
         </LinkContainer>
       ),
       Failure: () => (
         <ErrorWrapper>
-          <ErrorLink size='12px' weight={400} onClick={this.handleRefresh}>
+          <ErrorLink size="12px" weight={400} onClick={this.handleRefresh}>
             <FormattedMessage
-              id='wallet.menutop.watchonly.btcbalance.refresh'
-              defaultMessage='Refresh {curr} data'
+              id="wallet.menutop.watchonly.btcbalance.refresh"
+              defaultMessage="Refresh {curr} data"
               values={{ curr: 'Watch Only Bitcoin' }}
             />
           </ErrorLink>
         </ErrorWrapper>
       ),
-      Loading: () => <LoadingBalance coin='BTC' />,
-      NotAsked: () => <LoadingBalance coin='BTC' />
+      Loading: () => <LoadingBalance coin="BTC" />,
+      NotAsked: () => <LoadingBalance coin="BTC" />
     })
   }
 }

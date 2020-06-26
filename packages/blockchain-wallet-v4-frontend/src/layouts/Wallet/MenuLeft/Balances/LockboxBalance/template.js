@@ -22,23 +22,23 @@ const Title = styled(Text)`
 
 const Template = props => (
   <Wrapper>
-    <Header onClick={props.handleToggle} data-e2e='balanceDropdown-lockbox'>
+    <Header onClick={props.handleToggle} data-e2e="balanceDropdown-lockbox">
       <Title>
         <Icon
-          color='grey400'
-          name='hardware'
-          size='21px'
+          color="grey400"
+          name="hardware"
+          size="21px"
           style={{ marginRight: '16px', marginLeft: '0px' }}
         />
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.hardware'
-          defaultMessage='Hardware'
+          id="layouts.wallet.menutop.balance.walletbalance.hardware"
+          defaultMessage="Hardware"
         />
       </Title>
       <Icon
-        color='grey600'
-        name='caret'
-        size='10px'
+        color="grey600"
+        name="caret"
+        size="10px"
         className={props.isActive ? 'active' : ''}
       />
     </Header>

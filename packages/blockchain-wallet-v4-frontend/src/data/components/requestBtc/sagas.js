@@ -15,7 +15,7 @@ export default ({ networks }) => {
   const logLocation = 'components/requestBtc/sagas'
   const setHDLabelError = 'accountIdx must be integer'
 
-  const firstStepSubmitClicked = function * (action) {
+  const firstStepSubmitClicked = function*(action) {
     try {
       let { accountIdx, addressIdx, message } = action.payload
       if (Number.isInteger(accountIdx)) {
@@ -37,7 +37,7 @@ export default ({ networks }) => {
     }
   }
 
-  const openLockboxAppClicked = function * (action) {
+  const openLockboxAppClicked = function*(action) {
     try {
       const form = yield select(selectors.form.getFormValues('requestBtc'))
       const appState = yield select(identity)
@@ -75,7 +75,7 @@ export default ({ networks }) => {
     }
   }
 
-  const btcPaymentReceived = function * (action) {
+  const btcPaymentReceived = function*(action) {
     yield put(actions.alerts.displaySuccess(C.RECEIVE_BTC_SUCCESS))
   }
 

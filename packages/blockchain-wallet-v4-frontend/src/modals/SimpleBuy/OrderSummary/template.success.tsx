@@ -64,26 +64,26 @@ const Success: React.FC<Props> = props => {
     <Wrapper>
       <div>
         <FlyoutWrapper>
-          <TopText color='grey800' size='20px' weight={600}>
+          <TopText color="grey800" size="20px" weight={600}>
             {/* TODO: Simple Buy - order types */}
             <FormattedMessage
-              id='modals.simplebuy.ordersummary'
-              defaultMessage='Buy Order Summary'
+              id="modals.simplebuy.ordersummary"
+              defaultMessage="Buy Order Summary"
             />
             <Icon
               cursor
-              name='close'
-              size='20px'
-              color='grey600'
+              name="close"
+              size="20px"
+              color="grey600"
               onClick={() => props.handleClose()}
             />
           </TopText>
           <Amount>
-            <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
+            <Text color="grey800" data-e2e="sbAmount" size="32px" weight={600}>
               {inputAmt} of
             </Text>
             <Text
-              size='32px'
+              size="32px"
               weight={600}
               color={props.supportedCoins[props.order.outputCurrency].colorCode}
             >
@@ -97,10 +97,10 @@ const Success: React.FC<Props> = props => {
             !props.order.paymentMethodId && (
               <Button
                 fullwidth
-                data-e2e='sbViewDetails'
-                size='16px'
-                height='48px'
-                nature='primary'
+                data-e2e="sbViewDetails"
+                size="16px"
+                height="48px"
+                nature="primary"
                 onClick={() =>
                   props.simpleBuyActions.setStep({
                     step: 'TRANSFER_DETAILS',
@@ -109,29 +109,29 @@ const Success: React.FC<Props> = props => {
                 }
               >
                 <FormattedMessage
-                  id='modals.simplebuy.summary.viewtransferdets'
-                  defaultMessage='View Bank Transfer Details'
+                  id="modals.simplebuy.summary.viewtransferdets"
+                  defaultMessage="View Bank Transfer Details"
                 />
               </Button>
             )}
         </FlyoutWrapper>
         <Row>
-          <Title color='grey600' size='14px' weight={500}>
+          <Title color="grey600" size="14px" weight={500}>
             <FormattedMessage
-              id='modals.simplebuy.summary.txid'
-              defaultMessage='Transaction ID'
+              id="modals.simplebuy.summary.txid"
+              defaultMessage="Transaction ID"
             />
           </Title>
-          <Value data-e2e='sbTransactionId'>{props.order.id}</Value>
+          <Value data-e2e="sbTransactionId">{props.order.id}</Value>
         </Row>
         <Row>
           <Title>
             <FormattedMessage
-              id='modals.simplebuy.summary.created'
-              defaultMessage='Created'
+              id="modals.simplebuy.summary.created"
+              defaultMessage="Created"
             />
           </Title>
-          <Value data-e2e='sbCreated'>
+          <Value data-e2e="sbCreated">
             {moment(props.order.insertedAt).format('LLL')}
           </Value>
         </Row>
@@ -140,11 +140,11 @@ const Success: React.FC<Props> = props => {
             <Row>
               <Title>
                 <FormattedMessage
-                  id='modals.simplebuy.summary.rate'
-                  defaultMessage='Exchange Rate'
+                  id="modals.simplebuy.summary.rate"
+                  defaultMessage="Exchange Rate"
                 />
               </Title>
-              <Value data-e2e='sbRate'>
+              <Value data-e2e="sbRate">
                 {fiatToString({
                   unit: props.order.inputCurrency as FiatType,
                   value: convertBaseToStandard('FIAT', props.order.price)
@@ -155,11 +155,11 @@ const Success: React.FC<Props> = props => {
             <Row>
               <Title>
                 <FormattedMessage
-                  id='modals.simplebuy.summary.value'
-                  defaultMessage='Value'
+                  id="modals.simplebuy.summary.value"
+                  defaultMessage="Value"
                 />
               </Title>
-              <Value data-e2e='sbPurchasing'>
+              <Value data-e2e="sbPurchasing">
                 {inputAmt} of{' '}
                 {props.supportedCoins[props.order.outputCurrency].coinTicker}
               </Value>
@@ -169,11 +169,11 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.summary.purchasing'
-                defaultMessage='Purchasing'
+                id="modals.simplebuy.summary.purchasing"
+                defaultMessage="Purchasing"
               />
             </Title>
-            <Value data-e2e='sbPurchasing'>
+            <Value data-e2e="sbPurchasing">
               {inputAmt} of{' '}
               {props.supportedCoins[props.order.outputCurrency].coinTicker}
             </Value>
@@ -183,11 +183,11 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.summary.fee'
-                defaultMessage='Fee'
+                id="modals.simplebuy.summary.fee"
+                defaultMessage="Fee"
               />
             </Title>
-            <Value data-e2e='sbFee'>
+            <Value data-e2e="sbFee">
               {fiatToString({
                 unit: props.order.inputCurrency as FiatType,
                 value: convertBaseToStandard('FIAT', props.order.fee)
@@ -200,11 +200,11 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.summary.sent_to'
-                defaultMessage='Sent To'
+                id="modals.simplebuy.summary.sent_to"
+                defaultMessage="Sent To"
               />
             </Title>
-            <Value data-e2e='sbSentTo'>
+            <Value data-e2e="sbSentTo">
               {props.order.outputCurrency} Trading Wallet
             </Value>
           </Row>
@@ -213,11 +213,11 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.confirm.total'
-                defaultMessage='Total'
+                id="modals.simplebuy.confirm.total"
+                defaultMessage="Total"
               />
             </Title>
-            <Value data-e2e='sbSentTo'>
+            <Value data-e2e="sbSentTo">
               {outputAmt} {props.order.outputCurrency}
             </Value>
           </Row>
@@ -225,11 +225,11 @@ const Success: React.FC<Props> = props => {
         <Row>
           <Title>
             <FormattedMessage
-              id='modals.simplebuy.summary.paymentmethod'
-              defaultMessage='Payment Method'
+              id="modals.simplebuy.summary.paymentmethod"
+              defaultMessage="Payment Method"
             />
           </Title>
-          <Value data-e2e='sbPaymentMethod'>
+          <Value data-e2e="sbPaymentMethod">
             {card
               ? `${card.label ? card.label : card.type} ····${card.number}`
               : 'Bank Wire Transfer'}
@@ -241,10 +241,10 @@ const Success: React.FC<Props> = props => {
           !props.order.paymentMethodId && (
             <Bottom>
               <Button
-                data-e2e='sbCancelPending'
-                size='16px'
-                height='48px'
-                nature='light-red'
+                data-e2e="sbCancelPending"
+                size="16px"
+                height="48px"
+                nature="light-red"
                 onClick={() =>
                   props.simpleBuyActions.setStep({
                     step: 'CANCEL_ORDER',
@@ -254,8 +254,8 @@ const Success: React.FC<Props> = props => {
               >
                 {/* TODO: Simple Buy - order types */}
                 <FormattedMessage
-                  id='modals.simplebuy.summary.cancelbuy'
-                  defaultMessage='Cancel Buy'
+                  id="modals.simplebuy.summary.cancelbuy"
+                  defaultMessage="Cancel Buy"
                 />
               </Button>
             </Bottom>
@@ -266,10 +266,10 @@ const Success: React.FC<Props> = props => {
           'WAITING_FOR_3DS_RESPONSE' && (
           <Bottom>
             <Button
-              data-e2e='sbRetryCard'
-              size='16px'
-              height='48px'
-              nature='primary'
+              data-e2e="sbRetryCard"
+              size="16px"
+              height="48px"
+              nature="primary"
               onClick={() =>
                 props.simpleBuyActions.setStep({
                   step: '3DS_HANDLER',
@@ -278,8 +278,8 @@ const Success: React.FC<Props> = props => {
               }
             >
               <FormattedMessage
-                id='modals.simplebuy.summary.complete_card_payment'
-                defaultMessage='Complete Card Payment'
+                id="modals.simplebuy.summary.complete_card_payment"
+                defaultMessage="Complete Card Payment"
               />
             </Button>
           </Bottom>

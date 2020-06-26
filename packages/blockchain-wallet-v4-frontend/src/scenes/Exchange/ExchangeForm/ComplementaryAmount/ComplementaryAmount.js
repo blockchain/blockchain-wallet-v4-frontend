@@ -18,13 +18,13 @@ const ComplementaryAmountContainer = styled.div`
 `
 
 export class ComplementaryAmount extends React.PureComponent {
-  render () {
+  render() {
     const { complementaryAmount, isFiat, complementarySymbol } = this.props
     return (
       <ComplementaryAmountContainer>
         <StringDisplay
-          data-e2e='exchangeComplementaryAmount'
-          skeletonHeight='24px'
+          data-e2e="exchangeComplementaryAmount"
+          skeletonHeight="24px"
         >
           {complementaryAmount.map(amount =>
             formatAmount(isFiat, complementarySymbol, amount)

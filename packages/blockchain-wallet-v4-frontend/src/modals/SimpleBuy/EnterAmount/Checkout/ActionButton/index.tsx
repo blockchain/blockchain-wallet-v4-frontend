@@ -15,17 +15,17 @@ const ActionButton: React.FC<Props> = props => {
     case 'REJECTED':
       return (
         <Button
-          data-e2e='submitSBAmount'
-          height='48px'
-          size='16px'
-          nature='warning'
-          type='submit'
+          data-e2e="submitSBAmount"
+          height="48px"
+          size="16px"
+          nature="warning"
+          type="submit"
           fullwidth
           disabled
         >
           <FormattedMessage
-            id='modals.simplebuy.failed'
-            defaultMessage='ID Verification Failed'
+            id="modals.simplebuy.failed"
+            defaultMessage="ID Verification Failed"
           />
         </Button>
       )
@@ -34,28 +34,28 @@ const ActionButton: React.FC<Props> = props => {
       return (
         <div>
           <Button
-            data-e2e='submitSBAmount'
-            height='48px'
-            size='16px'
-            nature='primary'
-            type='submit'
+            data-e2e="submitSBAmount"
+            height="48px"
+            size="16px"
+            nature="primary"
+            type="submit"
             fullwidth
             disabled
           >
             <FormattedMessage
-              id='modals.simplebuy.underreview'
-              defaultMessage='ID Verification Pending'
+              id="modals.simplebuy.underreview"
+              defaultMessage="ID Verification Pending"
             />
           </Button>
           <Link
-            size='14px'
+            size="14px"
             weight={600}
             style={{ textAlign: 'center', marginTop: '24px', display: 'block' }}
             onClick={() => props.profileActions.fetchUser()}
           >
             <FormattedMessage
-              id='modals.simplebuy.refresh'
-              defaultMessage='Refresh'
+              id="modals.simplebuy.refresh"
+              defaultMessage="Refresh"
             />
           </Link>
         </div>
@@ -64,31 +64,31 @@ const ActionButton: React.FC<Props> = props => {
       return (
         <div>
           <Button
-            data-e2e='submitSBAmount'
-            height='48px'
-            size='16px'
-            nature='primary'
-            type='submit'
+            data-e2e="submitSBAmount"
+            height="48px"
+            size="16px"
+            nature="primary"
+            type="submit"
             fullwidth
             disabled={props.invalid || props.submitting}
           >
             {props.submitting ? (
-              <HeartbeatLoader height='16px' width='16px' color='white' />
+              <HeartbeatLoader height="16px" width="16px" color="white" />
             ) : (
               <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
+                id="buttons.continue"
+                defaultMessage="Continue"
               />
             )}
           </Button>
           <Text
-            color='grey600'
+            color="grey600"
             weight={500}
-            size='14px'
+            size="14px"
             style={{ textAlign: 'center', marginTop: '24px' }}
           >
             <FormattedMessage
-              id='modals.simplebuy.setupaccount'
+              id="modals.simplebuy.setupaccount"
               defaultMessage="Next, we'll set up your account."
             />
           </Text>
@@ -97,18 +97,18 @@ const ActionButton: React.FC<Props> = props => {
     case 'VERIFIED':
       return (
         <Button
-          data-e2e='submitSBAmount'
-          height='48px'
-          size='16px'
-          nature='primary'
-          type='submit'
+          data-e2e="submitSBAmount"
+          height="48px"
+          size="16px"
+          nature="primary"
+          type="submit"
           fullwidth
           disabled={props.invalid || props.submitting}
         >
           {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
+            <HeartbeatLoader height="16px" width="16px" color="white" />
           ) : (
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
           )}
         </Button>
       )

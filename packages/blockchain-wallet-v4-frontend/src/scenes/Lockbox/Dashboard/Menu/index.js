@@ -7,7 +7,7 @@ import LockboxMenu from './template'
 import React from 'react'
 
 class LockboxMenuContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: val => (

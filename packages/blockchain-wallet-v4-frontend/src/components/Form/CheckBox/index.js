@@ -30,7 +30,7 @@ const CheckBox = ({ children, className, ...field }) => {
 
   return (
     <Wrapper className={className}>
-      <Container className='Container'>
+      <Container className="Container">
         <CheckBoxInput
           {...field.input}
           disabled={field.disabled}
@@ -42,7 +42,7 @@ const CheckBox = ({ children, className, ...field }) => {
         </CheckBoxInput>
       </Container>
       {field.meta.touched && field.meta.error && !field.hideErrors && (
-        <Error size='12px' weight={500} color='error' data-e2e='termsError'>
+        <Error size="12px" weight={500} color="error" data-e2e="termsError">
           {field.meta.error}
         </Error>
       )}

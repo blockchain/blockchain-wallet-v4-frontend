@@ -5,7 +5,7 @@ import { getMnemonic } from '../../wallet/selectors'
 import { put, select } from 'redux-saga/effects'
 
 export default () => {
-  const generateAddress = function * (action) {
+  const generateAddress = function*(action) {
     const { payload } = action
     const { password } = payload
     const mnemonicT = yield select(getMnemonic, password)

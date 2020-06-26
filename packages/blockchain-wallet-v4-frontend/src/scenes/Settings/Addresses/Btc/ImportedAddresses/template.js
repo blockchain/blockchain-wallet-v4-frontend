@@ -59,17 +59,17 @@ const Success = ({
       <AddressRow
         key={address.addr}
         address={address}
-        dataE2e='btcImportedAddressRow'
+        dataE2e="btcImportedAddressRow"
         renderOptions={() =>
           [
             <ClickableText
-              size='small'
+              size="small"
               onClick={() => onToggleArchived(address)}
-              data-e2e='btcArchiveImportedAddressLink'
+              data-e2e="btcArchiveImportedAddressLink"
             >
               <FormattedMessage
-                id='scenes.settings.addresses.archive'
-                defaultMessage='Archive'
+                id="scenes.settings.addresses.archive"
+                defaultMessage="Archive"
               />
             </ClickableText>
           ].concat(
@@ -78,34 +78,34 @@ const Success = ({
               : [
                   !failure && (
                     <ClickableText
-                      size='small'
+                      size="small"
                       onClick={() => onShowPriv(address)}
-                      data-e2e='btcShowPrivKeyImportedAddressLink'
+                      data-e2e="btcShowPrivKeyImportedAddressLink"
                     >
                       <FormattedMessage
-                        id='copy.private_key'
-                        defaultMessage='Private Key'
+                        id="copy.private_key"
+                        defaultMessage="Private Key"
                       />
                     </ClickableText>
                   ),
                   <ClickableText
-                    size='small'
+                    size="small"
                     onClick={() => onShowSignMessage(address)}
-                    data-e2e='btcSignMessageImportedAddressLink'
+                    data-e2e="btcSignMessageImportedAddressLink"
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.sign_message'
-                      defaultMessage='Sign Message'
+                      id="scenes.settings.addresses.sign_message"
+                      defaultMessage="Sign Message"
                     />
                   </ClickableText>,
                   <ClickableText
-                    size='small'
+                    size="small"
                     onClick={() => onEditLabel(address)}
-                    data-e2e='btcSignMessageImportedAddressLink'
+                    data-e2e="btcSignMessageImportedAddressLink"
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.edit_name'
-                      defaultMessage='Edit Label'
+                      id="scenes.settings.addresses.edit_name"
+                      defaultMessage="Edit Label"
                     />
                   </ClickableText>
                 ]
@@ -120,20 +120,20 @@ const Success = ({
       <ImportedAddressesSettingHeader>
         <div>
           <FormattedMessage
-            id='scenes.settings.addresses.btc.importedaddresses.success.title'
-            defaultMessage='Imported Bitcoin Addresses'
+            id="scenes.settings.addresses.btc.importedaddresses.success.title"
+            defaultMessage="Imported Bitcoin Addresses"
           />
           <SettingDescription style={spacing('mb-10')}>
             <WarningWrapper>
               <Icon
-                name='alert-filled'
-                size='20px'
+                name="alert-filled"
+                size="20px"
                 className={'warning-icon'}
-                color='brand-yellow'
+                color="brand-yellow"
               />
               <FormattedMessage
-                id='scenes.settings.addresses.btc.importedaddresses.success.description'
-                defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
+                id="scenes.settings.addresses.btc.importedaddresses.success.description"
+                defaultMessage="Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet."
               />
             </WarningWrapper>
           </SettingDescription>
@@ -141,22 +141,22 @@ const Success = ({
         <ImportedActions>
           <Button
             onClick={onClickVerify}
-            data-e2e='btcVerifyMessageImportedAddressLink'
+            data-e2e="btcVerifyMessageImportedAddressLink"
           >
             <FormattedMessage
-              id='scenes.settings.addresses.btc.importedaddresses.success.verifymessage'
-              defaultMessage='Verify Message'
+              id="scenes.settings.addresses.btc.importedaddresses.success.verifymessage"
+              defaultMessage="Verify Message"
             />
           </Button>
           {importedAddressesTableRows.length > 0 && (
             <Button
               onClick={onTransferAll}
-              nature='primary'
-              data-e2e='btcTransferAllImportedAddressLink'
+              nature="primary"
+              data-e2e="btcTransferAllImportedAddressLink"
             >
               <FormattedMessage
-                id='scenes.settings.addresses.btc.importedaddresses.success.transferall'
-                defaultMessage='Transfer All'
+                id="scenes.settings.addresses.btc.importedaddresses.success.transferall"
+                defaultMessage="Transfer All"
               />
             </Button>
           )}
@@ -165,32 +165,32 @@ const Success = ({
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>
-            <TableCell width='50%'>
-              <Text size='13px' weight={500}>
-                <FormattedMessage id='copy.address' defaultMessage='Address' />
+            <TableCell width="50%">
+              <Text size="13px" weight={500}>
+                <FormattedMessage id="copy.address" defaultMessage="Address" />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
-              <Text size='13px' weight={500}>
+            <TableCell width="20%">
+              <Text size="13px" weight={500}>
                 <FormattedMessage
-                  id='scenes.settings.addresses.btc.importedaddresses.success.label'
-                  defaultMessage='Label'
+                  id="scenes.settings.addresses.btc.importedaddresses.success.label"
+                  defaultMessage="Label"
                 />
               </Text>
             </TableCell>
-            <TableCell width='10%'>
-              <Text size='13px' weight={500}>
-                <FormattedMessage id='copy.balance' defaultMessage='Balance' />
+            <TableCell width="10%">
+              <Text size="13px" weight={500}>
+                <FormattedMessage id="copy.balance" defaultMessage="Balance" />
               </Text>
             </TableCell>
             <TableCell
-              width='20%'
+              width="20%"
               style={{ display: 'flex', justifyContent: 'flex-end' }}
             >
-              <Text size='13px' weight={500}>
+              <Text size="13px" weight={500}>
                 <FormattedMessage
-                  id='scenes.settings.addresses.btc.importedaddresses.success.actions'
-                  defaultMessage='Actions'
+                  id="scenes.settings.addresses.btc.importedaddresses.success.actions"
+                  defaultMessage="Actions"
                 />
               </Text>
             </TableCell>
@@ -200,13 +200,13 @@ const Success = ({
       )}
       <div style={spacing('mt-10')}>
         <IconButton
-          name='plus'
+          name="plus"
           onClick={onClickImport}
-          data-e2e='btcImportedAddressLink'
+          data-e2e="btcImportedAddressLink"
         >
           <FormattedMessage
-            id='scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress'
-            defaultMessage='Import Bitcoin Address'
+            id="scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"
+            defaultMessage="Import Bitcoin Address"
           />
         </IconButton>
       </div>

@@ -17,7 +17,7 @@ class PagesContainer extends React.PureComponent {
       : modalActions.showModal(RESULTS_MODAL, this.props)
   }
 
-  render () {
+  render() {
     const {
       coinModels,
       status,

@@ -29,20 +29,20 @@ const Exchange = (props: Props) => (
     <SceneHeader>
       <HeaderTextWrapper>
         <IconBackground>
-          <Icon name='blockchain-logo' color='blue600' size='26px' />
+          <Icon name="blockchain-logo" color="blue600" size="26px" />
         </IconBackground>
         <SceneHeaderText>
           <FormattedMessage
-            id='scenes.exchange.blockchain'
-            defaultMessage='Exchange'
+            id="scenes.exchange.blockchain"
+            defaultMessage="Exchange"
           />
         </SceneHeaderText>
       </HeaderTextWrapper>
     </SceneHeader>
     <SceneSubHeaderText>
       <FormattedMessage
-        id='scenes.exchange.subheader'
-        defaultMessage='We built our own exchange that defines speed, reliability and liquidity. Upgrade your trading.'
+        id="scenes.exchange.subheader"
+        defaultMessage="We built our own exchange that defines speed, reliability and liquidity. Upgrade your trading."
       />
     </SceneSubHeaderText>
     <Container>

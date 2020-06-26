@@ -17,21 +17,21 @@ const Addresses = props => {
   return (
     <Wrapper>
       <TextGroup inline style={{ marginBottom: '5px' }}>
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           <FormattedMessage
-            id='components.transactionlistitem.addresses.to'
-            defaultMessage='To: '
+            id="components.transactionlistitem.addresses.to"
+            defaultMessage="To: "
           />
         </Text>
-        <Text size='14px' weight={500} data-e2e='transactionListItemTo'>
+        <Text size="14px" weight={500} data-e2e="transactionListItemTo">
           {to}
         </Text>
       </TextGroup>
       <TextGroup inline>
-        <Text size='14px' weight={400}>
-          <FormattedMessage id='copy.from:' defaultMessage='From: ' />
+        <Text size="14px" weight={400}>
+          <FormattedMessage id="copy.from:" defaultMessage="From: " />
         </Text>
-        <Text size='14px' weight={400} data-e2e='transactionListItemFrom'>
+        <Text size="14px" weight={400} data-e2e="transactionListItemFrom">
           {from}
         </Text>
       </TextGroup>

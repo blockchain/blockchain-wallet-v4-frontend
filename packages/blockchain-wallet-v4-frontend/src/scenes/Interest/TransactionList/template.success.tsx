@@ -38,7 +38,7 @@ const LoadingWrapper = styled.div`
   width: 100%;
 `
 
-function TransactionList (props: Props): ReactElement | null {
+function TransactionList(props: Props): ReactElement | null {
   const { interestActions, txPages, supportedCoins, walletCurrency } = props
   const txList = flatten(
     txPages &&
@@ -52,44 +52,44 @@ function TransactionList (props: Props): ReactElement | null {
       </LegalWrapper>
       <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
         <Text
-          size='24px'
+          size="24px"
           weight={600}
-          color='grey800'
+          color="grey800"
           style={{ marginBottom: '16px', lineHeight: 1.5 }}
         >
           <FormattedMessage
-            id='scenes.interest.history.header'
-            defaultMessage='History'
+            id="scenes.interest.history.header"
+            defaultMessage="History"
           />
         </Text>
         <Table style={{ minWidth: '900px' }}>
           <TableHeader>
-            <TableCell width='20%'>
-              <Text size='12px' weight={500}>
+            <TableCell width="20%">
+              <Text size="12px" weight={500}>
                 <FormattedMessage
-                  id='scenes.interest.history.type'
-                  defaultMessage='Type'
+                  id="scenes.interest.history.type"
+                  defaultMessage="Type"
                 />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage id='copy.date' defaultMessage='Date' />
+            <TableCell width="20%">
+              <Text size="12px" weight={500}>
+                <FormattedMessage id="copy.date" defaultMessage="Date" />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage id='copy.from' defaultMessage='From' />
+            <TableCell width="20%">
+              <Text size="12px" weight={500}>
+                <FormattedMessage id="copy.from" defaultMessage="From" />
               </Text>
             </TableCell>
-            <TableCell width='20%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage id='copy.to' defaultMessage='To' />
+            <TableCell width="20%">
+              <Text size="12px" weight={500}>
+                <FormattedMessage id="copy.to" defaultMessage="To" />
               </Text>
             </TableCell>
-            <AmountTableCell width='20%'>
-              <Text size='12px' weight={500}>
-                <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+            <AmountTableCell width="20%">
+              <Text size="12px" weight={500}>
+                <FormattedMessage id="copy.amount" defaultMessage="Amount" />
               </Text>
             </AmountTableCell>
           </TableHeader>
@@ -100,39 +100,39 @@ function TransactionList (props: Props): ReactElement | null {
             ]
             return (
               <TableRow key={id}>
-                <InterestTableCell width='20%'>
+                <InterestTableCell width="20%">
                   {type === 'WITHDRAWAL' ? (
                     <React.Fragment>
                       <IconBackground color={`${colorCode}-light`}>
                         <Icon
-                          name='arrow-up'
+                          name="arrow-up"
                           color={colorCode}
-                          size='20px'
+                          size="20px"
                           weight={600}
                         />
                       </IconBackground>
-                      <Value data-e2e='withdrawalTx'>
+                      <Value data-e2e="withdrawalTx">
                         {coinTicker} Withdraw
                       </Value>
                       {state === 'REJECTED' || state === 'FAILED' ? (
                         <ErrorTag>
                           <FormattedMessage
-                            id='copy.failed'
-                            defaultMessage='Failed'
+                            id="copy.failed"
+                            defaultMessage="Failed"
                           />
                         </ErrorTag>
                       ) : state === 'REFUNDED' ? (
                         <PendingTag>
                           <FormattedMessage
-                            id='copy.refunded'
-                            defaultMessage='Refunded'
+                            id="copy.refunded"
+                            defaultMessage="Refunded"
                           />
                         </PendingTag>
                       ) : state !== 'COMPLETE' ? (
                         <PendingTag>
                           <FormattedMessage
-                            id='copy.pending'
-                            defaultMessage='Pending'
+                            id="copy.pending"
+                            defaultMessage="Pending"
                           />
                         </PendingTag>
                       ) : (
@@ -143,33 +143,33 @@ function TransactionList (props: Props): ReactElement | null {
                     <React.Fragment>
                       <IconBackground color={`${colorCode}-light`}>
                         <Icon
-                          name='arrow-down'
+                          name="arrow-down"
                           color={colorCode}
-                          size='20px'
+                          size="20px"
                           weight={600}
                         />
                       </IconBackground>
 
-                      <Value data-e2e='depositTx'>{coinTicker} Deposit</Value>
+                      <Value data-e2e="depositTx">{coinTicker} Deposit</Value>
                       {state === 'REJECTED' || state === 'FAILED' ? (
                         <ErrorTag>
                           <FormattedMessage
-                            id='copy.failed'
-                            defaultMessage='Failed'
+                            id="copy.failed"
+                            defaultMessage="Failed"
                           />
                         </ErrorTag>
                       ) : state === 'REFUNDED' ? (
                         <PendingTag>
                           <FormattedMessage
-                            id='copy.refunded'
-                            defaultMessage='Refunded'
+                            id="copy.refunded"
+                            defaultMessage="Refunded"
                           />
                         </PendingTag>
                       ) : state !== 'COMPLETE' ? (
                         <PendingTag>
                           <FormattedMessage
-                            id='copy.pending'
-                            defaultMessage='Pending'
+                            id="copy.pending"
+                            defaultMessage="Pending"
                           />
                         </PendingTag>
                       ) : (
@@ -178,15 +178,15 @@ function TransactionList (props: Props): ReactElement | null {
                     </React.Fragment>
                   ) : (
                     <React.Fragment>
-                      <Icon name='percentage' color={colorCode} size='32px' />
-                      <Value data-e2e='interestEarnedTx'>
+                      <Icon name="percentage" color={colorCode} size="32px" />
+                      <Value data-e2e="interestEarnedTx">
                         {coinTicker} Interest Earned
                       </Value>
                     </React.Fragment>
                   )}
                 </InterestTableCell>
-                <TableCell width='20%'>
-                  <Value data-e2e='interestTransactionDate'>
+                <TableCell width="20%">
+                  <Value data-e2e="interestTransactionDate">
                     {moment(insertedAt)
                       .local()
                       .format('MMMM D YYYY @ h:mm A')}
@@ -194,53 +194,53 @@ function TransactionList (props: Props): ReactElement | null {
                 </TableCell>
                 {type === 'DEPOSIT' ? (
                   <React.Fragment>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionFrom'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionFrom">
                         My {displayName} Wallet
                       </Value>
                     </TableCell>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionTo'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionTo">
                         {displayName} Interest Account
                       </Value>
                     </TableCell>
                   </React.Fragment>
                 ) : type === 'WITHDRAWAL' ? (
                   <React.Fragment>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionFrom'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionFrom">
                         {displayName} Interest Account
                       </Value>
                     </TableCell>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionTo'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionTo">
                         My {displayName} Wallet
                       </Value>
                     </TableCell>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionFrom'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionFrom">
                         Blockchain.com
                       </Value>
                     </TableCell>
-                    <TableCell width='20%'>
-                      <Value data-e2e='interestTransactionTo'>
+                    <TableCell width="20%">
+                      <Value data-e2e="interestTransactionTo">
                         {displayName} Interest Account
                       </Value>
                     </TableCell>
                   </React.Fragment>
                 )}
 
-                <AmountTableCell width='20%'>
+                <AmountTableCell width="20%">
                   <div>
                     <CoinAmountWrapper
                       coin={amount.symbol}
-                      color='grey800'
+                      color="grey800"
                       weight={600}
-                      data-e2e='interestTxCoinAmount'
-                      size='14px'
+                      data-e2e="interestTxCoinAmount"
+                      size="14px"
                       style={{ marginBottom: '4px', lineHeight: '1.5' }}
                     >
                       {
@@ -252,11 +252,11 @@ function TransactionList (props: Props): ReactElement | null {
                       }
                     </CoinAmountWrapper>
                     <FiatAmountWrapper
-                      color='grey600'
+                      color="grey600"
                       coin={amount.symbol}
                       currency={walletCurrency}
-                      data-e2e='interestTxFiatAmount'
-                      size='12px'
+                      data-e2e="interestTxFiatAmount"
+                      size="12px"
                       style={{ alignItems: 'right' }}
                       weight={500}
                     >
@@ -270,7 +270,7 @@ function TransactionList (props: Props): ReactElement | null {
                     </FiatAmountWrapper>
                     {type === 'DEPOSIT' && (
                       <ViewTransaction
-                        data-e2e='viewTxHash'
+                        data-e2e="viewTxHash"
                         onClick={() =>
                           interestActions.routeToTxHash(
                             amount.symbol,
@@ -283,7 +283,7 @@ function TransactionList (props: Props): ReactElement | null {
                     )}
                     {type === 'WITHDRAWAL' && state === 'COMPLETE' && (
                       <ViewTransaction
-                        data-e2e='viewTxHash'
+                        data-e2e="viewTxHash"
                         onClick={() =>
                           interestActions.routeToTxHash(
                             amount.symbol,

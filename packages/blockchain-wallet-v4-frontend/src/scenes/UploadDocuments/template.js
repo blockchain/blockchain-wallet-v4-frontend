@@ -108,32 +108,32 @@ const UploadDocuments = ({
   <Wrapper>
     <TextContainer>
       <TextGroup inline>
-        <Text color='blue900' size='16px' weight={400}>
+        <Text color="blue900" size="16px" weight={400}>
           <FormattedMessage
-            id='scenes.uploaddoc.hello'
-            defaultMessage='Hello '
+            id="scenes.uploaddoc.hello"
+            defaultMessage="Hello "
           />
         </Text>
-        <Text color='blue900' size='16px' weight={400}>
+        <Text color="blue900" size="16px" weight={400}>
           {prop('firstName', data)},
         </Text>
       </TextGroup>
-      <Text color='blue900' size='16px' weight={400}>
+      <Text color="blue900" size="16px" weight={400}>
         <FormattedMessage
-          id='scenes.uploaddoc.verify'
-          defaultMessage='We need to verify your identity in order to allow buys,
-          sells or exchanges.'
+          id="scenes.uploaddoc.verify"
+          defaultMessage="We need to verify your identity in order to allow buys,
+          sells or exchanges."
         />
       </Text>
-      <Text color='blue900' size='16px' weight={400}>
+      <Text color="blue900" size="16px" weight={400}>
         <FormattedMessage
-          id='scenes.uploaddoc.docs'
-          defaultMessage='Please upload the following documents: '
+          id="scenes.uploaddoc.docs"
+          defaultMessage="Please upload the following documents: "
         />
       </Text>
       {prop('documentsTypes', data) &&
         data.documentsTypes.map((type, index) => (
-          <Text color='blue900' key={index} size='24px' weight={600}>
+          <Text color="blue900" key={index} size="24px" weight={600}>
             {type}
           </Text>
         ))}
@@ -147,7 +147,7 @@ const UploadDocuments = ({
     </TextContainer>
     <UploadZoneContainer>
       <UploadZone
-        accept='image/jpeg, application/pdf, image/png'
+        accept="image/jpeg, application/pdf, image/png"
         disableClick
         onDropAccepted={onDropAccepted}
         ref={setDropzoneRef}
@@ -157,29 +157,29 @@ const UploadDocuments = ({
             {isMobile.matches ? (
               <Link onClick={openDropzone} weight={500}>
                 <FormattedMessage
-                  id='scenes.uploaddoc.browsefiles'
-                  defaultMessage='Browse files'
+                  id="scenes.uploaddoc.browsefiles"
+                  defaultMessage="Browse files"
                 />
               </Link>
             ) : (
               <Fragment>
-                <Text color='blue900' size='20px' weight={400}>
+                <Text color="blue900" size="20px" weight={400}>
                   <FormattedMessage
-                    id='scenes.uploaddoc.dragdrop'
-                    defaultMessage='Drag &amp; Drop'
+                    id="scenes.uploaddoc.dragdrop"
+                    defaultMessage="Drag &amp; Drop"
                   />
                 </Text>
                 <TextGroup inline>
-                  <Text color='blue900' weight={400}>
+                  <Text color="blue900" weight={400}>
                     <FormattedMessage
-                      id='scenes.uploaddoc.placefiles'
-                      defaultMessage='Place your files here, '
+                      id="scenes.uploaddoc.placefiles"
+                      defaultMessage="Place your files here, "
                     />
                   </Text>
                   <Link onClick={openDropzone} weight={500}>
                     <FormattedMessage
-                      id='scenes.uploaddoc.browse'
-                      defaultMessage='or browse'
+                      id="scenes.uploaddoc.browse"
+                      defaultMessage="or browse"
                     />
                   </Link>
                 </TextGroup>
@@ -188,28 +188,28 @@ const UploadDocuments = ({
             <Icons>
               <IdContainer>
                 <FasPassport />
-                <Text color='blue900' size='12px' weight={400}>
+                <Text color="blue900" size="12px" weight={400}>
                   <FormattedMessage
-                    id='scenes.uploaddoc.passport'
-                    defaultMessage='Passport'
+                    id="scenes.uploaddoc.passport"
+                    defaultMessage="Passport"
                   />
                 </Text>
               </IdContainer>
               <IdContainer>
                 <FasIdBadge />
-                <Text color='blue900' size='12px' weight={400}>
+                <Text color="blue900" size="12px" weight={400}>
                   <FormattedMessage
-                    id='scenes.uploaddoc.drivinglicense'
-                    defaultMessage='Driving license'
+                    id="scenes.uploaddoc.drivinglicense"
+                    defaultMessage="Driving license"
                   />
                 </Text>
               </IdContainer>
               <IdContainer>
                 <FasIdCard />
-                <Text color='blue900' size='12px' weight={400}>
+                <Text color="blue900" size="12px" weight={400}>
                   <FormattedMessage
-                    id='scenes.uploaddoc.idcard'
-                    defaultMessage='ID Card'
+                    id="scenes.uploaddoc.idcard"
+                    defaultMessage="ID Card"
                   />
                 </Text>
               </IdContainer>
@@ -221,50 +221,50 @@ const UploadDocuments = ({
               {files.map((file, index) => (
                 <FileContainer key={index}>
                   <FileInfo>
-                    <Text color='blue900' size='12px' weight={400}>
+                    <Text color="blue900" size="12px" weight={400}>
                       {file.name}
                     </Text>
-                    <Text color='blue900' size='12px' weight={400}>
+                    <Text color="blue900" size="12px" weight={400}>
                       {`${(file.size / 1024 / 1024).toFixed(2)} MB`}
                     </Text>
                   </FileInfo>
                   <Text
-                    color='grey400'
-                    cursor='pointer'
+                    color="grey400"
+                    cursor="pointer"
                     onClick={() => deleteFileAt(index)}
-                    size='12px'
+                    size="12px"
                     weight={400}
                   >
                     <FormattedMessage
-                      id='scenes.uploaddoc.deletedoc'
-                      defaultMessage='Delete'
+                      id="scenes.uploaddoc.deletedoc"
+                      defaultMessage="Delete"
                     />
                   </Text>
                 </FileContainer>
               ))}
             </FilesList>
-            <Link cursor='pointer' onClick={openDropzone} weight={500}>
+            <Link cursor="pointer" onClick={openDropzone} weight={500}>
               <FormattedMessage
-                id='scenes.uploaddoc.browsecomputer'
-                defaultMessage='Browse my computer'
+                id="scenes.uploaddoc.browsecomputer"
+                defaultMessage="Browse my computer"
               />
             </Link>
           </Fragment>
         )}
-        <Text color='grey400' size='14px' weight={400}>
+        <Text color="grey400" size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.uploaddoc.filesize'
-            defaultMessage='Please upload a JPG, PNG or PDF up to 3MB in size.'
+            id="scenes.uploaddoc.filesize"
+            defaultMessage="Please upload a JPG, PNG or PDF up to 3MB in size."
           />
         </Text>
         {files.length > 0 && (
-          <UploadButton nature='primary' onClick={onSubmit} disabled={loading}>
+          <UploadButton nature="primary" onClick={onSubmit} disabled={loading}>
             {loading ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='scenes.uploaddoc.uploadnow'
-                defaultMessage='Upload Now'
+                id="scenes.uploaddoc.uploadnow"
+                defaultMessage="Upload Now"
               />
             )}
           </UploadButton>

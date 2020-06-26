@@ -19,7 +19,7 @@ const INITIAL_STATE: ProfileState = {
   userTiers: Remote.Success(INITIAL_TIERS)
 }
 
-export function profileReducer (
+export function profileReducer(
   state = INITIAL_STATE,
   action: ProfileActionTypes
 ): ProfileState {

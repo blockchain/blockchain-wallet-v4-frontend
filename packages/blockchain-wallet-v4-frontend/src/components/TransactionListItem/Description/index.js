@@ -22,7 +22,7 @@ class EditDescriptionContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     const { newDescription } = this.state
 
     return (

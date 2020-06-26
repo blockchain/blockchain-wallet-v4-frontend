@@ -49,14 +49,14 @@ const LearnMoreText = styled(Text)`
 class Interest extends React.PureComponent<Props, StateType> {
   state = { isGoldTier: true }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
     this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       !Remote.Success.is(prevProps.data) &&
       Remote.Success.is(this.props.data)
@@ -65,7 +65,7 @@ class Interest extends React.PureComponent<Props, StateType> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // clear transactions related data on exit
     this.props.interestActions.fetchInterestTransactionsSuccess([], true)
     this.props.interestActions.setTransactionsNextPage(null)
@@ -84,35 +84,35 @@ class Interest extends React.PureComponent<Props, StateType> {
     this.props.interestActions.fetchInterestTransactions(false)
   }
 
-  render () {
+  render() {
     const { isGoldTier } = this.state
     const { data } = this.props
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon color='blue600' name='percentage' size='24px' />
+            <Icon color="blue600" name="percentage" size="24px" />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.interest.interestaccount'
-              defaultMessage='Interest Account'
+              id="scenes.interest.interestaccount"
+              defaultMessage="Interest Account"
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.interest.subheader'
-            defaultMessage='Deposit crypto and watch it grow.'
+            id="scenes.interest.subheader"
+            defaultMessage="Deposit crypto and watch it grow."
           />
           <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'
-            target='_blank'
+            href="https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account"
+            target="_blank"
           >
-            <LearnMoreText size='16px'>
+            <LearnMoreText size="16px">
               <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
+                id="buttons.learn_more"
+                defaultMessage="Learn More"
               />
             </LearnMoreText>
           </LearnMoreLink>
@@ -138,8 +138,8 @@ class Interest extends React.PureComponent<Props, StateType> {
             </LazyLoadWrapper>
           ),
           Failure: () => null,
-          Loading: () => <SkeletonRectangle width='330px' height='275px' />,
-          NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
+          Loading: () => <SkeletonRectangle width="330px" height="275px" />,
+          NotAsked: () => <SkeletonRectangle width="330px" height="275px" />
         })}
       </SceneWrapper>
     )

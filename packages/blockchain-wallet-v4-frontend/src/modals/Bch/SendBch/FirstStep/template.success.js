@@ -89,26 +89,26 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
-          <FormLabel htmlFor='coin'>
+          <FormLabel htmlFor="coin">
             <FormattedMessage
-              id='modals.sendBch.firststep.currency'
-              defaultMessage='Currency'
+              id="modals.sendBch.firststep.currency"
+              defaultMessage="Currency"
             />
           </FormLabel>
           <Field
-            name='coin'
+            name="coin"
             component={SelectBoxCoin}
-            type='send'
+            type="send"
             validate={[required]}
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel htmlFor='from'>
-            <FormattedMessage id='copy.from' defaultMessage='From' />
+          <FormLabel htmlFor="from">
+            <FormattedMessage id="copy.from" defaultMessage="From" />
           </FormLabel>
           <Field
-            name='from'
-            coin='BCH'
+            name="from"
+            coin="BCH"
             includeAll={false}
             validate={[required]}
             component={SelectBoxBchAddresses}
@@ -120,31 +120,31 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       {isFromLockbox && !disableLockboxSend && (
-        <WarningBanners type='info'>
-          <Text color='warning' size='13px'>
+        <WarningBanners type="info">
+          <Text color="warning" size="13px">
             <FormattedMessage
-              id='modals.sendbch.firststep.lockboxwarn'
-              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
+              id="modals.sendbch.firststep.lockboxwarn"
+              defaultMessage="You will need to connect your Lockbox to complete this transaction."
             />
           </Text>
         </WarningBanners>
       )}
       {disableLockboxSend && (
-        <WarningBanners type='warning'>
-          <Text color='warning' size='12px'>
+        <WarningBanners type="warning">
+          <Text color="warning" size="12px">
             <FormattedMessage
-              id='modals.sendbch.firststep.blockbrowser'
-              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
+              id="modals.sendbch.firststep.blockbrowser"
+              defaultMessage="Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers."
             />
           </Text>
         </WarningBanners>
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel htmlFor='to'>
+          <FormLabel htmlFor="to">
             <FormattedMessage
-              id='modals.sendBch.firststep.towallet'
-              defaultMessage='To'
+              id="modals.sendBch.firststep.towallet"
+              defaultMessage="To"
             />
             {isPayPro && (
               <TimerContainer>
@@ -162,31 +162,31 @@ const FirstStep = props => {
               <>
                 <Field
                   component={SelectBoxBchAddresses}
-                  dataE2e='sendBchAddressInput'
+                  dataE2e="sendBchAddressInput"
                   exclude={[from.label]}
                   excludeImported={isFromCustody}
                   includeAll={false}
                   includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
-                  name='to'
+                  name="to"
                   noOptionsMessage={() => null}
                   openMenuOnClick={!!isFromCustody}
-                  placeholder='Paste, scan, or select destination'
+                  placeholder="Paste, scan, or select destination"
                   validate={
                     isFromCustody ? [required] : [required, validBchAddress]
                   }
                 />
                 {!isFromCustody && (
                   <QRCodeCapture
-                    scanType='bchAddress'
+                    scanType="bchAddress"
                     border={['top', 'bottom', 'right', 'left']}
                   />
                 )}
               </>
             ) : (
               <Field
-                name='to'
+                name="to"
                 component={TextBox}
                 input={{ value: `web+bitcoincash:?r=${payPro.paymentUrl}` }}
                 disabled={true}
@@ -197,18 +197,18 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         {isFromCustody && isMnemonicVerified ? (
-          <CustodyToAccountMessage coin='BCH' />
+          <CustodyToAccountMessage coin="BCH" />
         ) : (
           <ExchangePromo />
         )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel htmlFor='amount'>
-            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+          <FormLabel htmlFor="amount">
+            <FormattedMessage id="copy.amount" defaultMessage="Amount" />
           </FormLabel>
           <Field
-            name='amount'
+            name="amount"
             component={FiatConverter}
             validate={[
               required,
@@ -216,9 +216,9 @@ const FirstStep = props => {
               insufficientFunds,
               maximumAmount
             ]}
-            coin='BCH'
-            marginTop='8px'
-            data-e2e='sendBch'
+            coin="BCH"
+            marginTop="8px"
+            data-e2e="sendBch"
             disabled={isPayPro || isFromCustody}
           />
         </FormItem>
@@ -227,19 +227,19 @@ const FirstStep = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.sendBch.firststep.desc'
-              defaultMessage='Description'
+              id="modals.sendBch.firststep.desc"
+              defaultMessage="Description"
             />
-            <TooltipHost id='sendBch.firststep.share_tooltip'>
-              <TooltipIcon name='info' size='12px' />
+            <TooltipHost id="sendBch.firststep.share_tooltip">
+              <TooltipIcon name="info" size="12px" />
             </TooltipHost>
           </FormLabel>
           {!isPayPro ? (
             <Field
-              name='description'
+              name="description"
               component={TextAreaDebounced}
               placeholder="What's this transaction for? (optional)"
-              data-e2e='sendBchDescription'
+              data-e2e="sendBchDescription"
               disabled={isFromCustody}
               rows={3}
               fullwidth
@@ -247,14 +247,14 @@ const FirstStep = props => {
           ) : (
             <>
               <CustomMerchantInput
-                name='description'
+                name="description"
                 component={TextBox}
                 placeholder="What's this transaction for? (optional)"
                 rows={3}
-                data-e2e='sendBtcDescription'
+                data-e2e="sendBtcDescription"
               />
               <ImageInInputContainer>
-                <Image name='bitpay-logo' height='24px' />
+                <Image name="bitpay-logo" height="24px" />
               </ImageInInputContainer>
             </>
           )}
@@ -265,11 +265,11 @@ const FirstStep = props => {
           <FormItem>
             <FormLabel>
               <FormattedMessage
-                id='modals.sendBch.firststep.networkfee'
-                defaultMessage='Network Fee'
+                id="modals.sendBch.firststep.networkfee"
+                defaultMessage="Network Fee"
               />
             </FormLabel>
-            <ComboDisplay size='13px' coin='BCH' weight={500}>
+            <ComboDisplay size="13px" coin="BCH" weight={500}>
               {totalFee}
             </ComboDisplay>
           </FormItem>
@@ -277,14 +277,14 @@ const FirstStep = props => {
       )}
       {isPayPro && invalid && (
         <Text
-          size='13px'
-          color='error'
+          size="13px"
+          color="error"
           weight={500}
           style={{ textAlign: 'center' }}
         >
           <FormattedMessage
-            id='modals.sendBch.firststep.bitpay.insufficientfunds'
-            defaultMessage='Insufficient funds to complete BitPay transaction'
+            id="modals.sendBch.firststep.bitpay.insufficientfunds"
+            defaultMessage="Insufficient funds to complete BitPay transaction"
           />
         </Text>
       )}
@@ -293,10 +293,10 @@ const FirstStep = props => {
       ) : null}
       <SubmitFormGroup>
         <Button
-          type='submit'
-          nature='primary'
-          height='56px'
-          size='18px'
+          type="submit"
+          nature="primary"
+          height="56px"
+          size="18px"
           disabled={
             submitting ||
             invalid ||
@@ -304,9 +304,9 @@ const FirstStep = props => {
             disableCustodySend ||
             (!isPayPro && pristine)
           }
-          data-e2e='bchSendContinue'
+          data-e2e="bchSendContinue"
         >
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
         </Button>
       </SubmitFormGroup>
     </Form>

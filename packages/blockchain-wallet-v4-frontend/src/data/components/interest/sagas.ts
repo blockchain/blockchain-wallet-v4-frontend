@@ -43,7 +43,7 @@ export default ({
     networks
   })
 
-  const fetchInterestBalance = function * () {
+  const fetchInterestBalance = function*() {
     try {
       yield put(A.fetchInterestBalanceLoading())
       if (!(yield call(isTier2)))
@@ -59,7 +59,7 @@ export default ({
       yield put(A.fetchInterestBalanceFailure(error))
     }
   }
-  const fetchInterestEligible = function * () {
+  const fetchInterestEligible = function*() {
     try {
       yield put(A.fetchInterestEligibleLoading())
       const response: ReturnType<typeof api.getInterestEligible> = yield call(
@@ -72,7 +72,7 @@ export default ({
     }
   }
 
-  const fetchInterestInstruments = function * () {
+  const fetchInterestInstruments = function*() {
     try {
       yield put(A.fetchInterestInstrumentsLoading())
       const response: ReturnType<typeof api.getInterestInstruments> = yield call(
@@ -85,7 +85,7 @@ export default ({
     }
   }
 
-  const fetchInterestLimits = function * ({
+  const fetchInterestLimits = function*({
     coin,
     currency
   }: ReturnType<typeof A.fetchInterestLimits>) {
@@ -103,7 +103,7 @@ export default ({
     }
   }
 
-  const fetchInterestAccount = function * (coin) {
+  const fetchInterestAccount = function*(coin) {
     try {
       yield put(A.fetchInterestAccountLoading())
       const paymentAccount = yield call(api.getInterestAccount, coin)
@@ -114,7 +114,7 @@ export default ({
     }
   }
 
-  const fetchInterestRate = function * () {
+  const fetchInterestRate = function*() {
     try {
       yield put(A.fetchInterestRateLoading())
       const response: ReturnType<typeof api.getInterestSavingsRate> = yield call(
@@ -127,7 +127,7 @@ export default ({
     }
   }
 
-  const fetchInterestTransactions = function * ({
+  const fetchInterestTransactions = function*({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { reset } = payload
@@ -149,7 +149,7 @@ export default ({
     }
   }
 
-  const formChanged = function * (action: FormAction) {
+  const formChanged = function*(action: FormAction) {
     const form = action.meta.form
     if (form !== 'interestDepositForm') return
 
@@ -194,7 +194,7 @@ export default ({
     }
   }
 
-  const initializeDepositForm = function * ({
+  const initializeDepositForm = function*({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
@@ -241,7 +241,7 @@ export default ({
     )
   }
 
-  const initializeWithdrawalForm = function * ({
+  const initializeWithdrawalForm = function*({
     // eslint-disable-next-line
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
@@ -253,7 +253,7 @@ export default ({
     }
   }
 
-  const routeToTxHash = function * ({
+  const routeToTxHash = function*({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
@@ -262,7 +262,7 @@ export default ({
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
 
-  const sendDeposit = function * () {
+  const sendDeposit = function*() {
     const FORM = 'interestDepositForm'
     try {
       yield put(actions.form.startSubmit(FORM))
@@ -292,7 +292,7 @@ export default ({
     }
   }
 
-  const requestWithdrawal = function * ({
+  const requestWithdrawal = function*({
     payload
   }: ReturnType<typeof A.requestWithdrawal>) {
     const { coin, withdrawalAmount } = payload
@@ -346,7 +346,7 @@ export default ({
     }
   }
 
-  const showInterestModal = function * ({
+  const showInterestModal = function*({
     payload
   }: ReturnType<typeof A.showInterestModal>) {
     const { step, coin } = payload

@@ -84,7 +84,7 @@ const NameContainer = styled.div`
 `
 
 class CoinActions extends React.PureComponent {
-  render () {
+  render() {
     const { coinState, disableUpdates, installApp, uninstallApp } = this.props
     switch (prop('status', coinState)) {
       case 'Updating':
@@ -92,27 +92,27 @@ class CoinActions extends React.PureComponent {
           <AppActions>
             <HeartbeatLoader
               style={{ marginRight: '8px' }}
-              height='36px'
-              width='36px'
+              height="36px"
+              width="36px"
             />
           </AppActions>
         )
       case 'Error':
         return (
           <AppActions>
-            <Text size='11px' weight={500}>
+            <Text size="11px" weight={500}>
               {coinState.error}
             </Text>
-            <StatusIcon name='alert-filled' color='error' size='40px' />
+            <StatusIcon name="alert-filled" color="error" size="40px" />
           </AppActions>
         )
       case 'Success':
         return (
           <AppActions>
             <StatusIcon
-              color='bch'
-              name='checkmark-in-circle-filled'
-              size='40px'
+              color="bch"
+              name="checkmark-in-circle-filled"
+              size="40px"
             />
           </AppActions>
         )
@@ -120,23 +120,23 @@ class CoinActions extends React.PureComponent {
         return (
           <AppActions>
             <InstallButton
-              nature='empty-secondary'
-              width='80px'
+              nature="empty-secondary"
+              width="80px"
               onClick={!disableUpdates ? installApp : undefined}
               disabled={disableUpdates}
             >
               <FormattedHTMLMessage
-                id='components.lockbox.appmanager.install'
-                defaultMessage='Install'
+                id="components.lockbox.appmanager.install"
+                defaultMessage="Install"
               />
             </InstallButton>
             <UninstallButton
-              nature='empty'
-              width='50px'
+              nature="empty"
+              width="50px"
               onClick={!disableUpdates ? uninstallApp : undefined}
               disabled={disableUpdates}
             >
-              <Icon name='trash' size='18px' />
+              <Icon name="trash" size="18px" />
             </UninstallButton>
           </AppActions>
         )
@@ -161,37 +161,37 @@ const LockboxAppManager = props => {
     <Row>
       <AppDetails>
         <IconBox coin={coinLower}>
-          <Icon size='34px' color='white' name={`${coinLower}`} />
+          <Icon size="34px" color="white" name={`${coinLower}`} />
         </IconBox>
         <div>
           <NameContainer>
-            <Text size='14px' weight={500} color={'grey700'}>
+            <Text size="14px" weight={500} color={'grey700'}>
               {name}
             </Text>
             {equals('btc', coinLower) && requireBtc && (
               <RequiredBadge
-                label='true'
-                type='informational'
+                label="true"
+                type="informational"
                 style={{ margin: '4px 0' }}
               >
                 <FormattedHTMLMessage
-                  id='components.lockbox.appmanager.required'
-                  defaultMessage='Required'
+                  id="components.lockbox.appmanager.required"
+                  defaultMessage="Required"
                 />
               </RequiredBadge>
             )}
           </NameContainer>
-          <Text size='11px' weight={400}>
+          <Text size="11px" weight={400}>
             {equals('Updating', prop('status', coinState)) ? (
               <FormattedHTMLMessage
-                id='components.lockbox.appmanager.changeType'
-                defaultMessage='{changeType}...'
+                id="components.lockbox.appmanager.changeType"
+                defaultMessage="{changeType}..."
                 values={{ changeType: coinState.changeType }}
               />
             ) : (
               <FormattedHTMLMessage
-                id='components.lockbox.appmanager.successmsg'
-                defaultMessage='Version {version}'
+                id="components.lockbox.appmanager.successmsg"
+                defaultMessage="Version {version}"
                 values={{ version }}
               />
             )}

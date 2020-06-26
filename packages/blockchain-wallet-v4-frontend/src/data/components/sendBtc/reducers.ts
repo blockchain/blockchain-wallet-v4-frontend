@@ -9,7 +9,7 @@ const INITIAL_STATE: SendBtcState = {
   payment: Remote.NotAsked
 }
 
-export function sendBtcReducer (state = INITIAL_STATE, action) {
+export function sendBtcReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AT.SEND_BTC_INITIALIZED:
     case AT.SEND_BTC_DESTROYED: {

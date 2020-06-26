@@ -52,7 +52,7 @@ const media = Object.keys(sizes).reduce((acc, label) => {
   return acc
 }, {})
 
-export function useMedia (size: Sizes): boolean {
+export function useMedia(size: Sizes): boolean {
   const getSize = () => {
     if (window.innerWidth <= sizes[size]) {
       return true

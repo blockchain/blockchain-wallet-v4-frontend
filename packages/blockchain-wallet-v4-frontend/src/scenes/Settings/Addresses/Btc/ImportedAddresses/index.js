@@ -9,7 +9,7 @@ import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -50,7 +50,7 @@ class ImportedAddressesContainer extends React.Component {
     })
   }
 
-  render () {
+  render() {
     const { search, addressesWithoutRemoteData } = this.props
     return this.props.activeAddresses.cata({
       Success: value => (

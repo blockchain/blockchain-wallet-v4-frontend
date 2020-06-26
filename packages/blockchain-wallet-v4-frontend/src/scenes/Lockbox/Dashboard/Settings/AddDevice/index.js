@@ -11,7 +11,7 @@ class AddDeviceContainer extends React.PureComponent {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
-  render () {
+  render() {
     return (
       <AddDevice
         onClick={this.onClick}

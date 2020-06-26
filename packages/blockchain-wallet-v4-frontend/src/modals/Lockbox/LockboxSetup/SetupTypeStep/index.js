@@ -16,7 +16,7 @@ class SetupTypeStepContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <SetupTypeStep
         handleStepChange={this.onChangeStep}

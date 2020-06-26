@@ -11,7 +11,7 @@ class CheckVersionsContainer extends React.PureComponent {
       step: 'uninstall-apps'
     })
   }
-  render () {
+  render() {
     const { status } = this.props
     return (
       <CheckVersionsStep status={status} onStartInstall={this.onStartInstall} />

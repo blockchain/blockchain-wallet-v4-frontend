@@ -51,34 +51,34 @@ const Help = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='blue900' weight={600} capitalize>
+        <Text size="20px" color="blue900" weight={600} capitalize>
           <FormattedMessage
-            id='scenes.help.needsomehelp'
-            defaultMessage='Need some help?'
+            id="scenes.help.needsomehelp"
+            defaultMessage="Need some help?"
           />
         </Text>
       </Header>
       <Row>
         <Left>
-          <Text size='14px' color='grey800' weight={600}>
+          <Text size="14px" color="grey800" weight={600}>
             <FormattedMessage
-              id='scenes.help.lostguid'
+              id="scenes.help.lostguid"
               defaultMessage="Don't know your Wallet ID?"
             />
           </Text>
-          <Text size='12px' color='grey800' weight={400}>
+          <Text size="12px" color="grey800" weight={400}>
             <FormattedMessage
-              id='scenes.help.lostguidrecover'
-              defaultMessage='We can send you a reminder email right now.'
+              id="scenes.help.lostguidrecover"
+              defaultMessage="We can send you a reminder email right now."
             />
           </Text>
         </Left>
         <Right>
-          <LinkContainer to='/reminder'>
-            <Button nature='light'>
+          <LinkContainer to="/reminder">
+            <Button nature="light">
               <FormattedMessage
-                id='scenes.help.remind'
-                defaultMessage='Remind Me'
+                id="scenes.help.remind"
+                defaultMessage="Remind Me"
               />
             </Button>
           </LinkContainer>
@@ -86,25 +86,25 @@ const Help = props => {
       </Row>
       <Row>
         <Left>
-          <Text size='14px' color='grey800' weight={600}>
+          <Text size="14px" color="grey800" weight={600}>
             <FormattedMessage
-              id='scenes.help.forgotpassword'
-              defaultMessage='Forgot your password?'
+              id="scenes.help.forgotpassword"
+              defaultMessage="Forgot your password?"
             />
           </Text>
-          <Text size='12px' color='grey800' weight={400}>
+          <Text size="12px" color="grey800" weight={400}>
             <FormattedMessage
-              id='scenes.help.password.explain'
-              defaultMessage='Use your 12 word recovery phrase to access your Wallet.'
+              id="scenes.help.password.explain"
+              defaultMessage="Use your 12 word recovery phrase to access your Wallet."
             />
           </Text>
         </Left>
         <Right>
-          <LinkContainer to='/recover'>
-            <Button nature='light'>
+          <LinkContainer to="/recover">
+            <Button nature="light">
               <FormattedMessage
-                id='scenes.help.recover'
-                defaultMessage='Recover Funds'
+                id="scenes.help.recover"
+                defaultMessage="Recover Funds"
               />
             </Button>
           </LinkContainer>
@@ -112,54 +112,54 @@ const Help = props => {
       </Row>
       <Row>
         <Left>
-          <Text size='14px' color='grey800' weight={600}>
+          <Text size="14px" color="grey800" weight={600}>
             <FormattedMessage
-              id='scenes.help.2falost'
-              defaultMessage='Lost your 2FA device?'
+              id="scenes.help.2falost"
+              defaultMessage="Lost your 2FA device?"
             />
           </Text>
-          <Text size='12px' color='grey800' weight={400}>
+          <Text size="12px" color="grey800" weight={400}>
             <FormattedMessage
-              id='scenes.help.2fa.lostexplain'
-              defaultMessage='Reset your 2FA right now to gain access to your Wallet.'
+              id="scenes.help.2fa.lostexplain"
+              defaultMessage="Reset your 2FA right now to gain access to your Wallet."
             />
           </Text>
         </Left>
         <Right>
-          <LinkContainer to='/reset-2fa'>
-            <Button nature='light'>
+          <LinkContainer to="/reset-2fa">
+            <Button nature="light">
               <FormattedMessage
-                id='scenes.help.reset'
-                defaultMessage='Reset 2FA'
+                id="scenes.help.reset"
+                defaultMessage="Reset 2FA"
               />
             </Button>
           </LinkContainer>
         </Right>
       </Row>
       <Footer>
-        <LinkContainer to='/login'>
-          <Button nature='primary' height='56px' fullWidth>
-            <Text size='16px' color='white' weight={500}>
-              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+        <LinkContainer to="/login">
+          <Button nature="primary" height="56px" fullWidth>
+            <Text size="16px" color="white" weight={500}>
+              <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
             </Text>
           </Button>
         </LinkContainer>
         <TextGroup inline>
-          <Text size='13px' color='grey800' weight={500}>
+          <Text size="13px" color="grey800" weight={500}>
             <FormattedMessage
-              id='scenes.help.contact.stillneedhelp'
-              defaultMessage='Still need help?'
+              id="scenes.help.contact.stillneedhelp"
+              defaultMessage="Still need help?"
             />
           </Text>
           <Link
-            href='https://support.blockchain.com/'
-            target='_blank'
-            size='13px'
+            href="https://support.blockchain.com/"
+            target="_blank"
+            size="13px"
             weight={500}
           >
             <FormattedMessage
-              id='buttons.contact_support'
-              defaultMessage='Contact Support'
+              id="buttons.contact_support"
+              defaultMessage="Contact Support"
             />
           </Link>
         </TextGroup>

@@ -40,25 +40,25 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
         <Header>
           <Icon
             cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
+            name="arrow-left"
+            size="20px"
+            color="grey600"
             style={{ marginRight: '24px' }}
-            role='button'
+            role="button"
             onClick={handleBackArrow}
-            data-e2e='recoveryBackArrow'
+            data-e2e="recoveryBackArrow"
           />
-          <Text color='grey800' size='20px' weight={600}>
+          <Text color="grey800" size="20px" weight={600}>
             <FormattedMessage
-              id='modals.recoveryphrase.firstsetwords.header'
-              defaultMessage='Recovery Phrase'
+              id="modals.recoveryphrase.firstsetwords.header"
+              defaultMessage="Recovery Phrase"
             />
           </Text>
         </Header>
-        <Text color='grey600' weight={500}>
+        <Text color="grey600" weight={500}>
           <FormattedMessage
-            id='modals.recoveryphrase.firstsetwords.body'
-            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase.'
+            id="modals.recoveryphrase.firstsetwords.body"
+            defaultMessage="Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase."
           />
         </Text>
       </FlyoutWrapper>
@@ -67,7 +67,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
           if (index < 6) {
             return (
               <WordBox>
-                <WordText data-e2e='backupWords'>
+                <WordText data-e2e="backupWords">
                   <Title>{index + 1}</Title>
                   <Value>{word}</Value>
                 </WordText>
@@ -80,7 +80,7 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
           if (index >= 6) {
             return (
               <WordBox>
-                <WordText data-e2e='backupWords'>
+                <WordText data-e2e="backupWords">
                   <Title>{index + 1}</Title>
                   <Value>{word}</Value>
                 </WordText>
@@ -91,16 +91,16 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
       <Bottom>
         <Button
           capitalize
-          data-e2e='toRecoveryTwo'
+          data-e2e="toRecoveryTwo"
           fullwidth
-          height='48px'
-          nature='primary'
-          size='16px'
+          height="48px"
+          nature="primary"
+          size="16px"
           onClick={handleNextButton}
         >
           <FormattedMessage
-            id='modals.recoveryphrase.firstsetwords.nextbutton'
-            defaultMessage='Next'
+            id="modals.recoveryphrase.firstsetwords.nextbutton"
+            defaultMessage="Next"
           />
         </Button>
       </Bottom>

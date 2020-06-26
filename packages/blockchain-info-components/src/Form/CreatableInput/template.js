@@ -93,7 +93,7 @@ const CreatableInput = props => {
       <StyledCreatableSelect
         autoFocus={autoFocus}
         borderColor={selectBorderColor(errorState)}
-        classNamePrefix='bc'
+        classNamePrefix="bc"
         components={getComponents(isMulti)}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         height={height}

@@ -31,20 +31,20 @@ const SuccessWrapper = styled.div`
   }
 `
 class TotalBalance extends React.PureComponent {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <>
           {this.props.large ? (
-            <SuccessWrapper large data-e2e='topBalanceTotal'>
+            <SuccessWrapper large data-e2e="topBalanceTotal">
               {val.totalBalance}
             </SuccessWrapper>
           ) : (
-            <LinkContainer to='/home'>
+            <LinkContainer to="/home">
               <SuccessWrapper>
                 <FormattedMessage
-                  id='scenes.wallet.menutop.balance.totalbalance.total'
-                  defaultMessage='Total Balance'
+                  id="scenes.wallet.menutop.balance.totalbalance.total"
+                  defaultMessage="Total Balance"
                 />{' '}
                 {val.totalBalance}
               </SuccessWrapper>
@@ -54,16 +54,16 @@ class TotalBalance extends React.PureComponent {
       ),
       Failure: e => (
         <ErrorWrapper>
-          <Text size='14px' weight={600} color='red600'>
+          <Text size="14px" weight={600} color="red600">
             Error Fetching Balance
           </Text>
         </ErrorWrapper>
       ),
       Loading: () => (
-        <SkeletonRectangle width='120px' height='25px' bgColorgrey000 />
+        <SkeletonRectangle width="120px" height="25px" bgColorgrey000 />
       ),
       NotAsked: () => (
-        <SkeletonRectangle width='120px' height='25px' bgColorgrey000 />
+        <SkeletonRectangle width="120px" height="25px" bgColorgrey000 />
       )
     })
   }

@@ -26,19 +26,19 @@ const ErrorBanner = styled(Banner)`
 `
 
 export const InvalidAmountMessage = () => (
-  <div data-e2e='sendXlmInvalidAmount'>
+  <div data-e2e="sendXlmInvalidAmount">
     <FormattedMessage
-      id='modals.sendxlm.amountnotzeromessage'
-      defaultMessage='Invalid amount'
+      id="modals.sendxlm.amountnotzeromessage"
+      defaultMessage="Invalid amount"
     />
   </div>
 )
 
 export const ShouldCreateAccountMessage = props => (
-  <ErrorBanner type='warning' data-e2e='sendXlmErrorSendAtLeast'>
+  <ErrorBanner type="warning" data-e2e="sendXlmErrorSendAtLeast">
     <FormattedMessage
-      id='modals.sendxlm.shouldcreateaccountmessage'
-      defaultMessage='You need to send at least {reserveXlm} XLM to this address'
+      id="modals.sendxlm.shouldcreateaccountmessage"
+      defaultMessage="You need to send at least {reserveXlm} XLM to this address"
       values={props}
     />
     <ModalIcon modal={CREATE_ACCOUNT_LEARN_MODAL} {...props} />
@@ -46,28 +46,28 @@ export const ShouldCreateAccountMessage = props => (
 )
 
 export const NoFundsMessage = props => (
-  <ErrorBanner type='warning'>
+  <ErrorBanner type="warning">
     <FormattedMessage
-      id='modals.sendxlm.nofunds'
-      defaultMessage='Your account is at the minimum balance'
+      id="modals.sendxlm.nofunds"
+      defaultMessage="Your account is at the minimum balance"
     />
     <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
   </ErrorBanner>
 )
 
 export const ReserveMessage = props => (
-  <ErrorBanner type='warning' data-e2e='sendXlmUseTotalBalance'>
+  <ErrorBanner type="warning" data-e2e="sendXlmUseTotalBalance">
     <div>
       <FormattedMessage
-        id='modals.sendxlm.usespendable'
-        defaultMessage='Use total spendable balance'
+        id="modals.sendxlm.usespendable"
+        defaultMessage="Use total spendable balance"
       />
       {': '}
       <MaximumAmountLink {...props} />
       <br />
       <FormattedMessage
-        id='modals.sendxlm.learnmore'
-        defaultMessage='Learn about Stellar’s minimum balance requirement.'
+        id="modals.sendxlm.learnmore"
+        defaultMessage="Learn about Stellar’s minimum balance requirement."
       />
     </div>
     <ModalIcon modal={RESERVE_LEARN_MODAL} {...props} />
@@ -76,25 +76,25 @@ export const ReserveMessage = props => (
 
 export const InsufficientFundsMessage = () => (
   <FormattedMessage
-    id='modals.sendxlm.insufficientfundsmessage'
-    defaultMessage='Insufficient funds'
+    id="modals.sendxlm.insufficientfundsmessage"
+    defaultMessage="Insufficient funds"
   />
 )
 
 export const WrongIdMemoFormat = () => (
-  <div data-e2e='sendXlmWrongIdMemoFormat'>
+  <div data-e2e="sendXlmWrongIdMemoFormat">
     <FormattedMessage
-      id='modals.sendxlm.wrongidmemo'
-      defaultMessage='Memo should be a number'
+      id="modals.sendxlm.wrongidmemo"
+      defaultMessage="Memo should be a number"
     />
   </div>
 )
 
 export const WrongTextMemoFormat = () => (
-  <div data-e2e='sendXlmWrongTextMemoFormat'>
+  <div data-e2e="sendXlmWrongTextMemoFormat">
     <FormattedMessage
-      id='modals.sendxlm.wrongtextmemo'
-      defaultMessage='Memo should be shorter than 28 symbols'
+      id="modals.sendxlm.wrongtextmemo"
+      defaultMessage="Memo should be shorter than 28 symbols"
     />
   </div>
 )

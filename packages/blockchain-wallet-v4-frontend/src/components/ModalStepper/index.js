@@ -72,7 +72,7 @@ const CheckIcon = styled(Icon)`
 `
 
 class ModalStepper extends React.PureComponent {
-  render () {
+  render() {
     // currentStep & totalSteps do not follow zero-based numbering
     const { currentStep, totalSteps } = this.props
 
@@ -88,7 +88,7 @@ class ModalStepper extends React.PureComponent {
                 <Circle className={active + ' ' + complete}>
                   <CircleContent className={active + ' ' + complete}>
                     <Text
-                      size='13px'
+                      size="13px"
                       color={
                         active ? 'blue600' : complete ? 'white' : 'grey000'
                       }
@@ -96,10 +96,10 @@ class ModalStepper extends React.PureComponent {
                       {i}
                     </Text>
                     <CheckIcon
-                      name='checkmark'
-                      size='10px'
-                      weight='600'
-                      color='white'
+                      name="checkmark"
+                      size="10px"
+                      weight="600"
+                      color="white"
                     />
                   </CircleContent>
                 </Circle>

@@ -26,29 +26,29 @@ const FinishSetupStep = props => {
     <Wrapper>
       <Image
         style={{ marginBottom: '18px' }}
-        name='lockbox-onboard-complete'
-        width='100%'
+        name="lockbox-onboard-complete"
+        width="100%"
       />
-      <IntroText size='12px' weight={400}>
+      <IntroText size="12px" weight={400}>
         <FormattedHTMLMessage
-          id='modals.lockboxsetup.finishstep.intro'
+          id="modals.lockboxsetup.finishstep.intro"
           defaultMessage="Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds."
         />
       </IntroText>
       <SkipTourText
-        size='11px'
+        size="11px"
         weight={400}
         onClick={() => onFinishSetup(false)}
       >
         <FormattedHTMLMessage
-          id='modals.lockboxsetup.finishstep.skiptour'
-          defaultMessage='Skip Tour'
+          id="modals.lockboxsetup.finishstep.skiptour"
+          defaultMessage="Skip Tour"
         />
       </SkipTourText>
-      <Button fullwidth onClick={() => onFinishSetup(true)} nature='primary'>
+      <Button fullwidth onClick={() => onFinishSetup(true)} nature="primary">
         <FormattedHTMLMessage
-          id='modals.lockboxsetup.finishstep.starttour'
-          defaultMessage='Start Tour'
+          id="modals.lockboxsetup.finishstep.starttour"
+          defaultMessage="Start Tour"
         />
       </Button>
     </Wrapper>

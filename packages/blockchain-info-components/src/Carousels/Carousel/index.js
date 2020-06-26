@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 class Carousel extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { index: 0, total: props.children.length - 1 }
     this.handleClick = this.handleClick.bind(this)
@@ -12,7 +12,7 @@ class Carousel extends React.PureComponent {
     this.interval = undefined
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { auto, delay } = this.props
     if (auto) {
       this.interval = setInterval(
@@ -22,35 +22,35 @@ class Carousel extends React.PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.interval) {
       clearInterval(this.interval)
     }
   }
 
-  getPreviousIndex () {
+  getPreviousIndex() {
     const { index, total } = this.state
     return index === 0 ? total : index - 1
   }
 
-  getNextIndex () {
+  getNextIndex() {
     const { index, total } = this.state
     return index === total ? 0 : index + 1
   }
 
-  handleClick (index) {
+  handleClick(index) {
     this.setState({ index })
   }
 
-  handlePrevious () {
+  handlePrevious() {
     this.setState({ index: this.getPreviousIndex() })
   }
 
-  handleNext () {
+  handleNext() {
     this.setState({ index: this.getNextIndex() })
   }
 
-  render () {
+  render() {
     const { children, ...rest } = this.props
 
     return (

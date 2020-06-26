@@ -23,15 +23,15 @@ const CustomImage = styled(Image)`
 `
 
 const Loading = () => (
-  <CustomImage name='chart-placeholder' width='450px' height='100px' />
+  <CustomImage name="chart-placeholder" width="450px" height="100px" />
 )
 
 export class CoinPerformanceContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.priceChartActions.initialized(toUpper(this.props.coin), '1week')
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.coin !== prevProps.coin) {
       this.props.priceChartActions.initialized(
         toUpper(this.props.coin),
@@ -40,7 +40,7 @@ export class CoinPerformanceContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { currency } = this.props
 
     return this.props.data.cata({
@@ -54,7 +54,7 @@ export class CoinPerformanceContainer extends React.PureComponent {
       ),
       Failure: error => (
         <ErrorWrapper>
-          <Text size='12px' weight={400} color='red600'>
+          <Text size="12px" weight={400} color="red600">
             {error}
           </Text>
         </ErrorWrapper>

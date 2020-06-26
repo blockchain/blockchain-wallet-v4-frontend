@@ -13,7 +13,7 @@ export const Menu = ({ userTiers }) => {
       <TabMenu>
         <Image
           style={{ marginRight: '10px' }}
-          name='failed-kyc'
+          name="failed-kyc"
           srcset={{
             'failed-kyc2': '2x',
             'failed-kyc3': '3x'
@@ -21,7 +21,7 @@ export const Menu = ({ userTiers }) => {
         />
         <Text weight={500}>
           <FormattedHTMLMessage
-            id='scenes.settings.profile.menu.failedkyc'
+            id="scenes.settings.profile.menu.failedkyc"
             defaultMessage="We had trouble verifying your identity. Your Swap feature has been disabled at this time. <a href='https://support.blockchain.com/hc/en-us/articles/360018080352-Why-has-my-ID-submission-been-rejected-' target='_blank' rel='noopener noreferrer'>Learn more</a>"
           />
         </Text>

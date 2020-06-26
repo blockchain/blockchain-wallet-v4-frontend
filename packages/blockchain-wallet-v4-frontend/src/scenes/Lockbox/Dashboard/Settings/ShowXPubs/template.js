@@ -17,22 +17,22 @@ const ShowXPubs = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.showxpubs.title'
-            defaultMessage='Show xPubs'
+            id="scenes.lockbox.settings.showxpubs.title"
+            defaultMessage="Show xPubs"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.showxpubs.description'
-            defaultMessage='Display the Extended Public Keys (xPubs) of your device'
+            id="scenes.lockbox.settings.showxpubs.description"
+            defaultMessage="Display the Extended Public Keys (xPubs) of your device"
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onShowXPubs}>
+        <Button nature="empty" onClick={onShowXPubs}>
           <FormattedMessage
-            id='scenes.lockbox.settings.showxpubs.show'
-            defaultMessage='Show xPubs'
+            id="scenes.lockbox.settings.showxpubs.show"
+            defaultMessage="Show xPubs"
           />
         </Button>
       </SettingComponent>

@@ -21,28 +21,28 @@ const Setting = props => {
         <Fragment>
           <Text>
             <FormattedMessage
-              id='scenes.settings.preferences.mobilenumber.settings.2fawarning'
-              defaultMessage='To change your mobile number you need to disable 2FA via SMS'
+              id="scenes.settings.preferences.mobilenumber.settings.2fawarning"
+              defaultMessage="To change your mobile number you need to disable 2FA via SMS"
             />
           </Text>
           <Button
-            nature='primary'
+            nature="primary"
             onClick={() => {
               resetWarning()
               modalActions.showModal('ConfirmDisable2FA', {
                 authName: '2FA using SMS',
                 extraCopy: (
                   <FormattedMessage
-                    id='scenes.settings.preferences.mobilenumber.settings.reenableseccenter'
-                    defaultMessage='If you want to re-enable this feature, please go to the Security Center.'
+                    id="scenes.settings.preferences.mobilenumber.settings.reenableseccenter"
+                    defaultMessage="If you want to re-enable this feature, please go to the Security Center."
                   />
                 )
               })
             }}
           >
             <FormattedMessage
-              id='scenes.settings.preferences.mobilenumber.settings.disable2fa'
-              defaultMessage='Disable 2FA'
+              id="scenes.settings.preferences.mobilenumber.settings.disable2fa"
+              defaultMessage="Disable 2FA"
             />
           </Button>
         </Fragment>
@@ -51,35 +51,35 @@ const Setting = props => {
           {smsNumber && <Text>{smsNumber}</Text>}
           {smsVerified === 1 ? (
             <Button
-              nature='primary'
+              nature="primary"
               onClick={handleClick}
-              data-e2e='prefsMobileNumberChange'
+              data-e2e="prefsMobileNumberChange"
             >
               <FormattedMessage
-                id='scenes.settings.preferences.mobilenumber.settings.change'
-                defaultMessage='Change'
+                id="scenes.settings.preferences.mobilenumber.settings.change"
+                defaultMessage="Change"
               />
             </Button>
           ) : smsNumber ? (
             <Button
-              nature='primary'
+              nature="primary"
               onClick={handleClick}
-              data-e2e='prefsMobileNumberVerify'
+              data-e2e="prefsMobileNumberVerify"
             >
               <FormattedMessage
-                id='scenes.settings.preferences.mobilenumber.settings.verify'
-                defaultMessage='Verify'
+                id="scenes.settings.preferences.mobilenumber.settings.verify"
+                defaultMessage="Verify"
               />
             </Button>
           ) : (
             <Button
-              nature='primary'
+              nature="primary"
               onClick={handleClick}
-              data-e2e='prefsMobileNumberAdd'
+              data-e2e="prefsMobileNumberAdd"
             >
               <FormattedMessage
-                id='scenes.settings.preferences.mobilenumber.settings.addmobile'
-                defaultMessage='Add Mobile Number'
+                id="scenes.settings.preferences.mobilenumber.settings.addmobile"
+                defaultMessage="Add Mobile Number"
               />
             </Button>
           )}

@@ -34,19 +34,19 @@ const MoreInfo = ({ goToNextStep, closeAllModals }) => (
           <InputWrapper>
             <IdentityVerificationHeader>
               <FormattedMessage
-                id='identityverification.more_info.header'
-                defaultMessage='We Need Some More Information'
+                id="identityverification.more_info.header"
+                defaultMessage="We Need Some More Information"
               />
             </IdentityVerificationHeader>
-            <IdentityVerificationImage name='identity-verification' />
+            <IdentityVerificationImage name="identity-verification" />
             <IdentityVerificationSubHeader>
               <FormattedMessage
-                id='identityverification.more_info.more_info'
-                defaultMessage='We need to get a bit more information from you before you can start trading.'
+                id="identityverification.more_info.more_info"
+                defaultMessage="We need to get a bit more information from you before you can start trading."
               />
               <br />
               <FormattedMessage
-                id='identityverification.more_info.required_docs'
+                id="identityverification.more_info.required_docs"
                 defaultMessage="You'll need to provide a government issued ID and selfie. Please click Continue below to complete these final steps."
               />
             </IdentityVerificationSubHeader>
@@ -55,15 +55,15 @@ const MoreInfo = ({ goToNextStep, closeAllModals }) => (
       }
       footer={
         <Footer>
-          <BackButton data-e2e='moreInfoCancelButton' onClick={closeAllModals}>
-            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+          <BackButton data-e2e="moreInfoCancelButton" onClick={closeAllModals}>
+            <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
           </BackButton>
           <Button
-            nature='primary'
-            data-e2e='moreInfoContinueButton'
+            nature="primary"
+            data-e2e="moreInfoContinueButton"
             onClick={goToNextStep}
           >
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
           </Button>
         </Footer>
       }

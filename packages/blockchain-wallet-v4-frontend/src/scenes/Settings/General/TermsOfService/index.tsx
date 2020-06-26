@@ -16,21 +16,21 @@ const TermsOfService = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.settings.general.termsofservice.title'
-            defaultMessage='Terms of Service'
+            id="scenes.settings.general.termsofservice.title"
+            defaultMessage="Terms of Service"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.general.termsofservice.description'
-            defaultMessage='Read our terms and services agreement.'
+            id="scenes.settings.general.termsofservice.description"
+            defaultMessage="Read our terms and services agreement."
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href='https://www.blockchain.com/legal/terms' target='_blank'>
-          <Button data-e2e='termsLink' nature='empty'>
-            <Icon name='open-in-new-tab' size='20px' />
+        <Link href="https://www.blockchain.com/legal/terms" target="_blank">
+          <Button data-e2e="termsLink" nature="empty">
+            <Icon name="open-in-new-tab" size="20px" />
           </Button>
         </Link>
       </SettingComponent>

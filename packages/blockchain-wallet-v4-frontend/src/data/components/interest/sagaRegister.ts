@@ -18,7 +18,7 @@ export default ({
 }) => {
   const interestSagas = sagas({ api, coreSagas, networks })
 
-  return function * interestSaga () {
+  return function* interestSaga() {
     yield takeLatest(
       AT.FETCH_INTEREST_BALANCE,
       interestSagas.fetchInterestBalance

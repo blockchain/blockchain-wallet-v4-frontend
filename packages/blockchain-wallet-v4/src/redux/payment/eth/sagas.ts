@@ -41,7 +41,7 @@ const taskToPromise = t =>
 
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
-  const selectIndex = function * (from) {
+  const selectIndex = function*(from) {
     const appState = yield select(identity)
     switch (prop('type', from)) {
       case ADDRESS_TYPES.ACCOUNT:
@@ -53,7 +53,7 @@ export default ({ api }) => {
     }
   }
 
-  const calculateIsSufficientEthForErc20 = function * (fee) {
+  const calculateIsSufficientEthForErc20 = function*(fee) {
     const ethBalanceR = yield select(S.data.eth.getDefaultAddressBalance)
     return new BigNumber(ethBalanceR.getOrElse(0)).isGreaterThan(
       new BigNumber(fee)
@@ -68,7 +68,7 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function * (
+  const calculateSignature = function*(
     network,
     password,
     transport,
@@ -107,7 +107,7 @@ export default ({ api }) => {
     }
   }
 
-  const calculateUnconfirmed = function * (address: string) {
+  const calculateUnconfirmed = function*(address: string) {
     const data: {
       transactions: Array<EthRawTxType>
     } = yield call(api.getEthTransactionsV2, address, 0, 1)
@@ -122,15 +122,15 @@ export default ({ api }) => {
     return false
   }
 
-  function create ({ network, payment } = { network: undefined, payment: {} }) {
+  function create({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
       coin: 'ETH',
 
-      value () {
+      value() {
         return p
       },
 
-      * init ({ isErc20, coin }) {
+      *init({ isErc20, coin }) {
         let fees
         try {
           fees = yield call(api.getEthFees)
@@ -159,7 +159,7 @@ export default ({ api }) => {
         )
       },
 
-      to (destination) {
+      to(destination) {
         let to = calculateTo(destination)
         if (!EthUtil.isValidAddress(to.address)) {
           throw new Error('Invalid address')
@@ -167,11 +167,11 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { to: to }))
       },
 
-      amount (amount) {
+      amount(amount) {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from (origin, type: FromType, effectiveBalance?: string) {
+      *from(origin, type: FromType, effectiveBalance?: string) {
         let from, unconfirmedTx
 
         if (type === 'CUSTODIAL') {
@@ -212,7 +212,7 @@ export default ({ api }) => {
         )
       },
 
-      * fee (value, origin) {
+      *fee(value, origin) {
         let contract
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
@@ -268,7 +268,7 @@ export default ({ api }) => {
         )
       },
 
-      * build () {
+      *build() {
         const fromData = prop('from', p)
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
@@ -304,7 +304,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { raw }))
       },
 
-      * sign (password, transport, scrambleKey) {
+      *sign(password, transport, scrambleKey) {
         try {
           const signed = yield call(
             calculateSignature,
@@ -320,7 +320,7 @@ export default ({ api }) => {
         }
       },
 
-      * signLegacy (password) {
+      *signLegacy(password) {
         try {
           const appState = yield select(identity)
           const seedHexT = S.wallet.getSeedHex(appState, password)
@@ -334,7 +334,7 @@ export default ({ api }) => {
         }
       },
 
-      * publish () {
+      *publish() {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = () => api.pushEthTx(signed).then(prop('txHash'))
@@ -343,19 +343,19 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { txId }))
       },
 
-      fees (fees) {
+      fees(fees) {
         return makePayment(mergeRight(p, { fees }))
       },
 
-      setIsContract (isContract) {
+      setIsContract(isContract) {
         return makePayment(mergeRight(p, { isContract }))
       },
 
-      setIsErc20 (isErc20) {
+      setIsErc20(isErc20) {
         return makePayment(mergeRight(p, { isErc20 }))
       },
 
-      setIsRetryAttempt (
+      setIsRetryAttempt(
         isRetryAttempt: boolean,
         nonce: string,
         minFeeRequiredForRetry: string
@@ -369,19 +369,19 @@ export default ({ api }) => {
         )
       },
 
-      setCoin (coin) {
+      setCoin(coin) {
         return makePayment(mergeRight(p, { coin }))
       },
 
-      description (message) {
+      description(message) {
         return isString(message)
           ? makePayment(mergeRight(p, { description: message }))
           : makePayment(p)
       },
 
-      chain () {
+      chain() {
         const chain = (gen, f) =>
-          makeChain(function * () {
+          makeChain(function*() {
             return yield f(yield gen())
           })
 
@@ -404,12 +404,12 @@ export default ({ api }) => {
           setCoin: coin => chain(gen, payment => payment.setCoin(coin)),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          * done () {
+          *done() {
             return yield gen()
           }
         })
 
-        return makeChain(function * () {
+        return makeChain(function*() {
           return yield call(makePayment, p)
         })
       }

@@ -10,15 +10,15 @@ import SecondStep from './SecondStep'
 import SignMessage from './template'
 
 class SignMessageContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.signMessageActions.signMessageInitialized()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('signMessage')
   }
 
-  render () {
+  render() {
     const { step, position, total, closeAll, ...rest } = this.props
 
     return (

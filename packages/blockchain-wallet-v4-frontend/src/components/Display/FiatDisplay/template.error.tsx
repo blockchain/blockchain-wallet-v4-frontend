@@ -25,8 +25,8 @@ export default props => (
   <Wrapper>
     <ErrorText weight={400} {...props}>
       <FormattedMessage
-        id='components.fiatdisplay.error'
-        defaultMessage='Failed to fetch rates'
+        id="components.fiatdisplay.error"
+        defaultMessage="Failed to fetch rates"
       />
     </ErrorText>
   </Wrapper>

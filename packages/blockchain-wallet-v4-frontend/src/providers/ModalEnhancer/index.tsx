@@ -73,7 +73,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         }
       }
 
-      render () {
+      render() {
         const { modals, ...rest } = this.props
         const filtered = modals.filter(m => m.type === type)
         const setRef = node => {

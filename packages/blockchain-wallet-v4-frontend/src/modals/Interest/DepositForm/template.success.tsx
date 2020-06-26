@@ -112,24 +112,24 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <SpinningLoader />
       <Text
         weight={600}
-        color='grey800'
-        size='20px'
+        color="grey800"
+        size="20px"
         style={{ marginTop: '24px' }}
       >
         <FormattedMessage
-          id='modals.interest.deposit.sendingtitle'
-          defaultMessage='In Progress...'
+          id="modals.interest.deposit.sendingtitle"
+          defaultMessage="In Progress..."
         />
       </Text>
       <Text
         weight={600}
-        color='grey600'
-        size='16px'
+        color="grey600"
+        size="16px"
         style={{ marginTop: '24px' }}
       >
         <FormattedMessage
-          id='modals.interest.deposit.sendingsubtitle'
-          defaultMessage='Sending {displayName} to your Interest Account'
+          id="modals.interest.deposit.sendingsubtitle"
+          defaultMessage="Sending {displayName} to your Interest Account"
           values={{ displayName }}
         />
       </Text>
@@ -137,31 +137,31 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   ) : (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color='grey800' size='20px' weight={600}>
+        <TopText color="grey800" size="20px" weight={600}>
           <ArrowIcon
             onClick={() => interestActions.setInterestStep('ACCOUNT_SUMMARY')}
             cursor
-            role='button'
-            name='arrow-left'
-            size='20px'
-            color='grey600'
+            role="button"
+            name="arrow-left"
+            size="20px"
+            color="grey600"
           />
           <FormattedMessage
-            id='modals.interest.deposit.title'
-            defaultMessage='Deposit {displayName}'
+            id="modals.interest.deposit.title"
+            defaultMessage="Deposit {displayName}"
             values={{ displayName }}
           />
         </TopText>
         <InfoText>
           <Text
-            color='grey600'
+            color="grey600"
             weight={500}
-            size='14px'
+            size="14px"
             style={{ margin: '18px 0 8px 0', lineHeight: '1.5' }}
           >
             <FormattedMessage
-              id='modals.interest.deposit.subheader'
-              defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto. You can deposit up to'
+              id="modals.interest.deposit.subheader"
+              defaultMessage="Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto. You can deposit up to"
               values={{
                 displayName,
                 rate: interestRate[coin]
@@ -177,37 +177,37 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               }
             >
               {displayCoin ? (
-                <Text color='blue600' size='14px' weight={500}>
+                <Text color="blue600" size="14px" weight={500}>
                   {depositLimits.maxCoin}{' '}
                 </Text>
               ) : (
-                <Text color='blue600' size='14px' weight={500}>
+                <Text color="blue600" size="14px" weight={500}>
                   {maxDepositFiat}{' '}
                 </Text>
               )}
             </FiatMaxContainer>{' '}
             <FormattedMessage
-              id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin} from this wallet.'
+              id="modals.interest.deposit.uptoamount2"
+              defaultMessage="of {coin} from this wallet."
               values={{
                 coin
               }}
             />
-            <TooltipHost id='modals.interest.depositmax.tooltip'>
-              <TooltipIcon name='info' size='12px' />
+            <TooltipHost id="modals.interest.depositmax.tooltip">
+              <TooltipIcon name="info" size="12px" />
             </TooltipHost>
           </Text>
         </InfoText>
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
-          name='interestDepositAccount'
+          name="interestDepositAccount"
         />
         <CustomFormLabel>
-          <Text color='grey600' weight={500} size='14px'>
+          <Text color="grey600" weight={500} size="14px">
             <FormattedMessage
-              id='modals.interest.deposit.amount'
-              defaultMessage='Enter deposit amount'
+              id="modals.interest.deposit.amount"
+              defaultMessage="Enter deposit amount"
             />{' '}
           </Text>
           <ToggleCoinFiat>
@@ -229,8 +229,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e='depositAmount'
-            name='depositAmount'
+            data-e2e="depositAmount"
+            name="depositAmount"
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
               autoFocus: true,
@@ -240,11 +240,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           <PrincipalCcyAbsolute>
             {displayCoin ? (
-              <Text color='grey800' size='14px' weight={600}>
+              <Text color="grey800" size="14px" weight={600}>
                 {coinTicker}
               </Text>
             ) : (
-              <Text color='grey800' size='14px' weight={600}>
+              <Text color="grey800" size="14px" weight={600}>
                 {currencySymbol}
               </Text>
             )}
@@ -252,11 +252,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </AmountFieldContainer>
         {amtError && (
           <AmountError>
-            <Text size='14px' weight={500} color='red600'>
+            <Text size="14px" weight={500} color="red600">
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.max'
-                  defaultMessage='Maximum deposit: {maxFiat}'
+                  id="modals.interest.deposit.max"
+                  defaultMessage="Maximum deposit: {maxFiat}"
                   values={{
                     maxFiat: displayCoin
                       ? depositLimits.maxCoin
@@ -268,8 +268,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               ) : (
                 <FormattedMessage
-                  id='modals.interest.deposit.min'
-                  defaultMessage='Minimum deposit: {minFiat}'
+                  id="modals.interest.deposit.min"
+                  defaultMessage="Minimum deposit: {minFiat}"
                   values={{
                     minFiat: displayCoin
                       ? depositLimits.minCoin
@@ -282,8 +282,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               )}
             </Text>
             <GreyBlueCartridge
-              data-e2e='interestBuyMinMaxBtn'
-              role='button'
+              data-e2e="interestBuyMinMaxBtn"
+              role="button"
               onClick={() => {
                 amtError === 'ABOVE_MAX'
                   ? formActions.change(
@@ -304,13 +304,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.max.button'
-                  defaultMessage='Deposit Max'
+                  id="modals.interest.deposit.max.button"
+                  defaultMessage="Deposit Max"
                 />
               ) : (
                 <FormattedMessage
-                  id='modals.interest.deposit.min.button'
-                  defaultMessage='Deposit Min'
+                  id="modals.interest.deposit.min.button"
+                  defaultMessage="Deposit Min"
                 />
               )}
             </GreyBlueCartridge>
@@ -318,44 +318,44 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <CalculatorWrapper>
           <CalculatorHeaderContainer>
-            <Text color='grey800' weight={600}>
+            <Text color="grey800" weight={600}>
               <FormattedMessage
-                id='modals.interest.deposit.calc'
-                defaultMessage='Interest Calculator'
+                id="modals.interest.deposit.calc"
+                defaultMessage="Interest Calculator"
               />
             </Text>
-            <TooltipHost id='modals.interest.calculator.tooltip'>
-              <TooltipIcon name='info' size='14px' />
+            <TooltipHost id="modals.interest.calculator.tooltip">
+              <TooltipIcon name="info" size="14px" />
             </TooltipHost>
           </CalculatorHeaderContainer>
-          <CalculatorDesc color='grey600' size='12px' weight={500}>
+          <CalculatorDesc color="grey600" size="12px" weight={500}>
             {displayCoin ? (
               <FormattedMessage
-                id='modals.interest.deposit.calcdesccoin'
-                defaultMessage='With {depositAmount} {coinTicker} in your Interest Account you can earn:'
+                id="modals.interest.deposit.calcdesccoin"
+                defaultMessage="With {depositAmount} {coinTicker} in your Interest Account you can earn:"
                 values={{ depositAmount, coinTicker }}
               />
             ) : (
               <FormattedMessage
-                id='modals.interest.deposit.calcdesc'
-                defaultMessage='With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:'
+                id="modals.interest.deposit.calcdesc"
+                defaultMessage="With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:"
                 values={{ currencySymbol, depositAmountFiat }}
               />
             )}
           </CalculatorDesc>
           <CalculatorContainer>
-            <Field component={TabMenuTimeFrame} name='loanTimeFrame' />
+            <Field component={TabMenuTimeFrame} name="loanTimeFrame" />
             <InterestTermWrapper>
               {loanTimeFrame === 'short' ? (
                 <>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.daily'
-                        defaultMessage='Daily'
+                        id="modals.interest.deposit.daily"
+                        defaultMessage="Daily"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -365,13 +365,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.weekly'
-                        defaultMessage='Weekly'
+                        id="modals.interest.deposit.weekly"
+                        defaultMessage="Weekly"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -381,13 +381,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.monthly'
-                        defaultMessage='Monthly'
+                        id="modals.interest.deposit.monthly"
+                        defaultMessage="Monthly"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -400,13 +400,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               ) : (
                 <>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.year'
-                        defaultMessage='1 Year'
+                        id="modals.interest.deposit.year"
+                        defaultMessage="1 Year"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -416,13 +416,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.threeyear'
-                        defaultMessage='3 Years'
+                        id="modals.interest.deposit.threeyear"
+                        defaultMessage="3 Years"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -432,13 +432,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     </Text>
                   </InterestTermContainer>
                   <InterestTermContainer>
-                    <Text color='grey600' size='12px' weight={500}>
+                    <Text color="grey600" size="12px" weight={500}>
                       <FormattedMessage
-                        id='modals.interest.deposit.fiveyears'
-                        defaultMessage='5 Years'
+                        id="modals.interest.deposit.fiveyears"
+                        defaultMessage="5 Years"
                       />
                     </Text>
-                    <Text color='grey800' weight={600}>
+                    <Text color="grey800" weight={600}>
                       {currencySymbol}
                       {calcCompoundInterest(
                         depositAmountFiat,
@@ -450,10 +450,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 </>
               )}
             </InterestTermWrapper>
-            <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
+            <Text size="11px" weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
-                id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current interest rate and {coin} price.'
+                id="modals.interest.deposit.calcfooter"
+                defaultMessage="Estimates based on current interest rate and {coin} price."
                 values={{ coin }}
               />
             </Text>
@@ -464,39 +464,39 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Field
           component={CheckBox}
           hideErrors
-          name='terms'
+          name="terms"
           validate={[required]}
         >
           <TermsContainer>
-            <Text lineHeight='1.4' size='14px' weight={500}>
+            <Text lineHeight="1.4" size="14px" weight={500}>
               <FormattedMessage
-                id='modals.interest.deposit.termsread'
-                defaultMessage='I have read and agreed to the'
+                id="modals.interest.deposit.termsread"
+                defaultMessage="I have read and agreed to the"
               />
             </Text>{' '}
             <Link
-              href='https://www.blockchain.com/legal/borrow-terms'
-              target='_blank'
-              size='14px'
+              href="https://www.blockchain.com/legal/borrow-terms"
+              target="_blank"
+              size="14px"
               weight={500}
             >
               <FormattedMessage
-                id='modals.interest.deposit.termsservice'
-                defaultMessage='Terms of Service'
+                id="modals.interest.deposit.termsservice"
+                defaultMessage="Terms of Service"
               />
             </Link>{' '}
-            <Text lineHeight='1.4' size='14px' weight={500}>
+            <Text lineHeight="1.4" size="14px" weight={500}>
               {'&'}
             </Text>{' '}
             <Link
-              href='https://www.blockchain.com/legal/privacy'
-              target='_blank'
-              size='14px'
+              href="https://www.blockchain.com/legal/privacy"
+              target="_blank"
+              size="14px"
               weight={500}
             >
               <FormattedMessage
-                id='modals.interest.deposit.privacy'
-                defaultMessage='Privacy'
+                id="modals.interest.deposit.privacy"
+                defaultMessage="Privacy"
               />
             </Link>
             {'.'}
@@ -505,14 +505,14 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Field
           component={CheckBox}
           hideErrors
-          name='agreement'
+          name="agreement"
           validate={[required]}
         >
           <AgreementContainer>
-            <Text lineHeight='1.4' size='14px' weight={500}>
+            <Text lineHeight="1.4" size="14px" weight={500}>
               <FormattedMessage
-                id='modals.interest.deposit.agreement1'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                id="modals.interest.deposit.agreement1"
+                defaultMessage="By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds."
                 values={{
                   lockupPeriod,
                   depositAmountFiat: `${currencySymbol}${depositAmountFiat}`,
@@ -525,17 +525,17 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Field>
         <ButtonContainer>
           <Button
-            data-e2e='interestDepositSubmit'
+            data-e2e="interestDepositSubmit"
             disabled={invalid}
             fullwidth
-            height='48px'
-            nature='primary'
-            type='submit'
+            height="48px"
+            nature="primary"
+            type="submit"
           >
-            <Text size='16px' weight={600} color='white'>
+            <Text size="16px" weight={600} color="white">
               <FormattedMessage
-                id='modals.interest.deposit.confirm'
-                defaultMessage='Confirm Deposit'
+                id="modals.interest.deposit.confirm"
+                defaultMessage="Confirm Deposit"
               />
             </Text>
           </Button>

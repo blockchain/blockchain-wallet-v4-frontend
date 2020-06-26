@@ -25,11 +25,11 @@ const RequestHeader = styled(ModalHeader)`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestXlmContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.init()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { coin } = this.props
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
@@ -86,7 +86,7 @@ class RequestXlmContainer extends React.PureComponent {
     this.props.requestXlmActions.openLockboxAppClicked()
   }
 
-  render () {
+  render() {
     const { closeAll, coins, data, position, selection, total } = this.props
 
     const content = data.cata({
@@ -107,14 +107,14 @@ class RequestXlmContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='medium' position={position} total={total}>
-        <RequestHeader icon='request' onClose={closeAll}>
+      <Modal size="medium" position={position} total={total}>
+        <RequestHeader icon="request" onClose={closeAll}>
           <FormattedMessage
-            id='modals.requestxlm.title'
-            defaultMessage='Request Stellar'
+            id="modals.requestxlm.title"
+            defaultMessage="Request Stellar"
           />
         </RequestHeader>
-        <Announcements type='service' alertArea='request' currentCoin='XLM' />
+        <Announcements type="service" alertArea="request" currentCoin="XLM" />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

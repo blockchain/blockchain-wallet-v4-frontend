@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `
 
 class CoinSelectBox extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { priceChart } = this.props
     this.props.initialize({ coin: propOr('BTC', 'coin', priceChart) })
   }
@@ -22,11 +22,11 @@ class CoinSelectBox extends React.PureComponent {
     this.props.actions.coinClicked(val)
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <Field
-          name='coin'
+          name="coin"
           searchEnabled={false}
           onChange={this.onChange}
           component={SelectBoxCoinPriceChart}

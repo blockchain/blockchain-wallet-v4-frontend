@@ -37,149 +37,149 @@ const GetStarted = ({ step }) => {
           <Slide>
             <div>
               <Text
-                size='20px'
+                size="20px"
                 weight={600}
-                color='grey800'
+                color="grey800"
                 style={{ marginBottom: '10px' }}
               >
                 <FormattedMessage
-                  id='swap.carousel.title.page2'
-                  defaultMessage='Real-time Exchange Rates'
+                  id="swap.carousel.title.page2"
+                  defaultMessage="Real-time Exchange Rates"
                 />
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='grey600'
+                color="grey600"
                 style={{ lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='swap.carousel.desc.page2'
-                  defaultMessage='Access competitive crypto prices right at your fingertips.'
+                  id="swap.carousel.desc.page2"
+                  defaultMessage="Access competitive crypto prices right at your fingertips."
                 />
               </Text>
             </div>
-            <Image name='swap-carousel2' width='160px' />
+            <Image name="swap-carousel2" width="160px" />
           </Slide>
           <Slide>
             <div>
               <Text
-                size='20px'
+                size="20px"
                 weight={600}
-                color='grey800'
+                color="grey800"
                 style={{ marginBottom: '10px' }}
               >
                 <FormattedMessage
-                  id='swap.carousel.title.page3'
-                  defaultMessage='100% On-Chain'
+                  id="swap.carousel.title.page3"
+                  defaultMessage="100% On-Chain"
                 />
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='grey600'
+                color="grey600"
                 style={{ lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='swap.carousel.desc.page3'
-                  defaultMessage='All Swap trades are confirmed and settled directly on-chain.'
+                  id="swap.carousel.desc.page3"
+                  defaultMessage="All Swap trades are confirmed and settled directly on-chain."
                 />
               </Text>
             </div>
-            <Image name='swap-carousel3' width='160px' />
+            <Image name="swap-carousel3" width="160px" />
           </Slide>
           <Slide>
             <div>
               <Text
-                size='20px'
+                size="20px"
                 weight={600}
-                color='grey800'
+                color="grey800"
                 style={{ marginBottom: '10px' }}
               >
                 <FormattedMessage
-                  id='swap.carousel.title.page4'
-                  defaultMessage='You Control Your Key'
+                  id="swap.carousel.title.page4"
+                  defaultMessage="You Control Your Key"
                 />
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='grey600'
+                color="grey600"
                 style={{ lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='swap.carousel.desc.page4'
-                  defaultMessage='With Swap your crypto is safe, secure, and your keys are always intact.'
+                  id="swap.carousel.desc.page4"
+                  defaultMessage="With Swap your crypto is safe, secure, and your keys are always intact."
                 />
               </Text>
             </div>
-            <Image name='swap-carousel4' width='160px' />
+            <Image name="swap-carousel4" width="160px" />
           </Slide>
           <Slide>
             <div>
               <Text
-                size='20px'
+                size="20px"
                 weight={600}
-                color='grey800'
+                color="grey800"
                 style={{ marginBottom: '10px' }}
               >
                 <FormattedMessage
-                  id='swap.carousel.title.page5'
-                  defaultMessage='Manage Risk Better'
+                  id="swap.carousel.title.page5"
+                  defaultMessage="Manage Risk Better"
                 />
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='grey600'
+                color="grey600"
                 style={{ lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='swap.carousel.desc.page5-1'
-                  defaultMessage='Introducing Digital Dollars (USD Digital) to de-risk your crypto investment or lock-in gains.'
+                  id="swap.carousel.desc.page5-1"
+                  defaultMessage="Introducing Digital Dollars (USD Digital) to de-risk your crypto investment or lock-in gains."
                 />
               </Text>
             </div>
-            <Image name='swap-carousel5' width='160px' />
+            <Image name="swap-carousel5" width="160px" />
           </Slide>
         </Carousel>
       </Box>
       <Box>
         <div>
           <Text
-            size='20px'
+            size="20px"
             weight={600}
-            color='grey800'
+            color="grey800"
             style={{ marginBottom: '10px' }}
           >
             <FormattedMessage
-              id='swap.getstarted.readytoswap.title'
-              defaultMessage='Ready to Swap? '
+              id="swap.getstarted.readytoswap.title"
+              defaultMessage="Ready to Swap? "
             />
           </Text>
           <Text
-            size='14px'
+            size="14px"
             weight={500}
-            color='grey600'
+            color="grey600"
             style={{ lineHeight: 1.5 }}
           >
             <FormattedMessage
-              id='swap.getstarted.readytoswap.body'
-              defaultMessage='Complete your profile and start exchanging cryptocurrencies today.'
+              id="swap.getstarted.readytoswap.body"
+              defaultMessage="Complete your profile and start exchanging cryptocurrencies today."
             />
           </Text>
         </div>
         <ButtonsContainer>
           <StatusBar step={step} />
           <Link
-            href='https://support.blockchain.com/hc/en-us/articles/360018080172-Identity-Verification-Overview'
-            target='_blank'
+            href="https://support.blockchain.com/hc/en-us/articles/360018080172-Identity-Verification-Overview"
+            target="_blank"
           >
-            <Button nature='empty' width='264px' height='48px'>
-              <Text weight={600} color='blue600'>
+            <Button nature="empty" width="264px" height="48px">
+              <Text weight={600} color="blue600">
                 <FormattedMessage
-                  id='buttons.learn_more'
-                  defaultMessage='Learn More'
+                  id="buttons.learn_more"
+                  defaultMessage="Learn More"
                 />
               </Text>
             </Button>

@@ -13,7 +13,7 @@ class ConnectDeviceContainer extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     return (
       <CheckForUpdatesStep
         {...this.props}

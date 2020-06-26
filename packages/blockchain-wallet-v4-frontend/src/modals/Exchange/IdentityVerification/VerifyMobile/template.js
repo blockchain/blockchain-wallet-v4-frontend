@@ -58,7 +58,7 @@ const smsHelper = (error, resendCode) => {
   if (error === BAD_CODE_ERROR) {
     return (
       <FormattedMessage
-        id='identityverification.personal.sms.badcode'
+        id="identityverification.personal.sms.badcode"
         defaultMessage="That code doesn't match. {resend}."
         values={{
           resend: <a onClick={resendCode}>Resend a new code</a>
@@ -69,22 +69,22 @@ const smsHelper = (error, resendCode) => {
   if (error === PHONE_EXISTS_ERROR) {
     return (
       <FormattedMessage
-        id='identityverification.personal.sms.numberexists'
-        defaultMessage='This number is already in use.'
+        id="identityverification.personal.sms.numberexists"
+        defaultMessage="This number is already in use."
       />
     )
   }
   if (error === UPDATE_FAILURE) {
     return (
       <FormattedMessage
-        id='identityverification.personal.sms.error'
-        defaultMessage='Updating mobile number failed, please try again'
+        id="identityverification.personal.sms.error"
+        defaultMessage="Updating mobile number failed, please try again"
       />
     )
   }
   return (
     <FormattedMessage
-      id='identityverification.personal.sms.didntreceive'
+      id="identityverification.personal.sms.didntreceive"
       defaultMessage="Didn't get our text? {resend}."
       values={{
         resend: <a onClick={resendCode}>Resend a new code</a>
@@ -120,36 +120,36 @@ const VerifyMobile = ({
             <InputWrapper>
               <IdentityVerificationHeader>
                 <FormattedMessage
-                  id='identityverification.personal.mobile.header'
-                  defaultMessage='Verify your Phone Number'
+                  id="identityverification.personal.mobile.header"
+                  defaultMessage="Verify your Phone Number"
                 />
                 <FaqHeaderHelper>
-                  <TooltipHost id='identityverification.headerhelper'>
+                  <TooltipHost id="identityverification.headerhelper">
                     <TooltipIcon
-                      name='question-in-circle-filled'
-                      color='blue900'
-                      size='24px'
+                      name="question-in-circle-filled"
+                      color="blue900"
+                      size="24px"
                     />
                   </TooltipHost>
                 </FaqHeaderHelper>
               </IdentityVerificationHeader>
               <IdentityVerificationSubHeader>
                 <FormattedMessage
-                  id='identityverification.personal.mobile.subheader'
-                  defaultMessage='We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code.'
+                  id="identityverification.personal.mobile.subheader"
+                  defaultMessage="We need to verify your mobile number. This will help us to verify your identity today, and also keep your account secure in the future. To do this an SMS will be sent to your phone, with a verification code."
                 />
               </IdentityVerificationSubHeader>
               <FormContainer>
                 <FaqFormGroup>
                   <FormItem>
-                    <Label HtmlFor='smsNumber'>
+                    <Label HtmlFor="smsNumber">
                       <FormattedMessage
-                        id='identityverification.personal.mobile.entermobilenumber'
-                        defaultMessage='Enter your mobile number here'
+                        id="identityverification.personal.mobile.entermobilenumber"
+                        defaultMessage="Enter your mobile number here"
                       />
                     </Label>
                     <Field
-                      name='smsNumber'
+                      name="smsNumber"
                       defaultValue={smsNumber}
                       component={PhoneNumberBox}
                       validate={[required, validMobileNumber]}
@@ -160,17 +160,17 @@ const VerifyMobile = ({
                   </FormItem>
                   {activeField === 'smsNumber' && !mobile && !tablet && (
                     <FaqFormMessage
-                      icon='phone-regular'
+                      icon="phone-regular"
                       title={
                         <FormattedMessage
-                          id='identityverification.mobile.faq.phone.title'
-                          defaultMessage='Please add your phone'
+                          id="identityverification.mobile.faq.phone.title"
+                          defaultMessage="Please add your phone"
                         />
                       }
                       text={
                         <FormattedMessage
-                          id='identityverification.mobile.faq.phone.text'
-                          defaultMessage='We will send you a SMS with verification code.'
+                          id="identityverification.mobile.faq.phone.text"
+                          defaultMessage="We will send you a SMS with verification code."
                         />
                       }
                     />
@@ -180,13 +180,13 @@ const VerifyMobile = ({
                   <FaqFormGroup>
                     <ButtonFormItem>
                       <Button
-                        nature='primary'
+                        nature="primary"
                         onClick={updateSmsNumber}
                         disabled={invalid}
                       >
                         <FormattedMessage
-                          id='identityverification.personal.mobile.sendmycode'
-                          defaultMessage='Send My Code'
+                          id="identityverification.personal.mobile.sendmycode"
+                          defaultMessage="Send My Code"
                         />
                       </Button>
                     </ButtonFormItem>
@@ -195,14 +195,14 @@ const VerifyMobile = ({
                 {step === SMS_STEPS.verify && (
                   <FaqFormGroup>
                     <FormItem>
-                      <Label HtmlFor='code'>
+                      <Label HtmlFor="code">
                         <FormattedMessage
-                          id='identityverification.personal.mobile.entercode.verification_code'
-                          defaultMessage='Verification code'
+                          id="identityverification.personal.mobile.entercode.verification_code"
+                          defaultMessage="Verification code"
                         />
                       </Label>
                       <Field
-                        name='code'
+                        name="code"
                         component={TextBox}
                         validate={[required]}
                         errorBottom
@@ -213,17 +213,17 @@ const VerifyMobile = ({
                     </FormItem>
                     {activeField === 'code' && !mobile && !tablet && (
                       <FaqFormMessage
-                        icon='comment-alt-regular'
+                        icon="comment-alt-regular"
                         title={
                           <FormattedMessage
-                            id='identityverification.mobile.faq.code.title'
-                            defaultMessage='We sent you a text message'
+                            id="identityverification.mobile.faq.code.title"
+                            defaultMessage="We sent you a text message"
                           />
                         }
                         text={
                           <FormattedMessage
-                            id='identityverification.mobile.faq.code.text'
-                            defaultMessage='Your verification code is on its way. Once you receive it, please enter it.'
+                            id="identityverification.mobile.faq.code.text"
+                            defaultMessage="Your verification code is on its way. Once you receive it, please enter it."
                           />
                         }
                       />
@@ -238,20 +238,20 @@ const VerifyMobile = ({
       footer={
         <Footer>
           <BackButton onClick={onBack} disabled={submitting}>
-            <FormattedMessage id='buttons.back' defaultMessage='Back' />
+            <FormattedMessage id="buttons.back" defaultMessage="Back" />
           </BackButton>
           <Button
-            nature='primary'
-            type='submit'
+            nature="primary"
+            type="submit"
             disabled={invalid || submitting || step !== SMS_STEPS.verify}
           >
             {!submitting ? (
               <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
+                id="buttons.continue"
+                defaultMessage="Continue"
               />
             ) : (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             )}
           </Button>
         </Footer>

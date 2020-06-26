@@ -56,8 +56,8 @@ export const getData = createDeepEqualSelector(
             {
               text: (
                 <FormattedMessage
-                  id='modals.sendbtc.firststep.fee.regular'
-                  defaultMessage='Regular'
+                  id="modals.sendbtc.firststep.fee.regular"
+                  defaultMessage="Regular"
                 />
               ),
               value: regularFeePerByte
@@ -65,8 +65,8 @@ export const getData = createDeepEqualSelector(
             {
               text: (
                 <FormattedMessage
-                  id='modals.sendbtc.firststep.fee.priority'
-                  defaultMessage='Priority'
+                  id="modals.sendbtc.firststep.fee.priority"
+                  defaultMessage="Priority"
                 />
               ),
               value: priorityFeePerByte

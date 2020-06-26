@@ -10,7 +10,7 @@ const Img = styled(Image)`
   overflow: hidden;
 `
 
-const BlockchainLoader = props => <Img {...props} name='logo-loader' />
+const BlockchainLoader = props => <Img {...props} name="logo-loader" />
 
 BlockchainLoader.propTypes = {
   width: PropTypes.string.isRequired,

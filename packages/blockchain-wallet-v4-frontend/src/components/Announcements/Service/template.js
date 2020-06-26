@@ -104,12 +104,12 @@ const Announcement = props => {
         <Content>
           <Title>
             {id === 'blockchain-rebrand' && (
-              <ServiceBadge type='white' inline>
+              <ServiceBadge type="white" inline>
                 Update
               </ServiceBadge>
             )}
-            {icon && <Icon name={icon} size='20px' color={textColor} />}
-            <Text size='16px' color='white' uppercase={uppercase} weight={500}>
+            {icon && <Icon name={icon} size="20px" color={textColor} />}
+            <Text size="16px" color="white" uppercase={uppercase} weight={500}>
               {header[lang] ? header[lang] : header.en}
             </Text>
           </Title>
@@ -120,7 +120,7 @@ const Announcement = props => {
                   <Text
                     color={textColor}
                     key={i}
-                    size='13px'
+                    size="13px"
                     style={{ margin: '8px 0 0' }}
                   >
                     {section.body[lang] ? section.body[lang] : section.body.en}
@@ -132,8 +132,8 @@ const Announcement = props => {
       </Wrapper>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {action && action.title && (
-          <ActionButton nature='empty-secondary'>
-            <Link href={action.link} target='_blank'>
+          <ActionButton nature="empty-secondary">
+            <Link href={action.link} target="_blank">
               {action.title[lang] ? action.title[lang] : action.title.en}
             </Link>
           </ActionButton>
@@ -141,18 +141,18 @@ const Announcement = props => {
         {hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'chevron-down' : 'chevron-up'}
-            size='24px'
+            size="24px"
             weight={600}
-            color='white'
+            color="white"
             onClick={() => toggleCollapse(id, collapsed)}
           />
         )}
         {hideType === 'dismiss' && (
           <ActionIcon
-            name='close'
-            size='14px'
+            name="close"
+            size="14px"
             weight={700}
-            color='white'
+            color="white"
             onClick={() => handleDismiss(id)}
           />
         )}

@@ -6,14 +6,14 @@ import React from 'react'
 export const headers = {
   SILVER: (
     <FormattedMessage
-      id='components.identityverification.tiercard.silver'
-      defaultMessage='Silver Level'
+      id="components.identityverification.tiercard.silver"
+      defaultMessage="Silver Level"
     />
   ),
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.gold'
-      defaultMessage='Gold Level'
+      id="components.identityverification.tiercard.gold"
+      defaultMessage="Gold Level"
     />
   )
 }
@@ -21,69 +21,69 @@ export const headers = {
 export const levelName = {
   SILVER: (
     <FormattedMessage
-      id='components.identityverification.tiercard.silverlevelname'
-      defaultMessage='Silver'
+      id="components.identityverification.tiercard.silverlevelname"
+      defaultMessage="Silver"
     />
   ),
   GOLD: (
     <FormattedMessage
-      id='components.identityverification.tiercard.goldlevelname'
-      defaultMessage='Gold'
+      id="components.identityverification.tiercard.goldlevelname"
+      defaultMessage="Gold"
     />
   )
 }
 
 export const messages = {
   EMAIL: (
-    <Text size='12px'>
+    <Text size="12px">
       <FormattedMessage
-        id='components.identityverification.tiercard.email'
-        defaultMessage='Verified Email'
+        id="components.identityverification.tiercard.email"
+        defaultMessage="Verified Email"
       />
     </Text>
   ),
   NAME: (
-    <Text size='12px'>
+    <Text size="12px">
       <FormattedMessage
-        id='components.identityverification.tiercard.name'
-        defaultMessage='Name'
+        id="components.identityverification.tiercard.name"
+        defaultMessage="Name"
       />
     </Text>
   ),
   DOB: (
-    <Text size='12px'>
+    <Text size="12px">
       <FormattedMessage
-        id='components.identityverification.tiercard.dob'
-        defaultMessage='Date of Birth'
+        id="components.identityverification.tiercard.dob"
+        defaultMessage="Date of Birth"
       />
     </Text>
   ),
   ADDRESS: (
-    <Text size='12px'>
-      <FormattedMessage id='copy.address' defaultMessage='Address' />
+    <Text size="12px">
+      <FormattedMessage id="copy.address" defaultMessage="Address" />
     </Text>
   ),
   TIER1: (
-    <Text size='12px' color='grey400'>
+    <Text size="12px" color="grey400">
       <FormattedMessage
-        id='components.identityverification.tiercard.silverplus'
-        defaultMessage='Silver Level +'
+        id="components.identityverification.tiercard.silverplus"
+        defaultMessage="Silver Level +"
       />
     </Text>
   ),
   GOVID: (
-    <Text size='12px'>
+    <Text size="12px">
       <FormattedMessage
-        id='components.identityverification.tiercard.id'
+        id="components.identityverification.tiercard.id"
         defaultMessage="Gov't Issued ID"
       />
     </Text>
   ),
   SELFIE: (
-    <Text size='12px' style={{ marginBottom: '26px', display: 'inline-block' }}>
+    <Text size="12px" style={{ marginBottom: '26px', display: 'inline-block' }}>
       <FormattedMessage
-        id='components.identityverification.tiercard.portraitphoto'
-        defaultMessage='Portrait Photo'
+        id="components.identityverification.tiercard.portraitphoto"
+        defaultMessage="Portrait Photo"
       />
     </Text>
   )
@@ -91,18 +91,18 @@ export const messages = {
 
 export const limits = {
   ANNUAL: (
-    <Text size='14px'>
+    <Text size="14px">
       <FormattedMessage
-        id='components.identityverification.tiercard.annualtradinglimit'
-        defaultMessage='Annual Trading Limit'
+        id="components.identityverification.tiercard.annualtradinglimit"
+        defaultMessage="Annual Trading Limit"
       />
     </Text>
   ),
   DAILY: (
-    <Text size='14px'>
+    <Text size="14px">
       <FormattedMessage
-        id='components.identityverification.tiercard.dailytradinglimit'
-        defaultMessage='Daily Trading Limit'
+        id="components.identityverification.tiercard.dailytradinglimit"
+        defaultMessage="Daily Trading Limit"
       />
     </Text>
   )
@@ -114,19 +114,19 @@ export const status = (tier, userTiers, time) => {
   switch (state) {
     case 'verified':
       return (
-        <Text size='14px' color='success'>
+        <Text size="14px" color="success">
           <FormattedMessage
-            id='components.identityverification.tiercard.verified'
-            defaultMessage='Approved!'
+            id="components.identityverification.tiercard.verified"
+            defaultMessage="Approved!"
           />
         </Text>
       )
     case 'pending':
       return (
-        <Text size='14px' color='btc'>
+        <Text size="14px" color="btc">
           <FormattedMessage
-            id='components.identityverification.tiercard.pending'
-            defaultMessage='In Review'
+            id="components.identityverification.tiercard.pending"
+            defaultMessage="In Review"
           />
         </Text>
       )
@@ -139,38 +139,38 @@ export const status = (tier, userTiers, time) => {
           )
         ) {
           return (
-            <Text size='14px' color='btc'>
+            <Text size="14px" color="btc">
               <FormattedMessage
-                id='components.identityverification.tiercard.pending'
-                defaultMessage='In Review'
+                id="components.identityverification.tiercard.pending"
+                defaultMessage="In Review"
               />
             </Text>
           )
         }
         if (propEq('state', 'verified', nextTier)) {
           return (
-            <Text size='14px' color='success'>
+            <Text size="14px" color="success">
               <FormattedMessage
-                id='components.identityverification.tiercard.verified'
-                defaultMessage='Approved!'
+                id="components.identityverification.tiercard.verified"
+                defaultMessage="Approved!"
               />
             </Text>
           )
         }
       }
       return (
-        <Text size='14px' color='error'>
+        <Text size="14px" color="error">
           <FormattedMessage
-            id='components.identityverification.tiercard.rejected'
-            defaultMessage='Rejected'
+            id="components.identityverification.tiercard.rejected"
+            defaultMessage="Rejected"
           />
         </Text>
       )
     default:
       return (
         <FormattedMessage
-          id='components.identityverification.tiercard.timing'
-          defaultMessage='Takes {time} min'
+          id="components.identityverification.tiercard.timing"
+          defaultMessage="Takes {time} min"
           values={{ time }}
         />
       )
@@ -179,18 +179,18 @@ export const status = (tier, userTiers, time) => {
 
 export const ctas = {
   SILVER: (
-    <span data-e2e='unlockSilverBtn'>
+    <span data-e2e="unlockSilverBtn">
       <FormattedMessage
-        id='components.identityverification.tiercard.silvercta'
-        defaultMessage='Unlock Silver'
+        id="components.identityverification.tiercard.silvercta"
+        defaultMessage="Unlock Silver"
       />
     </span>
   ),
   GOLD: (
-    <span data-e2e='unlockGoldBtn'>
+    <span data-e2e="unlockGoldBtn">
       <FormattedMessage
-        id='components.identityverification.tiercard.goldctamedal'
-        defaultMessage='Unlock Gold 🥇'
+        id="components.identityverification.tiercard.goldctamedal"
+        defaultMessage="Unlock Gold 🥇"
       />
     </span>
   )

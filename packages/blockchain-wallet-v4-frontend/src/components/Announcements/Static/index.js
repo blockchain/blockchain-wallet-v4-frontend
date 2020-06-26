@@ -33,7 +33,7 @@ class StaticAnnouncementsContainer extends React.PureComponent {
     }, 3000)
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

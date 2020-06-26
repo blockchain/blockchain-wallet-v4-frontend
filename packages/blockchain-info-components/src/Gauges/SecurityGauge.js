@@ -36,17 +36,17 @@ const SecurityGauge = props => {
   return (
     <Progress>
       {score >= 1 ? (
-        <SecurityIcon name='checkmark-in-circle' size='16px' />
+        <SecurityIcon name="checkmark-in-circle" size="16px" />
       ) : (
         <Empty />
       )}
       {score >= 2 ? (
-        <SecurityIcon name='checkmark-in-circle' size='16px' />
+        <SecurityIcon name="checkmark-in-circle" size="16px" />
       ) : (
         <Empty />
       )}
       {score === 3 ? (
-        <SecurityIcon name='checkmark-in-circle' size='16px' />
+        <SecurityIcon name="checkmark-in-circle" size="16px" />
       ) : (
         <Empty />
       )}

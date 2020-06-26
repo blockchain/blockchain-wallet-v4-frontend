@@ -49,8 +49,8 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   if (!cardType) {
     return (
       <FormattedMessage
-        id='formhelper.invalid_card_number'
-        defaultMessage='Invalid card number'
+        id="formhelper.invalid_card_number"
+        defaultMessage="Invalid card number"
       />
     )
   }
@@ -58,8 +58,8 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   if (value.replace(/[^\d]/g, '').length < cardType.minCardNumberLength) {
     return (
       <FormattedMessage
-        id='formhelper.invalid_card_number'
-        defaultMessage='Invalid card number'
+        id="formhelper.invalid_card_number"
+        defaultMessage="Invalid card number"
       />
     )
   }
@@ -67,8 +67,8 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   if (!cardMethod?.subTypes.find(subType => subType === cardType.type)) {
     return (
       <FormattedMessage
-        id='formhelper.card_type_unsupported'
-        defaultMessage='Card type not supported'
+        id="formhelper.card_type_unsupported"
+        defaultMessage="Card type not supported"
       />
     )
   }

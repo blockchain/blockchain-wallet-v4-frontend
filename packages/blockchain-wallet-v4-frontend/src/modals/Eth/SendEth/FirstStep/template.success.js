@@ -115,25 +115,25 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
-          <FormLabel HtmlFor='coin'>
+          <FormLabel HtmlFor="coin">
             <FormattedMessage
-              id='modals.sendether.firststep.currency'
-              defaultMessage='Currency'
+              id="modals.sendether.firststep.currency"
+              defaultMessage="Currency"
             />
           </FormLabel>
           <Field
-            name='coin'
+            name="coin"
             component={SelectBoxCoin}
-            type='send'
+            type="send"
             validate={[required]}
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel HtmlFor='from'>
-            <FormattedMessage id='copy.from' defaultMessage='From' />
+          <FormLabel HtmlFor="from">
+            <FormattedMessage id="copy.from" defaultMessage="From" />
           </FormLabel>
           <Field
-            name='from'
+            name="from"
             component={SelectBoxEthAddresses}
             disabled={isRetryAttempt}
             includeAll={false}
@@ -145,64 +145,64 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       {isFromLockbox && !disableLockboxSend && (
-        <WarningBanners type='info'>
-          <Text color='warning' size='13px'>
+        <WarningBanners type="info">
+          <Text color="warning" size="13px">
             <FormattedMessage
-              id='modals.sendeth.firststep.lockboxwarn'
-              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
+              id="modals.sendeth.firststep.lockboxwarn"
+              defaultMessage="You will need to connect your Lockbox to complete this transaction."
             />
           </Text>
         </WarningBanners>
       )}
       {disableLockboxSend && (
-        <WarningBanners type='warning'>
-          <Text color='warning' size='12px'>
+        <WarningBanners type="warning">
+          <Text color="warning" size="12px">
             <FormattedMessage
-              id='modals.sendeth.firststep.browserwarn'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
+              id="modals.sendeth.firststep.browserwarn"
+              defaultMessage="Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers."
             />
           </Text>
         </WarningBanners>
       )}
       <FormGroup margin={'8px'}>
         <FormItem>
-          <FormLabel HtmlFor='to'>
+          <FormLabel HtmlFor="to">
             <FormattedMessage
-              id='modals.sendeth.firststep.tocoin'
-              defaultMessage='To'
+              id="modals.sendeth.firststep.tocoin"
+              defaultMessage="To"
             />
           </FormLabel>
           <StyledRow>
             <Field
               coin={coin}
               component={SelectBoxEthAddresses}
-              dataE2e='sendEthAddressInput'
+              dataE2e="sendEthAddressInput"
               disabled={isRetryAttempt}
               exclude={[from.label]}
               includeAll={false}
               includeExchangeAddress={!isFromCustody}
               isCreatable={!isFromCustody}
               isValidNewOption={() => false}
-              name='to'
+              name="to"
               noOptionsMessage={() => null}
               openMenuOnClick={isFromCustody}
-              placeholder='Paste, scan, or select destination'
+              placeholder="Paste, scan, or select destination"
               validate={
                 isFromCustody ? [required] : [required, validEthAddress]
               }
             />
             {isFromCustody || isRetryAttempt ? null : (
               <QRCodeCapture
-                scanType='ethAddress'
+                scanType="ethAddress"
                 border={['top', 'bottom', 'right', 'left']}
               />
             )}
           </StyledRow>
           {unconfirmedTx && !isRetryAttempt && (
-            <Text color='error' size='12px' weight={400}>
+            <Text color="error" size="12px" weight={400}>
               <FormattedMessage
-                id='modals.sendeth.unconfirmedtransactionmessage'
-                defaultMessage='Please wait until your previous transaction confirms.'
+                id="modals.sendeth.unconfirmedtransactionmessage"
+                defaultMessage="Please wait until your previous transaction confirms."
               />
             </Text>
           )}
@@ -218,11 +218,11 @@ const FirstStep = props => {
       ) : null}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel HtmlFor='amount'>
-            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+          <FormLabel HtmlFor="amount">
+            <FormattedMessage id="copy.amount" defaultMessage="Amount" />
           </FormLabel>
           <Field
-            name='amount'
+            name="amount"
             disabled={unconfirmedTx || isFromCustody}
             component={FiatConverter}
             coin={coin}
@@ -233,7 +233,7 @@ const FirstStep = props => {
               maximumAmount
             ]}
             data-e2e={`${coin}Send`}
-            marginTop='8px'
+            marginTop="8px"
           />
         </FormItem>
       </FormGroup>
@@ -245,17 +245,17 @@ const FirstStep = props => {
       )}
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel HtmlFor='description'>
+          <FormLabel HtmlFor="description">
             <FormattedMessage
-              id='modals.sendeth.firststep.desc'
-              defaultMessage='Description'
+              id="modals.sendeth.firststep.desc"
+              defaultMessage="Description"
             />
-            <TooltipHost id='sendeth.firststep.description'>
-              <TooltipIcon name='info' size='12px' />
+            <TooltipHost id="sendeth.firststep.description">
+              <TooltipIcon name="info" size="12px" />
             </TooltipHost>
           </FormLabel>
           <Field
-            name='description'
+            name="description"
             component={TextAreaDebounced}
             placeholder="What's this transaction for? (optional)"
             data-e2e={`${coin}SendDescription`}
@@ -270,13 +270,13 @@ const FirstStep = props => {
             <FeeFormContainer toggled={feeToggled}>
               <FeeFormLabel>
                 <FormattedMessage
-                  id='modals.sendeth.firststep.networkfee'
-                  defaultMessage='Network Fee'
+                  id="modals.sendeth.firststep.networkfee"
+                  defaultMessage="Network Fee"
                 />
                 <span>&nbsp;</span>
                 {!feeToggled && (
                   <Field
-                    name='fee'
+                    name="fee"
                     component={SelectBox}
                     elements={feeElements}
                   />
@@ -294,35 +294,35 @@ const FirstStep = props => {
                   <Field
                     data-e2e={`${coin}CustomFeeInput`}
                     coin={coin}
-                    name='fee'
+                    name="fee"
                     component={NumberBoxDebounced}
                     validate={[required, minimumFee]}
                     warn={[maximumFee]}
                     errorBottom
                     errorLeft
-                    unit='Gwei'
+                    unit="Gwei"
                   />
                 </FeePerByteContainer>
               )}
             </FeeFormContainer>
           </ColLeft>
           <ColRight>
-            <ComboDisplay size='13px' weight={500} coin='ETH'>
+            <ComboDisplay size="13px" weight={500} coin="ETH">
               {fee}
             </ComboDisplay>
             <Link
-              size='12px'
+              size="12px"
               weight={400}
               capitalize
               onClick={handleFeeToggle}
               data-e2e={`${coin}CustomizeFeeLink`}
             >
               {feeToggled ? (
-                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+                <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
               ) : (
                 <FormattedMessage
-                  id='modals.sendeth.firststep.customizefee'
-                  defaultMessage='Customize Fee'
+                  id="modals.sendeth.firststep.customizefee"
+                  defaultMessage="Customize Fee"
                 />
               )}
             </Link>
@@ -330,11 +330,11 @@ const FirstStep = props => {
         </FeeFormGroup>
       )}
       {feeToggled ? (
-        <CustomFeeAlertBanner type='alert'>
-          <Text size='12px'>
+        <CustomFeeAlertBanner type="alert">
+          <Text size="12px">
             <FormattedMessage
-              id='modals.sendeth.firststep.customfeeinfo'
-              defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
+              id="modals.sendeth.firststep.customfeeinfo"
+              defaultMessage="This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed."
             />
           </Text>
         </CustomFeeAlertBanner>
@@ -346,10 +346,10 @@ const FirstStep = props => {
       ) : null}
       <SubmitFormGroup>
         <Button
-          type='submit'
-          nature='primary'
-          height='56px'
-          size='18px'
+          type="submit"
+          nature="primary"
+          height="56px"
+          size="18px"
           disabled={
             pristine ||
             submitting ||
@@ -363,7 +363,7 @@ const FirstStep = props => {
           }
           data-e2e={`${coin}SendContinue`}
         >
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
         </Button>
       </SubmitFormGroup>
     </Form>

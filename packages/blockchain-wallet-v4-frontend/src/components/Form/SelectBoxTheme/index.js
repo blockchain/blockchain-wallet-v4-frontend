@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
 class SelectBoxTheme extends React.PureComponent {
-  render () {
+  render() {
     const { themes, ...rest } = this.props
     const elements = [{ group: '', items: themes }]
 
@@ -20,8 +20,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id='components.selectboxtheme.default'
-          defaultMessage='Default'
+          id="components.selectboxtheme.default"
+          defaultMessage="Default"
         />
       ),
       value: 'default'
@@ -29,8 +29,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id='components.selectboxtheme.complement'
-          defaultMessage='Complement'
+          id="components.selectboxtheme.complement"
+          defaultMessage="Complement"
         />
       ),
       value: 'complement'
@@ -38,8 +38,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id='components.selectboxtheme.grayscale'
-          defaultMessage='Grayscale'
+          id="components.selectboxtheme.grayscale"
+          defaultMessage="Grayscale"
         />
       ),
       value: 'grayscale'
@@ -47,8 +47,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id='components.selectboxtheme.invert'
-          defaultMessage='Invert'
+          id="components.selectboxtheme.invert"
+          defaultMessage="Invert"
         />
       ),
       value: 'invert'
@@ -56,8 +56,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id='components.selectboxtheme.darkmode'
-          defaultMessage='DarkMode'
+          id="components.selectboxtheme.darkmode"
+          defaultMessage="DarkMode"
         />
       ),
       value: 'darkmode'

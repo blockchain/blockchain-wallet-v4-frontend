@@ -35,38 +35,38 @@ const ViewKeys = ({
   toggleQrCode: () => void
 }) => (
   <ContentWrapper>
-    <KeyIcon name='key' color='blue600' size='16px' />
-    <Header color='grey800' size='20px' weight={600}>
+    <KeyIcon name="key" color="blue600" size="16px" />
+    <Header color="grey800" size="20px" weight={600}>
       <FormattedMessage
-        id='scenes.settings.addresses.viewkeys.header'
-        defaultMessage='View Your Private Keys.'
+        id="scenes.settings.addresses.viewkeys.header"
+        defaultMessage="View Your Private Keys."
       />
     </Header>
 
-    <Warning color='error' size='14px' weight={600}>
+    <Warning color="error" size="14px" weight={600}>
       <FormattedMessage
-        id='scenes.settings.addresses.viewkeys.warning'
-        defaultMessage='Warning'
+        id="scenes.settings.addresses.viewkeys.warning"
+        defaultMessage="Warning"
       />
     </Warning>
 
-    <Body color='grey600' size='14px' weight={500}>
+    <Body color="grey600" size="14px" weight={500}>
       <FormattedMessage
-        id='scenes.settings.addresses.viewkeys.warning-body'
-        defaultMessage='Do not share your private keys with anyone. We will never ask for them. Sharing your keys may result in a loss of funds.'
+        id="scenes.settings.addresses.viewkeys.warning-body"
+        defaultMessage="Do not share your private keys with anyone. We will never ask for them. Sharing your keys may result in a loss of funds."
       />
     </Body>
 
     <Button
-      data-e2e='show_private_key_button'
-      width='262px'
-      nature='empty-blue'
+      data-e2e="show_private_key_button"
+      width="262px"
+      nature="empty-blue"
       onClick={toggleQrCode}
     >
       {showQrCode ? (
-        <FormattedMessage id='buttons.hide' defaultMessage='Hide' />
+        <FormattedMessage id="buttons.hide" defaultMessage="Hide" />
       ) : (
-        <FormattedMessage id='buttons.show' defaultMessage='Show' />
+        <FormattedMessage id="buttons.show" defaultMessage="Show" />
       )}
     </Button>
   </ContentWrapper>

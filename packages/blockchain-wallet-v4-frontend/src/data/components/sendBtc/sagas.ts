@@ -52,7 +52,7 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const {
         from,
@@ -141,11 +141,11 @@ export default ({
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function*() {
     yield put(actions.form.destroy(FORM))
   }
 
-  const bitPayInvoiceEntered = function * (bip21Payload) {
+  const bitPayInvoiceEntered = function*(bip21Payload) {
     yield put(
       actions.modals.showModal('Confirm', {
         origin: 'SendBtc',
@@ -168,7 +168,7 @@ export default ({
     return yield put(actions.goals.runGoals())
   }
 
-  const bitpayInvoiceExpired = function * () {
+  const bitpayInvoiceExpired = function*() {
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.modals.showModal('BitPayInvoiceExpired', { origin: 'SendBtc' })
@@ -181,7 +181,7 @@ export default ({
     )
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBtcPaymentUpdatedLoading())
@@ -198,7 +198,7 @@ export default ({
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals(FORM, form)) return
@@ -344,7 +344,7 @@ export default ({
     }
   }
 
-  const minimumAmountClicked = function * () {
+  const minimumAmountClicked = function*() {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -368,7 +368,7 @@ export default ({
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function*() {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings
@@ -399,7 +399,7 @@ export default ({
     }
   }
 
-  const minimumFeeClicked = function * () {
+  const minimumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -412,7 +412,7 @@ export default ({
     }
   }
 
-  const maximumFeeClicked = function * () {
+  const maximumFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -425,7 +425,7 @@ export default ({
     }
   }
 
-  const regularFeeClicked = function * () {
+  const regularFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -438,7 +438,7 @@ export default ({
     }
   }
 
-  const priorityFeeClicked = function * () {
+  const priorityFeeClicked = function*() {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
@@ -451,7 +451,7 @@ export default ({
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function*() {
     yield put(startSubmit(FORM))
     let p = yield select(S.getPayment)
     let payment: BtcPaymentType = coreSagas.payment.btc.create({

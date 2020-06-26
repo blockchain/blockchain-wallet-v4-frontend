@@ -14,11 +14,11 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import UninstallAppsStep from './UninstallAppsStep'
 
 class LockboxFirmwareContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.lockboxActions.updateDeviceFirmware(this.props.deviceIndex)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeFirmwareUpdateStep({
       step: 'connect-device'
@@ -30,7 +30,7 @@ class LockboxFirmwareContainer extends React.PureComponent {
     this.props.closeAll()
   }
 
-  render () {
+  render() {
     const { currentStep, deviceIndex, position, total } = this.props
     const steps = {
       'connect-device': 1,

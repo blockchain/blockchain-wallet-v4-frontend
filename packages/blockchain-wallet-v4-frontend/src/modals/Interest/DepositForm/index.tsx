@@ -19,7 +19,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class DepositForm extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.handleInitializeDepositForm()
   }
 
@@ -55,7 +55,7 @@ class DepositForm extends PureComponent<Props> {
     this.props.interestActions.submitDepositForm(coin)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: val => (

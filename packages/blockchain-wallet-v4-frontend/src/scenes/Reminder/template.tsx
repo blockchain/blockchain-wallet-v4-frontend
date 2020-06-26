@@ -48,15 +48,15 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel htmlFor='email'>
+            <FormLabel htmlFor="email">
               <FormattedMessage
-                id='scenes.reminder.email'
-                defaultMessage='Email'
+                id="scenes.reminder.email"
+                defaultMessage="Email"
               />
             </FormLabel>
             <Field
-              bgColor='grey000'
-              name='email'
+              bgColor="grey000"
+              name="email"
               autoFocus
               validate={[required, validEmail]}
               component={TextBox}
@@ -65,38 +65,38 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel htmlFor='code'>
+            <FormLabel htmlFor="code">
               <FormattedMessage
-                id='scenes.reminder.captcha'
-                defaultMessage='Captcha'
+                id="scenes.reminder.captcha"
+                defaultMessage="Captcha"
               />
             </FormLabel>
             <Field
-              bgColor='grey000'
-              name='code'
+              bgColor="grey000"
+              name="code"
               validate={[required]}
               component={CaptchaBox}
             />
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to='/help'>
-            <Link size='13px' weight={500}>
-              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+          <GoBackLink to="/help">
+            <Link size="13px" weight={500}>
+              <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
             </Link>
           </GoBackLink>
           <Button
-            type='submit'
-            nature='primary'
-            data-e2e='reminderContinue'
+            type="submit"
+            nature="primary"
+            data-e2e="reminderContinue"
             disabled={submitting || invalid || loading}
           >
             {loading ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
+                id="buttons.continue"
+                defaultMessage="Continue"
               />
             )}
           </Button>
@@ -109,18 +109,18 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
     return (
       <React.Fragment>
         <SuccessMessages>
-          <Text size='13px' weight={400}>
+          <Text size="13px" weight={400}>
             <FormattedMessage
-              id='scenes.reminder.thanks'
-              defaultMessage='Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly.'
+              id="scenes.reminder.thanks"
+              defaultMessage="Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly."
             />
           </Text>
         </SuccessMessages>
-        <LinkContainer to='/login'>
-          <Button data-e2e='continueToLogin' nature='primary' fullwidth>
+        <LinkContainer to="/login">
+          <Button data-e2e="continueToLogin" nature="primary" fullwidth>
             <FormattedMessage
-              id='scenes.reminder.login'
-              defaultMessage='Continue to Login'
+              id="scenes.reminder.login"
+              defaultMessage="Continue to Login"
             />
           </Button>
         </LinkContainer>
@@ -131,10 +131,10 @@ const Reminder = (props: InjectedFormProps<{}, Props> & Props) => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='blue900' weight={600} capitalize>
+        <Text size="20px" color="blue900" weight={600} capitalize>
           <FormattedMessage
-            id='scenes.reminder.reminder'
-            defaultMessage='Wallet ID Reminder'
+            id="scenes.reminder.reminder"
+            defaultMessage="Wallet ID Reminder"
           />
         </Text>
       </Header>

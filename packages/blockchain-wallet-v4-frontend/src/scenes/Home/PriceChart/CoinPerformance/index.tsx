@@ -6,7 +6,7 @@ import React from 'react'
 import Success from './template.success'
 
 class CoinPerformance extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

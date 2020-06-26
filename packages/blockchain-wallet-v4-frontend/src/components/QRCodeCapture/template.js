@@ -77,12 +77,12 @@ const QRCodeCapture = props => {
 
   return (
     <Wrapper border={border} onClick={handleToggle}>
-      {!toggled && <Image name='qr-code' width='20px' height='20px' />}
+      {!toggled && <Image name="qr-code" width="20px" height="20px" />}
       {toggled && (
         <HeartbeatLoader
-          width='24px'
-          height='24px'
-          color='success'
+          width="24px"
+          height="24px"
+          color="success"
           onClick={handleToggle}
         />
       )}

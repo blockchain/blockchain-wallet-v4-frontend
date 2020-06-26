@@ -44,10 +44,10 @@ const MobileLogin = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='blue900' weight={600} capitalize>
+        <Text size="20px" color="blue900" weight={600} capitalize>
           <FormattedMessage
-            id='scenes.mobilelogin.title'
-            defaultMessage='Login with Your Mobile App'
+            id="scenes.mobilelogin.title"
+            defaultMessage="Login with Your Mobile App"
           />
         </Text>
       </Header>
@@ -58,34 +58,34 @@ const MobileLogin = props => {
         <InstructionsContainer>
           <Instruction>
             <FormattedMessage
-              id='scenes.mobilelogin.openappstep1'
-              defaultMessage='1. Open your Mobile App and Log In'
+              id="scenes.mobilelogin.openappstep1"
+              defaultMessage="1. Open your Mobile App and Log In"
             />
           </Instruction>
           <Instruction>
             <FormattedMessage
-              id='scenes.mobilelogin.tapwebstep2'
+              id="scenes.mobilelogin.tapwebstep2"
               defaultMessage='2. Tap "Pair Web Wallet" from the side navigiation.'
             />
           </Instruction>
           <Instruction>
             <FormattedMessage
-              id='scenes.mobilelogin.showqrstep3'
+              id="scenes.mobilelogin.showqrstep3"
               defaultMessage='3. Tap "Show QR Code"'
             />
           </Instruction>
           <Instruction>
             <FormattedMessage
-              id='scenes.mobilelogin.scanstep4'
-              defaultMessage='4. Scan your QR code here'
+              id="scenes.mobilelogin.scanstep4"
+              defaultMessage="4. Scan your QR code here"
             />
           </Instruction>
         </InstructionsContainer>
       </Container>
-      <LinkContainer to='/login'>
-        <Button type='submit' nature='primary' fullwidth height='56px'>
-          <Text color='white' size='16px' weight={600} onClick={close}>
-            <FormattedMessage id='buttons.back' defaultMessage='Back' />
+      <LinkContainer to="/login">
+        <Button type="submit" nature="primary" fullwidth height="56px">
+          <Text color="white" size="16px" weight={600} onClick={close}>
+            <FormattedMessage id="buttons.back" defaultMessage="Back" />
           </Text>
         </Button>
       </LinkContainer>

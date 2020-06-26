@@ -31,39 +31,39 @@ const LearnMoreButton = styled(Button).attrs({
 
 export const TxHistoryDownload = () => (
   <Container>
-    <Row marginBottom='6px'>
-      <Text color='blue900' size='24px' weight={600}>
+    <Row marginBottom="6px">
+      <Text color="blue900" size="24px" weight={600}>
         <FormattedMessage
-          defaultMessage='Ready for 2019 Tax Season?'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory'
+          defaultMessage="Ready for 2019 Tax Season?"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory"
         />
       </Text>
     </Row>
-    <Row marginBottom='24px'>
-      <DarkText size='12px' weight={500}>
+    <Row marginBottom="24px">
+      <DarkText size="12px" weight={500}>
         <FormattedMessage
-          defaultMessage='April 2020'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.april2020'
+          defaultMessage="April 2020"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.april2020"
         />
       </DarkText>
     </Row>
-    <Row marginBottom='24px'>
+    <Row marginBottom="24px">
       <DarkText>
         <FormattedMessage
-          defaultMessage='You can now download your transaction history for all currencies as well as Swap! Download a report for each currency on the specific transaction pages, while your Swap report can be downloaded from the Swap order history page.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.content'
+          defaultMessage="You can now download your transaction history for all currencies as well as Swap! Download a report for each currency on the specific transaction pages, while your Swap report can be downloaded from the Swap order history page."
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.txhistory.content"
         />
       </DarkText>
     </Row>
     <Row>
       <StyledLink
-        target='_blank'
-        href='https://support.blockchain.com/hc/en-us/articles/360041578791'
+        target="_blank"
+        href="https://support.blockchain.com/hc/en-us/articles/360041578791"
       >
         <LearnMoreButton>
           <FormattedMessage
-            id='buttons.learn_more'
-            defaultMessage='Learn More'
+            id="buttons.learn_more"
+            defaultMessage="Learn More"
           />
         </LearnMoreButton>
       </StyledLink>

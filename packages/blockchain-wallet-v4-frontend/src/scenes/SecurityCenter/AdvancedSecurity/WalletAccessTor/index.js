@@ -12,7 +12,7 @@ class WalletAccessTorContainer extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     const blockingTor = this.props.blockTorIps
 
     return (

@@ -21,7 +21,7 @@ const Header = styled(Text).attrs({
 `
 
 class CoinCurrentPrice extends React.PureComponent {
-  render () {
+  render() {
     const { priceChart } = this.props
     const coin = propOr('BTC', 'coin', priceChart)
 
@@ -29,8 +29,8 @@ class CoinCurrentPrice extends React.PureComponent {
       <Wrapper>
         <Header>
           <FormattedMessage
-            id='scenes.home.pricechart.coincurrentprice.currentprice'
-            defaultMessage='Current Price'
+            id="scenes.home.pricechart.coincurrentprice.currentprice"
+            defaultMessage="Current Price"
           />
         </Header>
         <CoinTicker coin={coin} data-e2e={`coinTicker${coin}`} />

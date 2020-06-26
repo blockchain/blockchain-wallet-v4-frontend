@@ -8,7 +8,7 @@ import LockboxConnectionPrompt from './template'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 class LockboxConnectionPromptContainer extends React.PureComponent {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetConnectionStatus()
   }
 
@@ -17,7 +17,7 @@ class LockboxConnectionPromptContainer extends React.PureComponent {
     this.props.closeAll()
   }
 
-  render () {
+  render() {
     return (
       <LockboxConnectionPrompt
         onClose={this.onClose}

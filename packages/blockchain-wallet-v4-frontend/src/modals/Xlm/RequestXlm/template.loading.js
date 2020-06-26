@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 export default props => {
   return (
     <Wrapper>
-      <BlockchainLoader width='80px' height='80px' />
+      <BlockchainLoader width="80px" height="80px" />
     </Wrapper>
   )
 }

@@ -39,7 +39,7 @@ export const getConfig = (coin, currency, data, decimals) => ({
     },
     xDateFormat: '%b %d, %Y',
     useHTML: true,
-    pointFormatter: function () {
+    pointFormatter: function() {
       return Currency.fiatToString({
         value: this.y,
         digits: decimals,

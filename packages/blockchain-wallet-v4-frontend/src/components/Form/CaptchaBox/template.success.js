@@ -57,11 +57,11 @@ const CaptchaBox = field => {
   return (
     <Wrapper>
       <Image src={field.captchaUrl} />
-      <RefreshLink onClick={field.fetchNewCaptcha} size='11px' weight={400}>
-        <RefreshIcon name='refresh' color='blue600' size='11px' weight={600} />
+      <RefreshLink onClick={field.fetchNewCaptcha} size="11px" weight={400}>
+        <RefreshIcon name="refresh" color="blue600" size="11px" weight={600} />
         <FormattedMessage
-          id='scenes.reset2fa.thirdstep.newCaptcha'
-          defaultMessage='Refresh'
+          id="scenes.reset2fa.thirdstep.newCaptcha"
+          defaultMessage="Refresh"
           smaller
           uppercase
         />
@@ -76,7 +76,7 @@ const CaptchaBox = field => {
           errorState={errorState}
         />
         {field.meta.touched && field.meta.error && (
-          <Error size='12px' weight={500} color='error'>
+          <Error size="12px" weight={500} color="error">
             {field.meta.error}
           </Error>
         )}

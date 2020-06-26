@@ -11,11 +11,11 @@ import React from 'react'
 import Success from './template.success'
 
 class ExchangeHistoryContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.fetchNextPage()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { actions, canUseExchange } = this.props
     actions.destroyed()
     if (canUseExchange) {
@@ -31,7 +31,7 @@ class ExchangeHistoryContainer extends React.PureComponent {
     actions.fetchNextPage()
   }
 
-  render () {
+  render() {
     const { showHelpModal } = this.props
     const Content = this.props.data.cata({
       Success: value => (

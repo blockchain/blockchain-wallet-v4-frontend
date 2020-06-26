@@ -21,7 +21,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     this.setState({ showForm: true })
   }
 
-  render () {
+  render() {
     const { data, password } = this.props
     let busy = data.cata({
       Success: () => false,

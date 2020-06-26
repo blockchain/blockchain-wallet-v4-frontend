@@ -17,22 +17,22 @@ const AddDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.adddevice.title'
-            defaultMessage='Setup New Device'
+            id="scenes.lockbox.settings.adddevice.title"
+            defaultMessage="Setup New Device"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.adddevice.desc'
-            defaultMessage='Add another Lockbox device to your wallet'
+            id="scenes.lockbox.settings.adddevice.desc"
+            defaultMessage="Add another Lockbox device to your wallet"
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature='empty' onClick={onClick} disabled={!isBrowserSupported}>
+        <Button nature="empty" onClick={onClick} disabled={!isBrowserSupported}>
           <FormattedMessage
-            id='scenes.lockbox.settings.adddevice.add'
-            defaultMessage='Add Device'
+            id="scenes.lockbox.settings.adddevice.add"
+            defaultMessage="Add Device"
           />
         </Button>
       </SettingComponent>

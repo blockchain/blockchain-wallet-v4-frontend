@@ -88,7 +88,7 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
 
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon size='32px' color={color} name={icon} />
+        <Icon size="32px" color={color} name={icon} />
         <Display>
           {children || displayName}
           <Rate>
@@ -103,7 +103,7 @@ class CoinSelect extends PureComponent<Props & { name: string }> {
     )
   }
 
-  render () {
+  render() {
     return (
       <Field
         component={SelectBoxBuyCoin}

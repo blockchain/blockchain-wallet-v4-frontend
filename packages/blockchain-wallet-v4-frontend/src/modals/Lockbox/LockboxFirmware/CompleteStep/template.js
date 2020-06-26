@@ -26,15 +26,15 @@ const CompleteStep = props => {
           <Title>
             <Text weight={500}>
               <FormattedMessage
-                id='modals.lockboxfirmware.completestep.uptodate.title'
-                defaultMessage='Device Up-to-date!'
+                id="modals.lockboxfirmware.completestep.uptodate.title"
+                defaultMessage="Device Up-to-date!"
               />
             </Text>
             <Content>
               <Text weight={400}>
                 <FormattedMessage
-                  id='modals.lockboxfirmware.completestep.uptodate.message'
-                  defaultMessage='Your device is already up-to-date.'
+                  id="modals.lockboxfirmware.completestep.uptodate.message"
+                  defaultMessage="Your device is already up-to-date."
                 />
               </Text>
             </Content>
@@ -46,22 +46,22 @@ const CompleteStep = props => {
           <Title>
             <Text>
               <FormattedMessage
-                id='modals.lockboxfirmware.completestep.installsuccess.title'
-                defaultMessage='Update Complete!'
+                id="modals.lockboxfirmware.completestep.installsuccess.title"
+                defaultMessage="Update Complete!"
               />
             </Text>
           </Title>
           <Content>
             <Text>
               <FormattedMessage
-                id='modals.lockboxfirmware.completestep.installsuccess.message'
-                defaultMessage='Your firmware was successfully updated. You will now need to reinstall the apps on your device.'
+                id="modals.lockboxfirmware.completestep.installsuccess.message"
+                defaultMessage="Your firmware was successfully updated. You will now need to reinstall the apps on your device."
               />
             </Text>
           </Content>
           <Image
-            width='100%'
-            name='lockbox-success'
+            width="100%"
+            name="lockbox-success"
             srcset={{
               'lockbox-success2': '2x',
               'lockbox-success3': '3x'
@@ -74,16 +74,16 @@ const CompleteStep = props => {
           <Title>
             <Text>
               <FormattedMessage
-                id='modals.lockboxfirmware.completestep.installerror.title'
-                defaultMessage='Update Failed!'
+                id="modals.lockboxfirmware.completestep.installerror.title"
+                defaultMessage="Update Failed!"
               />
             </Text>
           </Title>
           <Content>
             <Text>
               <FormattedMessage
-                id='modals.lockboxfirmware.completestep.installerror.message'
-                defaultMessage='The firmware update failed to install. Please try again or reach out to support if the issue persists.'
+                id="modals.lockboxfirmware.completestep.installerror.message"
+                defaultMessage="The firmware update failed to install. Please try again or reach out to support if the issue persists."
               />
             </Text>
           </Content>
@@ -93,13 +93,13 @@ const CompleteStep = props => {
         {status === 'success' && (
           <Button
             fullwidth
-            nature='primary'
+            nature="primary"
             onClick={onInstallApps}
             style={{ marginBottom: '10px' }}
           >
             <FormattedMessage
-              id='modals.lockboxfirmware.completestep.installApps'
-              defaultMessage='Install Apps'
+              id="modals.lockboxfirmware.completestep.installApps"
+              defaultMessage="Install Apps"
             />
           </Button>
         )}

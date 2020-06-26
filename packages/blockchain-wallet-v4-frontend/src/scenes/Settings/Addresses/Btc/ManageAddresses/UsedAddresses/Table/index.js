@@ -8,11 +8,11 @@ import { FlatLoader } from 'blockchain-info-components'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
 
-  render () {
+  render() {
     const { usedAddresses, search } = this.props
 
     return !usedAddresses
@@ -25,8 +25,8 @@ class UsedAddressesTableContainer extends React.PureComponent {
           Loading: () => (
             <FlatLoader
               style={{ margin: '25px auto' }}
-              width='100px'
-              height='12px'
+              width="100px"
+              height="12px"
             />
           ),
           NotAsked: () => <div />

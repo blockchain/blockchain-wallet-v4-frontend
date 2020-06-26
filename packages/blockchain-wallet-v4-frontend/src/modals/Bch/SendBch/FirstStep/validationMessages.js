@@ -17,16 +17,16 @@ const Wrapper = styled.div`
 
 export const InvalidAmountMessage = () => (
   <FormattedMessage
-    id='modals.sendbch.amountnotzeromessage'
-    defaultMessage='Invalid amount'
+    id="modals.sendbch.amountnotzeromessage"
+    defaultMessage="Invalid amount"
   />
 )
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
     <FormattedMessage
-      id='modals.sendbch.maximumamountmessage'
-      defaultMessage='Not enough funds. Use'
+      id="modals.sendbch.maximumamountmessage"
+      defaultMessage="Not enough funds. Use"
     />
     <MaximumAmountLink />
   </Wrapper>
@@ -34,7 +34,7 @@ export const MaximumAmountMessage = () => (
 
 export const InsufficientFundsMessage = () => (
   <FormattedMessage
-    id='modals.sendbch.insufficientfundsmessage'
-    defaultMessage='Insufficient funds'
+    id="modals.sendbch.insufficientfundsmessage"
+    defaultMessage="Insufficient funds"
   />
 )

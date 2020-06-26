@@ -17,7 +17,7 @@ class ServiceAnnouncement extends React.PureComponent {
     this.props.cacheActions.announcementToggled(id, !isCollapsed)
   }
 
-  render () {
+  render() {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {

@@ -11,12 +11,12 @@ const ActionButton = styled(Button).attrs({ nature: 'primary' })`
 `
 
 const GetStarted = () => (
-  <LinkContainer to='/swap/profile'>
+  <LinkContainer to="/swap/profile">
     <ActionButton>
-      <Text color='white' size='16px' weight={600} data-e2e='swapGetStarted'>
+      <Text color="white" size="16px" weight={600} data-e2e="swapGetStarted">
         <FormattedMessage
-          id='scenes.exchange.getstarted.status.getstarted.button'
-          defaultMessage='Get Started'
+          id="scenes.exchange.getstarted.status.getstarted.button"
+          defaultMessage="Get Started"
         />
       </Text>
     </ActionButton>

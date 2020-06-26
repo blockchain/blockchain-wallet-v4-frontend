@@ -33,7 +33,7 @@ const ButtonText = styled(Text)`
 `
 
 class CurrencySwitchContainer extends React.PureComponent {
-  render () {
+  render() {
     const { settings, coinDisplayed, preferencesActions } = this.props
     const { currency } = settings.getOrElse({})
 
@@ -41,19 +41,19 @@ class CurrencySwitchContainer extends React.PureComponent {
       <Wrapper>
         <SwitchButton
           onClick={preferencesActions.toggleCoinDisplayed}
-          data-e2e='balanceDropdown-currency-switch'
+          data-e2e="balanceDropdown-currency-switch"
         >
           <ButtonText>
             {coinDisplayed ? (
               <FormattedMessage
-                id='layouts.wallet.menutop.balance.walletbalance.showfiat'
-                defaultMessage='Show {currency}'
+                id="layouts.wallet.menutop.balance.walletbalance.showfiat"
+                defaultMessage="Show {currency}"
                 values={{ currency: currency }}
               />
             ) : (
               <FormattedMessage
-                id='layouts.wallet.menutop.balance.walletbalance.showcrypto'
-                defaultMessage='Show Crypto'
+                id="layouts.wallet.menutop.balance.walletbalance.showcrypto"
+                defaultMessage="Show Crypto"
               />
             )}
           </ButtonText>

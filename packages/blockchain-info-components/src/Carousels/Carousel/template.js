@@ -126,19 +126,19 @@ const Carousel = props => {
       {nextButton && (
         <FooterWrapper>
           {index < total && (
-            <Button width='60px' nature='light' onClick={handleNext}>
+            <Button width="60px" nature="light" onClick={handleNext}>
               <FormattedMessage
-                id='components.emptyscenecarousel.next'
-                defaultMessage='Next'
+                id="components.emptyscenecarousel.next"
+                defaultMessage="Next"
               />
             </Button>
           )}
           {index === total && (
-            <Button width='70px' nature='light' onClick={handleNext}>
-              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+            <Button width="70px" nature="light" onClick={handleNext}>
+              <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
             </Button>
           )}
-          <Text size='14px' weight={600} color='grey400'>
+          <Text size="14px" weight={600} color="grey400">
             {index + 1} of {total + 1}
           </Text>
         </FooterWrapper>

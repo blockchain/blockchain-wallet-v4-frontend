@@ -27,39 +27,39 @@ const EditTxDescription = props => {
   const { position, close, submitting, handleSubmit, invalid } = props
 
   return (
-    <Modal size='large' position={position}>
+    <Modal size="large" position={position}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='pencil' onClose={close}>
+          <ModalHeader icon="pencil" onClose={close}>
             <FormattedMessage
-              id='modals.edittransactiondesc.title'
-              defaultMessage='Edit Transaction Description'
+              id="modals.edittransactiondesc.title"
+              defaultMessage="Edit Transaction Description"
             />
           </ModalHeader>
           <ModalBody>
             <FormGroup>
-              <FormItem data-e2e='editTransactionDescriptionInput'>
-                <Label htmlFor='description'>
+              <FormItem data-e2e="editTransactionDescriptionInput">
+                <Label htmlFor="description">
                   <FormattedMessage
-                    id='modals.edittransactiondesc.description'
-                    defaultMessage='Description'
+                    id="modals.edittransactiondesc.description"
+                    defaultMessage="Description"
                   />
                 </Label>
-                <Field name='description' component={TextBox} maxLength={100} />
+                <Field name="description" component={TextBox} maxLength={100} />
               </FormItem>
             </FormGroup>
           </ModalBody>
-          <ModalFooter align='right'>
+          <ModalFooter align="right">
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
-              data-e2e='saveTransactionDescriptionButton'
+              data-e2e="saveTransactionDescriptionButton"
             >
               <FormattedMessage
-                id='modals.edittransactiondesc.button'
-                defaultMessage='Change Description'
+                id="modals.edittransactiondesc.button"
+                defaultMessage="Change Description"
               />
             </Button>
           </ModalFooter>

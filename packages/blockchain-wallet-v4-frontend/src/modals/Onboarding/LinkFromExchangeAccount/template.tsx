@@ -66,129 +66,129 @@ const LinkFromExchangeAccount = ({
   // @ts-ignore
   const { current } = userTiers.getOrElse({}) || {}
   return (
-    <ModalStyled size='small' dataE2e='infoModalLinkFromExchangeAccount'>
+    <ModalStyled size="small" dataE2e="infoModalLinkFromExchangeAccount">
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         {linkFromExchangeAccountStatus.cata({
           Success: () => (
             <Content>
-              <Image name={getIcon(current)} size='50px' />
+              <Image name={getIcon(current)} size="50px" />
               <Status>
-                <Text color='white' size='24px' weight={600}>
+                <Text color="white" size="24px" weight={600}>
                   <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.successheader'
-                    defaultMessage='Success!'
+                    id="modals.onboarding.linkfromexchange.successheader"
+                    defaultMessage="Success!"
                   />
                 </Text>
-                <Text color='white' weight={500}>
+                <Text color="white" weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.success'
-                    defaultMessage='You have connected your Blockchain Wallet to Exchange. Go back and finish signing up!'
+                    id="modals.onboarding.linkfromexchange.success"
+                    defaultMessage="You have connected your Blockchain Wallet to Exchange. Go back and finish signing up!"
                   />
                 </Text>
               </Status>
               <Button
-                nature='purple'
-                height='56px'
+                nature="purple"
+                height="56px"
                 fullwidth
                 onClick={close}
-                data-e2e='linkDone'
+                data-e2e="linkDone"
               >
-                <Text color='white' size='16px' weight={500}>
-                  <FormattedMessage id='buttons.done' defaultMessage='Done' />
+                <Text color="white" size="16px" weight={500}>
+                  <FormattedMessage id="buttons.done" defaultMessage="Done" />
                 </Text>
               </Button>
             </Content>
           ),
           Failure: e => (
             <Content>
-              <Image name='close-error' size='50px' />
+              <Image name="close-error" size="50px" />
               <Status>
-                <Text color='white' size='24px' weight={600}>
+                <Text color="white" size="24px" weight={600}>
                   <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.failureheader'
-                    defaultMessage='Connection Error'
+                    id="modals.onboarding.linkfromexchange.failureheader"
+                    defaultMessage="Connection Error"
                   />
                 </Text>
-                <Text color='white' weight={500}>
+                <Text color="white" weight={500}>
                   <FormattedMessage
-                    id='modals.onboarding.linkfromexchange.failure'
-                    defaultMessage='We could not connect your Wallet to Exchange. Please go back to Exchange and try again.'
+                    id="modals.onboarding.linkfromexchange.failure"
+                    defaultMessage="We could not connect your Wallet to Exchange. Please go back to Exchange and try again."
                   />
                 </Text>
                 <TextGroup inline>
-                  <Text size='13px' color='white'>
+                  <Text size="13px" color="white">
                     Err:{' '}
                   </Text>
-                  <Text size='13px' color='white'>
+                  <Text size="13px" color="white">
                     {e.description}
                   </Text>
                 </TextGroup>
               </Status>
               <Button
-                nature='purple'
-                height='56px'
+                nature="purple"
+                height="56px"
                 fullwidth
                 onClick={close}
-                data-e2e='linkDone'
+                data-e2e="linkDone"
               >
-                <Text color='white' size='16px' weight={500}>
-                  <FormattedMessage id='buttons.done' defaultMessage='Done' />
+                <Text color="white" size="16px" weight={500}>
+                  <FormattedMessage id="buttons.done" defaultMessage="Done" />
                 </Text>
               </Button>
             </Content>
           ),
           Loading: () => (
             <Content>
-              <BlockchainLoader height='50px' width='50px' />
+              <BlockchainLoader height="50px" width="50px" />
               {!emailVerified && (
                 <React.Fragment>
                   <Status>
-                    <Text color='white' size='24px' weight={600}>
+                    <Text color="white" size="24px" weight={600}>
                       <FormattedMessage
-                        id='modals.onboarding.linkfromexchange.unverified_email'
-                        defaultMessage='Please Verify Email'
+                        id="modals.onboarding.linkfromexchange.unverified_email"
+                        defaultMessage="Please Verify Email"
                       />
                     </Text>
                     {email ? (
                       <TextGroup inline>
-                        <Text color='white' weight={500}>
+                        <Text color="white" weight={500}>
                           <FormattedMessage
-                            id='modals.onboarding.linkfromexchange.need_to_verify'
+                            id="modals.onboarding.linkfromexchange.need_to_verify"
                             defaultMessage="You'll need to verify"
                           />
                         </Text>
-                        <Text color='white' weight={500}>
+                        <Text color="white" weight={500}>
                           {email}
                         </Text>
-                        <Text color='white' weight={500}>
+                        <Text color="white" weight={500}>
                           <FormattedMessage
-                            id='modals.onboarding.linkfromexchange.to_continue'
+                            id="modals.onboarding.linkfromexchange.to_continue"
                             defaultMessage="to continue. We'll be waiting right here in the meantime."
                           />
                         </Text>
                       </TextGroup>
                     ) : (
-                      <Text color='white' weight={500}>
+                      <Text color="white" weight={500}>
                         <FormattedMessage
-                          id='modals.onboarding.linkfromexchange.no_email'
-                          defaultMessage='You do not have an email associated with this wallet. Please to Security Center to set your email.'
+                          id="modals.onboarding.linkfromexchange.no_email"
+                          defaultMessage="You do not have an email associated with this wallet. Please to Security Center to set your email."
                         />
                       </Text>
                     )}
                   </Status>
                   {email && (
                     <Button
-                      nature='purple'
-                      height='56px'
+                      nature="purple"
+                      height="56px"
                       fullwidth
                       onClick={actions.resendVerifyEmail}
-                      data-e2e='resendEmail'
+                      data-e2e="resendEmail"
                     >
-                      <Text color='white' size='16px' weight={500}>
+                      <Text color="white" size="16px" weight={500}>
                         <FormattedMessage
-                          id='modals.onboarding.linkfromexchange.send_email'
-                          defaultMessage='Resend Email'
+                          id="modals.onboarding.linkfromexchange.send_email"
+                          defaultMessage="Resend Email"
                         />
                       </Text>
                     </Button>
@@ -199,7 +199,7 @@ const LinkFromExchangeAccount = ({
           ),
           NotAsked: () => (
             <Content>
-              <BlockchainLoader height='50px' width='50px' />
+              <BlockchainLoader height="50px" width="50px" />
             </Content>
           )
         })}

@@ -15,7 +15,7 @@ export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 class ConfirmWords extends PureComponent<Props> {
   state = { indexes: [] }
 
-  componentDidMount () {
+  componentDidMount() {
     // @ts-ignore
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
@@ -39,8 +39,8 @@ class ConfirmWords extends PureComponent<Props> {
           // @ts-ignore
           errors[word] = (
             <FormattedMessage
-              id='modals.recoveryphrase.confirmwords.incorrect'
-              defaultMessage='Incorrect Word'
+              id="modals.recoveryphrase.confirmwords.incorrect"
+              defaultMessage="Incorrect Word"
             />
           )
         }
@@ -56,7 +56,7 @@ class ConfirmWords extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
     return (
       <ConfirmWordsForm

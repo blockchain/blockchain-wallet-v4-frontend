@@ -17,16 +17,16 @@ const Wrapper = styled.div`
 
 const Empty = () => (
   <Wrapper>
-    <Text size='20px' weight={600} color='grey800' lineHeight='20px'>
+    <Text size="20px" weight={600} color="grey800" lineHeight="20px">
       <FormattedMessage
-        id='scenes.exchangehistory.empty.transactions'
-        defaultMessage='Transactions'
+        id="scenes.exchangehistory.empty.transactions"
+        defaultMessage="Transactions"
       />
     </Text>
-    <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
+    <Text size="14px" weight={500} color="grey600" lineHeight="20px">
       <FormattedMessage
-        id='scenes.exchangehistory.empty.here'
-        defaultMessage='All your Swap transactions will show up here.'
+        id="scenes.exchangehistory.empty.here"
+        defaultMessage="All your Swap transactions will show up here."
       />
     </Text>
   </Wrapper>

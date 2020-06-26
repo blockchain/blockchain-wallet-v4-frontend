@@ -50,14 +50,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
-        <TopText color='grey800' size='20px' weight={600}>
+        <TopText color="grey800" size="20px" weight={600}>
           <Icon
             cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
+            name="arrow-left"
+            size="20px"
+            color="grey600"
             style={{ marginRight: '24px' }}
-            role='button'
+            role="button"
             onClick={() =>
               props.simpleBuyActions.setStep({
                 order: props.order,
@@ -66,15 +66,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id='modals.simplebuy.checkoutconfirm'
-            defaultMessage='Checkout'
+            id="modals.simplebuy.checkoutconfirm"
+            defaultMessage="Checkout"
           />
         </TopText>
-        <Amount data-e2e='sbTotalCryptoBuyAmount'>
-          <Text size='32px' weight={600} color='grey800'>
+        <Amount data-e2e="sbTotalCryptoBuyAmount">
+          <Text size="32px" weight={600} color="grey800">
             {outputAmt}
           </Text>
-          <Text size='32px' weight={600} color='grey800'>
+          <Text size="32px" weight={600} color="grey800">
             {props.supportedCoins[props.order.outputCurrency].coinTicker}
           </Text>
         </Amount>
@@ -82,11 +82,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Row>
         <Title>
           <FormattedMessage
-            id='modals.simplebuy.confirm.rate'
-            defaultMessage='Exchange Rate'
+            id="modals.simplebuy.confirm.rate"
+            defaultMessage="Exchange Rate"
           />
         </Title>
-        <Value data-e2e='sbExchangeRate'>
+        <Value data-e2e="sbExchangeRate">
           {displayFiat(props.quote.rate)} /{' '}
           {props.supportedCoins[props.order.outputCurrency].coinTicker}
         </Value>
@@ -94,8 +94,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Row>
         <Title>
           <FormattedMessage
-            id='modals.simplebuy.confirm.payment'
-            defaultMessage='Payment Method'
+            id="modals.simplebuy.confirm.payment"
+            defaultMessage="Payment Method"
           />
         </Title>
         <Value>
@@ -108,8 +108,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Row>
         <Title>
           <FormattedMessage
-            id='modals.simplebuy.confirm.fee'
-            defaultMessage='Fees'
+            id="modals.simplebuy.confirm.fee"
+            defaultMessage="Fees"
           />
         </Title>
         <Value>
@@ -122,46 +122,46 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <Row>
         <Title>
           <FormattedMessage
-            id='modals.simplebuy.confirm.total'
-            defaultMessage='Total'
+            id="modals.simplebuy.confirm.total"
+            defaultMessage="Total"
           />
         </Title>
-        <Value data-e2e='sbFiatBuyAmount'>
+        <Value data-e2e="sbFiatBuyAmount">
           {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
         </Value>
       </Row>
       <Bottom>
-        <Text size='12px' weight={500} color='grey600'>
+        <Text size="12px" weight={500} color="grey600">
           <FormattedMessage
-            id='modals.simplebuy.confirm.activity'
-            defaultMessage='Your final amount may change due to market activity.'
+            id="modals.simplebuy.confirm.activity"
+            defaultMessage="Your final amount may change due to market activity."
           />
         </Text>
         <Button
           fullwidth
-          nature='primary'
-          data-e2e='confirmSBOrder'
-          size='16px'
-          height='48px'
-          type='submit'
+          nature="primary"
+          data-e2e="confirmSBOrder"
+          size="16px"
+          height="48px"
+          type="submit"
           style={{ marginTop: '28px' }}
           disabled={props.submitting}
         >
           {props.submitting ? (
-            <HeartbeatLoader height='16px' width='16px' color='white' />
+            <HeartbeatLoader height="16px" width="16px" color="white" />
           ) : (
             <FormattedMessage
-              id='modals.simplebuy.confirm.buynow'
-              defaultMessage='Buy Now'
+              id="modals.simplebuy.confirm.buynow"
+              defaultMessage="Buy Now"
             />
           )}
         </Button>
         <Button
-          data-e2e='sbCancelCheckout'
+          data-e2e="sbCancelCheckout"
           disabled={props.submitting}
-          size='16px'
-          height='48px'
-          nature='light'
+          size="16px"
+          height="48px"
+          nature="light"
           onClick={() =>
             props.simpleBuyActions.setStep({
               step: 'CANCEL_ORDER',
@@ -170,16 +170,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           }
           style={{ marginTop: '16px' }}
         >
-          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+          <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
         </Button>
         {props.error && (
           <ErrorCartridge
             style={{ marginTop: '16px' }}
-            data-e2e='checkoutError'
+            data-e2e="checkoutError"
           >
             <Icon
-              name='alert-filled'
-              color='red600'
+              name="alert-filled"
+              color="red600"
               style={{ marginRight: '4px' }}
             />
             Error: {props.error}

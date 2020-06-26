@@ -7,7 +7,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class CoinDisplayContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,

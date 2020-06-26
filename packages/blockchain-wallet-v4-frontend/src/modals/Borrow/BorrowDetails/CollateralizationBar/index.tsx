@@ -101,21 +101,21 @@ const CollateralizationBar: React.FC<Props> = props => {
       />
       <Line position={offer.callTerms.liquidationHardRatio / max}>
         {props.showPercentages && (
-          <Percentage color='red600'>
+          <Percentage color="red600">
             {percentageFormatter(offer.callTerms.liquidationHardRatio)}
           </Percentage>
         )}
       </Line>
       <Line position={offer.callTerms.callTriggerRatio / max}>
         {props.showPercentages && (
-          <Percentage color='orange600'>
+          <Percentage color="orange600">
             {percentageFormatter(offer.callTerms.callTriggerRatio)}
           </Percentage>
         )}
       </Line>
       <Line position={offer.terms.collateralRatio / max}>
         {props.showPercentages && (
-          <Percentage color='green600'>
+          <Percentage color="green600">
             {percentageFormatter(offer.terms.collateralRatio)}
           </Percentage>
         )}

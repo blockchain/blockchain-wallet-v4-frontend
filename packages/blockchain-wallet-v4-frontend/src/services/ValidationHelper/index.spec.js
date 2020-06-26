@@ -9,7 +9,7 @@ var testCases = [
   { input: 1.235, output: true }
 ]
 
-testCases.forEach(function (testCase) {
+testCases.forEach(function(testCase) {
   test('Validates a number', () => {
     expect(isNumeric(testCase.input)).toBe(testCase.output)
   })

@@ -21,25 +21,25 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
   return (
     <CustomTabMenu>
       <TabMenuItem
-        width='50%'
-        data-e2e='longTerm'
+        width="50%"
+        data-e2e="longTerm"
         selected={equals(value, 'long')}
         onClick={() => handleTimeFrameChange('long')}
       >
         <FormattedMessage
-          id='modals.interest.deposit.longterm'
-          defaultMessage='Long-term'
+          id="modals.interest.deposit.longterm"
+          defaultMessage="Long-term"
         />
       </TabMenuItem>
       <TabMenuItem
-        width='50%'
-        data-e2e='shortTerm'
+        width="50%"
+        data-e2e="shortTerm"
         selected={equals(value, 'short')}
         onClick={() => handleTimeFrameChange('short')}
       >
         <FormattedMessage
-          id='modals.interest.deposit.shortterm'
-          defaultMessage='Short-term'
+          id="modals.interest.deposit.shortterm"
+          defaultMessage="Short-term"
         />
       </TabMenuItem>
     </CustomTabMenu>

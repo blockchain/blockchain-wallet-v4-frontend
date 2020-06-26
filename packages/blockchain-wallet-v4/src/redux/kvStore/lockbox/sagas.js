@@ -8,7 +8,7 @@ import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
-  const createLockbox = function * (kv) {
+  const createLockbox = function*(kv) {
     const newLockboxEntry = {
       devices: []
     }
@@ -16,7 +16,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataLockbox(newkv))
   }
 
-  const fetchMetadataLockbox = function * () {
+  const fetchMetadataLockbox = function*() {
     try {
       const typeId = derivationMap[LOCKBOX]
       const mxpriv = yield select(getMetadataXpriv)

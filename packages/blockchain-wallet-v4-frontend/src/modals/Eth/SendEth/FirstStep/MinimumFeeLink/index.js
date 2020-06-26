@@ -8,14 +8,14 @@ import { Link } from 'blockchain-info-components'
 
 const MinimumFeeLink = props => (
   <Link
-    size='12px'
+    size="12px"
     weight={400}
     onClick={props.actions.sendEthFirstStepMinimumFeeClicked}
     data-e2e={`${props.coin}MinimumFeeLink`}
   >
     <FormattedMessage
-      id='modals.sendeth.minimumfeelink.minimum'
-      defaultMessage='minimum'
+      id="modals.sendeth.minimumfeelink.minimum"
+      defaultMessage="minimum"
     />
   </Link>
 )

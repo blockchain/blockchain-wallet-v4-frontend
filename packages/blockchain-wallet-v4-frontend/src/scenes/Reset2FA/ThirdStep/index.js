@@ -16,48 +16,48 @@ const Footer = styled.div`
 `
 
 class ThirdStep extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Header>
-          <Text size='20px' color='blue900' weight={600} capitalize>
+          <Text size="20px" color="blue900" weight={600} capitalize>
             <FormattedMessage
-              id='scenes.reset2fa.thirdstep.title'
-              defaultMessage='Reset 2FA'
+              id="scenes.reset2fa.thirdstep.title"
+              defaultMessage="Reset 2FA"
             />
           </Text>
         </Header>
         <TextGroup inline>
-          <Text size='12px' weight={500}>
+          <Text size="12px" weight={500}>
             <FormattedMessage
-              id='scenes.reset2fa.thirdstep.message'
-              defaultMessage='Thank you for submitting a two-factor authentication reset request. Please check your email for further instructions.'
+              id="scenes.reset2fa.thirdstep.message"
+              defaultMessage="Thank you for submitting a two-factor authentication reset request. Please check your email for further instructions."
             />
           </Text>
-          <Text size='12px' weight={500}>
+          <Text size="12px" weight={500}>
             <FormattedMessage
-              id='scenes.reset2fa.thirdstep.info'
-              defaultMessage='This process usually takes two weeks. If you would like to learn more about the reset process, visit our '
+              id="scenes.reset2fa.thirdstep.info"
+              defaultMessage="This process usually takes two weeks. If you would like to learn more about the reset process, visit our "
             />
           </Text>
           <Link
-            size='12px'
+            size="12px"
             weight={500}
-            href='https://support.blockchain.com/hc/en-us/articles/360000286426-I-lost-my-2FA-device-How-do-I-get-back-into-my-wallet-'
-            target='_blank'
+            href="https://support.blockchain.com/hc/en-us/articles/360000286426-I-lost-my-2FA-device-How-do-I-get-back-into-my-wallet-"
+            target="_blank"
           >
             <FormattedMessage
-              id='scenes.reset2fa.thirdstep.infolink'
-              defaultMessage='support page.'
+              id="scenes.reset2fa.thirdstep.infolink"
+              defaultMessage="support page."
             />
           </Link>
         </TextGroup>
         <Footer>
-          <LinkContainer to='/login'>
-            <Button nature='primary' fullwidth>
+          <LinkContainer to="/login">
+            <Button nature="primary" fullwidth>
               <FormattedMessage
-                id='scenes.reset2fa.thirdstep.login'
-                defaultMessage='Continue to Login'
+                id="scenes.reset2fa.thirdstep.login"
+                defaultMessage="Continue to Login"
               />
             </Button>
           </LinkContainer>

@@ -73,7 +73,7 @@ class AirdropSuccess extends React.PureComponent {
     this.setState({ isLinkCopied: false })
   }
 
-  render () {
+  render() {
     const { isLinkCopied } = this.state
     const { close, position, total } = this.props
     const link = 'https://www.blockchain.com/getcrypto'
@@ -83,67 +83,67 @@ class AirdropSuccess extends React.PureComponent {
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
     return (
       <Modal
-        size='small'
+        size="small"
         position={position}
         total={total}
-        dataE2e='infoModalAirdropSuccess'
+        dataE2e="infoModalAirdropSuccess"
       >
         <AirdropSuccessModalHeader onClose={close} />
-        <AirdropImage width='100%' name='airdrop-enrolled' />
+        <AirdropImage width="100%" name="airdrop-enrolled" />
         <Body>
-          <Text size='24px' weight={400}>
+          <Text size="24px" weight={400}>
             <FormattedMessage
-              id='modals.airdropsuccess.airdropprogram'
-              defaultMessage='Enrolled in Airdrop Program!'
+              id="modals.airdropsuccess.airdropprogram"
+              defaultMessage="Enrolled in Airdrop Program!"
             />
           </Text>
           <Copy weight={400}>
             <FormattedMessage
-              id='modals.airdropsuccess.sharethewealth'
-              defaultMessage='Share the wealth with friends and family. Literally.'
+              id="modals.airdropsuccess.sharethewealth"
+              defaultMessage="Share the wealth with friends and family. Literally."
             />
           </Copy>
         </Body>
         <Footer>
-          <Link href={tweetLink} rel='noopener noreferrer' target='_blank'>
-            <FooterButton nature='primary' size='16px'>
-              <FooterIcon name='twitter' size='18px' />
+          <Link href={tweetLink} rel="noopener noreferrer" target="_blank">
+            <FooterButton nature="primary" size="16px">
+              <FooterIcon name="twitter" size="18px" />
               <FormattedMessage
-                defaultMessage='Tweet'
-                id='modals.airdropsuccess.tweet'
+                defaultMessage="Tweet"
+                id="modals.airdropsuccess.tweet"
               />
             </FooterButton>
           </Link>
-          <Link href={facebookLink} rel='noopener noreferrer' target='_blank'>
-            <FooterButton nature='secondary' size='16px'>
-              <FooterIcon name='facebook' size='18px' />
+          <Link href={facebookLink} rel="noopener noreferrer" target="_blank">
+            <FooterButton nature="secondary" size="16px">
+              <FooterIcon name="facebook" size="18px" />
               <FormattedMessage
-                defaultMessage='Share'
-                id='modals.airdropsuccess.share'
+                defaultMessage="Share"
+                id="modals.airdropsuccess.share"
               />
             </FooterButton>
           </Link>
           <CopyToClipBoard text={link} onCopy={this.handleCopy}>
             {isLinkCopied ? (
-              <TooltipHost id='copied'>
+              <TooltipHost id="copied">
                 <FooterButton
-                  nature='purple'
-                  size='16px'
+                  nature="purple"
+                  size="16px"
                   onMouseLeave={this.hideCopied}
                 >
-                  <FooterIcon name='copy' size='12px' />
+                  <FooterIcon name="copy" size="12px" />
                   <FormattedMessage
-                    defaultMessage='Copy'
-                    id='modals.airdropsuccess.copy'
+                    defaultMessage="Copy"
+                    id="modals.airdropsuccess.copy"
                   />
                 </FooterButton>
               </TooltipHost>
             ) : (
-              <FooterButton nature='purple' size='16px'>
-                <FooterIcon name='copy' size='12px' />
+              <FooterButton nature="purple" size="16px">
+                <FooterIcon name="copy" size="12px" />
                 <FormattedMessage
-                  defaultMessage='Copy'
-                  id='modals.airdropsuccess.copy'
+                  defaultMessage="Copy"
+                  id="modals.airdropsuccess.copy"
                 />
               </FooterButton>
             )}

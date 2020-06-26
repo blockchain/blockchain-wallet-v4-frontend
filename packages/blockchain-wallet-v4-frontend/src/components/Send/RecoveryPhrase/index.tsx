@@ -31,24 +31,24 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
       origin: 'Send'
     })
   }
-  render () {
+  render() {
     return (
       <CustomBlueCartridge>
         <Icon
-          name='alert-filled'
-          color='blue600'
-          size='24px'
+          name="alert-filled"
+          color="blue600"
+          size="24px"
           style={{ marginRight: '12px' }}
         />
         <BackupCopy>
           <FormattedMessage
-            id='modals.send.firststep.fromcustody2'
-            defaultMessage='Please backup your Wallet before before sending crypto to it.'
+            id="modals.send.firststep.fromcustody2"
+            defaultMessage="Please backup your Wallet before before sending crypto to it."
           />{' '}
-          <BackupLink onClick={this.handleClick} data-e2e='withdrawBackupLink'>
+          <BackupLink onClick={this.handleClick} data-e2e="withdrawBackupLink">
             <FormattedMessage
-              id='modals.send.firststep.backupnow'
-              defaultMessage='Backup now.'
+              id="modals.send.firststep.backupnow"
+              defaultMessage="Backup now."
             />
           </BackupLink>
         </BackupCopy>

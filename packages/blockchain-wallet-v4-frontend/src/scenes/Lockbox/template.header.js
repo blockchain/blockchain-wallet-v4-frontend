@@ -18,19 +18,19 @@ const LockboxHeader = () => {
     <HeaderWrapper>
       <SceneHeader>
         <IconBackground>
-          <Icon name='hardware' color='blue600' size='21px' />
+          <Icon name="hardware" color="blue600" size="21px" />
         </IconBackground>
         <SceneHeaderText>
           <FormattedMessage
-            id='scenes.hardware.title'
-            defaultMessage='Hardware'
+            id="scenes.hardware.title"
+            defaultMessage="Hardware"
           />
         </SceneHeaderText>
       </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage
-          id='scenes.hardware.subheader'
-          defaultMessage='Trade, send and receive from your offline hardware wallet.'
+          id="scenes.hardware.subheader"
+          defaultMessage="Trade, send and receive from your offline hardware wallet."
         />
       </SceneSubHeaderText>
     </HeaderWrapper>

@@ -17,11 +17,11 @@ import WithdrawalForm from './WithdrawalForm'
 class Interest extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ show: true }) //eslint-disable-line
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const { step } = this.props
     if (step === prevProps.step) return
     if (InterestSteps[step.name] > InterestSteps[prevProps.step.name]) {
@@ -48,7 +48,7 @@ class Interest extends PureComponent<Props, State> {
     }, duration / 2)
   }
 
-  render () {
+  render() {
     const { coin, step, position, total } = this.props
     return (
       <Flyout
@@ -57,7 +57,7 @@ class Interest extends PureComponent<Props, State> {
         direction={this.state.direction}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
-        data-e2e='interestModal'
+        data-e2e="interestModal"
         total={total}
       >
         {step.name === 'ACCOUNT_SUMMARY' && (

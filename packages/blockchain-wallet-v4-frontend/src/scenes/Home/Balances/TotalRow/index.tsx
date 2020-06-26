@@ -8,14 +8,14 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class TotalRow extends PureComponent<Props> {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => (
         <Text
-          size='14px'
+          size="14px"
           weight={600}
-          color='red600'
+          color="red600"
           style={{ marginBottom: '24px', paddingBottom: '12px' }}
         >
           Error Fetching Balance

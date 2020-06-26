@@ -100,68 +100,68 @@ const LearnMoreLink = styled(Link)`
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.preferencesActions.hideUpgradeForAirdropModal()
   }
 
-  render () {
+  render() {
     const { campaign, position, total, close, actions } = this.props
     return (
       <Modal
-        size='small'
+        size="small"
         position={position}
         total={total}
-        dataE2e='infoModalUpgradeForAirdrop'
+        dataE2e="infoModalUpgradeForAirdrop"
       >
         <AbsoluteModalHeader onClose={close} />
         <Body>
           <BgHeader />
           <TitleHeader>
-            <AirdropIcon name='parachute' color='green600' size='40px' />
+            <AirdropIcon name="parachute" color="green600" size="40px" />
             <CopyHeader>
               <FormattedMessage
-                id='modals.upgradeforairdrop.latestairdrop1'
-                defaultMessage='Our Latest Airdrop is Here!'
+                id="modals.upgradeforairdrop.latestairdrop1"
+                defaultMessage="Our Latest Airdrop is Here!"
               />
               <br />
               <FormattedMessage
-                id='modals.upgradeforairdrop.unlock'
-                defaultMessage='Unlock Access Today.'
+                id="modals.upgradeforairdrop.unlock"
+                defaultMessage="Unlock Access Today."
               />
             </CopyHeader>
           </TitleHeader>
           <CopyContainer>
-            <Copy size='16px'>
+            <Copy size="16px">
               <FormattedMessage
-                id='modals.upgradeforairdrop.goldprofilelevel1'
-                defaultMessage='Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX).'
+                id="modals.upgradeforairdrop.goldprofilelevel1"
+                defaultMessage="Upgrade your profile to Gold Level to secure your spot in our next airdrop with Blockstack and get free Stacks (STX)."
               />
             </Copy>
             <FooterButton
               onClick={() => actions.upgradeForAirdropSubmitClicked(campaign)}
-              size='16px'
+              size="16px"
             >
               <FormattedMessage
-                defaultMessage='Complete My Profile Now'
-                id='modals.upgradeforairdrop.completeprofile'
+                defaultMessage="Complete My Profile Now"
+                id="modals.upgradeforairdrop.completeprofile"
               />
             </FooterButton>
             <FooterTextGroup inline>
-              <Text size='12px' color='grey600'>
+              <Text size="12px" color="grey600">
                 <FormattedMessage
-                  id='modals.upgradeforairdrop.regulations'
+                  id="modals.upgradeforairdrop.regulations"
                   defaultMessage="*For regulatory reasons, USA, Canada and Japan nationals can't participate in the airdrop."
                 />
               </Text>
               <LearnMoreLink
-                href='https://support.blockchain.com/hc/en-us/articles/360035793932-How-to-participate-in-the-Blockstack-Airdrop'
-                size='12px'
-                target='_blank'
-                rel='noopener noreferrer'
+                href="https://support.blockchain.com/hc/en-us/articles/360035793932-How-to-participate-in-the-Blockstack-Airdrop"
+                size="12px"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FormattedMessage
-                  id='buttons.learn_more'
-                  defaultMessage='Learn More'
+                  id="buttons.learn_more"
+                  defaultMessage="Learn More"
                 />
               </LearnMoreLink>
             </FooterTextGroup>

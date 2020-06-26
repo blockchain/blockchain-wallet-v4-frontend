@@ -53,40 +53,40 @@ export const TourTooltip = ({
         {step.content && <TooltipContent>{step.content}</TooltipContent>}
         <TooltipFooter isLastStep={isLastStep}>
           {!isLastStep && (
-            <ClickableText size='13px' weight={400} {...skipProps}>
+            <ClickableText size="13px" weight={400} {...skipProps}>
               <FormattedMessage
-                id='scenes.lockbox.tour.skip'
-                defaultMessage='Skip Tour'
+                id="scenes.lockbox.tour.skip"
+                defaultMessage="Skip Tour"
               />
             </ClickableText>
           )}
           <StepChangeWrapper>
             {index > 0 && (
               <Button
-                width='70px'
-                height='38px'
-                nature='empty-secondary'
+                width="70px"
+                height="38px"
+                nature="empty-secondary"
                 style={{ marginRight: '8px' }}
                 {...backProps}
               >
-                <FormattedMessage id='buttons.back' defaultMessage='Back' />
+                <FormattedMessage id="buttons.back" defaultMessage="Back" />
               </Button>
             )}
             <Button
-              width='110px'
-              height='38px'
-              nature='primary'
+              width="110px"
+              height="38px"
+              nature="primary"
               {...primaryProps}
             >
               {isLastStep ? (
                 <FormattedMessage
-                  id='scenes.lockbox.tour.finish'
-                  defaultMessage='Finish Tour'
+                  id="scenes.lockbox.tour.finish"
+                  defaultMessage="Finish Tour"
                 />
               ) : (
                 <FormattedMessage
-                  id='scenes.lockbox.tour.next'
-                  defaultMessage='Next'
+                  id="scenes.lockbox.tour.next"
+                  defaultMessage="Next"
                 />
               )}
             </Button>
@@ -104,13 +104,13 @@ export const TOUR_STEPS = [
       <React.Fragment>
         <StepTitle weight={500}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepone.title'
-            defaultMessage='Welcome to your Lockbox!'
+            id="scenes.lockbox.tour.stepone.title"
+            defaultMessage="Welcome to your Lockbox!"
           />
         </StepTitle>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepone.content'
+            id="scenes.lockbox.tour.stepone.content"
             defaultMessage="This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets."
           />
         </Text>
@@ -129,14 +129,14 @@ export const TOUR_STEPS = [
       <React.Fragment>
         <StepTitle weight={500}>
           <FormattedMessage
-            id='scenes.lockbox.tour.steptwo.title'
-            defaultMessage='Asset List'
+            id="scenes.lockbox.tour.steptwo.title"
+            defaultMessage="Asset List"
           />
         </StepTitle>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.lockbox.tour.steptwo.content'
-            defaultMessage='Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.'
+            id="scenes.lockbox.tour.steptwo.content"
+            defaultMessage="Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset."
           />
         </Text>
       </React.Fragment>
@@ -154,14 +154,14 @@ export const TOUR_STEPS = [
       <React.Fragment>
         <StepTitle weight={500}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepthree.title'
-            defaultMessage='Transaction Search'
+            id="scenes.lockbox.tour.stepthree.title"
+            defaultMessage="Transaction Search"
           />
         </StepTitle>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepthree.addfilters'
-            defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.'
+            id="scenes.lockbox.tour.stepthree.addfilters"
+            defaultMessage="Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here."
           />
         </Text>
       </React.Fragment>
@@ -179,14 +179,14 @@ export const TOUR_STEPS = [
       <React.Fragment>
         <StepTitle weight={500}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepfour.title'
-            defaultMessage='App Manager'
+            id="scenes.lockbox.tour.stepfour.title"
+            defaultMessage="App Manager"
           />
         </StepTitle>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepfour.content'
-            defaultMessage='Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.'
+            id="scenes.lockbox.tour.stepfour.content"
+            defaultMessage="Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device."
           />
         </Text>
       </React.Fragment>
@@ -204,14 +204,14 @@ export const TOUR_STEPS = [
       <React.Fragment>
         <StepTitle weight={500}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepfive.title'
-            defaultMessage='Lockbox Settings'
+            id="scenes.lockbox.tour.stepfive.title"
+            defaultMessage="Lockbox Settings"
           />
         </StepTitle>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.lockbox.tour.stepfive.content'
-            defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
+            id="scenes.lockbox.tour.stepfive.content"
+            defaultMessage="Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!"
           />
         </Text>
       </React.Fragment>

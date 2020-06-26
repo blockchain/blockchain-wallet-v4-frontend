@@ -20,7 +20,7 @@ import Success from './template.success'
 class RepayLoan extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.borrowActions.initializeRepayLoan('PAX')
   }
 
@@ -32,7 +32,7 @@ class RepayLoan extends PureComponent<Props> {
     this.props.borrowActions.repayLoan()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />

@@ -46,21 +46,21 @@ type OwnProps = {
 const ExchangeNavItem = props => (
   <>
     <MenuIcon
-      className='icon'
-      name='blockchain-logo'
+      className="icon"
+      name="blockchain-logo"
       style={{ marginLeft: '-2px' }}
-      size='21px'
+      size="21px"
     />
     <Destination style={{ marginLeft: '2px' }}>
       <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
-        defaultMessage='Exchange'
+        id="layouts.wallet.menuleft.navigation.blockchain-exchange-1"
+        defaultMessage="Exchange"
       />
     </Destination>
     {props.isExchangeAccountLinked && (
       <HelperTipContainer>
-        <HelperTip id='exchangeSideNavConnected'>
-          <TooltipIcon color='blue600' name='info' />
+        <HelperTip id="exchangeSideNavConnected">
+          <TooltipIcon color="blue600" name="info" />
         </HelperTip>
       </HelperTipContainer>
     )}
@@ -80,13 +80,13 @@ const Navigation = (props: OwnProps & Props) => {
   ]
   return (
     <Wrapper {...rest}>
-      <LinkContainer to='/home' activeClassName='active'>
-        <MenuItem data-e2e='dashboardLink'>
-          <MenuIcon className='icon' name='home' size='24px' />
+      <LinkContainer to="/home" activeClassName="active">
+        <MenuItem data-e2e="dashboardLink">
+          <MenuIcon className="icon" name="home" size="24px" />
           <Destination>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.dashboard'
-              defaultMessage='Dashboard'
+              id="layouts.wallet.menuleft.navigation.dashboard"
+              defaultMessage="Dashboard"
             />
           </Destination>
         </MenuItem>
@@ -99,24 +99,24 @@ const Navigation = (props: OwnProps & Props) => {
               <LinkContainer
                 key={i}
                 to={coin.txListAppRoute}
-                activeClassName='active'
+                activeClassName="active"
               >
                 <MenuItem
                   data-e2e={`${toLower(coin.coinCode)}Link`}
                   colorCode={coin.colorCode}
-                  className='coin'
+                  className="coin"
                 >
                   <CoinIcon
-                    className='coin-icon'
+                    className="coin-icon"
                     color={coin.colorCode}
                     name={coin.icons.circleFilled}
-                    size='24px'
+                    size="24px"
                   />
                   <Destination>{coin.displayName}</Destination>
                   {coin.showNewTagSidenav && (
                     <NewCartridge>
-                      <Text color='orange600' size='12' weight={500} uppercase>
-                        <FormattedMessage id='copy.new' defaultMessage='New' />
+                      <Text color="orange600" size="12" weight={500} uppercase>
+                        <FormattedMessage id="copy.new" defaultMessage="New" />
                       </Text>
                     </NewCartridge>
                   )}
@@ -127,13 +127,13 @@ const Navigation = (props: OwnProps & Props) => {
         )
       )}
       <Separator />
-      <LinkContainer to='/airdrops' activeClassName='active'>
-        <MenuItem data-e2e='airdropLink' className='airdrop'>
-          <MenuIcon className='icon' name='parachute' size='24px' />
+      <LinkContainer to="/airdrops" activeClassName="active">
+        <MenuItem data-e2e="airdropLink" className="airdrop">
+          <MenuIcon className="icon" name="parachute" size="24px" />
           <Destination>
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.airdrops'
-              defaultMessage='Airdrops'
+              id="layouts.wallet.menuleft.navigation.airdrops"
+              defaultMessage="Airdrops"
             />
           </Destination>
           {/* UNCOMMENT WHEN AIRDROPS ARE IN PROGRESS */}
@@ -147,29 +147,29 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
+      <LinkContainer to="/exchange" activeClassName="active">
+        <MenuItem data-e2e="exchangeLink">
           <ExchangeNavItem {...props} />
         </MenuItem>
       </LinkContainer>
       {props.lockboxDevices.length > 0 ? (
-        <LinkContainer to='/lockbox' activeClassName='active'>
-          <MenuItem data-e2e='lockboxLink'>
+        <LinkContainer to="/lockbox" activeClassName="active">
+          <MenuItem data-e2e="lockboxLink">
             <MenuIcon
-              className='icon'
-              name='hardware'
+              className="icon"
+              name="hardware"
               style={{ paddingLeft: '2px' }}
-              size='24px'
+              size="24px"
             />
             <Destination style={{ marginLeft: '-2px' }}>
               <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.hardware'
-                defaultMessage='Hardware'
+                id="layouts.wallet.menuleft.navigation.hardware"
+                defaultMessage="Hardware"
               />
             </Destination>
             <HelperTipContainer>
-              <HelperTip id='lockboxRequired'>
-                <TooltipIcon color='blue600' name='info' />
+              <HelperTip id="lockboxRequired">
+                <TooltipIcon color="blue600" name="info" />
               </HelperTip>
             </HelperTipContainer>
           </MenuItem>

@@ -19,50 +19,50 @@ const LoginIpRestriction = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.securitycenter.advanced.loginiprestriction.title'
-            defaultMessage='Login IP Restriction'
+            id="scenes.securitycenter.advanced.loginiprestriction.title"
+            defaultMessage="Login IP Restriction"
           />
           <SettingStatus active={ipLockOn}>
             {ipLockOn ? (
               <FormattedMessage
-                id='scenes.securitycenter.advanced.loginiprestriction.enabled'
-                defaultMessage='Enabled'
+                id="scenes.securitycenter.advanced.loginiprestriction.enabled"
+                defaultMessage="Enabled"
               />
             ) : (
               <FormattedMessage
-                id='scenes.securitycenter.advanced.loginiprestriction.disabled'
-                defaultMessage='Disabled'
+                id="scenes.securitycenter.advanced.loginiprestriction.disabled"
+                defaultMessage="Disabled"
               />
             )}
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.securitycenter.advanced.loginiprestriction.description.part1'
-            defaultMessage='Only allow login from IP address in your IP whitelist.'
+            id="scenes.securitycenter.advanced.loginiprestriction.description.part1"
+            defaultMessage="Only allow login from IP address in your IP whitelist."
           />
           <FormattedMessage
-            id='scenes.securitycenter.advanced.loginiprestriction.description.part2'
-            defaultMessage='If you do not have a static IP address, this may lock you out of your wallet.'
+            id="scenes.securitycenter.advanced.loginiprestriction.description.part2"
+            defaultMessage="If you do not have a static IP address, this may lock you out of your wallet."
           />
           <FormattedMessage
-            id='scenes.securitycenter.advanced.loginiprestriction.description.part3'
-            defaultMessage='If you have verified your email address, you will be notified of any suspicious login attempts.'
+            id="scenes.securitycenter.advanced.loginiprestriction.description.part3"
+            defaultMessage="If you have verified your email address, you will be notified of any suspicious login attempts."
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <SettingWrapper>
-          <Button nature='primary' onClick={handleClick}>
+          <Button nature="primary" onClick={handleClick}>
             {ipLockOn ? (
               <FormattedMessage
-                id='scenes.securitycenter.advanced.loginiprestriction.disable'
-                defaultMessage='Disable'
+                id="scenes.securitycenter.advanced.loginiprestriction.disable"
+                defaultMessage="Disable"
               />
             ) : (
               <FormattedMessage
-                id='scenes.securitycenter.advanced.loginiprestriction.enable'
-                defaultMessage='Enable'
+                id="scenes.securitycenter.advanced.loginiprestriction.enable"
+                defaultMessage="Enable"
               />
             )}
           </Button>

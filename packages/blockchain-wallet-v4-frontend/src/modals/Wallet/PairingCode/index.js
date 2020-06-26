@@ -29,11 +29,11 @@ const QRCodeContainer = styled.div`
 `
 
 class PairingCodeContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.encodePairingCode()
   }
 
-  render () {
+  render() {
     const { data, position, total, close, closeAll } = this.props
 
     let PairingCode = data.cata({
@@ -44,19 +44,19 @@ class PairingCodeContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='request' onClose={closeAll}>
+      <Modal size="large" position={position} total={total}>
+        <ModalHeader icon="request" onClose={closeAll}>
           <FormattedMessage
-            id='modals.pairingcode.title'
-            defaultMessage='Scan Pairing Code'
+            id="modals.pairingcode.title"
+            defaultMessage="Scan Pairing Code"
           />
         </ModalHeader>
         <ModalBody>
           <QRCodeContainer>{PairingCode}</QRCodeContainer>
         </ModalBody>
         <ModalFooter>
-          <Button nature='primary' fullwidth onClick={close}>
-            <FormattedMessage id='buttons.close' defaultMessage='Close' />
+          <Button nature="primary" fullwidth onClick={close}>
+            <FormattedMessage id="buttons.close" defaultMessage="Close" />
           </Button>
         </ModalFooter>
       </Modal>

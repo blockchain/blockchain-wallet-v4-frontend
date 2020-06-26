@@ -9,7 +9,7 @@ import { getBchWatchOnlyBalance, getBtcWatchOnlyBalance } from './selectors'
 import Template from './template'
 
 class Balance extends React.PureComponent {
-  render () {
+  render() {
     const {
       btcWatchOnlyBalance,
       bchWatchOnlyBalance,

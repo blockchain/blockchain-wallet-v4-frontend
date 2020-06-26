@@ -39,44 +39,44 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='20px' color='blue900' weight={600} capitalize>
+        <Text size="20px" color="blue900" weight={600} capitalize>
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.reset2fa'
-            defaultMessage='Reset 2FA'
+            id="scenes.reset2fa.secondstep.reset2fa"
+            defaultMessage="Reset 2FA"
           />
         </Text>
       </Header>
       <SecondStepForm onSubmit={handleSubmit}>
-        <CaptchaText size='14px' weight={500}>
+        <CaptchaText size="14px" weight={500}>
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.captcha'
-            defaultMessage='Captcha'
+            id="scenes.reset2fa.secondstep.captcha"
+            defaultMessage="Captcha"
           />
         </CaptchaText>
         <Field
-          bgColor='grey000'
-          name='code'
+          bgColor="grey000"
+          name="code"
           autoFocus
           validate={[required]}
           component={CaptchaBox}
         />
-        <WaitingText size='12px' weight={400}>
+        <WaitingText size="12px" weight={400}>
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.waitingperiod'
-            defaultMessage='Please note that reset requests are fully automated and require a mandatory waiting period before being approved.'
+            id="scenes.reset2fa.secondstep.waitingperiod"
+            defaultMessage="Please note that reset requests are fully automated and require a mandatory waiting period before being approved."
           />
         </WaitingText>
         <Footer>
-          <BackLink onClick={previousStep} size='13px' weight={400}>
-            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+          <BackLink onClick={previousStep} size="13px" weight={400}>
+            <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
           </BackLink>
-          <Button type='submit' nature='primary' disabled={busy || invalid}>
+          <Button type="submit" nature="primary" disabled={busy || invalid}>
             {busy ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='scenes.reset2fa.secondstep.reset'
-                defaultMessage='Submit Request'
+                id="scenes.reset2fa.secondstep.reset"
+                defaultMessage="Submit Request"
               />
             )}
           </Button>

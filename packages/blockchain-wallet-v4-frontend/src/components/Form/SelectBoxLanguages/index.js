@@ -11,7 +11,7 @@ const renameKeys = curry((keysMap, obj) =>
 )
 
 class SelectBoxLanguages extends React.PureComponent {
-  render () {
+  render() {
     const { language, languages, ...rest } = this.props
     const items = [
       ...map(renameKeys({ name: 'text', language: 'value' }))(languages)

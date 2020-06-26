@@ -19,5 +19,5 @@ export const RotateSync = props => {
     ${rotateAnimation};
   `
 
-  return <RotateIcon name='sync-regular' {...props} />
+  return <RotateIcon name="sync-regular" {...props} />
 }

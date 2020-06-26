@@ -15,7 +15,7 @@ class UploadDocumentsContainer extends Component {
     uploadDocuments: PropTypes.func.isRequired
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.dropzone = null
     const search = new URLSearchParams(props.location.search)
@@ -27,7 +27,7 @@ class UploadDocumentsContainer extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchUploadData(this.state.token)
   }
 
@@ -83,7 +83,7 @@ class UploadDocumentsContainer extends Component {
     this.dropzone = element
   }
 
-  render () {
+  render() {
     const { loading } = this.props.uploaded.cata({
       Success: val => ({ loading: false }),
       Failure: val => ({ loading: false }),

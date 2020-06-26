@@ -45,7 +45,7 @@ const devToolsConfig = {
   ]
 }
 
-const configureStore = async function () {
+const configureStore = async function() {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

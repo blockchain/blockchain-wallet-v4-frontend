@@ -63,30 +63,30 @@ export const CurrencyItem = props => {
       disableClick={props.disableClick}
     >
       <IconBox coin={props.coin}>
-        <Icon size='32px' color='white' name={props.icon} />
+        <Icon size="32px" color="white" name={props.icon} />
       </IconBox>
       {props.isSaved ? (
         <Balance>
-          <FiatDisplay size='14px' weight={500} coin={props.coin.toUpperCase()}>
+          <FiatDisplay size="14px" weight={500} coin={props.coin.toUpperCase()}>
             {props.balance}
           </FiatDisplay>
-          <CoinDisplay size='13px' weight={400} coin={props.coin.toUpperCase()}>
+          <CoinDisplay size="13px" weight={400} coin={props.coin.toUpperCase()}>
             {props.balance}
           </CoinDisplay>
         </Balance>
       ) : isBrowserSupported ? (
-        <Link size='11px' weight={500}>
+        <Link size="11px" weight={500}>
           <FormattedMessage
-            id='components.balances.savecointolockbox'
-            defaultMessage='Click here to add {coin} to your Lockbox'
+            id="components.balances.savecointolockbox"
+            defaultMessage="Click here to add {coin} to your Lockbox"
             values={{ coin: props.coin.toUpperCase() }}
           />
         </Link>
       ) : (
-        <Text size='12px' weight={400}>
+        <Text size="12px" weight={400}>
           <FormattedMessage
-            id='components.balances.browserblock'
-            defaultMessage='Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox'
+            id="components.balances.browserblock"
+            defaultMessage="Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox"
             values={{ coin: props.coin.toUpperCase() }}
           />
         </Text>

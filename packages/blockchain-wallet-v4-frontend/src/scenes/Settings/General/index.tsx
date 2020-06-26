@@ -14,15 +14,15 @@ const Wrapper = styled.section``
 const General = () => {
   return (
     <Wrapper>
-      <Banner type='alert'>
-        <Text color='blue600' size='14px'>
+      <Banner type="alert">
+        <Text color="blue600" size="14px">
           <FormattedMessage
-            id='scenes.settings.general.explain'
-            defaultMessage='Use your Wallet ID to log in using our web client,'
+            id="scenes.settings.general.explain"
+            defaultMessage="Use your Wallet ID to log in using our web client,"
           />
           <span>&nbsp;</span>
           <FormattedMessage
-            id='scenes.settings.general.explain2'
+            id="scenes.settings.general.explain2"
             defaultMessage="or simply scan the code below (click on 'Show Pairing Code') with your Blockchain Mobile Wallet (iOS or Android) to access your wallet on your mobile devices."
           />
         </Text>

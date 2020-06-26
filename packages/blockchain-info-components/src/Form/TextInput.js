@@ -75,7 +75,7 @@ class TextInput extends React.Component {
     minHeight: '48px'
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -93,7 +93,7 @@ class TextInput extends React.Component {
     }
   }
 
-  render () {
+  render() {
     const { disabled, errorState, icon, iconSize, value, ...rest } = this.props
 
     return (

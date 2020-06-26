@@ -10,7 +10,7 @@ import Template from './template'
 class ConnectDeviceStepContainer extends React.PureComponent {
   state = { connectTimeout: false }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.setupType === 'existing') {
       this.props.lockboxActions.initializeNewDeviceSetup()
       this.startConnectionTimeout()
@@ -39,7 +39,7 @@ class ConnectDeviceStepContainer extends React.PureComponent {
     }, SETUP_TIMEOUT)
   }
 
-  render () {
+  render() {
     const { deviceType, connection, setupType, supportLink } = this.props
 
     return (

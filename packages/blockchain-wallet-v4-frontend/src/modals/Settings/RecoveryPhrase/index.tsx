@@ -49,14 +49,14 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     direction: 'left'
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
     this.getWords()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (
       RecoveryPhraseStepType[this.props.step] >
@@ -70,7 +70,7 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.recoveryPhraseActions.setStep('RECOVERY_PHRASE_INTRO')
   }
 
@@ -93,14 +93,14 @@ class RecoveryPhraseFlyout extends PureComponent<Props, State> {
       : this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
   }
 
-  render () {
+  render() {
     return (
       <Flyout
         {...this.props}
         in={this.state.show}
         onClose={this.handleClose}
         direction={this.state.direction}
-        data-e2e='recoveryPhraseModal'
+        data-e2e="recoveryPhraseModal"
       >
         {this.props.step === 'RECOVERY_PHRASE_INTRO' && (
           <FlyoutChild>

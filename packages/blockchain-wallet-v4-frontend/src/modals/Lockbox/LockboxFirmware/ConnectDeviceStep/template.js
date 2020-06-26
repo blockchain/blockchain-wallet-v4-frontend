@@ -26,34 +26,34 @@ const CheckForUpdatesStep = props => {
       <Title>
         <Text>
           <FormattedMessage
-            id='modals.lockboxfirmware.connectdevice.title'
-            defaultMessage='Connect your Lockbox'
+            id="modals.lockboxfirmware.connectdevice.title"
+            defaultMessage="Connect your Lockbox"
           />
         </Text>
       </Title>
       <Content>
-        <Text color='grey500' weight={400}>
+        <Text color="grey500" weight={400}>
           <FormattedMessage
-            id='modals.lockboxfirmware.connectdevice.subtitle'
-            defaultMessage='Connect and unlock your Lockbox. Then open the Dashboard app.'
+            id="modals.lockboxfirmware.connectdevice.subtitle"
+            defaultMessage="Connect and unlock your Lockbox. Then open the Dashboard app."
           />
         </Text>
       </Content>
       <Image
-        width='100%'
-        name='firmware-connect'
+        width="100%"
+        name="firmware-connect"
         srcset={{
           'firmware-connect2': '2x',
           'firmware-connect3': '3x'
         }}
       />
       <ButtonContainer>
-        <Button disabled fullwidth nature='dark'>
+        <Button disabled fullwidth nature="dark">
           <FormattedMessage
-            id='modals.lockboxfirmware.connectdevice.loading'
-            defaultMessage='Connect Your Lockbox'
+            id="modals.lockboxfirmware.connectdevice.loading"
+            defaultMessage="Connect Your Lockbox"
           />
-          <RotateSyncContainer size='16px' color='white' />
+          <RotateSyncContainer size="16px" color="white" />
         </Button>
       </ButtonContainer>
     </React.Fragment>

@@ -15,21 +15,21 @@ const About = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.settings.general.about.title'
-            defaultMessage='About'
+            id="scenes.settings.general.about.title"
+            defaultMessage="About"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.general.about.description'
-            defaultMessage='Learn more about our company.'
+            id="scenes.settings.general.about.description"
+            defaultMessage="Learn more about our company."
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href='https://www.blockchain.com/about' target='_blank'>
-          <Button data-e2e='aboutLink' nature='empty'>
-            <Icon name='open-in-new-tab' size='20px' />
+        <Link href="https://www.blockchain.com/about" target="_blank">
+          <Button data-e2e="aboutLink" nature="empty">
+            <Icon name="open-in-new-tab" size="20px" />
           </Button>
         </Link>
       </SettingComponent>

@@ -9,7 +9,7 @@ class RemoveDeviceContainer extends React.PureComponent {
     this.props.lockboxActions.deleteDevice(this.props.deviceIndex)
   }
 
-  render () {
+  render() {
     const { deviceName } = this.props
     return (
       <DeviceStatus deleteDevice={this.deleteDevice} deviceName={deviceName} />

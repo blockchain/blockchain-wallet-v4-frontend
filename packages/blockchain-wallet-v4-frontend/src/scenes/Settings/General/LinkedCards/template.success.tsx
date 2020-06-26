@@ -79,8 +79,8 @@ const Success: React.FC<InjectedFormProps<
       <SettingSummary>
         <CustomSettingHeader>
           <FormattedMessage
-            id='scenes.settings.linked_cards'
-            defaultMessage='Linked Cards'
+            id="scenes.settings.linked_cards"
+            defaultMessage="Linked Cards"
           />
         </CustomSettingHeader>
         {activeCards.map((card, i) => {
@@ -109,11 +109,11 @@ const Success: React.FC<InjectedFormProps<
                   src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
                 />
                 <CardDetails>
-                  <Text size='16px' color='grey800' weight={600}>
+                  <Text size="16px" color="grey800" weight={600}>
                     {card.card.label || card.card.type}
                   </Text>
                   {ccPaymentMethod && (
-                    <Text size='14px' color='grey600' weight={500}>
+                    <Text size="14px" color="grey600" weight={500}>
                       {fiatToString({
                         value: convertBaseToStandard(
                           'FIAT',
@@ -128,16 +128,16 @@ const Success: React.FC<InjectedFormProps<
               </Child>
               <Child>
                 <CardDetails right>
-                  <Text size='16px' color='grey800' weight={600}>
+                  <Text size="16px" color="grey800" weight={600}>
                     ···· {card.card.number}
                   </Text>
-                  <Text size='14px' color='grey600' weight={500}>
+                  <Text size="14px" color="grey600" weight={500}>
                     Exp: {card.card.expireMonth}/{card.card.expireYear}
                   </Text>
                 </CardDetails>
                 <Button
-                  data-e2e='removeCard'
-                  nature='light-red'
+                  data-e2e="removeCard"
+                  nature="light-red"
                   disabled={props.submitting}
                   style={{ marginLeft: '18px', minWidth: 'auto' }}
                   // @ts-ignore
@@ -147,8 +147,8 @@ const Success: React.FC<InjectedFormProps<
                   }}
                 >
                   <FormattedMessage
-                    id='buttons.remove'
-                    defaultMessage='Remove'
+                    id="buttons.remove"
+                    defaultMessage="Remove"
                   />
                 </Button>
               </Child>
@@ -158,11 +158,11 @@ const Success: React.FC<InjectedFormProps<
       </SettingSummary>
       <CustomSettingComponent>
         <Button
-          nature='primary'
-          data-e2e='addCardFromSettings'
+          nature="primary"
+          data-e2e="addCardFromSettings"
           onClick={() => props.handleCreditCardClick()}
         >
-          <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
+          <FormattedMessage id="buttons.add_card" defaultMessage="Add Card" />
         </Button>
       </CustomSettingComponent>
     </CustomSettingContainer>

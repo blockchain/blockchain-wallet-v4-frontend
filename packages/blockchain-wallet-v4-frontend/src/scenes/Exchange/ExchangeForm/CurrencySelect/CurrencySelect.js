@@ -29,28 +29,28 @@ const CurrencyRow = styled(Row)`
 const extractFieldValue = (e, value) => value
 
 export class CurrencySelect extends React.Component {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return shouldUpdate(this.props, nextProps)
   }
 
-  render () {
+  render() {
     const { actions, fromElements, swapDisabled, toElements } = this.props
     return (
-      <CurrencyRow height='32px' spaced>
-        <Cell data-e2e='exchangeSourceCurrency'>
+      <CurrencyRow height="32px" spaced>
+        <Cell data-e2e="exchangeSourceCurrency">
           <Field
-            name='source'
+            name="source"
             onChange={compose(actions.changeSource, extractFieldValue)}
             component={SelectBox}
             elements={fromElements}
           />
         </Cell>
-        <TooltipHost id='exchange.changeinput'>
-          <Cell size='small'>
+        <TooltipHost id="exchange.changeinput">
+          <Cell size="small">
             <CoinSwapIcon
-              data-e2e='exchangeSwitchTargets'
-              name='arrow-switch'
-              size='24px'
+              data-e2e="exchangeSwitchTargets"
+              name="arrow-switch"
+              size="24px"
               weight={500}
               cursor
               disabled={swapDisabled}
@@ -60,9 +60,9 @@ export class CurrencySelect extends React.Component {
             />
           </Cell>
         </TooltipHost>
-        <Cell data-e2e='exchangeTargetCurrency'>
+        <Cell data-e2e="exchangeTargetCurrency">
           <Field
-            name='target'
+            name="target"
             onChange={compose(actions.changeTarget, extractFieldValue)}
             component={SelectBox}
             elements={toElements}

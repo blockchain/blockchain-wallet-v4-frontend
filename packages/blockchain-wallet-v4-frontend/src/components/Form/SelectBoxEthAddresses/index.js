@@ -6,7 +6,7 @@ import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
 class SelectBoxEthAddresses extends React.PureComponent {
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => (

@@ -26,7 +26,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     widgetOpen: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     // listen for messages about widget open/close state
     window.addEventListener('message', this.updateWidgetState, false)
   }
@@ -61,7 +61,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     }, 3000)
   }
 
-  render () {
+  render() {
     const { domains, sbOrders, userData } = this.props
     const pendingSbOrder = any(
       o => o.state === 'PENDING_CONFIRMATION' || o.state === 'PENDING_DEPOSIT',
@@ -79,7 +79,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     return (
       <Wrapper>
         <Iframe
-          id='zendesk-iframe'
+          id="zendesk-iframe"
           src={domains.walletHelper + '/wallet-helper/zendesk/#/'}
           widgetOpen={this.state.widgetOpen}
         />

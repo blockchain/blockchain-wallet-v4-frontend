@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
    * @desc initialize priceChart component and fetches price data based on coin and time
    * @property {action} foo this is description.
    */
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const settingsR = yield select(selectors.core.settings.getSettings)
       if (!Remote.Success.is(settingsR)) {
@@ -44,7 +44,7 @@ export default ({ coreSagas }) => {
    * @desc click handler for priceChart component that fetches price data for new coin
    * @property {action} foo this is description.
    */
-  const coinClicked = function * (action) {
+  const coinClicked = function*(action) {
     try {
       const { coin } = action.payload
       const currencyR = yield select(selectors.core.settings.getCurrency)
@@ -68,7 +68,7 @@ export default ({ coreSagas }) => {
    * @desc click handler for priceChart component that fetches price data for when time is changed
    * @property {action} foo this is description.
    */
-  const timeClicked = function * (action) {
+  const timeClicked = function*(action) {
     try {
       const { time } = action.payload
       const currencyR = yield select(selectors.core.settings.getCurrency)

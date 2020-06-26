@@ -27,16 +27,16 @@ const Wrapper = styled.div`
 
 export const Rejected = () => (
   <Wrapper>
-    <Text color='white' size='14px' weight={500}>
+    <Text color="white" size="14px" weight={500}>
       <FormattedMessage
-        id='scenes.exchange.getstarted.status.rejected.title1'
-        defaultMessage='Account Verification Failed'
+        id="scenes.exchange.getstarted.status.rejected.title1"
+        defaultMessage="Account Verification Failed"
       />
     </Text>
-    <Text size='14px' weight={400}>
+    <Text size="14px" weight={400}>
       <FormattedMessage
-        id='scenes.exchange.getstarted.status.rejected.description'
-        defaultMessage='Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. '
+        id="scenes.exchange.getstarted.status.rejected.description"
+        defaultMessage="Unfortunately we had some trouble with the documents that you’ve supplied and we can’t verify your account at this time. "
       />
     </Text>
   </Wrapper>

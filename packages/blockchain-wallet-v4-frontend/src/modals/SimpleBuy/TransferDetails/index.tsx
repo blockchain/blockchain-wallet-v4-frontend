@@ -13,11 +13,11 @@ import Success from './template.success'
 class TransferDetails extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBPaymentAccount()
   }
 
-  render () {
+  render() {
     switch (this.props.order.state) {
       case 'PENDING_CONFIRMATION':
       case 'PENDING_DEPOSIT':

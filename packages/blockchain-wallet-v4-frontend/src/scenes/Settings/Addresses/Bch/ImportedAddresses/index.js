@@ -11,7 +11,7 @@ import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -26,7 +26,7 @@ class ImportedAddressesContainer extends React.Component {
     const btcAddr = fromCashAddr(address.addr)
     this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: addresses => {

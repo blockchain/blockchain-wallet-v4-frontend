@@ -7,7 +7,7 @@ import InvoiceExpired from './template'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 class BitPayInvoiceExpired extends React.PureComponent {
-  render () {
+  render() {
     return <InvoiceExpired {...this.props} />
   }
 }

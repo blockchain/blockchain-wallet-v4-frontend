@@ -73,8 +73,8 @@ export const validAddressOrWallet = value => {
     undefined
   ) : (
     <FormattedMessage
-      id='modals.transactions.report.required'
-      defaultMessage='Wallet selection required'
+      id="modals.transactions.report.required"
+      defaultMessage="Wallet selection required"
     />
   )
 }
@@ -99,21 +99,21 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
   } = props
 
   return (
-    <Modal size='medium' position={position} total={total}>
+    <Modal size="medium" position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id='modals.transactions.report.title'
-          defaultMessage='Download Transactions'
+          id="modals.transactions.report.title"
+          defaultMessage="Download Transactions"
         />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
-              <Text size='14px' weight={500} capitalize>
+              <Text size="14px" weight={500} capitalize>
                 <FormattedMessage
-                  id='modals.transactions.report.wallet'
-                  defaultMessage='Wallet'
+                  id="modals.transactions.report.wallet"
+                  defaultMessage="Wallet"
                 />
               </Text>
             </Row>
@@ -123,7 +123,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   coin={coin}
                   component={SelectBoxBchAddresses}
                   includeAll={false}
-                  name='from'
+                  name="from"
                   validate={[required, validAddressOrWallet]}
                 />
               )}
@@ -132,7 +132,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   coin={coin}
                   component={SelectBoxBtcAddresses}
                   includeAll={false}
-                  name='from'
+                  name="from"
                   validate={[required, validAddressOrWallet]}
                 />
               )}
@@ -140,7 +140,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}
-                  name='from'
+                  name="from"
                   validate={[required, validAddressOrWallet]}
                 />
               )}
@@ -148,23 +148,23 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                 <Field
                   coin={coin}
                   component={SelectBoxXlmAddresses}
-                  name='from'
+                  name="from"
                   validate={[required, validAddressOrWallet]}
                 />
               )}
             </Row>
             <Row>
               <DateSelectRow>
-                <DateLabel size='14px' weight={500} capitalize>
+                <DateLabel size="14px" weight={500} capitalize>
                   <FormattedMessage
-                    id='modals.transactions.report.startdate'
-                    defaultMessage='start date'
+                    id="modals.transactions.report.startdate"
+                    defaultMessage="start date"
                   />
                 </DateLabel>
-                <EndDateLabel size='14px' weight={500} capitalize>
+                <EndDateLabel size="14px" weight={500} capitalize>
                   <FormattedMessage
-                    id='modals.transactions.report.enddate'
-                    defaultMessage='end date'
+                    id="modals.transactions.report.enddate"
+                    defaultMessage="end date"
                   />
                 </EndDateLabel>
               </DateSelectRow>
@@ -172,17 +172,17 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
             <Row>
               <DateSelectRow>
                 <Field
-                  dateFormat='MM/DD/YYYY'
+                  dateFormat="MM/DD/YYYY"
                   fullwidth
-                  name='start'
+                  name="start"
                   validate={[required]}
                   component={DateBoxDebounced}
                 />
                 <DateDivider />
                 <Field
-                  dateFormat='MM/DD/YYYY'
+                  dateFormat="MM/DD/YYYY"
                   fullwidth
-                  name='end'
+                  name="end"
                   validate={[required]}
                   component={DateBoxDebounced}
                 />
@@ -195,19 +195,19 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                 <DownloadButton
                   data={csvData}
                   filename={filename}
-                  target='_blank'
+                  target="_blank"
                   onClick={closeAll}
-                  width='100%'
+                  width="100%"
                 >
                   <Button
-                    data-e2e='downloadReport'
-                    height='45px'
-                    nature='success'
-                    width='100%'
+                    data-e2e="downloadReport"
+                    height="45px"
+                    nature="success"
+                    width="100%"
                   >
                     <FormattedMessage
-                      id='modals.transactions.report.download'
-                      defaultMessage='Download Report'
+                      id="modals.transactions.report.download"
+                      defaultMessage="Download Report"
                     />
                   </Button>
                 </DownloadButton>
@@ -216,16 +216,16 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
               )
             ) : (
               <Button
-                data-e2e='generateReport'
+                data-e2e="generateReport"
                 disabled={generating || invalid}
-                height='45px'
-                nature='primary'
-                type='submit'
-                width='100%'
+                height="45px"
+                nature="primary"
+                type="submit"
+                width="100%"
               >
                 <FormattedMessage
-                  id='modals.transactions.report.generate'
-                  defaultMessage='Generate Report'
+                  id="modals.transactions.report.generate"
+                  defaultMessage="Generate Report"
                 />
               </Button>
             )}

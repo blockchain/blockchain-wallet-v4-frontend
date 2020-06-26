@@ -18,7 +18,7 @@ const LockboxSetup = props => {
   const { children, position, total, onClose, title } = props
 
   return (
-    <ModalWrapper size='small' position={position} total={total}>
+    <ModalWrapper size="small" position={position} total={total}>
       <Header onClose={onClose}>{title()}</Header>
       <ModalBody>{children}</ModalBody>
     </ModalWrapper>

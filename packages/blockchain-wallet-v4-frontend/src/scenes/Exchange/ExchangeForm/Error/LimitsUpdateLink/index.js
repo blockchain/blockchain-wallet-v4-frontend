@@ -7,14 +7,14 @@ import React from 'react'
 
 const LimitsUpdateLink = props => (
   <Link
-    size='12px'
+    size="12px"
     weight={400}
     onClick={props.actions.updateLimits}
-    data-e2e='retryLink'
+    data-e2e="retryLink"
   >
     <FormattedMessage
-      id='scenes.exchange.exchangeform.tryagain'
-      defaultMessage='Try again'
+      id="scenes.exchange.exchangeform.tryagain"
+      defaultMessage="Try again"
     />
   </Link>
 )

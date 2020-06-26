@@ -48,7 +48,7 @@ const ConfirmTemplate = ({
   messageValues,
   handleSubmit
 }) => (
-  <Modal size='medium' position={position} total={total}>
+  <Modal size="medium" position={position} total={total}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
@@ -58,17 +58,17 @@ const ConfirmTemplate = ({
             {selectMessage(message, messageValues)}
           </Text>
         </ModalBody>
-        <ModalFooter align='right'>
+        <ModalFooter align="right">
           {!hideCancel && (
-            <Cancel data-e2e='cancelConfirmModalLink' onClick={close}>
+            <Cancel data-e2e="cancelConfirmModalLink" onClick={close}>
               {selectCancel(cancel)}
             </Cancel>
           )}
           <Button
-            type='submit'
+            type="submit"
             nature={nature || 'primary'}
             capitalize
-            data-e2e='confirmModalSubmitButton'
+            data-e2e="confirmModalSubmitButton"
           >
             {selectConfirm(confirm)}
           </Button>

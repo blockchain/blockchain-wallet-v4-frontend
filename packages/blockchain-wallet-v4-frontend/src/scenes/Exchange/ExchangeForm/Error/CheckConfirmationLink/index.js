@@ -7,10 +7,10 @@ import React from 'react'
 const CheckConfirmationLink = props => (
   <React.Fragment>
     <Link
-      size='12px'
+      size="12px"
       weight={400}
       onClick={props.actions.recheckLatestTx}
-      data-e2e='retryLink'
+      data-e2e="retryLink"
     >
       {props.children}
     </Link>

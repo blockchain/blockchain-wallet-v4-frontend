@@ -29,21 +29,21 @@ export const languages = [
 
 export const languagesSortedByName = sortBy(prop('name'))(languages)
 
-export function getLanguageName (cultureCode) {
+export function getLanguageName(cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.name)
 }
 
-export function convertLanguageToCultureCode (language) {
+export function convertLanguageToCultureCode(language) {
   let selectedLanguage = find(propEq('language', language))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.cultureCode)
 }
 
-export function convertCultureCodeToLanguage (cultureCode) {
+export function convertCultureCodeToLanguage(cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
@@ -51,11 +51,11 @@ export function convertCultureCodeToLanguage (cultureCode) {
 }
 
 // update url with new language without forcing browser reload
-export function addLanguageToUrl (language) {
+export function addLanguageToUrl(language) {
   window.history.pushState({}, '', `/${language}/${window.location.hash}`)
 }
 
-export function tryParseLanguageFromUrl () {
+export function tryParseLanguageFromUrl() {
   const path = window.location.pathname.replace(/\//g, '')
 
   if (path && path.length) {

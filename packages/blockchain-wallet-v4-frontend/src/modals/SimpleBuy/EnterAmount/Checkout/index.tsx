@@ -23,7 +23,7 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.paymentMethods,
@@ -72,7 +72,7 @@ class Checkout extends PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />

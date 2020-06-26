@@ -22,7 +22,7 @@ import React, { PureComponent } from 'react'
 class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }
 
-  componentDidMount () {
+  componentDidMount() {
     if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
       this.props.routerActions.push('/home')
     }
@@ -31,7 +31,7 @@ class Borrow extends PureComponent<Props, State> {
     this.checkUserData()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       this.props.userDataR.getOrElse(null) !==
       prevProps.userDataR.getOrElse(null)
@@ -53,24 +53,24 @@ class Borrow extends PureComponent<Props, State> {
     this.props.borrowActions.fetchUserBorrowHistory()
   }
 
-  render () {
+  render() {
     return (
       <SceneWrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name='borrow' color='blue600' size='24px' />
+            <Icon name="borrow" color="blue600" size="24px" />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id='scenes.borrow.blockchain'
-              defaultMessage='Borrow'
+              id="scenes.borrow.blockchain"
+              defaultMessage="Borrow"
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id='scenes.borrow.subheader'
-            defaultMessage='Blockchain.com lets you borrow USD Digital from your Blockchain Wallet with crypto as collateral.'
+            id="scenes.borrow.subheader"
+            defaultMessage="Blockchain.com lets you borrow USD Digital from your Blockchain Wallet with crypto as collateral."
           />
         </SceneSubHeaderText>
         <Container>

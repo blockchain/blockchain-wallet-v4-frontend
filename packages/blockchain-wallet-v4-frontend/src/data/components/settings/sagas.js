@@ -6,7 +6,7 @@ import { equals, includes, path, prop } from 'ramda'
 export const logLocation = 'components/settings/sagas'
 
 export default ({ coreSagas }) => {
-  const notificationsInitialized = function * () {
+  const notificationsInitialized = function*() {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
@@ -22,7 +22,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const notificationsFormChanged = function * (action) {
+  const notificationsFormChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals('settingsNotifications', form)) return

@@ -9,12 +9,12 @@ import React from 'react'
 import Success from './template.success'
 
 class FiatAtTime extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     const { amount, hash, time, currency } = this.props
     this.props.actions.fetchFiatAtTime(hash, amount, time * 1000, currency)
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

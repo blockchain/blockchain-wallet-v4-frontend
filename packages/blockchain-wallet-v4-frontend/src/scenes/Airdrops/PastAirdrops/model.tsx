@@ -20,12 +20,12 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='xlm-circle-filled'
-            color='xlm'
-            size='24px'
+            name="xlm-circle-filled"
+            color="xlm"
+            size="24px"
             style={{ marginRight: '8px' }}
           />
-          <Text size='14px' weight={500}>
+          <Text size="14px" weight={500}>
             Stellar (XLM)
           </Text>
         </TypeWrapper>
@@ -33,8 +33,8 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'POWER_PAX':
       return (
         <TypeWrapper>
-          <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
-          <Text size='14px' weight={500}>
+          <Icon name="pax" size="24px" style={{ marginRight: '8px' }} />
+          <Text size="14px" weight={500}>
             USD Digital
           </Text>
         </TypeWrapper>
@@ -43,12 +43,12 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
       return (
         <TypeWrapper>
           <Icon
-            name='stx'
-            color='stx'
-            size='24px'
+            name="stx"
+            color="stx"
+            size="24px"
             style={{ marginRight: '8px' }}
           />
-          <Text size='14px' weight={500}>
+          <Text size="14px" weight={500}>
             Blockstack (STX)
           </Text>
         </TypeWrapper>
@@ -70,10 +70,10 @@ export const Status = ({
       case campaignState === 'ENDED' && userCampaignState === 'TASK_FINISHED':
         return (
           <BlueCartridge>
-            <Text size='14px' weight={700} color='blue600'>
+            <Text size="14px" weight={700} color="blue600">
               <FormattedMessage
-                id='scenes.pastairdrops.pending'
-                defaultMessage='Reward Pending'
+                id="scenes.pastairdrops.pending"
+                defaultMessage="Reward Pending"
               />
             </Text>
           </BlueCartridge>
@@ -84,10 +84,10 @@ export const Status = ({
     case campaignState === 'ENDED' && userCampaignState === 'REWARD_RECEIVED':
       return (
         <SuccessCartridge>
-          <Text size='14px' weight={700} color='green600'>
+          <Text size="14px" weight={700} color="green600">
             <FormattedMessage
-              id='scenes.pastairdrops.received'
-              defaultMessage='Received'
+              id="scenes.pastairdrops.received"
+              defaultMessage="Received"
             />
           </Text>
         </SuccessCartridge>
@@ -95,10 +95,10 @@ export const Status = ({
     case campaignState === 'ENDED':
       return (
         <GreyCartridge>
-          <Text size='14px' weight={700} color='grey600'>
+          <Text size="14px" weight={700} color="grey600">
             <FormattedMessage
-              id='scenes.pastairdrops.offerexpired'
-              defaultMessage='Offer Expired'
+              id="scenes.pastairdrops.offerexpired"
+              defaultMessage="Offer Expired"
             />
           </Text>
         </GreyCartridge>
@@ -112,7 +112,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
   switch (campaignName) {
     case 'SUNRIVER':
       return userCampaignState === 'REWARD_RECEIVED' ? (
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           My Stellar Wallet
         </Text>
       ) : (
@@ -120,7 +120,7 @@ export const To = ({ campaignName, userCampaignState }: CampaignInfoType) => {
       )
     case 'BLOCKSTACK':
       return userCampaignState === 'REWARD_RECEIVED' ? (
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           My Blockstack Wallet
         </Text>
       ) : (

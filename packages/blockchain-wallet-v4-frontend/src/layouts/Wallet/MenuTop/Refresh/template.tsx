@@ -27,12 +27,12 @@ export const SpinningIcon = styled(NavbarNavItemIcon)<{ rotating: boolean }>`
 const Refresh = ({ handleRefresh, rotating }) => (
   <NavbarNavItem>
     <NavbarNavItemButton
-      size='14px'
+      size="14px"
       uppercase
       onClick={handleRefresh}
-      data-e2e='refreshLink'
+      data-e2e="refreshLink"
     >
-      <SpinningIcon name='refresh' size='24px' rotating={rotating} />
+      <SpinningIcon name="refresh" size="24px" rotating={rotating} />
     </NavbarNavItemButton>
   </NavbarNavItem>
 )

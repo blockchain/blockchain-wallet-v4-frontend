@@ -49,45 +49,45 @@ class EthAirdrop extends React.PureComponent {
     this.props.showExchangeResultsModal(this.props.tradeData)
   }
 
-  render () {
+  render() {
     const { close, position, total } = this.props
     return (
-      <Modal size='small' position={position} total={total}>
+      <Modal size="small" position={position} total={total}>
         <AirdropModalHeader onClose={close} />
         <ModalBody>
           <Container>
             <Image
-              name='eth-airdrop'
+              name="eth-airdrop"
               srcset={{
                 'eth-airdrop2': '2x'
               }}
             />
-            <Text size='28px' weight={300} color='blue900'>
+            <Text size="28px" weight={300} color="blue900">
               <FormattedMessage
-                id='modals.exchange.ethairdrop.success'
-                defaultMessage='Success!'
+                id="modals.exchange.ethairdrop.success"
+                defaultMessage="Success!"
               />
             </Text>
-            <Text size='14px' weight={300} color='blue900'>
+            <Text size="14px" weight={300} color="blue900">
               <FormattedMessage
-                id='modals.exchange.ethairdrop.firstusddorder'
-                defaultMessage='Your first USD Digital order has been placed!'
+                id="modals.exchange.ethairdrop.firstusddorder"
+                defaultMessage="Your first USD Digital order has been placed!"
               />
             </Text>
-            <SummaryText size='13px' weight={300}>
+            <SummaryText size="13px" weight={300}>
               <FormattedHTMLMessage
-                id='modals.exchange.ethairdrop.explain1'
-                defaultMessage='Even better, since you need <b>ETH</b> to make <b>USD Digital</b> trades, we will airdrop enough <b>ETH</b> into your Wallet to cover your first 3 transactions 🙌🏻'
+                id="modals.exchange.ethairdrop.explain1"
+                defaultMessage="Even better, since you need <b>ETH</b> to make <b>USD Digital</b> trades, we will airdrop enough <b>ETH</b> into your Wallet to cover your first 3 transactions 🙌🏻"
               />
             </SummaryText>
             <ViewTradeButton
-              nature='primary'
+              nature="primary"
               fullwidth
               onClick={this.onViewTradeStatus}
             >
               <FormattedMessage
-                id='modals.exchange.ethairdrop.viewtrade'
-                defaultMessage='View Trade Status'
+                id="modals.exchange.ethairdrop.viewtrade"
+                defaultMessage="View Trade Status"
               />
             </ViewTradeButton>
           </Container>

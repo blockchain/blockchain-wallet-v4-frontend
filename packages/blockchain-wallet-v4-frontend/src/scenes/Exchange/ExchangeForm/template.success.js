@@ -203,7 +203,7 @@ const Success = ({
             <SwapReceiveRow>
               <Cell>
                 <ActiveCurrencyButton
-                  data-e2e='exchangeExchangeRadioButton'
+                  data-e2e="exchangeExchangeRadioButton"
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
@@ -211,24 +211,24 @@ const Success = ({
                   coin={sourceCoin.toLowerCase()}
                 />
                 <ClickableText
-                  data-e2e='exchangeExchangeRadioText'
+                  data-e2e="exchangeExchangeRadioText"
                   onClick={() => {
                     if (!sourceActive) swapFix()
                   }}
-                  size='14px'
+                  size="14px"
                   weight={500}
                 >
                   <FormattedMessage
-                    id='scenes.exchange.exchangeform.swap'
-                    defaultMessage='Swap'
+                    id="scenes.exchange.exchangeform.swap"
+                    defaultMessage="Swap"
                   />
                 </ClickableText>
               </Cell>
-              <SwapReceiveGap size='small' />
+              <SwapReceiveGap size="small" />
               <Cell>
                 {
                   <ActiveCurrencyButton
-                    data-e2e='exchangeReceiveRadioButton'
+                    data-e2e="exchangeReceiveRadioButton"
                     onClick={() => {
                       if (!targetActive) swapFix()
                     }}
@@ -237,16 +237,16 @@ const Success = ({
                   />
                 }
                 <ClickableText
-                  data-e2e='exchangeReceiveRadioText'
+                  data-e2e="exchangeReceiveRadioText"
                   onClick={() => {
                     if (!targetActive) swapFix()
                   }}
-                  size='14px'
+                  size="14px"
                   weight={500}
                 >
                   <FormattedMessage
-                    id='scenes.exchange.exchangeform.to'
-                    defaultMessage='Receive'
+                    id="scenes.exchange.exchangeform.to"
+                    defaultMessage="Receive"
                   />
                 </ClickableText>
               </Cell>
@@ -258,23 +258,23 @@ const Success = ({
             />
             {blockLockbox && (
               <LockboxWarning>
-                <Banner type='warning'>
-                  <Text color='warning' size='12px'>
+                <Banner type="warning">
+                  <Text color="warning" size="12px">
                     <FormattedMessage
-                      id='scenes.exchange.exchangeform.blockbrowser'
-                      defaultMessage='Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
+                      id="scenes.exchange.exchangeform.blockbrowser"
+                      defaultMessage="Sending from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers."
                     />
                   </Text>
                 </Banner>
               </LockboxWarning>
             )}
-            <AmountRow id='amount-row'>
+            <AmountRow id="amount-row">
               {fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
               <Field
                 name={inputField}
-                autoComplete='off'
+                autoComplete="off"
                 noLastPass
-                placeholder='0'
+                placeholder="0"
                 onChange={handleAmountChange}
                 onFocus={handleInputFocus}
                 onBlur={handleInputBlur}
@@ -282,16 +282,16 @@ const Success = ({
                 onUpdate={resizeSymbol.bind(null, fiatActive)}
                 component={AmountTextBox}
                 fiatActive={fiatActive}
-                maxFontSize='62px'
-                data-e2e='exchangeAmountInput'
+                maxFontSize="62px"
+                data-e2e="exchangeAmountInput"
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}
             </AmountRow>
             <ComplementaryRow>
               <CoinFiatSwapIcon
                 style={{ visibility: 'hidden' }}
-                name='vertical-arrow-switch'
-                size='28px'
+                name="vertical-arrow-switch"
+                size="28px"
                 weight={500}
                 cursor
                 disabled
@@ -304,15 +304,15 @@ const Success = ({
                 complementarySymbol={complementarySymbol}
               />
               <CoinFiatSwapIcon
-                name='vertical-arrow-switch'
-                size='28px'
+                name="vertical-arrow-switch"
+                size="28px"
                 weight={500}
                 cursor
                 disabled={swapDisabled}
                 onClick={() => {
                   if (!swapDisabled) swapCoinAndFiat()
                 }}
-                data-e2e='exchangeCoinFiatSwapButton'
+                data-e2e="exchangeCoinFiatSwapButton"
               />
             </ComplementaryRow>
             <Error />
@@ -340,8 +340,8 @@ const Success = ({
         />
         <Note>
           <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.note'
-            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+            id="scenes.exchange.exchangeform.summary.note"
+            defaultMessage="All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction."
           />
         </Note>
       </ColumnRight>

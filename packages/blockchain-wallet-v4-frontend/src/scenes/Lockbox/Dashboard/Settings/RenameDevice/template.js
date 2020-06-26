@@ -39,24 +39,24 @@ const RenameDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.renamedevice.title'
-            defaultMessage='Name'
+            id="scenes.lockbox.settings.renamedevice.title"
+            defaultMessage="Name"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.renamedevice.description'
-            defaultMessage='{deviceName}'
+            id="scenes.lockbox.settings.renamedevice.description"
+            defaultMessage="{deviceName}"
             values={{ deviceName }}
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         {!updateToggled && (
-          <Button nature='empty' onClick={handleToggle}>
+          <Button nature="empty" onClick={handleToggle}>
             <FormattedMessage
-              id='scenes.lockbox.settings.renamedevice.settings.editname'
-              defaultMessage='Rename Device'
+              id="scenes.lockbox.settings.renamedevice.settings.editname"
+              defaultMessage="Rename Device"
             />
           </Button>
         )}
@@ -65,7 +65,7 @@ const RenameDevice = props => {
             <FormGroup>
               <FormItem>
                 <Field
-                  name='newDeviceName'
+                  name="newDeviceName"
                   autoFocus
                   errorBottom
                   validate={[required]}
@@ -75,18 +75,18 @@ const RenameDevice = props => {
               </FormItem>
             </FormGroup>
             <ButtonWrapper>
-              <Button nature='empty' capitalize onClick={handleCancel}>
-                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+              <Button nature="empty" capitalize onClick={handleCancel}>
+                <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
               </Button>
               <Button
-                type='submit'
-                nature='primary'
+                type="submit"
+                nature="primary"
                 capitalize
                 disabled={invalid}
               >
                 <FormattedMessage
-                  id='scenes.lockbox.settings.renamedevice.settings.save'
-                  defaultMessage='Save'
+                  id="scenes.lockbox.settings.renamedevice.settings.save"
+                  defaultMessage="Save"
                 />
               </Button>
             </ButtonWrapper>

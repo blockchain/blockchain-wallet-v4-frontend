@@ -16,7 +16,7 @@ class TransactionFiltersContainer extends React.PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     return <Menu handleClickReporting={this.handleClickReporting} />
   }
 }

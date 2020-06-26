@@ -17,26 +17,26 @@ const UpdateDevice = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.lockbox.settings.updatedevice.title'
-            defaultMessage='Firmware Update'
+            id="scenes.lockbox.settings.updatedevice.title"
+            defaultMessage="Firmware Update"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.lockbox.settings.updatedevice.description'
-            defaultMessage='Check for firmware updates for your device'
+            id="scenes.lockbox.settings.updatedevice.description"
+            defaultMessage="Check for firmware updates for your device"
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <Button
-          nature='empty'
+          nature="empty"
           onClick={onCheckForUpdates}
           disabled={!isBrowserSupported}
         >
           <FormattedMessage
-            id='scenes.lockbox.settings.updatedevice.checkforupdate'
-            defaultMessage='Check For Updates'
+            id="scenes.lockbox.settings.updatedevice.checkforupdate"
+            defaultMessage="Check For Updates"
           />
         </Button>
       </SettingComponent>

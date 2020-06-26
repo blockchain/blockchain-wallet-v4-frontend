@@ -28,7 +28,7 @@ import { Map } from 'immutable-ext'
 import { set } from 'ramda-lens'
 
 export default ({ api, networks } = {}) => {
-  const deriveAccount = function * (password) {
+  const deriveAccount = function*(password) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
@@ -51,7 +51,7 @@ export default ({ api, networks } = {}) => {
     tx_notes: {}
   })
 
-  const createNewErc20Entry = function * () {
+  const createNewErc20Entry = function*() {
     const entries = {}
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
@@ -61,7 +61,7 @@ export default ({ api, networks } = {}) => {
     return entries
   }
 
-  const createEth = function * ({ kv, password }) {
+  const createEth = function*({ kv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const ethereum = {
@@ -85,7 +85,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEth(newkv))
   }
 
-  const createErc20 = function * ({ newkv }) {
+  const createErc20 = function*({ newkv }) {
     const erc20List = (yield select(getErc20CoinList)).getOrFail()
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
     const erc20 = pathOr({}, ['value', 'ethereum', 'erc20'], newkv)
@@ -98,7 +98,7 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkvErc20))
   }
 
-  const transitionFromLegacy = function * ({ newkv, password }) {
+  const transitionFromLegacy = function*({ newkv, password }) {
     const { defaultIndex, addr } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
     const defaultAccount = Map(newkv.value.ethereum.accounts[defaultIndex])
@@ -109,14 +109,14 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
-  const updatePaxLabelToUSDDigital = function * ({ newkv }) {
+  const updatePaxLabelToUSDDigital = function*({ newkv }) {
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
 
     newkv.value.ethereum.erc20.pax.label = `My ${coinModels['PAX'].displayName} Wallet`
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
-  const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
+  const fetchMetadataEth = function*(secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETH]
       const mxpriv = yield select(getMetadataXpriv)

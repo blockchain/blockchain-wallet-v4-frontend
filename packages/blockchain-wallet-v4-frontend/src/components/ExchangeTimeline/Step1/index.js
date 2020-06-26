@@ -52,21 +52,21 @@ const Step1 = props => (
   <Wrapper>
     <Circle>
       {props.status === 'active' ? (
-        <AnimatedIcon name='send' size='40px' color='blue900' />
+        <AnimatedIcon name="send" size="40px" color="blue900" />
       ) : (
-        <Icon name='send' size='40px' color='blue900' />
+        <Icon name="send" size="40px" color="blue900" />
       )}
     </Circle>
-    <Text size='13px' weight={500} capitalize>
+    <Text size="13px" weight={500} capitalize>
       {props.status === 'active' ? (
         <FormattedMessage
-          id='components.exchangetimeline.sendingfunds'
-          defaultMessage='Sending funds'
+          id="components.exchangetimeline.sendingfunds"
+          defaultMessage="Sending funds"
         />
       ) : (
         <FormattedMessage
-          id='components.exchangetimeline.funds'
-          defaultMessage='Funds sent'
+          id="components.exchangetimeline.funds"
+          defaultMessage="Funds sent"
         />
       )}
     </Text>

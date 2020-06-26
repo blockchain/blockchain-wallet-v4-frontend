@@ -46,7 +46,7 @@ type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 class DownloadTransactionsModal extends Component<Props, StateProps> {
   state: StateProps = { filename: '', generating: false }
 
-  componentDidMount () {
+  componentDidMount() {
     const { initForm } = this.props
     initForm({
       from: 'all',
@@ -57,7 +57,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.clearTransactions()
   }
 
@@ -74,7 +74,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     fetchTransactions(address, startDate, endDate)
   }
 
-  render () {
+  render() {
     const { props, onFetchHistory, state } = this
     const { filename, generating } = state
     const { closeAll, coin, csvData, position, total } = props

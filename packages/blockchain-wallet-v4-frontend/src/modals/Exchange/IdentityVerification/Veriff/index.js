@@ -12,12 +12,12 @@ class Veriff extends React.PureComponent {
   state = {
     loading: false
   }
-  componentDidMount () {
+  componentDidMount() {
     if (Remote.Success.is(this.props.veriffUrl)) return
     this.props.actions.fetchVeriffUrl()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.setState({ loading: false })
   }
 
@@ -31,7 +31,7 @@ class Veriff extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { veriffUrl, actions, onClose } = this.props
 
     if (this.state.loading) return <Loading />
@@ -43,7 +43,7 @@ class Veriff extends React.PureComponent {
       Loading: () => <Loading />,
       Failure: message => (
         <Failure
-          data-e2e='veriffFailure'
+          data-e2e="veriffFailure"
           message={message}
           onClick={actions.fetchVeriffUrl}
           onClose={onClose}

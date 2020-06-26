@@ -24,14 +24,14 @@ const HomeBalanceAmount = styled(Text)`
 const Success: React.FC<Props> = props => {
   return (
     <TotalRow>
-      <Text size='16px' weight={500} color='grey400' capitalize>
+      <Text size="16px" weight={500} color="grey400" capitalize>
         <FormattedHTMLMessage
-          id='components.balances.home.total'
-          defaultMessage='{viewType} Balance'
+          id="components.balances.home.total"
+          defaultMessage="{viewType} Balance"
           values={{ viewType: props.currentTab }}
         />
       </Text>
-      <HomeBalanceAmount data-e2e='homeBalanceAmt'>
+      <HomeBalanceAmount data-e2e="homeBalanceAmt">
         {props.totalBalance}
       </HomeBalanceAmount>
     </TotalRow>

@@ -17,7 +17,7 @@ const isServerRebootMsg = whereEq({
 })
 
 export default class ApiSocket {
-  constructor ({ options = {}, url, maxReconnects = Infinity }) {
+  constructor({ options = {}, url, maxReconnects = Infinity }) {
     this.wsUrl = url
     this.headers = { Origin: options.domains.root }
     this.maxReconnects = maxReconnects
@@ -29,7 +29,7 @@ export default class ApiSocket {
   reconnect = null
   reconnectCount = 0
 
-  connect (
+  connect(
     onOpen = identity,
     onMessage = identity,
     onClose = identity,
@@ -70,7 +70,7 @@ export default class ApiSocket {
     }
   }
 
-  extractMessage (msg) {
+  extractMessage(msg) {
     return compose(JSON.parse, prop('data'))(msg)
   }
 

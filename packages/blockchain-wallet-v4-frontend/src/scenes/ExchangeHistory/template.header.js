@@ -23,22 +23,22 @@ const ExchangeHeader = ({ showHelpModal }) => {
     <HeaderWrapper>
       <SceneHeader>
         <IconBackground>
-          <Icon name='arrow-switch-thick' color='blue600' size='24px' />
+          <Icon name="arrow-switch-thick" color="blue600" size="24px" />
         </IconBackground>
         <SceneHeaderText>
-          <FormattedMessage id='scenes.swap.title' defaultMessage='Swap' />
+          <FormattedMessage id="scenes.swap.title" defaultMessage="Swap" />
         </SceneHeaderText>
-        <SupportButton height='42px' nature='light' onClick={showHelpModal}>
+        <SupportButton height="42px" nature="light" onClick={showHelpModal}>
           <FormattedMessage
-            id='scenes.exchange.menutop.need_help'
-            defaultMessage='Need Help?'
+            id="scenes.exchange.menutop.need_help"
+            defaultMessage="Need Help?"
           />
         </SupportButton>
       </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage
-          id='scenes.swap.subheader'
-          defaultMessage='Exchange any cryptocurrency for another crypto.'
+          id="scenes.swap.subheader"
+          defaultMessage="Exchange any cryptocurrency for another crypto."
         />
       </SceneSubHeaderText>
     </HeaderWrapper>

@@ -24,20 +24,20 @@ const Template = props => (
     <Header onClick={props.handleToggle}>
       <Title>
         <Icon
-          color='grey400'
-          name='forbidden'
-          size='18px'
+          color="grey400"
+          name="forbidden"
+          size="18px"
           style={{ marginRight: '16px' }}
         />
         <FormattedMessage
-          id='layouts.wallet.menutop.balance.walletbalance.nonspendable'
-          defaultMessage='Non-Spendable'
+          id="layouts.wallet.menutop.balance.walletbalance.nonspendable"
+          defaultMessage="Non-Spendable"
         />
       </Title>
       <Icon
-        color='grey600'
-        name='caret'
-        size='10px'
+        color="grey600"
+        name="caret"
+        size="10px"
         className={props.isActive ? 'active' : ''}
       />
     </Header>

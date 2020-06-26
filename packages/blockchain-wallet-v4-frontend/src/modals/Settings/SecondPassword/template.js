@@ -26,10 +26,10 @@ const PurposeContainer = styled.div`
 
 const PURPOSES = {
   BLOCKSTACK: (
-    <Text size='14px' weight={600} color='grey600'>
+    <Text size="14px" weight={600} color="grey600">
       <FormattedMessage
-        id='modals.secondpassword.blockstack'
-        defaultMessage='Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop.'
+        id="modals.secondpassword.blockstack"
+        defaultMessage="Our next airdrop is here. Enter your second password to reserve an address for the Blockstack Airdrop."
       />
     </Text>
   )
@@ -40,13 +40,13 @@ const SecondPassword = props => {
   const { handleSubmit, handleChange, purposes = [], value } = rest
 
   return (
-    <Modal size='medium' position={position} total={total} closeButton={false}>
+    <Modal size="medium" position={position} total={total} closeButton={false}>
       <Form onSubmit={handleSubmit}>
-        <SecPasswordHeader icon='safe' onClose={close}>
-          <Text weight={600} size='20px'>
+        <SecPasswordHeader icon="safe" onClose={close}>
+          <Text weight={600} size="20px">
             <FormattedMessage
-              id='modals.secondpassword.title1'
-              defaultMessage='Enter Your Second Password'
+              id="modals.secondpassword.title1"
+              defaultMessage="Enter Your Second Password"
             />
           </Text>
         </SecPasswordHeader>
@@ -58,34 +58,34 @@ const SecondPassword = props => {
         <ModalBody>
           <FormLabel>
             <FormattedMessage
-              id='modals.secondpassword.explain1'
-              defaultMessage='Second Password'
+              id="modals.secondpassword.explain1"
+              defaultMessage="Second Password"
             />
           </FormLabel>
           <PasswordInput
             value={value}
             onChange={handleChange}
-            data-e2e='secondPasswordModalInput'
+            data-e2e="secondPasswordModalInput"
           />
         </ModalBody>
-        <ModalFooter align='spaced'>
+        <ModalFooter align="spaced">
           <Link
-            size='13px'
+            size="13px"
             weight={400}
             onClick={close}
-            data-e2e='secondPasswordModalCancelButton'
+            data-e2e="secondPasswordModalCancelButton"
           >
-            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+            <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
           </Link>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             onClick={handleSubmit}
-            data-e2e='secondPasswordModalConfirmButton'
+            data-e2e="secondPasswordModalConfirmButton"
           >
             <FormattedMessage
-              id='modals.secondpassword.confirm'
-              defaultMessage='Confirm'
+              id="modals.secondpassword.confirm"
+              defaultMessage="Confirm"
             />
           </Button>
         </ModalFooter>

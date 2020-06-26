@@ -38,62 +38,62 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
   }
-  render () {
+  render() {
     return (
       <Wrapper>
         <FlyoutWrapper>
           <Header>
-            <Text color='grey600' size='20px' weight={600}>
+            <Text color="grey600" size="20px" weight={600}>
               <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.header'
-                defaultMessage='Backup Your Wallet'
+                id="modals.recoveryphrase.backupyourwallet.header"
+                defaultMessage="Backup Your Wallet"
               />
             </Text>
           </Header>
           <ContentContainer>
-            <Text color='grey600' weight={500}>
+            <Text color="grey600" weight={500}>
               <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.content.one'
-                defaultMessage='Your backup phrase will allow you to recover your crypto if you lose access to your wallet.'
+                id="modals.recoveryphrase.backupyourwallet.content.one"
+                defaultMessage="Your backup phrase will allow you to recover your crypto if you lose access to your wallet."
               />
             </Text>
-            <Text color='grey600' weight={500} style={{ marginTop: '30px' }}>
+            <Text color="grey600" weight={500} style={{ marginTop: '30px' }}>
               <FormattedMessage
-                id='modals.recoveryphrase.backupyourwallet.content.two'
-                defaultMessage='Please write down these 12 words in order and keep them somwhere safe. Never share it with anyone. Your backup phrase is the key to recovering your crypto if you ever lose your password.'
+                id="modals.recoveryphrase.backupyourwallet.content.two"
+                defaultMessage="Please write down these 12 words in order and keep them somwhere safe. Never share it with anyone. Your backup phrase is the key to recovering your crypto if you ever lose your password."
               />
             </Text>
           </ContentContainer>
-          <Image name='recover-padlock' width='375px' />
+          <Image name="recover-padlock" width="375px" />
         </FlyoutWrapper>
 
         <ButtonWrapper>
           <Button
             capitalize
-            data-e2e='toBackupFlyout'
+            data-e2e="toBackupFlyout"
             fullwidth
-            height='48px'
-            nature='primary'
+            height="48px"
+            nature="primary"
             onClick={this.handleBackupNow}
-            size='16px'
+            size="16px"
           >
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.backupnow'
-              defaultMessage='Backup Now'
+              id="modals.recoveryphrase.backupyourwallet.backupnow"
+              defaultMessage="Backup Now"
             />
           </Button>
           <Button
             capitalize
-            data-e2e='skipBackup'
+            data-e2e="skipBackup"
             fullwidth
-            height='48px'
-            nature='light'
+            height="48px"
+            nature="light"
             onClick={this.props.handleClose}
-            size='16px'
+            size="16px"
           >
             <FormattedMessage
-              id='modals.recoveryphrase.backupyourwallet.later'
-              defaultMessage='Do This Later'
+              id="modals.recoveryphrase.backupyourwallet.later"
+              defaultMessage="Do This Later"
             />
           </Button>
         </ButtonWrapper>

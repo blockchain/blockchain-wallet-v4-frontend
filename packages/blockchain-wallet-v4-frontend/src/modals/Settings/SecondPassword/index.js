@@ -32,7 +32,7 @@ class SecondPasswordContainer extends React.PureComponent {
     this.setState({ secondPassword: event.target.value })
   }
 
-  render () {
+  render() {
     return (
       <SecondPassword
         {...this.props}

@@ -4,7 +4,7 @@ import { put, select } from 'redux-saga/effects'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const bchRates = yield select(selectors.core.data.btc.getRates)
       const btcRates = yield select(selectors.core.data.bch.getRates)

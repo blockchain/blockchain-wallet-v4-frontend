@@ -28,7 +28,7 @@ const StyledIcon = styled(Icon)`
 const SecurityIcon = props => (
   <Circle className={props.enabled ? 'active' : ''}>
     <StyledIcon
-      size='40px'
+      size="40px"
       color={props.enabled ? 'success' : 'grey200'}
       name={props.enabled ? 'checkmark-in-circle-filled' : props.name}
     />

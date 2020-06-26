@@ -90,30 +90,30 @@ const EmailAddress = props => {
       if (isVerified) {
         return (
           <FormattedMessage
-            id='scenes.security.email.verifiedtitle'
-            defaultMessage='Email Address'
+            id="scenes.security.email.verifiedtitle"
+            defaultMessage="Email Address"
           />
         )
       }
       return (
         <FormattedMessage
-          id='scenes.security.email.unverifiedemail.title'
-          defaultMessage='Verify Email Address'
+          id="scenes.security.email.unverifiedemail.title"
+          defaultMessage="Verify Email Address"
         />
       )
     }
     if (uiState.isEditing) {
       return (
         <FormattedMessage
-          id='scenes.security.email.verifiedemail.change'
-          defaultMessage='Change Email Address'
+          id="scenes.security.email.verifiedemail.change"
+          defaultMessage="Change Email Address"
         />
       )
     }
     return (
       <FormattedMessage
-        id='scenes.security.email.unverifiedemail.verifyemail'
-        defaultMessage='Verify Email Address'
+        id="scenes.security.email.unverifiedemail.verifyemail"
+        defaultMessage="Verify Email Address"
       />
     )
   }
@@ -125,7 +125,7 @@ const EmailAddress = props => {
           <React.Fragment>
             <EmailExplanation>
               <FormattedHTMLMessage
-                id='scenes.security.email.verifieddescription.success'
+                id="scenes.security.email.verifieddescription.success"
                 defaultMessage='You’ve verified <b>{email}</b>. Select "Change Email" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
                 values={{ email }}
               />
@@ -136,8 +136,8 @@ const EmailAddress = props => {
       return (
         <EmailExplanation>
           <FormattedHTMLMessage
-            id='scenes.security.email.unverifiedemaildescription'
-            defaultMessage='We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+            id="scenes.security.email.unverifiedemaildescription"
+            defaultMessage="We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates."
             values={{ email }}
           />
         </EmailExplanation>
@@ -146,8 +146,8 @@ const EmailAddress = props => {
     if (uiState.isEditing) {
       return (
         <FormattedMessage
-          id='scenes.security.email.yourverifiedemailaddress'
-          defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds.'
+          id="scenes.security.email.yourverifiedemailaddress"
+          defaultMessage="Your verified email address is used to send login codes when suspicious or unusual activity is detected. We can also remind you of your wallet login ID, and send you payments alerts when you receive funds."
         />
       )
     }
@@ -172,7 +172,7 @@ const EmailAddress = props => {
     <GridContainer>
       <IconAndHeaderContainer success={uiState.successToggled}>
         <IconContainer>
-          <SecurityIcon name='email' enabled={isVerified} />
+          <SecurityIcon name="email" enabled={isVerified} />
         </IconContainer>
         <EmailSecuritySummary>
           <SecurityHeader>{securityHeaderHelper()}</SecurityHeader>
@@ -184,35 +184,35 @@ const EmailAddress = props => {
       <EmailSecurityComponent>
         {uiHelper() && !verified ? (
           <React.Fragment>
-            <EmailButton nature='primary' onClick={props.handleVerifyClick}>
+            <EmailButton nature="primary" onClick={props.handleVerifyClick}>
               <FormattedMessage
-                id='scenes.security.email.settings.updateform.resendemail'
-                defaultMessage='Resend Email'
+                id="scenes.security.email.settings.updateform.resendemail"
+                defaultMessage="Resend Email"
               />
             </EmailButton>
             <ChangeEmailText
-              color='blue600'
+              color="blue600"
               weight={400}
               onClick={props.handleChangeEmailView}
-              data-e2e='changeYourEmailLink'
+              data-e2e="changeYourEmailLink"
             >
               <FormattedMessage
-                id='scenes.security.email.upateform.changetext'
-                defaultMessage='Change Your Email'
+                id="scenes.security.email.upateform.changetext"
+                defaultMessage="Change Your Email"
               />
             </ChangeEmailText>
           </React.Fragment>
         ) : null}
         {uiHelper() && verified ? (
           <Text
-            color='blue600'
-            size='13px'
+            color="blue600"
+            size="13px"
             style={{ cursor: 'pointer' }}
             onClick={props.handleChangeEmailView}
           >
             <FormattedMessage
-              id='scenes.security.email.settings.updateform.changeyouremail'
-              defaultMessage='Change Your Email'
+              id="scenes.security.email.settings.updateform.changeyouremail"
+              defaultMessage="Change Your Email"
             />
           </Text>
         ) : null}

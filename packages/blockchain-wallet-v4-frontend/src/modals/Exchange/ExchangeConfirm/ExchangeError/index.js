@@ -35,13 +35,13 @@ const Buttons = styled.div`
 `
 
 class ExchangeError extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Error>
         <HeaderText>
           <ErrorMessageHeader {...this.props} />
         </HeaderText>
-        <CopyText data-e2e='swapErrorMessage'>
+        <CopyText data-e2e="swapErrorMessage">
           <ErrorMessageBody {...this.props} {...this.props.data} />
         </CopyText>
         <Buttons>

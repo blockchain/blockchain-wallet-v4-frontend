@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `
 
 class PageContainer extends React.Component {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       prevProps.children.props.computedMatch.url !==
       this.props.children.props.computedMatch.url
@@ -31,14 +31,14 @@ class PageContainer extends React.Component {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
   }
 
-  render () {
-    return <Wrapper ref='page' children={this.props.children} />
+  render() {
+    return <Wrapper ref="page" children={this.props.children} />
   }
 }
 

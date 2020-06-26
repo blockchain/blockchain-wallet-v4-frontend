@@ -41,30 +41,30 @@ const MobileNumberChange = props => {
   } = props
 
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size="large" position={position} total={total}>
       <Form onSubmit={handleSubmit}>
-        <ModalHeader icon='mobile' onClose={closeAll}>
+        <ModalHeader icon="mobile" onClose={closeAll}>
           <FormattedMessage
-            id='modals.mobilenumberchange.changenumbertitle'
-            defaultMessage='Change Mobile Number'
+            id="modals.mobilenumberchange.changenumbertitle"
+            defaultMessage="Change Mobile Number"
           />
         </ModalHeader>
         <ModalBody>
-          <Text size='14px' weight={400}>
+          <Text size="14px" weight={400}>
             <FormattedMessage
-              id='modals.mobilenumberchange.explain'
-              defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.'
+              id="modals.mobilenumberchange.explain"
+              defaultMessage="Use your mobile phone to receive a one-time-password after a login attempt."
             />
           </Text>
           <MobileNumber>
-            <Text size='14px' weight={400} style={spacing('pr-5')}>
+            <Text size="14px" weight={400} style={spacing('pr-5')}>
               <FormattedMessage
-                id='modals.mobilenumberchange.mobile'
-                defaultMessage='Mobile number: '
+                id="modals.mobilenumberchange.mobile"
+                defaultMessage="Mobile number: "
               />
             </Text>
             <Field
-              name='mobileNumber'
+              name="mobileNumber"
               validate={[validMobileNumber, required]}
               component={PhoneNumberBox}
               defaultValue={smsNumber}
@@ -72,19 +72,19 @@ const MobileNumberChange = props => {
             />
           </MobileNumber>
         </ModalBody>
-        <ModalFooter align='spaced'>
-          <Link size='13px' weight={500} onClick={close}>
-            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+        <ModalFooter align="spaced">
+          <Link size="13px" weight={500} onClick={close}>
+            <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
           </Link>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             capitalize
             disabled={submitting || invalid || pristine}
           >
             <FormattedMessage
-              id='modals.mobilenumberchange.update'
-              defaultMessage='Update'
+              id="modals.mobilenumberchange.update"
+              defaultMessage="Update"
             />
           </Button>
         </ModalFooter>

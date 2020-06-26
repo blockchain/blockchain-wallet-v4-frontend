@@ -31,43 +31,43 @@ const Summary: React.FC<Props> = props => {
 
   return (
     <div>
-      <Text color='grey800' weight={600}>
-        <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
+      <Text color="grey800" weight={600}>
+        <FormattedMessage id="modals.borrow.summary" defaultMessage="Summary" />
       </Text>
       <Table>
         <TableRow>
           <Title>
             <FormattedMessage
-              id='modals.borrow.summary.amount'
-              defaultMessage='Borrow Amount'
+              id="modals.borrow.summary.amount"
+              defaultMessage="Borrow Amount"
             />
           </Title>
-          <Value data-e2e='borrowAmount'>
+          <Value data-e2e="borrowAmount">
             {formatFiat(props.principal || 0)} {principalDisplayName}
           </Value>
         </TableRow>
         <TableRow>
           <Title>
             <FormattedMessage
-              id='modals.borrow.summary.intrateandamount'
-              defaultMessage='Interest Rate'
+              id="modals.borrow.summary.intrateandamount"
+              defaultMessage="Interest Rate"
             />
           </Title>
-          <Value data-e2e='interestRate'>
+          <Value data-e2e="interestRate">
             {Number(props.offer.terms.interestRate * 100).toFixed(1) + '%'}
           </Value>
         </TableRow>
         <TableRow>
           <Title>
             <FormattedMessage
-              id='modals.borrow.summary.collateral'
-              defaultMessage='Collateral'
+              id="modals.borrow.summary.collateral"
+              defaultMessage="Collateral"
             />
-            <TooltipHost id='borrow.collateral.tooltip'>
-              <TooltipIcon name='question-in-circle-filled' />
+            <TooltipHost id="borrow.collateral.tooltip">
+              <TooltipIcon name="question-in-circle-filled" />
             </TooltipHost>
           </Title>
-          <Value data-e2e='collateralAmount'>
+          <Value data-e2e="collateralAmount">
             {coinToString({
               value: props.values.collateralCryptoAmt
                 ? props.values.collateralCryptoAmt

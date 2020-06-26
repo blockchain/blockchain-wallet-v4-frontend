@@ -97,24 +97,24 @@ export class LockboxShowXPubs extends React.PureComponent {
     this.setState({ activeTab: tab })
   }
 
-  render () {
+  render() {
     const { closeAll, position, total } = this.props
     const { activeTab } = this.state
 
     return this.props.data.cata({
       Success: coins => (
-        <Modal size='large' position={position} total={total}>
-          <ModalHeader icon='lock' onClose={closeAll}>
+        <Modal size="large" position={position} total={total}>
+          <ModalHeader icon="lock" onClose={closeAll}>
             <FormattedMessage
-              id='modals.lockbox.showxpubs.title'
-              defaultMessage='Lockbox Extended Public Keys'
+              id="modals.lockbox.showxpubs.title"
+              defaultMessage="Lockbox Extended Public Keys"
             />
           </ModalHeader>
           <ModalBody>
-            <WarningBanner type='warning'>
-              <Text size='13px' color='error'>
+            <WarningBanner type="warning">
+              <Text size="13px" color="error">
                 <FormattedMessage
-                  id='modals.lockbox.showxpubs.warning'
+                  id="modals.lockbox.showxpubs.warning"
                   defaultMessage="Don't share your Extended Public Keys (xPubs) with an untrusted source. Anyone with access to these can keep track of your payments and may be able to disrupt access to your wallet."
                 />
               </Text>
@@ -129,7 +129,7 @@ export class LockboxShowXPubs extends React.PureComponent {
                   >
                     <TabIcon
                       name={coin + '-circle-filled'}
-                      size='28px'
+                      size="28px"
                       color={coin}
                     />
                     <TabHeader>
@@ -141,32 +141,32 @@ export class LockboxShowXPubs extends React.PureComponent {
             </Tabs>
             {coins[activeTab] ? (
               <Content>
-                <XPubText size='12px' weight='300'>
+                <XPubText size="12px" weight="300">
                   {coins[activeTab]}
                 </XPubText>
                 <QRCodeWrapper value={coins[activeTab]} size={150} />
               </Content>
             ) : (
               <Content style={{ textAlign: 'center' }}>
-                <Text size='16px'>
+                <Text size="16px">
                   <FormattedMessage
-                    id='modals.lockbox.showxpubs.failedtoderive'
-                    defaultMessage='Failed to derive the xPub!'
+                    id="modals.lockbox.showxpubs.failedtoderive"
+                    defaultMessage="Failed to derive the xPub!"
                   />
                 </Text>
-                <Text size='16px' style={{ marginTop: '10px' }}>
+                <Text size="16px" style={{ marginTop: '10px' }}>
                   <FormattedMessage
-                    id='modals.lockbox.showxpubs.ensurecoinadded'
-                    defaultMessage='Ensure {coin} has been added to your Lockbox.'
+                    id="modals.lockbox.showxpubs.ensurecoinadded"
+                    defaultMessage="Ensure {coin} has been added to your Lockbox."
                     values={{ coin: activeTab.toUpperCase() }}
                   />
                 </Text>
               </Content>
             )}
           </ModalBody>
-          <ModalFooter align='right'>
-            <Button nature='primary' onClick={closeAll}>
-              <FormattedMessage id='buttons.close' defaultMessage='Close' />
+          <ModalFooter align="right">
+            <Button nature="primary" onClick={closeAll}>
+              <FormattedMessage id="buttons.close" defaultMessage="Close" />
             </Button>
           </ModalFooter>
         </Modal>

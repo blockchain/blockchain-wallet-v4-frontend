@@ -53,32 +53,32 @@ const AutoDisconnection = props => {
   const { handleCancel } = rest
 
   return (
-    <Modal size='small' position={position} total={total}>
+    <Modal size="small" position={position} total={total}>
       <AbsoluteModalHeader onClick={handleCancel} />
       <Body>
-        <Icon name='alert-filled' color='orange600' size='40px' />
+        <Icon name="alert-filled" color="orange600" size="40px" />
         <Header>
           <FormattedMessage
-            id='modals.autodisconnection.title'
-            defaultMessage='Are you still there?'
+            id="modals.autodisconnection.title"
+            defaultMessage="Are you still there?"
           />
         </Header>
         <Copy>
           <FormattedMessage
-            id='modals.autodisconnection.foryoursafety1'
+            id="modals.autodisconnection.foryoursafety1"
             defaultMessage="You've been inactive for {duration} minutes. For your safety, you'll be logged out of your Wallet shortly."
             values={{ duration: duration }}
           />
         </Copy>
         <FooterButton
-          nature='primary'
-          size='16px'
+          nature="primary"
+          size="16px"
           fullwidth
           onClick={handleCancel}
         >
           <FormattedMessage
-            defaultMessage='Keep Me Logged In'
-            id='modals.autodisconnection.keeploggedin'
+            defaultMessage="Keep Me Logged In"
+            id="modals.autodisconnection.keeploggedin"
           />
         </FooterButton>
       </Body>

@@ -34,10 +34,10 @@ const Footer = ({ coinTicker, coinName, handleBuy }) => {
   }, [coinTicker])
   return (
     <Wrapper>
-      <BuyTradeButton height='48px' nature='primary' onClick={handleBuy}>
+      <BuyTradeButton height="48px" nature="primary" onClick={handleBuy}>
         <FormattedMessage
-          id='price.chart.buy.coin'
-          defaultMessage='Buy {coinName}'
+          id="price.chart.buy.coin"
+          defaultMessage="Buy {coinName}"
           values={{ coinName }}
         />
       </BuyTradeButton>
@@ -51,12 +51,12 @@ const Footer = ({ coinTicker, coinName, handleBuy }) => {
             fix: model.rates.FIX_TYPES.BASE_IN_FIAT
           }
         }}
-        data-e2e='exchangeLink'
+        data-e2e="exchangeLink"
       >
-        <BuyTradeButton height='48px' nature='primary'>
+        <BuyTradeButton height="48px" nature="primary">
           <FormattedMessage
-            id='price.chart.swap.coin'
-            defaultMessage='Swap {coinName}'
+            id="price.chart.swap.coin"
+            defaultMessage="Swap {coinName}"
             values={{ coinName }}
           />
         </BuyTradeButton>

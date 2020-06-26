@@ -43,13 +43,13 @@ const NumberBox = field => {
         data-e2e={field['data-e2e']}
       />
       {field.meta.touched && field.meta.error && field.errorIcon && (
-        <CustomIcon name={field.errorIcon} color='error' size='18px' />
+        <CustomIcon name={field.errorIcon} color="error" size="18px" />
       )}
       {field.meta.touched && field.meta.error && (
         <Error
-          size='12px'
+          size="12px"
           weight={500}
-          color='error'
+          color="error"
           {...field}
           data-e2e={`${field['data-e2e']}Error`}
         >
@@ -57,7 +57,7 @@ const NumberBox = field => {
         </Error>
       )}
       {field.meta.touched && !field.meta.error && field.meta.warning && (
-        <Error size='12px' weight={400} color='sent' {...field}>
+        <Error size="12px" weight={400} color="sent" {...field}>
           {field.meta.warning}
         </Error>
       )}

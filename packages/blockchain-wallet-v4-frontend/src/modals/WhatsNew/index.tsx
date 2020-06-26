@@ -41,17 +41,17 @@ const Container = styled.div`
 class WhatsNewContainer extends React.PureComponent<Props> {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.kvStoreWhatsNewActions.updateMetadataWhatsNew(Date.now())
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { announcements, ...rest } = this.props
     return (
@@ -59,8 +59,8 @@ class WhatsNewContainer extends React.PureComponent<Props> {
         {...rest}
         onClose={this.props.close}
         in={show}
-        data-e2e='whatsNewModal'
-        direction='left'
+        data-e2e="whatsNewModal"
+        direction="left"
       >
         <Container>
           {!prop('length', announcements) ? (

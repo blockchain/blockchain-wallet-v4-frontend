@@ -74,59 +74,59 @@ const SoftwareDownloadStep = props => {
   return hasDownloaded ? (
     <Wrapper>
       <HeadingWrapper>
-        <BlockchainLoader width='80px' height='80px' />
+        <BlockchainLoader width="80px" height="80px" />
       </HeadingWrapper>
-      <Text size='13px' weight={500}>
+      <Text size="13px" weight={500}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.downloaded.body'
-          defaultMessage='The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions.'
+          id="modals.lockboxsetup.softwaredownloadstep.downloaded.body"
+          defaultMessage="The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions."
         />
       </Text>
-      <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
+      <Text size="13px" weight={500} style={{ marginTop: '10px' }}>
         <FormattedHTMLMessage
-          id='modals.lockboxsetup.softwaredownloadstep.downloaded.body2'
-          defaultMessage='Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below.'
+          id="modals.lockboxsetup.softwaredownloadstep.downloaded.body2"
+          defaultMessage="Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below."
         />
       </Text>
-      <DownloadButton nature='primary' fullwidth onClick={onStepChange}>
-        <Text size='16px' weight={500} color='white'>
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+      <DownloadButton nature="primary" fullwidth onClick={onStepChange}>
+        <Text size="16px" weight={500} color="white">
+          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
         </Text>
       </DownloadButton>
-      <DismissText size='12px' weight={500} onClick={onGoBackToDownload}>
+      <DismissText size="12px" weight={500} onClick={onGoBackToDownload}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.downloaded.dismiss'
-          defaultMessage='Go back to download'
+          id="modals.lockboxsetup.softwaredownloadstep.downloaded.dismiss"
+          defaultMessage="Go back to download"
         />
       </DismissText>
     </Wrapper>
   ) : (
     <Wrapper>
       <HeadingWrapper>
-        <Icon name='request' color='info' size='62px' />
-        <Text size='18px' weight={500} style={{ marginTop: '18px' }}>
+        <Icon name="request" color="info" size="62px" />
+        <Text size="18px" weight={500} style={{ marginTop: '18px' }}>
           <FormattedMessage
-            id='modals.lockboxsetup.softwaredownloadstep.header'
-            defaultMessage='Software Update Required'
+            id="modals.lockboxsetup.softwaredownloadstep.header"
+            defaultMessage="Software Update Required"
           />
         </Text>
       </HeadingWrapper>
-      <Text size='13px' weight={500}>
+      <Text size="13px" weight={500}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.1body'
-          defaultMessage='In order to use your Lockbox, you must first update your device by installing apps via the software below.'
+          id="modals.lockboxsetup.softwaredownloadstep.1body"
+          defaultMessage="In order to use your Lockbox, you must first update your device by installing apps via the software below."
         />
       </Text>
-      <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
+      <Text size="13px" weight={500} style={{ marginTop: '10px' }}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.2body'
-          defaultMessage='This software is intended for Blockchain Lockbox devices only. If you have a Ledger Nano S, please update your device using Ledger Live.'
+          id="modals.lockboxsetup.softwaredownloadstep.2body"
+          defaultMessage="This software is intended for Blockchain Lockbox devices only. If you have a Ledger Nano S, please update your device using Ledger Live."
         />
       </Text>
-      <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
+      <Text size="13px" weight={500} style={{ marginTop: '10px' }}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.3body'
-          defaultMessage='If you have previously updated your device, you may dismiss this and continue.'
+          id="modals.lockboxsetup.softwaredownloadstep.3body"
+          defaultMessage="If you have previously updated your device, you may dismiss this and continue."
         />
       </Text>
       <Link
@@ -136,18 +136,18 @@ const SoftwareDownloadStep = props => {
           getOsSpecificUpdater()
         )}`}
       >
-        <DownloadButton nature='primary' fullwidth onClick={onStartDownload}>
-          <Text size='16px' weight={500} color='white'>
+        <DownloadButton nature="primary" fullwidth onClick={onStartDownload}>
+          <Text size="16px" weight={500} color="white">
             <FormattedMessage
-              id='modals.lockboxsetup.softwaredownloadstep.download'
-              defaultMessage='Download Software'
+              id="modals.lockboxsetup.softwaredownloadstep.download"
+              defaultMessage="Download Software"
             />
           </Text>
         </DownloadButton>
       </Link>
-      <DismissText size='12px' weight={500} onClick={onSkipDownload}>
+      <DismissText size="12px" weight={500} onClick={onSkipDownload}>
         <FormattedMessage
-          id='modals.lockboxsetup.softwaredownloadstep.dismiss'
+          id="modals.lockboxsetup.softwaredownloadstep.dismiss"
           defaultMessage="I've already updated, let's continue"
         />
       </DismissText>

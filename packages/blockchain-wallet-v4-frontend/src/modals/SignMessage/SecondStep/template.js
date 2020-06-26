@@ -39,54 +39,54 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <DetailRow>
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.address'
-            defaultMessage='Address:'
+            id="modals.signmessage.secondstep.address"
+            defaultMessage="Address:"
           />
         </Text>
-        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
+        <Text size="14px" weight={400} data-e2e="signMessageAddressValue">
           {address}
         </Text>
       </DetailRow>
       <DetailRow>
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.message'
-            defaultMessage='Message:'
+            id="modals.signmessage.secondstep.message"
+            defaultMessage="Message:"
           />
         </Text>
-        <Text size='14px' weight={400} data-e2e='signMessageMsgValue'>
+        <Text size="14px" weight={400} data-e2e="signMessageMsgValue">
           {message}
         </Text>
       </DetailRow>
       <DetailRow column>
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           <FormattedMessage
-            id='modals.signmessage.secondstep.signature'
-            defaultMessage='Signature:'
+            id="modals.signmessage.secondstep.signature"
+            defaultMessage="Signature:"
           />
         </Text>
         <CopyClipboard address={signedMessage} />
       </DetailRow>
       <SubmitRow>
         <ClickableText
-          size='14px'
+          size="14px"
           weight={400}
           onClick={resetForm}
-          data-e2e='signMessageResetFormButton'
+          data-e2e="signMessageResetFormButton"
         >
           <FormattedMessage
-            id='modals.signmessage.reset'
-            defaultMessage='Reset Form'
+            id="modals.signmessage.reset"
+            defaultMessage="Reset Form"
           />
         </ClickableText>
         <Button
-          nature='primary'
+          nature="primary"
           onClick={closeAll}
-          data-e2e='signMessageDoneButton'
+          data-e2e="signMessageDoneButton"
         >
-          <FormattedMessage id='buttons.done' defaultMessage='Done' />
+          <FormattedMessage id="buttons.done" defaultMessage="Done" />
         </Button>
       </SubmitRow>
     </Wrapper>

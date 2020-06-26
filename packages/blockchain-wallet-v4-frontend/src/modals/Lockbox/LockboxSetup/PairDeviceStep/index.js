@@ -12,14 +12,14 @@ import PairDeviceStep from './template'
 class PairDeviceStepContainer extends React.PureComponent {
   state = { btcOpenTimeout: false }
 
-  componentDidMount () {
+  componentDidMount() {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
     this.startBtcOpenTimeout()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     ReactTooltip.hide()
   }
 
@@ -40,7 +40,7 @@ class PairDeviceStepContainer extends React.PureComponent {
     }, OPEN_BTC_TIMEOUT)
   }
 
-  render () {
+  render() {
     const { deviceType, showBtcWarning, supportLink } = this.props
 
     return (

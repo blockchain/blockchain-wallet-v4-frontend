@@ -58,14 +58,14 @@ const Success: React.FC<Props> = props => {
     <Wrapper>
       <div>
         <FlyoutWrapper>
-          <TopText color='grey800' size='20px' weight={600}>
+          <TopText color="grey800" size="20px" weight={600}>
             <Icon
               cursor
-              name='arrow-left'
-              size='20px'
-              color='grey600'
+              name="arrow-left"
+              size="20px"
+              color="grey600"
               style={{ marginRight: '24px' }}
-              role='button'
+              role="button"
               onClick={() =>
                 props.simpleBuyActions.setStep({
                   step: 'ORDER_SUMMARY',
@@ -74,15 +74,15 @@ const Success: React.FC<Props> = props => {
               }
             />
             <FormattedMessage
-              id='modals.simplebuy.transferdetails'
-              defaultMessage='Transfer Details'
+              id="modals.simplebuy.transferdetails"
+              defaultMessage="Transfer Details"
             />
           </TopText>
           <InfoContainer>
-            <Text color='grey600' weight={500} size='14px'>
+            <Text color="grey600" weight={500} size="14px">
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.info_1'
-                defaultMessage='Securely transfer {fiatCurrency} from your bank account to Blockchain.com. Depending on the transfer method and availability of funds, this may take up to one business day.'
+                id="modals.simplebuy.transferdetails.info_1"
+                defaultMessage="Securely transfer {fiatCurrency} from your bank account to Blockchain.com. Depending on the transfer method and availability of funds, this may take up to one business day."
                 values={{
                   fiatCurrency: props.order.inputCurrency
                 }}
@@ -90,22 +90,22 @@ const Success: React.FC<Props> = props => {
             </Text>
             {props.account.currency === 'GBP' && (
               <Text
-                color='grey600'
+                color="grey600"
                 weight={500}
-                size='14px'
+                size="14px"
                 style={{ marginTop: '24px' }}
               >
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.info.gbp'
-                  defaultMessage='You’ll need to open your bank application in a different tab to transfer the funds.'
+                  id="modals.simplebuy.transferdetails.info.gbp"
+                  defaultMessage="You’ll need to open your bank application in a different tab to transfer the funds."
                 />
               </Text>
             )}
             {props.account.currency === 'EUR' && (
-              <Text color='grey600' weight={500} size='14px'>
+              <Text color="grey600" weight={500} size="14px">
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.info.eur'
-                  defaultMessage='You’ll need to log in to your bank account online to transfer funds.'
+                  id="modals.simplebuy.transferdetails.info.eur"
+                  defaultMessage="You’ll need to log in to your bank account online to transfer funds."
                 />
               </Text>
             )}
@@ -114,10 +114,10 @@ const Success: React.FC<Props> = props => {
         {(props.account.currency === 'GBP' ||
           props.account.currency === 'EUR') && (
           <RowTitle>
-            <Text color='grey800' weight={700} size='14px'>
+            <Text color="grey800" weight={700} size="14px">
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.banktransferinfo'
-                defaultMessage='Bank Transfer Information'
+                id="modals.simplebuy.transferdetails.banktransferinfo"
+                defaultMessage="Bank Transfer Information"
               />
             </Text>
           </RowTitle>
@@ -127,25 +127,25 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.bankname'
-                defaultMessage='Bank Name'
+                id="modals.simplebuy.transferdetails.bankname"
+                defaultMessage="Bank Name"
               />
             </Title>
-            <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
+            <Value data-e2e="sbBankName">{props.account.agent.name}</Value>
           </Row>
         )}
         {props.account.currency === 'EUR' && (
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.bankcountry'
-                defaultMessage='Bank Country'
+                id="modals.simplebuy.transferdetails.bankcountry"
+                defaultMessage="Bank Country"
               />
             </Title>
-            <Value data-e2e='sbCountryEstonia'>
+            <Value data-e2e="sbCountryEstonia">
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.estonia'
-                defaultMessage='Estonia'
+                id="modals.simplebuy.transferdetails.estonia"
+                defaultMessage="Estonia"
               />
             </Value>
           </Row>
@@ -154,22 +154,22 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.IBAN'
-                defaultMessage='IBAN'
+                id="modals.simplebuy.transferdetails.IBAN"
+                defaultMessage="IBAN"
               />
             </Title>
-            <Value data-e2e='sbIbanAddress'>{props.account.address}</Value>
+            <Value data-e2e="sbIbanAddress">{props.account.address}</Value>
           </Row>
         )}
         {props.account.currency === 'GBP' && (
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.account'
-                defaultMessage='Account Number'
+                id="modals.simplebuy.transferdetails.account"
+                defaultMessage="Account Number"
               />
             </Title>
-            <Value data-e2e='sbAccountNumber'>
+            <Value data-e2e="sbAccountNumber">
               {props.account.agent.account}
             </Value>
           </Row>
@@ -178,41 +178,41 @@ const Success: React.FC<Props> = props => {
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.sortcode'
-                defaultMessage='Sort Code'
+                id="modals.simplebuy.transferdetails.sortcode"
+                defaultMessage="Sort Code"
               />
             </Title>
-            <Value data-e2e='sbSortCode'>{props.account.agent.code}</Value>
+            <Value data-e2e="sbSortCode">{props.account.agent.code}</Value>
           </Row>
         )}
         {props.account.currency === 'EUR' && (
           <Row>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.swift'
-                defaultMessage='Bank Code (SWIFT / BIC)'
+                id="modals.simplebuy.transferdetails.swift"
+                defaultMessage="Bank Code (SWIFT / BIC)"
               />
             </Title>
-            <Value data-e2e='sbBankCode'>{props.account.agent.code}</Value>
+            <Value data-e2e="sbBankCode">{props.account.agent.code}</Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
           <Row>
-            <Title size='14px' weight={500} color='grey600'>
-              <FormattedMessage id='copy.address' defaultMessage='Address' />
+            <Title size="14px" weight={500} color="grey600">
+              <FormattedMessage id="copy.address" defaultMessage="Address" />
             </Title>
-            <Value data-e2e='sbAddress'>{props.account.agent.address}</Value>
+            <Value data-e2e="sbAddress">{props.account.agent.address}</Value>
           </Row>
         )}
         {props.account.currency === 'USD' && (
           <Row>
-            <Title size='14px' weight={500} color='grey600'>
+            <Title size="14px" weight={500} color="grey600">
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.routingnumber'
-                defaultMessage='Routing Number'
+                id="modals.simplebuy.transferdetails.routingnumber"
+                defaultMessage="Routing Number"
               />
             </Title>
-            <Value data-e2e='sbRoutingNumber'>
+            <Value data-e2e="sbRoutingNumber">
               {props.account.agent.routingNumber}
             </Value>
           </Row>
@@ -220,22 +220,22 @@ const Success: React.FC<Props> = props => {
         <Row>
           <Title>
             <FormattedMessage
-              id='modals.simplebuy.transferdetails.recipient'
-              defaultMessage='Recipient'
+              id="modals.simplebuy.transferdetails.recipient"
+              defaultMessage="Recipient"
             />
           </Title>
-          <Value data-e2e='sbRecipientName'>
+          <Value data-e2e="sbRecipientName">
             {props.userData.firstName} {props.userData.lastName}
           </Value>
         </Row>
         <Row>
           <Title>
             <FormattedMessage
-              id='modals.simplebuy.transferdetails.amount'
-              defaultMessage='Amount to Send'
+              id="modals.simplebuy.transferdetails.amount"
+              defaultMessage="Amount to Send"
             />
           </Title>
-          <Value data-e2e='sbSentAmount'>
+          <Value data-e2e="sbSentAmount">
             {fiatToString({
               unit: props.order.inputCurrency as FiatType,
               value: convertBaseToStandard('FIAT', props.order.inputQuantity)
@@ -244,30 +244,30 @@ const Success: React.FC<Props> = props => {
         </Row>
       </div>
       <Bottom>
-        <Text size='12px' weight={500} color='grey600'>
+        <Text size="12px" weight={500} color="grey600">
           <FormattedMessage
-            id='modals.simplebuy.transferdetails.sendfundsfrom'
-            defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
+            id="modals.simplebuy.transferdetails.sendfundsfrom"
+            defaultMessage="Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected."
           />
         </Text>
         {props.account.currency === 'GBP' && (
           <LegalWrapper inline>
-            <Text size='12px' weight={500} color='grey600'>
+            <Text size="12px" weight={500} color="grey600">
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.depositagreement'
-                defaultMessage='By depositing funds to this account, you agree to {ToS}, our banking partner.'
+                id="modals.simplebuy.transferdetails.depositagreement"
+                defaultMessage="By depositing funds to this account, you agree to {ToS}, our banking partner."
                 values={{
                   ToS: (
                     <Link
-                      href='https://exchange.blockchain.com/legal'
-                      size='12px'
+                      href="https://exchange.blockchain.com/legal"
+                      size="12px"
                       weight={500}
-                      rel='noreferrer noopener'
-                      target='_blank'
+                      rel="noreferrer noopener"
+                      target="_blank"
                     >
                       <FormattedMessage
-                        id='modals.simplebuy.transferdetails.agree'
-                        defaultMessage='Terms and Conditions of Modular'
+                        id="modals.simplebuy.transferdetails.agree"
+                        defaultMessage="Terms and Conditions of Modular"
                       />
                     </Link>
                   )
@@ -279,45 +279,45 @@ const Success: React.FC<Props> = props => {
 
         <OkButton
           fullwidth
-          nature='primary'
-          data-e2e='closeSBTransferDetails'
+          nature="primary"
+          data-e2e="closeSBTransferDetails"
           onClick={() => props.handleClose()}
         >
           <FormattedMessage
-            id='modals.simplebuy.transferdetails.sendfundsfromok'
-            defaultMessage='OK'
+            id="modals.simplebuy.transferdetails.sendfundsfromok"
+            defaultMessage="OK"
           />
         </OkButton>
         {(props.account.currency === 'GBP' ||
           props.account.currency === 'EUR') && (
           <BottomInfoContainer>
-            <Text size='14px' weight={600} style={{ marginBottom: '8px' }}>
+            <Text size="14px" weight={600} style={{ marginBottom: '8px' }}>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.questionsbanktransfers'
-                defaultMessage='Questions on how to make bank transfers?'
+                id="modals.simplebuy.transferdetails.questionsbanktransfers"
+                defaultMessage="Questions on how to make bank transfers?"
               />
             </Text>
-            <Text size='14px' weight={500}>
+            <Text size="14px" weight={500}>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.questionsbanktransfersdesc'
-                defaultMessage='We’ve got you covered with a step by step article.'
+                id="modals.simplebuy.transferdetails.questionsbanktransfersdesc"
+                defaultMessage="We’ve got you covered with a step by step article."
               />
             </Text>
             <Link
-              href='https://support.blockchain.com/hc/en-us/articles/360042141932'
-              rel='noopener noreferrer'
-              data-e2e='openExchange'
-              target='_blank'
+              href="https://support.blockchain.com/hc/en-us/articles/360042141932"
+              rel="noopener noreferrer"
+              data-e2e="openExchange"
+              target="_blank"
               onClick={() =>
                 props.analyticsActions.logEvent(
                   model.analytics.SB_EVENTS.CLICK_SUPPORT_ARTICLE
                 )
               }
             >
-              <Text color='blue600' size='14px' weight={500}>
+              <Text color="blue600" size="14px" weight={500}>
                 <FormattedMessage
-                  id='modals.simplebuy.transferdetails.readnow'
-                  defaultMessage='Read it now.'
+                  id="modals.simplebuy.transferdetails.readnow"
+                  defaultMessage="Read it now."
                 />
               </Text>
             </Link>

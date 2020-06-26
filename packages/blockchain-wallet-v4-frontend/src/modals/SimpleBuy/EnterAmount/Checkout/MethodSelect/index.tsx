@@ -137,13 +137,13 @@ class MethodSelect extends PureComponent<Props> {
       case 'BANK_ACCOUNT':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='bank-filled' />
+            <Icon size="18px" color="blue600" name="bank-filled" />
           </IconContainer>
         )
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='16px' color='blue600' name='credit-card-sb' />
+            <Icon size="16px" color="blue600" name="credit-card-sb" />
           </IconContainer>
         )
       case 'USER_CARD':
@@ -152,8 +152,8 @@ class MethodSelect extends PureComponent<Props> {
         )
         return (
           <img
-            height='18px'
-            width='auto'
+            height="18px"
+            width="auto"
             src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
           />
         )
@@ -239,7 +239,7 @@ class MethodSelect extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return (
       <Field
         component={SelectBoxMethod}
@@ -248,7 +248,7 @@ class MethodSelect extends PureComponent<Props> {
           this.props.paymentMethods.methods.length <= 1 &&
           this.props.cards.length < 1
         }
-        name='method'
+        name="method"
         openMenuOnClick={
           this.props.paymentMethods.methods.length > 1 ||
           this.props.cards.length > 0

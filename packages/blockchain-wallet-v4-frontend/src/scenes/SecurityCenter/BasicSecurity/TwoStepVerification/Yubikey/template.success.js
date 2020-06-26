@@ -67,31 +67,31 @@ const Yubikey = props => {
       <AuthenticatorSummary success={uiState.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
-            <Text size='14px' weight={400}>
+            <Text size="14px" weight={400}>
               <FormattedMessage
-                id='scenes.security.twostepverification.yubi.step1'
+                id="scenes.security.twostepverification.yubi.step1"
                 defaultMessage="1. Insert the Yubikey into your computer's USB port."
               />
             </Text>
-            <Text size='14px' weight={400} style={spacing('mt-5')}>
+            <Text size="14px" weight={400} style={spacing('mt-5')}>
               <FormattedMessage
-                id='scenes.security.twostepverification.yubi.step2'
-                defaultMessage='2. Pair your Yubikey.'
+                id="scenes.security.twostepverification.yubi.step2"
+                defaultMessage="2. Pair your Yubikey."
               />
             </Text>
           </YubikeyCopy>
           <YubikeyInputWrapper>
             <YubikeyInput
-              type='password'
-              name='yubikeyCode'
+              type="password"
+              name="yubikeyCode"
               value={value}
               onChange={handleInput}
             />
           </YubikeyInputWrapper>
-          <Button nature='primary' type='submit'>
+          <Button nature="primary" type="submit">
             <FormattedMessage
-              id='scenes.security.twostepverification.yubi.submit'
-              defaultMessage='Submit'
+              id="scenes.security.twostepverification.yubi.submit"
+              defaultMessage="Submit"
             />
           </Button>
         </YubikeyContainer>

@@ -73,15 +73,15 @@ const PasswordBox = field => {
       {touched && error && (
         <>
           <Error
-            size='12px'
+            size="12px"
             weight={500}
-            color='error'
-            data-e2e='passwordsNotMatchError'
+            color="error"
+            data-e2e="passwordsNotMatchError"
           >
             {error}
           </Error>
           {noLastPass && (
-            <WarningIcon name='alert-filled' color='red600' size='20px' />
+            <WarningIcon name="alert-filled" color="red600" size="20px" />
           )}
         </>
       )}

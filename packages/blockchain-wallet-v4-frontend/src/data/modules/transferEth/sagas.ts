@@ -9,7 +9,7 @@ import { promptForSecondPassword } from 'services/SagaService'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function * ({ payload }: ReturnType<typeof A.initialized>) {
+  const initialized = function*({ payload }: ReturnType<typeof A.initialized>) {
     try {
       yield put(A.transferEthPaymentUpdatedLoading())
       let payment: EthPaymentType = coreSagas.payment.eth.create({
@@ -25,7 +25,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const confirmTransferEth = function * (action) {
+  const confirmTransferEth = function*(action) {
     try {
       yield put(actions.form.startSubmit('transferEth'))
       const { to, effectiveBalance } = action.payload

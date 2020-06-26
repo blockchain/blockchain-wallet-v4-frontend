@@ -40,46 +40,46 @@ const TradeItem = props => {
   return (
     <MediaContextConsumer>
       {({ mobile }) => (
-        <TableRow dataE2e='exchangeHistoryOrderRow'>
-          <StatusContainer width='30%' mobileWidth='25%'>
-            <TableCell width='50%'>
+        <TableRow dataE2e="exchangeHistoryOrderRow">
+          <StatusContainer width="30%" mobileWidth="25%">
+            <TableCell width="50%">
               <Text
                 weight={400}
                 size={mobile ? '12px' : '14px'}
                 capitalize
                 color={selectColor(status)}
-                data-e2e='exchangeHistoryOrderStatus'
+                data-e2e="exchangeHistoryOrderStatus"
               >
                 <OrderStatus status={status} />
               </Text>
             </TableCell>
-            <TableCell width='50%'>
+            <TableCell width="50%">
               <Link
                 size={mobile ? '12px' : '14px'}
                 weight={400}
                 capitalize
                 onClick={handleClick}
-                data-e2e='exchangeHistoryViewDetails'
+                data-e2e="exchangeHistoryViewDetails"
               >
                 <FormattedMessage
-                  id='scenes.exchangehistory.list.tradeitem.viewdetails'
-                  defaultMessage='View details'
+                  id="scenes.exchangehistory.list.tradeitem.viewdetails"
+                  defaultMessage="View details"
                 />
               </Link>
             </TableCell>
           </StatusContainer>
-          <TableCell width='30%' mobileWidth='18%'>
+          <TableCell width="30%" mobileWidth="18%">
             <Text
               size={mobile ? '12px' : '14px'}
               weight={400}
-              data-e2e='exchangeHistoryOrderDate'
+              data-e2e="exchangeHistoryOrderDate"
             >
               {tradeDateHelper(date, mobile)}
             </Text>
           </TableCell>
-          <TableCell width='20%' mobileWidth='30%'>
+          <TableCell width="20%" mobileWidth="30%">
             <Text
-              data-e2e='exchangeHistoryOrderSource'
+              data-e2e="exchangeHistoryOrderSource"
               size={mobile ? '12px' : '14px'}
               weight={400}
             >{`${depositAmount} ${pathOr(
@@ -88,9 +88,9 @@ const TradeItem = props => {
               coinModels
             )}`}</Text>
           </TableCell>
-          <TableCell width='20%'>
+          <TableCell width="20%">
             <Text
-              data-e2e='exchangeHistoryOrderTarget'
+              data-e2e="exchangeHistoryOrderTarget"
               size={mobile ? '12px' : '14px'}
               weight={400}
               color={

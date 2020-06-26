@@ -26,7 +26,7 @@ const INITIAL_STATE: PreferencesState = {
   }
 }
 
-export function preferencesReducer (
+export function preferencesReducer(
   state = INITIAL_STATE,
   action
 ): PreferencesState {

@@ -10,7 +10,7 @@ class UploadDocumentsSuccessContainer extends Component {
     reference: PropTypes.string.isRequired
   }
 
-  render () {
+  render() {
     return <UploadDocumentsSuccess reference={this.props.reference} />
   }
 }

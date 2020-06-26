@@ -5,7 +5,7 @@ import React from 'react'
 import SelectBox from '../SelectBox'
 
 class SelectBoxUSState extends React.PureComponent {
-  render () {
+  render() {
     const { states, ...rest } = this.props
     const elements = [{ group: '', items: states }]
 
@@ -13,8 +13,8 @@ class SelectBoxUSState extends React.PureComponent {
       <SelectBox
         label={
           <FormattedMessage
-            id='components.selectboxstate.label'
-            defaultMessage='Select state'
+            id="components.selectboxstate.label"
+            defaultMessage="Select state"
           />
         }
         elements={elements}

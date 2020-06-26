@@ -19,14 +19,14 @@ const Copy = styled(Text)`
 export const AirdropInfoHeader = () => {
   return (
     <Text
-      size='20px'
-      color='grey800'
+      size="20px"
+      color="grey800"
       weight={600}
       style={{ marginTop: '16px' }}
     >
       <FormattedMessage
-        id='scenes.airdrops.success.airdropprogram'
-        defaultMessage='Airdrop Program'
+        id="scenes.airdrops.success.airdropprogram"
+        defaultMessage="Airdrop Program"
       />
     </Text>
   )
@@ -37,27 +37,27 @@ export const AirdropInfoCopy = ({ kycState }) => {
     case KYC_STATES.REJECTED:
     case KYC_STATES.EXPIRED:
       return (
-        <Copy size='14px' color='grey600' weight={500}>
+        <Copy size="14px" color="grey600" weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.success.goldfailed'
-            defaultMessage='You are not enrolled in the Blockchain Airdrop program. There was an issue with your identity verification.'
+            id="scenes.airdrops.success.goldfailed"
+            defaultMessage="You are not enrolled in the Blockchain Airdrop program. There was an issue with your identity verification."
           />
         </Copy>
       )
     case KYC_STATES.VERIFIED:
       return (
-        <Copy size='14px' color='grey600' weight={500}>
+        <Copy size="14px" color="grey600" weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.success.goldverified'
-            defaultMessage='You are enrolled in the Blockchain Airdrop program. The easiest way to try and discover new cryptos.'
+            id="scenes.airdrops.success.goldverified"
+            defaultMessage="You are enrolled in the Blockchain Airdrop program. The easiest way to try and discover new cryptos."
           />
         </Copy>
       )
     default:
       return (
-        <Copy size='14px' color='grey600' weight={500}>
+        <Copy size="14px" color="grey600" weight={500}>
           <FormattedMessage
-            id='scenes.airdrops.success.noactive'
+            id="scenes.airdrops.success.noactive"
             defaultMessage="There are no active Airdrops at the moment. We'll notify you if a new one starts."
           />
         </Copy>
@@ -72,8 +72,8 @@ export const AirdropInfoButton = ({ kycState }) => {
       return (
         <GreyCartridge style={{ marginTop: '16px' }}>
           <FormattedMessage
-            id='scenes.airdrop.enrollmentpending'
-            defaultMessage='Enrollment Pending'
+            id="scenes.airdrop.enrollmentpending"
+            defaultMessage="Enrollment Pending"
           />
         </GreyCartridge>
       )
@@ -82,8 +82,8 @@ export const AirdropInfoButton = ({ kycState }) => {
       return (
         <ErrorCartridge style={{ marginTop: '24px' }}>
           <FormattedMessage
-            id='scenes.airdrop.ineligible'
-            defaultMessage='Ineligible KYC State: {kycState}'
+            id="scenes.airdrop.ineligible"
+            defaultMessage="Ineligible KYC State: {kycState}"
             values={{ kycState }}
           />
         </ErrorCartridge>
@@ -92,20 +92,20 @@ export const AirdropInfoButton = ({ kycState }) => {
       return (
         <>
           <Text
-            size='14px'
+            size="14px"
             style={{ marginBottom: '16px' }}
-            color='grey600'
+            color="grey600"
             weight={500}
           >
             <FormattedMessage
-              id='scenes.airdrop.notify'
-              defaultMessage='We will notify you for future airdrops.'
+              id="scenes.airdrop.notify"
+              defaultMessage="We will notify you for future airdrops."
             />
           </Text>
           <SuccessCartridge>
             <FormattedMessage
-              id='scenes.airdrop.enrolled'
-              defaultMessage='Enrolled'
+              id="scenes.airdrop.enrolled"
+              defaultMessage="Enrolled"
             />
           </SuccessCartridge>
         </>

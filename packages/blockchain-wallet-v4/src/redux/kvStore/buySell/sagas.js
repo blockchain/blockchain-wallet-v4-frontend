@@ -9,7 +9,7 @@ import { KVStoreEntry } from '../../../types'
 import { set } from 'ramda-lens'
 
 export default ({ api, networks }) => {
-  const createBuySell = function * (kv) {
+  const createBuySell = function*(kv) {
     const newBuySellEntry = {
       sfox: {
         trades: []
@@ -22,7 +22,7 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataBuySell(newkv))
   }
 
-  const fetchMetadataBuySell = function * () {
+  const fetchMetadataBuySell = function*() {
     try {
       const typeId = derivationMap[BUYSELL]
       yield take(actionTypes.root.FETCH_METADATA_ROOT_SUCCESS)

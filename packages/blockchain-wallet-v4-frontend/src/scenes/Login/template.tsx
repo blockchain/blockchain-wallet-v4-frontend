@@ -141,38 +141,38 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
       <PublicWrapper>
         <Modals />
         <Header>
-          <Text size='20px' color='textBlack' weight={600} capitalize>
+          <Text size="20px" color="textBlack" weight={600} capitalize>
             <FormattedMessage
-              id='scenes.login.welcome'
-              defaultMessage='Welcome back!'
+              id="scenes.login.welcome"
+              defaultMessage="Welcome back!"
             />
           </Text>
         </Header>
         <LoginForm onSubmit={handleSubmit}>
           {!isSupportedBrowser && (
             <BrowserWarning>
-              <Banner type='warning'>
+              <Banner type="warning">
                 <FormattedMessage
-                  id='scenes.login.browserwarning'
-                  defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+                  id="scenes.login.browserwarning"
+                  defaultMessage="Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera."
                 />
               </Banner>
             </BrowserWarning>
           )}
           <FormGroup>
             <FormItem>
-              <FormLabel htmlFor='guid'>
+              <FormLabel htmlFor="guid">
                 <FormattedMessage
-                  id='scenes.login.guid'
-                  defaultMessage='Wallet ID'
+                  id="scenes.login.guid"
+                  defaultMessage="Wallet ID"
                 />
               </FormLabel>
               <Field
                 component={TextBox}
-                data-e2e='loginGuid'
+                data-e2e="loginGuid"
                 disabled={!isSupportedBrowser}
                 disableSpellcheck
-                name='guid'
+                name="guid"
                 normalize={removeWhitespace}
                 validate={[required, validWalletId]}
               />
@@ -180,21 +180,21 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
             {guidError && (
               <GuidError inline>
                 <Text
-                  size='12px'
-                  color='error'
+                  size="12px"
+                  color="error"
                   weight={400}
-                  data-e2e='walletIdError'
+                  data-e2e="walletIdError"
                 >
                   <FormattedMessage
-                    id='scenes.login.guiderror'
-                    defaultMessage='Unknown Wallet ID. If you need a reminder '
+                    id="scenes.login.guiderror"
+                    defaultMessage="Unknown Wallet ID. If you need a reminder "
                   />
                 </Text>
-                <LinkContainer to='/reminder'>
-                  <Link size='12px' weight={500}>
+                <LinkContainer to="/reminder">
+                  <Link size="12px" weight={500}>
                     <FormattedMessage
-                      id='scenes.login.clickhere'
-                      defaultMessage='click here.'
+                      id="scenes.login.clickhere"
+                      defaultMessage="click here."
                     />
                   </Link>
                 </LinkContainer>
@@ -202,41 +202,41 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
             )}
             {showGuidInvalidError ? (
               <LoginTextGroup inline>
-                <Text size='12px' color='grey800' weight={500}>
+                <Text size="12px" color="grey800" weight={500}>
                   {isGuidEmailAddress ? (
                     <FormattedMessage
-                      id='scenes.login.isguidemailerror'
-                      defaultMessage='👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder'
+                      id="scenes.login.isguidemailerror"
+                      defaultMessage="👋Hey! Make sure this is your Wallet ID and not an email address. If you need a reminder"
                     />
                   ) : (
                     <FormattedMessage
-                      id='scenes.login.isguidinvalid'
+                      id="scenes.login.isguidinvalid"
                       defaultMessage="👋Hey! This format doesn't look quite right. Wallet ID's look like this: ef7549a5-94ad-39...If you need a reminder"
                     />
                   )}
                 </Text>
-                <LinkContainer to='/reminder'>
-                  <Link size='12px' weight={600}>
+                <LinkContainer to="/reminder">
+                  <Link size="12px" weight={600}>
                     <FormattedMessage
-                      id='scenes.login.clickhere'
-                      defaultMessage='click here.'
+                      id="scenes.login.clickhere"
+                      defaultMessage="click here."
                     />
                   </Link>
                 </LinkContainer>
               </LoginTextGroup>
             ) : (
               <LoginTextGroup inline>
-                <Text size='12px' color='grey800' weight={500}>
+                <Text size="12px" color="grey800" weight={500}>
                   <FormattedMessage
-                    id='scenes.login.findyourguid'
-                    defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
+                    id="scenes.login.findyourguid"
+                    defaultMessage="Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?"
                   />
                 </Text>
-                <LinkContainer to='/reminder'>
-                  <Link size='12px' weight={500}>
+                <LinkContainer to="/reminder">
+                  <Link size="12px" weight={500}>
                     <FormattedMessage
-                      id='scenes.login.sendguid'
-                      defaultMessage='Send my Wallet ID'
+                      id="scenes.login.sendguid"
+                      defaultMessage="Send my Wallet ID"
                     />
                   </Link>
                 </LinkContainer>
@@ -245,27 +245,27 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel htmlFor='password'>
+              <FormLabel htmlFor="password">
                 <FormattedMessage
-                  id='scenes.login.password'
-                  defaultMessage='Password'
+                  id="scenes.login.password"
+                  defaultMessage="Password"
                 />
               </FormLabel>
               <Field
-                name='password'
+                name="password"
                 validate={[required]}
                 component={PasswordBox}
                 disabled={!isSupportedBrowser}
-                data-e2e='loginPassword'
+                data-e2e="loginPassword"
               />
               {passwordError && (
                 <FormError
                   position={authType > 0 ? 'relative' : 'absolute'}
-                  data-e2e='passwordError'
+                  data-e2e="passwordError"
                 >
                   <FormattedMessage
-                    id='scenes.login.wrong_password'
-                    defaultMessage='Error decrypting wallet. Wrong password'
+                    id="scenes.login.wrong_password"
+                    defaultMessage="Error decrypting wallet. Wrong password"
                   />
                 </FormError>
               )}
@@ -283,44 +283,44 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           {authType > 0 && (
             <FormGroup>
               <FormItem>
-                <FormLabel htmlFor='code'>
+                <FormLabel htmlFor="code">
                   {authType === 1 && (
                     <FormattedMessage
-                      id='scenes.login.yubikey'
-                      defaultMessage='Yubikey'
+                      id="scenes.login.yubikey"
+                      defaultMessage="Yubikey"
                     />
                   )}
                   {authType === 4 && (
                     <FormattedMessage
-                      id='scenes.login.google'
-                      defaultMessage='Authenticator App Code'
+                      id="scenes.login.google"
+                      defaultMessage="Authenticator App Code"
                     />
                   )}
                   {authType === 5 && (
                     <FormattedMessage
-                      id='scenes.login.mobile'
-                      defaultMessage='SMS Code'
+                      id="scenes.login.mobile"
+                      defaultMessage="SMS Code"
                     />
                   )}
                 </FormLabel>
                 <Field
-                  name='code'
+                  name="code"
                   normalize={removeWhitespace}
                   validate={[required]}
                   component={authType === 1 ? PasswordBox : TextBox}
                   noLastPass
                   autoFocus
-                  data-e2e='loginTwoFactorCode'
+                  data-e2e="loginTwoFactorCode"
                 />
                 {authType === 5 && (
                   <ResendSmsLink
-                    size='12px'
+                    size="12px"
                     weight={400}
                     onClick={handleSmsResend}
                   >
                     <FormattedMessage
-                      id='scenes.login.resendsms'
-                      defaultMessage='Resend SMS'
+                      id="scenes.login.resendsms"
+                      defaultMessage="Resend SMS"
                     />
                   </ResendSmsLink>
                 )}
@@ -332,20 +332,20 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           )}
           <FormGroup>
             <LoginButton
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               fullwidth
-              height='48px'
+              height="48px"
               disabled={submitting || invalid || busy || !password}
-              data-e2e='loginButton'
+              data-e2e="loginButton"
             >
               {busy && !loginError ? (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
+                <HeartbeatLoader height="20px" width="20px" color="white" />
               ) : (
-                <Text color='whiteFade900' size='16px' weight={600}>
+                <Text color="whiteFade900" size="16px" weight={600}>
                   <FormattedMessage
-                    id='scenes.login.login'
-                    defaultMessage='Log In'
+                    id="scenes.login.login"
+                    defaultMessage="Log In"
                   />
                 </Text>
               )}
@@ -354,39 +354,39 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
         </LoginForm>
         {isSupportedBrowser && (
           <Footer>
-            <LinkContainer to='/mobile-login'>
-              <Link size='13px' weight={600} data-e2e='loginViaMobileLink'>
+            <LinkContainer to="/mobile-login">
+              <Link size="13px" weight={600} data-e2e="loginViaMobileLink">
                 <FormattedMessage
-                  id='scenes.login.loginmobile'
-                  defaultMessage='Login via Mobile'
+                  id="scenes.login.loginmobile"
+                  defaultMessage="Login via Mobile"
                 />
               </Link>
             </LinkContainer>
-            <LinkContainer to='/help'>
-              <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+            <LinkContainer to="/help">
+              <Link size="13px" weight={600} data-e2e="loginGetHelp">
                 <FormattedMessage
-                  id='scenes.login.needhelp'
-                  defaultMessage='Need some help?'
+                  id="scenes.login.needhelp"
+                  defaultMessage="Need some help?"
                 />
               </Link>
             </LinkContainer>
           </Footer>
         )}
       </PublicWrapper>
-      <LinkContainer data-e2e='signupLink' to='/signup'>
+      <LinkContainer data-e2e="signupLink" to="/signup">
         <Link>
           <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
+            <Text size="14px" color="whiteFade600" weight={500}>
               <FormattedMessage
-                id='scenes.login.wallet.link'
-                defaultMessage='Dont have a wallet?'
+                id="scenes.login.wallet.link"
+                defaultMessage="Dont have a wallet?"
               />
             </Text>
             &nbsp;
-            <SignUpText size='14px' color='whiteFade900' weight={500}>
+            <SignUpText size="14px" color="whiteFade900" weight={500}>
               <FormattedMessage
-                id='scenes.login.wallet.signup'
-                defaultMessage='Sign Up'
+                id="scenes.login.wallet.signup"
+                defaultMessage="Sign Up"
               />
             </SignUpText>
           </SubCard>

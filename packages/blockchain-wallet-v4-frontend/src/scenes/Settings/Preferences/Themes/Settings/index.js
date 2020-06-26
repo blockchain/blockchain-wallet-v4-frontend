@@ -7,13 +7,13 @@ import React from 'react'
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { theme, newTheme } = this.props
     if (
       !isNil(newTheme) &&
@@ -24,7 +24,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return <Settings />
   }
 }

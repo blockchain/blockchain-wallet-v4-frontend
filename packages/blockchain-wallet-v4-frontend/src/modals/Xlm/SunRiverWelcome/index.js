@@ -83,7 +83,7 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     this.props.routerActions.push('/xlm/transactions')
   }
 
-  determineKycState (userState, kycState) {
+  determineKycState(userState, kycState) {
     // always register the campaign as quickly as possible if user has been created
     if (userState !== USER_ACTIVATION_STATES.NONE) {
       this.props.identityVerificationActions.registerUserCampaign()
@@ -94,21 +94,21 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.verified.title'
-              defaultMessage='Thank you for already verifying your identity'
+              id="modals.xlmairdropwelcome.verified.title"
+              defaultMessage="Thank you for already verifying your identity"
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.verified.subtitle2'
-              defaultMessage='If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience'
+              id="modals.xlmairdropwelcome.verified.subtitle2"
+              defaultMessage="If you are eligible for the airdrop we’ll notify you once it’s ready! Thanks for you patience"
             />
           </Copy>
-          <LinkContainer to='/xlm/transactions'>
-            <FooterButton nature='primary' fullwidth>
+          <LinkContainer to="/xlm/transactions">
+            <FooterButton nature="primary" fullwidth>
               <FormattedMessage
-                id='modals.xlmairdropwelcome.verified.seewallet'
-                defaultMessage='View Stellar Wallet'
+                id="modals.xlmairdropwelcome.verified.seewallet"
+                defaultMessage="View Stellar Wallet"
               />
             </FooterButton>
           </LinkContainer>
@@ -122,21 +122,21 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.title2'
-              defaultMessage='Thanks for Verifying'
+              id="modals.xlmairdropwelcome.underreview.title2"
+              defaultMessage="Thanks for Verifying"
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.underreview.subtitle3'
-              defaultMessage='Your application is still under review. Once verified we’ll notify you if you are eligible for the Airdrop.'
+              id="modals.xlmairdropwelcome.underreview.subtitle3"
+              defaultMessage="Your application is still under review. Once verified we’ll notify you if you are eligible for the Airdrop."
             />
           </Copy>
-          <LinkContainer to='/xlm/transactions'>
-            <FooterButton nature='primary' fullwidth>
+          <LinkContainer to="/xlm/transactions">
+            <FooterButton nature="primary" fullwidth>
               <FormattedMessage
-                id='modals.xlmairdropwelcome.underreview.seewallet'
-                defaultMessage='View Stellar Wallet'
+                id="modals.xlmairdropwelcome.underreview.seewallet"
+                defaultMessage="View Stellar Wallet"
               />
             </FooterButton>
           </LinkContainer>
@@ -150,24 +150,24 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.inprogress.title2'
-              defaultMessage='Go for Gold'
+              id="modals.xlmairdropwelcome.inprogress.title2"
+              defaultMessage="Go for Gold"
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.inprogress.subtitle2'
-              defaultMessage='Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
+              id="modals.xlmairdropwelcome.inprogress.subtitle2"
+              defaultMessage="Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program."
             />
           </Copy>
           <FooterButton
-            nature='primary'
+            nature="primary"
             fullwidth
             onClick={this.continueVerification}
           >
             <FormattedMessage
-              id='modals.xlmairdropwelcome.inprogress.completenow'
-              defaultMessage='Complete Now'
+              id="modals.xlmairdropwelcome.inprogress.completenow"
+              defaultMessage="Complete Now"
             />
           </FooterButton>
         </Container>
@@ -177,24 +177,24 @@ class SunRiverWelcomeContainer extends React.PureComponent {
         <Container>
           <Header>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.newuser.title'
-              defaultMessage='Start Identity Verification'
+              id="modals.xlmairdropwelcome.newuser.title"
+              defaultMessage="Start Identity Verification"
             />
           </Header>
           <Copy>
             <FormattedMessage
-              id='modals.xlmairdropwelcome.newuser.subtitle2'
-              defaultMessage='Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
+              id="modals.xlmairdropwelcome.newuser.subtitle2"
+              defaultMessage="Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program."
             />
           </Copy>
           <FooterButton
-            nature='primary'
+            nature="primary"
             fullwidth
             onClick={this.goToIdentityVerification}
           >
             <FormattedMessage
-              id='modals.xlmairdropwelcome.newuser.beginenow'
-              defaultMessage='Begin Now'
+              id="modals.xlmairdropwelcome.newuser.beginenow"
+              defaultMessage="Begin Now"
             />
           </FooterButton>
         </Container>
@@ -202,14 +202,14 @@ class SunRiverWelcomeContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { data, position, total, close } = this.props
     return data.cata({
       Success: value => (
-        <Modal size='small' position={position} total={total}>
+        <Modal size="small" position={position} total={total}>
           <AbsoluteModalHeader onClose={close} />
           <Body>
-            <Image name='gold-verified' width='52px' />
+            <Image name="gold-verified" width="52px" />
             {this.determineKycState(value.userState, value.kycState)}
           </Body>
         </Modal>

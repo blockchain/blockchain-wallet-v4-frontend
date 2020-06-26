@@ -66,9 +66,9 @@ export const CollateralAmt = (props: {
         )
 
       return props.loanTransactions ? (
-        <TooltipHost id='borrow.collateralpending.tooltip'>
+        <TooltipHost id="borrow.collateralpending.tooltip">
           <CoinDisplay
-            size='14px'
+            size="14px"
             weight={600}
             italic
             coin={
@@ -83,16 +83,16 @@ export const CollateralAmt = (props: {
           </CoinDisplay>
         </TooltipHost>
       ) : (
-        <Text size='14px' weight={600} italic>
-          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+        <Text size="14px" weight={600} italic>
+          <FormattedMessage id="copy.pending" defaultMessage="Pending" />
         </Text>
       )
     default:
       return (
         <CoinDisplay
-          size='14px'
+          size="14px"
           weight={500}
-          color='grey800'
+          color="grey800"
           coin={props.loan.collateral.amounts[0].currency}
         >
           {props.loan.collateral.amounts[0].amount}

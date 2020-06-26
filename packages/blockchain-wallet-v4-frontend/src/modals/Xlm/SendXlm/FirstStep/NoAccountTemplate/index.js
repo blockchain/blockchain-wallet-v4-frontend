@@ -12,11 +12,11 @@ const { CREATE_ACCOUNT_LEARN_MODAL } = model.components.sendXlm
 export const NoAccountTemplate = () => (
   <React.Fragment>
     <FormGroup>
-      <Banner type='info' data-e2e='sendXlmNoAccount'>
-        <Text color='warning' size='12px'>
+      <Banner type="info" data-e2e="sendXlmNoAccount">
+        <Text color="warning" size="12px">
           <FormattedMessage
-            id='modals.sendxlm.firststep.noaccount'
-            defaultMessage='Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement.'
+            id="modals.sendxlm.firststep.noaccount"
+            defaultMessage="Minimum of 1 XLM needed for new accounts. Learn about Stellar’s minimum balance requirement."
           />
         </Text>
         <ModalIcon modal={CREATE_ACCOUNT_LEARN_MODAL} />
@@ -34,10 +34,10 @@ export const NoAccountTemplate = () => (
           }
         }}
       >
-        <Button type='submit' nature='primary' uppercase fullwidth>
+        <Button type="submit" nature="primary" uppercase fullwidth>
           <FormattedMessage
-            id='modals.sendxlm.firststep.swap'
-            defaultMessage='Swap for XLM'
+            id="modals.sendxlm.firststep.swap"
+            defaultMessage="Swap for XLM"
           />
         </Button>
       </LinkContainer>

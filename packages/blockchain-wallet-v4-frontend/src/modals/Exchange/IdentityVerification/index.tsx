@@ -94,32 +94,32 @@ const { STEPS, KYC_MODAL } = model.components.identityVerification
 const stepMap = {
   [STEPS.personal]: (
     <FormattedMessage
-      id='modals.identityverification.steps.personal'
-      defaultMessage='Personal'
+      id="modals.identityverification.steps.personal"
+      defaultMessage="Personal"
     />
   ),
   [STEPS.moreInfo]: (
     <FormattedMessage
-      id='modals.identityverification.steps.more_info'
-      defaultMessage='Info'
+      id="modals.identityverification.steps.more_info"
+      defaultMessage="Info"
     />
   ),
   [STEPS.mobile]: (
     <FormattedMessage
-      id='modals.identityverification.steps.mobile'
-      defaultMessage='Phone'
+      id="modals.identityverification.steps.mobile"
+      defaultMessage="Phone"
     />
   ),
   [STEPS.verify]: (
     <FormattedMessage
-      id='modals.identityverification.steps.verify'
-      defaultMessage='Verify'
+      id="modals.identityverification.steps.verify"
+      defaultMessage="Verify"
     />
   ),
   [STEPS.submitted]: (
     <FormattedMessage
-      id='modals.identityverification.steps.submitted'
-      defaultMessage='Submitted'
+      id="modals.identityverification.steps.submitted"
+      defaultMessage="Submitted"
     />
   )
 }
@@ -143,7 +143,7 @@ type Props = OwnProps & LinkDispatchPropsType
 class IdentityVerification extends React.PureComponent<Props> {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
@@ -189,7 +189,7 @@ class IdentityVerification extends React.PureComponent<Props> {
       return <Submitted onClose={this.handleClose} />
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { step, steps, position, total } = this.props
 
@@ -197,11 +197,11 @@ class IdentityVerification extends React.PureComponent<Props> {
       <IdentityVerificationTray
         in={show}
         // @ts-ignore
-        class='tray'
+        class="tray"
         position={position}
         total={total}
         onClose={this.handleClose}
-        data-e2e='identityVerificationModal'
+        data-e2e="identityVerificationModal"
       >
         {steps.cata({
           Success: steps => (
@@ -213,7 +213,7 @@ class IdentityVerification extends React.PureComponent<Props> {
                     barFullWidth
                     horizontalMobile
                     flexEnd
-                    maxWidth='none'
+                    maxWidth="none"
                     step={step}
                     stepMap={this.getSteps(steps)}
                   />

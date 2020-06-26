@@ -18,7 +18,7 @@ class DeleteAddressLabelContainer extends React.PureComponent {
     this.props.close()
   }
 
-  render () {
+  render() {
     return (
       <DeleteAddressLabel
         {...this.props}

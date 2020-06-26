@@ -85,11 +85,11 @@ const MonthBox = ({ input, otherMeta, onBlur, onMonthChange, onFocus }) => (
     <SelectBox
       label={
         <FormattedMessage
-          id='components.DateInputBox.placeholder.month'
-          defaultMessage='Month'
+          id="components.DateInputBox.placeholder.month"
+          defaultMessage="Month"
         />
       }
-      menuPlacement='auto'
+      menuPlacement="auto"
       elements={monthElements}
       input={{
         name: 'month',
@@ -104,7 +104,7 @@ const MonthBox = ({ input, otherMeta, onBlur, onMonthChange, onFocus }) => (
 )
 
 const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
-  <InputWrapper className='first'>
+  <InputWrapper className="first">
     <NumberBox
       placeholder={intl.formatMessage({
         id: 'components.DateInputBox.placeholder.day',
@@ -117,7 +117,7 @@ const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
         onChange: onDateChange,
         onFocus: onFocus
       }}
-      size='16px'
+      size="16px"
       meta={otherMeta}
     />
   </InputWrapper>
@@ -137,7 +137,7 @@ const YearBox = ({ intl, input, otherMeta, onBlur, onYearChange, onFocus }) => (
         onChange: onYearChange,
         onFocus: onFocus
       }}
-      size='16px'
+      size="16px"
       meta={otherMeta}
     />
   </InputWrapper>
@@ -181,7 +181,7 @@ class DateInputBox extends React.PureComponent {
       date: formatDate(e.target.value)
     })
 
-  render () {
+  render() {
     const {
       input,
       meta,
@@ -223,9 +223,9 @@ class DateInputBox extends React.PureComponent {
 
         {meta.touched && error && (
           <Error
-            size='12px'
+            size="12px"
             weight={500}
-            color='error'
+            color="error"
             errorBottom={errorBottom}
           >
             {meta.error}
@@ -233,9 +233,9 @@ class DateInputBox extends React.PureComponent {
         )}
         {meta.touched && !error && meta.warning && (
           <Error
-            size='12px'
+            size="12px"
             weight={500}
-            color='error'
+            color="error"
             errorBottom={errorBottom}
           >
             {meta.warning}

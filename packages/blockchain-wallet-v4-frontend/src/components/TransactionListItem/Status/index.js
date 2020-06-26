@@ -6,30 +6,30 @@ import { Text } from 'blockchain-info-components'
 
 const Status = props => (
   <Text
-    size='14px'
+    size="14px"
     weight={500}
     color={props.type}
     style={{ marginBottom: '5px' }}
-    data-e2e='transactionListItemStatus'
+    data-e2e="transactionListItemStatus"
   >
     {props.type === 'sent' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
-        defaultMessage='Sent {coin}'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.sent"
+        defaultMessage="Sent {coin}"
         values={{ coin: props.coinTicker }}
       />
     )}
     {props.type === 'received' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.received'
-        defaultMessage='Received {coin}'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.received"
+        defaultMessage="Received {coin}"
         values={{ coin: props.coinTicker }}
       />
     )}
     {props.type === 'transferred' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.transferred'
-        defaultMessage='Transferred {coin}'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.transferred"
+        defaultMessage="Transferred {coin}"
         values={{ coin: props.coinTicker }}
       />
     )}

@@ -4,7 +4,7 @@ import { delay, put, take } from 'redux-saga/effects'
 export const logLocation = 'components/onboarding/sagas'
 
 export default () => {
-  const airdropClaimSubmitClicked = function * ({ payload }) {
+  const airdropClaimSubmitClicked = function*({ payload }) {
     // TODO: REFACTOR TO USE claimCampaignClicked
     const { campaign } = payload
     try {
@@ -35,7 +35,7 @@ export default () => {
     }
   }
 
-  const swapGetStartedSubmitClicked = function * () {
+  const swapGetStartedSubmitClicked = function*() {
     try {
       yield put(actions.preferences.hideKycGetStarted())
       yield put(actions.modals.closeModal())
@@ -57,7 +57,7 @@ export default () => {
     }
   }
 
-  const upgradeForAirdropSubmitClicked = function * ({ payload }) {
+  const upgradeForAirdropSubmitClicked = function*({ payload }) {
     const { campaign } = payload
     try {
       yield put(actions.preferences.hideUpgradeForAirdropModal())

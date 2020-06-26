@@ -49,11 +49,11 @@ const FooterButton = styled(Button).attrs({
 `
 
 class SwapUpgrade extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.dontShowAgain()
   }
 
-  render () {
+  render() {
     const {
       position,
       total,
@@ -64,12 +64,12 @@ class SwapUpgrade extends React.PureComponent {
     } = this.props
 
     return (
-      <Modal size='small' position={position} total={total}>
-        <Body data-e2e='swapGetStarted'>
-          <Title size='20px'>
+      <Modal size="small" position={position} total={total}>
+        <Body data-e2e="swapGetStarted">
+          <Title size="20px">
             <FormattedHTMLMessage
-              defaultMessage='Heads up! You have <b>{amount}</b> left to Swap'
-              id='modals.swap_upgrade.heads_up'
+              defaultMessage="Heads up! You have <b>{amount}</b> left to Swap"
+              id="modals.swap_upgrade.heads_up"
               values={{
                 amount: amountLeft
               }}
@@ -77,8 +77,8 @@ class SwapUpgrade extends React.PureComponent {
           </Title>
           <Message>
             <FormattedMessage
-              defaultMessage='Upgrade to {nextLevel} and Swap up to {amount} every day.'
-              id='modals.swap_upgrade.amount_after_upgrade'
+              defaultMessage="Upgrade to {nextLevel} and Swap up to {amount} every day."
+              id="modals.swap_upgrade.amount_after_upgrade"
               values={{
                 nextLevel: headers[path([nextTier, 'level'], TIERS)],
                 amount: nextTierAmount
@@ -86,17 +86,17 @@ class SwapUpgrade extends React.PureComponent {
             />
           </Message>
           <FooterButton
-            nature='primary'
-            size='20px'
+            nature="primary"
+            size="20px"
             fullwidth
             onClick={upgrade}
           >
             <FormattedMessage
-              defaultMessage='Upgrade Now'
-              id='modals.swap_upgrade.upgrade_now'
+              defaultMessage="Upgrade Now"
+              id="modals.swap_upgrade.upgrade_now"
             />
           </FooterButton>
-          <BottomImage name='identity-verification' />
+          <BottomImage name="identity-verification" />
         </Body>
       </Modal>
     )

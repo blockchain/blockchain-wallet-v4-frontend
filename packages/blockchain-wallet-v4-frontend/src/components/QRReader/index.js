@@ -36,17 +36,17 @@ const QRReader = props => {
 
   return isLoading ? (
     <Wrapper>
-      <BlockchainLoader width='80px' height='80px' />
+      <BlockchainLoader width="80px" height="80px" />
     </Wrapper>
   ) : hasWebcam ? (
     <Container>
       <QrReader onScan={onScan} onError={onError} />
     </Container>
   ) : (
-    <Banner type='warning'>
+    <Banner type="warning">
       <FormattedMessage
-        id='components.qrreader.warning'
-        defaultMessage='Your browser does not have webcam support.'
+        id="components.qrreader.warning"
+        defaultMessage="Your browser does not have webcam support."
       />
     </Banner>
   )

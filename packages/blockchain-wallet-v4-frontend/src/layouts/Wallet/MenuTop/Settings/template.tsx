@@ -34,25 +34,25 @@ const Settings = (props: Props) => {
   return (
     <NavbarNavItem>
       <NavbarNavItemButton
-        data-e2e='settingsLink'
+        data-e2e="settingsLink"
         onClick={() => toggleIsMenuOpen(!isMenuOpen)}
       >
-        <NavbarNavItemIcon persist name='cog-filled' size='18px' />
+        <NavbarNavItemIcon persist name="cog-filled" size="18px" />
         {isMenuOpen && (
           <DropdownMenu ref={ref}>
             <DropdownMenuArrow />
-            <LinkContainer to='/settings/general' activeClassName='active'>
-              <DropdownMenuItem data-e2e='settings_generalLink'>
+            <LinkContainer to="/settings/general" activeClassName="active">
+              <DropdownMenuItem data-e2e="settings_generalLink">
                 <Destination>
                   <FormattedMessage
-                    id='layouts.wallet.header.general'
-                    defaultMessage='General'
+                    id="layouts.wallet.header.general"
+                    defaultMessage="General"
                   />
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
             <DropdownMenuItem
-              data-e2e='notificationsLink'
+              data-e2e="notificationsLink"
               onClick={() =>
                 props.modalActions.showModal('WHATS_NEW_MODAL', {
                   origin: 'Header'
@@ -61,37 +61,37 @@ const Settings = (props: Props) => {
             >
               <Destination>
                 <FormattedMessage
-                  id='layouts.wallet.header.small.whats_new'
+                  id="layouts.wallet.header.small.whats_new"
                   defaultMessage="What's New?"
                 />
               </Destination>
             </DropdownMenuItem>
-            <LinkContainer to='/settings/profile' activeClassName='active'>
-              <DropdownMenuItem data-e2e='settings_profileLink'>
+            <LinkContainer to="/settings/profile" activeClassName="active">
+              <DropdownMenuItem data-e2e="settings_profileLink">
                 <Destination>
                   <FormattedMessage
-                    id='layouts.wallet.header.profile'
-                    defaultMessage='Profile'
+                    id="layouts.wallet.header.profile"
+                    defaultMessage="Profile"
                   />
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <LinkContainer to='/settings/preferences' activeClassName='active'>
-              <DropdownMenuItem data-e2e='settings_preferencesLink'>
+            <LinkContainer to="/settings/preferences" activeClassName="active">
+              <DropdownMenuItem data-e2e="settings_preferencesLink">
                 <Destination>
                   <FormattedMessage
-                    id='layouts.wallet.header.preferences'
-                    defaultMessage='Preferences'
+                    id="layouts.wallet.header.preferences"
+                    defaultMessage="Preferences"
                   />
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <LinkContainer to='/settings/addresses' activeClassName='active'>
-              <DropdownMenuItem data-e2e='settings_walletsLink'>
+            <LinkContainer to="/settings/addresses" activeClassName="active">
+              <DropdownMenuItem data-e2e="settings_walletsLink">
                 <Destination>
                   <FormattedMessage
-                    id='layouts.wallet.header.walletsaddresses'
-                    defaultMessage='Wallets & Addresses'
+                    id="layouts.wallet.header.walletsaddresses"
+                    defaultMessage="Wallets & Addresses"
                   />
                 </Destination>
               </DropdownMenuItem>
@@ -99,12 +99,12 @@ const Settings = (props: Props) => {
             <DropdownSeparator />
             <DropdownMenuItem
               onClick={props.authActions.logout}
-              data-e2e='logoutLink'
+              data-e2e="logoutLink"
             >
               <Destination>
                 <FormattedMessage
-                  id='layouts.wallet.header.Sign Out'
-                  defaultMessage='Sign Out'
+                  id="layouts.wallet.header.Sign Out"
+                  defaultMessage="Sign Out"
                 />
               </Destination>
             </DropdownMenuItem>

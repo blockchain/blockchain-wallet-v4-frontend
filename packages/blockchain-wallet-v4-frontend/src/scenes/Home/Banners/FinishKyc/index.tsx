@@ -69,24 +69,24 @@ const BannerButton = styled(Button)`
 `
 
 class FinishKyc extends PureComponent<Props> {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Row>
           <PendingIconWrapper>
-            <Icon name='pending' color='orange600' size='20px' />
+            <Icon name="pending" color="orange600" size="20px" />
           </PendingIconWrapper>
           <Column>
-            <Text size='20px' weight={600} color='grey800'>
+            <Text size="20px" weight={600} color="grey800">
               <FormattedMessage
-                id='scenes.home.banner.finishsigningup'
-                defaultMessage='Finish Signing Up'
+                id="scenes.home.banner.finishsigningup"
+                defaultMessage="Finish Signing Up"
               />
             </Text>
-            <Copy size='16px' color='grey600' weight={500}>
+            <Copy size="16px" color="grey600" weight={500}>
               <FormattedMessage
-                id='scenes.home.banner.signupapprove'
-                defaultMessage='Once you finish and get approved, start buying crypto.'
+                id="scenes.home.banner.signupapprove"
+                defaultMessage="Once you finish and get approved, start buying crypto."
               />
             </Copy>
           </Column>
@@ -100,10 +100,10 @@ class FinishKyc extends PureComponent<Props> {
             )
           }
           jumbo
-          data-e2e='openKycTier2'
-          nature='primary'
+          data-e2e="openKycTier2"
+          nature="primary"
         >
-          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
         </BannerButton>
       </Wrapper>
     )

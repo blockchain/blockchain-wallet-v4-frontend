@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const simpleBuySagas = sagas({ api, coreSagas, networks })
 
-  return function * simpleBuySaga () {
+  return function* simpleBuySaga() {
     yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
@@ -66,7 +66,7 @@ export default ({ api, coreSagas, networks }) => {
     // Fetch balances and orders when step changes to order summary
     yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
     // Refresh coin tx lists
-    yield takeLatest(AT.FETCH_SB_ORDERS, function * () {
+    yield takeLatest(AT.FETCH_SB_ORDERS, function*() {
       yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.core.data.btc.fetchTransactions('', true))
       yield put(actions.core.data.eth.fetchTransactions('', true))

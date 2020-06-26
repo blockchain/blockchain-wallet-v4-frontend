@@ -11,11 +11,11 @@ const Success = (props: { balance: number | string; coin: CoinType }) => {
     <>
       <FiatDisplay
         coin={coin}
-        size='16px'
-        cursor='pointer'
-        mobileSize='16px'
-        loadingHeight='20px'
-        color='grey800'
+        size="16px"
+        cursor="pointer"
+        mobileSize="16px"
+        loadingHeight="20px"
+        color="grey800"
         weight={500}
         data-e2e={coin + 'FiatBalance'}
       >
@@ -23,10 +23,10 @@ const Success = (props: { balance: number | string; coin: CoinType }) => {
       </FiatDisplay>
       <CoinDisplay
         coin={coin}
-        size='12px'
-        cursor='pointer'
-        mobileSize='12px'
-        color='grey400'
+        size="12px"
+        cursor="pointer"
+        mobileSize="12px"
+        color="grey400"
         weight={500}
         data-e2e={coin + 'Balance'}
       >

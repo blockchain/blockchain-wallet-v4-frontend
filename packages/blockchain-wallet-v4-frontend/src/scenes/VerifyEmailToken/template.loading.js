@@ -37,9 +37,9 @@ const Loading = () => {
       <LoadingWrapper>
         <LoadingIcon />
       </LoadingWrapper>
-      <Text style={{ marginTop: '24px' }} size='14px' weight={400}>
+      <Text style={{ marginTop: '24px' }} size="14px" weight={400}>
         <FormattedMessage
-          id='scenes.verifyemailtoken.loading'
+          id="scenes.verifyemailtoken.loading"
           defaultMessage="We're verifying your email address. Please wait..."
         />
       </Text>

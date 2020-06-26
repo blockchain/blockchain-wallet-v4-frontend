@@ -27,7 +27,7 @@ const transformTx = transactions.bch.transformTx
 export default ({ api }: { api: APIType }) => {
   const { fetchSBOrders } = simpleBuySagas({ api })
 
-  const fetchData = function * () {
+  const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -44,7 +44,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
@@ -54,14 +54,14 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function*() {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * ({ payload }) {
+  const fetchTransactions = function*({ payload }) {
     const { address, reset } = payload
     try {
       const pages = yield select(S.getTransactions)
@@ -97,7 +97,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function * (txs) {
+  const __processTxs = function*(txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -125,7 +125,7 @@ export default ({ api }: { api: APIType }) => {
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function*({ payload }) {
     const { address, start, end } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')

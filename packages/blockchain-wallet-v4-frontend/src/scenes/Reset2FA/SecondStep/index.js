@@ -6,12 +6,12 @@ import React from 'react'
 import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     const {
       guid,
       email,
@@ -34,7 +34,7 @@ class SecondStepContainer extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     const { data } = this.props
     let busy = data.cata({
       Success: () => {

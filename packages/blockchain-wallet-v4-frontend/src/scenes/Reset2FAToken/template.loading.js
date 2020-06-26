@@ -13,10 +13,10 @@ const Wrapper = styled.div`
 const Loading = props => {
   return (
     <Wrapper>
-      <BlockchainLoader width='40px' height='40px' />
-      <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
+      <BlockchainLoader width="40px" height="40px" />
+      <Text size="16px" weight={400} style={{ 'margin-top': '25px' }}>
         <FormattedMessage
-          id='scenes.reset2fatoken.loading'
+          id="scenes.reset2fatoken.loading"
           defaultMessage="We're handling your Two-Step Verification reset request. Please wait..."
         />
       </Text>

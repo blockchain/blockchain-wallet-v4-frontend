@@ -34,7 +34,7 @@ class PersonalContainer extends React.PureComponent {
     initialEmailVerified: this.props.emailVerified
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData()
   }
 
@@ -123,7 +123,7 @@ class PersonalContainer extends React.PureComponent {
     />
   )
 
-  render () {
+  render() {
     const { countryData, userData, ...rest } = this.props
     return countryData.cata({
       Success: ({ supportedCountries, states }) =>

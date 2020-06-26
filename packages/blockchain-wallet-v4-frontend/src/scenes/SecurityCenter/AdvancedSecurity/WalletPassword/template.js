@@ -15,18 +15,18 @@ const WalletPassword = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.securitysettings.advanced.walletpassword.title'
-            defaultMessage='Password'
+            id="scenes.securitysettings.advanced.walletpassword.title"
+            defaultMessage="Password"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.securitysettings.advanced.walletpassword.description'
-            defaultMessage='Your password is never shared with Blockchain or stored on our servers. We cannot access or reset your password. The only way to restore your wallet is through your backup phrase.'
+            id="scenes.securitysettings.advanced.walletpassword.description"
+            defaultMessage="Your password is never shared with Blockchain or stored on our servers. We cannot access or reset your password. The only way to restore your wallet is through your backup phrase."
           />
           <FormattedMessage
-            id='scenes.securitysettings.advanced.walletpassword.description2'
-            defaultMessage='Make sure you write down your backup phrase which is the only way to restore access to your wallet in the event of a lost password.'
+            id="scenes.securitysettings.advanced.walletpassword.description2"
+            defaultMessage="Make sure you write down your backup phrase which is the only way to restore access to your wallet in the event of a lost password."
           />
         </SettingDescription>
       </SettingSummary>

@@ -82,7 +82,7 @@ const ButtonWrapper = styled.div`
 class WelcomeContainer extends React.PureComponent<Props> {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ show: true }) //eslint-disable-line
   }
 
@@ -101,7 +101,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
     }, duration / 2)
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { ...rest } = this.props
     return (
@@ -109,64 +109,64 @@ class WelcomeContainer extends React.PureComponent<Props> {
         {...rest}
         onClose={this.props.close}
         in={show}
-        data-e2e='welcomeModal'
-        direction='left'
+        data-e2e="welcomeModal"
+        direction="left"
       >
         <CustomFlyoutWrapper>
           <Header>
-            <Image name='intro-hand' width='28px' height='28px' />
-            <Text color='grey600' size='20px' weight={600}>
+            <Image name="intro-hand" width="28px" height="28px" />
+            <Text color="grey600" size="20px" weight={600}>
               <FormattedMessage
-                id='modals.wallet.tour.wallet.tour'
-                defaultMessage='Welcome to Blockchain!'
+                id="modals.wallet.tour.wallet.tour"
+                defaultMessage="Welcome to Blockchain!"
               />
             </Text>
           </Header>
           <ContentContainer>
             <IconBackground>
-              <Icon color='blue600' name='cart-filled' size='25px' />
+              <Icon color="blue600" name="cart-filled" size="25px" />
             </IconBackground>
-            <Title size='20px' weight={600}>
+            <Title size="20px" weight={600}>
               <FormattedMessage
-                id='modals.wallet.welcome.sb.title'
-                defaultMessage='Own Crypto in a Few Minutes'
+                id="modals.wallet.welcome.sb.title"
+                defaultMessage="Own Crypto in a Few Minutes"
               />
             </Title>
-            <ContentTextWrapper color='grey600' size='14x' weight={500}>
+            <ContentTextWrapper color="grey600" size="14x" weight={500}>
               <FormattedMessage
-                id='modals.wallet.welcome.sb.verifybuy'
-                defaultMessage='Verify your identity and buy crypto.'
+                id="modals.wallet.welcome.sb.verifybuy"
+                defaultMessage="Verify your identity and buy crypto."
               />
             </ContentTextWrapper>
-            <Image name='buy-wallet' width='282px' height='165px' />
+            <Image name="buy-wallet" width="282px" height="165px" />
           </ContentContainer>
           <ButtonWrapper>
             <Button
               capitalize
-              data-e2e='toSimpleBuyModal'
+              data-e2e="toSimpleBuyModal"
               fullwidth
-              height='48px'
-              nature='primary'
+              height="48px"
+              nature="primary"
               onClick={this.handleSBClick}
-              size='16px'
+              size="16px"
             >
               <FormattedMessage
-                id='modals.wallet.welcome.sb.button'
-                defaultMessage='Buy Crypto Now'
+                id="modals.wallet.welcome.sb.button"
+                defaultMessage="Buy Crypto Now"
               />
             </Button>
             <Button
               capitalize
-              data-e2e='skipTour'
+              data-e2e="skipTour"
               fullwidth
-              height='48px'
-              nature='light'
+              height="48px"
+              nature="light"
               onClick={this.handleClose}
-              size='16px'
+              size="16px"
             >
               <FormattedMessage
-                id='modals.wallet.welcome.sb.skip'
-                defaultMessage='Skip'
+                id="modals.wallet.welcome.sb.skip"
+                defaultMessage="Skip"
               />
             </Button>
           </ButtonWrapper>

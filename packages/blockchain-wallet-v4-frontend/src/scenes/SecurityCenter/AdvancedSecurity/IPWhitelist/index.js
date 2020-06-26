@@ -10,7 +10,7 @@ import React from 'react'
 class IPWhitelistContainer extends React.PureComponent {
   state = { updateToggled: false }
 
-  componentDidMount (prevProps) {
+  componentDidMount(prevProps) {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist
@@ -29,7 +29,7 @@ class IPWhitelistContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     return (
       <IPWhitelist
         {...this.props}

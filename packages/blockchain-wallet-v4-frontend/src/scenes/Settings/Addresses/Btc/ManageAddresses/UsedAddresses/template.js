@@ -19,34 +19,34 @@ const UsedAddressesTemplate = ({
   return (
     <React.Fragment>
       <Wrapper>
-        <Text weight={500} size='14px' style={{ marginRight: '16px' }}>
+        <Text weight={500} size="14px" style={{ marginRight: '16px' }}>
           <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.title'
-            defaultMessage='Used Addresses'
+            id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.title"
+            defaultMessage="Used Addresses"
           />
         </Text>
         {usedAddressesVisible ? (
           <Link
             weight={500}
-            size='13px'
+            size="13px"
             onClick={onShowUsedAddresses}
-            data-e2e='btcHideUsedAddressesLink'
+            data-e2e="btcHideUsedAddressesLink"
           >
             <FormattedMessage
-              id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.hide'
-              defaultMessage='Hide'
+              id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.hide"
+              defaultMessage="Hide"
             />
           </Link>
         ) : (
           <Link
             weight={500}
-            size='13px'
+            size="13px"
             onClick={onShowUsedAddresses}
-            data-e2e='btcShowUsedAddressesLink'
+            data-e2e="btcShowUsedAddressesLink"
           >
             <FormattedMessage
-              id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.show'
-              defaultMessage='Show'
+              id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.show"
+              defaultMessage="Show"
             />
           </Link>
         )}

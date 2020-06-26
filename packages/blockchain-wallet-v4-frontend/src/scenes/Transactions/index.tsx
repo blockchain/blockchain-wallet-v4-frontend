@@ -69,11 +69,11 @@ const StatsContainer = styled.div`
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.initTxs()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       path(['location', 'pathname'], prevProps) !==
       path(['location', 'pathname'], this.props)
@@ -91,7 +91,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.setAddressArchived && this.props.setAddressArchived(address)
   }
 
-  render () {
+  render() {
     const {
       coin,
       coinModel,
@@ -110,8 +110,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
-              <Icon size='36px' color={colorCode} name={icons.circleFilled} />
-              <Text color='grey800' size='32px' weight={600}>
+              <Icon size="36px" color={colorCode} name={icons.circleFilled} />
+              <Text color="grey800" size="32px" weight={600}>
                 {displayName}
               </Text>
             </PageTitle>

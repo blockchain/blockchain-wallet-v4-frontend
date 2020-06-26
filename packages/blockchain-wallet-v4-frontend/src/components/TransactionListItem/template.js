@@ -121,66 +121,66 @@ const TransactionListItem = ({
 }) => (
   <TransactionRowContainer
     className={isToggled ? 'active' : ''}
-    data-e2e='transactionRow'
+    data-e2e="transactionRow"
   >
     <TransactionRow onClick={() => handleToggle()}>
-      <StatusColumn data-e2e='transactionDateColumn'>
+      <StatusColumn data-e2e="transactionDateColumn">
         <Status type={transaction.type} coinTicker={coinTicker} />
         <MediaContextConsumer>
           {({ mobile }) => (
-            <Text size='14px' weight={400} data-e2e='transactionDate'>
+            <Text size="14px" weight={400} data-e2e="transactionDate">
               {dateHelper(prop('time', transaction) * 1000, mobile)}
             </Text>
           )}
         </MediaContextConsumer>
         {(transaction.fromWatchOnly || transaction.toWatchOnly) && (
           <BannerWrapper>
-            <Banner label='true' type='informational'>
+            <Banner label="true" type="informational">
               <FormattedMessage
-                id='components.txlistitem.watchonly'
-                defaultMessage='Non-Spendable'
+                id="components.txlistitem.watchonly"
+                defaultMessage="Non-Spendable"
               />
             </Banner>
           </BannerWrapper>
         )}
         {transaction.rbf && (
           <BannerWrapper>
-            <Banner label='true' type='informational'>
+            <Banner label="true" type="informational">
               <FormattedMessage
-                id='components.txlistitem.rbf'
-                defaultMessage='Replace-By-Fee'
+                id="components.txlistitem.rbf"
+                defaultMessage="Replace-By-Fee"
               />
             </Banner>
           </BannerWrapper>
         )}
         {transaction.erc20 && (
           <BannerWrapper>
-            <Banner label='true' type='informational'>
+            <Banner label="true" type="informational">
               <FormattedMessage
-                id='components.txlistitem.usddfee'
-                defaultMessage='USD Digital Fee'
+                id="components.txlistitem.usddfee"
+                defaultMessage="USD Digital Fee"
               />
             </Banner>
           </BannerWrapper>
         )}
         {transaction.state === 'PENDING' && transaction.type === 'sent' && (
-          <TooltipHost id='transaction.pending.eth' data-place='right'>
+          <TooltipHost id="transaction.pending.eth" data-place="right">
             <BannerWrapper
               onClick={e =>
                 handleRetrySendEth(e, transaction.hash, transaction.erc20)
               }
             >
-              <Banner label='true'>
+              <Banner label="true">
                 <FormattedMessage
-                  id='components.txlistitem.retrytx'
-                  defaultMessage='Resend Transaction'
+                  id="components.txlistitem.retrytx"
+                  defaultMessage="Resend Transaction"
                 />
               </Banner>
             </BannerWrapper>
           </TooltipHost>
         )}
       </StatusColumn>
-      <AddressesColumn data-e2e='transactionAddressesColumn'>
+      <AddressesColumn data-e2e="transactionAddressesColumn">
         <Addresses
           to={transaction.to}
           from={transaction.from}
@@ -189,27 +189,27 @@ const TransactionListItem = ({
           coin={coin}
         />
       </AddressesColumn>
-      <AmountColumn data-e2e='transactionAmountColumn'>
+      <AmountColumn data-e2e="transactionAmountColumn">
         <FiatDisplay
           coin={coin}
-          size='14px'
+          size="14px"
           weight={500}
           style={{ marginBottom: '5px' }}
         >
           {transaction.amount}
         </FiatDisplay>
-        <CoinDisplay coin={coin} size='14px' weight={400}>
+        <CoinDisplay coin={coin} size="14px" weight={400}>
           {transaction.amount}
         </CoinDisplay>
       </AmountColumn>
     </TransactionRow>
     {isToggled && (
-      <DetailsRow data-e2e='expandedTransactionRow'>
-        <DetailsColumn data-e2e='descriptionTransactionColumn'>
-          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+      <DetailsRow data-e2e="expandedTransactionRow">
+        <DetailsColumn data-e2e="descriptionTransactionColumn">
+          <Text size="14px" weight={500} style={{ marginBottom: '5px' }}>
             <FormattedMessage
-              id='components.txlistitem.description'
-              defaultMessage='Description'
+              id="components.txlistitem.description"
+              defaultMessage="Description"
             />
           </Text>
           <Description
@@ -219,14 +219,14 @@ const TransactionListItem = ({
           {coin === 'BTC' && (
             <React.Fragment>
               <Text
-                size='14px'
+                size="14px"
                 capitalize
                 weight={500}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
-                  id='components.txlistitem.valueattime'
-                  defaultMessage='Value When {type}'
+                  id="components.txlistitem.valueattime"
+                  defaultMessage="Value When {type}"
                   values={{ type: transaction.type }}
                 />
               </Text>
@@ -242,23 +242,23 @@ const TransactionListItem = ({
           {coin === 'XLM' && transaction.memo && (
             <React.Fragment>
               <Text
-                size='14px'
+                size="14px"
                 capitalize
                 weight={500}
                 style={{ marginBottom: '5px', marginTop: '15px' }}
               >
                 <FormattedMessage
-                  id='components.txlistitem.memo'
-                  defaultMessage='Memo'
+                  id="components.txlistitem.memo"
+                  defaultMessage="Memo"
                 />
                 &nbsp;
                 {transaction.memoType}
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 capitalize
                 weight={400}
-                data-e2e='xlmTransactionMemo'
+                data-e2e="xlmTransactionMemo"
               >
                 {transaction.memo}
               </Text>
@@ -266,40 +266,40 @@ const TransactionListItem = ({
           )}
         </DetailsColumn>
         {prop('inputs', transaction) && prop('outputs', transaction) && (
-          <DetailsColumn data-e2e='sentFromTransactionColumn'>
-            <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+          <DetailsColumn data-e2e="sentFromTransactionColumn">
+            <Text size="14px" weight={500} style={{ marginBottom: '5px' }}>
               <FormattedMessage
-                id='components.txlistitem.sentfrom'
-                defaultMessage='Sent From'
+                id="components.txlistitem.sentfrom"
+                defaultMessage="Sent From"
               />
             </Text>
             {prop('inputs', transaction).map(input => (
-              <Text size='14px' weight={400}>
+              <Text size="14px" weight={400}>
                 {input.address}
               </Text>
             ))}
             <Text
-              size='14px'
+              size="14px"
               weight={500}
               style={{ marginBottom: '5px', marginTop: '15px' }}
             >
               <FormattedMessage
-                id='components.txlistitem.receivedby'
-                defaultMessage='Received By'
+                id="components.txlistitem.receivedby"
+                defaultMessage="Received By"
               />
             </Text>
             {prop('outputs', transaction).map(output => (
-              <IOAddressText size='14px' weight={400}>
+              <IOAddressText size="14px" weight={400}>
                 {output.address}
                 {output.change && (
                   <React.Fragment>
                     <span>&nbsp;</span>
                     <FormattedMessage
-                      id='components.txlistitem.change'
-                      defaultMessage='(Change Address)'
+                      id="components.txlistitem.change"
+                      defaultMessage="(Change Address)"
                     />
-                    <TooltipHost id='txlist.change.tooltip'>
-                      <TooltipIcon name='info' />
+                    <TooltipHost id="txlist.change.tooltip">
+                      <TooltipIcon name="info" />
                     </TooltipHost>
                   </React.Fragment>
                 )}
@@ -307,11 +307,11 @@ const TransactionListItem = ({
             ))}
           </DetailsColumn>
         )}
-        <DetailsColumn data-e2e='statusTransactionColumn'>
-          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+        <DetailsColumn data-e2e="statusTransactionColumn">
+          <Text size="14px" weight={500} style={{ marginBottom: '5px' }}>
             <FormattedMessage
-              id='components.txlistitem.status'
-              defaultMessage='Status'
+              id="components.txlistitem.status"
+              defaultMessage="Status"
             />
           </Text>
           <Confirmations

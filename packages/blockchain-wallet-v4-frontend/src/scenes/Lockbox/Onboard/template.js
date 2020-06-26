@@ -127,67 +127,67 @@ const Onboard = props => {
   return (
     <Wrapper>
       <IntroContainer>
-        <GetStartedContainer height='325px' url='url(/img/lockbox@2x.png)'>
+        <GetStartedContainer height="325px" url="url(/img/lockbox@2x.png)">
           <GetStartedContent>
             <GetStartedHeader
-              size='26px'
+              size="26px"
               weight={500}
-              color='blue900'
-              width='200px'
+              color="blue900"
+              width="200px"
             >
               <FormattedMessage
-                id='scenes.lockbox.welcome.title'
-                defaultMessage='Secure Your Crypto Offline'
+                id="scenes.lockbox.welcome.title"
+                defaultMessage="Secure Your Crypto Offline"
               />
             </GetStartedHeader>
-            <GetStartedText size='17px' weight={400}>
+            <GetStartedText size="17px" weight={400}>
               <FormattedMessage
-                id='scenes.lockbox.welcome.subtitle'
-                defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
+                id="scenes.lockbox.welcome.subtitle"
+                defaultMessage="Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet."
               />
             </GetStartedText>
             <GetStartedButton
-              nature='primary'
+              nature="primary"
               disabled={disableSetup}
               onClick={launchLockboxSetup}
             >
               <FormattedMessage
-                id='scenes.lockbox.welcome.getstarted'
-                defaultMessage='Get Started'
+                id="scenes.lockbox.welcome.getstarted"
+                defaultMessage="Get Started"
               />
             </GetStartedButton>
             <SetupGuideContainer>
-              <Text size='13px' weight={400}>
+              <Text size="13px" weight={400}>
                 <FormattedMessage
-                  id='scenes.lockbox.welcome.trouble'
-                  defaultMessage='Having trouble? View our'
+                  id="scenes.lockbox.welcome.trouble"
+                  defaultMessage="Having trouble? View our"
                 />
               </Text>
               <LearnMoreLink
                 href={
                   'https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
                 }
-                target='_blank'
+                target="_blank"
               >
-                <SetupGuideText size='13px' weight={400}>
+                <SetupGuideText size="13px" weight={400}>
                   <FormattedMessage
-                    id='scenes.lockbox.welcome.setupguide'
-                    defaultMessage='Setup Guide'
+                    id="scenes.lockbox.welcome.setupguide"
+                    defaultMessage="Setup Guide"
                   />
                 </SetupGuideText>
               </LearnMoreLink>
             </SetupGuideContainer>
           </GetStartedContent>
           <PoweredByContainer>
-            <PoweredByText size='11px' weight={400} color='blue900'>
+            <PoweredByText size="11px" weight={400} color="blue900">
               <FormattedMessage
-                id='scenes.lockbox.welcome.poweredby'
-                defaultMessage='Powered By'
+                id="scenes.lockbox.welcome.poweredby"
+                defaultMessage="Powered By"
               />
             </PoweredByText>
             <Image
-              width='100%'
-              name='ledger-logo'
+              width="100%"
+              name="ledger-logo"
               srcset={{
                 'ledger-logo2': '2x',
                 'ledger-logo3': '3x'
@@ -196,32 +196,32 @@ const Onboard = props => {
           </PoweredByContainer>
         </GetStartedContainer>
         <LearnMoreContainer>
-          <Text size='15px'>
+          <Text size="15px">
             <FormattedMessage
-              id='scenes.lockbox.welcome.explanation.secure'
+              id="scenes.lockbox.welcome.explanation.secure"
               defaultMessage="Don't have a Lockbox? Secure your crypto now."
             />
           </Text>
           <LearnMoreLink
             href={'https://www.blockchain.com/lockbox'}
-            target='_blank'
+            target="_blank"
           >
-            <LearnMoreText size='15px'>
+            <LearnMoreText size="15px">
               <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
+                id="buttons.learn_more"
+                defaultMessage="Learn More"
               />
             </LearnMoreText>
-            <Icon name='arrow-right' color='blue600' size='18px' />
+            <Icon name="arrow-right" color="blue600" size="18px" />
           </LearnMoreLink>
         </LearnMoreContainer>
         <WarningContent>
           {disableSetup && (
-            <BrowserWarning type='warning'>
-              <Text color='warning' size='12px'>
+            <BrowserWarning type="warning">
+              <Text color="warning" size="12px">
                 <FormattedMessage
-                  id='scenes.lockbox.welcome.blockbrowser'
-                  defaultMessage='Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera.'
+                  id="scenes.lockbox.welcome.blockbrowser"
+                  defaultMessage="Unsupported browser for new device setup. Please use Brave, Chrome, Firefox or Opera."
                 />
               </Text>
             </BrowserWarning>

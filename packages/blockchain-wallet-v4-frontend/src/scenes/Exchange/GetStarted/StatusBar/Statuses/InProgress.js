@@ -13,10 +13,10 @@ const ActionButton = styled(Button).attrs({ nature: 'primary' })`
 
 export const InProgress = ({ verifyIdentity }) => (
   <ActionButton onClick={verifyIdentity}>
-    <Text color='white' size='16px' weight={600}>
+    <Text color="white" size="16px" weight={600}>
       <FormattedMessage
-        id='scenes.exchange.getstarted.status.inprogress.button1'
-        defaultMessage='Continue Where You Left Off'
+        id="scenes.exchange.getstarted.status.inprogress.button1"
+        defaultMessage="Continue Where You Left Off"
       />
     </Text>
   </ActionButton>

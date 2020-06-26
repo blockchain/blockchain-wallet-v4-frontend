@@ -19,18 +19,18 @@ const Wrapper = styled.div`
 `
 
 const defaultError = (
-  <FormattedMessage id='stringdisplay.deafulterror' defaultMessage='Error' />
+  <FormattedMessage id="stringdisplay.deafulterror" defaultMessage="Error" />
 )
 
 class StringDisplayContainer extends React.PureComponent {
-  render () {
+  render() {
     const { children, skeletonHeight, skeletonWidth, ...rest } = this.props
     return (
       <Wrapper {...rest}>
         {children.cata({
           Success: value => value,
           Failure: error => (
-            <Text size='12px' weight={400} color='red600' className='error'>
+            <Text size="12px" weight={400} color="red600" className="error">
               {propOr(defaultError, 'message', error)}
             </Text>
           ),

@@ -10,7 +10,7 @@ import { ModalNamesType, TagsType, UserDataType } from 'data/types'
 import Welcome from './template'
 
 class CoinIntroductionContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { coin, modalActions, supportedCoins, simpleBuyActions } = this.props
     const currentCoin = supportedCoins[coin]
     return (

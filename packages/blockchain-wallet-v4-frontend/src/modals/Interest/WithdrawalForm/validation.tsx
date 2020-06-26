@@ -19,8 +19,8 @@ export const maximumWithdrawalAmount = (
     : convertCoinToFiat(availToWithdrawCrypto, coin, walletCurrency, rates)
   return new BigNumber(Number(withdrawalLimit)).isLessThan(Number(value)) ? (
     <FormattedMessage
-      id='interest.withdrawal.validation.abovemax'
-      defaultMessage='Amount is above the maximum withdrawal amount.'
+      id="interest.withdrawal.validation.abovemax"
+      defaultMessage="Amount is above the maximum withdrawal amount."
     />
   ) : (
     false
@@ -42,8 +42,8 @@ export const minimumWithdrawalAmount = (
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage
-      id='interest.withdrawal.validation.belowmin'
-      defaultMessage='Amount is below the minimum withdrawal amount.'
+      id="interest.withdrawal.validation.belowmin"
+      defaultMessage="Amount is below the minimum withdrawal amount."
     />
   ) : (
     false

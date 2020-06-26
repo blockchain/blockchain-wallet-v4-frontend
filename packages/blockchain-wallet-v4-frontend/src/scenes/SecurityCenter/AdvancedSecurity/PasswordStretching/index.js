@@ -24,7 +24,7 @@ class PasswordStretchingContainer extends React.PureComponent {
     })
   }
 
-  render () {
+  render() {
     return (
       <PasswordStretching
         onSubmit={this.onSubmit}

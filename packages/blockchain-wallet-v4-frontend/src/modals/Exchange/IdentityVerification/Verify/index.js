@@ -21,7 +21,7 @@ class VerifyContainer extends React.PureComponent {
     showVeriff: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
     actions.checkKycFlow()
@@ -54,7 +54,7 @@ class VerifyContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const {
       actions,
       data,

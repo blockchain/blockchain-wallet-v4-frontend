@@ -23,7 +23,7 @@ const INITIAL_STATE: SimpleBuyState = {
   suggestedAmounts: Remote.NotAsked
 }
 
-export function simpleBuyReducer (
+export function simpleBuyReducer(
   state = INITIAL_STATE,
   action: SimpleBuyActionTypes
 ): SimpleBuyState {

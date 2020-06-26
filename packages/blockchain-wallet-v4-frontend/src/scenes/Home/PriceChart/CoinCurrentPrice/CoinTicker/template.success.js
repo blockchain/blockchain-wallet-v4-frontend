@@ -11,9 +11,9 @@ const Success = props => {
   return (
     <Wrapper>
       <Text
-        size='36px'
+        size="36px"
         weight={400}
-        color='blue900'
+        color="blue900"
         data-e2e={props['data-e2e']}
       >
         {fiat}

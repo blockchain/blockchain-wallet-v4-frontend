@@ -27,11 +27,11 @@ const Loading: React.FC = () => {
       <SettingSummary>
         <CustomSettingHeader>
           <FormattedMessage
-            id='scenes.settings.linked_cards'
-            defaultMessage='Linked Cards'
+            id="scenes.settings.linked_cards"
+            defaultMessage="Linked Cards"
           />
         </CustomSettingHeader>
-        <SpinningLoader height='30px' width='30px' />
+        <SpinningLoader height="30px" width="30px" />
       </SettingSummary>
     </CustomSettingContainer>
   )

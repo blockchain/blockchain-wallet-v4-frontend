@@ -10,7 +10,7 @@ import React from 'react'
 
 const Loading = () => (
   <SceneWrapper centerContent>
-    <BlockchainLoader width='80px' height='80px' />
+    <BlockchainLoader width="80px" height="80px" />
   </SceneWrapper>
 )
 

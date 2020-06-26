@@ -29,7 +29,7 @@ const MinMaxRow = styled(Row)`
   padding: 20px 32px;
 `
 export class MinMaxButtons extends React.PureComponent {
-  render () {
+  render() {
     const {
       disabled,
       minIsFiat,
@@ -44,32 +44,32 @@ export class MinMaxButtons extends React.PureComponent {
     return (
       <MinMaxRow>
         <MinMaxButton
-          data-e2e='exchangeUseMinButton'
+          data-e2e="exchangeUseMinButton"
           fullwidth
           disabled={disabled}
           onClick={actions.useMin}
         >
           <FormattedMessage
-            id='scenes.exchange.exchangeform.min'
-            defaultMessage='MIN'
+            id="scenes.exchange.exchangeform.min"
+            defaultMessage="MIN"
           />
           &nbsp;
-          <MinMaxValue data-e2e='exchangeMinValue'>
+          <MinMaxValue data-e2e="exchangeMinValue">
             {!disabled && formatAmount(minIsFiat, minSymbol, minAmount)}
           </MinMaxValue>
         </MinMaxButton>
         <MinMaxButton
-          data-e2e='exchangeUseMaxButton'
+          data-e2e="exchangeUseMaxButton"
           fullwidth
           disabled={disabled}
           onClick={actions.useMax}
         >
           <FormattedMessage
-            id='scenes.exchange.exchangeform.max'
-            defaultMessage='MAX'
+            id="scenes.exchange.exchangeform.max"
+            defaultMessage="MAX"
           />
           &nbsp;
-          <MinMaxValue data-e2e='exchangeMaxValue'>
+          <MinMaxValue data-e2e="exchangeMaxValue">
             {!disabled && formatAmount(maxIsFiat, maxSymbol, maxAmount)}
           </MinMaxValue>
         </MinMaxButton>

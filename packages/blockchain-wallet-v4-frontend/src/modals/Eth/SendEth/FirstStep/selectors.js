@@ -64,8 +64,8 @@ export const getData = createDeepEqualSelector(
             {
               text: (
                 <FormattedMessage
-                  id='modals.sendeth.firststep.fee.regular'
-                  defaultMessage='Regular'
+                  id="modals.sendeth.firststep.fee.regular"
+                  defaultMessage="Regular"
                 />
               ),
               value: regularFee
@@ -73,8 +73,8 @@ export const getData = createDeepEqualSelector(
             {
               text: (
                 <FormattedMessage
-                  id='modals.sendeth.firststep.fee.priority'
-                  defaultMessage='Priority'
+                  id="modals.sendeth.firststep.fee.priority"
+                  defaultMessage="Priority"
                 />
               ),
               value: priorityFee

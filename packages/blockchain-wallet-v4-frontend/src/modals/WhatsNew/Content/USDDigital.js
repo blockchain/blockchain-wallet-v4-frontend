@@ -29,36 +29,36 @@ const CheckItOutButton = styled(Button).attrs({
 
 export const USDDigital = () => (
   <Container>
-    <Row marginBottom='6px'>
-      <Text color='blue900' size='24px' weight={600}>
+    <Row marginBottom="6px">
+      <Text color="blue900" size="24px" weight={600}>
         <FormattedMessage
-          defaultMessage='USD PAX is Now USD Digital'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital'
+          defaultMessage="USD PAX is Now USD Digital"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital"
         />
       </Text>
     </Row>
-    <Row marginBottom='24px'>
-      <DarkText size='12px' weight={500}>
+    <Row marginBottom="24px">
+      <DarkText size="12px" weight={500}>
         <FormattedMessage
-          defaultMessage='March 2020'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigtal.March2020'
+          defaultMessage="March 2020"
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigtal.March2020"
         />
       </DarkText>
     </Row>
-    <Row marginBottom='24px'>
+    <Row marginBottom="24px">
       <DarkText>
         <FormattedMessage
-          defaultMessage='USD PAX will now be referred to as USD Digital (USD-D, for short) and be represented by a green dollar symbol. If you had USD Pax in the past, they will maintain their value, we’re only changing their name.'
-          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.stable'
+          defaultMessage="USD PAX will now be referred to as USD Digital (USD-D, for short) and be represented by a green dollar symbol. If you had USD Pax in the past, they will maintain their value, we’re only changing their name."
+          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.stable"
         />
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to='/usd-d/transactions'>
+      <LinkContainer to="/usd-d/transactions">
         <CheckItOutButton>
           <FormattedMessage
-            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.checkit'
-            defaultMessage='Check it Out'
+            id="layouts.wallet.trayright.whatsnew.whatsnewcontent.usddigital.checkit"
+            defaultMessage="Check it Out"
           />
         </CheckItOutButton>
       </LinkContainer>

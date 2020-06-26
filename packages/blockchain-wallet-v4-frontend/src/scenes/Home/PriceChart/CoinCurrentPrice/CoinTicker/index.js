@@ -8,11 +8,11 @@ import React from 'react'
 import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.initialized()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

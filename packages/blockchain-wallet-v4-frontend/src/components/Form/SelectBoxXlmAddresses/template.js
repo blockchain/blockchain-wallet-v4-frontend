@@ -25,8 +25,8 @@ const ItemWrapper = styled.div`
 `
 
 const renderItem = item => (
-  <ItemWrapper data-e2e='xlmAddressOption'>
-    <Text weight={400} size='14px'>
+  <ItemWrapper data-e2e="xlmAddressOption">
+    <Text weight={400} size="14px">
       {item.text}
     </Text>
   </ItemWrapper>

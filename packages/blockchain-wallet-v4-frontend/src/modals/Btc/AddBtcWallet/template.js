@@ -34,46 +34,46 @@ const AddBtcWallet = ({
   uniqueWalletName
 }) => {
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size="large" position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='arrow-up-circle' onClose={close}>
+          <ModalHeader icon="arrow-up-circle" onClose={close}>
             <FormattedMessage
-              id='modals.addbitcoinwallet.title'
-              defaultMessage='Add New Bitcoin Wallet'
+              id="modals.addbitcoinwallet.title"
+              defaultMessage="Add New Bitcoin Wallet"
             />
           </ModalHeader>
           <ModalBody>
             <FormGroup>
               <FormItem>
-                <Label htmlFor='wallet'>
+                <Label htmlFor="wallet">
                   <FormattedMessage
-                    id='modals.addbitcoinwallet.wallet'
-                    defaultMessage='Wallet Name'
+                    id="modals.addbitcoinwallet.wallet"
+                    defaultMessage="Wallet Name"
                   />
                 </Label>
                 <Field
-                  name='wallet'
+                  name="wallet"
                   autoFocus
                   validate={[required, uniqueWalletName]}
                   component={TextBox}
                   maxLength={30}
-                  data-e2e='newWalletNameInput'
+                  data-e2e="newWalletNameInput"
                 />
               </FormItem>
             </FormGroup>
           </ModalBody>
-          <ModalFooter align='right'>
+          <ModalFooter align="right">
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
-              data-e2e='createNewBitcoinWalletButton'
+              data-e2e="createNewBitcoinWalletButton"
             >
               <FormattedMessage
-                id='modals.addbitcoinwallet.button'
-                defaultMessage='Create New Bitcoin Wallet'
+                id="modals.addbitcoinwallet.button"
+                defaultMessage="Create New Bitcoin Wallet"
               />
             </Button>
           </ModalFooter>

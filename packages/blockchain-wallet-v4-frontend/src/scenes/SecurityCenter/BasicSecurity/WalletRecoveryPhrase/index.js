@@ -9,7 +9,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.props.modalActions.showModal('RECOVERY_PHRASE_MODAL')
   }
 
-  render () {
+  render() {
     const { isMnemonicVerified } = this.props
     return (
       <WalletRecoveryPhrase

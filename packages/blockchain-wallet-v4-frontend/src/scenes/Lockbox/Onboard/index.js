@@ -17,11 +17,11 @@ class OnboardContainer extends React.PureComponent {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <LockboxHeader />
-        <Announcements type='service' alertArea='lockbox' />
+        <Announcements type="service" alertArea="lockbox" />
         <Setup launchLockboxSetup={this.launchLockboxSetup} />
       </Wrapper>
     )

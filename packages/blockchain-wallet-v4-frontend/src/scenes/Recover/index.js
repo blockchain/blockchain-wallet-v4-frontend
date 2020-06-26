@@ -8,15 +8,15 @@ import SecondStep from './SecondStep'
 import wizardProvider from 'providers/WizardProvider'
 
 class RecoverContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('recover')
   }
 
-  render () {
+  render() {
     const { step, nextStep, previousStep, ...rest } = this.props
 
     switch (step) {

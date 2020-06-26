@@ -41,10 +41,10 @@ const Success = props => {
 
   return (
     <CurrencyList>
-      <TourWrapper className='tour-step2'>
+      <TourWrapper className="tour-step2">
         <Coin
-          coin='btc'
-          icon='btc'
+          coin="btc"
+          icon="btc"
           balance={data.btcBalance}
           isActive={isActive('btc')}
           isSaved={prop('btc', coinContexts) > 0}
@@ -52,8 +52,8 @@ const Success = props => {
           onClick={() => handleCoinSelection('BTC')}
         />
         <Coin
-          coin='eth'
-          icon='eth'
+          coin="eth"
+          icon="eth"
           balance={data.ethBalance}
           isActive={isActive('eth')}
           isSaved={prop('eth', coinContexts) > 0}
@@ -61,8 +61,8 @@ const Success = props => {
           onClick={() => handleCoinSelection('ETH')}
         />
         <Coin
-          coin='bch'
-          icon='bch'
+          coin="bch"
+          icon="bch"
           balance={data.bchBalance}
           isActive={isActive('bch')}
           isSaved={prop('bch', coinContexts) > 0}
@@ -70,8 +70,8 @@ const Success = props => {
           onClick={() => handleCoinSelection('BCH')}
         />
         <Coin
-          coin='xlm'
-          icon='xlm'
+          coin="xlm"
+          icon="xlm"
           balance={data.xlmBalance}
           isActive={isActive('xlm')}
           isSaved={prop('xlm', coinContexts) > 0}

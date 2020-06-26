@@ -42,59 +42,59 @@ const BackIcon = styled(Icon)`
 `
 
 class XlmCreateAccountLearn extends React.PureComponent {
-  render () {
+  render() {
     const { position, total, close } = this.props
     return (
       <Modal
-        size='medium'
+        size="medium"
         position={position}
         total={total}
         closeAll={close}
-        data-e2e='xlmMinimumModalShort'
+        data-e2e="xlmMinimumModalShort"
       >
         <ModalHeader onClose={close}>
           <Header onClick={close}>
             <BackIcon
-              name='arrow-left'
-              data-e2e='xlmMinimumModalBack'
-              size='20px'
+              name="arrow-left"
+              data-e2e="xlmMinimumModalBack"
+              size="20px"
             />
-            <FormattedMessage id='buttons.back' defaultMessage='Back' />
+            <FormattedMessage id="buttons.back" defaultMessage="Back" />
           </Header>
         </ModalHeader>
         <ModalBody>
           <Title>
             <FormattedMessage
-              id='modal.createaccountlearn.title'
-              defaultMessage='Stellar mimimum balance requirement.'
+              id="modal.createaccountlearn.title"
+              defaultMessage="Stellar mimimum balance requirement."
             />
           </Title>
           <Paragraph>
             <FormattedMessage
-              id='modal.createaccountlearn.info1'
-              defaultMessage='Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement.'
+              id="modal.createaccountlearn.info1"
+              defaultMessage="Stellar requires that all Stellar accounts hold a minimum balance of lumens, or XLM. This means you cannot send a balance out of your Stellar Wallet that would leave your Stellar Wallet with less than the minimum balance. This also means that in order to send XLM to a new Stellar account, you must send enough XLM to meet the minimum balance requirement."
             />
           </Paragraph>
           <br />
           <Paragraph>
             <FormattedMessage
-              id='modal.createaccountlearn.info2'
-              defaultMessage='The current minimum balance requirement is 1 XLM.'
+              id="modal.createaccountlearn.info2"
+              defaultMessage="The current minimum balance requirement is 1 XLM."
             />
           </Paragraph>
           <br />
           <Paragraph>
             <FormattedMessage
-              id='modal.createaccountlearn.info3'
-              defaultMessage='You can read more information about Stellar’s minimum balance requirement at'
+              id="modal.createaccountlearn.info3"
+              defaultMessage="You can read more information about Stellar’s minimum balance requirement at"
             />{' '}
             <StyledLink
-              href='https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance'
-              target='_blank'
+              href="https://www.stellar.org/developers/guides/concepts/fees.html#minimum-account-balance"
+              target="_blank"
             >
               <FormattedMessage
-                id='modal.createaccountlearn.link'
-                defaultMessage='Stellar.org'
+                id="modal.createaccountlearn.link"
+                defaultMessage="Stellar.org"
               />
             </StyledLink>
           </Paragraph>

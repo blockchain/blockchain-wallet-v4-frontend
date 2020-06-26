@@ -92,7 +92,7 @@ const CurrencyBoxComponent = (props: {
   return (
     <CurrencyBox
       data-e2e={`sb${props.cur.code}CurrencySelector`}
-      role='button'
+      role="button"
       onClick={props.onClick}
     >
       <CurrencyText>
@@ -101,7 +101,7 @@ const CurrencyBoxComponent = (props: {
       </CurrencyText>
       {props.selectedCurrency === props.cur.code ? (
         <CheckWrapper>
-          <Icon name='checkmark-circle-filled' color='green500' size='24px' />
+          <Icon name="checkmark-circle-filled" color="green500" size="24px" />
         </CheckWrapper>
       ) : (
         <CheckWrapper>
@@ -134,21 +134,21 @@ const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <Top color='grey800' size='20px' weight={600}>
-            <TopText color='grey800' size='20px' weight={600}>
+          <Top color="grey800" size="20px" weight={600}>
+            <TopText color="grey800" size="20px" weight={600}>
               {!selectedCurrency && (
                 <Icon
                   onClick={props.handleClose}
                   cursor
-                  name='close'
-                  size='20px'
-                  color='grey600'
+                  name="close"
+                  size="20px"
+                  color="grey600"
                   style={{ marginRight: '24px' }}
                 />
               )}
               <FormattedMessage
-                id='modals.simplebuy.selectcurrency'
-                defaultMessage='Select Your Currency'
+                id="modals.simplebuy.selectcurrency"
+                defaultMessage="Select Your Currency"
               />
             </TopText>
             {selectedCurrency && (
@@ -160,16 +160,16 @@ const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
                   })
                 }
                 cursor
-                name='arrow-right'
-                size='20px'
-                color='grey600'
+                name="arrow-right"
+                size="20px"
+                color="grey600"
               />
             )}
           </Top>
-          <SubTitleText color='grey600' weight={500}>
+          <SubTitleText color="grey600" weight={500}>
             <FormattedMessage
-              id='modals.simplebuy.localcurrency'
-              defaultMessage='Select the local currency for your wallet.'
+              id="modals.simplebuy.localcurrency"
+              defaultMessage="Select the local currency for your wallet."
             />
           </SubTitleText>
         </FlyoutWrapper>

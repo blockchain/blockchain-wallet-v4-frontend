@@ -40,12 +40,12 @@ const StyledNavbarNavItem = styled(NavbarNavItem)`
 
 const SecurityCenter = () => {
   return (
-    <LinkContainer activeClassName='active' to='/security-center'>
+    <LinkContainer activeClassName="active" to="/security-center">
       <StyledNavbarNavItem>
-        <NavbarNavItemButton data-e2e='securityCenterLink'>
-          <NavbarNavItemIcon persist size='18px' name='shield' />
-          <StyledNavbarNavItemTextHeader size='14px' weight={600}>
-            <FormattedMessage id='buttons.security' defaultMessage='Security' />
+        <NavbarNavItemButton data-e2e="securityCenterLink">
+          <NavbarNavItemIcon persist size="18px" name="shield" />
+          <StyledNavbarNavItemTextHeader size="14px" weight={600}>
+            <FormattedMessage id="buttons.security" defaultMessage="Security" />
           </StyledNavbarNavItemTextHeader>
         </NavbarNavItemButton>
       </StyledNavbarNavItem>

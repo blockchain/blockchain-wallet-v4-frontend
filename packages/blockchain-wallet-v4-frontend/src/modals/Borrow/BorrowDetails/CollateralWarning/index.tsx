@@ -50,7 +50,7 @@ const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
   )
   return lastCompletedTx ? (
     <CustomButton
-      data-e2e='goToStepAddCollateral'
+      data-e2e="goToStepAddCollateral"
       onClick={() =>
         props.borrowActions.setStep({
           step: 'ADD_COLLATERAL',
@@ -58,18 +58,18 @@ const AddCollateralCTA: React.FC<Props & { optional?: boolean }> = props => {
           offer: props.offer
         })
       }
-      nature='primary'
+      nature="primary"
     >
-      <Text color='white' size='14px' weight={600}>
+      <Text color="white" size="14px" weight={600}>
         {props.optional ? (
           <FormattedMessage
-            id='scenes.borrow.addcollateral.optional'
-            defaultMessage='Add Collateral (Optional)'
+            id="scenes.borrow.addcollateral.optional"
+            defaultMessage="Add Collateral (Optional)"
           />
         ) : (
           <FormattedMessage
-            id='scenes.borrow.addcollateral'
-            defaultMessage='Add Collateral'
+            id="scenes.borrow.addcollateral"
+            defaultMessage="Add Collateral"
           />
         )}
       </Text>
@@ -90,12 +90,12 @@ const CollateralWarning: React.FC<Props> = props => {
     case 'FAILED':
     case 'LIQUIDATED': {
       return (
-        <Container bgColor='grey000'>
-          <CustomIcon name='info' color='grey600' />
-          <Text size='14px' weight={500} color='grey800' lineHeight={'20px'}>
+        <Container bgColor="grey000">
+          <CustomIcon name="info" color="grey600" />
+          <Text size="14px" weight={500} color="grey800" lineHeight={'20px'}>
             <FormattedMessage
-              id='scenes.borrow.loanclosed'
-              defaultMessage='This loan is no longer active.'
+              id="scenes.borrow.loanclosed"
+              defaultMessage="This loan is no longer active."
             />
           </Text>
         </Container>
@@ -106,13 +106,13 @@ const CollateralWarning: React.FC<Props> = props => {
   switch (currentCollateralStatus) {
     case 'unsafe':
       return (
-        <Container bgColor='red000'>
-          <CustomIcon name='info' color='red600' />
+        <Container bgColor="red000">
+          <CustomIcon name="info" color="red600" />
           <div>
-            <Text size='14px' weight={500} color='red600' lineHeight={'20px'}>
+            <Text size="14px" weight={500} color="red600" lineHeight={'20px'}>
               <FormattedMessage
-                id='scenes.borrow.warning.unsafe'
-                defaultMessage='Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated.'
+                id="scenes.borrow.warning.unsafe"
+                defaultMessage="Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated."
                 values={{
                   unsafeRatio:
                     props.offer.callTerms.liquidationHardRatio * 100 + '%'
@@ -125,12 +125,12 @@ const CollateralWarning: React.FC<Props> = props => {
       )
     case 'risky':
       return (
-        <Container bgColor='orange000'>
-          <CustomIcon name='info' color='orange600' />
+        <Container bgColor="orange000">
+          <CustomIcon name="info" color="orange600" />
           <div>
-            <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
+            <Text size="14px" weight={500} color="grey600" lineHeight={'20px'}>
               <FormattedHTMLMessage
-                id='scenes.borrow.warning.risky'
+                id="scenes.borrow.warning.risky"
                 defaultMessage='Your collateralization ratio of <span class="orange900">{currentRatio}</span> is below the recommended level. <span class="grey900">You need to add {collateralAmtRequired} of additional collateral.</span> If it drops below {liquidationHardPerc} we will sell your collateral.'
                 values={{
                   currentRatio: percentageFormatter(
@@ -152,12 +152,12 @@ const CollateralWarning: React.FC<Props> = props => {
       )
     case 'safe':
       return (
-        <Container bgColor='white' borderColor='grey100'>
-          <CustomIcon name='info' color='grey400' />
+        <Container bgColor="white" borderColor="grey100">
+          <CustomIcon name="info" color="grey400" />
           <div>
-            <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
+            <Text size="14px" weight={500} color="grey600" lineHeight={'20px'}>
               <FormattedHTMLMessage
-                id='scenes.borrow.warning.safe'
+                id="scenes.borrow.warning.safe"
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
                 values={{
                   currentRatio: percentageFormatter(

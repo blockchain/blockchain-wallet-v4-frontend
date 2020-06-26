@@ -8,14 +8,14 @@ import { Link } from 'blockchain-info-components'
 
 const MaximumAmountLink = props => (
   <Link
-    size='12px'
+    size="12px"
     weight={400}
     onClick={props.actions.sendBchFirstStepMaximumAmountClicked}
-    data-e2e='bchMaximumAmountLink'
+    data-e2e="bchMaximumAmountLink"
   >
     <FormattedMessage
-      id='modals.sendbch.maximumamountlink.maximum'
-      defaultMessage='maximum'
+      id="modals.sendbch.maximumamountlink.maximum"
+      defaultMessage="maximum"
     />
   </Link>
 )

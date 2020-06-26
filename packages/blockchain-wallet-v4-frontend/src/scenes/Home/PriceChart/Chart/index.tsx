@@ -10,13 +10,13 @@ import React from 'react'
 import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     const coin = pathOr('BTC', ['cache', 'coin'], this.props)
     const time = pathOr('1month', ['cache', 'time'], this.props)
     this.props.priceChartActions.initialized(toUpper(coin), time)
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => (
         <Success

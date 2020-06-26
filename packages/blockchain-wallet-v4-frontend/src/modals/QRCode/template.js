@@ -35,18 +35,18 @@ const QRCode = props => {
   if (amt && message) btcAddress += `amount=${amt}&message=${message}`
 
   return (
-    <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.qrcode.title' defaultMessage='Request' />
+    <Modal size="large" position={position} total={total}>
+      <ModalHeader icon="request" onClose={closeAll}>
+        <FormattedMessage id="modals.qrcode.title" defaultMessage="Request" />
       </ModalHeader>
       <ModalBody>
-        <Text size='14px' weight={500}>
+        <Text size="14px" weight={500}>
           <FormattedMessage
-            id='modals.qrcode.scan'
-            defaultMessage='Scan QR Code'
+            id="modals.qrcode.scan"
+            defaultMessage="Scan QR Code"
           />
-          <TooltipHost id='qrcode.tooltip'>
-            <TooltipIcon name='info' />
+          <TooltipHost id="qrcode.tooltip">
+            <TooltipIcon name="info" />
           </TooltipHost>
         </Text>
         <QRCodeContainer>
@@ -55,8 +55,8 @@ const QRCode = props => {
         <CopyClipboard address={btcAddress} />
       </ModalBody>
       <ModalFooter>
-        <Link onClick={close} size='13px' weight={500} data-e2e='qrModalGoBack'>
-          <FormattedMessage id='buttons.go_back' defaultMessage='Go back' />
+        <Link onClick={close} size="13px" weight={500} data-e2e="qrModalGoBack">
+          <FormattedMessage id="buttons.go_back" defaultMessage="Go back" />
         </Link>
       </ModalFooter>
     </Modal>

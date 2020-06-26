@@ -13,10 +13,10 @@ const ErrorLink = styled(Link)`
 
 export default props => (
   <Wrapper>
-    <ErrorLink size='12px' weight={400} onClick={() => props.onRefresh()}>
+    <ErrorLink size="12px" weight={400} onClick={() => props.onRefresh()}>
       <FormattedMessage
-        id='wallet.menutop.balance.error.refresh'
-        defaultMessage='Refresh {curr} data'
+        id="wallet.menutop.balance.error.refresh"
+        defaultMessage="Refresh {curr} data"
         values={{ curr: props.coinTicker ? props.coinTicker : props.coin }}
       />
     </ErrorLink>

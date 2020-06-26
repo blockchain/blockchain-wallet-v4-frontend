@@ -102,7 +102,7 @@ export const getConfig = (
     },
     xDateFormat: '%b %d, %Y',
     useHTML: true,
-    pointFormatter: function () {
+    pointFormatter: function() {
       // @ts-ignore
       return fiatToString({ value: this.y, decimals, unit: currency })
     }

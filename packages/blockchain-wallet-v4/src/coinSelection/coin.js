@@ -24,28 +24,28 @@ export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
 export class Coin extends Type {
-  toString () {
+  toString() {
     return `Coin(${this.value})`
   }
-  concat (coin) {
+  concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
-  equals (coin) {
+  equals(coin) {
     return this.value === coin.value
   }
-  lte (coin) {
+  lte(coin) {
     return this.value <= coin.value
   }
-  ge (coin) {
+  ge(coin) {
     return this.value >= coin.value
   }
-  overValue (f) {
+  overValue(f) {
     return over(value, f, this)
   }
-  isFromAccount () {
+  isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
-  isFromLegacy () {
+  isFromLegacy() {
     return !this.isFromAccount()
   }
 }

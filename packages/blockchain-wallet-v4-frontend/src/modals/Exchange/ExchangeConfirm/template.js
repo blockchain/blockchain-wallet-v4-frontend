@@ -144,13 +144,13 @@ const ExchangeConfirm = ({
     <ConfirmWrapper>
       <CoinIconTitle>
         <Icon
-          size='42px'
+          size="42px"
           color={prop('colorCode', sourceCoinModel)}
           name={path(['icons', 'circleFilled'], sourceCoinModel)}
         />
-        <Icon size='14px' name='arrow-right' />
+        <Icon size="14px" name="arrow-right" />
         <Icon
-          size='42px'
+          size="42px"
           color={prop('colorCode', targetCoinModel)}
           name={path(['icons', 'circleFilled'], targetCoinModel)}
         />
@@ -159,34 +159,34 @@ const ExchangeConfirm = ({
         <TargetFiatAmount
           targetAmount={Remote.of(targetAmount)}
           targetCoin={prop('coinCode', targetCoinModel)}
-          color='blue900'
+          color="blue900"
           weight={400}
-          size='42px'
+          size="42px"
         />
       </AmountTitle>
       <Row>
         <CoinButton
           coin={prop('colorCode', sourceCoinModel)}
-          data-e2e='exchangeConfirmSourceValue'
+          data-e2e="exchangeConfirmSourceValue"
         >
           {`${sourceAmount} ${prop('coinTicker', sourceCoinModel)}`}
         </CoinButton>
-        <FromToIcon name='arrow-right' />
+        <FromToIcon name="arrow-right" />
         <CoinButton
           coin={prop('colorCode', targetCoinModel)}
-          data-e2e='exchangeConfirmTargetValue'
+          data-e2e="exchangeConfirmTargetValue"
         >
           {`${targetAmount} ${prop('coinTicker', targetCoinModel)}`}
         </CoinButton>
       </Row>
       <OrderInfoBox onClick={toggleShowOrderInfo} showOrderInfo={showOrderInfo}>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='scenes.exchange.confirm.orderinfo'
-            defaultMessage='Order Info'
+            id="scenes.exchange.confirm.orderinfo"
+            defaultMessage="Order Info"
           />
         </Text>
-        <Icon name='chevron-down' weight={600} size='20px' color='grey400' />
+        <Icon name="chevron-down" weight={600} size="20px" color="grey400" />
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary
@@ -198,19 +198,19 @@ const ExchangeConfirm = ({
       {!error && (
         <Buttons>
           <ExchangeButton
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             disabled={submitting}
-            data-e2e='exchangeCompleteOrderButton'
+            data-e2e="exchangeCompleteOrderButton"
           >
             {!submitting && (
               <FormattedMessage
-                id='scenes.exchange.confirm.confirm'
-                defaultMessage='Confirm'
+                id="scenes.exchange.confirm.confirm"
+                defaultMessage="Confirm"
               />
             )}
             {submitting && (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             )}
           </ExchangeButton>
         </Buttons>
@@ -224,8 +224,8 @@ const ExchangeConfirm = ({
       ) : (
         <AmountNote>
           <FormattedMessage
-            id='scenes.exchange.confirm.summary.note'
-            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+            id="scenes.exchange.confirm.summary.note"
+            defaultMessage="All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction."
           />
         </AmountNote>
       )}

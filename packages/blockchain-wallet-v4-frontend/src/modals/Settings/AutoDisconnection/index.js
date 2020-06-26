@@ -8,33 +8,33 @@ import AutoDisconnection from './template.js'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 class AutoDisconnectionContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.timeout = undefined
     this.onSubmit = this.onSubmit.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.timeout = setTimeout(this.onSubmit, 10000)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.authActions.logout()
     this.props.modalActions.closeModal()
   }
 
-  handleCancel () {
+  handleCancel() {
     clearTimeout(this.timeout)
     this.props.authActions.startLogoutTimer()
     this.props.modalActions.closeModal()
   }
 
-  render () {
+  render() {
     return (
       <AutoDisconnection
         {...this.props}

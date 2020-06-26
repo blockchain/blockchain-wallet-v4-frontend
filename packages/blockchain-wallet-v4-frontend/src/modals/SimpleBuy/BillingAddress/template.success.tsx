@@ -44,14 +44,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     <>
       <Form onSubmit={props.handleSubmit}>
         <CustomFlyoutWrapper>
-          <Top color='grey800' size='20px' weight={600}>
+          <Top color="grey800" size="20px" weight={600}>
             <Icon
               cursor
-              name='arrow-left'
-              size='20px'
-              color='grey600'
+              name="arrow-left"
+              size="20px"
+              color="grey600"
               style={{ marginRight: '24px' }}
-              role='button'
+              role="button"
               onClick={() =>
                 props.simpleBuyActions.setStep({
                   step: 'ADD_CARD'
@@ -59,97 +59,97 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               }
             />
             <FormattedMessage
-              id='modals.simplebuy.billing_address'
-              defaultMessage='Billing Address'
+              id="modals.simplebuy.billing_address"
+              defaultMessage="Billing Address"
             />
           </Top>
           <CountrySelect {...props} />
         </CustomFlyoutWrapper>
         <FlyoutWrapper>
-          <FormGroup margin='24px'>
+          <FormGroup margin="24px">
             <FormLabel>
               {countryIsUS ? (
                 <FormattedMessage
-                  id='identityverification.personal.address_line1required'
-                  defaultMessage='Address Line 1 *'
+                  id="identityverification.personal.address_line1required"
+                  defaultMessage="Address Line 1 *"
                 />
               ) : (
                 <FormattedMessage
-                  id='identityverification.personal.streetline1required'
-                  defaultMessage='Street Line 1 *'
+                  id="identityverification.personal.streetline1required"
+                  defaultMessage="Street Line 1 *"
                 />
               )}
             </FormLabel>
-            <Field name='line1' validate={required} component={TextBox} />
+            <Field name="line1" validate={required} component={TextBox} />
           </FormGroup>
-          <FormGroup margin='24px'>
+          <FormGroup margin="24px">
             <FormLabel>
               {countryIsUS ? (
                 <FormattedMessage
-                  id='identityverification.personal.address_line2'
-                  defaultMessage='Address Line 2'
+                  id="identityverification.personal.address_line2"
+                  defaultMessage="Address Line 2"
                 />
               ) : (
                 <FormattedMessage
-                  id='identityverification.personal.streetline2'
-                  defaultMessage='Street Line 2'
+                  id="identityverification.personal.streetline2"
+                  defaultMessage="Street Line 2"
                 />
               )}
             </FormLabel>
-            <Field name='line2' component={TextBox} />
+            <Field name="line2" component={TextBox} />
           </FormGroup>
-          <FormGroup margin='24px'>
+          <FormGroup margin="24px">
             <FormLabel>
               <FormattedMessage
-                id='identityverification.personal.cityrequired'
-                defaultMessage='City *'
+                id="identityverification.personal.cityrequired"
+                defaultMessage="City *"
               />
             </FormLabel>
-            <Field name='city' validate={required} component={TextBox} />
+            <Field name="city" validate={required} component={TextBox} />
           </FormGroup>
           <FormGroup inline>
             <FormItem>
               <FormLabel>
                 {countryIsUS ? (
                   <FormattedMessage
-                    id='identityverification.personal.staterequired'
-                    defaultMessage='State *'
+                    id="identityverification.personal.staterequired"
+                    defaultMessage="State *"
                   />
                 ) : (
                   <FormattedMessage
-                    id='identityverification.personal.region'
-                    defaultMessage='Region'
+                    id="identityverification.personal.region"
+                    defaultMessage="Region"
                   />
                 )}
               </FormLabel>
               {countryIsUS ? (
                 <Field
-                  name='state'
+                  name="state"
                   component={SelectBoxUSState}
                   validate={[required]}
                   normalize={val => val.name}
                 />
               ) : (
-                <Field name='state' component={TextBox} />
+                <Field name="state" component={TextBox} />
               )}
             </FormItem>
             {countryUsesZipOrPostcode && (
               <FormItem>
-                <FormLabel htmlFor='postCode'>
+                <FormLabel htmlFor="postCode">
                   {countryUsesZipcode(countryCode) ? (
                     <FormattedMessage
-                      id='identityverification.personal.zip'
-                      defaultMessage='Zip Code *'
+                      id="identityverification.personal.zip"
+                      defaultMessage="Zip Code *"
                     />
                   ) : (
                     <FormattedMessage
-                      id='identityverification.personal.postcoderequired'
-                      defaultMessage='Postcode *'
+                      id="identityverification.personal.postcoderequired"
+                      defaultMessage="Postcode *"
                     />
                   )}
                 </FormLabel>
                 <Field
-                  name='postCode'
+                  name="postCode"
                   validate={requiredZipCode}
                   component={TextBox}
                 />
@@ -158,15 +158,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </FormGroup>
           <Button
             fullwidth
-            type='submit'
-            data-e2e='udpateBillingAddr'
-            nature='primary'
-            height='48px'
-            size='16px'
+            type="submit"
+            data-e2e="udpateBillingAddr"
+            nature="primary"
+            height="48px"
+            size="16px"
           >
             <FormattedMessage
-              id='modals.simplebuy.save_my_card'
-              defaultMessage='Save My Card'
+              id="modals.simplebuy.save_my_card"
+              defaultMessage="Save My Card"
             />
           </Button>
         </FlyoutWrapper>

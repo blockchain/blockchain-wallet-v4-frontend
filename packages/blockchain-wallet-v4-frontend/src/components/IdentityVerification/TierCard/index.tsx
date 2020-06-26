@@ -136,35 +136,35 @@ export const TierCard = ({
   return (
     <Wrapper className={className}>
       {tier === 2 && (
-        <Announcement uppercase weight={500} size='18px' color='white'>
+        <Announcement uppercase weight={500} size="18px" color="white">
           <FormattedMessage
-            id='components.identityverification.tiercard.getfreecrypto'
-            defaultMessage='Get Free Crypto'
+            id="components.identityverification.tiercard.getfreecrypto"
+            defaultMessage="Get Free Crypto"
           />
         </Announcement>
       )}
       <Container>
-        <Header color='marketing-primary' uppercase>
+        <Header color="marketing-primary" uppercase>
           {headers[path([tier, 'level'], TIERS)]}
         </Header>
         <Content>
           <Row>
             <Column>
-              <Text size='32px' weight={600} color='marketing-secondary'>
+              <Text size="32px" weight={600} color="marketing-secondary">
                 {tierFiatLimit}
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='textBlack'
+                color="textBlack"
                 style={{ marginTop: '8px' }}
               >
                 {tierLimit}
               </Text>
               <Text
-                size='14px'
+                size="14px"
                 weight={500}
-                color='grey400'
+                color="grey400"
                 style={{ marginTop: '7px' }}
               >
                 {tierStatus}
@@ -182,9 +182,9 @@ export const TierCard = ({
                   }) && (
                     <Icon
                       style={{ marginLeft: '5px' }}
-                      color='success'
-                      size='12px'
-                      name='check'
+                      color="success"
+                      size="12px"
+                      name="check"
                     />
                   )}
                 </TextGroup>
@@ -195,9 +195,9 @@ export const TierCard = ({
         {tierData.state === TIERS_STATES.NONE && (
           <ActionButton
             jumbo
-            className='actionButton'
+            className="actionButton"
             fullwidth
-            nature='primary'
+            nature="primary"
             onClick={() =>
               identityVerificationActions.verifyIdentity(
                 tier,
@@ -209,8 +209,8 @@ export const TierCard = ({
           >
             {tierStarted ? (
               <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
+                id="buttons.continue"
+                defaultMessage="Continue"
               />
             ) : (
               ctas[path([tier, 'level'], TIERS)]
@@ -220,30 +220,30 @@ export const TierCard = ({
         {tierData.state === TIERS_STATES.VERIFIED &&
           (tierLevel === 1 ? (
             <ActionButton
-              className='actionButton'
+              className="actionButton"
               jumbo
               fullwidth
-              nature='primary'
+              nature="primary"
               onClick={goToSwap}
-              data-e2e='swapNowBtn'
+              data-e2e="swapNowBtn"
             >
               <FormattedMessage
-                id='components.identityverification.tiercard.swap_now'
-                defaultMessage='Swap Now'
+                id="components.identityverification.tiercard.swap_now"
+                defaultMessage="Swap Now"
               />
             </ActionButton>
           ) : (
             <ActionButton
-              className='actionButton'
+              className="actionButton"
               jumbo
               fullwidth
-              nature='primary'
+              nature="primary"
               onClick={() => simpleBuyActions.showModal('SettingsProfile')}
-              data-e2e='buyNowBtn'
+              data-e2e="buyNowBtn"
             >
               <FormattedMessage
-                id='components.identityverification.tiercard.buy_now'
-                defaultMessage='Buy Crypto Now'
+                id="components.identityverification.tiercard.buy_now"
+                defaultMessage="Buy Crypto Now"
               />
             </ActionButton>
           ))}

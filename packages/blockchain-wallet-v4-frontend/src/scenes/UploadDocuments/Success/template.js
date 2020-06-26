@@ -31,35 +31,35 @@ const Wrapper = styled.div`
 const UploadDocumentsSuccess = ({ reference }) => (
   <Wrapper>
     <CheckCircleIcon />
-    <Text color='blue900' size='24px'>
+    <Text color="blue900" size="24px">
       <FormattedMessage
-        id='scenes.uploaddoc.success.success'
-        defaultMessage='Success!'
+        id="scenes.uploaddoc.success.success"
+        defaultMessage="Success!"
       />
     </Text>
     <TextGroup inline>
-      <Text color='blue900' size='16px' weight={400}>
+      <Text color="blue900" size="16px" weight={400}>
         <FormattedMessage
-          id='scenes.uploaddoc.success.reference'
-          defaultMessage='Reference '
+          id="scenes.uploaddoc.success.reference"
+          defaultMessage="Reference "
         />
       </Text>
       <Text>{reference}</Text>
     </TextGroup>
-    <SuccessText color='blue900' size='20px' weight={400}>
+    <SuccessText color="blue900" size="20px" weight={400}>
       <FormattedMessage
-        id='scenes.uploaddoc.success.explanation'
-        defaultMessage='We have received your files. A Blockchain Team Member 
+        id="scenes.uploaddoc.success.explanation"
+        defaultMessage="We have received your files. A Blockchain Team Member 
         will be reviewing your ID check shortly. Look for an email from us on
-        your new account status.'
+        your new account status."
       />
     </SuccessText>
-    <Button nature='primary'>
-      <NavLink style={{ textDecoration: 'none' }} to='/login'>
-        <Text color='white' size='16px' weight={400}>
+    <Button nature="primary">
+      <NavLink style={{ textDecoration: 'none' }} to="/login">
+        <Text color="white" size="16px" weight={400}>
           <FormattedMessage
-            id='scenes.uploaddoc.success.return'
-            defaultMessage='Return to the wallet'
+            id="scenes.uploaddoc.success.return"
+            defaultMessage="Return to the wallet"
           />
         </Text>
       </NavLink>

@@ -110,30 +110,30 @@ const getSourceMessage = status => {
     case EXPIRED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.exchangecoin'
-          defaultMessage='Exchange'
+          id="modals.exchangeresults.exchangecoin"
+          defaultMessage="Exchange"
         />
       )
     case FINISHED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.depositedcoin'
-          defaultMessage='Deposited'
+          id="modals.exchangeresults.depositedcoin"
+          defaultMessage="Deposited"
         />
       )
     case REFUNDED:
     case PENDING_REFUND:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.broadcastcoin'
-          defaultMessage='Broadcast'
+          id="modals.exchangeresults.broadcastcoin"
+          defaultMessage="Broadcast"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.exchangecoin'
-          defaultMessage='Exchange'
+          id="modals.exchangeresults.exchangecoin"
+          defaultMessage="Exchange"
         />
       )
   }
@@ -144,15 +144,15 @@ const getTargetMessage = status => {
     case FINISHED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.coinreceived'
-          defaultMessage='Received'
+          id="modals.exchangeresults.coinreceived"
+          defaultMessage="Received"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.receivecoin'
-          defaultMessage='Receive'
+          id="modals.exchangeresults.receivecoin"
+          defaultMessage="Receive"
         />
       )
   }
@@ -163,15 +163,15 @@ const getRefundMessage = status => {
     case REFUNDED:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.totalrefunded'
-          defaultMessage='Total refunded'
+          id="modals.exchangeresults.totalrefunded"
+          defaultMessage="Total refunded"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangeresults.totaltoberefunded'
-          defaultMessage='Total to be refunded'
+          id="modals.exchangeresults.totaltoberefunded"
+          defaultMessage="Total to be refunded"
         />
       )
   }
@@ -183,13 +183,13 @@ const getButton = status => {
     case FAILED:
       return (
         <Link
-          target='_blank'
-          href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551'
+          target="_blank"
+          href="https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000180551"
         >
-          <Button fullwidth height='56px' nature='primary' weight={400}>
+          <Button fullwidth height="56px" nature="primary" weight={400}>
             <FormattedMessage
-              id='buttons.contact_support'
-              defaultMessage='Contact Support'
+              id="buttons.contact_support"
+              defaultMessage="Contact Support"
             />
           </Button>
         </Link>
@@ -228,18 +228,18 @@ export const ExchangeResults = ({
     identity
   )(selectColor(status))
   return (
-    <Modal size='small' position={position} total={total}>
+    <Modal size="small" position={position} total={total}>
       <Header onClose={close} />
       <ModalBody>
         <CoinIconTitle>
           <Icon
-            size='42px'
+            size="42px"
             color={sourceCoinModel.colorCode}
             name={sourceCoinModel.icons.circleFilled}
           />
-          <Icon size='12px' name='arrow-right' />
+          <Icon size="12px" name="arrow-right" />
           <Icon
-            size='42px'
+            size="42px"
             color={targetCoinModel.colorCode}
             name={targetCoinModel.icons.circleFilled}
           />
@@ -252,8 +252,8 @@ export const ExchangeResults = ({
         <OrderRow>
           <Text weight={600}>
             <FormattedMessage
-              id='modals.exchangeresults.orderid'
-              defaultMessage='Order ID'
+              id="modals.exchangeresults.orderid"
+              defaultMessage="Order ID"
             />
           </Text>
           {id}
@@ -262,12 +262,12 @@ export const ExchangeResults = ({
           <LargeTableRow>
             <ExchangeText>
               <FormattedMessage
-                id='modals.exchangeresults.status'
-                defaultMessage='Status'
+                id="modals.exchangeresults.status"
+                defaultMessage="Status"
               />
             </ExchangeText>
-            <SummaryExchangeAmount color='grey700'>
-              <StatusCircle color={color} marginRight='4px' />
+            <SummaryExchangeAmount color="grey700">
+              <StatusCircle color={color} marginRight="4px" />
               <OrderStatus status={status} />
             </SummaryExchangeAmount>
           </LargeTableRow>
@@ -275,8 +275,8 @@ export const ExchangeResults = ({
             <ExchangeText>{getSourceMessage(status)}</ExchangeText>
             <ExchangeAmounts>
               <SummaryExchangeAmount
-                color='grey700'
-                data-e2e='exchangeResultsSourceValue'
+                color="grey700"
+                data-e2e="exchangeResultsSourceValue"
               >
                 {`${depositAmount} ${sourceCoinModel.coinTicker}`}
               </SummaryExchangeAmount>
@@ -287,8 +287,8 @@ export const ExchangeResults = ({
               <ExchangeText>{getTargetMessage(status)}</ExchangeText>
               <ExchangeAmounts>
                 <SummaryExchangeAmount
-                  color='grey700'
-                  data-e2e='exchangeResultsTargetValue'
+                  color="grey700"
+                  data-e2e="exchangeResultsTargetValue"
                 >
                   {getTargetAmount(withdrawalAmount, targetCoinModel, status)}
                 </SummaryExchangeAmount>
@@ -305,15 +305,15 @@ export const ExchangeResults = ({
             <MidTableRow>
               <ExchangeText>
                 <FormattedMessage
-                  id='modals.exchangeresults.value'
-                  defaultMessage='Total Value'
+                  id="modals.exchangeresults.value"
+                  defaultMessage="Total Value"
                 />
                 {status === FINISHED && (
                   <React.Fragment>
                     &nbsp;
                     <FormattedMessage
-                      id='modals.exchangeresults.valuenotcie'
-                      defaultMessage='(when exchanged)'
+                      id="modals.exchangeresults.valuenotcie"
+                      defaultMessage="(when exchanged)"
                     />
                   </React.Fragment>
                 )}
@@ -334,8 +334,8 @@ export const ExchangeResults = ({
               <MidTableRow>
                 <ExchangeText>
                   <FormattedMessage
-                    id='modals.exchangeresults.rate'
-                    defaultMessage='Exchange rate'
+                    id="modals.exchangeresults.rate"
+                    defaultMessage="Exchange rate"
                   />
                 </ExchangeText>
                 <ExchangeText

@@ -11,7 +11,7 @@ class TransactionsContainer extends React.PureComponent {
     this.props.lockboxActions.updateTransactionList(this.props.deviceIndex)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: val => (

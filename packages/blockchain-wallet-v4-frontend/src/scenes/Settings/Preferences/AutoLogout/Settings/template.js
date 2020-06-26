@@ -32,46 +32,46 @@ const Settings = props => {
       <SettingForm onSubmit={handleSubmit}>
         <FormGroup>
           <Wrapper>
-            <FormItem data-e2e='autoLogoutInput'>
+            <FormItem data-e2e="autoLogoutInput">
               <Field
-                name='autoLogoutTime'
+                name="autoLogoutTime"
                 component={NumberBox}
                 validate={[isValidAutoLogoutTime]}
               />
             </FormItem>
-            <Text size='14' weight={400} style={spacing('pl-10')}>
+            <Text size="14" weight={400} style={spacing('pl-10')}>
               <FormattedMessage
-                id='scenes.settings.preferences.autologout.updateform.minutes'
-                defaultMessage='Minutes'
+                id="scenes.settings.preferences.autologout.updateform.minutes"
+                defaultMessage="Minutes"
               />
             </Text>
           </Wrapper>
-          <Text size='12px' color='grey400' weight={400}>
+          <Text size="12px" color="grey400" weight={400}>
             <FormattedMessage
-              id='scenes.preferences.autologout.settings.updateform.bounds'
-              defaultMessage='Must be between 1 and 1440 minutes.'
+              id="scenes.preferences.autologout.settings.updateform.bounds"
+              defaultMessage="Must be between 1 and 1440 minutes."
             />
           </Text>
         </FormGroup>
         <ButtonWrapper>
           <Button
-            nature='empty'
+            nature="empty"
             capitalize
             onClick={handleToggle}
-            data-e2e='cancelAutoLogout'
+            data-e2e="cancelAutoLogout"
           >
-            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+            <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
           </Button>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             capitalize
             disabled={submitting || invalid}
-            data-e2e='saveAutoLogout'
+            data-e2e="saveAutoLogout"
           >
             <FormattedMessage
-              id='scenes.preferences.autologout.settings.updateform.save'
-              defaultMessage='Save'
+              id="scenes.preferences.autologout.settings.updateform.save"
+              defaultMessage="Save"
             />
           </Button>
         </ButtonWrapper>

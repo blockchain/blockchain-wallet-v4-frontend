@@ -11,7 +11,7 @@ import whatsNew from './whatsNew/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, networks }) =>
-  function * coreKvStoreSaga () {
+  function* coreKvStoreSaga() {
     yield fork(whatsNew({ api, networks }))
     yield fork(eth({ api, networks }))
     yield fork(bch({ api, networks }))

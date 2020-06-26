@@ -49,10 +49,10 @@ const renderItem = props => {
       <ItemIcon
         name={coinValue + '-circle-filled'}
         color={coinValue}
-        size='22px'
+        size="22px"
         weight={400}
       />
-      <Text size='14px' weight={400} cursor='pointer' data-e2e=''>
+      <Text size="14px" weight={400} cursor="pointer" data-e2e="">
         {text}
       </Text>
     </HeaderWrapper>
@@ -69,14 +69,14 @@ const renderDisplay = (props, children) => {
       <Icon
         name={coinValue + '-circle-filled'}
         color={coinValue}
-        size='22px'
+        size="22px"
         weight={400}
       />
       <CoinText
-        size='18px'
+        size="18px"
         weight={500}
-        color='black'
-        cursor='pointer'
+        color="black"
+        cursor="pointer"
         data-e2e={e2eTag}
       >
         {children} ({value})
@@ -86,7 +86,7 @@ const renderDisplay = (props, children) => {
 }
 
 class SelectBoxCoinPriceChart extends React.PureComponent {
-  render () {
+  render() {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (

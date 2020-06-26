@@ -52,7 +52,7 @@ const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 
 class App extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { store, history, persistor, isAuthenticated } = this.props
     const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
@@ -65,71 +65,71 @@ class App extends React.PureComponent<Props> {
                   <Suspense fallback={<Loading />}>
                     <Switch>
                       <PublicLayout
-                        path='/authorize-approve'
+                        path="/authorize-approve"
                         component={AuthorizeLogin}
                       />
-                      <PublicLayout path='/help' component={Help} />
-                      <PublicLayout path='/login' component={Login} />
-                      <PublicLayout path='/logout' component={Logout} />
+                      <PublicLayout path="/help" component={Help} />
+                      <PublicLayout path="/login" component={Login} />
+                      <PublicLayout path="/logout" component={Logout} />
                       <PublicLayout
-                        path='/mobile-login'
+                        path="/mobile-login"
                         component={MobileLogin}
                       />
-                      <PublicLayout path='/recover' component={Recover} />
-                      <PublicLayout path='/reminder' component={Reminder} />
-                      <PublicLayout path='/reset-2fa' component={Reset2FA} />
+                      <PublicLayout path="/recover" component={Recover} />
+                      <PublicLayout path="/reminder" component={Reminder} />
+                      <PublicLayout path="/reset-2fa" component={Reset2FA} />
                       <PublicLayout
-                        path='/reset-two-factor'
+                        path="/reset-two-factor"
                         component={Reset2FAToken}
                       />
-                      <PublicLayout path='/signup' component={Register} />
+                      <PublicLayout path="/signup" component={Register} />
                       <PublicLayout
-                        path='/verify-email'
+                        path="/verify-email"
                         component={VerifyEmailToken}
                       />
                       <PublicLayout
-                        path='/upload-document/success'
+                        path="/upload-document/success"
                         component={UploadDocumentsSuccess}
                         exact
                       />
                       <PublicLayout
-                        path='/upload-document/:token'
+                        path="/upload-document/:token"
                         component={UploadDocuments}
                       />
-                      <PublicLayout path='/wallet' component={Login} />
-                      <WalletLayout path='/airdrops' component={Airdrops} />
-                      <WalletLayout path='/borrow' component={Borrow} />
-                      <WalletLayout path='/exchange' component={TheExchange} />
-                      <WalletLayout path='/home' component={Home} />
-                      <WalletLayout path='/interest' component={Interest} />
-                      <WalletLayout path='/lockbox' component={Lockbox} />
+                      <PublicLayout path="/wallet" component={Login} />
+                      <WalletLayout path="/airdrops" component={Airdrops} />
+                      <WalletLayout path="/borrow" component={Borrow} />
+                      <WalletLayout path="/exchange" component={TheExchange} />
+                      <WalletLayout path="/home" component={Home} />
+                      <WalletLayout path="/interest" component={Interest} />
+                      <WalletLayout path="/lockbox" component={Lockbox} />
                       <WalletLayout
-                        path='/security-center'
+                        path="/security-center"
                         component={SecurityCenter}
                       />
                       <WalletLayout
-                        path='/settings/addresses'
+                        path="/settings/addresses"
                         component={Addresses}
                       />
                       <WalletLayout
-                        path='/settings/general'
+                        path="/settings/general"
                         component={General}
                       />
                       <WalletLayout
-                        path='/settings/preferences'
+                        path="/settings/preferences"
                         component={Preferences}
                       />
                       <WalletLayout
-                        path='/settings/profile'
+                        path="/settings/profile"
                         component={Profile}
                       />
-                      <WalletLayout path='/swap' component={Exchange} exact />
+                      <WalletLayout path="/swap" component={Exchange} exact />
                       <WalletLayout
-                        path='/swap/history'
+                        path="/swap/history"
                         component={ExchangeHistory}
                       />
                       <WalletLayout
-                        path='/swap/profile'
+                        path="/swap/profile"
                         component={ExchangeProfile}
                       />
                       {values(
@@ -149,9 +149,9 @@ class App extends React.PureComponent<Props> {
                         )
                       )}
                       {isAuthenticated ? (
-                        <Redirect to='/home' />
+                        <Redirect to="/home" />
                       ) : (
-                        <Redirect to='/login' />
+                        <Redirect to="/login" />
                       )}
                     </Switch>
                   </Suspense>

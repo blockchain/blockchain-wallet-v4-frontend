@@ -102,7 +102,7 @@ class UpdateRequiredNotice extends React.PureComponent {
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
 
-  render () {
+  render() {
     const { preferencesActions, showLockboxDownload } = this.props
 
     return (
@@ -110,32 +110,32 @@ class UpdateRequiredNotice extends React.PureComponent {
         <Wrapper>
           <LeftColumn>
             <IconContainer>
-              <DownloadIcon name='request' color='blue600' size='30px' />
+              <DownloadIcon name="request" color="blue600" size="30px" />
             </IconContainer>
             <HeaderText>
-              <Text size='18px' weight={700}>
+              <Text size="18px" weight={700}>
                 <FormattedMessage
-                  id='scenes.lockbox.dashboard.updaterequirednotice.title'
-                  defaultMessage='Software Update Required'
+                  id="scenes.lockbox.dashboard.updaterequirednotice.title"
+                  defaultMessage="Software Update Required"
                 />
               </Text>
               <TextGroup inline>
-                <Text size='14px'>
+                <Text size="14px">
                   <FormattedMessage
-                    id='scenes.lockbox.dashboard.updaterequirednotice.subtitle'
-                    defaultMessage='In order to continue using your Lockbox, you must first update your device and reinstall the apps via the following updating software.'
+                    id="scenes.lockbox.dashboard.updaterequirednotice.subtitle"
+                    defaultMessage="In order to continue using your Lockbox, you must first update your device and reinstall the apps via the following updating software."
                   />
                 </Text>
                 {/* TODO: update link */}
                 <Link
-                  href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
-                  size='14px'
-                  rel='noopener noreferrer'
-                  target='_blank'
+                  href="https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox"
+                  size="14px"
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   <FormattedMessage
-                    id='scenes.lockbox.dashboard.updaterequirednotice.learn'
-                    defaultMessage='Learn more'
+                    id="scenes.lockbox.dashboard.updaterequirednotice.learn"
+                    defaultMessage="Learn more"
                   />
                 </Link>
               </TextGroup>
@@ -149,21 +149,21 @@ class UpdateRequiredNotice extends React.PureComponent {
                 this.getOsSpecificUpdater()
               )}`}
             >
-              <Button nature='primary' onClick={this.onSoftwareDownload}>
+              <Button nature="primary" onClick={this.onSoftwareDownload}>
                 <FormattedMessage
-                  id='scenes.lockbox.dashboard.updaterequirednotice.download'
-                  defaultMessage='Download Software'
+                  id="scenes.lockbox.dashboard.updaterequirednotice.download"
+                  defaultMessage="Download Software"
                 />
               </Button>
             </Link>
             <DismissDownloadText
-              size='11px'
-              color='blue600'
+              size="11px"
+              color="blue600"
               weight={500}
               onClick={() => preferencesActions.hideLockboxSoftwareDownload()}
             >
               <FormattedMessage
-                id='scenes.lockbox.dashboard.updaterequirednotice.dismiss'
+                id="scenes.lockbox.dashboard.updaterequirednotice.dismiss"
                 defaultMessage="I've already updated"
               />
             </DismissDownloadText>

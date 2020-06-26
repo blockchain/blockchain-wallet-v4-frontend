@@ -43,13 +43,13 @@ const IPWhitelist = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.securitycenter.advanced.ipwhitelist.title'
-            defaultMessage='IP Whitelist'
+            id="scenes.securitycenter.advanced.ipwhitelist.title"
+            defaultMessage="IP Whitelist"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.securitycenter.advanced.ipwhitelist.description'
+            id="scenes.securitycenter.advanced.ipwhitelist.description"
             defaultMessage="Allow login without email authentication from the following list of IP addresses. Enter IP addresses you'd like to whitelist separated by commas. Use % as a wildcard."
           />
         </SettingDescription>
@@ -58,10 +58,10 @@ const IPWhitelist = props => {
         <SettingWrapper>
           <Text>{currentWhitelist}</Text>
           {!updateToggled && (
-            <Button nature='primary' onClick={handleToggle}>
+            <Button nature="primary" onClick={handleToggle}>
               <FormattedMessage
-                id='scenes.securitycenter.advanced.ipwhitelist.edit'
-                defaultMessage='Edit'
+                id="scenes.securitycenter.advanced.ipwhitelist.edit"
+                defaultMessage="Edit"
               />
             </Button>
           )}
@@ -69,26 +69,26 @@ const IPWhitelist = props => {
             <SettingForm onSubmit={handleSubmit}>
               <Input
                 maxLength={255}
-                name='IPWhitelist'
+                name="IPWhitelist"
                 validate={[validIpList]}
                 component={TextBox}
               />
               <ButtonWrapper>
-                <Button nature='empty' capitalize onClick={handleCancel}>
+                <Button nature="empty" capitalize onClick={handleCancel}>
                   <FormattedMessage
-                    id='buttons.cancel'
-                    defaultMessage='Cancel'
+                    id="buttons.cancel"
+                    defaultMessage="Cancel"
                   />
                 </Button>
                 <Button
-                  type='submit'
-                  nature='primary'
+                  type="submit"
+                  nature="primary"
                   capitalize
                   disabled={submitting || invalid}
                 >
                   <FormattedMessage
-                    id='scenes.securitycenter.advanced.ipwhitelist.save'
-                    defaultMessage='Save'
+                    id="scenes.securitycenter.advanced.ipwhitelist.save"
+                    defaultMessage="Save"
                   />
                 </Button>
               </ButtonWrapper>

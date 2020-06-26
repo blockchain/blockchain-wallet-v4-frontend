@@ -20,11 +20,11 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     threeDSCallbackReceived: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     window.addEventListener('message', this.handlePostMessage, false)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     window.removeEventListener('message', this.handlePostMessage, false)
   }
 
@@ -52,7 +52,7 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     }
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} {...this.state} />,
       Failure: e => <DataError message={{ message: e }} />,

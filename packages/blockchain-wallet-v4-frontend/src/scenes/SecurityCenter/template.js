@@ -98,16 +98,16 @@ const SecurityCenter = props => {
     <Wrapper>
       <StatusWrapper>
         <IntroText>
-          <Text size='14px' weight={400}>
+          <Text size="14px" weight={400}>
             {overallProgress < 3 ? (
               <FormattedMessage
-                id='scenes.securitycenter.introtextnone'
-                defaultMessage='Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time.'
+                id="scenes.securitycenter.introtextnone"
+                defaultMessage="Complete the steps below to help prevent unauthorized access to your wallet. Add additional verification to access your funds at any time."
               />
             ) : (
               <FormattedMessage
-                id='scenes.securitycenter.introtextfour'
-                defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
+                id="scenes.securitycenter.introtextfour"
+                defaultMessage="Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails."
               />
             )}
           </Text>
@@ -122,8 +122,8 @@ const SecurityCenter = props => {
                 <Circle className={emailComplete ? 'active' : ''}>
                   {emailComplete ? (
                     <Icon
-                      color='success'
-                      name='checkmark-in-circle-filled'
+                      color="success"
+                      name="checkmark-in-circle-filled"
                       size={mobile ? '15px' : '30px'}
                     />
                   ) : (
@@ -137,13 +137,13 @@ const SecurityCenter = props => {
                 >
                   {mobile ? (
                     <FormattedMessage
-                      id='scenes.securitycenter.steps.step1mobile'
-                      defaultMessage='Verified Email'
+                      id="scenes.securitycenter.steps.step1mobile"
+                      defaultMessage="Verified Email"
                     />
                   ) : (
                     <FormattedMessage
-                      id='scenes.securitycenter.steps.step1.verify'
-                      defaultMessage='Verify Your Personal Email'
+                      id="scenes.securitycenter.steps.step1.verify"
+                      defaultMessage="Verify Your Personal Email"
                     />
                   )}
                 </StepText>
@@ -160,8 +160,8 @@ const SecurityCenter = props => {
                 <Circle className={twoFactorComplete ? 'active' : ''}>
                   {twoFactorComplete ? (
                     <Icon
-                      color='success'
-                      name='checkmark-in-circle-filled'
+                      color="success"
+                      name="checkmark-in-circle-filled"
                       size={mobile ? '15px' : '30px'}
                     />
                   ) : (
@@ -175,13 +175,13 @@ const SecurityCenter = props => {
                 >
                   {mobile ? (
                     <FormattedMessage
-                      id='scenes.securitycenter.steps.step2mobile'
-                      defaultMessage='2 Factor Auth'
+                      id="scenes.securitycenter.steps.step2mobile"
+                      defaultMessage="2 Factor Auth"
                     />
                   ) : (
                     <FormattedMessage
-                      id='scenes.securitycenter.steps.step2.verify'
-                      defaultMessage='Turn on Two-Step Verification'
+                      id="scenes.securitycenter.steps.step2.verify"
+                      defaultMessage="Turn on Two-Step Verification"
                     />
                   )}
                 </StepText>
@@ -193,8 +193,8 @@ const SecurityCenter = props => {
                 <Circle className={mnemonicComplete ? 'active' : ''}>
                   {mnemonicComplete ? (
                     <Icon
-                      color='success'
-                      name='checkmark-in-circle-filled'
+                      color="success"
+                      name="checkmark-in-circle-filled"
                       size={mobile ? '15px' : '30px'}
                     />
                   ) : (
@@ -207,8 +207,8 @@ const SecurityCenter = props => {
                   weight={400}
                 >
                   <FormattedMessage
-                    id='scenes.securitycenter.steps.step3.save'
-                    defaultMessage='Save Backup Phrase'
+                    id="scenes.securitycenter.steps.step3.save"
+                    defaultMessage="Save Backup Phrase"
                   />
                 </StepText>
               </StepSection>

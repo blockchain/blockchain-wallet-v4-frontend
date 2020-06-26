@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const sendXlmSagas = sagas({ api, coreSagas })
 
-  return function * sendXlmSaga () {
+  return function* sendXlmSaga() {
     yield takeLatest(AT.INITIALIZED, sendXlmSagas.initialized)
     yield takeLatest(AT.DESTROYED, sendXlmSagas.destroyed)
     yield takeLatest(

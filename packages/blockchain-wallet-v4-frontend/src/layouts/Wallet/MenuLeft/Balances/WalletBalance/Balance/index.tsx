@@ -20,7 +20,7 @@ class Balance extends React.PureComponent<Props> {
     }
   }
 
-  render () {
+  render() {
     const { coin, coinTicker, data, large } = this.props
 
     return data.cata({

@@ -20,14 +20,14 @@ const ErrorHandler = props => {
   if (vulnerableAddress) {
     return (
       <React.Fragment>
-        <MessageText size='18px' weight={400}>
+        <MessageText size="18px" weight={400}>
           {message}
         </MessageText>
-        <Button nature='primary' onClick={() => onClick(vulnerableAddress)}>
-          <Text size='18px' weight={400} color='white'>
+        <Button nature="primary" onClick={() => onClick(vulnerableAddress)}>
+          <Text size="18px" weight={400} color="white">
             <FormattedMessage
-              id='components.dataerror.archiveaddress'
-              defaultMessage='Archive Address'
+              id="components.dataerror.archiveaddress"
+              defaultMessage="Archive Address"
             />
           </Text>
         </Button>
@@ -35,38 +35,38 @@ const ErrorHandler = props => {
     )
   } else if (errorMessage === FETCH_FEES_FAILURE) {
     return (
-      <Text size='16px' weight={400}>
+      <Text size="16px" weight={400}>
         <FormattedMessage
-          id='components.dataerror.feesfetchfailure'
-          defaultMessage='There was a problem fetching fees. Please try again later.'
+          id="components.dataerror.feesfetchfailure"
+          defaultMessage="There was a problem fetching fees. Please try again later."
         />
       </Text>
     )
   } else if (typeof errorMessage === 'string') {
     return (
-      <Text size='16px' color='error' weight={500}>
+      <Text size="16px" color="error" weight={500}>
         {errorMessage}
       </Text>
     )
   } else {
     return (
       <TextGroup inline>
-        <Text size='18px' weight={400}>
+        <Text size="18px" weight={400}>
           <FormattedMessage
-            id='components.dataerror.body'
-            defaultMessage='Please '
+            id="components.dataerror.body"
+            defaultMessage="Please "
           />
         </Text>
-        <Link size='18px' data-e2e={e2e ? `${e2e}Link` : ''} onClick={onClick}>
+        <Link size="18px" data-e2e={e2e ? `${e2e}Link` : ''} onClick={onClick}>
           <FormattedMessage
-            id='components.dataerror.click'
-            defaultMessage='click here'
+            id="components.dataerror.click"
+            defaultMessage="click here"
           />
         </Link>
-        <Text size='18px' weight={400}>
+        <Text size="18px" weight={400}>
           <FormattedMessage
-            id='components.dataerror.refresh'
-            defaultMessage=' to refresh.'
+            id="components.dataerror.refresh"
+            defaultMessage=" to refresh."
           />
         </Text>
       </TextGroup>

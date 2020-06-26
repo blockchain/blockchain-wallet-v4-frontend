@@ -29,7 +29,7 @@ const PriceText = styled(Text)`
 `
 
 class CoinPricesContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({
@@ -40,8 +40,8 @@ class CoinPricesContainer extends React.PureComponent<Props> {
           <Wrapper>
             <TitleText>
               <FormattedMessage
-                id='scenes.transactions.performance.account.price'
-                defaultMessage='{account} Price'
+                id="scenes.transactions.performance.account.price"
+                defaultMessage="{account} Price"
                 values={{ account: this.props.coinModel.coinTicker }}
               />
             </TitleText>
@@ -54,8 +54,8 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             <PriceChange {...val}>
               {' '}
               <FormattedMessage
-                id='scenes.transactions.performance.prices.week'
-                defaultMessage='this week'
+                id="scenes.transactions.performance.prices.week"
+                defaultMessage="this week"
               />
             </PriceChange>
           </Wrapper>

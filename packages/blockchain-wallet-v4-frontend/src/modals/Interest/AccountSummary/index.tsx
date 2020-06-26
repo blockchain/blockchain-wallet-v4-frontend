@@ -22,7 +22,7 @@ import Loading from './template.loading'
 class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
 
-  componentDidMount () {
+  componentDidMount() {
     this.handleFetchInterestLimits()
   }
 
@@ -44,7 +44,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
     this.props.interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: val => (

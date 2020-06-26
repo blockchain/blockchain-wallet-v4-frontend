@@ -10,7 +10,7 @@ class BasicSecurityContainer extends React.PureComponent {
     changeEmail: pathOr(false, ['location', 'state', 'changeEmail'], this.props)
   }
 
-  render () {
+  render() {
     return (
       <BasicSecurity
         data={this.props}

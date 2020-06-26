@@ -4,7 +4,7 @@ import BalancesTable from './template'
 import React from 'react'
 
 class BalancesTableContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { currentTab } = this.props
     return <BalancesTable currentTab={currentTab} />
   }

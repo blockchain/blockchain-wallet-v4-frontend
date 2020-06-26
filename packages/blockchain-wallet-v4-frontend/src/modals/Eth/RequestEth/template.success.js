@@ -62,31 +62,31 @@ const RequestEth = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <FormItem data-e2e='currencySelectDropdown'>
-          <FormLabel htmlFor='coin'>
+        <FormItem data-e2e="currencySelectDropdown">
+          <FormLabel htmlFor="coin">
             <FormattedMessage
-              id='modals.requesteth.coin'
-              defaultMessage='Currency:'
+              id="modals.requesteth.coin"
+              defaultMessage="Currency:"
             />
           </FormLabel>
           <Field
-            name='coin'
+            name="coin"
             component={SelectBoxCoin}
-            type='request'
+            type="request"
             validate={[required]}
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <FormItem data-e2e='receiveToWalletDropdown'>
-          <FormLabel htmlFor='to'>
+        <FormItem data-e2e="receiveToWalletDropdown">
+          <FormLabel htmlFor="to">
             <FormattedMessage
-              id='modals.requesteth.firststep.receive'
-              defaultMessage='Receive To:'
+              id="modals.requesteth.firststep.receive"
+              defaultMessage="Receive To:"
             />
           </FormLabel>
           <Field
-            name='to'
+            name="to"
             component={SelectBoxEthAddresses}
             includeAll={false}
             validate={[required]}
@@ -97,34 +97,34 @@ const RequestEth = props => {
       </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
-          <Banner type='info'>
+          <Banner type="info">
             {warnLockboxReceive ? (
-              <Text color='warning' size='12px'>
+              <Text color="warning" size="12px">
                 <FormattedHTMLMessage
-                  id='modals.requesteth.firststep.lockbox.confirm.warnbrowser'
-                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
+                  id="modals.requesteth.firststep.lockbox.confirm.warnbrowser"
+                  defaultMessage="Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk."
                 />
               </Text>
             ) : (
               <TextGroup inline>
-                <Text color='warning' size='12px'>
+                <Text color="warning" size="12px">
                   <FormattedHTMLMessage
-                    id='modals.requesteth.firststep.lockbox.confirm1'
-                    defaultMessage='Please confirm the address above on your Lockbox by opening your Ethereum app now.'
+                    id="modals.requesteth.firststep.lockbox.confirm1"
+                    defaultMessage="Please confirm the address above on your Lockbox by opening your Ethereum app now."
                   />
                 </Text>
-                <Text size='12px' onClick={handleOpenLockbox}>
-                  <span className='link'>
+                <Text size="12px" onClick={handleOpenLockbox}>
+                  <span className="link">
                     <FormattedHTMLMessage
-                      id='modals.requesteth.firststep.lockbox.clickhere'
-                      defaultMessage='Click here'
+                      id="modals.requesteth.firststep.lockbox.clickhere"
+                      defaultMessage="Click here"
                     />
                   </span>
                 </Text>
-                <Text color='warning' size='12px'>
+                <Text color="warning" size="12px">
                   <FormattedHTMLMessage
-                    id='modals.requesteth.firststep.lockbox.confirm2'
-                    defaultMessage='once the app has been opened.'
+                    id="modals.requesteth.firststep.lockbox.confirm2"
+                    defaultMessage="once the app has been opened."
                   />
                 </Text>
               </TextGroup>
@@ -136,29 +136,29 @@ const RequestEth = props => {
         <QRCodeWrapper
           value={address}
           size={125}
-          data-e2e='requestEthAddressQrCode'
+          data-e2e="requestEthAddressQrCode"
         />
       </QRCodeContainer>
       <FormGroup>
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requesteth.address'
-              defaultMessage='Address:'
+              id="modals.requesteth.address"
+              defaultMessage="Address:"
             />
           </FormLabel>
         </FormItem>
         <AddressContainer>
-          <CopyClipboard address={address} data-e2e='requestEth' coin={coin} />
+          <CopyClipboard address={address} data-e2e="requestEth" coin={coin} />
         </AddressContainer>
       </FormGroup>
       <Button
-        type='submit'
-        nature='primary'
-        data-e2e='requestEthDoneButton'
+        type="submit"
+        nature="primary"
+        data-e2e="requestEthDoneButton"
         fullwidth
       >
-        <FormattedMessage id='buttons.done' defaultMessage='Done' />
+        <FormattedMessage id="buttons.done" defaultMessage="Done" />
       </Button>
     </Form>
   )

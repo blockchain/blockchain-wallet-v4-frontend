@@ -18,10 +18,10 @@ const Loading: React.FC<Props> = () => {
   return (
     <Wrapper>
       <SpinningLoader />
-      <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
+      <Text weight={600} color="grey600" style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='loader.message.gettingready'
-          defaultMessage='Getting Ready...'
+          id="loader.message.gettingready"
+          defaultMessage="Getting Ready..."
         />
       </Text>
     </Wrapper>

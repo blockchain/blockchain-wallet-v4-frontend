@@ -27,7 +27,7 @@ const TransactionsWrapper = styled.div`
 `
 
 class TransactionList extends PureComponent<Props> {
-  render () {
+  render() {
     const { coin, coinTicker, currency, data, sourceType } = this.props
 
     if (sourceType && sourceType === 'INTEREST') return <InterestTransactions />

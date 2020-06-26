@@ -7,13 +7,13 @@ import React from 'react'
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.formActions.initialize('settingCurrency', {
       currency: this.props.currency
     })
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { currency, newCurrency } = this.props
     if (
       !isNil(newCurrency) &&
@@ -24,7 +24,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return <Settings />
   }
 }

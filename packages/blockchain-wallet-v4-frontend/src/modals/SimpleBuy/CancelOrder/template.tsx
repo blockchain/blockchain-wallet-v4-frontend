@@ -27,32 +27,32 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       <FlyoutWrapper>
         <CustomForm onSubmit={props.handleSubmit}>
           <Icon
-            name='alert-filled'
-            color='orange400'
-            size='52px'
+            name="alert-filled"
+            color="orange400"
+            size="52px"
             style={{ display: 'block' }}
           />
           <Text
-            color='grey800'
-            size='24px'
+            color="grey800"
+            size="24px"
             weight={600}
             style={{ marginTop: '32px' }}
           >
             <FormattedMessage
-              id='modals.simplebuy.cancelorder.areyousure'
-              defaultMessage='Are you sure?'
+              id="modals.simplebuy.cancelorder.areyousure"
+              defaultMessage="Are you sure?"
             />
           </Text>
           <Text
-            color='grey600'
+            color="grey600"
             weight={500}
-            size='16px'
-            lineHeight='150%'
+            size="16px"
+            lineHeight="150%"
             style={{ marginTop: '8px', marginBottom: '48px' }}
           >
             <FormattedMessage
-              id='modals.simplebuy.cancelorder.outcome'
-              defaultMessage='Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now.'
+              id="modals.simplebuy.cancelorder.outcome"
+              defaultMessage="Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now."
               values={{
                 pair: props.order.pair
               }}
@@ -65,28 +65,28 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           )}
           <Button
             fullwidth
-            size='16px'
-            height='48px'
-            nature='light'
-            data-e2e='cancelSBOrder'
+            size="16px"
+            height="48px"
+            nature="light"
+            data-e2e="cancelSBOrder"
             disabled={props.submitting}
-            type='submit'
+            type="submit"
           >
             {props.submitting ? (
-              <HeartbeatLoader color='blue100' height='20px' width='20px' />
+              <HeartbeatLoader color="blue100" height="20px" width="20px" />
             ) : (
               <FormattedMessage
-                id='modals.simplebuy.cancelorder.cancel'
-                defaultMessage='Yes. Cancel Order'
+                id="modals.simplebuy.cancelorder.cancel"
+                defaultMessage="Yes. Cancel Order"
               />
             )}
           </Button>
           <Button
             fullwidth
-            size='16px'
-            height='48px'
-            nature='primary'
-            data-e2e='cancelSBOrder'
+            size="16px"
+            height="48px"
+            nature="primary"
+            data-e2e="cancelSBOrder"
             disabled={props.submitting}
             onClick={() =>
               props.simpleBuyActions.setStep({
@@ -98,11 +98,11 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               })
             }
             style={{ marginTop: '16px' }}
-            type='button'
+            type="button"
           >
             <FormattedMessage
-              id='modals.simplebuy.cancelorder.goback'
-              defaultMessage='No. Go Back'
+              id="modals.simplebuy.cancelorder.goback"
+              defaultMessage="No. Go Back"
             />
           </Button>
         </CustomForm>

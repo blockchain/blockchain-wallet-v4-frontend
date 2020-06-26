@@ -6,7 +6,7 @@ import Footer from './template'
 import React from 'react'
 
 class FooterContainer extends React.PureComponent {
-  render () {
+  render() {
     const { cryptoCurrency, simpleBuyActions } = this.props
     return (
       <Footer

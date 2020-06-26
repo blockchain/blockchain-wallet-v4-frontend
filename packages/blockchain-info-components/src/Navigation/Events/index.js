@@ -1,6 +1,6 @@
 import React from 'react'
 
-function _trackEvent (eventName, isButton, props) {
+function _trackEvent(eventName, isButton, props) {
   let properties = Object.assign({}, props || {}, {
     category: isButton ? 'button' : 'link',
     label: eventName
@@ -13,11 +13,11 @@ function _trackEvent (eventName, isButton, props) {
   }
 }
 
-export function trackEvent (eventName, props) {
+export function trackEvent(eventName, props) {
   return _trackEvent(eventName, false, props)
 }
 
-export function trackButtonEvent (eventName, props) {
+export function trackButtonEvent(eventName, props) {
   return _trackEvent(eventName, true, props)
 }
 

@@ -11,11 +11,11 @@ import { Types } from 'blockchain-wallet-v4/src'
 export default ({ api, networks }) => {
   const logLocation = 'components/manageAddresses/sagas'
 
-  const toggleUsedAddresses = function * () {
+  const toggleUsedAddresses = function*() {
     yield put(actions.modals.closeAllModals())
   }
 
-  const deriveAddresses = function (account, receiveIndex) {
+  const deriveAddresses = function(account, receiveIndex) {
     let i = 0
     let addrs = []
 
@@ -27,7 +27,7 @@ export default ({ api, networks }) => {
     return addrs
   }
 
-  const generateNextReceiveAddress = function * (action) {
+  const generateNextReceiveAddress = function*(action) {
     const { walletIndex } = action.payload
     try {
       yield put(A.generateNextReceiveAddressLoading(walletIndex))
@@ -65,7 +65,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchUnusedAddresses = function * (action) {
+  const fetchUnusedAddresses = function*(action) {
     const { walletIndex } = action.payload
 
     try {
@@ -125,7 +125,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchUsedAddresses = function * (action) {
+  const fetchUsedAddresses = function*(action) {
     const { walletIndex } = action.payload
 
     try {
@@ -181,7 +181,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const editAddressLabel = function * (action) {
+  const editAddressLabel = function*(action) {
     const { accountIndex, walletIndex, addressIndex } = action.payload
     try {
       yield put(A.editAddressLabelLoading(accountIndex))
@@ -210,7 +210,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const editImportedAddressLabel = function * (action) {
+  const editImportedAddressLabel = function*(action) {
     const {
       payload: { address }
     } = action
@@ -236,13 +236,13 @@ export default ({ api, networks }) => {
     }
   }
 
-  const deleteAddressLabel = function * (action) {
+  const deleteAddressLabel = function*(action) {
     const { accountIdx, walletIdx, addressIdx } = action.payload
 
     try {
       yield put(A.deleteAddressLabelLoading(accountIdx))
       yield call(
-        function * () {
+        function*() {
           yield put(
             actions.core.wallet.deleteHdAddressLabel(
               accountIdx,

@@ -13,7 +13,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
     this.props.importBtcAddress()
   }
 
-  render () {
+  render() {
     const { position, close, submitting, invalid, network, priv } = this.props
 
     return (

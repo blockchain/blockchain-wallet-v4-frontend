@@ -38,91 +38,91 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
   const { ethAddr, ethBalance, handleSubmit, legacyEthAddr, txFee } = props
 
   return (
-    <Modal size='medium'>
+    <Modal size="medium">
       <ModalHeader closeButton={false}>
         <FormattedMessage
-          id='modals.transfereth.title1'
-          defaultMessage='Updating Ethereum Address'
+          id="modals.transfereth.title1"
+          defaultMessage="Updating Ethereum Address"
         />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <TextGroup inline>
-            <Text size='14px' weight={400}>
+            <Text size="14px" weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para1'
-                defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other Ethereum wallets.'
+                id="modals.transfereth.para1"
+                defaultMessage="As we leave our beta program we want to make sure your backup phrase is compatible with other Ethereum wallets."
               />
             </Text>
-            <Text size='14px' weight={400}>
+            <Text size="14px" weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para2'
+                id="modals.transfereth.para2"
                 defaultMessage="Because of this, we've updated your Ethereum address and are requiring a transfer of your funds."
               />
             </Text>
-            <Text size='14px' weight={400}>
+            <Text size="14px" weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para3'
+                id="modals.transfereth.para3"
                 defaultMessage="Don't worry, your old address is still valid."
               />
             </Text>
           </TextGroup>
           <Container>
             <Row>
-              <Text size='14px' weight={600}>
-                <FormattedMessage id='copy.from:' defaultMessage='From:' />
+              <Text size="14px" weight={600}>
+                <FormattedMessage id="copy.from:" defaultMessage="From:" />
               </Text>
-              <Text size='14px' weight={400}>
+              <Text size="14px" weight={400}>
                 {legacyEthAddr}
               </Text>
             </Row>
             <Row>
-              <Text size='14px' weight={600}>
+              <Text size="14px" weight={600}>
                 <FormattedMessage
-                  id='modals.transfereth.to'
-                  defaultMessage='To:'
+                  id="modals.transfereth.to"
+                  defaultMessage="To:"
                 />
               </Text>
-              <Text size='14px' weight={400}>
+              <Text size="14px" weight={400}>
                 {ethAddr}
               </Text>
             </Row>
             <Row>
-              <Text size='14px' weight={600}>
+              <Text size="14px" weight={600}>
                 <FormattedMessage
-                  id='modals.transfereth.amount'
-                  defaultMessage='Amount:'
+                  id="modals.transfereth.amount"
+                  defaultMessage="Amount:"
                 />
               </Text>
-              <CoinDisplay size='14px' coin='ETH' weight={400}>
+              <CoinDisplay size="14px" coin="ETH" weight={400}>
                 {ethBalance}
               </CoinDisplay>
             </Row>
             <Row>
-              <Text size='14px' weight={600}>
+              <Text size="14px" weight={600}>
                 <FormattedMessage
-                  id='modals.transfereth.txfee'
-                  defaultMessage='Transaction Fee:'
+                  id="modals.transfereth.txfee"
+                  defaultMessage="Transaction Fee:"
                 />
               </Text>
-              <CoinDisplay size='14px' coin='ETH' weight={400}>
+              <CoinDisplay size="14px" coin="ETH" weight={400}>
                 {txFee}
               </CoinDisplay>
             </Row>
           </Container>
           <Button
-            data-e2e='transferEth'
-            nature='primary'
+            data-e2e="transferEth"
+            nature="primary"
             fullwidth
-            type='submit'
+            type="submit"
             disabled={props.submitting}
           >
             {props.submitting ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='modals.transfereth.confirm1'
-                defaultMessage='Transfer Funds'
+                id="modals.transfereth.confirm1"
+                defaultMessage="Transfer Funds"
               />
             )}
           </Button>

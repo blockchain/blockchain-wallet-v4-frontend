@@ -25,11 +25,11 @@ const RequestHeader = styled(ModalHeader)`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestEthContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.init()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const { coin } = this.props
 
     if (coin === 'BTC') {
@@ -65,7 +65,7 @@ class RequestEthContainer extends React.PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.reset('requestEth')
   }
 
@@ -86,7 +86,7 @@ class RequestEthContainer extends React.PureComponent {
     this.props.requestEthActions.openLockboxAppClicked()
   }
 
-  render () {
+  render() {
     const { coin, closeAll, data, position, total, supportedCoins } = this.props
     const content = data.cata({
       Success: val => (
@@ -106,17 +106,17 @@ class RequestEthContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size='medium' position={position} total={total}>
-        <RequestHeader icon='request' onClose={closeAll}>
+      <Modal size="medium" position={position} total={total}>
+        <RequestHeader icon="request" onClose={closeAll}>
           <FormattedHTMLMessage
-            id='modals.requesteth.title'
-            defaultMessage='Request {displayName}'
+            id="modals.requesteth.title"
+            defaultMessage="Request {displayName}"
             values={{
               displayName: supportedCoins[coin].displayName
             }}
           />
         </RequestHeader>
-        <Announcements type='service' alertArea='request' currentCoin={coin} />
+        <Announcements type="service" alertArea="request" currentCoin={coin} />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

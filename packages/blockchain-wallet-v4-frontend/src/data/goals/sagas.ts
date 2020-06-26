@@ -50,14 +50,14 @@ export default ({ api, coreSagas, networks }) => {
 
   const logLocation = 'goals/sagas'
 
-  const isKycNotFinished = function * () {
+  const isKycNotFinished = function*() {
     yield call(waitForUserData)
     return (yield select(selectors.modules.profile.getUserKYCState))
       .map(equals(NONE))
       .getOrElse(false)
   }
 
-  const defineLinkAccountGoal = function * (search) {
+  const defineLinkAccountGoal = function*(search) {
     const params = new URLSearchParams(search)
     yield put(
       actions.goals.saveGoal('linkAccount', {
@@ -67,7 +67,7 @@ export default ({ api, coreSagas, networks }) => {
     yield delay(3000)
   }
 
-  const defineReferralGoal = function * (search) {
+  const defineReferralGoal = function*(search) {
     const params = new URLSearchParams(search)
     yield put(
       actions.goals.saveGoal('referral', {
@@ -80,13 +80,13 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.router.push(destination))
   }
 
-  const defineKycGoal = function * (search) {
+  const defineKycGoal = function*(search) {
     const params = new URLSearchParams(search)
     yield put(actions.goals.saveGoal('kyc', { tier: params.get('tier') }))
     yield put(actions.router.push('/login'))
   }
 
-  const defineSendXlmGoal = function * (pathname, search) {
+  const defineSendXlmGoal = function*(pathname, search) {
     // /#/open/xlm?address={address}&amount={amount}
     const params = new URLSearchParams(search)
     const address = params.get('address')
@@ -98,7 +98,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
-  const defineSendCryptoGoal = function * (pathname, search) {
+  const defineSendCryptoGoal = function*(pathname, search) {
     // special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
     const isBchPayPro = includes('bitcoincash', decodedPayload)
@@ -128,7 +128,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineLogLevel = function * (search) {
+  const defineLogLevel = function*(search) {
     const params = new URLSearchParams(search)
     const level = params.get('level')
     // @ts-ignore
@@ -136,7 +136,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.logs.setLogLevel(level))
   }
 
-  const defineActionGoal = function * (pathname, search) {
+  const defineActionGoal = function*(pathname, search) {
     try {
       // Other scenarios with actions encoded in base64
       const decoded = JSON.parse(base64.decode(pathname + search))
@@ -155,7 +155,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineDeepLinkGoals = function * (pathname, search) {
+  const defineDeepLinkGoals = function*(pathname, search) {
     if (startsWith('xlm', pathname))
       return yield call(defineSendXlmGoal, pathname, search)
     if (startsWith('link-account', pathname))
@@ -171,7 +171,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(defineActionGoal, pathname, search)
   }
 
-  const defineGoals = function * () {
+  const defineGoals = function*() {
     const search = yield select(selectors.router.getSearch)
     const pathname = yield select(selectors.router.getPathname)
     yield take('@@router/LOCATION_CHANGE')
@@ -179,7 +179,7 @@ export default ({ api, coreSagas, networks }) => {
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
   }
 
-  const runPaymentProtocolGoal = function * (goal) {
+  const runPaymentProtocolGoal = function*(goal) {
     const { id, data } = goal
     const { coin, r } = data
     let coinRate, paymentCryptoAmount, paymentFiatAmount
@@ -301,7 +301,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSendBtcGoal = function * (goal) {
+  const runSendBtcGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -326,7 +326,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runSendXlmGoal = function * (goal) {
+  const runSendXlmGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -355,7 +355,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runLinkAccountGoal = function * (goal) {
+  const runLinkAccountGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
@@ -367,7 +367,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runReferralGoal = function * (goal) {
+  const runReferralGoal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -381,7 +381,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runKycGoal = function * (goal) {
+  const runKycGoal = function*(goal) {
     try {
       const { id, data } = goal
       const { tier = TIERS[2] } = data
@@ -405,7 +405,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runUpgradeForAirdropGoal = function * (goal) {
+  const runUpgradeForAirdropGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const showUpgradeForAirdropModal = yield select(
@@ -431,7 +431,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSwapUpgradeGoal = function * (goal) {
+  const runSwapUpgradeGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -452,7 +452,7 @@ export default ({ api, coreSagas, networks }) => {
       )
   }
 
-  const runKycDocResubmitGoal = function * (goal) {
+  const runKycDocResubmitGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield call(waitForUserData)
@@ -470,7 +470,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSwapGetStartedGoal = function * (goal) {
+  const runSwapGetStartedGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -491,7 +491,7 @@ export default ({ api, coreSagas, networks }) => {
       )
   }
 
-  const runAirdropClaimGoal = function * (goal) {
+  const runAirdropClaimGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const showAirdropClaimModal = yield select(
@@ -511,7 +511,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runWelcomeModal = function * (goal) {
+  const runWelcomeModal = function*(goal) {
     const { id, data } = goal
     yield put(actions.goals.deleteGoal(id))
 
@@ -537,7 +537,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runTransferEthGoal = function * (goal) {
+  const runTransferEthGoal = function*(goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
     const legacyAccountR = yield select(
@@ -572,7 +572,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const showInitialModal = function * () {
+  const showInitialModal = function*() {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       airdropClaim,
@@ -643,7 +643,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runGoal = function * (goal) {
+  const runGoal = function*(goal) {
     try {
       // Ordering doesn't matter here
       switch (goal.name) {
@@ -693,7 +693,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runGoals = function * () {
+  const runGoals = function*() {
     const goals = yield select(selectors.goals.getGoals)
     const goalTasks = yield all(map(goal => spawn(runGoal, goal), goals))
     yield all(map(join, goalTasks))

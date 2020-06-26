@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
-  render () {
+  render() {
     const {
       address,
       signedMessage,
