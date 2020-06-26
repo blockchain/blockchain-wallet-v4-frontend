@@ -78,6 +78,7 @@ const Default = {
   'usd-d-light': 'rgba(0, 82, 44, 0.15)',
   xlm: '#121D33',
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
+  usdt: '#26A17B',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',

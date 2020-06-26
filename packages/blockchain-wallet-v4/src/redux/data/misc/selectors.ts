@@ -39,6 +39,8 @@ export const getRatesSelector = (
       return selectors.data.xlm.getRates(state)
     case 'ALGO':
       return selectors.data.xlm.getRates(state)
+    case 'USDT':
+      return selectors.data.eth.getErc20Rates(state, 'usdt')
     case 'PAX':
       return selectors.data.eth.getErc20Rates(state, 'pax')
     default:

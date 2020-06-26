@@ -9,6 +9,7 @@ const INITIAL_STATE = {
     ETH: Remote.NotAsked,
     PAX: Remote.NotAsked,
     XLM: Remote.NotAsked,
+    USDT: Remote.NotAsked,
     ALGO: Remote.NotAsked
   }
 }

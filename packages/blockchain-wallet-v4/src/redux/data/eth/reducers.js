@@ -22,7 +22,7 @@ const buildStateWithTokens = defaultValue =>
   compose(
     reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
     prepend('eth')
-  )(['pax'])
+  )(['pax', 'usdt'])
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,

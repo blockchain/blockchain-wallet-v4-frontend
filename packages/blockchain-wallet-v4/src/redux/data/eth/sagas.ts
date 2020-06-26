@@ -450,19 +450,8 @@ export default ({ api }) => {
         prop('price', nth(idx, historicalPrices))
       )
       const amountBig = new BigNumber(
-        coin === 'PAX'
-          ? Exchange.convertPaxToPax({
-              // @ts-ignore
-              value: tx.amount,
-              fromUnit: 'WEI',
-              toUnit: 'PAX'
-            }).value
-          : Exchange.convertEtherToEther({
-              // @ts-ignore
-              value: tx.amount,
-              fromUnit: 'WEI',
-              toUnit: 'ETH'
-            }).value
+        // @ts-ignore
+        Exchange.convertCoinToCoinFromTransaction(coin, tx)
       )
       const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
       const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
