@@ -46,6 +46,7 @@ const Success = (props: Props) => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
+    supportedCoins.ALGO,
     supportedCoins.XLM,
     supportedCoins.USDT,
     supportedCoins.PAX

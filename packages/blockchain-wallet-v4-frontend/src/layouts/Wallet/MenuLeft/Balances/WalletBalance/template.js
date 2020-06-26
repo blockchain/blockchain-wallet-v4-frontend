@@ -24,6 +24,7 @@ const Template = props => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
+    supportedCoins.ALGO,
     supportedCoins.XLM,
     supportedCoins.USDT,
     supportedCoins.PAX

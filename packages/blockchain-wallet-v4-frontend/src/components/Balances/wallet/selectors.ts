@@ -8,6 +8,7 @@ import {
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'core/exchange/currency'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
@@ -388,5 +389,7 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getUsdtBalance
     case 'ALGO':
       return getAlgoBalance
+    default:
+      return Remote.Failure(INVALID_COIN_TYPE)
   }
 }

@@ -3,6 +3,7 @@ import { add, lift, map, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
+  getAlgoBalance as getAlgoWalletBalance,
   getBchBalance as getBchWalletBalance,
   getBtcBalance as getBtcWalletBalance,
   getEthBalance as getEthWalletBalance,
@@ -10,6 +11,7 @@ import {
   getUsdtBalance as getUsdtWalletBalance,
   getXlmBalance as getXlmWalletBalance
 } from '../wallet/selectors'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectors } from 'data'
 
 export const getBtcBalance = createDeepEqualSelector(
@@ -57,6 +59,7 @@ export const getBchBalance = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalance = getAlgoWalletBalance
 export const getEthBalance = getEthWalletBalance
 export const getPaxBalance = getPaxWalletBalance
 export const getUsdtBalance = getUsdtWalletBalance
@@ -170,6 +173,24 @@ export const getUsdtBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalanceInfo = createDeepEqualSelector(
+  [
+    getAlgoBalance,
+    selectors.core.data.algo.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (algoBalanceR, algoRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertAlgoToFiat({
+        value,
+        fromUnit: 'mALGO',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(algoBalanceR, algoRatesR, currencyR)
+  }
+)
+
 export const getXlmBalanceInfo = createDeepEqualSelector(
   [
     getXlmBalance,
@@ -190,6 +211,7 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
 
 export const getTotalBalance = createDeepEqualSelector(
   [
+    getAlgoBalanceInfo,
     getBchBalanceInfo,
     getBtcBalanceInfo,
     getEthBalanceInfo,
@@ -200,6 +222,7 @@ export const getTotalBalance = createDeepEqualSelector(
     selectors.router.getPathname
   ],
   (
+    algoBalanceInfoR,
     bchBalanceInfoR,
     btcBalanceInfoR,
     ethBalanceInfoR,
@@ -210,6 +233,7 @@ export const getTotalBalance = createDeepEqualSelector(
     path
   ) => {
     const transform = (
+      algoBalance,
       bchBalance,
       btcBalance,
       ethBalance,
@@ -222,14 +246,16 @@ export const getTotalBalance = createDeepEqualSelector(
         Number(btcBalance) +
           Number(ethBalance) +
           Number(bchBalance) +
-          Number(paxBalance) +
+          Number(algoBalance) +
+          Number(xlmBalance) +
           Number(usdtBalance) +
-          Number(xlmBalance)
+          Number(paxBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance, path }
     }
     return lift(transform)(
+      algoBalanceInfoR,
       bchBalanceInfoR,
       btcBalanceInfoR,
       ethBalanceInfoR,
@@ -240,3 +266,24 @@ export const getTotalBalance = createDeepEqualSelector(
     )
   }
 )
+
+export const getBalanceSelector = coin => {
+  switch (coin) {
+    case 'BTC':
+      return getBtcBalance
+    case 'BCH':
+      return getBchBalance
+    case 'ETH':
+      return getEthBalance
+    case 'PAX':
+      return getPaxBalance
+    case 'XLM':
+      return getXlmBalance
+    case 'USDT':
+      return getUsdtBalance
+    case 'ALGO':
+      return getAlgoBalance
+    default:
+      return Remote.Failure(INVALID_COIN_TYPE)
+  }
+}
