@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
+import { RemoteDataType } from 'core/types'
 import React from 'react'
 import Reminder from './template'
 
@@ -12,7 +13,7 @@ class ReminderContainer extends React.PureComponent<Props> {
 
   onSubmit = () => {
     const { email, code, captcha, authActions } = this.props
-    const { sessionToken } = captcha.getOrElse({})
+    const { sessionToken } = captcha.getOrElse({ sessionToken: null })
 
     authActions.remindGuid(email, code, sessionToken)
   }
@@ -35,7 +36,10 @@ class ReminderContainer extends React.PureComponent<Props> {
 const mapStateToProps = state => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
-  captcha: selectors.core.data.misc.getCaptcha(state),
+  captcha: selectors.core.data.misc.getCaptcha(state) as RemoteDataType<
+    string,
+    { sessionToken: any }
+  >,
   remindGuid: selectors.auth.getRemindGuid(state)
 })
 

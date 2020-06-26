@@ -1,12 +1,13 @@
 import { add, lift, pathOr, prop, reduce } from 'ramda'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'core/exchange/currency'
 import {
+  CoinType,
   InterestAccountBalanceType,
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'core/exchange/currency'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
@@ -201,6 +202,17 @@ export const getXlmBalance = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalance = createDeepEqualSelector(
+  [selectors.components.simpleBuy.getSBBalances],
+  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbAlgoBalance = sbBalancesR.getOrElse({ ALGO: { available: '0' } })
+      .ALGO
+    const sbBalance = sbAlgoBalance ? sbAlgoBalance.available : '0'
+
+    return Remote.of(new BigNumber(sbBalance))
+  }
+)
+
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
@@ -296,6 +308,24 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalanceInfo = createDeepEqualSelector(
+  [
+    getAlgoBalance,
+    selectors.core.data.algo.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (algoBalanceR, algoRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertAlgoToFiat({
+        value,
+        fromUnit: 'mALGO',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(algoBalanceR, algoRatesR, currencyR)
+  }
+)
+
 export const getTotalBalance = createDeepEqualSelector(
   [
     getBchBalanceInfo,
@@ -341,3 +371,22 @@ export const getTotalBalance = createDeepEqualSelector(
     )
   }
 )
+
+export const getBalanceSelector = (coin: CoinType) => {
+  switch (coin) {
+    case 'BTC':
+      return getBtcBalance
+    case 'BCH':
+      return getBchBalance
+    case 'ETH':
+      return getEthBalance
+    case 'PAX':
+      return getPaxBalance
+    case 'XLM':
+      return getXlmBalance
+    case 'USDT':
+      return getUsdtBalance
+    case 'ALGO':
+      return getAlgoBalance
+  }
+}

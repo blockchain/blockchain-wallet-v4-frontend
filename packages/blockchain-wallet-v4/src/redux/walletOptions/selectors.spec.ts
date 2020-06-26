@@ -4,6 +4,7 @@ import MockWalletOptions from '../../../../../config/mocks/wallet-options-v4.jso
 import Remote from '../../remote'
 
 jest.mock('../settings/selectors')
+// @ts-ignore
 getInvitations.mockReturnValue(Remote.of({}))
 
 describe('walletOptions selectors', () => {

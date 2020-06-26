@@ -16,6 +16,30 @@
         "url": "https://games.bitcoin.com/slots?cma=20190619_blockchainwalletS&utm_source=blockchainwallet_S&utm_medium=banner&utm_campaign=20190619_blockchainwalletS"
       },
       "coins": {
+        "ALGO": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "coinCode": "ALGO",
+          "coinTicker": "ALGO",
+          "colorCode": "algo",
+          "displayName": "Algorand",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "algo",
+            "circle": "algo",
+            "circleFilled": "algo"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "",
+          "txListAppRoute": "/algo/transactions"
+        },
         "BTC": {
           "availability": {
             "send": true,

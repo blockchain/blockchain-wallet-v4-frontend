@@ -11,7 +11,7 @@ export type UnitType = KeysOfUnion<
   CurrenciesType[keyof CurrenciesType]['units']
 >
 
-const { BCH, BTC, ETH, PAX, XLM, USDT } = Currencies
+const { BCH, BTC, ETH, PAX, XLM, USDT, ALGO } = Currencies
 
 const DefaultConversion = {
   value: '0',
@@ -386,6 +386,74 @@ const transformXlmToXlm = ({
   )
 }
 
+const transformFiatToAlgo = ({
+  value,
+  fromCurrency,
+  toUnit,
+  rates
+}: {
+  fromCurrency: keyof CurrenciesType
+  rates: RatesType
+  toUnit: any
+  value: number | string
+}) => {
+  const pairs = Pairs.create(ALGO.code, rates)
+  const sourceCurrency = prop(fromCurrency, Currencies)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], ALGO)
+  return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
+    .chain(Currency.convert(pairs, ALGO))
+    .chain(Currency.toUnit(targetUnit))
+}
+
+const transformAlgoToFiat = ({
+  value,
+  fromUnit,
+  toCurrency,
+  rates,
+  digits = 2
+}: {
+  digits?: number
+  fromUnit: UnitType
+  rates: RatesType
+  toCurrency: keyof CurrenciesType
+  value: number | string
+}) => {
+  const pairs = Pairs.create(ALGO.code, rates)
+  const targetCurrency = prop(toCurrency, Currencies)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const updatedTargetCurrency = assocPath(
+    ['units', targetCurrencyCode, 'decimal_digits'],
+    digits,
+    prop(toCurrency, Currencies)
+  )
+  const targetCurrencyUnit = path(
+    ['units', targetCurrencyCode],
+    updatedTargetCurrency
+  )
+  const sourceUnit = path(['units', fromUnit], ALGO)
+  return Currency.fromUnit({ value, unit: sourceUnit })
+    .chain(Currency.convert(pairs, updatedTargetCurrency))
+    .chain(Currency.toUnit(targetCurrencyUnit))
+}
+
+const transformAlgoToAlgo = ({
+  value,
+  fromUnit,
+  toUnit
+}: {
+  fromUnit: UnitType
+  toUnit: UnitType
+  value: number | string
+}) => {
+  const sourceUnit = path(['units', fromUnit], ALGO)
+  const targetUnit = path(['units', toUnit], ALGO)
+  return Currency.fromUnit({ value, unit: sourceUnit }).chain(
+    Currency.toUnit(targetUnit)
+  )
+}
+
 // =====================================================================
 // ============================== DECIMALS =============================
 // =====================================================================
@@ -670,6 +738,52 @@ const convertXlmToXlm = ({
   )
 }
 
+const convertFiatToAlgo = ({
+  value,
+  fromCurrency,
+  toUnit,
+  rates
+}: {
+  fromCurrency: keyof CurrenciesType
+  rates: RatesType
+  toUnit: any
+  value: number | string
+}) => {
+  return transformFiatToAlgo({ value, fromCurrency, toUnit, rates }).getOrElse(
+    DefaultConversion
+  )
+}
+
+const convertAlgoToFiat = ({
+  value,
+  fromUnit,
+  toCurrency,
+  rates
+}: {
+  fromUnit: UnitType
+  rates: RatesType
+  toCurrency: keyof CurrenciesType
+  value: number | string
+}) => {
+  return transformAlgoToFiat({ value, fromUnit, toCurrency, rates }).getOrElse(
+    DefaultConversion
+  )
+}
+
+const convertAlgoToAlgo = ({
+  value,
+  fromUnit,
+  toUnit
+}: {
+  fromUnit: UnitType
+  toUnit: UnitType
+  value: number | string
+}) => {
+  return transformAlgoToAlgo({ value, fromUnit, toUnit }).getOrElse(
+    DefaultConversion
+  )
+}
+
 const convertCoinUnitToFiat = ({
   coin,
   value,
@@ -765,6 +879,10 @@ const convertCoinToCoin = ({
       return baseToStandard
         ? convertXlmToXlm({ value, fromUnit: 'STROOP', toUnit: 'XLM' })
         : convertXlmToXlm({ value, fromUnit: 'XLM', toUnit: 'STROOP' })
+    case 'ALGO':
+      return baseToStandard
+        ? convertAlgoToAlgo({ value, fromUnit: 'mALGO', toUnit: 'ALGO' })
+        : convertAlgoToAlgo({ value, fromUnit: 'ALGO', toUnit: 'mALGO' })
     case 'FIAT':
       return baseToStandard
         ? { value: new BigNumber(value).dividedBy(100).valueOf() }
@@ -968,6 +1086,33 @@ const displayXlmToXlm = ({
     .getOrElse(DefaultDisplay)
 }
 
+const displayAlgoToFiat = ({
+  value,
+  fromUnit,
+  toCurrency,
+  rates,
+  digits = 2
+}) => {
+  return transformAlgoToFiat({ value, fromUnit, toCurrency, rates, digits })
+    .map(assoc('digits', digits))
+    .map(Currency.unsafe_deprecated_fiatToString)
+    .getOrElse(DefaultDisplay)
+}
+
+const displayAlgoToAlgo = ({
+  value,
+  fromUnit,
+  toUnit
+}: {
+  fromUnit: UnitType
+  toUnit: UnitType
+  value: number | string
+}) => {
+  return transformAlgoToAlgo({ value, fromUnit, toUnit })
+    .map(Currency.coinToString)
+    .getOrElse(DefaultDisplay)
+}
+
 const displayCoinToFiat = ({
   fromCoin,
   value,
@@ -994,6 +1139,8 @@ const displayCoinToFiat = ({
       return displayBchToFiat({ value, fromUnit, toCurrency, rates })
     case 'XLM':
       return displayXlmToFiat({ value, fromUnit, toCurrency, rates })
+    case 'ALGO':
+      return displayAlgoToFiat({ value, fromUnit, toCurrency, rates })
     default:
       return 'Unsupported Coin Code'
   }
@@ -1058,6 +1205,13 @@ const convertFiatToCoin = (
         toUnit: unit,
         rates: rates
       }).value
+    case unit === 'ALGO':
+      return convertFiatToAlgo({
+        value,
+        fromCurrency: currency,
+        toUnit: unit,
+        rates: rates
+      }).value
     default:
       return 'Unsupported Coin Code'
   }
@@ -1112,6 +1266,13 @@ const convertCoinToFiat = (
         fromUnit: unit,
         rates: rates
       }).value
+    case unit === 'ALGO':
+      return convertAlgoToFiat({
+        value,
+        toCurrency: currency,
+        fromUnit: unit,
+        rates: rates
+      }).value
     default:
       return 'Unsupported Coin Code'
   }
@@ -1158,6 +1319,12 @@ const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
         toUnit,
         value
       })
+    case 'ALGO':
+      return displayAlgoToAlgo({
+        fromUnit: 'mALGO',
+        toUnit,
+        value
+      })
   }
 }
 
@@ -1195,6 +1362,8 @@ export {
   DefaultDisplay,
   convertFiatToCoin,
   convertCoinToFiat,
+  convertAlgoToFiat,
+  convertAlgoToAlgo,
   convertBtcToFiat,
   convertBtcToBtc,
   convertBchToFiat,
@@ -1212,6 +1381,8 @@ export {
   convertXlmToFiat,
   convertXlmToXlm,
   convertCoinToCoin,
+  displayAlgoToFiat,
+  displayAlgoToAlgo,
   displayBtcToFiat,
   displayBtcToBtc,
   displayBchToFiat,

@@ -1,3 +1,4 @@
+import ALGO from './ALGO'
 import AUD from './AUD'
 import BCH from './BCH'
 import BRL from './BRL'
@@ -53,6 +54,7 @@ const FiatCurrencies = {
 }
 
 const CryptoCurrencies = {
+  ALGO,
   BCH,
   BTC,
   ETH,

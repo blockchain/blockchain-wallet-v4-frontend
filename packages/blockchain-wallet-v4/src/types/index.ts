@@ -43,6 +43,7 @@ export {
 }
 
 export enum CoinTypeEnum {
+  ALGO,
   BTC,
   BCH,
   ETH,

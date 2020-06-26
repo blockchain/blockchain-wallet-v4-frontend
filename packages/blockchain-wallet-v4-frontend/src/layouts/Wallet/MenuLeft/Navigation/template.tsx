@@ -71,12 +71,13 @@ const Navigation = (props: OwnProps & Props) => {
   const { ...rest } = props
   const { supportedCoins } = rest
   const coinOrder = [
-    supportedCoins.PAX,
-    supportedCoins.USDT,
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM
+    supportedCoins.ALGO,
+    supportedCoins.XLM,
+    supportedCoins.USDT,
+    supportedCoins.PAX
   ]
   return (
     <Wrapper {...rest}>
