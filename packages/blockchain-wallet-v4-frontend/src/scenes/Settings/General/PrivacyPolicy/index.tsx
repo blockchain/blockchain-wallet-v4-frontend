@@ -16,21 +16,21 @@ const PrivacyPolicy = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.settings.general.privacypolicy.title"
-            defaultMessage="Privacy Policy"
+            id='scenes.settings.general.privacypolicy.title'
+            defaultMessage='Privacy Policy'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.settings.general.privacypolicy.description"
-            defaultMessage="Read about the privacy and security of your personal information."
+            id='scenes.settings.general.privacypolicy.description'
+            defaultMessage='Read about the privacy and security of your personal information.'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href="https://www.blockchain.com/legal/privacy" target="_blank">
-          <Button data-e2e="privacyLink" nature="empty">
-            <Icon name="open-in-new-tab" size="20px" />
+        <Link href='https://www.blockchain.com/legal/privacy' target='_blank'>
+          <Button data-e2e='privacyLink' nature='empty'>
+            <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>
       </SettingComponent>

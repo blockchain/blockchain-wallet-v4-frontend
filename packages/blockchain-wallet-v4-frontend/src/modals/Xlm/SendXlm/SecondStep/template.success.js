@@ -60,105 +60,105 @@ const Success = props => {
     <React.Fragment>
       <ConfirmWrapper>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
-            <FormattedMessage id="copy.from:" defaultMessage="From:" />
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='copy.from:' defaultMessage='From:' />
           </Text>
-          <Text size="16px" weight={400} data-e2e="xlmFromWallet">
+          <Text size='16px' weight={400} data-e2e='xlmFromWallet'>
             {fromAddress}
           </Text>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendxlm.secondstep.to"
-              defaultMessage="To:"
+              id='modals.sendxlm.secondstep.to'
+              defaultMessage='To:'
             />
           </Text>
-          <TextTo size="16px" weight={400} data-e2e="xlmToAddress">
+          <TextTo size='16px' weight={400} data-e2e='xlmToAddress'>
             {toAddress}
           </TextTo>
         </LargeTableRow>
         {description && (
           <LargeTableRow>
-            <Text size="16px" weight={500}>
+            <Text size='16px' weight={500}>
               <FormattedMessage
-                id="modals.sendxlm.secondstep.note"
-                defaultMessage="Note:"
+                id='modals.sendxlm.secondstep.note'
+                defaultMessage='Note:'
               />
             </Text>
-            <Text size="16px" weight={400} data-e2e="xlmSendDescription">
+            <Text size='16px' weight={400} data-e2e='xlmSendDescription'>
               {description}
             </Text>
           </LargeTableRow>
         )}
         {memo && (
           <LargeTableRow>
-            <Text size="16px" weight={500} data-e2e="xlmSendMemo">
+            <Text size='16px' weight={500} data-e2e='xlmSendMemo'>
               <FormattedMessage
-                id="modals.sendxlm.secondstep.memo"
-                defaultMessage="Memo"
+                id='modals.sendxlm.secondstep.memo'
+                defaultMessage='Memo'
               />
             </Text>
-            <Text size="16px" weight={400}>
+            <Text size='16px' weight={400}>
               {` ${memoType}: ${memo}`}
             </Text>
           </LargeTableRow>
         )}
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendxlm.secondstep.amount"
-              defaultMessage="Amount:"
+              id='modals.sendxlm.secondstep.amount'
+              defaultMessage='Amount:'
             />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay size="16px" weight={500} coin={coin}>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
                 {amount}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay size="14px" weight={300} coin={coin}>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
                 {amount}
               </CoinDisplay>
             </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendxlm.secondstep.fee"
-              defaultMessage="Fee:"
+              id='modals.sendxlm.secondstep.fee'
+              defaultMessage='Fee:'
             />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay size="16px" weight={500} coin={coin}>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
                 {fee}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay size="14px" weight={300} coin={coin}>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
                 {fee}
               </CoinDisplay>
             </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={400}>
+          <Text size='16px' weight={400}>
             <FormattedMessage
-              id="modals.sendxlm.secondstep.sendtotal"
-              defaultMessage="Total:"
+              id='modals.sendxlm.secondstep.sendtotal'
+              defaultMessage='Total:'
             />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay coin={coin} size="16px" weight={500}>
+              <FiatDisplay coin={coin} size='16px' weight={500}>
                 {total}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay coin={coin} size="14px" weight={300}>
+              <CoinDisplay coin={coin} size='14px' weight={300}>
                 {total}
               </CoinDisplay>
             </SummarySubExchangeAmount>
@@ -167,31 +167,31 @@ const Success = props => {
       </ConfirmWrapper>
       <Footer>
         <Button
-          height="56px"
-          size="18px"
+          height='56px'
+          size='18px'
           onClick={handleSubmit}
           disabled={submitting}
-          nature="primary"
+          nature='primary'
           fullwidth
-          data-e2e="xlmSendSubmitButton"
+          data-e2e='xlmSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
-              id="modals.sendxlm.secondstep.send"
-              defaultMessage="Send Stellar"
+              id='modals.sendxlm.secondstep.send'
+              defaultMessage='Send Stellar'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
         <Link
           onClick={!submitting && handleBack}
           disabled={submitting}
-          size="13px"
+          size='13px'
           weight={400}
-          data-e2e="xlmSendBackLink"
+          data-e2e='xlmSendBackLink'
         >
-          <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

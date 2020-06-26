@@ -19,7 +19,7 @@ class UsedAddressesContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { usedAddressesVisible, walletIndex } = this.props
 
     return (

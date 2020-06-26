@@ -5,7 +5,7 @@ import Logout from './template.js'
 import React from 'react'
 
 class LogoutContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { secondsRemaining: 10 }
     this.onDeauthorizeBrowser = this.onDeauthorizeBrowser.bind(this)
@@ -13,15 +13,15 @@ class LogoutContainer extends React.PureComponent {
     this.tick = this.tick.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.interval = setInterval(this.tick, 1000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.interval)
   }
 
-  tick() {
+  tick () {
     this.setState({
       secondsRemaining: this.state.secondsRemaining - 1
     })
@@ -30,15 +30,15 @@ class LogoutContainer extends React.PureComponent {
     }
   }
 
-  onGoToLogin() {
+  onGoToLogin () {
     this.props.authActions.logoutClearReduxStore()
   }
 
-  onDeauthorizeBrowser() {
+  onDeauthorizeBrowser () {
     this.props.authActions.deauthorizeBrowser()
   }
 
-  render() {
+  render () {
     return (
       <Logout
         onDeauthorizeBrowser={this.onDeauthorizeBrowser}

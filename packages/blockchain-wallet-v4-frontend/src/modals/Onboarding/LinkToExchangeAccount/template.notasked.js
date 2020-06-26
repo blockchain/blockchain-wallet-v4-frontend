@@ -126,68 +126,68 @@ const LinkToExchangeAccountNotAsked = ({
   onResendEmail
 }) => {
   return (
-    <Modal size="large" data-e2e="infoModalLinkToExchangeAccountNotAsked">
+    <Modal size='large' data-e2e='infoModalLinkToExchangeAccountNotAsked'>
       <ModalHeaderStyled onClose={close} />
       <ModalBodyStyled>
         <ContentWrapper>
           <LeftColumn>
             <div>
               <ExchangeLogo
-                name="blockchain-logo"
-                height="24px"
-                width="240px"
+                name='blockchain-logo'
+                height='24px'
+                width='240px'
               />
-              <LeftContent color="white" size="18px" weight={400}>
+              <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
-                  id="modals.onboarding.linktoexchangeaccount.na.subtitle-1"
+                  id='modals.onboarding.linktoexchangeaccount.na.subtitle-1'
                   defaultMessage="There's a new way to trade. Link your Wallet for instant access. "
                 />
               </LeftContent>
             </div>
             <LeftColumnPoints>
               <PointRow>
-                <Image name="coins" width="24px" height="24px" />
-                <Text color="white" size="15px" weight={400}>
+                <Image name='coins' width='24px' height='24px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.left.point1-2"
-                    defaultMessage="Access More Cryptos"
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point1-2'
+                    defaultMessage='Access More Cryptos'
                   />
                 </Text>
               </PointRow>
               <PointRow>
-                <Image name="money" width="26px" />
-                <Text color="white" size="15px" weight={400}>
+                <Image name='money' width='26px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.left.point2-1"
-                    defaultMessage="Deposit & Withdraw Euros/Dollars"
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point2-1'
+                    defaultMessage='Deposit & Withdraw Euros/Dollars'
                   />
                 </Text>
               </PointRow>
               <PointRow>
                 <Icon
-                  name="lightning-bolt"
-                  color="white"
-                  size="26px"
+                  name='lightning-bolt'
+                  color='white'
+                  size='26px'
                   style={{ marginLeft: '7px' }}
                 />
                 <Text
-                  color="white"
-                  size="15px"
+                  color='white'
+                  size='15px'
                   weight={400}
                   style={{ marginLeft: '3px' }}
                 >
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.left.point3-1"
-                    defaultMessage="Lightning Fast Trading"
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point3-1'
+                    defaultMessage='Lightning Fast Trading'
                   />
                 </Text>
               </PointRow>
               <PointRow>
-                <Icon name="users" color="white" size="23px" />
-                <Text color="white" size="15px" weight={400}>
+                <Icon name='users' color='white' size='23px' />
+                <Text color='white' size='15px' weight={400}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.left.point4-1"
-                    defaultMessage="Built by the Pros"
+                    id='modals.onboarding.linktoexchangeaccount.na.left.point4-1'
+                    defaultMessage='Built by the Pros'
                   />
                 </Text>
               </PointRow>
@@ -198,57 +198,57 @@ const LinkToExchangeAccountNotAsked = ({
               <div>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size="16px" weight={500} color="green400">
+                    <Text size='16px' weight={500} color='green400'>
                       <FormattedMessage
-                        id="modals.onboarding.linktoexchangeaccount.na.right.totitle-1"
-                        defaultMessage="The Exchange will be able to:"
+                        id='modals.onboarding.linktoexchangeaccount.na.right.totitle-1'
+                        defaultMessage='The Exchange will be able to:'
                       />
                     </Text>
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text color="grey800" size="14px" weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id="modals.onboarding.linktoexchangeaccount.na.right.topoint"
-                        defaultMessage="Share your Gold or Silver Level status"
+                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint'
+                        defaultMessage='Share your Gold or Silver Level status'
                       />
                     </Text>
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text color="grey800" size="14px" weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id="modals.onboarding.linktoexchangeaccount.na.right.topoint2-2"
-                        defaultMessage="Sync addresses with your Wallet so you can securely sweep crypto between accounts"
+                        id='modals.onboarding.linktoexchangeaccount.na.right.topoint2-2'
+                        defaultMessage='Sync addresses with your Wallet so you can securely sweep crypto between accounts'
                       />
                     </Text>
                   </RightPointRow>
                 </RightColumnGroup>
                 <RightColumnGroup>
                   <RightPointRow>
-                    <Text size="16px" weight={500} color="red500">
+                    <Text size='16px' weight={500} color='red500'>
                       <FormattedMessage
-                        id="modals.onboarding.linktoexchangeaccount.na.right.nottitle-1"
-                        defaultMessage="The Exchange will not be able to:"
+                        id='modals.onboarding.linktoexchangeaccount.na.right.nottitle-1'
+                        defaultMessage='The Exchange will not be able to:'
                       />
                     </Text>
                   </RightPointRow>
                   <RightPointRow>
                     <Circle />
-                    <Text color="grey800" size="14px" weight={500}>
+                    <Text color='grey800' size='14px' weight={500}>
                       <FormattedMessage
-                        id="modals.onboarding.linktoexchangeaccount.na.right.notpoint1-3"
-                        defaultMessage="Access the crypto in your wallet, access your keys, or view your password"
+                        id='modals.onboarding.linktoexchangeaccount.na.right.notpoint1-3'
+                        defaultMessage='Access the crypto in your wallet, access your keys, or view your password'
                       />
                     </Text>
                   </RightPointRow>
                 </RightColumnGroup>
               </div>
-              <ConnectNowButton nature="purple" onClick={onConnectStart}>
-                <Text color="white" size="16px" weight={500}>
+              <ConnectNowButton nature='purple' onClick={onConnectStart}>
+                <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.connectnow"
-                    defaultMessage="Connect Now"
+                    id='modals.onboarding.linktoexchangeaccount.na.connectnow'
+                    defaultMessage='Connect Now'
                   />
                 </Text>
               </ConnectNowButton>
@@ -256,25 +256,25 @@ const LinkToExchangeAccountNotAsked = ({
           ) : (
             <RightColumn>
               <EmailRequiredContent>
-                <Icon name="alert-filled" color="error" size="62px" />
-                <Text size="15px" weight={500}>
+                <Icon name='alert-filled' color='error' size='62px' />
+                <Text size='15px' weight={500}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.right.verifyemailrequired-1"
-                    defaultMessage="A verified email address is required to connect your wallet to the Exchange."
+                    id='modals.onboarding.linktoexchangeaccount.na.right.verifyemailrequired-1'
+                    defaultMessage='A verified email address is required to connect your wallet to the Exchange.'
                   />
                 </Text>
-                <Text size="15px" weight={500}>
+                <Text size='15px' weight={500}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.right.checkemail"
-                    defaultMessage="Please verify your email address to continue with the signup process."
+                    id='modals.onboarding.linktoexchangeaccount.na.right.checkemail'
+                    defaultMessage='Please verify your email address to continue with the signup process.'
                   />
                 </Text>
               </EmailRequiredContent>
-              <ConnectNowButton nature="purple" onClick={onResendEmail}>
-                <Text color="white" size="16px" weight={500}>
+              <ConnectNowButton nature='purple' onClick={onResendEmail}>
+                <Text color='white' size='16px' weight={500}>
                   <FormattedMessage
-                    id="modals.onboarding.linktoexchangeaccount.na.resendemail"
-                    defaultMessage="Resend Email"
+                    id='modals.onboarding.linktoexchangeaccount.na.resendemail'
+                    defaultMessage='Resend Email'
                   />
                 </Text>
               </ConnectNowButton>

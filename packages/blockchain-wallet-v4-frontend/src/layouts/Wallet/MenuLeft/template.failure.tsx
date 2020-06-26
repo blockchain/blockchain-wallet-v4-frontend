@@ -9,12 +9,12 @@ const Failure = () => {
     <Container>
       <Wrapper>
         <MenuItem>
-          <BlockchainLoader height="30px" width="30px" />
+          <BlockchainLoader height='30px' width='30px' />
         </MenuItem>
-        <Text color="red600" size="14px" weight={600}>
+        <Text color='red600' size='14px' weight={600}>
           <FormattedMessage
-            id="layouts.wallet.menuleft.failure.refresh"
-            defaultMessage="Something went wrong. Please refresh."
+            id='layouts.wallet.menuleft.failure.refresh'
+            defaultMessage='Something went wrong. Please refresh.'
           />
         </Text>
       </Wrapper>

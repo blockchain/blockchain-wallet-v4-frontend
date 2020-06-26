@@ -7,7 +7,7 @@ import Unorm from 'unorm'
 
 const hash256 = Bitcoin.crypto.hash256
 
-export const parseBIP38toECPair = function(
+export const parseBIP38toECPair = function (
   base58Encrypted,
   passphrase,
   network
@@ -66,7 +66,7 @@ export const parseBIP38toECPair = function(
   var decrypted
   var AESopts = { mode: WalletCrypto.AES.ECB, padding: WalletCrypto.NoPadding }
 
-  var verifyHashAndReturn = function() {
+  var verifyHashAndReturn = function () {
     var tmpkey = new Bitcoin.ECPair(decrypted, null, {
       compressed: isCompPoint,
       network: network

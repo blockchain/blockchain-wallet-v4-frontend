@@ -15,7 +15,7 @@ class ShowRecoveryWords extends PureComponent<Props> {
       : this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS')
   }
 
-  render() {
+  render () {
     const { handleBackArrow, recoveryPhrase, step } = this.props
     return (
       <WordsList

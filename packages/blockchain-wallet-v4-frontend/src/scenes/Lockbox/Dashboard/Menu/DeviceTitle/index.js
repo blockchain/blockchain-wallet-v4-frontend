@@ -47,7 +47,7 @@ class DeviceTitle extends React.PureComponent {
   //   })
   // }
 
-  render() {
+  render () {
     const { deviceInfo, deviceIndex, location } = this.props
     const onDashboard = location.pathname.includes('/lockbox/dashboard')
     const linkTo = onDashboard
@@ -57,7 +57,7 @@ class DeviceTitle extends React.PureComponent {
 
     return deviceInfo ? (
       <Wrapper>
-        <Text size="24px" weight={500} className="tour-step1">
+        <Text size='24px' weight={500} className='tour-step1'>
           {deviceInfo.device_name}
         </Text>
         <RightCol>
@@ -74,13 +74,13 @@ class DeviceTitle extends React.PureComponent {
           {/*    defaultMessage='Manage Apps' */}
           {/*  /> */}
           {/* </Button> */}
-          <LinkContainer to={linkTo} className="tour-step5">
+          <LinkContainer to={linkTo} className='tour-step5'>
             <ToggleIcon name={icon} size={'24px'} />
           </LinkContainer>
         </RightCol>
       </Wrapper>
     ) : (
-      <Text size="24px" weight={500}>
+      <Text size='24px' weight={500}>
         Lockbox
       </Text>
     )

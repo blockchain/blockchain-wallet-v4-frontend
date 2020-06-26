@@ -103,25 +103,25 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
-          <FormLabel htmlFor="coin">
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
-              id="modals.sendxlm.firststep.currency"
-              defaultMessage="Currency"
+              id='modals.sendxlm.firststep.currency'
+              defaultMessage='Currency'
             />
           </FormLabel>
           <Field
-            name="coin"
+            name='coin'
             component={SelectBoxCoin}
-            type="send"
+            type='send'
             validate={[required]}
           />
         </FormItem>
         <FormItem width={'60%'}>
-          <FormLabel htmlFor="from">
-            <FormattedMessage id="copy.from" defaultMessage="From" />
+          <FormLabel htmlFor='from'>
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
-            name="from"
+            name='from'
             component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
@@ -134,53 +134,53 @@ const FirstStep = props => {
       {!noAccount && (
         <React.Fragment>
           {isFromLockbox && !disableLockboxSend && (
-            <WarningBanners type="info">
-              <Text color="warning" size="13px">
+            <WarningBanners type='info'>
+              <Text color='warning' size='13px'>
                 <FormattedMessage
-                  id="modals.sendxlm.firststep.lockboxwarn"
-                  defaultMessage="You will need to connect your Lockbox to complete this transaction."
+                  id='modals.sendxlm.firststep.lockboxwarn'
+                  defaultMessage='You will need to connect your Lockbox to complete this transaction.'
                 />
               </Text>
             </WarningBanners>
           )}
           {disableLockboxSend && (
-            <WarningBanners type="warning">
-              <Text color="warning" size="12px">
+            <WarningBanners type='warning'>
+              <Text color='warning' size='12px'>
                 <FormattedMessage
-                  id="modals.sendxlm.firststep.blockbrowser"
-                  defaultMessage="Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers."
+                  id='modals.sendxlm.firststep.blockbrowser'
+                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
                 />
               </Text>
             </WarningBanners>
           )}
           <FormGroup margin={isFromCustody ? '15px' : '8px'}>
             <FormItem>
-              <FormLabel htmlFor="to">
+              <FormLabel htmlFor='to'>
                 <FormattedMessage
-                  id="modals.sendxlm.firststep.sendto"
-                  defaultMessage="To"
+                  id='modals.sendxlm.firststep.sendto'
+                  defaultMessage='To'
                 />
               </FormLabel>
               <Row>
                 <Field
                   component={SelectBoxXlmAddresses}
-                  dataE2e="sendXlmAddressInput"
+                  dataE2e='sendXlmAddressInput'
                   exclude={[from.label]}
                   includeAll={false}
                   includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
-                  name="to"
+                  name='to'
                   noOptionsMessage={() => null}
                   openMenuOnClick={!!isFromCustody}
-                  placeholder="Paste, scan, or select destination"
+                  placeholder='Paste, scan, or select destination'
                   validate={
                     isFromCustody ? [required] : [required, validXlmAddress]
                   }
                 />
                 {!isFromCustody && (
                   <QRCodeCapture
-                    scanType="xlmAddress"
+                    scanType='xlmAddress'
                     border={['top', 'bottom', 'right', 'left']}
                   />
                 )}
@@ -196,21 +196,21 @@ const FirstStep = props => {
           )}
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel htmlFor="amount">
+              <FormLabel htmlFor='amount'>
                 <FormattedMessage
-                  id="modals.sendxlm.firststep.sendamountto"
-                  defaultMessage="Amount"
+                  id='modals.sendxlm.firststep.sendamountto'
+                  defaultMessage='Amount'
                 />
               </FormLabel>
               <Field
-                name="amount"
+                name='amount'
                 component={XlmFiatConverter}
                 disabled={isFromCustody}
                 error={error}
-                coin="XLM"
+                coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
-                data-e2e="sendXlm"
-                marginTop="8px"
+                data-e2e='sendXlm'
+                marginTop='8px'
               />
             </FormItem>
           </FormGroup>
@@ -221,55 +221,55 @@ const FirstStep = props => {
           {!isFromCustody && (
             <FormGroup margin={'15px'}>
               <FormItem>
-                <FormLabel htmlFor="memo">
+                <FormLabel htmlFor='memo'>
                   <FormattedMessage
-                    id="modals.sendxlm.firststep.txmemo"
-                    defaultMessage="Memo"
+                    id='modals.sendxlm.firststep.txmemo'
+                    defaultMessage='Memo'
                   />
-                  <TooltipHost id="sendxlm.firststep.memotooltip">
-                    <TooltipIcon name="info" size="12px" />
+                  <TooltipHost id='sendxlm.firststep.memotooltip'>
+                    <TooltipIcon name='info' size='12px' />
                   </TooltipHost>
                 </FormLabel>
                 <MemoField>
                   <Field
-                    name="memo"
+                    name='memo'
                     errorBottom
                     validate={validateMemo}
                     component={TextBox}
-                    placeholder="Enter text or ID for recipient (optional)"
-                    data-e2e="sendXlmMemoText"
+                    placeholder='Enter text or ID for recipient (optional)'
+                    data-e2e='sendXlmMemoText'
                     noLastPass
                   />
                   <Field
-                    name="memoType"
+                    name='memoType'
                     errorBottom
                     validate={validateMemoType}
                     component={SelectBoxMemo}
-                    data-e2e="sendXlmMemoType"
+                    data-e2e='sendXlmMemoType'
                   />
                 </MemoField>
               </FormItem>
               {isDestinationExchange && (
                 <WarningBanners
-                  type="warning"
-                  data-e2e="sendXlmToExchangeAddress"
+                  type='warning'
+                  data-e2e='sendXlmToExchangeAddress'
                 >
-                  <Text color="warning" size="12px">
+                  <Text color='warning' size='12px'>
                     <FormattedMessage
-                      id="modals.sendxlm.firststep.sendtoexchange2"
-                      defaultMessage="Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!"
+                      id='modals.sendxlm.firststep.sendtoexchange2'
+                      defaultMessage='Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!'
                     />
                     <Link
-                      href="https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos"
-                      target="_blank"
-                      size="11px"
+                      href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
+                      target='_blank'
+                      size='11px'
                       weight={700}
                       altFont
-                      color="red600"
+                      color='red600'
                     >
                       <FormattedMessage
-                        id="buttons.learn_more"
-                        defaultMessage="Learn More"
+                        id='buttons.learn_more'
+                        defaultMessage='Learn More'
                       />
                     </Link>
                   </Text>
@@ -280,21 +280,21 @@ const FirstStep = props => {
 
           <FormGroup margin={'15px'}>
             <FormItem>
-              <FormLabel htmlFor="description">
+              <FormLabel htmlFor='description'>
                 <FormattedMessage
-                  id="modals.sendxlm.firststep.desc"
-                  defaultMessage="Description"
+                  id='modals.sendxlm.firststep.desc'
+                  defaultMessage='Description'
                 />
-                <TooltipHost id="sendxlm.firststep.sharetooltip">
-                  <TooltipIcon name="info" size="12px" />
+                <TooltipHost id='sendxlm.firststep.sharetooltip'>
+                  <TooltipIcon name='info' size='12px' />
                 </TooltipHost>
               </FormLabel>
               <Field
-                name="description"
+                name='description'
                 component={TextAreaDebounced}
                 placeholder="What's this transaction for? (optional)"
                 disabled={isFromCustody}
-                data-e2e="sendXlmDescription"
+                data-e2e='sendXlmDescription'
                 fullwidth
               />
             </FormItem>
@@ -302,14 +302,14 @@ const FirstStep = props => {
           {!isFromCustody && (
             <FormGroup inline margin={'10px'}>
               <FormItem>
-                <Text size="16px" weight={500}>
+                <Text size='16px' weight={500}>
                   <FormattedMessage
-                    id="modals.sendxlm.firststep.fee"
-                    defaultMessage="Transaction Fee:"
+                    id='modals.sendxlm.firststep.fee'
+                    defaultMessage='Transaction Fee:'
                   />
                 </Text>
                 <Text>
-                  <ComboDisplay size="13px" coin="XLM" weight={500}>
+                  <ComboDisplay size='13px' coin='XLM' weight={500}>
                     {fee}
                   </ComboDisplay>
                 </Text>
@@ -325,10 +325,10 @@ const FirstStep = props => {
                * HACK: redux-form blurs on mousedown, and we change form
                * layout on blur preventing the onClick submit
                */
-              height="56px"
-              size="18px"
+              height='56px'
+              size='18px'
               onMouseDown={submit}
-              nature="primary"
+              nature='primary'
               disabled={
                 pristine ||
                 submitting ||
@@ -338,11 +338,11 @@ const FirstStep = props => {
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)
               }
-              data-e2e="xlmSendContinue"
+              data-e2e='xlmSendContinue'
             >
               <FormattedMessage
-                id="buttons.continue"
-                defaultMessage="Continue"
+                id='buttons.continue'
+                defaultMessage='Continue'
               />
             </Button>
           </SubmitFormGroup>

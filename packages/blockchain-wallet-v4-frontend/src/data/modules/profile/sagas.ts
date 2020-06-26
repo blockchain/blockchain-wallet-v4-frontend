@@ -36,7 +36,7 @@ export const renewUserDelay = 30000
 let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
-  const waitForUserData = function*() {
+  const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
     if (Remote.Success.is(userData)) return
@@ -44,14 +44,14 @@ export default ({ api, coreSagas, networks }) => {
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const isTier2 = function*() {
+  const isTier2 = function * () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
     const userData = userDataR.getOrElse({ tiers: { current: 0 } })
     return userData.tiers && userData.tiers.current >= 2
   }
 
-  const getCampaignData = function*(campaign) {
+  const getCampaignData = function * (campaign) {
     if (campaign.name === 'sunriver') {
       const xlmAccount = (yield select(
         selectors.core.kvStore.xlm.getDefaultAccountId
@@ -75,7 +75,7 @@ export default ({ api, coreSagas, networks }) => {
     return null
   }
 
-  const signIn = function*() {
+  const signIn = function * () {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
         'No email'
@@ -112,7 +112,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewSession = function*(
+  const renewSession = function * (
     userId,
     lifetimeToken,
     email,
@@ -135,7 +135,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setSession = function*(userId, lifetimeToken, email, guid) {
+  const setSession = function * (userId, lifetimeToken, email, guid) {
     try {
       const { token: apiToken, expiresAt } = yield call(
         api.generateSession,
@@ -159,7 +159,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchUser = function*() {
+  const fetchUser = function * () {
     try {
       const user = yield call(api.getUser)
       yield put(A.fetchUserDataSuccess(user))
@@ -175,7 +175,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewUser = function*(renewIn = 0) {
+  const renewUser = function * (renewIn = 0) {
     try {
       yield delay(renewIn)
       const user = yield call(api.getUser)
@@ -187,12 +187,12 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const renewApiSockets = function*() {
+  const renewApiSockets = function * () {
     yield put(actions.middleware.webSocket.rates.stopSocket())
     yield put(actions.middleware.webSocket.rates.startSocket())
   }
 
-  const clearSession = function*() {
+  const clearSession = function * () {
     if (renewSessionTask) {
       // @ts-ignore
       yield cancel(renewSessionTask)
@@ -207,14 +207,14 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.setApiTokenNotAsked())
   }
 
-  const generateRetailToken = function*() {
+  const generateRetailToken = function * () {
     const guid = yield select(selectors.core.wallet.getGuid)
     const sharedKey = yield select(selectors.core.wallet.getSharedKey)
     const { token } = yield call(api.generateRetailToken, guid, sharedKey)
     return token
   }
 
-  const generateAuthCredentials = function*() {
+  const generateAuthCredentials = function * () {
     const retailToken = yield call(generateRetailToken)
     const coinifyId = (yield select(
       selectors.core.kvStore.buySell.getCoinifyUser
@@ -233,7 +233,7 @@ export default ({ api, coreSagas, networks }) => {
     return { userId, lifetimeToken }
   }
 
-  const recoverUser = function*() {
+  const recoverUser = function * () {
     const retailToken = yield call(generateRetailToken)
     const userId = (yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -247,7 +247,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const createUser = function*() {
+  const createUser = function * () {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
 
@@ -275,7 +275,7 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const updateUser = function*({ payload }) {
+  const updateUser = function * ({ payload }) {
     const { data } = payload
     const userR = S.getUserData(yield select())
     const user = userR.getOrElse({
@@ -305,7 +305,7 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(fetchUser)
   }
 
-  const updateUserAddress = function*({ payload }) {
+  const updateUserAddress = function * ({ payload }) {
     const { address } = payload
     const user = (yield select(S.getUserData)).getOrElse({})
     const { address: prevAddress } = user
@@ -316,13 +316,13 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(fetchUser)
   }
 
-  const syncUserWithWallet = function*() {
+  const syncUserWithWallet = function * () {
     const retailToken = yield call(generateRetailToken)
     const userData = yield call(api.syncUserWithWallet, retailToken)
     yield put(A.fetchUserDataSuccess(userData))
   }
 
-  const fetchUserCampaigns = function*() {
+  const fetchUserCampaigns = function * () {
     try {
       yield put(A.fetchUserCampaignsLoading())
       yield call(waitForUserData)
@@ -333,7 +333,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchTiers = function*() {
+  const fetchTiers = function * () {
     try {
       yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
@@ -351,7 +351,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareWalletAddressesWithExchange = function*() {
+  const shareWalletAddressesWithExchange = function * () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
       // TODO: move to goal and pass remaining coins to saga
@@ -405,7 +405,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkFromExchangeAccount = function*({ payload }) {
+  const linkFromExchangeAccount = function * ({ payload }) {
     try {
       const { linkId } = payload
       yield put(A.linkFromExchangeAccountLoading())
@@ -430,7 +430,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToExchangeAccount = function*({ payload }) {
+  const linkToExchangeAccount = function * ({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
@@ -499,7 +499,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const pollForAccountLinkSuccess = function*(attemptCount) {
+  const pollForAccountLinkSuccess = function * (attemptCount) {
     try {
       // check every 10 seconds
       yield delay(10000)

@@ -8,13 +8,13 @@ const { BAD_2FA } = model.profile.ERROR_TYPES
 export default ({ api }) => {
   const logLocation = 'components/send/sagas'
 
-  const waitForUserData = function*() {
+  const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
     if (Remote.Success.is(userData)) return
     yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
   }
 
-  const fetchPaymentsAccountExchange = function*(action) {
+  const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
       yield call(waitForUserData)

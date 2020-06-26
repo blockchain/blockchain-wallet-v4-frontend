@@ -11,7 +11,7 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 class ManageAddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     const walletIndex = this.props.match.params.index
     return (
       <Wrapper>

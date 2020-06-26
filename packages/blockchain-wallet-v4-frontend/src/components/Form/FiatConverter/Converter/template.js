@@ -91,12 +91,12 @@ const Converter = props => {
           />
           <Unit>{currency}</Unit>
         </Container>
-        <Equals color="textBlack">=</Equals>
+        <Equals color='textBlack'>=</Equals>
         <Container>
           <TextInput
             value={coin}
             disabled={disabled}
-            placeholder="0"
+            placeholder='0'
             onBlur={handleBlur}
             onChange={handleCoinChange}
             onFocus={handleFocus}
@@ -110,11 +110,11 @@ const Converter = props => {
       {meta.touched && meta.error && (
         <Error
           errorBottom={errorBottom}
-          size="13px"
+          size='13px'
           weight={400}
-          color="error"
-          className="error"
-          data-e2e="fiatConverterError"
+          color='error'
+          className='error'
+          data-e2e='fiatConverterError'
         >
           {meta.error}
         </Error>

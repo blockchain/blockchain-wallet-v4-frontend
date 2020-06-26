@@ -9,20 +9,20 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class CaptchaBoxContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.fetchNewCaptcha = this.fetchNewCaptcha.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.fetchCaptcha()
   }
 
-  fetchNewCaptcha() {
+  fetchNewCaptcha () {
     this.props.actions.fetchCaptcha()
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({

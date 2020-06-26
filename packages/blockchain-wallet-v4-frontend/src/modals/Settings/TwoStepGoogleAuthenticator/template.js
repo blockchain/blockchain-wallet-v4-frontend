@@ -48,57 +48,57 @@ const TwoStepGoogleAuthenticator = props => {
   const { handleSubmit, googleAuthenticatorSecretUrl } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <ModalHeader onClose={closeAll}>
           <FormattedMessage
-            id="modals.twostepgoogleauthenticator.title"
-            defaultMessage="Enable Two-Step Verification"
+            id='modals.twostepgoogleauthenticator.title'
+            defaultMessage='Enable Two-Step Verification'
           />
         </ModalHeader>
         <ModalBody>
           <QRCode>
             <QRCodeWrapper value={googleAuthenticatorSecretUrl} size={256} />
           </QRCode>
-          <Text size="14px" weight={400}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
-              id="modals.twostepgoogleauthenticator.explain"
-              defaultMessage="Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android)."
+              id='modals.twostepgoogleauthenticator.explain'
+              defaultMessage='Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).'
             />
           </Text>
-          <Text size="14px" weight={400}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
-              id="modals.twostepgoogleauthenticator.explain2"
-              defaultMessage="Once scanned you will be presented with a random 6 digit number."
+              id='modals.twostepgoogleauthenticator.explain2'
+              defaultMessage='Once scanned you will be presented with a random 6 digit number.'
             />
           </Text>
           <Code>
-            <Text size="14px" weight={400}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
-                id="modals.twostepgoogleauthenticator.explain3"
-                defaultMessage="Enter that number to finish the setup process:"
+                id='modals.twostepgoogleauthenticator.explain3'
+                defaultMessage='Enter that number to finish the setup process:'
               />
             </Text>
             <Field
-              name="code"
+              name='code'
               component={TextBox}
-              placeholder="XXXXXX"
+              placeholder='XXXXXX'
               validate={[required]}
             />
           </Code>
         </ModalBody>
-        <ModalFooter align="spaced">
-          <Link size="13px" weight={400} onClick={close} capitalize>
-            <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={400} onClick={close} capitalize>
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </Link>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id="modals.twostepgoogleauthenticator.enable"
-              defaultMessage="Enable 2FA"
+              id='modals.twostepgoogleauthenticator.enable'
+              defaultMessage='Enable 2FA'
             />
           </Button>
         </ModalFooter>

@@ -30,7 +30,7 @@ class CurrencyListContainer extends React.PureComponent {
     this.props.refreshActions.refreshClicked()
   }
 
-  render() {
+  render () {
     const { data, deviceInfo, formValues, coinContexts } = this.props
 
     return deviceInfo

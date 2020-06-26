@@ -19,7 +19,7 @@ const ContentWrapper = styled.section`
   box-sizing: border-box;
 `
 class AddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <Menu />
@@ -27,13 +27,13 @@ class AddressesContainer extends React.PureComponent {
           <Switch>
             <Route
               component={BtcManage}
-              path="/settings/addresses/btc/:index"
+              path='/settings/addresses/btc/:index'
             />
-            <Route component={Btc} exact path="/settings/addresses/btc" />
-            <Route component={Bch} exact path="/settings/addresses/bch" />
-            <Route component={Eth} exact path="/settings/addresses/eth" />
-            <Route component={Xlm} exact path="/settings/addresses/xlm" />
-            <Redirect from="/settings/addresses" to="/settings/addresses/btc" />
+            <Route component={Btc} exact path='/settings/addresses/btc' />
+            <Route component={Bch} exact path='/settings/addresses/bch' />
+            <Route component={Eth} exact path='/settings/addresses/eth' />
+            <Route component={Xlm} exact path='/settings/addresses/xlm' />
+            <Redirect from='/settings/addresses' to='/settings/addresses/btc' />
           </Switch>
         </ContentWrapper>
       </Wrapper>

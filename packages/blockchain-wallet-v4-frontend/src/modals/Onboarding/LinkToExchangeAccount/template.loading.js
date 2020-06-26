@@ -48,35 +48,35 @@ const OpenNowButton = styled(Button)`
 
 const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
   return (
-    <ModalStyled size="small" dataE2e="infoModalLinkToExchangeAccountLoading">
+    <ModalStyled size='small' dataE2e='infoModalLinkToExchangeAccountLoading'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <BlockchainLoader height="80px" width="80px" />
+          <BlockchainLoader height='80px' width='80px' />
           {deeplinkToExchange ? (
             <Status style={{ marginTop: '40px ' }}>
-              <Text color="white" size="26px" weight={600}>
+              <Text color='white' size='26px' weight={600}>
                 <FormattedMessage
-                  id="modals.onboarding.linktoexchangeaccount.loading.waiting"
-                  defaultMessage="Waiting for account link"
+                  id='modals.onboarding.linktoexchangeaccount.loading.waiting'
+                  defaultMessage='Waiting for account link'
                 />
               </Text>
-              <Text color="white" size="18px" weight={500}>
+              <Text color='white' size='18px' weight={500}>
                 <FormattedMessage
-                  id="modals.onboarding.linktoexchangeaccount.loading.waitingbody"
-                  defaultMessage="If a new browser tab did not open, try clicking the button below."
+                  id='modals.onboarding.linktoexchangeaccount.loading.waitingbody'
+                  defaultMessage='If a new browser tab did not open, try clicking the button below.'
                 />
               </Text>
-              <OpenNowButton nature="purple" height="56px" fullwidth>
+              <OpenNowButton nature='purple' height='56px' fullwidth>
                 <Link
                   href={deeplinkToExchange}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
-                  <Text color="white" size="16px" weight={500}>
+                  <Text color='white' size='16px' weight={500}>
                     <FormattedMessage
-                      id="modals.onboarding.linktoexchangeaccount.loading.openhere-1"
-                      defaultMessage="Open the Exchange"
+                      id='modals.onboarding.linktoexchangeaccount.loading.openhere-1'
+                      defaultMessage='Open the Exchange'
                     />
                   </Text>
                 </Link>
@@ -84,16 +84,16 @@ const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
             </Status>
           ) : (
             <Status>
-              <Text color="white" size="26px" weight={600}>
+              <Text color='white' size='26px' weight={600}>
                 <FormattedMessage
-                  id="modals.onboarding.linktoexchangeaccount.loading.title-1"
-                  defaultMessage="Taking you to the Exchange"
+                  id='modals.onboarding.linktoexchangeaccount.loading.title-1'
+                  defaultMessage='Taking you to the Exchange'
                 />
               </Text>
-              <Text color="white" size="18px" weight={500}>
+              <Text color='white' size='18px' weight={500}>
                 <FormattedMessage
-                  id="modals.onboarding.linktoexchangeaccount.loading.sub"
-                  defaultMessage="A new browser tab will open shortly where you can complete account linking."
+                  id='modals.onboarding.linktoexchangeaccount.loading.sub'
+                  defaultMessage='A new browser tab will open shortly where you can complete account linking.'
                 />
               </Text>
             </Status>

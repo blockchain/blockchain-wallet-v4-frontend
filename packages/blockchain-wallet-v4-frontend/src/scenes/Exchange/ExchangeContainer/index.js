@@ -6,15 +6,15 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 export class ExchangeContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.ratesActions.fetchAvailablePairs()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.clearSubscriptions()
   }
 
-  render() {
+  render () {
     const { from, to, fix, amount } = this.props
     return <ExchangeForm {...{ from, to, fix, amount }} />
   }

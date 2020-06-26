@@ -32,44 +32,44 @@ const WarningBanner = styled(Banner)`
 `
 
 class ShowXPubContainer extends Component {
-  render() {
+  render () {
     const { position, closeAll, total, xpub } = this.props
 
     return (
-      <Modal size="large" position={position} total={total}>
-        <ModalHeader icon="lock" onClose={closeAll}>
+      <Modal size='large' position={position} total={total}>
+        <ModalHeader icon='lock' onClose={closeAll}>
           <FormattedMessage
-            id="modals.wallet.showxpub.title"
-            defaultMessage="Extended Public Key"
+            id='modals.wallet.showxpub.title'
+            defaultMessage='Extended Public Key'
           />
         </ModalHeader>
         <ModalBody>
-          <WarningBanner type="warning">
-            <Text size="13px" color="error">
+          <WarningBanner type='warning'>
+            <Text size='13px' color='error'>
               <FormattedMessage
-                id="modals.wallet.showxpub.warning"
+                id='modals.wallet.showxpub.warning'
                 defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this key can keep track of your payments and may be able to disrupt access to your wallet."
               />
             </Text>
           </WarningBanner>
           <Content>
-            <XPubText size="12px" weight="300" data-e2e="walletXpub">
+            <XPubText size='12px' weight='300' data-e2e='walletXpub'>
               {xpub}
             </XPubText>
             <QRCodeWrapper
               value={xpub}
               size={150}
-              data-e2e="walletXpubQrCode"
+              data-e2e='walletXpubQrCode'
             />
           </Content>
         </ModalBody>
-        <ModalFooter align="right">
+        <ModalFooter align='right'>
           <Button
-            nature="primary"
+            nature='primary'
             onClick={closeAll}
-            data-e2e="closeShowXpubModalButton"
+            data-e2e='closeShowXpubModalButton'
           >
-            <FormattedMessage id="buttons.close" defaultMessage="Close" />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>

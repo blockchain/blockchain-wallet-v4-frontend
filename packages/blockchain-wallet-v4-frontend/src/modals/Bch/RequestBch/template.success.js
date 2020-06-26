@@ -77,32 +77,32 @@ const RequestBch = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <FormItem data-e2e="currencySelectDropdown">
-          <FormLabel htmlFor="coin">
+        <FormItem data-e2e='currencySelectDropdown'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
-              id="modals.sendbch.coin"
-              defaultMessage="Currency:"
+              id='modals.sendbch.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
           <Field
-            name="coin"
+            name='coin'
             component={SelectBoxCoin}
-            type="request"
+            type='request'
             validate={[required]}
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <FormItem data-e2e="receiveToWalletDropdown">
-          <FormLabel htmlFor="to">
+        <FormItem data-e2e='receiveToWalletDropdown'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
-              id="modals.requestbch.firststep.receive"
-              defaultMessage="Receive To:"
+              id='modals.requestbch.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
-            name="to"
-            coin="BCH"
+            name='to'
+            coin='BCH'
             component={SelectBoxBchAddresses}
             excludeLockbox={excludeLockbox}
             includeAll={false}
@@ -112,39 +112,39 @@ const RequestBch = props => {
       </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
-          <Banner type="info">
+          <Banner type='info'>
             {warnLockboxReceive ? (
-              <Text color="warning" size="12px">
+              <Text color='warning' size='12px'>
                 <FormattedHTMLMessage
-                  id="modals.requestbch.firststep.lockbox.confirm.warnbrowser"
-                  defaultMessage="Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk."
+                  id='modals.requestbch.firststep.lockbox.confirm.warnbrowser'
+                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                 />
               </Text>
             ) : (
               <LockboxInstructions>
                 <LockboxOpen inline>
-                  <Text color="warning" size="12px">
+                  <Text color='warning' size='12px'>
                     <FormattedHTMLMessage
-                      id="modals.requestbch.firststep.lockbox.confirmfirst"
-                      defaultMessage="Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now."
+                      id='modals.requestbch.firststep.lockbox.confirmfirst'
+                      defaultMessage='Please confirm the legacy address below on your Lockbox by opening your Bitcoin Cash app now.'
                     />
                   </Text>
-                  <Text size="12px" onClick={handleOpenLockbox}>
-                    <span className="link">
+                  <Text size='12px' onClick={handleOpenLockbox}>
+                    <span className='link'>
                       <FormattedHTMLMessage
-                        id="modals.requestbch.firststep.lockbox.clickhere"
-                        defaultMessage="Click here"
+                        id='modals.requestbch.firststep.lockbox.clickhere'
+                        defaultMessage='Click here'
                       />
                     </span>
                   </Text>
-                  <Text color="warning" size="12px">
+                  <Text color='warning' size='12px'>
                     <FormattedHTMLMessage
-                      id="modals.requestbch.firststep.lockbox.confirm2"
-                      defaultMessage="once the app has been opened."
+                      id='modals.requestbch.firststep.lockbox.confirm2'
+                      defaultMessage='once the app has been opened.'
                     />
                   </Text>
                 </LockboxOpen>
-                <Text color="warning">{legacyAddress}</Text>
+                <Text color='warning'>{legacyAddress}</Text>
               </LockboxInstructions>
             )}
           </Banner>
@@ -154,34 +154,34 @@ const RequestBch = props => {
         <QRCodeWrapper
           value={receiveAddress}
           size={125}
-          data-e2e="requestBchAddressQrCode"
+          data-e2e='requestBchAddressQrCode'
         />
       </QRCodeContainer>
       <FormGroup>
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id="modals.requestbch.address"
-              defaultMessage="Address:"
+              id='modals.requestbch.address'
+              defaultMessage='Address:'
             />
           </FormLabel>
           <AddressContainer>
             <CopyClipboard
               address={receiveAddress}
-              data-e2e="requestBch"
-              coin="BCH"
+              data-e2e='requestBch'
+              coin='BCH'
             />
           </AddressContainer>
         </FormItem>
       </FormGroup>
       <Button
-        type="submit"
-        nature="primary"
+        type='submit'
+        nature='primary'
         fullwidth
         disabled={submitting || invalid}
-        data-e2e="requestBchDoneButton"
+        data-e2e='requestBchDoneButton'
       >
-        <FormattedMessage id="buttons.done" defaultMessage="Done" />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

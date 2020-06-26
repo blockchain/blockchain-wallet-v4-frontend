@@ -15,14 +15,14 @@ const SendHeader = styled(ModalHeader)`
 `
 
 const SendBch = props => (
-  <Modal size="medium" position={props.position} total={props.total}>
-    <SendHeader icon="send" onClose={props.closeAll}>
+  <Modal size='medium' position={props.position} total={props.total}>
+    <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage
-        id="modals.sendbch.title"
-        defaultMessage="Send Bitcoin Cash"
+        id='modals.sendbch.title'
+        defaultMessage='Send Bitcoin Cash'
       />
     </SendHeader>
-    <Announcements type="service" alertArea="send" currentCoin="BCH" />
+    <Announcements type='service' alertArea='send' currentCoin='BCH' />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )

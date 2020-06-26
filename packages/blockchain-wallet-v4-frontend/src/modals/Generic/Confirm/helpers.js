@@ -9,48 +9,48 @@ export const selectTitle = title => {
     case C.BITPAY_CONFIRM_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title/bitpay"
+          id='modals.confirm.title/bitpay'
           defaultMessage="You've Entered a BitPay URL"
         />
       )
     case C.VERIFY_IDENTITY_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title.verify_identity"
-          defaultMessage="Verify Your Identity"
+          id='modals.confirm.title.verify_identity'
+          defaultMessage='Verify Your Identity'
         />
       )
     case C.PHONE_CALL_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title.phone_call"
-          defaultMessage="Trade In Progress"
+          id='modals.confirm.title.phone_call'
+          defaultMessage='Trade In Progress'
         />
       )
     case C.CONFIRM_DELETE_LOCKBOX_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title.lockbox"
-          defaultMessage="Unpair Device"
+          id='modals.confirm.title.lockbox'
+          defaultMessage='Unpair Device'
         />
       )
     case C.ARCHIVE_VULNERABLE_ADDRESS_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title.archive_address"
-          defaultMessage="Archive Vulnerable Address"
+          id='modals.confirm.title.archive_address'
+          defaultMessage='Archive Vulnerable Address'
         />
       )
     case C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE:
       return (
         <FormattedMessage
-          id="modals.confirm.title.lockbox_software_download"
-          defaultMessage="Lockbox Software Download"
+          id='modals.confirm.title.lockbox_software_download'
+          defaultMessage='Lockbox Software Download'
         />
       )
     default:
       return (
-        <FormattedMessage id="modals.confirm.title" defaultMessage="Confirm" />
+        <FormattedMessage id='modals.confirm.title' defaultMessage='Confirm' />
       )
   }
 }
@@ -60,37 +60,37 @@ export const selectMessage = (message, values) => {
     case C.BITPAY_CONFIRM_MSG:
       return (
         <FormattedMessage
-          id="modals.confirm.message.bitpay"
-          defaultMessage="Click OK to autopopulate your BitPay invoice payment information."
+          id='modals.confirm.message.bitpay'
+          defaultMessage='Click OK to autopopulate your BitPay invoice payment information.'
         />
       )
     case C.VERIFY_IDENTITY_MSG:
       return (
         <FormattedMessage
-          id="modals.confirm.message.verify_identity"
-          defaultMessage="Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process."
+          id='modals.confirm.message.verify_identity'
+          defaultMessage='Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.'
         />
       )
     case C.PHONE_CALL_MSG:
       return (
         <Fragment>
-          <Text size="18px">
+          <Text size='18px'>
             <FormattedMessage
-              id="modals.confirm.message.phone_call"
-              defaultMessage="Would you like to speed up the process?"
+              id='modals.confirm.message.phone_call'
+              defaultMessage='Would you like to speed up the process?'
             />
           </Text>
-          <Text size="14px" weight={400}>
+          <Text size='14px' weight={400}>
             <br />
             <FormattedMessage
-              id="modals.confirm.message.phone_call_1"
-              defaultMessage="You can receive your funds in only 3 business days by a quick and painless phone call to verify your identity."
+              id='modals.confirm.message.phone_call_1'
+              defaultMessage='You can receive your funds in only 3 business days by a quick and painless phone call to verify your identity.'
             />
             <br />
             <br />
             <FormattedHTMLMessage
-              id="modals.confirm.message.phone_call_2"
-              defaultMessage="If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>."
+              id='modals.confirm.message.phone_call_2'
+              defaultMessage='If this sounds good to you, you will receive a call within the next 24 hours to <b>{smsNumber}</b>.'
               values={values}
             />
           </Text>
@@ -99,23 +99,23 @@ export const selectMessage = (message, values) => {
     case C.CONFIRM_DELETE_LOCKBOX_MESSAGE:
       return (
         <FormattedMessage
-          id="modals.confirm.message.lockbox"
-          defaultMessage="Are you sure you want to unpair your device? You will lose all balance, transaction, and account data."
+          id='modals.confirm.message.lockbox'
+          defaultMessage='Are you sure you want to unpair your device? You will lose all balance, transaction, and account data.'
         />
       )
     case C.ARCHIVE_VULNERABLE_ADDRESS_MSG:
       return (
         <FormattedMessage
-          id="modals.confirm.title.archive_address_msg"
-          defaultMessage="A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}."
+          id='modals.confirm.title.archive_address_msg'
+          defaultMessage='A security issue effects address {addr}. Please Archive it, and if you continue to have issues contact {support}.'
           values={{
             addr: prop('vulnerableAddress', values),
             support: (
               <Link
-                size="16px"
+                size='16px'
                 weight={500}
-                target="_blank"
-                href="https://support.blockchain.com"
+                target='_blank'
+                href='https://support.blockchain.com'
               >
                 support
               </Link>
@@ -126,15 +126,15 @@ export const selectMessage = (message, values) => {
     case C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG:
       return (
         <FormattedMessage
-          id="modals.confirm.message.lockbox_software_download"
-          defaultMessage="The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions."
+          id='modals.confirm.message.lockbox_software_download'
+          defaultMessage='The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions.'
         />
       )
     default:
       return (
         <FormattedMessage
-          id="modals.confirm.message"
-          defaultMessage="Please confirm."
+          id='modals.confirm.message'
+          defaultMessage='Please confirm.'
         />
       )
   }
@@ -145,19 +145,19 @@ export const selectCancel = message => {
     case C.CANCEL_VERIFY_IDENTITY:
       return (
         <FormattedMessage
-          id="modals.confirm.cancel.verify_identity"
+          id='modals.confirm.cancel.verify_identity'
           defaultMessage="I'll Do This Later"
         />
       )
     case C.CANCEL_PHONE_CALL:
       return (
         <FormattedMessage
-          id="modals.confirm.cancel.phone_call"
-          defaultMessage="No, Thanks"
+          id='modals.confirm.cancel.phone_call'
+          defaultMessage='No, Thanks'
         />
       )
     default:
-      return <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+      return <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
   }
 }
 
@@ -166,25 +166,25 @@ export const selectConfirm = message => {
     case C.CONFIRM_VERIFY_IDENTITY:
       return (
         <FormattedMessage
-          id="modals.confirm.confirm.verify_identity"
-          defaultMessage="Verify My Identity"
+          id='modals.confirm.confirm.verify_identity'
+          defaultMessage='Verify My Identity'
         />
       )
     case C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM:
       return (
         <FormattedMessage
-          id="modals.confirm.title.archive_address_confirm"
-          defaultMessage="Archive Address"
+          id='modals.confirm.title.archive_address_confirm'
+          defaultMessage='Archive Address'
         />
       )
     case C.CONFIRM_PHONE_CALL:
       return (
         <FormattedMessage
-          id="modals.confirm.confirm.phone_call"
-          defaultMessage="Give Me A Call"
+          id='modals.confirm.confirm.phone_call'
+          defaultMessage='Give Me A Call'
         />
       )
     default:
-      return <FormattedMessage id="modals.confirm.button" defaultMessage="OK" />
+      return <FormattedMessage id='modals.confirm.button' defaultMessage='OK' />
   }
 }

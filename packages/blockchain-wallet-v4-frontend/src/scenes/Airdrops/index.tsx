@@ -34,11 +34,11 @@ export const MainTitle = styled(Text)`
 `
 
 class Airdrops extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.profileActions.fetchUserCampaigns()
   }
 
-  render() {
+  render () {
     const { data, hasEmail } = this.props
     const userData = this.props.data.getOrElse({
       kycState: 'NONE'
@@ -54,11 +54,11 @@ class Airdrops extends React.PureComponent<Props> {
             {...this.props}
             userDoesNotExistYet
             userCampaignsInfoResponseList={[]}
-            kycState="NONE"
+            kycState='NONE'
             tags={{}}
           />
         ) : (
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             Oops. Something went wrong and we don't know why.{' '}
             <b>Here's the error: {e.type}</b>
           </Text>
@@ -70,14 +70,14 @@ class Airdrops extends React.PureComponent<Props> {
       NotAsked: () => <Text weight={500}>Loading...</Text>,
       Failure: e =>
         e.type === 'INVALID_CREDENTIALS' ? (
-          <Text weight={500} size="12px">
+          <Text weight={500} size='12px'>
             <FormattedMessage
-              id="scenes.airdrops.upgradetoview"
-              defaultMessage="Please upgrade to view past airdrops."
+              id='scenes.airdrops.upgradetoview'
+              defaultMessage='Please upgrade to view past airdrops.'
             />
           </Text>
         ) : (
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             Oops. Something went wrong and we don't know why.{' '}
             <b>Here's the error: {e.type}</b>
           </Text>
@@ -88,29 +88,29 @@ class Airdrops extends React.PureComponent<Props> {
       <Wrapper>
         <SceneHeader>
           <IconBackground>
-            <Icon name="parachute" color="blue600" size="24px" />
+            <Icon name='parachute' color='blue600' size='24px' />
           </IconBackground>
           <SceneHeaderText>
             <FormattedMessage
-              id="scenes.airdrops.header"
-              defaultMessage="Airdrops"
+              id='scenes.airdrops.header'
+              defaultMessage='Airdrops'
             />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
           <FormattedMessage
-            id="scenes.airdrops.blockchain.safest"
-            defaultMessage="The safest and easiest way to try and discover new crypto."
+            id='scenes.airdrops.blockchain.safest'
+            defaultMessage='The safest and easiest way to try and discover new crypto.'
           />
         </SceneSubHeaderText>
         {AirdropCards}
         {userData.kycState === 'VERIFIED' && (
           <React.Fragment>
             <History>
-              <MainTitle size="24px" color="grey800" weight={600}>
+              <MainTitle size='24px' color='grey800' weight={600}>
                 <FormattedMessage
-                  id="scenes.airdrops.pastairdrops"
-                  defaultMessage="Past Airdrops"
+                  id='scenes.airdrops.pastairdrops'
+                  defaultMessage='Past Airdrops'
                 />
               </MainTitle>
             </History>

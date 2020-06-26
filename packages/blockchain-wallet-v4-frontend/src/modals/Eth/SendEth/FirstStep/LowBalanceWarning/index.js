@@ -33,33 +33,33 @@ const LowBalanceWarning = props => {
       <WarningWrapper>
         <WarningLeftColumn>
           <Text
-            size="14px"
+            size='14px'
             weight={500}
-            color="orange600"
-            data-e2e="runningLowMessage"
+            color='orange600'
+            data-e2e='runningLowMessage'
           >
             <FormattedMessage
-              id="modals.sendeth.lowbalancewarning.title"
-              defaultMessage="Running low!"
+              id='modals.sendeth.lowbalancewarning.title'
+              defaultMessage='Running low!'
             />
           </Text>
-          <Text size="13px" weight={400}>
+          <Text size='13px' weight={400}>
             <FormattedMessage
-              id="modals.sendeth.lowbalancewarning.explain1"
+              id='modals.sendeth.lowbalancewarning.explain1'
               defaultMessage="You'll need ETH to send your ERC20 Token, USD Digital."
             />
           </Text>
         </WarningLeftColumn>
         <WarningRightColumn>
           <Link
-            size="13px"
+            size='13px'
             weight={500}
-            href="https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ"
-            target="_blank"
+            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
+            target='_blank'
           >
             <FormattedMessage
-              id="buttons.learn_more"
-              defaultMessage="Learn More"
+              id='buttons.learn_more'
+              defaultMessage='Learn More'
             />
           </Link>
         </WarningRightColumn>

@@ -35,13 +35,13 @@ const Success = ({
   return (
     <Wrapper>
       <Text
-        size="12px"
+        size='12px'
         color={priceChange >= 0 ? 'green600' : 'red600'}
         weight={500}
       >
         {buildPriceDisplay(currency, priceChange, pricePercentageChange)}
       </Text>
-      <Text size="12px" color="grey300" weight={500}>
+      <Text size='12px' color='grey300' weight={500}>
         {getPriceChartTime(priceChartTime)}
       </Text>
     </Wrapper>

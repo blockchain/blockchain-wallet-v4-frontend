@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 export default () => {
   return (
     <Wrapper>
-      <FlatLoader2 width="100px" height="100px" />
+      <FlatLoader2 width='100px' height='100px' />
     </Wrapper>
   )
 }

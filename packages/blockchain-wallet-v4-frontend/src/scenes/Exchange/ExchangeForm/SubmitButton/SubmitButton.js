@@ -25,7 +25,7 @@ const BigButton = styled(Button)`
 `
 
 class SubmitButton extends React.PureComponent {
-  render() {
+  render () {
     const {
       blockLockbox,
       disabled,
@@ -44,8 +44,8 @@ class SubmitButton extends React.PureComponent {
     return (
       <ButtonRow>
         <BigButton
-          data-e2e="exchangeSubmitButton"
-          nature="primary"
+          data-e2e='exchangeSubmitButton'
+          nature='primary'
           fullwidth
           onClick={handleSubmit}
           disabled={
@@ -62,11 +62,11 @@ class SubmitButton extends React.PureComponent {
         >
           {!disabled && !asyncValidating && !submitting ? (
             <FormattedMessage
-              id="scenes.exchange.exchangeform.exchange"
-              defaultMessage="Exchange"
+              id='scenes.exchange.exchangeform.exchange'
+              defaultMessage='Exchange'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </BigButton>
       </ButtonRow>

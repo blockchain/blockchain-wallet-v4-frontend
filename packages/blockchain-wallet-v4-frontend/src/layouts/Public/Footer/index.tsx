@@ -13,10 +13,10 @@ const V = APP_VERSION
 const Footer = () => (
   <VersionWrapper>
     <Link
-      color="whiteFade600"
-      href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
-      size="14px"
-      target="_blank"
+      color='whiteFade600'
+      href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
+      size='14px'
+      target='_blank'
       weight={500}
     >
       Version {V}

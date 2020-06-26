@@ -19,7 +19,7 @@ import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
@@ -41,7 +41,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
     this.props.interestActions.initializeWithdrawalForm('BTC')
   }
 
-  render() {
+  render () {
     const { data } = this.props
     return data.cata({
       Success: val => (

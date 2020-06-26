@@ -57,7 +57,7 @@ const sumBalance = compose(
 export default ({ api, networks }: { api: APIType; networks: any }) => {
   const { fetchSBOrders } = simpleBuySagas({ api })
 
-  const fetchLedgerDetails = function*() {
+  const fetchLedgerDetails = function * () {
     try {
       yield put(A.setLedgerDetailsLoading())
       const ledger = yield call(api.getLatestLedgerDetails)
@@ -67,7 +67,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const createAccounts = function*() {
+  const createAccounts = function * () {
     if (networks.xlm !== 'testnet') return
     try {
       const accountIds = yield select(S.getContext)
@@ -76,7 +76,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     } catch (e) {}
   }
 
-  const fetchAccount = function*(id) {
+  const fetchAccount = function * (id) {
     try {
       yield put(A.fetchAccountLoading(id))
       const account = yield call(api.getXlmAccount, id)
@@ -86,7 +86,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const fetchData = function*() {
+  const fetchData = function * () {
     const accountIds = yield select(S.getContext)
     yield all(accountIds.map(id => call(fetchAccount, id)))
     const accounts = yield select(S.getAccounts)
@@ -94,7 +94,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     yield put(A.fetchDataSuccess(data))
   }
 
-  const fetchRates = function*() {
+  const fetchRates = function * () {
     try {
       yield put(A.setRatesLoading())
       const data = yield call(api.getXlmTicker)
@@ -104,7 +104,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const fetchTransactions = function*(action) {
+  const fetchTransactions = function * (action) {
     try {
       const { payload } = action
       const { accountId, reset } = payload
@@ -157,7 +157,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const fetchTransactionHistory = function*({ payload }) {
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
     let pagingToken
 
@@ -197,7 +197,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const __processReportTxs = function*(rawTxList, startDate, endDate) {
+  const __processReportTxs = function * (rawTxList, startDate, endDate) {
     const mapIndexed = addIndex(map)
     const fullTxList = yield call(__processTxs, rawTxList)
     const xlmMarketData = (yield select(
@@ -277,7 +277,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }, prunedTxList)
   }
 
-  const __processTxs = function*(txList) {
+  const __processTxs = function * (txList) {
     const walletAccounts = (yield select(getAccounts)).getOrElse([])
     const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
     const txNotes = (yield select(getXlmTxNotes)).getOrElse({})

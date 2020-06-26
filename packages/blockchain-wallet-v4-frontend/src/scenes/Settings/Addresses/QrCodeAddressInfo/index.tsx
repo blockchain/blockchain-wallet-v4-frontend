@@ -78,50 +78,50 @@ const QrCodeAddressInfo = ({
       {isEth && isLegacy ? (
         showLegacyTitle ? (
           <DetailColTitle>
-            <DetailRowText color="blue600" size="16px" weight={500}>
+            <DetailRowText color='blue600' size='16px' weight={500}>
               <FormattedMessage
-                id="scenes.settings.addresses.eth.legacy"
-                defaultMessage="Legacy Address Info"
+                id='scenes.settings.addresses.eth.legacy'
+                defaultMessage='Legacy Address Info'
               />
             </DetailRowText>
           </DetailColTitle>
         ) : (
           <DetailColTitle>
-            <DetailRowText color="blue600" size="16px" weight={500}>
+            <DetailRowText color='blue600' size='16px' weight={500}>
               <FormattedMessage
-                id="scenes.settings.addresses.eth.address"
-                defaultMessage="Address Info"
+                id='scenes.settings.addresses.eth.address'
+                defaultMessage='Address Info'
               />
             </DetailRowText>
           </DetailColTitle>
         )
       ) : null}
       <DetailColumn>
-        <DetailRowText color="grey600" size="12px" weight={500}>
-          <FormattedMessage id="copy.balance" defaultMessage="Balance" />
+        <DetailRowText color='grey600' size='12px' weight={500}>
+          <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </DetailRowText>
-        <CoinDisplay coin={coin} size="14px" weight={600}>
+        <CoinDisplay coin={coin} size='14px' weight={600}>
           {balance}
         </CoinDisplay>
       </DetailColumn>
       <DetailColumn>
-        <DetailRowText color="grey600" size="12px" weight={500}>
-          <FormattedMessage id="copy.address" defaultMessage="Address" />
+        <DetailRowText color='grey600' size='12px' weight={500}>
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
 
-        <DataRowText size="14px" weight={600} data-e2e="xlmPrivateKeyAddress">
+        <DataRowText size='14px' weight={600} data-e2e='xlmPrivateKeyAddress'>
           {addr}
         </DataRowText>
       </DetailColumn>
       <DetailColumn>
-        <DetailRowText color="grey600" size="12px" weight={500}>
+        <DetailRowText color='grey600' size='12px' weight={500}>
           <FormattedMessage
-            id="copy.private_key"
-            defaultMessage="Private Key"
+            id='copy.private_key'
+            defaultMessage='Private Key'
           />
         </DetailRowText>
 
-        <DataRowText size="14px" weight={600} data-e2e="xlmPrivateKeyPrivKey">
+        <DataRowText size='14px' weight={600} data-e2e='xlmPrivateKeyPrivKey'>
           {priv}
         </DataRowText>
       </DetailColumn>

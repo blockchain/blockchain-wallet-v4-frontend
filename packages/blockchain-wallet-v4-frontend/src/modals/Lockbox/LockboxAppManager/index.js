@@ -15,14 +15,14 @@ class LockboxAppManagerModal extends React.PureComponent {
     this.props.closeAll()
   }
 
-  render() {
+  render () {
     const { deviceIndex, position, total } = this.props
     return (
-      <Modal size="small" position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <ModalHeader onClose={this.onClose}>
           <FormattedMessage
-            id="modals.lockbox.appmanager.title"
-            defaultMessage="App Manager"
+            id='modals.lockbox.appmanager.title'
+            defaultMessage='App Manager'
           />
         </ModalHeader>
         <ModalBody style={{ padding: '18px' }}>
@@ -30,8 +30,8 @@ class LockboxAppManagerModal extends React.PureComponent {
             deviceIndex={deviceIndex}
             mainButtonText={
               <FormattedMessage
-                id="modals.lockbox.appmanager.close"
-                defaultMessage="Close App Manager"
+                id='modals.lockbox.appmanager.close'
+                defaultMessage='Close App Manager'
               />
             }
             onClose={this.onClose}

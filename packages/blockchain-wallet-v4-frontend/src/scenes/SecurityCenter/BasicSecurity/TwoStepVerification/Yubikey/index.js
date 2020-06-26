@@ -8,7 +8,7 @@ import React from 'react'
 import Success from './template.success'
 
 class YubikeyContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       updateToggled: false,
@@ -20,7 +20,7 @@ class YubikeyContainer extends React.PureComponent {
     this.handleInput = this.handleInput.bind(this)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -29,24 +29,24 @@ class YubikeyContainer extends React.PureComponent {
       this.props.goBackOnSuccess()
     }
   }
-  handleUpdate() {
+  handleUpdate () {
     this.setState({ successToggled: true })
   }
 
-  handleClick() {
+  handleClick () {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }
 
-  handleInput(e) {
+  handleInput (e) {
     e.preventDefault()
     this.setState({ yubikeyCode: e.target.value })
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
 
     return data.cata({

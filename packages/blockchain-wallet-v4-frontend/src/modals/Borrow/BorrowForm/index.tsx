@@ -18,7 +18,7 @@ import Success from './template.success'
 class BorrowForm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
@@ -33,7 +33,7 @@ class BorrowForm extends PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     const { data } = this.props
     return data.cata({
       Success: val => (

@@ -31,11 +31,11 @@ const NavbarStyled = styled(Navbar)`
 
 const Large: React.FC<Props> = props => {
   return (
-    <NavbarStyled height="60px">
+    <NavbarStyled height='60px'>
       <NavbarHeader>
         <NavbarBrand>
-          <NavLink to="/home" data-e2e="homeLink">
-            <BlockchainLogoImage name="blockchain-logo" />
+          <NavLink to='/home' data-e2e='homeLink'>
+            <BlockchainLogoImage name='blockchain-logo' />
           </NavLink>
         </NavbarBrand>
       </NavbarHeader>

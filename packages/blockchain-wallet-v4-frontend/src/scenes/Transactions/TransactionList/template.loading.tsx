@@ -18,29 +18,29 @@ const LoadingTxSkeleton = styled.div`
   }
 `
 const Loading = () => (
-  <LoadingSkeleton height="450px" width="100%" bgColor="white">
+  <LoadingSkeleton height='450px' width='100%' bgColor='white'>
     <LoadingTxSkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="grey000" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='grey000' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="grey100"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
     <LoadingTxSkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="grey000" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='grey000' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="grey100"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
     <LoadingTxSkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="grey000" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='grey000' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="grey100"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='grey100'
       />
     </LoadingTxSkeleton>
   </LoadingSkeleton>

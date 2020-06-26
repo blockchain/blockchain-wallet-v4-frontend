@@ -8,27 +8,27 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 class MobileNumberVerifyContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleResend = this.handleResend.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.settingsActions.verifyMobile(this.props.code)
   }
 
-  handleResend() {
+  handleResend () {
     this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
-  handleChange() {
+  handleChange () {
     this.props.modalActions.closeModal()
     this.props.modalActions.showModal('MobileNumberChange')
   }
 
-  render() {
+  render () {
     return (
       <MobileNumberVerify
         {...this.props}

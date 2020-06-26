@@ -143,7 +143,7 @@ export const Control = props => {
     props.selectProps.menuIsOpen ? null : (
     <components.Control {...props}>
       {props.children}
-      <AssistiveControl role="button" />
+      <AssistiveControl role='button' />
     </components.Control>
   )
 }
@@ -226,7 +226,7 @@ const SelectInput = props => {
       <StyledSelect
         borderColor={selectBorderColor(errorState)}
         className={className}
-        classNamePrefix="bc"
+        classNamePrefix='bc'
         components={{
           Option,
           ValueContainer,

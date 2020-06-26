@@ -29,7 +29,7 @@ type LinkStatePropsType = {
 export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class NavigationContainer extends React.PureComponent<Props> {
-  render() {
+  render () {
     const { domains } = this.props
 
     return (

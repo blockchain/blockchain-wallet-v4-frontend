@@ -37,8 +37,8 @@ export const validateCreditCardExpiry = (value: string) => {
   if (!value.match(regex)) {
     return (
       <FormattedMessage
-        id="formhelper.invalid_expiry_date"
-        defaultMessage="Invalid Expiry Date"
+        id='formhelper.invalid_expiry_date'
+        defaultMessage='Invalid Expiry Date'
       />
     )
   }
@@ -46,8 +46,8 @@ export const validateCreditCardExpiry = (value: string) => {
   if (Number(value.split('/')[0]) > 12) {
     return (
       <FormattedMessage
-        id="formhelper.invalid_expiry_date"
-        defaultMessage="Invalid Expiry Date"
+        id='formhelper.invalid_expiry_date'
+        defaultMessage='Invalid Expiry Date'
       />
     )
   }
@@ -55,8 +55,8 @@ export const validateCreditCardExpiry = (value: string) => {
   if (moment(value, 'MM/YY') < moment()) {
     return (
       <FormattedMessage
-        id="formhelper.card_expired"
-        defaultMessage="Card Expired"
+        id='formhelper.card_expired'
+        defaultMessage='Card Expired'
       />
     )
   }

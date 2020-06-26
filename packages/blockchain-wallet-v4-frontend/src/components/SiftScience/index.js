@@ -13,7 +13,7 @@ const SiftScienceIframe = styled.iframe`
 `
 
 class SiftScience extends Component {
-  componentDidMount() {
+  componentDidMount () {
     let receiveMessage = e => {
       // const helperDomain = path(
       //   ['domains', 'walletHelper'],
@@ -34,7 +34,7 @@ class SiftScience extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  render() {
+  render () {
     const { options, userId, sessionId = '', siftKey } = this.props
 
     if (!userId) {
@@ -46,7 +46,7 @@ class SiftScience extends Component {
     // reverse sift-science
     let url = `${helperDomain}/wallet-helper/ecneics-tfis/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
     return (
-      <SiftScienceIframe src={url} scrolling="no" id="sift-science-iframe" />
+      <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />
     )
   }
 }

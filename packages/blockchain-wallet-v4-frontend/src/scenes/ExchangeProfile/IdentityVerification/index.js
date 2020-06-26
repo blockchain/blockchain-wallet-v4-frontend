@@ -125,24 +125,24 @@ const GoBackLink = styled.div`
 const IdentityVerification = () => {
   return (
     <Wrapper>
-      <LinkContainer to="/swap">
+      <LinkContainer to='/swap'>
         <GoBackLink>
-          <Icon name="chevron-down-large" color="blue600" />
+          <Icon name='chevron-down-large' color='blue600' />
         </GoBackLink>
       </LinkContainer>
       <Container>
         <Row>
           <Column>
-            <SwapText size="32px" color="marketing-secondary">
+            <SwapText size='32px' color='marketing-secondary'>
               <FormattedMessage
-                id="scenes.exchange.exchangeprofile.pagetitle"
-                defaultMessage="Blockchain Swap"
+                id='scenes.exchange.exchangeprofile.pagetitle'
+                defaultMessage='Blockchain Swap'
               />
             </SwapText>
             <SwapText>
               <FormattedMessage
-                id="scenes.exchange.exchangeprofile.explaination"
-                defaultMessage="Get verified and trade crypto in minutes."
+                id='scenes.exchange.exchangeprofile.explaination'
+                defaultMessage='Get verified and trade crypto in minutes.'
               />
             </SwapText>
           </Column>
@@ -153,22 +153,22 @@ const IdentityVerification = () => {
           </TierWrapper>
           <TierWrapper>
             <TierCard tier={2} column />
-            <TooltipHost id="swaplimit.airdrops.tooltip" data-place="right">
+            <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
               <TooltipIcon
-                size="24px"
-                name="question-in-circle-filled"
-                color="grey200"
+                size='24px'
+                name='question-in-circle-filled'
+                color='grey200'
               />
             </TooltipHost>
           </TierWrapper>
         </TierRow>
         <SecurityColumn>
-          <Icon name="lock" size="32px" />
+          <Icon name='lock' size='32px' />
           <Text weight={400}>
             <FormattedMessage
-              id="scenes.exchange.exchangeprofile.encryption"
-              defaultMessage="Your information is kept safe with bank level security
-  and 256 bit encryption."
+              id='scenes.exchange.exchangeprofile.encryption'
+              defaultMessage='Your information is kept safe with bank level security
+  and 256 bit encryption.'
             />
           </Text>
         </SecurityColumn>

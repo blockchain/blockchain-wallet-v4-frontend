@@ -32,45 +32,45 @@ const DownloadButton = styled(IconButton)`
 const Menu = ({ downloadHistory, showGetStarted, showDownloadBtn }) =>
   !showGetStarted ? (
     <Wrapper>
-      <Announcements type="service" alertArea="swap" />
+      <Announcements type='service' alertArea='swap' />
       <HorizontalMenu>
         <ButtonRow>
           <TabMenu>
-            <LinkContainer to="/swap" exact>
+            <LinkContainer to='/swap' exact>
               <TabMenuItem
-                activeClassName="active"
-                data-e2e="exchangeTabMenuExchange"
+                activeClassName='active'
+                data-e2e='exchangeTabMenuExchange'
               >
                 <FormattedMessage
-                  id="scenes.exchange.menutop.swap"
-                  defaultMessage="Swap"
+                  id='scenes.exchange.menutop.swap'
+                  defaultMessage='Swap'
                 />
               </TabMenuItem>
             </LinkContainer>
-            <LinkContainer to="/swap/history">
+            <LinkContainer to='/swap/history'>
               <TabMenuItem
-                activeClassName="active"
-                data-e2e="exchangeTabMenuOrderHistory"
+                activeClassName='active'
+                data-e2e='exchangeTabMenuOrderHistory'
               >
                 <FormattedMessage
-                  id="scenes.exchange.menutop.history"
-                  defaultMessage="Order History"
+                  id='scenes.exchange.menutop.history'
+                  defaultMessage='Order History'
                 />
               </TabMenuItem>
             </LinkContainer>
           </TabMenu>
           {showDownloadBtn && (
             <DownloadButton
-              data-e2e="generateSwapReport"
-              height="45px"
-              width="135"
-              name="download"
-              nature="light"
+              data-e2e='generateSwapReport'
+              height='45px'
+              width='135'
+              name='download'
+              nature='light'
               onClick={downloadHistory}
             >
               <FormattedMessage
-                id="scenes.exchange.menutop.download"
-                defaultMessage="Download"
+                id='scenes.exchange.menutop.download'
+                defaultMessage='Download'
               />
             </DownloadButton>
           )}

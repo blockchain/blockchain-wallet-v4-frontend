@@ -12,7 +12,7 @@ class ShowXPubsContainer extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     return <ShowXpubs onShowXPubs={this.onShowXPubs} />
   }
 }

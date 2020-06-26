@@ -27,48 +27,48 @@ class PairingCode extends React.PureComponent<Props> {
     this.props.modalActions.showModal('PairingCode', { origin: 'SettingsPage' })
   }
 
-  render() {
+  render () {
     return (
       <SettingContainer>
         <SettingSummary>
           <SettingHeader>
             <FormattedMessage
-              id="scenes.settings.general.pairingcode.title"
-              defaultMessage="Mobile App Pairing Code"
+              id='scenes.settings.general.pairingcode.title'
+              defaultMessage='Mobile App Pairing Code'
             />
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
-              id="scenes.settings.general.pairingcode.description"
+              id='scenes.settings.general.pairingcode.description'
               defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
               // altFont
               // light
             />
             <FormattedMessage
-              id="scenes.settings.general.pairingcode.description2"
-              defaultMessage="Download our mobile applications below."
+              id='scenes.settings.general.pairingcode.description2'
+              defaultMessage='Download our mobile applications below.'
             />
-            <Text size="14px" weight={400} color="error">
+            <Text size='14px' weight={400} color='error'>
               <FormattedMessage
-                id="scenes.settings.general.pairingcode.warning"
-                defaultMessage="Do not share your Pairing Code with others."
+                id='scenes.settings.general.pairingcode.warning'
+                defaultMessage='Do not share your Pairing Code with others.'
               />
             </Text>
             <BadgesContainer>
-              <Badge type="applestore" />
-              <Badge type="googleplay" />
+              <Badge type='applestore' />
+              <Badge type='googleplay' />
             </BadgesContainer>
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
           <Button
-            data-e2e="showQrCode"
-            nature="primary"
+            data-e2e='showQrCode'
+            nature='primary'
             onClick={this.onShowCode}
           >
             <FormattedMessage
-              id="scenes.settings.general.pairingcode.settings.show"
-              defaultMessage="Show Pairing Code"
+              id='scenes.settings.general.pairingcode.settings.show'
+              defaultMessage='Show Pairing Code'
             />
           </Button>
         </SettingComponent>

@@ -15,14 +15,14 @@ const Themes = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.settings.preferences.themes.title"
-            defaultMessage="Themes"
+            id='scenes.settings.preferences.themes.title'
+            defaultMessage='Themes'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.settings.preferences.themes.description"
-            defaultMessage="Try out different themes for the wallet."
+            id='scenes.settings.preferences.themes.description'
+            defaultMessage='Try out different themes for the wallet.'
           />
         </SettingDescription>
       </SettingSummary>

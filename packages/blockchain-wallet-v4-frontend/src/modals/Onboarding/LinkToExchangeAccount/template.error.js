@@ -44,25 +44,25 @@ const Status = styled.div`
 
 const LinkToExchangeAccountError = ({ close, error }) => {
   return (
-    <ModalStyled size="xsmall" dataE2e="infoModalLinkToExchangeAccountError">
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountError'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <Icon name="alert-filled" color="error" size="72px" />
+          <Icon name='alert-filled' color='error' size='72px' />
           <Status>
-            <Text color="white" size="28px" weight={600}>
+            <Text color='white' size='28px' weight={600}>
               <FormattedMessage
-                id="modals.onboarding.linktoexchangeaccount.error.title"
-                defaultMessage="Linking Error"
+                id='modals.onboarding.linktoexchangeaccount.error.title'
+                defaultMessage='Linking Error'
               />
             </Text>
-            <Text color="white" size="18px" weight={500}>
+            <Text color='white' size='18px' weight={500}>
               {error}
             </Text>
           </Status>
-          <Button nature="purple" height="56px" fullwidth onClick={close}>
-            <Text color="white" size="16px" weight={500}>
-              <FormattedMessage id="buttons.done" defaultMessage="Done" />
+          <Button nature='purple' height='56px' fullwidth onClick={close}>
+            <Text color='white' size='16px' weight={500}>
+              <FormattedMessage id='buttons.done' defaultMessage='Done' />
             </Text>
           </Button>
         </Content>

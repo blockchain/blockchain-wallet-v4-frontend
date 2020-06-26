@@ -20,7 +20,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
     restoreWindow.focus()
   }
 
-  render() {
+  render () {
     return (
       <SetupTypeStep
         handleStepChange={this.onChangeStep}

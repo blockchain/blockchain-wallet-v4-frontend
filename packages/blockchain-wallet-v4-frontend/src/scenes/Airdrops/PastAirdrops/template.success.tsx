@@ -26,7 +26,7 @@ const getQuantity = (amt, currency) => {
   }
 }
 
-export default function Success({ userCampaignsInfoResponseList }: Props) {
+export default function Success ({ userCampaignsInfoResponseList }: Props) {
   const completedCampaigns = userCampaignsInfoResponseList.filter(
     campaign => campaign.campaignState === 'ENDED'
   )
@@ -35,43 +35,43 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
     <div style={{ minWidth: '500px', paddingBottom: '45px' }}>
       <Table style={{ minWidth: '500px' }}>
         <TableHeader>
-          <TableCell width="18%">
-            <Text size="12px" color="grey600" weight={500}>
+          <TableCell width='18%'>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
-                id="scenes.pastairdrops.type"
-                defaultMessage="Type"
+                id='scenes.pastairdrops.type'
+                defaultMessage='Type'
               />
             </Text>
           </TableCell>
-          <TableCell width="18%">
-            <Text size="12px" color="grey600" weight={500}>
+          <TableCell width='18%'>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
-                id="scenes.pastairdrops.status"
-                defaultMessage="Status"
+                id='scenes.pastairdrops.status'
+                defaultMessage='Status'
               />
             </Text>
           </TableCell>
-          <TableCell width="18%">
-            <Text size="12px" color="grey600" weight={500}>
+          <TableCell width='18%'>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
-                id="scenes.pastairdrops.date"
-                defaultMessage="Date"
+                id='scenes.pastairdrops.date'
+                defaultMessage='Date'
               />
             </Text>
           </TableCell>
-          <TableCell width="18%">
-            <Text size="12px" color="grey600" weight={500}>
+          <TableCell width='18%'>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
-                id="scenes.pastairdrops.to"
-                defaultMessage="To"
+                id='scenes.pastairdrops.to'
+                defaultMessage='To'
               />
             </Text>
           </TableCell>
-          <TableCell width="28%">
-            <Text size="12px" color="grey600" weight={500}>
+          <TableCell width='28%'>
+            <Text size='12px' color='grey600' weight={500}>
               <FormattedMessage
-                id="scenes.pastairdrops.amount"
-                defaultMessage="Amount"
+                id='scenes.pastairdrops.amount'
+                defaultMessage='Amount'
               />
             </Text>
           </TableCell>
@@ -83,14 +83,14 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
               campaignTransaction => {
                 return (
                   <TableRow>
-                    <TableCell width="18%">
+                    <TableCell width='18%'>
                       <Type {...campaign} />
                     </TableCell>
-                    <TableCell width="18%">
+                    <TableCell width='18%'>
                       <Status {...campaign} />
                     </TableCell>
-                    <TableCell width="18%">
-                      <Text size="14px" weight={500}>
+                    <TableCell width='18%'>
+                      <Text size='14px' weight={500}>
                         {campaignTransaction.withdrawalAt
                           ? new Date(
                               campaignTransaction.withdrawalAt
@@ -98,11 +98,11 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
                           : '-'}
                       </Text>
                     </TableCell>
-                    <TableCell width="18%">
+                    <TableCell width='18%'>
                       <To {...campaign} />
                     </TableCell>
-                    <TableCell width="28%">
-                      <Text size="14px" weight={500}>
+                    <TableCell width='28%'>
+                      <Text size='14px' weight={500}>
                         {getQuantity(
                           campaignTransaction.withdrawalQuantity,
                           campaignTransaction.withdrawalCurrency
@@ -119,21 +119,21 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
           ) : (
             // No campaign transactions but show some info anyway
             <TableRow>
-              <TableCell width="18%">
+              <TableCell width='18%'>
                 <Type {...campaign} />
               </TableCell>
-              <TableCell width="18%">
+              <TableCell width='18%'>
                 <Status {...campaign} />
               </TableCell>
-              <TableCell width="18%">
-                <Text size="14px" weight={500}>
+              <TableCell width='18%'>
+                <Text size='14px' weight={500}>
                   -
                 </Text>
               </TableCell>
-              <TableCell width="18%">
+              <TableCell width='18%'>
                 <To {...campaign} />
               </TableCell>
-              <TableCell width="28%">
+              <TableCell width='28%'>
                 <Text>-</Text>
               </TableCell>
             </TableRow>

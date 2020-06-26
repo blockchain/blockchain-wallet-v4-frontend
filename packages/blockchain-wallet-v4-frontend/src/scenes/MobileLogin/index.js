@@ -19,7 +19,7 @@ class MobileLoginContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     return (
       <MobileLogin
         {...this.props}

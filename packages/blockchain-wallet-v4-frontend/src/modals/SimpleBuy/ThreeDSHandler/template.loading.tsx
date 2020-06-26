@@ -17,34 +17,34 @@ const Wrapper = styled(FlyoutWrapper)`
 const Loading: React.FC<Props> = ({ order, polling }) => {
   return (
     <Wrapper>
-      <SpinningLoader height="50px" width="50px" />
+      <SpinningLoader height='50px' width='50px' />
       <Text
         weight={600}
-        size="20px"
-        color="grey800"
+        size='20px'
+        color='grey800'
         style={{ marginTop: '24px' }}
       >
         {polling || order ? (
           <FormattedMessage
-            id="modals.simplebuy.gatheringinfo"
-            defaultMessage="Gathering Some Info..."
+            id='modals.simplebuy.gatheringinfo'
+            defaultMessage='Gathering Some Info...'
           />
         ) : (
           <FormattedMessage
-            id="modals.simplebuy.linking_card"
-            defaultMessage="Securely Linking Your Card"
+            id='modals.simplebuy.linking_card'
+            defaultMessage='Securely Linking Your Card'
           />
         )}
       </Text>
       <Text
         weight={600}
-        size="14px"
-        color="grey600"
+        size='14px'
+        color='grey600'
         style={{ marginTop: '20px' }}
       >
         <FormattedMessage
-          id="modals.simplebuy.linking_card.time"
-          defaultMessage="This could take up to 1 minute. Please do not close this window."
+          id='modals.simplebuy.linking_card.time'
+          defaultMessage='This could take up to 1 minute. Please do not close this window.'
         />
       </Text>
     </Wrapper>

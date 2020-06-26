@@ -50,7 +50,7 @@ const Alerts = props => {
   return (
     <Wrapper>
       <ReactCSSTransitionGroup
-        transitionName="toast"
+        transitionName='toast'
         transitionEnterTimeout={duration}
         transitionLeaveTimeout={duration}
       >

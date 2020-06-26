@@ -17,7 +17,7 @@ class ArchivedAddressesContainer extends React.PureComponent {
     this.props.coreActions.deleteLegacyAddress(address.addr)
   }
 
-  render() {
+  render () {
     const { archivedAddresses, search } = this.props
     return (
       <ArchivedAddresses

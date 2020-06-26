@@ -23,23 +23,23 @@ const Failure: React.FC<LinkDispatchPropsType> = props => {
     <Wrapper>
       <div>
         <Image
-          width="48px"
-          height="48px"
-          name="world-alert"
+          width='48px'
+          height='48px'
+          name='world-alert'
           srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
         />
-        <Title weight={600} size="20px" lineHeight="150%">
+        <Title weight={600} size='20px' lineHeight='150%'>
           <FormattedMessage
-            id="modals.simplebuy.eligible.failure"
-            defaultMessage="Oops. Something went wrong on our side. Please try again."
+            id='modals.simplebuy.eligible.failure'
+            defaultMessage='Oops. Something went wrong on our side. Please try again.'
           />
         </Title>
         <Button
           fullwidth
-          height="48px"
-          data-e2e="sbTryCurrencySelectionAgain"
-          nature="primary"
-          size="16px"
+          height='48px'
+          data-e2e='sbTryCurrencySelectionAgain'
+          nature='primary'
+          size='16px'
           onClick={() =>
             props.simpleBuyActions.setStep({
               step: 'CURRENCY_SELECTION'
@@ -47,8 +47,8 @@ const Failure: React.FC<LinkDispatchPropsType> = props => {
           }
         >
           <FormattedMessage
-            id="modals.simplebuy.eligible.tryagain"
-            defaultMessage="Try Again"
+            id='modals.simplebuy.eligible.tryagain'
+            defaultMessage='Try Again'
           />
         </Button>
       </div>

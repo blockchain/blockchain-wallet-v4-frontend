@@ -58,11 +58,11 @@ const LockboxConnectionPrompt = props => {
   let currentStep = prop('index', CONFIRM_STEPS[step])
 
   return (
-    <Modal size="small" position={position} total={total}>
+    <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.title"
-          defaultMessage="Lockbox Connection"
+          id='modals.lockbox.connectionprompt.title'
+          defaultMessage='Lockbox Connection'
         />
       </ModalHeader>
       <ModalStepper currentStep={currentStep} totalSteps={isTx ? 3 : 2} />
@@ -71,20 +71,20 @@ const LockboxConnectionPrompt = props => {
           <Text>{CONFIRM_STEPS[step].title(appName, isTx)}</Text>
         </Title>
         <Content>
-          <Text color="grey500">
+          <Text color='grey500'>
             {CONFIRM_STEPS[step].content(appName, isTx)}
           </Text>
         </Content>
         <ImageContainer>
           <Image
-            width="100%"
+            width='100%'
             name={CONFIRM_STEPS[step].image()}
             srcset={CONFIRM_STEPS[step].srcset()}
           />
           <MarqueeContainer>
             {step === 'ready' &&
               marquees.map((marquee, i) => (
-                <Text size="12px" weight={400}>
+                <Text size='12px' weight={400}>
                   {i + 1 + '. ' + marquee}
                 </Text>
               ))}

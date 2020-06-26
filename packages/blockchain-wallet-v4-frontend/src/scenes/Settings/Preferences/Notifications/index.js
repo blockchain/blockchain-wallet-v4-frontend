@@ -2,7 +2,7 @@ import Notifications from './template.js'
 import React from 'react'
 
 class NotificationsContainer extends React.PureComponent {
-  render() {
+  render () {
     return <Notifications />
   }
 }

@@ -44,38 +44,38 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size="20px" color="blue900" weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id="scenes.recover.secondstep.funds"
-            defaultMessage="Recover Funds"
+            id='scenes.recover.secondstep.funds'
+            defaultMessage='Recover Funds'
           />
         </Text>
       </Header>
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel htmlFor="email">
+          <FormLabel htmlFor='email'>
             <FormattedMessage
-              id="scenes.recover.secondstep.email"
-              defaultMessage="New Email"
+              id='scenes.recover.secondstep.email'
+              defaultMessage='New Email'
             />
           </FormLabel>
           <Field
-            bgColor="grey000"
-            name="email"
+            bgColor='grey000'
+            name='email'
             validate={[required, validEmail]}
             component={TextBox}
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel htmlFor="password">
+          <FormLabel htmlFor='password'>
             <FormattedMessage
-              id="scenes.recover.secondstep.password"
-              defaultMessage="Password"
+              id='scenes.recover.secondstep.password'
+              defaultMessage='Password'
             />
           </FormLabel>
           <Field
-            bgColor="grey000"
-            name="password"
+            bgColor='grey000'
+            name='password'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
             showPasswordScore
@@ -85,15 +85,15 @@ const SecondStep = props => {
           />
         </FormGroup>
         <FormGroup>
-          <FormLabel htmlFor="confirmationPassword">
+          <FormLabel htmlFor='confirmationPassword'>
             <FormattedMessage
-              id="scenes.recover.secondstep.confirmapassword"
-              defaultMessage="Confirm Password"
+              id='scenes.recover.secondstep.confirmapassword'
+              defaultMessage='Confirm Password'
             />
           </FormLabel>
           <Field
-            bgColor="grey000"
-            name="confirmationPassword"
+            bgColor='grey000'
+            name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
             component={PasswordBox}
           />
@@ -102,16 +102,16 @@ const SecondStep = props => {
           <Terms recovery />
         </FormGroup>
         <Footer>
-          <GoBackLink onClick={previousStep} size="13px" weight={400}>
-            <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+          <GoBackLink onClick={previousStep} size='13px' weight={400}>
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </GoBackLink>
-          <Button type="submit" nature="primary" disabled={busy || invalid}>
+          <Button type='submit' nature='primary' disabled={busy || invalid}>
             {busy ? (
-              <HeartbeatLoader height="20px" width="20px" color="white" />
+              <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
-                id="scenes.recover.secondstep.recover"
-                defaultMessage="Recover Funds"
+                id='scenes.recover.secondstep.recover'
+                defaultMessage='Recover Funds'
               />
             )}
           </Button>

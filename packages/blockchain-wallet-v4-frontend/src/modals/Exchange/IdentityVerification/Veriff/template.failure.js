@@ -62,54 +62,54 @@ const ServerErrorText = styled(Text)`
 const Verify = ({ message, onClose }) => {
   return (
     <Wrapper>
-      <Image name="gold-notice" width="70" height="66" />
-      <Title color="black" size="30px" weight={600}>
+      <Image name='gold-notice' width='70' height='66' />
+      <Title color='black' size='30px' weight={600}>
         <FormattedMessage
-          id="identityverification.failure.header"
-          defaultMessage="Gold Unavailable At This Time"
+          id='identityverification.failure.header'
+          defaultMessage='Gold Unavailable At This Time'
         />
       </Title>
       <Content>
         <Text>
           <FormattedMessage
-            id="identityverification.failure.content-1"
+            id='identityverification.failure.content-1'
             defaultMessage="We're sorry we can't verify you for Gold. This can be for a number of reasons, for example your country might not be supported right now."
           />
         </Text>
         <Text>
           <FormattedMessage
-            id="identityverification.failure.content-2"
+            id='identityverification.failure.content-2'
             defaultMessage="If you're Silver verified you can trade your crypto in Swap"
           />
         </Text>
         <ServerErrorText weight={500}>
           <FormattedMessage
-            id="identityverification.failure.server.error"
-            defaultMessage="Server Error: {description}"
+            id='identityverification.failure.server.error'
+            defaultMessage='Server Error: {description}'
             values={message}
           />
         </ServerErrorText>
       </Content>
-      <StartTrading nature="primary" onClick={onClose}>
+      <StartTrading nature='primary' onClick={onClose}>
         <FormattedMessage
-          id="identityverification.failure.button"
-          defaultMessage="Start Trading"
+          id='identityverification.failure.button'
+          defaultMessage='Start Trading'
         />
       </StartTrading>
       <FooterContent>
         <Text>
           <FormattedMessage
-            id="identityverification.failure.content-3"
-            defaultMessage="If you want to learn more about our verification process. Visit our "
+            id='identityverification.failure.content-3'
+            defaultMessage='If you want to learn more about our verification process. Visit our '
           />
           <Link
-            href="https://support.blockchain.com/"
-            target="_blank"
+            href='https://support.blockchain.com/'
+            target='_blank'
             weight={400}
           >
             <FormattedMessage
-              id="identityverification.failure.content-3-link"
-              defaultMessage="Support Center."
+              id='identityverification.failure.content-3-link'
+              defaultMessage='Support Center.'
             />
           </Link>
         </Text>

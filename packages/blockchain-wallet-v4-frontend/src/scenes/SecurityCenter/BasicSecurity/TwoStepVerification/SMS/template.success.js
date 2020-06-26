@@ -55,44 +55,44 @@ const SmsAuth = props => {
         <SmsAuthContainer>
           {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
             <Fragment>
-              <Text size="14px" weight={400}>
+              <Text size='14px' weight={400}>
                 <FormattedMessage
-                  id="scenes.security.twostepverification.sms.entermobile"
-                  defaultMessage="Enter your mobile number and click Get Code. A verification code will be sent."
+                  id='scenes.security.twostepverification.sms.entermobile'
+                  defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
                 />
               </Text>
               <QRInputWrapper>
                 <Field
-                  name="mobileNumber"
+                  name='mobileNumber'
                   component={PhoneNumberBox}
                   validate={[required, validMobileNumber]}
                   countryCode={countryCode}
                   defaultValue={smsNumber}
-                  placeholder="212-555-5555"
+                  placeholder='212-555-5555'
                 />
-                <Button type="submit" nature="primary" disabled={invalid}>
+                <Button type='submit' nature='primary' disabled={invalid}>
                   Get Verification Code
                 </Button>
               </QRInputWrapper>
             </Fragment>
           ) : (
             <Fragment>
-              <Text size="14px" weight={400}>
+              <Text size='14px' weight={400}>
                 <FormattedMessage
-                  id="scenes.security.twostepverification.sms.entercode"
-                  defaultMessage="Enter your verification code below and click submit."
+                  id='scenes.security.twostepverification.sms.entercode'
+                  defaultMessage='Enter your verification code below and click submit.'
                 />
               </Text>
               <QRInputWrapper>
                 <Field
-                  name="verificationCode"
+                  name='verificationCode'
                   component={TextBox}
                   validate={[required]}
                 />
-                <Link weight={500} size="12px" onClick={changeMobileNumber}>
+                <Link weight={500} size='12px' onClick={changeMobileNumber}>
                   Change mobile number
                 </Link>
-                <Button type="submit" nature="primary" disabled={!code}>
+                <Button type='submit' nature='primary' disabled={!code}>
                   Submit Code
                 </Button>
               </QRInputWrapper>

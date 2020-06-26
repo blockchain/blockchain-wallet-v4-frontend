@@ -54,7 +54,7 @@ export default ({ api }) => {
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  const __calculateTo = function*(destinations, type, network) {
+  const __calculateTo = function * (destinations, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -75,7 +75,7 @@ export default ({ api }) => {
     throw new Error('no_destination_set')
   }
 
-  const __calculateAmount = function(amounts) {
+  const __calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
     }
@@ -91,7 +91,7 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  const __calculateFrom = function*(origin, type, network) {
+  const __calculateFrom = function * (origin, type, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
@@ -126,7 +126,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateFee = function(fee, fees) {
+  const __calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
     }
@@ -138,7 +138,7 @@ export default ({ api }) => {
     throw new Error('no_fee_set')
   }
 
-  const __calculateSelection = function({
+  const __calculateSelection = function ({
     to,
     amount,
     fee,
@@ -178,7 +178,7 @@ export default ({ api }) => {
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
-  const __calculateSweepSelection = function({
+  const __calculateSweepSelection = function ({
     to,
     fee,
     coins,
@@ -207,7 +207,7 @@ export default ({ api }) => {
     return CoinSelection.selectAll(fee, coins, to[0].address)
   }
 
-  const __calculateEffectiveBalance = function({ fee, coins }) {
+  const __calculateEffectiveBalance = function ({ fee, coins }) {
     if (isPositiveInteger(fee) && coins) {
       const { outputs } = CoinSelection.selectAll(
         fee,
@@ -220,7 +220,7 @@ export default ({ api }) => {
     }
   }
 
-  const __calculateSignature = function*(
+  const __calculateSignature = function * (
     network,
     password,
     transport,
@@ -259,22 +259,22 @@ export default ({ api }) => {
     }
   }
 
-  const __calculatePublish = function*(txHex) {
+  const __calculatePublish = function * (txHex) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
     }
     return yield call(() => taskToPromise(__pushBtcTx(txHex)))
   }
 
-  function create({ network, payment } = { network: undefined, payment: {} }) {
+  function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
       coin: 'BTC',
 
-      value() {
+      value () {
         return p
       },
 
-      *init() {
+      * init () {
         try {
           let fees = yield call(api.getBtcFees)
           return makePayment(merge(p, { fees, coin: 'BTC' }))
@@ -283,17 +283,17 @@ export default ({ api }) => {
         }
       },
 
-      *to(destinations, type) {
+      * to (destinations, type) {
         let to = yield call(__calculateTo, destinations, type, network)
         return makePayment(merge(p, { to }))
       },
 
-      *amount(amounts) {
+      * amount (amounts) {
         let amount = yield call(__calculateAmount, amounts)
         return makePayment(merge(p, { amount }))
       },
 
-      *from(origins, type) {
+      * from (origins, type) {
         let fromData = yield call(__calculateFrom, origins, type, network)
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
@@ -309,7 +309,7 @@ export default ({ api }) => {
         }
       },
 
-      *fee(value) {
+      * fee (value) {
         let fee = yield call(__calculateFee, value, prop('fees', p))
         let effectiveBalance = yield call(__calculateEffectiveBalance, {
           coins: prop('coins', p),
@@ -318,18 +318,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 
-      *build() {
+      * build () {
         if (p.fromType === 'CUSTODIAL') return makePayment(p)
         let selection = yield call(__calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *buildSweep() {
+      * buildSweep () {
         let selection = yield call(__calculateSweepSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *sign(password, transport, scrambleKey) {
+      * sign (password, transport, scrambleKey) {
         let signed = yield call(
           __calculateSignature,
           network,
@@ -344,21 +344,21 @@ export default ({ api }) => {
         return makePayment(merge(p, { ...signed }))
       },
 
-      *publish() {
+      * publish () {
         let result = yield call(__calculatePublish, prop('txHex', p))
         yield call(settingsSagas.setLastTxTime)
         return makePayment(merge(p, { result }))
       },
 
-      description(message) {
+      description (message) {
         return isString(message)
           ? makePayment(merge(p, { description: message }))
           : makePayment(p)
       },
 
-      chain() {
+      chain () {
         const chain = (gen, f) =>
-          makeChain(function*() {
+          makeChain(function * () {
             return yield f(yield gen())
           })
 
@@ -376,12 +376,12 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done() {
+          * done () {
             return yield gen()
           }
         })
 
-        return makeChain(function*() {
+        return makeChain(function * () {
           return yield call(makePayment, p)
         })
       }

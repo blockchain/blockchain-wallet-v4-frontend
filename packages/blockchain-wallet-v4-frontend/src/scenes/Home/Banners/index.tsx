@@ -14,11 +14,11 @@ const BannerWrapper = styled.div`
 `
 
 class Banners extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.simpleBuyActions.fetchSBOrders()
   }
 
-  render() {
+  render () {
     const { bannerToShow } = this.props
 
     switch (bannerToShow) {

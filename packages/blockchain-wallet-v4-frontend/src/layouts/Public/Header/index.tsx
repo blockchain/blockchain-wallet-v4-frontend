@@ -26,16 +26,16 @@ const PublicBrand = styled.div`
 
 const Header = () => (
   <React.Fragment>
-    <NavbarStyled height="90px">
+    <NavbarStyled height='90px'>
       <NavbarBrand>
         <PublicBrand>
-          <Link href="https://www.blockchain.com">
-            <BlockchainLogoImage name="blockchain-logo" height="24px" />
+          <Link href='https://www.blockchain.com'>
+            <BlockchainLogoImage name='blockchain-logo' height='24px' />
           </Link>
         </PublicBrand>
       </NavbarBrand>
     </NavbarStyled>
-    <Announcements type="service" alertArea="public" />
+    <Announcements type='service' alertArea='public' />
   </React.Fragment>
 )
 

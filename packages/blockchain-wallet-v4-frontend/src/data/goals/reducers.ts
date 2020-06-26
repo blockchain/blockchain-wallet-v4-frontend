@@ -8,7 +8,7 @@ const INITIAL_STATE: GoalsState = {
   initialModalDisplayed: false
 }
 
-export function goalsReducer(state = INITIAL_STATE, action): GoalsState {
+export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
   switch (action.type) {
     case AT.SAVE_GOAL: {
       return assoc('goals', append(action.payload, state.goals), state)

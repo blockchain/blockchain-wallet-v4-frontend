@@ -28,15 +28,15 @@ const ActionButton: React.FC<Props> = props => {
       return lastFailedTx ? (
         <ButtonContainer>
           <Button
-            nature="light"
-            data-e2e="closeBorrowDetails"
+            nature='light'
+            data-e2e='closeBorrowDetails'
             onClick={() => props.handleClose()}
           >
-            <FormattedMessage id="buttons.close" defaultMessage="Close" />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
           <Button
-            nature="primary"
-            data-e2e="endBorrow"
+            nature='primary'
+            data-e2e='endBorrow'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'ADD_COLLATERAL',
@@ -46,19 +46,19 @@ const ActionButton: React.FC<Props> = props => {
             }
           >
             <FormattedMessage
-              id="modals.details.borrow.addcollat"
-              defaultMessage="Add Collateral"
+              id='modals.details.borrow.addcollat'
+              defaultMessage='Add Collateral'
             />
           </Button>
         </ButtonContainer>
       ) : (
         <Button
           fullwidth
-          nature="light"
-          data-e2e="closeBorrowDetails"
+          nature='light'
+          data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage id="buttons.close" defaultMessage="Close" />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     case 'ON_CALL':
@@ -66,8 +66,8 @@ const ActionButton: React.FC<Props> = props => {
       return lastFailedTx ? (
         <ButtonContainer>
           <Button
-            nature="primary"
-            data-e2e="endBorrow"
+            nature='primary'
+            data-e2e='endBorrow'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'ADD_COLLATERAL',
@@ -77,14 +77,14 @@ const ActionButton: React.FC<Props> = props => {
             }
           >
             <FormattedMessage
-              id="modals.details.borrow.addcollat"
-              defaultMessage="Add Collateral"
+              id='modals.details.borrow.addcollat'
+              defaultMessage='Add Collateral'
             />
           </Button>
           <Button
             fullwidth
-            nature="dark-grey"
-            data-e2e="endBorrow"
+            nature='dark-grey'
+            data-e2e='endBorrow'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'REPAY_LOAN',
@@ -94,16 +94,16 @@ const ActionButton: React.FC<Props> = props => {
             }
           >
             <FormattedMessage
-              id="modals.details.borrow.endborrow"
-              defaultMessage="End Borrowing"
+              id='modals.details.borrow.endborrow'
+              defaultMessage='End Borrowing'
             />
           </Button>
         </ButtonContainer>
       ) : (
         <Button
           fullwidth
-          nature="dark-grey"
-          data-e2e="endBorrow"
+          nature='dark-grey'
+          data-e2e='endBorrow'
           onClick={() =>
             props.borrowActions.setStep({
               step: 'REPAY_LOAN',
@@ -113,8 +113,8 @@ const ActionButton: React.FC<Props> = props => {
           }
         >
           <FormattedMessage
-            id="modals.details.borrow.endborrow"
-            defaultMessage="End Borrowing"
+            id='modals.details.borrow.endborrow'
+            defaultMessage='End Borrowing'
           />
         </Button>
       )
@@ -122,8 +122,8 @@ const ActionButton: React.FC<Props> = props => {
       return lastFailedTx ? (
         <Button
           fullwidth
-          nature="dark-grey"
-          data-e2e="endBorrow"
+          nature='dark-grey'
+          data-e2e='endBorrow'
           onClick={() =>
             props.borrowActions.setStep({
               step: 'REPAY_LOAN',
@@ -133,29 +133,29 @@ const ActionButton: React.FC<Props> = props => {
           }
         >
           <FormattedMessage
-            id="modals.details.borrow.retryrepayment"
-            defaultMessage="Retry Repayment"
+            id='modals.details.borrow.retryrepayment'
+            defaultMessage='Retry Repayment'
           />
         </Button>
       ) : (
         <Button
           fullwidth
-          nature="light"
-          data-e2e="closeBorrowDetails"
+          nature='light'
+          data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage id="buttons.close" defaultMessage="Close" />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     default: {
       return (
         <Button
           fullwidth
-          nature="light"
-          data-e2e="closeBorrowDetails"
+          nature='light'
+          data-e2e='closeBorrowDetails'
           onClick={() => props.handleClose()}
         >
-          <FormattedMessage id="buttons.close" defaultMessage="Close" />
+          <FormattedMessage id='buttons.close' defaultMessage='Close' />
         </Button>
       )
     }

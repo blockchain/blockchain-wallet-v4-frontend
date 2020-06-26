@@ -26,7 +26,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     return (
       <SoftwareDownloadStep
         hasDownloaded={this.state.hasDownloaded}

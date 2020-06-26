@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const borrowSagas = sagas({ api, coreSagas, networks })
 
-  return function* borrowSaga() {
+  return function * borrowSaga () {
     yield takeLatest(AT.ADD_COLLATERAL, borrowSagas.addCollateral)
     yield takeLatest(
       AT.AMT_COLLATERAL_REQUIRED_CLICK,

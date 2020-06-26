@@ -23,7 +23,7 @@ const {
 } = model.analytics.PREFERENCE_EVENTS.SECURITY
 
 class AuthorizeLogin extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onAccept = this.onAccept.bind(this)
     this.onReject = this.onReject.bind(this)
@@ -35,27 +35,27 @@ class AuthorizeLogin extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const { analyticsActions, miscActions } = this.props
     miscActions.authorizeLogin(this.state.token)
     analyticsActions.logEvent(VERIFY_DEVICE_EMAIL_SENT)
   }
 
-  onAccept(e) {
+  onAccept (e) {
     const { analyticsActions, miscActions } = this.props
     e.preventDefault()
     miscActions.authorizeLogin(this.state.token, true)
     analyticsActions.logEvent(VERIFY_DEVICE_ACCEPTED)
   }
 
-  onReject(e) {
+  onReject (e) {
     const { analyticsActions, miscActions } = this.props
     e.preventDefault()
     miscActions.authorizeLogin(this.state.token, false)
     analyticsActions.logEvent(VERIFY_DEVICE_REJECTED)
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     let AuthorizeLoginStatus = data.cata({

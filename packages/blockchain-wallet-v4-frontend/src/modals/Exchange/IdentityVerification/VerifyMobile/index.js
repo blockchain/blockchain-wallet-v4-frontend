@@ -12,12 +12,12 @@ import VerifyMobile from './template'
 const { SMS_STEPS } = model.components.identityVerification
 
 class VerifyMobileContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const { actions } = this.props
     actions.updateSmsStep()
   }
 
-  render() {
+  render () {
     const {
       activeField,
       activeFieldError,

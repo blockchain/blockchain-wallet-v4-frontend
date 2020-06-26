@@ -127,7 +127,7 @@ type OwnProps = {
 }
 
 class Flyout extends React.PureComponent<OwnProps> {
-  render() {
+  render () {
     const { children, ...rest } = this.props
 
     return (
@@ -143,7 +143,7 @@ class Flyout extends React.PureComponent<OwnProps> {
           >
             <FlyoutChildren direction={this.props.direction || 'left'}>
               <ReactCSSTransitionGroup
-                transitionName="flyout-children"
+                transitionName='flyout-children'
                 transitionEnterTimeout={slide}
                 transitionLeaveTimeout={slide}
               >

@@ -9,15 +9,15 @@ import ThirdStep from './ThirdStep'
 import wizardProvider from 'providers/WizardProvider'
 
 class Reset2FAContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.resetStep()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.formActions.destroy('reset2FA')
   }
 
-  render() {
+  render () {
     const { step, ...rest } = this.props
 
     switch (step) {

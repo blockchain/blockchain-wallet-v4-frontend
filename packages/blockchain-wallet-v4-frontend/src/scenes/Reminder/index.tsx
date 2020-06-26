@@ -6,7 +6,7 @@ import React from 'react'
 import Reminder from './template'
 
 class ReminderContainer extends React.PureComponent<Props> {
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.authActions.remindGuidNotAsked()
   }
 
@@ -17,7 +17,7 @@ class ReminderContainer extends React.PureComponent<Props> {
     authActions.remindGuid(email, code, sessionToken)
   }
 
-  render() {
+  render () {
     const { remindGuid } = this.props
     const { success, loading } = remindGuid.cata({
       Success: () => ({ success: true }),

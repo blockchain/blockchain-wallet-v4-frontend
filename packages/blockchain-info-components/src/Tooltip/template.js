@@ -30,7 +30,7 @@ const Tooltip = props => {
       bgColor={bgColor}
       opacity={opacity}
       padding={padding}
-      effect="solid"
+      effect='solid'
       {...rest}
     >
       {children}

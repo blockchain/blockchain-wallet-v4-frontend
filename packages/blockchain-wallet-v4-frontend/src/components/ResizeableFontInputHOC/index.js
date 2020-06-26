@@ -31,7 +31,7 @@ export const ResizeableFontInputHOC = Component =>
       onUpdate: () => {}
     }
 
-    componentDidMount() {
+    componentDidMount () {
       window.addEventListener('resize', this.resizeInputFont)
       requestAnimationFrame(() => {
         this.updateValueLength()
@@ -39,15 +39,15 @@ export const ResizeableFontInputHOC = Component =>
       })
     }
 
-    componentDidUpdate() {
+    componentDidUpdate () {
       requestAnimationFrame(this.updateValueLength)
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       window.removeEventListener('resizes', this.resizeInputFont)
     }
 
-    selectInput() {
+    selectInput () {
       const ref = this.componentRef.current
       if (!ref) return
 
@@ -98,7 +98,7 @@ export const ResizeableFontInputHOC = Component =>
       requestAnimationFrame(this.updateValueLength)
     }
 
-    render() {
+    render () {
       return (
         <Component
           {...this.props}

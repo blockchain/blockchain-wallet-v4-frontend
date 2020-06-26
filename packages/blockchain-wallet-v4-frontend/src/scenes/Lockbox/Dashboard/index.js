@@ -41,14 +41,14 @@ const SettingsWrapper = styled.div`
   overflow: scroll;
 `
 class LockboxDashboardContainer extends React.PureComponent {
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const prevIndex = prevProps.match.params.deviceIndex
     const nextIndex = this.props.match.params.deviceIndex
     if (equals(prevIndex, nextIndex)) return
     this.props.lockboxActions.initializeDashboard(nextIndex)
   }
 
-  render() {
+  render () {
     const { location, match, showLockboxDownload } = this.props
     const { deviceIndex } = match.params
     const onDashboard = location.pathname.includes('/lockbox/dashboard')

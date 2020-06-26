@@ -89,7 +89,7 @@ class CountrySelect extends React.PureComponent<Props> {
         </IconContainer>
         <Display>
           {children || props.text}
-          <Text size="14px" color="grey600" weight={500}>
+          <Text size='14px' color='grey600' weight={500}>
             {props.value}
           </Text>
         </Display>
@@ -97,12 +97,12 @@ class CountrySelect extends React.PureComponent<Props> {
     )
   }
 
-  render() {
+  render () {
     return (
       <Field
         component={SelectBoxCountry}
         elements={this.renderElements()}
-        name="country"
+        name='country'
         searchEnabled={false}
         templateDisplay={this.renderDisplay}
         templateItem={this.renderDisplay}

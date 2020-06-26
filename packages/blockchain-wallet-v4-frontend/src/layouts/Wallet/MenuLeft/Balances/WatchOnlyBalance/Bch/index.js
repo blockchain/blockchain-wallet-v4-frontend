@@ -24,30 +24,30 @@ class BchWatchOnlyBalance extends React.PureComponent {
     this.props.actions.fetchData()
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({
       Success: balance => (
-        <LinkContainer to="/bch/transactions">
+        <LinkContainer to='/bch/transactions'>
           <div>
-            <CoinBalanceWrapper coin="BCH" balance={balance} />
+            <CoinBalanceWrapper coin='BCH' balance={balance} />
           </div>
         </LinkContainer>
       ),
       Failure: () => (
         <ErrorWrapper>
-          <ErrorLink size="12px" weight={400} onClick={this.handleRefresh}>
+          <ErrorLink size='12px' weight={400} onClick={this.handleRefresh}>
             <FormattedMessage
-              id="wallet.menutop.watchonly.bchbalance.refresh"
-              defaultMessage="Refresh {curr} data"
+              id='wallet.menutop.watchonly.bchbalance.refresh'
+              defaultMessage='Refresh {curr} data'
               values={{ curr: 'Watch Only Bitcoin Cash' }}
             />
           </ErrorLink>
         </ErrorWrapper>
       ),
-      Loading: () => <LoadingBalance coin="BCH" />,
-      NotAsked: () => <LoadingBalance coin="BCH" />
+      Loading: () => <LoadingBalance coin='BCH' />,
+      NotAsked: () => <LoadingBalance coin='BCH' />
     })
   }
 }

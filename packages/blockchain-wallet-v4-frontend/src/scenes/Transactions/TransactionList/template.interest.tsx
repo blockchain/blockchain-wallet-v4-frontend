@@ -35,16 +35,16 @@ const InterestTransactions: React.FC<Props> = () => {
     <Container>
       <Column>
         <div>
-          <Text size="20px" weight={600} color="grey800">
+          <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
-              id="scenes.interest.interestaccount"
-              defaultMessage="Interest Account"
+              id='scenes.interest.interestaccount'
+              defaultMessage='Interest Account'
             />
           </Text>
           <Content weight={400}>
             <FormattedMessage
-              id="scenes.transaction.interest.view_txs"
-              defaultMessage="Visit the Earn Interest page to view your transaction history."
+              id='scenes.transaction.interest.view_txs'
+              defaultMessage='Visit the Earn Interest page to view your transaction history.'
             />
           </Content>
         </div>
@@ -52,23 +52,23 @@ const InterestTransactions: React.FC<Props> = () => {
       <Column>
         <NavLink
           style={{ textDecoration: 'none' }}
-          to="/interest"
-          data-e2e="visitEarnInterestPage"
+          to='/interest'
+          data-e2e='visitEarnInterestPage'
         >
           <Button
-            data-e2e="visitEarnInterestPageButton"
-            nature="primary"
-            height="48px"
-            size="16px"
+            data-e2e='visitEarnInterestPageButton'
+            nature='primary'
+            height='48px'
+            size='16px'
           >
             <Icon
-              name="percentage"
-              color="white"
+              name='percentage'
+              color='white'
               style={{ marginRight: '8px' }}
             />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.earninterest"
-              defaultMessage="Earn Interest"
+              id='layouts.wallet.menuleft.navigation.earninterest'
+              defaultMessage='Earn Interest'
             />
           </Button>
         </NavLink>

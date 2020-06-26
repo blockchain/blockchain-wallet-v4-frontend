@@ -12,7 +12,7 @@ import Template from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class BtcWalletsContainer extends React.Component {
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -27,7 +27,7 @@ class BtcWalletsContainer extends React.Component {
     this.props.coreActions.setAccountArchived(i, false)
   }
 
-  render() {
+  render () {
     const { search, data, walletsWithoutRemoteData, ...rest } = this.props
 
     return data.cata({

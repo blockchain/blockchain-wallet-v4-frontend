@@ -7,7 +7,7 @@ import ImportedAddresses from './ImportedAddresses'
 import Wallets from './Wallets'
 
 class BtcAddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <React.Fragment>
         <Wallets context={this.props.data} />

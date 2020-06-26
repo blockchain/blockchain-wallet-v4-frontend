@@ -21,19 +21,19 @@ const Loading = () => {
     <Container>
       <Wrapper>
         <MenuItem>
-          <BlockchainLoader height="30px" width="30px" />
+          <BlockchainLoader height='30px' width='30px' />
         </MenuItem>
         <SkeletonMenuItem>
-          <SkeletonCircle height="30px" width="30px" />
-          <SkeletonRectangle height="25px" width="auto" />
+          <SkeletonCircle height='30px' width='30px' />
+          <SkeletonRectangle height='25px' width='auto' />
         </SkeletonMenuItem>
         <SkeletonMenuItem>
-          <SkeletonCircle height="30px" width="30px" />
-          <SkeletonRectangle height="25px" width="auto" />
+          <SkeletonCircle height='30px' width='30px' />
+          <SkeletonRectangle height='25px' width='auto' />
         </SkeletonMenuItem>
         <SkeletonMenuItem>
-          <SkeletonCircle height="30px" width="30px" />
-          <SkeletonRectangle height="25px" width="auto" />
+          <SkeletonCircle height='30px' width='30px' />
+          <SkeletonRectangle height='25px' width='auto' />
         </SkeletonMenuItem>
       </Wrapper>
     </Container>

@@ -9,7 +9,7 @@ class LoginIpRestrictionContainer extends React.PureComponent {
     this.props.settingsActions.updateIpLockOn(Number(!this.props.ipLockOn))
   }
 
-  render() {
+  render () {
     const { ...rest } = this.props
     const ipLockOn = this.props.ipLockOn === 1
 

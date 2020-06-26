@@ -110,13 +110,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color="grey800" size="20px" weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <Icon
             cursor
             style={{ marginRight: '24px' }}
-            name="arrow-left"
-            size="20px"
-            color="grey600"
+            name='arrow-left'
+            size='20px'
+            color='grey600'
             onClick={() =>
               props.borrowActions.setStep({
                 step: 'CHECKOUT',
@@ -125,32 +125,32 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
           />
           <FormattedMessage
-            id="modals.borrow.confirm"
-            defaultMessage="Confirm Loan"
+            id='modals.borrow.confirm'
+            defaultMessage='Confirm Loan'
           />
         </TopText>
         <BasicTerms>
           <FormattedHTMLMessage
-            id="modals.borrow.basicterms1"
-            defaultMessage="You are requesting to borrow <b>{principalAmt}</b> and using"
+            id='modals.borrow.basicterms1'
+            defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using'
             values={{
               principalAmt
             }}
           />{' '}
           <CoinDisplay
             coin={props.offer.terms.collateralCcy}
-            color="grey800"
+            color='grey800'
             weight={600}
           >
             {collateralAmt}
           </CoinDisplay>
           <FormattedMessage
-            id="modals.borrow.basicterms2"
-            defaultMessage="as your collateral. The network fee to send your collateral is"
+            id='modals.borrow.basicterms2'
+            defaultMessage='as your collateral. The network fee to send your collateral is'
           />{' '}
           <CoinDisplay
             coin={props.offer.terms.collateralCcy}
-            color="grey800"
+            color='grey800'
             weight={600}
           >
             {networkFee}
@@ -159,25 +159,25 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <TermsContainer>
           <TermsFormItem>
             <Field
-              name="blockchain-loan-agreement"
+              name='blockchain-loan-agreement'
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
               hideErrors
-              data-e2e="blockchain-loan-agreement"
+              data-e2e='blockchain-loan-agreement'
             >
-              <Terms company="blockchain-loan-agreement" />
+              <Terms company='blockchain-loan-agreement' />
             </Field>
           </TermsFormItem>
           <TermsFormItem>
             <Field
-              name="blockchain-loan-transfer"
+              name='blockchain-loan-transfer'
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
               hideErrors
-              data-e2e="blockchain-loan-transfer"
+              data-e2e='blockchain-loan-transfer'
             >
               <Terms
-                company="blockchain-loan-transfer"
+                company='blockchain-loan-transfer'
                 total={total}
                 collateralAmt={collateralAmt}
                 coin={props.offer.terms.collateralCcy}
@@ -190,26 +190,26 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.error && (
           <ErrorText>
             <Icon
-              name="alert-filled"
-              color="red600"
+              name='alert-filled'
+              color='red600'
               style={{ marginRight: '4px' }}
             />
             Error: {props.error}
           </ErrorText>
         )}
         <Button
-          nature="primary"
-          type="submit"
-          data-e2e="borrowSubmit"
+          nature='primary'
+          type='submit'
+          data-e2e='borrowSubmit'
           disabled={props.submitting || props.invalid}
         >
           {props.submitting ? (
-            <HeartbeatLoader height="16px" width="16px" color="white" />
+            <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <Text size="16px" weight={600} color="white">
+            <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id="modals.borrow.confirm.create"
-                defaultMessage="Create Loan"
+                id='modals.borrow.confirm.create'
+                defaultMessage='Create Loan'
               />
             </Text>
           )}

@@ -4,7 +4,7 @@ import crypto from 'crypto'
 
 export const logLocation = 'bitpay'
 
-export const parsePaymentRequest = function*(rawPaymentRequest) {
+export const parsePaymentRequest = function * (rawPaymentRequest) {
   try {
     const rawBody = rawPaymentRequest.rawBody
     const headers = rawPaymentRequest.headers

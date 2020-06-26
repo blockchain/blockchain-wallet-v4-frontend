@@ -22,7 +22,7 @@ class VerifyEmailToken extends React.PureComponent {
     context: new URLSearchParams(this.props.location.search).get('context')
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.miscActions.verifyEmailToken(this.state.token)
   }
 
@@ -52,7 +52,7 @@ class VerifyEmailToken extends React.PureComponent {
     return `${link}?${params}`
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     let VerifyEmailStatus = data.cata({

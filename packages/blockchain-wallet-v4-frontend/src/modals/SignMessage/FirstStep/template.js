@@ -34,52 +34,52 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>
-        <Text size="14px" weight={500}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
-            id="modals.signmessage.firststep.address"
-            defaultMessage="Address:"
+            id='modals.signmessage.firststep.address'
+            defaultMessage='Address:'
           />
         </Text>
-        <Text size="14px" weight={400} data-e2e="signMessageAddressValue">
+        <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
           {address}
         </Text>
       </DetailRow>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'100%'}>
-          <FormLabel htmlFor="message">
+          <FormLabel htmlFor='message'>
             <FormattedMessage
-              id="modals.signmessage.firststep.message"
-              defaultMessage="Message:"
+              id='modals.signmessage.firststep.message'
+              defaultMessage='Message:'
             />
           </FormLabel>
           <Field
-            name="message"
+            name='message'
             component={TextArea}
             validate={[required]}
-            placeholder="Thanks for accepting bitcoin!"
-            data-e2e="signMessageInputField"
+            placeholder='Thanks for accepting bitcoin!'
+            data-e2e='signMessageInputField'
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
         <SubmitRow>
           <ClickableText
-            size="14px"
+            size='14px'
             weight={400}
             onClick={closeAll}
-            data-e2e="signMessageCloseButton"
+            data-e2e='signMessageCloseButton'
           >
-            <FormattedMessage id="buttons.close" defaultMessage="Close" />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </ClickableText>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
-            data-e2e="signMessageButton"
+            data-e2e='signMessageButton'
           >
             <FormattedMessage
-              id="modals.signmessage.firststep.sign"
-              defaultMessage="Sign"
+              id='modals.signmessage.firststep.sign'
+              defaultMessage='Sign'
             />
           </Button>
         </SubmitRow>

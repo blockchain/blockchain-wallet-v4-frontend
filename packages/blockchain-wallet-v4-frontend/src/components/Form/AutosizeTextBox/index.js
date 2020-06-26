@@ -23,7 +23,7 @@ const getErrorState = ({ touched, invalid }) => {
 }
 
 class AutosizeTextBox extends React.Component {
-  render() {
+  render () {
     const {
       autoComplete,
       className,
@@ -60,9 +60,9 @@ class AutosizeTextBox extends React.Component {
         />
         {touched && error && (
           <Error
-            size="12px"
+            size='12px'
             weight={500}
-            color="error"
+            color='error'
             errorBottom={errorBottom}
           >
             {error}
@@ -70,9 +70,9 @@ class AutosizeTextBox extends React.Component {
         )}
         {touched && !error && warning && (
           <Error
-            size="12px"
+            size='12px'
             weight={500}
-            color="error"
+            color='error'
             errorBottom={errorBottom}
           >
             {warning}

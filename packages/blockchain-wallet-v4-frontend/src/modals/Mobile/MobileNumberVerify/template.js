@@ -46,67 +46,67 @@ const MobileNumberVerify = props => {
   const { handleSubmit, handleChange, handleResend } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
-        <ModalHeader icon="mobile" onClose={closeAll}>
+        <ModalHeader icon='mobile' onClose={closeAll}>
           <FormattedMessage
-            id="modals.mobilenumberverify.title"
-            defaultMessage="Verify Mobile Number"
+            id='modals.mobilenumberverify.title'
+            defaultMessage='Verify Mobile Number'
           />
         </ModalHeader>
         <ModalBody>
-          <Text size="14px" weight={500}>
+          <Text size='14px' weight={500}>
             <FormattedMessage
-              id="modals.mobilenumberverify.explain"
-              defaultMessage="We have sent an SMS message with a verification code to {number}."
+              id='modals.mobilenumberverify.explain'
+              defaultMessage='We have sent an SMS message with a verification code to {number}.'
               values={{ number: props.mobileNumber }}
             />
           </Text>
-          <Text size="14px" weight={500} style={spacing('mt-10 mb-5')}>
+          <Text size='14px' weight={500} style={spacing('mt-10 mb-5')}>
             <FormattedMessage
-              id="modals.mobilenumberverify.explain2"
-              defaultMessage="Enter code:"
+              id='modals.mobilenumberverify.explain2'
+              defaultMessage='Enter code:'
             />
           </Text>
           <Code>
-            <Field name="code" validate={[required]} component={TextBox} />
+            <Field name='code' validate={[required]} component={TextBox} />
           </Code>
-          <OptionsText size="14px" weight={500}>
+          <OptionsText size='14px' weight={500}>
             <FormattedMessage
-              id="modals.mobilenumberverify.getcode1"
+              id='modals.mobilenumberverify.getcode1'
               defaultMessage="Didn't get the code?"
             />
-            <Link size="14px" weight={500} onClick={handleResend}>
+            <Link size='14px' weight={500} onClick={handleResend}>
               <FormattedMessage
-                id="modals.mobilenumberverify.resend"
-                defaultMessage="Resend"
+                id='modals.mobilenumberverify.resend'
+                defaultMessage='Resend'
               />
             </Link>
             <FormattedMessage
-              id="modals.mobilenumberverify.getcode2"
-              defaultMessage="or"
+              id='modals.mobilenumberverify.getcode2'
+              defaultMessage='or'
             />
-            <Link size="14px" weight={500} capitalize onClick={handleChange}>
+            <Link size='14px' weight={500} capitalize onClick={handleChange}>
               <FormattedMessage
-                id="modals.mobilenumberverify.change"
-                defaultMessage=" change mobile number"
+                id='modals.mobilenumberverify.change'
+                defaultMessage=' change mobile number'
               />
             </Link>
           </OptionsText>
         </ModalBody>
-        <ModalFooter align="spaced">
-          <Link size="13px" weight={500} onClick={close}>
-            <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={500} onClick={close}>
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Link>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             capitalize
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id="modals.mobilenumberverify.verify"
-              defaultMessage="Verify"
+              id='modals.mobilenumberverify.verify'
+              defaultMessage='Verify'
             />
           </Button>
         </ModalFooter>

@@ -32,53 +32,53 @@ const ShowUsedAddresses = props => {
   const { handleContinue } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
         <HeaderWrapper>
           <Icon
-            name="alert-filled"
-            size="26px"
+            name='alert-filled'
+            size='26px'
             className={'warning-icon'}
-            color="brand-yellow"
+            color='brand-yellow'
           />
           <FormattedMessage
-            id="modals.showusedaddresses.title"
-            defaultMessage="Are you sure?"
+            id='modals.showusedaddresses.title'
+            defaultMessage='Are you sure?'
           />
         </HeaderWrapper>
       </ModalHeader>
       <ModalBody>
-        <Text size="14px" weight={400}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
-            id="modals.showusedaddresses.message"
-            defaultMessage="Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once."
+            id='modals.showusedaddresses.message'
+            defaultMessage='Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.'
           />
         </Text>
       </ModalBody>
-      <ModalFooter align="right">
+      <ModalFooter align='right'>
         <CancelBtn
-          size="small"
+          size='small'
           weight={400}
           style={spacing('mr-15')}
           onClick={close}
-          data-e2e="cancelShowUsedAddressesButton"
+          data-e2e='cancelShowUsedAddressesButton'
         >
-          <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </CancelBtn>
         <Button
-          nature="primary"
-          type="submit"
+          nature='primary'
+          type='submit'
           onClick={handleContinue}
           disabled={busy}
-          data-e2e="showUsedAddressesConfirmButton"
+          data-e2e='showUsedAddressesConfirmButton'
         >
           {!busy ? (
             <FormattedMessage
-              id="modals.showusedaddresses.ok"
-              defaultMessage="Ok"
+              id='modals.showusedaddresses.ok'
+              defaultMessage='Ok'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
       </ModalFooter>

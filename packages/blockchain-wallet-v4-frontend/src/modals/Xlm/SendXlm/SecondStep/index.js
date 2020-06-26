@@ -13,12 +13,12 @@ class SecondStepContainer extends React.PureComponent {
     this.props.actions.secondStepCancelClicked()
   }
 
-  render() {
+  render () {
     const { data, actions } = this.props
     return data.cata({
       Success: value => (
         <Success
-          coin="XLM"
+          coin='XLM'
           {...value}
           handleBack={this.onGoBack}
           handleSubmit={actions.secondStepSubmitClicked}

@@ -15,11 +15,11 @@ const Iframe = styled.iframe`
 `
 
 class AnalyticsTracker extends React.PureComponent {
-  render() {
+  render () {
     const { domains, siteId } = this.props
     return (
       <Iframe
-        id="matomo-iframe"
+        id='matomo-iframe'
         src={domains.walletHelper + '/wallet-helper/matomo/#/?siteId=' + siteId}
       />
     )

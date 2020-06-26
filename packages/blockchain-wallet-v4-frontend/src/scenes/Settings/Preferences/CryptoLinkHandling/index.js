@@ -34,35 +34,35 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
     this.props.analyticsActions.logEvent(ENABLE_BTC_LINKS)
   }
 
-  render() {
+  render () {
     return (
       <SettingContainer>
         <SettingSummary>
           <SettingHeader>
             <FormattedMessage
-              id="scenes.settings.preferences.cryptolinkhandling.title"
-              defaultMessage="Crypto Link Handling"
+              id='scenes.settings.preferences.cryptolinkhandling.title'
+              defaultMessage='Crypto Link Handling'
             />
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
-              id="scenes.settings.preferences.cryptolinkhandling.desc"
-              defaultMessage="Enable this to allow your Blockchain Wallet to handle crypto payment links in the web browser from 3rd parties such as BitPay. Enabling this will make your experience more convenient when transacting crypto online."
+              id='scenes.settings.preferences.cryptolinkhandling.desc'
+              defaultMessage='Enable this to allow your Blockchain Wallet to handle crypto payment links in the web browser from 3rd parties such as BitPay. Enabling this will make your experience more convenient when transacting crypto online.'
             />
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
-          <Button nature="primary" onClick={this.onEnableClick}>
+          <Button nature='primary' onClick={this.onEnableClick}>
             <FormattedMessage
-              id="scenes.settings.preferences.cryptolinkhandling.enable"
-              defaultMessage="Enable"
+              id='scenes.settings.preferences.cryptolinkhandling.enable'
+              defaultMessage='Enable'
             />
           </Button>
           {this.state.warningDisplayed && (
             <TextGroup inline>
-              <Text size="12px" weight={400} color="error">
+              <Text size='12px' weight={400} color='error'>
                 <FormattedMessage
-                  id="scenes.settings.preferences.cryptolinkhandling.unknownstatus"
+                  id='scenes.settings.preferences.cryptolinkhandling.unknownstatus'
                   defaultMessage="We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen."
                 />
               </Text>

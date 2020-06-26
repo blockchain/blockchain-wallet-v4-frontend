@@ -9,23 +9,23 @@ import Error from './template.error'
 import Success from './template.success'
 
 class BtcLockboxBalance extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  handleRefresh() {
+  handleRefresh () {
     this.props.actions.fetchData()
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({
       Success: value => <Success balance={value} />,
       Failure: () => <Error onRefresh={this.handleRefresh} />,
-      Loading: () => <LoadingBalance coin="BTC" />,
-      NotAsked: () => <LoadingBalance coin="BTC" />
+      Loading: () => <LoadingBalance coin='BTC' />,
+      NotAsked: () => <LoadingBalance coin='BTC' />
     })
   }
 }

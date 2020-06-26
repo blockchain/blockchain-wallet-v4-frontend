@@ -44,22 +44,22 @@ const LimitMessage = ({
 }) => {
   if (upgradeRequired)
     return (
-      <LimitText color="btc">
+      <LimitText color='btc'>
         &nbsp;
         <FormattedMessage
-          id="scenes.exchange.exchangeform.limit_info.under_review"
-          defaultMessage="In Review - Documents Needed"
+          id='scenes.exchange.exchangeform.limit_info.under_review'
+          defaultMessage='In Review - Documents Needed'
         />
       </LimitText>
     )
 
   if (showLimit)
     return (
-      <LimitText color="success">
+      <LimitText color='success'>
         &nbsp;
         <FormattedMessage
-          id="scenes.exchange.exchangeform.limit_info.amount_available"
-          defaultMessage="{amount} Available"
+          id='scenes.exchange.exchangeform.limit_info.amount_available'
+          defaultMessage='{amount} Available'
           values={{
             amount: unsafe_deprecated_fiatToString({
               value: limit,
@@ -72,11 +72,11 @@ const LimitMessage = ({
 
   if (showPending)
     return (
-      <LimitText color="btc">
+      <LimitText color='btc'>
         &nbsp;
         <FormattedMessage
-          id="scenes.exchange.exchangeform.limit_info.in_review"
-          defaultMessage="In Review"
+          id='scenes.exchange.exchangeform.limit_info.in_review'
+          defaultMessage='In Review'
         />
       </LimitText>
     )
@@ -94,37 +94,37 @@ export const LimitAction = ({
   if (upgradeRequired)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color="blue600">
-          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+        <LimitText color='blue600'>
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </LimitText>
-        <TierIcon name="chevron-right-large" color="blue600" />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
 
   if (nextTierAvailable)
     return (
       <TierLink onClick={upgradeTier}>
-        <LimitText color="blue600">
+        <LimitText color='blue600'>
           <FormattedMessage
-            id="scenes.exchange.exchangeform.limit_info.upgrade"
-            defaultMessage="Upgrade"
+            id='scenes.exchange.exchangeform.limit_info.upgrade'
+            defaultMessage='Upgrade'
           />
         </LimitText>
-        <TierIcon name="chevron-right-large" color="blue600" />
+        <TierIcon name='chevron-right-large' color='blue600' />
       </TierLink>
     )
   if (lastTierInReview)
     return (
-      <LinkContainer to="/swap/profile">
+      <LinkContainer to='/swap/profile'>
         <TierLink>
-          <LimitText color="btc">
+          <LimitText color='btc'>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.limit_info.levelinreview"
-              defaultMessage="{level} In Review"
+              id='scenes.exchange.exchangeform.limit_info.levelinreview'
+              defaultMessage='{level} In Review'
               values={{ level: levelName[path([nextTier, 'level'], TIERS)] }}
             />
           </LimitText>
-          <TierIcon name="chevron-right-large" color="btc" />
+          <TierIcon name='chevron-right-large' color='btc' />
         </TierLink>
       </LinkContainer>
     )
@@ -137,7 +137,7 @@ export class LimitInfo extends React.PureComponent {
     actions.verifyIdentity(nextTier, false, upgradeRequired)
   }
 
-  render() {
+  render () {
     const {
       tier,
       nextTier,
@@ -156,10 +156,10 @@ export class LimitInfo extends React.PureComponent {
     return (
       <LimitRow>
         <Group>
-          <LimitText color="blue900">
+          <LimitText color='blue900'>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.limit_info.level"
-              defaultMessage="{level}"
+              id='scenes.exchange.exchangeform.limit_info.level'
+              defaultMessage='{level}'
               values={{ level: levelName[path([tier, 'level'], TIERS)] }}
             />
             {(showLimit || upgradeRequired || showPending) && ' -'}

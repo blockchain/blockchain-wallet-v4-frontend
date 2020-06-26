@@ -4,13 +4,13 @@ import Str from '@ledgerhq/hw-app-str'
 
 import { getKeyPair } from '../utils/xlm'
 
-export const sign = function*({ transaction }, mnemonic) {
+export const sign = function * ({ transaction }, mnemonic) {
   const keyPair = yield call(getKeyPair, mnemonic)
   transaction.sign(keyPair)
   return transaction
 }
 
-export const signWithLockbox = function*(transport, transaction, scrambleKey) {
+export const signWithLockbox = function * (transport, transaction, scrambleKey) {
   const str = new Str(transport, scrambleKey)
   const { signature } = yield str.signTransaction(
     "44'/148'/0'",

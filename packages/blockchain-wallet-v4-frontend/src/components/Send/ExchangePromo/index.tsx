@@ -69,24 +69,24 @@ class ExchangePromo extends PureComponent<Props> {
     ])
   }
 
-  render() {
+  render () {
     const { domains, isExchangeLinked, isGoldVerified } = this.props
     const exchangeUrl = concat(prop('exchange', domains), '/trade')
 
     return (
       <Wrapper>
         {isGoldVerified ? (
-          <Text color="blue800" size="14px" weight={500}>
+          <Text color='blue800' size='14px' weight={500}>
             <FormattedMessage
-              id="exchangepromo.pairs"
-              defaultMessage="Access 20+ trading pairs on the Exchange."
+              id='exchangepromo.pairs'
+              defaultMessage='Access 20+ trading pairs on the Exchange.'
             />
           </Text>
         ) : (
-          <Text color="blue800" size="14px" weight={500}>
+          <Text color='blue800' size='14px' weight={500}>
             <FormattedMessage
-              id="exchangepromo.upgradeaccount"
-              defaultMessage="Upgrade your account to buy, sell, and trade."
+              id='exchangepromo.upgradeaccount'
+              defaultMessage='Upgrade your account to buy, sell, and trade.'
             />
           </Text>
         )}
@@ -94,9 +94,9 @@ class ExchangePromo extends PureComponent<Props> {
           isExchangeLinked ? (
             <LinkCustom
               href={`${exchangeUrl}?utm_source=web_wallet&utm_medium=referral&utm_campaign=sidenav_exchange_linked`}
-              rel="noopener noreferrer"
-              data-e2e="openExchange"
-              target="_blank"
+              rel='noopener noreferrer'
+              data-e2e='openExchange'
+              target='_blank'
               onClick={() =>
                 this.props.analyticsActions.logEvent([
                   ...EXCHANGE_EVENTS.PROMO,
@@ -104,42 +104,42 @@ class ExchangePromo extends PureComponent<Props> {
                 ])
               }
             >
-              <Text color="blue600" size="14px" weight={600}>
+              <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage
-                  id="exchangepromo.trade"
-                  defaultMessage="Trade"
+                  id='exchangepromo.trade'
+                  defaultMessage='Trade'
                 />
               </Text>
               <Icon
-                name="chevron-right"
-                color="blue600"
-                size="22px"
+                name='chevron-right'
+                color='blue600'
+                size='22px'
                 weight={500}
               />
             </LinkCustom>
           ) : (
             <ConnectContainer
-              data-e2e="connectExchange"
+              data-e2e='connectExchange'
               onClick={this.onSignup}
             >
-              <Text color="blue600" size="14px" weight={600}>
+              <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage
-                  id="scenes.exchange.getstarted.status.getstarted.button"
-                  defaultMessage="Get Started"
+                  id='scenes.exchange.getstarted.status.getstarted.button'
+                  defaultMessage='Get Started'
                 />
               </Text>
               <Icon
-                name="chevron-right"
-                color="blue600"
-                size="20px"
+                name='chevron-right'
+                color='blue600'
+                size='20px'
                 weight={500}
               />
             </ConnectContainer>
           )
         ) : (
           <LinkContainer
-            data-e2e="goSettingsProfile"
-            to="/settings/profile"
+            data-e2e='goSettingsProfile'
+            to='/settings/profile'
             onClick={() =>
               this.props.analyticsActions.logEvent([
                 ...EXCHANGE_EVENTS.PROMO,
@@ -148,16 +148,16 @@ class ExchangePromo extends PureComponent<Props> {
             }
           >
             <GetStartedContainer>
-              <Text color="blue600" size="14px" weight={600}>
+              <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage
-                  id="scenes.exchange.exchangeform.limit_info.upgrade"
-                  defaultMessage="Upgrade"
+                  id='scenes.exchange.exchangeform.limit_info.upgrade'
+                  defaultMessage='Upgrade'
                 />
               </Text>
               <Icon
-                name="chevron-right"
-                color="blue600"
-                size="20px"
+                name='chevron-right'
+                color='blue600'
+                size='20px'
                 weight={500}
               />
             </GetStartedContainer>

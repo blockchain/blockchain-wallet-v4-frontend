@@ -5,9 +5,9 @@ import React from 'react'
 import { CoinBalanceWrapper } from '../../model'
 
 const Success = props => (
-  <LinkContainer to="/lockbox">
-    <div data-e2e="balanceDropdown-lockbox-eth">
-      <CoinBalanceWrapper coin="ETH" balance={props.balance} />
+  <LinkContainer to='/lockbox'>
+    <div data-e2e='balanceDropdown-lockbox-eth'>
+      <CoinBalanceWrapper coin='ETH' balance={props.balance} />
     </div>
   </LinkContainer>
 )

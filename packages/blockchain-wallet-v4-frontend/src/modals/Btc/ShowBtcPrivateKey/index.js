@@ -16,21 +16,21 @@ const formats = [
 ]
 
 class ShowBtcPrivateKeyContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { format: 'wif' }
     this.handleChangeFormat = this.handleChangeFormat.bind(this)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.clearShownBtcPrivateKey()
   }
 
-  handleChangeFormat(format) {
+  handleChangeFormat (format) {
     this.setState({ format })
   }
 
-  render() {
+  render () {
     let step = this.props.priv == null ? 0 : 1
     let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
     return (

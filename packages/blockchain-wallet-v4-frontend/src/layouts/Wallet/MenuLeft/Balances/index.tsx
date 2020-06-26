@@ -99,10 +99,10 @@ const BalancesContainer = () => {
   return (
     <Wrapper>
       {!isLaptop && (
-        <TitleText data-e2e="totalBalance">
+        <TitleText data-e2e='totalBalance'>
           <FormattedMessage
-            id="scenes.wallet.menutop.balance.totalbalance"
-            defaultMessage="Total Balance"
+            id='scenes.wallet.menutop.balance.totalbalance'
+            defaultMessage='Total Balance'
           />
         </TitleText>
       )}

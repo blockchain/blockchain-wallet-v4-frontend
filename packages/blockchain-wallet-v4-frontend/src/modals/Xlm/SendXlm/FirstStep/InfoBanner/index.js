@@ -45,10 +45,10 @@ export const InfoBanner = props => {
   const modalProps = { currency, effectiveBalanceXlm, fee, rates, reserveXlm }
 
   return (
-    <BannerTemplate data-e2e="sendXlmBalanceBanner">
+    <BannerTemplate data-e2e='sendXlmBalanceBanner'>
       <FormattedMessage
-        id="modals.sendxlm.reserveinfo"
-        defaultMessage="Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance."
+        id='modals.sendxlm.reserveinfo'
+        defaultMessage='Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.'
         values={{
           effectiveBalanceFiat,
           currencySymbol: currencySymbolMap[currency]

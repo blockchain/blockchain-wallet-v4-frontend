@@ -48,8 +48,8 @@ const Medium: React.FC<Props> = props => {
       <Navbar>
         <NavbarHeader>
           <NavbarBrand>
-            <NavLink to="/home" data-e2e="homeLink">
-              <BlockchainLogoImage name="blockchain-logo" />
+            <NavLink to='/home' data-e2e='homeLink'>
+              <BlockchainLogoImage name='blockchain-logo' />
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>
@@ -62,7 +62,7 @@ const Medium: React.FC<Props> = props => {
           <Settings {...props} />
         </NavbarNav>
       </Navbar>
-      <NavbarBottomStyled height="60px">
+      <NavbarBottomStyled height='60px'>
         <Balances />
         <NavbarNav>
           <Features />

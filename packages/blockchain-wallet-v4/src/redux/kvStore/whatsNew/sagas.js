@@ -13,12 +13,12 @@ const whatsNewDefaultEntry = {
 }
 
 export default ({ api, networks }) => {
-  const createWhatsNew = function*(kv) {
+  const createWhatsNew = function * (kv) {
     const newkv = set(KVStoreEntry.value, whatsNewDefaultEntry, kv)
     yield put(A.createMetadataWhatsnew(newkv))
   }
 
-  const fetchMetadataWhatsnew = function*() {
+  const fetchMetadataWhatsnew = function * () {
     try {
       const typeId = derivationMap[WHATSNEW]
       yield take(actionTypes.root.FETCH_METADATA_ROOT_SUCCESS)

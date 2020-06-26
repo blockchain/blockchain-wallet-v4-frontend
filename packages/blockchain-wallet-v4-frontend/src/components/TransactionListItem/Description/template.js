@@ -32,28 +32,28 @@ const EditDescription = props => {
       {value ? (
         <DisplayContainer>
           <Text
-            size="14px"
+            size='14px'
             weight={400}
-            data-e2e="transactionListItemDescription"
+            data-e2e='transactionListItemDescription'
           >
             {value}
           </Text>
-          <PencilIcon name="pencil" color="received" size="14px" cursor />
+          <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       ) : (
-        <DisplayContainer data-e2e="transactionListItemAddDescription">
+        <DisplayContainer data-e2e='transactionListItemAddDescription'>
           <Text
-            size="14px"
+            size='14px'
             weight={400}
-            cursor="pointer"
-            data-e2e="editTransactionDescriptionLink"
+            cursor='pointer'
+            data-e2e='editTransactionDescriptionLink'
           >
             <FormattedMessage
-              id="components.editdescription.add"
-              defaultMessage="Add a description"
+              id='components.editdescription.add'
+              defaultMessage='Add a description'
             />
           </Text>
-          <PencilIcon name="pencil" color="received" size="14px" cursor />
+          <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       )}
     </Wrapper>

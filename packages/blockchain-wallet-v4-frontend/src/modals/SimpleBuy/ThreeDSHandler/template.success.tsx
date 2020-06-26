@@ -23,10 +23,10 @@ const Success: React.FC<Props> = props => {
       <>
         <Icon
           cursor
-          name="arrow-left"
-          size="20px"
-          color="grey600"
-          role="button"
+          name='arrow-left'
+          size='20px'
+          color='grey600'
+          role='button'
           onClick={() => {
             props.type === 'ORDER'
               ? props.simpleBuyActions.setStep({

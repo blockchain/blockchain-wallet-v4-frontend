@@ -24,7 +24,7 @@ class SettingsContainer extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     const { ...rest } = this.props
 
     return (

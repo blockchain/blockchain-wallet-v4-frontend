@@ -48,47 +48,47 @@ const EmailReminder = props => {
   return (
     <React.Fragment>
       <ItemWrapper>
-        <Icon name="email" color="white" size="24px" />
+        <Icon name='email' color='white' size='24px' />
         <Text
           style={{ marginLeft: '12px', marginBottom: '1px' }}
-          color="white"
-          size="14px"
+          color='white'
+          size='14px'
           weight={500}
         >
           <FormattedMessage
-            id="layouts.wallet.header.announcements.emailreminder"
-            defaultMessage="Confirm your email address to properly secure your account"
+            id='layouts.wallet.header.announcements.emailreminder'
+            defaultMessage='Confirm your email address to properly secure your account'
           />
         </Text>
         <span>&nbsp;</span>
         <EmailSentNotification
-          color="white"
-          size="14px"
+          color='white'
+          size='14px'
           className={emailReminded ? 'active' : ''}
           weight={500}
         >
           <FormattedMessage
-            id="layouts.wallet.header.announcements.emailreminder.emailsent"
-            defaultMessage="- An email was sent to {email}"
+            id='layouts.wallet.header.announcements.emailreminder.emailsent'
+            defaultMessage='- An email was sent to {email}'
             values={{ email }}
           />
         </EmailSentNotification>
       </ItemWrapper>
       <ItemWrapper>
-        <Action color="white" size="14px" onClick={() => onEmailResend(email)}>
+        <Action color='white' size='14px' onClick={() => onEmailResend(email)}>
           <FormattedMessage
-            id="layouts.wallet.header.announcements.emailreminder.resend"
-            defaultMessage="Resend Email"
+            id='layouts.wallet.header.announcements.emailreminder.resend'
+            defaultMessage='Resend Email'
           />
         </Action>
         <LinkContainer
           style={{ marginLeft: '15px' }}
           to={{ pathname: '/security-center', state: { changeEmail: true } }}
         >
-          <Action color="white" size="14px">
+          <Action color='white' size='14px'>
             <FormattedMessage
-              id="layouts.wallet.header.announcements.emailreminder.change"
-              defaultMessage="Change Email"
+              id='layouts.wallet.header.announcements.emailreminder.change'
+              defaultMessage='Change Email'
             />
           </Action>
         </LinkContainer>

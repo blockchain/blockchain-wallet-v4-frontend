@@ -31,23 +31,23 @@ const Template = props => {
 
   return (
     <Wrapper>
-      <Header onClick={props.handleToggle} data-e2e="balanceDropdown-wallet">
+      <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
         <Title>
           <Icon
-            color="grey400"
-            name="wallet-filled"
-            size="22px"
+            color='grey400'
+            name='wallet-filled'
+            size='22px'
             style={{ marginRight: '14px' }}
           />
           <FormattedMessage
-            id="layouts.wallet.menutop.balance.walletbalance.wallet"
-            defaultMessage="Wallet"
+            id='layouts.wallet.menutop.balance.walletbalance.wallet'
+            defaultMessage='Wallet'
           />
         </Title>
         <Icon
-          color="grey600"
-          name="caret"
-          size="10px"
+          color='grey600'
+          name='caret'
+          size='10px'
           className={props.isActive ? 'active' : ''}
         />
       </Header>

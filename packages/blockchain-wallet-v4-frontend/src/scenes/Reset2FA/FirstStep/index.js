@@ -2,16 +2,16 @@ import FirstStep from './template'
 import React from 'react'
 
 class FirstStepContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.nextStep()
   }
 
-  render() {
+  render () {
     return <FirstStep {...this.props} onSubmit={this.onSubmit} />
   }
 }

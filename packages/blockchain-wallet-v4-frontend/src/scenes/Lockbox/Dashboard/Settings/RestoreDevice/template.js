@@ -15,24 +15,24 @@ const RestoreLockboxDevice = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.lockbox.settings.restorelockboxdevice.title"
-            defaultMessage="Restore Lockbox Device"
+            id='scenes.lockbox.settings.restorelockboxdevice.title'
+            defaultMessage='Restore Lockbox Device'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.lockbox.settings.restorelockboxdevice.description"
-            defaultMessage="Get step by step instructions to restore your device in our user guide"
+            id='scenes.lockbox.settings.restorelockboxdevice.description'
+            defaultMessage='Get step by step instructions to restore your device in our user guide'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <Link
-          href="https://support.blockchain.com/hc/en-us/articles/360018285872"
-          target="_blank"
+          href='https://support.blockchain.com/hc/en-us/articles/360018285872'
+          target='_blank'
         >
-          <Button nature="empty">
-            <Icon name="open-in-new-tab" size="20px" />
+          <Button nature='empty'>
+            <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>
       </SettingComponent>

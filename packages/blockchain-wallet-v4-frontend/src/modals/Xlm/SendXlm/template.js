@@ -15,14 +15,14 @@ const SendHeader = styled(ModalHeader)`
 `
 
 const SendXlm = props => (
-  <Modal size="medium" position={props.position} total={props.total}>
-    <SendHeader icon="send" onClose={props.closeAll}>
+  <Modal size='medium' position={props.position} total={props.total}>
+    <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedMessage
-        id="modals.sendxlm.title"
-        defaultMessage="Send Stellar"
+        id='modals.sendxlm.title'
+        defaultMessage='Send Stellar'
       />
     </SendHeader>
-    <Announcements type="service" alertArea="send" currentCoin="XLM" />
+    <Announcements type='service' alertArea='send' currentCoin='XLM' />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )

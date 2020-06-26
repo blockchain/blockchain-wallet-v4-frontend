@@ -41,28 +41,28 @@ const Footer = ({ actions, countryCode }) => {
   if (countryCode === 'US') {
     return (
       <Wrapper>
-        <Text color="grey400" size="12px" weight={500}>
+        <Text color='grey400' size='12px' weight={500}>
           <FormattedMessage
-            id="layouts.wallet.menuleft.footer.adtax"
-            defaultMessage="Offer by LukkaTax"
+            id='layouts.wallet.menuleft.footer.adtax'
+            defaultMessage='Offer by LukkaTax'
           />
         </Text>
         <AdsButton
-          height="48px"
+          height='48px'
           onClick={() => actions.logEvent(ADS_EVENTS.CLICK_AD_TAX)}
         >
           <Link
-            href="https://diy.lukkatax.com/?referralCode=1blockchain"
-            rel="noopener noreferrer"
-            target="_blank"
+            href='https://diy.lukkatax.com/?referralCode=1blockchain'
+            rel='noopener noreferrer'
+            target='_blank'
           >
-            <ButtonText color="grey500" size="14px" weight={500}>
+            <ButtonText color='grey500' size='14px' weight={500}>
               <span>💰</span>
               <FormattedHTMLMessage
-                id="layouts.wallet.menuleft.footer.adtaxsave"
-                defaultMessage="Save this tax season"
+                id='layouts.wallet.menuleft.footer.adtaxsave'
+                defaultMessage='Save this tax season'
               />
-              <ArrowIcon name="arrow-right" color="blue600" />
+              <ArrowIcon name='arrow-right' color='blue600' />
             </ButtonText>
           </Link>
         </AdsButton>

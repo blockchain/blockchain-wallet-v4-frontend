@@ -10,7 +10,7 @@ const INITIAL_STATE: SendEthState = {
   feeToggled: false
 }
 
-export function sendEthReducer(state = INITIAL_STATE, action) {
+export function sendEthReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {

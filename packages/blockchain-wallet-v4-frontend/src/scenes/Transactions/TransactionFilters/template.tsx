@@ -35,33 +35,33 @@ const SearchField = styled<any>(Field)`
 
 const TransactionFilters = ({ handleClickReporting }) => (
   <StickyHeader>
-    <HorizontalMenu marginBottom="0px">
+    <HorizontalMenu marginBottom='0px'>
       <Field
-        name="status"
+        name='status'
         statuses={['', 'sent', 'received', 'transferred']}
         component={TabMenuTransactionStatus}
       />
       <Search>
         <StyledIconButton
-          data-e2e="generateTxReport"
-          height="45px"
-          name="download"
-          nature="light"
+          data-e2e='generateTxReport'
+          height='45px'
+          name='download'
+          nature='light'
           onClick={handleClickReporting}
-          width="120px"
+          width='120px'
         >
           <FormattedMessage
-            id="scenes.transactions.export.download"
-            defaultMessage="Download"
+            id='scenes.transactions.export.download'
+            defaultMessage='Download'
           />
         </StyledIconButton>
         <SearchField
           component={TextBox}
-          data-e2e="transactionsMenuSearchBox"
-          height="45px"
-          icon="magnifier"
-          name="search"
-          placeholder="Search"
+          data-e2e='transactionsMenuSearchBox'
+          height='45px'
+          icon='magnifier'
+          name='search'
+          placeholder='Search'
         />
       </Search>
     </HorizontalMenu>

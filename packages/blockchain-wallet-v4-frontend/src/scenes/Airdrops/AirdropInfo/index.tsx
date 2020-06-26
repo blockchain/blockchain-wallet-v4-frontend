@@ -23,7 +23,7 @@ const AirdropBox = styled(Box)`
 const AirdropInfo = (props: Props) => {
   return (
     <AirdropBox>
-      <Icon name="parachute" color="green600" size="32px" />
+      <Icon name='parachute' color='green600' size='32px' />
       <AirdropInfoHeader />
       <AirdropInfoCopy {...props} />
       <Footer>

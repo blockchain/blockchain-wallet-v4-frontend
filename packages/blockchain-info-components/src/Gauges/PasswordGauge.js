@@ -43,11 +43,11 @@ const PasswordGauge = props => {
 
   return (
     <Container>
-      {score > 0 ? <Bar color={color} /> : <Bar color="transparent" />}
-      {score > 1 ? <Bar color={color} /> : <Bar color="transparent" />}
-      {score > 2 ? <Bar color={color} /> : <Bar color="transparent" />}
-      {score > 3 ? <Bar color={color} /> : <Bar color="transparent" />}
-      {score > 4 ? <Bar color={color} /> : <Bar color="transparent" />}
+      {score > 0 ? <Bar color={color} /> : <Bar color='transparent' />}
+      {score > 1 ? <Bar color={color} /> : <Bar color='transparent' />}
+      {score > 2 ? <Bar color={color} /> : <Bar color='transparent' />}
+      {score > 3 ? <Bar color={color} /> : <Bar color='transparent' />}
+      {score > 4 ? <Bar color={color} /> : <Bar color='transparent' />}
     </Container>
   )
 }

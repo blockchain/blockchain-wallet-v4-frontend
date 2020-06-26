@@ -9,10 +9,10 @@ export const Status = ({ order }: { order: SBOrderType }) => {
   switch (order.state) {
     case 'FINISHED':
       return (
-        <Text size="14px" weight={500} color="green600">
+        <Text size='14px' weight={500} color='green600'>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.complete"
-            defaultMessage="{type} Completed"
+            id='modals.simplebuy.transactionfeed.complete'
+            defaultMessage='{type} Completed'
             values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
           />
         </Text>
@@ -20,29 +20,29 @@ export const Status = ({ order }: { order: SBOrderType }) => {
     case 'PENDING_CONFIRMATION':
     case 'PENDING_DEPOSIT':
       return (
-        <Text size="14px" weight={500}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.waitingondepo"
-            defaultMessage="Pending Deposit"
+            id='modals.simplebuy.transactionfeed.waitingondepo'
+            defaultMessage='Pending Deposit'
           />
         </Text>
       )
     case 'DEPOSIT_MATCHED':
       return (
-        <Text size="14px" weight={500}>
+        <Text size='14px' weight={500}>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.pending"
-            defaultMessage="Pending {type}"
+            id='modals.simplebuy.transactionfeed.pending'
+            defaultMessage='Pending {type}'
             values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
           />
         </Text>
       )
     case 'CANCELED':
       return (
-        <Text size="14px" weight={500} color="red600">
+        <Text size='14px' weight={500} color='red600'>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.canceled"
-            defaultMessage="{type} Canceled"
+            id='modals.simplebuy.transactionfeed.canceled'
+            defaultMessage='{type} Canceled'
             values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
           />
         </Text>
@@ -50,20 +50,20 @@ export const Status = ({ order }: { order: SBOrderType }) => {
     case 'FAILED':
     case 'EXPIRED':
       return (
-        <Text size="14px" weight={500} color="red600">
+        <Text size='14px' weight={500} color='red600'>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.failed"
-            defaultMessage="{type} Failed"
+            id='modals.simplebuy.transactionfeed.failed'
+            defaultMessage='{type} Failed'
             values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
           />
         </Text>
       )
     default:
       return (
-        <Text size="14px" weight={500} color="red600">
+        <Text size='14px' weight={500} color='red600'>
           <FormattedMessage
-            id="modals.simplebuy.transactionfeed.unknown"
-            defaultMessage="Unknown Status"
+            id='modals.simplebuy.transactionfeed.unknown'
+            defaultMessage='Unknown Status'
           />
         </Text>
       )

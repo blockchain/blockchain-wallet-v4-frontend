@@ -6,7 +6,7 @@ import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (
   <SettingSelectBoxWrapper>
-    <Field name="theme" component={SelectBoxTheme} />
+    <Field name='theme' component={SelectBoxTheme} />
   </SettingSelectBoxWrapper>
 )
 

@@ -17,10 +17,10 @@ const Loading: React.FC<{}> = () => {
   return (
     <Wrapper>
       <SpinningLoader />
-      <Text weight={600} color="grey800" style={{ marginTop: '24px' }}>
+      <Text weight={600} color='grey800' style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id="modals.interest.loading.doingwork"
-          defaultMessage="Doing Work..."
+          id='modals.interest.loading.doingwork'
+          defaultMessage='Doing Work...'
         />
       </Text>
     </Wrapper>

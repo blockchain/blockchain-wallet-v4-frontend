@@ -11,15 +11,15 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import Success from './template.success'
 
 class ShapeshiftTradeDetailsContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.modalInitialized(this.props.depositAddress)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.modalDestroyed()
   }
 
-  render() {
+  render () {
     const { data, position, total, close } = this.props
 
     return data.cata({

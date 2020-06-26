@@ -37,7 +37,7 @@ const SummaryStringDisplay = styled(StringDisplay)`
 const add = (augend, addend) => new BigNumber.sum(augend, addend).toString()
 
 export class Summary extends React.PureComponent {
-  render() {
+  render () {
     const {
       currency,
       insufficientEthBalance,
@@ -58,24 +58,24 @@ export class Summary extends React.PureComponent {
         <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.summary.exchange"
-              defaultMessage="Exchange"
+              id='scenes.exchange.exchangeform.summary.exchange'
+              defaultMessage='Exchange'
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <SummaryExchangeAmount color="grey700">
+            <SummaryExchangeAmount color='grey700'>
               <SummaryStringDisplay
-                data-e2e="exchangeSummarySwapFiatValue"
-                skeletonHeight="20px"
-                skeletonWidth="46px"
+                data-e2e='exchangeSummarySwapFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
               >
                 {sourceFiat.map(amount =>
                   formatAmount(true, fiatCurrencySymbol, amount)
                 )}
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
-            <SubExchangeAmount color="grey700">
-              <SummaryStringDisplay data-e2e="exchangeSummarySwapValue">
+            <SubExchangeAmount color='grey700'>
+              <SummaryStringDisplay data-e2e='exchangeSummarySwapValue'>
                 {sourceAmount.map(amount =>
                   coinToString({
                     value: amount,
@@ -90,27 +90,27 @@ export class Summary extends React.PureComponent {
         <LargeTableRow>
           <TooltipWrapAmountHeader>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.summary.networkfees"
-              defaultMessage="Network Fees"
+              id='scenes.exchange.exchangeform.summary.networkfees'
+              defaultMessage='Network Fees'
             />
-            <TooltipHost id="exchange.networkfees">
+            <TooltipHost id='exchange.networkfees'>
               <TooltipIcon
-                name="question-in-circle-filled"
-                color="grey400"
-                size="18px"
+                name='question-in-circle-filled'
+                color='grey400'
+                size='18px'
               />
             </TooltipHost>
           </TooltipWrapAmountHeader>
           <ExchangeAmounts>
             <SummaryExchangeAmount
               color={insufficientEthBalance ? 'error' : 'grey700'}
-              data-e2e="exchangeSummaryFeeFiatValue"
+              data-e2e='exchangeSummaryFeeFiatValue'
             >
               {formatAmount(true, fiatCurrencySymbol, sourceFeeFiat)}
             </SummaryExchangeAmount>
             <SubExchangeAmount
               color={insufficientEthBalance ? 'error' : 'grey700'}
-              data-e2e="exchangeSummaryFeeValue"
+              data-e2e='exchangeSummaryFeeValue'
             >
               {coinToString({
                 value: sourceFee.source,
@@ -125,17 +125,17 @@ export class Summary extends React.PureComponent {
         <LargeTableRow>
           <AmountHeader>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.summary.send"
-              defaultMessage="Send"
+              id='scenes.exchange.exchangeform.summary.send'
+              defaultMessage='Send'
             />
           </AmountHeader>
           <ExchangeAmounts>
-            <SummaryExchangeAmount color="grey700">
+            <SummaryExchangeAmount color='grey700'>
               -
               <SummaryStringDisplay
-                data-e2e="exchangeSummaryTotalFiatValue"
-                skeletonHeight="20px"
-                skeletonWidth="46px"
+                data-e2e='exchangeSummaryTotalFiatValue'
+                skeletonHeight='20px'
+                skeletonWidth='46px'
               >
                 {sourceFiat.map(amount =>
                   formatAmount(
@@ -146,9 +146,9 @@ export class Summary extends React.PureComponent {
                 )}
               </SummaryStringDisplay>
             </SummaryExchangeAmount>
-            <SubExchangeAmount color="grey700">
+            <SubExchangeAmount color='grey700'>
               <span>-</span>
-              <SummaryStringDisplay data-e2e="exchangeSummaryTotalValue">
+              <SummaryStringDisplay data-e2e='exchangeSummaryTotalValue'>
                 {sourceAmount.map(amount =>
                   coinToString({
                     value: sourceFee.isSourceErc20
@@ -163,10 +163,10 @@ export class Summary extends React.PureComponent {
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <AmountHeader color="blue900" weight={500}>
+          <AmountHeader color='blue900' weight={500}>
             <FormattedMessage
-              id="scenes.exchange.exchangeform.summary.to"
-              defaultMessage="Receive"
+              id='scenes.exchange.exchangeform.summary.to'
+              defaultMessage='Receive'
             />
           </AmountHeader>
           <ExchangeAmounts>
@@ -174,12 +174,12 @@ export class Summary extends React.PureComponent {
               <TargetFiatAmount
                 targetAmount={targetAmount}
                 targetCoin={targetCoin}
-                color="blue900"
+                color='blue900'
                 weight={500}
               />
             </SummaryExchangeAmount>
-            <SubExchangeAmount color="grey700">
-              <SummaryStringDisplay data-e2e="exchangeSummaryTargetValue">
+            <SubExchangeAmount color='grey700'>
+              <SummaryStringDisplay data-e2e='exchangeSummaryTargetValue'>
                 {targetAmount.map(amount =>
                   coinToString({
                     value: amount,

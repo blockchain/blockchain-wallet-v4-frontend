@@ -77,19 +77,19 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               <Icon
                 name={lastFailedTx ? 'alert-filled' : 'check'}
                 size={lastFailedTx ? '18px' : '12px'}
-                color="white"
+                color='white'
               />
             </IconWrapper>
-            <Text color="grey600" size="14px" weight={500}>
+            <Text color='grey600' size='14px' weight={500}>
               {lastFailedTx ? (
                 <FormattedMessage
-                  id="scenes.borrow.details.newloan.failed"
+                  id='scenes.borrow.details.newloan.failed'
                   defaultMessage="There was a problem depositing collateral to your loan. Please try again by clicking 'Add Collateral' below."
                 />
               ) : (
                 <FormattedMessage
-                  id="scenes.borrow.details.newloan.created"
-                  defaultMessage="Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet."
+                  id='scenes.borrow.details.newloan.created'
+                  defaultMessage='Loan has been created. Once your {symbol} deposit has been confirmed you will receive the loan amount in your wallet.'
                   values={{ symbol: props.loan.collateral.amounts[0].currency }}
                 />
               )}
@@ -99,35 +99,35 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
             <>
               <Item>
                 <IconWrapper>
-                  <Icon name="timer" size="18px" color="grey600" />
+                  <Icon name='timer' size='18px' color='grey600' />
                 </IconWrapper>
-                <Text color="grey600" size="14px" weight={500}>
+                <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
-                    id="scenes.borrow.details.newloan.waiting"
+                    id='scenes.borrow.details.newloan.waiting'
                     defaultMessage="Waiting on your deposit to be confirmed by the network. You don't need to take any action at this point."
                   />
                 </Text>
               </Item>
               <Item>
                 <IconWrapper>
-                  <Icon name="wallet" size="18px" color="grey600" />
+                  <Icon name='wallet' size='18px' color='grey600' />
                 </IconWrapper>
-                <InlineText color="grey600" size="14px" weight={500}>
+                <InlineText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
-                    id="scenes.borrow.details.newloan.receive"
-                    defaultMessage="You will receive"
+                    id='scenes.borrow.details.newloan.receive'
+                    defaultMessage='You will receive'
                   />{' '}
                   <CoinDisplay
                     coin={props.loan.principal.amount[0].currency}
-                    color="grey600"
-                    size="14px"
+                    color='grey600'
+                    size='14px'
                     weight={500}
                   >
                     {props.loan.principal.amount[0].amount}
                   </CoinDisplay>{' '}
                   <FormattedMessage
-                    id="scenes.borrow.newloan.receive2"
-                    defaultMessage="to your Blockchain Wallet once we’ve received your deposit."
+                    id='scenes.borrow.newloan.receive2'
+                    defaultMessage='to your Blockchain Wallet once we’ve received your deposit.'
                   />
                 </InlineText>
               </Item>
@@ -141,30 +141,30 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
         <Wrapper>
           <Item>
             <IconWrapper bgColor={lastFailedTx ? 'red600' : 'orange600'}>
-              <Icon name="timer" size="18px" color="white" />
+              <Icon name='timer' size='18px' color='white' />
             </IconWrapper>
-            <Text color="grey600" size="14px" weight={500}>
+            <Text color='grey600' size='14px' weight={500}>
               {lastFailedTx ? (
                 <FormattedMessage
-                  id="scenes.borrow.details.info.repayment.failed"
-                  defaultMessage="An error occurred while attempting to repay your loan. This could be because you do not have enough ETH to send USD-D, or because of a network connectivity issue. Please try again."
+                  id='scenes.borrow.details.info.repayment.failed'
+                  defaultMessage='An error occurred while attempting to repay your loan. This could be because you do not have enough ETH to send USD-D, or because of a network connectivity issue. Please try again.'
                 />
               ) : (
                 <FormattedMessage
-                  id="scenes.borrow.details.info.repayment"
-                  defaultMessage="Repayment of your loan is in-progress and is being reviewed by our team."
+                  id='scenes.borrow.details.info.repayment'
+                  defaultMessage='Repayment of your loan is in-progress and is being reviewed by our team.'
                 />
               )}
             </Text>
           </Item>
           <Item>
             <IconWrapper>
-              <Icon name="wallet" size="18px" color="grey600" />
+              <Icon name='wallet' size='18px' color='grey600' />
             </IconWrapper>
-            <Text color="grey600" size="14px" weight={500}>
+            <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
-                id="scenes.borrow.details.info.clearance"
-                defaultMessage="Once your principal deposit is cleared by the network and our team, you will receive your collateral."
+                id='scenes.borrow.details.info.clearance'
+                defaultMessage='Once your principal deposit is cleared by the network and our team, you will receive your collateral.'
               />
             </Text>
           </Item>
@@ -177,14 +177,14 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
             <div>
               <AmountsHeader>
                 <FormattedMessage
-                  id="scenes.borrow.details.info.amount"
-                  defaultMessage="Borrow Amount"
+                  id='scenes.borrow.details.info.amount'
+                  defaultMessage='Borrow Amount'
                 />
               </AmountsHeader>
               <CoinDisplay
                 coin={props.loan.principal.amount[0].currency}
-                color="grey800"
-                size="20px"
+                color='grey800'
+                size='20px'
                 weight={600}
               >
                 {props.loan.principal.amount[0].amount}
@@ -193,15 +193,15 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
             <div>
               <AmountsHeader>
                 <FormattedMessage
-                  id="scenes.borrow.details.info.collateral"
-                  defaultMessage="Collateral Value"
+                  id='scenes.borrow.details.info.collateral'
+                  defaultMessage='Collateral Value'
                 />
               </AmountsHeader>
               <FiatDisplay
-                color="grey800"
-                size="20px"
+                color='grey800'
+                size='20px'
                 weight={600}
-                currency="USD"
+                currency='USD'
                 coin={props.loan.collateral.amounts[0].currency}
               >
                 {props.loan.collateral.amounts[0].amount}
@@ -213,11 +213,11 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               <div>
                 <AmountsHeader>
                   <FormattedMessage
-                    id="scenes.borrow.details.info.outstanding"
-                    defaultMessage="Outstanding"
+                    id='scenes.borrow.details.info.outstanding'
+                    defaultMessage='Outstanding'
                   />
-                  <TooltipHost id="borrow.interest.tooltip">
-                    <TooltipIcon name="info" size="14px" />
+                  <TooltipHost id='borrow.interest.tooltip'>
+                    <TooltipIcon name='info' size='14px' />
                   </TooltipHost>
                 </AmountsHeader>
                 <Text
@@ -229,8 +229,8 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                     <>
                       <CoinDisplay
                         coin={props.loan.financials.owedInterest[0].currency}
-                        color="grey800"
-                        size="14px"
+                        color='grey800'
+                        size='14px'
                         weight={600}
                       >
                         {props.loan.financials.owedInterest[0].amount}
@@ -241,8 +241,8 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
                           props.loan.financials.collateralForInterest[0]
                             .currency
                         }
-                        color="grey800"
-                        size="14px"
+                        color='grey800'
+                        size='14px'
                         weight={600}
                       >
                         {props.loan.financials.collateralForInterest[0].amount}
@@ -256,10 +256,10 @@ const Info: React.FC<Props & { offer: OfferType }> = props => {
               </div>
             </AmountsContainer>
           )}
-          <Text size="16px" color="grey600" weight={600}>
+          <Text size='16px' color='grey600' weight={600}>
             <FormattedMessage
-              id="scenes.borrow.details.info.collateralization"
-              defaultMessage="Collateralization"
+              id='scenes.borrow.details.info.collateralization'
+              defaultMessage='Collateralization'
             />
           </Text>
           <CollateralizationBar {...props} showPercentages />

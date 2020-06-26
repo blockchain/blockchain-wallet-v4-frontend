@@ -9,11 +9,11 @@ import Wallets from './template'
 const { WALLET_TX_SEARCH } = model.form
 
 class BchWalletsContainer extends React.Component {
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  render() {
+  render () {
     const {
       addressesBchActions,
       data,

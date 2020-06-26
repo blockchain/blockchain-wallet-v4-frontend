@@ -49,69 +49,69 @@ const LinkExchangeAccount = () => {
     <InfoWrapper>
       <InnerWrapper>
         <Header>
-          <Text size="20px" color="blue900" weight={700}>
+          <Text size='20px' color='blue900' weight={700}>
             <FormattedMessage
-              id="scenes.linkaccount.authorize1"
-              defaultMessage="Authorize Exchange to connect to your Blockchain Wallet"
+              id='scenes.linkaccount.authorize1'
+              defaultMessage='Authorize Exchange to connect to your Blockchain Wallet'
             />
           </Text>
         </Header>
-        <ListHeader color="green500">
+        <ListHeader color='green500'>
           <FormattedMessage
-            id="scenes.linkaccount.able_to"
-            defaultMessage="The Exchange will be able to:"
+            id='scenes.linkaccount.able_to'
+            defaultMessage='The Exchange will be able to:'
           />
         </ListHeader>
         <List>
           <ListItem>
-            <Text weight={500} color="grey800" size="14px">
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
-                id="scenes.linkaccount.share_levels2"
-                defaultMessage="Share your Gold or Silver status"
+                id='scenes.linkaccount.share_levels2'
+                defaultMessage='Share your Gold or Silver status'
               />
             </Text>
           </ListItem>
           <ListItem>
-            <Text weight={500} color="grey800" size="14px">
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
-                id="scenes.linkaccount.share_addresses1"
-                defaultMessage="Share crypto addresses so you don’t have to copy and paste"
+                id='scenes.linkaccount.share_addresses1'
+                defaultMessage='Share crypto addresses so you don’t have to copy and paste'
               />
             </Text>
           </ListItem>
         </List>
-        <ListHeader color="red500">
+        <ListHeader color='red500'>
           <FormattedMessage
-            id="scenes.linkaccount.can_not_do"
-            defaultMessage="The Exchange will not be able to:"
+            id='scenes.linkaccount.can_not_do'
+            defaultMessage='The Exchange will not be able to:'
           />
         </ListHeader>
         <List>
           <ListItem>
-            <Text weight={500} color="grey800" size="14px">
+            <Text weight={500} color='grey800' size='14px'>
               <FormattedMessage
-                id="scenes.linkaccount.view_pw"
-                defaultMessage="View your Wallet password, recovery phrase, or private keys"
+                id='scenes.linkaccount.view_pw'
+                defaultMessage='View your Wallet password, recovery phrase, or private keys'
               />
             </Text>
           </ListItem>
         </List>
       </InnerWrapper>
       <Footer>
-        <Image name="blockchain-icon" height="42px" />
+        <Image name='blockchain-icon' height='42px' />
         <div style={{ marginLeft: '16px' }}>
-          <Text size="20px" color="blue900" weight={600}>
+          <Text size='20px' color='blue900' weight={600}>
             Exchange
           </Text>
           <Text
             weight={500}
-            color="grey800"
-            size="12px"
+            color='grey800'
+            size='12px'
             style={{ marginTop: '4px' }}
           >
             <FormattedMessage
-              id="scenes.linkaccount.by_blockchaincom"
-              defaultMessage="Brought to you by Blockchain.com"
+              id='scenes.linkaccount.by_blockchaincom'
+              defaultMessage='Brought to you by Blockchain.com'
             />
           </Text>
         </div>

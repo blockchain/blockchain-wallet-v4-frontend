@@ -13,11 +13,11 @@ const ContentWrapper = styled(ModalBody)`
 const LockboxFirmware = props => {
   const { children, onClose, position, total, step, totalSteps } = props
   return (
-    <Modal size="small" position={position} total={total}>
+    <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>
         <FormattedMessage
-          id="modals.lockbox.firmware.title"
-          defaultMessage="Firmware Update"
+          id='modals.lockbox.firmware.title'
+          defaultMessage='Firmware Update'
         />
       </ModalHeader>
       <ModalStepper currentStep={step} totalSteps={totalSteps} />

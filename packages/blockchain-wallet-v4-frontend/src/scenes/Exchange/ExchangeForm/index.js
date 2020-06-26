@@ -18,11 +18,11 @@ const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
 class ExchangeForm extends React.Component {
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     return nextProps.data !== this.props.data
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.setShowError(false)
   }
 
@@ -52,7 +52,7 @@ class ExchangeForm extends React.Component {
     }
   }
 
-  render() {
+  render () {
     const { actions, data, showError, txError } = this.props
     return data.cata({
       Success: value =>

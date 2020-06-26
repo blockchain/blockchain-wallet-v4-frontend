@@ -21,11 +21,11 @@ const History = styled.div`
 `
 
 class TransactionListContainer extends Component<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.interestActions.fetchInterestTransactions(true)
   }
 
-  render() {
+  render () {
     return (
       <History>
         {this.props.data.cata({

@@ -6,17 +6,17 @@ import React from 'react'
 import Recover from './template.js'
 
 class RecoverContainer extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     const { mnemonic, email, password, language } = this.props
     this.props.authActions.restore(mnemonic, email, password, language)
   }
 
-  render() {
+  render () {
     const { data, password, previousStep } = this.props
     const busy = data.cata({
       Success: () => false,

@@ -49,20 +49,20 @@ class DownloadUpdaterContainer extends React.PureComponent {
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
 
-  render() {
+  render () {
     return (
       <SettingContainer>
         <SettingSummary>
           <SettingHeader>
             <FormattedMessage
-              id="scenes.lockbox.settings.downloadupdater.title"
-              defaultMessage="Download Apps / Update Device"
+              id='scenes.lockbox.settings.downloadupdater.title'
+              defaultMessage='Download Apps / Update Device'
             />
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
-              id="scenes.lockbox.settings.downloadupdater.description"
-              defaultMessage="Download software that allows for updating device and installing/removing apps on the device"
+              id='scenes.lockbox.settings.downloadupdater.description'
+              defaultMessage='Download software that allows for updating device and installing/removing apps on the device'
             />
           </SettingDescription>
         </SettingSummary>
@@ -74,10 +74,10 @@ class DownloadUpdaterContainer extends React.PureComponent {
               this.getOsSpecificUpdater()
             )}`}
           >
-            <Button nature="empty" onClick={this.onSoftwareDownload}>
+            <Button nature='empty' onClick={this.onSoftwareDownload}>
               <FormattedMessage
-                id="scenes.lockbox.dashboard.updaterequirednotice.download"
-                defaultMessage="Download"
+                id='scenes.lockbox.dashboard.updaterequirednotice.download'
+                defaultMessage='Download'
               />
             </Button>
           </Link>

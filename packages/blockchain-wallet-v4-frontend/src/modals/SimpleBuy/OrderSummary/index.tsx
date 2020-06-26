@@ -18,7 +18,7 @@ import Success from './template.success'
 class OrderSummary extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
     }
@@ -28,7 +28,7 @@ class OrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,

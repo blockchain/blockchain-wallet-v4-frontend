@@ -15,15 +15,15 @@ const SendHeader = styled(ModalHeader)`
 `
 
 const SendEth = props => (
-  <Modal size="medium" position={props.position} total={props.total}>
-    <SendHeader icon="send" onClose={props.closeAll}>
+  <Modal size='medium' position={props.position} total={props.total}>
+    <SendHeader icon='send' onClose={props.closeAll}>
       <FormattedHTMLMessage
-        id="modals.sendeth.cointitle"
-        defaultMessage="Send {coinDisplayName}"
+        id='modals.sendeth.cointitle'
+        defaultMessage='Send {coinDisplayName}'
         values={{ coinDisplayName: props.coinDisplayName }}
       />
     </SendHeader>
-    <Announcements type="service" alertArea="send" currentCoin={props.coin} />
+    <Announcements type='service' alertArea='send' currentCoin={props.coin} />
     <ModalBody>{props.children}</ModalBody>
   </Modal>
 )

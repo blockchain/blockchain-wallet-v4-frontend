@@ -38,29 +38,29 @@ const getErrorMessage = ({ code }) => {
     case 'INVALID_CAMPAIGN_USER':
       return (
         <FormattedHTMLMessage
-          id="modals.sunriverlinkerror.airdrop_not_available"
+          id='modals.sunriverlinkerror.airdrop_not_available'
           defaultMessage="We're sorry, the airdrop program is currently not available where you are."
         />
       )
     case 'USER_ALREADY_REGISTERED_CAMPAIGN':
       return (
         <FormattedHTMLMessage
-          id="modals.sunriverlinkerror.already_received"
+          id='modals.sunriverlinkerror.already_received'
           defaultMessage="Looks like you've already received your airdrop!"
         />
       )
     case 'CAMPAIGN_EXPIRED':
       return (
         <FormattedHTMLMessage
-          id="modals.sunriverlinkerror.campaign_has_expired"
+          id='modals.sunriverlinkerror.campaign_has_expired'
           defaultMessage="We're sorry, this specific airdrop is over. Completing your profile will still give you access to higher Swap limits and future airdrops."
         />
       )
     default:
       return (
         <FormattedHTMLMessage
-          id="modals.sunriverlinkerror.error"
-          defaultMessage="Oops! We had trouble processing your airdrop. Please try again. Server msg: {error}"
+          id='modals.sunriverlinkerror.error'
+          defaultMessage='Oops! We had trouble processing your airdrop. Please try again. Server msg: {error}'
           values={{ error: code }}
         />
       )
@@ -69,21 +69,21 @@ const getErrorMessage = ({ code }) => {
 
 export const AirdropError = ({ position, total, error, closeAll }) => {
   return (
-    <Modal size="medium" position={position} total={total}>
+    <Modal size='medium' position={position} total={total}>
       <Header onClose={closeAll}>
         <FormattedMessage
-          id="modals.sunriverlinkerror.title"
-          defaultMessage="Whoops!"
+          id='modals.sunriverlinkerror.title'
+          defaultMessage='Whoops!'
         />
       </Header>
       <ModalBody>
-        <Row size="14px" weight={400}>
+        <Row size='14px' weight={400}>
           {getErrorMessage(error)}
         </Row>
       </ModalBody>
       <Footer>
-        <Button nature="primary" onClick={closeAll}>
-          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+        <Button nature='primary' onClick={closeAll}>
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </Footer>
     </Modal>

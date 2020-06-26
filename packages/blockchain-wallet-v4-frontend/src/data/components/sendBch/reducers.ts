@@ -8,7 +8,7 @@ const INITIAL_STATE: SendBchState = {
   payment: Remote.NotAsked
 }
 
-export function sendBchReducer(state = INITIAL_STATE, action) {
+export function sendBchReducer (state = INITIAL_STATE, action) {
   switch (action.type) {
     case AT.SEND_BCH_INITIALIZED:
     case AT.SEND_BCH_DESTROYED: {

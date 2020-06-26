@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const sendSagas = sagas({ api })
 
-  return function* sendSaga() {
+  return function * sendSaga () {
     yield takeLatest(
       AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
       sendSagas.fetchPaymentsAccountExchange

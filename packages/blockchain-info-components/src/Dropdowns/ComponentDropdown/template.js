@@ -92,8 +92,8 @@ const Dropdown = props => {
         <Button>{selectedComponent}</Button>
         <DropdownIcon
           name={toggled ? 'chevron-up' : 'chevron-down'}
-          size="18px"
-          data-e2e="dropdownToggleButton"
+          size='18px'
+          data-e2e='dropdownToggleButton'
         />
       </ButtonContainer>
     </Wrapper>

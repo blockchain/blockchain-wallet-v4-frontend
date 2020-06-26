@@ -198,25 +198,25 @@ const Personal = ({
               <InputWrapper>
                 <IdentityVerificationHeader>
                   <FormattedMessage
-                    id="identityverification.personal.header"
-                    defaultMessage="Personal Details"
+                    id='identityverification.personal.header'
+                    defaultMessage='Personal Details'
                   />
                   <FaqHeaderHelper>
-                    <TooltipHost id="identityverification.headerhelper">
+                    <TooltipHost id='identityverification.headerhelper'>
                       <TooltipIcon
-                        name="question-in-circle-filled"
-                        color="blue900"
-                        size="24px"
+                        name='question-in-circle-filled'
+                        color='blue900'
+                        size='24px'
                       />
                     </TooltipHost>
                   </FaqHeaderHelper>
                 </IdentityVerificationHeader>
                 <FormContainer>
                   {showEmail && !emailVerified && (
-                    <EmailVerificationLabel htmlFor="email">
+                    <EmailVerificationLabel htmlFor='email'>
                       <FormattedMessage
-                        id="identityverification.personal.verifyemail"
-                        defaultMessage="Verify Your Email Address"
+                        id='identityverification.personal.verifyemail'
+                        defaultMessage='Verify Your Email Address'
                       />
                     </EmailVerificationLabel>
                   )}
@@ -225,7 +225,7 @@ const Personal = ({
                       <FaqFormGroup>
                         <FormItem>
                           <Field
-                            name="email"
+                            name='email'
                             component={KycEmailVerification}
                             validate={[required, validEmail]}
                             verificationSent={emailStep === EMAIL_STEPS.verify}
@@ -243,24 +243,24 @@ const Personal = ({
                   <PersonalAndCountryWrapper dim={showEmailError}>
                     <FaqFormGroup>
                       <FormItem>
-                        <Label htmlFor="country">
+                        <Label htmlFor='country'>
                           <FormattedMessage
-                            id="identityverification.personal.countryrequired"
-                            defaultMessage="Country *"
+                            id='identityverification.personal.countryrequired'
+                            defaultMessage='Country *'
                           />
                         </Label>
                         <Field
-                          data-e2e="selectCountryDropdown"
-                          name="country"
+                          data-e2e='selectCountryDropdown'
+                          name='country'
                           validate={required}
                           elements={supportedCountries}
                           component={SelectBox}
-                          menuPlacement="auto"
+                          menuPlacement='auto'
                           onChange={onCountrySelect}
                           label={
                             <FormattedMessage
-                              id="components.selectboxcountry.label"
-                              defaultMessage="Select country"
+                              id='components.selectboxcountry.label'
+                              defaultMessage='Select country'
                             />
                           }
                         />
@@ -269,24 +269,24 @@ const Personal = ({
                     {countryIsUS && (
                       <FaqFormGroup>
                         <FormItem>
-                          <Label htmlFor="state">
+                          <Label htmlFor='state'>
                             <FormattedMessage
-                              id="identityverification.personal.staterequired"
-                              defaultMessage="State *"
+                              id='identityverification.personal.staterequired'
+                              defaultMessage='State *'
                             />
                           </Label>
                           <Field
-                            data-e2e="selectStateDropdown"
-                            name="state"
+                            data-e2e='selectStateDropdown'
+                            name='state'
                             validate={[required]}
                             elements={states}
                             component={SelectBox}
-                            menuPlacement="auto"
+                            menuPlacement='auto'
                             onChange={onStateSelect}
                             label={
                               <FormattedMessage
-                                id="identityverification.personal.label.state"
-                                defaultMessage="Select your state"
+                                id='identityverification.personal.label.state'
+                                defaultMessage='Select your state'
                               />
                             }
                           />
@@ -294,14 +294,14 @@ const Personal = ({
                       </FaqFormGroup>
                     )}
                     {showStateError && (
-                      <ErrorBanner type="warning">
+                      <ErrorBanner type='warning'>
                         <FormattedMessage
-                          id="identityverification.personal.unavailable"
-                          defaultMessage="Unfortunately this feature is not available in your state at this time."
+                          id='identityverification.personal.unavailable'
+                          defaultMessage='Unfortunately this feature is not available in your state at this time.'
                         />
                         <FormattedMessage
-                          id="identityverification.personal.unavailablenotify"
-                          defaultMessage="We will notify you when we expand to your area."
+                          id='identityverification.personal.unavailablenotify'
+                          defaultMessage='We will notify you when we expand to your area.'
                         />
                       </ErrorBanner>
                     )}
@@ -311,15 +311,15 @@ const Personal = ({
                         <FaqFormGroup>
                           <PersonalItem>
                             <PersonalField>
-                              <Label htmlFor="firstName" id="firstName">
+                              <Label htmlFor='firstName' id='firstName'>
                                 <FormattedMessage
-                                  id="identityverification.personal.firstnamerequired"
-                                  defaultMessage="First Name *"
+                                  id='identityverification.personal.firstnamerequired'
+                                  defaultMessage='First Name *'
                                 />
                               </Label>
                               <Field
-                                date-e2e="personalInformationFirstName"
-                                name="firstName"
+                                date-e2e='personalInformationFirstName'
+                                name='firstName'
                                 validate={required}
                                 component={TextBox}
                                 errorBottom
@@ -327,14 +327,14 @@ const Personal = ({
                               />
                             </PersonalField>
                             <PersonalField>
-                              <Label htmlFor="lastName">
+                              <Label htmlFor='lastName'>
                                 <FormattedMessage
-                                  id="identityverification.personal.lastnamerequired"
-                                  defaultMessage="Last Name *"
+                                  id='identityverification.personal.lastnamerequired'
+                                  defaultMessage='Last Name *'
                                 />
                               </Label>
                               <Field
-                                name="lastName"
+                                name='lastName'
                                 validate={required}
                                 component={TextBox}
                                 errorBottom
@@ -346,17 +346,17 @@ const Personal = ({
                             !mobile &&
                             !tablet && (
                               <FaqFormMessage
-                                icon="id-card"
+                                icon='id-card'
                                 title={
                                   <FormattedMessage
-                                    id="identityverification.personal.faq.name.title"
-                                    defaultMessage="First & Last Name"
+                                    id='identityverification.personal.faq.name.title'
+                                    defaultMessage='First & Last Name'
                                   />
                                 }
                                 text={
                                   <FormattedMessage
-                                    id="identityverification.personal.faq.name.text"
-                                    defaultMessage="They should match exactly the details in your passport or driving license."
+                                    id='identityverification.personal.faq.name.text'
+                                    defaultMessage='They should match exactly the details in your passport or driving license.'
                                   />
                                 }
                               />
@@ -367,14 +367,14 @@ const Personal = ({
                     {showPersonal && (
                       <FaqFormGroup>
                         <FormItem>
-                          <Label htmlFor="dob">
+                          <Label htmlFor='dob'>
                             <FormattedMessage
-                              id="identityverification.personal.dateofbirthrequired"
-                              defaultMessage="Date of Birth *"
+                              id='identityverification.personal.dateofbirthrequired'
+                              defaultMessage='Date of Birth *'
                             />
                           </Label>
                           <Field
-                            name="dob"
+                            name='dob'
                             validate={[requiredDOB, ageOverEighteen]}
                             component={DateInputBox}
                             fullwidth
@@ -387,17 +387,17 @@ const Personal = ({
                         </FormItem>
                         {activeField === 'dob' && !mobile && !tablet && (
                           <FaqFormMessage
-                            icon="birthday-cake-light"
+                            icon='birthday-cake-light'
                             title={
                               <FormattedMessage
-                                id="identityverification.personal.faq.dateofbirth.title"
-                                defaultMessage="Age requirement"
+                                id='identityverification.personal.faq.dateofbirth.title'
+                                defaultMessage='Age requirement'
                               />
                             }
                             text={
                               <FormattedMessage
-                                id="identityverification.personal.faq.dateofbirth.text"
-                                defaultMessage="Users must be at least 18 years old to trade crypto"
+                                id='identityverification.personal.faq.dateofbirth.text'
+                                defaultMessage='Users must be at least 18 years old to trade crypto'
                               />
                             }
                           />
@@ -409,21 +409,21 @@ const Personal = ({
                         <KycSeparator />
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor="line1" id="line1">
+                            <Label htmlFor='line1' id='line1'>
                               {countryIsUS ? (
                                 <FormattedMessage
-                                  id="identityverification.personal.address_line1required"
-                                  defaultMessage="Address Line 1 *"
+                                  id='identityverification.personal.address_line1required'
+                                  defaultMessage='Address Line 1 *'
                                 />
                               ) : (
                                 <FormattedMessage
-                                  id="identityverification.personal.streetline1required"
-                                  defaultMessage="Street Line 1 *"
+                                  id='identityverification.personal.streetline1required'
+                                  defaultMessage='Street Line 1 *'
                                 />
                               )}
                             </Label>
                             <Field
-                              name="line1"
+                              name='line1'
                               errorBottom
                               validate={required}
                               component={TextBox}
@@ -433,21 +433,21 @@ const Personal = ({
                         </FaqFormGroup>
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor="line2">
+                            <Label htmlFor='line2'>
                               {countryIsUS ? (
                                 <FormattedMessage
-                                  id="identityverification.personal.address_line2"
-                                  defaultMessage="Address Line 2"
+                                  id='identityverification.personal.address_line2'
+                                  defaultMessage='Address Line 2'
                                 />
                               ) : (
                                 <FormattedMessage
-                                  id="identityverification.personal.streetline2"
-                                  defaultMessage="Street Line 2"
+                                  id='identityverification.personal.streetline2'
+                                  defaultMessage='Street Line 2'
                                 />
                               )}
                             </Label>
                             <Field
-                              name="line2"
+                              name='line2'
                               errorBottom
                               component={TextBox}
                             />
@@ -455,14 +455,14 @@ const Personal = ({
                         </FaqFormGroup>
                         <FaqFormGroup>
                           <FormItem>
-                            <Label htmlFor="city">
+                            <Label htmlFor='city'>
                               <FormattedMessage
-                                id="identityverification.personal.cityrequired"
-                                defaultMessage="City *"
+                                id='identityverification.personal.cityrequired'
+                                defaultMessage='City *'
                               />
                             </Label>
                             <Field
-                              name="city"
+                              name='city'
                               errorBottom
                               validate={required}
                               component={TextBox}
@@ -473,14 +473,14 @@ const Personal = ({
                           <PersonalItem>
                             {!countryIsUS && (
                               <PersonalField>
-                                <Label htmlFor="state">
+                                <Label htmlFor='state'>
                                   <FormattedMessage
-                                    id="identityverification.personal.region"
-                                    defaultMessage="Region"
+                                    id='identityverification.personal.region'
+                                    defaultMessage='Region'
                                   />
                                 </Label>
                                 <Field
-                                  name="state"
+                                  name='state'
                                   errorBottom
                                   countryCode={countryCode}
                                   component={TextBox}
@@ -489,21 +489,21 @@ const Personal = ({
                             )}
                             {countryUsesZipOrPostcode && (
                               <PersonalField>
-                                <Label htmlFor="postCode">
+                                <Label htmlFor='postCode'>
                                   {countryUsesZipcode(countryCode) ? (
                                     <FormattedMessage
-                                      id="identityverification.personal.zip"
-                                      defaultMessage="Zip Code *"
+                                      id='identityverification.personal.zip'
+                                      defaultMessage='Zip Code *'
                                     />
                                   ) : (
                                     <FormattedMessage
-                                      id="identityverification.personal.postcoderequired"
-                                      defaultMessage="Postcode *"
+                                      id='identityverification.personal.postcoderequired'
+                                      defaultMessage='Postcode *'
                                     />
                                   )}
                                 </Label>
                                 <Field
-                                  name="postCode"
+                                  name='postCode'
                                   errorBottom
                                   validate={requiredZipCode}
                                   component={TextBox}
@@ -523,37 +523,37 @@ const Personal = ({
         footer={
           <Footer>
             <TermsText>
-              <Terms company="blockchain-kyc" />
+              <Terms company='blockchain-kyc' />
             </TermsText>
             {error && (
               <EmailHelper error={true}>
                 <FormattedMessage
-                  id="identityverification.personal.error"
-                  defaultMessage="Failed to save personal data. Please try again"
+                  id='identityverification.personal.error'
+                  defaultMessage='Failed to save personal data. Please try again'
                 />
               </EmailHelper>
             )}
             {showEmailError && (
               <EmailHelper error={true}>
                 <FormattedMessage
-                  id="identityverification.personal.emailerror"
-                  defaultMessage="Please verify your email before continuing."
+                  id='identityverification.personal.emailerror'
+                  defaultMessage='Please verify your email before continuing.'
                 />
               </EmailHelper>
             )}
             <Button
-              data-e2e="submitSilverVerification"
-              type="submit"
-              nature="primary"
+              data-e2e='submitSilverVerification'
+              type='submit'
+              nature='primary'
               disabled={invalid || submitting || showStateError}
             >
               {!submitting ? (
                 <FormattedMessage
-                  id="buttons.continue"
-                  defaultMessage="Continue"
+                  id='buttons.continue'
+                  defaultMessage='Continue'
                 />
               ) : (
-                <HeartbeatLoader height="20px" width="20px" color="white" />
+                <HeartbeatLoader height='20px' width='20px' color='white' />
               )}
             </Button>
           </Footer>

@@ -15,8 +15,8 @@ export const Status = ({ order }: { order: SBOrderType }) => {
       return (
         <GreyCartridge>
           <FormattedMessage
-            id="modals.simplebuy.waitingondepo"
-            defaultMessage="Waiting on Funds"
+            id='modals.simplebuy.waitingondepo'
+            defaultMessage='Waiting on Funds'
           />
         </GreyCartridge>
       )
@@ -24,8 +24,8 @@ export const Status = ({ order }: { order: SBOrderType }) => {
       return (
         <ErrorCartridge>
           <FormattedMessage
-            id="modals.simplebuy.canceled"
-            defaultMessage="Trade Canceled"
+            id='modals.simplebuy.canceled'
+            defaultMessage='Trade Canceled'
           />
         </ErrorCartridge>
       )
@@ -34,8 +34,8 @@ export const Status = ({ order }: { order: SBOrderType }) => {
       return (
         <ErrorCartridge>
           <FormattedMessage
-            id="modals.simplebuy.error"
-            defaultMessage="Trade Failed"
+            id='modals.simplebuy.error'
+            defaultMessage='Trade Failed'
           />
         </ErrorCartridge>
       )
@@ -43,23 +43,23 @@ export const Status = ({ order }: { order: SBOrderType }) => {
       return (
         <SuccessCartridge>
           <FormattedMessage
-            id="modals.simplebuy.success"
-            defaultMessage="Trade Complete"
+            id='modals.simplebuy.success'
+            defaultMessage='Trade Complete'
           />
         </SuccessCartridge>
       )
     case 'DEPOSIT_MATCHED':
       return (
         <OrangeCartridge>
-          <FormattedMessage id="copy.pending" defaultMessage="Pending" />
+          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
         </OrangeCartridge>
       )
     default:
       return (
         <GreyCartridge>
           <FormattedMessage
-            id="modals.simplebuy.unknown"
-            defaultMessage="Unknown Status"
+            id='modals.simplebuy.unknown'
+            defaultMessage='Unknown Status'
           />
         </GreyCartridge>
       )

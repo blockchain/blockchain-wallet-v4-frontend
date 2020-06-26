@@ -8,7 +8,7 @@ import React from 'react'
 
 const { TRANSACTION_EVENTS } = model.analytics
 class EditTxDescriptionContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.formActions.initialize('editTransactionDescription', {
       description: this.props.value
     })
@@ -20,7 +20,7 @@ class EditTxDescriptionContainer extends React.PureComponent {
     this.props.analyticsActions.logEvent(TRANSACTION_EVENTS.EDIT_DESCRIPTION)
   }
 
-  render() {
+  render () {
     return <EditTxDescription {...this.props} onSubmit={this.onSubmit} />
   }
 }

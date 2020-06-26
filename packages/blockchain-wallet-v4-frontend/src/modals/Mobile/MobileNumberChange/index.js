@@ -8,12 +8,12 @@ import MobileNumberChange from './template.js'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 class MobileNumberChangeContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
@@ -22,7 +22,7 @@ class MobileNumberChangeContainer extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     const { countryCode, smsNumber } = this.props
     return (
       <MobileNumberChange

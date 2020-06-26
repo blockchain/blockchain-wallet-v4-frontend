@@ -18,11 +18,11 @@ const Wrapper = styled.div`
 `
 
 class SecurityCenterContainer extends React.PureComponent {
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.settingsActions.removeRecoveryPhrase()
   }
 
-  render() {
+  render () {
     return (
       <Wrapper>
         <Menu location={this.props.location} />
@@ -31,14 +31,14 @@ class SecurityCenterContainer extends React.PureComponent {
             <SecurityCenter progress={progress} {...this.props}>
               <Switch>
                 <Route
-                  path="/security-center/basic"
+                  path='/security-center/basic'
                   component={BasicSecurity}
                 />
                 <Route
-                  path="/security-center/advanced"
+                  path='/security-center/advanced'
                   component={AdvancedSecurity}
                 />
-                <Redirect from="/security-center" to="/security-center/basic" />
+                <Redirect from='/security-center' to='/security-center/basic' />
               </Switch>
             </SecurityCenter>
           ),

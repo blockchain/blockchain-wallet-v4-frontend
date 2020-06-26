@@ -60,57 +60,57 @@ const CenteredText = styled(Text)`
 `
 
 class SwapGetStarted extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.preferencesActions.hideKycGetStarted()
   }
 
-  render() {
+  render () {
     const { position, total, close, actions } = this.props
     return (
       <Modal
-        size="small"
+        size='small'
         position={position}
         total={total}
-        dataE2e="infoModalSwapGetStarted"
+        dataE2e='infoModalSwapGetStarted'
       >
         <Header>
-          <CenteredText color="white" size="20px" weight={500}>
+          <CenteredText color='white' size='20px' weight={500}>
             <FormattedMessage
               defaultMessage="Trading your crypto doesn't mean trading away control."
-              id="modals.swapgetstarted.trading_your_crypto"
+              id='modals.swapgetstarted.trading_your_crypto'
             />
           </CenteredText>
         </Header>
-        <Body data-e2e="swapGetStarted">
-          <Text size="16x" weight={400}>
+        <Body data-e2e='swapGetStarted'>
+          <Text size='16x' weight={400}>
             <FormattedMessage
-              defaultMessage="A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds."
-              id="modals.swapgetstarted.description"
+              defaultMessage='A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
+              id='modals.swapgetstarted.description'
             />
           </Text>
         </Body>
         <Footer>
           <FooterButton
-            nature="primary"
-            size="18px"
+            nature='primary'
+            size='18px'
             fullwidth
             onClick={actions.swapGetStartedSubmitClicked}
           >
             <FormattedMessage
-              defaultMessage="Get Started"
-              id="modals.swapgetstarted.getstarted"
+              defaultMessage='Get Started'
+              id='modals.swapgetstarted.getstarted'
             />
           </FooterButton>
           <LaterButton
-            data-e2e="modalCloseButton"
-            nature="primary"
-            size="18px"
+            data-e2e='modalCloseButton'
+            nature='primary'
+            size='18px'
             fullwidth
             onClick={close}
           >
             <FormattedMessage
               defaultMessage="I'll do this later"
-              id="modals.swapgetstarted.later"
+              id='modals.swapgetstarted.later'
             />
           </LaterButton>
         </Footer>

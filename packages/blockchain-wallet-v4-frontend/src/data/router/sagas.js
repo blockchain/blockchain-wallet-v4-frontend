@@ -4,7 +4,7 @@ import { put } from 'redux-saga/effects'
 export default () => {
   const logLocation = 'modules/router/sagas'
 
-  const changeLocation = function*({ payload }) {
+  const changeLocation = function * ({ payload }) {
     try {
       const { location, action } = payload
       yield put(actions.analytics.logPageView(location.pathname))

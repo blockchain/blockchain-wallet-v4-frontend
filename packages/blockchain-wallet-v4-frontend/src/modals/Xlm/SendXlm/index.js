@@ -10,16 +10,16 @@ import SecondStep from './SecondStep'
 import SendXlm from './template'
 
 class SendXlmContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const { amount, memo, to } = this.props
     this.props.actions.initialized({ amount, memo, to })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.destroyed()
   }
 
-  render() {
+  render () {
     const { step, position, total, closeAll } = this.props
     return (
       <SendXlm position={position} total={total} closeAll={closeAll}>

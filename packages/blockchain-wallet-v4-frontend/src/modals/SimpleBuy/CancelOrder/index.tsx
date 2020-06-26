@@ -23,7 +23,7 @@ class CancelOrder extends PureComponent<Props, State> {
     this.props.simpleBuyActions.cancelSBOrder(this.props.order)
   }
 
-  render() {
+  render () {
     return <Template {...this.props} onSubmit={this.handleSubmit} />
   }
 }

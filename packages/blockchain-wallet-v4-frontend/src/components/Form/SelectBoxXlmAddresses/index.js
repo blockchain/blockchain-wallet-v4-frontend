@@ -6,7 +6,7 @@ import { getData } from './selectors'
 import SelectBoxXlm from './template'
 
 class SelectBoxXlmAddresses extends React.PureComponent {
-  render() {
+  render () {
     const { data, includeAll, ...rest } = this.props
 
     return data.cata({

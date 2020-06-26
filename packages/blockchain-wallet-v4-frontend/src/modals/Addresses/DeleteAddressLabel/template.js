@@ -25,49 +25,49 @@ const DeleteAdresssLabel = props => {
   const { onDeleteConfirm, close } = props
 
   return (
-    <Modal size="large">
+    <Modal size='large'>
       <ModalHeader onClose={close}>
         <TitleGroup inline>
-          <Icon name="alert-filled" size="32px" color="brand-yellow" />
+          <Icon name='alert-filled' size='32px' color='brand-yellow' />
           <Text weight={400} size={'22px'} style={{ paddingLeft: '8px' }}>
             <FormattedMessage
-              id="modal.deleteaddresslabel.title"
-              defaultMessage="Remove Label?"
+              id='modal.deleteaddresslabel.title'
+              defaultMessage='Remove Label?'
             />
           </Text>
         </TitleGroup>
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={400} size={'14px'} color="grey700">
+          <Text weight={400} size={'14px'} color='grey700'>
             <FormattedMessage
-              id="modal.deleteaddresslabel.message"
-              defaultMessage="Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone."
+              id='modal.deleteaddresslabel.message'
+              defaultMessage='Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone.'
             />
           </Text>
         </TextGroup>
       </ModalBody>
-      <ModalFooter align="right">
+      <ModalFooter align='right'>
         <Link
-          size="13px"
+          size='13px'
           weight={400}
           onClick={close}
-          data-e2e="cancelAddressDeleteLink"
+          data-e2e='cancelAddressDeleteLink'
         >
-          <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
         <Button
-          type="submit"
-          nature="primary"
+          type='submit'
+          nature='primary'
           onClick={() => {
             onDeleteConfirm()
           }}
           style={{ marginLeft: '20px' }}
-          data-e2e="deleteAddressConfirmButton"
+          data-e2e='deleteAddressConfirmButton'
         >
           <FormattedMessage
-            id="modal.deleteaddresslabel.delete"
-            defaultMessage="Delete Label"
+            id='modal.deleteaddresslabel.delete'
+            defaultMessage='Delete Label'
           />
         </Button>
       </ModalFooter>

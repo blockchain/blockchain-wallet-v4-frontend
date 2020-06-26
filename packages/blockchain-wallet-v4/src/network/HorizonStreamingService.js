@@ -4,7 +4,7 @@ import { assoc, difference, dissoc, forEach, isEmpty, keys, prop } from 'ramda'
 export const RECONNECT_TIMEOUT = 30 * 1000
 
 export default class HorizonStreamingService {
-  constructor({ url }) {
+  constructor ({ url }) {
     this.server = new StellarSDK.Server(url)
   }
 
@@ -29,7 +29,7 @@ export default class HorizonStreamingService {
     }
   }
 
-  open(onMessage, onError) {
+  open (onMessage, onError) {
     this.onMessage = onMessage
     this.onError = onError
   }
@@ -46,7 +46,7 @@ export default class HorizonStreamingService {
     )
   }
 
-  close() {
+  close () {
     forEach(this._unsubscribeFromAccount, keys(this.streams))
   }
 }

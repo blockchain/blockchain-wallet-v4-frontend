@@ -50,13 +50,13 @@ const CopyClipboard = props => {
 
   return (
     <Wrapper>
-      <DataFieldBox data-e2e="copyClipboardData">{address}</DataFieldBox>
+      <DataFieldBox data-e2e='copyClipboardData'>{address}</DataFieldBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton
           active={active}
           name={active ? 'check' : 'copy-clipboard'}
-          color="grey100"
-          data-e2e="copyClipboardCopyButton"
+          color='grey100'
+          data-e2e='copyClipboardCopyButton'
         />
       </CopyToClipBoard>
     </Wrapper>

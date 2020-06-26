@@ -17,7 +17,7 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
@@ -26,7 +26,7 @@ class EnterAmount extends PureComponent<Props> {
     }
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,

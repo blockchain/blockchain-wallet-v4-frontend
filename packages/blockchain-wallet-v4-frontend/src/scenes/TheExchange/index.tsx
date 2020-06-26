@@ -20,7 +20,7 @@ class ExchangeContainer extends React.PureComponent<Props> {
     this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.LEARN_MORE)
   }
 
-  render() {
+  render () {
     return <Exchange onSignup={this.onSignup} {...this.props} />
   }
 }

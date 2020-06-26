@@ -9,7 +9,7 @@ import React from 'react'
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.formActions.reset('login')
   }
 
@@ -27,7 +27,7 @@ class LoginContainer extends React.PureComponent<Props> {
     this.props.authActions.resendSmsCode(this.props.guid)
   }
 
-  render() {
+  render () {
     const { authType, data, lastGuid } = this.props
 
     const { busy, error } = data.cata({

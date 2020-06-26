@@ -26,7 +26,7 @@ type LinkDispatchPropsType = {
 type Props = OwnProps & LinkDispatchPropsType
 
 class SendBtcContainer extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     const { from, to, description, amount, lockboxIndex, payPro } = this.props
     this.props.actions.initialized({
       from,
@@ -38,11 +38,11 @@ class SendBtcContainer extends React.PureComponent<Props> {
     })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.destroyed()
   }
 
-  render() {
+  render () {
     const {
       to,
       step,

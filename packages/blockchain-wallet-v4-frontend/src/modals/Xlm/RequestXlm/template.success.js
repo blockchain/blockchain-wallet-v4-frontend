@@ -61,31 +61,31 @@ const RequestXlm = ({
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <FormItem data-e2e="currencySelectDropdown">
-          <FormLabel htmlFor="coin">
+        <FormItem data-e2e='currencySelectDropdown'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
-              id="modals.requestxlm.coin"
-              defaultMessage="Currency:"
+              id='modals.requestxlm.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
           <Field
-            name="coin"
+            name='coin'
             component={SelectBoxCoin}
-            type="request"
+            type='request'
             validate={[required]}
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <FormItem data-e2e="receiveToWalletDropdown">
-          <FormLabel htmlFor="to">
+        <FormItem data-e2e='receiveToWalletDropdown'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
-              id="modals.requestxlm.firststep.receive"
-              defaultMessage="Receive To:"
+              id='modals.requestxlm.firststep.receive'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
-            name="to"
+            name='to'
             component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
@@ -95,34 +95,34 @@ const RequestXlm = ({
       </FormGroup>
       {isLockboxAcct && (
         <BannerContainer>
-          <Banner type="info">
+          <Banner type='info'>
             {warnLockboxReceive ? (
-              <Text color="warning" size="12px">
+              <Text color='warning' size='12px'>
                 <FormattedHTMLMessage
-                  id="modals.requestxlm.lockbox.confirm.warnbrowser"
-                  defaultMessage="Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk."
+                  id='modals.requestxlm.lockbox.confirm.warnbrowser'
+                  defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                 />
               </Text>
             ) : (
               <TextGroup inline>
-                <Text color="warning" size="12px">
+                <Text color='warning' size='12px'>
                   <FormattedHTMLMessage
-                    id="modals.requestxlm.firststep.lockbox.confirm1"
-                    defaultMessage="Please confirm the address above on your Lockbox by opening your Stellar app now."
+                    id='modals.requestxlm.firststep.lockbox.confirm1'
+                    defaultMessage='Please confirm the address above on your Lockbox by opening your Stellar app now.'
                   />
                 </Text>
-                <Text size="12px" onClick={handleOpenLockbox}>
-                  <span className="link">
+                <Text size='12px' onClick={handleOpenLockbox}>
+                  <span className='link'>
                     <FormattedHTMLMessage
-                      id="modals.requestxlm.firststep.lockbox.clickhere"
-                      defaultMessage="Click here"
+                      id='modals.requestxlm.firststep.lockbox.clickhere'
+                      defaultMessage='Click here'
                     />
                   </span>
                 </Text>
-                <Text color="warning" size="12px">
+                <Text color='warning' size='12px'>
                   <FormattedHTMLMessage
-                    id="modals.requestxlm.firststep.lockbox.confirm2"
-                    defaultMessage="once the app has been opened."
+                    id='modals.requestxlm.firststep.lockbox.confirm2'
+                    defaultMessage='once the app has been opened.'
                   />
                 </Text>
               </TextGroup>
@@ -134,29 +134,29 @@ const RequestXlm = ({
         <QRCodeWrapper
           value={xlmURI}
           size={125}
-          data-e2e="requestXlmAddressQrCode"
+          data-e2e='requestXlmAddressQrCode'
         />
       </QRCodeContainer>
       <FormGroup>
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id="modals.requestxlm.address"
-              defaultMessage="Address:"
+              id='modals.requestxlm.address'
+              defaultMessage='Address:'
             />
           </FormLabel>
         </FormItem>
         <AddressContainer>
-          <CopyClipboard address={address} data-e2e="requestXlm" coin="XLM" />
+          <CopyClipboard address={address} data-e2e='requestXlm' coin='XLM' />
         </AddressContainer>
       </FormGroup>
       <Button
-        type="submit"
-        nature="primary"
+        type='submit'
+        nature='primary'
         fullwidth
-        data-e2e="requestXlmDoneButton"
+        data-e2e='requestXlmDoneButton'
       >
-        <FormattedMessage id="buttons.done" defaultMessage="Done" />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

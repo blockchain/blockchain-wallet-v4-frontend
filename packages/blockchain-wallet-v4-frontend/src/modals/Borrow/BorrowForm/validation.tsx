@@ -21,8 +21,8 @@ export const maximumAmount = (
 ) => {
   return new BigNumber(props.limits.maxFiat).isLessThan(Number(value)) ? (
     <FormattedMessage
-      id="borrow.validation.abovemax"
-      defaultMessage="The amount you entered is above the maximum amount."
+      id='borrow.validation.abovemax'
+      defaultMessage='The amount you entered is above the maximum amount.'
     />
   ) : (
     false
@@ -41,8 +41,8 @@ export const minimumAmount = (
     case 'CHECKOUT':
       return new BigNumber(value).isLessThan(props.limits.minFiat) ? (
         <FormattedMessage
-          id="borrow.validation.belowmin.amt"
-          defaultMessage="The amount you entered is below the minimum amount of {minFiat}."
+          id='borrow.validation.belowmin.amt'
+          defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
           values={{
             minFiat: fiatToString({
               value: props.limits.minFiat,
@@ -66,8 +66,8 @@ export const minimumAmount = (
             getCollateralAmtRequired(props.loan, props.offer)
           ) ? (
             <FormattedMessage
-              id="borrow.validation.belowmin.amt"
-              defaultMessage="The amount you entered is below the minimum amount of {minFiat}."
+              id='borrow.validation.belowmin.amt'
+              defaultMessage='The amount you entered is below the minimum amount of {minFiat}.'
               values={{
                 minFiat: fiatToString({
                   value: getCollateralAmtRequired(props.loan, props.offer),
@@ -81,8 +81,8 @@ export const minimumAmount = (
         default:
           return new BigNumber(value).isLessThanOrEqualTo(0) ? (
             <FormattedMessage
-              id="borrow.validation.belowmin.safe"
-              defaultMessage="You must enter an amount greater than {minFiat}."
+              id='borrow.validation.belowmin.safe'
+              defaultMessage='You must enter an amount greater than {minFiat}.'
               values={{
                 minFiat: fiatToString({
                   value: 0,

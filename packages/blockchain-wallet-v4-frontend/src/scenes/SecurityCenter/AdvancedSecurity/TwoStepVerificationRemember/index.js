@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import TwoStepVerification from './template'
 
 class TwoStepVerificationRememberContainer extends React.PureComponent {
-  render() {
+  render () {
     return <TwoStepVerification {...this.props} />
   }
 }

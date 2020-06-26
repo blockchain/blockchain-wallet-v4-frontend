@@ -21,7 +21,7 @@ class FirstStep extends React.Component {
     })
   }
 
-  render() {
+  render () {
     const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
       Success: value => (

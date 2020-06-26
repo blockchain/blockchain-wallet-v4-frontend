@@ -28,7 +28,7 @@ export const createTestStore = (
     ...middlewares
   )(createStore)
   const testStore = createTestStore(combinedReducers)
-  sagaMiddleware.run(function*() {
+  sagaMiddleware.run(function * () {
     yield all(map(fork, sagas))
   })
 
@@ -37,7 +37,7 @@ export const createTestStore = (
 
 export const TestBed = ({ store, withRouter, initialRoutes, children }) => (
   <Provider store={store}>
-    <IntlProvider locale="en" messages={{}}>
+    <IntlProvider locale='en' messages={{}}>
       <ThemeProvider>
         <MediaContextProvider>
           {withRouter ? (

@@ -53,8 +53,8 @@ const Small: React.FC<Props> = props => {
       <Navbar>
         <NavbarHeader>
           <NavbarBrand>
-            <NavLink to="/home" data-e2e="homeLink">
-              <BlockchainLogoImage name="blockchain-logo" />
+            <NavLink to='/home' data-e2e='homeLink'>
+              <BlockchainLogoImage name='blockchain-logo' />
             </NavLink>
           </NavbarBrand>
         </NavbarHeader>
@@ -65,13 +65,13 @@ const Small: React.FC<Props> = props => {
           <Settings {...props} />
         </NavbarNav>
       </Navbar>
-      <NavbarBottomStyled height="60px">
+      <NavbarBottomStyled height='60px'>
         <NavbarNav>
           <NavbarNavItem>
             <HamburgerIcon
-              name="hamburger-menu"
-              color="alwaysWhite"
-              size="16px"
+              name='hamburger-menu'
+              color='alwaysWhite'
+              size='16px'
               onClick={props.handleToggle}
             />
           </NavbarNavItem>

@@ -9,7 +9,7 @@ import Eth from '@ledgerhq/hw-app-eth'
 export default ({ networks }) => {
   const logLocation = 'components/requestEth/sagas'
 
-  const openLockboxAppClicked = function*(action) {
+  const openLockboxAppClicked = function * (action) {
     try {
       const form = yield select(selectors.form.getFormValues('requestEth'))
       const to = prop('to', form)

@@ -18,7 +18,7 @@ import Success from './template.success'
 class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.simpleBuyActions.fetchSBQuote()
   }
 
@@ -49,7 +49,7 @@ class CheckoutConfirm extends PureComponent<Props> {
     }
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />

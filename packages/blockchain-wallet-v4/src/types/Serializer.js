@@ -18,7 +18,7 @@ import * as Wrapper from './Wrapper'
 import Remote from '../remote'
 
 const serializer = {
-  replacer: function(key, value) {
+  replacer: function (key, value) {
     // Remove all functions from the state
     if (value && typeof value === 'function') {
       return ''
@@ -33,7 +33,7 @@ const serializer = {
     }
     return value
   },
-  reviver: function(key, value) {
+  reviver: function (key, value) {
     if (
       typeof value === 'object' &&
       value !== null &&

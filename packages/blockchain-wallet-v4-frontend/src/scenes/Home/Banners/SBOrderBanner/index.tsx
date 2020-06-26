@@ -74,7 +74,7 @@ class SBOrderBanner extends PureComponent<Props> {
     this.props.simpleBuyActions.showModal('PendingOrder')
   }
 
-  render() {
+  render () {
     const { latestPendingOrder } = this.props
 
     if (!latestPendingOrder) return null
@@ -83,26 +83,26 @@ class SBOrderBanner extends PureComponent<Props> {
       <Wrapper>
         <Row>
           <PendingIconWrapper>
-            <Icon name="pending" color="orange600" size="20px" />
+            <Icon name='pending' color='orange600' size='20px' />
           </PendingIconWrapper>
           <Column>
-            <Text size="20px" weight={600} color="grey800">
+            <Text size='20px' weight={600} color='grey800'>
               <FormattedMessage
-                id="scenes.home.banner.pendingbuy"
-                defaultMessage="Pending Buy"
+                id='scenes.home.banner.pendingbuy'
+                defaultMessage='Pending Buy'
               />
             </Text>
-            <Copy size="16px" color="grey600" weight={500}>
+            <Copy size='16px' color='grey600' weight={500}>
               {latestPendingOrder.paymentMethodId ||
               latestPendingOrder.paymentType === 'PAYMENT_CARD' ? (
                 <FormattedMessage
-                  id="scenes.home.banner.receive_cc_order"
-                  defaultMessage="Once you finalize your credit card information, your buy order will complete."
+                  id='scenes.home.banner.receive_cc_order'
+                  defaultMessage='Once you finalize your credit card information, your buy order will complete.'
                 />
               ) : (
                 <FormattedMessage
-                  id="scenes.home.banner.receivetransfer"
-                  defaultMessage="Once we receive your bank transfer, your buy order will complete."
+                  id='scenes.home.banner.receivetransfer'
+                  defaultMessage='Once we receive your bank transfer, your buy order will complete.'
                 />
               )}
             </Copy>
@@ -111,12 +111,12 @@ class SBOrderBanner extends PureComponent<Props> {
         <BannerButton
           onClick={() => this.showModal()}
           jumbo
-          data-e2e="openPendingSBOrder"
-          nature="primary"
+          data-e2e='openPendingSBOrder'
+          nature='primary'
         >
           <FormattedMessage
-            id="scenes.home.banner.sborder.details"
-            defaultMessage="View Details"
+            id='scenes.home.banner.sborder.details'
+            defaultMessage='View Details'
           />
         </BannerButton>
       </Wrapper>

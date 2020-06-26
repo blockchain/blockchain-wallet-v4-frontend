@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import Template from './template'
 
 class WalletBalanceContainer extends React.PureComponent {
-  render() {
+  render () {
     const {
       preferencesActions,
       totalBalancesDropdown,

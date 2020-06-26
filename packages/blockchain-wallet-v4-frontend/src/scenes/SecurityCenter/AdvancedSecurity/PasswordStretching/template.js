@@ -42,66 +42,66 @@ const PasswordStretching = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.securitycenter.advanced.passwordstretching.title"
-            defaultMessage="Password Stretching (PBKDF2)"
+            id='scenes.securitycenter.advanced.passwordstretching.title'
+            defaultMessage='Password Stretching (PBKDF2)'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.securitycenter.advanced.passwordstretching.description"
-            defaultMessage="This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet."
+            id='scenes.securitycenter.advanced.passwordstretching.description'
+            defaultMessage='This increases the difficulty of discovering your password using a brute-force attack but slows down loading and saving your wallet.'
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <SettingWrapper>
           {currentStretch && (
-            <CurrentText data-e2e="currentStretchLabel">
+            <CurrentText data-e2e='currentStretchLabel'>
               {currentStretch}
             </CurrentText>
           )}
           {!updateToggled && (
             <Button
-              nature="primary"
+              nature='primary'
               onClick={handleToggle}
-              data-e2e="editPasswordStretchingButton"
+              data-e2e='editPasswordStretchingButton'
             >
               <FormattedMessage
-                id="scenes.securitycenter.advanced.passwordstretching.edit"
-                defaultMessage="Edit"
+                id='scenes.securitycenter.advanced.passwordstretching.edit'
+                defaultMessage='Edit'
               />
             </Button>
           )}
           {updateToggled && (
             <SettingForm onSubmit={handleSubmit}>
               <Field
-                data-e2e="passwordStretchingInput"
-                name="passwordStretching"
+                data-e2e='passwordStretchingInput'
+                name='passwordStretching'
                 component={NumberBox}
                 validate={validPasswordStretchingNumber}
               />
               <ButtonWrapper>
                 <Button
-                  nature="empty"
+                  nature='empty'
                   capitalize
                   onClick={handleToggle}
-                  data-e2e="passwordStretchCancelButton"
+                  data-e2e='passwordStretchCancelButton'
                 >
                   <FormattedMessage
-                    id="buttons.cancel"
-                    defaultMessage="Cancel"
+                    id='buttons.cancel'
+                    defaultMessage='Cancel'
                   />
                 </Button>
                 <Button
-                  type="submit"
-                  nature="primary"
+                  type='submit'
+                  nature='primary'
                   capitalize
                   disabled={submitting || invalid}
-                  data-e2e="cancelStretchSaveButton"
+                  data-e2e='cancelStretchSaveButton'
                 >
                   <FormattedMessage
-                    id="scenes.securitycenter.advanced.passwordstretching.save"
-                    defaultMessage="Save"
+                    id='scenes.securitycenter.advanced.passwordstretching.save'
+                    defaultMessage='Save'
                   />
                 </Button>
               </ButtonWrapper>

@@ -6,8 +6,8 @@ const MinFeeForRetryInvalid: React.FC = () => {
   return (
     <ErrorCartridge>
       <FormattedMessage
-        id="modals.sendeth.firststep.min_fee_for_retry"
-        defaultMessage="Please use a higher fee to retry your transaction."
+        id='modals.sendeth.firststep.min_fee_for_retry'
+        defaultMessage='Please use a higher fee to retry your transaction.'
       />
     </ErrorCartridge>
   )

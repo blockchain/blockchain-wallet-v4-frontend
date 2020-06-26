@@ -3,7 +3,7 @@ export default (callback, delay) => {
   let args
   let context
 
-  function wrapper() {
+  function wrapper () {
     if (isThrottled) {
       args = arguments
       context = this

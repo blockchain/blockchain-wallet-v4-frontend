@@ -11,7 +11,7 @@ class PromptContainer extends React.PureComponent {
     this.props.actions.submitPromptInput(this.props.value)
   }
 
-  render() {
+  render () {
     return (
       <PromptTemplate
         {...this.props}

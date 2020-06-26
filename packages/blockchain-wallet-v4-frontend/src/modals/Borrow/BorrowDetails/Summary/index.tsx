@@ -41,16 +41,16 @@ const Summary: React.FC<Props> = props => {
 
   return showBorrowSummary(props.loan) ? (
     <div>
-      <Text color="grey800" weight={600}>
-        <FormattedMessage id="modals.borrow.summary" defaultMessage="Summary" />
+      <Text color='grey800' weight={600}>
+        <FormattedMessage id='modals.borrow.summary' defaultMessage='Summary' />
       </Text>
       <Table>
         {lastUnconfirmedOrFailedTx && (
           <TableRow>
             <Title>
               <FormattedMessage
-                id="modals.borrow.lasttx"
-                defaultMessage="Last Transaction Status"
+                id='modals.borrow.lasttx'
+                defaultMessage='Last Transaction Status'
               />
             </Title>
             <Value>{lastUnconfirmedOrFailedTx.status}</Value>
@@ -59,8 +59,8 @@ const Summary: React.FC<Props> = props => {
         <TableRow>
           <Title>
             <FormattedMessage
-              id="modals.borrow.status"
-              defaultMessage="Status"
+              id='modals.borrow.status'
+              defaultMessage='Status'
             />
           </Title>
           <Value>
@@ -70,15 +70,15 @@ const Summary: React.FC<Props> = props => {
         <TableRow>
           <Title>
             <FormattedMessage
-              id="modals.borrow.borrowamount"
-              defaultMessage="Borrow Amount"
+              id='modals.borrow.borrowamount'
+              defaultMessage='Borrow Amount'
             />
           </Title>
           <Value>
             <CoinDisplay
-              size="14px"
+              size='14px'
               weight={500}
-              color="grey800"
+              color='grey800'
               coin={props.loan.principal.amount[0].currency}
             >
               {props.loan.principal.amount[0].amount}
@@ -88,8 +88,8 @@ const Summary: React.FC<Props> = props => {
         <TableRow>
           <Title>
             <FormattedMessage
-              id="modals.borrow.collateral"
-              defaultMessage="Collateral"
+              id='modals.borrow.collateral'
+              defaultMessage='Collateral'
             />
           </Title>
           <Value>
@@ -100,8 +100,8 @@ const Summary: React.FC<Props> = props => {
           <TableRow>
             <Title>
               <FormattedMessage
-                id="modals.borrow.collateralization"
-                defaultMessage="Collateralization"
+                id='modals.borrow.collateralization'
+                defaultMessage='Collateralization'
               />
             </Title>
             <Value color={getCollateralizationColor(currentCollateralStatus)}>
@@ -112,8 +112,8 @@ const Summary: React.FC<Props> = props => {
         <TableRow>
           <Title>
             <FormattedMessage
-              id="modals.borrow.interestrate"
-              defaultMessage="Interest Rate"
+              id='modals.borrow.interestrate'
+              defaultMessage='Interest Rate'
             />
           </Title>
           <Value>

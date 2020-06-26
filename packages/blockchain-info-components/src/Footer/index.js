@@ -214,7 +214,7 @@ let langItems = Object.keys(supportedLanguages).map(langKey => {
 })
 
 class Footer extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.cookies = new Cookies()
 
@@ -229,7 +229,7 @@ class Footer extends PureComponent {
     this.handleDropdown = this.handleDropdown.bind(this)
   }
 
-  handleDropdown(value) {
+  handleDropdown (value) {
     if (value === 'en') {
       this.cookies.remove('clang', { path: '/' })
     } else {
@@ -253,7 +253,7 @@ class Footer extends PureComponent {
     }, 1)
   }
 
-  render() {
+  render () {
     return (
       <IntlProvider>
         <GlobalFooter>
@@ -268,7 +268,7 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href="/markets">
+                    <Link locale={this.lang} href='/markets'>
                       Blockchain Markets
                     </Link>
                   </li>
@@ -341,7 +341,7 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link href="https://blog.blockchain.com">Blog</Link>
+                    <Link href='https://blog.blockchain.com'>Blog</Link>
                   </li>
                   <li>
                     <Link locale={this.lang} href={'/research'}>
@@ -387,10 +387,10 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link href="https://support.blockchain.com">Support</Link>
+                    <Link href='https://support.blockchain.com'>Support</Link>
                   </li>
                   <li>
-                    <Link href="https://www.blockchain-status.com/">
+                    <Link href='https://www.blockchain-status.com/'>
                       Status
                     </Link>
                   </li>
@@ -398,7 +398,7 @@ class Footer extends PureComponent {
               </Column>
 
               <Column>
-                <BlueLogo name="blockchain-icon" height="44px" />
+                <BlueLogo name='blockchain-icon' height='44px' />
                 <Copyright>
                   © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
                 </Copyright>
@@ -412,14 +412,14 @@ class Footer extends PureComponent {
                 onChange={this.handleDropdown}
               />
               <SocialLinksWrap>
-                <SocialLinks href="https://twitter.com/blockchain">
-                  <Image name="twitter-white" />
+                <SocialLinks href='https://twitter.com/blockchain'>
+                  <Image name='twitter-white' />
                 </SocialLinks>
-                <SocialLinks href="https://www.linkedin.com/company/blockchain/">
-                  <Image name="linkedin-white" />
+                <SocialLinks href='https://www.linkedin.com/company/blockchain/'>
+                  <Image name='linkedin-white' />
                 </SocialLinks>
-                <SocialLinks href="https://www.facebook.com/blockchain/">
-                  <Image name="facebook-white" />
+                <SocialLinks href='https://www.facebook.com/blockchain/'>
+                  <Image name='facebook-white' />
                 </SocialLinks>
               </SocialLinksWrap>
             </LangNav>

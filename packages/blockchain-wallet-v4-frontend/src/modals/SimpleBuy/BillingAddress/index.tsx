@@ -11,7 +11,7 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class BillingAddress extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.simpleBuyActions.initializeBillingAddress()
   }
 
@@ -19,7 +19,7 @@ class BillingAddress extends PureComponent<Props> {
     this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => (
         <Success {...val} {...this.props} onSubmit={this.handleSubmit} />

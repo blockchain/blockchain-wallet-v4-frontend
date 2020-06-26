@@ -4,7 +4,7 @@ import { put } from 'redux-saga/effects'
 export const logLocation = 'components/btcTransactions/sagas'
 
 export default () => {
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       yield put(actions.core.data.xlm.fetchTransactions('', true))
     } catch (e) {
@@ -12,7 +12,7 @@ export default () => {
     }
   }
 
-  const loadMore = function*() {
+  const loadMore = function * () {
     try {
       yield put(actions.core.data.xlm.fetchTransactions())
     } catch (e) {

@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import UninstallApps from './template'
 
 class UninstallAppsContainer extends React.PureComponent {
-  render() {
+  render () {
     return <UninstallApps {...this.props} />
   }
 }

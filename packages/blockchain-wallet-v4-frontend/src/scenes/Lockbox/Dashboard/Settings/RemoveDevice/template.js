@@ -17,23 +17,23 @@ const DeviceStatus = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.lockbox.settings.removedevice.title"
-            defaultMessage="Remove Device"
+            id='scenes.lockbox.settings.removedevice.title'
+            defaultMessage='Remove Device'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.lockbox.settings.removedevice.description"
-            defaultMessage="Remove {deviceName} from your Blockchain web wallet"
+            id='scenes.lockbox.settings.removedevice.description'
+            defaultMessage='Remove {deviceName} from your Blockchain web wallet'
             values={{ deviceName }}
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Button nature="sent" onClick={deleteDevice}>
+        <Button nature='sent' onClick={deleteDevice}>
           <FormattedMessage
-            id="scenes.lockbox.settings.removedevice.remove"
-            defaultMessage="Remove Device"
+            id='scenes.lockbox.settings.removedevice.remove'
+            defaultMessage='Remove Device'
           />
         </Button>
       </SettingComponent>

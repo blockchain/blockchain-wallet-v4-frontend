@@ -15,7 +15,7 @@ const startingMedia = getMediaMatches()
 const mediaContext = React.createContext(startingMedia)
 
 export class MediaContextProvider extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.updateHandlers = {}
@@ -24,7 +24,7 @@ export class MediaContextProvider extends React.Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     forEachObjIndexed((matcher, matcherName) => {
       const updateHandler = this.updateMedia.bind(this, matcherName)
       this.updateHandlers[matcherName] = updateHandler
@@ -32,7 +32,7 @@ export class MediaContextProvider extends React.Component {
     }, mediaMatchers)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     forEachObjIndexed(
       (matcher, matcherName) =>
         matcher.removeListener(this.updateHandlers[matcherName]),
@@ -40,13 +40,13 @@ export class MediaContextProvider extends React.Component {
     )
   }
 
-  updateMedia(matcherName, { matches }) {
+  updateMedia (matcherName, { matches }) {
     this.setState({
       media: assoc(matcherName, matches, this.state.media)
     })
   }
 
-  render() {
+  render () {
     const { children } = this.props
     const { media } = this.state
     return (

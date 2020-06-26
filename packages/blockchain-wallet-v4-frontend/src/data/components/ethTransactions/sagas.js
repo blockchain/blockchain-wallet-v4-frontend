@@ -10,7 +10,7 @@ export default () => {
   //
   // ETH
   //
-  const initialized = function*() {
+  const initialized = function * () {
     try {
       const initialValues = {
         status: '',
@@ -23,7 +23,7 @@ export default () => {
     }
   }
 
-  const loadMore = function*() {
+  const loadMore = function * () {
     try {
       yield put(actions.core.data.eth.fetchTransactions())
     } catch (e) {
@@ -31,7 +31,7 @@ export default () => {
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -48,7 +48,7 @@ export default () => {
   //
   // ERC20
   //
-  const initializedErc20 = function*(action) {
+  const initializedErc20 = function * (action) {
     try {
       const { token } = action.payload
       const initialValues = {
@@ -70,7 +70,7 @@ export default () => {
     }
   }
 
-  const loadMoreErc20 = function*(action) {
+  const loadMoreErc20 = function * (action) {
     try {
       const { token } = action.payload
       yield put(actions.core.data.eth.fetchErc20Transactions(token))

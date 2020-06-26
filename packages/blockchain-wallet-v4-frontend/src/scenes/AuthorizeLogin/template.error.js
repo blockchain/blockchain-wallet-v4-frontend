@@ -13,23 +13,23 @@ const Wrapper = styled.div`
 const Error = props => {
   return (
     <Wrapper>
-      <Icon name="alert-filled" color="red600" size="40px" />
-      <Text size="16px" weight={400} style={{ 'margin-top': '25px' }}>
+      <Icon name='alert-filled' color='red600' size='40px' />
+      <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
         <FormattedHTMLMessage
-          id="scenes.authorizelogin.error.uhoh"
-          defaultMessage="Uh Oh. Something went wrong."
+          id='scenes.authorizelogin.error.uhoh'
+          defaultMessage='Uh Oh. Something went wrong.'
           values={{ error: props.value }}
         />
       </Text>
       <Text
         style={{ marginTop: '10px' }}
-        size="16px"
-        color="red600"
+        size='16px'
+        color='red600'
         weight={400}
       >
         <FormattedHTMLMessage
-          id="scenes.authorizelogin.error.msg"
-          defaultMessage="Error: {error}"
+          id='scenes.authorizelogin.error.msg'
+          defaultMessage='Error: {error}'
           values={{ error: props.value }}
         />
       </Text>

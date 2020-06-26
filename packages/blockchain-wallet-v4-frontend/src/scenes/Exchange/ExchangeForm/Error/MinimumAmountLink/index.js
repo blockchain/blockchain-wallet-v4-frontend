@@ -8,19 +8,19 @@ import React from 'react'
 const MinimumAmountLink = props => (
   <React.Fragment>
     <FormattedMessage
-      id="modals.exchange.minimumamountlink.use"
-      defaultMessage="Use"
+      id='modals.exchange.minimumamountlink.use'
+      defaultMessage='Use'
     />
     &nbsp;
     <Link
-      size="12px"
+      size='12px'
       weight={400}
       onClick={props.actions.useMin}
-      data-e2e="exchangeUseMinLink"
+      data-e2e='exchangeUseMinLink'
     >
       <FormattedMessage
-        id="scenes.exchange.firststep.minimumamountlink.minimum"
-        defaultMessage="minimum"
+        id='scenes.exchange.firststep.minimumamountlink.minimum'
+        defaultMessage='minimum'
       />
     </Link>
   </React.Fragment>

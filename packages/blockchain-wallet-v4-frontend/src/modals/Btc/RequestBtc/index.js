@@ -32,11 +32,11 @@ class RequestBtcContainer extends React.PureComponent {
     showRequestLink: false
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.init()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     this.props.data.map(x => {
       if (equals(prop('coin', x), 'PAX')) {
         this.props.modalActions.closeAllModals()
@@ -124,7 +124,7 @@ class RequestBtcContainer extends React.PureComponent {
     this.setState({ receiveAddress: addr, requestBuilt: false })
   }
 
-  render() {
+  render () {
     const { data, importedAddresses, position, total, closeAll } = this.props
 
     const content = data.cata({
@@ -151,14 +151,14 @@ class RequestBtcContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size="medium" position={position} total={total}>
-        <RequestHeader icon="request" onClose={closeAll}>
+      <Modal size='medium' position={position} total={total}>
+        <RequestHeader icon='request' onClose={closeAll}>
           <FormattedMessage
-            id="modals.requestbtc.title"
-            defaultMessage="Request Bitcoin"
+            id='modals.requestbtc.title'
+            defaultMessage='Request Bitcoin'
           />
         </RequestHeader>
-        <Announcements type="service" alertArea="request" currentCoin="BTC" />
+        <Announcements type='service' alertArea='request' currentCoin='BTC' />
         <ModalBody>
           {this.state.requestBuilt ? (
             <ShareLink {...this.props} {...this.state} />

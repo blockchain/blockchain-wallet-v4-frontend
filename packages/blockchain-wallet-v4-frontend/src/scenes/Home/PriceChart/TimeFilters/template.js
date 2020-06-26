@@ -45,51 +45,51 @@ const TimeFilters = props => {
       <FilterContainer
         selected={time === '1day'}
         onClick={() => handleClick('1day')}
-        data-e2e="priceChartDay"
+        data-e2e='priceChartDay'
       >
         <FormattedMessage
-          id="scenes.priceindexseries.timefilters.day"
-          defaultMessage="Day"
+          id='scenes.priceindexseries.timefilters.day'
+          defaultMessage='Day'
         />
       </FilterContainer>
       <FilterContainer
         selected={time === '1week'}
         onClick={() => handleClick('1week')}
-        data-e2e="priceChartWeek"
+        data-e2e='priceChartWeek'
       >
         <FormattedMessage
-          id="scenes.priceindexseries.timefilters.week"
-          defaultMessage="Week"
+          id='scenes.priceindexseries.timefilters.week'
+          defaultMessage='Week'
         />
       </FilterContainer>
       <FilterContainer
         selected={time === '1month'}
         onClick={() => handleClick('1month')}
-        data-e2e="priceChartMonth"
+        data-e2e='priceChartMonth'
       >
         <FormattedMessage
-          id="scenes.priceindexseries.timefilters.month"
-          defaultMessage="Month"
+          id='scenes.priceindexseries.timefilters.month'
+          defaultMessage='Month'
         />
       </FilterContainer>
       <FilterContainer
         selected={time === '1year'}
         onClick={() => handleClick('1year')}
-        data-e2e="priceChartYear"
+        data-e2e='priceChartYear'
       >
         <FormattedMessage
-          id="scenes.priceindexseries.timefilters.year"
-          defaultMessage="Year"
+          id='scenes.priceindexseries.timefilters.year'
+          defaultMessage='Year'
         />
       </FilterContainer>
       <FilterContainer
         selected={time === 'all'}
         onClick={() => handleClick('all')}
-        data-e2e="priceChartAll"
+        data-e2e='priceChartAll'
       >
         <FormattedMessage
-          id="scenes.priceindexseries.timefilters.all"
-          defaultMessage="All"
+          id='scenes.priceindexseries.timefilters.all'
+          defaultMessage='All'
         />
       </FilterContainer>
     </Wrapper>

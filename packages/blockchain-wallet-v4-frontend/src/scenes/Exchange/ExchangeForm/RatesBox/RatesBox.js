@@ -38,8 +38,8 @@ export const RatesBox = ({
       <TotalBalanceWrapper>
         <RateText>
           <FormattedMessage
-            id="scenes.exchange.exchangeform.summary.totalbalanceavailable"
-            defaultMessage="{sourceCoinTicker} available for Swap"
+            id='scenes.exchange.exchangeform.summary.totalbalanceavailable'
+            defaultMessage='{sourceCoinTicker} available for Swap'
             values={{ sourceCoinTicker }}
           />
         </RateText>
@@ -48,7 +48,7 @@ export const RatesBox = ({
             Success: ({ balanceMax, balanceMaxFiat }) => {
               return (
                 <Row>
-                  <RateText color="success">{balanceMaxFiat} </RateText>
+                  <RateText color='success'>{balanceMaxFiat} </RateText>
                   <span>&nbsp;</span>
                   <RateText>
                     {path(['amount'], balanceMax)}{' '}
@@ -58,13 +58,13 @@ export const RatesBox = ({
               )
             },
             Failure: () => null,
-            Loading: () => <SkeletonRectangle height="14px" width="60px" />,
-            NotAsked: () => <SkeletonRectangle height="14px" width="60px" />
+            Loading: () => <SkeletonRectangle height='14px' width='60px' />,
+            NotAsked: () => <SkeletonRectangle height='14px' width='60px' />
           })}
         </RateText>
       </TotalBalanceWrapper>
       <RateWrapper>
-        <RateText color="blue900">1 {sourceCoinTicker} =</RateText>
+        <RateText color='blue900'>1 {sourceCoinTicker} =</RateText>
         <RateText>
           <StringDisplay>
             {sourceToTargetRate.map(rate => `${rate} ${targetCoinTicker}`)}

@@ -8,14 +8,14 @@ import React from 'react'
 import TransferEth from './template'
 
 class TransferEthContainer extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.transferEthActions.initialized({
       from: this.props.legacyEthAddr,
       type: 'LEGACY'
     })
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (Remote.Success.is(this.props.data)) {
       const { txFee, ethBalance } = this.props.data.getOrElse({})
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
@@ -32,7 +32,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     const { data, legacyEthAddr } = this.props
     return data.cata({
       Success: val => (

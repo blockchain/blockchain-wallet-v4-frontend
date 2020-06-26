@@ -55,24 +55,24 @@ const ResubmitBtn = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <Title size="16px" weight={500}>
+      <Title size='16px' weight={500}>
         <FormattedMessage
-          id="scenes.home.banners.kycresubmit.title"
-          defaultMessage="Documents Needed"
+          id='scenes.home.banners.kycresubmit.title'
+          defaultMessage='Documents Needed'
         />
       </Title>
-      <Text size="13px" weight={400}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
-          id="scenes.home.banners.kycresubmit.subtitle"
+          id='scenes.home.banners.kycresubmit.subtitle'
           defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
         />
       </Text>
     </Column>
     <Column>
-      <ResubmitBtn data-e2e="resubmitKycButton" onClick={verifyIdentity}>
+      <ResubmitBtn data-e2e='resubmitKycButton' onClick={verifyIdentity}>
         <FormattedMessage
-          id="scenes.home.banners.kycresubmit.resubmit"
-          defaultMessage="Resubmit Now"
+          id='scenes.home.banners.kycresubmit.resubmit'
+          defaultMessage='Resubmit Now'
         />
       </ResubmitBtn>
     </Column>

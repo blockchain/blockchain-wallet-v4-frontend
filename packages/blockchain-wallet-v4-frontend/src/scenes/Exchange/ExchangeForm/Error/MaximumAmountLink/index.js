@@ -8,19 +8,19 @@ import React from 'react'
 const MaximumAmountLink = props => (
   <React.Fragment>
     <FormattedMessage
-      id="modals.exchange.maximumamountmessage.use"
-      defaultMessage="Use"
+      id='modals.exchange.maximumamountmessage.use'
+      defaultMessage='Use'
     />
     &nbsp;
     <Link
-      size="12px"
+      size='12px'
       weight={400}
       onClick={props.actions.useMax}
-      data-e2e="exchangeUseMaxLink"
+      data-e2e='exchangeUseMaxLink'
     >
       <FormattedMessage
-        id="scenes.exchange.firststep.maximumamountlink.maximum"
-        defaultMessage="maximum"
+        id='scenes.exchange.firststep.maximumamountlink.maximum'
+        defaultMessage='maximum'
       />
     </Link>
   </React.Fragment>

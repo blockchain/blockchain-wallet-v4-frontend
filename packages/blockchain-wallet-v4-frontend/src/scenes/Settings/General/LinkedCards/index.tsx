@@ -15,7 +15,7 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class LinkedCards extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     this.props.simpleBuyActions.fetchSBCards()
     this.props.simpleBuyActions.fetchSBPaymentMethods(
       this.props.fiatCurrency || 'USD'
@@ -31,7 +31,7 @@ class LinkedCards extends PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => (
         <Success

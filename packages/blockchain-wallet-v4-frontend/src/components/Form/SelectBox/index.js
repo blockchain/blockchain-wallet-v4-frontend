@@ -24,7 +24,7 @@ const Error = styled.label`
 `
 
 class SelectBox extends React.PureComponent {
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.meta.active && !prevProps.meta.active) {
       this.selectRef.focus()
     }
@@ -42,7 +42,7 @@ class SelectBox extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
       input,
       meta,
@@ -59,7 +59,7 @@ class SelectBox extends React.PureComponent {
       <Container
         className={className}
         zIndex={zIndex}
-        data-e2e="dropdownSelect"
+        data-e2e='dropdownSelect'
       >
         <SelectInput
           {...input}

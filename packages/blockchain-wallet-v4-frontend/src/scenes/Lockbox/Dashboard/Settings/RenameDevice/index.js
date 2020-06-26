@@ -39,7 +39,7 @@ class RenameDeviceContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  render() {
+  render () {
     return (
       <RenameDevice
         {...this.props}

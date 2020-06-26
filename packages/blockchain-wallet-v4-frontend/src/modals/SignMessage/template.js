@@ -11,14 +11,14 @@ import {
 } from 'blockchain-info-components'
 
 const SignMessage = props => (
-  <Modal size="medium" position={props.position} total={props.total}>
+  <Modal size='medium' position={props.position} total={props.total}>
     <ModalHeader onClose={props.closeAll}>
       <FormattedMessage
-        id="modals.signmessage.title"
-        defaultMessage="Sign Message"
+        id='modals.signmessage.title'
+        defaultMessage='Sign Message'
       />
-      <TooltipHost id="signmessage.label.tooltip">
-        <TooltipIcon name="info" />
+      <TooltipHost id='signmessage.label.tooltip'>
+        <TooltipIcon name='info' />
       </TooltipHost>
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>

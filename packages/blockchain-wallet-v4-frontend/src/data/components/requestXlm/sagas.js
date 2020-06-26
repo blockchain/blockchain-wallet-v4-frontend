@@ -9,7 +9,7 @@ import Str from '@ledgerhq/hw-app-str'
 export default () => {
   const logLocation = 'components/requestXlm/sagas'
 
-  const openLockboxAppClicked = function*(action) {
+  const openLockboxAppClicked = function * (action) {
     try {
       const form = yield select(selectors.form.getFormValues('requestXlm'))
       const to = prop('to', form)

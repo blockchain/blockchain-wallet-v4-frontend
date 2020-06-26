@@ -28,12 +28,12 @@ export type LinkDispatchPropsType = {
 export type Props = OwnPropsType & LinkStatePropsType & LinkDispatchPropsType
 
 class LinkFromExchangeAccountContainer extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     const { linkId } = this.props
     this.props.actions.linkFromExchangeAccount(linkId)
   }
 
-  render() {
+  render () {
     return <LinkFromExchangeAccount {...this.props} />
   }
 }

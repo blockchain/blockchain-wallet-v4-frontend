@@ -69,89 +69,89 @@ const Success = props => {
       )}
       <ConfirmWrapper>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
-            <FormattedMessage id="copy.from" defaultMessage="From:" />
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='copy.from' defaultMessage='From:' />
           </Text>
-          <Text size="16px" weight={400} data-e2e="btcFromWallet">
+          <Text size='16px' weight={400} data-e2e='btcFromWallet'>
             {fromAddress}
           </Text>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendbtc.secondstep.to"
-              defaultMessage="To:"
+              id='modals.sendbtc.secondstep.to'
+              defaultMessage='To:'
             />
           </Text>
-          <TextTo size="16px" weight={400} data-e2e="btcToAddress">
+          <TextTo size='16px' weight={400} data-e2e='btcToAddress'>
             {payPro ? `BitPay[${payPro.merchant}]` : toAddress}
           </TextTo>
         </LargeTableRow>
         {description && (
           <LargeTableRow>
-            <Text size="16px" weight={500}>
+            <Text size='16px' weight={500}>
               <FormattedMessage
-                id="modals.sendbtc.secondstep.note"
-                defaultMessage="Note:"
+                id='modals.sendbtc.secondstep.note'
+                defaultMessage='Note:'
               />
             </Text>
-            <Text size="16px" weight={400} data-e2e="btcSendDescription">
+            <Text size='16px' weight={400} data-e2e='btcSendDescription'>
               {description}
             </Text>
           </LargeTableRow>
         )}
         <LargeTableRow>
-          <Text size="16px" weight={500}>
-            <FormattedMessage id="copy.amount" defaultMessage="Amount:" />
+          <Text size='16px' weight={500}>
+            <FormattedMessage id='copy.amount' defaultMessage='Amount:' />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay size="16px" weight={500} coin={coin}>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
                 {amount}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay size="14px" weight={300} coin={coin}>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
                 {amount}
               </CoinDisplay>
             </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendbtc.secondstep.fee"
-              defaultMessage="Fee:"
+              id='modals.sendbtc.secondstep.fee'
+              defaultMessage='Fee:'
             />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay size="16px" weight={500} coin={coin}>
+              <FiatDisplay size='16px' weight={500} coin={coin}>
                 {fee}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay size="14px" weight={300} coin={coin}>
+              <CoinDisplay size='14px' weight={300} coin={coin}>
                 {fee}
               </CoinDisplay>
             </SummarySubExchangeAmount>
           </ExchangeAmounts>
         </LargeTableRow>
         <LargeTableRow>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendbtc.secontstep.sendtotal"
-              defaultMessage="Total:"
+              id='modals.sendbtc.secontstep.sendtotal'
+              defaultMessage='Total:'
             />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
-              <FiatDisplay coin={coin} size="16px" weight={500}>
+              <FiatDisplay coin={coin} size='16px' weight={500}>
                 {total}
               </FiatDisplay>
             </SummaryExchangeAmount>
             <SummarySubExchangeAmount>
-              <CoinDisplay coin={coin} size="14px" weight={300}>
+              <CoinDisplay coin={coin} size='14px' weight={300}>
                 {total}
               </CoinDisplay>
             </SummarySubExchangeAmount>
@@ -160,31 +160,31 @@ const Success = props => {
       </ConfirmWrapper>
       <Footer>
         <Button
-          height="56px"
-          size="18px"
+          height='56px'
+          size='18px'
           onClick={handleSubmit}
           disabled={submitting}
-          nature="primary"
+          nature='primary'
           fullwidth
-          data-e2e="btcSendSubmitButton"
+          data-e2e='btcSendSubmitButton'
         >
           {!submitting ? (
             <FormattedMessage
-              id="modals.sendbtc.secondstep.send"
-              defaultMessage="Send Bitcoin"
+              id='modals.sendbtc.secondstep.send'
+              defaultMessage='Send Bitcoin'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
         <Link
           onClick={!submitting && handleBack}
           disabled={submitting}
-          size="13px"
+          size='13px'
           weight={400}
-          data-e2e="btcSendBackLink"
+          data-e2e='btcSendBackLink'
         >
-          <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

@@ -7,7 +7,7 @@ import CoinDisplay from '../CoinDisplay'
 import FiatDisplay from '../FiatDisplay'
 
 class SwitchableDisplayContainer extends React.PureComponent {
-  render() {
+  render () {
     return this.props.coinDisplayed ? (
       <CoinDisplay {...this.props}>{this.props.children}</CoinDisplay>
     ) : (

@@ -29,36 +29,36 @@ const TellMeMoreButton = styled(Button).attrs({
 
 export const Borrow = () => (
   <Container>
-    <Row marginBottom="6px">
-      <Text color="blue900" size="24px" weight={600}>
+    <Row marginBottom='6px'>
+      <Text color='blue900' size='24px' weight={600}>
         <FormattedMessage
-          defaultMessage="Borrow USD Digital Today"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow"
+          defaultMessage='Borrow USD Digital Today'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow'
         />
       </Text>
     </Row>
-    <Row marginBottom="24px">
-      <DarkText size="12px" weight={500}>
+    <Row marginBottom='24px'>
+      <DarkText size='12px' weight={500}>
         <FormattedMessage
-          defaultMessage="March 2020"
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.March2020"
+          defaultMessage='March 2020'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.March2020'
         />
       </DarkText>
     </Row>
-    <Row marginBottom="24px">
+    <Row marginBottom='24px'>
       <DarkText>
         <FormattedMessage
-          defaultMessage="Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral."
-          id="layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.content"
+          defaultMessage='Blockchain.com now lets you borrow USD Digital directly from your Blockchain Wallet with crypto as collateral.'
+          id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.content'
         />
       </DarkText>
     </Row>
     <Row>
-      <LinkContainer to="/borrow">
+      <LinkContainer to='/borrow'>
         <TellMeMoreButton>
           <FormattedMessage
-            id="layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.tellmemore"
-            defaultMessage="Tell Me More"
+            id='layouts.wallet.trayright.whatsnew.whatsnewcontent.borrow.tellmemore'
+            defaultMessage='Tell Me More'
           />
         </TellMeMoreButton>
       </LinkContainer>

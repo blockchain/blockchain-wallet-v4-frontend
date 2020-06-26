@@ -24,7 +24,7 @@ class CoinBalance extends React.PureComponent<Props> {
     }
   }
 
-  render() {
+  render () {
     const { coin, data } = this.props
 
     return data.cata({
@@ -32,8 +32,8 @@ class CoinBalance extends React.PureComponent<Props> {
       Failure: () => (
         <Error coin={coin} onRefresh={e => this.handleRefresh(e)} />
       ),
-      Loading: () => <SkeletonRectangle height="35px" width="60px" />,
-      NotAsked: () => <SkeletonRectangle height="35px" width="60px" />
+      Loading: () => <SkeletonRectangle height='35px' width='60px' />,
+      NotAsked: () => <SkeletonRectangle height='35px' width='60px' />
     })
   }
 }

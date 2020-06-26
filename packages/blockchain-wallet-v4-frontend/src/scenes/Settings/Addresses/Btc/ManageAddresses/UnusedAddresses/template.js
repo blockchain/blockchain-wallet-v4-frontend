@@ -32,39 +32,39 @@ const UnusedAddressesTemplate = ({
     addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
-      <TableRow key={i} dataE2e="btcUnusedAddressRow">
-        <TableCell width="40%" style={{ wordBreak: 'break-all' }}>
+      <TableRow key={i} dataE2e='btcUnusedAddressRow'>
+        <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
-            size="small"
+            size='small'
             weight={400}
-            target="_blank"
-            data-e2e="btcUnusedAddressLink"
+            target='_blank'
+            data-e2e='btcUnusedAddressLink'
           >
             {entry.address}
           </Link>
         </TableCell>
-        <TableCell width="40%">
-          <Text size="13px" data-e2e="btcUnusedAddressLabel">
+        <TableCell width='40%'>
+          <Text size='13px' data-e2e='btcUnusedAddressLabel'>
             {entry.label}
           </Text>
         </TableCell>
         <TableCell
-          width="20%"
+          width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <Icon
             cursor
-            name="pencil"
+            name='pencil'
             onClick={() => onEditLabel(entry.derivationIndex)}
             style={{ marginRight: 10 }}
-            data-e2e="btcEditAddressLabelLink"
+            data-e2e='btcEditAddressLabelLink'
           />
           <Icon
             cursor
-            name="trash"
+            name='trash'
             onClick={() => onDeleteLabel(entry.derivationIndex)}
-            data-e2e="btcDeleteAddressLink"
+            data-e2e='btcDeleteAddressLink'
           />
         </TableCell>
       </TableRow>
@@ -75,37 +75,37 @@ const UnusedAddressesTemplate = ({
     <Text
       weight={400}
       style={{ marginTop: 20, textAlign: 'center' }}
-      data-e2e="btcWalletNoUnusedAddresses"
+      data-e2e='btcWalletNoUnusedAddresses'
     >
       <FormattedMessage
-        id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage"
-        defaultMessage="This wallet has no unused addresses."
+        id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage'
+        defaultMessage='This wallet has no unused addresses.'
       />
     </Text>
   ) : (
     <Table>
       <TableHeader>
-        <TableCell width="40%">
-          <Text size="13px" weight={500}>
-            <FormattedMessage id="copy.address" defaultMessage="Address" />
+        <TableCell width='40%'>
+          <Text size='13px' weight={500}>
+            <FormattedMessage id='copy.address' defaultMessage='Address' />
           </Text>
         </TableCell>
-        <TableCell width="40%">
-          <Text size="13px" weight={500}>
+        <TableCell width='40%'>
+          <Text size='13px' weight={500}>
             <FormattedMessage
-              id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.label"
-              defaultMessage="Label"
+              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.label'
+              defaultMessage='Label'
             />
           </Text>
         </TableCell>
         <TableCell
-          width="20%"
+          width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <Text size="13px" weight={500}>
+          <Text size='13px' weight={500}>
             <FormattedMessage
-              id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions"
-              defaultMessage="Actions"
+              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions'
+              defaultMessage='Actions'
             />
           </Text>
         </TableCell>

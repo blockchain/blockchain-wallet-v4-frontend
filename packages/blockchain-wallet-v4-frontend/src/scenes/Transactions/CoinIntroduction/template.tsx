@@ -53,16 +53,16 @@ const Welcome = props => {
       <Row>
         <Column>
           <div>
-            <Text size="20px" weight={600} color="grey800">
+            <Text size='20px' weight={600} color='grey800'>
               <FormattedMessage
-                id="scenes.transaction.content.empty.transactions"
-                defaultMessage="Transactions"
+                id='scenes.transaction.content.empty.transactions'
+                defaultMessage='Transactions'
               />
             </Text>
             <Content weight={400}>
               <FormattedMessage
-                id="scenes.transaction.content.empty.cointxs"
-                defaultMessage="All your {coinName} transactions will show up here."
+                id='scenes.transaction.content.empty.cointxs'
+                defaultMessage='All your {coinName} transactions will show up here.'
                 values={{
                   coinName: currentCoin.displayName
                 }}
@@ -73,13 +73,13 @@ const Welcome = props => {
       </Row>
       <Column style={{ paddingRight: '20px' }}>
         <BuyButton
-          data-e2e="buyCoinFromTxList"
-          nature="empty-blue"
+          data-e2e='buyCoinFromTxList'
+          nature='empty-blue'
           onClick={handleBuy}
         >
           <FormattedMessage
-            id="scenes.transaction.content.empty.buycoinnow"
-            defaultMessage="Buy {coin} Now"
+            id='scenes.transaction.content.empty.buycoinnow'
+            defaultMessage='Buy {coin} Now'
             values={{ coin: currentCoin.displayName }}
           />
         </BuyButton>

@@ -9,28 +9,28 @@ export const CONFIRM_STEPS = {
     index: 1,
     title: () => (
       <FormattedMessage
-        id="modals.lockbox.connectionprompt.connect.title"
-        defaultMessage="Connect Your Lockbox"
+        id='modals.lockbox.connectionprompt.connect.title'
+        defaultMessage='Connect Your Lockbox'
       />
     ),
     content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.connect.content"
-          defaultMessage="Connect and unlock your hardware device. Then open the {appName} app on the device."
+          id='modals.lockbox.connectionprompt.connect.content'
+          defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
           values={{ appName }}
         />
       ) : (
         <React.Fragment>
           <FormattedMessage
-            id="modals.lockbox.connectionprompt.connect.generic"
-            defaultMessage="Connect and unlock your hardware device. Then open the {appName} app on the device."
+            id='modals.lockbox.connectionprompt.connect.generic'
+            defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
             values={{ appName }}
           />
-          <Text weight={500} size="14px" style={{ marginTop: '20px' }}>
+          <Text weight={500} size='14px' style={{ marginTop: '20px' }}>
             <FormattedMessage
-              id="modals.lockbox.connectionprompt.connect.managernote"
-              defaultMessage="Note: If you do not have the {appName} app on your device you can install it via the App Manager."
+              id='modals.lockbox.connectionprompt.connect.managernote'
+              defaultMessage='Note: If you do not have the {appName} app on your device you can install it via the App Manager.'
               values={{ appName }}
             />
           </Text>
@@ -47,14 +47,14 @@ export const CONFIRM_STEPS = {
     index: 2,
     title: () => (
       <FormattedMessage
-        id="modals.lockbox.connectionprompt.ready.title"
-        defaultMessage="Review Transaction Details"
+        id='modals.lockbox.connectionprompt.ready.title'
+        defaultMessage='Review Transaction Details'
       />
     ),
     content: () => (
       <FormattedMessage
-        id="modals.lockbox.connectionprompt.ready.content"
-        defaultMessage="Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction."
+        id='modals.lockbox.connectionprompt.ready.content'
+        defaultMessage='Review the transaction details on your device screen. Press the top right button to confirm and sign the transaction.'
       />
     ),
     image: () => 'lockbox-send-review',
@@ -69,27 +69,27 @@ export const CONFIRM_STEPS = {
     title: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.success.title"
-          defaultMessage="Your {appName} Transaction Was Sent"
+          id='modals.lockbox.connectionprompt.success.title'
+          defaultMessage='Your {appName} Transaction Was Sent'
           values={{ appName }}
         />
       ) : (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.success.titlegeneric"
-          defaultMessage="{appName} Success"
+          id='modals.lockbox.connectionprompt.success.titlegeneric'
+          defaultMessage='{appName} Success'
           values={{ appName }}
         />
       ),
     content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.success.content"
-          defaultMessage="Please allow for it to confirm on the network."
+          id='modals.lockbox.connectionprompt.success.content'
+          defaultMessage='Please allow for it to confirm on the network.'
         />
       ) : (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.success.contentgeneric"
-          defaultMessage="{appName} successfully connected."
+          id='modals.lockbox.connectionprompt.success.contentgeneric'
+          defaultMessage='{appName} successfully connected.'
           values={{ appName }}
         />
       ),
@@ -105,19 +105,19 @@ export const CONFIRM_STEPS = {
     title: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.error.txtitle"
-          defaultMessage="Transaction Failed"
+          id='modals.lockbox.connectionprompt.error.txtitle'
+          defaultMessage='Transaction Failed'
         />
       ) : (
         <FormattedMessage
-          id="modals.lockbox.connectionprompt.error.generictitle"
-          defaultMessage="An Error Occurred"
+          id='modals.lockbox.connectionprompt.error.generictitle'
+          defaultMessage='An Error Occurred'
         />
       ),
     content: () => (
       <FormattedMessage
-        id="modals.lockbox.connectionprompt.error.content"
-        defaultMessage="Something went wrong. Please reconnect your device and try again."
+        id='modals.lockbox.connectionprompt.error.content'
+        defaultMessage='Something went wrong. Please reconnect your device and try again.'
       />
     ),
     image: () => 'lockbox-failed',

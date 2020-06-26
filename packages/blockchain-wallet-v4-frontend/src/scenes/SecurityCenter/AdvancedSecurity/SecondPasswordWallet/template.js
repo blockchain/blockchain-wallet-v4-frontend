@@ -18,8 +18,8 @@ const SecondPasswordWallet = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.security.advanced.secondpassword.title"
-            defaultMessage="Second Password"
+            id='scenes.security.advanced.secondpassword.title'
+            defaultMessage='Second Password'
           />
           <SettingStatus
             active={secondPasswordEnabled}
@@ -27,25 +27,25 @@ const SecondPasswordWallet = props => {
           >
             {secondPasswordEnabled ? (
               <FormattedMessage
-                id="scenes.security.advanced.secondpassword.enabled"
-                defaultMessage="Enabled"
+                id='scenes.security.advanced.secondpassword.enabled'
+                defaultMessage='Enabled'
               />
             ) : (
               <FormattedMessage
-                id="scenes.security.advanced.secondpassword.disabled"
-                defaultMessage="Disabled"
+                id='scenes.security.advanced.secondpassword.disabled'
+                defaultMessage='Disabled'
               />
             )}
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.security.advanced.secondpassword.description"
-            defaultMessage="For additional security, you can choose a second password that is asked whenever you want to spend funds."
+            id='scenes.security.advanced.secondpassword.description'
+            defaultMessage='For additional security, you can choose a second password that is asked whenever you want to spend funds.'
           />
           <FormattedMessage
-            id="scenes.security.advanced.secondpassword.description2"
-            defaultMessage="As with your main password, if you forget your second password, we cannot reset it for you."
+            id='scenes.security.advanced.secondpassword.description2'
+            defaultMessage='As with your main password, if you forget your second password, we cannot reset it for you.'
           />
         </SettingDescription>
       </SettingSummary>

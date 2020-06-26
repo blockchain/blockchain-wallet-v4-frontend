@@ -13,11 +13,11 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           selected={value === ''}
           onClick={() => handleClick('')}
-          data-e2e="transactionTabMenuAll"
+          data-e2e='transactionTabMenuAll'
         >
           <FormattedMessage
-            id="components.form.tabmenutransactionstatus.all"
-            defaultMessage="All"
+            id='components.form.tabmenutransactionstatus.all'
+            defaultMessage='All'
           />
         </TabMenuItem>
       )}
@@ -25,11 +25,11 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           selected={value === 'received'}
           onClick={() => handleClick('received')}
-          data-e2e="transactionTabMenuReceived"
+          data-e2e='transactionTabMenuReceived'
         >
           <FormattedMessage
-            id="components.form.tabmenutransactionstatus.received"
-            defaultMessage="Received"
+            id='components.form.tabmenutransactionstatus.received'
+            defaultMessage='Received'
           />
         </TabMenuItem>
       )}
@@ -37,11 +37,11 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           selected={value === 'sent'}
           onClick={() => handleClick('sent')}
-          data-e2e="transactionTabMenuSent"
+          data-e2e='transactionTabMenuSent'
         >
           <FormattedMessage
-            id="components.form.tabmenutransactionstatus.sent"
-            defaultMessage="Sent"
+            id='components.form.tabmenutransactionstatus.sent'
+            defaultMessage='Sent'
           />
         </TabMenuItem>
       )}
@@ -49,11 +49,11 @@ const TabMenuTransactionStatus = props => {
         <TabMenuItem
           selected={value === 'transferred'}
           onClick={() => handleClick('transferred')}
-          data-e2e="transactionTabMenuTransferred"
+          data-e2e='transactionTabMenuTransferred'
         >
           <FormattedMessage
-            id="components.form.tabmenutransactionstatus.transferred"
-            defaultMessage="Transferred"
+            id='components.form.tabmenutransactionstatus.transferred'
+            defaultMessage='Transferred'
           />
         </TabMenuItem>
       )}

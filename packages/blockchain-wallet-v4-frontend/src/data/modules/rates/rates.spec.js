@@ -54,7 +54,7 @@ const stubAdvice = {
   }
 }
 const ratesSocket = {
-  connect(onOpen, onMessage, onClose, onError, fallback) {
+  connect (onOpen, onMessage, onClose, onError, fallback) {
     this.triggerOpen = onOpen
     this.triggerMessage = onMessage
     this.triggerClose = onClose

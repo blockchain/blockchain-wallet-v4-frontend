@@ -8,18 +8,18 @@ import { actions, selectors } from 'data'
 import CopyClipboard from './template'
 
 class CopyClipboardContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.timeout = undefined
     this.state = { active: false }
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
-  handleClick() {
+  handleClick () {
     const { alertActions, coin, supportedCoins } = this.props
     this.setState({ active: true })
     this.timeout = setTimeout(() => {
@@ -34,7 +34,7 @@ class CopyClipboardContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     return (
       <CopyClipboard
         active={this.state.active}

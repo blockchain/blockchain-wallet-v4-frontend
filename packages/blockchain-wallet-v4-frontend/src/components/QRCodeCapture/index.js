@@ -36,7 +36,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  getAddressOrBitPayInvoice(coin, data) {
+  getAddressOrBitPayInvoice (coin, data) {
     const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
     let address, options
 
@@ -59,7 +59,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcAddress(data) {
+  handleScanBtcAddress (data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
@@ -103,7 +103,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBchAddress(data) {
+  handleScanBchAddress (data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoincash', data)
@@ -146,7 +146,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanEthAddress(data) {
+  handleScanEthAddress (data) {
     if (utils.eth.isValidAddress(data)) {
       this.props.formActions.change(ETH_FORM, 'to', this.createNewValue(data))
     } else {
@@ -154,7 +154,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanXlmAddress(data) {
+  handleScanXlmAddress (data) {
     const { address } = utils.xlm.decodeXlmURI(data)
     if (utils.xlm.isValidAddress(address)) {
       this.props.formActions.change(
@@ -167,7 +167,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcPriv(data) {
+  handleScanBtcPriv (data) {
     if (utils.btc.isValidBtcPrivateKey(data, this.props.network)) {
       this.props.formActions.change(this.props.form || BTC_FORM, 'priv', data)
       this.props.formActions.touch(this.props.form || BTC_FORM, 'priv')
@@ -176,7 +176,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcPrivOrAddress(data) {
+  handleScanBtcPrivOrAddress (data) {
     try {
       const { address } = bip21.decode(data)
       if (utils.btc.isValidBtcAddress(address, this.props.network)) {
@@ -234,7 +234,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { border } = this.props
     const toggled = this.state.toggled
 

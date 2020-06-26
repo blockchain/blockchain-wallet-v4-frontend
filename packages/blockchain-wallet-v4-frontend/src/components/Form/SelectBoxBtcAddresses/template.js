@@ -27,15 +27,15 @@ const ItemWrapper = styled.div`
 
 const renderItem = item => {
   return (
-    <ItemWrapper data-e2e="btcAddressOption">
-      <Text weight={400} size="14px">
+    <ItemWrapper data-e2e='btcAddressOption'>
+      <Text weight={400} size='14px'>
         {item.text}
       </Text>
       {path(['value', 'watchOnly'], item) && (
-        <Banner type="informational" inline>
+        <Banner type='informational' inline>
           <FormattedMessage
-            id="components.selectboxbtcaddresses.watchonly"
-            defaultMessage="Non-Spendable"
+            id='components.selectboxbtcaddresses.watchonly'
+            defaultMessage='Non-Spendable'
           />
         </Banner>
       )}

@@ -9,7 +9,7 @@ import React from 'react'
 import Success from './template.success'
 
 class GoogleAuthContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { updateToggled: false, successToggled: false }
 
@@ -17,11 +17,11 @@ class GoogleAuthContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -32,17 +32,17 @@ class GoogleAuthContainer extends React.PureComponent {
     }
   }
 
-  handleClick() {
+  handleClick () {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.securityCenterActions.verifyGoogleAuthenticator(
       this.props.authCode
     )
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
 
     return data.cata({

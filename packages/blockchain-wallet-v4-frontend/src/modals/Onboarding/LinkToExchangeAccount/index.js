@@ -10,7 +10,7 @@ import LinkToExchangeAccountNotAsked from './template.notasked'
 import LinkToExchangeAccountSuccess from './template.success'
 
 class LinkToExchangeAccountContainer extends React.PureComponent {
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.linkToExchangeAccountReset()
   }
 
@@ -30,7 +30,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
     actions.resendVerifyEmail(email)
   }
 
-  render() {
+  render () {
     return this.props.linkToExchangeStatus.cata({
       Success: () => (
         <LinkToExchangeAccountSuccess

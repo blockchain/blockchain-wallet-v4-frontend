@@ -84,11 +84,11 @@ const Toast = props => {
           {children}
         </Content>
         <CloseIcon
-          data-e2e="toastMessageClose"
-          name="close"
-          size="14px"
+          data-e2e='toastMessageClose'
+          name='close'
+          size='14px'
           weight={600}
-          color="grey500"
+          color='grey500'
           cursor
           onClick={onClose}
         />

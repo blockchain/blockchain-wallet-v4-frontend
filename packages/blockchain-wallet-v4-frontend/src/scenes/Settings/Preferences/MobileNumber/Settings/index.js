@@ -19,7 +19,7 @@ class SettingContainer extends Component {
     }
   }
 
-  render() {
+  render () {
     const { modalActions, smsNumber, smsVerified } = this.props
 
     return (

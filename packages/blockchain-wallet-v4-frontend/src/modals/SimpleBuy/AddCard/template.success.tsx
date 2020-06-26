@@ -49,13 +49,13 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   Props> = props => {
   return (
     <CustomFlyoutWrapper>
-      <TopText color="grey800" size="20px" weight={600}>
+      <TopText color='grey800' size='20px' weight={600}>
         <Icon
           cursor
-          name="arrow-left"
-          size="20px"
-          color="grey600"
-          role="button"
+          name='arrow-left'
+          size='20px'
+          color='grey600'
+          role='button'
           style={{ marginRight: '24px' }}
           onClick={() =>
             props.order
@@ -69,48 +69,48 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 })
           }
         />
-        <FormattedMessage id="buttons.add_card" defaultMessage="Add Card" />
+        <FormattedMessage id='buttons.add_card' defaultMessage='Add Card' />
       </TopText>
       <Form onSubmit={props.handleSubmit}>
-        <FormGroup margin="24px">
+        <FormGroup margin='24px'>
           <FormLabel>
             <FormattedMessage
-              id="modals.simplebuy.name_on_card"
-              defaultMessage="Name on Card"
+              id='modals.simplebuy.name_on_card'
+              defaultMessage='Name on Card'
             />
           </FormLabel>
           <Field
-            name="name-on-card"
+            name='name-on-card'
             component={TextBox}
             validate={[required]}
           />
         </FormGroup>
-        <FormGroup margin="24px">
+        <FormGroup margin='24px'>
           <FormLabel>
             <FormattedMessage
-              id="modals.simplebuy.card_number"
-              defaultMessage="Card Number"
+              id='modals.simplebuy.card_number'
+              defaultMessage='Card Number'
             />
           </FormLabel>
           <Field
-            name="card-number"
+            name='card-number'
             component={CreditCardBox}
             normalize={normalizeCreditCard}
             validate={[required, validateCreditCard]}
             {...props}
           />
         </FormGroup>
-        <FormGroup inline margin="24px">
+        <FormGroup inline margin='24px'>
           <FormItem>
             <FormLabel>
               <FormattedMessage
-                id="modals.simplebuy.expiry_date"
-                defaultMessage="Expiry Date"
+                id='modals.simplebuy.expiry_date'
+                defaultMessage='Expiry Date'
               />
             </FormLabel>
             <Field
-              name="expiry-date"
-              placeholder="12/40"
+              name='expiry-date'
+              placeholder='12/40'
               component={CreditCardExpiryBox as FunctionComponent}
               normalize={normalizeCreditCardExpiry}
               validate={[required, validateCreditCardExpiry]}
@@ -124,7 +124,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 DEFAULT_SECURITY_CODE_NAME}
             </FormLabel>
             <Field
-              name="cvc"
+              name='cvc'
               component={CreditCardCVCBox as FunctionComponent}
               normalize={normalizeCreditCardCVC}
               validate={[required, validateCreditCardCVC]}
@@ -135,17 +135,17 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           <FormGroup>
             <ErrorCartridge>
               <Icon
-                name="alert-filled"
-                color="red600"
+                name='alert-filled'
+                color='red600'
                 style={{ marginRight: '4px' }}
               />
               <Error error={props.error} />
             </ErrorCartridge>
           </FormGroup>
         )}
-        <FormGroup margin="24px">
+        <FormGroup margin='24px'>
           <Link
-            size="13px"
+            size='13px'
             style={{
               textAlign: 'center',
               width: '100%'
@@ -155,21 +155,21 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             }
           >
             <FormattedMessage
-              id="modals.simplebuy.change_billing_address"
-              defaultMessage="Change Billing Address"
+              id='modals.simplebuy.change_billing_address'
+              defaultMessage='Change Billing Address'
             />
           </Link>
         </FormGroup>
         <FormGroup>
           <Button
-            nature="primary"
-            data-e2e="addCardEnter"
-            height="48px"
-            size="16px"
-            type="submit"
+            nature='primary'
+            data-e2e='addCardEnter'
+            height='48px'
+            size='16px'
+            type='submit'
             disabled={props.invalid || props.submitting}
           >
-            <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </FormGroup>
       </Form>

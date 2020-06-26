@@ -24,7 +24,7 @@ const getErrorState = meta => {
 }
 
 class TextAreaDebounced extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { value: props.input.value, updatedValue: props.input.value }
     this.timeout = undefined
@@ -33,7 +33,7 @@ class TextAreaDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     if (!equals(prevState.updatedValue, prevState.value)) {
       return {
         updatedValue: prevState.updatedValue,
@@ -49,11 +49,11 @@ class TextAreaDebounced extends React.Component {
     return null
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
-  handleChange(e) {
+  handleChange (e) {
     e.preventDefault()
     const value = e.target.value
     this.setState({ updatedValue: value })
@@ -64,15 +64,15 @@ class TextAreaDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur() {
+  handleBlur () {
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus() {
+  handleFocus () {
     this.props.input.onFocus(this.state.value)
   }
 
-  render() {
+  render () {
     const { meta, disabled, placeholder, rows, ...rest } = this.props
     const errorState = getErrorState(meta)
 
@@ -92,7 +92,7 @@ class TextAreaDebounced extends React.Component {
           {...rest}
         />
         {meta.touched && meta.error && (
-          <Error size="12px" weight={400} color="error">
+          <Error size='12px' weight={400} color='error'>
             {meta.error}
           </Error>
         )}

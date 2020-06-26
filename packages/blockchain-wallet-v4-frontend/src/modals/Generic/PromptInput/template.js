@@ -39,17 +39,17 @@ const PromptTemplate = ({
   pristine
 }) => {
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon="pencil" onClose={close}>
+          <ModalHeader icon='pencil' onClose={close}>
             {title}
           </ModalHeader>
           <ModalBody>
             <FormGroup>
-              <FormItem data-e2e="inputModalInputField">
+              <FormItem data-e2e='inputModalInputField'>
                 <Field
-                  name="value"
+                  name='value'
                   validate={[required, ...validations]}
                   component={secret ? PasswordBox : TextBox}
                   maxLength={maxLength}
@@ -57,17 +57,17 @@ const PromptTemplate = ({
               </FormItem>
             </FormGroup>
           </ModalBody>
-          <ModalFooter align="right">
+          <ModalFooter align='right'>
             <Button
-              type="submit"
-              nature="primary"
+              type='submit'
+              nature='primary'
               capitalize
               disabled={submitting || invalid || pristine}
-              data-e2e="inputModalSubmitButton"
+              data-e2e='inputModalSubmitButton'
             >
               <FormattedMessage
-                id="modals.prompt.button"
-                defaultMessage="Submit"
+                id='modals.prompt.button'
+                defaultMessage='Submit'
               />
             </Button>
           </ModalFooter>

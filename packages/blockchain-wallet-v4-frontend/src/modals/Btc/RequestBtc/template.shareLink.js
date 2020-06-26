@@ -60,10 +60,10 @@ const ShareRequestLink = props => {
 
   return (
     <React.Fragment>
-      <Text size="13px" weight={400}>
+      <Text size='13px' weight={400}>
         <FormattedMessage
-          id="modals.requestbtc.share.title"
-          defaultMessage="Copy & share the link below with your friends or contacts and they will be able to send Bitcoin directly to your wallet."
+          id='modals.requestbtc.share.title'
+          defaultMessage='Copy & share the link below with your friends or contacts and they will be able to send Bitcoin directly to your wallet.'
         />
       </Text>
       <Details>
@@ -71,59 +71,59 @@ const ShareRequestLink = props => {
           <QRCodeWrapper
             value={requestBip21}
             size={150}
-            data-e2e="requestBtcAddressQrCode"
+            data-e2e='requestBtcAddressQrCode'
           />
         </QrCodeColumn>
         <SummaryColumn>
           <SummaryGroup>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id="modals.requestbtc.share.destination"
-                defaultMessage="Destination"
+                id='modals.requestbtc.share.destination'
+                defaultMessage='Destination'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               {requestTo.label}
             </Text>
           </SummaryGroup>
           <SummaryGroup>
-            <Text size="14px" weight={600}>
-              <FormattedMessage id="copy.amount" defaultMessage="Amount" />
+            <Text size='14px' weight={600}>
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
-            <CoinDisplay size="13px" weight={400} coin="BTC">
+            <CoinDisplay size='13px' weight={400} coin='BTC'>
               {requestAmountSats}
             </CoinDisplay>
           </SummaryGroup>
           <SummaryGroup>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedMessage
-                id="modals.requestbtc.share.description"
-                defaultMessage="Description"
+                id='modals.requestbtc.share.description'
+                defaultMessage='Description'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               {requestMessage}
             </Text>
           </SummaryGroup>
         </SummaryColumn>
       </Details>
       <LinkSummary>
-        <Text size="13px" weight={600}>
+        <Text size='13px' weight={600}>
           <FormattedMessage
-            id="modals.requestbtc.share.copylink"
-            defaultMessage="Shareable Link"
+            id='modals.requestbtc.share.copylink'
+            defaultMessage='Shareable Link'
           />
         </Text>
-        <CopyClipboard address={link} data-e2e="btcShareLink" />
+        <CopyClipboard address={link} data-e2e='btcShareLink' />
       </LinkSummary>
 
       <Button
         onClick={closeAll}
         fullwidth
-        nature="primary"
-        data-e2e="btcShareLinkDoneButton"
+        nature='primary'
+        data-e2e='btcShareLinkDoneButton'
       >
-        <FormattedMessage id="buttons.done" defaultMessage="Done" />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </React.Fragment>
   )

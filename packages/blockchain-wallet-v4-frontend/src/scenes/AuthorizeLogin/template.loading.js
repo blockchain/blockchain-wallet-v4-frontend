@@ -13,10 +13,10 @@ const Wrapper = styled.div`
 const Loading = props => {
   return (
     <Wrapper>
-      <BlockchainLoader width="40px" height="40px" />
-      <Text size="16px" weight={400} style={{ 'margin-top': '25px' }}>
+      <BlockchainLoader width='40px' height='40px' />
+      <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
         <FormattedMessage
-          id="scenes.authorizelogin.verifying"
+          id='scenes.authorizelogin.verifying'
           defaultMessage="We're verifying your authorization attempt. Please wait..."
         />
       </Text>

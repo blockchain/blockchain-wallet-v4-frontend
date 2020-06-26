@@ -24,12 +24,12 @@ export default () => {
       decodeOperations
     )(tx)
 
-  const addWalletTransaction = function*(tx) {
+  const addWalletTransaction = function * (tx) {
     // refresh transaction list
     yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
-  const addLockboxTransaction = function*(tx, deviceIndex) {
+  const addLockboxTransaction = function * (tx, deviceIndex) {
     const deviceAccountIds = (yield select(
       selectors.core.kvStore.lockbox.getXlmContextForDevice,
       deviceIndex
@@ -39,7 +39,7 @@ export default () => {
       yield put(actions.core.data.xlm.addNewTransactions([tx]))
   }
 
-  const onMessage = function*({ payload }) {
+  const onMessage = function * ({ payload }) {
     try {
       const { accountId, tx } = payload
       if (tx.source_account !== accountId) {

@@ -14,7 +14,7 @@ import { WALLET_TX_SEARCH } from '../../../form/model'
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     try {
       // 1. subscribe to block headers
       yield call(
@@ -105,7 +105,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     const message = prop('payload', action)
     try {
       switch (message.coin) {
@@ -197,7 +197,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const sentOrReceived = function*(coin, message) {
+  const sentOrReceived = function * (coin, message) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
@@ -220,7 +220,7 @@ export default ({ api, socket }) => {
     return 'sent'
   }
 
-  const transactionsUpdate = function*(coin) {
+  const transactionsUpdate = function * (coin) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
@@ -238,7 +238,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function*(action) {
+  const onClose = function * (action) {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',

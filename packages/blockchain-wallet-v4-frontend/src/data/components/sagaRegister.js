@@ -32,7 +32,7 @@ import veriff from './veriff/sagaRegister'
 import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
-  function* componentsSaga() {
+  function * componentsSaga () {
     yield fork(activityList())
     yield fork(borrow({ api, coreSagas, networks }))
     yield fork(bchTransactions())

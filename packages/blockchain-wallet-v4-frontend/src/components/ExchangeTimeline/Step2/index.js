@@ -51,22 +51,22 @@ const Step2 = props => (
   <Wrapper>
     <Circle status={props.status}>
       <Icon
-        name="arrow-switch-thick"
-        size="50px"
+        name='arrow-switch-thick'
+        size='50px'
         color={props.status === 'disabled' ? 'grey200' : 'blue900'}
         status={props.status}
       />
       <SmallCircle>
         <Icon
-          name="stack-of-coins"
+          name='stack-of-coins'
           color={props.status === 'disabled' ? 'grey200' : 'blue900'}
         />
       </SmallCircle>
     </Circle>
-    <Text size="13px" weight={500} capitalize>
+    <Text size='13px' weight={500} capitalize>
       <FormattedMessage
-        id="components.exchangetimeline.exchange.inprogress"
-        defaultMessage="Exchange In Progress"
+        id='components.exchangetimeline.exchange.inprogress'
+        defaultMessage='Exchange In Progress'
       />
     </Text>
   </Wrapper>

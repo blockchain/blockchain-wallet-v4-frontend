@@ -60,7 +60,7 @@ class ListItemContainer extends React.PureComponent {
     ])
   }
 
-  render() {
+  render () {
     const { coin, coinTicker, currency, transaction } = this.props
     return (
       <TransactionListItem

@@ -30,11 +30,11 @@ const DataError = (props: {
   return (
     <Wrapper>
       <Empty>
-        <Image name="empty-search" width="260px" />
-        <Header size="18px" weight={500}>
+        <Image name='empty-search' width='260px' />
+        <Header size='18px' weight={500}>
           <FormattedMessage
-            id="components.dataerror.header"
-            defaultMessage="Oops, something went wrong here!"
+            id='components.dataerror.header'
+            defaultMessage='Oops, something went wrong here!'
           />
         </Header>
         <ErrorHandler {...props} />

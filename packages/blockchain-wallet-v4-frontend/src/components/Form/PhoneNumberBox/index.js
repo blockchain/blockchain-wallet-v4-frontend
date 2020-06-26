@@ -50,7 +50,7 @@ const Error = styled(Text)`
 `
 
 class PhoneNumberBox extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     if (this.tel) {
       this.tel.onfocus = this.props.input.onFocus
     }
@@ -69,7 +69,7 @@ class PhoneNumberBox extends React.Component {
     if (tel) this.tel = tel
   }
 
-  render() {
+  render () {
     const field = this.props
     const { input, defaultValue, meta, errorBottom, disabled } = field
     const { touched, error, warning } = meta
@@ -92,13 +92,13 @@ class PhoneNumberBox extends React.Component {
           preferredCountries={['us', 'gb']}
           css={['intl-tel-input', 'form-control']}
           utilsScript={'libphonenumber.js'}
-          placeholder="555-555-5555"
+          placeholder='555-555-5555'
         />
         {touched && error && (
           <Error
-            size="12px"
+            size='12px'
             weight={500}
-            color="error"
+            color='error'
             errorBottom={errorBottom}
           >
             {error}
@@ -106,9 +106,9 @@ class PhoneNumberBox extends React.Component {
         )}
         {touched && !error && warning && (
           <Error
-            size="12px"
+            size='12px'
             weight={500}
-            color="error"
+            color='error'
             errorBottom={errorBottom}
           >
             {warning}

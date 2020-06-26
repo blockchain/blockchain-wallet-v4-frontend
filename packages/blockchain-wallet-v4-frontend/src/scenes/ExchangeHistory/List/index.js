@@ -5,11 +5,11 @@ import List from './template'
 import React from 'react'
 
 class ListContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initialized()
   }
 
-  render() {
+  render () {
     const {
       coinModels,
       complete,

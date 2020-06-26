@@ -40,71 +40,71 @@ const ExampleInvoice = styled.div`
   margin-top: 1px;
 `
 
-function BitPayInformational({ close }) {
+function BitPayInformational ({ close }) {
   return (
     <Modal>
       <ModalHeader closeButton={false}>
-        <HeaderLink size="20px" color="brand-primary" onClick={close}>
+        <HeaderLink size='20px' color='brand-primary' onClick={close}>
           <Icon
-            color="brand-primary"
-            name="arrow-left"
+            color='brand-primary'
+            name='arrow-left'
             style={{ marginRight: '8px' }}
-            size="22px"
+            size='22px'
           />
-          <FormattedMessage id="buttons.back" defaultMessage="Back" />
+          <FormattedMessage id='buttons.back' defaultMessage='Back' />
         </HeaderLink>
       </ModalHeader>
       <ModalBody>
         <Group>
           <GroupHeader>
             <FormattedMessage
-              id="modals.bitpay.info.whatis.title"
-              defaultMessage="What is BitPay?"
+              id='modals.bitpay.info.whatis.title'
+              defaultMessage='What is BitPay?'
             />
           </GroupHeader>
           <GroupContent>
             <FormattedMessage
-              id="modals.bitpay.info.whatis.answer"
-              defaultMessage="BitPay is a cryptocurrency payment service provider that provides payment processing services for merchants. Completing payments using their provided service allows for payments to be secure, easily verifiable and refundable."
+              id='modals.bitpay.info.whatis.answer'
+              defaultMessage='BitPay is a cryptocurrency payment service provider that provides payment processing services for merchants. Completing payments using their provided service allows for payments to be secure, easily verifiable and refundable.'
             />
           </GroupContent>
         </Group>
         <Group>
           <GroupHeader>
             <FormattedMessage
-              id="modals.bitpay.info.how.title"
-              defaultMessage="How does it work?"
+              id='modals.bitpay.info.how.title'
+              defaultMessage='How does it work?'
             />
           </GroupHeader>
           <GroupContent>
             <FormattedMessage
-              id="modals.bitpay.info.how.answer1"
-              defaultMessage="Simply copy the invoice url provided by the merchant and paste it in the"
+              id='modals.bitpay.info.how.answer1'
+              defaultMessage='Simply copy the invoice url provided by the merchant and paste it in the'
             />
             <b>
               {' '}
               <FormattedMessage
-                id="modals.bitpay.info.how.answer2"
-                defaultMessage="To"
+                id='modals.bitpay.info.how.answer2'
+                defaultMessage='To'
               />{' '}
             </b>
             <FormattedMessage
-              id="modals.bitpay.info.how.answer3"
-              defaultMessage="field in the previous screen. The Amount, Description and Network Fees fields will then be auto populated for you."
+              id='modals.bitpay.info.how.answer3'
+              defaultMessage='field in the previous screen. The Amount, Description and Network Fees fields will then be auto populated for you.'
             />
           </GroupContent>
         </Group>
         <Group>
           <GroupHeader>
             <FormattedMessage
-              id="modals.bitpay.info.invoices.title"
-              defaultMessage="What do invoices look like?"
+              id='modals.bitpay.info.invoices.title'
+              defaultMessage='What do invoices look like?'
             />
           </GroupHeader>
           <GroupContent>
             <FormattedMessage
-              id="modals.bitpay.info.invoices.answer1"
-              defaultMessage="BitPay invoices always start with a coin prefix followed by the invoice url. An invoice will look similar to the following:"
+              id='modals.bitpay.info.invoices.answer1'
+              defaultMessage='BitPay invoices always start with a coin prefix followed by the invoice url. An invoice will look similar to the following:'
             />
             <ExampleInvoice>
               <b>bitcoin:?r=https://bitpay.com/invoice?id=123</b>
@@ -114,25 +114,25 @@ function BitPayInformational({ close }) {
         <Group>
           <GroupHeader>
             <FormattedMessage
-              id="modals.bitpay.info.where.title"
-              defaultMessage="Where can I get more information?"
+              id='modals.bitpay.info.where.title'
+              defaultMessage='Where can I get more information?'
             />
           </GroupHeader>
           <GroupContent>
             <FormattedMessage
-              id="modals.bitpay.info.where.answer1"
-              defaultMessage="More information is available"
+              id='modals.bitpay.info.where.answer1'
+              defaultMessage='More information is available'
             />{' '}
             <Link
-              size="14px"
+              size='14px'
               weight={500}
-              href="https://support.blockchain.com/hc/en-us/sections/360006488871-Paying-BitPay-Invoices"
-              target="_blank"
-              rel="noopener noreferrer"
+              href='https://support.blockchain.com/hc/en-us/sections/360006488871-Paying-BitPay-Invoices'
+              target='_blank'
+              rel='noopener noreferrer'
             >
               <FormattedMessage
-                id="modals.bitpay.info.where.answer2"
-                defaultMessage="here."
+                id='modals.bitpay.info.where.answer2'
+                defaultMessage='here.'
               />
             </Link>
           </GroupContent>

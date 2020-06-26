@@ -26,43 +26,43 @@ const ButtonContainer = styled.div`
   }
 `
 
-function ChangeEmailSteps(props) {
+function ChangeEmailSteps (props) {
   return (
     <SecuritySummary>
       <ChangeEmailWrapper>
         <ChangeEmailInputWrapper>
           <Field
             autoFocus
-            name="changeEmail"
+            name='changeEmail'
             validate={[validEmail]}
             component={TextBox}
-            placeholder="email@email.com"
+            placeholder='email@email.com'
           />
           <ButtonContainer>
             <Button
-              nature="primary"
+              nature='primary'
               onClick={props.handleEmailChangeSubmit}
               disabled={props.invalid}
-              data-e2e="changeEmailButton"
+              data-e2e='changeEmailButton'
             >
               <FormattedMessage
-                id="scenes.preferences.email.settings.updateform.change"
-                defaultMessage="Change"
+                id='scenes.preferences.email.settings.updateform.change'
+                defaultMessage='Change'
               />
             </Button>
             <Button
-              nature="empty"
+              nature='empty'
               onClick={props.handleEmailChangeCancel}
-              data-e2e="cancelEmailChange"
+              data-e2e='cancelEmailChange'
             >
-              <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
             </Button>
           </ButtonContainer>
         </ChangeEmailInputWrapper>
-        <Text size="12px" color="grey500" weight={400}>
+        <Text size='12px' color='grey500' weight={400}>
           <FormattedHTMLMessage
-            id="scenes.security.email.changeemail.description"
-            defaultMessage="<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same."
+            id='scenes.security.email.changeemail.description'
+            defaultMessage='<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.'
           />
         </Text>
       </ChangeEmailWrapper>

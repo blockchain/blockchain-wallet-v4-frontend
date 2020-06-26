@@ -43,22 +43,22 @@ const ErrorBoundary = props => {
 
   return (
     <Modal
-      size="large"
+      size='large'
       style={{ zIndex: 999 }}
       position={position}
       total={total}
     >
       <ModalHeader closeButton={false}>
         <TitleGroup inline>
-          <Icon name="alert-filled" size="28px" color="blue900" />
+          <Icon name='alert-filled' size='28px' color='blue900' />
           <Text
             weight={400}
             size={'22px'}
-            color="blue900"
+            color='blue900'
             style={{ paddingLeft: '8px' }}
           >
             <FormattedMessage
-              id="modal.errorboundary.title"
+              id='modal.errorboundary.title'
               defaultMessage="Oops! Something's not right here"
             />
           </Text>
@@ -66,9 +66,9 @@ const ErrorBoundary = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={400} size={'14px'} color="grey700">
+          <Text weight={400} size={'14px'} color='grey700'>
             <FormattedMessage
-              id="modal.errorboundary.message"
+              id='modal.errorboundary.message'
               defaultMessage="We're sorry, but it seems like something is not quite right. Please try again or contact support if the problem persists."
             />
           </Text>
@@ -82,14 +82,14 @@ const ErrorBoundary = props => {
           </ErrorDetails>
         </Text>
       </ModalBody>
-      <ModalFooter align="right">
+      <ModalFooter align='right'>
         <Button
-          type="submit"
-          nature="primary"
+          type='submit'
+          nature='primary'
           onClick={onSubmit}
-          data-e2e="oopsErrorContinueButton"
+          data-e2e='oopsErrorContinueButton'
         >
-          <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </ModalFooter>
     </Modal>

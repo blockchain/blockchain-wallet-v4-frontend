@@ -17,7 +17,7 @@ class RefreshContainer extends React.PureComponent<Props> {
     }, 0.5 * 1000)
   }
 
-  render() {
+  render () {
     return (
       <Refresh
         handleRefresh={() => {

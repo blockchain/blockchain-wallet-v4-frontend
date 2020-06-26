@@ -37,7 +37,7 @@ class ExchangeConfirmContainer extends React.PureComponent {
     this.setState({ showOrderInfo: !this.state.showOrderInfo })
   }
 
-  render() {
+  render () {
     const { showOrderInfo } = this.state
     const { data, actions, close, position, total } = this.props
     const ConfirmCata = data.cata({
@@ -51,12 +51,12 @@ class ExchangeConfirmContainer extends React.PureComponent {
         />
       ),
       Failure: message => <DataError message={message} />,
-      Loading: () => <Loader width="100px" height="100px" />,
-      NotAsked: () => <Loader width="100px" height="100px" />
+      Loading: () => <Loader width='100px' height='100px' />,
+      NotAsked: () => <Loader width='100px' height='100px' />
     })
 
     return (
-      <Modal size="small" total={total} position={position}>
+      <Modal size='small' total={total} position={position}>
         <Header onClose={close} />
         <Body>{ConfirmCata}</Body>
       </Modal>

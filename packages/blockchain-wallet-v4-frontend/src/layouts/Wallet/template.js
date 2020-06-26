@@ -56,8 +56,8 @@ const WalletLayout = props => {
         <Modals />
         <Nav>
           <MenuTop />
-          <Announcements type="service" alertArea="wallet" />
-          <Announcements type="static" />
+          <Announcements type='service' alertArea='wallet' />
+          <Announcements type='static' />
         </Nav>
         <Container>
           <MenuLeft location={location} />

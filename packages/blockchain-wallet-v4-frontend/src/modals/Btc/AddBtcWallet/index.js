@@ -7,16 +7,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 
 class AddBtcWalletContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.actions.newHDAccount(this.props.wallet)
   }
 
-  render() {
+  render () {
     return <AddBtcWallet {...this.props} onSubmit={this.onSubmit} />
   }
 }

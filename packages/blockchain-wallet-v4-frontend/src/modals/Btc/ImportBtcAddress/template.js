@@ -88,77 +88,77 @@ const ImportBtcAddress = ({
   priv,
   handleSubmit
 }) => (
-  <Modal size="large" position={position}>
+  <Modal size='large' position={position}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
         <ImportHeader onClose={close}>
           <FormattedMessage
-            id="modals.importkey.import"
-            defaultMessage="Import Private Key"
+            id='modals.importkey.import'
+            defaultMessage='Import Private Key'
           />
         </ImportHeader>
         <ModalBody>
           <FormGroup>
             <ImportFormItem width={'100%'}>
-              <Label htmlFor="addrOrPriv">
-                <LabelText color="grey600" size="14px" weight={500}>
+              <Label htmlFor='addrOrPriv'>
+                <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
-                    id="modals.importkey.label.privatekey"
-                    defaultMessage="Enter your private key"
+                    id='modals.importkey.label.privatekey'
+                    defaultMessage='Enter your private key'
                   />
                 </LabelText>
                 <Tooltip
-                  id="import.privatekeys"
-                  data-place="right"
+                  id='import.privatekeys'
+                  data-place='right'
                   style={{ marginTop: '3px' }}
                 >
-                  <TooltipIcon name="info" />
+                  <TooltipIcon name='info' />
                 </Tooltip>
               </Label>
               <BorderRow>
                 <Field
-                  name="addrOrPriv"
+                  name='addrOrPriv'
                   validate={[validBtcPrivateKey, required]}
                   normalize={removeWhitespace}
                   component={TextBox}
-                  data-e2e="privateKeyInput"
+                  data-e2e='privateKeyInput'
                 />
                 <QRCodeCapture
-                  scanType="btcPrivOrAddress"
+                  scanType='btcPrivOrAddress'
                   border={['top', 'bottom', 'right']}
                 />
               </BorderRow>
             </ImportFormItem>
             <ImportFormItem width={'100%'}>
-              <Label htmlFor="addrOrPriv">
-                <LabelText color="grey600" size="14px" weight={500}>
+              <Label htmlFor='addrOrPriv'>
+                <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
-                    id="modals.importkey.label.enterlabel"
-                    defaultMessage="Enter a label (optional)"
+                    id='modals.importkey.label.enterlabel'
+                    defaultMessage='Enter a label (optional)'
                   />
                 </LabelText>
               </Label>
               <Row>
                 <Field
-                  name="label"
+                  name='label'
                   validate={[]}
                   component={TextBox}
-                  data-e2e="labelInput"
+                  data-e2e='labelInput'
                 />
               </Row>
             </ImportFormItem>
             <ImportFormItem style={spacing('mt-10')}>
-              <Label htmlFor="wallets">
-                <LabelText color="grey600" size="14px" weight={500}>
+              <Label htmlFor='wallets'>
+                <LabelText color='grey600' size='14px' weight={500}>
                   <FormattedMessage
-                    id="modals.importkey.label.transferfunds"
-                    defaultMessage="Transfer funds to an existing wallet (optional)"
+                    id='modals.importkey.label.transferfunds'
+                    defaultMessage='Transfer funds to an existing wallet (optional)'
                   />
                 </LabelText>
               </Label>
               <Row>
                 <Field
-                  name="to"
+                  name='to'
                   component={SelectBoxBtcAddresses}
                   optional
                   excludeImported
@@ -170,17 +170,17 @@ const ImportBtcAddress = ({
           </FormGroup>
         </ModalBody>
 
-        <ImportFooter align="right">
+        <ImportFooter align='right'>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             capitalize
             disabled={submitting || invalid}
-            data-e2e="importButton"
+            data-e2e='importButton'
           >
             <FormattedMessage
-              id="modals.importkey.import"
-              defaultMessage="Import Private Key"
+              id='modals.importkey.import'
+              defaultMessage='Import Private Key'
             />
           </Button>
         </ImportFooter>

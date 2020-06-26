@@ -23,16 +23,16 @@ import {
 import SummaryCard from './template.success'
 
 class SummaryCardContainer extends PureComponent<Props> {
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => (
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           Oops. Something went wrong. Please refresh and try again.
         </Text>
       ),
-      Loading: () => <SkeletonRectangle width="330px" height="275px" />,
-      NotAsked: () => <SkeletonRectangle width="330px" height="275px" />
+      Loading: () => <SkeletonRectangle width='330px' height='275px' />,
+      NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
     })
   }
 }

@@ -58,11 +58,11 @@ const FooterButton = styled(Button)`
 `
 
 class AirdropClaim extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.preferencesActions.hideAirdropClaimModal()
   }
 
-  render() {
+  render () {
     const {
       actions,
       campaign,
@@ -74,25 +74,25 @@ class AirdropClaim extends React.PureComponent {
     } = this.props
     return (
       <Modal
-        size="small"
+        size='small'
         position={position}
         total={total}
-        dataE2e="infoModalAirdropClaim"
+        dataE2e='infoModalAirdropClaim'
       >
         <AbsoluteModalHeader onClose={close} />
         <Body>
-          <Image width="52px" name="gold-verified" />
+          <Image width='52px' name='gold-verified' />
           <Header>
             <FormattedMessage
-              id="modals.airdropclaim.airdropprogram"
-              defaultMessage="Airdrop Program"
+              id='modals.airdropclaim.airdropprogram'
+              defaultMessage='Airdrop Program'
             />
           </Header>
           {isCampaignTagged ? (
             <Copy>
               <FormattedMessage
-                id="modals.airdropclaim.thanksforparticipatingairdropprogram"
-                defaultMessage="Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!"
+                id='modals.airdropclaim.thanksforparticipatingairdropprogram'
+                defaultMessage='Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!'
                 values={{
                   coinName: prop('coinName', CAMPAIGNS[campaign]),
                   coinCode: prop('coinCode', CAMPAIGNS[campaign])
@@ -102,26 +102,26 @@ class AirdropClaim extends React.PureComponent {
           ) : (
             <Copy weight={400}>
               <FormattedMessage
-                id="modals.airdropclaim.clicktojoinairdropprogram"
-                defaultMessage="You’re eligible for our airdrop program. Click the button to join our Airdrop Program."
+                id='modals.airdropclaim.clicktojoinairdropprogram'
+                defaultMessage='You’re eligible for our airdrop program. Click the button to join our Airdrop Program.'
               />
             </Copy>
           )}
           {!isCampaignTagged && (
             <FooterButton
-              nature="primary"
-              size="18px"
+              nature='primary'
+              size='18px'
               fullwidth
-              type="submit"
+              type='submit'
               disabled={submitting}
               onClick={() => actions.airdropClaimSubmitClicked(campaign)}
             >
               {submitting ? (
-                <HeartbeatLoader height="20px" width="20px" color="white" />
+                <HeartbeatLoader height='20px' width='20px' color='white' />
               ) : (
                 <FormattedMessage
-                  defaultMessage="Join Airdrop Program"
-                  id="modals.airdropclaim.joinairdropnow"
+                  defaultMessage='Join Airdrop Program'
+                  id='modals.airdropclaim.joinairdropnow'
                 />
               )}
             </FooterButton>

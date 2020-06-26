@@ -55,13 +55,13 @@ const WalletRecoveryPhrase = props => {
     if (isMnemonicVerified) {
       const againBtn = (
         <BackupButton
-          nature="primary"
+          nature='primary'
           onClick={handleBackupNow}
-          data-e2e="backupFundsButton"
+          data-e2e='backupFundsButton'
         >
           <FormattedMessage
-            id="scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain"
-            defaultMessage="Backup Again"
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
+            defaultMessage='Backup Again'
           />
         </BackupButton>
       )
@@ -69,13 +69,13 @@ const WalletRecoveryPhrase = props => {
     } else {
       const backupBtn = (
         <BackupButton
-          nature="primary"
+          nature='primary'
           onClick={handleBackupNow}
-          data-e2e="backupFundsButton"
+          data-e2e='backupFundsButton'
         >
           <FormattedMessage
-            id="scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds"
-            defaultMessage="Backup Funds"
+            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+            defaultMessage='Backup Funds'
           />
         </BackupButton>
       )
@@ -88,25 +88,25 @@ const WalletRecoveryPhrase = props => {
       <SecurityGridContainer>
         <IconAndHeaderContainer>
           <IconContainer>
-            <SecurityIcon name="pencil" enabled={isMnemonicVerified} />
+            <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
           </IconContainer>
           <SecuritySummary>
             <SecurityHeader greyOut={isMnemonicVerified}>
               <FormattedMessage
-                id="scenes.securitysettings.basicsecurity.recoveryphrase.title"
-                defaultMessage="Backup Phrase"
+                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
+                defaultMessage='Backup Phrase'
               />
             </SecurityHeader>
             <SecurityDescription greyOut={isMnemonicVerified}>
               <span>
                 <FormattedMessage
-                  id="scenes.securitysettings.basicsecurity.recoveryphrase.description"
-                  defaultMessage="Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds."
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
+                  defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.'
                 />
                 <span>&nbsp;</span>
                 <FormattedMessage
-                  id="scenes.securitysettings.basicsecurity.recoveryphrase.description2"
-                  defaultMessage="In the event that you lose your password or our service is unavailable, this will be your safety net."
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
+                  defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
                 />
               </span>
             </SecurityDescription>

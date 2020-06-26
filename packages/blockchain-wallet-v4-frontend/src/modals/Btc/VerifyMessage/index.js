@@ -33,8 +33,8 @@ const ItemAddress = ({ address, network, onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id="modals.verifyMessage.address"
-          defaultMessage="Bitcoin Address:"
+          id='modals.verifyMessage.address'
+          defaultMessage='Bitcoin Address:'
         />
       </LabelMessage>
       <TextBox
@@ -46,7 +46,7 @@ const ItemAddress = ({ address, network, onChange }) => (
           error: validBtcAddress(address, null, { network }),
           touched: address !== ``
         }}
-        data-e2e="bitcoinAddressInput"
+        data-e2e='bitcoinAddressInput'
       />
     </FormLabel>
   </Item>
@@ -57,8 +57,8 @@ const ItemMessage = ({ onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id="modals.verifyMessage.message"
-          defaultMessage="Message:"
+          id='modals.verifyMessage.message'
+          defaultMessage='Message:'
         />
       </LabelMessage>
       <TextArea
@@ -67,7 +67,7 @@ const ItemMessage = ({ onChange }) => (
           onChange
         }}
         meta={{}}
-        data-e2e="messageInput"
+        data-e2e='messageInput'
       />
     </FormLabel>
   </Item>
@@ -78,8 +78,8 @@ const ItemSignature = ({ onChange }) => (
     <FormLabel>
       <LabelMessage>
         <FormattedMessage
-          id="modals.verifyMessage.signature"
-          defaultMessage="Signature:"
+          id='modals.verifyMessage.signature'
+          defaultMessage='Signature:'
         />
       </LabelMessage>
       <TextArea
@@ -88,7 +88,7 @@ const ItemSignature = ({ onChange }) => (
           onChange
         }}
         meta={{}}
-        data-e2e="signatureInput"
+        data-e2e='signatureInput'
       />
     </FormLabel>
   </Item>
@@ -107,18 +107,18 @@ class VerifyMessage extends React.PureComponent {
     this.setState({ [name]: value })
   }
 
-  render() {
+  render () {
     const { close, network } = this.props
 
     return (
       <Modal>
         <ModalHeader onClose={close}>
           <FormattedMessage
-            id="modals.verifyMessage.title"
-            defaultMessage="Verify Message"
+            id='modals.verifyMessage.title'
+            defaultMessage='Verify Message'
           />
-          <TooltipHost id="verifyMessage">
-            <TooltipIcon name="info" />
+          <TooltipHost id='verifyMessage'>
+            <TooltipIcon name='info' />
           </TooltipHost>
         </ModalHeader>
         <ModalBody>
@@ -131,29 +131,29 @@ class VerifyMessage extends React.PureComponent {
           <ItemSignature onChange={this.onChange} />
           <Result visible={services.showResult(this.state)}>
             {services.verifySignature(this.state) ? (
-              <Banner type="success" data-e2e="validSignatureBadge">
+              <Banner type='success' data-e2e='validSignatureBadge'>
                 <FormattedMessage
-                  id="modals.verifyMessage.success"
-                  defaultMessage="The message has a valid signature from the address."
+                  id='modals.verifyMessage.success'
+                  defaultMessage='The message has a valid signature from the address.'
                 />
               </Banner>
             ) : (
-              <Banner type="caution" data-e2e="incorrectSignatureBadge">
+              <Banner type='caution' data-e2e='incorrectSignatureBadge'>
                 <FormattedMessage
-                  id="modals.verifyMessage.failure"
-                  defaultMessage="The signature does not match the message."
+                  id='modals.verifyMessage.failure'
+                  defaultMessage='The signature does not match the message.'
                 />
               </Banner>
             )}
           </Result>
         </ModalBody>
-        <ModalFooter align="right">
+        <ModalFooter align='right'>
           <Button
             onClick={close}
-            nature="primary"
-            data-e2e="closeVerifyMessageButton"
+            nature='primary'
+            data-e2e='closeVerifyMessageButton'
           >
-            <FormattedMessage id="buttons.close" defaultMessage="Close" />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>

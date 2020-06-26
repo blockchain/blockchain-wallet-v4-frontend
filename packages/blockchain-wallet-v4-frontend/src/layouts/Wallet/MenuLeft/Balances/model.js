@@ -56,18 +56,18 @@ export const CoinBalanceWrapper = props => {
     <CoinBalanceMain>
       <CoinDisplay
         coin={props.coin}
-        cursor="pointer"
-        mobileSize="14px"
-        size="18px"
+        cursor='pointer'
+        mobileSize='14px'
+        size='18px'
         weight={400}
       >
         {props.balance}
       </CoinDisplay>
       <FiatDisplay
         coin={props.coin}
-        cursor="pointer"
-        mobileSize="14px"
-        size="18px"
+        cursor='pointer'
+        mobileSize='14px'
+        size='18px'
         weight={400}
       >
         {props.balance}
@@ -80,7 +80,7 @@ export const CoinBalanceWrapper = props => {
           {props.coinTicker ? props.coinTicker : props.coin}
         </CoinNameText>
         <SwitchableDisplay
-          size="12px"
+          size='12px'
           weight={500}
           coin={props.coin}
           hideCoinTicker
@@ -95,14 +95,14 @@ export const CoinBalanceWrapper = props => {
 export const LoadingBalance = props => {
   return props.large ? (
     <BalanceSkeleton>
-      <SkeletonRectangle width="170px" height="24px" bgColorgrey000 />
+      <SkeletonRectangle width='170px' height='24px' bgColorgrey000 />
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
-      <Text size="12px" weight={600} color="grey800">
+      <Text size='12px' weight={600} color='grey800'>
         {props.coinTicker}
       </Text>
-      <SkeletonRectangle width="40px" height="14px" bgColorgrey000 />
+      <SkeletonRectangle width='40px' height='14px' bgColorgrey000 />
     </CoinSkeletonWrapper>
   )
 }

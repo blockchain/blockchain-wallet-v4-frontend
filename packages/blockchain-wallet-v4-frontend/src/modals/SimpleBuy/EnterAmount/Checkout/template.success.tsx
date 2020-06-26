@@ -133,33 +133,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
-        <TopText color="grey800" size="20px" weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id="modals.simplebuy.buycrypto"
-            defaultMessage="Buy Crypto"
+            id='modals.simplebuy.buycrypto'
+            defaultMessage='Buy Crypto'
           />
           <Icon
             cursor
-            data-e2e="sbCloseModalIcon"
-            name="close"
-            size="20px"
-            color="grey600"
-            role="button"
+            data-e2e='sbCloseModalIcon'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
             onClick={() => props.handleClose()}
           />
         </TopText>
-        <CoinSelect name="pair" {...props} />
+        <CoinSelect name='pair' {...props} />
         <AmountFieldContainer>
-          <Text size="56px" color="grey400" weight={500}>
+          <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
           </Text>
           <Field
-            data-e2e="sbAmountInput"
-            name="amount"
+            data-e2e='sbAmountInput'
+            name='amount'
             component={NumberBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
-            placeholder="0"
+            placeholder='0'
             {...{
               autoFocus: true,
               errorBottom: true,
@@ -169,11 +169,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </AmountFieldContainer>
         {props.formValues.pair && amtError && (
           <Amounts>
-            <CustomErrorCartridge role="button" onClick={handleMinMaxClick}>
+            <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id="modals.simplebuy.checkout.abovemax"
-                  defaultMessage="{value} Maximum {orderType}"
+                  id='modals.simplebuy.checkout.abovemax'
+                  defaultMessage='{value} Maximum {orderType}'
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
@@ -186,8 +186,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               ) : (
                 <FormattedMessage
-                  id="modals.simplebuy.checkout.belowmin"
-                  defaultMessage="{value} Minimum {orderType}"
+                  id='modals.simplebuy.checkout.belowmin'
+                  defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
@@ -201,19 +201,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               )}
             </CustomErrorCartridge>
             <GreyBlueCartridge
-              data-e2e="sbBuyMinMaxBtn"
-              role="button"
+              data-e2e='sbBuyMinMaxBtn'
+              role='button'
               onClick={handleMinMaxClick}
             >
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id="modals.simplebuy.checkout.buymax"
-                  defaultMessage="Buy Max"
+                  id='modals.simplebuy.checkout.buymax'
+                  defaultMessage='Buy Max'
                 />
               ) : (
                 <FormattedMessage
-                  id="modals.simplebuy.checkout.buymin"
-                  defaultMessage="Buy Min"
+                  id='modals.simplebuy.checkout.buymin'
+                  defaultMessage='Buy Min'
                 />
               )}
             </GreyBlueCartridge>
@@ -231,7 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         amount
                       )
                     }
-                    role="button"
+                    role='button'
                   >
                     {fiatToString({
                       unit: fiatCurrency,
@@ -243,8 +243,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               })}
             </div>
             <GreyBlueCartridge
-              data-e2e="sbChangeCurrencyBtn"
-              role="button"
+              data-e2e='sbChangeCurrencyBtn'
+              role='button'
               onClick={() =>
                 props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
               }
@@ -257,8 +257,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.error && (
           <ErrorText>
             <Icon
-              name="alert-filled"
-              color="red600"
+              name='alert-filled'
+              color='red600'
               style={{ marginRight: '4px' }}
             />
             Error: {props.error}

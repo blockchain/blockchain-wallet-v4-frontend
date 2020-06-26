@@ -26,7 +26,7 @@ class SettingContainer extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     const { logoutTime } = this.props
 
     return this.state.updateToggled ? (
@@ -36,21 +36,21 @@ class SettingContainer extends React.PureComponent {
       />
     ) : (
       <SettingWrapper>
-        <Text data-e2e="autoLogoutValue">
+        <Text data-e2e='autoLogoutValue'>
           <FormattedMessage
-            id="scenes.preferences.autologout.settings.minutes"
-            defaultMessage="{time} minutes"
+            id='scenes.preferences.autologout.settings.minutes'
+            defaultMessage='{time} minutes'
             values={{ time: logoutTime }}
           />
         </Text>
         <Button
-          nature="primary"
+          nature='primary'
           onClick={this.handleToggle}
-          data-e2e="changeAutoLogout"
+          data-e2e='changeAutoLogout'
         >
           <FormattedMessage
-            id="scenes.preferences.autologout.settings.updateform.change"
-            defaultMessage="Change"
+            id='scenes.preferences.autologout.settings.updateform.change'
+            defaultMessage='Change'
           />
         </Button>
       </SettingWrapper>

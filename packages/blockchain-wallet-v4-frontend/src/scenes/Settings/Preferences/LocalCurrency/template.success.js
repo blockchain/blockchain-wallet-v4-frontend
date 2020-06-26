@@ -13,18 +13,18 @@ const LocalCurrency = props => {
   const { currency } = props
 
   return (
-    <SettingContainer data-e2e="prefsLocalCurrency">
+    <SettingContainer data-e2e='prefsLocalCurrency'>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.settings.preferences.localcurrency.success.title"
-            defaultMessage="Local Currency"
+            id='scenes.settings.preferences.localcurrency.success.title'
+            defaultMessage='Local Currency'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.settings.preferences.localcurrency.success.description"
-            defaultMessage="Select your local currency."
+            id='scenes.settings.preferences.localcurrency.success.description'
+            defaultMessage='Select your local currency.'
           />
         </SettingDescription>
       </SettingSummary>

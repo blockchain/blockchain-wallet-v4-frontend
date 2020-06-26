@@ -38,59 +38,59 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size="20px" color="blue900" weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id="scenes.recover.firststep.funds"
-            defaultMessage="Recover Funds"
+            id='scenes.recover.firststep.funds'
+            defaultMessage='Recover Funds'
           />
         </Text>
       </Header>
       <Form onSubmit={handleSubmit}>
         <TextGroup>
-          <Text size="13px" weight={400} color="error">
+          <Text size='13px' weight={400} color='error'>
             <FormattedMessage
-              id="scenes.recover.firststep.warning"
-              defaultMessage="You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID."
+              id='scenes.recover.firststep.warning'
+              defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.'
             />
           </Text>
         </TextGroup>
         <FormGroup>
           <FormItem>
-            <MnemonicLabel htmlFor="mnemonic">
+            <MnemonicLabel htmlFor='mnemonic'>
               <FormattedMessage
-                id="scenes.recover.firststep.mnemonic"
-                defaultMessage="Your Backup Phrase"
+                id='scenes.recover.firststep.mnemonic'
+                defaultMessage='Your Backup Phrase'
               />
             </MnemonicLabel>
-            <Text size="12px" weight={400}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
-                id="scenes.recover.firststep.mnemonic_explain"
-                defaultMessage="Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions."
+                id='scenes.recover.firststep.mnemonic_explain'
+                defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
               />
             </Text>
             <Field
-              bgColor="grey000"
-              autoComplete="off"
+              bgColor='grey000'
+              autoComplete='off'
               autoFocus
               component={TextBox}
               disableSpellcheck
-              name="mnemonic"
+              name='mnemonic'
               validate={[required, validMnemonic]}
             />
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to="/help">
-            <Link size="13px" weight={400}>
-              <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={400}>
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
           >
-            <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       </Form>

@@ -69,11 +69,11 @@ const TrayModal = styled(Modal)`
 `
 
 class Tray extends React.PureComponent<{ in?: boolean; onClose: () => void }> {
-  handleClickOutside() {
+  handleClickOutside () {
     this.props.onClose()
   }
 
-  render() {
+  render () {
     const { children, ...rest } = this.props
     return (
       <Transition in={this.props.in} timeout={0}>

@@ -43,7 +43,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
     )
   }
 
-  render() {
+  render () {
     return <Features showModal={this.showModal} {...this.props} />
   }
 }

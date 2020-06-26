@@ -3,22 +3,22 @@ import React from 'react'
 
 const InvalidMessage = () => (
   <FormattedMessage
-    id="settings.preferences.autologout.settings.invalid"
-    defaultMessage="Please set a valid time"
+    id='settings.preferences.autologout.settings.invalid'
+    defaultMessage='Please set a valid time'
   />
 )
 
 const MinimumMessage = () => (
   <FormattedMessage
-    id="settings.preferences.autologout.settings.invalid2"
-    defaultMessage="Please set a duration greater than 1 minute."
+    id='settings.preferences.autologout.settings.invalid2'
+    defaultMessage='Please set a duration greater than 1 minute.'
   />
 )
 
 const MaximumMessage = () => (
   <FormattedMessage
-    id="settings.preferences.autologout.settings.invalid3"
-    defaultMessage="Please set a duration less than 1440 minutes"
+    id='settings.preferences.autologout.settings.invalid3'
+    defaultMessage='Please set a duration less than 1440 minutes'
   />
 )
 

@@ -24,16 +24,16 @@ const isBrowserSupported = browser.satisfies(
 )
 
 export default class LockboxSettings extends React.PureComponent {
-  render() {
+  render () {
     const { deviceIndex } = this.props
     return (
       <SettingsContainer>
         {!isBrowserSupported && (
-          <BrowserWarning type="warning">
-            <Text color="warning" size="14px">
+          <BrowserWarning type='warning'>
+            <Text color='warning' size='14px'>
               <FormattedMessage
-                id="scenes.lockbox.settings.blockbrowser"
-                defaultMessage="Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Brave, Chrome, Firefox or Opera browsers."
+                id='scenes.lockbox.settings.blockbrowser'
+                defaultMessage='Adding new devices or applications, verifying authenticity and updating firmware can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
               />
             </Text>
           </BrowserWarning>

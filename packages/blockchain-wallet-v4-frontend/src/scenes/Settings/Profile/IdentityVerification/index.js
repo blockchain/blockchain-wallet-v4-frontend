@@ -114,30 +114,30 @@ const IdentityVerification = ({ userData, userTiers }) => {
   return (
     <Wrapper>
       <Container>
-        <Row width="40%">
+        <Row width='40%'>
           <Column>
-            <SwapText size="20px" color="textBlack" weight={500}>
+            <SwapText size='20px' color='textBlack' weight={500}>
               <FormattedMessage
-                id="scenes.profile.identityverification.tradingtitle"
-                defaultMessage="Trading Limits"
+                id='scenes.profile.identityverification.tradingtitle'
+                defaultMessage='Trading Limits'
               />
             </SwapText>
-            <SwapText size="14px" weight={400}>
+            <SwapText size='14px' weight={400}>
               <FormattedMessage
-                id="scenes.profile.identityverification.swaplimit.tradelimit"
-                defaultMessage="Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention."
+                id='scenes.profile.identityverification.swaplimit.tradelimit'
+                defaultMessage='Your trading limits are how much you can trade each day. That includes Swap and Buy transactions. Limits are necessary for compliance and fraud prevention.'
               />
             </SwapText>
             <LearnMoreContainer>
-              <SwapText size="13px" color="textBlack">
+              <SwapText size='13px' color='textBlack'>
                 <FormattedMessage
-                  id="scenes.profile.identityverification.swaplimit.wanttolearnmore"
-                  defaultMessage="Want to learn more?"
+                  id='scenes.profile.identityverification.swaplimit.wanttolearnmore'
+                  defaultMessage='Want to learn more?'
                 />
               </SwapText>
-              <SwapText size="13px" weight={400}>
+              <SwapText size='13px' weight={400}>
                 <FormattedHTMLMessage
-                  id="scenes.profile.identityverification.swaplimit.learnmoreread"
+                  id='scenes.profile.identityverification.swaplimit.learnmoreread'
                   defaultMessage="Read the article we've put together on Trading Limits <a href='https://blockchain.zendesk.com/hc/en-us/articles/360018353031-Exchange-Limit-Amounts' rel='noopener noreferrer' target='_blank'>here</a>."
                 />
               </SwapText>
@@ -147,14 +147,14 @@ const IdentityVerification = ({ userData, userTiers }) => {
                 <>
                   <SwapText>
                     <Image
-                      name="warning-circle-filled"
-                      width="32px"
-                      height="32px"
+                      name='warning-circle-filled'
+                      width='32px'
+                      height='32px'
                     />
                   </SwapText>
-                  <SwapText size="14px">
+                  <SwapText size='14px'>
                     <FormattedMessage
-                      id="scenes.profile.idv.swaplimit.airdropdisclaimer1"
+                      id='scenes.profile.idv.swaplimit.airdropdisclaimer1'
                       defaultMessage="Gold verification is currently under review. Once verified you'll be able to use Swap (trading up to {tier2Limit}) and also be eligible for future crypto airdrops!"
                       values={{ tier2Limit: formattedTier2Limit }}
                     />
@@ -164,18 +164,18 @@ const IdentityVerification = ({ userData, userTiers }) => {
             </LearnMoreContainer>
           </Column>
         </Row>
-        <Row width="60%">
+        <Row width='60%'>
           <Column>
             <TierWrapper>
               <TierCard tier={1} />
             </TierWrapper>
             <TierWrapper>
               <TierCard tier={2} />
-              <TooltipHost id="swaplimit.airdrops.tooltip" data-place="right">
+              <TooltipHost id='swaplimit.airdrops.tooltip' data-place='right'>
                 <TooltipIcon
-                  size="24px"
-                  name="question-in-circle-filled"
-                  color="grey200"
+                  size='24px'
+                  name='question-in-circle-filled'
+                  color='grey200'
                 />
               </TooltipHost>
             </TierWrapper>

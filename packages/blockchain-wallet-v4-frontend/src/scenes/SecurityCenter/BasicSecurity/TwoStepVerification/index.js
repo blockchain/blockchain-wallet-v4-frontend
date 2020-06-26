@@ -9,7 +9,7 @@ import React from 'react'
 import Success from './template.success'
 
 class TwoStepVerificationContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       authName: '',
@@ -30,7 +30,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.triggerSuccess = this.triggerSuccess.bind(this)
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     const data = nextProps.data.getOrElse({})
     if (data.authType === 4) return { authName: 'Authenticator App' }
     if (data.authType === 5) return { authName: 'SMS Codes' }
@@ -40,26 +40,26 @@ class TwoStepVerificationContainer extends React.PureComponent {
     return prevState
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType > 0 && prev.authType === 0) {
       this.handleUpdate()
     }
   }
-  handleUpdate() {
+  handleUpdate () {
     this.setState({
       editing: !this.state.editing
     })
   }
 
-  handleClick() {
+  handleClick () {
     this.setState({
       verifyToggled: !this.state.verifyToggled
     })
   }
 
-  handleDisableClick() {
+  handleDisableClick () {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
       this.props.modalActions.showModal('ConfirmDisable2FA', {
@@ -72,7 +72,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
-  chooseMethod(method) {
+  chooseMethod (method) {
     const next = this.props.data.getOrElse({})
     if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
@@ -85,7 +85,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     }
   }
-  handleTwoFactorChange() {
+  handleTwoFactorChange () {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
     })
@@ -93,23 +93,23 @@ class TwoStepVerificationContainer extends React.PureComponent {
       editing: false
     })
   }
-  pulseText() {
+  pulseText () {
     this.setState({ pulse: true })
     setTimeout(() => {
       this.setState({ pulse: false })
     }, 500)
   }
-  handleGoBack() {
+  handleGoBack () {
     this.setState({ authMethod: '', verifyToggled: false })
   }
-  triggerSuccess() {
+  triggerSuccess () {
     this.setState({ success: true })
     setTimeout(() => {
       this.setState({ success: false })
     }, 1500)
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
 
     return data.cata({

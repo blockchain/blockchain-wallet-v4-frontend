@@ -82,31 +82,31 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup>
-        <FormItem data-e2e="currencySelectDropdown">
-          <FormLabel htmlFor="coin">
+        <FormItem data-e2e='currencySelectDropdown'>
+          <FormLabel htmlFor='coin'>
             <FormattedMessage
-              id="modals.sendbitcoin.firststep.coin"
-              defaultMessage="Currency:"
+              id='modals.sendbitcoin.firststep.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
           <Field
-            name="coin"
+            name='coin'
             component={SelectBoxCoin}
-            type="request"
+            type='request'
             validate={[required]}
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <FormItem data-e2e="receiveToWalletDropdown">
-          <FormLabel htmlFor="to">
+        <FormItem data-e2e='receiveToWalletDropdown'>
+          <FormLabel htmlFor='to'>
             <FormattedMessage
-              id="modals.requestbtc.to"
-              defaultMessage="Receive To:"
+              id='modals.requestbtc.to'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
-            name="to"
+            name='to'
             component={SelectBoxBtcAddresses}
             excludeLockbox={excludeLockbox}
             includeAll={false}
@@ -114,10 +114,10 @@ const FirstStep = props => {
           />
           {includes(receiveAddress, importedAddresses) && (
             <BannerContainer>
-              <Banner type="warning">
+              <Banner type='warning'>
                 <FormattedMessage
-                  id="modals.requestbtc.importedwarning"
-                  defaultMessage="You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key."
+                  id='modals.requestbtc.importedwarning'
+                  defaultMessage='You are about to receive to a watch-only address. You can only spend these funds if you have access to the private key.'
                 />
               </Banner>
             </BannerContainer>
@@ -128,59 +128,59 @@ const FirstStep = props => {
         <React.Fragment>
           <FormGroup>
             <FormItem>
-              <FormLabel htmlFor="amount">
+              <FormLabel htmlFor='amount'>
                 <FormattedMessage
-                  id="modals.requestbtc.requestlink.amount"
-                  defaultMessage="Amount:"
+                  id='modals.requestbtc.requestlink.amount'
+                  defaultMessage='Amount:'
                 />
               </FormLabel>
               <Field
-                name="amount"
+                name='amount'
                 component={FiatConverter}
                 validate={[required, invalidAmountMin, invalidAmountMax]}
-                coin="BTC"
-                data-e2e="requestBtc"
+                coin='BTC'
+                data-e2e='requestBtc'
               />
             </FormItem>
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <FormLabel htmlFor="message">
+              <FormLabel htmlFor='message'>
                 <FormattedMessage
-                  id="modals.requestbtc.requestlink.description"
-                  defaultMessage="Description:"
+                  id='modals.requestbtc.requestlink.description'
+                  defaultMessage='Description:'
                 />
               </FormLabel>
               <Field
-                name="message"
+                name='message'
                 component={TextArea}
                 validate={[required]}
                 placeholder="What's this transaction for?"
-                data-e2e="requestBtcDescription"
+                data-e2e='requestBtcDescription'
               />
             </FormItem>
           </FormGroup>
           <ContinueButton
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             fullwidth
-            data-e2e="requestBtcLinkNextButton"
+            data-e2e='requestBtcLinkNextButton'
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id="modals.requestbtc.requestlink.next"
-              defaultMessage="Next"
+              id='modals.requestbtc.requestlink.next'
+              defaultMessage='Next'
             />
           </ContinueButton>
           <ChangeViewContainer inline>
             <MakeRequestLinkText
-              size="13px"
+              size='13px'
               weight={500}
               onClick={onToggleMakeRequestLink}
             >
               <FormattedHTMLMessage
-                id="modals.requestbtc.requestlink.showaddress"
-                defaultMessage="Show BTC Address"
+                id='modals.requestbtc.requestlink.showaddress'
+                defaultMessage='Show BTC Address'
               />
             </MakeRequestLinkText>
           </ChangeViewContainer>
@@ -191,56 +191,56 @@ const FirstStep = props => {
             <QRCodeWrapper
               value={receiveAddress}
               size={125}
-              data-e2e="requestBtcAddressQrCode"
+              data-e2e='requestBtcAddressQrCode'
             />
           </QRCodeContainer>
           <FormGroup>
             <FormItem>
               <FormLabel>
                 <FormattedMessage
-                  id="modals.requestbtc.address"
-                  defaultMessage="Address:"
+                  id='modals.requestbtc.address'
+                  defaultMessage='Address:'
                 />
               </FormLabel>
               <AddressContainer>
                 <CopyClipboard
                   address={receiveAddress}
-                  data-e2e="requestBtc"
-                  coin="BTC"
+                  data-e2e='requestBtc'
+                  coin='BTC'
                 />
               </AddressContainer>
             </FormItem>
           </FormGroup>
           {isLockboxAcct && (
             <BannerContainer>
-              <Banner type="info">
+              <Banner type='info'>
                 {warnLockboxReceive ? (
-                  <Text color="warning" size="12px">
+                  <Text color='warning' size='12px'>
                     <FormattedHTMLMessage
-                      id="modals.requestbtc.lockbox.confirm.warnbrowser"
-                      defaultMessage="Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk."
+                      id='modals.requestbtc.lockbox.confirm.warnbrowser'
+                      defaultMessage='Unsupported browser to confirm the receive address on your Lockbox.  Please use the Brave, Chrome, Firefox or Opera browsers to confirm or continue without confirming the address at your own risk.'
                     />
                   </Text>
                 ) : (
                   <TextGroup inline>
-                    <Text color="warning" size="12px">
+                    <Text color='warning' size='12px'>
                       <FormattedHTMLMessage
-                        id="modals.requestbtc.lockbox.confirm1"
-                        defaultMessage="Please confirm the address above on your Lockbox by opening your Bitcoin app now."
+                        id='modals.requestbtc.lockbox.confirm1'
+                        defaultMessage='Please confirm the address above on your Lockbox by opening your Bitcoin app now.'
                       />
                     </Text>
-                    <Text size="12px" onClick={handleOpenLockbox}>
-                      <span className="link">
+                    <Text size='12px' onClick={handleOpenLockbox}>
+                      <span className='link'>
                         <FormattedHTMLMessage
-                          id="modals.requestbtc.lockbox.clickhere"
-                          defaultMessage="Click here"
+                          id='modals.requestbtc.lockbox.clickhere'
+                          defaultMessage='Click here'
                         />
                       </span>
                     </Text>
-                    <Text color="warning" size="12px">
+                    <Text color='warning' size='12px'>
                       <FormattedHTMLMessage
-                        id="modals.requestbtc.lockbox.confirm2"
-                        defaultMessage="once the app has been opened."
+                        id='modals.requestbtc.lockbox.confirm2'
+                        defaultMessage='once the app has been opened.'
                       />
                     </Text>
                   </TextGroup>
@@ -251,21 +251,21 @@ const FirstStep = props => {
           <ContinueButton
             onClick={closeAll}
             fullwidth
-            nature="primary"
-            data-e2e="requestBtcDoneButton"
+            nature='primary'
+            data-e2e='requestBtcDoneButton'
           >
-            <FormattedMessage id="buttons.done" defaultMessage="Done" />
+            <FormattedMessage id='buttons.done' defaultMessage='Done' />
           </ContinueButton>
           <ChangeViewContainer inline>
             <MakeRequestLinkText
-              size="13px"
+              size='13px'
               weight={500}
               onClick={onToggleMakeRequestLink}
-              data-e2e="shareableRequestLink"
+              data-e2e='shareableRequestLink'
             >
               <FormattedHTMLMessage
-                id="modals.requestbtc.makerequestlink"
-                defaultMessage="Create Shareable Request Link"
+                id='modals.requestbtc.makerequestlink'
+                defaultMessage='Create Shareable Request Link'
               />
             </MakeRequestLinkText>
           </ChangeViewContainer>

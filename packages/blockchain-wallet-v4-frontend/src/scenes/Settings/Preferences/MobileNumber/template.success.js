@@ -17,39 +17,39 @@ const MobileNumber = props => {
   const isVerified = smsVerified === 1
 
   return (
-    <SettingContainer data-e2e="prefsMobileNumber">
+    <SettingContainer data-e2e='prefsMobileNumber'>
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.settings.preferences.mobile.success.title"
-            defaultMessage="Mobile Number"
+            id='scenes.settings.preferences.mobile.success.title'
+            defaultMessage='Mobile Number'
           />
           <SettingStatus active={isVerified}>
             {isVerified ? (
               <FormattedMessage
-                id="scenes.settings.preferences.mobile.success.verified"
-                defaultMessage="Verified"
+                id='scenes.settings.preferences.mobile.success.verified'
+                defaultMessage='Verified'
               />
             ) : (
               <FormattedMessage
-                id="scenes.settings.preferences.mobile.success.unverified"
-                defaultMessage="Unverified"
+                id='scenes.settings.preferences.mobile.success.unverified'
+                defaultMessage='Unverified'
               />
             )}
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.settings.preferences.mobile.success.description1"
-            defaultMessage="Your mobile phone can be used to enable two-factor authentication,"
+            id='scenes.settings.preferences.mobile.success.description1'
+            defaultMessage='Your mobile phone can be used to enable two-factor authentication,'
           />
           <FormattedMessage
-            id="scenes.settings.preferences.mobile.success.description2"
-            defaultMessage="helping to secure your wallet from unauthorized access,"
+            id='scenes.settings.preferences.mobile.success.description2'
+            defaultMessage='helping to secure your wallet from unauthorized access,'
           />
           <FormattedMessage
-            id="scenes.settings.preferences.mobile.success.description3"
-            defaultMessage="and to send bitcoin payment alerts when you receive funds."
+            id='scenes.settings.preferences.mobile.success.description3'
+            defaultMessage='and to send bitcoin payment alerts when you receive funds.'
           />
         </SettingDescription>
       </SettingSummary>

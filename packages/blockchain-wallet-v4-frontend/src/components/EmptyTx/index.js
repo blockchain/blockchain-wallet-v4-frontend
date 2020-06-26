@@ -15,40 +15,40 @@ const Header = styled(Text)`
 `
 
 class EmptyTxContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
-      <Wrapper data-e2e="noTransactionsFound">
-        <Image name="empty-tx" width="250px" />
-        <Header size="16px" weight={500}>
+      <Wrapper data-e2e='noTransactionsFound'>
+        <Image name='empty-tx' width='250px' />
+        <Header size='16px' weight={500}>
           <FormattedMessage
-            id="components.emptytx.header"
+            id='components.emptytx.header'
             defaultMessage="Oops, we couldn't find any transactions!"
           />
         </Header>
         <TextGroup inline>
-          <Text size="12px" weight={400}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
-              id="components.emptytx.body"
-              defaultMessage="Please try filtering by a different criteria or"
+              id='components.emptytx.body'
+              defaultMessage='Please try filtering by a different criteria or'
             />
           </Text>
-          <Text size="12px" weight={400}>
+          <Text size='12px' weight={400}>
             <Link
-              size="12px"
-              href="https://support.blockchain.com/"
-              target="_blank"
-              referrer="noreferrer"
+              size='12px'
+              href='https://support.blockchain.com/'
+              target='_blank'
+              referrer='noreferrer'
             >
               <FormattedMessage
-                id="components.emptytx.body2"
-                defaultMessage="reach out to us"
+                id='components.emptytx.body2'
+                defaultMessage='reach out to us'
               />
             </Link>
           </Text>
-          <Text size="12px" weight={400}>
+          <Text size='12px' weight={400}>
             <FormattedMessage
-              id="components.emptytx.body3"
-              defaultMessage="if you need help."
+              id='components.emptytx.body3'
+              defaultMessage='if you need help.'
             />
           </Text>
         </TextGroup>

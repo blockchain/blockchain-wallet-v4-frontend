@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 
 class FiatConverterContainer extends React.PureComponent {
-  render() {
+  render () {
     const {
       input,
       meta,

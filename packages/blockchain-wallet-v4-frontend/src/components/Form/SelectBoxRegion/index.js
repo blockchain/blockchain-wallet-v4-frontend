@@ -19,7 +19,7 @@ class SelectBoxRegion extends React.PureComponent {
     countryCode: null
   }
 
-  render() {
+  render () {
     const { countryCode } = this.props
     const regions = pipe(
       find(propEq('countryShortCode', countryCode)),
@@ -34,13 +34,13 @@ class SelectBoxRegion extends React.PureComponent {
         label={
           countryHasStates(countryCode) ? (
             <FormattedMessage
-              id="components.selectboxregion.placeholder.state"
-              defaultMessage="Select state"
+              id='components.selectboxregion.placeholder.state'
+              defaultMessage='Select state'
             />
           ) : (
             <FormattedMessage
-              id="components.selectboxregion.placeholder.region"
-              defaultMessage="Select region"
+              id='components.selectboxregion.placeholder.region'
+              defaultMessage='Select region'
             />
           )
         }

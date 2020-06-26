@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 export default props => {
   return (
     <Wrapper>
-      <SkeletonRectangle width="50px" height={props.loadingHeight || '14px'} />
+      <SkeletonRectangle width='50px' height={props.loadingHeight || '14px'} />
     </Wrapper>
   )
 }

@@ -9,7 +9,7 @@ import { utils } from 'blockchain-wallet-v4/src'
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/importBtcAddress/sagas'
 
-  const importBtcAddressSubmitClicked = function*() {
+  const importBtcAddressSubmitClicked = function * () {
     const form = yield select(selectors.form.getFormValues('importBtcAddress'))
     const value = prop('addrOrPriv', form)
     const to = prop('to', form)
@@ -45,7 +45,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sweepImportedToAccount = function*(priv, to, password) {
+  const sweepImportedToAccount = function * (priv, to, password) {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
@@ -81,7 +81,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const importLegacyAddress = function*(
+  const importLegacyAddress = function * (
     address,
     priv,
     secPass,

@@ -11,7 +11,7 @@ const INITIAL_STATE: ExchangeState = {
   txError: null
 }
 
-export function exchangeReducer(
+export function exchangeReducer (
   state = INITIAL_STATE,
   action: ExchangeActionTypes
 ): ExchangeState {

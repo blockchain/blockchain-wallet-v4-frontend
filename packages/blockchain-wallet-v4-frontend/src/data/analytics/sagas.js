@@ -10,7 +10,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'analytics/sagas'
 export default ({ api }) => {
-  const waitForUserId = function*() {
+  const waitForUserId = function * () {
     const userId = yield select(
       selectors.core.kvStore.userCredentials.getUserId
     )
@@ -24,7 +24,7 @@ export default ({ api }) => {
     )).getOrElse(null)
   }
 
-  const postMessage = function*(message) {
+  const postMessage = function * (message) {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
@@ -43,7 +43,7 @@ export default ({ api }) => {
     }
   }
 
-  const generateUniqueUserID = function*() {
+  const generateUniqueUserID = function * () {
     const defaultHDWallet = yield select(
       selectors.core.wallet.getDefaultHDWallet
     )
@@ -58,7 +58,7 @@ export default ({ api }) => {
     return masterHDNode.deriveHardened(purpose).getAddress()
   }
 
-  const initUserSession = function*() {
+  const initUserSession = function * () {
     try {
       const guid = yield call(generateUniqueUserID)
       yield call(startSession, { payload: { guid } })
@@ -141,7 +141,7 @@ export default ({ api }) => {
     }
   }
 
-  const logEvent = function*(action) {
+  const logEvent = function * (action) {
     try {
       const { event } = action.payload
       yield call(postMessage, {
@@ -153,7 +153,7 @@ export default ({ api }) => {
     }
   }
 
-  const createABTest = function*(action) {
+  const createABTest = function * (action) {
     try {
       const { test } = action.payload
       yield call(postMessage, {
@@ -165,7 +165,7 @@ export default ({ api }) => {
     }
   }
 
-  const logPageView = function*(action) {
+  const logPageView = function * (action) {
     try {
       const { route } = action.payload
       const isAuthenticated = yield select(selectors.auth.isAuthenticated)
@@ -181,7 +181,7 @@ export default ({ api }) => {
     }
   }
 
-  const logGoal = function*() {
+  const logGoal = function * () {
     try {
       // TODO
       yield
@@ -190,7 +190,7 @@ export default ({ api }) => {
     }
   }
 
-  const startSession = function*(action) {
+  const startSession = function * (action) {
     try {
       const { guid } = action.payload
       yield call(postMessage, {
@@ -207,7 +207,7 @@ export default ({ api }) => {
     }
   }
 
-  const stopSession = function*() {
+  const stopSession = function * () {
     try {
       yield call(postMessage, { method: 'resetUserId', messageData: [] })
     } catch (e) {

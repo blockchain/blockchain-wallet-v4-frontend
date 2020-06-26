@@ -70,7 +70,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     const { order } = this.props
 
     const inputAmt =
@@ -83,24 +83,24 @@ class SimpleBuyListItem extends PureComponent<Props> {
 
     return (
       <TransactionRow onClick={() => this.showModal(order)}>
-        <StatusColumn data-e2e="orderStatusColumn">
+        <StatusColumn data-e2e='orderStatusColumn'>
           <Status order={order} />
         </StatusColumn>
-        <AmountColumn data-e2e="orderAmountColumn">
-          <Text size="14px" weight={500}>
+        <AmountColumn data-e2e='orderAmountColumn'>
+          <Text size='14px' weight={500}>
             {inputAmt}
           </Text>
         </AmountColumn>
         <ViewInfoColumn>
           <Button
-            data-e2e="viewInfoButton"
-            size="14px"
-            height="35px"
-            nature="light"
+            data-e2e='viewInfoButton'
+            size='14px'
+            height='35px'
+            nature='light'
           >
             <FormattedMessage
-              id="modals.simplebuy.transactionlist.viewdetails"
-              defaultMessage="View Details"
+              id='modals.simplebuy.transactionlist.viewdetails'
+              defaultMessage='View Details'
             />
           </Button>
         </ViewInfoColumn>

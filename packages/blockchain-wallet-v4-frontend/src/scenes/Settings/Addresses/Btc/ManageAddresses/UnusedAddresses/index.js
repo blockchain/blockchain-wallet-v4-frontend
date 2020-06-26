@@ -28,11 +28,11 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 class UnusedAddressesContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
 
-  render() {
+  render () {
     const {
       account,
       alertActions,
@@ -107,15 +107,15 @@ class UnusedAddressesContainer extends React.PureComponent {
             <Text
               weight={500}
               style={{ marginRight: 10 }}
-              data-e2e="btcWalletName"
+              data-e2e='btcWalletName'
             >
               {account.label}
             </Text>
             {isDefault && (
-              <Banner label data-e2e="btcDefaultWallet">
+              <Banner label data-e2e='btcDefaultWallet'>
                 <FormattedMessage
-                  id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault"
-                  defaultMessage="Default"
+                  id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault'
+                  defaultMessage='Default'
                 />
               </Banner>
             )}
@@ -127,77 +127,77 @@ class UnusedAddressesContainer extends React.PureComponent {
             selectedComponent={
               <Link
                 weight={500}
-                size="13px"
-                data-e2e="btcWalletMoreOptionsDropdown"
+                size='13px'
+                data-e2e='btcWalletMoreOptionsDropdown'
               >
                 <FormattedMessage
-                  id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions"
-                  defaultMessage="More Options"
+                  id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
+                  defaultMessage='More Options'
                 />
               </Link>
             }
             components={[
               <ClickableText
-                size="small"
+                size='small'
                 onClick={onEditBtcAccountLabel}
-                data-e2e="btcEditWalletNameLink"
+                data-e2e='btcEditWalletNameLink'
               >
                 <FormattedMessage
-                  id="scenes.settings.manage_addresses.edit_name"
-                  defaultMessage="Edit Name"
+                  id='scenes.settings.manage_addresses.edit_name'
+                  defaultMessage='Edit Name'
                 />
               </ClickableText>,
               !isDefault && (
                 <ClickableText
-                  size="small"
+                  size='small'
                   onClick={onMakeDefault}
-                  data-e2e="btcMakeWalletDefaultLink"
+                  data-e2e='btcMakeWalletDefaultLink'
                 >
                   <FormattedMessage
-                    id="scenes.settings.manage_addresses.make_default"
-                    defaultMessage="Make Default"
+                    id='scenes.settings.manage_addresses.make_default'
+                    defaultMessage='Make Default'
                   />
                 </ClickableText>
               ),
               !isDefault && (
                 <ClickableText
-                  size="small"
+                  size='small'
                   onClick={onSetArchived}
-                  data-e2e="btcArchiveWalletLink"
+                  data-e2e='btcArchiveWalletLink'
                 >
                   <FormattedMessage
-                    id="scenes.settings.manage_addresses.archive"
-                    defaultMessage="Archive"
+                    id='scenes.settings.manage_addresses.archive'
+                    defaultMessage='Archive'
                   />
                 </ClickableText>
               ),
               <ClickableText
-                size="small"
+                size='small'
                 onClick={onShowXPub}
-                data-e2e="btcShowWalletXpubLink"
+                data-e2e='btcShowWalletXpubLink'
               >
                 <FormattedMessage
-                  id="scenes.settings.manage_addresses.show_xpub"
-                  defaultMessage="Show xPub"
+                  id='scenes.settings.manage_addresses.show_xpub'
+                  defaultMessage='Show xPub'
                 />
               </ClickableText>
             ].filter(x => x)}
           />
         </div>
-        <Text weight={500} size="14px" style={{ marginTop: 25 }}>
+        <Text weight={500} size='14px' style={{ marginTop: 25 }}>
           <FormattedMessage
-            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title"
-            defaultMessage="Unused Addresses"
+            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title'
+            defaultMessage='Unused Addresses'
           />
         </Text>
         <Text
           weight={400}
-          size="small"
+          size='small'
           style={{ marginTop: 10, marginBottom: 15 }}
         >
           <FormattedMessage
-            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message"
-            defaultMessage="Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled."
+            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message'
+            defaultMessage='Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled.'
           />
         </Text>
         {!unusedAddresses
@@ -210,21 +210,21 @@ class UnusedAddressesContainer extends React.PureComponent {
               Loading: () => (
                 <FlatLoader
                   style={{ margin: '25px auto' }}
-                  width="100px"
-                  height="12px"
+                  width='100px'
+                  height='12px'
                 />
               ),
               NotAsked: () => <div />
             })}
         <IconButton
           style={{ marginTop: 15 }}
-          name="plus"
+          name='plus'
           onClick={() => onGenerateNextAddress()}
-          data-e2e="btcAddNextAddressButton"
+          data-e2e='btcAddNextAddressButton'
         >
           <FormattedMessage
-            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext"
-            defaultMessage="Add Next Address"
+            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext'
+            defaultMessage='Add Next Address'
           />
         </IconButton>
       </React.Fragment>

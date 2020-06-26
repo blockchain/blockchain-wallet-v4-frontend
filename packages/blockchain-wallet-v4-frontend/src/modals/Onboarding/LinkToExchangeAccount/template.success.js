@@ -44,33 +44,33 @@ const Status = styled.div`
 
 const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
   return (
-    <ModalStyled size="xsmall" dataE2e="infoModalLinkToExchangeAccountSuccess">
+    <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountSuccess'>
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <Icon name="checkmark-in-circle-filled" color="success" size="62px" />
+          <Icon name='checkmark-in-circle-filled' color='success' size='62px' />
           <Status>
-            <Text color="white" size="34px" weight={600}>
+            <Text color='white' size='34px' weight={600}>
               <FormattedMessage
-                id="modals.onboarding.linktoexchangeaccount.success.title"
-                defaultMessage="Success!"
+                id='modals.onboarding.linktoexchangeaccount.success.title'
+                defaultMessage='Success!'
               />
             </Text>
-            <Text color="white" size="18px" weight={500}>
+            <Text color='white' size='18px' weight={500}>
               <FormattedMessage
-                id="modals.onboarding.linktoexchangeaccount.success.subtitle-1"
-                defaultMessage="Your Blockchain Wallet is now connected to Exchange!"
+                id='modals.onboarding.linktoexchangeaccount.success.subtitle-1'
+                defaultMessage='Your Blockchain Wallet is now connected to Exchange!'
               />
             </Text>
           </Status>
           <Button
-            nature="purple"
-            height="56px"
+            nature='purple'
+            height='56px'
             fullwidth
             onClick={onAccountLinkComplete}
           >
-            <Text color="white" size="16px" weight={500}>
-              <FormattedMessage id="buttons.done" defaultMessage="Done" />
+            <Text color='white' size='16px' weight={500}>
+              <FormattedMessage id='buttons.done' defaultMessage='Done' />
             </Text>
           </Button>
         </Content>

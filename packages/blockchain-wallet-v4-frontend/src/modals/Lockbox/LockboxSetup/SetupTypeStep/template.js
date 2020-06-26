@@ -34,68 +34,68 @@ const SetupTypeStep = props => {
       {deviceType === 'Lockbox' ? (
         <DeviceWrapper>
           <Image
-            width="60%"
-            name="lockbox-device"
+            width='60%'
+            name='lockbox-device'
             srcset={{ 'lockbox-device': '1x' }}
           />
-          <Text size="16px" weight={500} style={{ marginTop: '20px' }}>
+          <Text size='16px' weight={500} style={{ marginTop: '20px' }}>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.connectlockbox"
-              defaultMessage="Connect your Blockchain Lockbox"
+              id='modals.lockboxsetup.setuptypestep.connectlockbox'
+              defaultMessage='Connect your Blockchain Lockbox'
             />
           </Text>
         </DeviceWrapper>
       ) : (
         <DeviceWrapper>
           <Image
-            width="55%"
-            name="ledger-nano-s"
+            width='55%'
+            name='ledger-nano-s'
             srcset={{ 'ledger-nano-s': '1x' }}
           />
-          <Text size="16px" weight={500} style={{ marginTop: '24px' }}>
+          <Text size='16px' weight={500} style={{ marginTop: '24px' }}>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.connectnanos"
-              defaultMessage="Connect your Ledger Nano S"
+              id='modals.lockboxsetup.setuptypestep.connectnanos'
+              defaultMessage='Connect your Ledger Nano S'
             />
           </Text>
         </DeviceWrapper>
       )}
       <NewButton
-        nature="primary"
+        nature='primary'
         fullwidth
         onClick={() => handleStepChange('new')}
       >
         <TextGroup>
-          <Text size="14px" weight={400} color="white">
+          <Text size='14px' weight={400} color='white'>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.new"
-              defaultMessage="Set up new device"
+              id='modals.lockboxsetup.setuptypestep.new'
+              defaultMessage='Set up new device'
             />
           </Text>
-          <Text size="10px" weight={400} color="white">
+          <Text size='10px' weight={400} color='white'>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.newlength"
-              defaultMessage="10-15 Minutes"
+              id='modals.lockboxsetup.setuptypestep.newlength'
+              defaultMessage='10-15 Minutes'
             />
           </Text>
         </TextGroup>
       </NewButton>
       <ExistingButton
-        nature="received"
+        nature='received'
         fullwidth
         onClick={() => handleStepChange('existing')}
       >
         <TextGroup>
-          <Text size="14px" weight={400} color="white">
+          <Text size='14px' weight={400} color='white'>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.existing"
-              defaultMessage="Sign in with PIN"
+              id='modals.lockboxsetup.setuptypestep.existing'
+              defaultMessage='Sign in with PIN'
             />
           </Text>
-          <Text size="10px" weight={400} color="white">
+          <Text size='10px' weight={400} color='white'>
             <FormattedMessage
-              id="modals.lockboxsetup.setuptypestep.existinglength"
-              defaultMessage="2-3 Minutes"
+              id='modals.lockboxsetup.setuptypestep.existinglength'
+              defaultMessage='2-3 Minutes'
             />
           </Text>
         </TextGroup>

@@ -23,12 +23,12 @@ const Content = styled(Text)`
 export class Amount extends Component<Props> {
   state = {}
 
-  render() {
+  render () {
     return (
       <Wrapper>
         {this.props.data.cata({
           Success: val => (
-            <Text weight={600} size="32px">
+            <Text weight={600} size='32px'>
               {fiatToString({
                 unit: 'USD',
                 value: val.offer

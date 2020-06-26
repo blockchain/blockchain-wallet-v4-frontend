@@ -75,22 +75,22 @@ const TextBox = field => {
       {touched && error && (
         <>
           <Error
-            size="12px"
+            size='12px'
             weight={500}
-            color="error"
+            color='error'
             height={height}
             errorBottom={errorBottom}
-            data-e2e="textBoxError"
+            data-e2e='textBoxError'
           >
             {error}
           </Error>
           {noLastPass && (
-            <WarningIcon name="alert-filled" color="red600" size="20px" />
+            <WarningIcon name='alert-filled' color='red600' size='20px' />
           )}
         </>
       )}
       {touched && !error && warning && (
-        <Error size="12px" weight={400} color="sent" errorBottom={errorBottom}>
+        <Error size='12px' weight={400} color='sent' errorBottom={errorBottom}>
           {warning}
         </Error>
       )}

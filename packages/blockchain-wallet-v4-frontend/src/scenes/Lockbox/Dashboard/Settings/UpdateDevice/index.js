@@ -12,7 +12,7 @@ class UpdateDeviceContainer extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     return (
       <UpdateDevice
         onCheckForUpdates={this.onCheckForUpdates}

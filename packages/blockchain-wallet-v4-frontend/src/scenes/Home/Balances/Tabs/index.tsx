@@ -15,41 +15,41 @@ class TabsContainer extends React.PureComponent<Props> {
     this.props.layoutActions.setBalancesTableTab(tab)
   }
 
-  render() {
+  render () {
     const { currentTab } = this.props
     return (
       <CustomTabMenu>
         <TabMenuItem
-          width="33%"
-          data-e2e="totalTab"
+          width='33%'
+          data-e2e='totalTab'
           selected={currentTab === 'total'}
           onClick={() => this.handleClick('total')}
         >
           <FormattedMessage
-            id="scenes.home.balance.total"
-            defaultMessage="Total"
+            id='scenes.home.balance.total'
+            defaultMessage='Total'
           />
         </TabMenuItem>
         <TabMenuItem
-          width="33%"
-          data-e2e="walletTab"
+          width='33%'
+          data-e2e='walletTab'
           selected={currentTab === 'wallet'}
           onClick={() => this.handleClick('wallet')}
         >
           <FormattedMessage
-            id="scenes.home.balance.wallet"
-            defaultMessage="Wallet"
+            id='scenes.home.balance.wallet'
+            defaultMessage='Wallet'
           />
         </TabMenuItem>
         <TabMenuItem
-          width="33%"
-          data-e2e="lockboxTab"
+          width='33%'
+          data-e2e='lockboxTab'
           selected={currentTab === 'lockbox'}
           onClick={() => this.handleClick('lockbox')}
         >
           <FormattedMessage
-            id="scenes.home.balance.hardware"
-            defaultMessage="Hardware"
+            id='scenes.home.balance.hardware'
+            defaultMessage='Hardware'
           />
         </TabMenuItem>
       </CustomTabMenu>

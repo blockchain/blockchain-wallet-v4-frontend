@@ -29,7 +29,7 @@ class BorrowHistory extends Component<Props> {
     })
   }
 
-  render() {
+  render () {
     return (
       <History>
         {this.props.data.cata({

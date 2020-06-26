@@ -20,28 +20,28 @@ class TakeTourContainer extends React.PureComponent {
     this.props.lockboxActions.setProductTourVisibility(true)
   }
 
-  render() {
+  render () {
     return (
       <SettingContainer>
         <SettingSummary>
           <SettingHeader>
             <FormattedMessage
-              id="scenes.lockbox.settings.taketour.title"
-              defaultMessage="Product Tour"
+              id='scenes.lockbox.settings.taketour.title'
+              defaultMessage='Product Tour'
             />
           </SettingHeader>
           <SettingDescription>
             <FormattedMessage
-              id="scenes.lockbox.settings.taketour.description1"
-              defaultMessage="Take a quick, interactive tour of the features of Lockbox"
+              id='scenes.lockbox.settings.taketour.description1'
+              defaultMessage='Take a quick, interactive tour of the features of Lockbox'
             />
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
-          <Button nature="empty" onClick={this.onStartTour}>
+          <Button nature='empty' onClick={this.onStartTour}>
             <FormattedMessage
-              id="scenes.lockbox.settings.taketour.take"
-              defaultMessage="Take Tour"
+              id='scenes.lockbox.settings.taketour.take'
+              defaultMessage='Take Tour'
             />
           </Button>
         </SettingComponent>

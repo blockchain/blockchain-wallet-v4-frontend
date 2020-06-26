@@ -17,7 +17,7 @@ import { RatesType } from '../borrow/types'
 import { selectors } from 'data'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
-  const buildAndPublishPayment = function*(
+  const buildAndPublishPayment = function * (
     coin: CoinType,
     payment: PaymentType,
     destination: string
@@ -38,7 +38,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return !paymentError
   }
 
-  const createLimits = function*(payment: PaymentType) {
+  const createLimits = function * (payment: PaymentType) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
@@ -117,7 +117,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function*(index?: number) {
+  const createPayment = function * (index?: number) {
     let payment
     const coin = S.getCoinType(yield select())
 

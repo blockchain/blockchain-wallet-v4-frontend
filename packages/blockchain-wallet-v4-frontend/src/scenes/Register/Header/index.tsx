@@ -41,23 +41,23 @@ const Header = () => (
   <Wrapper>
     <Column>
       <HeaderText
-        color="whiteFade900"
+        color='whiteFade900'
         weight={700}
-        data-e2e="signupSecureHeader"
+        data-e2e='signupSecureHeader'
       >
         <FormattedMessage
-          id="scenes.register.securelybuy"
-          defaultMessage="Securely buy, sell, and store crypto."
+          id='scenes.register.securelybuy'
+          defaultMessage='Securely buy, sell, and store crypto.'
         />
       </HeaderText>
       <SubHeader
-        color="whiteFade800"
+        color='whiteFade800'
         weight={500}
-        data-e2e="signupSecureSubHeader"
+        data-e2e='signupSecureSubHeader'
       >
         <FormattedMessage
-          id="scenes.register.getstarted"
-          defaultMessage="Get started by signing up."
+          id='scenes.register.getstarted'
+          defaultMessage='Get started by signing up.'
         />
       </SubHeader>
     </Column>

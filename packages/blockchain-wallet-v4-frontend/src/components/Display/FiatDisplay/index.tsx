@@ -12,7 +12,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       const { coin, erc20List } = this.props
       if (includes(coin, erc20List)) {
@@ -22,7 +22,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
     }
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success {...rest}>{value}</Success>,

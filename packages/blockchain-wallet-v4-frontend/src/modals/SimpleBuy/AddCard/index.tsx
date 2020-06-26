@@ -18,7 +18,7 @@ import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
-  componentDidMount() {
+  componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
     }
@@ -28,7 +28,7 @@ class AddCard extends PureComponent<Props> {
     this.props.simpleBuyActions.addCardDetails()
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => (
         <Success {...this.props} {...val} onSubmit={this.handleSubmit} />

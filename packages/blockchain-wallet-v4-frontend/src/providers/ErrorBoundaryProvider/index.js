@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
     errorInfo: null
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch (error, info) {
     this.setState({
       error: error,
       errorInfo: info
@@ -30,7 +30,7 @@ class ErrorBoundary extends React.Component {
     }
   }
 
-  render() {
+  render () {
     if (this.state.error) {
       return (
         <ErrorModal

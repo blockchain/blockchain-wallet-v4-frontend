@@ -36,8 +36,8 @@ const Ended = () => {
   return (
     <GreyCartridge>
       <FormattedMessage
-        id="scenes.airdrop.stx.expired"
-        defaultMessage="Offer Expired"
+        id='scenes.airdrop.stx.expired'
+        defaultMessage='Offer Expired'
       />
     </GreyCartridge>
   )
@@ -53,15 +53,15 @@ export const StxHeader = ({
     case 'REWARD_RECEIVED':
       return (
         <FormattedMessage
-          id="scenes.airdrops.stx.wallet.title"
-          defaultMessage="My Blockstack Wallet"
+          id='scenes.airdrops.stx.wallet.title'
+          defaultMessage='My Blockstack Wallet'
         />
       )
     default:
       return (
         <FormattedMessage
-          id="scenes.airdrops.stx"
-          defaultMessage="Blockstack"
+          id='scenes.airdrops.stx'
+          defaultMessage='Blockstack'
         />
       )
   }
@@ -74,20 +74,20 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
       return (
         <>
           <Text
-            color="grey800"
-            size="14px"
+            color='grey800'
+            size='14px'
             weight={700}
             style={{ margin: '16px 0 4px' }}
           >
             <FormattedMessage
-              id="scenes.airdrops.stx.wallet.q1"
-              defaultMessage="Where are my Stacks?"
+              id='scenes.airdrops.stx.wallet.q1'
+              defaultMessage='Where are my Stacks?'
             />
           </Text>
-          <Text size="13px" color="grey600" weight={500}>
+          <Text size='13px' color='grey600' weight={500}>
             <FormattedMessage
-              id="scenes.airdrops.stx.wallet.a1"
-              defaultMessage="Your Stacks (STX) are saved in your Blockchain Wallet."
+              id='scenes.airdrops.stx.wallet.a1'
+              defaultMessage='Your Stacks (STX) are saved in your Blockchain Wallet.'
             />
           </Text>
         </>
@@ -95,25 +95,25 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
     default:
       return (
         <Text
-          size="12px"
-          color="grey600"
+          size='12px'
+          color='grey600'
           weight={500}
-          lineHeight="1.5"
+          lineHeight='1.5'
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage
-            id="scenes.airdrop.stx.stxinfo1"
-            defaultMessage="Own your digital identity and data with hundreds of decentralized apps built with Blockstack."
+            id='scenes.airdrop.stx.stxinfo1'
+            defaultMessage='Own your digital identity and data with hundreds of decentralized apps built with Blockstack.'
           />{' '}
           <Link
-            href="https://blockstack.org/try-blockstack"
-            target="_blank"
-            rel="noopener noreferrer"
-            size="12px"
+            href='https://blockstack.org/try-blockstack'
+            target='_blank'
+            rel='noopener noreferrer'
+            size='12px'
           >
             <FormattedMessage
-              id="buttons.learn_more"
-              defaultMessage="Learn More"
+              id='buttons.learn_more'
+              defaultMessage='Learn More'
             />
           </Link>
         </Text>
@@ -143,13 +143,13 @@ export const StxDateOrAmount = ({
     case 'REWARD_RECEIVED':
       return (
         <DateOrAmount>
-          <Text size="14px" color="grey800" weight={600}>
+          <Text size='14px' color='grey800' weight={600}>
             {calcStxAmount(stxCampaign)}
           </Text>
-          <Text size="12px" color="grey600" weight={500}>
+          <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
-              id="scenes.airdrop.stx.wallet"
-              defaultMessage="My Blockstack Wallet"
+              id='scenes.airdrop.stx.wallet'
+              defaultMessage='My Blockstack Wallet'
             />
           </Text>
         </DateOrAmount>
@@ -157,16 +157,16 @@ export const StxDateOrAmount = ({
     default:
       return (
         <DateOrAmount>
-          <Text size="16px" color="grey800" weight={600}>
+          <Text size='16px' color='grey800' weight={600}>
             <FormattedMessage
-              id="scenes.airdrop.stx.jan"
-              defaultMessage="Jan. 2020"
+              id='scenes.airdrop.stx.jan'
+              defaultMessage='Jan. 2020'
             />
           </Text>
-          <Text size="12px" color="grey600" weight={500}>
+          <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
-              id="scenes.airdrop.stx.date"
-              defaultMessage="Airdrop Date"
+              id='scenes.airdrop.stx.date'
+              defaultMessage='Airdrop Date'
             />
           </Text>
         </DateOrAmount>
@@ -197,8 +197,8 @@ export const StxStatus = ({
       return (
         <ErrorCartridge>
           <FormattedMessage
-            id="scenes.airdrop.stx.ineligible"
-            defaultMessage="Ineligible"
+            id='scenes.airdrop.stx.ineligible'
+            defaultMessage='Ineligible'
           />
         </ErrorCartridge>
       )
@@ -207,8 +207,8 @@ export const StxStatus = ({
       return (
         <GreyCartridge>
           <FormattedMessage
-            id="scenes.airdrop.stx.pending"
-            defaultMessage="Pending KYC"
+            id='scenes.airdrop.stx.pending'
+            defaultMessage='Pending KYC'
           />
         </GreyCartridge>
       )
@@ -219,8 +219,8 @@ export const StxStatus = ({
             return (
               <ErrorCartridge>
                 <FormattedMessage
-                  id="scenes.airdrop.stx.failed"
-                  defaultMessage="Failed"
+                  id='scenes.airdrop.stx.failed'
+                  defaultMessage='Failed'
                 />
               </ErrorCartridge>
             )
@@ -228,8 +228,8 @@ export const StxStatus = ({
             return (
               <SuccessCartridge>
                 <FormattedMessage
-                  id="scenes.airdrop.stx.received"
-                  defaultMessage="Received"
+                  id='scenes.airdrop.stx.received'
+                  defaultMessage='Received'
                 />
               </SuccessCartridge>
             )
@@ -245,8 +245,8 @@ export const StxStatus = ({
                 }
               >
                 <FormattedMessage
-                  id="scenes.airdrop.stx.claim"
-                  defaultMessage="Claim"
+                  id='scenes.airdrop.stx.claim'
+                  defaultMessage='Claim'
                 />
               </BlueCartridgeCTA>
             )
@@ -254,8 +254,8 @@ export const StxStatus = ({
             return (
               <BlueCartridge>
                 <FormattedMessage
-                  id="scenes.airdrop.stx.reward_pending"
-                  defaultMessage="Reward Pending"
+                  id='scenes.airdrop.stx.reward_pending'
+                  defaultMessage='Reward Pending'
                 />
               </BlueCartridge>
             )
@@ -264,15 +264,15 @@ export const StxStatus = ({
             return stxCampaign.attributes['x-campaign-reject-reason'] ? (
               <ErrorCartridge>
                 <FormattedMessage
-                  id="scenes.airdrop.stx.ineligible"
-                  defaultMessage="Ineligible"
+                  id='scenes.airdrop.stx.ineligible'
+                  defaultMessage='Ineligible'
                 />
               </ErrorCartridge>
             ) : (
               <SuccessCartridge>
                 <FormattedMessage
-                  id="scenes.airdrop.stx.claimed"
-                  defaultMessage="Claimed"
+                  id='scenes.airdrop.stx.claimed'
+                  defaultMessage='Claimed'
                 />
               </SuccessCartridge>
             )
@@ -304,19 +304,19 @@ export const StxFooterCta = ({
       case 'TASK_FINISHED':
       case 'REWARD_RECEIVED':
         return (
-          <Text size="12px" color="grey600" weight={500}>
+          <Text size='12px' color='grey600' weight={500}>
             <FormattedMessage
-              id="scenes.airdrop.stx.wallet.balance"
-              defaultMessage="Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX"
+              id='scenes.airdrop.stx.wallet.balance'
+              defaultMessage='Please note the balance is currently non-transferable. Learn more about this and future wallet support for STX'
             />{' '}
             <Link
-              href="https://support.blockchain.com/hc/en-us/articles/360038745191"
-              target="_blank"
-              size="12px"
+              href='https://support.blockchain.com/hc/en-us/articles/360038745191'
+              target='_blank'
+              size='12px'
               weight={500}
               style={{ textDecoration: 'underline' }}
             >
-              <FormattedMessage id="copy.here" defaultMessage="here" />
+              <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
             {'.'}
           </Text>
@@ -324,14 +324,14 @@ export const StxFooterCta = ({
       case 'FAILED':
         return (
           <Link
-            href="https://support.blockchain.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href='https://support.blockchain.com'
+            target='_blank'
+            rel='noopener noreferrer'
           >
-            <Button nature="light" fullwidth data-e2e="contactSupport">
+            <Button nature='light' fullwidth data-e2e='contactSupport'>
               <FormattedMessage
-                id="buttons.contact_support"
-                defaultMessage="Contact Support"
+                id='buttons.contact_support'
+                defaultMessage='Contact Support'
               />
             </Button>
           </Link>
@@ -351,14 +351,14 @@ export const StxFooterCta = ({
     case KYC_STATES.NONE:
       return (
         <Link
-          href="https://blockstack.org/try-blockstack"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://blockstack.org/try-blockstack'
+          target='_blank'
+          rel='noopener noreferrer'
         >
-          <Button nature="light" fullwidth data-e2e="stxLearnMore">
+          <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id="buttons.learn_more"
-              defaultMessage="Learn More"
+              id='buttons.learn_more'
+              defaultMessage='Learn More'
             />
           </Button>
         </Link>
@@ -366,27 +366,27 @@ export const StxFooterCta = ({
     case KYC_STATES.VERIFIED:
       return tags.BLOCKSTACK ? (
         <Link
-          href="https://blockchain.com/getcrypto"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://blockchain.com/getcrypto'
+          target='_blank'
+          rel='noopener noreferrer'
         >
-          <Button nature="light" fullwidth data-e2e="stxShare">
+          <Button nature='light' fullwidth data-e2e='stxShare'>
             <FormattedMessage
-              id="scenes.airdrop.stx.share"
-              defaultMessage="Share"
+              id='scenes.airdrop.stx.share'
+              defaultMessage='Share'
             />
           </Button>
         </Link>
       ) : (
         <Link
-          href="https://blockstack.org/try-blockstack"
-          target="_blank"
-          rel="noopener noreferrer"
+          href='https://blockstack.org/try-blockstack'
+          target='_blank'
+          rel='noopener noreferrer'
         >
-          <Button nature="light" fullwidth data-e2e="stxLearnMore">
+          <Button nature='light' fullwidth data-e2e='stxLearnMore'>
             <FormattedMessage
-              id="buttons.learn_more"
-              defaultMessage="Learn More"
+              id='buttons.learn_more'
+              defaultMessage='Learn More'
             />
           </Button>
         </Link>

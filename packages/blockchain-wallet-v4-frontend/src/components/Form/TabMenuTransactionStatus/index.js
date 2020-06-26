@@ -7,7 +7,7 @@ class TabMenuTransactionStatusContainer extends React.PureComponent {
     this.props.input.onChange(value)
   }
 
-  render() {
+  render () {
     return (
       <TabMenuTransactionStatus
         value={this.props.input.value}

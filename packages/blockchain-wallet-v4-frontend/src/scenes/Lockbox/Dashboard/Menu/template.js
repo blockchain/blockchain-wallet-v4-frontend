@@ -108,15 +108,15 @@ const Menu = props => {
       {deviceInfo && (
         <StyledCreatableInputContainer>
           {onDashboard ? (
-            <SearchContainer className="tour-step3">
-              <Text size="20px" weight={500}>
+            <SearchContainer className='tour-step3'>
+              <Text size='20px' weight={500}>
                 <FormattedMessage
-                  id="scenes.lockbox.menu.transactions"
-                  defaultMessage="Transactions"
+                  id='scenes.lockbox.menu.transactions'
+                  defaultMessage='Transactions'
                 />
               </Text>
               <Field
-                name="search"
+                name='search'
                 isMulti
                 autoFocus
                 menuIsOpen={false}
@@ -125,17 +125,17 @@ const Menu = props => {
                 multiValueContainer={multiValueContainer}
                 placeholder={
                   <FormattedMessage
-                    id="scenes.lockbox.menu.transactions.search.placeholder"
-                    defaultMessage="Search by coin, address, or description"
+                    id='scenes.lockbox.menu.transactions.search.placeholder'
+                    defaultMessage='Search by coin, address, or description'
                   />
                 }
               />
             </SearchContainer>
           ) : (
-            <Text size="20px" weight={500}>
+            <Text size='20px' weight={500}>
               <FormattedMessage
-                id="scenes.lockbox.menu.settings"
-                defaultMessage="Settings"
+                id='scenes.lockbox.menu.settings'
+                defaultMessage='Settings'
               />
             </Text>
           )}

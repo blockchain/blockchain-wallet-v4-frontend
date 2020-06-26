@@ -18,11 +18,11 @@ const Wrapper = styled.div`
 class LockboxContainer extends React.PureComponent {
   state = { run: false, steps: TOUR_STEPS }
 
-  componentDidMount() {
+  componentDidMount () {
     this.checkForcedRouting()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props !== prevProps) {
       if (this.props.showProductTour) {
         this.onStartTour()
@@ -55,7 +55,7 @@ class LockboxContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { steps, run } = this.state
 
     return (
@@ -70,16 +70,16 @@ class LockboxContainer extends React.PureComponent {
         />
         <Switch>
           <Route
-            path="/lockbox/dashboard/:deviceIndex"
+            path='/lockbox/dashboard/:deviceIndex'
             component={LockboxDashboard}
             exact
           />
           <Route
-            path="/lockbox/settings/:deviceIndex"
+            path='/lockbox/settings/:deviceIndex'
             component={LockboxDashboard}
             exact
           />
-          <Route path="/lockbox/onboard" component={LockboxOnboard} exact />
+          <Route path='/lockbox/onboard' component={LockboxOnboard} exact />
         </Switch>
       </Wrapper>
     )

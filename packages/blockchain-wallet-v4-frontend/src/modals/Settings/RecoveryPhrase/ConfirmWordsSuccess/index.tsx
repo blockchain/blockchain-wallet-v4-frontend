@@ -30,57 +30,57 @@ const ConfirmWordsSuccess: React.FC<Props> = props => {
       <IconWrapper>
         <Icon
           cursor
-          name="close"
-          size="20px"
-          color="grey600"
-          role="button"
+          name='close'
+          size='20px'
+          color='grey600'
+          role='button'
           onClick={() => props.handleClose()}
         />
       </IconWrapper>
       <ContentWrapper>
         <Icon
-          name="checkmark-circle-filled"
-          color="green400"
-          size="72px"
+          name='checkmark-circle-filled'
+          color='green400'
+          size='72px'
           style={{ marginBottom: '25px' }}
         />
 
         <Text
-          color="grey800"
-          size="20px"
+          color='grey800'
+          size='20px'
           weight={600}
           style={{ lineHeight: 1.7 }}
         >
           <FormattedMessage
-            id="modals.recoveryphrase.success"
-            defaultMessage="Success!"
+            id='modals.recoveryphrase.success'
+            defaultMessage='Success!'
           />
         </Text>
         <Text
-          size="14px"
-          color="grey500"
+          size='14px'
+          color='grey500'
           weight={500}
           style={{ lineHeight: 1.7 }}
         >
           <FormattedMessage
-            id="modals.recoveryphrase.success.body"
-            defaultMessage="Your Wallet is now backed up."
+            id='modals.recoveryphrase.success.body'
+            defaultMessage='Your Wallet is now backed up.'
           />
         </Text>
 
         <Button
           capitalize
-          data-e2e="continueToSend"
+          data-e2e='continueToSend'
           fullwidth
-          height="48px"
-          nature="primary"
-          size="16px"
+          height='48px'
+          nature='primary'
+          size='16px'
           onClick={props.handleClose}
           style={{ marginTop: '40px' }}
         >
           <FormattedMessage
-            id="modals.recoveryphrase.success.close"
-            defaultMessage="Close"
+            id='modals.recoveryphrase.success.close'
+            defaultMessage='Close'
           />
         </Button>
       </ContentWrapper>

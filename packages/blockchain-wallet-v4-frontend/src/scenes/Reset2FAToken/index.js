@@ -9,7 +9,7 @@ import React from 'react'
 import Success from './template.success'
 
 class Reset2FAToken extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       token: decodeURIComponent(
@@ -18,11 +18,11 @@ class Reset2FAToken extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.miscActions.handle2FAReset(this.state.token)
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     let Reset2FARequest = data.cata({

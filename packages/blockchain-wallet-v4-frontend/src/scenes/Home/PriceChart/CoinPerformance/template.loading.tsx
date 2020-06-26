@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 const Loading = () => {
   return (
     <Wrapper>
-      <SkeletonRectangle width="100px" height="16px" />
+      <SkeletonRectangle width='100px' height='16px' />
     </Wrapper>
   )
 }

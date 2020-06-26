@@ -83,17 +83,17 @@ export const LegalWrapper = styled.div`
 export const Legal = () => {
   return (
     <LegalText>
-      <TooltipHost id="scenes.interest.legaldisclaimer">
-        <Icon name="info" size="12px" color="blue600" />
+      <TooltipHost id='scenes.interest.legaldisclaimer'>
+        <Icon name='info' size='12px' color='blue600' />
         <Text
-          size="12px"
-          color="blue600"
+          size='12px'
+          color='blue600'
           weight={500}
           style={{ marginLeft: '5px' }}
         >
           <FormattedMessage
-            id="scenes.interest.legaldiscalimer"
-            defaultMessage="Legal disclaimer"
+            id='scenes.interest.legaldiscalimer'
+            defaultMessage='Legal disclaimer'
           />
         </Text>
       </TooltipHost>

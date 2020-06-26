@@ -15,7 +15,7 @@ export { default as TooltipIcon } from './TooltipIcon'
  */
 
 export default class TooltipContainer extends React.PureComponent {
-  render() {
+  render () {
     return <Tooltip {...this.props}>{this.props.children}</Tooltip>
   }
 }

@@ -25,11 +25,11 @@ const OnfidoModal = styled(Modal)`
   ${props => (props.onfidoActive ? `background-color: #f3f3f4;` : '')};
 `
 class OnfidoContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.fetchOnfidoSDKKey()
     window.addEventListener('message', this.handleOnfidoMessage, false)
   }
-  componentWillUnmount() {
+  componentWillUnmount () {
     window.removeEventListener('message', this.handleOnfidoMessage)
   }
   handleOnfidoMessage = ({ data, origin }) => {
@@ -41,7 +41,7 @@ class OnfidoContainer extends React.PureComponent {
     const isSelfie = pathEq(['data', 'face', 'variant'], 'standard', data)
     actions.syncOnfido(isSelfie)
   }
-  render() {
+  render () {
     const {
       helperDomain,
       position,
@@ -54,7 +54,7 @@ class OnfidoContainer extends React.PureComponent {
     const docs = supportedDocuments.map(toLower).join('|')
     return (
       <OnfidoModal
-        size="medium"
+        size='medium'
         position={position}
         onfidoActive={Remote.Success.is(onfidoSDKKey)}
         total={total}
@@ -67,9 +67,9 @@ class OnfidoContainer extends React.PureComponent {
               NotAsked: () => (
                 <OnfidoIframe
                   src={`${helperDomain}/wallet-helper/onfido/#/token/${sdkKey}/docs/${docs}`}
-                  sandbox="allow-same-origin allow-scripts"
-                  scrolling="no"
-                  id="onfido-iframe"
+                  sandbox='allow-same-origin allow-scripts'
+                  scrolling='no'
+                  id='onfido-iframe'
                 />
               ),
               Failure: () => <DataError onClick={actions.syncOnfido} />

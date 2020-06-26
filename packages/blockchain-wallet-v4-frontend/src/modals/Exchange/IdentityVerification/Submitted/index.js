@@ -61,65 +61,65 @@ const CloseButton = styled(Button)`
 `
 
 class Submitted extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const { identityVerificationActions, campaign } = this.props
     identityVerificationActions.claimCampaignClicked(campaign)
   }
 
-  render() {
+  render () {
     const { onClose, submitting } = this.props
 
     return (
       <SubmittedIdentityVerificationForm>
         <SubmittedWrapper>
-          <Icon name="checkmark-in-circle-filled" color="success" size="36px" />
+          <Icon name='checkmark-in-circle-filled' color='success' size='36px' />
           <Header>
             <FormattedMessage
-              id="modals.exchange.identityverification.submitted.appcomplete"
-              defaultMessage="Application Complete!"
+              id='modals.exchange.identityverification.submitted.appcomplete'
+              defaultMessage='Application Complete!'
             />
           </Header>
           <SubHeader>
             <FormattedMessage
-              id="modals.exchange.identityverification.submitted.subheader2"
+              id='modals.exchange.identityverification.submitted.subheader2'
               defaultMessage="You've successfully submitted your application. A Blockchain Support Member will review your information."
             />
           </SubHeader>
           <NextSteps>
             <NextStepsHeader>
               <FormattedMessage
-                id="modals.exchange.identityverification.submitted.nextstepsheader"
-                defaultMessage="What happens next?"
+                id='modals.exchange.identityverification.submitted.nextstepsheader'
+                defaultMessage='What happens next?'
               />
             </NextStepsHeader>
             <NextStepsSubHeader>
               <FormattedHTMLMessage
-                id="modals.exchange.identityverification.submitted.mayaskforid3"
-                defaultMessage="You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID."
+                id='modals.exchange.identityverification.submitted.mayaskforid3'
+                defaultMessage='You can check your application status by navigating to Settings > Profile. If something looks odd, we may ask you to upload another form of ID.'
               />
             </NextStepsSubHeader>
             <NextStepsSubHeader>
               <FormattedMessage
-                id="modals.exchange.identityverification.submitted.whileyouwait"
-                defaultMessage="While you wait, you can still trade and move currency up to your current limit."
+                id='modals.exchange.identityverification.submitted.whileyouwait'
+                defaultMessage='While you wait, you can still trade and move currency up to your current limit.'
               />
             </NextStepsSubHeader>
           </NextSteps>
           <Form>
             {submitting && (
               <HeartbeatLoader
-                height="32px"
-                width="32px"
-                color="blue500"
+                height='32px'
+                width='32px'
+                color='blue500'
                 style={{ margin: '0 auto' }}
               />
             )}
             <CloseButton
-              nature="empty-secondary"
+              nature='empty-secondary'
               disabled={submitting}
               onClick={onClose}
             >
-              <FormattedMessage id="buttons.close" defaultMessage="Close" />
+              <FormattedMessage id='buttons.close' defaultMessage='Close' />
             </CloseButton>
           </Form>
         </SubmittedWrapper>

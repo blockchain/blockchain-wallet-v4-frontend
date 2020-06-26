@@ -10,13 +10,13 @@ const UpgradeAddressLabels = props => {
   const { duration, position, total } = props
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <Form>
         <ModalBody>
-          <Text size="14px" weight={400}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
-              id="modals.upgradeaddresslabels.explain"
-              defaultMessage="Upgrading your wallet. This should take around {duration} seconds."
+              id='modals.upgradeaddresslabels.explain'
+              defaultMessage='Upgrading your wallet. This should take around {duration} seconds.'
               values={{ duration: duration }}
             />
           </Text>

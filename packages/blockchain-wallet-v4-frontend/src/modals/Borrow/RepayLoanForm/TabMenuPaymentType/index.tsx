@@ -13,25 +13,25 @@ const TabMenuPaymentType: React.FC<Props> = props => {
   return (
     <TabMenu>
       <TabMenuItem
-        width="50%"
+        width='50%'
         selected={props.input.value === 'full'}
         onClick={() => handleClick('full')}
       >
         <FormattedMessage
-          id="modals.borrow.repayloan.fullrepayment"
-          defaultMessage="Full Repayment"
+          id='modals.borrow.repayloan.fullrepayment'
+          defaultMessage='Full Repayment'
         />
       </TabMenuItem>
       <TabMenuItem
         disabled
-        width="50%"
+        width='50%'
         selected={props.input.value === 'partial'}
         // onClick={() => handleClick('partial')}
       >
-        <TooltipHost id="coming-soon">
+        <TooltipHost id='coming-soon'>
           <FormattedMessage
-            id="modals.borrow.repayloan.partialrepayment"
-            defaultMessage="Partial Repayment"
+            id='modals.borrow.repayloan.partialrepayment'
+            defaultMessage='Partial Repayment'
           />
         </TooltipHost>
       </TabMenuItem>

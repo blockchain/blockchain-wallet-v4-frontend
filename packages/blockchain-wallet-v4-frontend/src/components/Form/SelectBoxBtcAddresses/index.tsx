@@ -6,7 +6,7 @@ import React from 'react'
 import SelectBoxBtc from './template'
 
 class SelectBoxBtcAddresses extends React.PureComponent<Props> {
-  render() {
+  render () {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => {
@@ -15,8 +15,8 @@ class SelectBoxBtcAddresses extends React.PureComponent<Props> {
         )
       },
       Failure: message => <div>{message}</div>,
-      Loading: () => <SkeletonRectangle height="48px" width="100%" />,
-      NotAsked: () => <SkeletonRectangle height="48px" width="100%" />
+      Loading: () => <SkeletonRectangle height='48px' width='100%' />,
+      NotAsked: () => <SkeletonRectangle height='48px' width='100%' />
     })
   }
 }

@@ -60,17 +60,17 @@ const Confirmations = props => {
   return (
     <Wrapper>
       {confirmations >= minConfirmations ? (
-        <Text size="14px" weight={400} color="received">
+        <Text size='14px' weight={400} color='received'>
           <FormattedMessage
-            id="scenes.transactions.content.pages.listitem.confirmation.confirmed"
-            defaultMessage="Transaction Confirmed"
+            id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
+            defaultMessage='Transaction Confirmed'
           />
         </Text>
       ) : (
-        <ConfirmationsText size="14px" weight={400} color="grey400">
+        <ConfirmationsText size='14px' weight={400} color='grey400'>
           <FormattedMessage
-            id="scenes.transactions.content.pages.listitem.confirmation.unconfirmed"
-            defaultMessage="Pending: {count}/{total} Confirmations"
+            id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
+            defaultMessage='Pending: {count}/{total} Confirmations'
             values={{
               count: toString(confirmations),
               total: minConfirmations
@@ -81,38 +81,38 @@ const Confirmations = props => {
       <IconWrapper>
         {confirmations < minConfirmations && (
           <TransactionTooltip
-            id="confirmations"
-            data-iscapture="true"
+            id='confirmations'
+            data-iscapture='true'
             data-offset="{'left': 0.75}"
           >
-            <Icon name="question-in-circle" />
+            <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
         <Link
           href={`${supportedCoins[coin].txExplorerBaseUrl}/${props.hash}`}
-          target="_blank"
-          data-e2e="transactionListItemExplorerLink"
+          target='_blank'
+          data-e2e='transactionListItemExplorerLink'
           onClick={() => onViewTxDetails(coin)}
         >
           <Icon
-            name="open-in-new-tab"
-            color="marketing-primary"
+            name='open-in-new-tab'
+            color='marketing-primary'
             cursor
-            size="17px"
+            size='17px'
           />
         </Link>
       </IconWrapper>
-      <Tooltip id="confirmations" offset={{ bottom: 8 }}>
+      <Tooltip id='confirmations' offset={{ bottom: 8 }}>
         <FormattedMessage
-          id="scenes.transactions.content.list.listitem.transactionunconfirmed"
-          defaultMessage="Your transaction will be complete after it has {minConfirmations} confirmations."
+          id='scenes.transactions.content.list.listitem.transactionunconfirmed'
+          defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
           values={{ minConfirmations }}
         />
         <span>&nbsp;</span>
         <Link
-          href="https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-"
-          target="_blank"
-          size="11px"
+          href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
+          target='_blank'
+          size='11px'
           weight={500}
           altFont
         >

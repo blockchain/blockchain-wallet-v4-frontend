@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  render() {
+  render () {
     const { actions, data, excludeHDWallets, payPro } = this.props
 
     return data.cata({

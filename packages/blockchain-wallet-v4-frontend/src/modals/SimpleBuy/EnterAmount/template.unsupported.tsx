@@ -46,40 +46,40 @@ const Unsupported: React.FC<Props> = props => {
     <Top>
       <CloseIcon
         cursor
-        name="arrow-left"
-        size="20px"
-        color="grey600"
-        role="button"
+        name='arrow-left'
+        size='20px'
+        color='grey600'
+        role='button'
         onClick={() =>
           props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
         }
       />
       <Container>
         <Image
-          width="48px"
-          height="48px"
-          name="world-alert"
+          width='48px'
+          height='48px'
+          name='world-alert'
           srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
         />
-        <Title color="grey800" size="20px" weight={600}>
+        <Title color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id="modals.simplebuy.unsupported-title"
-            defaultMessage="Buy Crypto Coming Soon for"
+            id='modals.simplebuy.unsupported-title'
+            defaultMessage='Buy Crypto Coming Soon for'
           />{' '}
           {paymentAccountEligible ? (
             props.fiatCurrency
           ) : (
             <FormattedMessage
-              id="modals.simplebuy.fiataccountineligible"
-              defaultMessage="your region."
+              id='modals.simplebuy.fiataccountineligible'
+              defaultMessage='your region.'
             />
           )}
         </Title>
-        <Subcontent color="grey600" weight={500}>
+        <Subcontent color='grey600' weight={500}>
           {paymentAccountEligible ? (
             <>
               <FormattedMessage
-                id="modals.simplebuy.unsupported-subcontent"
+                id='modals.simplebuy.unsupported-subcontent'
                 defaultMessage="Currently, we don't support buying crypto with"
               />{' '}
               {props.fiatCurrency}
@@ -88,30 +88,30 @@ const Unsupported: React.FC<Props> = props => {
           ) : (
             <>
               <FormattedMessage
-                id="modals.simplebuy.unsupported-subcontent-1"
+                id='modals.simplebuy.unsupported-subcontent-1'
                 defaultMessage="Well this is awkward. We don't support buying crypto yet for"
               />{' '}
               <FormattedMessage
-                id="modals.simplebuy.fiatregion"
-                defaultMessage="your region"
+                id='modals.simplebuy.fiatregion'
+                defaultMessage='your region'
               />
               {'. '}
             </>
           )}
           <FormattedMessage
-            id="modals.simplebuy.unsupported-subcontent-2"
+            id='modals.simplebuy.unsupported-subcontent-2'
             defaultMessage="We'll send you an update when we do."
           />
         </Subcontent>
         <Button
-          data-e2e="submitSBAmount"
-          height="48px"
-          size="16px"
-          nature="primary"
+          data-e2e='submitSBAmount'
+          height='48px'
+          size='16px'
+          nature='primary'
           onClick={props.handleClose}
           fullwidth
         >
-          <FormattedMessage id="buttons.ok" defaultMessage="OK" />
+          <FormattedMessage id='buttons.ok' defaultMessage='OK' />
         </Button>
       </Container>
     </Top>

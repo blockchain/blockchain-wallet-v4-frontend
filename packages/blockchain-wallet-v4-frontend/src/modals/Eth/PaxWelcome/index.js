@@ -47,24 +47,24 @@ class PaxWelcomeContainer extends React.PureComponent {
     this.props.routerActions.push('/usd-d/transactions')
   }
 
-  render() {
+  render () {
     const { close, position, total } = this.props
     return (
-      <Modal size="small" position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <WelcomeModalHeader onClose={close} />
         <ModalBody>
           <Container>
-            <BannerImage name="coin-pax" />
-            <Text size="20px" weight={400}>
+            <BannerImage name='coin-pax' />
+            <Text size='20px' weight={400}>
               <FormattedMessage
-                id="modals.usddwelcome.intro"
-                defaultMessage="Introducing USD Digital, a safe and stable digital dollar in your wallet"
+                id='modals.usddwelcome.intro'
+                defaultMessage='Introducing USD Digital, a safe and stable digital dollar in your wallet'
               />
             </Text>
-            <GetButton nature="primary" fullwidth onClick={this.onGetPax}>
+            <GetButton nature='primary' fullwidth onClick={this.onGetPax}>
               <FormattedMessage
-                id="buttons.learn_more"
-                defaultMessage="Learn More"
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
               />
             </GetButton>
           </Container>

@@ -40,56 +40,56 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size="20px" color="blue900" weight={600} capitalize>
+        <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id="scenes.reset2fa.firststep.reset"
-            defaultMessage="Reset 2FA"
+            id='scenes.reset2fa.firststep.reset'
+            defaultMessage='Reset 2FA'
           />
         </Text>
       </Header>
       <TextGroup>
-        <Text size="13px" weight={400}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
-            id="scenes.reset2fa.firststep.explain"
-            defaultMessage="Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email."
+            id='scenes.reset2fa.firststep.explain'
+            defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.'
           />
         </Text>
-        <Text size="13px" weight={400}>
+        <Text size='13px' weight={400}>
           <FormattedMessage
-            id="scenes.reset2fa.firststep.explain2"
-            defaultMessage="Note: Your IP address and browser information will be recorded upon submission."
+            id='scenes.reset2fa.firststep.explain2'
+            defaultMessage='Note: Your IP address and browser information will be recorded upon submission.'
           />
         </Text>
       </TextGroup>
       <FirstStepForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel htmlFor="guid">
+            <FormLabel htmlFor='guid'>
               <FormattedMessage
-                id="scenes.reset2fa.firststep.firststepform.walletid"
-                defaultMessage="Wallet ID"
+                id='scenes.reset2fa.firststep.firststepform.walletid'
+                defaultMessage='Wallet ID'
               />
             </FormLabel>
             <Field
-              bgColor="grey000"
+              bgColor='grey000'
               autoFocus
               component={TextBox}
               disableSpellcheck
-              name="guid"
+              name='guid'
               validate={[required, validWalletId]}
             />
             <TextGroup inline>
-              <Text size="12px" weight={400}>
+              <Text size='12px' weight={400}>
                 <FormattedMessage
-                  id="scenes.reset2fa.firststep.firststepform.guidexplain"
-                  defaultMessage="If you forgot your wallet identifier, please"
+                  id='scenes.reset2fa.firststep.firststepform.guidexplain'
+                  defaultMessage='If you forgot your wallet identifier, please'
                 />
               </Text>
-              <LinkContainer to="/reminder">
-                <Link size="12px" weight={500}>
+              <LinkContainer to='/reminder'>
+                <Link size='12px' weight={500}>
                   <FormattedMessage
-                    id="scenes.reset2fa.firststep.look"
-                    defaultMessage="look it up here."
+                    id='scenes.reset2fa.firststep.look'
+                    defaultMessage='look it up here.'
                   />
                 </Link>
               </LinkContainer>
@@ -98,21 +98,21 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel htmlFor="email">
+            <FormLabel htmlFor='email'>
               <FormattedMessage
-                id="scenes.reset2fa.firststep.firststepform.email"
-                defaultMessage="Registered Email"
+                id='scenes.reset2fa.firststep.firststepform.email'
+                defaultMessage='Registered Email'
               />
             </FormLabel>
             <Field
-              bgColor="grey000"
-              name="email"
+              bgColor='grey000'
+              name='email'
               validate={[required, validEmail]}
               component={TextBox}
             />
-            <Text size="12px" weight={400}>
+            <Text size='12px' weight={400}>
               <FormattedMessage
-                id="scenes.reset2fa.firststep.firststepform.emailexplain"
+                id='scenes.reset2fa.firststep.firststepform.emailexplain'
                 defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)."
               />
             </Text>
@@ -120,38 +120,38 @@ const FirstStep = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel htmlFor="newEmail">
+            <FormLabel htmlFor='newEmail'>
               <FormattedMessage
-                id="scenes.reset2fa.firststep.newEmail"
-                defaultMessage="New Email (Optional)"
+                id='scenes.reset2fa.firststep.newEmail'
+                defaultMessage='New Email (Optional)'
               />
             </FormLabel>
             <Field
-              bgColor="grey000"
-              name="newEmail"
+              bgColor='grey000'
+              name='newEmail'
               validate={[validNullableEmail]}
               component={TextBox}
             />
-            <InfoMsg size="12px" weight={400}>
+            <InfoMsg size='12px' weight={400}>
               <FormattedMessage
-                id="scenes.reset2fa.firststep.newEmailExplain"
+                id='scenes.reset2fa.firststep.newEmailExplain'
                 defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address."
               />
             </InfoMsg>
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to="/help">
-            <Link size="13px" weight={500}>
-              <FormattedMessage id="buttons.go_back" defaultMessage="Go Back" />
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={500}>
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
           >
-            <FormattedMessage id="buttons.continue" defaultMessage="Continue" />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       </FirstStepForm>

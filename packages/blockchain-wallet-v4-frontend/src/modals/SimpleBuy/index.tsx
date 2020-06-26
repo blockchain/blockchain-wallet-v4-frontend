@@ -21,13 +21,13 @@ import TransferDetails from './TransferDetails'
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
 
-  componentDidMount() {
+  componentDidMount () {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate (prevProps: Props) {
     if (this.props.step === prevProps.step) return
     if (
       SimpleBuyStepType[this.props.step] > SimpleBuyStepType[prevProps.step]
@@ -40,7 +40,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
     this.props.formActions.destroy('ccBillingAddress')
@@ -54,14 +54,14 @@ class SimpleBuy extends PureComponent<Props, State> {
     }, duration)
   }
 
-  render() {
+  render () {
     return (
       <Flyout
         {...this.props}
         onClose={this.handleClose}
         in={this.state.show}
         direction={this.state.direction}
-        data-e2e="simpleBuyModal"
+        data-e2e='simpleBuyModal'
       >
         {this.props.step === 'CURRENCY_SELECTION' && (
           <FlyoutChild>

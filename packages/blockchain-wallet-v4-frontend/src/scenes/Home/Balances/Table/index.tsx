@@ -6,7 +6,7 @@ import React from 'react'
 import Template from './template'
 
 class Table extends React.PureComponent<Props> {
-  render() {
+  render () {
     return <Template {...this.props} />
   }
 }

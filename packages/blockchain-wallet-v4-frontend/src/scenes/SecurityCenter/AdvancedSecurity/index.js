@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `
 
 export default class AdvancedSecurity extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <WalletPassword />

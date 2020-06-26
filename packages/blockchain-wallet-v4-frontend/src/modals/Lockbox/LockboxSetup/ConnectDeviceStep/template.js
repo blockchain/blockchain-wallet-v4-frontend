@@ -60,36 +60,36 @@ const ConnectDeviceStep = props => {
 
   return connectTimeout ? (
     <TimeoutWrapper>
-      <Icon name="pending" weight="400" size="40px" color="warn" />
-      <TimeoutText size="20px" weight={500}>
+      <Icon name='pending' weight='400' size='40px' color='warn' />
+      <TimeoutText size='20px' weight={500}>
         <FormattedMessage
-          id="modals.lockboxsetup.connectdevice.timeout.header"
-          defaultMessage="Are you still there?"
+          id='modals.lockboxsetup.connectdevice.timeout.header'
+          defaultMessage='Are you still there?'
         />
       </TimeoutText>
-      <Text size="12px" weight={400}>
+      <Text size='12px' weight={400}>
         <FormattedHTMLMessage
-          id="modals.lockboxsetup.connectdevice.timeout.trouble"
+          id='modals.lockboxsetup.connectdevice.timeout.trouble'
           defaultMessage="Looks like you're having trouble setting up your {deviceType}."
           values={{ deviceType }}
         />
       </Text>
-      <Text size="12px" weight={400}>
+      <Text size='12px' weight={400}>
         <FormattedMessage
-          id="modals.lockboxsetup.connectdevice.timeout.assistance"
-          defaultMessage="Please contact support for assistance or try again."
+          id='modals.lockboxsetup.connectdevice.timeout.assistance'
+          defaultMessage='Please contact support for assistance or try again.'
         />
       </Text>
-      <SupportText href={supportLink} target="_blank" size="10px" weight={500}>
+      <SupportText href={supportLink} target='_blank' size='10px' weight={500}>
         <FormattedMessage
-          id="buttons.contact_support"
-          defaultMessage="Contact Support"
+          id='buttons.contact_support'
+          defaultMessage='Contact Support'
         />
       </SupportText>
       <Button fullwidth onClick={onTimeoutAccept} nature={'primary'}>
         <FormattedMessage
-          id="modals.lockboxsetup.connectdevice.timeout.retry"
-          defaultMessage="Retry"
+          id='modals.lockboxsetup.connectdevice.timeout.retry'
+          defaultMessage='Retry'
         />
       </Button>
     </TimeoutWrapper>
@@ -97,118 +97,118 @@ const ConnectDeviceStep = props => {
     <Wrapper>
       <Image
         style={{ marginBottom: '18px' }}
-        name="lockbox-onboard-connect"
-        width="100%"
+        name='lockbox-onboard-connect'
+        width='100%'
       />
       {isNewSetup ? (
         <React.Fragment>
           <Row>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.one"
-                defaultMessage="1."
+                id='modals.lockboxsetup.connectdevice.new.one'
+                defaultMessage='1.'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.stepone"
-                defaultMessage="Connect your {deviceType} to your computer with the supplied USB cable."
+                id='modals.lockboxsetup.connectdevice.new.stepone'
+                defaultMessage='Connect your {deviceType} to your computer with the supplied USB cable.'
                 values={{ deviceType }}
               />
             </Text>
           </Row>
           <Row>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.two"
-                defaultMessage="2."
+                id='modals.lockboxsetup.connectdevice.new.two'
+                defaultMessage='2.'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.steptwo"
-                defaultMessage="Press both buttons on the top of your {deviceType} to begin."
+                id='modals.lockboxsetup.connectdevice.new.steptwo'
+                defaultMessage='Press both buttons on the top of your {deviceType} to begin.'
                 values={{ deviceType }}
               />
             </Text>
           </Row>
           <Row>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.three"
-                defaultMessage="3."
+                id='modals.lockboxsetup.connectdevice.new.three'
+                defaultMessage='3.'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.stepthree"
-                defaultMessage="Set a pin for your device."
-              />
-            </Text>
-          </Row>
-          <Row>
-            <Text size="14px" weight={600}>
-              <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.four"
-                defaultMessage="4."
-              />
-            </Text>
-            <Text size="13px" weight={400}>
-              <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.stepfour"
-                defaultMessage="Complete backup phrase process."
+                id='modals.lockboxsetup.connectdevice.new.stepthree'
+                defaultMessage='Set a pin for your device.'
               />
             </Text>
           </Row>
           <Row>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.five"
-                defaultMessage="5."
+                id='modals.lockboxsetup.connectdevice.new.four'
+                defaultMessage='4.'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.stepfivenew"
+                id='modals.lockboxsetup.connectdevice.new.stepfour'
+                defaultMessage='Complete backup phrase process.'
+              />
+            </Text>
+          </Row>
+          <Row>
+            <Text size='14px' weight={600}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.five'
+                defaultMessage='5.'
+              />
+            </Text>
+            <Text size='13px' weight={400}>
+              <FormattedHTMLMessage
+                id='modals.lockboxsetup.connectdevice.new.stepfivenew'
                 defaultMessage="Ensure your device's dashboard is open."
               />
             </Text>
           </Row>
           <Row>
-            <Text size="14px" weight={600}>
+            <Text size='14px' weight={600}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.six"
-                defaultMessage="6."
+                id='modals.lockboxsetup.connectdevice.new.six'
+                defaultMessage='6.'
               />
             </Text>
-            <Text size="13px" weight={400}>
+            <Text size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.new.stepsixnew"
-                defaultMessage="Press the continue button below."
+                id='modals.lockboxsetup.connectdevice.new.stepsixnew'
+                defaultMessage='Press the continue button below.'
               />
             </Text>
           </Row>
           <Row>
             <TextGroup inline style={{ marginTop: '6px' }}>
-              <Text size="12px" weight={500}>
+              <Text size='12px' weight={500}>
                 <FormattedHTMLMessage
-                  id="modals.lockboxsetup.connectdevice.new.hint"
-                  defaultMessage="Hint:"
+                  id='modals.lockboxsetup.connectdevice.new.hint'
+                  defaultMessage='Hint:'
                 />
               </Text>
-              <Text size="12px" weight={300}>
+              <Text size='12px' weight={300}>
                 <FormattedHTMLMessage
-                  id="modals.lockboxsetup.connectdevice.new.settingshint"
+                  id='modals.lockboxsetup.connectdevice.new.settingshint'
                   defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
                 />
               </Text>
             </TextGroup>
           </Row>
           <ButtonContainer>
-            <Button fullwidth onClick={onNewDeviceContinue} nature="primary">
+            <Button fullwidth onClick={onNewDeviceContinue} nature='primary'>
               <FormattedMessage
-                id="buttons.continue"
-                defaultMessage="Continue"
+                id='buttons.continue'
+                defaultMessage='Continue'
               />
             </Button>
           </ButtonContainer>
@@ -216,35 +216,35 @@ const ConnectDeviceStep = props => {
       ) : (
         <>
           <Instructions>
-            <StepText size="13px" weight={400}>
+            <StepText size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.existing.stepone"
-                defaultMessage="1. Connect your {deviceType} to your computer with the supplied USB cable."
+                id='modals.lockboxsetup.connectdevice.existing.stepone'
+                defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
                 values={{ deviceType }}
               />
             </StepText>
-            <StepText size="13px" weight={400}>
+            <StepText size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.existing.steptwo1"
-                defaultMessage="2. Enter your pin on the device."
+                id='modals.lockboxsetup.connectdevice.existing.steptwo1'
+                defaultMessage='2. Enter your pin on the device.'
               />
             </StepText>
-            <StepText size="13px" weight={400}>
+            <StepText size='13px' weight={400}>
               <FormattedHTMLMessage
-                id="modals.lockboxsetup.connectdevice.existing.stepthreenew"
-                defaultMessage="3. Ensure the device dashboard is open and you are not in an application."
+                id='modals.lockboxsetup.connectdevice.existing.stepthreenew'
+                defaultMessage='3. Ensure the device dashboard is open and you are not in an application.'
               />
             </StepText>
             <TextGroup inline style={{ marginTop: '6px' }}>
-              <Text size="12px" weight={500}>
+              <Text size='12px' weight={500}>
                 <FormattedHTMLMessage
-                  id="modals.lockboxsetup.connectdevice.new.hint"
-                  defaultMessage="Hint:"
+                  id='modals.lockboxsetup.connectdevice.new.hint'
+                  defaultMessage='Hint:'
                 />
               </Text>
-              <Text size="12px" weight={300}>
+              <Text size='12px' weight={300}>
                 <FormattedHTMLMessage
-                  id="modals.lockboxsetup.connectdevice.new.settingshint"
+                  id='modals.lockboxsetup.connectdevice.new.settingshint'
                   defaultMessage='If this is a new device with no apps installed, you may need to click the top right button on the device a few times until you see the word "Settings".'
                 />
               </Text>
@@ -255,17 +255,17 @@ const ConnectDeviceStep = props => {
               fullwidth
               disabled={!isConnected}
               onClick={handleStepChange}
-              nature="primary"
+              nature='primary'
             >
               {isConnected ? (
                 <FormattedMessage
-                  id="modals.lockboxsetup.connectdevice.success"
-                  defaultMessage="Success! Click to Continue"
+                  id='modals.lockboxsetup.connectdevice.success'
+                  defaultMessage='Success! Click to Continue'
                 />
               ) : (
                 <FormattedMessage
-                  id="modals.lockboxsetup.connectdevice.waiting"
-                  defaultMessage="Waiting..."
+                  id='modals.lockboxsetup.connectdevice.waiting'
+                  defaultMessage='Waiting...'
                 />
               )}
             </Button>

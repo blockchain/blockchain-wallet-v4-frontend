@@ -24,9 +24,9 @@ const LoadingWrapper = styled.div`
 export const Skeletons = () => {
   return (
     <LoadingWrapper>
-      <SkeletonRectangle height="24px" width="100px" />
-      <SkeletonRectangle height="16px" width="100px" />
-      <SkeletonRectangle height="16px" width="100px" />
+      <SkeletonRectangle height='24px' width='100px' />
+      <SkeletonRectangle height='16px' width='100px' />
+      <SkeletonRectangle height='16px' width='100px' />
     </LoadingWrapper>
   )
 }

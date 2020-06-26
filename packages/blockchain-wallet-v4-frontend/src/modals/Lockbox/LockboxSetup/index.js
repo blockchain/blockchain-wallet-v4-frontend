@@ -19,11 +19,11 @@ import SetupTypeStep from './SetupTypeStep'
 import SoftwareDownloadStep from './SoftwareDownloadStep'
 
 class LockboxSetupContainer extends React.PureComponent {
-  componentWillMount() {
+  componentWillMount () {
     this.props.lockboxActions.resetNewDeviceSetup()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
@@ -37,14 +37,14 @@ class LockboxSetupContainer extends React.PureComponent {
     closeAll()
   }
 
-  render() {
+  render () {
     const { currentStep, position, total } = this.props
     const steps = {
       'device-select': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.deviceselect.title"
-            defaultMessage="Select Your Device"
+            id='modals.lockbox.setup.deviceselect.title'
+            defaultMessage='Select Your Device'
           />
         ),
         template: () => (
@@ -54,7 +54,7 @@ class LockboxSetupContainer extends React.PureComponent {
       'setup-type': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.setuptype.title"
+            id='modals.lockbox.setup.setuptype.title'
             defaultMessage="Let's Get Started"
           />
         ),
@@ -63,8 +63,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'software-download': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.softwaredownload.title"
-            defaultMessage="Software Download"
+            id='modals.lockbox.setup.softwaredownload.title'
+            defaultMessage='Software Download'
           />
         ),
         template: () => <SoftwareDownloadStep />
@@ -72,8 +72,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'connect-device': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.connect.title"
-            defaultMessage="Connect Your Device"
+            id='modals.lockbox.setup.connect.title'
+            defaultMessage='Connect Your Device'
           />
         ),
         template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />
@@ -81,8 +81,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'customize-device': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.customize.title"
-            defaultMessage="Customize Your Device"
+            id='modals.lockbox.setup.customize.title'
+            defaultMessage='Customize Your Device'
           />
         ),
         template: () => <CustomizeStep />
@@ -90,8 +90,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'app-manager-step': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.appmanager.title"
-            defaultMessage="App Manager"
+            id='modals.lockbox.setup.appmanager.title'
+            defaultMessage='App Manager'
           />
         ),
         template: () => <AppManagerStep />
@@ -99,8 +99,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'pair-device': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.connectdevice.title"
-            defaultMessage="Pair Device"
+            id='modals.lockbox.setup.connectdevice.title'
+            defaultMessage='Pair Device'
           />
         ),
         template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />
@@ -108,8 +108,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'finish-step': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.finish.title"
-            defaultMessage="Setup Complete"
+            id='modals.lockbox.setup.finish.title'
+            defaultMessage='Setup Complete'
           />
         ),
         template: () => <FinishSetupStep onClose={this.props.closeAll} />
@@ -117,8 +117,8 @@ class LockboxSetupContainer extends React.PureComponent {
       'error-step': {
         title: () => (
           <FormattedMessage
-            id="modals.lockbox.setup.error.title"
-            defaultMessage="Error"
+            id='modals.lockbox.setup.error.title'
+            defaultMessage='Error'
           />
         ),
         template: () => <ErrorStep onClose={this.onClose} />

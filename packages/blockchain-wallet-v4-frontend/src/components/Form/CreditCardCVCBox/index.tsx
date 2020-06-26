@@ -37,8 +37,8 @@ export const validateCreditCardCVC: Validator = (
   if (value.length < cvcLength) {
     return (
       <FormattedMessage
-        id="formhelper.invalidnumber"
-        defaultMessage="Invalid number"
+        id='formhelper.invalidnumber'
+        defaultMessage='Invalid number'
       />
     )
   }

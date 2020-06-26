@@ -23,7 +23,7 @@ export default ({ coreSagas, networks }) => {
   let paymentTask
   let isSourceErc20
 
-  const calculatePaymentMemo = function*(source, amount) {
+  const calculatePaymentMemo = function * (source, amount) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
@@ -43,7 +43,7 @@ export default ({ coreSagas, networks }) => {
     return prevPayment
   }
 
-  const calculateProvisionalPayment = function*(source: AccountTypes, amount) {
+  const calculateProvisionalPayment = function * (source: AccountTypes, amount) {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
@@ -79,7 +79,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const createPayment = function*(
+  const createPayment = function * (
     coin,
     sourceAddressOrIndex,
     targetAddress,
@@ -144,33 +144,33 @@ export default ({ coreSagas, networks }) => {
     return payment
   }
 
-  const getDefaultBchAccountValue = function*() {
+  const getDefaultBchAccountValue = function * () {
     const bchAccounts = yield select(S.bchGetActiveAccounts)
     return head(bchAccounts.getOrFail('Could not get BCH HD accounts.'))
   }
 
-  const getDefaultBtcAccountValue = function*() {
+  const getDefaultBtcAccountValue = function * () {
     const btcAccounts = yield select(S.btcGetActiveAccounts)
     return head(btcAccounts.getOrFail('Could not get BTC HD accounts.'))
   }
 
-  const getDefaultEthAccountValue = function*() {
+  const getDefaultEthAccountValue = function * () {
     const ethAccounts = yield select(S.ethGetActiveAccounts)
     return head(ethAccounts.getOrFail('Could not get ETH accounts.'))
   }
 
-  const getDefaultErc20AccountValue = function*(token) {
+  const getDefaultErc20AccountValue = function * (token) {
     const erc20Accounts = yield select(S.erc20GetActiveAccounts, token)
     return head(erc20Accounts.getOrFail('Could not get ERC20 accounts.'))
   }
 
-  const getDefaultXlmAccountValue = function*() {
+  const getDefaultXlmAccountValue = function * () {
     const xlmAccounts = yield select(S.xlmGetActiveAccounts)
     return head(xlmAccounts.getOrFail('Could not get XLM accounts.'))
   }
 
   // TODO: make dynamic list in future
-  const getDefaultAccount = function*(coin) {
+  const getDefaultAccount = function * (coin) {
     switch (coin) {
       case 'BCH':
         return yield call(getDefaultBchAccountValue)
@@ -187,7 +187,7 @@ export default ({ coreSagas, networks }) => {
     }
   }
 
-  const validateXlm = function*(volume, account) {
+  const validateXlm = function * (volume, account) {
     try {
       const paymentValue = yield call(calculatePaymentMemo, account, 0)
       const payment = yield call(coreSagas.payment.xlm.create, {
@@ -204,7 +204,7 @@ export default ({ coreSagas, networks }) => {
     if (account.noAccount) throw NO_ACCOUNT_ERROR
   }
 
-  const validateXlmCreateAccount = function*(volume, account) {
+  const validateXlmCreateAccount = function * (volume, account) {
     const accountId = prop('address', account)
     const accountExists = (yield select(
       selectors.core.data.xlm.getAccount(accountId)
@@ -225,7 +225,7 @@ export default ({ coreSagas, networks }) => {
       throw CREATE_ACCOUNT_ERROR
   }
 
-  const updateLatestEthTrade = function*(txId, sourceType) {
+  const updateLatestEthTrade = function * (txId, sourceType) {
     // Update metadata
     if (ADDRESS_TYPES.LOCKBOX === sourceType) {
       yield put(

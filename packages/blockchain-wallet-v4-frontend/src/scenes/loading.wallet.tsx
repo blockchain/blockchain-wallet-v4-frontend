@@ -40,14 +40,14 @@ const WalletLoading: React.FC<Props> = () => {
     <Wrapper>
       <Header />
       <LoaderContainer>
-        <SpinningLoader width="36px" height="36px" />
+        <SpinningLoader width='36px' height='36px' />
         <Text
-          size="18px"
+          size='18px'
           weight={600}
-          color="white"
+          color='white'
           style={{ marginTop: '16px' }}
         >
-          <FormattedMessage id="copy.loading" defaultMessage="Loading..." />
+          <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
         </Text>
       </LoaderContainer>
     </Wrapper>

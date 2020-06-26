@@ -44,32 +44,32 @@ const FooterButton = styled(Button)`
 `
 
 export const Support = ({ position, total }) => (
-  <Modal size="small" position={position} total={total}>
-    <Body data-e2e="swapGetStarted">
-      <Title size="20px">
+  <Modal size='small' position={position} total={total}>
+    <Body data-e2e='swapGetStarted'>
+      <Title size='20px'>
         <FormattedHTMLMessage
-          defaultMessage="Need some help?"
-          id="modals.support.need_some_help"
+          defaultMessage='Need some help?'
+          id='modals.support.need_some_help'
         />
       </Title>
       <Message>
         <FormattedMessage
-          defaultMessage="Our Blockchain Support Team is standing by."
-          id="modals.support.our_support"
+          defaultMessage='Our Blockchain Support Team is standing by.'
+          id='modals.support.our_support'
         />
       </Message>
       <FooterLink
-        href="https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000180551"
-        target="_blank"
+        href='https://blockchain.zendesk.com/hc/en-us/requests/new?ticket_form_id=360000180551'
+        target='_blank'
       >
-        <FooterButton nature="primary" size="20px" fullwidth>
+        <FooterButton nature='primary' size='20px' fullwidth>
           <FormattedMessage
-            defaultMessage="Contact Support"
-            id="buttons.contact_support"
+            defaultMessage='Contact Support'
+            id='buttons.contact_support'
           />
         </FooterButton>
       </FooterLink>
-      <BottomImage name="identity-verification" />
+      <BottomImage name='identity-verification' />
     </Body>
   </Modal>
 )

@@ -32,7 +32,7 @@ const XlmAddresses = ({
   showQrCode: boolean
   toggleQrCode: () => void
 }) => (
-  <Wrapper color="grey000" showQrCode={showQrCode}>
+  <Wrapper color='grey000' showQrCode={showQrCode}>
     <ViewKeys showQrCode={showQrCode} toggleQrCode={toggleQrCode} />
     {showQrCode && (
       <DualWrapper>

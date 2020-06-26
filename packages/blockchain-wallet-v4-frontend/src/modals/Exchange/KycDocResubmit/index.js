@@ -57,35 +57,35 @@ class KycDocResubmit extends React.PureComponent {
     this.props.verifyIdentity()
   }
 
-  render() {
+  render () {
     const { position, total } = this.props
 
     return (
-      <Modal size="small" position={position} total={total}>
+      <Modal size='small' position={position} total={total}>
         <Header>
-          <Text size="20px" weight={500}>
+          <Text size='20px' weight={500}>
             <FormattedMessage
-              defaultMessage="Documents Needed"
-              id="modals.exchange.docresubmit.title"
+              defaultMessage='Documents Needed'
+              id='modals.exchange.docresubmit.title'
             />
           </Text>
         </Header>
         <Body>
-          <Text size="14px" weight={400}>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               defaultMessage="We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
-              id="modals.exchange.docresubmit.body1"
+              id='modals.exchange.docresubmit.body1'
             />
           </Text>
         </Body>
         <Footer>
-          <FooterButton nature="primary" onClick={this.onVerifyIdentity}>
+          <FooterButton nature='primary' onClick={this.onVerifyIdentity}>
             <FormattedMessage
-              defaultMessage="Resubmit Now"
-              id="modals.exchange.docresubmit.resubmit"
+              defaultMessage='Resubmit Now'
+              id='modals.exchange.docresubmit.resubmit'
             />
           </FooterButton>
-          <BottomImage name="identity-verification" />
+          <BottomImage name='identity-verification' />
         </Footer>
       </Modal>
     )

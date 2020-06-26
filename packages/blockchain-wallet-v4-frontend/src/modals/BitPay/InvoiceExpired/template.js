@@ -45,26 +45,26 @@ const FooterButton = styled(Button)`
 `
 
 export const BitPayInvoiceExpired = ({ position, total, close }) => (
-  <Modal size="small" position={position} total={total}>
+  <Modal size='small' position={position} total={total}>
     <ModalHeader onClose={close} />
-    <Body data-e2e="bitpayInvoiceExpired">
-      <TopImage name="close-error" />
-      <Title size="20px" color="blue900">
+    <Body data-e2e='bitpayInvoiceExpired'>
+      <TopImage name='close-error' />
+      <Title size='20px' color='blue900'>
         <FormattedHTMLMessage
-          defaultMessage="BitPay Invoice Expired"
-          id="modals.bitpayexpired.invoice_expired"
+          defaultMessage='BitPay Invoice Expired'
+          id='modals.bitpayexpired.invoice_expired'
         />
       </Title>
       <Message>
         <FormattedMessage
-          defaultMessage="An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment."
-          id="modals.bitpayexpired.expired_msg"
+          defaultMessage='An invoice is only valid for 15 minutes. Return to the merchant if you would like to resubmit a payment.'
+          id='modals.bitpayexpired.expired_msg'
         />
       </Message>
-      <FooterButton nature="primary" size="20px" fullwidth onClick={close}>
+      <FooterButton nature='primary' size='20px' fullwidth onClick={close}>
         <FormattedMessage
-          defaultMessage="OK"
-          id="modals.support.contact_support"
+          defaultMessage='OK'
+          id='modals.support.contact_support'
         />
       </FooterButton>
     </Body>

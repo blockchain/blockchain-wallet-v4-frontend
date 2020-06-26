@@ -30,7 +30,7 @@ const IconWrapper = styled.div`
 class IntroCard extends PureComponent<
   ParentStateType & Props & SuccessStateType
 > {
-  render() {
+  render () {
     const {
       analyticsActions,
       idvActions,
@@ -47,48 +47,48 @@ class IntroCard extends PureComponent<
           {isGoldTier ? (
             <ContentWrapper>
               <IconWrapper>
-                <Icon color="blue600" name="percentage" size="32px" />
+                <Icon color='blue600' name='percentage' size='32px' />
                 <Icon
                   cursor
-                  name="close"
-                  size="16px"
-                  color="grey400"
-                  role="button"
+                  name='close'
+                  size='16px'
+                  color='grey400'
+                  role='button'
                   onClick={preferencesActions.hideInterestInfoBox}
                 />
               </IconWrapper>
               <Text
-                size="20px"
-                color="grey800"
+                size='20px'
+                color='grey800'
                 weight={600}
                 style={{ marginTop: '16px' }}
               >
                 <FormattedMessage
-                  id="scenes.interest.earnheaderverified"
-                  defaultMessage="Earn interest on your crypto today."
+                  id='scenes.interest.earnheaderverified'
+                  defaultMessage='Earn interest on your crypto today.'
                 />
               </Text>
               <Text
-                size="14px"
-                color="grey600"
+                size='14px'
+                color='grey600'
                 weight={500}
                 style={{ marginTop: '4px', lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id="scenes.interest.earninfo.verified.body"
-                  defaultMessage="Earn up to {highestRate}% annually when you deposit crypto to your Interest Account."
+                  id='scenes.interest.earninfo.verified.body'
+                  defaultMessage='Earn up to {highestRate}% annually when you deposit crypto to your Interest Account.'
                   values={{ highestRate }}
                 />
               </Text>
               <Link
-                href="https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account"
+                href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'
                 style={{ width: '100%' }}
-                target="_blank"
+                target='_blank'
               >
                 <Button
-                  data-e2e="earnInterestLearnMore"
+                  data-e2e='earnInterestLearnMore'
                   fullwidth
-                  nature="light"
+                  nature='light'
                   onClick={() =>
                     analyticsActions.logEvent(
                       INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE
@@ -97,41 +97,41 @@ class IntroCard extends PureComponent<
                   style={{ marginTop: '45px' }}
                 >
                   <FormattedMessage
-                    id="buttons.learn_more"
-                    defaultMessage="Learn More"
+                    id='buttons.learn_more'
+                    defaultMessage='Learn More'
                   />
                 </Button>
               </Link>
             </ContentWrapper>
           ) : (
             <ContentWrapper>
-              <Icon name="percentage" color="blue600" size="32px" />
+              <Icon name='percentage' color='blue600' size='32px' />
               <Text
-                size="20px"
-                color="grey800"
+                size='20px'
+                color='grey800'
                 weight={600}
                 style={{ marginTop: '16px' }}
               >
                 <FormattedMessage
-                  id="scenes.interest.earnupgrade.header"
-                  defaultMessage="Upgrade to Gold Level so you can earn interest on your crypto."
+                  id='scenes.interest.earnupgrade.header'
+                  defaultMessage='Upgrade to Gold Level so you can earn interest on your crypto.'
                 />
               </Text>
               <Text
-                size="14px"
-                color="grey600"
+                size='14px'
+                color='grey600'
                 weight={500}
                 style={{ marginTop: '10px', lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id="scenes.interest.earnbody.access"
-                  defaultMessage="Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto."
+                  id='scenes.interest.earnbody.access'
+                  defaultMessage='Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.'
                   values={{ highestRate }}
                 />
               </Text>
               <Button
-                nature="primary"
-                data-e2e="verifyIdentityBorrow"
+                nature='primary'
+                data-e2e='verifyIdentityBorrow'
                 style={{ marginTop: '20px' }}
                 disabled={userData.kycState !== 'NONE'}
                 onClick={() =>
@@ -141,13 +141,13 @@ class IntroCard extends PureComponent<
                 {userData.kycState === 'UNDER_REVIEW' ||
                 userData.kycState === 'PENDING' ? (
                   <FormattedMessage
-                    id="scenes.interest.kycunderreview"
-                    defaultMessage="Gold Verification In Review"
+                    id='scenes.interest.kycunderreview'
+                    defaultMessage='Gold Verification In Review'
                   />
                 ) : (
                   <FormattedMessage
-                    id="scenes.interest.verifyid"
-                    defaultMessage="Upgrade Now"
+                    id='scenes.interest.verifyid'
+                    defaultMessage='Upgrade Now'
                   />
                 )}
               </Button>

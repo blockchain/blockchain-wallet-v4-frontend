@@ -71,74 +71,74 @@ const MenuTop = () => (
     <MenuHeader>
       <Row>
         <IconWrapper>
-          <Icon color="blue600" name="wallet-filled" size="24px" />
+          <Icon color='blue600' name='wallet-filled' size='24px' />
         </IconWrapper>
-        <Title size="32px" weight={600} color="black">
+        <Title size='32px' weight={600} color='black'>
           <FormattedMessage
-            id="scenes.settings.menu.title"
-            defaultMessage="Wallets & Addresses"
+            id='scenes.settings.menu.title'
+            defaultMessage='Wallets & Addresses'
           />
         </Title>
       </Row>
 
-      <Subtitle size="16px" weight={500} color="grey600">
+      <Subtitle size='16px' weight={500} color='grey600'>
         <FormattedMessage
-          id="scenes.settings.menu.subtitle"
-          defaultMessage="Manage your wallet names, addresses and private keys."
+          id='scenes.settings.menu.subtitle'
+          defaultMessage='Manage your wallet names, addresses and private keys.'
         />
       </Subtitle>
     </MenuHeader>
     <HorizontalMenu border={false}>
       <Container>
         <TabMenu>
-          <LinkContainer to="/settings/addresses/btc">
+          <LinkContainer to='/settings/addresses/btc'>
             <TabMenuItem
-              activeClassName="active"
-              data-e2e="btcWalletSettingsLink"
+              activeClassName='active'
+              data-e2e='btcWalletSettingsLink'
             >
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.btc"
-                defaultMessage="Bitcoin"
+                id='scenes.settings.addresses.menutop.btc'
+                defaultMessage='Bitcoin'
               />
             </TabMenuItem>
           </LinkContainer>
-          <LinkContainer to="/settings/addresses/bch">
+          <LinkContainer to='/settings/addresses/bch'>
             <TabMenuItem
-              activeClassName="active"
-              data-e2e="bchWalletSettingsLink"
+              activeClassName='active'
+              data-e2e='bchWalletSettingsLink'
             >
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.bch"
-                defaultMessage="Bitcoin Cash"
+                id='scenes.settings.addresses.menutop.bch'
+                defaultMessage='Bitcoin Cash'
               />
             </TabMenuItem>
           </LinkContainer>
-          <LinkContainer to="/settings/addresses/eth">
+          <LinkContainer to='/settings/addresses/eth'>
             <TabMenuItem
-              activeClassName="active"
-              data-e2e="ethWalletSettingsLink"
+              activeClassName='active'
+              data-e2e='ethWalletSettingsLink'
             >
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.eth"
-                defaultMessage="Ethereum"
+                id='scenes.settings.addresses.menutop.eth'
+                defaultMessage='Ethereum'
               />
             </TabMenuItem>
           </LinkContainer>
-          <LinkContainer to="/settings/addresses/xlm">
+          <LinkContainer to='/settings/addresses/xlm'>
             <TabMenuItem
-              activeClassName="active"
-              data-e2e="xlmWalletSettingsLink"
+              activeClassName='active'
+              data-e2e='xlmWalletSettingsLink'
             >
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.xlm"
-                defaultMessage="Stellar"
+                id='scenes.settings.addresses.menutop.xlm'
+                defaultMessage='Stellar'
               />
             </TabMenuItem>
           </LinkContainer>
         </TabMenu>
-        <Search data-e2e="walletSettingsSearch">
-          <Field name="search" height="40px" component={TextBox} />
-          <SearchIcon name="magnifier" size="20px" />
+        <Search data-e2e='walletSettingsSearch'>
+          <Field name='search' height='40px' component={TextBox} />
+          <SearchIcon name='magnifier' size='20px' />
         </Search>
       </Container>
     </HorizontalMenu>

@@ -96,31 +96,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <Top>
-        <TopText color="grey800" size="20px" weight={600}>
+        <TopText color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id="modals.borrow.borrowusd"
-            defaultMessage="Borrow {displayName}"
+            id='modals.borrow.borrowusd'
+            defaultMessage='Borrow {displayName}'
             values={{ displayName }}
           />
           <Icon
             onClick={props.handleClose}
             cursor
-            name="close"
-            size="20px"
-            color="grey600"
-            data-e2e="closeBorrow"
+            name='close'
+            size='20px'
+            color='grey600'
+            data-e2e='closeBorrow'
           />
         </TopText>
         <MaxAmountContainer>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.borrow.canborrow"
-              defaultMessage="You can borrow up to"
+              id='modals.borrow.canborrow'
+              defaultMessage='You can borrow up to'
             />{' '}
             <FiatContainer
               onClick={() => props.borrowActions.handleMaxCollateralClick()}
             >
-              <Text color="blue600" size="14px" weight={500}>
+              <Text color='blue600' size='14px' weight={500}>
                 {fiatToString({
                   value: props.limits.maxFiat,
                   unit: 'USD'
@@ -129,33 +129,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </FiatContainer>{' '}
             {displayName}{' '}
             <FormattedMessage
-              id="modals.borrow.basedonwallet"
+              id='modals.borrow.basedonwallet'
               defaultMessage="based on the selected Wallet's balance."
             />
           </Text>
         </MaxAmountContainer>
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.borrow.collateralfrom"
-              defaultMessage="Send collateral from"
+              id='modals.borrow.collateralfrom'
+              defaultMessage='Send collateral from'
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name="collateral" />
+        <CoinBalanceDropdown {...props} name='collateral' />
         <CustomFormLabel>
-          <Text color="grey600" weight={500} size="14px">
+          <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id="modals.borrow.enterloanamt"
-              defaultMessage="Enter loan amount"
+              id='modals.borrow.enterloanamt'
+              defaultMessage='Enter loan amount'
             />
           </Text>
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
             component={NumberBox}
-            data-e2e="principalInput"
-            name="principal"
+            data-e2e='principalInput'
+            name='principal'
             validate={[maximumAmount, minimumAmount]}
             {...{
               autoFocus: true,
@@ -165,7 +165,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
           <PrincipalCcyAbsolute>
-            <Text color="grey400" size="14px" weight={600}>
+            <Text color='grey400' size='14px' weight={600}>
               USD
             </Text>
           </PrincipalCcyAbsolute>
@@ -181,24 +181,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
           <ButtonContainer>
             <Button
-              nature="empty"
-              data-e2e="borrowCancel"
+              nature='empty'
+              data-e2e='borrowCancel'
               onClick={props.handleClose}
             >
-              <Text size="16px" weight={600} color="blue600">
-                <FormattedMessage id="buttons.cancel" defaultMessage="Cancel" />
+              <Text size='16px' weight={600} color='blue600'>
+                <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
               </Text>
             </Button>
             <Button
-              nature="primary"
-              type="submit"
-              data-e2e="borrowSubmit"
+              nature='primary'
+              type='submit'
+              data-e2e='borrowSubmit'
               disabled={props.invalid}
             >
-              <Text size="16px" weight={600} color="white">
+              <Text size='16px' weight={600} color='white'>
                 <FormattedMessage
-                  id="buttons.continue"
-                  defaultMessage="Continue"
+                  id='buttons.continue'
+                  defaultMessage='Continue'
                 />
               </Text>
             </Button>

@@ -16,21 +16,21 @@ const Wrapper = styled.div`
 
 const EmailRequired = () => (
   <Wrapper>
-    <Image name="empty-search" width="260px" />
+    <Image name='empty-search' width='260px' />
     <TextGroup inline style={{ marginTop: '10px' }}>
-      <Text size="18px" weight={400}>
+      <Text size='18px' weight={400}>
         <FormattedMessage
-          id="components.emailrequired.emailrequired"
-          defaultMessage="Email is required to use this feature."
+          id='components.emailrequired.emailrequired'
+          defaultMessage='Email is required to use this feature.'
         />
       </Text>
       <LinkContainer
         to={{ pathname: '/security-center', state: { changeEmail: true } }}
       >
-        <Link size="18px">
+        <Link size='18px'>
           <FormattedMessage
-            id="components.emailrequired.addemail"
-            defaultMessage="Add email"
+            id='components.emailrequired.addemail'
+            defaultMessage='Add email'
           />
         </Link>
       </LinkContainer>

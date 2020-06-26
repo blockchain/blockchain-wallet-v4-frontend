@@ -19,7 +19,7 @@ const INITIAL_STATE: IdentityVerificationState = {
   steps: Remote.NotAsked
 }
 
-export function identityVerificationReducer(
+export function identityVerificationReducer (
   state = INITIAL_STATE,
   action: IdentityVerificationActionTypes
 ): IdentityVerificationState {

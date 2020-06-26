@@ -26,30 +26,30 @@ class CustomizeStepContainer extends React.PureComponent {
     this.props.lockboxActions.changeDeviceSetupStep('app-manager-step')
   }
 
-  render() {
+  render () {
     return (
       <Wrapper>
         <Image
           style={{ marginBottom: '18px' }}
-          name="lockbox-onboard-customize"
-          width="100%"
+          name='lockbox-onboard-customize'
+          width='100%'
         />
-        <IntroText size="13px" weight={400}>
+        <IntroText size='13px' weight={400}>
           <FormattedMessage
-            id="modals.lockboxsetup.customizestep.title"
-            defaultMessage="Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device."
+            id='modals.lockboxsetup.customizestep.title'
+            defaultMessage='Now the fun starts. It’s time to add apps to your device. You will need to install an app for each asset that you store on your device.'
           />
         </IntroText>
-        <ReminderText size="10px" weight={400}>
+        <ReminderText size='10px' weight={400}>
           <FormattedMessage
-            id="modals.lockboxsetup.customizestep.reminder"
+            id='modals.lockboxsetup.customizestep.reminder'
             defaultMessage="Don't worry you can always change them later."
           />
         </ReminderText>
         <Button fullwidth onClick={this.onNextStep} nature={'primary'}>
           <FormattedMessage
-            id="modals.lockboxsetup.customizestep.addapps"
-            defaultMessage="Add Apps"
+            id='modals.lockboxsetup.customizestep.addapps'
+            defaultMessage='Add Apps'
           />
         </Button>
       </Wrapper>

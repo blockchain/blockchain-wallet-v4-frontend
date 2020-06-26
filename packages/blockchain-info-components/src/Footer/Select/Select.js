@@ -28,13 +28,13 @@ const SelectElement = styled.select`
 `
 
 class Select extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { value: null }
     this.onChange = this.onChange.bind(this)
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  static getDerivedStateFromProps (nextProps) {
     if (nextProps.value) {
       return {
         val: nextProps.value
@@ -43,7 +43,7 @@ class Select extends PureComponent {
     return null
   }
 
-  onChange(e) {
+  onChange (e) {
     if (e.target && this.props.onChange) {
       let value = e.target.value
       this.setState({ value }, () => {
@@ -52,7 +52,7 @@ class Select extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     let options = null
     if (this.props.values) {
       options = this.props.values.map(val => (

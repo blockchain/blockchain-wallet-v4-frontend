@@ -4,7 +4,7 @@ import React from 'react'
 import SecondPassword from './template'
 
 class SecondPasswordWalletContainer extends React.PureComponent {
-  render() {
+  render () {
     return <SecondPassword {...this.props} />
   }
 }

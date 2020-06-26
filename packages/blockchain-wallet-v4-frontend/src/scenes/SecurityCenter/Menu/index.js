@@ -6,31 +6,31 @@ import HorizontalMenu from 'components/HorizontalMenu'
 import React from 'react'
 
 class MenuContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <HorizontalMenu>
         <TabMenu>
           <LinkContainer
-            to="/security-center/basic"
-            activeClassName="active"
-            data-e2e="securityCenterBasicLink"
+            to='/security-center/basic'
+            activeClassName='active'
+            data-e2e='securityCenterBasicLink'
           >
             <TabMenuItem>
               <FormattedMessage
-                id="scenes.securitycenter.menu.basic"
-                defaultMessage="Basic"
+                id='scenes.securitycenter.menu.basic'
+                defaultMessage='Basic'
               />
             </TabMenuItem>
           </LinkContainer>
           <LinkContainer
-            to="/security-center/advanced"
-            activeClassName="active"
-            data-e2e="securityCenterAdvancedLink"
+            to='/security-center/advanced'
+            activeClassName='active'
+            data-e2e='securityCenterAdvancedLink'
           >
             <TabMenuItem>
               <FormattedMessage
-                id="scenes.securitycenter.menu.advanced"
-                defaultMessage="Advanced"
+                id='scenes.securitycenter.menu.advanced'
+                defaultMessage='Advanced'
               />
             </TabMenuItem>
           </LinkContainer>

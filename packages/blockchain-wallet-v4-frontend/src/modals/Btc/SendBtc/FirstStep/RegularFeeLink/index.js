@@ -9,14 +9,14 @@ import { Link } from 'blockchain-info-components'
 
 const RegularFeeLink = props => (
   <Link
-    size="12px"
+    size='12px'
     weight={400}
     onClick={props.actions.sendBtcFirstStepRegularFeeClicked}
-    data-e2e="btcRegularFeeLink"
+    data-e2e='btcRegularFeeLink'
   >
     <FormattedMessage
-      id="modals.sendbtc.regularfeelink.regular"
-      defaultMessage="Reg: {fee}, "
+      id='modals.sendbtc.regularfeelink.regular'
+      defaultMessage='Reg: {fee}, '
       values={{ fee: props.fee }}
     />
   </Link>

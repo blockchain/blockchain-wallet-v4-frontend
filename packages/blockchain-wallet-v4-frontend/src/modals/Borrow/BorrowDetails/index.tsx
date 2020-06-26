@@ -18,12 +18,12 @@ import Success from './template.success'
 class BorrowDetails extends PureComponent<Props> {
   state = {}
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.borrowActions.setCoin(this.props.offer.terms.collateralCcy)
     this.props.borrowActions.fetchLoanTransactions(this.props.loan.loanId)
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Failure: e => (typeof e === 'object' ? e.message : e),

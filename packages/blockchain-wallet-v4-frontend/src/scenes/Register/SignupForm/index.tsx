@@ -81,47 +81,47 @@ const SignupForm = ({
     <RegisterForm override onSubmit={handleSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
-          <Banner type="warning">
+          <Banner type='warning'>
             <FormattedMessage
-              defaultMessage="Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera "
-              id="scenes.register.browserwarning"
+              defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
+              id='scenes.register.browserwarning'
             />
           </Banner>
         </BrowserWarning>
       )}
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor="email">
+          <FormLabel htmlFor='email'>
             <FormattedMessage
-              id="scenes.register.youremail"
-              defaultMessage="Your Email"
+              id='scenes.register.youremail'
+              defaultMessage='Your Email'
             />
           </FormLabel>
           <Field
             autoFocus
-            bgColor="grey000"
+            bgColor='grey000'
             component={TextBox}
-            data-e2e="signupEmail"
+            data-e2e='signupEmail'
             disabled={!isSupportedBrowser}
-            name="email"
+            name='email'
             validate={[required, validEmail]}
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor="password" id="password">
+          <FormLabel htmlFor='password' id='password'>
             <FormattedMessage
-              defaultMessage="Password"
-              id="scenes.register.password"
+              defaultMessage='Password'
+              id='scenes.register.password'
             />
           </FormLabel>
           <Field
-            bgColor="grey000"
+            bgColor='grey000'
             component={PasswordBox}
-            data-e2e="signupPassword"
+            data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
-            name="password"
+            name='password'
             onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
@@ -130,23 +130,23 @@ const SignupForm = ({
         </FormItem>
         {passwordLength > 0 && (
           <div>
-            <PasswordTip size="12px" weight={400}>
+            <PasswordTip size='12px' weight={400}>
               {passwordScore <= 1 && (
                 <FormattedMessage
-                  id="formhelper.passwordsuggest.weak"
-                  defaultMessage="Weak. Use at least 8 characters, a mix of letters, numbers and symbols."
+                  id='formhelper.passwordsuggest.weak'
+                  defaultMessage='Weak. Use at least 8 characters, a mix of letters, numbers and symbols.'
                 />
               )}
               {passwordScore >= 2 && passwordScore < 4 && (
                 <FormattedMessage
-                  id="formhelper.passwordsuggest.medium"
-                  defaultMessage="Medium. Use at least 8 characters, a mix of letters, numbers and symbols."
+                  id='formhelper.passwordsuggest.medium'
+                  defaultMessage='Medium. Use at least 8 characters, a mix of letters, numbers and symbols.'
                 />
               )}
               {passwordScore === 4 && (
                 <FormattedMessage
-                  id="formhelper.passwordsuggest.great"
-                  defaultMessage="Great password."
+                  id='formhelper.passwordsuggest.great'
+                  defaultMessage='Great password.'
                 />
               )}
             </PasswordTip>
@@ -155,18 +155,18 @@ const SignupForm = ({
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <FormLabel htmlFor="confirmationPassword" id="confirmationPassword">
+          <FormLabel htmlFor='confirmationPassword' id='confirmationPassword'>
             <FormattedMessage
-              defaultMessage="Confirm Password"
-              id="scenes.register.confirmpassword"
+              defaultMessage='Confirm Password'
+              id='scenes.register.confirmpassword'
             />
           </FormLabel>
           <Field
-            bgColor="grey000"
+            bgColor='grey000'
             component={PasswordBox}
-            data-e2e="signupConfirmPassword"
+            data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
-            name="confirmationPassword"
+            name='confirmationPassword'
             onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
@@ -179,23 +179,23 @@ const SignupForm = ({
       </FormGroup>
 
       <Button
-        data-e2e="signupButton"
+        data-e2e='signupButton'
         disabled={busy || invalid}
         fullwidth
-        height="48px"
-        nature="primary"
+        height='48px'
+        nature='primary'
         style={{
           borderRadius: '8px'
         }}
-        type="submit"
+        type='submit'
       >
         {busy ? (
-          <HeartbeatLoader height="20px" width="20px" color="white" />
+          <HeartbeatLoader height='20px' width='20px' color='white' />
         ) : (
-          <Text color="whiteFade900" size="16px" weight={600}>
+          <Text color='whiteFade900' size='16px' weight={600}>
             <FormattedMessage
-              id="scenes.public.register.createWallet"
-              defaultMessage="Create Wallet"
+              id='scenes.public.register.createWallet'
+              defaultMessage='Create Wallet'
             />
           </Text>
         )}

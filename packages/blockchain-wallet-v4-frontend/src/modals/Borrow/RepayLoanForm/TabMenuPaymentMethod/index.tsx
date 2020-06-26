@@ -13,26 +13,26 @@ const TabMenuPaymentMethod: React.FC<Props & { coin: string }> = props => {
   return (
     <TabMenu>
       <TabMenuItem
-        width="50%"
+        width='50%'
         selected={props.input.value === 'principal'}
         onClick={() => handleClick('principal')}
       >
         <FormattedMessage
-          id="modals.borrow.repayloan.principalrepayment"
-          defaultMessage="Send {coin}"
+          id='modals.borrow.repayloan.principalrepayment'
+          defaultMessage='Send {coin}'
           values={{ coin: props.coin }}
         />
       </TabMenuItem>
       <TabMenuItem
         disabled
-        width="50%"
+        width='50%'
         selected={props.input.value === 'collateral'}
         // onClick={() => handleClick('collateral')}
       >
-        <TooltipHost id="coming-soon">
+        <TooltipHost id='coming-soon'>
           <FormattedMessage
-            id="modals.borrow.repayloan.collateralrepayment"
-            defaultMessage="Sell Collateral"
+            id='modals.borrow.repayloan.collateralrepayment'
+            defaultMessage='Sell Collateral'
           />
         </TooltipHost>
       </TabMenuItem>

@@ -101,70 +101,70 @@ class InitBorrowForm extends PureComponent<Props> {
     })
   }
 
-  render() {
+  render () {
     return (
       <CustomBox>
         <div>
-          <Text size="14px" color="grey600" weight={600}>
+          <Text size='14px' color='grey600' weight={600}>
             <FormattedMessage
-              id="scenes.initborrow.youcanborrow"
-              defaultMessage="You can borrow up to"
+              id='scenes.initborrow.youcanborrow'
+              defaultMessage='You can borrow up to'
             />
-            <TooltipHost id="borrow.amount.tooltip">
-              <TooltipIcon name="info" size="12px" />
+            <TooltipHost id='borrow.amount.tooltip'>
+              <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </Text>
           <Amount {...(this.props.values || { coin: 'BTC' })} />
           <HorizontalBorder />
           <FormGroup>
             <CustomFormLabel>
-              <Text size="14px" color="grey600" weight={600}>
+              <Text size='14px' color='grey600' weight={600}>
                 <FormattedMessage
-                  id="scenes.initborrow.collateral"
-                  defaultMessage="Collateral"
+                  id='scenes.initborrow.collateral'
+                  defaultMessage='Collateral'
                 />
               </Text>
               <CustomOrangeCartridge
                 show={!!this.props.values && this.props.values.coin !== 'BTC'}
               >
                 <FormattedMessage
-                  id="scenes.initborrow.comingsoon"
-                  defaultMessage="Coming Soon"
+                  id='scenes.initborrow.comingsoon'
+                  defaultMessage='Coming Soon'
                 />
               </CustomOrangeCartridge>
             </CustomFormLabel>
-            <Field component={SelectBoxCoin} name="coin" type="send" />
+            <Field component={SelectBoxCoin} name='coin' type='send' />
           </FormGroup>
         </div>
         <Button
           disabled={this.isDisabled()}
           style={{ marginTop: '16px' }}
-          nature="primary"
+          nature='primary'
           fullwidth
           onClick={this.initBorrow}
-          data-e2e="initBorrowPax"
+          data-e2e='initBorrowPax'
         >
           <FormattedMessage
-            id="scenes.initborrow.borrow1"
-            defaultMessage="Borrow USD Digital"
+            id='scenes.initborrow.borrow1'
+            defaultMessage='Borrow USD Digital'
           />
         </Button>
         {this.getIsUserBlocked() && (
-          <AbsoluteWarning size="12px" weight={500} color="grey600">
-            <Icon name="info" color="grey600" />
+          <AbsoluteWarning size='12px' weight={500} color='grey600'>
+            <Icon name='info' color='grey600' />
             <div style={{ marginLeft: '8px' }}>
               <FormattedMessage
-                id="scenes.initborrow.userblocked"
-                defaultMessage="Blockchain Borrow is not available in your country or region at the moment."
+                id='scenes.initborrow.userblocked'
+                defaultMessage='Blockchain Borrow is not available in your country or region at the moment.'
               />{' '}
               <Link
-                size="12px"
+                size='12px'
                 weight={500}
-                href="https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works"
+                href='https://support.blockchain.com/hc/en-us/articles/360040444691-How-it-works'
               >
                 <FormattedMessage
-                  id="buttons.learn_more"
-                  defaultMessage="Learn More"
+                  id='buttons.learn_more'
+                  defaultMessage='Learn More'
                 />
               </Link>
             </div>

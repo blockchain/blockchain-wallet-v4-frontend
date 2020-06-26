@@ -27,26 +27,26 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         key={address.addr}
         archived
         address={address}
-        dataE2e="btcArchivedAddressRow"
+        dataE2e='btcArchivedAddressRow'
         renderOptions={() => [
           <ClickableText
-            size="small"
+            size='small'
             onClick={() => onToggleArchived(address)}
-            data-e2e="btcUnarchivedAddressLink"
+            data-e2e='btcUnarchivedAddressLink'
           >
             <FormattedMessage
-              id="scenes.settings.addresses.unarchive"
-              defaultMessage="Unarchive"
+              id='scenes.settings.addresses.unarchive'
+              defaultMessage='Unarchive'
             />
           </ClickableText>,
           <ClickableText
-            size="small"
+            size='small'
             onClick={() => onDelete(address)}
-            data-e2e="btcDeleteArchivedAddressLink"
+            data-e2e='btcDeleteArchivedAddressLink'
           >
             <FormattedMessage
-              id="scenes.settings.addresses.delete_address"
-              defaultMessage="Delete"
+              id='scenes.settings.addresses.delete_address'
+              defaultMessage='Delete'
             />
           </ClickableText>
         ]}
@@ -58,36 +58,36 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
     <Wrapper>
       <ArchivedAddressesContainer>
         <FormattedMessage
-          id="scenes.settings.addresses.btc.archivedaddresses.title"
-          defaultMessage="Archived Bitcoin Addresses"
+          id='scenes.settings.addresses.btc.archivedaddresses.title'
+          defaultMessage='Archived Bitcoin Addresses'
         />
       </ArchivedAddressesContainer>
       <SettingDescription style={spacing('mb-10')}>
         <FormattedMessage
-          id="scenes.settings.addresses.btc.archivedaddresses.description"
-          defaultMessage="Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time."
+          id='scenes.settings.addresses.btc.archivedaddresses.description'
+          defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.'
         />
       </SettingDescription>
-      <Table dataE2e="btcArchivedAddressesTable">
+      <Table dataE2e='btcArchivedAddressesTable'>
         <TableHeader>
-          <TableCell width="50%">
-            <Text size="13px" weight={500}>
-              <FormattedMessage id="copy.address" defaultMessage="Address" />
+          <TableCell width='50%'>
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='copy.address' defaultMessage='Address' />
             </Text>
           </TableCell>
-          <TableCell width="30%">
-            <Text size="13px" weight={500}>
-              <FormattedMessage id="copy.balance" defaultMessage="Balance" />
+          <TableCell width='30%'>
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
           <TableCell
-            width="20%"
+            width='20%'
             style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            <Text size="13px" weight={500}>
+            <Text size='13px' weight={500}>
               <FormattedMessage
-                id="scenes.settings.addresses.btc.archivedaddresses.actions"
-                defaultMessage="Actions"
+                id='scenes.settings.addresses.btc.archivedaddresses.actions'
+                defaultMessage='Actions'
               />
             </Text>
           </TableCell>

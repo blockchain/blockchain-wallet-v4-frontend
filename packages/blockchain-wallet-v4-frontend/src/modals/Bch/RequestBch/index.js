@@ -25,11 +25,11 @@ const RequestHeader = styled(ModalHeader)`
 
 const { TRANSACTION_EVENTS } = model.analytics
 class RequestBchContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.init()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     this.props.data.map(x => {
       if (equals(prop('coin', x), 'PAX')) {
         this.props.modalActions.closeAllModals()
@@ -92,7 +92,7 @@ class RequestBchContainer extends React.PureComponent {
     this.props.requestBchActions.openLockboxAppClicked()
   }
 
-  render() {
+  render () {
     const { closeAll, data, position, total } = this.props
 
     const content = data.cata({
@@ -113,14 +113,14 @@ class RequestBchContainer extends React.PureComponent {
     })
 
     return (
-      <Modal size="medium" position={position} total={total}>
-        <RequestHeader icon="request" onClose={closeAll}>
+      <Modal size='medium' position={position} total={total}>
+        <RequestHeader icon='request' onClose={closeAll}>
           <FormattedMessage
-            id="modals.requestbch.title"
-            defaultMessage="Request Bitcoin Cash"
+            id='modals.requestbch.title'
+            defaultMessage='Request Bitcoin Cash'
           />
         </RequestHeader>
-        <Announcements type="service" alertArea="request" currentCoin="BCH" />
+        <Announcements type='service' alertArea='request' currentCoin='BCH' />
         <ModalBody>{content}</ModalBody>
       </Modal>
     )

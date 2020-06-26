@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import MenuLeft from './template.success'
 
 class MenuLeftContainer extends React.PureComponent<Props> {
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({

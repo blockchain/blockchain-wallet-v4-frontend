@@ -6,7 +6,7 @@ import moment from 'moment'
 
 export default ({ api }: { api: APIType }) => {
   // TODO - filter orders by coin
-  const fetchSBOrders = function*(
+  const fetchSBOrders = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,

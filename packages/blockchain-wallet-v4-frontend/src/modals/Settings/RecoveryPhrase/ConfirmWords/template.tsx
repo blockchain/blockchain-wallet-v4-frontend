@@ -66,25 +66,25 @@ const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
         <Header>
           <Icon
             cursor
-            data-e2e="recoveryBackArrow"
-            name="arrow-left"
-            size="20px"
-            color="grey600"
+            data-e2e='recoveryBackArrow'
+            name='arrow-left'
+            size='20px'
+            color='grey600'
             style={{ marginRight: '24px' }}
-            role="button"
+            role='button'
             onClick={handleBackArrow}
           />
-          <Text color="grey800" size="20px" weight={600}>
+          <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
-              id="modals.recoveryphrase.confirmwords.header"
-              defaultMessage="Confirm Your Phrase"
+              id='modals.recoveryphrase.confirmwords.header'
+              defaultMessage='Confirm Your Phrase'
             />
           </Text>
         </Header>
-        <Text color="grey600" weight={500}>
+        <Text color='grey600' weight={500}>
           <FormattedMessage
-            id="modals.recoveryphrase.confirmwords.body"
-            defaultMessage="Please enter the words that match the numbers you see below."
+            id='modals.recoveryphrase.confirmwords.body'
+            defaultMessage='Please enter the words that match the numbers you see below.'
           />
         </Text>
       </HeaderWrapper>
@@ -93,16 +93,16 @@ const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
         {indexes.map(index => (
           <WordContainer key={index}>
             <Text
-              size="14px"
+              size='14px'
               weight={500}
-              data-e2e="wordLabel"
-              lineHeight="20px"
+              data-e2e='wordLabel'
+              lineHeight='20px'
             >
               {`${languageHelper(index)} word`}
             </Text>
             <Field
               component={TextBox}
-              data-e2e="wordInput"
+              data-e2e='wordInput'
               disableSpellcheck
               errorBottom
               name={`w${index}`}
@@ -115,17 +115,17 @@ const ConfirmWordsForm: React.FC<InjectedFormProps<{}, Props> &
       <Bottom>
         <Button
           capitalize
-          data-e2e="confirmButton"
+          data-e2e='confirmButton'
           disabled={submitting || invalid}
           fullwidth
-          height="48px"
-          nature="primary"
-          size="16px"
-          type="submit"
+          height='48px'
+          nature='primary'
+          size='16px'
+          type='submit'
         >
           <FormattedMessage
-            id="modals.recoveryphrase.confirmwords.button"
-            defaultMessage="Confirm"
+            id='modals.recoveryphrase.confirmwords.button'
+            defaultMessage='Confirm'
           />
         </Button>
       </Bottom>

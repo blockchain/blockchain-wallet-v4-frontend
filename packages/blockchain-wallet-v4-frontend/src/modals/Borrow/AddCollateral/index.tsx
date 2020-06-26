@@ -43,11 +43,11 @@ export type State = { isAddrCopied: boolean; showQrCode: boolean }
 class BorrowForm extends PureComponent<Props, State> {
   state = { isAddrCopied: false, showQrCode: false }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.borrowActions.initializeBorrow('BTC')
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.borrowActions.destroy()
   }
 
@@ -81,7 +81,7 @@ class BorrowForm extends PureComponent<Props, State> {
     this.setState({ showQrCode: !this.state.showQrCode })
   }
 
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({

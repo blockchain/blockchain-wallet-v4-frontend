@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
-  render() {
+  render () {
     const {
       isAuthenticated,
       path,

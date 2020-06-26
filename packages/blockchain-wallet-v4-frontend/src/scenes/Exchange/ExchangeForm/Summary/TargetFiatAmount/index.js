@@ -6,11 +6,11 @@ import React from 'react'
 // Rates API is not the most accurate for COIN-FIAT pairs
 // So fallback for targetFiat to our ticker API (FiatDisplay)
 export class TargetFiatAmount extends React.PureComponent {
-  render() {
+  render () {
     return this.props.targetAmount.cata({
       Success: value => (
         <FiatDisplay
-          data-e2e="exchangeSummaryTargetFiatValue"
+          data-e2e='exchangeSummaryTargetFiatValue'
           coin={this.props.targetCoin}
           {...this.props}
         >
@@ -22,9 +22,9 @@ export class TargetFiatAmount extends React.PureComponent {
           }
         </FiatDisplay>
       ),
-      NotAsked: () => <SkeletonRectangle height="26px" width="40px" />,
-      Loading: () => <SkeletonRectangle height="26px" width="40px" />,
-      Failure: () => <SkeletonRectangle height="26px" width="40px" />
+      NotAsked: () => <SkeletonRectangle height='26px' width='40px' />,
+      Loading: () => <SkeletonRectangle height='26px' width='40px' />,
+      Failure: () => <SkeletonRectangle height='26px' width='40px' />
     })
   }
 }
