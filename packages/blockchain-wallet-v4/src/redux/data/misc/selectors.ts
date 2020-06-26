@@ -1,10 +1,10 @@
+import * as selectors from '../../selectors'
 import { CoinType, RemoteDataType } from 'core/types'
 import { dataPath } from '../../paths'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { path } from 'ramda'
 import { RatesType } from 'data/types'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { selectors } from 'data'
 
 export const getCaptcha = path([dataPath, 'misc', 'captcha'])
 
@@ -30,17 +30,17 @@ export const getRatesSelector = (
 ): RemoteDataType<string, RatesType> => {
   switch (coin) {
     case 'BTC':
-      return selectors.core.data.btc.getRates(state)
+      return selectors.data.btc.getRates(state)
     case 'BCH':
-      return selectors.core.data.bch.getRates(state)
+      return selectors.data.bch.getRates(state)
     case 'ETH':
-      return selectors.core.data.eth.getRates(state)
+      return selectors.data.eth.getRates(state)
     case 'XLM':
-      return selectors.core.data.xlm.getRates(state)
+      return selectors.data.xlm.getRates(state)
     case 'ALGO':
-      return selectors.core.data.xlm.getRates(state)
+      return selectors.data.xlm.getRates(state)
     case 'PAX':
-      return selectors.core.data.eth.getErc20Rates(state, 'pax')
+      return selectors.data.eth.getErc20Rates(state, 'pax')
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }
