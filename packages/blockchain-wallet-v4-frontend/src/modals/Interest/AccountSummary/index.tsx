@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { includes } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -47,9 +48,10 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
   render () {
     const { data } = this.props
+    const unsupportedCurrencies = ['TWD', 'CLP']
     return data.cata({
       Success: val =>
-        val.walletCurrency === 'TWD' || val.walletCurrency === 'CLP' ? (
+        includes(val.walletCurrency, unsupportedCurrencies) ? (
           <Unsupported {...val} {...this.props} />
         ) : (
           <AccountSummary
