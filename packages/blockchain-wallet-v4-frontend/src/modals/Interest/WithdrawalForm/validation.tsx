@@ -1,6 +1,7 @@
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FormattedMessage } from 'react-intl'
+import { propEq } from 'ramda'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 
@@ -32,10 +33,8 @@ export const minimumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  // withdrawal min across all products .0005 BTC
-  const { coin, displayCoin, rates, walletCurrency } = props
-  // todo: remove hardcode of this value, use min endpoint
-  const MIN_WITHDRAWAL = coin === 'BTC' ? 0.0005 : 0.002
+  const { coin, displayCoin, rates, walletCurrency, withdrawalMinimums } = props
+  const MIN_WITHDRAWAL = withdrawalMinimums.find(propEq('symbol', coin)).value
   const withdrawalMin = displayCoin
     ? MIN_WITHDRAWAL
     : Exchange.convertCoinToFiat(MIN_WITHDRAWAL, coin, walletCurrency, rates)

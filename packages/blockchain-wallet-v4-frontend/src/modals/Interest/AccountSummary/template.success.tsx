@@ -194,8 +194,8 @@ const AccountSummary: React.FC<Props> = props => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color='orange000'>
-              <Icon color='orange600' name='timer' size='24px' />
+            <StatusIconWrapper color={`${colorCode}-light`}>
+              <Icon color={colorCode} name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage

@@ -69,3 +69,6 @@ export const getWalletCurrency = (
 ): RemoteDataType<string, FiatType> => {
   return selectors.core.settings.getCurrency(state)
 }
+
+export const getWithdrawalMinimums = (state: RootState) =>
+  state.components.interest.withdrawalMinimums

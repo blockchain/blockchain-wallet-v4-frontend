@@ -76,3 +76,8 @@ export type InterestWithdrawalResponseType = {
   state: string
   user: string
 }
+
+export type WithdrawalMinimumType = Array<{
+  symbol: CoinType | FiatType
+  value: string
+}>

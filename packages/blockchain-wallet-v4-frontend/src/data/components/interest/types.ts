@@ -10,7 +10,8 @@ import {
   InterestRateType,
   InterestTransactionType,
   PaymentValue,
-  RemoteDataType
+  RemoteDataType,
+  WithdrawalMinimumType
 } from 'core/types'
 
 //
@@ -70,6 +71,7 @@ export interface InterestState {
   }
   transactions: Array<InterestTransactionType>
   transactionsNextPage: string | null
+  withdrawalMinimums: RemoteDataType<string, WithdrawalMinimumType>
 }
 
 //
@@ -127,6 +129,19 @@ interface FetchInterestLimitsLoading {
 interface FetchInterestLimitsSuccess {
   payload: { interestLimits: InterestLimitsType }
   type: typeof AT.FETCH_INTEREST_LIMITS_SUCCESS
+}
+
+interface SetWithdrawalMinimumsFailure {
+  payload: { error: string }
+  type: typeof AT.SET_WITHDRAWAL_MINIMUMS_FAILURE
+}
+
+interface SetWithdrawalMinimumsLoading {
+  type: typeof AT.SET_WITHDRAWAL_MINIMUMS_LOADING
+}
+interface SetWithdrawalMinimumsSuccess {
+  payload: { withdrawalMinimums: WithdrawalMinimumType }
+  type: typeof AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS
 }
 
 // ACCOUNT
@@ -276,6 +291,9 @@ export type InterestActionTypes =
   | RequestWithdrawal
   | RouteToTxHash
   | SetInterestStep
+  | SetWithdrawalMinimumsFailure
+  | SetWithdrawalMinimumsLoading
+  | SetWithdrawalMinimumsSuccess
   | ShowInterestModal
   | SetCoinDisplay
   | SetDepositLimitsAction
