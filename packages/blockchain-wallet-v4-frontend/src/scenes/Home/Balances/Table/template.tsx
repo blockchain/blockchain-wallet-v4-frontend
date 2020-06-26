@@ -44,6 +44,7 @@ const Success = (props: Props) => {
   const { viewType, supportedCoins } = props
   const coinOrder = [
     supportedCoins.PAX,
+    supportedCoins.USDT,
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,

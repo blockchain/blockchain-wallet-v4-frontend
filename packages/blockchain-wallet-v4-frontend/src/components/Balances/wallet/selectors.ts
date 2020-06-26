@@ -139,6 +139,35 @@ export const getPaxBalance = createDeepEqualSelector(
   }
 )
 
+export const getUsdtBalance = createDeepEqualSelector(
+  [
+    state => selectors.core.data.eth.getErc20Balance(state, 'usdt'),
+    selectors.components.interest.getInterestAccountBalance,
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (
+    balanceR,
+    interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>,
+    sbBalancesR: RemoteDataType<string, SBBalancesType>
+  ) => {
+    const interestUsdtBalance = interestAccountBalanceR.getOrElse({
+      USDT: { balance: '0' }
+    }).USDT
+    const interestBalance = interestUsdtBalance
+      ? interestUsdtBalance.balance
+      : '0'
+    const sbUsdtBalance = sbBalancesR.getOrElse({ USDT: { available: '0' } })
+      .USDT
+    const sbBalance = sbUsdtBalance ? sbUsdtBalance.available : '0'
+
+    return Remote.of(
+      new BigNumber(balanceR.getOrElse(0))
+        .plus(new BigNumber(sbBalance))
+        .plus(new BigNumber(interestBalance))
+    )
+  }
+)
+
 export const getXlmBalance = createDeepEqualSelector(
   [
     state =>

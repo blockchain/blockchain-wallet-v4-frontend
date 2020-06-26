@@ -12,7 +12,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: string
-  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx'
+  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx' | 'usdt'
   config: {
     network: string
   }

@@ -24,6 +24,7 @@ import SGD from './SGD'
 import THB from './THB'
 import TWD from './TWD'
 import USD from './USD'
+import USDT from './USDT'
 import XLM from './XLM'
 
 const FiatCurrencies = {
@@ -56,11 +57,13 @@ const CryptoCurrencies = {
   BTC,
   ETH,
   PAX,
-  XLM
+  XLM,
+  USDT
 }
 
 const ERC20Currencies = {
-  PAX
+  PAX,
+  USDT
 }
 
 const Currencies = {

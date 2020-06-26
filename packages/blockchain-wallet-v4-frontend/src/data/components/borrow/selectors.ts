@@ -33,6 +33,8 @@ export const getRates = (
       return selectors.core.data.btc.getRates(state)
     case 'PAX':
       return selectors.core.data.eth.getErc20Rates(state, 'pax')
+    case 'USDT':
+      return selectors.core.data.eth.getErc20Rates(state, 'usdt')
     default:
       throw Remote.Failure(INVALID_COIN_TYPE)
   }

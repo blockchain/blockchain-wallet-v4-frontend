@@ -80,6 +80,7 @@ const DarkTheme: DefaultTheme = {
   'usd-d-light': 'rgba(0, 82, 44, 0.15)',
   xlm: '#797979',
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
+  usdt: '#26A17B',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',

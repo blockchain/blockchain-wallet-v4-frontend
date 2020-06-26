@@ -18,6 +18,8 @@ export const getData = (state, ownProps: OwnProps) => {
           return walletBalanceSelectors.getXlmBalance(state)
         case 'PAX':
           return walletBalanceSelectors.getPaxBalance(state)
+        case 'USDT':
+          return walletBalanceSelectors.getUsdtBalance(state)
         default:
           return Remote.Failure('Unsupported Coin Code')
       }
@@ -46,6 +48,8 @@ export const getData = (state, ownProps: OwnProps) => {
           return totalBalanceSelectors.getXlmBalance(state)
         case 'PAX':
           return totalBalanceSelectors.getPaxBalance(state)
+        case 'USDT':
+          return totalBalanceSelectors.getUsdtBalance(state)
         default:
           return Remote.Failure('Unsupported Coin Code')
       }
