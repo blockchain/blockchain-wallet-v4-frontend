@@ -9,7 +9,8 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE, NO_OFFER_EXISTS } from './model'
+import { INVALID_COIN_TYPE } from 'core/model'
+import { NO_OFFER_EXISTS } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 

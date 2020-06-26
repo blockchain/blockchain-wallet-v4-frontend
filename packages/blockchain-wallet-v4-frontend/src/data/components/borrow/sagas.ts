@@ -12,12 +12,12 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   fiatDisplayName,
   getCollateralAmtRequired,
-  INVALID_COIN_TYPE,
   NO_LOAN_EXISTS,
   NO_OFFER_EXISTS
 } from './model'
 import { FormAction, initialize, touch } from 'redux-form'
 import { head, nth } from 'ramda'
+import { INVALID_COIN_TYPE } from 'core/model'
 import {
   LoanFinancialsType,
   LoanType,

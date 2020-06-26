@@ -1,8 +1,8 @@
 import { FiatType, RemoteDataType } from 'core/types'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
+import { getRatesSelector } from 'core/redux/data/misc/selectors'
 import { RatesType } from '../borrow/types'
 
 export const getInterestAccountBalance = (state: RootState) =>
@@ -47,16 +47,7 @@ export const getRates = (
 ): RemoteDataType<string | Error, RatesType> => {
   const coinType = getCoinType(state)
 
-  switch (coinType) {
-    case 'BTC':
-      return selectors.core.data.btc.getRates(state)
-    case 'ETH':
-      return selectors.core.data.eth.getRates(state)
-    case 'PAX':
-      return selectors.core.data.eth.getErc20Rates(state, 'pax')
-    default:
-      throw Remote.Failure('INVALID_COIN_TYPE')
-  }
+  return getRatesSelector(coinType, state)
 }
 
 export const getStep = (state: RootState) => state.components.interest.step

@@ -1,12 +1,13 @@
 import { add, lift, pathOr, prop, reduce } from 'ramda'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'core/exchange/currency'
 import {
+  CoinType,
   InterestAccountBalanceType,
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'core/exchange/currency'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
@@ -341,3 +342,20 @@ export const getTotalBalance = createDeepEqualSelector(
     )
   }
 )
+
+export const getBalanceSelector = (coin: CoinType) => {
+  switch (coin) {
+    case 'BTC':
+      return getBtcBalance
+    case 'BCH':
+      return getBchBalance
+    case 'ETH':
+      return getEthBalance
+    case 'PAX':
+      return getPaxBalance
+    case 'XLM':
+      return getXlmBalance
+    case 'ALGO':
+      return getAlgoBalance
+  }
+}
