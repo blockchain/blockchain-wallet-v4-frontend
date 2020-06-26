@@ -103,7 +103,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     rates
   )
   if (!account) return null
-
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />

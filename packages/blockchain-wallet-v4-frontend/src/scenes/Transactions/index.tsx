@@ -15,6 +15,8 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
+
+import InterestTransactions from './TransactionList/template.interest'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
 import WalletBalanceDropdown from './WalletBalanceDropdown'
@@ -138,6 +140,8 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 <CoinIntroduction coin={coin} />
               </SceneWrapper>
             )
+          ) : sourceType && sourceType === 'INTEREST' ? (
+            <InterestTransactions />
           ) : (
             pages.map((value, index) => (
               <TransactionList

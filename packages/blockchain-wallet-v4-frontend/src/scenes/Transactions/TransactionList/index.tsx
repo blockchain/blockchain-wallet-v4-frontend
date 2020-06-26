@@ -6,7 +6,6 @@ import {
   SBOrderType
 } from 'core/types'
 import DataError from 'components/DataError'
-import InterestTransactions from './template.interest'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import SimpleBuyListItem from './template.simplebuy'
@@ -28,9 +27,7 @@ const TransactionsWrapper = styled.div`
 
 class TransactionList extends PureComponent<Props> {
   render () {
-    const { coin, coinTicker, currency, data, sourceType } = this.props
-
-    if (sourceType && sourceType === 'INTEREST') return <InterestTransactions />
+    const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
       Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (

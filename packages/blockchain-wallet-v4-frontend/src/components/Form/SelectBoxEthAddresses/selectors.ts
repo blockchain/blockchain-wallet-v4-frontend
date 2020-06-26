@@ -1,8 +1,9 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, prop, reduce, sequence } from 'ramda'
-import { Erc20CoinType } from 'core/types'
+import { Erc20CoinType , InterestAccountBalanceType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+
 import { selectors } from 'data'
 
 export const getEthData = (
@@ -12,13 +13,15 @@ export const getEthData = (
     excludeLockbox?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
     exclude = [],
     excludeLockbox,
     includeExchangeAddress,
-    includeCustodial
+    includeCustodial,
+    includeInterest
   } = ownProps
   const displayEthFixed = data => {
     const etherAmount = Exchange.convertEtherToEther(data)
@@ -49,6 +52,16 @@ export const getEthData = (
       })})`
     )
   }
+  const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
+    return (
+      `ETH Interest Wallet` +
+      ` (${Exchange.displayEtherToEther({
+        value: x ? x.balance : 0,
+        fromUnit: 'WEI',
+        toUnit: 'ETH'
+      })})`
+    )
+  }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
@@ -61,6 +74,17 @@ export const getEthData = (
         ...x,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'ETH Trading Wallet'
+      }
+    }
+  ]
+
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'ETH Interest Wallet'
       }
     }
   ]
@@ -87,6 +111,13 @@ export const getEthData = (
             .map<any, any>(prop('ETH'))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map<any, any>(prop('ETH'))
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
         : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
@@ -141,6 +172,7 @@ export const getErc20Data = (
       })})`
     )
   }
+
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const buildDisplay = wallet => {
