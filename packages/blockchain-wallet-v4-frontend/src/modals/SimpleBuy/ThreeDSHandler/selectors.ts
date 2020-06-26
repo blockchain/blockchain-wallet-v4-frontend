@@ -1,7 +1,8 @@
 import { lift } from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
-import Remote from 'core/remote/remote'
 
 export const getData = (state: RootState) => {
   const cardR = selectors.components.simpleBuy.getSBCard(state)

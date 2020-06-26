@@ -2010,6 +2010,7 @@ type MessagesType = {
   'scenes.transaction.headertext.explainer.btc1': 'Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
   'scenes.transaction.headertext.explainer.eth': 'Ethereum (ETH) is a currency and computing platform. Built for developers and apps.'
   'scenes.transaction.headertext.explainer.usdd': 'The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
+  'scenes.transaction.headertext.explainer.usdt': 'The USD Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
   'scenes.transaction.headertext.explainer.xlm': 'The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
   'scenes.transactions.bitcoin.content.list.listitem.status.received': 'Received'
   'scenes.transactions.bitcoin.content.list.listitem.status.sent': 'Sent'

@@ -21,11 +21,13 @@ const Title = styled(Text)`
 const Template = props => {
   const { supportedCoins } = props
   const coinOrder = [
-    supportedCoins.PAX,
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.XLM
+    supportedCoins.ALGO,
+    supportedCoins.XLM,
+    supportedCoins.USDT,
+    supportedCoins.PAX
   ]
 
   return (

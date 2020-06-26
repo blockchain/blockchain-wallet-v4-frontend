@@ -160,6 +160,14 @@ export const getErc20Data = (
         toUnit: 'PAX'
       })
     }
+    if (coin === 'USDT') {
+      const usdtAmount = Exchange.convertUsdtToUsdt(data)
+      return Exchange.displayUsdtToUsdt({
+        value: Number(usdtAmount.value).toFixed(8),
+        fromUnit: 'USDT',
+        toUnit: 'USDT'
+      })
+    }
     return {}
   }
   const buildCustodialDisplay = x => {
@@ -222,7 +230,7 @@ export const getErc20Data = (
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map<any, any>(prop('PAX'))
+            .map<any, any>(prop(coin))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

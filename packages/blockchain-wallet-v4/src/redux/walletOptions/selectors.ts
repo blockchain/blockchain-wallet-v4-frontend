@@ -12,10 +12,11 @@ import {
   toUpper
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
-import { walletOptionsPath } from '../paths'
+import { RootState } from 'data/rootReducer'
+import { SupportedCoinType } from './types'
 
 // general
-export const getOptions = path([walletOptionsPath])
+export const getOptions = (state: RootState) => state.walletOptionsPath
 export const getDomains = state => getOptions(state).map(prop('domains'))
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
@@ -36,6 +37,7 @@ export const getSupportedCoins = createDeepEqualSelector(
   [getInvitations, getWebOptions],
   (invitationsR, webOptionsR) => {
     const addInvited = (obj, coin) => {
+      // @ts-ignore
       const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
       return set(lensProp('invited'), invited, obj)
     }
@@ -45,7 +47,7 @@ export const getSupportedCoins = createDeepEqualSelector(
 )
 export const getSyncToExchangeList = state =>
   getSupportedCoins(state)
-    .map(filter(path(['availability', 'syncToPit'])))
+    .map(filter((value: SupportedCoinType) => value.availability.syncToPit))
     .map(keys)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
@@ -61,10 +63,13 @@ export const getCoinAvailability = curry((state, coin) =>
   getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
 )
 export const getErc20CoinList = state =>
-  getSupportedCoins(state).map(x => keys(filter(c => c.contractAddress, x)))
+  getSupportedCoins(state).map(x =>
+    keys(filter((c: SupportedCoinType) => !!c.contractAddress, x))
+  )
 export const getCoinModel = (state, coin) =>
   getSupportedCoins(state).map(x => prop(toUpper(coin), x))
 export const getCoinIcons = (state, coin) =>
+  // @ts-ignore
   getCoinModel(state, coin).map(path(['icons']))
 
 // domains

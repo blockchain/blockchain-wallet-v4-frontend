@@ -71,6 +71,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.data.btc.fetchTransactions('', true))
       yield put(actions.core.data.eth.fetchTransactions('', true))
       yield put(actions.core.data.eth.fetchErc20Transactions('pax', true))
+      yield put(actions.core.data.eth.fetchErc20Transactions('usdt', true))
       yield put(actions.core.data.xlm.fetchTransactions('', true))
     })
   }

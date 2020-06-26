@@ -1,5 +1,8 @@
+import * as WalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
 import { CoinType } from '../../types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
+
+export type WalletOptionsType = typeof WalletOptions
 
 export type SupportedCoinType = {
   availability: {
@@ -12,7 +15,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: string
-  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx'
+  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx' | 'usdt'
   config: {
     network: string
   }

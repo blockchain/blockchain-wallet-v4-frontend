@@ -68,6 +68,7 @@ const DarkTheme: DefaultTheme = {
   red700: '#B2251B',
   red800: '#99180F',
   red900: '#800900',
+  algo: '#000000',
   btc: '#FF9B22',
   'btc-light': '#FFF2E5',
   bch: '#8DC351',
@@ -80,6 +81,7 @@ const DarkTheme: DefaultTheme = {
   'usd-d-light': 'rgba(0, 82, 44, 0.15)',
   xlm: '#797979',
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
+  usdt: '#26A17B',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#665227',

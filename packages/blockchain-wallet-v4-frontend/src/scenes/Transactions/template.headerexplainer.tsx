@@ -105,6 +105,27 @@ export const getHeaderExplainer = coinModel => {
         </ExplainerText>
       )
     }
+    case 'USDT': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.usdt'
+            defaultMessage='The USD Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
+          />
+          <LearnMoreLink
+            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ'
+            target='_blank'
+          >
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
     case 'XLM': {
       return (
         <ExplainerText>

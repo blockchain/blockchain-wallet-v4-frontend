@@ -11,7 +11,7 @@ import {
 } from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from './model'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { RatesType } from '../borrow/types'
 import { selectors } from 'data'
@@ -72,6 +72,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'PAX':
           maxFiat = Exchange.convertPaxToFiat({
+            value: balance,
+            fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
+        case 'USDT':
+          maxFiat = Exchange.convertUsdtToFiat({
             value: balance,
             fromUnit: 'WEI',
             toCurrency: userCurrency,

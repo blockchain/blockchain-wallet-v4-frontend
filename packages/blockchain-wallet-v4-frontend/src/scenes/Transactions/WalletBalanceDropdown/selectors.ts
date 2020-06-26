@@ -2,6 +2,7 @@ import * as balanceSelectors from 'components/Balances/wallet/selectors'
 import { CurrenciesType } from 'core/exchange/currencies'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { FiatType, RemoteDataType } from 'core/types'
+import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
@@ -68,6 +69,14 @@ export const getData = (
       balanceDataR = balanceSelectors.getPaxBalance(state)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
       break
+    case 'USDT':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDT',
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getUsdtBalance(state)
+      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'usdt')
+      break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
@@ -76,8 +85,17 @@ export const getData = (
       balanceDataR = balanceSelectors.getXlmBalance(state)
       coinRatesR = selectors.core.data.xlm.getRates(state)
       break
+    case 'ALGO':
+      addressDataR = getAlgoAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getAlgoBalance(state)
+      coinRatesR = selectors.core.data.algo.getRates(state)
+      break
     default:
       addressDataR = Remote.Success({ data: [] })
+      balanceDataR = Remote.Success(0)
+      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
   const priceIndexSeriesR = selectors.core.data.misc.getPriceIndexSeries(state)
   const currencyR = selectors.core.settings.getCurrency(state)

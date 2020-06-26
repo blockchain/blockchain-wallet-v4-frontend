@@ -3,12 +3,15 @@ import { add, lift, map, prop, reduce } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
+  getAlgoBalance as getAlgoWalletBalance,
   getBchBalance as getBchWalletBalance,
   getBtcBalance as getBtcWalletBalance,
   getEthBalance as getEthWalletBalance,
   getPaxBalance as getPaxWalletBalance,
+  getUsdtBalance as getUsdtWalletBalance,
   getXlmBalance as getXlmWalletBalance
 } from '../wallet/selectors'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectors } from 'data'
 
 export const getBtcBalance = createDeepEqualSelector(
@@ -56,8 +59,10 @@ export const getBchBalance = createDeepEqualSelector(
   }
 )
 
+export const getAlgoBalance = getAlgoWalletBalance
 export const getEthBalance = getEthWalletBalance
 export const getPaxBalance = getPaxWalletBalance
+export const getUsdtBalance = getUsdtWalletBalance
 export const getXlmBalance = getXlmWalletBalance
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
@@ -143,6 +148,49 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getUsdtBalanceInfo = createDeepEqualSelector(
+  [
+    getUsdtBalance,
+    state => selectors.core.data.eth.getErc20Rates(state, 'usdt'),
+    selectors.core.settings.getCurrency,
+    selectors.core.settings.getInvitations
+  ],
+  (usdtBalanceR, erc20RatesR, currencyR, invitationsR) => {
+    const invitations = invitationsR.getOrElse({ USDT: false })
+    const invited = prop('USDT', invitations)
+    const transform = (value, rates, toCurrency) => {
+      return Exchange.convertUsdtToFiat({
+        value,
+        fromUnit: 'WEI',
+        toCurrency,
+        rates
+      }).value
+    }
+
+    return invited
+      ? lift(transform)(usdtBalanceR, erc20RatesR, currencyR)
+      : Remote.Success(0)
+  }
+)
+
+export const getAlgoBalanceInfo = createDeepEqualSelector(
+  [
+    getAlgoBalance,
+    selectors.core.data.algo.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (algoBalanceR, algoRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertAlgoToFiat({
+        value,
+        fromUnit: 'mALGO',
+        toCurrency,
+        rates
+      }).value
+    return lift(transform)(algoBalanceR, algoRatesR, currencyR)
+  }
+)
+
 export const getXlmBalanceInfo = createDeepEqualSelector(
   [
     getXlmBalance,
@@ -163,28 +211,34 @@ export const getXlmBalanceInfo = createDeepEqualSelector(
 
 export const getTotalBalance = createDeepEqualSelector(
   [
+    getAlgoBalanceInfo,
     getBchBalanceInfo,
     getBtcBalanceInfo,
     getEthBalanceInfo,
     getPaxBalanceInfo,
+    getUsdtBalanceInfo,
     getXlmBalanceInfo,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
   ],
   (
+    algoBalanceInfoR,
     bchBalanceInfoR,
     btcBalanceInfoR,
     ethBalanceInfoR,
     paxBalanceInfoR,
+    usdtBalanceInfoR,
     xlmBalanceInfoR,
     currency,
     path
   ) => {
     const transform = (
+      algoBalance,
       bchBalance,
       btcBalance,
       ethBalance,
       paxBalance,
+      usdtBalance,
       xlmBalance,
       currency
     ) => {
@@ -192,19 +246,44 @@ export const getTotalBalance = createDeepEqualSelector(
         Number(btcBalance) +
           Number(ethBalance) +
           Number(bchBalance) +
-          Number(paxBalance) +
-          Number(xlmBalance)
+          Number(algoBalance) +
+          Number(xlmBalance) +
+          Number(usdtBalance) +
+          Number(paxBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance, path }
     }
     return lift(transform)(
+      algoBalanceInfoR,
       bchBalanceInfoR,
       btcBalanceInfoR,
       ethBalanceInfoR,
       paxBalanceInfoR,
+      usdtBalanceInfoR,
       xlmBalanceInfoR,
       currency
     )
   }
 )
+
+export const getBalanceSelector = coin => {
+  switch (coin) {
+    case 'BTC':
+      return getBtcBalance
+    case 'BCH':
+      return getBchBalance
+    case 'ETH':
+      return getEthBalance
+    case 'PAX':
+      return getPaxBalance
+    case 'XLM':
+      return getXlmBalance
+    case 'USDT':
+      return getUsdtBalance
+    case 'ALGO':
+      return getAlgoBalance
+    default:
+      return Remote.Failure(INVALID_COIN_TYPE)
+  }
+}
