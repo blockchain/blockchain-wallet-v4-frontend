@@ -16,7 +16,10 @@ import {
 
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  fiatToString,
+  formatFiat
+} from 'blockchain-wallet-v4/src/exchange/currency'
 import { InterestDepositFormType } from 'data/components/interest/types'
 import { required } from 'services/FormHelper'
 
@@ -341,7 +344,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               <FormattedMessage
                 id='modals.interest.deposit.calcdesc'
                 defaultMessage='With {currencySymbol} {depositAmountFiat} in your Interest Account you can earn:'
-                values={{ currencySymbol, depositAmountFiat }}
+                values={{
+                  currencySymbol,
+                  depositAmountFiat: formatFiat(depositAmountFiat)
+                }}
               />
             )}
           </CalculatorDesc>
@@ -517,7 +523,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                 values={{
                   lockupPeriod,
-                  depositAmountFiat: `${currencySymbol}${depositAmountFiat}`,
+                  depositAmountFiat: `${currencySymbol}${formatFiat(
+                    depositAmountFiat
+                  )}`,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   displayName
                 }}
