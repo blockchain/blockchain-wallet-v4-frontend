@@ -1,5 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { includes } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
@@ -17,7 +18,9 @@ import DataError from 'components/DataError'
 
 import { getData } from './selectors'
 import AccountSummary from './template.success'
+import Currencies from 'core/exchange/currencies'
 import Loading from './template.loading'
+import Unsupported from './template.unsupported'
 
 class AccountSummaryContainer extends PureComponent<Props> {
   state = {}
@@ -46,14 +49,18 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
   render () {
     const { data } = this.props
+    const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
-      Success: val => (
-        <AccountSummary
-          {...val}
-          {...this.props}
-          handleDepositClick={this.handleDepositClick}
-        />
-      ),
+      Success: val =>
+        includes(val.walletCurrency, unsupportedCurrencies) ? (
+          <Unsupported {...val} {...this.props} />
+        ) : (
+          <AccountSummary
+            {...val}
+            {...this.props}
+            handleDepositClick={this.handleDepositClick}
+          />
+        ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
