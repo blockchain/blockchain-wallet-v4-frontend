@@ -692,6 +692,8 @@ type MessagesType = {
   'modals.interest.deposit.termsread': 'I have read and agreed to the'
   'modals.interest.deposit.termsservice': 'Terms of Service'
   'modals.interest.totalearned': 'Total Interest Earned'
+  'modals.interest.unsupported-title': 'Rates Unavailable'
+  'modals.interest.unsupported-subcontent-1': "Interest rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
   'modals.interest.withdrawal.availamount': 'You can withdraw up to'
   'modals.interest.withdrawal.availability': 'A small network fee will be applied, and your {coin} will be available in your {coin} Wallet within 2 days.'
   'modals.interest.withdrawal.balance': 'Your {coin} Balance'

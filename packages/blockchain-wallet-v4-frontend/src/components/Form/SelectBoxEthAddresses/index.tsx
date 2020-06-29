@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
+import { Erc20CoinsEnum } from 'blockchain-wallet-v4/src/types'
 import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
-class SelectBoxEthAddresses extends React.PureComponent {
+class SelectBoxEthAddresses extends React.PureComponent<Props> {
   render () {
     const { data, ...rest } = this.props
     return data.cata({
@@ -19,19 +19,19 @@ class SelectBoxEthAddresses extends React.PureComponent {
   }
 }
 
-SelectBoxEthAddresses.propTypes = {
-  includeAll: PropTypes.bool
-}
-
+// @ts-ignore
 SelectBoxEthAddresses.defaultProps = {
   includeAll: true
 }
 
-// TODO: ERC20 make more generic
 const mapStateToProps = (state, ownProps) => {
-  return ownProps.coin === 'PAX'
+  return ownProps.coin in Erc20CoinsEnum
     ? { data: getErc20Data(state, ownProps) }
     : { data: getEthData(state, ownProps) }
 }
 
-export default connect(mapStateToProps)(SelectBoxEthAddresses)
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(SelectBoxEthAddresses)

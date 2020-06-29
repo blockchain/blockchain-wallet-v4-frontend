@@ -209,7 +209,8 @@ export class WalletBalanceDropdown extends Component<Props> {
             </FiatDisplay>
           </AmountContainer>
 
-          {this.hasBalanceOrAccounts(props.selectProps.options) ? (
+          {this.hasBalanceOrAccounts(props.selectProps.options) ||
+          !this.props.coinModel.availability.request ? (
             <PriceChange
               {...this.props.data.getOrElse({
                 currency: 'USD',

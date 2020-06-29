@@ -28,6 +28,7 @@ export const getInitialValues = (state, ownProps) => {
     .getErc20CoinList(state)
     .getOrElse([])
   const to = to => ({ to, coin })
+
   // this will need to change if we support ERC20 tokens on Lockbox in the future
   if (ownProps.lockboxIndex != null && !includes(coin, erc20List)) {
     return selectors.core.common.eth

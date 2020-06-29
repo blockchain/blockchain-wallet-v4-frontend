@@ -14,7 +14,8 @@ import {
   SBCardType,
   SBOrderType,
   SBProviderDetailsType,
-  SBQuoteType
+  SBQuoteType,
+  SupportedCoinsType
 } from 'blockchain-wallet-v4/src/types'
 import {
   convertBaseToStandard,
@@ -395,8 +396,14 @@ export default ({
         api.getSBPairs,
         currency
       )
+      const supportedCoins = selectors.core.walletOptions
+        .getSupportedCoins(yield select())
+        .getOrElse({}) as SupportedCoinsType
       const filteredPairs = pairs.filter(pair => {
-        return getCoinFromPair(pair.pair) in CoinTypeEnum
+        return (
+          getCoinFromPair(pair.pair) in CoinTypeEnum &&
+          supportedCoins[getCoinFromPair(pair.pair)].invited
+        )
       })
       yield put(A.fetchSBPairsSuccess(filteredPairs))
     } catch (e) {

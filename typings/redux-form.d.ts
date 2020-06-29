@@ -25,6 +25,7 @@ export type WalletFormType =
   | 'register'
   | 'reminder'
   | 'repayLoanForm'
+  | 'requestEth'
   | 'sbCheckoutConfirm'
   | 'sbCurrencySelection'
   | 'simpleBuyCheckout'

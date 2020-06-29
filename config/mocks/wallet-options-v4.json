@@ -115,12 +115,12 @@
         },
         "USDT": {
           "availability": {
-            "send": false,
-            "request": false,
+            "send": true,
+            "request": true,
             "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": false,
-            "syncToPit": false
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
           },
           "coinCode": "USDT",
           "coinTicker": "USDT",

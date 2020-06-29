@@ -10,16 +10,10 @@ export default {
       decimal_digits: 0,
       currency: 'USDT'
     },
-    GWEI: {
-      rate: '1000000000',
-      symbol: 'GWEI',
-      decimal_digits: 0,
-      currency: 'UDST'
-    },
     USDT: {
-      rate: '1000000000000000000',
+      rate: '1000000',
       symbol: 'USDT',
-      decimal_digits: 2,
+      decimal_digits: 6,
       currency: 'USDT'
     }
   }
