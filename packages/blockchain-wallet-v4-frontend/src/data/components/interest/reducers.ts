@@ -26,7 +26,8 @@ const INITIAL_STATE: InterestState = {
     name: 'ACCOUNT_SUMMARY'
   },
   transactions: [],
-  transactionsNextPage: null
+  transactionsNextPage: null,
+  withdrawalMinimums: Remote.NotAsked
 }
 
 export function interestReducer (
@@ -199,7 +200,25 @@ export function interestReducer (
         ...state,
         payment: Remote.Success(payload.payment)
       }
-
+    case AT.SET_WITHDRAWAL_MINIMUMS_FAILURE: {
+      return {
+        ...state,
+        withdrawalMinimums: Remote.Failure(payload.error)
+      }
+    }
+    case AT.SET_WITHDRAWAL_MINIMUMS_LOADING: {
+      return {
+        ...state,
+        withdrawalMinimums: Remote.Loading
+      }
+    }
+    case AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS:
+      return {
+        ...state,
+        withdrawalMinimums: Remote.Success(
+          payload.withdrawalMinimums.minAmounts
+        )
+      }
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,

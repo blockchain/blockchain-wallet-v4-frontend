@@ -7,20 +7,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 export const getData = (state, ownProps: OwnProps) => {
   switch (ownProps.viewType) {
     case 'Wallet':
-      switch (ownProps.coin) {
-        case 'BTC':
-          return walletBalanceSelectors.getBtcBalance(state)
-        case 'BCH':
-          return walletBalanceSelectors.getBchBalance(state)
-        case 'ETH':
-          return walletBalanceSelectors.getEthBalance(state)
-        case 'XLM':
-          return walletBalanceSelectors.getXlmBalance(state)
-        case 'PAX':
-          return walletBalanceSelectors.getPaxBalance(state)
-        default:
-          return Remote.Failure('Unsupported Coin Code')
-      }
+      return walletBalanceSelectors.getBalanceSelector(ownProps.coin)(state)
+    case 'Total':
+      return totalBalanceSelectors.getBalanceSelector(ownProps.coin)(state)
     case 'Hardware':
       switch (ownProps.coin) {
         case 'BTC':
@@ -31,21 +20,6 @@ export const getData = (state, ownProps: OwnProps) => {
           return lockboxBalanceSelectors.getLockboxEthBalance(state)
         case 'XLM':
           return lockboxBalanceSelectors.getLockboxXlmBalance(state)
-        default:
-          return Remote.Failure('Unsupported Coin Code')
-      }
-    default:
-      switch (ownProps.coin) {
-        case 'BTC':
-          return totalBalanceSelectors.getBtcBalance(state)
-        case 'BCH':
-          return totalBalanceSelectors.getBchBalance(state)
-        case 'ETH':
-          return totalBalanceSelectors.getEthBalance(state)
-        case 'XLM':
-          return totalBalanceSelectors.getXlmBalance(state)
-        case 'PAX':
-          return totalBalanceSelectors.getPaxBalance(state)
         default:
           return Remote.Failure('Unsupported Coin Code')
       }

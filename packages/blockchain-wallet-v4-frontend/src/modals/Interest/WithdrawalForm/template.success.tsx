@@ -7,7 +7,7 @@ import React from 'react'
 import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'core'
-import { fiatToString } from 'core/exchange/currency'
+import { fiatToString, formatFiat } from 'core/exchange/currency'
 
 import { InterestWithdrawalFormType } from 'data/components/interest/types'
 import { NumberBox } from 'components/Form'
@@ -103,7 +103,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
     rates
   )
   if (!account) return null
-
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -310,7 +309,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               id='modals.interest.withdrawal.recap'
               defaultMessage='You are requesting to withdraw {withdrawalAmountFiat} ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
               values={{
-                withdrawalAmountFiat: `${currencySymbol}${withdrawalAmountFiat}`,
+                withdrawalAmountFiat: `${currencySymbol}${formatFiat(
+                  withdrawalAmountFiat
+                )}`,
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
               }}
             />

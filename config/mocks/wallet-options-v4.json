@@ -16,6 +16,30 @@
         "url": "https://games.bitcoin.com/slots?cma=20190619_blockchainwalletS&utm_source=blockchainwallet_S&utm_medium=banner&utm_campaign=20190619_blockchainwalletS"
       },
       "coins": {
+        "ALGO": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "coinCode": "ALGO",
+          "coinTicker": "ALGO",
+          "colorCode": "algo",
+          "displayName": "Algorand",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "algo",
+            "circle": "algo",
+            "circleFilled": "algo"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "",
+          "txListAppRoute": "/algo/transactions"
+        },
         "BTC": {
           "availability": {
             "send": true,
@@ -88,6 +112,31 @@
           },
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
+        },
+        "USDT": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "coinCode": "USDT",
+          "coinTicker": "USDT",
+          "colorCode": "usdt",
+          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "displayName": "USD Tether",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "usdt",
+            "circle": "usdt",
+            "circleFilled": "usdt"
+          },
+          "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/usdt/transactions"
         },
         "ETH": {
           "availability": {

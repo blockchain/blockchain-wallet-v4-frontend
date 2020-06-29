@@ -94,6 +94,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.eth.fetchData())
     yield put(actions.core.data.xlm.fetchData())
     yield put(actions.core.data.eth.fetchErc20Data('pax'))
+    yield put(actions.core.data.eth.fetchErc20Data('usdt'))
   }
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {

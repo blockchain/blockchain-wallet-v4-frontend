@@ -6,7 +6,8 @@ import {
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
-  InterestTransactionType
+  InterestTransactionType,
+  WithdrawalMinimumType
 } from 'core/network/api/interest/types'
 
 import * as AT from './actionTypes'
@@ -98,6 +99,23 @@ export const fetchInterestLimitsSuccess = (
 ): InterestActionTypes => ({
   type: AT.FETCH_INTEREST_LIMITS_SUCCESS,
   payload: { interestLimits }
+})
+
+export const setWithdrawalMinimimumsFailure = (error: string) => ({
+  type: AT.SET_WITHDRAWAL_MINIMUMS_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const setWithdrawalMinimimumsLoading = () => ({
+  type: AT.SET_WITHDRAWAL_MINIMUMS_LOADING
+})
+export const setWithdrawalMinimimumsSuccess = (
+  withdrawalMinimums: WithdrawalMinimumType
+) => ({
+  type: AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS,
+  payload: { withdrawalMinimums }
 })
 
 // ACCOUNT

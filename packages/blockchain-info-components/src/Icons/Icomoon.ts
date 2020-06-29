@@ -1,6 +1,6 @@
 const IcoMoon = {
-  algo: '\\e939',
   'alert-filled': '\\e900',
+  algo: '\\e939',
   'arrow-down': '\\e91d',
   'arrow-down-circle': '\\e935',
   'arrow-left': '\\e90f',

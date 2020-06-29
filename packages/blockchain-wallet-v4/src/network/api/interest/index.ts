@@ -7,7 +7,8 @@ import {
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
-  InterestWithdrawalResponseType
+  InterestWithdrawalResponseType,
+  WithdrawalMinimumType
 } from './types'
 
 export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
@@ -68,6 +69,13 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       endPoint: `/payments/accounts/savings?ccy=${ccy}`
     })
 
+  const getWithdrawalMinsAndFees = (): WithdrawalMinimumType =>
+    authorizedGet({
+      url: nabuUrl,
+      ignoreQueryParams: true,
+      endPoint: '/payments/withdrawals/fees?product=SAVINGS'
+    })
+
   const initiateInterestWithdrawal = (
     amount: number,
     currency: CoinType,
@@ -92,6 +100,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     getInterestAccount,
     getInterestSavingsRate,
     getInterestTransactions,
+    getWithdrawalMinsAndFees,
     initiateInterestWithdrawal
   }
 }

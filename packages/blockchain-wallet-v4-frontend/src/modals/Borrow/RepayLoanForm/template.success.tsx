@@ -103,7 +103,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const isSufficientEthForErc20 =
-    props.payment.coin === 'PAX' && props.payment.isSufficientEthForErc20
+    (props.payment.coin === 'PAX' || props.payment.coin === 'USDT') &&
+    props.payment.isSufficientEthForErc20
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>

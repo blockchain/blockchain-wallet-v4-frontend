@@ -65,6 +65,7 @@ const Default = {
   red700: '#B2251B',
   red800: '#99180F',
   red900: '#800900',
+  algo: '#000000',
   btc: '#FF9B22',
   'btc-light': 'rgba(255, 155, 34, 0.15)',
   bch: '#8DC351',
@@ -77,6 +78,7 @@ const Default = {
   'usd-d-light': 'rgba(0, 82, 44, 0.15)',
   xlm: '#121D33',
   'xlm-light': 'rgba(0, 0, 0, 0.15)',
+  usdt: '#26A17B',
   // OLD - AVOID USE \\
   // Brand
   'brand-yellow': '#FFB266',

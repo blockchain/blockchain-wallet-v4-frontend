@@ -1,4 +1,5 @@
 import * as activityList from './activityList/actionTypes'
+import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import * as borrow from './borrow/actionTypes'
 import * as btcTransactions from './btcTransactions/actionTypes'
@@ -36,6 +37,7 @@ import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
   activityList,
+  algoTransactions,
   bchTransactions,
   borrow,
   btcTransactions,

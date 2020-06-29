@@ -9,7 +9,8 @@ import {
   convertStandardToBase
 } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE, NO_OFFER_EXISTS } from './model'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { NO_OFFER_EXISTS } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import BigNumber from 'bignumber.js'
 
@@ -32,6 +33,7 @@ export default ({
     try {
       switch (payment.coin) {
         case 'PAX':
+        case 'USDT':
         case 'ETH':
         case 'XLM':
           payment = yield payment.amount(convertStandardToBase(coin, amount))

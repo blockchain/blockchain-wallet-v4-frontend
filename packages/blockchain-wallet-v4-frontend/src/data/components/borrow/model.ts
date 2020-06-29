@@ -7,7 +7,6 @@ import {
 } from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 
-export const INVALID_COIN_TYPE = 'Invalid coin type'
 export const NO_OFFER_EXISTS = 'NO_OFFER_EXISTS'
 export const NO_LOAN_EXISTS = 'NO_LOAN_EXISTS'
 export const USER_BLOCKED = 'User is from a blocked country or state'

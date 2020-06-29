@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+import algo from './algo/sagaRegister'
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'
 import eth from './eth/sagaRegister'
@@ -6,8 +7,9 @@ import misc from './misc/sagaRegister'
 import stx from './stx/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
-export default ({ api, options, networks }) =>
+export default ({ api, networks }) =>
   function * coreDataSaga () {
+    yield fork(algo({ api }))
     yield fork(bch({ api }))
     yield fork(btc({ api }))
     yield fork(eth({ api }))

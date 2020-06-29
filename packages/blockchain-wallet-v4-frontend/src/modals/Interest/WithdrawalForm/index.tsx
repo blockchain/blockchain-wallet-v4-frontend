@@ -9,7 +9,8 @@ import {
   InterestAccountBalanceType,
   InterestLimitsType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedCoinsType,
+  WithdrawalMinimumType
 } from 'core/types'
 import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
@@ -20,7 +21,8 @@ import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
   componentDidMount () {
-    this.props.interestActions.initializeWithdrawalForm('BTC')
+    const { coin } = this.props
+    this.props.interestActions.initializeWithdrawalForm(coin)
   }
 
   handleDisplayToggle = isCoin => {
@@ -38,7 +40,8 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    this.props.interestActions.initializeWithdrawalForm('BTC')
+    const { coin } = this.props
+    this.props.interestActions.initializeWithdrawalForm(coin)
   }
 
   render () {
@@ -78,6 +81,7 @@ export type SuccessStateType = {
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
+  withdrawalMinimums: WithdrawalMinimumType
 }
 
 type LinkStatePropsType = {

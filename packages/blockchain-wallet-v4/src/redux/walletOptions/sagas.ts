@@ -1,7 +1,7 @@
 import * as A from './actions'
 import { call, put } from 'redux-saga/effects'
 
-export default ({ api, options }) => {
+export default ({ api }) => {
   const fetchOptions = function * () {
     try {
       yield put(A.fetchOptionsLoading())

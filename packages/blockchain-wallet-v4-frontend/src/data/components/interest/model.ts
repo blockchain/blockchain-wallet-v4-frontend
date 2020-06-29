@@ -13,4 +13,3 @@ export const DEFAULT_INTEREST_BALANCE = Object.keys(CoinTypeEnum)
     }
     return obj
   }, {})
-export const INVALID_COIN_TYPE = 'Invalid coin type'
