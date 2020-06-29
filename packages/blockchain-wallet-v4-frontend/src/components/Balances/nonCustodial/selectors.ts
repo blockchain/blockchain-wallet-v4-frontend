@@ -8,6 +8,7 @@ import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
+// only hd accounts, no imported addresses
 export const getBtcBalance = createDeepEqualSelector(
   [selectors.core.common.btc.getActiveHDAccounts],
   accountsR => {
@@ -23,6 +24,7 @@ export const getBtcBalance = createDeepEqualSelector(
   }
 )
 
+// only hd accounts, no imported addresses
 export const getBchBalance = createDeepEqualSelector(
   [selectors.core.common.bch.getActiveHDAccounts],
   accountsR => {
