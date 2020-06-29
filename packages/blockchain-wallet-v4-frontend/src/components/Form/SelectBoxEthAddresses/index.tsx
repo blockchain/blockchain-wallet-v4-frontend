@@ -1,7 +1,7 @@
 import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
-import { Erc20Coins } from 'core/types'
+import { Erc20CoinsEnum } from 'blockchain-wallet-v4/src/types'
 import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
@@ -25,7 +25,7 @@ SelectBoxEthAddresses.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return ownProps.coin in Erc20Coins
+  return ownProps.coin in Erc20CoinsEnum
     ? { data: getErc20Data(state, ownProps) }
     : { data: getEthData(state, ownProps) }
 }

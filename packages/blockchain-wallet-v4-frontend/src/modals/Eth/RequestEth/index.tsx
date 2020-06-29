@@ -7,7 +7,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions, model, selectors } from 'data'
-import { CoinType, Erc20Coins, SupportedCoinsType } from 'core/types'
+import { CoinType, Erc20CoinsEnum, SupportedCoinsType } from 'core/types'
 import { getData, getInitialValues } from './selectors'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import { ModalPropsType } from 'data/types'
@@ -52,7 +52,7 @@ class RequestEthContainer extends React.PureComponent<Props> {
         origin: 'Request',
         lockboxIndex: this.props.lockboxIndex
       })
-    } else if (coin in Erc20Coins && prevProps.coin !== coin) {
+    } else if (coin in Erc20CoinsEnum && prevProps.coin !== coin) {
       this.props.modalActions.closeAllModals()
       this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
         coin,

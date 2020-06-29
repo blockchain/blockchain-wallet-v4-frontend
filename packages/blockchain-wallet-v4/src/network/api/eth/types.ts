@@ -37,7 +37,7 @@ export enum Erc20ListEnum {
   '0x8e870d67f660d95d5be530380d0ec0bd388289e1' = 'PAX'
 }
 
-export enum Erc20Coins {
+export enum Erc20CoinsEnum {
   PAX = 'PAX',
   USDT = 'USDT'
 }
