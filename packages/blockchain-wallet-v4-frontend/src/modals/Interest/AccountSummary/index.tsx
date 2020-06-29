@@ -18,6 +18,7 @@ import DataError from 'components/DataError'
 
 import { getData } from './selectors'
 import AccountSummary from './template.success'
+import Currencies from 'core/exchange/currencies'
 import Loading from './template.loading'
 import Unsupported from './template.unsupported'
 
@@ -48,7 +49,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
   render () {
     const { data } = this.props
-    const unsupportedCurrencies = ['TWD', 'CLP']
+    const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
       Success: val =>
         includes(val.walletCurrency, unsupportedCurrencies) ? (
