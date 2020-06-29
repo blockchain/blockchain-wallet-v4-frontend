@@ -210,6 +210,14 @@ export const getErc20Data = (
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'USD-D Trading Wallet'
       }
+    },
+    {
+      label: buildCustodialDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'USDT Trading Wallet'
+      }
     }
   ]
 
