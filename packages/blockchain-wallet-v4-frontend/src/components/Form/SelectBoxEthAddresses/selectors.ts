@@ -1,7 +1,13 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, prop, reduce, sequence } from 'ramda'
-import { Erc20CoinType, InterestAccountBalanceType } from 'core/types'
+
+import {
+  Erc20CoinType,
+  InterestAccountBalanceType,
+  SupportedCoinsType
+} from 'core/types'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 import { selectors } from 'data'
@@ -150,6 +156,8 @@ export const getErc20Data = (
     includeExchangeAddress,
     includeCustodial
   } = ownProps
+  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const supportedCoins = supportedCoinsR.getOrElse({}) as SupportedCoinsType
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
@@ -170,13 +178,17 @@ export const getErc20Data = (
     }
     return {}
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (
+    x,
+    coin: Erc20CoinType,
+    displayName: string
+  ) => {
     return (
-      `USD-D Trading Wallet` +
+      `${displayName} Trading Wallet` +
       ` (${displayErc20Fixed({
         value: x ? x.available : 0,
         fromUnit: 'WEI',
-        toUnit: 'PAX'
+        toUnit: coin
       })})`
     )
   }
@@ -204,11 +216,11 @@ export const getErc20Data = (
   ]
   const toCustodialDropdown = x => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(x, coin, supportedCoins[coin].displayName),
       value: {
         ...x,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'USD-D Trading Wallet'
+        label: `${supportedCoins[coin].coinTicker} Trading Wallet`
       }
     }
   ]
