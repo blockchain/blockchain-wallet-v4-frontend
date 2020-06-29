@@ -1,4 +1,4 @@
-import { add, lift, pathOr, reduce } from 'ramda'
+import { add, lift, pathOr, reduce, toLower } from 'ramda'
 
 import { CoinType, RemoteDataType } from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -56,13 +56,6 @@ export const getEthBalance = createDeepEqualSelector(
   }
 )
 
-export const getPaxBalance = createDeepEqualSelector(
-  [state => selectors.core.data.eth.getErc20Balance(state, 'pax')],
-  balanceR => {
-    return Remote.of(new BigNumber(balanceR.getOrElse(0)))
-  }
-)
-
 export const getXlmBalance = createDeepEqualSelector(
   [
     state =>
@@ -77,12 +70,13 @@ export const getXlmBalance = createDeepEqualSelector(
   }
 )
 
-export const getUsdtBalance = createDeepEqualSelector(
-  [state => selectors.core.data.eth.getErc20Balance(state, 'usdt')],
-  balanceR => {
-    return Remote.of(new BigNumber(balanceR.getOrElse(0)))
-  }
-)
+export const getErc20Balance = coin =>
+  createDeepEqualSelector(
+    [state => selectors.core.data.eth.getErc20Balance(state, coin)],
+    balanceR => {
+      return Remote.of(new BigNumber(balanceR.getOrElse(0)))
+    }
+  )
 
 export const getBalanceSelector = (coin: CoinType) => {
   switch (coin) {
@@ -92,12 +86,11 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getBchBalance
     case 'ETH':
       return getEthBalance
-    case 'PAX':
-      return getPaxBalance
     case 'XLM':
       return getXlmBalance
+    case 'PAX':
     case 'USDT':
-      return getUsdtBalance
+      return getErc20Balance(toLower(coin))
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }
