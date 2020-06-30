@@ -71,7 +71,10 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
     // only show chat to users with pending sb orders for now
     if (userData && pendingSbOrder && !this.state.chatEnabled) {
       this.postMsgToWalletHelper('showChat', {
-        fullName: `${userData.firstName} ${userData.lastName}`,
+        fullName:
+          userData.firstName && userData.lastName
+            ? `${userData.firstName} ${userData.lastName}`
+            : '',
         email: userData.email
       })
     }
