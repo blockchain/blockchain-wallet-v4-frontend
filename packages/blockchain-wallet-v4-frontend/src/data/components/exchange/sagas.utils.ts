@@ -179,7 +179,8 @@ export default ({ coreSagas, networks }) => {
       case 'ETH':
         return yield call(getDefaultEthAccountValue)
       case 'PAX':
-        return yield call(getDefaultErc20AccountValue, 'pax')
+      case 'USDT':
+        return yield call(getDefaultErc20AccountValue, toLower(coin))
       case 'XLM':
         return yield call(getDefaultXlmAccountValue)
       default:
