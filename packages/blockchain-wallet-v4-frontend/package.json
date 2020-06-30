@@ -54,6 +54,9 @@
     "snapshotSerializers": [
       "<rootDir>/../../node_modules/enzyme-to-json/serializer"
     ],
+    "testPathIgnorePatterns": [
+      "extracted-ts/packages"
+    ],
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"

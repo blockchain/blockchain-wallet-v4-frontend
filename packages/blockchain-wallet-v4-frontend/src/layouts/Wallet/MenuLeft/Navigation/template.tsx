@@ -74,10 +74,10 @@ const Navigation = (props: OwnProps & Props) => {
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,
-    supportedCoins.ALGO,
     supportedCoins.XLM,
-    supportedCoins.USDT,
-    supportedCoins.PAX
+    supportedCoins.ALGO,
+    supportedCoins.PAX,
+    supportedCoins.USDT
   ]
   return (
     <Wrapper {...rest}>
