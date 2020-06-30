@@ -33,7 +33,7 @@ const generateItems = ({ coin, accounts }, supportedCoins) =>
     }
   })
 
-const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'PAX']
+const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'PAX','USDT']
 const generateGroups = curry(
   (
     accounts,
