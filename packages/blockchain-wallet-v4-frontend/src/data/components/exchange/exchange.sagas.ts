@@ -44,6 +44,7 @@ import {
   validateVolume
 } from './services'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { CoinType, PaymentValue } from 'core/types'
 import {
   CONFIRM_FORM,
   CONFIRM_MODAL,
@@ -103,6 +104,7 @@ export default ({ api, coreSagas, networks }) => {
     EXCHANGE_FORM
   )
   const getActiveFieldName = compose(mapFixToFieldName, prop('fix'))
+  // @ts-ignore
   const getCurrentVolume = form => propOr(0, getActiveFieldName(form), form)
   const getCurrentPair = converge(formatPair, [
     path(['source', 'coin']),
@@ -259,7 +261,12 @@ export default ({ api, coreSagas, networks }) => {
       const fiatLimits = yield call(api.fetchLimits, fiatCurrency)
       const limits = formatLimits(fiatLimits)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
+      // eslint-disable-next-line
+      console.log({
+        [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
+      })
       yield put(
+        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -285,6 +292,7 @@ export default ({ api, coreSagas, networks }) => {
       const limits = formatLimits(fiatLimits)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
+        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -308,7 +316,7 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const updateSourceFee = function * (payment) {
+  const updateSourceFee = function * (payment?: PaymentValue) {
     try {
       const form = yield select(formValueSelector)
       const sourceCoin = path(['source', 'coin'], form)
@@ -316,7 +324,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
-      const feeSource = isSourceErc20 ? 'ETH' : sourceCoin
+      const feeSource = isSourceErc20 ? 'ETH' : (sourceCoin as CoinType)
       const provisionalPayment = yield payment ||
         call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
@@ -341,7 +349,8 @@ export default ({ api, coreSagas, networks }) => {
           isSourceErc20,
           fallbackEthRates
         ),
-        isSourceErc20
+        isSourceErc20,
+        insufficientEthBalance: false
       }
       // ensure for sufficient eth balance for erc20 swap
       if (isSourceErc20) {
@@ -440,6 +449,7 @@ export default ({ api, coreSagas, networks }) => {
       const limits = yield call(getLimits, fiatCurrency)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
+        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -537,11 +547,15 @@ export default ({ api, coreSagas, networks }) => {
       const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
       let newTargetCoin = null
       if (equals(sourceCoin, targetCoin)) {
+        // @ts-ignore
         newTargetCoin = includes(prevSourceCoin, pairedCoins)
           ? prevSourceCoin
           : last(pairedCoins)
       }
+      // @ts-ignore
       if (!includes(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
+      // eslint-disable-next-line
+      console.log('newTargetCoin', newTargetCoin)
       if (newTargetCoin) {
         const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
@@ -571,11 +585,15 @@ export default ({ api, coreSagas, networks }) => {
       const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
       let newSourceCoin = null
       if (equals(sourceCoin, targetCoin)) {
+        // @ts-ignore
         newSourceCoin = includes(prevTargetCoin, pairedCoins)
           ? prevTargetCoin
           : head(pairedCoins)
       }
+      // @ts-ignore
       if (!includes(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
+      // eslint-disable-next-line
+      console.log('newSourceCoin', newSourceCoin)
       if (newSourceCoin) {
         const newSource = yield call(getDefaultAccount, newSourceCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
@@ -598,6 +616,7 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(startValidation)
       yield put(
+        // @ts-ignore
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
       yield put(A.setShowError(true))
@@ -671,7 +690,9 @@ export default ({ api, coreSagas, networks }) => {
     if (txError) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
-      yield put(actions.modals.showModal(CONFIRM_MODAL))
+      yield put(
+        actions.modals.showModal(CONFIRM_MODAL, { origin: 'ExchangeForm' })
+      )
     }
   }
 
@@ -810,7 +831,8 @@ export default ({ api, coreSagas, networks }) => {
         if (equals(2, userTier.current)) {
           yield put(
             actions.modals.showModal(ETH_AIRDROP_MODAL, {
-              tradeData: formatExchangeTrade(trade)
+              tradeData: formatExchangeTrade(trade),
+              origin: 'ExchangeForm'
             })
           )
         } else {
@@ -850,6 +872,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
+      // @ts-ignore
       if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(

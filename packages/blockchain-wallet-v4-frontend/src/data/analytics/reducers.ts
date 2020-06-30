@@ -3,7 +3,9 @@ import { AnalyticsActionTypes, AnalyticsStateType } from './types'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE: AnalyticsStateType = {
-  ab_tests: {}
+  ab_tests: {
+    SwapFees: Remote.NotAsked
+  }
 }
 
 export const analyticsReducer = (

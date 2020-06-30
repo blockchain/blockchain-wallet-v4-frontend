@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { RemoteDataType } from 'core/types'
+import { CurrenciesType, RemoteDataType } from 'core/types'
 
 // Types
 export type LimitsType = {
@@ -53,7 +53,7 @@ export type SourceFeeType =
 
 // State
 export interface ExchangeState {
-  limits: RemoteDataType<string, Array<LimitsType>>
+  limits: RemoteDataType<string, { [key in keyof CurrenciesType]: LimitsType }>
   max: null | LimitAmountType
   min: null | LimitAmountType
   showError: boolean
@@ -77,7 +77,7 @@ interface FetchLimitsLoading {
 
 interface FetchLimitsSuccess {
   payload: {
-    limits: Array<LimitsType>
+    limits: { [key in keyof CurrenciesType]: LimitsType }
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
@@ -104,7 +104,7 @@ interface SetSourceFee {
 }
 interface SetTxError {
   payload: {
-    error: string
+    error: string | null
   }
   type: typeof AT.SET_TX_ERROR
 }
