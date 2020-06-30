@@ -379,7 +379,9 @@ export default ({
         if (coin === 'ETH') {
           yield put(actions.core.data.eth.fetchTransactions(null, true))
         } else {
-          yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
+          yield put(
+            actions.core.data.eth.fetchErc20Transactions(toLower(coin), true)
+          )
         }
         yield put(
           actions.alerts.displaySuccess(
