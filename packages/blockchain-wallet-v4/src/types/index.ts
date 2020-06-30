@@ -44,12 +44,12 @@ export {
 
 export enum CoinTypeEnum {
   BTC,
-  BCH,
   ETH,
-  ALGO,
+  BCH,
   XLM,
-  USDT,
-  PAX
+  ALGO,
+  PAX,
+  USDT
 }
 export enum FiatTypeEnum {
   EUR,
