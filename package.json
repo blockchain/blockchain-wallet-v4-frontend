@@ -31,7 +31,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "lint-staged && node ./scripts/commitHook.js",
-      "pre-push": "yarn test"
+      "pre-push": "yarn test --findRelatedTests"
     }
   },
   "lint-staged": {
