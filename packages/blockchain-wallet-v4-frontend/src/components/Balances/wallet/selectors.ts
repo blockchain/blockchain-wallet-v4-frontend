@@ -5,9 +5,15 @@ import {
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
+
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { formatFiat } from 'core/exchange/currency'
+import {
+  getErc20Balance as getErc20NonCustodialBalance,
+  getEthBalance as getEthNonCustodialBalance,
+  getXlmBalance as getXlmNonCustodialBalance
+} from '../nonCustodial/selectors'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
@@ -80,8 +86,7 @@ export const getBchBalance = createDeepEqualSelector(
 
 export const getEthBalance = createDeepEqualSelector(
   [
-    selectors.core.kvStore.eth.getContext,
-    selectors.core.data.eth.getAddresses,
+    getEthNonCustodialBalance,
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
@@ -115,7 +120,7 @@ export const getEthBalance = createDeepEqualSelector(
 
 export const getPaxBalance = createDeepEqualSelector(
   [
-    state => selectors.core.data.eth.getErc20Balance(state, 'pax'),
+    getErc20NonCustodialBalance('PAX'),
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
@@ -143,7 +148,7 @@ export const getPaxBalance = createDeepEqualSelector(
 
 export const getUsdtBalance = createDeepEqualSelector(
   [
-    state => selectors.core.data.eth.getErc20Balance(state, 'usdt'),
+    getErc20NonCustodialBalance('USDT'),
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
@@ -172,12 +177,7 @@ export const getUsdtBalance = createDeepEqualSelector(
 
 export const getXlmBalance = createDeepEqualSelector(
   [
-    state =>
-      selectors.core.kvStore.xlm
-        .getDefaultAccountId(state)
-        .map(accountId =>
-          selectors.core.data.xlm.getBalance(state, accountId).getOrElse(0)
-        ),
+    getXlmNonCustodialBalance,
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
