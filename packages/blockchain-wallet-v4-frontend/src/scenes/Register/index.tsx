@@ -3,13 +3,22 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { GoalsType } from 'data/goals/types'
+import { isNil, prop } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import React from 'react'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
-  state = {
-    showForm: false
+  constructor (props: PropsType) {
+    super(props)
+    let location = prop('location', window)
+    let hash = prop('hash', location)
+    let showWalletFormQuery = !isNil(hash) && hash.includes('showWallet')
+
+    this.state = {
+      showForm: false,
+      showWalletFormQuery
+    }
   }
 
   onSubmit = () => {
@@ -39,6 +48,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
         password={password}
         passwordLength={passwordLength}
         showForm={this.state.showForm}
+        showWalletFormQuery={this.state.showWalletFormQuery}
         toggleForm={this.toggleForm}
         {...this.props}
       />
@@ -74,6 +84,7 @@ type LinkStatePropsType = {
 
 type StateType = {
   showForm: boolean
+  showWalletFormQuery: boolean
 }
 
 export type PropsType = ConnectedProps<typeof connector>
