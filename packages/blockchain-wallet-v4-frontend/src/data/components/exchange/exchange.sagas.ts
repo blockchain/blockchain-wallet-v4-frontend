@@ -29,6 +29,7 @@ import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
+import { ABTestCmdType } from 'data/analytics/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
   addBalanceLimit,
@@ -61,6 +62,7 @@ import {
 import { currencySymbolMap } from 'services/CoinifyService'
 import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { MempoolFeeType } from './types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
@@ -261,12 +263,7 @@ export default ({ api, coreSagas, networks }) => {
       const fiatLimits = yield call(api.fetchLimits, fiatCurrency)
       const limits = formatLimits(fiatLimits)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
-      // eslint-disable-next-line
-      console.log({
-        [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
-      })
       yield put(
-        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -292,7 +289,6 @@ export default ({ api, coreSagas, networks }) => {
       const limits = formatLimits(fiatLimits)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
-        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -309,10 +305,12 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const amounts = yield call(getAmounts, getCurrentPair(form))
     const sourceAmount = prop('sourceAmount', amounts)
+    const fee: MempoolFeeType = yield call(getSwapFeeTestFee)
     return yield call(
       memo ? calculatePaymentMemo : calculateProvisionalPayment,
       source,
-      sourceAmount
+      sourceAmount,
+      fee
     )
   }
 
@@ -554,8 +552,6 @@ export default ({ api, coreSagas, networks }) => {
       }
       // @ts-ignore
       if (!includes(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
-      // eslint-disable-next-line
-      console.log('newTargetCoin', newTargetCoin)
       if (newTargetCoin) {
         const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
@@ -592,8 +588,6 @@ export default ({ api, coreSagas, networks }) => {
       }
       // @ts-ignore
       if (!includes(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
-      // eslint-disable-next-line
-      console.log('newSourceCoin', newSourceCoin)
       if (newSourceCoin) {
         const newSource = yield call(getDefaultAccount, newSourceCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))
@@ -749,6 +743,7 @@ export default ({ api, coreSagas, networks }) => {
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
+      const fee: MempoolFeeType = yield call(getSwapFeeTestFee)
       let payment = yield call(
         createPayment,
         symbol,
@@ -757,7 +752,8 @@ export default ({ api, coreSagas, networks }) => {
         source.type,
         convertStandardToBase(symbol, value),
         fees,
-        depositMemo
+        depositMemo,
+        fee
       )
       // Sign transaction
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
@@ -880,6 +876,19 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+
+  // SwapFees A/B Test
+  const getSwapFeeTestFee = function * () {
+    const feeTestFallback: ABTestCmdType = {
+      command: 'priority',
+      from: 'matomo',
+      to: 'swap'
+    }
+    const feeR = selectors.analytics.selectAbTest('SwapFees', yield select())
+    const fee = feeR ? feeR.getOrElse(feeTestFallback) : feeTestFallback
+    return fee.command
+  }
+  // SwapFees A/B Test
 
   return {
     exchangeFormInitialized,

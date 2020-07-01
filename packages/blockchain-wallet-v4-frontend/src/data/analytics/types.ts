@@ -1,11 +1,12 @@
 import * as AT from './actionTypes'
+import { MempoolFeeType } from 'data/components/types'
 import { RemoteDataType } from 'core/types'
 
 // types
 export type ABTestNameType = 'SwapFees'
 
 export type ABTestCmdType = {
-  command: 'regular' | 'priority'
+  command: MempoolFeeType
   from: 'matomo'
   to: 'swap'
 }

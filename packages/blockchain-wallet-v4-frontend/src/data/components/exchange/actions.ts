@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { CurrenciesType } from 'core/types'
-import { ExchangeActionTypes, LimitAmountType, LimitsType } from './types'
+import { ExchangeActionTypes, LimitAmountType, SwapLimitsType } from './types'
 
 export const initialize = requestedValues => ({
   type: AT.INITIALIZE,
@@ -38,7 +38,7 @@ export const fetchLimitsLoading = (): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
 export const fetchLimitsSuccess = (
-  limits: { [key in keyof CurrenciesType]: LimitsType }
+  limits: { [key in keyof CurrenciesType]?: SwapLimitsType }
 ): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: { limits }
