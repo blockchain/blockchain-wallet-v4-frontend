@@ -30,14 +30,14 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
-      "pre-push": "yarn test --findRelatedTests"
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js"
     }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
+      "yarn test --findRelatedTests",
       "git add"
     ],
     "*.{js,tsx}": [
