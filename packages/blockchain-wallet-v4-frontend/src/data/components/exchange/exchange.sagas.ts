@@ -29,6 +29,7 @@ import * as AT from './actionTypes'
 import * as C from 'services/AlertService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
+import { ABTestCmdType } from 'data/analytics/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
   addBalanceLimit,
@@ -44,6 +45,7 @@ import {
   validateVolume
 } from './services'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { CoinType, PaymentValue } from 'core/types'
 import {
   CONFIRM_FORM,
   CONFIRM_MODAL,
@@ -60,6 +62,7 @@ import {
 import { currencySymbolMap } from 'services/CoinifyService'
 import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { MempoolFeeType } from './types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
@@ -103,6 +106,7 @@ export default ({ api, coreSagas, networks }) => {
     EXCHANGE_FORM
   )
   const getActiveFieldName = compose(mapFixToFieldName, prop('fix'))
+  // @ts-ignore
   const getCurrentVolume = form => propOr(0, getActiveFieldName(form), form)
   const getCurrentPair = converge(formatPair, [
     path(['source', 'coin']),
@@ -301,14 +305,16 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const amounts = yield call(getAmounts, getCurrentPair(form))
     const sourceAmount = prop('sourceAmount', amounts)
+    const fee: MempoolFeeType = yield call(getSwapFeeTestFee)
     return yield call(
       memo ? calculatePaymentMemo : calculateProvisionalPayment,
       source,
-      sourceAmount
+      sourceAmount,
+      fee
     )
   }
 
-  const updateSourceFee = function * (payment) {
+  const updateSourceFee = function * (payment?: PaymentValue) {
     try {
       const form = yield select(formValueSelector)
       const sourceCoin = path(['source', 'coin'], form)
@@ -316,7 +322,7 @@ export default ({ api, coreSagas, networks }) => {
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
       const isSourceErc20 = includes(sourceCoin, erc20List)
-      const feeSource = isSourceErc20 ? 'ETH' : sourceCoin
+      const feeSource = isSourceErc20 ? 'ETH' : (sourceCoin as CoinType)
       const provisionalPayment = yield payment ||
         call(getProvisionalPayment, true)
       const fiatCurrency = yield call(getFiatCurrency)
@@ -341,7 +347,8 @@ export default ({ api, coreSagas, networks }) => {
           isSourceErc20,
           fallbackEthRates
         ),
-        isSourceErc20
+        isSourceErc20,
+        insufficientEthBalance: false
       }
       // ensure for sufficient eth balance for erc20 swap
       if (isSourceErc20) {
@@ -440,6 +447,7 @@ export default ({ api, coreSagas, networks }) => {
       const limits = yield call(getLimits, fiatCurrency)
       const balanceLimit = yield call(getBalanceLimit, fiatCurrency)
       yield put(
+        // @ts-ignore
         A.fetchLimitsSuccess({
           [fiatCurrency]: addBalanceLimit(balanceLimit, limits)
         })
@@ -537,10 +545,12 @@ export default ({ api, coreSagas, networks }) => {
       const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
       let newTargetCoin = null
       if (equals(sourceCoin, targetCoin)) {
+        // @ts-ignore
         newTargetCoin = includes(prevSourceCoin, pairedCoins)
           ? prevSourceCoin
           : last(pairedCoins)
       }
+      // @ts-ignore
       if (!includes(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
       if (newTargetCoin) {
         const newTarget = yield call(getDefaultAccount, newTargetCoin)
@@ -571,10 +581,12 @@ export default ({ api, coreSagas, networks }) => {
       const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
       let newSourceCoin = null
       if (equals(sourceCoin, targetCoin)) {
+        // @ts-ignore
         newSourceCoin = includes(prevTargetCoin, pairedCoins)
           ? prevTargetCoin
           : head(pairedCoins)
       }
+      // @ts-ignore
       if (!includes(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
       if (newSourceCoin) {
         const newSource = yield call(getDefaultAccount, newSourceCoin)
@@ -598,6 +610,7 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(startValidation)
       yield put(
+        // @ts-ignore
         actions.form.change(EXCHANGE_FORM, getActiveFieldName(form), amount)
       )
       yield put(A.setShowError(true))
@@ -671,7 +684,9 @@ export default ({ api, coreSagas, networks }) => {
     if (txError) {
       yield put(actions.analytics.logEvent(SWAP_EVENTS.ORDER_PREVIEW_ERROR))
     } else {
-      yield put(actions.modals.showModal(CONFIRM_MODAL))
+      yield put(
+        actions.modals.showModal(CONFIRM_MODAL, { origin: 'ExchangeForm' })
+      )
     }
   }
 
@@ -728,6 +743,7 @@ export default ({ api, coreSagas, networks }) => {
       const erc20List = (yield select(
         selectors.core.walletOptions.getErc20CoinList
       )).getOrFail()
+      const fee: MempoolFeeType = yield call(getSwapFeeTestFee)
       let payment = yield call(
         createPayment,
         symbol,
@@ -736,7 +752,8 @@ export default ({ api, coreSagas, networks }) => {
         source.type,
         convertStandardToBase(symbol, value),
         fees,
-        depositMemo
+        depositMemo,
+        fee
       )
       // Sign transaction
       if (source.type !== ADDRESS_TYPES.LOCKBOX) {
@@ -810,7 +827,8 @@ export default ({ api, coreSagas, networks }) => {
         if (equals(2, userTier.current)) {
           yield put(
             actions.modals.showModal(ETH_AIRDROP_MODAL, {
-              tradeData: formatExchangeTrade(trade)
+              tradeData: formatExchangeTrade(trade),
+              origin: 'ExchangeForm'
             })
           )
         } else {
@@ -850,6 +868,7 @@ export default ({ api, coreSagas, networks }) => {
       )
       yield put(A.setSourceFee(fallbackSourceFees))
       yield put(actions.modules.rates.unsubscribeFromRates())
+      // @ts-ignore
       if (renewLimitsTask) yield cancel(renewLimitsTask)
     } catch (e) {
       yield put(
@@ -857,6 +876,19 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+
+  // SwapFees A/B Test
+  const getSwapFeeTestFee = function * () {
+    const feeTestFallback: ABTestCmdType = {
+      command: 'priority',
+      from: 'matomo',
+      to: 'swap'
+    }
+    const feeR = selectors.analytics.selectAbTest('SwapFees', yield select())
+    const fee = feeR ? feeR.getOrElse(feeTestFallback) : feeTestFallback
+    return fee.command
+  }
+  // SwapFees A/B Test
 
   return {
     exchangeFormInitialized,
