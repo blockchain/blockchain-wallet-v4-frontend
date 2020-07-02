@@ -91,14 +91,10 @@ export const getEthBalance = createDeepEqualSelector(
     selectors.components.simpleBuy.getSBBalances
   ],
   (
-    context,
-    addressesR,
+    balancesR,
     interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>,
     sbBalancesR: RemoteDataType<string, SBBalancesType>
   ) => {
-    const contextToBalances = (context, balances) =>
-      context.map(a => pathOr(0, [a, 'balance'], balances))
-
     const interestEthBalance = interestAccountBalanceR.getOrElse({
       ETH: { balance: 0 }
     }).ETH
@@ -106,21 +102,17 @@ export const getEthBalance = createDeepEqualSelector(
     const sbEthBalance = sbBalancesR.getOrElse({ ETH: { available: '0' } }).ETH
     const sbBalance = sbEthBalance ? sbEthBalance.available : '0'
 
-    const balancesR: RemoteDataType<string, string> = lift(contextToBalances)(
-      Remote.of(context),
-      addressesR
-    )
-    return balancesR.map(b => {
-      return new BigNumber(b.getOrElse(0))
+    return Remote.of(
+      new BigNumber(balancesR.getOrElse(0))
         .plus(new BigNumber(sbBalance))
         .plus(new BigNumber(interestBalance))
-    })
+    )
   }
 )
 
 export const getPaxBalance = createDeepEqualSelector(
   [
-    getErc20NonCustodialBalance('PAX'),
+    getErc20NonCustodialBalance('pax'),
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
@@ -148,7 +140,7 @@ export const getPaxBalance = createDeepEqualSelector(
 
 export const getUsdtBalance = createDeepEqualSelector(
   [
-    getErc20NonCustodialBalance('USDT'),
+    getErc20NonCustodialBalance('usdt'),
     selectors.components.interest.getInterestAccountBalance,
     selectors.components.simpleBuy.getSBBalances
   ],
