@@ -11,7 +11,15 @@ const Success: React.FC<Props> = props => {
     props.paymentMethods.methods.find(method => method.limits.max !== '0')
 
   useEffect(() => {
-    props.analyticsActions.logEvent(['IS_USER_SB_ELIGIBLE', !!isUserEligible])
+    props.analyticsActions.logEvent([
+      'IS_USER_SB_ELIGIBLE',
+      JSON.stringify({
+        pairs: props.pairs,
+        eligibility: props.eligibility,
+        paymentMethods: props.paymentMethods,
+        doesWalletConsiderUserEligible: !!isUserEligible
+      })
+    ])
   }, [])
 
   return isUserEligible ? <Checkout {...props} /> : <Unsupported {...props} />
