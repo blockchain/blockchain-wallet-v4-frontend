@@ -2,12 +2,20 @@ import { ModalNamesType } from 'data/modals/types'
 
 // State
 export type GoalsType =
-  | 'welcomeModal'
-  | 'upgradeForAirdrop'
-  | 'swapUpgrade'
-  | 'swapGetStarted'
   | 'airdropClaim'
+  | 'kyc'
   | 'kycDocResubmit'
+  | 'linkAccount'
+  | 'payment'
+  | 'paymentProtocol'
+  | 'referral'
+  | 'swapGetStarted'
+  | 'swapUpgrade'
+  | 'syncPit'
+  | 'transferEth'
+  | 'upgradeForAirdrop'
+  | 'welcomeModal'
+  | 'xlmPayment'
 
 export type GoalsState = {
   goals: Array<{ data: any; id: string; name: GoalsType }>

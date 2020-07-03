@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { GoalsType } from './types'
 import { ModalNamesType } from 'data/modals/types'
 
 const generateId = () =>
@@ -6,7 +7,7 @@ const generateId = () =>
     .toString(36)
     .substr(2, 10)
 
-export const saveGoal = (name, data) => ({
+export const saveGoal = (name: GoalsType, data) => ({
   type: AT.SAVE_GOAL,
   payload: { id: generateId(), name, data }
 })
