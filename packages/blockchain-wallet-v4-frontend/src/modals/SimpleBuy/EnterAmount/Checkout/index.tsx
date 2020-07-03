@@ -5,6 +5,7 @@ import {
   FiatType,
   InvitationsType,
   RemoteDataType,
+  SBPairType,
   SBPaymentMethodType,
   SBSuggestedAmountType,
   SupportedCoinsType
@@ -91,7 +92,8 @@ class Checkout extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  pair: selectors.components.simpleBuy.getSBPair(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -119,6 +121,7 @@ export type SuccessStateType = {
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
+  pair: SBPairType
 }
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form

@@ -9,6 +9,7 @@ import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
+import CryptoSelection from './CryptoSelection'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -71,6 +72,11 @@ class SimpleBuy extends PureComponent<Props, State> {
         {this.props.step === 'ENTER_AMOUNT' && (
           <FlyoutChild>
             <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'CRYPTO_SELECTION' && (
+          <FlyoutChild>
+            <CryptoSelection {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'ADD_CARD' && (
@@ -140,6 +146,7 @@ type LinkStatePropsType =
   | {
       step:
         | 'CURRENCY_SELECTION'
+        | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
         | 'ENTER_AMOUNT'

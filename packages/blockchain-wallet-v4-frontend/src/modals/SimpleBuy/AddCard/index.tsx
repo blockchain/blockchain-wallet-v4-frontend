@@ -5,6 +5,7 @@ import {
   FiatType,
   RemoteDataType,
   SBBuyOrderType,
+  SBPairType,
   SBPaymentMethodsType,
   SBSellOrderType
 } from 'core/types'
@@ -47,7 +48,8 @@ class AddCard extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
+  pair: selectors.components.simpleBuy.getSBPair(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -65,6 +67,7 @@ type LinkDispatchPropsType = {
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: FiatType
+  pair: SBPairType
 }
 export type SuccessStateType = {
   formValues?: SBAddCardFormValuesType

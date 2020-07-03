@@ -418,7 +418,14 @@ export const setStep = (
         cryptoCurrency?: CoinType
         defaultMethod?: SBFormPaymentMethod
         fiatCurrency: FiatType
+        pair: SBPairType
         step: 'ENTER_AMOUNT'
+      }
+    | {
+        cryptoCurrency?: CoinType
+        defaultMethod?: SBFormPaymentMethod
+        fiatCurrency: FiatType
+        step: 'CRYPTO_SELECTION'
       }
     | { order?: SBOrderType; step: '3DS_HANDLER' }
     | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
@@ -426,6 +433,14 @@ export const setStep = (
   type: AT.SET_STEP,
   payload:
     payload.step === 'ENTER_AMOUNT'
+      ? {
+          step: payload.step,
+          cryptoCurrency: payload.cryptoCurrency,
+          defaultMethod: payload.defaultMethod,
+          fiatCurrency: payload.fiatCurrency,
+          pair: payload.pair
+        }
+      : payload.step === 'CRYPTO_SELECTION'
       ? {
           step: payload.step,
           cryptoCurrency: payload.cryptoCurrency,

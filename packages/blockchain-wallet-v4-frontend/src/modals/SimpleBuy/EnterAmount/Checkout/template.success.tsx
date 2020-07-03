@@ -18,7 +18,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
-import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import MethodSelect from './MethodSelect'
@@ -148,7 +147,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             onClick={() => props.handleClose()}
           />
         </TopText>
-        <CoinSelect name='pair' {...props} />
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}

@@ -156,10 +156,12 @@ export default ({
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
+        const pair = S.getSBPair(yield select())
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
-            fiatCurrency
+            fiatCurrency,
+            pair
           })
         )
       } else {
@@ -204,8 +206,9 @@ export default ({
       // Wait for the form to be INITIALIZED and display err
       const step = S.getStep(yield select())
       if (step !== 'ENTER_AMOUNT') {
+        const pair = S.getSBPair(yield select())
         const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
-        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
+        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair }))
         yield take(AT.INITIALIZE_CHECKOUT)
         yield delay(3000)
         yield put(actions.form.startSubmit('simpleBuyCheckout'))
@@ -698,7 +701,7 @@ export default ({
       )
     } else {
       yield put(
-        A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
+        A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
       )
     }
   }

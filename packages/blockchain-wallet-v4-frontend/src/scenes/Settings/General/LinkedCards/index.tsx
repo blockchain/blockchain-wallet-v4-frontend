@@ -25,7 +25,7 @@ class LinkedCards extends PureComponent<Props> {
   handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
     this.props.simpleBuyActions.showModal('SettingsGeneral')
     this.props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
+      step: 'CRYPTO_SELECTION',
       defaultMethod: defaultMethod,
       fiatCurrency: this.props.fiatCurrency || 'USD'
     })

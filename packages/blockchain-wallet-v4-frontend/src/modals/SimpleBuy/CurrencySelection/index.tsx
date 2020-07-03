@@ -125,7 +125,7 @@ const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
     props.settingsActions.updateCurrency(currency, true)
     props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
+      step: 'CRYPTO_SELECTION',
       fiatCurrency: currency || 'USD'
     })
   }
@@ -155,7 +155,7 @@ const CurrencySelection: React.FC<InjectedFormProps<{}, Props> &
               <Icon
                 onClick={() =>
                   props.simpleBuyActions.setStep({
-                    step: 'ENTER_AMOUNT',
+                    step: 'CRYPTO_SELECTION',
                     fiatCurrency: selectedCurrency
                   })
                 }
