@@ -3,13 +3,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'core'
-import {
-  RemoteDataType,
-  SBCardType,
-  SBOrderType,
-  SupportedCoinsType
-} from 'core/types'
 import { RootState } from 'data/rootReducer'
+import { SBCardType, SBOrderType } from 'core/types'
 import DataError from 'components/DataError'
 import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
@@ -38,7 +33,7 @@ class OrderSummary extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
@@ -64,10 +59,6 @@ export type OwnProps = {
 }
 export type SuccessStateType = {
   cards: Array<SBCardType>
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedCoinsType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
