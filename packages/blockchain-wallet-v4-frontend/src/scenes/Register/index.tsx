@@ -3,22 +3,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { GoalsType } from 'data/goals/types'
-import { isNil, prop } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import React from 'react'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
-  constructor (props: PropsType) {
-    super(props)
-    let location = prop('location', window)
-    let hash = prop('hash', location)
-    let showWalletFormQuery = !isNil(hash) && hash.includes('showWallet')
-
-    this.state = {
-      showForm: false,
-      showWalletFormQuery
-    }
+  state = {
+    showForm: false
   }
 
   onSubmit = () => {
@@ -31,7 +22,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   render () {
-    const { data, password } = this.props
+    const { data, password, search } = this.props
     let busy = data.cata({
       Success: () => false,
       Failure: () => false,
@@ -40,6 +31,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     })
 
     const passwordLength = (password && password.length) || 0
+    const showWalletFormQuery = search.includes('showWallet')
 
     return (
       <Register
@@ -47,8 +39,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
-        showForm={this.state.showForm}
-        showWalletFormQuery={this.state.showWalletFormQuery}
+        showForm={this.state.showForm || showWalletFormQuery}
         toggleForm={this.toggleForm}
         {...this.props}
       />
@@ -62,7 +53,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
   goals: selectors.goals.getGoals(state),
-  password: formValueSelector('register')(state, 'password') || ''
+  password: formValueSelector('register')(state, 'password') || '',
+  search: selectors.router.getSearch(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -80,11 +72,11 @@ type LinkStatePropsType = {
   goals: Array<{ data: any; id: string; name: GoalsType }>
   language: string
   password: string
+  search: string
 }
 
 type StateType = {
   showForm: boolean
-  showWalletFormQuery: boolean
 }
 
 export type PropsType = ConnectedProps<typeof connector>

@@ -181,7 +181,6 @@ const Register = ({
   password,
   passwordLength,
   showForm,
-  showWalletFormQuery,
   toggleForm
 }: InjectedFormProps<{}, Props> & Props) => {
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
@@ -261,7 +260,7 @@ const Register = ({
               </InfoItem>
             </CardInfo>
 
-            {showForm || showWalletFormQuery ? (
+            {showForm ? (
               <SignupForm
                 busy={busy}
                 handleSubmit={handleSubmit}
@@ -437,7 +436,6 @@ type Props = {
   password: string
   passwordLength: number
   showForm: boolean
-  showWalletFormQuery: boolean
   toggleForm: any
 }
 
