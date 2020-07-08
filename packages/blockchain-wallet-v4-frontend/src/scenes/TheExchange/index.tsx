@@ -1,8 +1,6 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, RemoteDataType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import Exchange from './template'
 import React from 'react'
 
@@ -32,7 +30,9 @@ const mapStateToProps = (state): LinkStatePropsType => ({
   isExchangeAccountLinked: selectors.modules.profile
     .isExchangeAccountLinked(state)
     .getOrElse(false),
-  data: getData(state)
+  isExchangeRelinkRequired: selectors.modules.profile
+    .isExchangeRelinkRequired(state)
+    .getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -45,12 +45,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  data: RemoteDataType<
-    string,
-    { walletAddresses: { [key in CoinType]?: string } }
-  >
   domains: { exchange: string }
   isExchangeAccountLinked: boolean
+  isExchangeRelinkRequired: boolean
 }
 
 export type Props = ConnectedProps<typeof connector>
