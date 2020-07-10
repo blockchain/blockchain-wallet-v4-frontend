@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
-import { SBCardType, SBOrderType } from 'core/types'
+import { SBOrderType } from 'core/types'
 import DataError from 'components/DataError'
 import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
@@ -56,9 +56,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
-}
-export type SuccessStateType = {
-  cards: Array<SBCardType>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
