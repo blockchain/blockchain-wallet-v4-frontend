@@ -1,3 +1,4 @@
+import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
@@ -9,10 +10,17 @@ export const getData = state => {
     state
   )
 
-  return lift((cards, eligibility, pairs, paymentMethods) => ({
-    cards,
-    eligibility,
-    pairs,
-    paymentMethods
-  }))(cardsR, eligibilityR, pairsR, paymentMethodsR)
+  return lift(
+    (
+      cards: ExtractSuccess<typeof cardsR>,
+      eligibility: ExtractSuccess<typeof eligibilityR>,
+      pairs: ExtractSuccess<typeof pairsR>,
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>
+    ) => ({
+      cards,
+      eligibility,
+      pairs,
+      paymentMethods
+    })
+  )(cardsR, eligibilityR, pairsR, paymentMethodsR)
 }

@@ -1,11 +1,15 @@
-// declare module 'ramda' {
-// import { RemoteDataType, RemoteSuccess } from 'core/types'
-
 /* eslint-disable */
-// export function lift<E, A>(
-//   f: (arg) => A
-//   // @ts-ignore
-// ): (Fx: RemoteDataType<E, A>) => ExtractSuccess<RemoteDataType<E, A>> {
-//   return Fx => f(Fx)
-// }
-// }
+import * as ramda from 'ramda'
+import { ExtractFailure, ExtractRemoteArray, RemoteDataType } from 'core/types'
+
+declare module 'ramda' {
+  export function lift<T>(
+    f: (...args: any[]) => T
+  ): <A>(
+    ...Fx: ExtractRemoteArray<A[]>
+  ) => // @ts-ignore
+  RemoteDataType<ExtractFailure<A>, T> {
+    // @ts-ignore
+    return Fx => Fx.map(f)
+  }
+}

@@ -75,6 +75,16 @@ const map = function<E, A> (this: RemoteDataType<E, A>, f: Function) {
 }
 
 export type ExtractSuccess<T> = T extends RemoteSuccess<infer A> ? A : never
+export type ExtractFailure<T> = T extends RemoteFailure<infer E> ? E : never
+export type ExtractRemoteArray<T> = T extends Array<RemoteSuccess<infer A>>
+  ? Array<RemoteSuccess<A>>
+  : T extends Array<RemoteFailure<infer E>>
+  ? Array<RemoteFailure<E>>
+  : T extends Array<RemoteNotAsked>
+  ? Array<RemoteNotAsked>
+  : T extends Array<RemoteLoading>
+  ? Array<RemoteLoading>
+  : T
 
 export type RemoteType = {
   cata: typeof cata
