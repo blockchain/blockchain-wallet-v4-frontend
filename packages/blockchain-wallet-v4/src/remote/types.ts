@@ -90,12 +90,3 @@ export type RemoteDataType<E, A> =
 
 export type ExtractSuccess<T> = T extends RemoteSuccess<infer A> ? A : never
 export type ExtractFailure<T> = T extends RemoteFailure<infer E> ? E : never
-export type ExtractRemote<T> = T extends RemoteSuccess<infer A>
-  ? RemoteSuccess<A>
-  : T extends RemoteFailure<infer E>
-  ? RemoteFailure<E>
-  : T extends RemoteNotAsked
-  ? RemoteNotAsked
-  : T extends RemoteLoading
-  ? RemoteLoading
-  : T
