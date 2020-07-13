@@ -38,7 +38,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
     const { coin } = this.props
     const { walletCurrency } = this.props.data.getOrElse({
       walletCurrency: 'GBP' as FiatType
-    })
+    } as SuccessStateType)
     this.props.interestActions.fetchInterestLimits(coin, walletCurrency)
   }
 

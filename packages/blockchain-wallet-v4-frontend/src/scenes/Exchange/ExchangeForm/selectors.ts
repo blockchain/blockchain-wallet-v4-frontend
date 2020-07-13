@@ -21,6 +21,7 @@ const { BASE_IN_FIAT } = FIX_TYPES
 
 const getFormValues = state => {
   const formValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  // @ts-ignore
   const fix = prop('fix', formValues) || BASE_IN_FIAT
   return {
     sourceCoin: path(['source', 'coin'], formValues) || 'BTC',
@@ -42,11 +43,7 @@ const getBlockLockbox = state => {
   )
 }
 
-const {
-  getAmounts,
-  getAvailablePairs,
-  getActiveAccountsR
-} = selectors.components.exchange
+const { getAmounts, getAvailablePairs } = selectors.components.exchange
 
 export const getData = createDeepEqualSelector(
   [
@@ -54,12 +51,12 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     getFormValues,
     getAvailablePairs,
-    getActiveAccountsR
+    state => selectors.analytics.selectAbTest('SwapFees', state)
   ],
-  (blockLockbox, currencyR, formValues, availablePairsR, activeAccountsR) => {
+  (blockLockbox, currencyR, formValues, availablePairsR, swapFeesR) => {
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
-    const transform = (currency, availablePairs, activeAccounts) => {
+    const transform = (currency, availablePairs, swapFees) => {
       const inputField = mapFixToFieldName(fix)
       const fieldCoins = {
         sourceAmount: sourceCoin,
@@ -84,12 +81,13 @@ export const getData = createDeepEqualSelector(
         inputSymbol: currencySymbolMap[inputCurrency],
         sourceActive: sourceActive(fix),
         sourceCoin,
+        swapFees,
         targetActive: targetActive(fix),
         targetCoin,
         volume
       }
     }
-    return lift(transform)(currencyR, availablePairsR, activeAccountsR)
+    return lift(transform)(currencyR, availablePairsR, swapFeesR)
   }
 )
 

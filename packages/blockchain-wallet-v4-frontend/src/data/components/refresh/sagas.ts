@@ -48,7 +48,11 @@ export default () => {
           yield call(refreshAlgoTransactions)
           break
         case contains('/lockbox/', pathname):
-          yield put(actions.lockbox.initializeDashboard(pathname.split('/')[3]))
+          yield put(
+            actions.components.lockbox.initializeDashboard(
+              pathname.split('/')[3]
+            )
+          )
           break
         case contains('profile', pathname):
         case contains('/airdrops', pathname):
@@ -65,7 +69,7 @@ export default () => {
           break
         case contains('/borrow', pathname):
           yield put(actions.components.borrow.fetchUserBorrowHistory())
-          yield put(actions.components.borrow.fetchOffers())
+          yield put(actions.components.borrow.fetchBorrowOffers())
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))

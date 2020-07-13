@@ -40,8 +40,8 @@ class Checkout extends PureComponent<Props> {
       formValues: {
         method: { limits: { min: '0', max: '0' }, type: 'BANK_ACCOUNT' }
       } as SBCheckoutFormValuesType,
-      userData: { tiers: { current: 0 } }
-    })
+      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
+    } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(
@@ -82,6 +82,7 @@ class Checkout extends PureComponent<Props> {
         <Failure
           simpleBuyActions={this.props.simpleBuyActions}
           formActions={this.props.formActions}
+          analyticsActions={this.props.analyticsActions}
         />
       ),
       Loading: () => <Loading />,
@@ -97,6 +98,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
@@ -124,6 +126,7 @@ type LinkStatePropsType = {
   pair: SBPairType
 }
 export type LinkDispatchPropsType = {
+  analyticsActions: typeof actions.analytics
   formActions: typeof actions.form
   identityVerificationActions: typeof actions.components.identityVerification
   profileActions: typeof actions.modules.profile

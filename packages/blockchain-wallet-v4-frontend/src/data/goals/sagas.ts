@@ -22,6 +22,7 @@ import {
   sum,
   values
 } from 'ramda'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   getBchBalance,
@@ -29,6 +30,7 @@ import {
   getXlmBalance,
   waitForAllBalances
 } from 'data/balance/sagas'
+import { GoalsType } from './types'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
@@ -177,6 +179,76 @@ export default ({ api, coreSagas, networks }) => {
     yield take('@@router/LOCATION_CHANGE')
     const deepLink = prop(1, pathname.match('/open/(.*)'))
     if (deepLink) yield call(defineDeepLinkGoals, deepLink, search)
+  }
+
+  const runAirdropClaimGoal = function * (goal) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    const showAirdropClaimModal = yield select(
+      selectors.preferences.getShowAirdropClaimModal
+    )
+    if (!showAirdropClaimModal) return
+
+    yield call(waitForUserData)
+    const { current } = (yield select(
+      selectors.modules.profile.getUserTiers
+    )).getOrElse({ current: 0 }) || { current: 0 }
+    const blockstackTag = (yield select(
+      selectors.modules.profile.getBlockstackTag
+    )).getOrElse(false)
+    if (current === TIERS[2] && !blockstackTag) {
+      yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+    }
+  }
+
+  const runKycGoal = function * (goal) {
+    try {
+      const { id, data } = goal
+      const { tier = TIERS[2] } = data
+      yield put(actions.goals.deleteGoal(id))
+      yield call(waitForUserData)
+      const { current } = (yield select(
+        selectors.modules.profile.getUserTiers
+      )).getOrElse({ current: 0 }) || { current: 0 }
+      if (current >= Number(tier)) return
+      yield put(
+        actions.components.identityVerification.verifyIdentity(
+          tier,
+          false,
+          'RunKycGoal'
+        )
+      )
+    } catch (err) {
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message)
+      )
+    }
+  }
+
+  const runLinkAccountGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield put(
+      actions.goals.addInitialModal(
+        'linkAccount',
+        'LinkFromExchangeAccount',
+        data
+      )
+    )
+  }
+
+  const runReferralGoal = function * (goal) {
+    const { id, data } = goal
+    yield put(actions.goals.deleteGoal(id))
+
+    switch (data.name) {
+      case 'sunriver':
+        yield put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
+        yield put(actions.modules.profile.setCampaign(data))
+        break
+      default:
+        break
+    }
   }
 
   const runPaymentProtocolGoal = function * (goal) {
@@ -355,56 +427,6 @@ export default ({ api, coreSagas, networks }) => {
     )
   }
 
-  const runLinkAccountGoal = function * (goal) {
-    const { id, data } = goal
-    yield put(actions.goals.deleteGoal(id))
-    yield put(
-      actions.goals.addInitialModal(
-        'linkAccount',
-        'LinkFromExchangeAccount',
-        data
-      )
-    )
-  }
-
-  const runReferralGoal = function * (goal) {
-    const { id, data } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    switch (data.name) {
-      case 'sunriver':
-        yield put(actions.goals.addInitialModal('sunriver', 'SunRiverWelcome'))
-        yield put(actions.modules.profile.setCampaign(data))
-        break
-      default:
-        break
-    }
-  }
-
-  const runKycGoal = function * (goal) {
-    try {
-      const { id, data } = goal
-      const { tier = TIERS[2] } = data
-      yield put(actions.goals.deleteGoal(id))
-      yield call(waitForUserData)
-      const { current } = (yield select(
-        selectors.modules.profile.getUserTiers
-      )).getOrElse({ current: 0 }) || { current: 0 }
-      if (current >= Number(tier)) return
-      yield put(
-        actions.components.identityVerification.verifyIdentity(
-          tier,
-          false,
-          'RunKycGoal'
-        )
-      )
-    } catch (err) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message)
-      )
-    }
-  }
-
   const runUpgradeForAirdropGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -491,23 +513,23 @@ export default ({ api, coreSagas, networks }) => {
       )
   }
 
-  const runAirdropClaimGoal = function * (goal) {
+  const runSyncPitGoal = function * (goal) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
-    const showAirdropClaimModal = yield select(
-      selectors.preferences.getShowAirdropClaimModal
-    )
-    if (!showAirdropClaimModal) return
 
-    yield call(waitForUserData)
-    const { current } = (yield select(
-      selectors.modules.profile.getUserTiers
-    )).getOrElse({ current: 0 }) || { current: 0 }
-    const blockstackTag = (yield select(
-      selectors.modules.profile.getBlockstackTag
-    )).getOrElse(false)
-    if (current === TIERS[2] && !blockstackTag) {
-      yield put(actions.goals.addInitialModal('airdropClaim', 'AirdropClaim'))
+    try {
+      yield call(waitForUserData)
+      const isExchangeRelinkRequired = selectors.modules.profile
+        .isExchangeRelinkRequired(yield select())
+        .getOrElse(false)
+      if (isExchangeRelinkRequired) {
+        yield put(actions.modules.profile.shareWalletAddressesWithExchange())
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(
+        actions.logs.logErrorMessage('goals', 'runSyncToPitGoal', error)
+      )
     }
   }
 
@@ -643,33 +665,31 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runGoal = function * (goal) {
+  const runGoal = function * (goal: { data: any; id: string; name: GoalsType }) {
     try {
       // Ordering doesn't matter here
+      // Try to keep in alphabetical ⬆️
       switch (goal.name) {
-        case 'linkAccount':
-          yield call(runLinkAccountGoal, goal)
+        case 'airdropClaim':
+          yield call(runAirdropClaimGoal, goal)
+          break
+        case 'kyc':
+          yield call(runKycGoal, goal)
           break
         case 'kycDocResubmit':
           yield call(runKycDocResubmitGoal, goal)
           break
-        case 'referral':
-          yield call(runReferralGoal, goal)
+        case 'linkAccount':
+          yield call(runLinkAccountGoal, goal)
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)
           break
-        case 'xlmPayment':
-          yield call(runSendXlmGoal, goal)
-          break
         case 'paymentProtocol':
           yield call(runPaymentProtocolGoal, goal)
           break
-        case 'upgradeForAirdrop':
-          yield call(runUpgradeForAirdropGoal, goal)
-          break
-        case 'kyc':
-          yield call(runKycGoal, goal)
+        case 'referral':
+          yield call(runReferralGoal, goal)
           break
         case 'swapGetStarted':
           yield call(runSwapGetStartedGoal, goal)
@@ -677,11 +697,17 @@ export default ({ api, coreSagas, networks }) => {
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)
           break
-        case 'airdropClaim':
-          yield call(runAirdropClaimGoal, goal)
+        case 'syncPit':
+          yield call(runSyncPitGoal, goal)
           break
         case 'transferEth':
           yield call(runTransferEthGoal, goal)
+          break
+        case 'upgradeForAirdrop':
+          yield call(runUpgradeForAirdropGoal, goal)
+          break
+        case 'xlmPayment':
+          yield call(runSendXlmGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
@@ -701,24 +727,8 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
-    defineActionGoal,
-    defineSendCryptoGoal,
-    defineReferralGoal,
-    defineDeepLinkGoals,
     defineGoals,
     runGoal,
-    runGoals,
-    runKycGoal,
-    runPaymentProtocolGoal,
-    runSwapGetStartedGoal,
-    runSwapUpgradeGoal,
-    runKycDocResubmitGoal,
-    runWelcomeModal,
-    runReferralGoal,
-    runSendBtcGoal,
-    runUpgradeForAirdropGoal,
-    showInitialModal,
-    isKycNotFinished,
-    waitForUserData
+    runGoals
   }
 }

@@ -13,10 +13,12 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
+export const DEFAULT_SB_BALANCE = { pending: '0', available: '0' }
+
 export const DEFAULT_SB_BALANCES = Object.keys(CoinTypeEnum)
   .filter(key => !isNaN(Number(CoinTypeEnum[key])))
   .reduce((obj, item) => {
-    obj[item] = { pending: '0', available: '0' }
+    obj[item] = DEFAULT_SB_BALANCE
     return obj
   }, {})
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'

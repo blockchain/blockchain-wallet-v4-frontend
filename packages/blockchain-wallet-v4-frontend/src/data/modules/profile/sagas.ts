@@ -13,19 +13,11 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import {
-  compose,
-  difference,
-  equals,
-  keys,
-  lift,
-  prop,
-  sortBy,
-  tail
-} from 'ramda'
+import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { UserDataType } from './types'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
@@ -47,7 +39,9 @@ export default ({ api, coreSagas, networks }) => {
   const isTier2 = function * () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    const userData = userDataR.getOrElse({
+      tiers: { current: 0 }
+    } as UserDataType)
     return userData.tiers && userData.tiers.current >= 2
   }
 
@@ -279,13 +273,13 @@ export default ({ api, coreSagas, networks }) => {
     const { data } = payload
     const userR = S.getUserData(yield select())
     const user = userR.getOrElse({
-      id: undefined,
+      id: '',
       address: undefined,
-      mobile: undefined,
-      mobileVerified: undefined,
-      state: undefined,
-      kycState: undefined
-    })
+      mobile: '',
+      mobileVerified: false,
+      state: 'NONE',
+      kycState: 'NONE'
+    } as UserDataType)
     /* eslint-disable */
     const {
       id,
@@ -354,16 +348,10 @@ export default ({ api, coreSagas, networks }) => {
   const shareWalletAddressesWithExchange = function * () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
-      // TODO: move to goal and pass remaining coins to saga
-      // Only run saga if remainingCoins is !empty
-      const supportedCoinsList = (yield select(
-        selectors.core.walletOptions.getSyncToExchangeList
-      )).getOrFail('no_supported_coins')
+      const remainingCoins = S.getRemainingCoins(yield select())
       const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'
       )
-      const walletAddressesList = keys(walletAddresses)
-      const remainingCoins = difference(supportedCoinsList, walletAddressesList)
       // BTC
       const defaultIdx = yield select(
         selectors.core.wallet.getDefaultAccountIndex
@@ -381,7 +369,7 @@ export default ({ api, coreSagas, networks }) => {
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
-      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
+      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH, USDT: ETH }
       const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
@@ -392,16 +380,8 @@ export default ({ api, coreSagas, networks }) => {
         remainingAddresses
       )
       yield put(A.shareWalletAddressesWithExchangeSuccess(data))
-      yield put(
-        actions.alerts.displaySuccess('Wallet addresses successfully linked.')
-      )
     } catch (e) {
       yield put(A.shareWalletAddressesWithExchangeFailure(e))
-      yield put(
-        actions.alerts.displayError(
-          'There was a problem linking your Wallet addresses.'
-        )
-      )
     }
   }
 

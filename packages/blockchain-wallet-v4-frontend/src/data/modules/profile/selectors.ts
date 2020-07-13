@@ -3,6 +3,7 @@ import {
   complement,
   compose,
   curry,
+  difference,
   equals,
   find,
   findLast,
@@ -19,6 +20,7 @@ import {
   propEq
 } from 'ramda'
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
+import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
@@ -150,21 +152,34 @@ export const getLinkToExchangeAccountDeeplink = path([
 export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
+export const getRemainingCoins = state => {
+  const supportedCoinsList = selectors.core.walletOptions
+    .getSyncToExchangeList(state)
+    .getOrElse([])
+  const walletAddressesR = getWalletAddresses(state) as RemoteDataType<
+    string,
+    any
+  >
+  const walletAddresses = walletAddressesR.getOrElse({})
+  const walletAddressesList = keys(walletAddresses)
+  return difference(supportedCoinsList, walletAddressesList)
+}
+
 // initially a wallet was linked if the user had a `settings` prop in their user data
 // sometimes the link is "successful" but the addresses are not persisted and/or lost
 // now we need to ensure both settings exist and walletAddresses has keys (i.e. addresses)
-export const isExchangeAccountLinked = state =>
-  lift(
-    user =>
-      not(isNil(prop('settings', user))) &&
-      length(keys(prop('walletAddresses', user))) > 0
-  )(getUserData(state))
+export const isExchangeAccountLinked = (
+  state
+): RemoteDataType<string, boolean> =>
+  lift(user => not(isNil(prop('settings', user))))(getUserData(state))
 
 // related to selector above, but will check if addresses are no longer stored and
 // suggest to the linking saga that a relink should be attempted
-export const isExchangeRelinkRequired = state =>
-  lift(
-    user =>
-      not(isNil(prop('settings', user))) &&
-      length(keys(prop('walletAddresses', user))) === 0
-  )(getUserData(state))
+export const isExchangeRelinkRequired = (
+  state
+): RemoteDataType<string, boolean> =>
+  lift(user => {
+    return (
+      not(isNil(prop('settings', user))) && length(getRemainingCoins(state))
+    )
+  })(getUserData(state))

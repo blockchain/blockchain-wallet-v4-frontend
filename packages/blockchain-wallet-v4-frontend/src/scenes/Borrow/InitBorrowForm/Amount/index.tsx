@@ -53,7 +53,13 @@ export class Amount extends Component<Props> {
           Failure: e => {
             return (
               <Content>
-                {typeof e === 'object' ? (e.message ? e.message : 'N/A') : e}
+                {typeof e === 'object'
+                  ? e.message
+                    ? e.message === 'Unknown User'
+                      ? 'N/A'
+                      : e.message
+                    : 'N/A'
+                  : e}
               </Content>
             )
           },

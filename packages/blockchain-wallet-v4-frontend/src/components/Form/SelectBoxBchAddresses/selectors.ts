@@ -179,7 +179,7 @@ export const getData = (
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map<any, any>(prop('BCH'))
+            .map(x => x.BCH)
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

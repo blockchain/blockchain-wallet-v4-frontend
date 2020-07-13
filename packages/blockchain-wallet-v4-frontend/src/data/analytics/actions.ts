@@ -1,11 +1,15 @@
 import * as AT from './actionTypes'
+import { ABTestCmdType, ABTestNameType } from './types'
 
-export const createABTest = test => ({
+export const createABTest = (test: ABTestNameType) => ({
   type: AT.CREATE_AB_TEST,
   payload: { test }
 })
 
-export const createABTestSuccess = (test, result) => ({
+export const createABTestSuccess = (
+  test: ABTestNameType,
+  result: ABTestCmdType
+) => ({
   type: AT.CREATE_AB_TEST_SUCCESS,
   payload: { test, result }
 })
