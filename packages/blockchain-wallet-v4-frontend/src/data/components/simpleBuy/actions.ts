@@ -423,7 +423,6 @@ export const setStep = (
       }
     | {
         cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
         fiatCurrency: FiatType
         step: 'CRYPTO_SELECTION'
       }
@@ -444,7 +443,6 @@ export const setStep = (
       ? {
           step: payload.step,
           cryptoCurrency: payload.cryptoCurrency,
-          defaultMethod: payload.defaultMethod,
           fiatCurrency: payload.fiatCurrency
         }
       : payload.step === 'CHECKOUT_CONFIRM' ||
