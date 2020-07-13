@@ -7,7 +7,6 @@ import {
   RemoteDataType,
   SBCardType,
   SBPairType,
-  SBPaymentMethodsType,
   SupportedCoinsType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
@@ -43,6 +42,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -56,7 +56,6 @@ export type SuccessStateType = {
   cards: Array<SBCardType>
   eligibility: FiatEligibleType
   pairs: Array<SBPairType>
-  paymentMethods: SBPaymentMethodsType
   rates: { [key in CoinType]: RatesType }
   supportedCoins: SupportedCoinsType
 }

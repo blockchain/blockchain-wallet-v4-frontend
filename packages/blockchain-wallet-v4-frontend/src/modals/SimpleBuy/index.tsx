@@ -161,11 +161,11 @@ type LinkStatePropsType =
     }
   | {
       cardId?: string
-      pair?: SBPairType
+      pair: SBPairType
       step: 'ADD_CARD'
     }
   | {
-      pair?: SBPairType
+      pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
 

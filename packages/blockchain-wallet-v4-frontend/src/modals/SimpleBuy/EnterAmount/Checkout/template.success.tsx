@@ -110,6 +110,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   if (!fiatCurrency)
     return (
       <Failure
+        fiatCurrency={props.fiatCurrency}
         simpleBuyActions={props.simpleBuyActions}
         formActions={props.formActions}
         analyticsActions={props.analyticsActions}
@@ -125,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(props.formValues, prop)
+      getMaxMin(props.pair, prop, props.formValues)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -166,7 +167,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
-        {props.formValues.pair && amtError && (
+        {props.pair && amtError && (
           <Amounts>
             <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
               {amtError === 'ABOVE_MAX' ? (
@@ -176,7 +177,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.formValues, 'max'),
+                      value: getMaxMin(props.pair, 'max', props.formValues),
                       digits: 0
                     }),
                     orderType:
@@ -190,7 +191,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.formValues, 'min'),
+                      value: getMaxMin(props.pair, 'min', props.formValues),
                       digits: 0
                     }),
                     orderType:

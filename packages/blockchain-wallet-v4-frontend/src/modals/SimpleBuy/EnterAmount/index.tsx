@@ -19,8 +19,6 @@ import Success from './template.success'
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
     }
@@ -51,11 +49,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  pair: SBPairType
 }
 export type SuccessStateType = {
   cards: Array<SBCardType>
   eligibility: FiatEligibleType
-  pairs: Array<SBPairType>
   paymentMethods: SBPaymentMethodsType
 }
 export type LinkStatePropsType = {

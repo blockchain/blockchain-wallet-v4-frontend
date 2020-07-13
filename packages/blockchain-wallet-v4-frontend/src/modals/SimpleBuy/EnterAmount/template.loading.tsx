@@ -20,8 +20,8 @@ const Loading: React.FC<Props> = () => {
       <SpinningLoader />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='modals.simplebuy.checkingeligiblity'
-          defaultMessage='Checking Eligibility...'
+          id='modals.simplebuy.fetching_methods'
+          defaultMessage='Loading Payment Options...'
         />
       </Text>
     </Wrapper>

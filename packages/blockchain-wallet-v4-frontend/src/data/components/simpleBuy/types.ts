@@ -36,7 +36,6 @@ export type SBCheckoutFormValuesType = {
   amount: string
   method?: SBFormPaymentMethod
   orderType: 'BUY' | 'SELL'
-  pair?: SBPairType
 }
 export type SBCurrencySelectFormType = {
   search: string
