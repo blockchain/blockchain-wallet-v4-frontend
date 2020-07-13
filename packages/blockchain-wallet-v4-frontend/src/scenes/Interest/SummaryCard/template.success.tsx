@@ -21,6 +21,8 @@ const DepositBox = styled(Box)`
   flex-direction: column;
   justify-content: space-between;
   height: 225px;
+  width: 275px;
+  margin-bottom: 24px;
 `
 const Row = styled.div`
   display: flex;
@@ -57,7 +59,6 @@ const AbsoluteWarningRegion = styled(Text)`
   left: 0;
 `
 
-// TODO: update support center links
 function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
     coin,
@@ -73,7 +74,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const interestBalanceBase = account && account.totalInterest
-
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(
     coin,

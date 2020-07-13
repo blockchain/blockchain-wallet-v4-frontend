@@ -138,6 +138,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         payment = yield payment.from()
         payment = yield payment.fee('priority')
         break
+      case 'USDT':
       case 'PAX':
         payment = coreSagas.payment.eth.create({
           network: networks.eth
@@ -158,6 +159,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     paymentR: RemoteDataType<string | Error, PaymentValue>
   ): PaymentType => {
     switch (coin) {
+      case 'USDT':
       case 'PAX':
       case 'ETH':
         return coreSagas.payment.eth.create({
