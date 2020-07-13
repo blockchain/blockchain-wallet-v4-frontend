@@ -73,8 +73,8 @@ class Interest extends React.PureComponent<Props, StateType> {
 
   checkUserData = () => {
     const data = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } }
-    })
+      userData: { tiers: { current: 0 } } as UserDataType
+    } as SuccessStateType)
     const tier = data.userData.tiers ? data.userData.tiers.current : 0
     const isGoldTier = tier >= 2
     this.setState({ isGoldTier })

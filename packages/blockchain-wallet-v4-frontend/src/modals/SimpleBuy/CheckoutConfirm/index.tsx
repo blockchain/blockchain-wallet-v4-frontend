@@ -24,8 +24,8 @@ class CheckoutConfirm extends PureComponent<Props> {
 
   handleSubmit = () => {
     const { userData } = this.props.data.getOrElse({
-      userData: { tiers: { current: 0 } }
-    })
+      userData: { tiers: { current: 0 } } as UserDataType
+    } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(

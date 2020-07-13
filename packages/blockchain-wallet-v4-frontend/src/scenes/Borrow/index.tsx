@@ -33,8 +33,8 @@ class Borrow extends PureComponent<Props, State> {
 
   componentDidUpdate (prevProps: Props) {
     if (
-      this.props.userDataR.getOrElse(null) !==
-      prevProps.userDataR.getOrElse(null)
+      this.props.userDataR.getOrElse({} as UserDataType) !==
+      prevProps.userDataR.getOrElse({} as UserDataType)
     ) {
       this.checkUserData()
     }
@@ -43,7 +43,7 @@ class Borrow extends PureComponent<Props, State> {
   checkUserData = () => {
     const userData = this.props.userDataR.getOrElse({
       tiers: { current: 0 }
-    })
+    } as UserDataType)
     const tier = userData.tiers ? userData.tiers.current : 0
     const isDisabled = tier < 2
     /* eslint-disable */

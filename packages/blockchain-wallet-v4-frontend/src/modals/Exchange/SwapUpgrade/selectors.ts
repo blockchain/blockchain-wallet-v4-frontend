@@ -10,12 +10,10 @@ export const getData = (state, { currentTier, nextTier }) => {
   const currency = nextTierLimits
     .map(propOr('USD', 'currency'))
     .getOrElse('USD')
-  // @ts-ignore
   const amountLeft = selectors.modules.profile
     .getUserData(state)
-    .map(path(['limits', currentTier - 1, 'annual']))
-    // @ts-ignore
-    .getOrElse(0)
+    .map(x => x.limits[currentTier - 1].annual)
+    .getOrElse('0')
   const nextTierAmount = nextTierLimits.map(propOr(0, 'daily')).getOrElse(0)
   return {
     amountLeft: fiatToString({ value: amountLeft, unit: currency }),

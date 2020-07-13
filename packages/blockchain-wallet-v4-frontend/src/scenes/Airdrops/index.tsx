@@ -42,7 +42,7 @@ class Airdrops extends React.PureComponent<Props> {
     const { data, hasEmail } = this.props
     const userData = this.props.data.getOrElse({
       kycState: 'NONE'
-    })
+    } as SuccessStateType)
     const AirdropCards = data.cata({
       Success: val => <Success {...val} {...this.props} />,
       Loading: () => <Loading />,

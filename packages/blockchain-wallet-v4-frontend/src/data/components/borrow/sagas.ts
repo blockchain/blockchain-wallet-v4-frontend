@@ -3,7 +3,7 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, RepayLoanFormType } from './types'
+import { BorrowFormValuesType, RatesType, RepayLoanFormType } from './types'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -74,7 +74,7 @@ export default ({
       if (!loan) throw new Error(NO_LOAN_EXISTS)
 
       const ratesR = S.getRates(yield select())
-      const rates = ratesR.getOrElse({})
+      const rates = ratesR.getOrElse({} as RatesType)
       const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
 
       const cryptoAmt = Number(values.additionalCollateral) / rate
@@ -249,7 +249,7 @@ export default ({
     if (!offer) return
     const coin = S.getCoinType(yield select())
     const ratesR = S.getRates(yield select())
-    const rates = ratesR.getOrElse({})
+    const rates = ratesR.getOrElse({} as RatesType)
     const rate = rates[fiatDisplayName(offer.terms.principalCcy)].last
     const paymentR = S.getPayment(yield select())
     let payment = paymentGetOrElse(coin, paymentR)
@@ -378,7 +378,7 @@ export default ({
       const paymentR = S.getPayment(yield select())
       // TODO: Borrow - make dynamic
       let payment: PaymentType = coreSagas.payment.eth.create({
-        payment: paymentR.getOrElse(<PaymentType>{}),
+        payment: paymentR.getOrElse(<PaymentValue>{}),
         network: networks.eth
       })
       const values: RepayLoanFormType = yield select(

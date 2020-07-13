@@ -17,6 +17,7 @@ import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { UserDataType } from './types'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
@@ -38,7 +39,9 @@ export default ({ api, coreSagas, networks }) => {
   const isTier2 = function * () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse({ tiers: { current: 0 } })
+    const userData = userDataR.getOrElse({
+      tiers: { current: 0 }
+    } as UserDataType)
     return userData.tiers && userData.tiers.current >= 2
   }
 
@@ -270,13 +273,13 @@ export default ({ api, coreSagas, networks }) => {
     const { data } = payload
     const userR = S.getUserData(yield select())
     const user = userR.getOrElse({
-      id: undefined,
+      id: '',
       address: undefined,
-      mobile: undefined,
-      mobileVerified: undefined,
-      state: undefined,
-      kycState: undefined
-    })
+      mobile: '',
+      mobileVerified: false,
+      state: 'NONE',
+      kycState: 'NONE'
+    } as UserDataType)
     /* eslint-disable */
     const {
       id,
