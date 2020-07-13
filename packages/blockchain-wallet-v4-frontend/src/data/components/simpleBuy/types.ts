@@ -36,7 +36,6 @@ export type SBCheckoutFormValuesType = {
   amount: string
   method?: SBFormPaymentMethod
   orderType: 'BUY' | 'SELL'
-  pair?: SBPairType
 }
 export type SBCurrencySelectFormType = {
   search: string
@@ -49,6 +48,7 @@ export type SBFormPaymentMethod =
     })
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
+  'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
@@ -83,6 +83,7 @@ export type SimpleBuyState = {
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
+  pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
@@ -292,7 +293,14 @@ interface SetStepAction {
         cryptoCurrency?: CoinType
         defaultMethod?: SBFormPaymentMethod
         fiatCurrency: FiatType
+        pair: SBPairType
         step: 'ENTER_AMOUNT'
+      }
+    | {
+        cryptoCurrency?: CoinType
+        defaultMethod?: SBFormPaymentMethod
+        fiatCurrency: FiatType
+        step: 'CRYPTO_SELECTION'
       }
     | {
         order: SBOrderType

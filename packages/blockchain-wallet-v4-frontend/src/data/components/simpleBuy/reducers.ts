@@ -17,6 +17,7 @@ const INITIAL_STATE: SimpleBuyState = {
   order: undefined,
   orders: Remote.NotAsked,
   pairs: Remote.NotAsked,
+  pair: undefined,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
@@ -235,6 +236,16 @@ export function simpleBuyReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
+          return {
+            ...state,
+            cryptoCurrency: action.payload.cryptoCurrency,
+            defaultMethod: action.payload.defaultMethod,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step,
+            pair: action.payload.pair,
+            order: undefined
+          }
+        case 'CRYPTO_SELECTION':
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,

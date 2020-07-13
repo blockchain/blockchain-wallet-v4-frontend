@@ -3,12 +3,13 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType } from 'core/types'
+import { SBOrderType, SBPairType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
 import CancelOrder from './CancelOrder'
 import CheckoutConfirm from './CheckoutConfirm'
+import CryptoSelection from './CryptoSelection'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -73,6 +74,11 @@ class SimpleBuy extends PureComponent<Props, State> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'CRYPTO_SELECTION' && (
+          <FlyoutChild>
+            <CryptoSelection {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
         {this.props.step === 'ADD_CARD' && (
           <FlyoutChild>
             <AddCard {...this.props} handleClose={this.handleClose} />
@@ -116,6 +122,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
+  pair: selectors.components.simpleBuy.getSBPair(state),
   order: selectors.components.simpleBuy.getSBOrder(state)
 })
 
@@ -140,9 +147,9 @@ type LinkStatePropsType =
   | {
       step:
         | 'CURRENCY_SELECTION'
+        | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
-        | 'ENTER_AMOUNT'
     }
   | {
       order: SBOrderType
@@ -154,7 +161,12 @@ type LinkStatePropsType =
     }
   | {
       cardId?: string
+      pair: SBPairType
       step: 'ADD_CARD'
+    }
+  | {
+      pair: SBPairType
+      step: 'ENTER_AMOUNT'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType

@@ -25,7 +25,6 @@ import Success from './template.success'
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
     this.props.simpleBuyActions.initializeCheckout(
-      this.props.pairs,
       this.props.paymentMethods,
       this.props.cards,
       'BUY'
@@ -79,6 +78,7 @@ class Checkout extends PureComponent<Props> {
       ),
       Failure: () => (
         <Failure
+          fiatCurrency={this.props.fiatCurrency}
           simpleBuyActions={this.props.simpleBuyActions}
           formActions={this.props.formActions}
           analyticsActions={this.props.analyticsActions}

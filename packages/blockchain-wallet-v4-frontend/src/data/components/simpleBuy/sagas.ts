@@ -158,12 +158,23 @@ export default ({
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
-        yield put(
-          A.setStep({
-            step: 'ENTER_AMOUNT',
-            fiatCurrency
-          })
-        )
+        const pair = S.getSBPair(yield select())
+        if (pair) {
+          yield put(
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              fiatCurrency,
+              pair
+            })
+          )
+        } else {
+          yield put(
+            A.setStep({
+              step: 'CRYPTO_SELECTION',
+              fiatCurrency
+            })
+          )
+        }
       } else {
         yield put(actions.modals.closeAllModals())
       }
@@ -181,7 +192,7 @@ export default ({
       const values: SBCheckoutFormValuesType = yield select(
         selectors.form.getFormValues('simpleBuyCheckout')
       )
-      const pair = values.pair
+      const pair = S.getSBPair(yield select())
       const amount = convertStandardToBase('FIAT', values.amount)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // TODO: Simple Buy - make dynamic
@@ -206,11 +217,14 @@ export default ({
       // Wait for the form to be INITIALIZED and display err
       const step = S.getStep(yield select())
       if (step !== 'ENTER_AMOUNT') {
+        const pair = S.getSBPair(yield select())
         const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
-        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
-        yield take(AT.INITIALIZE_CHECKOUT)
-        yield delay(3000)
-        yield put(actions.form.startSubmit('simpleBuyCheckout'))
+        if (pair) {
+          yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair }))
+          yield take(AT.INITIALIZE_CHECKOUT)
+          yield delay(3000)
+          yield put(actions.form.startSubmit('simpleBuyCheckout'))
+        }
       }
 
       const error = errorHandler(e)
@@ -517,7 +531,6 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    pairs,
     paymentMethods,
     cards,
     orderType
@@ -526,7 +539,6 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
 
-      const cryptoCurrency = S.getCryptoCurrency(yield select())
       const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
@@ -534,9 +546,6 @@ export default ({
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
       const isSimpleBuyCCInvited = true
-      const pair = pairs.find(
-        pair => getCoinFromPair(pair.pair) === cryptoCurrency
-      )
       const cardMethod = paymentMethods.methods.find(
         method => method.type === 'PAYMENT_CARD'
       )
@@ -561,8 +570,7 @@ export default ({
             : paymentMethods.methods.find(
                 method => method.type === 'BANK_ACCOUNT'
               ),
-          orderType,
-          pair: pair || pairs[0]
+          orderType
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {
@@ -700,7 +708,7 @@ export default ({
       )
     } else {
       yield put(
-        A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
+        A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
       )
     }
   }

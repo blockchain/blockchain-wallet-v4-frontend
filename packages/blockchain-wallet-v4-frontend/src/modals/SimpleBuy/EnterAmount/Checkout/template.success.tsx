@@ -18,7 +18,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
-import CoinSelect from './CoinSelect'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import MethodSelect from './MethodSelect'
@@ -111,6 +110,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   if (!fiatCurrency)
     return (
       <Failure
+        fiatCurrency={props.fiatCurrency}
         simpleBuyActions={props.simpleBuyActions}
         formActions={props.formActions}
         analyticsActions={props.analyticsActions}
@@ -126,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(props.formValues, prop)
+      getMaxMin(props.pair, prop, props.formValues)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -149,7 +149,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             onClick={() => props.handleClose()}
           />
         </TopText>
-        <CoinSelect name='pair' {...props} />
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
@@ -168,7 +167,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
-        {props.formValues.pair && amtError && (
+        {props.pair && amtError && (
           <Amounts>
             <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
               {amtError === 'ABOVE_MAX' ? (
@@ -178,7 +177,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.formValues, 'max'),
+                      value: getMaxMin(props.pair, 'max', props.formValues),
                       digits: 0
                     }),
                     orderType:
@@ -192,7 +191,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.formValues, 'min'),
+                      value: getMaxMin(props.pair, 'min', props.formValues),
                       digits: 0
                     }),
                     orderType:

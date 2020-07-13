@@ -65,7 +65,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 })
               : props.simpleBuyActions.setStep({
                   fiatCurrency: props.fiatCurrency,
-                  step: 'ENTER_AMOUNT'
+                  step: 'CRYPTO_SELECTION'
                 })
           }
         />

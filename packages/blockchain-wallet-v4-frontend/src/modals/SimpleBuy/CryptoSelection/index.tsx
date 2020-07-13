@@ -1,26 +1,28 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import {
+  CoinType,
   FiatEligibleType,
   FiatType,
   RemoteDataType,
   SBCardType,
   SBPairType,
-  SBPaymentMethodsType
+  SupportedCoinsType
 } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
+import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
-class EnterAmount extends PureComponent<Props> {
+class CryptoSelection extends PureComponent<Props> {
   componentDidMount () {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
     }
   }
 
@@ -36,7 +38,7 @@ class EnterAmount extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -49,18 +51,19 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  pair: SBPairType
 }
 export type SuccessStateType = {
   cards: Array<SBCardType>
   eligibility: FiatEligibleType
-  paymentMethods: SBPaymentMethodsType
+  pairs: Array<SBPairType>
+  rates: { [key in CoinType]: RatesType }
+  supportedCoins: SupportedCoinsType
 }
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
+  fiatCurrency: FiatType
 }
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(EnterAmount)
+export default connector(CryptoSelection)

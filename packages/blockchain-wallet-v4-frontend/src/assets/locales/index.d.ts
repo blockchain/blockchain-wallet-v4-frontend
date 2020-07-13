@@ -1092,6 +1092,7 @@ type MessagesType = {
   'modals.signmessage.secondstep.message': 'Message:'
   'modals.signmessage.secondstep.signature': 'Signature:'
   'modals.signmessage.title': 'Sign Message'
+  'modals.simplebuy.fetching_methods': 'Loading Payment Options...'
   'modals.simplebuy.billing_address': 'Billing Address'
   'modals.simplebuy.buycrypto': 'Buy Crypto'
   'modals.simplebuy.canceled': 'Trade Canceled'
@@ -1136,6 +1137,8 @@ type MessagesType = {
   'modals.simplebuy.refresh': 'Refresh'
   'modals.simplebuy.save_my_card': 'Save My Card'
   'modals.simplebuy.selectcurrency': 'Select Your Currency'
+  'modals.simplebuy.cryptoselect': 'Buy with Cash or Card'
+  'modals.simplebuy.selectcrypto': 'Select the crypto you want to buy.'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'

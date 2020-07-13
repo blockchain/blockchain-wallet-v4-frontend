@@ -374,13 +374,11 @@ export const initializeBillingAddress = () => ({
 })
 
 export const initializeCheckout = (
-  pairs: Array<SBPairType>,
   paymentMethods: SBPaymentMethodsType,
   cards: Array<SBCardType>,
   orderType: 'BUY' | 'SELL'
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
-  pairs,
   paymentMethods,
   cards,
   orderType
@@ -418,7 +416,13 @@ export const setStep = (
         cryptoCurrency?: CoinType
         defaultMethod?: SBFormPaymentMethod
         fiatCurrency: FiatType
+        pair: SBPairType
         step: 'ENTER_AMOUNT'
+      }
+    | {
+        cryptoCurrency?: CoinType
+        fiatCurrency: FiatType
+        step: 'CRYPTO_SELECTION'
       }
     | { order?: SBOrderType; step: '3DS_HANDLER' }
     | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
@@ -430,6 +434,13 @@ export const setStep = (
           step: payload.step,
           cryptoCurrency: payload.cryptoCurrency,
           defaultMethod: payload.defaultMethod,
+          fiatCurrency: payload.fiatCurrency,
+          pair: payload.pair
+        }
+      : payload.step === 'CRYPTO_SELECTION'
+      ? {
+          step: payload.step,
+          cryptoCurrency: payload.cryptoCurrency,
           fiatCurrency: payload.fiatCurrency
         }
       : payload.step === 'CHECKOUT_CONFIRM' ||

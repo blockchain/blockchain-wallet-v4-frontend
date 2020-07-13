@@ -32,6 +32,8 @@ export const getSBQuote = (state: RootState) => state.components.simpleBuy.quote
 
 export const getSBPairs = (state: RootState) => state.components.simpleBuy.pairs
 
+export const getSBPair = (state: RootState) => state.components.simpleBuy.pair
+
 export const getSBPaymentMethods = (state: RootState) =>
   state.components.simpleBuy.methods
 
