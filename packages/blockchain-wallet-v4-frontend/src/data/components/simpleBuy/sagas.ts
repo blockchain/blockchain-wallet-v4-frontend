@@ -117,6 +117,7 @@ export default ({
       const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: { data: Everypay3DSResponseType } = yield call(
+        // @ts-ignore
         api.submitSBCardDetailsToEverypay,
         {
           ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
