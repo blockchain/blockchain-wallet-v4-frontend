@@ -207,7 +207,6 @@ export default ({
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
-    // TODO: add USD-T & PAX
     switch (coin) {
       case 'BTC':
         const btcAccountsR = yield select(
@@ -219,13 +218,21 @@ export default ({
         defaultAccountR = btcAccountsR.map(nth(defaultIndex))
         payment = yield call(createPayment, defaultIndex)
         break
-
       case 'ETH':
         const ethAccountR = yield select(
           selectors.core.common.eth.getAccountBalances
         )
         defaultAccountR = ethAccountR.map(head)
         payment = yield call(createPayment, defaultAccountR)
+        break
+      case 'PAX':
+      case 'USDT':
+        const erc20AccountR = yield select(
+          selectors.core.common.eth.getErc20AccountBalances,
+          coin
+        )
+        defaultAccountR = erc20AccountR.map(head)
+        payment = yield call(createPayment)
         break
       default:
         throw new Error('Invalid Coin Type')
@@ -312,13 +319,7 @@ export default ({
       yield put(actions.form.startSubmit(FORM))
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
-      // TODO: USD-T & PAX
       switch (coin) {
-        case 'ETH':
-          receiveAddress = selectors.core.data.eth
-            .getDefaultAddress(yield select())
-            .getOrFail('Failed to get ETH receive address')
-          break
         case 'BTC':
           receiveAddress = selectors.core.common.btc
             .getNextAvailableReceiveAddress(
@@ -327,6 +328,13 @@ export default ({
               yield select()
             )
             .getOrFail('Failed to get BTC receive address')
+          break
+        case 'ETH':
+        case 'PAX':
+        case 'USDT':
+          receiveAddress = selectors.core.data.eth
+            .getDefaultAddress(yield select())
+            .getOrFail('Failed to get ETH receive address')
           break
         default:
           throw new Error('Invalid Coin Type')

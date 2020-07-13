@@ -1,4 +1,4 @@
-import { append, assoc, compose, concat, dropLast, lensProp, over } from 'ramda'
+import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
@@ -80,10 +80,7 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        // @ts-ignore
-        instruments: Remote.Success(
-          concat(['USDT', 'PAX'], payload.interestInstruments.instruments)
-        )
+        instruments: Remote.Success(payload.interestInstruments.instruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {
@@ -128,13 +125,7 @@ export function interestReducer (
     case AT.FETCH_INTEREST_RATE_SUCCESS:
       return {
         ...state,
-        // @ts-ignore
-        interestRate: Remote.Success({
-          BTC: 4.7,
-          ETH: 4.9,
-          PAX: 4.2,
-          USDT: 4.1
-        })
+        interestRate: Remote.Success(payload.interestRate.rates)
       }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
