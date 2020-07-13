@@ -80,8 +80,9 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
+        // @ts-ignore
         instruments: Remote.Success(
-          concat(['USDT'], payload.interestInstruments.instruments)
+          concat(['USDT', 'PAX'], payload.interestInstruments.instruments)
         )
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
@@ -131,7 +132,7 @@ export function interestReducer (
         interestRate: Remote.Success({
           BTC: 4.7,
           ETH: 4.9,
-          // 'USD-D': 4.2,
+          PAX: 4.2,
           USDT: 4.1
         })
       }

@@ -207,6 +207,7 @@ export default ({
       AT.FETCH_INTEREST_LIMITS_FAILURE
     ])
 
+    // TODO: add USD-T & PAX
     switch (coin) {
       case 'BTC':
         const btcAccountsR = yield select(
@@ -311,6 +312,7 @@ export default ({
       yield put(actions.form.startSubmit(FORM))
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
+      // TODO: USD-T & PAX
       switch (coin) {
         case 'ETH':
           receiveAddress = selectors.core.data.eth

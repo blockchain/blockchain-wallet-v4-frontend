@@ -134,7 +134,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             <FormattedMessage
               id='modals.interest.detailsbalance'
               defaultMessage='{coin} Balance'
-              values={{ coin }}
+              values={{ coin: coinTicker }}
             />
           </Text>
           <Text
