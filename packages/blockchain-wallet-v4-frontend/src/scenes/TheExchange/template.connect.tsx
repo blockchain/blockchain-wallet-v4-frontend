@@ -1,5 +1,5 @@
 import { Box } from 'components/Box'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import { Props } from './template'
@@ -61,41 +61,22 @@ const ExchangeConnect = (props: Props) => {
                 defaultMessage='Connected'
               />
             </CustomSuccessCartridge>
-            {props.data.cata({
-              Success: val => {
-                return val.walletAddresses === {} ? (
-                  <Button
-                    data-e2e='linkAgain'
-                    nature='primary'
-                    height='48px'
-                    fullwidth
-                    onClick={
-                      props.profileActions.shareWalletAddressesWithExchange
-                    }
-                  >
-                    <FormattedMessage
-                      id='scenes.exchange.reconnectnow'
-                      defaultMessage='Reconnect Now'
-                    />
-                  </Button>
-                ) : (
-                  <LinkToExchange {...props} />
-                )
-              },
-              Loading: () => (
-                <Button
-                  data-e2e='linkAgain'
-                  nature='primary'
-                  height='48px'
-                  fullwidth
-                  disabled
-                >
-                  <HeartbeatLoader height='16px' width='16px' color='white' />
-                </Button>
-              ),
-              Failure: () => <LinkToExchange {...props} />,
-              NotAsked: () => <LinkToExchange {...props} />
-            })}
+            {props.isExchangeRelinkRequired ? (
+              <Button
+                data-e2e='linkAgain'
+                nature='primary'
+                height='48px'
+                fullwidth
+                onClick={props.profileActions.shareWalletAddressesWithExchange}
+              >
+                <FormattedMessage
+                  id='scenes.exchange.reconnectnow'
+                  defaultMessage='Reconnect Now'
+                />
+              </Button>
+            ) : (
+              <LinkToExchange {...props} />
+            )}
           </>
         ) : (
           <>

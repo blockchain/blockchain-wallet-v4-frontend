@@ -1,10 +1,12 @@
+import { ABTestCmdType } from 'data/analytics/types'
 import { actions, model } from 'data'
 import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { debounce } from 'utils/helpers'
 import { getData } from './selectors'
 import { isEmpty } from 'ramda'
 import { reduxForm } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React from 'react'
@@ -17,17 +19,42 @@ const extractFieldValue = (e, value) => {
 const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
-class ExchangeForm extends React.Component {
+class ExchangeForm extends React.Component<Props> {
+  componentDidMount () {
+    this.props.analyticsActions.createABTest('SwapFees')
+
+    setTimeout(() => {
+      if (!Remote.Success.is(this.props.data)) {
+        this.props.analyticsActions.createABTestSuccess('SwapFees', {
+          to: 'swap',
+          from: 'matomo',
+          command: 'priority'
+        })
+      }
+    }, 3000)
+
+    window.addEventListener('message', this.receiveMessage)
+  }
+
   shouldComponentUpdate (nextProps) {
     return nextProps.data !== this.props.data
   }
 
   componentWillUnmount () {
     this.props.actions.setShowError(false)
+    window.removeEventListener('message', this.receiveMessage)
   }
 
   debounceTime = 50
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
+
+  receiveMessage = (e: { data: ABTestCmdType }) => {
+    if (!e.data) return
+    if (e.data.from !== 'matomo') return
+    if (e.data.to !== 'swap') return
+
+    this.props.analyticsActions.createABTestSuccess('SwapFees', e.data)
+  }
 
   initialize = () => {
     const { actions, from, to, fix, amount } = this.props
@@ -38,7 +65,7 @@ class ExchangeForm extends React.Component {
     this.initialize()
   }
 
-  clearZero = (e, inputSource) => {
+  clearZero = e => {
     if (e.target.value === '0') {
       this.props.formActions.change(EXCHANGE_FORM, e.target.name, '')
     }
@@ -63,8 +90,6 @@ class ExchangeForm extends React.Component {
             {...value}
             showError={showError}
             txError={txError}
-            handleMaximum={actions.firstStepMaximumClicked}
-            handleMinimum={actions.firstStepMinimumClicked}
             handleSubmit={actions.showConfirmation}
             handleSourceChange={compose(
               actions.changeSource,
@@ -76,7 +101,7 @@ class ExchangeForm extends React.Component {
             )}
             handleAmountChange={compose(this.changeAmount, extractFieldValue)}
             handleInputFocus={e => {
-              this.clearZero(e, value.inputField)
+              this.clearZero(e)
             }}
             handleInputBlur={this.addZero}
             initialize={this.initialize}
@@ -109,13 +134,28 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
 const enhance = compose(
   reduxForm({
     form: EXCHANGE_FORM,
     destroyOnUnmount: true,
     persistentSubmitErrors: true
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connector
 )
+
+type ExchangeFormValuesType = {
+  amount: any
+  fix: any
+  from: any
+  to: any
+}
+
+type Props = ConnectedProps<typeof connector> &
+  ExchangeFormValuesType & {
+    showError: boolean
+    txError: any
+  }
 
 export default enhance(ExchangeForm)

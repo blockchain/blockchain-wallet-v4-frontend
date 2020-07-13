@@ -37,6 +37,7 @@ export type ModalOriginType =
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
   | 'EmptyFeed'
+  | 'ExchangeForm'
   | 'FeaturesTopNav'
   | 'Header'
   | 'InterestPage'

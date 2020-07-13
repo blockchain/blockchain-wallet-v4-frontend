@@ -1,5 +1,5 @@
 import { CoinType, OfferType } from 'core/types'
-import { getBalanceSelector } from 'components/Balances/wallet/selectors'
+import { getBalanceSelector } from 'components/Balances/nonCustodial/selectors'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 

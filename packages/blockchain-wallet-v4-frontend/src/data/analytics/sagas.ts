@@ -9,7 +9,7 @@ import { CUSTOM_VARIABLES } from './model'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'analytics/sagas'
-export default ({ api }) => {
+export default () => {
   const waitForUserId = function * () {
     const userId = yield select(
       selectors.core.kvStore.userCredentials.getUserId
@@ -28,6 +28,7 @@ export default ({ api }) => {
     try {
       const frame = document.getElementById('matomo-iframe')
       if (frame) {
+        // @ts-ignore
         frame.contentWindow.postMessage(message, '*')
       } else {
         yield put(
@@ -96,6 +97,7 @@ export default ({ api }) => {
       )).getOrElse(0)
       const btcContext = yield select(selectors.core.wallet.getSpendableContext)
       const btcBalance = reduce(
+        // @ts-ignore
         add,
         0,
         map(
@@ -110,6 +112,7 @@ export default ({ api }) => {
         selectors.core.kvStore.bch.getSpendableContext
       )
       const bchBalance = reduce(
+        // @ts-ignore
         add,
         0,
         map(

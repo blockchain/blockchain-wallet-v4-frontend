@@ -17,6 +17,7 @@ import {
 import { CoinType } from 'core/types'
 import { currencySymbolMap } from 'services/CoinifyService'
 import { formatPair } from 'data/modules/rates/model'
+import { SwapLimitsType } from './types'
 
 export const convertBaseToStandard = (
   coin: CoinType | 'FIAT',
@@ -118,7 +119,7 @@ export const validateVolume = (
   if (isAmountAboveMaximum(sourceFiatVolume, maxOrder)) throw ORDER_ERROR
 }
 
-export const addBalanceLimit = (balanceLimit, limits) => {
+export const addBalanceLimit = (balanceLimit, limits): SwapLimitsType => {
   const { fiatBalance, cryptoBalance } = balanceLimit
 
   const resultingLimits = assoc('balanceMax', cryptoBalance, limits)

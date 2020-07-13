@@ -260,7 +260,7 @@ const Register = ({
               </InfoItem>
             </CardInfo>
 
-            {showForm && (
+            {showForm ? (
               <SignupForm
                 busy={busy}
                 handleSubmit={handleSubmit}
@@ -268,9 +268,7 @@ const Register = ({
                 password={password}
                 passwordLength={passwordLength}
               />
-            )}
-
-            {!showForm && (
+            ) : (
               <Button
                 data-e2e='signupButton'
                 fullwidth

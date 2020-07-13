@@ -22,7 +22,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   render () {
-    const { data, password } = this.props
+    const { data, password, search } = this.props
     let busy = data.cata({
       Success: () => false,
       Failure: () => false,
@@ -31,6 +31,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     })
 
     const passwordLength = (password && password.length) || 0
+    const showWalletFormQuery = search.includes('showWallet')
 
     return (
       <Register
@@ -38,7 +39,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
-        showForm={this.state.showForm}
+        showForm={this.state.showForm || showWalletFormQuery}
         toggleForm={this.toggleForm}
         {...this.props}
       />
@@ -52,7 +53,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
   goals: selectors.goals.getGoals(state),
-  password: formValueSelector('register')(state, 'password') || ''
+  password: formValueSelector('register')(state, 'password') || '',
+  search: selectors.router.getSearch(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -70,6 +72,7 @@ type LinkStatePropsType = {
   goals: Array<{ data: any; id: string; name: GoalsType }>
   language: string
   password: string
+  search: string
 }
 
 type StateType = {

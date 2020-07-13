@@ -96,7 +96,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     walletHelper: 'https://wallet-helper.blockchain.com'
   }),
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
-  userData: selectors.modules.profile.getUserData(state).getOrElse(null)
+  userData: selectors.modules.profile
+    .getUserData(state)
+    .getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)

@@ -7,6 +7,7 @@ import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { MempoolFeeType } from './types'
 import BigNumber from 'bignumber.js'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
@@ -23,7 +24,11 @@ export default ({ coreSagas, networks }) => {
   let paymentTask
   let isSourceErc20
 
-  const calculatePaymentMemo = function * (source, amount) {
+  const calculatePaymentMemo = function * (
+    source,
+    amount,
+    fee: MempoolFeeType = 'priority'
+  ) {
     if (
       !equals(source, prevPaymentSource) ||
       !equals(amount, prevPaymentAmount)
@@ -34,7 +39,7 @@ export default ({ coreSagas, networks }) => {
       )).getOrElse([])
       isSourceErc20 = includes(coin, erc20List)
       if (paymentTask) cancel(paymentTask)
-      paymentTask = yield fork(calculateProvisionalPayment, source, amount)
+      paymentTask = yield fork(calculateProvisionalPayment, source, amount, fee)
       prevPayment = yield join(paymentTask)
       prevPaymentSource = source
       prevPaymentAmount = amount
@@ -43,7 +48,11 @@ export default ({ coreSagas, networks }) => {
     return prevPayment
   }
 
-  const calculateProvisionalPayment = function * (source: AccountTypes, amount) {
+  const calculateProvisionalPayment = function * (
+    source: AccountTypes,
+    amount,
+    fee: MempoolFeeType = 'priority'
+  ) {
     try {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
@@ -61,7 +70,7 @@ export default ({ coreSagas, networks }) => {
         .create({ network })
         .chain()
         .init({ isErc20: isSourceErc20, coin })
-        .fee('priority')
+        .fee(fee)
         .from(addressOrIndex, addressType)
         .done()
       if (isSourceErc20 || includes(coin, ['ETH', 'XLM'])) {
@@ -86,7 +95,8 @@ export default ({ coreSagas, networks }) => {
     addressType,
     amount,
     fees,
-    memo
+    memo,
+    fee: MempoolFeeType = 'priority'
   ) {
     let payment
     switch (coin) {
@@ -133,7 +143,7 @@ export default ({ coreSagas, networks }) => {
         throw new Error('Could not create payment.')
     }
     payment = yield payment
-      .fee(fees.priority)
+      .fee(fees[fee])
       .from(sourceAddressOrIndex, addressType)
       .to(targetAddress, ADDRESS_TYPES.ADDRESS)
       .build()
