@@ -9,7 +9,6 @@ import {
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBFormPaymentMethod } from 'data/types'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -22,11 +21,10 @@ class LinkedCards extends PureComponent<Props> {
     )
   }
 
-  handleCreditCardClick = (defaultMethod?: SBFormPaymentMethod) => {
+  handleCreditCardClick = () => {
     this.props.simpleBuyActions.showModal('SettingsGeneral')
     this.props.simpleBuyActions.setStep({
       step: 'CRYPTO_SELECTION',
-      defaultMethod: defaultMethod,
       fiatCurrency: this.props.fiatCurrency || 'USD'
     })
   }

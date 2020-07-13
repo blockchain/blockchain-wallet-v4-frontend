@@ -3,7 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType } from 'core/types'
+import { SBOrderType, SBPairType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
@@ -122,6 +122,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
+  pair: selectors.components.simpleBuy.getSBPair(state),
   order: selectors.components.simpleBuy.getSBOrder(state)
 })
 
@@ -149,7 +150,6 @@ type LinkStatePropsType =
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
-        | 'ENTER_AMOUNT'
     }
   | {
       order: SBOrderType
@@ -161,7 +161,12 @@ type LinkStatePropsType =
     }
   | {
       cardId?: string
+      pair?: SBPairType
       step: 'ADD_CARD'
+    }
+  | {
+      pair?: SBPairType
+      step: 'ENTER_AMOUNT'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
