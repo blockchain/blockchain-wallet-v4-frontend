@@ -208,9 +208,9 @@ class MethodSelect extends PureComponent<Props> {
   ) => {
     if (!props.value) return
     if (!this.props.formValues) return
-    if (!this.props.formValues.pair) return
+    if (!this.props.pair) return
 
-    const fiat = getFiatFromPair(this.props.formValues.pair.pair)
+    const fiat = getFiatFromPair(this.props.pair.pair)
     const isCard = props.value.type === 'USER_CARD'
     const isItem = !children
 

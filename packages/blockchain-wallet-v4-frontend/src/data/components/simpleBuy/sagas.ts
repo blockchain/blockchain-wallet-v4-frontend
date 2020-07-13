@@ -117,6 +117,7 @@ export default ({
       const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: { data: Everypay3DSResponseType } = yield call(
+        // @ts-ignore
         api.submitSBCardDetailsToEverypay,
         {
           ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
@@ -191,7 +192,7 @@ export default ({
       const values: SBCheckoutFormValuesType = yield select(
         selectors.form.getFormValues('simpleBuyCheckout')
       )
-      const pair = values.pair
+      const pair = S.getSBPair(yield select())
       const amount = convertStandardToBase('FIAT', values.amount)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // TODO: Simple Buy - make dynamic
@@ -530,7 +531,6 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    pairs,
     paymentMethods,
     cards,
     orderType
@@ -539,7 +539,6 @@ export default ({
       yield call(createUser)
       yield call(waitForUserData)
 
-      const cryptoCurrency = S.getCryptoCurrency(yield select())
       const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
@@ -547,9 +546,6 @@ export default ({
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
       const isSimpleBuyCCInvited = true
-      const pair = pairs.find(
-        pair => getCoinFromPair(pair.pair) === cryptoCurrency
-      )
       const cardMethod = paymentMethods.methods.find(
         method => method.type === 'PAYMENT_CARD'
       )
@@ -574,8 +570,7 @@ export default ({
             : paymentMethods.methods.find(
                 method => method.type === 'BANK_ACCOUNT'
               ),
-          orderType,
-          pair: pair || pairs[0]
+          orderType
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {

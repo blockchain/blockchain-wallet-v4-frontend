@@ -27,11 +27,7 @@ const TopText = styled(Text)`
 const SubTitleText = styled(Text)`
   margin-top: 0;
 `
-const CloseIcon = styled(Icon)`
-  position: absolute;
-  top: 28px;
-  right: 28px;
-`
+
 export type Props = OwnProps & SuccessStateType
 
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
@@ -49,19 +45,19 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <CloseIcon
-            cursor
-            data-e2e='sbCloseModalIcon'
-            name='close'
-            size='16px'
-            color='grey600'
-            role='button'
-            onClick={props.handleClose}
-          />
           <TopText color='grey800' size='20px' weight={600}>
             <FormattedMessage
               id='modals.simplebuy.cryptoselect'
               defaultMessage='Buy with Cash or Card'
+            />
+            <Icon
+              cursor
+              data-e2e='sbCloseModalIcon'
+              name='close'
+              size='20px'
+              color='grey600'
+              role='button'
+              onClick={props.handleClose}
             />
           </TopText>
           <SubTitleText color='grey600' weight={500}>

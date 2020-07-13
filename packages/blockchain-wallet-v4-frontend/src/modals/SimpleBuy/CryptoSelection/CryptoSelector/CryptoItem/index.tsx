@@ -1,3 +1,7 @@
+import { Icon } from 'blockchain-info-components'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   CoinType,
   SBPairType,
@@ -9,10 +13,8 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { Icon, Text } from 'blockchain-info-components'
 import { RatesType } from 'data/types'
-import React from 'react'
-import styled from 'styled-components'
+import { Title, Value } from 'components/Flyout'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -37,19 +39,6 @@ const Display = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: ${props => props.theme.grey800};
-`
-const DisplayName = styled(Text)`
-  font-weight: 600;
-`
-
-const Rate = styled(Text)`
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 4px;
-  color: ${props => props.theme.grey600} !important;
-  > span {
-    color: ${props => props.theme.green500};
-  }
 `
 
 export type Props = {
@@ -76,14 +65,13 @@ const CryptoItem: React.FC<Props> = props => {
     >
       <Icon size='32px' color={color} name={icon} />
       <Display>
-        <DisplayName>{displayName}</DisplayName>
-        <Rate>
+        <Value>{displayName}</Value>
+        <Title>
           {fiatToString({
             value: props.rates[coin][fiat].last,
             unit: fiat
           })}
-          <span>+ xx.x%</span>
-        </Rate>
+        </Title>
       </Display>
       <Icon name='chevron-right' size='32px' color='grey600' />
     </DisplayContainer>

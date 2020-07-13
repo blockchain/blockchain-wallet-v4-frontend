@@ -1092,6 +1092,7 @@ type MessagesType = {
   'modals.signmessage.secondstep.message': 'Message:'
   'modals.signmessage.secondstep.signature': 'Signature:'
   'modals.signmessage.title': 'Sign Message'
+  'modals.simplebuy.fetching_methods': 'Loading Payment Options...'
   'modals.simplebuy.billing_address': 'Billing Address'
   'modals.simplebuy.buycrypto': 'Buy Crypto'
   'modals.simplebuy.canceled': 'Trade Canceled'
