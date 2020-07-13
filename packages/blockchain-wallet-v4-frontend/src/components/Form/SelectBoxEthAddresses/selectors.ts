@@ -1,6 +1,6 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
-import { concat, curry, filter, has, map, prop, reduce, sequence } from 'ramda'
+import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
 import {
   Erc20CoinType,
@@ -114,14 +114,14 @@ export const getEthData = (
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map<any, any>(prop('ETH'))
+            .map(x => x.ETH)
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map<any, any>(prop('ETH'))
+            .map(x => x.ETH)
             .map(toInterestDropdown)
             .map(toGroup('Interest Wallet'))
         : Remote.of([]),
@@ -242,7 +242,7 @@ export const getErc20Data = (
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map<any, any>(prop(coin))
+            .map(x => x[coin])
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

@@ -1,6 +1,6 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
-import { concat, curry, prop, reduce, sequence } from 'ramda'
+import { concat, curry, reduce, sequence } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
@@ -55,7 +55,7 @@ export const getData = (
     includeCustodial
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map<any, any>(prop('ALGO'))
+          .map(x => x.ALGO)
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])

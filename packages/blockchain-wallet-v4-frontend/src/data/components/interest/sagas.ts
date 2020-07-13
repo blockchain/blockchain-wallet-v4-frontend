@@ -13,8 +13,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
-import { DEFAULT_INTEREST_BALANCE } from './model'
+import { DEFAULT_INTEREST_BALANCES } from './model'
 import { InterestDepositFormType } from './types'
+import { RatesType } from '../borrow/types'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
@@ -48,7 +49,7 @@ export default ({
       yield put(A.fetchInterestBalanceLoading())
       if (!(yield call(isTier2)))
         return yield put(
-          A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCE)
+          A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES)
         )
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
@@ -158,7 +159,7 @@ export default ({
     const userCurrency = (yield select(
       selectors.core.settings.getCurrency
     )).getOrFail('Failed to get user currency')
-    const rates = ratesR.getOrElse({})
+    const rates = ratesR.getOrElse({} as RatesType)
     const rate = rates[userCurrency].last
     const paymentR = S.getPayment(yield select())
     let payment = paymentGetOrElse(coin, paymentR)

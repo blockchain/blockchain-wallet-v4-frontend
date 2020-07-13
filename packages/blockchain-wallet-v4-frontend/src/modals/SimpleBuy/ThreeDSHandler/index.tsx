@@ -39,7 +39,7 @@ class ThreeDSHandler extends PureComponent<Props, State> {
       type: null,
       card: { id: '' },
       order: { id: '' }
-    })
+    } as SuccessStateType)
 
     switch (type) {
       case 'ORDER':

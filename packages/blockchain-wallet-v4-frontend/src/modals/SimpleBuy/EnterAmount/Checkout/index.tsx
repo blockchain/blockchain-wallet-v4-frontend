@@ -39,8 +39,8 @@ class Checkout extends PureComponent<Props> {
       formValues: {
         method: { limits: { min: '0', max: '0' }, type: 'BANK_ACCOUNT' }
       } as SBCheckoutFormValuesType,
-      userData: { tiers: { current: 0 } }
-    })
+      userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
+    } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(
