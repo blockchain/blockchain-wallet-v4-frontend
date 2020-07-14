@@ -1,14 +1,16 @@
 import * as A from './actions'
 import * as pairing from '../../../pairing'
-import * as selectors from '../../selectors'
 import * as wS from '../../wallet/selectors'
+import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import moment from 'moment'
 import readBlob from 'read-blob'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
   const fetchCaptcha = function * () {
     try {
       const timestamp = new Date().getTime()
@@ -19,6 +21,23 @@ export default ({ api }) => {
       yield put(A.fetchCaptchaSuccess({ url, sessionToken }))
     } catch (e) {
       yield put(A.fetchCaptchaFailure(e.message))
+    }
+  }
+
+  const fetchPrice24H = function * (action: ReturnType<typeof A.fetchPrice24H>) {
+    const { base, quote } = action.payload
+    try {
+      yield put(A.fetchPrice24HLoading(base))
+      const response: ReturnType<typeof api.getPriceIndex> = yield call(
+        api.getPriceIndex,
+        base,
+        quote,
+        moment().subtract(1, 'day')
+      )
+      yield put(A.fetchPrice24HSuccess(base, response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchPrice24HFailure(base, error))
     }
   }
 
@@ -36,18 +55,6 @@ export default ({ api }) => {
       yield put(A.fetchPriceIndexSeriesSuccess(data))
     } catch (e) {
       yield put(A.fetchPriceIndexSeriesFailure(e.message))
-    }
-  }
-
-  const fetchLogs = function * ({ address }) {
-    try {
-      const guid = yield select(selectors.wallet.getGuid)
-      const sharedKey = yield select(selectors.wallet.getSharedKey)
-      yield put(A.fetchLogsLoading())
-      const data = yield call(api.getLogs, guid, sharedKey)
-      yield put(A.fetchLogsSuccess(data.results))
-    } catch (e) {
-      yield put(A.fetchLogsFailure(e.message))
     }
   }
 
@@ -117,7 +124,7 @@ export default ({ api }) => {
   return {
     authorizeLogin,
     fetchCaptcha,
-    fetchLogs,
+    fetchPrice24H,
     fetchPriceIndexSeries,
     encodePairingCode,
     verifyEmailToken,

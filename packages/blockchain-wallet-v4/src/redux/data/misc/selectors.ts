@@ -4,6 +4,7 @@ import { dataPath } from '../../paths'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { path } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { RootState } from 'data/rootReducer'
 
 export const getCaptcha = path([dataPath, 'misc', 'captcha'])
 
@@ -22,6 +23,9 @@ export const authorizeLogin = path([dataPath, 'misc', 'authorize_login'])
 export const handle2FAReset = path([dataPath, 'misc', 'handle_2fa_reset'])
 
 export const verifyEmailToken = path([dataPath, 'misc', 'verify_email_token'])
+
+export const getPrice24H = (state: RootState, coin: CoinType) =>
+  state.dataPath.misc.price_24h[coin]
 
 export const getRatesSelector = (
   coin: CoinType,
