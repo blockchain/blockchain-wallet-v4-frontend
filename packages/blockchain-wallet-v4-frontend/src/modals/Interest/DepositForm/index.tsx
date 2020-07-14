@@ -8,10 +8,11 @@ import {
   FiatType,
   InterestLimitsType,
   InterestRateType,
+  RatesType,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
-import { InterestMinMaxType, RatesType } from 'data/types'
+import { InterestMinMaxType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -91,7 +92,6 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 export type SuccessStateType = {
-  coin: CoinType
   depositLimits: InterestMinMaxType
   displayCoin: boolean
   formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }

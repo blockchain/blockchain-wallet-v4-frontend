@@ -144,6 +144,7 @@ export const getData = (
     }
   }
 
+  // @ts-ignore
   return lift(transform)(
     addressDataR,
     balanceDataR,

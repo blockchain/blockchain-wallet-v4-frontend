@@ -1,11 +1,11 @@
-import { BorrowFormValuesType, RatesType } from 'data/types'
+import { BorrowFormValuesType } from 'data/types'
 import {
   coinToString,
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FormattedMessage } from 'react-intl'
-import { OfferType } from 'core/types'
+import { OfferType, RatesType } from 'core/types'
 import { TableRow, Title, Value } from 'components/Borrow'
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import React from 'react'

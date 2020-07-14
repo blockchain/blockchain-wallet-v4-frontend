@@ -1,4 +1,4 @@
-import { CoinType, OfferType } from 'core/types'
+import { CoinType, ExtractSuccess } from 'core/types'
 import { getBalanceSelector } from 'components/Balances/nonCustodial/selectors'
 import { lift } from 'ramda'
 import { selectors } from 'data'
@@ -13,7 +13,11 @@ export const getBalance = state => {
 
   const ratesR = selectors.core.data.misc.getRatesSelector(values.coin, state)
 
-  const transform = (offers: Array<OfferType>, balance, rates) => {
+  const transform = (
+    offers: ExtractSuccess<typeof offersR>,
+    balance: number,
+    rates: ExtractSuccess<typeof ratesR>
+  ) => {
     const offer = offers.find(
       offer => offer.terms.collateralCcy === values.coin
     )

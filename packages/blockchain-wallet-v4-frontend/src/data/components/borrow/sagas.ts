@@ -3,7 +3,7 @@ import * as S from './selectors'
 import { actions, selectors } from 'data'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, RatesType, RepayLoanFormType } from './types'
+import { BorrowFormValuesType, RepayLoanFormType } from './types'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -22,7 +22,8 @@ import {
   LoanFinancialsType,
   LoanType,
   PaymentType,
-  PaymentValue
+  PaymentValue,
+  RatesType
 } from 'core/types'
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'

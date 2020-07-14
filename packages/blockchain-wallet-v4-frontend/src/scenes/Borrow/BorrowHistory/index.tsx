@@ -2,14 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
-import {
-  LoanType,
-  NabuApiErrorType,
-  OfferType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
-import { RatesType, UserDataType } from 'data/types'
+import { LoanType, OfferType } from 'core/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import Success from './template.success'
@@ -45,7 +38,7 @@ class BorrowHistory extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
@@ -56,17 +49,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = {
-  borrowHistory: Array<LoanType>
-  offers: Array<OfferType>
-  rates: RatesType
-  showLoanDetails: (loan: LoanType, offer: OfferType) => void
-  supportedCoins: SupportedCoinsType
-  userData: UserDataType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 type Props = ConnectedProps<typeof connector>
 
 export default connector(BorrowHistory)
