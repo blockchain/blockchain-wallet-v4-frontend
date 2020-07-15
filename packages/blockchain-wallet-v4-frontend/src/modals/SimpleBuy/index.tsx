@@ -79,6 +79,11 @@ class SimpleBuy extends PureComponent<Props, State> {
             <CryptoSelection {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'PAYMENT_METHODS' && (
+          <FlyoutChild>
+            <CryptoSelection {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
         {this.props.step === 'ADD_CARD' && (
           <FlyoutChild>
             <AddCard {...this.props} handleClose={this.handleClose} />
@@ -158,6 +163,7 @@ type LinkStatePropsType =
         | 'TRANSFER_DETAILS'
         | 'ORDER_SUMMARY'
         | 'CANCEL_ORDER'
+        | 'PAYMENT_METHODS'
     }
   | {
       cardId?: string

@@ -50,6 +50,7 @@ export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'PAYMENT_METHODS',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
   'ADD_CARD',
@@ -287,38 +288,43 @@ interface FetchSBSuggestedAmountsSuccess {
   }
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
 }
+
+export type StepActionsPayload =
+  | {
+      order: SBOrderType
+      step:
+        | 'CHECKOUT_CONFIRM'
+        | 'TRANSFER_DETAILS'
+        | 'ORDER_SUMMARY'
+        | 'CANCEL_ORDER'
+    }
+  | {
+      cryptoCurrency?: CoinType
+      defaultMethod?: SBFormPaymentMethod
+      fiatCurrency: FiatType
+      pair: SBPairType
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      cryptoCurrency?: CoinType
+      fiatCurrency: FiatType
+      step: 'CRYPTO_SELECTION'
+    }
+  | {
+      cryptoCurrency: CoinType
+      defaultMethod: SBFormPaymentMethod
+      fiatCurrency: FiatType
+      pair: SBPairType
+      step: 'PAYMENT_METHODS'
+    }
+  | { order?: SBOrderType; step: '3DS_HANDLER' }
+  | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
+
 interface SetStepAction {
-  payload:
-    | {
-        cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
-        fiatCurrency: FiatType
-        pair: SBPairType
-        step: 'ENTER_AMOUNT'
-      }
-    | {
-        cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
-        fiatCurrency: FiatType
-        step: 'CRYPTO_SELECTION'
-      }
-    | {
-        order: SBOrderType
-        step:
-          | 'CHECKOUT_CONFIRM'
-          | 'ORDER_SUMMARY'
-          | 'TRANSFER_DETAILS'
-          | 'CANCEL_ORDER'
-      }
-    | {
-        order?: SBOrderType
-        step: '3DS_HANDLER'
-      }
-    | {
-        step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS'
-      }
+  payload: StepActionsPayload
   type: typeof AT.SET_STEP
 }
+
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
