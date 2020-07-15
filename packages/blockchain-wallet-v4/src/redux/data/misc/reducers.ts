@@ -36,6 +36,33 @@ export const miscReducer = (
     case AT.FETCH_CAPTCHA_SUCCESS: {
       return assoc('captcha', Remote.Success(action.payload), state)
     }
+    case AT.FETCH_PRICE_24H_LOADING: {
+      return {
+        ...state,
+        price_24h: {
+          ...state.price_24h,
+          [action.payload.base]: Remote.Loading
+        }
+      }
+    }
+    case AT.FETCH_PRICE_24H_SUCCESS: {
+      return {
+        ...state,
+        price_24h: {
+          ...state.price_24h,
+          [action.payload.base]: Remote.Success(action.payload)
+        }
+      }
+    }
+    case AT.FETCH_PRICE_24H_FAILURE: {
+      return {
+        ...state,
+        price_24h: {
+          ...state.price_24h,
+          [action.payload.base]: Remote.Failure(action.payload.error)
+        }
+      }
+    }
     case AT.FETCH_PRICE_INDEX_SERIES_LOADING: {
       return assoc('price_index_series', Remote.Loading, state)
     }

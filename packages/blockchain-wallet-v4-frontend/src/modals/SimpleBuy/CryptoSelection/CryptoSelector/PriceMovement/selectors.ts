@@ -8,11 +8,9 @@ import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const coin = getCoinFromPair(ownProps.value.pair)
-  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
-  const fiatCurrency = selectors.components.simpleBuy.getFiatCurrency(state)
+  const price24HrR = selectors.core.data.misc.getPrice24H(coin, state)
 
-  return lift((rates: ExtractSuccess<typeof ratesR>) => ({
-    fiatCurrency,
-    rates
-  }))(ratesR)
+  return lift((price24Hr: ExtractSuccess<typeof price24HrR>) => ({
+    price24Hr
+  }))(price24HrR)
 }

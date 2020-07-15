@@ -1,11 +1,5 @@
 import * as AT from './actionTypes'
-import {
-  CoinType,
-  FiatType,
-  MiscActionTypes,
-  PriceIndexResponseType
-} from 'core/types'
-import { Moment } from 'moment'
+import { CoinType, FiatType, MiscActionTypes } from 'core/types'
 
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
@@ -20,13 +14,9 @@ export const fetchCaptchaFailure = error => ({
 })
 
 // FETCH_PRICE_24H
-export const fetchPrice24H = (
-  base: CoinType,
-  quote: FiatType,
-  time: Moment
-) => ({
+export const fetchPrice24H = (base: CoinType, quote: FiatType) => ({
   type: AT.FETCH_PRICE_24H,
-  payload: { base, quote, time }
+  payload: { base, quote }
 })
 export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
   type: AT.FETCH_PRICE_24H_LOADING,
@@ -34,12 +24,14 @@ export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
 })
 export const fetchPrice24HSuccess = (
   base: CoinType,
-  data: PriceIndexResponseType
+  change: string,
+  movement: 'none' | 'up' | 'down'
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_24H_SUCCESS,
   payload: {
     base,
-    data
+    change,
+    movement
   }
 })
 export const fetchPrice24HFailure = (base, error): MiscActionTypes => ({

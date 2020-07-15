@@ -1,10 +1,5 @@
 import * as AT from './actionTypes'
-import {
-  CoinType,
-  FiatType,
-  PriceIndexResponseType,
-  RemoteDataType
-} from 'core/types'
+import { CoinType, FiatType, RemoteDataType } from 'core/types'
 
 // types
 export type RateType = {
@@ -27,7 +22,10 @@ export type MiscStateType = {
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
   price_24h: {
-    [key in CoinType]: RemoteDataType<string, any>
+    [key in CoinType]: RemoteDataType<
+      string,
+      { change: string; movement: 'none' | 'up' | 'down' }
+    >
   }
   price_index_series: RemoteDataType<any, any>
   verify_email_token: RemoteDataType<any, any>
@@ -90,7 +88,8 @@ interface FetchPrice24HLoadingActionType {
 interface FetchPrice24HSuccessActionType {
   payload: {
     base: CoinType
-    data: PriceIndexResponseType
+    change: string
+    movement: 'none' | 'up' | 'down'
   }
   type: typeof AT.FETCH_PRICE_24H_SUCCESS
 }

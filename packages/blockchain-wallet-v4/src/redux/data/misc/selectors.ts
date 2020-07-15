@@ -24,7 +24,7 @@ export const handle2FAReset = path([dataPath, 'misc', 'handle_2fa_reset'])
 
 export const verifyEmailToken = path([dataPath, 'misc', 'verify_email_token'])
 
-export const getPrice24H = (state: RootState, coin: CoinType) =>
+export const getPrice24H = (coin: CoinType, state: RootState) =>
   state.dataPath.misc.price_24h[coin]
 
 export const getRatesSelector = (

@@ -15,6 +15,7 @@ import {
   OwnProps as ParentOwnProps,
   SuccessStateType
 } from '.'
+import PriceMovement from '../PriceMovement'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -40,6 +41,11 @@ const Display = styled.div`
   font-weight: 500;
   color: ${props => props.theme.grey800};
 `
+const DisplayTitle = styled(Title)`
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
@@ -60,13 +66,14 @@ const Success: React.FC<Props> = props => {
     >
       <Icon size='32px' color={color} name={icon} />
       <Display>
-        <Value>{displayName}</Value>
-        <Title>
+        <Value style={{ marginTop: '0px' }}>{displayName}</Value>
+        <DisplayTitle>
           {fiatToString({
             value: props.rates[fiat].last,
             unit: fiat
           })}
-        </Title>
+          <PriceMovement {...props} />
+        </DisplayTitle>
       </Display>
       <Icon name='chevron-right' size='32px' color='grey600' />
     </DisplayContainer>

@@ -4,6 +4,7 @@ import * as wS from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import readBlob from 'read-blob'
 
@@ -28,13 +29,28 @@ export default ({ api }: { api: APIType }) => {
     const { base, quote } = action.payload
     try {
       yield put(A.fetchPrice24HLoading(base))
-      const response: ReturnType<typeof api.getPriceIndex> = yield call(
+      const yesterday: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
         moment().subtract(1, 'day')
       )
-      yield put(A.fetchPrice24HSuccess(base, response))
+      const today: ReturnType<typeof api.getPriceIndex> = yield call(
+        api.getPriceIndex,
+        base,
+        quote,
+        moment()
+      )
+      const diff = new BigNumber(
+        (today.price - yesterday.price) / yesterday.price
+      ).times(100)
+      const change = diff.abs().toFixed(2)
+      const movement = diff.isEqualTo(0)
+        ? 'none'
+        : diff.isGreaterThan(0)
+        ? 'up'
+        : 'down'
+      yield put(A.fetchPrice24HSuccess(base, change, movement))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchPrice24HFailure(base, error))
