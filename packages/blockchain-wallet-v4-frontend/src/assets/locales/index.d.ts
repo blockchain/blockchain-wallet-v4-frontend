@@ -1138,6 +1138,7 @@ type MessagesType = {
   'modals.simplebuy.save_my_card': 'Save My Card'
   'modals.simplebuy.selectcurrency': 'Select Your Currency'
   'modals.simplebuy.cryptoselect': 'Buy with Cash or Card'
+  'modals.simplebuy.paymentmethods': 'Payment Methods'
   'modals.simplebuy.selectcrypto': 'Select the crypto you want to buy.'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'

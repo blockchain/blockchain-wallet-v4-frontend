@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBFormPaymentMethod } from 'data/types'
 import { SelectBox } from 'components/Form'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
@@ -261,6 +261,6 @@ class MethodSelect extends PureComponent<Props> {
   }
 }
 
-type ElementValueType = Exclude<SBCheckoutFormValuesType['method'], undefined>
+type ElementValueType = Exclude<SBFormPaymentMethod, undefined>
 
 export default MethodSelect

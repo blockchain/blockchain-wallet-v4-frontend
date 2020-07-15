@@ -373,14 +373,8 @@ export const initializeBillingAddress = () => ({
   type: AT.INITIALIZE_BILLING_ADDRESS
 })
 
-export const initializeCheckout = (
-  paymentMethods: SBPaymentMethodsType,
-  cards: Array<SBCardType>,
-  orderType: 'BUY' | 'SELL'
-) => ({
+export const initializeCheckout = (orderType: 'BUY' | 'SELL') => ({
   type: AT.INITIALIZE_CHECKOUT,
-  paymentMethods,
-  cards,
   orderType
 })
 

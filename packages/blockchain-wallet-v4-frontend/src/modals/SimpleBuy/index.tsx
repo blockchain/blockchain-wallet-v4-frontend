@@ -3,7 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType, SBPairType } from 'core/types'
+import { SBOrderType, SBPairType, SBPaymentMethodType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
@@ -15,6 +15,7 @@ import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
+import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
@@ -81,7 +82,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         )}
         {this.props.step === 'PAYMENT_METHODS' && (
           <FlyoutChild>
-            <CryptoSelection {...this.props} handleClose={this.handleClose} />
+            <PaymentMethods {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'ADD_CARD' && (
@@ -163,7 +164,6 @@ type LinkStatePropsType =
         | 'TRANSFER_DETAILS'
         | 'ORDER_SUMMARY'
         | 'CANCEL_ORDER'
-        | 'PAYMENT_METHODS'
     }
   | {
       cardId?: string
@@ -171,8 +171,13 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
+      method: SBPaymentMethodType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
+    }
+  | {
+      pair: SBPairType
+      step: 'PAYMENT_METHODS'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType

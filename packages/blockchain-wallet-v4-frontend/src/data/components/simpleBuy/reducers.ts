@@ -13,6 +13,7 @@ const INITIAL_STATE: SimpleBuyState = {
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  method: undefined,
   methods: Remote.NotAsked,
   order: undefined,
   orders: Remote.NotAsked,

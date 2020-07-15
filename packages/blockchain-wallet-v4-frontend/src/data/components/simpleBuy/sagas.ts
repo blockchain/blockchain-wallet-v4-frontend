@@ -34,8 +34,7 @@ import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType,
-  SBFormPaymentMethod
+  SBCheckoutFormValuesType
 } from './types'
 import { UserDataType } from 'data/modules/types'
 import moment from 'moment'
@@ -531,45 +530,19 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    paymentMethods,
-    cards,
     orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
       yield call(waitForUserData)
 
-      const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
-      const isSimpleBuyCCInvited = true
-      const cardMethod = paymentMethods.methods.find(
-        method => method.type === 'PAYMENT_CARD'
-      )
-      const activeCard = cards.find(card => card.state === 'ACTIVE')
-
-      const method: SBFormPaymentMethod =
-        defaultMethod ||
-        (activeCard
-          ? cardMethod
-            ? {
-                ...activeCard,
-                limits: cardMethod.limits,
-                type: 'USER_CARD'
-              }
-            : paymentMethods.methods[0]
-          : paymentMethods.methods[0])
-
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method: isSimpleBuyCCInvited
-            ? method
-            : paymentMethods.methods.find(
-                method => method.type === 'BANK_ACCOUNT'
-              ),
           orderType
         } as SBCheckoutFormValuesType)
       )

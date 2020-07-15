@@ -34,7 +34,6 @@ export type SBAddCardErrorType =
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
   amount: string
-  method?: SBFormPaymentMethod
   orderType: 'BUY' | 'SELL'
 }
 export type SBCurrencySelectFormType = {
@@ -81,6 +80,7 @@ export type SimpleBuyState = {
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  method: undefined | SBFormPaymentMethod
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
@@ -311,8 +311,8 @@ export type StepActionsPayload =
       step: 'CRYPTO_SELECTION'
     }
   | {
-      cryptoCurrency: CoinType
-      defaultMethod: SBFormPaymentMethod
+      cryptoCurrency?: CoinType
+      defaultMethod?: SBFormPaymentMethod
       fiatCurrency: FiatType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
