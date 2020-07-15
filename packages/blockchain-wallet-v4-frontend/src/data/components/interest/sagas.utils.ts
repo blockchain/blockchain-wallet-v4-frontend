@@ -7,13 +7,13 @@ import {
   FiatType,
   PaymentType,
   PaymentValue,
+  RatesType,
   RemoteDataType
 } from 'core/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
-import { RatesType } from '../borrow/types'
 import { selectors } from 'data'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {

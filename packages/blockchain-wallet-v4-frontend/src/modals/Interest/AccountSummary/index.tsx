@@ -4,15 +4,7 @@ import { includes } from 'ramda'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import {
-  CoinType,
-  FiatType,
-  InterestAccountBalanceType,
-  InterestLimitsType,
-  InterestRateType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
+import { CoinType, FiatType, RemoteDataType } from 'core/types'
 import { InterestStepMetadata } from 'data/types'
 import DataError from 'components/DataError'
 
@@ -91,14 +83,7 @@ export type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 
-export type SuccessStateType = {
-  accountBalances: InterestAccountBalanceType
-  availToWithdraw: number
-  interestLimits: InterestLimitsType
-  interestRate: InterestRateType
-  supportedCoins: SupportedCoinsType
-  walletCurrency: FiatType
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>

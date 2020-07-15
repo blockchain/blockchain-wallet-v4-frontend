@@ -1,6 +1,5 @@
-import { LoanType, OfferType, SupportedCoinsType } from 'core/types'
+import { LoanType, OfferType, RatesType, SupportedCoinsType } from 'core/types'
 import { model } from 'data'
-import { RatesType } from 'data/types'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'

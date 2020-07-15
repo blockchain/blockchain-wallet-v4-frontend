@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'
 import Unsupported from './template.unsupported'
 
@@ -26,6 +26,6 @@ const Success: React.FC<Props> = props => {
   )
 }
 
-export type Props = OwnProps & SuccessStateType & LinkStatePropsType
+export type Props = OwnProps & SuccessStateType
 
 export default Success

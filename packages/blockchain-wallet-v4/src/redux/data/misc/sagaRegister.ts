@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { takeLatest } from 'redux-saga/effects'
+import { takeEvery, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api }) => {
@@ -8,7 +8,7 @@ export default ({ api }) => {
   return function * coreDataMiscSaga () {
     yield takeLatest(AT.AUTHORIZE_LOGIN, dataMiscSagas.authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, dataMiscSagas.fetchCaptcha)
-    yield takeLatest(AT.FETCH_LOGS, dataMiscSagas.fetchLogs)
+    yield takeEvery(AT.FETCH_PRICE_24H, dataMiscSagas.fetchPrice24H)
     yield takeLatest(
       AT.FETCH_PRICE_INDEX_SERIES,
       dataMiscSagas.fetchPriceIndexSeries

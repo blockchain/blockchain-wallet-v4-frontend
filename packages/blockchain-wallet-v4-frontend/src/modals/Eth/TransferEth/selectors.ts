@@ -12,8 +12,8 @@ export const getData = state => {
 
   const transform = (ethAddr, payment) => ({
     ethAddr,
-    ethBalance: propOr('0', 'effectiveBalance', payment),
-    txFee: propOr('0', 'fee', payment)
+    ethBalance: propOr('0', 'effectiveBalance', payment) as string,
+    txFee: propOr('0', 'fee', payment) as string
   })
 
   return lift(transform)(defaultAccountR, paymentR)

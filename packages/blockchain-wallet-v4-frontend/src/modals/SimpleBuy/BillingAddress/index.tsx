@@ -4,7 +4,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { SBBillingAddressFormValuesType, UserDataType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -50,10 +49,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = {
-  formValues: SBBillingAddressFormValuesType
-  userData: UserDataType
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
 }

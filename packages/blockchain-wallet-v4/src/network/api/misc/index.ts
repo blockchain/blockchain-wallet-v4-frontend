@@ -1,4 +1,7 @@
+import { CoinType, FiatType } from 'core/types'
 import { equals, toUpper } from 'ramda'
+import { Moment } from 'moment'
+import { PriceIndexResponseType } from './types'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getCaptchaImage = (timestamp, sessionToken) =>
@@ -25,6 +28,17 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       url: rootUrl,
       endPoint: '/wallet',
       data: { guid, sharedKey, method: 'list-logs', format: 'json' }
+    })
+
+  const getPriceIndex = (
+    base: CoinType,
+    quote: FiatType,
+    time: Moment
+  ): PriceIndexResponseType =>
+    get({
+      url: apiUrl,
+      endPoint: '/price/index',
+      data: { base, quote, time: time.unix() }
     })
 
   const getPriceIndexSeries = (coin, currency, start, scale) =>
@@ -61,6 +75,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getCaptchaImage,
     getTransactionHistory,
     getLogs,
+    getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,
     getRandomBytes,

@@ -1,13 +1,13 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, SuccessStateType } from '..'
+import { Props as OwnProps, SuccessStateType } from '..'
 import React from 'react'
 
 type Props = {
   invalid: boolean
   submitting: boolean
-} & SuccessStateType &
-  LinkDispatchPropsType
+} & OwnProps &
+  SuccessStateType
 
 const ActionButton: React.FC<Props> = props => {
   switch (props.userData.kycState) {
