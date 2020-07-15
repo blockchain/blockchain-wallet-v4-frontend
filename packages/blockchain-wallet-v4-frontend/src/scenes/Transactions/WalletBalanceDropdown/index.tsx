@@ -154,7 +154,14 @@ export class WalletBalanceDropdown extends Component<Props> {
   coinBalance = selectProps => {
     if (this.isTotalBalanceType(selectProps)) {
       // Total balance
-      return this.props.data.getOrElse({ balanceData: 0 }).balanceData
+      return this.props.data.getOrElse({
+        addressData: { data: [] },
+        balanceData: 0,
+        currency: 'USD',
+        currencySymbol: '$',
+        priceChangeFiat: 0,
+        priceChangePercentage: 0
+      }).balanceData
     } else if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
@@ -213,6 +220,8 @@ export class WalletBalanceDropdown extends Component<Props> {
           !this.props.coinModel.availability.request ? (
             <PriceChange
               {...this.props.data.getOrElse({
+                addressData: { data: [] },
+                balanceData: 0,
                 currency: 'USD',
                 currencySymbol: '$',
                 priceChangeFiat: 0,

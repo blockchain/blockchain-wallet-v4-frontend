@@ -144,14 +144,14 @@ export const getData = (
       includeCustodial
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map<any, any>(prop('BTC'))
+            .map(x => x.BTC)
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
             .getInterestAccountBalance(state)
-            .map<any, any>(prop('BTC'))
+            .map(x => x.BTC)
             .map(toInterestDropdown)
             .map(toGroup('Interest Wallet'))
         : Remote.of([]),

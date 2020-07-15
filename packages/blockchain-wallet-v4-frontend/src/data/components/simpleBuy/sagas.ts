@@ -37,6 +37,7 @@ import {
   SBCheckoutFormValuesType,
   SBFormPaymentMethod
 } from './types'
+import { UserDataType } from 'data/modules/types'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
@@ -116,6 +117,7 @@ export default ({
       const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: { data: Everypay3DSResponseType } = yield call(
+        // @ts-ignore
         api.submitSBCardDetailsToEverypay,
         {
           ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
@@ -495,7 +497,7 @@ export default ({
   const initializeBillingAddress = function * () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
-    const userData = userDataR.getOrElse(null)
+    const userData = userDataR.getOrElse({} as UserDataType)
     const address = userData
       ? userData.address
       : {

@@ -26,7 +26,7 @@ class DepositForm extends PureComponent<Props> {
   handleDisplayToggle = isCoin => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
-    })
+    } as SuccessStateType)
     if (isCoin === displayCoin) return
     this.props.formActions.clearFields(
       'interestDepositForm',
@@ -46,7 +46,7 @@ class DepositForm extends PureComponent<Props> {
     const { coin } = this.props
     const { walletCurrency } = this.props.data.getOrElse({
       walletCurrency: 'GBP' as FiatType
-    })
+    } as SuccessStateType)
     this.props.interestActions.initializeDepositForm(coin, walletCurrency)
   }
 

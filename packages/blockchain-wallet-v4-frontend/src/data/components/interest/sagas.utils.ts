@@ -163,12 +163,12 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       case 'PAX':
       case 'ETH':
         return coreSagas.payment.eth.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
+          payment: paymentR.getOrElse(<PaymentValue>{}),
           network: networks.eth
         })
       case 'BTC':
         return coreSagas.payment.btc.create({
-          payment: paymentR.getOrElse(<PaymentType>{}),
+          payment: paymentR.getOrElse(<PaymentValue>{}),
           network: networks.btc
         })
       default:

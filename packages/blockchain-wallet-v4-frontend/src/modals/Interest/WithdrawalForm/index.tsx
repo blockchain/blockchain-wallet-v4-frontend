@@ -28,7 +28,7 @@ class WithdrawalFormContainer extends PureComponent<Props> {
   handleDisplayToggle = isCoin => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
-    })
+    } as SuccessStateType)
     if (isCoin === displayCoin) return
     this.props.formActions.clearFields(
       'interestWithdrawalForm',

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { path, propOr, toUpper } from 'ramda'
 
+import { DEFAULT_INVITATIONS } from 'core/model'
 import { selectors } from 'data'
 
 export const getData = createSelector(
@@ -26,7 +27,7 @@ export const getData = createSelector(
     return {
       coin: coin,
       erc20List: erc20ListR.getOrFail(),
-      invitations: invitationsR.getOrElse({}),
+      invitations: invitationsR.getOrElse(DEFAULT_INVITATIONS),
       supportedCoins: supportedCoinsR.getOrFail(),
       sendAvailable: availability.map(propOr(true, 'send')).getOrElse(false),
       requestAvailable: availability

@@ -46,12 +46,12 @@ export const getEthBalance = createDeepEqualSelector(
     const contextToBalances = (context, balances) =>
       context.map(a => pathOr(0, [a, 'balance'], balances))
 
-    const balancesR: RemoteDataType<string, string> = lift(contextToBalances)(
-      Remote.of(context),
-      addressesR
-    )
+    const balancesR: RemoteDataType<
+      string,
+      RemoteDataType<string, string>
+    > = lift(contextToBalances)(Remote.of(context), addressesR)
     return balancesR.map(b => {
-      return new BigNumber(b.getOrElse(0))
+      return new BigNumber(b.getOrElse('0'))
     })
   }
 )
