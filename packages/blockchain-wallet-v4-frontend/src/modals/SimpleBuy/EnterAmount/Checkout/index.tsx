@@ -42,8 +42,6 @@ class Checkout extends PureComponent<Props> {
     } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
-      // eslint-disable-next-line
-      console.log('inside first if')
       this.props.identityVerificationActions.verifyIdentity(
         2,
         false,
@@ -54,8 +52,6 @@ class Checkout extends PureComponent<Props> {
         formValues?.method?.type as SBPaymentMethodType['type']
       )
     } else if (formValues && formValues.method) {
-      // eslint-disable-next-line
-      console.log('here we gooo', formValues.method.type)
       switch (formValues.method.type) {
         case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
