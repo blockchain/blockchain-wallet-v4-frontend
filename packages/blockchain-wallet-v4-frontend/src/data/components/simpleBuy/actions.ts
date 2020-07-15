@@ -17,9 +17,9 @@ import {
   SBSuggestedAmountType
 } from 'core/types'
 import {
-  SBFormPaymentMethod,
   SBShowModalOriginType,
-  SimpleBuyActionTypes
+  SimpleBuyActionTypes,
+  StepActionsPayload
 } from './types'
 
 export const activateSBCard = (card: SBCardType) => ({
@@ -402,58 +402,46 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
-export const setStep = (
-  payload:
-    | {
-        order: SBOrderType
-        step:
-          | 'CHECKOUT_CONFIRM'
-          | 'TRANSFER_DETAILS'
-          | 'ORDER_SUMMARY'
-          | 'CANCEL_ORDER'
-      }
-    | {
-        cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
-        fiatCurrency: FiatType
-        pair: SBPairType
-        step: 'ENTER_AMOUNT'
-      }
-    | {
-        cryptoCurrency?: CoinType
-        fiatCurrency: FiatType
-        step: 'CRYPTO_SELECTION'
-      }
-    | { order?: SBOrderType; step: '3DS_HANDLER' }
-    | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
-): SimpleBuyActionTypes => ({
+export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
-  payload:
-    payload.step === 'ENTER_AMOUNT'
-      ? {
-          step: payload.step,
-          cryptoCurrency: payload.cryptoCurrency,
-          defaultMethod: payload.defaultMethod,
-          fiatCurrency: payload.fiatCurrency,
-          pair: payload.pair
-        }
-      : payload.step === 'CRYPTO_SELECTION'
-      ? {
-          step: payload.step,
-          cryptoCurrency: payload.cryptoCurrency,
-          fiatCurrency: payload.fiatCurrency
-        }
-      : payload.step === 'CHECKOUT_CONFIRM' ||
-        payload.step === 'TRANSFER_DETAILS' ||
-        payload.step === 'ORDER_SUMMARY' ||
-        payload.step === 'CANCEL_ORDER'
-      ? { step: payload.step, order: payload.order }
-      : payload.step === '3DS_HANDLER'
-      ? { step: payload.step, order: payload.order }
-      : {
-          step: payload.step
-        }
+  payload: getPayloadObjectForStep(payload)
 })
+
+const getPayloadObjectForStep = (payload: StepActionsPayload) => {
+  switch (payload.step) {
+    case 'PAYMENT_METHODS':
+      return {
+        step: payload.step,
+        cryptoCurrency: payload.cryptoCurrency,
+        defaultMethod: payload.defaultMethod,
+        fiatCurrency: payload.fiatCurrency,
+        pair: payload.pair
+      }
+    case 'ENTER_AMOUNT':
+      return {
+        step: payload.step,
+        cryptoCurrency: payload.cryptoCurrency,
+        defaultMethod: payload.defaultMethod,
+        fiatCurrency: payload.fiatCurrency,
+        pair: payload.pair
+      }
+    case 'CRYPTO_SELECTION':
+      return {
+        step: payload.step,
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency
+      }
+    case 'CHECKOUT_CONFIRM':
+    case 'TRANSFER_DETAILS':
+    case 'ORDER_SUMMARY':
+    case 'CANCEL_ORDER':
+      return { step: payload.step, order: payload.order }
+    case '3DS_HANDLER':
+      return { step: payload.step, order: payload.order }
+    default:
+      return { step: payload.step }
+  }
+}
 
 export const showModal = (
   origin: SBShowModalOriginType,

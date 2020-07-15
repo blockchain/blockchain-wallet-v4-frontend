@@ -250,6 +250,14 @@ export function simpleBuyReducer (
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step,
+            order: undefined
+          }
+        case 'PAYMENT_METHODS':
+          return {
+            ...state,
+            cryptoCurrency: action.payload.cryptoCurrency,
             defaultMethod: action.payload.defaultMethod,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,

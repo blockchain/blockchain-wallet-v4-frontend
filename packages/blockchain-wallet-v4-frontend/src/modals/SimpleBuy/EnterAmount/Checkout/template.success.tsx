@@ -232,6 +232,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       )
                     }
                     role='button'
+                    key={`sbBuy${amount}Chip`}
                   >
                     {fiatToString({
                       unit: fiatCurrency,
