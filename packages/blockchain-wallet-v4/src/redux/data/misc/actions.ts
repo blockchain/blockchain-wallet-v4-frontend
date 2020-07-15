@@ -1,5 +1,10 @@
 import * as AT from './actionTypes'
-import { CoinType, FiatType, MiscActionTypes } from 'core/types'
+import {
+  CoinType,
+  FiatType,
+  MiscActionTypes,
+  PriceMovementDirType
+} from 'core/types'
 
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
@@ -25,7 +30,7 @@ export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
 export const fetchPrice24HSuccess = (
   base: CoinType,
   change: string,
-  movement: 'none' | 'up' | 'down'
+  movement: PriceMovementDirType
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_24H_SUCCESS,
   payload: {

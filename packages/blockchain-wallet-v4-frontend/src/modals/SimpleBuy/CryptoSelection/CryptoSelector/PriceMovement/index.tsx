@@ -1,7 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, SBPairType } from 'core/types'
+import { FiatType, PriceMovementDirType, SBPairType } from 'core/types'
 import { getCoinFromPair } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
@@ -18,7 +18,7 @@ const Change = styled.span<{ color: keyof DefaultTheme }>`
   color: ${props => props.theme[props.color]};
 `
 
-const getSignFromMovement = (movement: 'none' | 'up' | 'down') => {
+const getSignFromMovement = (movement: PriceMovementDirType) => {
   switch (movement) {
     case 'down':
       return '-'
@@ -29,7 +29,7 @@ const getSignFromMovement = (movement: 'none' | 'up' | 'down') => {
   }
 }
 
-const getColorFromMovement = (movement: 'none' | 'up' | 'down') => {
+const getColorFromMovement = (movement: PriceMovementDirType) => {
   switch (movement) {
     case 'down':
       return 'red600'

@@ -14,6 +14,8 @@ export type RatesType = {
   [key in FiatType]: RateType
 }
 
+export type PriceMovementDirType = 'none' | 'up' | 'down'
+
 // state
 export type MiscStateType = {
   authorize_login: RemoteDataType<any, any>
@@ -24,7 +26,7 @@ export type MiscStateType = {
   price_24h: {
     [key in CoinType]: RemoteDataType<
       string,
-      { change: string; movement: 'none' | 'up' | 'down' }
+      { change: string; movement: PriceMovementDirType }
     >
   }
   price_index_series: RemoteDataType<any, any>
@@ -89,7 +91,7 @@ interface FetchPrice24HSuccessActionType {
   payload: {
     base: CoinType
     change: string
-    movement: 'none' | 'up' | 'down'
+    movement: PriceMovementDirType
   }
   type: typeof AT.FETCH_PRICE_24H_SUCCESS
 }
