@@ -8,14 +8,15 @@ import {
   FiatType,
   InterestAccountBalanceType,
   InterestLimitsType,
+  RatesType,
   RemoteDataType,
   SupportedCoinsType,
   WithdrawalMinimumType
 } from 'core/types'
-import { RatesType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
+import BigNumber from 'bignumber.js'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
@@ -74,7 +75,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
   accountBalances: InterestAccountBalanceType
-  availToWithdraw: number
+  availToWithdraw: BigNumber
   coin: CoinType
   displayCoin: boolean
   interestLimits: InterestLimitsType

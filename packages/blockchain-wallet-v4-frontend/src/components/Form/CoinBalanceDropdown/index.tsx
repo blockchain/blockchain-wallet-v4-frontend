@@ -1,6 +1,7 @@
 import {
   AccountTypes,
   CoinType,
+  RatesType,
   RemoteDataType,
   SupportedCoinsType,
   SupportedCoinType
@@ -9,7 +10,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
-import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'

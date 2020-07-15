@@ -14,6 +14,7 @@ import {
   take
 } from 'redux-saga/effects'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { ExtractSuccess } from 'core/types'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -264,7 +265,7 @@ export default ({ api, coreSagas, networks }) => {
         if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
       })
-      .getOrElse({})
+      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
 
     yield call(setSession, userId, lifetimeToken, email, guid)
   }

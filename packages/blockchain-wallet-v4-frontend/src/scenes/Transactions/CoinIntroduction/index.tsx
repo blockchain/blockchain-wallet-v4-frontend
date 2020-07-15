@@ -5,8 +5,7 @@ import React from 'react'
 import { actions, selectors } from 'data'
 
 import { CoinType, SupportedCoinsType } from 'core/types'
-import { currentUserTier, getCurrentKYCState, getTags } from './selectors'
-import { ModalNamesType, TagsType, UserDataType } from 'data/types'
+import { ModalNamesType } from 'data/types'
 import Welcome from './template'
 
 class CoinIntroductionContainer extends React.PureComponent<Props> {
@@ -31,9 +30,6 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  currentUserTier: currentUserTier(state),
-  currentTags: getTags(state),
-  currentKYCState: getCurrentKYCState(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()
@@ -54,9 +50,6 @@ type OwnProps = {
   coin: CoinType
 }
 type LinkStatePropsType = {
-  currentKYCState: UserDataType['kycState']
-  currentTags: TagsType
-  currentUserTier: 0 | 1 | 2
   supportedCoins: SupportedCoinsType | Error
 }
 type Props = OwnProps & ConnectedProps<typeof connector>

@@ -1,22 +1,14 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import {
-  CoinType,
-  FiatType,
-  InvitationsType,
-  RemoteDataType,
-  SBPaymentMethodType,
-  SBSuggestedAmountType,
-  SupportedCoinsType
-} from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
 import { getData } from './selectors'
-import { RatesType, SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import { RootState } from 'data/rootReducer'
+import { SBPaymentMethodType } from 'core/types'
+import { UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -35,8 +27,6 @@ class Checkout extends PureComponent<Props> {
     } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
-      // eslint-disable-next-line
-      console.log('inside first if')
       this.props.identityVerificationActions.verifyIdentity(
         2,
         false,
@@ -94,7 +84,7 @@ class Checkout extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
@@ -110,29 +100,12 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
-export type SuccessStateType = {
+export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
-  formValues?: SBCheckoutFormValuesType
-  invitations: InvitationsType
-  rates: { [key in CoinType]: RatesType }
-  suggestedAmounts: SBSuggestedAmountType
-  supportedCoins: SupportedCoinsType
-  userData: UserDataType
 }
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  formActions: typeof actions.form
-  identityVerificationActions: typeof actions.components.identityVerification
-  profileActions: typeof actions.modules.profile
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default enhance(Checkout)
+export default connector(Checkout)

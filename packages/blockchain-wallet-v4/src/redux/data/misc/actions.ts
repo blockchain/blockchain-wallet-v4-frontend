@@ -1,4 +1,10 @@
 import * as AT from './actionTypes'
+import {
+  CoinType,
+  FiatType,
+  MiscActionTypes,
+  PriceMovementDirType
+} from 'core/types'
 
 // FETCH_CAPTCHA
 export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
@@ -12,16 +18,33 @@ export const fetchCaptchaFailure = error => ({
   payload: error
 })
 
-// FETCH_LOGS
-export const fetchLogs = () => ({ type: AT.FETCH_LOGS })
-export const fetchLogsLoading = () => ({ type: AT.FETCH_LOGS_LOADING })
-export const fetchLogsSuccess = data => ({
-  type: AT.FETCH_LOGS_SUCCESS,
-  payload: data
+// FETCH_PRICE_24H
+export const fetchPrice24H = (base: CoinType, quote: FiatType) => ({
+  type: AT.FETCH_PRICE_24H,
+  payload: { base, quote }
 })
-export const fetchLogsFailure = error => ({
-  type: AT.FETCH_LOGS_FAILURE,
-  payload: error
+export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
+  type: AT.FETCH_PRICE_24H_LOADING,
+  payload: { base }
+})
+export const fetchPrice24HSuccess = (
+  base: CoinType,
+  change: string,
+  movement: PriceMovementDirType
+): MiscActionTypes => ({
+  type: AT.FETCH_PRICE_24H_SUCCESS,
+  payload: {
+    base,
+    change,
+    movement
+  }
+})
+export const fetchPrice24HFailure = (base, error): MiscActionTypes => ({
+  type: AT.FETCH_PRICE_24H_FAILURE,
+  payload: {
+    error,
+    base
+  }
 })
 
 // FETCH_PRICE_INDEX_SERIES

@@ -106,10 +106,11 @@ export function simpleBuyReducer (
         ...state,
         card: Remote.Success(action.payload.card)
       }
+    // cards fetch fails so often in staging that this is a temp fix
     case AT.FETCH_SB_CARDS_FAILURE: {
       return {
         ...state,
-        cards: Remote.Failure(action.payload.error)
+        cards: Remote.Success([])
       }
     }
     case AT.FETCH_SB_CARDS_LOADING:

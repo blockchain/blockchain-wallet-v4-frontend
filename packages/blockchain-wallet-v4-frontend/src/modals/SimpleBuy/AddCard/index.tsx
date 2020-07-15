@@ -1,17 +1,9 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import {
-  FiatType,
-  RemoteDataType,
-  SBBuyOrderType,
-  SBPaymentMethodsType,
-  SBSellOrderType
-} from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
-import { SBAddCardFormValuesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -45,7 +37,7 @@ class AddCard extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
 })
@@ -62,15 +54,7 @@ type OwnProps = {
 type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy
 }
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: FiatType
-}
-export type SuccessStateType = {
-  formValues?: SBAddCardFormValuesType
-  order: SBBuyOrderType | SBSellOrderType | undefined
-  paymentMethods: SBPaymentMethodsType
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCard)

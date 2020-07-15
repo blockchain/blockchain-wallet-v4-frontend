@@ -47,7 +47,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
   domains: { exchange: string }
   isExchangeAccountLinked: boolean
-  isExchangeRelinkRequired: boolean
+  isExchangeRelinkRequired: boolean | number
 }
 
 export type Props = ConnectedProps<typeof connector>

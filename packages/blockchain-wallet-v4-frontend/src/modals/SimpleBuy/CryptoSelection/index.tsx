@@ -1,17 +1,7 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import {
-  CoinType,
-  FiatEligibleType,
-  FiatType,
-  RemoteDataType,
-  SBCardType,
-  SBPairType,
-  SupportedCoinsType
-} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
-import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -36,7 +26,7 @@ class CryptoSelection extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
 })
@@ -52,17 +42,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-  eligibility: FiatEligibleType
-  pairs: Array<SBPairType>
-  rates: { [key in CoinType]: RatesType }
-  supportedCoins: SupportedCoinsType
-}
-export type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: FiatType
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

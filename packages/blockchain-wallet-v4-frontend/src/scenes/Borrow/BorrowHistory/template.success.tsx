@@ -8,6 +8,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { LoanType, OfferType } from 'core/types'
 import { SuccessStateType } from '.'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
@@ -30,7 +31,11 @@ const ViewDetailsCell = styled(TableCell)`
   justify-content: flex-end;
 `
 
-function Success (props: SuccessStateType): ReactElement {
+function Success (
+  props: SuccessStateType & {
+    showLoanDetails: (loan: LoanType, offer: OfferType) => void
+  }
+): ReactElement {
   return (
     <div style={{ minWidth: '900px', paddingBottom: '45px' }}>
       <Table style={{ minWidth: '900px' }}>

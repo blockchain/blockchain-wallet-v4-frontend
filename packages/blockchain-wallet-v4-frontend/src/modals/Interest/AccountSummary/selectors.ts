@@ -1,5 +1,6 @@
 import { lift } from 'ramda'
 
+import { ExtractSuccess, FiatType, SupportedCoinsType } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -13,11 +14,11 @@ export const getData = state => {
 
   return lift(
     (
-      accountBalances,
-      interestLimits,
-      interestRate,
-      supportedCoins,
-      walletCurrency
+      accountBalances: ExtractSuccess<typeof accountBalancesR>,
+      interestLimits: ExtractSuccess<typeof interestLimitsR>,
+      interestRate: ExtractSuccess<typeof interestRateR>,
+      supportedCoins: SupportedCoinsType,
+      walletCurrency: FiatType
     ) => ({
       accountBalances,
       interestLimits,

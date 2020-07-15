@@ -71,9 +71,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           {props.pairs.map((value, index) => (
             <CryptoItem
               key={index}
-              rates={props.rates}
-              supportedCoins={props.supportedCoins}
               value={value}
+              supportedCoins={props.supportedCoins}
               onClick={() => handleSubmit(value as SBPairType)}
             />
           ))}

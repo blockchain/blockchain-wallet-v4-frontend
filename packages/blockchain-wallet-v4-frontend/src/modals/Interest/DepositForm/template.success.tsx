@@ -58,7 +58,7 @@ import {
   maxFiat
 } from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { SuccessStateType } from '.'
+import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const FORM_NAME = 'interestDepositForm'
@@ -574,6 +574,7 @@ type LinkStatePropsType = {
 
 export type Props = SuccessStateType &
   ConnectedProps<typeof connector> &
+  ParentOwnProps &
   FormProps
 
 type FormProps = {

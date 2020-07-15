@@ -2,7 +2,6 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
-  FiatType,
   LoanTransactionsType,
   LoanType,
   NabuApiErrorType,
@@ -33,17 +32,6 @@ export enum BorrowSteps {
   'DETAILS',
   'ADD_COLLATERAL',
   'REPAY_LOAN'
-}
-
-// TODO: move to ticker
-export type RatesType = {
-  [key in FiatType]: {
-    '15m': number
-    buy: number
-    last: number
-    sell: number
-    symbol: '$'
-  }
 }
 
 export type RepayLoanFormType = {
