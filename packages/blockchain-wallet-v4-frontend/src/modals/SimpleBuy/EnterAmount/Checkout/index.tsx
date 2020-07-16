@@ -36,7 +36,7 @@ class Checkout extends PureComponent<Props> {
         undefined,
         this.props.method.type as SBPaymentMethodType['type']
       )
-    } else if (formValues && !this.props.method) {
+    } else if (!this.props.method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',

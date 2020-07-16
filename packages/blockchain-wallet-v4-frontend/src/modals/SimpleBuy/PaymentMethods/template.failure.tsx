@@ -1,6 +1,6 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, LinkStatePropsType } from '.'
+import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,6 +20,7 @@ const Title = styled(Text)`
 
 const Failure: React.FC<LinkDispatchPropsType & {
   fiatCurrency: LinkStatePropsType['fiatCurrency']
+  pair: OwnProps['pair']
 }> = props => {
   return (
     <Wrapper>
@@ -44,8 +45,9 @@ const Failure: React.FC<LinkDispatchPropsType & {
           size='16px'
           onClick={() =>
             props.simpleBuyActions.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency: props.fiatCurrency || 'USD'
+              step: 'ENTER_AMOUNT',
+              fiatCurrency: props.fiatCurrency || 'USD',
+              pair: props.pair
             })
           }
         >
