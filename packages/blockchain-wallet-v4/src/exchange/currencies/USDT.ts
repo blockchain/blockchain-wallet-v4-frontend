@@ -1,7 +1,7 @@
 export default {
   base: 'WEI',
   code: 'USDT',
-  displayName: 'USD Tether',
+  displayName: 'Tether',
   trade: 'USDT',
   units: {
     WEI: {
