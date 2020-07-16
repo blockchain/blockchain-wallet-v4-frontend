@@ -1,5 +1,5 @@
 import * as WalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
-import { CoinType } from '../../types'
+import { CoinType, FiatType } from '../../types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 
 export type WalletOptionsType = typeof WalletOptions
@@ -35,6 +35,27 @@ export type SupportedCoinType = {
   txListAppRoute: string
 }
 
+export type SupportedFiatType = {
+  availability: {}
+  coinCode: FiatType
+  coinTicker: FiatType
+  colorCode: 'fiat'
+  displayName: 'Euro' | 'British Pounds'
+  icons: {
+    circle: 'eur' | 'gbp'
+    circleFilled: 'eur' | 'gbp'
+    default: 'eur' | 'gbp'
+  }
+  invited?: boolean
+  learnMoreLink: ''
+  minConfirmations: 0
+  txExplorerBaseUrl: ''
+  txListAppRoute: string
+}
+
 export type SupportedCoinsType = {
   [key in CoinType]: SupportedCoinType
-}
+} &
+  {
+    [key in FiatType]: SupportedFiatType
+  }

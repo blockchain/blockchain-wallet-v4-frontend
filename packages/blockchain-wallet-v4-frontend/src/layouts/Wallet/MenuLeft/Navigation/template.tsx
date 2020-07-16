@@ -71,6 +71,8 @@ const Navigation = (props: OwnProps & Props) => {
   const { ...rest } = props
   const { supportedCoins } = rest
   const coinOrder = [
+    supportedCoins.EUR,
+    supportedCoins.GBP,
     supportedCoins.BTC,
     supportedCoins.ETH,
     supportedCoins.BCH,

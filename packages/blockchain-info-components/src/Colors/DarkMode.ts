@@ -68,6 +68,7 @@ const DarkTheme: DefaultTheme = {
   red700: '#B2251B',
   red800: '#99180F',
   red900: '#800900',
+  fiat: '#339F7B',
   algo: '#000000',
   btc: '#FF9B22',
   'btc-light': '#FFF2E5',
