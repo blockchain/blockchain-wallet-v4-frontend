@@ -109,10 +109,19 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
+  // Fixing wrong display names for USDT and PAX 🤦‍♀️
   const updatePaxLabelToUSDDigital = function * ({ newkv }) {
     const coinModels = (yield select(getSupportedCoins)).getOrFail()
 
     newkv.value.ethereum.erc20.pax.label = `My ${coinModels['PAX'].displayName} Wallet`
+    yield put(A.fetchMetadataEthSuccess(newkv))
+  }
+
+  // Fixing wrong display names for USDT and PAX 🤦‍♀️
+  const updateUSDTetherLabel = function * ({ newkv }) {
+    const coinModels = (yield select(getSupportedCoins)).getOrFail()
+
+    newkv.value.ethereum.erc20.usdt.label = `My ${coinModels['USDT'].displayName} Wallet`
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
@@ -138,6 +147,11 @@ export default ({ api, networks } = {}) => {
         toLower(newkv.value.ethereum.erc20.pax.label) === 'my usd pax wallet'
       ) {
         yield call(updatePaxLabelToUSDDigital, { newkv })
+      } else if (
+        toLower(newkv.value.ethereum.erc20.usdt.label) ===
+        'my usd tether wallet'
+      ) {
+        yield call(updateUSDTetherLabel, { newkv })
       } else {
         yield put(A.fetchMetadataEthSuccess(newkv))
       }
