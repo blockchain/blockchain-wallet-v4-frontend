@@ -110,7 +110,7 @@ export const getHeaderExplainer = coinModel => {
         <ExplainerText>
           <FormattedMessage
             id='scenes.transaction.headertext.explainer.usdt'
-            defaultMessage='The USD Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
+            defaultMessage='The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
           />
           <LearnMoreLink
             href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ'

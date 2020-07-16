@@ -837,7 +837,7 @@
   "modals.onboarding.linktoexchangeaccount.loading.waitingbody": "If a new browser tab did not open, try clicking the button below.",
   "modals.onboarding.linktoexchangeaccount.na.connectnow": "Connect Now",
   "modals.onboarding.linktoexchangeaccount.na.left.point1-2": "Access More Cryptos",
-  "modals.onboarding.linktoexchangeaccount.na.left.point2-1": "Deposit & Withdraw Euros/Dollars",
+  "modals.onboarding.linktoexchangeaccount.na.left.point2-1": "Deposit & WithdrawEuros/Dollars",
   "modals.onboarding.linktoexchangeaccount.na.left.point3-1": "Lightning Fast Trading",
   "modals.onboarding.linktoexchangeaccount.na.left.point4-1": "Built by the Pros",
   "modals.onboarding.linktoexchangeaccount.na.resendemail": "Resend Email",
@@ -1981,7 +1981,7 @@
   "scenes.transaction.headertext.explainer.btc1": "Bitcoin (BTC) is the original crypto and the internet’s digital currency.",
   "scenes.transaction.headertext.explainer.eth": "Ethereum (ETH) is a currency and computing platform. Built for developers and apps.",
   "scenes.transaction.headertext.explainer.usdd": "The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.",
-  "scenes.transaction.headertext.explainer.usdt": "The USD Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.",
+  "scenes.transaction.headertext.explainer.usdt": "The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.",
   "scenes.transaction.headertext.explainer.xlm": "The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.",
   "scenes.transaction.interest.view_txs": "Visit the Earn Interest page to view your transaction history.",
   "scenes.transactions.bitcoin.content.list.listitem.status.received": "Received",
