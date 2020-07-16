@@ -101,6 +101,7 @@ export type SBPairType = {
 }
 
 export type SBPaymentMethodType = {
+  currency: FiatType
   limits: {
     max: string
     min: string

@@ -451,9 +451,14 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
       const isUserTier2: boolean = yield call(isTier2)
+      if (!isUserTier2) {
+        return yield put(
+          A.fetchSBPaymentMethodsSuccess({ currency: 'USD', methods: [] })
+        )
+      }
+      yield call(createUser)
       yield put(A.fetchSBPaymentMethodsLoading())
       const methods = yield call(
         api.getSBPaymentMethods,

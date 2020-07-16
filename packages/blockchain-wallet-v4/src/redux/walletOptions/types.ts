@@ -29,6 +29,7 @@ export type SupportedCoinType = {
   }
   invited?: boolean
   learnMoreLink: string
+  method?: boolean
   minConfirmations: number
   showNewTagSidenav: boolean
   txExplorerBaseUrl: string
@@ -48,6 +49,7 @@ export type SupportedFiatType = {
   }
   invited?: boolean
   learnMoreLink: ''
+  method?: boolean
   minConfirmations: 0
   txExplorerBaseUrl: ''
   txListAppRoute: string
