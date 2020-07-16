@@ -193,7 +193,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.interest.deposit.uptoamount2'
               defaultMessage='of {coin} from this wallet.'
               values={{
-                coin
+                coin: coinTicker
               }}
             />
             <TooltipHost id='modals.interest.depositmax.tooltip'>

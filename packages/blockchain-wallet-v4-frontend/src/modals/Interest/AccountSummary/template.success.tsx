@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, displayName, icons } = supportedCoins[coin]
+  const { colorCode, coinTicker, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -103,7 +103,7 @@ const AccountSummary: React.FC<Props> = props => {
               <FormattedMessage
                 id='modals.interest.detailsbalance'
                 defaultMessage='Your {coin} Balance'
-                values={{ coin }}
+                values={{ coin: displayName }}
               />
             </Text>
             {account ? (
@@ -123,7 +123,7 @@ const AccountSummary: React.FC<Props> = props => {
               </>
             ) : (
               <Text color='grey800' size='18px' weight={600}>
-                0 {coin}
+                0 {coinTicker}
               </Text>
             )}
           </Container>
@@ -156,7 +156,7 @@ const AccountSummary: React.FC<Props> = props => {
               </>
             ) : (
               <Text color='grey800' size='18px' weight={600}>
-                0 {coin}
+                0 {coinTicker}
               </Text>
             )}
           </Container>
