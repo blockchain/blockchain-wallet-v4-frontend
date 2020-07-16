@@ -417,6 +417,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
+        method: payload.method,
         pair: payload.pair
       }
     case 'CRYPTO_SELECTION':

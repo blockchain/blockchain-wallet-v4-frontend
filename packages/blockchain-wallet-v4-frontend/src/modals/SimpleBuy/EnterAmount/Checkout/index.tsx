@@ -41,7 +41,8 @@ class Checkout extends PureComponent<Props> {
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
         fiatCurrency,
-        pair: this.props.pair
+        pair: this.props.pair,
+        cryptoCurrency: this.props.cryptoCurrency
       })
     } else if (formValues && this.props.method) {
       switch (this.props.method.type) {
@@ -86,7 +87,9 @@ class Checkout extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC'
 })
 
 const mapDispatchToProps = dispatch => ({

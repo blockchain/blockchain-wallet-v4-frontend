@@ -245,6 +245,7 @@ export function simpleBuyReducer (
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
             pair: action.payload.pair,
+            method: action.payload.method,
             order: undefined
           }
         case 'CRYPTO_SELECTION':

@@ -1,5 +1,6 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { CoinType, CurrenciesType, FiatType } from 'core/types'
+import { FiatCurrenciesType } from 'core/exchange/currencies'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -101,6 +102,7 @@ export type SBPairType = {
 }
 
 export type SBPaymentMethodType = {
+  currency: FiatCurrenciesType
   limits: {
     max: string
     min: string

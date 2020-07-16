@@ -158,12 +158,14 @@ export default ({
       yield put(A.fetchSBOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
         const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
         if (pair) {
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
               fiatCurrency,
-              pair
+              pair,
+              method
             })
           )
         } else {
@@ -217,9 +219,12 @@ export default ({
       const step = S.getStep(yield select())
       if (step !== 'ENTER_AMOUNT') {
         const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
         const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
         if (pair) {
-          yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair }))
+          yield put(
+            A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair, method })
+          )
           yield take(AT.INITIALIZE_CHECKOUT)
           yield delay(3000)
           yield put(actions.form.startSubmit('simpleBuyCheckout'))

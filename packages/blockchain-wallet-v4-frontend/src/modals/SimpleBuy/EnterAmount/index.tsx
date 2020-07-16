@@ -22,6 +22,7 @@ class EnterAmount extends PureComponent<Props> {
     if (this.props.fiatCurrency) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
+      this.props.simpleBuyActions.fetchSBOrders()
     }
   }
 

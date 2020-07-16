@@ -133,7 +133,10 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { fiatCurrency } = props
+  const { fiatCurrency, method } = props
+
+  // eslint-disable-next-line
+  console.log('method', method)
 
   if (!props.formValues) return null
   if (!fiatCurrency)
@@ -298,7 +301,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             props.simpleBuyActions.setStep({
               step: 'PAYMENT_METHODS',
               pair: props.pair,
-              fiatCurrency: props.fiatCurrency || 'USD'
+              fiatCurrency: props.fiatCurrency || 'USD',
+              cryptoCurrency: props.cryptoCurrency
             })
           }
         >

@@ -302,6 +302,7 @@ export type StepActionsPayload =
       cryptoCurrency?: CoinType
       defaultMethod?: SBFormPaymentMethod
       fiatCurrency: FiatType
+      method?: SBFormPaymentMethod
       pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
@@ -311,7 +312,7 @@ export type StepActionsPayload =
       step: 'CRYPTO_SELECTION'
     }
   | {
-      cryptoCurrency?: CoinType
+      cryptoCurrency: CoinType
       defaultMethod?: SBFormPaymentMethod
       fiatCurrency: FiatType
       pair: SBPairType

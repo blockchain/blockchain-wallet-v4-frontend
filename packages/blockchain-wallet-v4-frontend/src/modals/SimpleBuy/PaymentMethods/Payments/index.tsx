@@ -4,6 +4,8 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBFormPaymentMethod } from 'data/components/simpleBuy/types'
+import { SBPaymentMethodType } from 'core/types'
+import Fund from './Fund'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
@@ -18,9 +20,9 @@ const TopText = styled(Text)`
   align-items: center;
   margin-bottom: 7px;
 `
-const PaymentsWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
-`
+// const PaymentsWrapper = styled.div`
+//   border-top: 1px solid ${props => props.theme.grey000};
+// `
 
 // const IconContainer = styled.div`
 //   width: 38px;
@@ -38,7 +40,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   getType = (value: SBFormPaymentMethod) => {
     switch (value.type) {
       case 'BANK_ACCOUNT':
-        return 'Bank Wire Transfer'
+        return 'Deposit Cash'
       case 'PAYMENT_CARD':
         return 'Add a Credit or Debit Card'
       case 'USER_CARD':
@@ -50,6 +52,16 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return ''
     }
+  }
+
+  handleSubmit = (method: SBPaymentMethodType) => {
+    this.props.simpleBuyActions.destroyCheckout()
+    this.props.simpleBuyActions.setStep({
+      step: 'ENTER_AMOUNT',
+      fiatCurrency: this.props.fiatCurrency || 'USD',
+      pair: this.props.pair,
+      method
+    })
   }
 
   //   getIcon = (value: SBCheckoutFormValuesType): ReactElement => {
@@ -82,13 +94,18 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   //     }
   //   }
 
-  renderElements = () => {
+  render () {
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE'
     )
     const defaultCardMethod = this.props.paymentMethods.methods.find(
       m => m.type === 'PAYMENT_CARD'
     )
+    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
+      text: this.getType(value),
+      value
+    }))
+
     const cardMethods = availableCards.map(card => ({
       text: card.card
         ? card.card.label
@@ -103,28 +120,12 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           : { min: '1000', max: '500000' }
       }
     }))
-    const defaultMethods = this.props.paymentMethods.methods.map(value => ({
-      text: this.getType(value),
-      value
-    }))
 
     // eslint-disable-next-line
-    console.log('cardMethods', cardMethods)
+    console.log(cardMethods)
 
-    // eslint-disable-next-line
-    console.log('availableCards', availableCards)
-    // eslint-disable-next-line
-    console.log('defaultMethodsNoFunds', defaultMethods)
+    const funds = defaultMethods.filter(method => method.value.type === 'FUNDS')
 
-    // return [
-    //   {
-    //     group: '',
-    //     items: [...cardMethods, ...defaultMethodsNoFunds]
-    //   }
-    // ]
-  }
-
-  render () {
     return (
       <Wrapper>
         <Form>
@@ -152,17 +153,26 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               </div>
             </TopText>
-          </FlyoutWrapper>
-          {this.renderElements()}
+            {funds &&
+              funds.map((fund, index) => (
+                <Fund
+                  key={`${fund.text}-${index}`}
+                  value={fund.value}
+                  onClick={() =>
+                    this.handleSubmit(fund.value as SBPaymentMethodType)
+                  }
+                />
+              ))}
 
-          <PaymentsWrapper>
-            <div>
-              <FormattedMessage
-                id='modals.simplebuy.depositcash_description'
-                defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
-              />
-            </div>
-          </PaymentsWrapper>
+            {/* <PaymentsWrapper>
+              <div>
+                <FormattedMessage
+                  id='modals.simplebuy.depositcash_description'
+                  defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
+                />
+              </div>
+            </PaymentsWrapper> */}
+          </FlyoutWrapper>
         </Form>
       </Wrapper>
     )
