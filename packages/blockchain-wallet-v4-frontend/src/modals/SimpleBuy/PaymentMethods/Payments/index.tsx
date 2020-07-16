@@ -107,22 +107,14 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       text: this.getType(value),
       value
     }))
-    // TODO: remove when adding FUNDS type
-    const defaultMethodsNoFunds = defaultMethods.filter(
-      method => method.value.type !== 'FUNDS'
-    )
 
-    const itemsss = {
-      group: '',
-      items: [...cardMethods, ...defaultMethodsNoFunds]
-    }
     // eslint-disable-next-line
-    console.log('itemsss', itemsss)
+    console.log('cardMethods', cardMethods)
 
     // eslint-disable-next-line
     console.log('availableCards', availableCards)
     // eslint-disable-next-line
-    console.log('defaultMethodsNoFunds', defaultMethodsNoFunds)
+    console.log('defaultMethodsNoFunds', defaultMethods)
 
     // return [
     //   {
