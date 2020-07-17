@@ -129,6 +129,7 @@ const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
+  method: selectors.components.simpleBuy.getSBPaymentMethod(state),
   order: selectors.components.simpleBuy.getSBOrder(state)
 })
 

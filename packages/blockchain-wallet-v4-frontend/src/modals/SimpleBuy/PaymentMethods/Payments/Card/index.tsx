@@ -1,6 +1,5 @@
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
-// import { Icon } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -34,10 +33,12 @@ const DisplayIcon = styled.div`
   color: ${props => props.theme.grey800};
 `
 const DisplayTitle = styled(Title)`
-  margin-top: 4px;
-  align-items: center;
+  align-items: left;
+  font-weight: 600;
+  font-size: 16px;
   display: flex;
   flex-direction: column;
+  color: ${props => props.theme.textBlack};
   width: 100%;
 `
 const MainValue = styled(Value)`
@@ -56,17 +57,18 @@ const SubValue = styled(Value)`
 type Props = {
   icon: ReactElement
   onClick: (string) => void
+  text: string
   value: SBPaymentMethodType
 }
 
-const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
+const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
     role='button'
     onClick={onClick}
   >
     <DisplayIcon>{icon}</DisplayIcon>
-    <DisplayTitle>{value.currency}</DisplayTitle>
+    <DisplayTitle>{text}</DisplayTitle>
     <DisplayMoney>
       <MainValue>
         {fiatToString({
@@ -86,4 +88,4 @@ const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
   </DisplayContainer>
 )
 
-export default Fund
+export default Card
