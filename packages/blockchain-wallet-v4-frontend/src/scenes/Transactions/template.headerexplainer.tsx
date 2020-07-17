@@ -76,6 +76,42 @@ export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
         </ExplainerText>
       )
     }
+    case 'XLM': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.xlm'
+            defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
+          />
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
+    case 'ALGO': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.algo'
+            defaultMessage='Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
+          />
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
     case 'USD-D': {
       return (
         <ExplainerText>
@@ -100,24 +136,6 @@ export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
           <FormattedMessage
             id='scenes.transaction.headertext.explainer.usdt'
             defaultMessage='The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
-          />
-          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
-            <LearnMoreText size='15px'>
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
-            </LearnMoreText>
-          </LearnMoreLink>
-        </ExplainerText>
-      )
-    }
-    case 'XLM': {
-      return (
-        <ExplainerText>
-          <FormattedMessage
-            id='scenes.transaction.headertext.explainer.xlm'
-            defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
           />
           <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
