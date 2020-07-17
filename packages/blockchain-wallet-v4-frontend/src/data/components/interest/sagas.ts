@@ -172,14 +172,21 @@ export default ({
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
+        const getAccountIndexOrAccount = coin => {
+          switch (coin) {
+            case 'ETH':
+            case 'PAX':
+            case 'USDT':
+              return values.interestDepositAccount.address
+            default:
+              return values.interestDepositAccount.index
+          }
+        }
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           {
             ...values.interestDepositAccount,
-            address:
-              coin === 'ETH'
-                ? values.interestDepositAccount.address
-                : values.interestDepositAccount.index
+            address: getAccountIndexOrAccount(coin)
           },
           value
         )
@@ -260,7 +267,6 @@ export default ({
       )
       yield put(A.setWithdrawalMinimimumsLoading())
       yield put(A.setWithdrawalMinimimumsSuccess(response))
-      // setWithdrawalMinimimumsSuccess init form for analytics
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setWithdrawalMinimimumsFailure(error))
