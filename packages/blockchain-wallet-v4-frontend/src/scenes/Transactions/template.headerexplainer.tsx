@@ -1,5 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
+import { SupportedCoinType, SupportedFiatType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -19,7 +20,9 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-export const getHeaderExplainer = coinModel => {
+export const getHeaderExplainer = (
+  coinModel: SupportedCoinType | SupportedFiatType
+) => {
   switch (coinModel.coinTicker) {
     case 'BTC': {
       return (
@@ -28,10 +31,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.btc1'
             defaultMessage='Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
           />
-          <LearnMoreLink
-            href='https://www.blockchain.com/learning-portal/bitcoin-faq'
-            target='_blank'
-          >
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='16px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -49,10 +49,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.eth'
             defaultMessage='Ethereum (ETH) is a currency and computing platform. Built for developers and apps.'
           />
-          <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ'
-            target='_blank'
-          >
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -70,10 +67,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.bch'
             defaultMessage='Bitcoin Cash (BCH) is a fork of Bitcoin built for everday transactions.'
           />
-          <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ'
-            target='_blank'
-          >
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -84,6 +78,7 @@ export const getHeaderExplainer = coinModel => {
         </ExplainerText>
       )
     }
+    // @ts-ignore
     case 'USD-D': {
       return (
         <ExplainerText>
@@ -91,10 +86,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.usdd'
             defaultMessage='The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
           />
-          <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ'
-            target='_blank'
-          >
+          <LearnMoreLink href={(coinModel as SupportedCoinType).learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -112,10 +104,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.usdt'
             defaultMessage='The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
           />
-          <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ'
-            target='_blank'
-          >
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -133,10 +122,7 @@ export const getHeaderExplainer = coinModel => {
             id='scenes.transaction.headertext.explainer.xlm'
             defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
           />
-          <LearnMoreLink
-            href='https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-'
-            target='_blank'
-          >
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -147,6 +133,19 @@ export const getHeaderExplainer = coinModel => {
         </ExplainerText>
       )
     }
+    case 'GBP':
+    case 'EUR':
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.fiat'
+            defaultMessage='Store {currency} on your wallet and use it to Buy Crypto.'
+            values={{
+              currency: coinModel.displayName
+            }}
+          />
+        </ExplainerText>
+      )
     default: {
       return <ExplainerText />
     }

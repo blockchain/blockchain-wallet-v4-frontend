@@ -1,5 +1,5 @@
 import { actions, model } from 'data'
-import { CoinType, FiatType, SupportedCoinType } from 'core/types'
+import { CoinType, FiatType, FiatTypeEnum, SupportedCoinType } from 'core/types'
 import { compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
@@ -119,12 +119,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </PageTitle>
             <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown
+              {/* <WalletBalanceDropdown
                 coin={coin}
                 coinModel={coinModel}
                 isCoinErc20={isCoinErc20}
               />
-              <CoinPerformance coin={coin} coinModel={coinModel} />
+              <CoinPerformance coin={coin} coinModel={coinModel} /> */}
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && (
@@ -175,6 +175,14 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () =>
         dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+    }
+  }
+  if (coin in FiatTypeEnum) {
+    return {
+      fetchData: () => {},
+      loadMoreTxs: () =>
+        dispatch(actions.core.data.fiat.fetchTransactions(coin)),
+      initTxs: () => dispatch(actions.core.data.fiat.fetchTransactions(coin))
     }
   }
   return {

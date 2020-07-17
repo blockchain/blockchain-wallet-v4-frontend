@@ -23,6 +23,7 @@ const { WALLET_TX_SEARCH } = model.form
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
     propSatisfies(
+      // @ts-ignore
       x => filter === '' || (x && toUpper(x) === toUpper(filter)),
       'type',
       tx
@@ -51,7 +52,12 @@ const coinSelectorMap = (state, coin, isCoinErc20) => {
     return state =>
       selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
-  return selectors.core.common[toLower(coin)].getWalletTransactions
+  if (selectors.core.common[toLower(coin)]) {
+    return selectors.core.common[toLower(coin)].getWalletTransactions
+  }
+
+  // default to fiat
+  return state => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
 export const getData = (state, coin, isCoinErc20) =>
@@ -62,7 +68,7 @@ export const getData = (state, coin, isCoinErc20) =>
       selectors.core.settings.getCurrency,
       () => selectors.core.walletOptions.getCoinModel(state, coin)
     ],
-    (userSearch, pages, currencyR, coinModelR) => {
+    (userSearch, pages: any, currencyR, coinModelR) => {
       const empty = page => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status = propOr('', 'status', userSearch)
@@ -76,6 +82,7 @@ export const getData = (state, coin, isCoinErc20) =>
         coinModel: coinModelR.getOrElse({}),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
+        // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
         sourceType

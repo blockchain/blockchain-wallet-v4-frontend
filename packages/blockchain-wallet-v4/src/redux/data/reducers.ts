@@ -1,5 +1,6 @@
 import { algoReducer } from './algo/reducers'
 import { combineReducers } from 'redux'
+import { fiatReducer } from './fiat/reducers'
 import { miscReducer } from './misc/reducers'
 import bch from './bch/reducers'
 import btc from './btc/reducers'
@@ -11,6 +12,7 @@ const dataReducer = combineReducers({
   bch,
   btc,
   eth,
+  fiat: fiatReducer,
   misc: miscReducer,
   xlm
 })

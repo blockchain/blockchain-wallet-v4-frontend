@@ -193,6 +193,33 @@ export type SBQuoteType = {
   time: string
 }
 
+export type SBTransactionType = {
+  amount: { symbol: FiatType; value: string }
+  extraAttributes: null
+  id: string
+  insertedAt: string
+  state: SBTransactionStateType
+  type: 'DEPOSIT' | 'WITHDRAWAL'
+}
+
+export type SBTransactionsType = {
+  items: Array<SBTransactionType>
+  next: string | null
+  prev: string | null
+}
+
+export type SBTransactionStateType =
+  | 'CREATED'
+  | 'PENDING'
+  | 'UNIDENTIFIED'
+  | 'FAILED'
+  | 'FRAUD_REVIEW'
+  | 'MANUAL_REVIEW'
+  | 'REJECTED'
+  | 'CLEARED'
+  | 'COMPLETE'
+  | 'REFUNDED'
+
 export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean

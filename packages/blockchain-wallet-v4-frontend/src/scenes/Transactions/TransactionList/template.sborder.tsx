@@ -1,29 +1,20 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBOrderType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { getOrderType } from 'data/components/simpleBuy/model'
-import { Status } from './model'
 import media from 'services/ResponsiveService'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-const TransactionRow = styled.div`
-  width: 100%;
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid ${props => props.theme.grey000} !important;
-  box-sizing: border-box;
-  padding: 14px;
-  padding-left: 0px;
-  margin-left: 14px;
-`
+import { actions } from 'data'
+
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getOrderType } from 'data/components/simpleBuy/model'
+import { Status } from './model'
+import { TransactionRow } from '../components'
+
 const StatusColumn = styled.div`
   display: flex;
   flex-direction: column;
