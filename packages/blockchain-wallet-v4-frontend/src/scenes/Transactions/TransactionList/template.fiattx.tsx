@@ -1,6 +1,4 @@
-import media from 'services/ResponsiveService'
 import React from 'react'
-import styled from 'styled-components'
 
 import { SBTransactionType } from 'core/types'
 import { TransactionRow } from '../components'

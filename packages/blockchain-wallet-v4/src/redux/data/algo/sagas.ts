@@ -1,10 +1,11 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { flatten, last, length } from 'ramda'
 
 import { APIType } from 'core/network/api'
 import Remote from '../../../remote'
 
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import { SBOrderType } from 'core/types'
 import moment from 'moment'
@@ -22,6 +23,13 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
+    }
+  }
+
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_ALGO_TRANSACTIONS)
+      yield call(fetchTransactions, action)
     }
   }
 
@@ -57,6 +65,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     fetchRates,
-    fetchTransactions
+    fetchTransactions,
+    watchTransactions
   }
 }

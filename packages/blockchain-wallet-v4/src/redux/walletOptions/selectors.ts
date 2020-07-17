@@ -11,9 +11,7 @@ import {
   set,
   toUpper
 } from 'ramda'
-import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { getInvitations } from '../settings/selectors'
-import { getSBPaymentMethods } from 'data/components/simpleBuy/selectors'
 import { RootState } from 'data/rootReducer'
 import { SupportedCoinType } from './types'
 
@@ -36,29 +34,15 @@ export const getAdsUrl = state => getWebOptions(state).map(path(['ads', 'url']))
 
 // coins
 export const getSupportedCoins = createDeepEqualSelector(
-  [getInvitations, getWebOptions, getSBPaymentMethods],
-  (invitationsR, webOptionsR, sbPaymentMethods) => {
+  [getInvitations, getWebOptions],
+  (invitationsR, webOptionsR) => {
     const addInvited = (obj, coin) => {
       // @ts-ignore
       const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
       return set(lensProp('invited'), invited, obj)
     }
-    const addMethod = (obj, coin) => {
-      const methods = sbPaymentMethods.getOrElse({
-        currency: 'USD',
-        methods: []
-      })
-      const method =
-        coin in FiatTypeEnum
-          ? methods.methods.find(method => method.currency === coin)
-          : true
-      return set(lensProp('method'), method, obj)
-    }
 
-    return webOptionsR
-      .map(prop('coins'))
-      .map(mapObjIndexed(addInvited))
-      .map(mapObjIndexed(addMethod))
+    return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
 )
 export const getSyncToExchangeList = state =>

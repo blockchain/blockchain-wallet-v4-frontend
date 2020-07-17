@@ -98,7 +98,6 @@ const Navigation = (props: OwnProps & Props) => {
         mapObjIndexed(
           (coin: SupportedCoinType, i) =>
             coin &&
-            coin.method &&
             coin.invited &&
             coin.txListAppRoute && (
               <LinkContainer

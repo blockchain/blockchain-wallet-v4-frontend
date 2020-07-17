@@ -6,6 +6,7 @@ import * as btcTransactions from './btcTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
+import * as fiatTransactions from './fiatTransactions/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as interest from './interest/actionTypes'
@@ -45,6 +46,7 @@ export {
   xlmTransactions,
   exchange,
   exchangeHistory,
+  fiatTransactions,
   identityVerification,
   importBtcAddress,
   interest,

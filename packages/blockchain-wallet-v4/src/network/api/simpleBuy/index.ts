@@ -237,7 +237,7 @@ export default ({
 
   const getSBTransactions = (
     currency: FiatType,
-    next?: string,
+    next?: string | null,
     limit?: string,
     type?: 'DEPOSIT' | 'WITHDRAWAL',
     state?: SBTransactionStateType
@@ -246,7 +246,7 @@ export default ({
       ? authorizedGet({
           url: nabuUrl,
           endPoint: next,
-          ignoreQueryParams: true,
+          ignoreQueryParams: true
         })
       : authorizedGet({
           url: nabuUrl,

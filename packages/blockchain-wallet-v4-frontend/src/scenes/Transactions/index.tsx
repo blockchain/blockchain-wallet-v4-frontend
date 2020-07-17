@@ -118,14 +118,17 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </Text>
             </PageTitle>
             <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
-            <StatsContainer>
-              {/* <WalletBalanceDropdown
-                coin={coin}
-                coinModel={coinModel}
-                isCoinErc20={isCoinErc20}
-              />
-              <CoinPerformance coin={coin} coinModel={coinModel} /> */}
-            </StatsContainer>
+            {/* TODO: render dropdown for fiat */}
+            {!(coin in FiatTypeEnum) && (
+              <StatsContainer>
+                <WalletBalanceDropdown
+                  coin={coin}
+                  coinModel={coinModel}
+                  isCoinErc20={isCoinErc20}
+                />
+                <CoinPerformance coin={coin} coinModel={coinModel} />
+              </StatsContainer>
+            )}
           </Header>
           {(hasTxResults || isSearchEntered) && (
             <TransactionFilters coin={coin} />
@@ -181,8 +184,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
     return {
       fetchData: () => {},
       loadMoreTxs: () =>
-        dispatch(actions.core.data.fiat.fetchTransactions(coin)),
-      initTxs: () => dispatch(actions.core.data.fiat.fetchTransactions(coin))
+        dispatch(actions.components.fiatTransactions.loadMore(coin)),
+      initTxs: () =>
+        dispatch(actions.components.fiatTransactions.initialized(coin))
     }
   }
   return {
