@@ -126,7 +126,7 @@
           "coinTicker": "USDT",
           "colorCode": "usdt",
           "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          "displayName": "USD Tether",
+          "displayName": "Tether",
           "hasLockboxSupport": false,
           "icons": {
             "default": "usdt",
