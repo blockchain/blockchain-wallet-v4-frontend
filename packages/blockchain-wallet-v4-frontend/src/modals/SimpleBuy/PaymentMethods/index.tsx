@@ -1,7 +1,7 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, RemoteDataType, SBPairType } from 'core/types'
+import { FiatType, RemoteDataType, SBOrderType, SBPairType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
@@ -44,6 +44,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  order: SBOrderType
   pair: SBPairType
 }
 

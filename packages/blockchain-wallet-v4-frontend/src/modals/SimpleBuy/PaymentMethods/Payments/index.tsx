@@ -9,9 +9,10 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBFormPaymentMethod } from 'data/components/simpleBuy/types'
 import { SBPaymentMethodType } from 'core/types'
+import BankAccount from './BankAccount'
 import Card from './Card'
 import Fund from './Fund'
-import Payment from './Payment'
+import PaymentCard from './PaymentCard'
 import React, { PureComponent, ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -132,9 +133,17 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       value
     }))
 
+    const defaultCardMethod = this.props.paymentMethods.methods.find(
+      m => m.type === 'PAYMENT_CARD'
+    )
+
     const funds = defaultMethods.filter(method => method.value.type === 'FUNDS')
-    const nonFundsMethods = defaultMethods.filter(
-      method => method.value.type !== 'FUNDS'
+
+    const paymentCard = defaultMethods.find(
+      method => method.value.type === 'PAYMENT_CARD'
+    )
+    const bankAccount = defaultMethods.find(
+      method => method.value.type === 'BANK_ACCOUNT'
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -148,23 +157,12 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         card: card.card,
         type: 'USER_CARD',
         currency: card.currency,
-        limits: card.limits ? card.limits : { min: '1000', max: '500000' }
+        limits:
+          defaultCardMethod && defaultCardMethod.limits
+            ? defaultCardMethod.limits
+            : { min: '1000', max: '500000' }
       } as SBPaymentMethodType
     }))
-
-    // card?: SBCard,
-    // currency: FiatCurrenciesType,
-    // limits: {
-    //   max: string
-    //   min: string
-    // },
-    // subTypes?: [] | [CardNameType],
-    // type: SBPaymentTypes
-
-    // eslint-disable-next-line
-    console.log('cardMethods', cardMethods)
-    // eslint-disable-next-line
-    console.log(defaultMethods)
 
     return (
       <Wrapper>
@@ -214,15 +212,31 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   onClick={() => this.handleSubmit(cardMethod.value)}
                 />
               ))}
-            {nonFundsMethods &&
-              nonFundsMethods.map((payment, index) => (
-                <Payment
-                  key={`${payment.text}-${index}`}
-                  {...payment}
-                  icon={this.getIcon(payment.value)}
-                  onClick={() => this.handleSubmit(payment.value)}
-                />
-              ))}
+            {paymentCard && (
+              <PaymentCard
+                key={`${paymentCard.text}`}
+                {...paymentCard}
+                icon={this.getIcon(paymentCard.value)}
+                onClick={() =>
+                  this.props.simpleBuyActions.setStep({
+                    step: 'ADD_CARD'
+                  })
+                }
+              />
+            )}
+            {/* TODO - this might redirect to separate STEP */}
+            {bankAccount && (
+              <BankAccount
+                key={`${bankAccount.text}`}
+                {...bankAccount}
+                icon={this.getIcon(bankAccount.value)}
+                onClick={() =>
+                  this.props.simpleBuyActions.setStep({
+                    step: 'ADD_CARD'
+                  })
+                }
+              />
+            )}
           </PaymentsWrapper>
         </Form>
       </Wrapper>

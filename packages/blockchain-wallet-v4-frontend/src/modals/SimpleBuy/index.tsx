@@ -1,9 +1,14 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import {
+  CoinType,
+  SBOrderType,
+  SBPairType,
+  SBPaymentMethodType
+} from 'core/types'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType, SBPairType, SBPaymentMethodType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
@@ -130,7 +135,8 @@ const mapStateToProps = (state: RootState) => ({
   cardId: selectors.components.simpleBuy.getSBCardId(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
   method: selectors.components.simpleBuy.getSBPaymentMethod(state),
-  order: selectors.components.simpleBuy.getSBOrder(state)
+  order: selectors.components.simpleBuy.getSBOrder(state),
+  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -168,15 +174,18 @@ type LinkStatePropsType =
     }
   | {
       cardId?: string
+      cryptoCurrency?: CoinType
       pair: SBPairType
       step: 'ADD_CARD'
     }
   | {
       method: SBPaymentMethodType
+      order?: SBOrderType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {
+      order: SBOrderType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
     }

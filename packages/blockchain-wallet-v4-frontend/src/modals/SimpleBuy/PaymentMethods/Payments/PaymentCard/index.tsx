@@ -1,7 +1,8 @@
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { Title, Value } from 'components/Flyout'
+import { Icon } from 'blockchain-info-components'
+import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -18,13 +19,13 @@ const DisplayContainer = styled.div`
     background-color: ${props => props.theme.grey100};
   }
 `
-const Display = styled.div`
+const Content = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 230px;
   color: ${props => props.theme.grey800};
   margin-left: 16px;
+  min-width: 336px;
 `
 const DisplayIcon = styled.div`
   position: relative;
@@ -32,6 +33,7 @@ const DisplayIcon = styled.div`
   flex-direction: column;
   font-size: 16px;
   font-weight: 500;
+  max-width: 32px;
   color: ${props => props.theme.grey800};
 `
 const DisplayTitle = styled(Title)`
@@ -43,30 +45,10 @@ const DisplayTitle = styled(Title)`
   color: ${props => props.theme.textBlack};
   width: 100%;
 `
-const DisplaySubTitle = styled(Title)`
-  align-items: left;
-  font-weight: 500;
-  font-size: 14px;
+const SubTitle = styled(Title)`
   color: ${props => props.theme.textBody};
-  width: 100%;
-`
-const MainValue = styled(Value)`
-  margin-top: 0;
-  text-align: right;
-  font-size: 16px;
-  color: ${props => props.theme.grey900};
-`
-const SubValue = styled(Value)`
-  margin-top: 0;
-  font-weight: 500;
-  color: ${props => props.theme.textBody};
-  text-align: right;
-  font-size: 14px;
-`
-
-const DisplayCardDetails = styled.div`
-  width: 130px;
-  text-align: right;
+  margin-top: 5px;
+  line-height: 21px;
 `
 
 type Props = {
@@ -76,16 +58,16 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
     role='button'
     onClick={onClick}
   >
     <DisplayIcon>{icon}</DisplayIcon>
-    <Display>
+    <Content>
       <DisplayTitle>{text}</DisplayTitle>
-      <DisplaySubTitle>
+      <SubTitle>
         <FormattedMessage
           id='modals.simplebuy.card_limit'
           defaultMessage='{card} Limit'
@@ -96,24 +78,16 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
             })} ${value.currency}`
           }}
         />
-      </DisplaySubTitle>
-    </Display>
-    {value.card && (
-      <DisplayCardDetails>
-        <MainValue>{value.card.number}</MainValue>
-        <SubValue>
-          <FormattedMessage
-            id='modals.simplebuy.card_expire'
-            defaultMessage='Exp: {month}/{year}'
-            values={{
-              month: value.card.expireMonth,
-              year: value.card.expireYear
-            }}
-          />
-        </SubValue>
-      </DisplayCardDetails>
-    )}
+      </SubTitle>
+      <SubTitle>
+        <FormattedMessage
+          id='modals.simplebuy.instantly_buy'
+          defaultMessage='Instantly buy crypto with any Visa or Mastercard.'
+        />
+      </SubTitle>
+    </Content>
+    <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>
 )
 
-export default Card
+export default PaymentCard

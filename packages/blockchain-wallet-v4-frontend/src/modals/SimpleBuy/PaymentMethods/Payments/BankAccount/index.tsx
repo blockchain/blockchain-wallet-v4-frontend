@@ -1,8 +1,7 @@
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon } from 'blockchain-info-components'
-import { Title, Value } from 'components/Flyout'
+import { SBPaymentMethodType } from 'core/types'
+import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -24,6 +23,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-left: 16px;
   color: ${props => props.theme.grey800};
 `
 const DisplayIcon = styled.div`
@@ -43,18 +43,6 @@ const DisplayTitle = styled(Title)`
   color: ${props => props.theme.textBlack};
   width: 100%;
 `
-const MainValue = styled(Value)`
-  margin-top: 0;
-  text-align: right;
-  font-size: 16px;
-  color: ${props => props.theme.grey900};
-`
-const SubValue = styled(Value)`
-  margin-top: 0;
-  color: ${props => props.theme.textBody};
-  text-align: right;
-  font-size: 14px;
-`
 
 type Props = {
   icon: ReactElement
@@ -63,7 +51,7 @@ type Props = {
   value: SBPaymentMethodType
 }
 
-const Payment: React.FC<Props> = ({ value, onClick, icon, text }) => (
+const BankAccount: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
     role='button'
@@ -72,29 +60,15 @@ const Payment: React.FC<Props> = ({ value, onClick, icon, text }) => (
     <DisplayIcon>{icon}</DisplayIcon>
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
-      <MainValue>
-        {fiatToString({
-          value: value.limits.max,
-          unit: String(value.currency) as FiatType
-        })}
-      </MainValue>
-      {value.limits.min && (
-        <SubValue>
-          {fiatToString({
-            value: value.limits.min,
-            unit: String(value.currency) as FiatType
-          })}
-        </SubValue>
-      )}
-      {value.type === 'BANK_ACCOUNT' && (
+      <Title>
         <FormattedMessage
           id='modals.simplebuy.depositcash_description'
           defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
         />
-      )}
+      </Title>
     </Content>
-    <Icon name='chevron-right' size='12px' color='grey400' />
+    <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>
 )
 
-export default Payment
+export default BankAccount

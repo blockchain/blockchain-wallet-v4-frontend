@@ -6,6 +6,7 @@ import {
   FiatType,
   RemoteDataType,
   SBCardType,
+  SBOrderType,
   SBPairType,
   SBPaymentMethodsType
 } from 'core/types'
@@ -52,6 +53,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
   method: SBFormPaymentMethod
+  order?: SBOrderType
   pair: SBPairType
 }
 export type SuccessStateType = {

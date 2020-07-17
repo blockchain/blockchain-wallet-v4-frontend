@@ -409,6 +409,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
+        order: payload.order,
         pair: payload.pair
       }
     case 'ENTER_AMOUNT':

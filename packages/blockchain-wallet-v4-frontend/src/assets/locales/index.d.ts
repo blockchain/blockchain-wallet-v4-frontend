@@ -1141,6 +1141,9 @@ type MessagesType = {
   'modals.simplebuy.cryptoselect': 'Buy with Cash or Card'
   'modals.simplebuy.paymentmethods': 'Payment Methods'
   'modals.simplebuy.depositcash_description': 'Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the manual transfer, use that cash to buy crypto.'
+  'modals.simplebuy.card_limit': '{card} Limit'
+  'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
+  'modals.simplebuy.instantly_buy': 'Instantly buy crypto with any Visa or Mastercard.'
   'modals.simplebuy.selectcrypto': 'Select the crypto you want to buy.'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'

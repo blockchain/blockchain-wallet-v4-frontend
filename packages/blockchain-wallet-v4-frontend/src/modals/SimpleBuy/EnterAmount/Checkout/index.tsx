@@ -42,7 +42,8 @@ class Checkout extends PureComponent<Props> {
         step: 'PAYMENT_METHODS',
         fiatCurrency,
         pair: this.props.pair,
-        cryptoCurrency: this.props.cryptoCurrency
+        cryptoCurrency: this.props.cryptoCurrency,
+        order: this.props.order
       })
     } else if (formValues && this.props.method) {
       switch (this.props.method.type) {

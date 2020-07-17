@@ -263,7 +263,7 @@ export function simpleBuyReducer (
             defaultMethod: action.payload.defaultMethod,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
-            order: undefined
+            order: action.payload.order
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
