@@ -11,8 +11,6 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
     selectors.core.settings.getInvitations,
-    selectors.core.walletOptions.getAdsBlacklist,
-    selectors.core.walletOptions.getAdsUrl,
     selectors.modules.profile.getUserKYCState
   ],
   (
@@ -23,14 +21,10 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     countryCodeR,
     invitationsR,
-    adsBlacklistR,
-    adsUrlR,
     userKYCState
   ) => {
     const transform = (lockboxDevices, countryCode, invitations) => {
       return {
-        adsBlacklist: adsBlacklistR.getOrElse([]),
-        adsUrl: adsUrlR.getOrElse(''),
         countryCode,
         invitations,
         firstLogin,
