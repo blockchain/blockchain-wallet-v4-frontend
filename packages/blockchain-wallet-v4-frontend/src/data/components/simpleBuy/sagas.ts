@@ -15,7 +15,8 @@ import {
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedCoinsType
+  SupportedCoinsType,
+  WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import {
   convertBaseToStandard,
@@ -65,7 +66,7 @@ export default ({
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       if (card.partner === 'EVERYPAY') {
         providerDetails = yield call(
           api.activateSBCard,
@@ -255,7 +256,7 @@ export default ({
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       const attributes = order.paymentMethodId
         ? {
             everypay: {
@@ -414,7 +415,7 @@ export default ({
       )
       const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
-        .getOrElse({}) as SupportedCoinsType
+        .getOrElse({} as SupportedCoinsType)
       const filteredPairs = pairs.filter(pair => {
         return (
           getCoinFromPair(pair.pair) in CoinTypeEnum &&

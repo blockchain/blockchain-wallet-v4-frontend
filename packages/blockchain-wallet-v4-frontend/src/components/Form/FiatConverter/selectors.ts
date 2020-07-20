@@ -9,7 +9,7 @@ export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)
   const erc20List = selectors.core.walletOptions
     .getErc20CoinList(state)
-    .getOrFail()
+    .getOrElse([])
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   let ratesR
 

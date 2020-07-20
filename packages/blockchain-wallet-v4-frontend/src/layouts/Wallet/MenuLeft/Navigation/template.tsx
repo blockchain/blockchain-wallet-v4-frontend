@@ -11,9 +11,8 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
-import { SupportedCoinType } from 'core/types'
+import { SupportedCoinType, SupportedFiatType } from 'core/types'
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -69,18 +68,7 @@ const ExchangeNavItem = props => (
 
 const Navigation = (props: OwnProps & Props) => {
   const { ...rest } = props
-  const { supportedCoins } = rest
-  const coinOrder = [
-    supportedCoins.EUR,
-    supportedCoins.GBP,
-    supportedCoins.BTC,
-    supportedCoins.ETH,
-    supportedCoins.BCH,
-    supportedCoins.XLM,
-    supportedCoins.ALGO,
-    supportedCoins.PAX,
-    supportedCoins.USDT
-  ]
+
   return (
     <Wrapper {...rest}>
       <LinkContainer to='/home' activeClassName='active'>
@@ -96,9 +84,10 @@ const Navigation = (props: OwnProps & Props) => {
       </LinkContainer>
       {values(
         mapObjIndexed(
-          (coin: SupportedCoinType, i) =>
+          (coin: SupportedCoinType | SupportedFiatType, i) =>
             coin &&
             coin.invited &&
+            coin.method &&
             coin.txListAppRoute && (
               <LinkContainer
                 key={i}
@@ -127,7 +116,7 @@ const Navigation = (props: OwnProps & Props) => {
                 </MenuItem>
               </LinkContainer>
             ),
-          coinOrder
+          props.coins
         )
       )}
       <Separator />
@@ -181,10 +170,6 @@ const Navigation = (props: OwnProps & Props) => {
       ) : null}
     </Wrapper>
   )
-}
-
-Navigation.propTypes = {
-  lockboxOpened: PropTypes.bool
 }
 
 export default Navigation

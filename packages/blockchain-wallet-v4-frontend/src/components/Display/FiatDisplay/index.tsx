@@ -41,7 +41,7 @@ const mapStateToProps = (state, ownProps) => ({
     ownProps.currency,
     ownProps.rates
   ),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({

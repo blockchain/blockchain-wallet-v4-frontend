@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
 import { actions } from 'data'
+import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -32,6 +33,8 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(MenuLeftContainer)

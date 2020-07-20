@@ -32,7 +32,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
 const mapStateToProps = (state): LinkStatePropsType => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrElse({} as SupportedCoinsType)
 })
 
 const mapDispatchToProps = dispatch => ({

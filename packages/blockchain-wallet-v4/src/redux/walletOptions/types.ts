@@ -15,7 +15,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
-  colorCode: 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx' | 'usdt'
+  colorCode: 'algo' | 'btc' | 'bch' | 'eth' | 'xlm' | 'pax' | 'stx' | 'usdt'
   config: {
     network: string
   }
@@ -51,6 +51,7 @@ export type SupportedFiatType = {
   learnMoreLink: ''
   method?: boolean
   minConfirmations: 0
+  showNewTagSidenav: boolean
   txExplorerBaseUrl: ''
   txListAppRoute: string
 }

@@ -7,6 +7,8 @@ import styled from 'styled-components'
 
 import media, { useMedia } from 'services/ResponsiveService'
 
+import { Props as OwnProps, SuccessStateType } from '.'
+
 export const Container = styled.div<{ toggled?: boolean }>`
   display: flex;
   position: absolute;
@@ -42,7 +44,7 @@ const Overflow = styled.div`
   height: 100%;
 `
 
-const MenuLeft = props => {
+const MenuLeft = (props: Props) => {
   const isLaptop = useMedia('laptop')
 
   return (
@@ -63,5 +65,7 @@ MenuLeft.propTypes = {
 MenuLeft.defaultProps = {
   toggled: false
 }
+
+export type Props = OwnProps & SuccessStateType
 
 export default MenuLeft

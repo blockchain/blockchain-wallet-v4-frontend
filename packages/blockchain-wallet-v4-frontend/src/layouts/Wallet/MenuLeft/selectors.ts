@@ -1,47 +1,89 @@
+import {
+  CoinTypeEnum,
+  ExtractSuccess,
+  SupportedCoinType,
+  SupportedFiatType
+} from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { lift } from 'ramda'
+import { lift, mapObjIndexed, values } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getMenuOpened,
-    selectors.components.layoutWallet.getLockboxOpened,
+    selectors.components.simpleBuy.getSBPaymentMethods,
     selectors.auth.getFirstLogin,
     selectors.router.getPathname,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
-    selectors.core.settings.getInvitations,
     selectors.core.walletOptions.getAdsBlacklist,
     selectors.core.walletOptions.getAdsUrl,
-    selectors.modules.profile.getUserKYCState
+    selectors.core.walletOptions.getDomains,
+    selectors.core.walletOptions.getSupportedCoins
   ],
   (
-    menuOpened,
-    lockboxOpened,
-    firstLogin,
+    menuOpened: boolean,
+    paymentMethodsR,
+    firstLogin: boolean,
     pathname,
     lockboxDevicesR,
     countryCodeR,
-    invitationsR,
     adsBlacklistR,
     adsUrlR,
-    userKYCState
+    domainsR,
+    supportedCoinsR
   ) => {
-    const transform = (lockboxDevices, countryCode, invitations) => {
+    const transform = (
+      countryCode,
+      domains: ExtractSuccess<typeof domainsR>,
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      lockboxDevices,
+      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+    ) => {
+      const coinOrder = [
+        supportedCoins.EUR,
+        supportedCoins.GBP,
+        supportedCoins.BTC,
+        supportedCoins.ETH,
+        supportedCoins.BCH,
+        supportedCoins.XLM,
+        supportedCoins.ALGO,
+        supportedCoins.PAX,
+        supportedCoins.USDT
+      ]
+      const coins = values(
+        mapObjIndexed((coin: SupportedCoinType | SupportedFiatType) => {
+          return {
+            ...coin,
+            method:
+              coin.coinCode in CoinTypeEnum ||
+              !!paymentMethods.methods.find(
+                method => method.currency === coin.coinCode
+              )
+          }
+        }, coinOrder)
+      )
+
       return {
         adsBlacklist: adsBlacklistR.getOrElse([]),
         adsUrl: adsUrlR.getOrElse(''),
+        coins,
         countryCode,
-        invitations,
+        domains,
         firstLogin,
         lockboxDevices,
-        lockboxOpened,
         menuOpened,
         pathname,
-        userKYCState: userKYCState.getOrElse(null)
+        paymentMethods
       }
     }
 
-    return lift(transform)(lockboxDevicesR, countryCodeR, invitationsR)
+    return lift(transform)(
+      countryCodeR,
+      domainsR,
+      paymentMethodsR,
+      lockboxDevicesR,
+      supportedCoinsR
+    )
   }
 )

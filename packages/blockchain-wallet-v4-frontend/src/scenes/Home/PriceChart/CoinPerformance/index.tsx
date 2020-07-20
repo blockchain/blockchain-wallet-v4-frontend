@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { FiatType, RemoteDataType } from 'core/types'
+import { ExtractSuccess, RemoteDataType } from 'core/types'
 import { getData } from './selectors'
 import Loading from './template.loading'
 import React from 'react'
@@ -18,18 +18,13 @@ class CoinPerformance extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
 const connector = connect(mapStateToProps)
 
-export type SuccessStateType = {
-  currency: FiatType
-  priceChange: number
-  priceChartTime: '1day'
-  pricePercentageChange: number
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>

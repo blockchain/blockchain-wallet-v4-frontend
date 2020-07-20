@@ -172,7 +172,7 @@ const mapStateToProps = state => ({
   isAuthenticated: selectors.auth.isAuthenticated(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrFail('No supported coins.')
 })
 
 const connector = connect(mapStateToProps)
