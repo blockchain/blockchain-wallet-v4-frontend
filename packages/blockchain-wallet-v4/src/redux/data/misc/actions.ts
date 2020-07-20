@@ -30,13 +30,15 @@ export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
 export const fetchPrice24HSuccess = (
   base: CoinType,
   change: string,
-  movement: PriceMovementDirType
+  movement: PriceMovementDirType,
+  price: number
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_24H_SUCCESS,
   payload: {
     base,
     change,
-    movement
+    movement,
+    price
   }
 })
 export const fetchPrice24HFailure = (base, error): MiscActionTypes => ({

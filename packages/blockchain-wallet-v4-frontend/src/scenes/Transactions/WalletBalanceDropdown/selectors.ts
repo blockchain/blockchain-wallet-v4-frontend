@@ -1,7 +1,6 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
-import { CurrenciesType } from 'core/exchange/currencies'
+import { CoinTypeEnum, ExtractSuccess, FiatType, RatesType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { FiatType, RemoteDataType } from 'core/types'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -10,24 +9,11 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { last, lift, nth, prop } from 'ramda'
+import { lift } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
 
-export const getData = (
-  state,
-  ownProps: OwnProps
-): RemoteDataType<
-  string | Error,
-  {
-    addressData: { data: Array<any> }
-    balanceData: number
-    currency: FiatType
-    currencySymbol: string
-    priceChangeFiat: number
-    priceChangePercentage: number
-  }
-> => {
+export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
@@ -97,40 +83,42 @@ export const getData = (
       balanceDataR = Remote.Success(0)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
-  const priceIndexSeriesR = selectors.core.data.misc.getPriceIndexSeries(state)
+  const price24HrR = selectors.core.data.misc.getPrice24H(coin, state)
   const currencyR = selectors.core.settings.getCurrency(state)
 
   const transform = (
     addressData,
     balanceData,
-    coinRates,
-    currency: keyof CurrenciesType,
-    priceIndexSeries
+    coinRates: RatesType,
+    currency: FiatType,
+    price24H: ExtractSuccess<typeof price24HrR>
   ) => {
-    const { value } = Exchange.convertCoinToCoin({
-      value: balanceData,
-      coin,
-      baseToStandard: true
-    })
-    const currentValue = Exchange.convertCoinToFiat(
-      value,
-      coin,
-      currency,
-      coinRates
-    )
-    // @ts-ignore
-    let currentPrice = prop('price', last(priceIndexSeries))
-    // @ts-ignore
-    let yesterdayPrice = prop('price', nth(-23, priceIndexSeries))
+    let value
+    let currentValue
+
+    if (coin in CoinTypeEnum) {
+      value = Exchange.convertCoinToCoin({
+        value: balanceData,
+        coin,
+        baseToStandard: true
+      }).value
+      currentValue = Exchange.convertCoinToFiat(
+        value,
+        coin,
+        currency,
+        coinRates
+      )
+    }
+
+    let yesterdayPrice = price24H.price
     const yesterdayValue = Exchange.convertCoinToFiat(value, coin, currency, {
-      ...priceIndexSeries,
+      ...coinRates,
       [currency]: {
         last: yesterdayPrice
       }
     })
 
-    const changePercentage =
-      ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
+    const changePercentage = price24H.change
 
     const changeFiat = currentValue - yesterdayValue
 
@@ -139,8 +127,9 @@ export const getData = (
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),
+      price24H,
       priceChangeFiat: changeFiat,
-      priceChangePercentage: changePercentage
+      priceChangePercentage: Number(changePercentage)
     }
   }
 
@@ -150,6 +139,6 @@ export const getData = (
     balanceDataR,
     coinRatesR,
     currencyR,
-    priceIndexSeriesR
+    price24HrR
   )
 }

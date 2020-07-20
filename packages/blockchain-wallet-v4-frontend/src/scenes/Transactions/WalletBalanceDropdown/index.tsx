@@ -1,6 +1,6 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, SupportedCoinType } from 'core/types'
+import { CoinType, FiatTypeEnum, SupportedCoinType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
@@ -160,6 +160,7 @@ export class WalletBalanceDropdown extends Component<Props> {
         currency: 'USD',
         currencySymbol: '$',
         priceChangeFiat: 0,
+        price24H: { change: '0', movement: 'none', price: 1 },
         priceChangePercentage: 0
       }).balanceData
     } else if (selectProps.value) {
@@ -205,15 +206,17 @@ export class WalletBalanceDropdown extends Component<Props> {
             <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
           <AmountContainer>
-            <FiatDisplay
-              coin={this.props.coin}
-              size='24px'
-              weight={500}
-              cursor='pointer'
-              color='grey800'
-            >
-              {balance}
-            </FiatDisplay>
+            {!(coinCode in FiatTypeEnum) && (
+              <FiatDisplay
+                coin={this.props.coin}
+                size='24px'
+                weight={500}
+                cursor='pointer'
+                color='grey800'
+              >
+                {balance}
+              </FiatDisplay>
+            )}
           </AmountContainer>
 
           {this.hasBalanceOrAccounts(props.selectProps.options) ||
@@ -225,6 +228,7 @@ export class WalletBalanceDropdown extends Component<Props> {
                 currency: 'USD',
                 currencySymbol: '$',
                 priceChangeFiat: 0,
+                price24H: { change: '0', movement: 'none', price: 1 },
                 priceChangePercentage: 0
               })}
             >

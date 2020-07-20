@@ -75,9 +75,14 @@ export enum FiatTypeEnum {
   THB,
   TWD
 }
+export enum WalletFiatEnum {
+  EUR,
+  GBP
+}
 export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
 export type FiatType = keyof FiatCurrenciesType
+export type WalletFiatType = keyof typeof WalletFiatEnum
 
 export type BtcAccountType = {
   address?: string | number

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const TransactionRow = styled.div`
+export const CustodialTransactionRow = styled.div`
   width: 100%;
   display: flex;
   cursor: pointer;

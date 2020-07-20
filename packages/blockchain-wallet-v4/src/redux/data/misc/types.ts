@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { CoinType, FiatType, RemoteDataType } from 'core/types'
+import { CoinType, FiatType, RemoteDataType, WalletFiatType } from 'core/types'
 
 // types
 export type RateType = {
@@ -16,6 +16,12 @@ export type RatesType = {
 
 export type PriceMovementDirType = 'none' | 'up' | 'down'
 
+export type PriceChangeType = {
+  change: string
+  movement: PriceMovementDirType
+  price: number
+}
+
 // state
 export type MiscStateType = {
   authorize_login: RemoteDataType<any, any>
@@ -24,10 +30,7 @@ export type MiscStateType = {
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
   price_24h: {
-    [key in CoinType]: RemoteDataType<
-      string,
-      { change: string; movement: PriceMovementDirType }
-    >
+    [key in CoinType | WalletFiatType]: RemoteDataType<string, PriceChangeType>
   }
   price_index_series: RemoteDataType<any, any>
   verify_email_token: RemoteDataType<any, any>
@@ -92,6 +95,7 @@ interface FetchPrice24HSuccessActionType {
     base: CoinType
     change: string
     movement: PriceMovementDirType
+    price: number
   }
   type: typeof AT.FETCH_PRICE_24H_SUCCESS
 }

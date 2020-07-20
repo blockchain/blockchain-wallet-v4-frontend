@@ -11,9 +11,9 @@ import styled from 'styled-components'
 import { actions } from 'data'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { CustodialTransactionRow } from '../components'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { Status } from './model'
-import { TransactionRow } from '../components'
 
 const StatusColumn = styled.div`
   display: flex;
@@ -73,7 +73,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
         : 'Not yet implemented'
 
     return (
-      <TransactionRow onClick={() => this.showModal(order)}>
+      <CustodialTransactionRow onClick={() => this.showModal(order)}>
         <StatusColumn data-e2e='orderStatusColumn'>
           <Status order={order} />
         </StatusColumn>
@@ -95,7 +95,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
             />
           </Button>
         </ViewInfoColumn>
-      </TransactionRow>
+      </CustodialTransactionRow>
     )
   }
 }
