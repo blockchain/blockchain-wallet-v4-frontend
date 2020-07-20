@@ -103,9 +103,16 @@ export type SBPairType = {
   pair: SBPairsType
 }
 
-type SBPaymentTypes = 'PAYMENT_CARD' | 'BANK_ACCOUNT' | 'FUNDS' | 'USER_CARD'
+export type SBPaymentTypes =
+  | 'PAYMENT_CARD'
+  | 'BANK_ACCOUNT'
+  | 'FUNDS'
+  | 'USER_CARD'
 
 export type SBPaymentMethodType = {
+  addedAt?: string
+  address?: null | NabuAddressType
+  attributes?: {}
   card?: SBCard
   currency: FiatType
   id?: string
@@ -113,6 +120,7 @@ export type SBPaymentMethodType = {
     max: string
     min: string
   }
+  state?: 'ACTIVE' | Exclude<SBCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: SBPaymentTypes
 }

@@ -107,9 +107,6 @@ const normalizeAmount = (
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { fiatCurrency, method } = props
 
-  // eslint-disable-next-line
-  console.log('method', method)
-
   if (!props.formValues) return null
   if (!fiatCurrency)
     return (

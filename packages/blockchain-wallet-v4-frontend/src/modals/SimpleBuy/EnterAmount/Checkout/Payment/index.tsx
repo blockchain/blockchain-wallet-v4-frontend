@@ -2,12 +2,12 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
+import { DisplayIcon } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/index'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
+import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '..'
-import { SBFormPaymentMethod } from 'data/components/simpleBuy/types'
 import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
@@ -24,15 +24,6 @@ const PaymentContainer = styled.div`
   cursor: pointer;
   padding: 12px 28px;
   justify-content: space-between;
-`
-
-const DisplayIcon = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  font-weight: 500;
-  justify-content: center;
-  color: ${props => props.theme.grey800};
 `
 const PaymentText = styled(Text)`
   width: 285px;
@@ -60,11 +51,11 @@ const DisplaySubTitle = styled(Title)`
   font-weight: 500;
   font-size: 12px;
   line-height: 24px;
-  color: ${props => props.theme.textBody};
+  color: ${props => props.theme.grey600};
   width: 100%;
 `
 
-const renderCardText = (value: SBFormPaymentMethod): string => {
+const renderCardText = (value: SBPaymentMethodType): string => {
   return value.card
     ? value.card.label
       ? value.card.label
@@ -72,7 +63,7 @@ const renderCardText = (value: SBFormPaymentMethod): string => {
     : 'Credit or Debit Card'
 }
 
-const renderCard = (value: SBFormPaymentMethod) => (
+const renderCard = (value: SBPaymentMethodType) => (
   <>
     <DisplayTitle>{renderCardText(value)}</DisplayTitle>
     <DisplaySubTitle>
@@ -90,7 +81,7 @@ const renderCard = (value: SBFormPaymentMethod) => (
   </>
 )
 
-const renderFund = (value: SBFormPaymentMethod) => (
+const renderFund = (value: SBPaymentMethodType) => (
   <>
     <DisplayTitle>{value.currency}</DisplayTitle>
     <DisplaySubTitle>
@@ -102,7 +93,7 @@ const renderFund = (value: SBFormPaymentMethod) => (
   </>
 )
 
-const getIcon = (value: SBFormPaymentMethod): ReactElement => {
+const getIcon = (value: SBPaymentMethodType): ReactElement => {
   switch (value.type) {
     case 'USER_CARD':
       let cardType = CARD_TYPES.find(
@@ -133,12 +124,16 @@ const Payment: React.FC<Props> = props => (
       })
     }
   >
-    <DisplayIcon>{getIcon(props.method)}</DisplayIcon>
-    <PaymentText>
-      {props.method.type === 'USER_CARD'
-        ? renderCard(props.method)
-        : renderFund(props.method)}
-    </PaymentText>
+    {props.method && (
+      <>
+        <DisplayIcon>{getIcon(props.method)}</DisplayIcon>
+        <PaymentText>
+          {props.method.type === 'USER_CARD'
+            ? renderCard(props.method)
+            : renderFund(props.method)}
+        </PaymentText>
+      </>
+    )}
     <PaymentArrowContainer>
       <Icon cursor name='arrow-right' size='20px' color='grey600' />
     </PaymentArrowContainer>

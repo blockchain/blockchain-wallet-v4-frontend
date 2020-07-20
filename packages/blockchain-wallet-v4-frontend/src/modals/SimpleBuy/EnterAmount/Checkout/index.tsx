@@ -7,7 +7,7 @@ import {
 } from '../index'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBPaymentMethodType } from 'core/types'
+import { SBPaymentTypes } from 'core/types'
 import { UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
@@ -34,7 +34,7 @@ class Checkout extends PureComponent<Props> {
       )
       this.props.simpleBuyActions.createSBOrder(
         undefined,
-        this.props.method.type as SBPaymentMethodType['type']
+        this.props.method?.type as SBPaymentTypes
       )
     } else if (!this.props.method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'

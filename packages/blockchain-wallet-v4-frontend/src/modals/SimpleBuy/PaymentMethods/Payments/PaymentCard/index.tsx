@@ -1,3 +1,5 @@
+import { Content, DisplayContainer, DisplayTitle } from '../index'
+import { DisplayIcon } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/index'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
@@ -6,47 +8,8 @@ import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const DisplayContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 16px 40px;
-  flex-direction: row;
-  cursor: pointer;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  &hover {
-    background-color: ${props => props.theme.grey100};
-  }
-`
-const Content = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  color: ${props => props.theme.grey800};
-  margin-left: 16px;
-  min-width: 336px;
-`
-const DisplayIcon = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
-  font-weight: 500;
-  max-width: 32px;
-  color: ${props => props.theme.grey800};
-`
-const DisplayTitle = styled(Title)`
-  align-items: left;
-  font-weight: 600;
-  font-size: 16px;
-  display: flex;
-  flex-direction: column;
-  color: ${props => props.theme.textBlack};
-  width: 100%;
-`
 const SubTitle = styled(Title)`
-  color: ${props => props.theme.textBody};
+  color: ${props => props.theme.grey600};
   margin-top: 5px;
   line-height: 21px;
 `

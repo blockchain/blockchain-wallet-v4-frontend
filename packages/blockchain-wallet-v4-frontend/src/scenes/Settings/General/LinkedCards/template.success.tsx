@@ -5,11 +5,10 @@ import {
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
+import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { SBFormPaymentMethod } from 'data/types'
 import {
   SettingComponent,
   SettingContainer,
@@ -171,7 +170,7 @@ const Success: React.FC<InjectedFormProps<
 
 type Props = OwnProps &
   SuccessStateType & {
-    handleCreditCardClick: (defaultMethod?: SBFormPaymentMethod) => void
+    handleCreditCardClick: (defaultMethod?: SBPaymentMethodType) => void
   }
 
 export default reduxForm<{}, Props>({ form: 'linkedCards' })(Success)

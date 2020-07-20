@@ -52,7 +52,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  method: SBPaymentMethodType
+  method?: SBPaymentMethodType
   order?: SBOrderType
   pair: SBPairType
 }

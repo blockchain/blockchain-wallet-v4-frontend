@@ -39,13 +39,6 @@ export type SBCheckoutFormValuesType = {
 export type SBCurrencySelectFormType = {
   search: string
 }
-export type SBFormPaymentMethod =
-  | SBPaymentMethodType
-  | (SBCardType & {
-      id?: string
-      limits: SBPaymentMethodType['limits']
-      type: 'USER_CARD'
-    })
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'CRYPTO_SELECTION',
@@ -77,11 +70,11 @@ export type SimpleBuyState = {
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
-  defaultMethod: undefined | SBFormPaymentMethod
+  defaultMethod: undefined | SBPaymentMethodType
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
-  method: undefined | SBFormPaymentMethod
+  method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
   orders: RemoteDataType<string, Array<SBOrderType>>
@@ -301,9 +294,9 @@ export type StepActionsPayload =
     }
   | {
       cryptoCurrency?: CoinType
-      defaultMethod?: SBFormPaymentMethod
+      defaultMethod?: SBPaymentMethodType
       fiatCurrency: FiatType
-      method?: SBFormPaymentMethod
+      method?: SBPaymentMethodType
       order?: SBOrderType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
@@ -315,7 +308,7 @@ export type StepActionsPayload =
     }
   | {
       cryptoCurrency: CoinType
-      defaultMethod?: SBFormPaymentMethod
+      defaultMethod?: SBPaymentMethodType
       fiatCurrency: FiatType
       order?: SBOrderType
       pair: SBPairType

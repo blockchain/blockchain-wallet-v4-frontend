@@ -2,12 +2,11 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, Title } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
-import { SBFormPaymentMethod } from 'data/components/simpleBuy/types'
 import { SBPaymentMethodType } from 'core/types'
 import BankAccount from './BankAccount'
 import Card from './Card'
@@ -30,7 +29,6 @@ const TopText = styled(Text)`
 const PaymentsWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
 `
-
 const IconContainer = styled.div`
   width: 38px;
   height: 32px;
@@ -40,11 +38,42 @@ const IconContainer = styled.div`
   align-items: center;
   justify-content: center;
 `
+export const DisplayContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px 40px;
+  flex-direction: row;
+  cursor: pointer;
+  border-bottom: 1px solid ${props => props.theme.grey000};
+  &hover {
+    background-color: ${props => props.theme.grey100};
+  }
+`
+export const Content = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: ${props => props.theme.grey800};
+  margin-left: 16px;
+  min-width: 336px;
+`
+
+export const DisplayTitle = styled(Title)`
+  align-items: left;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  color: ${props => props.theme.textBlack};
+  width: 100%;
+`
 
 export type Props = OwnProps & SuccessStateType
 
 class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  getType = (value: SBFormPaymentMethod) => {
+  getType = (value: SBPaymentMethodType) => {
     switch (value.type) {
       case 'BANK_ACCOUNT':
         return 'Deposit Cash'

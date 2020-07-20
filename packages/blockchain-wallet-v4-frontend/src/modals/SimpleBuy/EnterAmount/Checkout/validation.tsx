@@ -1,14 +1,13 @@
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { SBCheckoutFormValuesType, SBFormPaymentMethod } from 'data/types'
+import { SBCheckoutFormValuesType } from 'data/types'
+import { SBPairType, SBPaymentMethodType } from 'core/types'
 import BigNumber from 'bignumber.js'
-
-import { SBPairType } from 'core/types'
 
 export const getMaxMin = (
   pair: SBPairType,
   minOrMax?: 'min' | 'max',
   allValues?: SBCheckoutFormValuesType,
-  method?: SBFormPaymentMethod
+  method?: SBPaymentMethodType
 ) => {
   switch (minOrMax || 'max') {
     case 'max':
@@ -35,9 +34,11 @@ export const getMaxMin = (
 export const maximumAmount = (
   value: string,
   allValues: SBCheckoutFormValuesType,
-  pair: SBPairType
+  pair: SBPairType,
+  method?: SBPaymentMethodType
 ) => {
   if (!value) return true
+  if (!method) return true
   return Number(value) > Number(getMaxMin(pair, 'max', allValues))
     ? 'ABOVE_MAX'
     : false
@@ -46,9 +47,11 @@ export const maximumAmount = (
 export const minimumAmount = (
   value: string,
   allValues: SBCheckoutFormValuesType,
-  pair: SBPairType
+  pair: SBPairType,
+  method?: SBPaymentMethodType
 ) => {
   if (!value) return true
+  if (!method) return true
   return Number(value) < Number(getMaxMin(pair, 'min', allValues))
     ? 'BELOW_MIN'
     : false

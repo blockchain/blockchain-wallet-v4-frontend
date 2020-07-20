@@ -12,7 +12,6 @@ import Success from './template.success'
 class PaymentMethods extends PureComponent<Props> {
   componentDidMount () {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
