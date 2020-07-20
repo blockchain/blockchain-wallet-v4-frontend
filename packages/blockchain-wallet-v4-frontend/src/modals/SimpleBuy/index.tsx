@@ -22,19 +22,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
-
-export const DisplayIcon = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  font-size: 16px;
-  font-weight: 500;
-  max-width: 32px;
-  color: ${props => props.theme.grey800};
-`
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }

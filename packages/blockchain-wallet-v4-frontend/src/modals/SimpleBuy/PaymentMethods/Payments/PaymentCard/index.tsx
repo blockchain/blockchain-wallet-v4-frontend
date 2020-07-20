@@ -1,5 +1,9 @@
-import { Content, DisplayContainer, DisplayTitle } from '../index'
-import { DisplayIcon } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/index'
+import {
+  Content,
+  DisplayContainer,
+  DisplayIcon,
+  DisplayTitle
+} from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'

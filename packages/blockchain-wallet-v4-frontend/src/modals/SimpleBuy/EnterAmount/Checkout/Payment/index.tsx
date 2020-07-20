@@ -2,7 +2,7 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
-import { DisplayIcon } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/index'
+import { DisplayIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
@@ -53,6 +53,10 @@ const DisplaySubTitle = styled(Title)`
   line-height: 24px;
   color: ${props => props.theme.grey600};
   width: 100%;
+`
+
+const DisplayPaymentIcon = styled(DisplayIcon)`
+  justify-content: center;
 `
 
 const renderCardText = (value: SBPaymentMethodType): string => {
@@ -126,7 +130,7 @@ const Payment: React.FC<Props> = props => (
   >
     {props.method && (
       <>
-        <DisplayIcon>{getIcon(props.method)}</DisplayIcon>
+        <DisplayPaymentIcon>{getIcon(props.method)}</DisplayPaymentIcon>
         <PaymentText>
           {props.method.type === 'USER_CARD'
             ? renderCard(props.method)
