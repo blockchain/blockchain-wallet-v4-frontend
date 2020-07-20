@@ -20,8 +20,9 @@ import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
-import MethodSelect from './MethodSelect'
+import Payment from './Payment'
 import React from 'react'
+import SelectPayment from './SelectPayment'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -104,7 +105,7 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { fiatCurrency } = props
+  const { fiatCurrency, method } = props
 
   if (!props.formValues) return null
   if (!fiatCurrency)
@@ -126,7 +127,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(props.pair, prop, props.formValues)
+      getMaxMin(props.pair, prop, props.formValues, props.method)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -177,7 +178,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.pair, 'max', props.formValues),
+                      value: getMaxMin(
+                        props.pair,
+                        'max',
+                        props.formValues,
+                        props.method
+                      ),
                       digits: 0
                     }),
                     orderType:
@@ -191,7 +197,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   values={{
                     value: fiatToString({
                       unit: fiatCurrency,
-                      value: getMaxMin(props.pair, 'min', props.formValues),
+                      value: getMaxMin(
+                        props.pair,
+                        'min',
+                        props.formValues,
+                        props.method
+                      ),
                       digits: 0
                     }),
                     orderType:
@@ -254,7 +265,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
-        <MethodSelect {...props} />
+        {method ? <Payment {...props} /> : <SelectPayment {...props} />}
+
         {props.error && (
           <ErrorText>
             <Icon
