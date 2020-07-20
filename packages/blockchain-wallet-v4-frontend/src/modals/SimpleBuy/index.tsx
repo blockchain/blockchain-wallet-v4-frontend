@@ -1,9 +1,14 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import {
+  CoinType,
+  SBOrderType,
+  SBPairType,
+  SBPaymentMethodType
+} from 'core/types'
 import { connect } from 'react-redux'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType, SBPairType } from 'core/types'
 import { SimpleBuyStepType } from 'data/types'
 import AddCard from './AddCard'
 import BillingAddress from './BillingAddress'
@@ -15,6 +20,7 @@ import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
+import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
@@ -81,7 +87,7 @@ class SimpleBuy extends PureComponent<Props, State> {
         )}
         {this.props.step === 'PAYMENT_METHODS' && (
           <FlyoutChild>
-            <CryptoSelection {...this.props} handleClose={this.handleClose} />
+            <PaymentMethods {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'ADD_CARD' && (
@@ -128,7 +134,9 @@ const mapStateToProps = (state: RootState) => ({
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
-  order: selectors.components.simpleBuy.getSBOrder(state)
+  method: selectors.components.simpleBuy.getSBPaymentMethod(state),
+  order: selectors.components.simpleBuy.getSBOrder(state),
+  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -163,16 +171,23 @@ type LinkStatePropsType =
         | 'TRANSFER_DETAILS'
         | 'ORDER_SUMMARY'
         | 'CANCEL_ORDER'
-        | 'PAYMENT_METHODS'
     }
   | {
       cardId?: string
+      cryptoCurrency?: CoinType
       pair: SBPairType
       step: 'ADD_CARD'
     }
   | {
+      method?: SBPaymentMethodType
+      order?: SBOrderType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
+    }
+  | {
+      order: SBOrderType
+      pair: SBPairType
+      step: 'PAYMENT_METHODS'
     }
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
