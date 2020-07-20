@@ -1144,6 +1144,7 @@ type MessagesType = {
   'modals.simplebuy.card_limit': '{card} Limit'
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.instantly_buy': 'Instantly buy crypto with any Visa or Mastercard.'
+  'modals.simplebuy.most_popular': 'Most Popular'
   'modals.simplebuy.selectcrypto': 'Select the crypto you want to buy.'
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'

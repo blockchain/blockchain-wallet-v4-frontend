@@ -86,9 +86,11 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </IconContainer>
         )
       case 'USER_CARD':
-        let cardType = CARD_TYPES.find(
-          card => card.type === (value.card ? value.card.type : '')
-        )
+        const { card } = value
+        if (!card) {
+          return <></>
+        }
+        const cardType = CARD_TYPES.find(cc => cc.type === card.type)
         return (
           <img
             height='18px'
@@ -99,21 +101,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return <></>
     }
-  }
-
-  getCardIcon = (value: SBPaymentMethodType): ReactElement => {
-    const { card } = value
-    if (!card) {
-      return <></>
-    }
-    const cardType = CARD_TYPES.find(cc => cc.type === card.type)
-    return (
-      <img
-        height='18px'
-        width='auto'
-        src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO}
-      />
-    )
   }
 
   renderCardText = (value: SBPaymentMethodType): string => {
@@ -208,7 +195,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   key={`${cardMethod.text}-${index}`}
                   value={cardMethod.value}
                   text={this.renderCardText(cardMethod.value)}
-                  icon={this.getCardIcon(cardMethod.value)}
+                  icon={this.getIcon(cardMethod.value)}
                   onClick={() => this.handleSubmit(cardMethod.value)}
                 />
               ))}
@@ -224,7 +211,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 }
               />
             )}
-            {/* TODO - this might redirect to separate STEP */}
             {bankAccount && (
               <BankAccount
                 key={`${bankAccount.text}`}
@@ -232,7 +218,8 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 icon={this.getIcon(bankAccount.value)}
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
-                    step: 'ADD_CARD'
+                    step: 'TRANSFER_DETAILS',
+                    order: this.props.order
                   })
                 }
               />

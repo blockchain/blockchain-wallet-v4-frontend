@@ -20,7 +20,9 @@ import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
+import Payment from './Payment'
 import React from 'react'
+import SelectPayment from './SelectPayment'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -89,36 +91,6 @@ const ErrorText = styled(Text)`
   background-color: ${props => props.theme.red000};
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
-`
-
-const JumpToPayment = styled.div`
-  border: 1px solid ${props => props.theme.grey100};
-  box-sizing: border-box;
-  width: 400px;
-  height: 80px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  padding: 23px 28px 28px 28px;
-  line-height: 32px;
-  justify-content: space-between;
-`
-
-const JumpIconWrapper = styled.div`
-  background-color: ${props => props.theme.blue000};
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 22px;
-`
-const JumpText = styled(Text)`
-  width: 285px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 32px;
 `
 
 export type Props = OwnProps & SuccessStateType
@@ -296,33 +268,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
-        <JumpToPayment
-          onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'PAYMENT_METHODS',
-              pair: props.pair,
-              fiatCurrency: props.fiatCurrency || 'USD',
-              cryptoCurrency: props.cryptoCurrency
-            })
-          }
-        >
-          <JumpIconWrapper>
-            <Icon
-              cursor
-              name='plus-in-circle-filled'
-              size='22px'
-              color='blue600'
-              style={{ marginLeft: '4px' }}
-            />
-          </JumpIconWrapper>
-          <JumpText>
-            <FormattedMessage
-              id='modals.simplebuy.confirm.jump_to_payment'
-              defaultMessage='Select Cash or Card'
-            />
-          </JumpText>
-          <Icon cursor name='arrow-right' size='20px' color='grey600' />
-        </JumpToPayment>
+        {method ? <Payment {...props} /> : <SelectPayment {...props} />}
+
         {props.error && (
           <ErrorText>
             <Icon

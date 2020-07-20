@@ -51,6 +51,17 @@ const SubTitle = styled(Title)`
   line-height: 21px;
 `
 
+const MostPopular = styled(Title)`
+  background: ${props => props.theme.green000};
+  border-radius: 8px;
+  color: ${props => props.theme.green500};
+  width: 114px;
+  text-align: center;
+  padding: 6px 12px;
+  font-weight: 600;
+  margin-top: 8px;
+`
+
 type Props = {
   icon: ReactElement
   onClick: (string) => void
@@ -60,7 +71,7 @@ type Props = {
 
 const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
-    data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
+    data-e2e={`sb${value.type.toLowerCase()}PaymentCard`}
     role='button'
     onClick={onClick}
   >
@@ -85,6 +96,12 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
           defaultMessage='Instantly buy crypto with any Visa or Mastercard.'
         />
       </SubTitle>
+      <MostPopular>
+        <FormattedMessage
+          id='modals.simplebuy.most_popular'
+          defaultMessage='Most Popular'
+        />
+      </MostPopular>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
   </DisplayContainer>

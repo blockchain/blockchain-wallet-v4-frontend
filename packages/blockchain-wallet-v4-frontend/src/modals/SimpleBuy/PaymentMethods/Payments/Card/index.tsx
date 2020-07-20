@@ -78,7 +78,7 @@ type Props = {
 
 const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
-    data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
+    data-e2e={`sb${value.type.toLowerCase()}Cards`}
     role='button'
     onClick={onClick}
   >

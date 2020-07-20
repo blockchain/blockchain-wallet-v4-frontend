@@ -42,6 +42,7 @@ const DisplayTitle = styled(Title)`
   flex-direction: column;
   color: ${props => props.theme.textBlack};
   width: 100%;
+  margin-bottom: 2px;
 `
 
 type Props = {
@@ -53,7 +54,7 @@ type Props = {
 
 const BankAccount: React.FC<Props> = ({ value, onClick, icon, text }) => (
   <DisplayContainer
-    data-e2e={`sb${value.type.toLowerCase()}CurrencySelector`}
+    data-e2e={`sb${value.type.toLowerCase()}BankAccount`}
     role='button'
     onClick={onClick}
   >
