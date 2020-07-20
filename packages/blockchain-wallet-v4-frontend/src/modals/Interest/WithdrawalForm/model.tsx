@@ -1,5 +1,5 @@
 import { BaseFieldProps, Field } from 'redux-form'
-
+import { CoinType } from 'core/types'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -69,9 +69,14 @@ export const CustomFormLabel = styled.div`
   margin-top: 24px;
   margin-bottom: 10px;
 `
-export const CustomField = styled(Field)<BaseFieldProps>`
+export const CustomField = styled(Field)<
+  BaseFieldProps & { coin: CoinType; displayCoin: boolean }
+>`
   > input {
-    padding-left: 45px;
+    padding-left: ${props =>
+      props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
+        ? '60px'
+        : '42px'};
   }
 `
 export const AmountFieldContainer = styled.div`

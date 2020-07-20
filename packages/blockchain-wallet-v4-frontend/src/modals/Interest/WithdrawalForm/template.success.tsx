@@ -275,8 +275,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            coin={coin}
             component={NumberBox}
             data-e2e='withdrawalAmount'
+            displayCoin={displayCoin}
             name='withdrawalAmount'
             validate={[
               required,

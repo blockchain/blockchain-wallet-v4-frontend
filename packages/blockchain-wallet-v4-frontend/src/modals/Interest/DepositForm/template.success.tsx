@@ -233,12 +233,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true
             }}
