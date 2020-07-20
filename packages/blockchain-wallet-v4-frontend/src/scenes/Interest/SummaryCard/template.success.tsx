@@ -107,7 +107,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
               values={{
                 coinTicker,
-                interestRate: interestRate[coinTicker]
+                interestRate: interestRate[coin]
               }}
             />
           ) : (

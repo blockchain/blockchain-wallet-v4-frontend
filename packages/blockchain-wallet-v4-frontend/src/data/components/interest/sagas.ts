@@ -282,7 +282,9 @@ export default ({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    yield put(actions.router.push(`/${coin}/transactions`))
+    coin === 'PAX'
+      ? yield put(actions.router.push(`/usd-d/transactions`))
+      : yield put(actions.router.push(`/${coin}/transactions`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
