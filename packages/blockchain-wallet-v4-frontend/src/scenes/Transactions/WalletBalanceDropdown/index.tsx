@@ -4,10 +4,12 @@ import {
   CoinType,
   CoinTypeEnum,
   ExtractSuccess,
+  FiatType,
   FiatTypeEnum,
   SupportedCoinType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { fiatToString } from 'core/exchange/currency'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
@@ -205,6 +207,16 @@ export class WalletBalanceDropdown extends Component<Props> {
     const { coinCode, coinTicker } = this.props.coinModel
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
+    const unsafe_data: SuccessStateType = this.props.data.getOrElse({
+      addressData: { data: [] },
+      balanceData: 0,
+      currency: 'USD' as FiatType,
+      currencySymbol: '$',
+      priceChangeFiat: 0,
+      price24H: { change: '0', movement: 'none', price: 1 },
+      priceChangePercentage: 0,
+      sbBalance: { available: '0', pending: '0' }
+    })
 
     return (
       <DisplayContainer coinType={coinCode}>
@@ -227,11 +239,10 @@ export class WalletBalanceDropdown extends Component<Props> {
               </FiatDisplay>
             ) : (
               <Text size='24px' weight={500} color='grey800'>
-                {
-                  this.props.data.getOrElse({
-                    sbBalance: { available: '0', pending: '0' }
-                  } as SuccessStateType).sbBalance?.available
-                }
+                {fiatToString({
+                  value: unsafe_data.sbBalance?.available || '0',
+                  unit: unsafe_data.currency
+                })}
               </Text>
             )}
           </AmountContainer>
@@ -239,18 +250,7 @@ export class WalletBalanceDropdown extends Component<Props> {
           {this.props.coin in CoinTypeEnum ? (
             this.hasBalanceOrAccounts(props.selectProps.options) ||
             !this.props.coinModel.availability.request ? (
-              <PriceChange
-                {...this.props.data.getOrElse({
-                  addressData: { data: [] },
-                  balanceData: 0,
-                  currency: 'USD',
-                  currencySymbol: '$',
-                  priceChangeFiat: 0,
-                  price24H: { change: '0', movement: 'none', price: 1 },
-                  priceChangePercentage: 0,
-                  sbBalance: { available: '0', pending: '0' }
-                })}
-              >
+              <PriceChange {...unsafe_data}>
                 {' '}
                 <FormattedMessage
                   id='scenes.transactions.performance.prices.day'
@@ -272,7 +272,16 @@ export class WalletBalanceDropdown extends Component<Props> {
                 />
               </Text>
             )
-          ) : null}
+          ) : (
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+              {': '}
+              {fiatToString({
+                value: unsafe_data.sbBalance?.pending || '0',
+                unit: unsafe_data.currency
+              })}
+            </Text>
+          )}
         </AccountContainer>
       </DisplayContainer>
     )
