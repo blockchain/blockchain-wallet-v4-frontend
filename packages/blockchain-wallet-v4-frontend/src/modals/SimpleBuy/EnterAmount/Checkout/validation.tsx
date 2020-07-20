@@ -1,4 +1,5 @@
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Props } from './template.success'
 import { SBCheckoutFormValuesType } from 'data/types'
 import { SBPairType, SBPaymentMethodType } from 'core/types'
 import BigNumber from 'bignumber.js'
@@ -18,6 +19,9 @@ export const getMaxMin = (
 
       const max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
 
+      // eslint-disable-next-line
+      console.log('max', max)
+
       return convertBaseToStandard('FIAT', max)
     case 'min':
       const defaultMin = convertBaseToStandard('FIAT', 0)
@@ -34,11 +38,13 @@ export const getMaxMin = (
 export const maximumAmount = (
   value: string,
   allValues: SBCheckoutFormValuesType,
-  pair: SBPairType,
-  method?: SBPaymentMethodType
+  restProps: Props
 ) => {
   if (!value) return true
+
+  const { pair, method } = restProps
   if (!method) return true
+
   return Number(value) > Number(getMaxMin(pair, 'max', allValues))
     ? 'ABOVE_MAX'
     : false
@@ -47,11 +53,13 @@ export const maximumAmount = (
 export const minimumAmount = (
   value: string,
   allValues: SBCheckoutFormValuesType,
-  pair: SBPairType,
-  method?: SBPaymentMethodType
+  restProps: Props
 ) => {
   if (!value) return true
+
+  const { pair, method } = restProps
   if (!method) return true
+
   return Number(value) < Number(getMaxMin(pair, 'min', allValues))
     ? 'BELOW_MIN'
     : false
