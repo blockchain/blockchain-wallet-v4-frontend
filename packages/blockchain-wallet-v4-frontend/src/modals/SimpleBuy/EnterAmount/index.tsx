@@ -8,11 +8,11 @@ import {
   SBCardType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodsType
+  SBPaymentMethodsType,
+  SBPaymentMethodType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBFormPaymentMethod } from 'data/components/simpleBuy/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -52,7 +52,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  method: SBFormPaymentMethod
+  method: SBPaymentMethodType
   order?: SBOrderType
   pair: SBPairType
 }

@@ -108,6 +108,7 @@ type SBPaymentTypes = 'PAYMENT_CARD' | 'BANK_ACCOUNT' | 'FUNDS' | 'USER_CARD'
 export type SBPaymentMethodType = {
   card?: SBCard
   currency: FiatType
+  id?: string
   limits: {
     max: string
     min: string

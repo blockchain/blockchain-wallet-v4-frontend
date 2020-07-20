@@ -42,6 +42,7 @@ export type SBCurrencySelectFormType = {
 export type SBFormPaymentMethod =
   | SBPaymentMethodType
   | (SBCardType & {
+      id?: string
       limits: SBPaymentMethodType['limits']
       type: 'USER_CARD'
     })

@@ -53,9 +53,7 @@ class Checkout extends PureComponent<Props> {
           })
           break
         case 'USER_CARD':
-          // TODO figure out id
-          // this.props.simpleBuyActions.createSBOrder(formValues.method.id)
-          this.props.simpleBuyActions.createSBOrder()
+          this.props.simpleBuyActions.createSBOrder(this.props.method.id)
           break
         case 'BANK_ACCOUNT':
           this.props.simpleBuyActions.createSBOrder()
