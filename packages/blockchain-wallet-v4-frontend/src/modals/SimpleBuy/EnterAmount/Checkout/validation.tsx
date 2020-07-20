@@ -42,7 +42,7 @@ export const maximumAmount = (
   const { pair, method } = restProps
   if (!method) return true
 
-  return Number(value) > Number(getMaxMin(pair, 'max', allValues))
+  return Number(value) > Number(getMaxMin(pair, 'max', allValues, method))
     ? 'ABOVE_MAX'
     : false
 }
@@ -57,7 +57,7 @@ export const minimumAmount = (
   const { pair, method } = restProps
   if (!method) return true
 
-  return Number(value) < Number(getMaxMin(pair, 'min', allValues))
+  return Number(value) < Number(getMaxMin(pair, 'min', allValues, method))
     ? 'BELOW_MIN'
     : false
 }
