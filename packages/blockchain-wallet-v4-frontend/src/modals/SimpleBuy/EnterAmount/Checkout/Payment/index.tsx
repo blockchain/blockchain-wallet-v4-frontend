@@ -2,6 +2,7 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
@@ -76,7 +77,7 @@ const renderCard = (value: SBPaymentMethodType) => (
         defaultMessage='{card} Limit'
         values={{
           card: `${fiatToString({
-            value: value.limits.max,
+            value: convertBaseToStandard('FIAT', value.limits.max),
             unit: String(value.currency) as FiatType
           })} ${value.currency}`
         }}
@@ -90,7 +91,7 @@ const renderFund = (value: SBPaymentMethodType) => (
     <DisplayTitle>{value.currency}</DisplayTitle>
     <DisplaySubTitle>
       {fiatToString({
-        value: value.limits.max,
+        value: convertBaseToStandard('FIAT', value.limits.max),
         unit: String(value.currency) as FiatType
       })}
     </DisplaySubTitle>

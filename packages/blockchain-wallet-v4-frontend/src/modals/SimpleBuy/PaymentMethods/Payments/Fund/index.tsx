@@ -1,3 +1,4 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   DisplayContainer,
   DisplayIcon,
@@ -47,7 +48,7 @@ const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
     <DisplayMoney>
       <MainValue>
         {fiatToString({
-          value: value.limits.max,
+          value: convertBaseToStandard('FIAT', value.limits.max),
           unit: String(value.currency) as FiatType
         })}
       </MainValue>
