@@ -78,6 +78,42 @@ export const getHeaderExplainer = (
         </ExplainerText>
       )
     }
+    case 'XLM': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.xlm'
+            defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
+          />
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
+    case 'ALGO': {
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.algo'
+            defaultMessage='Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
+          />
+          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+            <LearnMoreText size='15px'>
+              <FormattedMessage
+                id='buttons.learn_more'
+                defaultMessage='Learn More'
+              />
+            </LearnMoreText>
+          </LearnMoreLink>
+        </ExplainerText>
+      )
+    }
     // @ts-ignore
     case 'USD-D': {
       return (
@@ -86,7 +122,10 @@ export const getHeaderExplainer = (
             id='scenes.transaction.headertext.explainer.usdd'
             defaultMessage='The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
           />
-          <LearnMoreLink href={(coinModel as SupportedCoinType).learnMoreLink} target='_blank'>
+          <LearnMoreLink
+            href={(coinModel as SupportedCoinType).learnMoreLink}
+            target='_blank'
+          >
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -103,24 +142,6 @@ export const getHeaderExplainer = (
           <FormattedMessage
             id='scenes.transaction.headertext.explainer.usdt'
             defaultMessage='The Tether coin (USDT) is backed by the US Dollar, making it a Stablecoin.'
-          />
-          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
-            <LearnMoreText size='15px'>
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
-            </LearnMoreText>
-          </LearnMoreLink>
-        </ExplainerText>
-      )
-    }
-    case 'XLM': {
-      return (
-        <ExplainerText>
-          <FormattedMessage
-            id='scenes.transaction.headertext.explainer.xlm'
-            defaultMessage='The Stellar Lumen (XLM) connects banks, payments and you to the Stellar Payment network.'
           />
           <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
             <LearnMoreText size='15px'>
