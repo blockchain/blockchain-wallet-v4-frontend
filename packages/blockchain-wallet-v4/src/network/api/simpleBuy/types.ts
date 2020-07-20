@@ -1,5 +1,5 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, CurrenciesType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -50,7 +50,7 @@ export type SBBalanceType = {
 }
 
 export type SBBalancesType = {
-  [key in keyof CurrenciesType]?: SBBalanceType
+  [key in WalletFiatType | CoinType]?: SBBalanceType
 }
 
 export type NabuAddressType = {

@@ -1,6 +1,12 @@
 import { actions, model } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { CoinType, FiatType, FiatTypeEnum, SupportedCoinType } from 'core/types'
+import {
+  CoinType,
+  CoinTypeEnum,
+  FiatType,
+  FiatTypeEnum,
+  SupportedCoinType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
@@ -119,18 +125,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </Text>
             </PageTitle>
             <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
-            {
-              <StatsContainer>
-                <WalletBalanceDropdown
-                  coin={coin}
-                  coinModel={coinModel}
-                  isCoinErc20={isCoinErc20}
-                />
-                {!(coin in FiatTypeEnum) && (
-                  <CoinPerformance coin={coin} coinModel={coinModel} />
-                )}
-              </StatsContainer>
-            }
+            <StatsContainer>
+              <WalletBalanceDropdown
+                coin={coin}
+                coinModel={coinModel}
+                isCoinErc20={isCoinErc20}
+              />
+              {coin in CoinTypeEnum && (
+                <CoinPerformance coin={coin} coinModel={coinModel} />
+              )}
+            </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && (
             <TransactionFilters coin={coin} />

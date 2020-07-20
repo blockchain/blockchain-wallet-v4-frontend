@@ -1,6 +1,12 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, FiatTypeEnum, SupportedCoinType } from 'core/types'
+import {
+  CoinType,
+  CoinTypeEnum,
+  ExtractSuccess,
+  FiatTypeEnum,
+  SupportedCoinType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
@@ -113,6 +119,8 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   hasBalanceOrAccounts = (groups: Array<any>) => {
+    if (this.props.coin in FiatTypeEnum) return false
+
     const balance = this.coinBalance(this.props.coin)
     const accounts = flatten(groups.map(group => group.options))
 
@@ -161,7 +169,8 @@ export class WalletBalanceDropdown extends Component<Props> {
         currencySymbol: '$',
         priceChangeFiat: 0,
         price24H: { change: '0', movement: 'none', price: 1 },
-        priceChangePercentage: 0
+        priceChangePercentage: 0,
+        sbBalance: { available: '0', pending: '0' }
       }).balanceData
     } else if (selectProps.value) {
       // Account balance
@@ -206,7 +215,7 @@ export class WalletBalanceDropdown extends Component<Props> {
             <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
           <AmountContainer>
-            {!(coinCode in FiatTypeEnum) && (
+            {coinCode in CoinTypeEnum ? (
               <FiatDisplay
                 coin={this.props.coin}
                 size='24px'
@@ -216,43 +225,54 @@ export class WalletBalanceDropdown extends Component<Props> {
               >
                 {balance}
               </FiatDisplay>
+            ) : (
+              <Text size='24px' weight={500} color='grey800'>
+                {
+                  this.props.data.getOrElse({
+                    sbBalance: { available: '0', pending: '0' }
+                  } as SuccessStateType).sbBalance?.available
+                }
+              </Text>
             )}
           </AmountContainer>
 
-          {this.hasBalanceOrAccounts(props.selectProps.options) ||
-          !this.props.coinModel.availability.request ? (
-            <PriceChange
-              {...this.props.data.getOrElse({
-                addressData: { data: [] },
-                balanceData: 0,
-                currency: 'USD',
-                currencySymbol: '$',
-                priceChangeFiat: 0,
-                price24H: { change: '0', movement: 'none', price: 1 },
-                priceChangePercentage: 0
-              })}
-            >
-              {' '}
-              <FormattedMessage
-                id='scenes.transactions.performance.prices.day'
-                defaultMessage='today'
-              />
-            </PriceChange>
-          ) : (
-            <Text
-              size='14px'
-              weight={500}
-              color='blue600'
-              onClick={this.handleRequest}
-              lineHeight='18px'
-            >
-              <FormattedMessage
-                id='scenes.transactions.performance.request'
-                defaultMessage='Request {coinTicker} Now'
-                values={{ coinTicker }}
-              />
-            </Text>
-          )}
+          {this.props.coin in CoinTypeEnum ? (
+            this.hasBalanceOrAccounts(props.selectProps.options) ||
+            !this.props.coinModel.availability.request ? (
+              <PriceChange
+                {...this.props.data.getOrElse({
+                  addressData: { data: [] },
+                  balanceData: 0,
+                  currency: 'USD',
+                  currencySymbol: '$',
+                  priceChangeFiat: 0,
+                  price24H: { change: '0', movement: 'none', price: 1 },
+                  priceChangePercentage: 0,
+                  sbBalance: { available: '0', pending: '0' }
+                })}
+              >
+                {' '}
+                <FormattedMessage
+                  id='scenes.transactions.performance.prices.day'
+                  defaultMessage='today'
+                />
+              </PriceChange>
+            ) : (
+              <Text
+                size='14px'
+                weight={500}
+                color='blue600'
+                onClick={this.handleRequest}
+                lineHeight='18px'
+              >
+                <FormattedMessage
+                  id='scenes.transactions.performance.request'
+                  defaultMessage='Request {coinTicker} Now'
+                  values={{ coinTicker }}
+                />
+              </Text>
+            )
+          ) : null}
         </AccountContainer>
       </DisplayContainer>
     )
@@ -351,6 +371,8 @@ export type OwnProps = {
   coinModel: SupportedCoinType
   isCoinErc20: boolean
 }
+
+type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

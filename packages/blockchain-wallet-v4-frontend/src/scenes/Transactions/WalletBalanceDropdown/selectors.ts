@@ -85,13 +85,15 @@ export const getData = (state, ownProps: OwnProps) => {
   }
   const price24HrR = selectors.core.data.misc.getPrice24H(coin, state)
   const currencyR = selectors.core.settings.getCurrency(state)
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
 
   const transform = (
     addressData,
     balanceData,
     coinRates: RatesType,
     currency: FiatType,
-    price24H: ExtractSuccess<typeof price24HrR>
+    price24H: ExtractSuccess<typeof price24HrR>,
+    sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
     let value
     let currentValue
@@ -129,7 +131,8 @@ export const getData = (state, ownProps: OwnProps) => {
       currencySymbol: Exchange.getSymbol(currency),
       price24H,
       priceChangeFiat: changeFiat,
-      priceChangePercentage: Number(changePercentage)
+      priceChangePercentage: Number(changePercentage),
+      sbBalance: sbBalances[coin]
     }
   }
 
@@ -139,6 +142,7 @@ export const getData = (state, ownProps: OwnProps) => {
     balanceDataR,
     coinRatesR,
     currencyR,
-    price24HrR
+    price24HrR,
+    sbBalancesR
   )
 }
