@@ -19,9 +19,6 @@ export const getMaxMin = (
 
       const max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
 
-      // eslint-disable-next-line
-      console.log('max', max)
-
       return convertBaseToStandard('FIAT', max)
     case 'min':
       const defaultMin = convertBaseToStandard('FIAT', 0)
