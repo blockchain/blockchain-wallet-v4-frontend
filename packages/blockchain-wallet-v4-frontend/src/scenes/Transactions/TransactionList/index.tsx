@@ -10,9 +10,9 @@ import DataError from 'components/DataError'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import FiatTxListItem from './template.fiattx'
+import CustodialTxListItem from '../CustodialTx'
 import Loading from './template.loading'
-import SimpleBuyListItem from './template.sborder'
+import SimpleBuyListItem from '../SBOrderTx'
 import TransactionListItem from 'components/TransactionListItem'
 
 const TransactionsWrapper = styled.div`
@@ -49,7 +49,7 @@ class TransactionList extends PureComponent<Props> {
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (
-              <FiatTxListItem tx={tx} />
+              <CustodialTxListItem tx={tx} />
             )
           })}
         </TransactionsWrapper>

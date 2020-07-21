@@ -1,3 +1,5 @@
+// https://www.figma.com/file/KYVPfofjfGxkFtlbcEb6vx/00---Color
+
 const Default = {
   // USE THESE \\
   whiteFade100: 'rgba(255, 255, 255, 0.1)',
@@ -66,6 +68,7 @@ const Default = {
   red800: '#99180F',
   red900: '#800900',
   fiat: '#339F7B',
+  'fiat-light': 'rgba(0, 178, 107, 0.15)',
   algo: '#000000',
   btc: '#FF9B22',
   'btc-light': 'rgba(255, 155, 34, 0.15)',
