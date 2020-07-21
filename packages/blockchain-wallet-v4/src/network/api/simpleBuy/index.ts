@@ -13,7 +13,9 @@ import {
   SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
-  SBSuggestedAmountType
+  SBSuggestedAmountType,
+  SBTransactionStateType,
+  SBTransactionsType
 } from './types'
 import { Moment } from 'moment'
 import { UserDataType } from 'data/types'
@@ -233,6 +235,31 @@ export default ({
       }
     })
 
+  const getSBTransactions = (
+    currency: FiatType,
+    next?: string | null,
+    limit?: string,
+    type?: 'DEPOSIT' | 'WITHDRAWAL',
+    state?: SBTransactionStateType
+  ): SBTransactionsType =>
+    next
+      ? authorizedGet({
+          url: nabuUrl,
+          endPoint: next,
+          ignoreQueryParams: true
+        })
+      : authorizedGet({
+          url: nabuUrl,
+          endPoint: '/payments/transactions',
+          data: {
+            currency,
+            limit,
+            product: 'SIMPLEBUY',
+            state,
+            type
+          }
+        })
+
   const submitSBCardDetailsToEverypay = ({
     accessToken,
     apiUserName,
@@ -310,6 +337,7 @@ export default ({
     getSBFiatEligible,
     getSBQuote,
     getSBSuggestedAmounts,
+    getSBTransactions,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds
   }

@@ -1,6 +1,7 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { WalletOptionsType } from 'core/types'
 import Exchange from './template'
 import React from 'react'
 
@@ -24,9 +25,9 @@ class ExchangeContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  domains: selectors.core.walletOptions
-    .getDomains(state)
-    .getOrElse({ exchange: 'https://exchange.blockchain.com' }),
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    exchange: 'https://exchange.blockchain.com'
+  } as WalletOptionsType['domains']),
   isExchangeAccountLinked: selectors.modules.profile
     .isExchangeAccountLinked(state)
     .getOrElse(false),

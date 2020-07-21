@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
-import { SupportedCoinType } from 'core/types'
+import { SupportedCoinType, SupportedFiatType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +20,9 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
+export const getHeaderExplainer = (
+  coinModel: SupportedCoinType | SupportedFiatType
+) => {
   switch (coinModel.coinTicker) {
     case 'BTC': {
       return (
@@ -112,6 +114,7 @@ export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
         </ExplainerText>
       )
     }
+    // @ts-ignore
     case 'USD-D': {
       return (
         <ExplainerText>
@@ -119,7 +122,10 @@ export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
             id='scenes.transaction.headertext.explainer.usdd'
             defaultMessage='The USD Digital coin (USD-D) is backed by the US Dollar, making it a Stablecoin.'
           />
-          <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
+          <LearnMoreLink
+            href={(coinModel as SupportedCoinType).learnMoreLink}
+            target='_blank'
+          >
             <LearnMoreText size='15px'>
               <FormattedMessage
                 id='buttons.learn_more'
@@ -148,6 +154,19 @@ export const getHeaderExplainer = (coinModel: SupportedCoinType) => {
         </ExplainerText>
       )
     }
+    case 'GBP':
+    case 'EUR':
+      return (
+        <ExplainerText>
+          <FormattedMessage
+            id='scenes.transaction.headertext.explainer.fiat'
+            defaultMessage='Store {currency} on your wallet and use it to Buy Crypto.'
+            values={{
+              currency: coinModel.displayName
+            }}
+          />
+        </ExplainerText>
+      )
     default: {
       return <ExplainerText />
     }

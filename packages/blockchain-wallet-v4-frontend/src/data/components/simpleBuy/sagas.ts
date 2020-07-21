@@ -15,7 +15,8 @@ import {
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedCoinsType
+  SupportedCoinsType,
+  WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import {
   convertBaseToStandard,
@@ -64,7 +65,7 @@ export default ({
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       if (card.partner === 'EVERYPAY') {
         providerDetails = yield call(
           api.activateSBCard,
@@ -259,7 +260,7 @@ export default ({
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       const attributes = order.paymentMethodId
         ? {
             everypay: {
@@ -418,7 +419,7 @@ export default ({
       )
       const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
-        .getOrElse({}) as SupportedCoinsType
+        .getOrElse({} as SupportedCoinsType)
       const filteredPairs = pairs.filter(pair => {
         return (
           getCoinFromPair(pair.pair) in CoinTypeEnum &&
@@ -455,9 +456,14 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
       const isUserTier2: boolean = yield call(isTier2)
+      if (!isUserTier2) {
+        return yield put(
+          A.fetchSBPaymentMethodsSuccess({ currency: 'USD', methods: [] })
+        )
+      }
+      yield call(createUser)
       yield put(A.fetchSBPaymentMethodsLoading())
       const methods = yield call(
         api.getSBPaymentMethods,

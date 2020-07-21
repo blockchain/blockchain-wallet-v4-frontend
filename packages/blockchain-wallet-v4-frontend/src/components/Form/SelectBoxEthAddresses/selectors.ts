@@ -157,7 +157,7 @@ export const getErc20Data = (
     includeCustodial
   } = ownProps
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse({}) as SupportedCoinsType
+  const supportedCoins = supportedCoinsR.getOrElse({} as SupportedCoinsType)
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {

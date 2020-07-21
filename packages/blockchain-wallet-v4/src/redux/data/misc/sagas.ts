@@ -4,6 +4,7 @@ import * as wS from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import readBlob from 'read-blob'
@@ -28,6 +29,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchPrice24H = function * (action: ReturnType<typeof A.fetchPrice24H>) {
     const { base, quote } = action.payload
     try {
+      if (base in FiatTypeEnum) return
       yield put(A.fetchPrice24HLoading(base))
       const yesterday: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
@@ -50,7 +52,7 @@ export default ({ api }: { api: APIType }) => {
         : diff.isGreaterThan(0)
         ? 'up'
         : 'down'
-      yield put(A.fetchPrice24HSuccess(base, change, movement))
+      yield put(A.fetchPrice24HSuccess(base, change, movement, yesterday.price))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchPrice24HFailure(base, error))

@@ -1,16 +1,15 @@
 import { APIType } from 'core/network/api'
 import { call } from 'redux-saga/effects'
-import { CoinType, SBOrderType } from 'core/types'
+import { CoinType, FiatType, SBOrderType } from 'core/types'
 import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 
 export default ({ api }: { api: APIType }) => {
-  // TODO - filter orders by coin
   const fetchSBOrders = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: CoinType
+    currency: CoinType | FiatType
   ) {
     try {
       const latestTx = page[0]

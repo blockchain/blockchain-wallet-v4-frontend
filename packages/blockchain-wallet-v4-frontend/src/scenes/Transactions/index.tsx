@@ -1,6 +1,12 @@
 import { actions, model } from 'data'
-import { CoinType, FiatType, SupportedCoinType } from 'core/types'
-import { compose, Dispatch } from 'redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import {
+  CoinType,
+  CoinTypeEnum,
+  FiatType,
+  FiatTypeEnum,
+  SupportedCoinType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
@@ -73,6 +79,7 @@ const StatsContainer = styled.div`
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
+    this.props.miscActions.fetchPrice24H(this.props.coin, this.props.currency)
   }
 
   componentDidUpdate (prevProps) {
@@ -124,10 +131,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 coinModel={coinModel}
                 isCoinErc20={isCoinErc20}
               />
-              <CoinPerformance coin={coin} coinModel={coinModel} />
+              {coin in CoinTypeEnum && (
+                <CoinPerformance coin={coin} coinModel={coinModel} />
+              )}
             </StatsContainer>
           </Header>
-          {(hasTxResults || isSearchEntered) && (
+          {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
             <TransactionFilters coin={coin} />
           )}
           {!hasTxResults ? (
@@ -174,7 +183,18 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       initTxs: () =>
         dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () =>
-        dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+        dispatch(actions.components.ethTransactions.loadMoreErc20(coin)),
+      miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+    }
+  }
+  if (coin in FiatTypeEnum) {
+    return {
+      fetchData: () => {},
+      loadMoreTxs: () =>
+        dispatch(actions.components.fiatTransactions.loadMore(coin)),
+      initTxs: () =>
+        dispatch(actions.components.fiatTransactions.initialized(coin)),
+      miscActions: bindActionCreators(actions.core.data.misc, dispatch)
     }
   }
   return {
@@ -185,6 +205,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       ),
     loadMoreTxs: () =>
       dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
+    miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
       dispatch(actions.core.wallet.setAddressArchived(address, true))
   }

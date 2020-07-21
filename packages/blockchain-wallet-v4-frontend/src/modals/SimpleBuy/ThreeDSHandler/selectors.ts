@@ -3,6 +3,7 @@ import { lift } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { WalletOptionsType } from 'core/types'
 
 export const getData = (state: RootState) => {
   const cardR = selectors.components.simpleBuy.getSBCard(state)
@@ -15,7 +16,7 @@ export const getData = (state: RootState) => {
   )
   const domains = selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
-  })
+  } as WalletOptionsType['domains'])
 
   if (order && order.paymentMethodId) {
     return Remote.Success({

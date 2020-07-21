@@ -14,7 +14,9 @@ const INITIAL_STATE: MiscStateType = {
     XLM: Remote.NotAsked,
     ALGO: Remote.NotAsked,
     PAX: Remote.NotAsked,
-    USDT: Remote.NotAsked
+    USDT: Remote.NotAsked,
+    EUR: Remote.Success({ change: '0', movement: 'none', price: 1 }),
+    GBP: Remote.Success({ change: '0', movement: 'none', price: 1 })
   },
   price_index_series: Remote.NotAsked,
   verify_email_token: Remote.NotAsked,

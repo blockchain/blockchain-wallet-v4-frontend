@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { CoinType, Erc20CoinType, RemoteDataType } from 'core/types'
+import { CoinType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { includes, toLower } from 'ramda'
@@ -38,9 +38,9 @@ class CoinBalance extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType => ({
+const mapStateToProps = (state, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -54,10 +54,6 @@ const mapDispatchToProps = dispatch => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = TableProps & { coin: CoinType }
-type LinkStatePropsType = {
-  data: RemoteDataType<string, string | number>
-  erc20List: Array<Erc20CoinType>
-}
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CoinBalance)

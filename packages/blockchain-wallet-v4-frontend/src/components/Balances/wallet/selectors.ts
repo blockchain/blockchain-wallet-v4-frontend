@@ -2,6 +2,7 @@ import { add, lift, pathOr, prop, reduce } from 'ramda'
 import {
   CoinType,
   InterestAccountBalanceType,
+  InvitationsType,
   RemoteDataType,
   SBBalancesType
 } from 'core/types'
@@ -105,7 +106,7 @@ export const getEthBalance = createDeepEqualSelector(
     const sbBalance = sbEthBalance ? sbEthBalance.available : '0'
 
     return Remote.of(
-      new BigNumber(balancesR.getOrElse(0))
+      new BigNumber(balancesR.getOrElse(new BigNumber(0)))
         .plus(new BigNumber(sbBalance))
         .plus(new BigNumber(interestBalance))
     )
@@ -268,7 +269,9 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
     selectors.core.settings.getInvitations
   ],
   (paxBalanceR, erc20RatesR, currencyR, invitationsR) => {
-    const invitations = invitationsR.getOrElse({ PAX: false })
+    const invitations = invitationsR.getOrElse({
+      PAX: false
+    } as InvitationsType)
     const invited = prop('PAX', invitations)
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertPaxToFiat({

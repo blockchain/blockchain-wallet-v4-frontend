@@ -136,7 +136,7 @@ const mapStateToProps = (state, ownProps) => ({
     propOr('ETH', 'coin', ownProps)) as CoinType,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail() as SupportedCoinsType
+    .getOrElse({} as SupportedCoinsType)
 })
 
 const mapDispatchToProps = dispatch => ({

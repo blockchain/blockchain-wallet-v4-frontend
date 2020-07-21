@@ -1,5 +1,5 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, CurrenciesType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -45,7 +45,7 @@ export type SBBalanceType = {
 }
 
 export type SBBalancesType = {
-  [key in keyof CurrenciesType]?: SBBalanceType
+  [key in WalletFiatType | CoinType]?: SBBalanceType
 }
 
 export type NabuAddressType = {
@@ -207,6 +207,33 @@ export type SBQuoteType = {
   rateWithoutFee: string
   time: string
 }
+
+export type SBTransactionType = {
+  amount: { symbol: FiatType; value: string }
+  extraAttributes: null
+  id: string
+  insertedAt: string
+  state: SBTransactionStateType
+  type: 'DEPOSIT' | 'WITHDRAWAL'
+}
+
+export type SBTransactionsType = {
+  items: Array<SBTransactionType>
+  next: string | null
+  prev: string | null
+}
+
+export type SBTransactionStateType =
+  | 'CREATED'
+  | 'PENDING'
+  | 'UNIDENTIFIED'
+  | 'FAILED'
+  | 'FRAUD_REVIEW'
+  | 'MANUAL_REVIEW'
+  | 'REJECTED'
+  | 'CLEARED'
+  | 'COMPLETE'
+  | 'REFUNDED'
 
 export type FiatEligibleType = {
   eligible: boolean

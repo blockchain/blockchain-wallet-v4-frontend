@@ -3,13 +3,16 @@ import {
   FiatType,
   ProcessedTxType,
   RemoteDataType,
-  SBOrderType
+  SBOrderType,
+  SBTransactionType
 } from 'core/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
-import SimpleBuyListItem from './template.simplebuy'
 import styled from 'styled-components'
+
+import CustodialTxListItem from '../CustodialTx'
+import Loading from './template.loading'
+import SimpleBuyListItem from '../SBOrderTx'
 import TransactionListItem from 'components/TransactionListItem'
 
 const TransactionsWrapper = styled.div`
@@ -30,7 +33,9 @@ class TransactionList extends PureComponent<Props> {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
-      Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
+      Success: (
+        transactions: Array<SBOrderType | SBTransactionType | ProcessedTxType>
+      ) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
@@ -41,8 +46,10 @@ class TransactionList extends PureComponent<Props> {
                 coinTicker={coinTicker}
                 currency={currency}
               />
-            ) : (
+            ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
+            ) : (
+              <CustodialTxListItem tx={tx} />
             )
           })}
         </TransactionsWrapper>
