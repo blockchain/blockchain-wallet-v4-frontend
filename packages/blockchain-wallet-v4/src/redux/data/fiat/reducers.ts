@@ -51,8 +51,8 @@ export const fiatReducer = (
         ...state,
         [action.payload.currency]: {
           transactions: [
-            Remote.Success(action.payload.response.items),
-            ...txs.filter((tx, i) => i !== txs.length - 1)
+            ...txs.filter((tx, i) => i !== txs.length - 1),
+            Remote.Success(action.payload.response.items)
           ],
           next: Remote.Success(action.payload.response.next),
           prev: Remote.Success(action.payload.response.prev)
