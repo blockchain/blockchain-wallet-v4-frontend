@@ -1,6 +1,6 @@
-import { CoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
+import { WalletCurrencyType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -12,7 +12,10 @@ const ErrorLink = styled(Link)`
   text-decoration: underline;
 `
 
-export default (props: { coin: CoinType; onRefresh: (e) => void }) => (
+export default (props: {
+  coin: WalletCurrencyType
+  onRefresh: (e) => void
+}) => (
   <Wrapper>
     <ErrorLink size='14px' weight={500} onClick={e => props.onRefresh(e)}>
       <FormattedMessage

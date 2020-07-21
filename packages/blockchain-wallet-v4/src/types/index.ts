@@ -83,6 +83,7 @@ export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
 export type FiatType = keyof FiatCurrenciesType
 export type WalletFiatType = keyof typeof WalletFiatEnum
+export type WalletCurrencyType = CoinType | WalletFiatType
 
 export type BtcAccountType = {
   address?: string | number

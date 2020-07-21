@@ -1,10 +1,11 @@
-import { add, lift, pathOr, prop, reduce } from 'ramda'
+import { add, curry, lift, pathOr, prop, reduce } from 'ramda'
 import {
-  CoinType,
   InterestAccountBalanceType,
   InvitationsType,
   RemoteDataType,
-  SBBalancesType
+  SBBalancesType,
+  WalletCurrencyType,
+  WalletFiatType
 } from 'core/types'
 
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -18,6 +19,7 @@ import {
   getXlmBalance as getXlmNonCustodialBalance
 } from '../nonCustodial/selectors'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 import BigNumber from 'bignumber.js'
 
@@ -209,6 +211,16 @@ export const getAlgoBalance = createDeepEqualSelector(
   }
 )
 
+export const getFiatBalance = curry(
+  (currency: WalletFiatType, state: RootState) => {
+    const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+    const fiatBalance = sbBalancesR.getOrElse({
+      [currency]: DEFAULT_SB_BALANCE
+    })[currency]
+    return Remote.of(fiatBalance)
+  }
+)
+
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
@@ -370,7 +382,7 @@ export const getTotalBalance = createDeepEqualSelector(
   }
 )
 
-export const getBalanceSelector = (coin: CoinType) => {
+export const getBalanceSelector = (coin: WalletCurrencyType) => {
   switch (coin) {
     case 'BTC':
       return getBtcBalance
@@ -386,6 +398,9 @@ export const getBalanceSelector = (coin: CoinType) => {
       return getUsdtBalance
     case 'ALGO':
       return getAlgoBalance
+    case 'EUR':
+    case 'GBP':
+      return getFiatBalance(coin)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }

@@ -7,15 +7,18 @@ import {
   getBchBalance as getBchWalletBalance,
   getBtcBalance as getBtcWalletBalance,
   getEthBalance as getEthWalletBalance,
+  getFiatBalance,
   getPaxBalance as getPaxWalletBalance,
   getUsdtBalance as getUsdtWalletBalance,
   getXlmBalance as getXlmWalletBalance
 } from '../wallet/selectors'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { InvitationsType, WalletCurrencyType } from 'core/types'
 import { selectors } from 'data'
 
 export const getBtcBalance = createDeepEqualSelector(
   [
+    // @ts-ignore
     state => getBtcWalletBalance(state),
     state =>
       selectors.core.kvStore.lockbox
@@ -33,12 +36,14 @@ export const getBtcBalance = createDeepEqualSelector(
     }
     const balancesR = lift(modulesToBalance)(walletBalance, lockboxBalancesR)
 
+    // @ts-ignore
     return balancesR.map(reduce(add, 0))
   }
 )
 
 export const getBchBalance = createDeepEqualSelector(
   [
+    // @ts-ignore
     state => getBchWalletBalance(state),
     state =>
       selectors.core.kvStore.lockbox
@@ -55,6 +60,7 @@ export const getBchBalance = createDeepEqualSelector(
       return lbBalances.concat(walletBalance)
     }
     const balancesR = lift(modulesToBalance)(walletBalancesR, lockboxBalancesR)
+    // @ts-ignore
     return balancesR.map(reduce(add, 0))
   }
 )
@@ -75,6 +81,7 @@ export const getBtcBalanceInfo = createDeepEqualSelector(
     const value = btcBalanceR.getOrElse(0)
     const transform = (rates, toCurrency) =>
       Exchange.convertBtcToFiat({
+        // @ts-ignore
         value,
         fromUnit: 'SAT',
         toCurrency,
@@ -94,6 +101,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
     const value = bchBalanceR.getOrElse(0)
     const transform = (rates, toCurrency) =>
       Exchange.convertBchToFiat({
+        // @ts-ignore
         value,
         fromUnit: 'SAT',
         toCurrency,
@@ -131,7 +139,9 @@ export const getPaxBalanceInfo = createDeepEqualSelector(
     selectors.core.settings.getInvitations
   ],
   (paxBalanceR, erc20RatesR, currencyR, invitationsR) => {
-    const invitations = invitationsR.getOrElse({ PAX: false })
+    const invitations = invitationsR.getOrElse({
+      PAX: false
+    } as InvitationsType)
     const invited = prop('PAX', invitations)
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertPaxToFiat({
@@ -156,7 +166,9 @@ export const getUsdtBalanceInfo = createDeepEqualSelector(
     selectors.core.settings.getInvitations
   ],
   (usdtBalanceR, erc20RatesR, currencyR, invitationsR) => {
-    const invitations = invitationsR.getOrElse({ USDT: false })
+    const invitations = invitationsR.getOrElse({
+      USDT: false
+    } as InvitationsType)
     const invited = prop('USDT', invitations)
     const transform = (value, rates, toCurrency) => {
       return Exchange.convertUsdtToFiat({
@@ -267,7 +279,7 @@ export const getTotalBalance = createDeepEqualSelector(
   }
 )
 
-export const getBalanceSelector = coin => {
+export const getBalanceSelector = (coin: WalletCurrencyType) => {
   switch (coin) {
     case 'BTC':
       return getBtcBalance
@@ -283,6 +295,9 @@ export const getBalanceSelector = coin => {
       return getUsdtBalance
     case 'ALGO':
       return getAlgoBalance
+    case 'EUR':
+    case 'GBP':
+      return getFiatBalance(coin)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)
   }
