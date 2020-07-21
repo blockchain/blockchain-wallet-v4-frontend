@@ -1,5 +1,11 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
-import { CoinTypeEnum, ExtractSuccess, FiatType, RatesType } from 'core/types'
+import {
+  CoinType,
+  CoinTypeEnum,
+  ExtractSuccess,
+  FiatType,
+  RatesType
+} from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
@@ -83,7 +89,10 @@ export const getData = (state, ownProps: OwnProps) => {
       balanceDataR = Remote.Success(0)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
-  const price24HrR = selectors.core.data.misc.getPrice24H(coin, state)
+  const price24HrR = selectors.core.data.misc.getPrice24H(
+    coin as CoinType,
+    state
+  )
   const currencyR = selectors.core.settings.getCurrency(state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
 
@@ -101,7 +110,7 @@ export const getData = (state, ownProps: OwnProps) => {
     if (coin in CoinTypeEnum) {
       value = Exchange.convertCoinToCoin({
         value: balanceData,
-        coin,
+        coin: coin as CoinType,
         baseToStandard: true
       }).value
       currentValue = Exchange.convertCoinToFiat(

@@ -250,13 +250,13 @@ export default ({
         })
       : authorizedGet({
           url: nabuUrl,
-          ignoreQueryParams: true,
-          endPoint: '/payments/transactions?product=SIMPLEBUY',
+          endPoint: '/payments/transactions',
           data: {
             currency,
             limit,
-            type,
-            state
+            product: 'SIMPLEBUY',
+            state,
+            type
           }
         })
 

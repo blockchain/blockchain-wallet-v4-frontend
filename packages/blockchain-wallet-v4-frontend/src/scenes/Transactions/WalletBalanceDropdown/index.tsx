@@ -6,7 +6,8 @@ import {
   ExtractSuccess,
   FiatType,
   FiatTypeEnum,
-  SupportedCoinType
+  SupportedCoinType,
+  WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { fiatToString } from 'core/exchange/currency'
@@ -241,7 +242,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               <Text size='24px' weight={500} color='grey800'>
                 {fiatToString({
                   value: unsafe_data.sbBalance?.available || '0',
-                  unit: unsafe_data.currency
+                  unit: this.props.coin as WalletFiatType
                 })}
               </Text>
             )}
@@ -278,7 +279,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               {': '}
               {fiatToString({
                 value: unsafe_data.sbBalance?.pending || '0',
-                unit: unsafe_data.currency
+                unit: this.props.coin as WalletFiatType
               })}
             </Text>
           )}
@@ -376,7 +377,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  coin: CoinType
+  coin: CoinType | WalletFiatType
   coinModel: SupportedCoinType
   isCoinErc20: boolean
 }
