@@ -7437,7 +7437,7 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
-detect-node@^2.0.3, detect-node@^2.0.4:
+detect-node@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.0.4.tgz#014ee8f8f669c5c58023da64b8179c083a28c46c"
   integrity sha512-ZIzRpLJrOj7jjP2miAtgqIfmzbxa4ZOr5jJc601zklsfEx9oTzmmj2nVpIPRpNlRTIh8lc1kyViIY7BWSGNmKw==
@@ -15026,12 +15026,12 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-postal-codes-js@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/postal-codes-js/-/postal-codes-js-2.0.0.tgz#2f14ea7a334381cedecf05d7c4b9ab0a7dbb24f7"
-  integrity sha1-LxTqejNDgc7ezwXXxLmrCn27JPc=
+postal-codes-js@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/postal-codes-js/-/postal-codes-js-2.5.0.tgz#7dd80e1ea8f4a896e8a2ba01b390bb8b16623e5d"
+  integrity sha512-brdrls0ClvHZiVnY1bUtPvMHJBy1MNhq/YBSHnMcsYHRVi0uIcsRSrR6ngpMOVqjbFhDW/ESA4rswkapZzlgcQ==
   dependencies:
-    detect-node "^2.0.3"
+    detect-node "^2.0.4"
     path "^0.12.7"
 
 postcss-flexbugs-fixes@^4.1.0:
