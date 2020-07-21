@@ -1,5 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { CoinType, SBPairType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'core'
@@ -49,7 +50,9 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
+  cryptoCurrency?: CoinType
   handleClose: () => void
+  pair: SBPairType
 }
 type LinkDispatchPropsType = {
   simpleBuyActions: typeof actions.components.simpleBuy

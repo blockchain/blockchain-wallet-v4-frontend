@@ -136,7 +136,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               )}
             </StatsContainer>
           </Header>
-          {(hasTxResults || isSearchEntered) && (
+          {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
             <TransactionFilters coin={coin} />
           )}
           {!hasTxResults ? (

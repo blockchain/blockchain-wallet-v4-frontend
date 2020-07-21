@@ -12,35 +12,30 @@ export type ISBAccountType = {
   state: 'PENDING' | 'ACTIVE'
 }
 
+type AgentSimple = {
+  account: string
+  code: string
+  name: string
+  recipient: string
+}
+
+type Agent = AgentSimple & {
+  address: string
+  country: string
+  routingNumber: string
+}
+
 export type SBAccountType =
   | (ISBAccountType & {
-      agent: {
-        account: string
-        address: string
-        code: string
-        country: string
-        name: string
-        recipient: string
-        routingNumber: string
-      }
+      agent: Agent
       currency: 'USD'
     })
   | (ISBAccountType & {
-      agent: {
-        account: string
-        code: string
-        name: string
-        recipient: string
-      }
+      agent: AgentSimple
       currency: 'EUR'
     })
   | (ISBAccountType & {
-      agent: {
-        account: string
-        code: string
-        name: string
-        recipient: string
-      }
+      agent: AgentSimple
       currency: 'GBP'
     })
 
@@ -62,22 +57,30 @@ export type NabuAddressType = {
   state: string
 }
 
+export type CardType = 'VISA' | 'MASTERCARD'
+
+export type SBCard = {
+  expireMonth: number
+  expireYear: number
+  label: null | string
+  number: string
+  type: CardType
+}
+
 export type SBCardType = {
   addedAt: string
   address: null | NabuAddressType
   attributes: {}
   currency: FiatType
   id: string
+  limits?: {
+    max: string
+    min: string
+  }
   partner: SBCardPartnerType
 } & (
   | {
-      card: {
-        expireMonth: number
-        expireYear: number
-        label: null | string
-        number: string
-        type: 'VISA' | 'MASTERCARD'
-      }
+      card: SBCard
       state: 'ACTIVE'
     }
   | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> }
@@ -100,14 +103,26 @@ export type SBPairType = {
   pair: SBPairsType
 }
 
+export type SBPaymentTypes =
+  | 'PAYMENT_CARD'
+  | 'BANK_ACCOUNT'
+  | 'FUNDS'
+  | 'USER_CARD'
+
 export type SBPaymentMethodType = {
+  addedAt?: string
+  address?: null | NabuAddressType
+  attributes?: {}
+  card?: SBCard
   currency: FiatType
+  id?: string
   limits: {
     max: string
     min: string
   }
-  subTypes: [] | [CardNameType]
-  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT' | 'FUNDS'
+  state?: 'ACTIVE' | Exclude<SBCardStateType, 'ACTIVE'>
+  subTypes?: [] | [CardNameType]
+  type: SBPaymentTypes
 }
 
 export type SBPaymentMethodsType = {

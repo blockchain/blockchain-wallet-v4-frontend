@@ -35,8 +35,7 @@ import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType,
-  SBFormPaymentMethod
+  SBCheckoutFormValuesType
 } from './types'
 import { UserDataType } from 'data/modules/types'
 import moment from 'moment'
@@ -160,12 +159,14 @@ export default ({
       yield put(A.fetchSBOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
         const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
         if (pair) {
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
               fiatCurrency,
-              pair
+              pair,
+              method
             })
           )
         } else {
@@ -219,9 +220,12 @@ export default ({
       const step = S.getStep(yield select())
       if (step !== 'ENTER_AMOUNT') {
         const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
         const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
         if (pair) {
-          yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair }))
+          yield put(
+            A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair, method })
+          )
           yield take(AT.INITIALIZE_CHECKOUT)
           yield delay(3000)
           yield put(actions.form.startSubmit('simpleBuyCheckout'))
@@ -537,45 +541,19 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    paymentMethods,
-    cards,
     orderType
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
       yield call(waitForUserData)
 
-      const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
 
       yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
-      const isSimpleBuyCCInvited = true
-      const cardMethod = paymentMethods.methods.find(
-        method => method.type === 'PAYMENT_CARD'
-      )
-      const activeCard = cards.find(card => card.state === 'ACTIVE')
-
-      const method: SBFormPaymentMethod =
-        defaultMethod ||
-        (activeCard
-          ? cardMethod
-            ? {
-                ...activeCard,
-                limits: cardMethod.limits,
-                type: 'USER_CARD'
-              }
-            : paymentMethods.methods[0]
-          : paymentMethods.methods[0])
-
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method: isSimpleBuyCCInvited
-            ? method
-            : paymentMethods.methods.find(
-                method => method.type === 'BANK_ACCOUNT'
-              ),
           orderType
         } as SBCheckoutFormValuesType)
       )

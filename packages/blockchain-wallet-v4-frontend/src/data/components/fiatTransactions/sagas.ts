@@ -8,7 +8,7 @@ export const logLocation = 'components/fiatTransactions/sagas'
 export default () => {
   const initialized = function * (action: ReturnType<typeof A.initialized>) {
     try {
-      yield put(actions.components.simpleBuy.fetchSBBalances())
+      yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
       yield put(
         actions.core.data.fiat.fetchTransactions(action.payload.currency, true)
       )
