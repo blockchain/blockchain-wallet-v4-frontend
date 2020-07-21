@@ -101,7 +101,7 @@ const AccountSummary: React.FC<Props> = props => {
               style={{ marginBottom: '5px' }}
             >
               <FormattedMessage
-                id='modals.interest.detailsbalance'
+                id='modals.interest.balance'
                 defaultMessage='Your {coin} Balance'
                 values={{ coin: displayName }}
               />
@@ -109,7 +109,7 @@ const AccountSummary: React.FC<Props> = props => {
             {account ? (
               <>
                 <Text color='grey800' size='18px' weight={600}>
-                  {accountBalanceStandard} {coin}
+                  {accountBalanceStandard} {coinTicker}
                 </Text>
                 <FiatDisplay
                   color='grey600'
@@ -142,7 +142,7 @@ const AccountSummary: React.FC<Props> = props => {
             {account ? (
               <>
                 <Text color='grey800' size='18px' weight={600}>
-                  {interestBalanceStandard} {coin}
+                  {interestBalanceStandard} {coinTicker}
                 </Text>
                 <FiatDisplay
                   color='grey600'
@@ -340,7 +340,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
-                {pendingInterestStandard} {coin}
+                {pendingInterestStandard} {coinTicker}
               </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>

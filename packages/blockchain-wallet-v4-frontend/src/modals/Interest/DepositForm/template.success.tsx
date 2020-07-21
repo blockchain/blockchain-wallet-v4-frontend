@@ -461,9 +461,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </InterestTermWrapper>
             <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
-                id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current interest rate and {coin} price.'
-                values={{ coin }}
+                id='modals.interest.deposit.calcrate'
+                defaultMessage='Estimates based on current interest rate and {coinTicker} price.'
+                values={{ coinTicker }}
               />
             </Text>
           </CalculatorContainer>
