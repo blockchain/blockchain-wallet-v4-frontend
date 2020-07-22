@@ -173,8 +173,8 @@ class Interest extends React.PureComponent<Props, StateType> {
                       />
                     )
                   })}
-                <IneligibiltyWarning {...val} {...this.props} />
               </ContainerStyled>
+              <IneligibiltyWarning {...val} {...this.props} />
               <TransactionList />
             </LazyLoadWrapper>
           ),

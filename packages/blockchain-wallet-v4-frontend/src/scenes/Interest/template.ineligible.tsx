@@ -10,6 +10,7 @@ const AbsoluteWarning = styled(Text)`
   display: flex;
   align-items: center;
   left: 0;
+  margin-bottom: 20px;
 `
 
 function IneligibiltyWarning (props: OwnProps & SuccessStateType): ReactElement {
@@ -19,29 +20,29 @@ function IneligibiltyWarning (props: OwnProps & SuccessStateType): ReactElement 
   })
   return (
     <AbsoluteWarning size='12px' weight={500} color='grey600'>
+      <Icon name='info' color='grey600' style={{ marginRight: '8px' }} />
       {ineligibilityReasonList.includes('REGION') && (
-        <div style={{ marginLeft: '8px' }}>
-          <Icon name='info' color='grey600' />
+        <>
           <FormattedMessage
-            id='scenes.interest.userblocked'
-            defaultMessage='Blockchain Interest Account is currently not available in your country or region.'
-          />{' '}
+            id='scenes.interest.regionblocked'
+            defaultMessage='Blockchain Interest Account is currently not available in your country or region for some or all cryptos.'
+          />
           <Link
             size='12px'
             weight={500}
             target='_blank'
             href='https://blockchain.zendesk.com/hc/en-us/articles/360043221472'
+            style={{ marginLeft: '4px' }}
           >
             <FormattedMessage
               id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Link>
-        </div>
+        </>
       )}
       {ineligibilityReasonList.includes('BLOCKED') && (
-        <div style={{ marginLeft: '8px' }}>
-          <Icon name='info' color='grey600' />
+        <>
           <FormattedMessage
             id='scenes.interest.userblocked.bo'
             defaultMessage='Blockchain Interest Account is currently not available.'
@@ -57,7 +58,7 @@ function IneligibiltyWarning (props: OwnProps & SuccessStateType): ReactElement 
               defaultMessage='Contact Support'
             />
           </Link>
-        </div>
+        </>
       )}
     </AbsoluteWarning>
   )
