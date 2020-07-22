@@ -1,10 +1,13 @@
 import { add, curry, lift, pathOr, prop, reduce } from 'ramda'
 import {
+  ExtractSuccess,
   InterestAccountBalanceType,
   InvitationsType,
   RemoteDataType,
   SBBalancesType,
+  SBBalanceType,
   WalletCurrencyType,
+  WalletFiatEnum,
   WalletFiatType
 } from 'core/types'
 
@@ -213,7 +216,10 @@ export const getAlgoBalance = createDeepEqualSelector(
 )
 
 export const getFiatBalance = curry(
-  (currency: WalletFiatType, state: RootState) => {
+  (
+    currency: WalletFiatType,
+    state: RootState
+  ): RemoteDataType<string, SBBalanceType['available']> => {
     const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
     const fiatBalance =
       sbBalancesR.getOrElse({
@@ -338,6 +344,46 @@ export const getAlgoBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getFiatBalanceInfo = createDeepEqualSelector(
+  [
+    selectors.core.data.btc.getRates,
+    selectors.core.settings.getCurrency,
+    selectors.components.simpleBuy.getSBBalances
+  ],
+  (btcRatesR, currencyR, sbBalancesR) => {
+    const transform = (
+      rates,
+      currency,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>
+    ) => {
+      const keys = Object.keys(WalletFiatEnum).filter(
+        value => typeof WalletFiatEnum[value] === 'number'
+      )
+
+      // @ts-ignore
+      const balances = keys.map((value: WalletFiatType) => {
+        const standard = convertBaseToStandard(
+          'FIAT',
+          sbBalances[value]?.available || '0'
+        )
+
+        if (value === currency) return Number(standard)
+
+        return Exchange.convertFiatToFiat({
+          value: standard,
+          fromCurrency: value,
+          toCurrency: currency,
+          rates
+        }).value
+      })
+
+      return balances.reduce(add, 0)
+    }
+
+    return lift(transform)(btcRatesR, currencyR, sbBalancesR)
+  }
+)
+
 export const getTotalBalance = createDeepEqualSelector(
   [
     getBchBalanceInfo,
@@ -345,6 +391,7 @@ export const getTotalBalance = createDeepEqualSelector(
     getEthBalanceInfo,
     getPaxBalanceInfo,
     getXlmBalanceInfo,
+    getFiatBalanceInfo,
     selectors.core.settings.getCurrency
   ],
   (
@@ -353,6 +400,7 @@ export const getTotalBalance = createDeepEqualSelector(
     ethBalanceInfoR,
     paxBalanceInfoR,
     xlmBalanceInfoR,
+    fiatBalanceInfoR,
     currency
   ) => {
     const transform = (
@@ -361,6 +409,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalance,
       paxBalance,
       xlmBalance,
+      fiatBalance,
       currency
     ) => {
       const total = formatFiat(
@@ -368,7 +417,8 @@ export const getTotalBalance = createDeepEqualSelector(
           Number(ethBalance) +
           Number(bchBalance) +
           Number(paxBalance) +
-          Number(xlmBalance)
+          Number(xlmBalance) +
+          Number(fiatBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance }
@@ -379,6 +429,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalanceInfoR,
       paxBalanceInfoR,
       xlmBalanceInfoR,
+      fiatBalanceInfoR,
       currency
     )
   }

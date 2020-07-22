@@ -52,6 +52,7 @@ const Success = (props: Props & SuccessStateType) => {
           const link =
             viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
+            coin.method &&
             coin.invited && (
               <HomeBalanceRow
                 key={i}

@@ -8,6 +8,7 @@ import {
   getBtcBalance as getBtcWalletBalance,
   getEthBalance as getEthWalletBalance,
   getFiatBalance,
+  getFiatBalanceInfo,
   getPaxBalance as getPaxWalletBalance,
   getUsdtBalance as getUsdtWalletBalance,
   getXlmBalance as getXlmWalletBalance
@@ -230,6 +231,7 @@ export const getTotalBalance = createDeepEqualSelector(
     getPaxBalanceInfo,
     getUsdtBalanceInfo,
     getXlmBalanceInfo,
+    getFiatBalanceInfo,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
   ],
@@ -241,6 +243,7 @@ export const getTotalBalance = createDeepEqualSelector(
     paxBalanceInfoR,
     usdtBalanceInfoR,
     xlmBalanceInfoR,
+    fiatBalanceInfoR,
     currency,
     path
   ) => {
@@ -252,6 +255,7 @@ export const getTotalBalance = createDeepEqualSelector(
       paxBalance,
       usdtBalance,
       xlmBalance,
+      fiatBalance,
       currency
     ) => {
       const total = Currency.formatFiat(
@@ -261,7 +265,8 @@ export const getTotalBalance = createDeepEqualSelector(
           Number(algoBalance) +
           Number(xlmBalance) +
           Number(usdtBalance) +
-          Number(paxBalance)
+          Number(paxBalance) +
+          Number(fiatBalance)
       )
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return { totalBalance, path }
@@ -274,6 +279,7 @@ export const getTotalBalance = createDeepEqualSelector(
       paxBalanceInfoR,
       usdtBalanceInfoR,
       xlmBalanceInfoR,
+      fiatBalanceInfoR,
       currency
     )
   }
