@@ -79,6 +79,10 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
     coin,
     interestBalanceBase
   )
+  const interestEligibleCoin =
+    interestEligible[coin] && interestEligible[coin]?.eligible
+  const ineliglityReason =
+    interestEligible[coin] && interestEligible[coin]?.ineligibilityReason
   return (
     <DepositBox>
       <Row>
@@ -192,7 +196,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
       </AmountRow>
       {accountBalanceBase > 0 ? (
         <Button
-          disabled={!isGoldTier || !interestEligible.eligible}
+          disabled={!isGoldTier || !interestEligibleCoin}
           style={{ marginTop: '16px' }}
           nature='primary'
           data-e2e='viewInterestDetails'
@@ -205,7 +209,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
         </Button>
       ) : (
         <Button
-          disabled={!isGoldTier || !interestEligible.eligible}
+          disabled={!isGoldTier || !interestEligibleCoin}
           style={{ marginTop: '16px' }}
           nature='primary'
           fullwidth
@@ -220,7 +224,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           />
         </Button>
       )}
-      {interestEligible.ineligibilityReason === 'REGION' && (
+      {ineliglityReason === 'REGION' && (
         <AbsoluteWarningRegion size='12px' weight={500} color='grey600'>
           <Icon name='info' color='grey600' />
           <div style={{ marginLeft: '8px' }}>
@@ -242,7 +246,7 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
           </div>
         </AbsoluteWarningRegion>
       )}
-      {interestEligible.ineligibilityReason === 'BLOCKED' && (
+      {interestEligibleCoin && ineliglityReason === 'BLOCKED' && (
         <AbsoluteWarning size='12px' weight={500} color='grey600'>
           <Icon name='info' color='grey600' />
           <div style={{ marginLeft: '8px' }}>
