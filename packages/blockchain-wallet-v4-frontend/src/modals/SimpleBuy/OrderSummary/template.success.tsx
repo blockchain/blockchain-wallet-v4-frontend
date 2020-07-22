@@ -93,27 +93,6 @@ const Success: React.FC<Props> = props => {
           <div style={{ margin: '16px 0' }}>
             <Status {...props} />
           </div>
-          {/* {props.order.state === 'PENDING_DEPOSIT' &&
-            !props.order.paymentMethodId && (
-              <Button
-                fullwidth
-                data-e2e='sbViewDetails'
-                size='16px'
-                height='48px'
-                nature='primary'
-                onClick={() =>
-                  props.simpleBuyActions.setStep({
-                    step: 'TRANSFER_DETAILS',
-                    fiatCurrency: props.fiatCurrency
-                  })
-                }
-              >
-                <FormattedMessage
-                  id='modals.simplebuy.summary.viewtransferdets'
-                  defaultMessage='View Bank Transfer Details'
-                />
-              </Button>
-            )} */}
         </FlyoutWrapper>
         <Row>
           <Title color='grey600' size='14px' weight={500}>

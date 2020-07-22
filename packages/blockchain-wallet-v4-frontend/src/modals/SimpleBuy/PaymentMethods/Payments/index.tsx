@@ -101,7 +101,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           <Icon
             size='32px'
             color='fiat'
-            name={value.currency === 'EUR' ? 'eur' : 'gbp'}
+            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
           />
         )
     }
