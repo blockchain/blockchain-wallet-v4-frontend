@@ -2009,6 +2009,7 @@ type MessagesType = {
   'scenes.transaction.content.empty.buycoinnow': 'Buy {coin} Now'
   'scenes.transaction.content.empty.cointxs': 'All your {coinName} transactions will show up here.'
   'scenes.transaction.content.empty.transactions': 'Transactions'
+  'scenes.transaction.headertext.explainer.algo': 'Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
   'scenes.transaction.headertext.explainer.bch': 'Bitcoin Cash (BCH) is a fork of Bitcoin built for everday transactions.'
   'scenes.transaction.headertext.explainer.btc1': 'Bitcoin (BTC) is the original crypto and the internet’s digital currency.'
   'scenes.transaction.headertext.explainer.eth': 'Ethereum (ETH) is a currency and computing platform. Built for developers and apps.'
