@@ -6,7 +6,6 @@ import { Box } from 'components/Box'
 import {
   Button,
   Icon,
-  Link,
   Text,
   TooltipHost,
   TooltipIcon
@@ -44,20 +43,6 @@ const AmountColumn = styled.div`
 const Separator = styled.div`
   border: solid 1px ${props => props.theme.grey000};
 `
-const AbsoluteWarning = styled(Text)`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: -40px;
-  left: 0;
-`
-const AbsoluteWarningRegion = styled(Text)`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: -60px;
-  left: 0;
-`
 
 function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   const {
@@ -81,8 +66,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
   )
   const interestEligibleCoin =
     interestEligible[coin] && interestEligible[coin]?.eligible
-  const ineliglityReason =
-    interestEligible[coin] && interestEligible[coin]?.ineligibilityReason
   return (
     <DepositBox>
       <Row>
@@ -223,50 +206,6 @@ function SummaryCard (props: OwnProps & SuccessStateType): ReactElement {
             defaultMessage='Earn Interest'
           />
         </Button>
-      )}
-      {ineliglityReason === 'REGION' && (
-        <AbsoluteWarningRegion size='12px' weight={500} color='grey600'>
-          <Icon name='info' color='grey600' />
-          <div style={{ marginLeft: '8px' }}>
-            <FormattedMessage
-              id='scenes.interest.userblocked'
-              defaultMessage='Blockchain Interest Account is currently not available in your country or region.'
-            />{' '}
-            <Link
-              size='12px'
-              weight={500}
-              target='_blank'
-              href='https://blockchain.zendesk.com/hc/en-us/articles/360043221472'
-            >
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
-            </Link>
-          </div>
-        </AbsoluteWarningRegion>
-      )}
-      {interestEligibleCoin && ineliglityReason === 'BLOCKED' && (
-        <AbsoluteWarning size='12px' weight={500} color='grey600'>
-          <Icon name='info' color='grey600' />
-          <div style={{ marginLeft: '8px' }}>
-            <FormattedMessage
-              id='scenes.interest.userblocked.bo'
-              defaultMessage='Blockchain Interest Account is currently not available.'
-            />{' '}
-            <Link
-              size='12px'
-              weight={500}
-              target='_blank'
-              href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
-            >
-              <FormattedMessage
-                id='buttons.contact_support'
-                defaultMessage='Contact Support'
-              />
-            </Link>
-          </div>
-        </AbsoluteWarning>
       )}
     </DepositBox>
   )
