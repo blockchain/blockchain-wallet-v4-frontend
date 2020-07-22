@@ -10,6 +10,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
@@ -31,7 +32,7 @@ const Wrapper = styled.div`
   align-content: flex-start;
 `
 
-// FIXME: TypeScript use SupportedCoinsType
+// FIXME: TypeScript use SupportedWalletCurrenciesType
 const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   display: flex;
   width: 100%;
@@ -228,24 +229,15 @@ export class WalletBalanceDropdown extends Component<Props> {
             <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
           <AmountContainer>
-            {coinCode in CoinTypeEnum ? (
-              <FiatDisplay
-                coin={this.props.coin}
-                size='24px'
-                weight={500}
-                cursor='pointer'
-                color='grey800'
-              >
-                {balance}
-              </FiatDisplay>
-            ) : (
-              <Text size='24px' weight={500} color='grey800'>
-                {fiatToString({
-                  value: unsafe_data.sbBalance?.available || '0',
-                  unit: this.props.coin as WalletFiatType
-                })}
-              </Text>
-            )}
+            <FiatDisplay
+              coin={this.props.coin}
+              size='24px'
+              weight={500}
+              cursor='pointer'
+              color='grey800'
+            >
+              {balance}
+            </FiatDisplay>
           </AmountContainer>
 
           {this.props.coin in CoinTypeEnum ? (
@@ -278,7 +270,10 @@ export class WalletBalanceDropdown extends Component<Props> {
               <FormattedMessage id='copy.pending' defaultMessage='Pending' />
               {': '}
               {fiatToString({
-                value: unsafe_data.sbBalance?.pending || '0',
+                value: convertBaseToStandard(
+                  'FIAT',
+                  unsafe_data.sbBalance?.pending || '0'
+                ),
                 unit: this.props.coin as WalletFiatType
               })}
             </Text>

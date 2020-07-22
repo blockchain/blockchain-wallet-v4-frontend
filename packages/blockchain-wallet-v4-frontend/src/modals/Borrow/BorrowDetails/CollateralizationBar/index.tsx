@@ -1,4 +1,9 @@
-import { LoanType, OfferType, RatesType, SupportedCoinsType } from 'core/types'
+import {
+  LoanType,
+  OfferType,
+  RatesType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { model } from 'data'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
@@ -57,7 +62,7 @@ type Props = {
   offer: OfferType
   rates: RatesType
   showPercentages?: boolean
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 
 const PADDING = 0.363636

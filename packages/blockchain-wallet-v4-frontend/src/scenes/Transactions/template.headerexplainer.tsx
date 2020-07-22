@@ -1,6 +1,6 @@
 import { FormattedMessage } from 'react-intl'
 import { Link, Text } from 'blockchain-info-components'
-import { SupportedCoinType, SupportedFiatType } from 'core/types'
+import { SupportedCoinType, SupportedWalletCurrencyType } from 'core/types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,9 +20,7 @@ const LearnMoreText = styled(Text)`
   color: ${props => props.theme.blue600};
 `
 
-export const getHeaderExplainer = (
-  coinModel: SupportedCoinType | SupportedFiatType
-) => {
+export const getHeaderExplainer = (coinModel: SupportedWalletCurrencyType) => {
   switch (coinModel.coinTicker) {
     case 'BTC': {
       return (

@@ -1,7 +1,7 @@
 import { APIType } from 'core/network/api'
 import { call } from 'redux-saga/effects'
-import { CoinType, FiatType, SBOrderType } from 'core/types'
 import { ProcessedTxType } from 'core/transactions/types'
+import { SBOrderType, WalletCurrencyType } from 'core/types'
 import moment from 'moment'
 
 export default ({ api }: { api: APIType }) => {
@@ -9,7 +9,7 @@ export default ({ api }: { api: APIType }) => {
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: CoinType | FiatType
+    currency: WalletCurrencyType
   ) {
     try {
       const latestTx = page[0]

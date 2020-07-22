@@ -15,7 +15,7 @@ import {
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedCoinsType,
+  SupportedWalletCurrenciesType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import {
@@ -419,7 +419,7 @@ export default ({
       )
       const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
-        .getOrElse({} as SupportedCoinsType)
+        .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter(pair => {
         return (
           getCoinFromPair(pair.pair) in CoinTypeEnum &&

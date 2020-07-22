@@ -1,11 +1,11 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { CoinType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { includes, toLower } from 'ramda'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { Props as TableProps } from '../Table'
+import { WalletCurrencyType } from 'core/types'
 import Error from './template.error'
 import React from 'react'
 import Success from './template.success'
@@ -53,7 +53,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = TableProps & { coin: CoinType }
+export type OwnProps = TableProps & { coin: WalletCurrencyType }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CoinBalance)

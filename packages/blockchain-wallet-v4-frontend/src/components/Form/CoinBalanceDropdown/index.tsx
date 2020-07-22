@@ -3,8 +3,8 @@ import {
   CoinType,
   RatesType,
   RemoteDataType,
-  SupportedCoinsType,
-  SupportedCoinType
+  SupportedCoinType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
@@ -160,7 +160,7 @@ export type OwnProps = {
   fiatCurrency?: string
   name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 type SuccessStateType = Array<AccountTypes>
 type LinkStatePropsType = {

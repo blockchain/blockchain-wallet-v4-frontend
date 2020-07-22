@@ -1,4 +1,4 @@
-import { ExtractSuccess, SupportedCoinsType } from 'core/types'
+import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
@@ -13,7 +13,7 @@ export const getData = state => {
     borrowHistory: ExtractSuccess<typeof borrowHistoryR>,
     offers: ExtractSuccess<typeof offersR>,
     rates: ExtractSuccess<typeof ratesR>,
-    supportedCoins: SupportedCoinsType,
+    supportedCoins: SupportedWalletCurrenciesType,
     userData: ExtractSuccess<typeof userDataR>
   ) => ({
     borrowHistory,

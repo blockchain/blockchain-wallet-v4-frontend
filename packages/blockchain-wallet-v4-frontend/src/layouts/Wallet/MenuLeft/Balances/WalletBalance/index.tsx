@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { prop } from 'ramda'
 import React from 'react'
 
@@ -7,18 +7,15 @@ import { actions, selectors } from 'data'
 
 import Template from './template'
 
-class WalletBalanceContainer extends React.PureComponent {
+class WalletBalanceContainer extends React.PureComponent<Props> {
   render () {
-    const {
-      preferencesActions,
-      totalBalancesDropdown,
-      supportedCoins
-    } = this.props
+    const { preferencesActions, totalBalancesDropdown, coins } = this.props
+    // @ts-ignore
     const isActive = prop('wallet', totalBalancesDropdown)
     return (
       <Template
         isActive={isActive}
-        supportedCoins={supportedCoins}
+        coins={coins}
         handleToggle={() =>
           preferencesActions.setTotalBalancesDropdown({
             key: 'wallet',
@@ -32,16 +29,18 @@ class WalletBalanceContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail()
+  coins: selectors.components.utils
+    .getSupportedCoinsWithMethodAndOrder(state)
+    // @ts-ignore
+    .getOrElse({})
 })
 
 const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletBalanceContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(WalletBalanceContainer)

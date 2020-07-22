@@ -1,14 +1,16 @@
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import { CoinBalanceWrapper } from '../../model'
 
-const Success = props => {
+import { Props as OwnProps, SuccessStateType } from '.'
+
+const Success = (props: Props) => {
   const { balance, coin, coinTicker, large } = props
 
   return (
     <div data-e2e={`balanceDropdown-wallet-${coin}`}>
       <CoinBalanceWrapper
+        {...props}
         coin={coin}
         balance={balance}
         large={large}
@@ -18,8 +20,6 @@ const Success = props => {
   )
 }
 
-Success.propTypes = {
-  balance: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
-}
+export type Props = OwnProps & SuccessStateType & { balance: number }
 
 export default Success

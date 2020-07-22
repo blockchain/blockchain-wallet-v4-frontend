@@ -10,7 +10,7 @@ import {
   PaymentValue,
   RatesType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
@@ -67,7 +67,7 @@ export type SuccessStateType = {
   loanTransactions: Array<LoanTransactionsType>
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
