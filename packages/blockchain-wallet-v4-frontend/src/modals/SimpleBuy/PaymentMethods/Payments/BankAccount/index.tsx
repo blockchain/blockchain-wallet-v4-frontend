@@ -14,6 +14,9 @@ import styled from 'styled-components'
 const DisplayTitleBank = styled(DisplayTitle)`
   margin-bottom: 2px;
 `
+const DisplayIconBank = styled(DisplayIcon)`
+  min-height: 75px;
+`
 
 type Props = {
   icon: ReactElement
@@ -28,7 +31,7 @@ const BankAccount: React.FC<Props> = ({ value, onClick, icon, text }) => (
     role='button'
     onClick={onClick}
   >
-    <DisplayIcon>{icon}</DisplayIcon>
+    <DisplayIconBank>{icon}</DisplayIconBank>
     <Content>
       <DisplayTitleBank>{text}</DisplayTitleBank>
       <Title>

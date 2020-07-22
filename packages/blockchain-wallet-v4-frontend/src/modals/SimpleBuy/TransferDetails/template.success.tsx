@@ -23,11 +23,7 @@ const TopText = styled(Text)`
   justify-content: space-between;
   flex-direction: row;
 `
-const CloseIcon = styled(Icon)`
-  position: absolute;
-  top: 28px;
-  right: 28px;
-`
+
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
@@ -77,13 +73,6 @@ const Success: React.FC<Props> = props => {
     <Wrapper>
       <div>
         <FlyoutWrapper>
-          <CloseIcon
-            cursor
-            name='close'
-            size='20px'
-            color='grey600'
-            onClick={() => props.handleClose()}
-          />
           <Icon
             size='32px'
             color='fiat'
@@ -97,6 +86,13 @@ const Success: React.FC<Props> = props => {
                 values={{
                   currency: Currencies[props.fiatCurrency].displayName
                 }}
+              />
+              <Icon
+                cursor
+                name='close'
+                size='20px'
+                color='grey600'
+                onClick={() => props.handleClose()}
               />
             </TopText>
             <TopText color='grey600' size='24px' weight={600}>

@@ -17,6 +17,9 @@ const SubTitle = styled(Title)`
   margin-top: 5px;
   line-height: 21px;
 `
+const DisplayIconPayment = styled(DisplayIcon)`
+  min-height: 110px;
+`
 
 const MostPopular = styled(Title)`
   background: ${props => props.theme.green000};
@@ -42,7 +45,7 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
     role='button'
     onClick={onClick}
   >
-    <DisplayIcon>{icon}</DisplayIcon>
+    <DisplayIconPayment>{icon}</DisplayIconPayment>
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
       <SubTitle>
