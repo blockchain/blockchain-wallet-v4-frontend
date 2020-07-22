@@ -10,7 +10,7 @@ import {
   InterestLimitsType,
   RatesType,
   RemoteDataType,
-  SupportedCoinsType,
+  SupportedWalletCurrenciesType,
   WithdrawalMinimumType
 } from 'core/types'
 import DataError from 'components/DataError'
@@ -80,7 +80,7 @@ export type SuccessStateType = {
   displayCoin: boolean
   interestLimits: InterestLimitsType
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
   walletCurrency: FiatType
   withdrawalMinimums: WithdrawalMinimumType
 }

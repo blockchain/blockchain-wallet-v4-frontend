@@ -15,9 +15,9 @@ import { getInvitations } from '../settings/selectors'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import {
-  SupportedCoinsType,
   SupportedCoinType,
-  SupportedFiatType,
+  SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType,
   WalletOptionsType
 } from './types'
 
@@ -49,12 +49,12 @@ export const getSupportedCoins = createDeepEqualSelector(
     // @ts-ignore
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
-) as (state: RootState) => RemoteDataType<string, SupportedCoinsType>
+) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 export const getSyncToExchangeList = state =>
   getSupportedCoins(state)
     .map(
       filter(
-        (value: SupportedCoinType | SupportedFiatType) =>
+        (value: SupportedWalletCurrencyType) =>
           // @ts-ignore
           value.availability.syncToPit
       )

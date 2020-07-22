@@ -56,7 +56,7 @@ export type SupportedFiatType = {
   txListAppRoute: string
 }
 
-export type SupportedCoinsType = {
+export type SupportedWalletCurrenciesType = {
   [key in CoinType]: SupportedCoinType
 } &
   {

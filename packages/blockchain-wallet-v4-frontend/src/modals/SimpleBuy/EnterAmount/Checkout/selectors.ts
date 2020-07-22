@@ -1,4 +1,4 @@
-import { ExtractSuccess, SupportedCoinsType } from 'core/types'
+import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
@@ -22,7 +22,7 @@ export const getData = (state: RootState) => {
     (
       invitations: ExtractSuccess<typeof invitationsR>,
       suggestedAmounts: ExtractSuccess<typeof suggestedAmountsR>,
-      supportedCoins: SupportedCoinsType,
+      supportedCoins: SupportedWalletCurrenciesType,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
       formErrors,

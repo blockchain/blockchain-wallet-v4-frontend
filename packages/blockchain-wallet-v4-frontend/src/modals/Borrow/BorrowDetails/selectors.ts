@@ -1,4 +1,4 @@
-import { ExtractSuccess, SupportedCoinsType } from 'core/types'
+import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
@@ -13,7 +13,7 @@ export const getData = (state: RootState) => {
   const transform = (
     loanTransactions: ExtractSuccess<typeof loanTransactionsR>,
     rates: ExtractSuccess<typeof ratesR>,
-    supportedCoins: SupportedCoinsType
+    supportedCoins: SupportedWalletCurrenciesType
   ) => ({
     loanTransactions,
     rates,

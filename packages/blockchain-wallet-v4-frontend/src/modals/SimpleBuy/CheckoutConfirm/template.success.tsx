@@ -2,7 +2,7 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SupportedCoinsType } from 'core/types'
+import { FiatType, SupportedWalletCurrenciesType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -191,6 +191,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 type Props = OwnProps &
-  SuccessStateType & { supportedCoins: SupportedCoinsType }
+  SuccessStateType & { supportedCoins: SupportedWalletCurrenciesType }
 
 export default reduxForm<{}, Props>({ form: 'sbCheckoutConfirm' })(Success)

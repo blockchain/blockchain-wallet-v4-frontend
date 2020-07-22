@@ -6,8 +6,8 @@ import {
   RemoteDataType,
   SBOrderType,
   SBQuoteType,
-  SupportedCoinsType,
-  SupportedCoinType
+  SupportedCoinType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
@@ -75,7 +75,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
       PAX: { colorCode: 'pax' } as SupportedCoinType,
       USDT: { colorCode: 'usdt' } as SupportedCoinType,
       XLM: { colorCode: 'xlm' } as SupportedCoinType
-    } as Omit<SupportedCoinsType, keyof FiatTypeEnum>)
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -98,7 +98,7 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

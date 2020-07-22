@@ -1,12 +1,12 @@
 import * as AT from './actionTypes'
-import { FiatType } from 'core/types'
+import { WalletFiatType } from 'core/types'
 
-export const initialized = (currency: FiatType) => ({
+export const initialized = (currency: WalletFiatType) => ({
   type: AT.FIAT_TRANSACTIONS_INITIALIZED,
   payload: { currency }
 })
 
-export const loadMore = (currency: FiatType) => ({
+export const loadMore = (currency: WalletFiatType) => ({
   type: AT.FIAT_TRANSACTIONS_LOAD_MORE,
   payload: { currency }
 })

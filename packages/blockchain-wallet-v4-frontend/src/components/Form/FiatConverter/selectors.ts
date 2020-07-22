@@ -1,6 +1,6 @@
 import { includes, lift, toLower } from 'ramda'
 
-import { CoinType, SupportedCoinsType } from 'core/types'
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
@@ -22,7 +22,11 @@ export const getData = (state, ownProps) => {
     ratesR = Remote.Failure('Unsupported Coin Code: Rates selector missing')
   }
 
-  const transform = (currency, rates, supportedCoins: SupportedCoinsType) => ({
+  const transform = (
+    currency,
+    rates,
+    supportedCoins: SupportedWalletCurrenciesType
+  ) => ({
     unit: coin,
     coinTicker: supportedCoins[coin].coinTicker,
     currency,

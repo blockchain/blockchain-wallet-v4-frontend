@@ -81,8 +81,11 @@ export enum WalletFiatEnum {
 }
 export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
+// All Fiats
 export type FiatType = keyof FiatCurrenciesType
+// Custodial Fiats
 export type WalletFiatType = keyof typeof WalletFiatEnum
+// Supported for transactions/balances
 export type WalletCurrencyType = CoinType | WalletFiatType
 
 export type BtcAccountType = {
