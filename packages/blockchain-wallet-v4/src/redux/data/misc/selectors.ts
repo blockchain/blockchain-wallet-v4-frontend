@@ -1,5 +1,10 @@
 import * as selectors from '../../selectors'
-import { CoinType, RatesType, RemoteDataType } from 'core/types'
+import {
+  CoinType,
+  RatesType,
+  RemoteDataType,
+  WalletCurrencyType
+} from 'core/types'
 import { dataPath } from '../../paths'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { path } from 'ramda'
@@ -28,10 +33,12 @@ export const getPrice24H = (coin: CoinType, state: RootState) =>
   state.dataPath.misc.price_24h[coin]
 
 export const getRatesSelector = (
-  coin: CoinType,
+  coin: WalletCurrencyType,
   state
 ): RemoteDataType<string, RatesType> => {
   switch (coin) {
+    case 'EUR':
+    case 'GBP':
     case 'BTC':
       return selectors.data.btc.getRates(state)
     case 'BCH':

@@ -84,6 +84,12 @@ export const getData = (state, ownProps: OwnProps) => {
       balanceDataR = balanceSelectors.getAlgoBalance(state)
       coinRatesR = selectors.core.data.algo.getRates(state)
       break
+    case 'EUR':
+    case 'GBP':
+      addressDataR = Remote.Success({ data: [] })
+      balanceDataR = balanceSelectors.getFiatBalance(coin, state)
+      coinRatesR = selectors.core.data.btc.getRates(state)
+      break
     default:
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = Remote.Success(0)

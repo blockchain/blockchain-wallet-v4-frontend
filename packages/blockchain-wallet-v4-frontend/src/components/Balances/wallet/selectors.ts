@@ -8,6 +8,7 @@ import {
   WalletFiatType
 } from 'core/types'
 
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { DEFAULT_INTEREST_BALANCE } from 'data/components/interest/model'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
@@ -214,10 +215,11 @@ export const getAlgoBalance = createDeepEqualSelector(
 export const getFiatBalance = curry(
   (currency: WalletFiatType, state: RootState) => {
     const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
-    const fiatBalance = sbBalancesR.getOrElse({
-      [currency]: DEFAULT_SB_BALANCE
-    })[currency]
-    return Remote.of(fiatBalance)
+    const fiatBalance =
+      sbBalancesR.getOrElse({
+        [currency]: DEFAULT_SB_BALANCE
+      })[currency]?.available || '0'
+    return Remote.of(convertBaseToStandard('FIAT', fiatBalance))
   }
 )
 
