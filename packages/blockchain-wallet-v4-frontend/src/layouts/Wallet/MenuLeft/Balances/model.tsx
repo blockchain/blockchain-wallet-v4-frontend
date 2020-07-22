@@ -9,6 +9,8 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
+import { Props as OwnProps } from './WalletBalance/Balance/template.success'
+
 const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -51,7 +53,7 @@ export const BalancesWrapper = styled.div`
   }
 `
 
-export const CoinBalanceWrapper = props => {
+export const CoinBalanceWrapper = (props: OwnProps) => {
   return props.large ? (
     <CoinBalanceMain>
       <CoinDisplay
@@ -95,14 +97,14 @@ export const CoinBalanceWrapper = props => {
 export const LoadingBalance = props => {
   return props.large ? (
     <BalanceSkeleton>
-      <SkeletonRectangle width='170px' height='24px' bgColorgrey000 />
+      <SkeletonRectangle width='170px' height='12px' />
     </BalanceSkeleton>
   ) : (
     <CoinSkeletonWrapper>
       <Text size='12px' weight={600} color='grey800'>
         {props.coinTicker}
       </Text>
-      <SkeletonRectangle width='40px' height='14px' bgColorgrey000 />
+      <SkeletonRectangle width='40px' height='12px' />
     </CoinSkeletonWrapper>
   )
 }
