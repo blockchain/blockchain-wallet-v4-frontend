@@ -1,23 +1,20 @@
 import * as C from 'services/AlertService'
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import CopyClipboard from './template'
 import React from 'react'
 
-interface CopyToClipboardProps {
+export interface OwnProps {
   address: string
   alertActions: any
 }
 
-interface CopyToClipboardState {
+export interface State {
   active: boolean
 }
 
-class CopyToClipboardContainer extends React.PureComponent<
-  CopyToClipboardProps,
-  CopyToClipboardState
-> {
+class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.timeout = undefined
@@ -55,4 +52,8 @@ const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CopyToClipboardContainer)
+const connector = connect(null, mapDispatchToProps)
+
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CopyToClipboardContainer)

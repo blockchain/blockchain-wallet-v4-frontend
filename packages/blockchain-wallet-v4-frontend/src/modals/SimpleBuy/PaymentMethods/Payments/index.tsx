@@ -140,9 +140,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method => method.value.type === 'BANK_ACCOUNT'
     )
 
-    // eslint-disable-next-line
-    console.log('funds', funds)
-
     const cardMethods = availableCards.map(card => ({
       text: card.card
         ? card.card.label
@@ -197,6 +194,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   value={fund.value}
                   icon={this.getIcon(fund.value)}
                   onClick={() => this.handleSubmit(fund.value)}
+                  balance={this.props.balances[fund.value.currency].available}
                 />
               ))}
             {cardMethods &&

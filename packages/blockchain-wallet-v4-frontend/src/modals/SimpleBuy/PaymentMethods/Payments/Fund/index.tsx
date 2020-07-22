@@ -35,12 +35,13 @@ const SubValue = styled(Value)`
 `
 
 type Props = {
+  balance: string
   icon: ReactElement
   onClick: (string) => void
   value: SBPaymentMethodType
 }
 
-const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
+const Fund: React.FC<Props> = ({ value, icon, onClick, balance }) => (
   <DisplayContainer
     data-e2e={`sb${value.type.toLowerCase()}Fund`}
     role='button'
@@ -54,7 +55,7 @@ const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
     <DisplayMoney>
       <MainValue>
         {fiatToString({
-          value: convertBaseToStandard('FIAT', value.limits.max),
+          value: convertBaseToStandard('FIAT', balance),
           unit: String(value.currency) as FiatType
         })}
       </MainValue>

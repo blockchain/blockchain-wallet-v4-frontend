@@ -1,4 +1,5 @@
 import { IconButton } from 'blockchain-info-components'
+import { OwnProps, State } from '.'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 import React from 'react'
 import styled from 'styled-components'
@@ -26,11 +27,10 @@ const CopyButton = styled(IconButton)<CopyButtonProps>`
   }
 `
 
-interface CopyClipboardProps {
-  active: boolean
-  address: string
-  handleClick: () => void
-}
+type CopyClipboardProps = OwnProps['alertActions'] &
+  State & {
+    handleClick: () => void
+  }
 
 const CopyClipboard = (props: CopyClipboardProps) => {
   const { active, address, handleClick } = props

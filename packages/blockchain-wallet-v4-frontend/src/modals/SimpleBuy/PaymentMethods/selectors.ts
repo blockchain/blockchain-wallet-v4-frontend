@@ -8,16 +8,19 @@ export const getData = state => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  const balancesR = selectors.components.simpleBuy.getSBBalances(state)
 
   return lift(
     (
       cards: ExtractSuccess<typeof cardsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
-      paymentMethods: ExtractSuccess<typeof paymentMethodsR>
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      balances: ExtractSuccess<typeof balancesR>
     ) => ({
       cards,
       eligibility,
-      paymentMethods
+      paymentMethods,
+      balances
     })
-  )(cardsR, eligibilityR, paymentMethodsR)
+  )(cardsR, eligibilityR, paymentMethodsR, balancesR)
 }
