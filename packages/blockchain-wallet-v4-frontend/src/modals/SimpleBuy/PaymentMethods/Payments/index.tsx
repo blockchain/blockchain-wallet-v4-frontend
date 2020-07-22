@@ -97,7 +97,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           />
         )
       case 'FUNDS':
-        return <></>
+        return (
+          <Icon
+            size='32px'
+            color='fiat'
+            name={value.currency === 'EUR' ? 'eur' : 'gbp'}
+          />
+        )
     }
   }
 
@@ -110,6 +116,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
+    const { fiatCurrency } = this.props
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE'
     )
@@ -122,7 +129,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       m => m.type === 'PAYMENT_CARD'
     )
 
-    const funds = defaultMethods.filter(method => method.value.type === 'FUNDS')
+    const funds = defaultMethods.filter(
+      method => method.value.type === 'FUNDS' && method.value.currency !== 'USD'
+    )
 
     const paymentCard = defaultMethods.find(
       method => method.value.type === 'PAYMENT_CARD'
@@ -209,7 +218,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 }
               />
             )}
-            {bankAccount && (
+            {bankAccount && fiatCurrency && (
               <BankAccount
                 key={`${bankAccount.text}`}
                 {...bankAccount}
@@ -217,7 +226,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
                     step: 'TRANSFER_DETAILS',
-                    order: this.props.order
+                    fiatCurrency
                   })
                 }
               />

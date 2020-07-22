@@ -93,7 +93,7 @@ const Success: React.FC<Props> = props => {
           <div style={{ margin: '16px 0' }}>
             <Status {...props} />
           </div>
-          {props.order.state === 'PENDING_DEPOSIT' &&
+          {/* {props.order.state === 'PENDING_DEPOSIT' &&
             !props.order.paymentMethodId && (
               <Button
                 fullwidth
@@ -104,7 +104,7 @@ const Success: React.FC<Props> = props => {
                 onClick={() =>
                   props.simpleBuyActions.setStep({
                     step: 'TRANSFER_DETAILS',
-                    order: props.order
+                    fiatCurrency: props.fiatCurrency
                   })
                 }
               >
@@ -113,7 +113,7 @@ const Success: React.FC<Props> = props => {
                   defaultMessage='View Bank Transfer Details'
                 />
               </Button>
-            )}
+            )} */}
         </FlyoutWrapper>
         <Row>
           <Title color='grey600' size='14px' weight={500}>

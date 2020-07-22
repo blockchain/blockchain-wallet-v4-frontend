@@ -2,6 +2,7 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   CoinType,
+  FiatType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
@@ -136,7 +137,8 @@ const mapStateToProps = (state: RootState) => ({
   pair: selectors.components.simpleBuy.getSBPair(state),
   method: selectors.components.simpleBuy.getSBPaymentMethod(state),
   order: selectors.components.simpleBuy.getSBOrder(state),
-  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state)
+  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -165,12 +167,12 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
     }
   | {
+      fiatCurrency: FiatType
+      step: 'TRANSFER_DETAILS'
+    }
+  | {
       order: SBOrderType
-      step:
-        | 'CHECKOUT_CONFIRM'
-        | 'TRANSFER_DETAILS'
-        | 'ORDER_SUMMARY'
-        | 'CANCEL_ORDER'
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
       cardId?: string

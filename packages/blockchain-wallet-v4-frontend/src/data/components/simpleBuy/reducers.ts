@@ -268,12 +268,17 @@ export function simpleBuyReducer (
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
-        case 'TRANSFER_DETAILS':
         case 'CANCEL_ORDER':
           return {
             ...state,
             order: action.payload.order,
             step: action.payload.step
+          }
+        case 'TRANSFER_DETAILS':
+          return {
+            ...state,
+            step: action.payload.step,
+            fiatCurrency: action.payload.fiatCurrency
           }
         default: {
           return {

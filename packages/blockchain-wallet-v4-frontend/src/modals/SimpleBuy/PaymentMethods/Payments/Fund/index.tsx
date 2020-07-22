@@ -2,11 +2,14 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   DisplayContainer,
   DisplayIcon,
-  DisplayTitle
+  DisplaySubTitle,
+  DisplayTitle,
+  MultiRowContainer
 } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { Value } from 'components/Flyout'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -44,7 +47,10 @@ const Fund: React.FC<Props> = ({ value, icon, onClick }) => (
     onClick={onClick}
   >
     <DisplayIcon>{icon}</DisplayIcon>
-    <DisplayTitle>{value.currency}</DisplayTitle>
+    <MultiRowContainer>
+      <DisplayTitle>{Currencies[value.currency].displayName}</DisplayTitle>
+      <DisplaySubTitle>{value.currency}</DisplaySubTitle>
+    </MultiRowContainer>
     <DisplayMoney>
       <MainValue>
         {fiatToString({

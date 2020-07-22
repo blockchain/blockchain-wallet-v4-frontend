@@ -2,31 +2,17 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   DisplayContainer,
   DisplayIcon,
-  DisplayTitle
+  DisplaySubTitle,
+  DisplayTitle,
+  MultiRowContainer
 } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { Title, Value } from 'components/Flyout'
+import { Value } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const Display = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 230px;
-  color: ${props => props.theme.grey800};
-  margin-left: 16px;
-`
-
-const DisplaySubTitle = styled(Title)`
-  align-items: left;
-  font-weight: 500;
-  font-size: 14px;
-  color: ${props => props.theme.grey600};
-  width: 100%;
-`
 const MainValue = styled(Value)`
   margin-top: 0;
   text-align: right;
@@ -60,7 +46,7 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
     onClick={onClick}
   >
     <DisplayIcon>{icon}</DisplayIcon>
-    <Display>
+    <MultiRowContainer>
       <DisplayTitle>{text}</DisplayTitle>
       <DisplaySubTitle>
         <FormattedMessage
@@ -74,7 +60,7 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
           }}
         />
       </DisplaySubTitle>
-    </Display>
+    </MultiRowContainer>
     {value.card && (
       <DisplayCardDetails>
         <MainValue>{value.card.number}</MainValue>
