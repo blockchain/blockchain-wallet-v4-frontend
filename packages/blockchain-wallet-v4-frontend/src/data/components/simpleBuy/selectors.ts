@@ -9,6 +9,9 @@ export const getSBAccount = (state: RootState) =>
 export const getCryptoCurrency = (state: RootState) =>
   state.components.simpleBuy.cryptoCurrency
 
+export const getDisplayBack = (state: RootState) =>
+  state.components.simpleBuy.displayBack
+
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 

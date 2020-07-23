@@ -1,7 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import {
+  CoinType,
+  FiatType,
+  RemoteDataType,
+  SBAccountType,
+  SBOrderType,
+  SBPairType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, RemoteDataType, SBAccountType } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -39,8 +46,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  cryptoCurrency?: CoinType
+  displayBack?: boolean
   fiatCurrency: FiatType
   handleClose: () => void
+  order?: SBOrderType
+  pair: SBPairType
 }
 export type SuccessStateType = {
   account: SBAccountType

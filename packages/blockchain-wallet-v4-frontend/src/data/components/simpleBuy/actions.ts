@@ -430,7 +430,9 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'TRANSFER_DETAILS':
       return {
         step: payload.step,
-        fiatCurrency: payload.fiatCurrency
+        fiatCurrency: payload.fiatCurrency,
+        pair: payload.pair,
+        displayBack: payload.displayBack
       }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':

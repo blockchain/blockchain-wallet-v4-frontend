@@ -68,10 +68,49 @@ const Copy = styled.div`
   display: flex;
 `
 
+const BackIcon = styled(Icon)`
+  position: absolute;
+  left: 40px;
+  top: 20px;
+`
+
+const CloseIcon = styled(Icon)`
+  position: absolute;
+  right: 28px;
+  top: 28px;
+`
+
 const Success: React.FC<Props> = props => {
   return (
     <Wrapper>
       <div>
+        {props.displayBack && (
+          <BackIcon
+            cursor
+            name='arrow-left'
+            size='20px'
+            color='grey600'
+            style={{ marginRight: '28px' }}
+            role='button'
+            onClick={() =>
+              props.simpleBuyActions.setStep({
+                step: 'PAYMENT_METHODS',
+                fiatCurrency: props.fiatCurrency || 'USD',
+                pair: props.pair,
+                cryptoCurrency: props.cryptoCurrency || 'BTC',
+                order: props.order
+              })
+            }
+          />
+        )}
+
+        <CloseIcon
+          cursor
+          name='close'
+          size='20px'
+          color='grey600'
+          onClick={() => props.handleClose()}
+        />
         <FlyoutWrapper>
           <Icon
             size='32px'
@@ -86,13 +125,6 @@ const Success: React.FC<Props> = props => {
                 values={{
                   currency: Currencies[props.fiatCurrency].displayName
                 }}
-              />
-              <Icon
-                cursor
-                name='close'
-                size='20px'
-                color='grey600'
-                onClick={() => props.handleClose()}
               />
             </TopText>
             <TopText color='grey600' size='24px' weight={600}>
