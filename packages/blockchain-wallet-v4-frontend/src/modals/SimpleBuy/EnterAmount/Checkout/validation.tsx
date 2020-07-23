@@ -7,8 +7,8 @@ import BigNumber from 'bignumber.js'
 export const getMaxMin = (
   pair: SBPairType,
   minOrMax: 'min' | 'max',
-  allValues: SBCheckoutFormValuesType,
   sbBalances: SBBalancesType,
+  allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType
 ) => {
   switch (minOrMax || 'max') {
@@ -47,7 +47,7 @@ export const maximumAmount = (
   if (!method) return true
 
   return Number(value) >
-    Number(getMaxMin(pair, 'max', allValues, sbBalances, method))
+    Number(getMaxMin(pair, 'max', sbBalances, allValues, method))
     ? 'ABOVE_MAX'
     : false
 }
@@ -63,7 +63,7 @@ export const minimumAmount = (
   if (!method) return true
 
   return Number(value) <
-    Number(getMaxMin(pair, 'min', allValues, sbBalances, method))
+    Number(getMaxMin(pair, 'min', sbBalances, allValues, method))
     ? 'BELOW_MIN'
     : false
 }

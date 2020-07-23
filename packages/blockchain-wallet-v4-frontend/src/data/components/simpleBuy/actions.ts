@@ -373,9 +373,13 @@ export const initializeBillingAddress = () => ({
   type: AT.INITIALIZE_BILLING_ADDRESS
 })
 
-export const initializeCheckout = (orderType: 'BUY' | 'SELL') => ({
+export const initializeCheckout = (
+  orderType: 'BUY' | 'SELL',
+  amount?: string
+) => ({
   type: AT.INITIALIZE_CHECKOUT,
-  orderType
+  orderType,
+  amount
 })
 
 export const pollSBBalances = () => ({

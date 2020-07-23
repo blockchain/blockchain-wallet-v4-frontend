@@ -30,13 +30,13 @@ const DisplayContainer = styled.div<{
     background-color: ${props => props.theme.grey100};
   }
 `
-const Display = styled.div`
+const Display = styled.div<{ canClick: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 12px;
   width: 100%;
-  cursor: pointer;
+  cursor: ${props => (props.canClick ? 'pointer' : 'initial')};
   font-size: 16px;
   font-weight: 500;
   color: ${props => props.theme.grey800};
@@ -65,7 +65,7 @@ const Success: React.FC<Props> = props => {
       onClick={props.onClick}
     >
       <Icon size='32px' color={color} name={icon} />
-      <Display>
+      <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
           {fiatToString({
@@ -75,7 +75,9 @@ const Success: React.FC<Props> = props => {
           <PriceMovement {...props} />
         </DisplayTitle>
       </Display>
-      <Icon name='chevron-right' size='32px' color='grey600' />
+      {props.onClick && (
+        <Icon name='chevron-right' size='32px' color='grey600' />
+      )}
     </DisplayContainer>
   )
 }

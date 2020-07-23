@@ -7,8 +7,8 @@ import {
 } from '../index'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import { SBPaymentTypes } from 'core/types'
-import { UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -16,13 +16,15 @@ import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    this.props.simpleBuyActions.initializeCheckout('BUY')
+    const amount = this.props.formValues?.amount
+    this.props.simpleBuyActions.initializeCheckout('BUY', amount)
   }
 
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
-    const { formValues, userData } = this.props.data.getOrElse({
+    const { formValues } = this.props
+    const { userData } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
 
@@ -87,9 +89,12 @@ class Checkout extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   cryptoCurrency:
-    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC'
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
+    | SBCheckoutFormValuesType
+    | undefined
 })
 
 const mapDispatchToProps = dispatch => ({

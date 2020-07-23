@@ -18,6 +18,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
+import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
@@ -29,13 +30,16 @@ const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+`
+const LeftTopCol = styled.div`
+  display: flex;
+  align-items: center;
 `
 // Hide the default field error for NumberBox > div > div:last-child
 const AmountFieldContainer = styled.div`
@@ -130,8 +134,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       getMaxMin(
         props.pair,
         prop,
-        props.formValues,
         props.sbBalances,
+        props.formValues,
         props.method
       )
     )
@@ -140,12 +144,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
-      <FlyoutWrapper>
+      <FlyoutWrapper style={{ paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
-          <FormattedMessage
-            id='modals.simplebuy.buycrypto'
-            defaultMessage='Buy Crypto'
-          />
+          <LeftTopCol>
+            <Icon
+              cursor
+              data-e2e='sbBackToCryptoSelection'
+              name='arrow-left'
+              size='20px'
+              color='grey600'
+              role='button'
+              style={{ marginRight: '8px' }}
+              onClick={() =>
+                props.simpleBuyActions.setStep({
+                  step: 'CRYPTO_SELECTION',
+                  fiatCurrency: props.fiatCurrency || 'USD'
+                })
+              }
+            />
+            <FormattedMessage
+              id='modals.simplebuy.buycrypto'
+              defaultMessage='Buy Crypto'
+            />
+          </LeftTopCol>
           <Icon
             cursor
             data-e2e='sbCloseModalIcon'
@@ -156,6 +177,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             onClick={() => props.handleClose()}
           />
         </TopText>
+      </FlyoutWrapper>
+      <CryptoItem value={props.pair} />
+      <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
@@ -187,8 +211,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       value: getMaxMin(
                         props.pair,
                         'max',
-                        props.formValues,
                         props.sbBalances,
+                        props.formValues,
                         props.method
                       ),
                       digits: 0
@@ -207,8 +231,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       value: getMaxMin(
                         props.pair,
                         'min',
-                        props.formValues,
                         props.sbBalances,
+                        props.formValues,
                         props.method
                       ),
                       digits: 0

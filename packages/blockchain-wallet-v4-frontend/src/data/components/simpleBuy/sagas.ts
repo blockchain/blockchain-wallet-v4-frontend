@@ -541,7 +541,8 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    orderType
+    orderType,
+    amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
@@ -554,7 +555,8 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          orderType
+          orderType,
+          amount
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {
