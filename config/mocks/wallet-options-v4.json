@@ -13,7 +13,10 @@
       },
       "coins": {
         "EUR": {
-          "availability": {},
+          "availability": {
+            "send": false,
+            "request": false
+          },
           "coinCode": "EUR",
           "coinTicker": "EUR",
           "colorCode": "fiat",
@@ -29,7 +32,10 @@
           "txListAppRoute": "/eur/transactions"
         },
         "GBP": {
-          "availability": {},
+          "availability": {
+            "send": false,
+            "request": false
+          },
           "coinCode": "GBP",
           "coinTicker": "GBP",
           "colorCode": "fiat",
