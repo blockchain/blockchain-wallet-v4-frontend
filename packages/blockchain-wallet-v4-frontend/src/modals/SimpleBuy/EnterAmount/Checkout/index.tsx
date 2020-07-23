@@ -55,12 +55,13 @@ class Checkout extends PureComponent<Props> {
         case 'USER_CARD':
           this.props.simpleBuyActions.createSBOrder(this.props.method.id)
           break
-        case 'BANK_ACCOUNT':
-          this.props.simpleBuyActions.createSBOrder()
-          break
         case 'FUNDS':
-          // eslint-disable-next-line
-          console.log('Payment method type not supported.')
+        case 'BANK_ACCOUNT':
+          this.props.simpleBuyActions.createSBOrder(
+            undefined,
+            this.props.method.type
+          )
+          break
       }
     }
   }

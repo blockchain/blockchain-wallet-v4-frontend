@@ -40,6 +40,7 @@ export const maximumAmount = (
   if (!value) return true
 
   const { pair, method } = restProps
+  console.log(restProps)
   if (!method) return true
 
   return Number(value) > Number(getMaxMin(pair, 'max', allValues, method))

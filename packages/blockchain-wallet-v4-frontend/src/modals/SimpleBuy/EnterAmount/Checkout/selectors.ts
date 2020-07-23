@@ -1,4 +1,4 @@
-import { ExtractSuccess, SupportedCoinsType } from 'core/types'
+import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType } from 'data/types'
@@ -15,22 +15,19 @@ export const getData = (state: RootState) => {
   const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
     state
   )
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
   return lift(
     (
       invitations: ExtractSuccess<typeof invitationsR>,
       suggestedAmounts: ExtractSuccess<typeof suggestedAmountsR>,
-      supportedCoins: SupportedCoinsType,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
       formErrors,
       formValues,
       invitations,
       suggestedAmounts,
-      supportedCoins,
       userData
     })
-  )(invitationsR, suggestedAmountsR, supportedCoinsR, userDataR)
+  )(invitationsR, suggestedAmountsR, userDataR)
 }
