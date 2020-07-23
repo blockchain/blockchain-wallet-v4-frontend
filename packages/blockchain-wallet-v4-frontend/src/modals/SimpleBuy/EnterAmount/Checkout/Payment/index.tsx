@@ -112,7 +112,13 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
         />
       )
     case 'FUNDS':
-      return <></>
+      return (
+        <Icon
+          size='32px'
+          color='fiat'
+          name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+        />
+      )
     default:
       return <></>
   }

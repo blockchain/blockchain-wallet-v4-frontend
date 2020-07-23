@@ -5,7 +5,6 @@ import {
   FiatEligibleType,
   FiatType,
   RemoteDataType,
-  SBCardType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -20,9 +19,8 @@ import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
+    if (this.props.fiatCurrency && !this.props.method) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBCards()
       this.props.simpleBuyActions.fetchSBOrders()
     }
   }
@@ -57,7 +55,6 @@ export type OwnProps = {
   pair: SBPairType
 }
 export type SuccessStateType = {
-  cards: Array<SBCardType>
   eligibility: FiatEligibleType
   paymentMethods: SBPaymentMethodsType
 }
