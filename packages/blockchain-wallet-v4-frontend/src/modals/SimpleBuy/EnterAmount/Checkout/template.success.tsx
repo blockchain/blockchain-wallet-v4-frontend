@@ -127,7 +127,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(props.pair, prop, props.formValues, props.method)
+      getMaxMin(
+        props.pair,
+        prop,
+        props.formValues,
+        props.sbBalances,
+        props.method
+      )
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -182,6 +188,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.pair,
                         'max',
                         props.formValues,
+                        props.sbBalances,
                         props.method
                       ),
                       digits: 0
@@ -201,6 +208,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.pair,
                         'min',
                         props.formValues,
+                        props.sbBalances,
                         props.method
                       ),
                       digits: 0

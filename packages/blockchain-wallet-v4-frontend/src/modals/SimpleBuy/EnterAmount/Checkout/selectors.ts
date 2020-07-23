@@ -15,19 +15,22 @@ export const getData = (state: RootState) => {
   const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
     state
   )
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
   return lift(
     (
       invitations: ExtractSuccess<typeof invitationsR>,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>,
       suggestedAmounts: ExtractSuccess<typeof suggestedAmountsR>,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
       formErrors,
       formValues,
       invitations,
+      sbBalances,
       suggestedAmounts,
       userData
     })
-  )(invitationsR, suggestedAmountsR, userDataR)
+  )(invitationsR, sbBalancesR, suggestedAmountsR, userDataR)
 }
