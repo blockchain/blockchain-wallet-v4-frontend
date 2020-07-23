@@ -2,7 +2,12 @@ import * as Currency from './currency'
 import * as Pairs from './pairs'
 import { assoc, assocPath, path, prop } from 'ramda'
 import { BigNumber } from 'bignumber.js'
-import { CoinType, RatesType } from 'core/types'
+import {
+  CoinType,
+  RatesType,
+  WalletCurrencyType,
+  WalletFiatType
+} from 'core/types'
 import Currencies, { CurrenciesType } from './currencies'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
@@ -850,7 +855,7 @@ const convertCoinToCoin = ({
   baseToStandard
 }: {
   baseToStandard: boolean
-  coin: CoinType | 'FIAT'
+  coin: WalletCurrencyType | 'FIAT'
   value: number | string
 }) => {
   switch (coin) {
@@ -882,6 +887,8 @@ const convertCoinToCoin = ({
       return baseToStandard
         ? convertAlgoToAlgo({ value, fromUnit: 'mALGO', toUnit: 'ALGO' })
         : convertAlgoToAlgo({ value, fromUnit: 'ALGO', toUnit: 'mALGO' })
+    case 'EUR':
+    case 'GBP':
     case 'FIAT':
       return baseToStandard
         ? { value: new BigNumber(value).dividedBy(100).valueOf() }
@@ -1145,8 +1152,8 @@ const displayCoinToFiat = ({
   }
 }
 
-const displayFiatToFiat = ({ value }: { value: number }) => {
-  return value.toFixed(2)
+const displayFiatToFiat = ({ value }: { value: number | string }) => {
+  return new BigNumber(value).toFixed(2)
 }
 
 const getSymbol = currency => {
@@ -1277,7 +1284,33 @@ const convertCoinToFiat = (
   }
 }
 
-const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
+// 🔺Triangulate Wallet Fiat -> BTC -> To other Fiat
+const convertFiatToFiat = ({
+  value,
+  fromCurrency,
+  toCurrency,
+  rates
+}: {
+  fromCurrency: WalletFiatType
+  rates: RatesType
+  toCurrency: WalletFiatType
+  value: number | string
+}) => {
+  const btcAmt = convertFiatToBtc({ value, fromCurrency, toUnit: 'BTC', rates })
+  const fiatAmt = convertBtcToFiat({
+    value: btcAmt.value,
+    fromUnit: 'BTC',
+    toCurrency,
+    rates
+  })
+
+  return fiatAmt
+}
+
+const displayCoinToCoin = (
+  value: number | string,
+  toUnit: WalletCurrencyType
+) => {
   switch (toUnit) {
     case 'BCH':
       return displayBchToBch({
@@ -1324,6 +1357,9 @@ const displayCoinToCoin = (value: number | string, toUnit: CoinType) => {
         toUnit,
         value
       })
+    case 'EUR':
+    case 'GBP':
+      return Currency.fiatToString({ value, unit: toUnit })
   }
 }
 
@@ -1359,6 +1395,7 @@ export const convertCoinToCoinFromTransaction = (coin, tx) => {
 export {
   DefaultConversion,
   DefaultDisplay,
+  convertFiatToFiat,
   convertFiatToCoin,
   convertCoinToFiat,
   convertAlgoToFiat,

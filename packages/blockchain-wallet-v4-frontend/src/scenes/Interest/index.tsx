@@ -9,7 +9,7 @@ import {
   CoinType,
   InterestRateType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { Container } from 'components/Box'
 import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
@@ -167,7 +167,7 @@ export type SuccessStateType = {
   instruments: Array<CoinType>
   interestRate: InterestRateType
   interestRateArray: Array<number>
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

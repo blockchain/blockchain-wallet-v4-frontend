@@ -4,7 +4,7 @@ import { includes, toLower } from 'ramda'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import { CoinType } from 'core/types'
+import { CoinType, FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Error from './template.error'
@@ -15,6 +15,9 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
   componentDidMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       const { coin, erc20List } = this.props
+      if (coin in FiatTypeEnum) {
+        return
+      }
       if (includes(coin, erc20List)) {
         return this.props.ethActions.fetchErc20Rates(toLower(this.props.coin))
       }

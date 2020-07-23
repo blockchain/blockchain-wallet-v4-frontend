@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
 import { Props } from '.'
-import { SupportedCoinType, SupportedFiatType } from 'core/types'
+import { SupportedWalletCurrencyType } from 'core/types'
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -84,7 +84,7 @@ const Navigation = (props: OwnProps & Props) => {
       </LinkContainer>
       {values(
         mapObjIndexed(
-          (coin: SupportedCoinType | SupportedFiatType, i) =>
+          (coin: SupportedWalletCurrencyType, i) =>
             coin &&
             coin.invited &&
             coin.method &&

@@ -1,6 +1,6 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { CoinType } from 'core/types'
+import { CoinType, ExtractSuccess } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { includes, toLower } from 'ramda'
@@ -26,6 +26,7 @@ class Balance extends React.PureComponent<Props> {
     return data.cata({
       Success: value => (
         <Success
+          {...this.props}
           balance={value}
           large={large}
           coin={coin}
@@ -54,11 +55,12 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = {
+export type OwnProps = {
   coin: CoinType
   coinTicker: string
   large: boolean
 }
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(Balance)

@@ -4,7 +4,7 @@ import React from 'react'
 
 import { actions, selectors } from 'data'
 
-import { CoinType, SupportedCoinsType } from 'core/types'
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { ModalNamesType } from 'data/types'
 import Welcome from './template'
 
@@ -32,7 +32,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
 const mapStateToProps = (state): LinkStatePropsType => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedCoinsType)
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -50,7 +50,7 @@ type OwnProps = {
   coin: CoinType
 }
 type LinkStatePropsType = {
-  supportedCoins: SupportedCoinsType | Error
+  supportedCoins: SupportedWalletCurrenciesType | Error
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

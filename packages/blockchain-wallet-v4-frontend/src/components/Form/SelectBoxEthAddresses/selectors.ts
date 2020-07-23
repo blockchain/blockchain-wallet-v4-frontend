@@ -5,7 +5,7 @@ import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 import {
   Erc20CoinType,
   InterestAccountBalanceType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
@@ -157,7 +157,9 @@ export const getErc20Data = (
     includeCustodial
   } = ownProps
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse({} as SupportedCoinsType)
+  const supportedCoins = supportedCoinsR.getOrElse(
+    {} as SupportedWalletCurrenciesType
+  )
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {

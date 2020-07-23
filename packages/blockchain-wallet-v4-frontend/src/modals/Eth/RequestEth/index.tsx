@@ -7,7 +7,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { actions, model, selectors } from 'data'
-import { CoinType, Erc20CoinsEnum, SupportedCoinsType } from 'core/types'
+import {
+  CoinType,
+  Erc20CoinsEnum,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { getData, getInitialValues } from './selectors'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
 import { ModalPropsType } from 'data/types'
@@ -136,7 +140,7 @@ const mapStateToProps = (state, ownProps) => ({
     propOr('ETH', 'coin', ownProps)) as CoinType,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedCoinsType)
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = dispatch => ({

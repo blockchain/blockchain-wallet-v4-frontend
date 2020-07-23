@@ -7,7 +7,7 @@ import {
   PaymentValue,
   RatesType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
@@ -69,7 +69,7 @@ export type SuccessStateType = {
   limits: BorrowMinMaxType
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type LinkStatePropsType = {
