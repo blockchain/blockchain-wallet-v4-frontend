@@ -120,6 +120,7 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
 
 const Payment: React.FC<Props> = props => (
   <PaymentContainer
+    role='button'
     onClick={() =>
       props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',

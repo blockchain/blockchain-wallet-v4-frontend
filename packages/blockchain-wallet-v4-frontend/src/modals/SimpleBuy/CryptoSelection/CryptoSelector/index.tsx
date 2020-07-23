@@ -3,7 +3,7 @@ import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
-import { SBPairType } from 'core/types'
+import { SBPairType, SBPaymentMethodType } from 'core/types'
 import CryptoItem from './CryptoItem'
 import React from 'react'
 import styled from 'styled-components'
@@ -32,12 +32,13 @@ export type Props = OwnProps & SuccessStateType
 
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
-  const handleSubmit = (pair: SBPairType) => {
+  const handleSubmit = (pair: SBPairType, method?: SBPaymentMethodType) => {
     props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       fiatCurrency: props.fiatCurrency,
-      pair
+      pair,
+      method
     })
   }
 
@@ -72,7 +73,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             <CryptoItem
               key={index}
               value={value}
-              onClick={() => handleSubmit(value as SBPairType)}
+              onClick={() =>
+                handleSubmit(value as SBPairType, props.defaultMethod)
+              }
             />
           ))}
         </Currencies>

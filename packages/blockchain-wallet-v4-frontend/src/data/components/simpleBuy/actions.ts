@@ -411,7 +411,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return {
         step: payload.step,
         cryptoCurrency: payload.cryptoCurrency,
-        defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
         order: payload.order,
         pair: payload.pair
@@ -420,7 +419,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return {
         step: payload.step,
         cryptoCurrency: payload.cryptoCurrency,
-        defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,
         pair: payload.pair

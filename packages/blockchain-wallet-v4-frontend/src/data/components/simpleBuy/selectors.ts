@@ -1,3 +1,5 @@
+import { ExtractSuccess } from 'core/types'
+import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getEverypay3DSDetails = (state: RootState) =>
@@ -12,8 +14,23 @@ export const getCryptoCurrency = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
-export const getDefaultMethod = (state: RootState) =>
-  state.components.simpleBuy.defaultMethod
+export const getDefaultPaymentMethod = (state: RootState) => {
+  const ordersR = getSBOrders(state)
+  const sbMethodsR = getSBPaymentMethods(state)
+
+  const transform = (
+    orders: ExtractSuccess<typeof ordersR>,
+    sbMethods: ExtractSuccess<typeof sbMethodsR>
+  ) => {
+    const { paymentType: type, inputCurrency } = orders[0]
+
+    return sbMethods.methods.find(
+      method => method.type === type && method.currency === inputCurrency
+    )
+  }
+
+  return lift(transform)(ordersR, sbMethodsR)
+}
 
 export const getSBBalances = (state: RootState) =>
   state.components.simpleBuy.balances
