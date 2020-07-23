@@ -10,11 +10,11 @@ const SelectPaymentContainer = styled.div`
   width: 400px;
   height: 80px;
   border-radius: 8px;
+  padding: 24px;
   margin-bottom: 24px;
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  padding: 23px 28px 28px 28px;
   line-height: 32px;
   justify-content: space-between;
 `

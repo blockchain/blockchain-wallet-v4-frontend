@@ -97,8 +97,6 @@ const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
-export type Props = OwnProps & SuccessStateType
-
 const normalizeAmount = (
   value,
   prevValue,
@@ -214,8 +212,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.sbBalances,
                         props.formValues,
                         props.method
-                      ),
-                      digits: 0
+                      )
                     }),
                     orderType:
                       props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
@@ -234,8 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.sbBalances,
                         props.formValues,
                         props.method
-                      ),
-                      digits: 0
+                      )
                     }),
                     orderType:
                       props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
@@ -279,8 +275,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   >
                     {fiatToString({
                       unit: fiatCurrency,
-                      value: convertBaseToStandard('FIAT', amount),
-                      digits: 0
+                      value: convertBaseToStandard('FIAT', amount)
                     })}
                   </Amount>
                 )
@@ -314,6 +309,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     </CustomForm>
   )
 }
+
+export type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{}, Props>({
   form: 'simpleBuyCheckout',
