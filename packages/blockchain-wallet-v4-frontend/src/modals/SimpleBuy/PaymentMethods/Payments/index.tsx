@@ -31,8 +31,8 @@ const PaymentsWrapper = styled.div`
 `
 const IconContainer = styled.div`
   width: 38px;
-  height: 32px;
-  border-radius: 16px;
+  height: 38px;
+  border-radius: 50%;
   background-color: ${props => props.theme.blue000};
   display: flex;
   align-items: center;
@@ -74,13 +74,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'BANK_ACCOUNT':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='bank-filled' />
+            <Icon size='18px' color='blue600' name='arrow-down' />
           </IconContainer>
         )
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='16px' color='blue600' name='credit-card-sb' />
+            <Icon size='18px' color='blue600' name='bank-filled' />
           </IconContainer>
         )
       case 'USER_CARD':
@@ -97,7 +97,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           />
         )
       case 'FUNDS':
-        return <></>
+        return (
+          <Icon
+            size='32px'
+            color='fiat'
+            name={value.currency.toLowerCase() as 'eur' | 'gbp'}
+          />
+        )
     }
   }
 
@@ -110,6 +116,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
+    const { fiatCurrency } = this.props
     const availableCards = this.props.cards.filter(
       card => card.state === 'ACTIVE'
     )
@@ -122,7 +129,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       m => m.type === 'PAYMENT_CARD'
     )
 
-    const funds = defaultMethods.filter(method => method.value.type === 'FUNDS')
+    const funds = defaultMethods.filter(
+      method => method.value.type === 'FUNDS' && method.value.currency !== 'USD'
+    )
 
     const paymentCard = defaultMethods.find(
       method => method.value.type === 'PAYMENT_CARD'
@@ -185,6 +194,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   value={fund.value}
                   icon={this.getIcon(fund.value)}
                   onClick={() => this.handleSubmit(fund.value)}
+                  balance={this.props.balances[fund.value.currency].available}
                 />
               ))}
             {cardMethods &&
@@ -209,7 +219,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 }
               />
             )}
-            {bankAccount && (
+            {bankAccount && fiatCurrency && (
               <BankAccount
                 key={`${bankAccount.text}`}
                 {...bankAccount}
@@ -217,7 +227,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
                     step: 'TRANSFER_DETAILS',
-                    order: this.props.order
+                    fiatCurrency
                   })
                 }
               />

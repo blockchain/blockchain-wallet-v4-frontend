@@ -8,7 +8,6 @@ import {
   CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
-  FiatType,
   SBAccountType,
   SBCardStateType,
   SBCardType,
@@ -242,9 +241,7 @@ export default ({
       const order = S.getSBOrder(yield select())
       if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order: confirmedOrder }))
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
@@ -436,10 +433,7 @@ export default ({
   const fetchSBPaymentAccount = function * () {
     try {
       yield put(A.fetchSBPaymentAccountLoading())
-      const order = S.getSBOrder(yield select())
-      const fiatCurrency: FiatType | false = order
-        ? (order.pair.split('-')[1] as FiatType)
-        : false
+      const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
       const account: SBAccountType = yield call(
         api.getSBPaymentAccount,

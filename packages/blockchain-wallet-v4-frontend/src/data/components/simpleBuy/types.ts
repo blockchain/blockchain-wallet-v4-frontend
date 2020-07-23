@@ -286,11 +286,7 @@ interface FetchSBSuggestedAmountsSuccess {
 export type StepActionsPayload =
   | {
       order: SBOrderType
-      step:
-        | 'CHECKOUT_CONFIRM'
-        | 'TRANSFER_DETAILS'
-        | 'ORDER_SUMMARY'
-        | 'CANCEL_ORDER'
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
       cryptoCurrency?: CoinType
@@ -305,6 +301,10 @@ export type StepActionsPayload =
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
       step: 'CRYPTO_SELECTION'
+    }
+  | {
+      fiatCurrency: FiatType
+      step: 'TRANSFER_DETAILS'
     }
   | {
       cryptoCurrency: CoinType
