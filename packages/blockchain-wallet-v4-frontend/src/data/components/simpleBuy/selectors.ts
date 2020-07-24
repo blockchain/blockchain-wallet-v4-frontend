@@ -22,10 +22,13 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     orders: ExtractSuccess<typeof ordersR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>
   ) => {
-    const { paymentType: type, inputCurrency } = orders[0]
+    const lastOrder = orders.shift()
+    if (!lastOrder) return undefined
 
     return sbMethods.methods.find(
-      method => method.type === type && method.currency === inputCurrency
+      method =>
+        method.type === lastOrder.paymentType &&
+        method.currency === lastOrder.inputCurrency
     )
   }
 

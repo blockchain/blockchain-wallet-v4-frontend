@@ -8,6 +8,7 @@ import {
   SBAccountType,
   SBBalancesType,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -374,7 +375,7 @@ export const initializeBillingAddress = () => ({
 })
 
 export const initializeCheckout = (
-  orderType: 'BUY' | 'SELL',
+  orderType: SBOrderActionType,
   amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,

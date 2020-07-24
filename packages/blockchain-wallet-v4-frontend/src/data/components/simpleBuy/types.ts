@@ -9,6 +9,7 @@ import {
   SBAccountType,
   SBBalancesType,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -34,7 +35,7 @@ export type SBAddCardErrorType =
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
   amount: string
-  orderType: 'BUY' | 'SELL'
+  orderType: SBOrderActionType
 }
 export type SBCurrencySelectFormType = {
   search: string
