@@ -138,7 +138,8 @@ const mapStateToProps = (state: RootState) => ({
   method: selectors.components.simpleBuy.getSBPaymentMethod(state),
   order: selectors.components.simpleBuy.getSBOrder(state),
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  displayBack: selectors.components.simpleBuy.getDisplayBack(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -167,7 +168,9 @@ type LinkStatePropsType =
         | 'CC_BILLING_ADDRESS'
     }
   | {
+      displayBack?: boolean
       fiatCurrency: FiatType
+      pair: SBPairType
       step: 'TRANSFER_DETAILS'
     }
   | {

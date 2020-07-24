@@ -8,6 +8,7 @@ import {
   SBAccountType,
   SBBalancesType,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
@@ -373,9 +374,13 @@ export const initializeBillingAddress = () => ({
   type: AT.INITIALIZE_BILLING_ADDRESS
 })
 
-export const initializeCheckout = (orderType: 'BUY' | 'SELL') => ({
+export const initializeCheckout = (
+  orderType: SBOrderActionType,
+  amount?: string
+) => ({
   type: AT.INITIALIZE_CHECKOUT,
-  orderType
+  orderType,
+  amount
 })
 
 export const pollSBBalances = () => ({
@@ -407,7 +412,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return {
         step: payload.step,
         cryptoCurrency: payload.cryptoCurrency,
-        defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
         order: payload.order,
         pair: payload.pair
@@ -416,7 +420,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return {
         step: payload.step,
         cryptoCurrency: payload.cryptoCurrency,
-        defaultMethod: payload.defaultMethod,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,
         pair: payload.pair
@@ -430,7 +433,8 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'TRANSFER_DETAILS':
       return {
         step: payload.step,
-        fiatCurrency: payload.fiatCurrency
+        fiatCurrency: payload.fiatCurrency,
+        displayBack: payload.displayBack
       }
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':

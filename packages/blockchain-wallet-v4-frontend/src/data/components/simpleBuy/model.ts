@@ -4,6 +4,7 @@ import {
   FiatType,
   FiatTypeEnum,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairsType,
   SBQuoteType
@@ -30,7 +31,7 @@ export const splitPair = (
   return pair.split('-') as [FiatType | CoinType, '-', FiatType | CoinType]
 }
 
-export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
+export const getOrderType = (pair: SBPairsType): SBOrderActionType => {
   return splitPair(pair)[0] in FiatTypeEnum ? 'SELL' : 'BUY'
 }
 

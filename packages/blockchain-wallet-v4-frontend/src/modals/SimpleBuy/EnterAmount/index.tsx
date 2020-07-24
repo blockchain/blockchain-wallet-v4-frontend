@@ -2,13 +2,11 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import {
-  FiatEligibleType,
+  ExtractSuccess,
   FiatType,
   RemoteDataType,
-  SBCardType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodsType,
   SBPaymentMethodType
 } from 'core/types'
 import { getData } from './selectors'
@@ -20,10 +18,10 @@ import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
+    if (this.props.fiatCurrency && !this.props.method) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBCards()
       this.props.simpleBuyActions.fetchSBOrders()
+      this.props.simpleBuyActions.fetchSBCards()
     }
   }
 
@@ -56,11 +54,7 @@ export type OwnProps = {
   order?: SBOrderType
   pair: SBPairType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-  eligibility: FiatEligibleType
-  paymentMethods: SBPaymentMethodsType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType

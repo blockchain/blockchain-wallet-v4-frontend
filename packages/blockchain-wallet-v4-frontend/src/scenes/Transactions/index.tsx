@@ -1,16 +1,17 @@
 import { actions, model } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import {
   CoinType,
   CoinTypeEnum,
   FiatType,
   FiatTypeEnum,
-  SupportedCoinType
+  SupportedCoinType,
+  WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
-import { Icon, Text } from 'blockchain-info-components'
 import { path, toLower } from 'ramda'
 import { reduxForm } from 'redux-form'
 import { SceneWrapper } from 'components/Layout'
@@ -29,6 +30,11 @@ import WalletBalanceDropdown from './WalletBalanceDropdown'
 
 const PageTitle = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const CoinTitle = styled.div`
+  display: flex;
   flex-direction: row;
   width: 100%;
   align-items: center;
@@ -37,6 +43,7 @@ const PageTitle = styled.div`
     margin-right: 14px;
   }
 `
+const TitleActionContainer = styled.div``
 const Header = styled.div`
   width: 100%;
 `
@@ -119,10 +126,32 @@ class TransactionsContainer extends React.PureComponent<Props> {
         <LazyLoadContainer onLazyLoad={loadMoreTxs}>
           <Header>
             <PageTitle>
-              <Icon size='36px' color={colorCode} name={icons.circleFilled} />
-              <Text color='grey800' size='32px' weight={600}>
-                {displayName}
-              </Text>
+              <CoinTitle>
+                <Icon size='36px' color={colorCode} name={icons.circleFilled} />
+                <Text color='grey800' size='32px' weight={600}>
+                  {displayName}
+                </Text>
+              </CoinTitle>
+              <TitleActionContainer>
+                {coin in FiatTypeEnum && (
+                  <Button
+                    nature='primary'
+                    data-e2e='depositFiat'
+                    style={{ minWidth: 'auto' }}
+                    onClick={() => {
+                      if (!this.props.simpleBuyActions) return
+                      this.props.simpleBuyActions.showModal('EmptyFeed')
+                      this.props.simpleBuyActions.setStep({
+                        step: 'TRANSFER_DETAILS',
+                        displayBack: false,
+                        fiatCurrency: coin as WalletFiatType
+                      })
+                    }}
+                  >
+                    Deposit
+                  </Button>
+                )}
+              </TitleActionContainer>
             </PageTitle>
             <ExplainerWrapper>{getHeaderExplainer(coinModel)}</ExplainerWrapper>
             <StatsContainer>
@@ -194,7 +223,11 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         dispatch(actions.components.fiatTransactions.loadMore(coin)),
       initTxs: () =>
         dispatch(actions.components.fiatTransactions.initialized(coin)),
-      miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+      miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+      simpleBuyActions: bindActionCreators(
+        actions.components.simpleBuy,
+        dispatch
+      )
     }
   }
   return {
