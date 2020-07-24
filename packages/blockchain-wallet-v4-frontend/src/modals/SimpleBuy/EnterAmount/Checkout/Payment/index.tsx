@@ -7,13 +7,18 @@ import { DisplayIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '..'
 import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const PaymentContainer = styled.div`
+type PaymentContainerProps = {
+  isMethod: boolean
+}
+
+const PaymentContainer = styled.div<PaymentContainerProps>`
   border: 1px solid ${props => props.theme.grey100};
   box-sizing: border-box;
   width: 400px;
@@ -23,9 +28,26 @@ const PaymentContainer = styled.div`
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  padding: 12px 28px;
+  padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px 28px 28px`)};
   justify-content: space-between;
+  ${props => !props.isMethod && `line-height: 32px;`}
 `
+
+const SelectIconWrapper = styled.div`
+  background-color: ${props => props.theme.blue000};
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 22px;
+`
+const SelectPaymentText = styled(Text)`
+  width: 285px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 32px;
+`
+
 const PaymentText = styled(Text)`
   width: 285px;
   justify-content: center;
@@ -112,7 +134,13 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
         />
       )
     case 'FUNDS':
-      return <></>
+      return (
+        <Icon
+          size='32px'
+          color='fiat'
+          name={value.currency.toLowerCase() as keyof IcoMoonType}
+        />
+      )
     default:
       return <></>
   }
@@ -128,6 +156,7 @@ const Payment: React.FC<Props> = props => (
         cryptoCurrency: props.cryptoCurrency
       })
     }
+    isMethod={!!props.method}
   >
     {props.method && (
       <>
@@ -137,11 +166,32 @@ const Payment: React.FC<Props> = props => (
             ? renderCard(props.method)
             : renderFund(props.method)}
         </PaymentText>
+        <PaymentArrowContainer>
+          <Icon cursor name='arrow-right' size='20px' color='grey600' />
+        </PaymentArrowContainer>
       </>
     )}
-    <PaymentArrowContainer>
-      <Icon cursor name='arrow-right' size='20px' color='grey600' />
-    </PaymentArrowContainer>
+
+    {!props.method && (
+      <>
+        <SelectIconWrapper>
+          <Icon
+            cursor
+            name='plus-in-circle-filled'
+            size='22px'
+            color='blue600'
+            style={{ marginLeft: '4px' }}
+          />
+        </SelectIconWrapper>
+        <SelectPaymentText>
+          <FormattedMessage
+            id='modals.simplebuy.confirm.jump_to_payment'
+            defaultMessage='Select Cash or Card'
+          />
+        </SelectPaymentText>
+        <Icon cursor name='arrow-right' size='20px' color='grey600' />
+      </>
+    )}
   </PaymentContainer>
 )
 

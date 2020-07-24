@@ -22,7 +22,6 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
 import React from 'react'
-import SelectPayment from './SelectPayment'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -105,7 +104,7 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { fiatCurrency, method } = props
+  const { fiatCurrency } = props
 
   if (!props.formValues) return null
   if (!fiatCurrency)
@@ -265,7 +264,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
-        {method ? <Payment {...props} /> : <SelectPayment {...props} />}
+        <Payment {...props} />
 
         {props.error && (
           <ErrorText>
