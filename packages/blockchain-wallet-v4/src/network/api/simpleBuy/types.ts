@@ -178,6 +178,7 @@ export type ISBBuyOrderType = {
   state: SBOrderStateType
   updatedAt: string
 }
+export type SBOrderActionType = 'BUY' | 'SELL'
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
@@ -200,7 +201,7 @@ export type SBOrderStateType =
   | 'EXPIRED'
 
 export type SBQuoteType = {
-  action: 'BUY' | 'SELL'
+  action: SBOrderActionType
   fee: string
   pair: SBPairsType
   rate: string

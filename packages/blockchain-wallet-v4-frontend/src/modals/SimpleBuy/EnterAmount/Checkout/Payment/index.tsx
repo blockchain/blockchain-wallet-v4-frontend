@@ -5,14 +5,15 @@ import {
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Text } from 'blockchain-info-components'
-import { Props } from '..'
-import { Title } from 'components/Flyout'
+import { SBBalancesType, SBPaymentMethodType, WalletFiatType } from 'core/types'
+import { Title, Value } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
+
+import { Props } from '../template.success'
 
 type PaymentContainerProps = {
   isMethod: boolean
@@ -61,23 +62,11 @@ const PaymentArrowContainer = styled.div`
   justify-content: center;
 `
 const DisplayTitle = styled(Title)`
-  align-items: left;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  line-height: 24px;
-  color: ${props => props.theme.textBlack};
-  width: 100%;
+  margin-top: 4px;
 `
-const DisplaySubTitle = styled(Title)`
-  align-items: left;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 24px;
-  color: ${props => props.theme.grey600};
-  width: 100%;
+const DisplayValue = styled(Value)`
+  margin-top: 0px;
 `
-
 const DisplayPaymentIcon = styled(DisplayIcon)`
   justify-content: center;
 `
@@ -92,31 +81,35 @@ const renderCardText = (value: SBPaymentMethodType): string => {
 
 const renderCard = (value: SBPaymentMethodType) => (
   <>
-    <DisplayTitle>{renderCardText(value)}</DisplayTitle>
-    <DisplaySubTitle>
+    <DisplayValue>{renderCardText(value)}</DisplayValue>
+    <DisplayTitle>
       <FormattedMessage
         id='modals.simplebuy.card_limit'
         defaultMessage='{card} Limit'
         values={{
           card: `${fiatToString({
             value: convertBaseToStandard('FIAT', value.limits.max),
-            unit: String(value.currency) as FiatType
+            unit: String(value.currency) as WalletFiatType
           })} ${value.currency}`
         }}
       />
-    </DisplaySubTitle>
+    </DisplayTitle>
   </>
 )
 
-const renderFund = (value: SBPaymentMethodType) => (
+const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesType) => (
   <>
-    <DisplayTitle>{value.currency}</DisplayTitle>
-    <DisplaySubTitle>
+    <DisplayValue>{value.currency}</DisplayValue>
+    <DisplayTitle>
       {fiatToString({
-        value: convertBaseToStandard('FIAT', value.limits.max),
-        unit: String(value.currency) as FiatType
-      })}
-    </DisplaySubTitle>
+        value: convertBaseToStandard(
+          'FIAT',
+          sbBalances[value.currency as WalletFiatType]?.available
+        ),
+        unit: String(value.currency) as WalletFiatType
+      })}{' '}
+      <FormattedMessage id='copy.available' defaultMessage='Available' />
+    </DisplayTitle>
   </>
 )
 
@@ -148,6 +141,7 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
 
 const Payment: React.FC<Props> = props => (
   <PaymentContainer
+    role='button'
     onClick={() =>
       props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -164,7 +158,7 @@ const Payment: React.FC<Props> = props => (
         <PaymentText>
           {props.method.type === 'USER_CARD'
             ? renderCard(props.method)
-            : renderFund(props.method)}
+            : renderFund(props.method, props.sbBalances)}
         </PaymentText>
         <PaymentArrowContainer>
           <Icon cursor name='arrow-right' size='20px' color='grey600' />

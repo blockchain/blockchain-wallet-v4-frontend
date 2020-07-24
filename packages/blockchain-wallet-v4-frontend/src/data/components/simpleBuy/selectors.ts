@@ -1,3 +1,5 @@
+import { ExtractSuccess, SBPaymentMethodType } from 'core/types'
+import { head, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getEverypay3DSDetails = (state: RootState) =>
@@ -9,11 +11,56 @@ export const getSBAccount = (state: RootState) =>
 export const getCryptoCurrency = (state: RootState) =>
   state.components.simpleBuy.cryptoCurrency
 
+export const getDisplayBack = (state: RootState) =>
+  state.components.simpleBuy.displayBack
+
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
-export const getDefaultMethod = (state: RootState) =>
-  state.components.simpleBuy.defaultMethod
+export const getDefaultPaymentMethod = (state: RootState) => {
+  const ordersR = getSBOrders(state)
+  const sbCardsR = getSBCards(state)
+  const sbMethodsR = getSBPaymentMethods(state)
+
+  const transform = (
+    orders: ExtractSuccess<typeof ordersR>,
+    sbCards: ExtractSuccess<typeof sbCardsR>,
+    sbMethods: ExtractSuccess<typeof sbMethodsR>
+  ): SBPaymentMethodType | undefined => {
+    const lastOrder = head(orders)
+    if (!lastOrder) return undefined
+
+    const methodsOfType = sbMethods.methods.filter(
+      method => method.type === lastOrder.paymentType
+    )
+
+    switch (lastOrder.paymentType) {
+      case 'PAYMENT_CARD':
+        const method = head(methodsOfType)
+        if (!method) return
+        const sbCard = sbCards.find(
+          value => value.id === lastOrder.paymentMethodId
+        )
+        const card = sbCard?.card || undefined
+
+        return {
+          ...method,
+          type: 'USER_CARD',
+          card
+        }
+      case 'FUNDS':
+        return methodsOfType.find(
+          method => method.currency === lastOrder.inputCurrency
+        )
+      case 'BANK_ACCOUNT':
+      case 'USER_CARD':
+      case undefined:
+        return undefined
+    }
+  }
+
+  return lift(transform)(ordersR, sbCardsR, sbMethodsR)
+}
 
 export const getSBBalances = (state: RootState) =>
   state.components.simpleBuy.balances

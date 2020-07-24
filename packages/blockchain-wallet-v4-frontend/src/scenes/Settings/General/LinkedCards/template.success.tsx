@@ -5,7 +5,7 @@ import {
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBPaymentMethodType } from 'core/types'
+import { FiatType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -94,13 +94,7 @@ const Success: React.FC<InjectedFormProps<
               key={i}
               onClick={() => {
                 if (props.submitting) return
-                props.handleCreditCardClick({
-                  ...card,
-                  type: 'USER_CARD',
-                  limits: ccPaymentMethod
-                    ? ccPaymentMethod.limits
-                    : { min: '500', max: '50000' }
-                })
+                props.handleCreditCardClick()
               }}
             >
               <Child>
@@ -170,7 +164,7 @@ const Success: React.FC<InjectedFormProps<
 
 type Props = OwnProps &
   SuccessStateType & {
-    handleCreditCardClick: (defaultMethod?: SBPaymentMethodType) => void
+    handleCreditCardClick: () => void
   }
 
 export default reduxForm<{}, Props>({ form: 'linkedCards' })(Success)

@@ -6,6 +6,7 @@ import {
   SBBalancesType,
   SBCardType,
   SBMoneyType,
+  SBOrderActionType,
   SBOrderType,
   SBPairsType,
   SBPairType,
@@ -70,7 +71,7 @@ export default ({
 
   const createSBOrder = (
     pair: SBPairsType,
-    action: 'BUY' | 'SELL',
+    action: SBOrderActionType,
     pending: boolean,
     input: SBMoneyType,
     output: {
@@ -211,7 +212,7 @@ export default ({
 
   const getSBQuote = (
     currencyPair: SBPairsType,
-    action: 'BUY' | 'SELL',
+    action: SBOrderActionType,
     amount: string
   ): SBQuoteType =>
     authorizedGet({
