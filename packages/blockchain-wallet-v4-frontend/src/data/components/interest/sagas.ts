@@ -172,14 +172,21 @@ export default ({
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
+        const getAccountIndexOrAccount = coin => {
+          switch (coin) {
+            case 'ETH':
+            case 'PAX':
+            case 'USDT':
+              return values.interestDepositAccount.address
+            default:
+              return values.interestDepositAccount.index
+          }
+        }
         let provisionalPayment: PaymentValue = yield call(
           calculateProvisionalPayment,
           {
             ...values.interestDepositAccount,
-            address:
-              coin === 'ETH'
-                ? values.interestDepositAccount.address
-                : values.interestDepositAccount.index
+            address: getAccountIndexOrAccount(coin)
           },
           value
         )
@@ -219,13 +226,21 @@ export default ({
         defaultAccountR = btcAccountsR.map(nth(defaultIndex))
         payment = yield call(createPayment, defaultIndex)
         break
-
       case 'ETH':
         const ethAccountR = yield select(
           selectors.core.common.eth.getAccountBalances
         )
         defaultAccountR = ethAccountR.map(head)
         payment = yield call(createPayment, defaultAccountR)
+        break
+      case 'PAX':
+      case 'USDT':
+        const erc20AccountR = yield select(
+          selectors.core.common.eth.getErc20AccountBalances,
+          coin
+        )
+        defaultAccountR = erc20AccountR.map(head)
+        payment = yield call(createPayment)
         break
       default:
         throw new Error('Invalid Coin Type')
@@ -252,7 +267,6 @@ export default ({
       )
       yield put(A.setWithdrawalMinimimumsLoading())
       yield put(A.setWithdrawalMinimimumsSuccess(response))
-      // setWithdrawalMinimimumsSuccess init form for analytics
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setWithdrawalMinimimumsFailure(error))
@@ -268,7 +282,9 @@ export default ({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    yield put(actions.router.push(`/${coin}/transactions`))
+    coin === 'PAX'
+      ? yield put(actions.router.push(`/usd-d/transactions`))
+      : yield put(actions.router.push(`/${coin}/transactions`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
@@ -313,11 +329,6 @@ export default ({
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
       switch (coin) {
-        case 'ETH':
-          receiveAddress = selectors.core.data.eth
-            .getDefaultAddress(yield select())
-            .getOrFail('Failed to get ETH receive address')
-          break
         case 'BTC':
           receiveAddress = selectors.core.common.btc
             .getNextAvailableReceiveAddress(
@@ -326,6 +337,13 @@ export default ({
               yield select()
             )
             .getOrFail('Failed to get BTC receive address')
+          break
+        case 'ETH':
+        case 'PAX':
+        case 'USDT':
+          receiveAddress = selectors.core.data.eth
+            .getDefaultAddress(yield select())
+            .getOrFail('Failed to get ETH receive address')
           break
         default:
           throw new Error('Invalid Coin Type')

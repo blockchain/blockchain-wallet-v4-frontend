@@ -662,7 +662,7 @@
   "modals.interest.deposit.uptoamount2": "of {coin} from this wallet.",
   "modals.interest.deposit.weekly": "Weekly",
   "modals.interest.deposit.year": "1 Year",
-  "modals.interest.detailsbalance": "Your {coin} Balance",
+  "modals.interest.balance": "Your {coin} Balance",
   "modals.interest.detailstitle": "{displayName} Interest Account",
   "modals.interest.loading.doingwork": "Doing Work...",
   "modals.interest.moredetails.tooltip.description": "Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.",

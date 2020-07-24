@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
+import { CoinType } from 'core/types'
 import { CustomCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -39,9 +40,14 @@ export const CustomFormLabel = styled.div`
   display: flex;
   justify-content: space-between;
 `
-export const CustomField = styled(Field)<BaseFieldProps>`
+export const CustomField = styled(Field)<
+  BaseFieldProps & { coin: CoinType; displayCoin: boolean }
+>`
   > input {
-    padding-left: 42px;
+    padding-left: ${props =>
+      props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
+        ? '60px'
+        : '42px'};
   }
   > div:last-child {
     display: none;

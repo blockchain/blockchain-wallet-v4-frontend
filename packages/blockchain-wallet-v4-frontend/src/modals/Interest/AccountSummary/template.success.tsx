@@ -45,7 +45,7 @@ const AccountSummary: React.FC<Props> = props => {
     stepMetadata,
     supportedCoins
   } = props
-  const { colorCode, displayName, icons } = supportedCoins[coin]
+  const { colorCode, coinTicker, displayName, icons } = supportedCoins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod =
@@ -101,15 +101,15 @@ const AccountSummary: React.FC<Props> = props => {
               style={{ marginBottom: '5px' }}
             >
               <FormattedMessage
-                id='modals.interest.detailsbalance'
+                id='modals.interest.balance'
                 defaultMessage='Your {coin} Balance'
-                values={{ coin }}
+                values={{ coin: displayName }}
               />
             </Text>
             {account ? (
               <>
                 <Text color='grey800' size='18px' weight={600}>
-                  {accountBalanceStandard} {coin}
+                  {accountBalanceStandard} {coinTicker}
                 </Text>
                 <FiatDisplay
                   color='grey600'
@@ -123,7 +123,7 @@ const AccountSummary: React.FC<Props> = props => {
               </>
             ) : (
               <Text color='grey800' size='18px' weight={600}>
-                0 {coin}
+                0 {coinTicker}
               </Text>
             )}
           </Container>
@@ -142,7 +142,7 @@ const AccountSummary: React.FC<Props> = props => {
             {account ? (
               <>
                 <Text color='grey800' size='18px' weight={600}>
-                  {interestBalanceStandard} {coin}
+                  {interestBalanceStandard} {coinTicker}
                 </Text>
                 <FiatDisplay
                   color='grey600'
@@ -156,7 +156,7 @@ const AccountSummary: React.FC<Props> = props => {
               </>
             ) : (
               <Text color='grey800' size='18px' weight={600}>
-                0 {coin}
+                0 {coinTicker}
               </Text>
             )}
           </Container>
@@ -340,7 +340,7 @@ const AccountSummary: React.FC<Props> = props => {
             </Text>
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
-                {pendingInterestStandard} {coin}
+                {pendingInterestStandard} {coinTicker}
               </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>
