@@ -396,6 +396,7 @@ export default ({
   }: ReturnType<typeof A.fetchSBOrders>) {
     try {
       yield call(waitForUserData)
+      if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
       const { skipLoading } = payload
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
@@ -453,13 +454,17 @@ export default ({
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
       yield call(waitForUserData)
-      const isUserTier2: boolean = yield call(isTier2)
-      if (!isUserTier2) {
+      const userData = selectors.modules.profile
+        .getUserData(yield select())
+        .getOrElse({
+          state: 'NONE'
+        } as UserDataType)
+      if (userData.state === 'NONE') {
         return yield put(
           A.fetchSBPaymentMethodsSuccess({ currency: 'USD', methods: [] })
         )
       }
-      yield call(createUser)
+      const isUserTier2 = yield call(isTier2)
 
       // Only show Loading if NotAsked
       const sbMethodsR = S.getSBPaymentMethods(yield select())

@@ -79,6 +79,10 @@ export enum WalletFiatEnum {
   EUR,
   GBP
 }
+export const WalletCurrencyEnum = {
+  ...CoinTypeEnum,
+  ...WalletFiatEnum
+}
 export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
 // All Fiats
