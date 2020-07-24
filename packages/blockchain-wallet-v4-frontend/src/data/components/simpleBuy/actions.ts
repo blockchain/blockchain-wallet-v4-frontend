@@ -434,7 +434,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return {
         step: payload.step,
         fiatCurrency: payload.fiatCurrency,
-        pair: payload.pair,
         displayBack: payload.displayBack
       }
     case 'CHECKOUT_CONFIRM':

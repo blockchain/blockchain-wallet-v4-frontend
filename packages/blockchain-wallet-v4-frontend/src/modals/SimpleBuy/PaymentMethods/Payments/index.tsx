@@ -228,7 +228,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   this.props.simpleBuyActions.setStep({
                     step: 'TRANSFER_DETAILS',
                     fiatCurrency,
-                    pair: this.props.pair,
                     displayBack: true
                   })
                 }

@@ -8,7 +8,7 @@ const INITIAL_STATE: SimpleBuyState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
-  displayBack: undefined,
+  displayBack: false,
   cryptoCurrency: undefined,
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
@@ -244,16 +244,14 @@ export function simpleBuyReducer (
             step: action.payload.step,
             pair: action.payload.pair,
             method: action.payload.method,
-            order: undefined,
-            displayBack: undefined
+            order: undefined
           }
         case 'CRYPTO_SELECTION':
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step,
-            order: undefined
+            step: action.payload.step
           }
         case 'PAYMENT_METHODS':
           return {
@@ -261,8 +259,7 @@ export function simpleBuyReducer (
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
-            order: action.payload.order,
-            displayBack: undefined
+            order: action.payload.order
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
@@ -278,14 +275,12 @@ export function simpleBuyReducer (
             ...state,
             step: action.payload.step,
             fiatCurrency: action.payload.fiatCurrency,
-            pair: action.payload.pair,
             displayBack: action.payload.displayBack
           }
         default: {
           return {
             ...state,
-            step: action.payload.step,
-            displayBack: undefined
+            step: action.payload.step
           }
         }
       }
