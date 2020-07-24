@@ -71,6 +71,7 @@ export type SimpleBuyState = {
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
+  displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
@@ -302,6 +303,7 @@ export type StepActionsPayload =
       step: 'CRYPTO_SELECTION'
     }
   | {
+      displayBack: boolean
       fiatCurrency: FiatType
       step: 'TRANSFER_DETAILS'
     }
