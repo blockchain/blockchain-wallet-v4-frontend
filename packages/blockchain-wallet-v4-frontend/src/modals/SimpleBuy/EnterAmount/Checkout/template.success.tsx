@@ -107,7 +107,8 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { fiatCurrency, method } = props
+  const { fiatCurrency, method: selectedMethod, defaultMethod } = props
+  const method = selectedMethod || defaultMethod
 
   if (!props.formValues) return null
   if (!fiatCurrency)
@@ -129,13 +130,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(
-        props.pair,
-        prop,
-        props.sbBalances,
-        props.formValues,
-        props.method
-      )
+      getMaxMin(props.pair, prop, props.sbBalances, props.formValues, method)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -211,7 +206,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         'max',
                         props.sbBalances,
                         props.formValues,
-                        props.method
+                        method
                       )
                     }),
                     orderType:
@@ -230,7 +225,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         'min',
                         props.sbBalances,
                         props.formValues,
-                        props.method
+                        method
                       )
                     }),
                     orderType:
@@ -275,7 +270,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   >
                     {fiatToString({
                       unit: fiatCurrency,
-                      value: convertBaseToStandard('FIAT', amount)
+                      value: convertBaseToStandard('FIAT', amount),
+                      digits: 0
                     })}
                   </Amount>
                 )
@@ -292,7 +288,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </GreyBlueCartridge>
           </Amounts>
         )}
-        {method ? <Payment {...props} /> : <SelectPayment {...props} />}
+        {method ? (
+          <Payment {...props} method={method} />
+        ) : (
+          <SelectPayment {...props} />
+        )}
 
         {props.error && (
           <ErrorText>

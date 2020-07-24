@@ -1,5 +1,5 @@
-import { ExtractSuccess } from 'core/types'
-import { lift } from 'ramda'
+import { ExtractSuccess, SBPaymentMethodType } from 'core/types'
+import { head, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getEverypay3DSDetails = (state: RootState) =>
@@ -16,23 +16,47 @@ export const getFiatCurrency = (state: RootState) =>
 
 export const getDefaultPaymentMethod = (state: RootState) => {
   const ordersR = getSBOrders(state)
+  const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
 
   const transform = (
     orders: ExtractSuccess<typeof ordersR>,
+    sbCards: ExtractSuccess<typeof sbCardsR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>
-  ) => {
-    const lastOrder = orders.shift()
+  ): SBPaymentMethodType | undefined => {
+    const lastOrder = head(orders)
     if (!lastOrder) return undefined
 
-    return sbMethods.methods.find(
-      method =>
-        method.type === lastOrder.paymentType &&
-        method.currency === lastOrder.inputCurrency
+    const methodsOfType = sbMethods.methods.filter(
+      method => method.type === lastOrder.paymentType
     )
+
+    switch (lastOrder.paymentType) {
+      case 'PAYMENT_CARD':
+        const method = head(methodsOfType)
+        if (!method) return
+        const sbCard = sbCards.find(
+          value => value.id === lastOrder.paymentMethodId
+        )
+        const card = sbCard?.card || undefined
+
+        return {
+          ...method,
+          type: 'USER_CARD',
+          card
+        }
+      case 'FUNDS':
+        return methodsOfType.find(
+          method => method.currency === lastOrder.inputCurrency
+        )
+      case 'BANK_ACCOUNT':
+      case 'USER_CARD':
+      case undefined:
+        return undefined
+    }
   }
 
-  return lift(transform)(ordersR, sbMethodsR)
+  return lift(transform)(ordersR, sbCardsR, sbMethodsR)
 }
 
 export const getSBBalances = (state: RootState) =>

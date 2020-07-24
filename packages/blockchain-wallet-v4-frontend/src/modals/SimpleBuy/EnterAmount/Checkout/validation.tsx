@@ -43,7 +43,8 @@ export const maximumAmount = (
 ) => {
   if (!value) return true
 
-  const { pair, method, sbBalances } = restProps
+  const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
+  const method = selectedMethod || defaultMethod
   if (!method) return true
 
   return Number(value) >
@@ -59,7 +60,8 @@ export const minimumAmount = (
 ) => {
   if (!value) return true
 
-  const { pair, method, sbBalances } = restProps
+  const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
+  const method = selectedMethod || defaultMethod
   if (!method) return true
 
   return Number(value) <

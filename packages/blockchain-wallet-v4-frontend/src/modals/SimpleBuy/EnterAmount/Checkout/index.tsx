@@ -8,7 +8,6 @@ import {
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
-import { SBPaymentTypes } from 'core/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -28,17 +27,16 @@ class Checkout extends PureComponent<Props> {
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
 
+    const method = this.props.method || this.props.defaultMethod
+
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(
         2,
         false,
         'SBEnterAmountCheckout'
       )
-      this.props.simpleBuyActions.createSBOrder(
-        undefined,
-        this.props.method?.type as SBPaymentTypes
-      )
-    } else if (!this.props.method) {
+      this.props.simpleBuyActions.createSBOrder(undefined, method?.type)
+    } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -47,22 +45,19 @@ class Checkout extends PureComponent<Props> {
         cryptoCurrency: this.props.cryptoCurrency,
         order: this.props.order
       })
-    } else if (formValues && this.props.method) {
-      switch (this.props.method.type) {
+    } else if (formValues && method) {
+      switch (method.type) {
         case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD'
           })
           break
         case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder(this.props.method.id)
+          this.props.simpleBuyActions.createSBOrder(method.id)
           break
         case 'FUNDS':
         case 'BANK_ACCOUNT':
-          this.props.simpleBuyActions.createSBOrder(
-            undefined,
-            this.props.method.type
-          )
+          this.props.simpleBuyActions.createSBOrder(undefined, method.type)
           break
       }
     }
