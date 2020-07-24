@@ -288,6 +288,7 @@ type MessagesType = {
   'components.txlistitem.watchonly': 'Non-Spendable'
   'copy.address': 'Address'
   'copy.amount': 'Amount'
+  'copy.available': 'Available'
   'copy.balance': 'Balance'
   'copy.date': 'Date'
   'copy.failed': 'Failed'
