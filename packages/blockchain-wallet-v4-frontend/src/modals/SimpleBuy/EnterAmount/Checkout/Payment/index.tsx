@@ -12,7 +12,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '..'
 import { Title } from 'components/Flyout'
 import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type PaymentContainerProps = {
   isMethod: boolean
@@ -21,39 +21,31 @@ type PaymentContainerProps = {
 const PaymentContainer = styled.div<PaymentContainerProps>`
   border: 1px solid ${props => props.theme.grey100};
   box-sizing: border-box;
-  width: 400px;
   height: 80px;
   border-radius: 8px;
   margin-bottom: 24px;
   display: flex;
   flex-direction: row;
   cursor: pointer;
-  padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px 28px 28px`)};
+  padding: ${props => (props.isMethod ? `12px 28px` : `23px 28px`)};
   justify-content: space-between;
   ${props => !props.isMethod && `line-height: 32px;`}
 `
 
-const SelectIconWrapper = styled.div`
-  background-color: ${props => props.theme.blue000};
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 22px;
-`
-const SelectPaymentText = styled(Text)`
-  width: 285px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 32px;
-`
-
-const PaymentText = styled(Text)`
-  width: 285px;
+const PaymentText = styled(Text)<PaymentContainerProps>`
+  flex: 1;
   justify-content: center;
   display: flex;
   flex-direction: column;
   padding-left: 16px;
+  ${props =>
+    !props.isMethod &&
+    css`
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 35px;
+    `}
 `
 const PaymentArrowContainer = styled.div`
   display: flex;
@@ -78,8 +70,16 @@ const DisplaySubTitle = styled(Title)`
   width: 100%;
 `
 
-const DisplayPaymentIcon = styled(DisplayIcon)`
+const DisplayPaymentIcon = styled(DisplayIcon)<PaymentContainerProps>`
   justify-content: center;
+  ${props =>
+    !props.isMethod &&
+    css`
+      background-color: ${props => props.theme.blue000};
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    `}
 `
 
 const renderCardText = (value: SBPaymentMethodType): string => {
@@ -120,7 +120,19 @@ const renderFund = (value: SBPaymentMethodType) => (
   </>
 )
 
-const getIcon = (value: SBPaymentMethodType): ReactElement => {
+const getIcon = (value: SBPaymentMethodType | undefined): ReactElement => {
+  if (!value) {
+    return (
+      <Icon
+        cursor
+        name='plus-in-circle-filled'
+        size='22px'
+        color='blue600'
+        style={{ marginLeft: '5px' }}
+      />
+    )
+  }
+
   switch (value.type) {
     case 'USER_CARD':
       let cardType = CARD_TYPES.find(
@@ -146,6 +158,19 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
   }
 }
 
+const getText = (value: SBPaymentMethodType | undefined): ReactElement => {
+  if (!value) {
+    return (
+      <FormattedMessage
+        id='modals.simplebuy.confirm.jump_to_payment'
+        defaultMessage='Select Cash or Card'
+      />
+    )
+  }
+
+  return value.type === 'USER_CARD' ? renderCard(value) : renderFund(value)
+}
+
 const Payment: React.FC<Props> = props => (
   <PaymentContainer
     onClick={() =>
@@ -158,40 +183,13 @@ const Payment: React.FC<Props> = props => (
     }
     isMethod={!!props.method}
   >
-    {props.method && (
-      <>
-        <DisplayPaymentIcon>{getIcon(props.method)}</DisplayPaymentIcon>
-        <PaymentText>
-          {props.method.type === 'USER_CARD'
-            ? renderCard(props.method)
-            : renderFund(props.method)}
-        </PaymentText>
-        <PaymentArrowContainer>
-          <Icon cursor name='arrow-right' size='20px' color='grey600' />
-        </PaymentArrowContainer>
-      </>
-    )}
-
-    {!props.method && (
-      <>
-        <SelectIconWrapper>
-          <Icon
-            cursor
-            name='plus-in-circle-filled'
-            size='22px'
-            color='blue600'
-            style={{ marginLeft: '4px' }}
-          />
-        </SelectIconWrapper>
-        <SelectPaymentText>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.jump_to_payment'
-            defaultMessage='Select Cash or Card'
-          />
-        </SelectPaymentText>
-        <Icon cursor name='arrow-right' size='20px' color='grey600' />
-      </>
-    )}
+    <DisplayPaymentIcon isMethod={!!props.method}>
+      {getIcon(props.method)}
+    </DisplayPaymentIcon>
+    <PaymentText isMethod={!!props.method}>{getText(props.method)}</PaymentText>
+    <PaymentArrowContainer>
+      <Icon cursor name='arrow-right' size='20px' color='grey600' />
+    </PaymentArrowContainer>
   </PaymentContainer>
 )
 
