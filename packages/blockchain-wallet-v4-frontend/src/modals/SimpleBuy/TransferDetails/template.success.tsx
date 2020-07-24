@@ -24,6 +24,15 @@ const TopText = styled(Text)`
   flex-direction: row;
 `
 
+const BackContainer = styled(Text)`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 40px;
+  font-weight: 600;
+  font-size: 20px;
+`
+
 const Bottom = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
@@ -68,50 +77,39 @@ const Copy = styled.div`
   display: flex;
 `
 
-const BackIcon = styled(Icon)`
-  position: absolute;
-  left: 40px;
-  top: 20px;
-`
-
-const CloseIcon = styled(Icon)`
-  position: absolute;
-  right: 28px;
-  top: 28px;
-`
-
 const Success: React.FC<Props> = props => {
   return (
     <Wrapper>
       <div>
-        {props.displayBack && (
-          <BackIcon
-            cursor
-            name='arrow-left'
-            size='20px'
-            color='grey600'
-            style={{ marginRight: '28px' }}
-            role='button'
-            onClick={() =>
-              props.simpleBuyActions.setStep({
-                step: 'PAYMENT_METHODS',
-                fiatCurrency: props.fiatCurrency || 'USD',
-                pair: props.pair,
-                cryptoCurrency: props.cryptoCurrency || 'BTC',
-                order: props.order
-              })
-            }
-          />
-        )}
-
-        <CloseIcon
-          cursor
-          name='close'
-          size='20px'
-          color='grey600'
-          onClick={() => props.handleClose()}
-        />
         <FlyoutWrapper>
+          {props.displayBack && (
+            <BackContainer>
+              <Icon
+                cursor
+                name='arrow-left'
+                size='20px'
+                color='grey600'
+                style={{ marginRight: '28px' }}
+                role='button'
+                onClick={() =>
+                  props.simpleBuyActions.setStep({
+                    step: 'PAYMENT_METHODS',
+                    fiatCurrency: props.fiatCurrency || 'USD',
+                    pair: props.pair,
+                    cryptoCurrency: props.cryptoCurrency || 'BTC',
+                    order: props.order
+                  })
+                }
+              />
+              <div>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.back'
+                  defaultMessage='Back'
+                />
+              </div>
+            </BackContainer>
+          )}
+
           <Icon
             size='32px'
             color='fiat'
@@ -126,6 +124,15 @@ const Success: React.FC<Props> = props => {
                   currency: Currencies[props.fiatCurrency].displayName
                 }}
               />
+              {!props.displayBack && (
+                <Icon
+                  cursor
+                  name='close'
+                  size='20px'
+                  color='grey600'
+                  onClick={() => props.handleClose()}
+                />
+              )}
             </TopText>
             <TopText color='grey600' size='24px' weight={600}>
               <FormattedMessage

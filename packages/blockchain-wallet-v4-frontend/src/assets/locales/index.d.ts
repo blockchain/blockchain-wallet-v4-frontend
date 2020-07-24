@@ -1186,6 +1186,7 @@ type MessagesType = {
   'modals.simplebuy.transactionfeed.waitingondepo': 'Pending Deposit'
   'modals.simplebuy.transactionlist.viewdetails': 'View Details'
   'modals.simplebuy.transferdetails': 'Transfer Details'
+  'modals.simplebuy.transferdetails.back': 'Back'
   'modals.simplebuy.transferdetails.IBAN': 'IBAN'
   'modals.simplebuy.transferdetails.account': 'Account Number'
   'modals.simplebuy.transferdetails.agree': 'Terms and Conditions of Modular'
