@@ -30,6 +30,7 @@ import {
   NO_PAIR_SELECTED
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
@@ -458,7 +459,12 @@ export default ({
         )
       }
       yield call(createUser)
-      yield put(A.fetchSBPaymentMethodsLoading())
+
+      // Only show Loading if NotAsked
+      const sbMethodsR = S.getSBPaymentMethods(yield select())
+      if (Remote.NotAsked.is(sbMethodsR))
+        yield put(A.fetchSBPaymentMethodsLoading())
+
       const methods = yield call(
         api.getSBPaymentMethods,
         currency,
@@ -535,7 +541,8 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    orderType
+    orderType,
+    amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
@@ -548,7 +555,8 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          orderType
+          orderType,
+          amount
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {

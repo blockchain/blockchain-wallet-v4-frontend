@@ -2,13 +2,11 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import {
-  FiatEligibleType,
+  ExtractSuccess,
   FiatType,
   RemoteDataType,
-  SBCardType,
   SBOrderType,
   SBPairType,
-  SBPaymentMethodsType,
   SBPaymentMethodType
 } from 'core/types'
 import { getData } from './selectors'
@@ -56,11 +54,7 @@ export type OwnProps = {
   order?: SBOrderType
   pair: SBPairType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-  eligibility: FiatEligibleType
-  paymentMethods: SBPaymentMethodsType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
