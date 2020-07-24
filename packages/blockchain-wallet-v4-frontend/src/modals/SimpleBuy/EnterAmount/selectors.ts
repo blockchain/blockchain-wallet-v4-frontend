@@ -3,7 +3,6 @@ import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
-  const cardsR = selectors.components.simpleBuy.getSBCards(state)
   const defaultMethodR = selectors.components.simpleBuy.getDefaultPaymentMethod(
     state
   )
@@ -14,15 +13,13 @@ export const getData = state => {
 
   return lift(
     (
-      cards: ExtractSuccess<typeof cardsR>,
       defaultMethod: ExtractSuccess<typeof defaultMethodR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>
     ) => ({
-      cards,
       defaultMethod,
       eligibility,
       paymentMethods
     })
-  )(cardsR, defaultMethodR, eligibilityR, paymentMethodsR)
+  )(defaultMethodR, eligibilityR, paymentMethodsR)
 }
