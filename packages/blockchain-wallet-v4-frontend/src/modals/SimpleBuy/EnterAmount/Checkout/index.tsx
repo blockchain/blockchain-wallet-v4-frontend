@@ -7,8 +7,7 @@ import {
 } from '../index'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBPaymentTypes } from 'core/types'
-import { UserDataType } from 'data/types'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -16,15 +15,19 @@ import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    this.props.simpleBuyActions.initializeCheckout('BUY')
+    const amount = this.props.formValues?.amount
+    this.props.simpleBuyActions.initializeCheckout('BUY', amount)
   }
 
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
-    const { formValues, userData } = this.props.data.getOrElse({
+    const { formValues } = this.props
+    const { userData } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
+
+    const method = this.props.method || this.props.defaultMethod
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(
@@ -32,11 +35,8 @@ class Checkout extends PureComponent<Props> {
         false,
         'SBEnterAmountCheckout'
       )
-      this.props.simpleBuyActions.createSBOrder(
-        undefined,
-        this.props.method?.type as SBPaymentTypes
-      )
-    } else if (!this.props.method) {
+      this.props.simpleBuyActions.createSBOrder(undefined, method?.type)
+    } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -45,22 +45,20 @@ class Checkout extends PureComponent<Props> {
         cryptoCurrency: this.props.cryptoCurrency,
         order: this.props.order
       })
-    } else if (formValues && this.props.method) {
-      switch (this.props.method.type) {
+    } else if (formValues && method) {
+      switch (method.type) {
         case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD'
           })
           break
         case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder(this.props.method.id)
-          break
-        case 'BANK_ACCOUNT':
-          this.props.simpleBuyActions.createSBOrder()
+          this.props.simpleBuyActions.createSBOrder(method.id)
           break
         case 'FUNDS':
-          // eslint-disable-next-line
-          console.log('Payment method type not supported.')
+        case 'BANK_ACCOUNT':
+          this.props.simpleBuyActions.createSBOrder(undefined, method.type)
+          break
       }
     }
   }
@@ -86,9 +84,12 @@ class Checkout extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   cryptoCurrency:
-    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC'
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
+    | SBCheckoutFormValuesType
+    | undefined
 })
 
 const mapDispatchToProps = dispatch => ({
