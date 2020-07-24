@@ -1,8 +1,9 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = state => {
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const defaultMethodR = selectors.components.simpleBuy.getDefaultPaymentMethod(
     state
   )
@@ -15,11 +16,13 @@ export const getData = state => {
     (
       defaultMethod: ExtractSuccess<typeof defaultMethodR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
-      paymentMethods: ExtractSuccess<typeof paymentMethodsR>
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      walletCurrency: FiatType
     ) => ({
       defaultMethod,
       eligibility,
-      paymentMethods
+      paymentMethods,
+      walletCurrency
     })
-  )(defaultMethodR, eligibilityR, paymentMethodsR)
+  )(defaultMethodR, eligibilityR, paymentMethodsR, walletCurrencyR)
 }

@@ -60,13 +60,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.destroyCheckout()
-    this.props.simpleBuyActions.setStep({
-      step: 'ENTER_AMOUNT',
-      fiatCurrency: this.props.fiatCurrency || 'USD',
-      pair: this.props.pair,
-      method
-    })
+    this.props.simpleBuyActions.handleSBMethodChange(method)
   }
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {

@@ -43,6 +43,10 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.fetchSBSuggestedAmounts
     )
     yield takeLatest(
+      AT.HANDLE_SB_METHOD_CHANGE,
+      simpleBuySagas.handleSBMethodChange
+    )
+    yield takeLatest(
       AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
       simpleBuySagas.handleSBSuggestedAmountClick
     )

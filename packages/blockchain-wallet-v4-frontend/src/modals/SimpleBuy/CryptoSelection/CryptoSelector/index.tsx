@@ -33,7 +33,6 @@ export type Props = OwnProps & SuccessStateType
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
   const handleSubmit = (pair: SBPairType) => {
-    props.simpleBuyActions.destroyCheckout()
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       fiatCurrency: props.fiatCurrency,

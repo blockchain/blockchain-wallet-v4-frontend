@@ -26,6 +26,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  getNextPairAndFiatFromPayments,
   NO_FIAT_CURRENCY,
   NO_PAIR_SELECTED
 } from './model'
@@ -518,6 +519,42 @@ export default ({
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
   }
 
+  const handleSBMethodChange = function * (
+    action: ReturnType<typeof A.handleSBMethodChange>
+  ) {
+    const fiatCurrency = S.getFiatCurrency(yield select())
+    const pair = S.getSBPair(yield select())
+    const method = action.method
+
+    if (!pair) return NO_PAIR_SELECTED
+
+    if (method.currency !== fiatCurrency) {
+      yield put(A.fetchSBPairs(method.currency))
+      yield take(AT.FETCH_SB_PAIRS_SUCCESS)
+    }
+
+    const pairs = S.getSBPairs(yield select()).getOrElse([])
+
+    const result = getNextPairAndFiatFromPayments(
+      pair,
+      pairs,
+      method,
+      fiatCurrency
+    )
+
+    if (result === NO_PAIR_SELECTED) {
+      return yield put(A.fetchSBPairsFailure(NO_PAIR_SELECTED))
+    }
+
+    yield put(
+      A.setStep({
+        step: 'ENTER_AMOUNT',
+        method,
+        ...result
+      })
+    )
+  }
+
   const initializeBillingAddress = function * () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
@@ -718,6 +755,7 @@ export default ({
     fetchSBQuote,
     fetchSBSuggestedAmounts,
     handleSBSuggestedAmountClick,
+    handleSBMethodChange,
     initializeBillingAddress,
     initializeCheckout,
     pollSBBalances,

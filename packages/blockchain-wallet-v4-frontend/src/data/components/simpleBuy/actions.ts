@@ -100,6 +100,11 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
+export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
+  type: AT.HANDLE_SB_METHOD_CHANGE,
+  method
+})
+
 export const fetchSBBalances = (
   currency?: CoinType,
   skipLoading?: boolean
