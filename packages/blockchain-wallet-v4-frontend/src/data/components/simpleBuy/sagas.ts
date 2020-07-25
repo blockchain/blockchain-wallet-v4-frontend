@@ -515,6 +515,31 @@ export default ({
     }
   }
 
+  const handleSBDepositFiatClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleSBDepositFiatClick>) {
+    const { coin, origin } = payload
+
+    yield call(waitForUserData)
+    const isUserTier2 = yield call(isTier2)
+
+    if (!isUserTier2) {
+      yield put(
+        actions.components.identityVerification.verifyIdentity(2, false, origin)
+      )
+    } else {
+      yield put(A.showModal('EmptyFeed'))
+
+      yield put(
+        A.setStep({
+          step: 'TRANSFER_DETAILS',
+          displayBack: false,
+          fiatCurrency: coin
+        })
+      )
+    }
+  }
+
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
@@ -759,6 +784,7 @@ export default ({
     fetchSBPaymentMethods,
     fetchSBQuote,
     fetchSBSuggestedAmounts,
+    handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,
     initializeBillingAddress,

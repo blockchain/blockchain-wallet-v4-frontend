@@ -5,8 +5,8 @@ import {
   CoinType,
   CoinTypeEnum,
   FiatType,
-  FiatTypeEnum,
   SupportedCoinType,
+  WalletFiatEnum,
   WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
@@ -133,19 +133,17 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {coin in FiatTypeEnum && (
+                {coin in WalletFiatEnum && (
                   <Button
                     nature='primary'
                     data-e2e='depositFiat'
                     style={{ minWidth: 'auto' }}
                     onClick={() => {
                       if (!this.props.simpleBuyActions) return
-                      this.props.simpleBuyActions.showModal('EmptyFeed')
-                      this.props.simpleBuyActions.setStep({
-                        step: 'TRANSFER_DETAILS',
-                        displayBack: false,
-                        fiatCurrency: coin as WalletFiatType
-                      })
+                      this.props.simpleBuyActions.handleSBDepositFiatClick(
+                        coin as WalletFiatType,
+                        'TransactionList'
+                      )
                     }}
                   >
                     Deposit
@@ -216,7 +214,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       miscActions: bindActionCreators(actions.core.data.misc, dispatch)
     }
   }
-  if (coin in FiatTypeEnum) {
+  if (coin in WalletFiatEnum) {
     return {
       fetchData: () => {},
       loadMoreTxs: () =>

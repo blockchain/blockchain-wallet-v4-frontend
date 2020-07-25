@@ -80,12 +80,10 @@ const Welcome = (props: OwnProps & { handleRequest: () => void }) => {
           nature='empty-blue'
           onClick={() => {
             if (props.coin in WalletFiatEnum) {
-              props.simpleBuyActions.showModal('EmptyFeed')
-              props.simpleBuyActions.setStep({
-                step: 'TRANSFER_DETAILS',
-                displayBack: false,
-                fiatCurrency: props.coin as WalletFiatType
-              })
+              props.simpleBuyActions.handleSBDepositFiatClick(
+                props.coin as WalletFiatType,
+                'TransactionList'
+              )
             } else {
               props.simpleBuyActions.showModal('EmptyFeed', props.coin)
             }

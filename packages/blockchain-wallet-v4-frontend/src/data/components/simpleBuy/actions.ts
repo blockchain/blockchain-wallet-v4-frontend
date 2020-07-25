@@ -15,8 +15,10 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SBSuggestedAmountType
+  SBSuggestedAmountType,
+  WalletFiatType
 } from 'core/types'
+import { ModalOriginType } from 'data/modals/types'
 import {
   SBShowModalOriginType,
   SimpleBuyActionTypes,
@@ -365,6 +367,17 @@ export const fetchSBSuggestedAmountsSuccess = (
   type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
   payload: {
     amounts
+  }
+})
+
+export const handleSBDepositFiatClick = (
+  coin: WalletFiatType,
+  origin: ModalOriginType
+) => ({
+  type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
+  payload: {
+    coin,
+    origin
   }
 })
 

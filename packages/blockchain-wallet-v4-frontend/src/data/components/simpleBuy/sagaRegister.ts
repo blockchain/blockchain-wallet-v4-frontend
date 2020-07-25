@@ -43,6 +43,10 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.fetchSBSuggestedAmounts
     )
     yield takeLatest(
+      AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
+      simpleBuySagas.handleSBDepositFiatClick
+    )
+    yield takeLatest(
       AT.HANDLE_SB_METHOD_CHANGE,
       simpleBuySagas.handleSBMethodChange
     )
