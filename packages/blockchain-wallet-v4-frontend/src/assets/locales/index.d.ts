@@ -2036,6 +2036,7 @@ type MessagesType = {
   'scenes.swap.subheader': 'Exchange any cryptocurrency for another crypto.'
   'scenes.swap.title': 'Swap'
   'scenes.transaction.content.empty.buycoinnow': 'Buy {coin} Now'
+  'scenes.transaction.content.empty.depositnow': 'Deposit {coin} Now'
   'scenes.transaction.content.empty.cointxs': 'All your {coinName} transactions will show up here.'
   'scenes.transaction.content.empty.transactions': 'Transactions'
   'scenes.transaction.headertext.explainer.algo': 'Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'

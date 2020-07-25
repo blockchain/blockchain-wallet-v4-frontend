@@ -4,6 +4,9 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Props as OwnProps } from '.'
+import { WalletFiatEnum, WalletFiatType } from 'core/types'
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,8 +48,8 @@ const BuyButton = styled(Button)`
   }
 `
 
-const Welcome = props => {
-  const { currentCoin, handleBuy } = props
+const Welcome = (props: OwnProps & { handleRequest: () => void }) => {
+  const currentCoin = props.supportedCoins[props.coin]
 
   return (
     <Container>
@@ -75,13 +78,32 @@ const Welcome = props => {
         <BuyButton
           data-e2e='buyCoinFromTxList'
           nature='empty-blue'
-          onClick={handleBuy}
+          onClick={() => {
+            if (props.coin in WalletFiatEnum) {
+              props.simpleBuyActions.showModal('EmptyFeed')
+              props.simpleBuyActions.setStep({
+                step: 'TRANSFER_DETAILS',
+                displayBack: false,
+                fiatCurrency: props.coin as WalletFiatType
+              })
+            } else {
+              props.simpleBuyActions.showModal('EmptyFeed', props.coin)
+            }
+          }}
         >
-          <FormattedMessage
-            id='scenes.transaction.content.empty.buycoinnow'
-            defaultMessage='Buy {coin} Now'
-            values={{ coin: currentCoin.displayName }}
-          />
+          {props.coin in WalletFiatEnum ? (
+            <FormattedMessage
+              id='scenes.transaction.content.empty.depositnow'
+              defaultMessage='Deposit {coin} Now'
+              values={{ coin: currentCoin.displayName }}
+            />
+          ) : (
+            <FormattedMessage
+              id='scenes.transaction.content.empty.buycoinnow'
+              defaultMessage='Buy {coin} Now'
+              values={{ coin: currentCoin.displayName }}
+            />
+          )}
         </BuyButton>
       </Column>
     </Container>
