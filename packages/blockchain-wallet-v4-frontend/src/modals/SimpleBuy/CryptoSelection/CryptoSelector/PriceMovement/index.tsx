@@ -1,13 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, PriceMovementDirType, SBPairType } from 'core/types'
-import { getCoinFromPair } from 'data/components/simpleBuy/model'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { FiatType, PriceMovementDirType, SBPairType } from 'core/types'
+import { getCoinFromPair } from 'data/components/simpleBuy/model'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { RootState } from 'data/rootReducer'
 import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Container = styled.span`
@@ -42,8 +43,13 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
 
 class PriceMovement extends PureComponent<Props, State> {
   componentDidMount () {
-    const coin = getCoinFromPair(this.props.value.pair)
-    this.props.miscActions.fetchPrice24H(coin, this.props.fiatCurrency || 'EUR')
+    if (!Remote.Success.is(this.props.data)) {
+      const coin = getCoinFromPair(this.props.value.pair)
+      this.props.miscActions.fetchPrice24H(
+        coin,
+        this.props.fiatCurrency || 'EUR'
+      )
+    }
   }
 
   render () {

@@ -218,13 +218,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 key={`${bankAccount.text}`}
                 {...bankAccount}
                 icon={this.getIcon(bankAccount.value)}
-                onClick={() =>
-                  this.props.simpleBuyActions.setStep({
-                    step: 'TRANSFER_DETAILS',
-                    fiatCurrency,
-                    displayBack: true
-                  })
-                }
+                onClick={() => this.handleSubmit(bankAccount.value)}
               />
             )}
           </PaymentsWrapper>

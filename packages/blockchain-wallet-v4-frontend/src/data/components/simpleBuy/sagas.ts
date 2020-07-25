@@ -576,13 +576,35 @@ export default ({
       return yield put(A.fetchSBPairsFailure(NO_PAIR_SELECTED))
     }
 
-    yield put(
-      A.setStep({
-        step: 'ENTER_AMOUNT',
-        method,
-        ...result
-      })
-    )
+    switch (method.type) {
+      case 'BANK_ACCOUNT':
+        const isUserTier2 = yield call(isTier2)
+        if (isUserTier2) {
+          return yield put(
+            A.setStep({
+              step: 'TRANSFER_DETAILS',
+              displayBack: true,
+              ...result
+            })
+          )
+        } else {
+          return yield put(
+            actions.components.identityVerification.verifyIdentity(
+              2,
+              undefined,
+              'SBPaymentMethodSelection'
+            )
+          )
+        }
+      default:
+        yield put(
+          A.setStep({
+            step: 'ENTER_AMOUNT',
+            method,
+            ...result
+          })
+        )
+    }
   }
 
   const initializeBillingAddress = function * () {
