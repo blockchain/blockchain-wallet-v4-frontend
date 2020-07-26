@@ -1,4 +1,4 @@
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, FiatType } from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
@@ -10,20 +10,23 @@ export const getData = state => {
     state
   )
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
     (
+      balances: ExtractSuccess<typeof balancesR>,
       cards: ExtractSuccess<typeof cardsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       pairs: ExtractSuccess<typeof pairsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
-      balances: ExtractSuccess<typeof balancesR>
+      walletCurrency: FiatType
     ) => ({
+      balances,
       cards,
       eligibility,
       pairs,
       paymentMethods,
-      balances
+      walletCurrency
     })
-  )(cardsR, eligibilityR, pairsR, paymentMethodsR, balancesR)
+  )(balancesR, cardsR, eligibilityR, pairsR, paymentMethodsR, walletCurrencyR)
 }

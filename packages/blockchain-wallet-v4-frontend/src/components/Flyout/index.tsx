@@ -105,16 +105,17 @@ export const Row = styled.div`
   }
 `
 
-export const Title = styled(Text)`
+export const Title = styled(Text)<{ asValue?: boolean }>`
   font-size: 14px;
   font-weight: 500;
   color: ${props => props.theme.grey600};
+  margin-top: ${props => (props.asValue ? '4px' : '0px')};
 `
-export const Value = styled(Text)`
-  margin-top: 4px;
+export const Value = styled(Text)<{ asTitle?: boolean }>`
   font-size: 16px;
   font-weight: 600;
   color: ${props => props.theme.grey800};
+  margin-top: ${props => (props.asTitle ? '0px' : '4px')};
 `
 
 type OwnProps = {

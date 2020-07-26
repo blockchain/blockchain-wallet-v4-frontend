@@ -2,34 +2,18 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   DisplayContainer,
   DisplayIcon,
-  DisplaySubTitle,
-  DisplayTitle,
   MultiRowContainer
 } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import { Value } from 'components/Flyout'
+import { Title, Value } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-const MainValue = styled(Value)`
-  margin-top: 0;
-  text-align: right;
-  font-size: 16px;
-  color: ${props => props.theme.grey900};
-`
-const SubValue = styled(Value)`
-  margin-top: 0;
-  font-weight: 500;
-  color: ${props => props.theme.grey600};
-  text-align: right;
-  font-size: 14px;
-`
-
 const DisplayCardDetails = styled.div`
-  width: 130px;
   text-align: right;
+  white-space: nowrap;
 `
 
 type Props = {
@@ -47,8 +31,8 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
   >
     <DisplayIcon>{icon}</DisplayIcon>
     <MultiRowContainer>
-      <DisplayTitle>{text}</DisplayTitle>
-      <DisplaySubTitle>
+      <Value asTitle>{text}</Value>
+      <Title asValue>
         <FormattedMessage
           id='modals.simplebuy.card_limit'
           defaultMessage='{card} Limit'
@@ -59,12 +43,12 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
             })} ${value.currency}`
           }}
         />
-      </DisplaySubTitle>
+      </Title>
     </MultiRowContainer>
     {value.card && (
       <DisplayCardDetails>
-        <MainValue>{value.card.number}</MainValue>
-        <SubValue>
+        <Value asTitle>{value.card.number}</Value>
+        <Title asValue>
           <FormattedMessage
             id='modals.simplebuy.card_expire'
             defaultMessage='Exp: {month}/{year}'
@@ -73,7 +57,7 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
               year: value.card.expireYear
             }}
           />
-        </SubValue>
+        </Title>
       </DisplayCardDetails>
     )}
   </DisplayContainer>

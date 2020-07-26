@@ -188,7 +188,8 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   value={fund.value}
                   icon={this.getIcon(fund.value)}
                   onClick={() => this.handleSubmit(fund.value)}
-                  balance={this.props.balances[fund.value.currency].available}
+                  balances={this.props.balances[fund.value.currency]}
+                  walletCurrency={this.props.walletCurrency}
                 />
               ))}
             {cardMethods &&
