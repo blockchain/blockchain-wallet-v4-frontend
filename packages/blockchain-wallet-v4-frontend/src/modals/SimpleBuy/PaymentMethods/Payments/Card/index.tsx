@@ -47,7 +47,7 @@ const Card: React.FC<Props> = ({ value, onClick, icon, text }) => (
     </MultiRowContainer>
     {value.card && (
       <DisplayCardDetails>
-        <Value asTitle>{value.card.number}</Value>
+        <Value asTitle>····{value.card.number}</Value>
         <Title asValue>
           <FormattedMessage
             id='modals.simplebuy.card_expire'
