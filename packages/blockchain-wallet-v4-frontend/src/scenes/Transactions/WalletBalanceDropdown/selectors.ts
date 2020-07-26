@@ -56,7 +56,8 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getPaxBalance(state)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
@@ -64,7 +65,8 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
         coin: 'USDT',
-        includeCustodial: true
+        includeCustodial: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getUsdtBalance(state)
       coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'usdt')

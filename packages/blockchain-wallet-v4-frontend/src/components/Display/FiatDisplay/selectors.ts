@@ -4,7 +4,14 @@ import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { lift, prop } from 'ramda'
 import { selectors } from 'data'
 
-export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
+export const getData = (
+  state,
+  coinSymbol,
+  amount,
+  defaultCurrency,
+  defaultRates
+) => {
+  const coin = coinSymbol === 'USD-D' ? 'PAX' : coinSymbol
   const currencyR = selectors.core.settings
     .getSettings(state)
     .map(prop('currency'))

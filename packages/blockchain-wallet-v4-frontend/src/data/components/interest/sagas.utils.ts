@@ -1,7 +1,7 @@
-import * as A from './actions'
-import * as S from './selectors'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { includes } from 'ramda'
+
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   CoinType,
   FiatType,
@@ -10,11 +10,14 @@ import {
   RatesType,
   RemoteDataType
 } from 'core/types'
-import { convertBaseToStandard } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { selectors } from 'data'
+
+import * as A from './actions'
+import * as S from './selectors'
+import { convertBaseToStandard } from '../exchange/services'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const buildAndPublishPayment = function * (
@@ -117,9 +120,13 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function * (index?: number) {
+  const createPayment = function * (accountIndex?: number) {
     let payment
     const coin = S.getCoinType(yield select())
+    const erc20List = (yield select(
+      selectors.core.walletOptions.getErc20CoinList
+    )).getOrElse([])
+    const isErc20 = includes(coin, erc20List)
 
     switch (coin) {
       case 'BTC':
@@ -127,22 +134,16 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           network: networks.btc
         })
         payment = yield payment.init()
-        payment = yield payment.from(index, ADDRESS_TYPES.ACCOUNT)
+        payment = yield payment.from(accountIndex, ADDRESS_TYPES.ACCOUNT)
         payment = yield payment.fee('regular')
         break
       case 'ETH':
-        payment = coreSagas.payment.eth.create({
-          network: networks.eth
-        })
-        payment = yield payment.init({ isErc20: false, coin })
-        payment = yield payment.from()
-        payment = yield payment.fee('priority')
-        break
+      case 'USDT':
       case 'PAX':
         payment = coreSagas.payment.eth.create({
           network: networks.eth
         })
-        payment = yield payment.init({ isErc20: true, coin })
+        payment = yield payment.init({ isErc20, coin })
         payment = yield payment.from()
         payment = yield payment.fee('priority')
         break
@@ -158,6 +159,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     paymentR: RemoteDataType<string | Error, PaymentValue>
   ): PaymentType => {
     switch (coin) {
+      case 'USDT':
       case 'PAX':
       case 'ETH':
         return coreSagas.payment.eth.create({

@@ -193,7 +193,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               id='modals.interest.deposit.uptoamount2'
               defaultMessage='of {coin} from this wallet.'
               values={{
-                coin
+                coin: coinTicker
               }}
             />
             <TooltipHost id='modals.interest.depositmax.tooltip'>
@@ -233,12 +233,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true
             }}
@@ -460,9 +461,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </InterestTermWrapper>
             <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
-                id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current interest rate and {coin} price.'
-                values={{ coin }}
+                id='modals.interest.deposit.calcrate'
+                defaultMessage='Estimates based on current interest rate and {coinTicker} price.'
+                values={{ coinTicker }}
               />
             </Text>
           </CalculatorContainer>

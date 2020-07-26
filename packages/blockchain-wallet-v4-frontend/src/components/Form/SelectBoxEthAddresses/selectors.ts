@@ -148,13 +148,15 @@ export const getErc20Data = (
     exclude?: Array<string>
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
     coin,
     exclude = [],
     includeExchangeAddress,
-    includeCustodial
+    includeCustodial,
+    includeInterest
   } = ownProps
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const supportedCoins = supportedCoinsR.getOrElse(
@@ -195,6 +197,21 @@ export const getErc20Data = (
     )
   }
 
+  const buildInterestDisplay = (
+    coin: Erc20CoinType,
+    displayName: string,
+    x
+  ) => {
+    return (
+      `${displayName} Interest Wallet` +
+      ` (${Exchange.displayEtherToEther({
+        value: x ? x.balance : 0,
+        fromUnit: 'WEI',
+        toUnit: coin
+      })})`
+    )
+  }
+
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const buildDisplay = wallet => {
@@ -227,6 +244,17 @@ export const getErc20Data = (
     }
   ]
 
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x, coin, supportedCoins[coin].displayName),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: `${supportedCoins[coin].coinTicker} Interest Wallet`
+      }
+    }
+  ]
+
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     coin,
     state
@@ -247,6 +275,13 @@ export const getErc20Data = (
             .map(x => x[coin])
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map(x => x[coin])
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
         : Remote.of([]),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
