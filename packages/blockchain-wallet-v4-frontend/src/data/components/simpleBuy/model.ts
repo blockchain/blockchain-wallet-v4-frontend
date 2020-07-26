@@ -10,7 +10,8 @@ import {
   SBPairType,
   SBPaymentMethodType,
   SBQuoteType,
-  WalletFiatEnum
+  WalletFiatEnum,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -18,13 +19,17 @@ import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
 export const DEFAULT_SB_BALANCE = { pending: '0', available: '0' }
-
 export const DEFAULT_SB_BALANCES = Object.keys(WalletFiatEnum)
   .filter(key => !isNaN(Number(WalletFiatEnum[key])))
   .reduce((obj, item) => {
     obj[item] = DEFAULT_SB_BALANCE
     return obj
   }, {})
+export const DEFAULT_SB_METHODS = {
+  currency: 'EUR' as WalletFiatType,
+  methods: []
+}
+
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 

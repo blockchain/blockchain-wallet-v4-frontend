@@ -23,6 +23,7 @@ import {
 } from '../exchange/services'
 import {
   DEFAULT_SB_BALANCES,
+  DEFAULT_SB_METHODS,
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
@@ -459,16 +460,16 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
-      if (userData.state === 'NONE') {
-        return yield put(
-          A.fetchSBPaymentMethodsSuccess({ currency: 'USD', methods: [] })
-        )
+      if (userData.state === 'NONE' && !currency) {
+        return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
       }
+      yield call(createUser)
       const isUserTier2 = yield call(isTier2)
 
-      // Only show Loading if NotAsked
+      // Only show Loading if not Success
       const sbMethodsR = S.getSBPaymentMethods(yield select())
-      if (Remote.NotAsked.is(sbMethodsR))
+      const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
+      if (!Remote.Success.is(sbMethodsR) && !sbMethods.methods.length)
         yield put(A.fetchSBPaymentMethodsLoading())
 
       const methods = yield call(
