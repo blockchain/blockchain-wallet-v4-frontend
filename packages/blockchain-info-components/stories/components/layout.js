@@ -3,6 +3,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
 import { Color, Palette } from '../../src/Colors/index.ts'
+import { FontGlobalStyles, IconGlobalStyles } from '../../src'
 import { SimpleDropdown } from '../../src/Dropdowns'
 
 const BasePage = styled.div`
@@ -72,7 +73,11 @@ class Layout extends React.PureComponent {
           />
         </TitleWrapper>
         <Content height={this.props.height}>
-          <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            {this.props.children}
+            <FontGlobalStyles />
+            <IconGlobalStyles />
+          </ThemeProvider>
         </Content>
       </BasePage>
     )
