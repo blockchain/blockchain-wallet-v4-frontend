@@ -4,11 +4,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { CustodialTransactionRow } from '../components'
-import { SBTransactionType } from 'core/types'
-
 import { fiatToString } from 'core/exchange/currency'
-import { IconTx, Timestamp } from './model'
+import { SBTransactionType } from 'core/types'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
+import { IconTx, Timestamp } from './model'
+import { Props as OwnProps } from '../TransactionList'
+
+const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
+  cursor: initial;
+`
 const Col = styled.div<{ width: string }>`
   width: ${props => props.width};
 `
@@ -19,10 +24,13 @@ const Row = styled(Col)`
 const Status = styled.div`
   margin-left: 16px;
 `
+const StyledFiatDisplay = styled(FiatDisplay)`
+  justify-content: flex-end;
+`
 
 const CustodialTxListItem: React.FC<Props> = props => {
   return (
-    <CustodialTransactionRow>
+    <StyledCustodialTransactionRow>
       <Row width='30%'>
         <IconTx {...props} />
         <Status>
@@ -65,12 +73,23 @@ const CustodialTxListItem: React.FC<Props> = props => {
             unit: props.tx.amount.symbol
           })}
         </Text>
+        {props.coin !== props.currency && (
+          <StyledFiatDisplay
+            coin={props.coin}
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
+          >
+            {props.tx.amount.value}
+          </StyledFiatDisplay>
+        )}
       </Col>
-    </CustodialTransactionRow>
+    </StyledCustodialTransactionRow>
   )
 }
 
-export type Props = {
+export type Props = OwnProps & {
   tx: SBTransactionType
 }
 

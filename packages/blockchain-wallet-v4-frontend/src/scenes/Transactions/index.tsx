@@ -6,6 +6,7 @@ import {
   CoinTypeEnum,
   FiatType,
   SupportedCoinType,
+  WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
 } from 'core/types'
@@ -86,7 +87,10 @@ const StatsContainer = styled.div`
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
-    this.props.miscActions.fetchPrice24H(this.props.coin, this.props.currency)
+    this.props.miscActions.fetchPrice24H(
+      this.props.coin as CoinType,
+      this.props.currency
+    )
   }
 
   componentDidUpdate (prevProps) {
@@ -164,7 +168,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </StatsContainer>
           </Header>
           {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
-            <TransactionFilters coin={coin} />
+            <TransactionFilters coin={coin as CoinType} />
           )}
           {!hasTxResults ? (
             isSearchEntered ? (
@@ -173,7 +177,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </SceneWrapper>
             ) : (
               <SceneWrapper centerContent>
-                <CoinIntroduction coin={coin} />
+                <CoinIntroduction coin={coin as CoinType} />
               </SceneWrapper>
             )
           ) : sourceType && sourceType === 'INTEREST' ? (
@@ -245,7 +249,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  coin: CoinType
+  coin: WalletCurrencyType
   isCoinErc20: boolean
 }
 

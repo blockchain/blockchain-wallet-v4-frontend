@@ -20,7 +20,7 @@
           "coinCode": "EUR",
           "coinTicker": "EUR",
           "colorCode": "fiat",
-          "displayName": "Euro",
+          "displayName": "Euros",
           "icons": {
             "default": "eur",
             "circle": "eur",
@@ -39,7 +39,7 @@
           "coinCode": "GBP",
           "coinTicker": "GBP",
           "colorCode": "fiat",
-          "displayName": "British Pound",
+          "displayName": "Pounds",
           "icons": {
             "default": "gbp",
             "circle": "gbp",

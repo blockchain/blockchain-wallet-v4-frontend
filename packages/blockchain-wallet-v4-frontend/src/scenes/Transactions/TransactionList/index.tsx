@@ -1,10 +1,10 @@
 import {
-  CoinType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
-  SBTransactionType
+  SBTransactionType,
+  WalletCurrencyType
 } from 'core/types'
 import DataError from 'components/DataError'
 import React, { PureComponent } from 'react'
@@ -33,9 +33,7 @@ class TransactionList extends PureComponent<Props> {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
-      Success: (
-        transactions: Array<SBOrderType | SBTransactionType | ProcessedTxType>
-      ) => (
+      Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
@@ -49,7 +47,7 @@ class TransactionList extends PureComponent<Props> {
             ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
             ) : (
-              <CustodialTxListItem tx={tx} />
+              <CustodialTxListItem tx={tx} {...this.props} />
             )
           })}
         </TransactionsWrapper>
@@ -64,7 +62,7 @@ class TransactionList extends PureComponent<Props> {
 }
 
 export type Props = {
-  coin: CoinType
+  coin: WalletCurrencyType
   coinTicker: string
   currency: FiatType
   data: RemoteDataType<
@@ -76,5 +74,9 @@ export type Props = {
   onRefresh: () => void
   sourceType?: string
 }
+
+export type SuccessStateType = Array<
+  SBOrderType | SBTransactionType | ProcessedTxType
+>
 
 export default TransactionList

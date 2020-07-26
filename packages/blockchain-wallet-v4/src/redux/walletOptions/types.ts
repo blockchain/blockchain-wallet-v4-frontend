@@ -41,7 +41,7 @@ export type SupportedFiatType = {
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
   colorCode: 'fiat'
-  displayName: 'Euro' | 'British Pounds'
+  displayName: 'Euros' | 'Pounds'
   icons: {
     circle: 'eur' | 'gbp'
     circleFilled: 'eur' | 'gbp'
