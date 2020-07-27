@@ -7,12 +7,12 @@ import { lift, mapObjIndexed, values } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
-export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
-  const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
+export const getSupportedCoinsWithBalanceAndOrder = (state: RootState) => {
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
 
   const transform = (
-    paymentMethods: ExtractSuccess<typeof sbMethodsR>,
+    balances: ExtractSuccess<typeof sbBalancesR>,
     supportedCoins: ExtractSuccess<typeof supportedCoinsR>
   ) => {
     const coinOrder = [
@@ -32,13 +32,12 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
           ...coin,
           method:
             coin.coinCode in CoinTypeEnum ||
-            !!paymentMethods.methods.find(
-              method => method.currency === coin.coinCode
-            )
+            balances[coin.coinCode]?.available !== '0' ||
+            balances[coin.coinCode]?.pending !== '0'
         }
       }, coinOrder)
     )
   }
 
-  return lift(transform)(sbMethodsR, supportedCoinsR)
+  return lift(transform)(sbBalancesR, supportedCoinsR)
 }
