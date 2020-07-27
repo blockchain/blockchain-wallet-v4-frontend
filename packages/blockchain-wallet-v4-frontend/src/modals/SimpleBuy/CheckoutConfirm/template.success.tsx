@@ -53,8 +53,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const getPaymentMethod = (order: SBOrderType) => {
-    // props.order.paymentType FUNDS
-    // props.order.paymentType === 'PAYMENT_CARD'
     switch (order.paymentType) {
       case 'PAYMENT_CARD':
         return (
@@ -158,9 +156,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        <Value>
-          {props.order.paymentMethodId || getPaymentMethod(props.order)}
-        </Value>
+        <Value>{getPaymentMethod(props.order)}</Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>
