@@ -6,7 +6,7 @@ const Content = styled.div`
   flex-direction: column;
   color: ${props => props.theme.grey800};
   margin-left: 16px;
-  min-width: 336px;
+  flex: 1;
 `
 
 export default Content
