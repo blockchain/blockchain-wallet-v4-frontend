@@ -257,26 +257,27 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.suggestedAmounts[0] && !amtError && (
           <Amounts>
             <div>
-              {props.suggestedAmounts[0][fiatCurrency].map(amount => {
-                return (
-                  <Amount
-                    data-e2e={`sbBuy${amount}Chip`}
-                    onClick={() =>
-                      props.simpleBuyActions.handleSBSuggestedAmountClick(
-                        amount
-                      )
-                    }
-                    role='button'
-                    key={`sbBuy${amount}Chip`}
-                  >
-                    {fiatToString({
-                      unit: fiatCurrency,
-                      value: convertBaseToStandard('FIAT', amount),
-                      digits: 0
-                    })}
-                  </Amount>
-                )
-              })}
+              {props.suggestedAmounts[0][fiatCurrency] &&
+                props.suggestedAmounts[0][fiatCurrency].map(amount => {
+                  return (
+                    <Amount
+                      data-e2e={`sbBuy${amount}Chip`}
+                      onClick={() =>
+                        props.simpleBuyActions.handleSBSuggestedAmountClick(
+                          amount
+                        )
+                      }
+                      role='button'
+                      key={`sbBuy${amount}Chip`}
+                    >
+                      {fiatToString({
+                        unit: fiatCurrency,
+                        value: convertBaseToStandard('FIAT', amount),
+                        digits: 0
+                      })}
+                    </Amount>
+                  )
+                })}
             </div>
             <GreyBlueCartridge
               data-e2e='sbChangeCurrencyBtn'
