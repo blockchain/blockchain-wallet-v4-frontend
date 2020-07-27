@@ -13,8 +13,10 @@ export type InterestAccountBalanceType = {
 }
 
 export type InterestEligibleType = {
-  eligible: boolean
-  ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION'
+  [key in CoinType]?: {
+    eligible: boolean
+    ineligibilityReason: 'KYC_TIER' | 'BLOCKED' | 'REGION' | null
+  }
 }
 
 export type InterestInstrumentsType = Array<CoinType>
