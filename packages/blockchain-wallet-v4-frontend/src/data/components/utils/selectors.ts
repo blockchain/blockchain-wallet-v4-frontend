@@ -30,10 +30,7 @@ export const getSupportedCoinsWithBalanceAndOrder = (state: RootState) => {
       mapObjIndexed((coin: SupportedWalletCurrencyType) => {
         return {
           ...coin,
-          method:
-            coin.coinCode in CoinTypeEnum ||
-            balances[coin.coinCode]?.available !== '0' ||
-            balances[coin.coinCode]?.pending !== '0'
+          method: coin.coinCode in CoinTypeEnum || balances[coin.coinCode]
         }
       }, coinOrder)
     )
