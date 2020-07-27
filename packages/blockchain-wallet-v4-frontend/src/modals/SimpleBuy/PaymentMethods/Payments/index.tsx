@@ -74,7 +74,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='bank-filled' />
+            <Icon size='18px' color='blue600' name='credit-card' />
           </IconContainer>
         )
       case 'USER_CARD':
@@ -93,7 +93,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'FUNDS':
         return (
           <Icon
-            size='32px'
+            size='30px'
             color='fiat'
             name={value.currency.toLowerCase() as 'eur' | 'gbp'}
           />

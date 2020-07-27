@@ -8,10 +8,8 @@ const Success: React.FC<Props> = props => {
   const isUserEligible =
     props.pairs.length && props.eligibility.eligible && props.fiatCurrency
   const isUserRejectedOrExpired =
-    props.userData &&
-    props.userData.kycState &&
-    (props.userData.kycState === 'REJECTED' ||
-      props.userData.kycState === 'EXPIRED')
+    props.userData.kycState === 'REJECTED' ||
+    props.userData.kycState === 'EXPIRED'
 
   useEffect(() => {
     props.analyticsActions.logEvent([
