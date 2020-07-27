@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { actions } from 'data'
 import {
   CoinType,
+  InterestEligibleType,
   InterestRateType,
   RemoteDataType,
   SupportedWalletCurrenciesType
@@ -31,6 +32,7 @@ import { UserDataType } from 'data/types'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
+import IneligibiltyWarning from './template.ineligible'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 import TransactionList from './TransactionList'
@@ -172,6 +174,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                     )
                   })}
               </ContainerStyled>
+              <IneligibiltyWarning {...val} {...this.props} />
               <TransactionList />
             </LazyLoadWrapper>
           ),
@@ -203,6 +206,7 @@ export type StateType = {
 }
 export type SuccessStateType = {
   instruments: Array<CoinType>
+  interestEligible: InterestEligibleType
   interestRate: InterestRateType
   interestRateArray: Array<number>
   supportedCoins: SupportedWalletCurrenciesType

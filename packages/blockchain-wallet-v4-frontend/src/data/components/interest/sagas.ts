@@ -342,7 +342,7 @@ export default ({
         case 'USDT':
           receiveAddress = selectors.core.data.eth
             .getDefaultAddress(yield select())
-            .getOrFail('Failed to get ETH receive address')
+            .getOrFail(`Failed to get ${coin} receive address`)
           break
         default:
           throw new Error('Invalid Coin Type')
