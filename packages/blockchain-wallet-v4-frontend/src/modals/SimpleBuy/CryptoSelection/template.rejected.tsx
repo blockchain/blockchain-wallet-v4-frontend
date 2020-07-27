@@ -60,7 +60,7 @@ const NumberDescription = styled.div`
   flex-direction: column;
   color: ${props => props.theme.grey800};
   margin-left: 16px;
-  min-width: 350px;
+  flex: 1;
   margin-top: 5px;
 `
 
