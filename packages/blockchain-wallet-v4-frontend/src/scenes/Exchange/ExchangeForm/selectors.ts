@@ -50,13 +50,12 @@ export const getData = createDeepEqualSelector(
     getBlockLockbox,
     selectors.core.settings.getCurrency,
     getFormValues,
-    getAvailablePairs,
-    state => selectors.analytics.selectAbTest('SwapFees', state)
+    getAvailablePairs
   ],
-  (blockLockbox, currencyR, formValues, availablePairsR, swapFeesR) => {
+  (blockLockbox, currencyR, formValues, availablePairsR) => {
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
-    const transform = (currency, availablePairs, swapFees) => {
+    const transform = (currency, availablePairs) => {
       const inputField = mapFixToFieldName(fix)
       const fieldCoins = {
         sourceAmount: sourceCoin,
@@ -81,13 +80,12 @@ export const getData = createDeepEqualSelector(
         inputSymbol: currencySymbolMap[inputCurrency],
         sourceActive: sourceActive(fix),
         sourceCoin,
-        swapFees,
         targetActive: targetActive(fix),
         targetCoin,
         volume
       }
     }
-    return lift(transform)(currencyR, availablePairsR, swapFeesR)
+    return lift(transform)(currencyR, availablePairsR)
   }
 )
 
