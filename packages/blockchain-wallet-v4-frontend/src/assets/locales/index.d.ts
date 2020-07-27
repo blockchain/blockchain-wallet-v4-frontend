@@ -283,7 +283,7 @@ type MessagesType = {
   'components.txlistitem.receivedby': 'Received By'
   'components.txlistitem.sentfrom': 'Sent From'
   'components.txlistitem.status': 'Status'
-  'components.txlistitem.usddfee': 'USD Digital Fee'
+  'components.txlistitem.erc20fee': 'ERC20 Fee'
   'components.txlistitem.valueattime': 'Value When {type}'
   'components.txlistitem.watchonly': 'Non-Spendable'
   'copy.address': 'Address'
@@ -1024,9 +1024,8 @@ type MessagesType = {
   'modals.sendeth.firststep.networkfee': 'Network Fee'
   'modals.sendeth.firststep.tocoin': 'To'
   'modals.sendeth.insufficientfundsmessage': 'Insufficient funds'
-  'modals.sendeth.lowbalancewarning.explain1': "You'll need ETH to send your ERC20 Token, USD Digital."
   'modals.sendeth.lowbalancewarning.title': 'Running low!'
-  'modals.sendeth.lowethwarningforerc20.explain1': "You'll need ETH to send your ERC20 Token, USD Digital."
+  'modals.sendeth.lowethwarningforerc20.explain1': "You'll need ETH to send your ERC20 Tokens."
   'modals.sendeth.lowethwarningforerc20.title1': 'Not Enough ETH'
   'modals.sendeth.maximumamountlink.maximum': 'maximum'
   'modals.sendeth.maximumamountmessage': 'Not enough funds. Use'
