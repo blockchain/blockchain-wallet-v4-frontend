@@ -1,5 +1,12 @@
-import { convertStandardToBase } from 'data/components/exchange/services'
-import { CustomCartridge, ErrorCartridge } from 'components/Cartridge'
+import {
+  BlueCartridge,
+  CustomCartridge,
+  ErrorCartridge
+} from 'components/Cartridge'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -60,8 +67,11 @@ const AmountFieldContainer = styled.div`
     display: none;
   }
 `
+const Amount = styled(BlueCartridge)`
+  margin-right: 8px;
+  cursor: pointer;
+`
 const Amounts = styled.div`
-  min-height: 32px;
   margin: 24px 0 40px;
   display: flex;
   justify-content: space-between;
@@ -182,70 +192,104 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
-        <Amounts>
-          {props.pair && amtError && (
-            <>
-              <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
-                {amtError === 'ABOVE_MAX' ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.abovemax'
-                    defaultMessage='{value} Maximum {orderType}'
-                    values={{
-                      value: fiatToString({
-                        unit: fiatCurrency,
-                        value: getMaxMin(
-                          props.pair,
-                          'max',
-                          props.sbBalances,
-                          props.formValues,
-                          method
-                        )
-                      }),
-                      orderType:
-                        props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
-                    }}
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.belowmin'
-                    defaultMessage='{value} Minimum {orderType}'
-                    values={{
-                      value: fiatToString({
-                        unit: fiatCurrency,
-                        value: getMaxMin(
-                          props.pair,
-                          'min',
-                          props.sbBalances,
-                          props.formValues,
-                          method
-                        )
-                      }),
-                      orderType:
-                        props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
-                    }}
-                  />
-                )}
-              </CustomErrorCartridge>
-              <GreyBlueCartridge
-                data-e2e='sbBuyMinMaxBtn'
-                role='button'
-                onClick={handleMinMaxClick}
-              >
-                {amtError === 'ABOVE_MAX' ? (
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.buymax'
-                    defaultMessage='Buy Max'
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.buymin'
-                    defaultMessage='Buy Min'
-                  />
-                )}
-              </GreyBlueCartridge>
-            </>
-          )}
-        </Amounts>
+        {props.pair && amtError && (
+          <Amounts>
+            <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
+              {amtError === 'ABOVE_MAX' ? (
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.abovemax'
+                  defaultMessage='{value} Maximum {orderType}'
+                  values={{
+                    value: fiatToString({
+                      unit: fiatCurrency,
+                      value: getMaxMin(
+                        props.pair,
+                        'max',
+                        props.sbBalances,
+                        props.formValues,
+                        method
+                      )
+                    }),
+                    orderType:
+                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.belowmin'
+                  defaultMessage='{value} Minimum {orderType}'
+                  values={{
+                    value: fiatToString({
+                      unit: fiatCurrency,
+                      value: getMaxMin(
+                        props.pair,
+                        'min',
+                        props.sbBalances,
+                        props.formValues,
+                        method
+                      )
+                    }),
+                    orderType:
+                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
+                  }}
+                />
+              )}
+            </CustomErrorCartridge>
+            <GreyBlueCartridge
+              data-e2e='sbBuyMinMaxBtn'
+              role='button'
+              onClick={handleMinMaxClick}
+            >
+              {amtError === 'ABOVE_MAX' ? (
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.buymax'
+                  defaultMessage='Buy Max'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.checkout.buymin'
+                  defaultMessage='Buy Min'
+                />
+              )}
+            </GreyBlueCartridge>
+          </Amounts>
+        )}
+        {props.suggestedAmounts[0] && !amtError && (
+          <Amounts>
+            <div>
+              {props.suggestedAmounts[0][fiatCurrency].map(amount => {
+                return (
+                  <Amount
+                    data-e2e={`sbBuy${amount}Chip`}
+                    onClick={() =>
+                      props.simpleBuyActions.handleSBSuggestedAmountClick(
+                        amount
+                      )
+                    }
+                    role='button'
+                    key={`sbBuy${amount}Chip`}
+                  >
+                    {fiatToString({
+                      unit: fiatCurrency,
+                      value: convertBaseToStandard('FIAT', amount),
+                      digits: 0
+                    })}
+                  </Amount>
+                )
+              })}
+            </div>
+            <GreyBlueCartridge
+              data-e2e='sbChangeCurrencyBtn'
+              role='button'
+              onClick={() =>
+                props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
+              }
+            >
+              {fiatCurrency}
+            </GreyBlueCartridge>
+          </Amounts>
+        )}
+
         <Payment {...props} method={method} />
 
         {props.error && (

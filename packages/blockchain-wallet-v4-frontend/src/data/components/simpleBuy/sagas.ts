@@ -29,6 +29,7 @@ import {
   getNextCardExists,
   getNextPairAndFiatFromPayments,
   NO_FIAT_CURRENCY,
+  NO_ORDER_EXISTS,
   NO_PAIR_SELECTED
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -239,23 +240,10 @@ export default ({
     }
   }
 
-  const confirmSBBankTransferOrder = function * () {
-    try {
-      const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      yield put(A.fetchSBOrders())
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
-    }
-  }
-
   const confirmSBCreditCardOrder = function * () {
     try {
       const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
+      if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
@@ -276,6 +264,21 @@ export default ({
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
       yield put(A.fetchSBOrders())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+    }
+  }
+
+  const confirmSBFundsOrder = function * () {
+    try {
+      const order = S.getSBOrder(yield select())
+      if (!order) throw new Error(NO_ORDER_EXISTS)
+      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(A.fetchSBOrders())
+      yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
@@ -560,6 +563,7 @@ export default ({
     if (!pair) return NO_PAIR_SELECTED
 
     if (method.currency !== fiatCurrency) {
+      yield put(A.fetchSBSuggestedAmounts(method.currency))
       yield put(A.fetchSBPairs(method.currency))
       yield take(AT.FETCH_SB_PAIRS_SUCCESS)
     }
@@ -793,8 +797,8 @@ export default ({
     activateSBCard,
     addCardDetails,
     cancelSBOrder,
-    confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
+    confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
     fetchSBBalances,

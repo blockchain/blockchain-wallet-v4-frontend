@@ -30,6 +30,7 @@ class CopyToClipboardContainer extends React.PureComponent<Props, State> {
   handleClick () {
     const { alertActions } = this.props
     this.setState({ active: true })
+    // @ts-ignore
     this.timeout = setTimeout(() => {
       this.setState({ active: false })
     }, 2000)

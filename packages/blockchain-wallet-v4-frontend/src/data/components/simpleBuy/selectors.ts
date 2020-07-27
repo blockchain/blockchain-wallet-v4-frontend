@@ -18,6 +18,7 @@ export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
 export const getDefaultPaymentMethod = (state: RootState) => {
+  const fiatCurrency = getFiatCurrency(state)
   const ordersR = getSBOrders(state)
   const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
@@ -50,7 +51,9 @@ export const getDefaultPaymentMethod = (state: RootState) => {
         }
       case 'FUNDS':
         return methodsOfType.find(
-          method => method.currency === lastOrder.inputCurrency
+          method =>
+            method.currency === lastOrder.inputCurrency &&
+            method.currency === fiatCurrency
         )
       case 'BANK_ACCOUNT':
       case 'USER_CARD':

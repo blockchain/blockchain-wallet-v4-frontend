@@ -48,6 +48,7 @@
       "git add"
     ]
   },
+  "postinstall": "rm -rf node_modules/@types/react-native",
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
