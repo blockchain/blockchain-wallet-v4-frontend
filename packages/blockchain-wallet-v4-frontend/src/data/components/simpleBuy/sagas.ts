@@ -27,7 +27,6 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
-  getNextPairAndFiatFromPayments,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED
@@ -556,43 +555,17 @@ export default ({
   const handleSBMethodChange = function * (
     action: ReturnType<typeof A.handleSBMethodChange>
   ) {
-    const fiatCurrency = S.getFiatCurrency(yield select())
+    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
     const pair = S.getSBPair(yield select())
-    const method = action.method
+    const { method } = action
 
     if (!pair) return NO_PAIR_SELECTED
 
-    if (method.currency !== fiatCurrency) {
-      yield put(A.fetchSBSuggestedAmounts(method.currency))
-      yield put(A.fetchSBPairs(method.currency))
-      yield take(AT.FETCH_SB_PAIRS_SUCCESS)
-    }
-
-    const pairs = S.getSBPairs(yield select()).getOrElse([])
-
-    const result = getNextPairAndFiatFromPayments(
-      pair,
-      pairs,
-      method,
-      fiatCurrency
-    )
-
-    if (result === NO_PAIR_SELECTED) {
-      return yield put(A.fetchSBPairsFailure(NO_PAIR_SELECTED))
-    }
-
     switch (method.type) {
       case 'BANK_ACCOUNT':
+      case 'PAYMENT_CARD':
         const isUserTier2 = yield call(isTier2)
-        if (isUserTier2) {
-          return yield put(
-            A.setStep({
-              step: 'TRANSFER_DETAILS',
-              displayBack: true,
-              ...result
-            })
-          )
-        } else {
+        if (!isUserTier2) {
           return yield put(
             actions.components.identityVerification.verifyIdentity(
               2,
@@ -601,12 +574,33 @@ export default ({
             )
           )
         }
+        break
+      default:
+      // continue
+    }
+
+    switch (method.type) {
+      case 'BANK_ACCOUNT':
+        return yield put(
+          A.setStep({
+            step: 'TRANSFER_DETAILS',
+            displayBack: true,
+            fiatCurrency
+          })
+        )
+      case 'PAYMENT_CARD':
+        return yield put(
+          A.setStep({
+            step: 'ADD_CARD'
+          })
+        )
       default:
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
             method,
-            ...result
+            fiatCurrency,
+            pair
           })
         )
     }

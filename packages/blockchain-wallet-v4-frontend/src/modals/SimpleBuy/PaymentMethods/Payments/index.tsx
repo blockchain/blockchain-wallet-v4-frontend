@@ -124,14 +124,19 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const funds = defaultMethods.filter(
-      method => method.value.type === 'FUNDS' && method.value.currency !== 'USD'
+      method =>
+        method.value.type === 'FUNDS' &&
+        method.value.currency !== 'USD' &&
+        method.value.currency === this.props.fiatCurrency
     )
 
     const paymentCard = defaultMethods.find(
       method => method.value.type === 'PAYMENT_CARD'
     )
     const bankAccount = defaultMethods.find(
-      method => method.value.type === 'BANK_ACCOUNT'
+      method =>
+        method.value.type === 'BANK_ACCOUNT' &&
+        method.value.currency === this.props.fiatCurrency
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -207,11 +212,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 key={`${paymentCard.text}`}
                 {...paymentCard}
                 icon={this.getIcon(paymentCard.value)}
-                onClick={() =>
-                  this.props.simpleBuyActions.setStep({
-                    step: 'ADD_CARD'
-                  })
-                }
+                onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
             {bankAccount && fiatCurrency && (
