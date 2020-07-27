@@ -12,6 +12,8 @@ export const getData = (state, ownProps?: OwnProps) => {
       return selectors.core.common.eth.getAccountBalances(state)
     case 'PAX':
       return selectors.core.common.eth.getErc20AccountBalances(state, 'PAX')
+    case 'USDT':
+      return selectors.core.common.eth.getErc20AccountBalances(state, 'USDT')
     default:
       return Remote.Success([])
   }

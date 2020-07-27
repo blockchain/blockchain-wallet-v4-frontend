@@ -16,6 +16,10 @@ import {
 
 const { INTEREST_EVENTS } = model.analytics
 
+const BoxStyled = styled(Box)`
+  width: 275px;
+  margin-bottom: 24px;
+`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -43,7 +47,7 @@ class IntroCard extends PureComponent<
     const highestRate = interestRateArray.reduce((a, b) => Math.max(a, b))
     return (
       showInterestInfoBox && (
-        <Box>
+        <BoxStyled>
           {isGoldTier ? (
             <ContentWrapper>
               <IconWrapper>
@@ -153,7 +157,7 @@ class IntroCard extends PureComponent<
               </Button>
             </ContentWrapper>
           )}
-        </Box>
+        </BoxStyled>
       )
     )
   }

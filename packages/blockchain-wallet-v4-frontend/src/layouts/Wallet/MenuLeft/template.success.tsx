@@ -1,11 +1,11 @@
-import Balances from './Balances'
-import Footer from './Footer'
-import Navigation from './Navigation'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
 import media, { useMedia } from 'services/ResponsiveService'
+
+import Balances from './Balances'
+import Navigation from './Navigation'
 
 export const Container = styled.div<{ toggled?: boolean }>`
   display: flex;
@@ -50,7 +50,6 @@ const MenuLeft = props => {
       {!isLaptop && <Balances />}
       <Overflow>
         <Navigation {...props} />
-        <Footer {...props} />
       </Overflow>
     </Container>
   )
