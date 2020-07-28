@@ -393,12 +393,16 @@ export const initializeBillingAddress = () => ({
 })
 
 export const initializeCheckout = (
+  pairs: Array<SBPairType>,
   orderType: SBOrderActionType,
+  pair?: SBPairType,
   amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
+  amount,
   orderType,
-  amount
+  pair,
+  pairs
 })
 
 export const pollSBBalances = () => ({

@@ -713,7 +713,6 @@ export default ({
         const order = S.getSBOrder(yield select())
         yield put(A.fetchSBCards(skipLoading))
         // If the order was already created
-        // TODO: test locally!
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBCreditCardOrder(card.id))
         } else {
@@ -779,6 +778,10 @@ export default ({
           step,
           order: latestPendingOrder
         })
+      )
+    } else if (cryptoCurrency) {
+      yield put(
+        A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
       )
     } else {
       yield put(

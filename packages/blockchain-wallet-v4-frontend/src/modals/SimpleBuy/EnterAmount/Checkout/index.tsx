@@ -16,7 +16,12 @@ import Success from './template.success'
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
     const amount = this.props.formValues?.amount
-    this.props.simpleBuyActions.initializeCheckout('BUY', amount)
+    this.props.simpleBuyActions.initializeCheckout(
+      this.props.pairs,
+      'BUY',
+      this.props.pair,
+      amount
+    )
   }
 
   handleSubmit = () => {

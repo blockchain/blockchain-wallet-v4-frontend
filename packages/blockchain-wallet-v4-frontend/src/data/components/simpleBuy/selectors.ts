@@ -46,6 +46,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
 
         return {
           ...method,
+          ...sbCard,
           type: 'USER_CARD',
           card
         }

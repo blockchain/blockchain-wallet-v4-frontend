@@ -284,6 +284,14 @@ interface FetchSBSuggestedAmountsSuccess {
   type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
 }
 
+interface InitializeCheckout {
+  amount: string
+  orderType: SBOrderActionType
+  pair?: SBPairType
+  pairs: Array<SBPairType>
+  type: typeof AT.INITIALIZE_CHECKOUT
+}
+
 export type StepActionsPayload =
   | {
       order: SBOrderType
@@ -294,7 +302,7 @@ export type StepActionsPayload =
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
       order?: SBOrderType
-      pair: SBPairType
+      pair?: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {
@@ -368,5 +376,6 @@ export type SimpleBuyActionTypes =
   | FetchSBSuggestedAmountsFailure
   | FetchSBSuggestedAmountsLoading
   | FetchSBSuggestedAmountsSuccess
+  | InitializeCheckout
   | SetStepAction
   | ShowModalAction
