@@ -10,7 +10,7 @@ references:
   container_config: &container_config
     working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
-      - image: mhart/alpine-node:12.18.3
+      - image: 12.18.2-browsers
 
   npm_cache_key: &npm_cache_key v14-dependency-npm-{{ checksum "yarn.lock" }}
 
