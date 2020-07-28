@@ -1,14 +1,14 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root /home/circleci/blockchain-wallet-v4-frontend
+  workspace_root: &workspace_root ~/blockchain-wallet-v4-frontend
 
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
 
   container_config: &container_config
-    working_directory: /home/circleci/blockchain-wallet-v4-frontend
+    working_directory: ~/blockchain-wallet-v4-frontend
     docker:
       - image: circleci/node:12.18-browsers
 
