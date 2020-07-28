@@ -49,6 +49,10 @@ jobs:
           key: *npm_cache_key
           paths:
             - ~/blockchain-wallet-v4-frontend/node_modules
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
   lint:
     <<: *container_config
     steps:
