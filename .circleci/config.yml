@@ -44,7 +44,7 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo /home/circleci/blockchain-wallet-v4-frontend/setup.sh
+          command: sh /home/circleci/blockchain-wallet-v4-frontend/setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
