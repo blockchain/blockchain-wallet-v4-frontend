@@ -65,12 +65,7 @@ const IconWrapper = styled.div`
   }
 `
 
-const NonOrVerifiedKyc = ({
-  showNone,
-  learnMore,
-  linkABank,
-  handleCloseClick
-}) => (
+const VerifiedKyc = ({ learnMore, handleCloseClick }) => (
   <Wrapper>
     <ColumnWrapper>
       <Column>
@@ -83,30 +78,16 @@ const NonOrVerifiedKyc = ({
           </SuccessCartridge>
         </CartridgeContainer>
         <Title size='16px' weight={600}>
-          {showNone ? (
-            <FormattedMessage
-              id='scenes.home.banners.nonekyc.title'
-              defaultMessage='Link a Bank to Buy Crypto'
-            />
-          ) : (
-            <FormattedMessage
-              id='scenes.home.banners.verifiedkyc.title'
-              defaultMessage='Keep Cash in Your Wallet'
-            />
-          )}
+          <FormattedMessage
+            id='scenes.home.banners.verifiedkyc.title'
+            defaultMessage='Keep Cash in Your Wallet'
+          />
         </Title>
         <SubTitle size='14px' weight={500}>
-          {showNone ? (
-            <FormattedMessage
-              id='scenes.home.banners.nonekyc.description'
-              defaultMessage='Verify your identity to deposit cash into the Wallet and buy crypto.'
-            />
-          ) : (
-            <FormattedMessage
-              id='scenes.home.banners.verifiedkyc.description'
-              defaultMessage='Verify your identity to deposit cash into the Wallet and buy crypto.'
-            />
-          )}
+          <FormattedMessage
+            id='scenes.home.banners.verifiedkyc.description'
+            defaultMessage='Verify your identity to deposit cash into the Wallet and buy crypto.'
+          />
         </SubTitle>
       </Column>
     </ColumnWrapper>
@@ -115,19 +96,12 @@ const NonOrVerifiedKyc = ({
         <Button
           nature='primary'
           data-e2e='resubmitKycButton'
-          onClick={showNone ? linkABank : learnMore}
+          onClick={learnMore}
         >
-          {showNone ? (
-            <FormattedMessage
-              id='scenes.home.banners.nonekyc.button'
-              defaultMessage='Link a Bank'
-            />
-          ) : (
-            <FormattedMessage
-              id='scenes.home.banners.verifiedkyc.button'
-              defaultMessage='Learn More'
-            />
-          )}
+          <FormattedMessage
+            id='scenes.home.banners.verifiedkyc.button'
+            defaultMessage='Learn More'
+          />
         </Button>
         <IconWrapper>
           <Icon
@@ -143,14 +117,6 @@ const NonOrVerifiedKyc = ({
 )
 
 const mapDispatchToProps = dispatch => ({
-  linkABank: () =>
-    dispatch(
-      actions.components.identityVerification.verifyIdentity(
-        TIERS[2],
-        true,
-        'KycDocResubmitGoal'
-      )
-    ),
   learnMore: () =>
     dispatch(
       actions.components.identityVerification.verifyIdentity(
@@ -162,4 +128,4 @@ const mapDispatchToProps = dispatch => ({
   handleCloseClick: () => dispatch(actions.preferences.hideNoneOrGoldBanner())
 })
 
-export default connect(null, mapDispatchToProps)(NonOrVerifiedKyc)
+export default connect(null, mapDispatchToProps)(VerifiedKyc)
