@@ -19,7 +19,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 12.18 is installed.
+1. Ensure Node version >= 10.15 is installed.
 2. From the project root, run the following command to install dependencies: `./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
