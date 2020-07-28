@@ -1,7 +1,7 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root /home/circleci/blockchain-wallet-v4-frontend
+  workspace_root: &workspace_root /home/circleci
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -10,22 +10,22 @@ references:
   container_config: &container_config
     working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
-      - image: circleci/node:12.18.2-browsers
+      - image: circleci/node:12.18-browsers
 
-  npm_cache_key: &npm_cache_key v14-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v15-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v14-dependency-npm
+        - v15-dependency-npm
 
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v14-repo-{{ .Branch }}-{{ .Revision }}
-        - v14-repo-{{ .Branch }}
-        - v14-repo
+        - v15-repo-{{ .Branch }}-{{ .Revision }}
+        - v15-repo-{{ .Branch }}
+        - v15-repo
 
 jobs:
   pull_code:
@@ -34,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v14-repo-{{ .Branch }}-{{ .Revision }}
+          key: v15-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -44,11 +44,15 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sh ./setup.sh
+          command: sudo ./setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
             - ./node_modules
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
   lint:
     <<: *container_config
     steps:
@@ -82,9 +86,9 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - test:
+      - codechecks:
           requires:
             - npm_install
-      - codechecks:
+      - test:
           requires:
             - npm_install
