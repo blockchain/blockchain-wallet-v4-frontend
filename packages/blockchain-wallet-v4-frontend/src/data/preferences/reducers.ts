@@ -16,6 +16,7 @@ const INITIAL_STATE: PreferencesState = {
   showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
+  showNoneOrGoldBanner: true,
   showAirdropClaimModal: true,
   showUpgradeForStxAirdropModal: true,
   totalBalancesDropdown: {
@@ -94,6 +95,9 @@ export function preferencesReducer (
     }
     case AT.HIDE_SWAP_UPGRADE_MODAL: {
       return assoc('showSwapUpgradeModal', false, state)
+    }
+    case AT.HIDE_NONE_OR_GOLD_BANNER: {
+      return assoc('showNoneOrGoldBanner', false, state)
     }
     default:
       return state

@@ -12,6 +12,7 @@ export type PreferencesState = {
   showKycCompleted: boolean
   showKycGetStarted: boolean
   showLockboxSoftwareDownload: boolean
+  showNoneOrGoldBanner: boolean
   showSwapBanner: boolean
   showSwapUpgradeModal: boolean
   showUpgradeForStxAirdropModal: boolean
