@@ -178,42 +178,48 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 rate: interestRate[coin]
               }}
             />{' '}
-            <FormattedMessage
-              id='modals.interest.deposit.youcandeposit'
-              defaultMessage='You can deposit up to'
-              values={{
-                coin: coinTicker
-              }}
-            />{' '}
-            <FiatMaxContainer
-              onClick={() =>
-                formActions.change(
-                  FORM_NAME,
-                  'depositAmount',
-                  displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
-                )
-              }
-            >
-              {displayCoin ? (
-                <Text color='blue600' size='14px' weight={500}>
-                  {depositLimits.maxCoin}{' '}
-                </Text>
-              ) : (
-                <Text color='blue600' size='14px' weight={500}>
-                  {maxDepositFiat}{' '}
-                </Text>
-              )}
-            </FiatMaxContainer>{' '}
-            <FormattedMessage
-              id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin} from this wallet.'
-              values={{
-                coin: coinTicker
-              }}
-            />
-            <TooltipHost id='modals.interest.depositmax.tooltip'>
-              <TooltipIcon name='info' size='12px' />
-            </TooltipHost>
+            {!insufficientEth && (
+              <>
+                <FormattedMessage
+                  id='modals.interest.deposit.youcandeposit'
+                  defaultMessage='You can deposit up to'
+                  values={{
+                    coin: coinTicker
+                  }}
+                />{' '}
+                <FiatMaxContainer
+                  onClick={() =>
+                    formActions.change(
+                      FORM_NAME,
+                      'depositAmount',
+                      displayCoin
+                        ? depositLimits.maxCoin
+                        : depositLimits.maxFiat
+                    )
+                  }
+                >
+                  {displayCoin ? (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {depositLimits.maxCoin}{' '}
+                    </Text>
+                  ) : (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {maxDepositFiat}{' '}
+                    </Text>
+                  )}
+                </FiatMaxContainer>{' '}
+                <FormattedMessage
+                  id='modals.interest.deposit.uptoamount2'
+                  defaultMessage='of {coin} from this wallet.'
+                  values={{
+                    coin: coinTicker
+                  }}
+                />
+                <TooltipHost id='modals.interest.depositmax.tooltip'>
+                  <TooltipIcon name='info' size='12px' />
+                </TooltipHost>
+              </>
+            )}
           </Text>
         </InfoText>
         {isErc20 && insufficientEth && (
