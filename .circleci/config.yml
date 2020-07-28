@@ -1,7 +1,7 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root /home/circleci
+  workspace_root: &workspace_root /home/circleci/blockchain-wallet-v4-frontend
 
   attach_workspace: &attach_workspace
     attach_workspace:
