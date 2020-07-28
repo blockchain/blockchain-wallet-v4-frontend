@@ -710,7 +710,7 @@ type MessagesType = {
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
   'interest.withdrawal.validation.abovemax': 'Amount is above the maximum withdrawal amount.'
-  'interest.withdrawal.validation.belowmin': 'Amount is below the minimum withdrawal amount.'
+  'interest.withdrawal.validation.belowminamount': 'Amount is below the minimum withdrawal amount of {withdrawalMin} {currency}.'
   'modals.importkey.import': 'Import Private Key'
   'modals.importkey.label.enterlabel': 'Enter a label (optional)'
   'modals.importkey.label.privatekey': 'Enter your private key'

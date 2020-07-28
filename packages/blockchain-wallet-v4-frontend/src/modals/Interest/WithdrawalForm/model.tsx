@@ -76,6 +76,8 @@ export const CustomField = styled(Field)<
     padding-left: ${props =>
       props.displayCoin && (props.coin === 'USDT' || props.coin === 'PAX')
         ? '64px'
+        : props.displayCoin
+        ? '46px'
         : '42px'};
   }
 `
