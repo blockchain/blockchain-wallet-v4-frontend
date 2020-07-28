@@ -12,20 +12,20 @@ references:
     docker:
       - image: circleci/node:12.18-browsers
 
-  npm_cache_key: &npm_cache_key v14-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v15-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v14-dependency-npm
+        - v15-dependency-npm
 
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v14-repo-{{ .Branch }}-{{ .Revision }}
-        - v14-repo-{{ .Branch }}
-        - v14-repo
+        - v15-repo-{{ .Branch }}-{{ .Revision }}
+        - v15-repo-{{ .Branch }}
+        - v15-repo
 
 jobs:
   pull_code:
@@ -34,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v14-repo-{{ .Branch }}-{{ .Revision }}
+          key: v15-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
