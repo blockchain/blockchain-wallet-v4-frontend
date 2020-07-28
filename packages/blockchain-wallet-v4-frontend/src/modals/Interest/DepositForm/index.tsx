@@ -8,6 +8,7 @@ import {
   FiatType,
   InterestLimitsType,
   InterestRateType,
+  PaymentValue,
   RemoteDataType,
   SupportedCoinsType
 } from 'core/types'
@@ -97,6 +98,7 @@ export type SuccessStateType = {
   formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
+  payment: PaymentValue
   rates: RatesType
   supportedCoins: SupportedCoinsType
   walletCurrency: FiatType
