@@ -157,8 +157,8 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.usddfee'
-                defaultMessage='USD Digital Fee'
+                id='components.txlistitem.erc20fee'
+                defaultMessage='ERC20 Fee'
               />
             </Banner>
           </BannerWrapper>

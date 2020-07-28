@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.37.21",
+  "version": "4.37.23",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -21,7 +21,7 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.15",
+    "node": ">= 12.18",
     "yarn": ">= 1.13"
   },
   "workspaces": [

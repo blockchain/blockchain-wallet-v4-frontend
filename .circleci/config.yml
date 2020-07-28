@@ -1,7 +1,7 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root /home/circleci
+  workspace_root: &workspace_root /home/circleci/blockchain-wallet-v4-frontend
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -44,15 +44,11 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo ./setup.sh
+          command: sh ./setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
             - ./node_modules
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - blockchain-wallet-v4-frontend
   lint:
     <<: *container_config
     steps:
