@@ -36,7 +36,7 @@ jobs:
       - save_cache:
           key: v15-repo-{{ .Branch }}-{{ .Revision }}
           paths:
-            - .
+            - ~/blockchain-wallet-v4-frontend
   npm_install:
     <<: *container_config
     steps:
@@ -44,11 +44,11 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo ./setup.sh
+          command: sudo ~/blockchain-wallet-v4-frontend/setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
-            - ./node_modules
+            - ~/blockchain-wallet-v4-frontend/node_modules
   lint:
     <<: *container_config
     steps:
@@ -82,9 +82,9 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - test:
+      - codechecks:
           requires:
             - npm_install
-      - codechecks:
+      - test:
           requires:
             - npm_install
