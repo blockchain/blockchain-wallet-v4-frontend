@@ -15,7 +15,6 @@ npm-shrinkwrap.json
 package-lock.json
 
 # Yarn
-.yarnclean
 yarn-error.log
 
 # Eslint
