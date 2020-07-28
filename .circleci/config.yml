@@ -12,20 +12,20 @@ references:
     docker:
       - image: mhart/alpine-node:12.18.3
 
-  npm_cache_key: &npm_cache_key v13-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v14-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v13-dependency-npm
+        - v14-dependency-npm
 
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v13-repo-{{ .Branch }}-{{ .Revision }}
-        - v13-repo-{{ .Branch }}
-        - v13-repo
+        - v14-repo-{{ .Branch }}-{{ .Revision }}
+        - v14-repo-{{ .Branch }}
+        - v14-repo
 
 jobs:
   pull_code:
@@ -34,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v13-repo-{{ .Branch }}-{{ .Revision }}
+          key: v14-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -44,7 +44,7 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: ./setup.sh
+          command: sudo ./setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
