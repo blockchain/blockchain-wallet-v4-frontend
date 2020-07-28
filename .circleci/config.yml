@@ -1,14 +1,14 @@
 version: 2
 
 references:
-  workspace_root: &workspace_root ~/blockchain-wallet-v4-frontend
+  workspace_root: &workspace_root /home/circleci
 
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
 
   container_config: &container_config
-    working_directory: ~/blockchain-wallet-v4-frontend
+    working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
       - image: circleci/node:12.18-browsers
 
@@ -36,7 +36,7 @@ jobs:
       - save_cache:
           key: v15-repo-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ~/blockchain-wallet-v4-frontend
+            - .
   npm_install:
     <<: *container_config
     steps:
@@ -44,11 +44,11 @@ jobs:
       - *restore_node_modules
       - run:
           name: Install App Dependencies
-          command: sudo ~/blockchain-wallet-v4-frontend/setup.sh
+          command: sudo ./setup.sh
       - save_cache:
           key: *npm_cache_key
           paths:
-            - ~/blockchain-wallet-v4-frontend/node_modules
+            - ./node_modules
       - persist_to_workspace:
           root: /home/circleci
           paths:
