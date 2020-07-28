@@ -1,9 +1,9 @@
 import * as Exchange from '../exchange'
+import { hdkey as EthHd } from 'ethereumjs-wallet'
 import { path, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
-import EthHd from 'ethereumjs-wallet/hdkey'
 import EthUtil from 'ethereumjs-util'
 
 /**
