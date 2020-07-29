@@ -1554,7 +1554,6 @@ type MessagesType = {
   'scenes.home.banners.verifiedkyc.tag': 'NEW'
   'scenes.home.banners.verifiedkyc.title': 'Keep Cash in Your Wallet'
   'scenes.home.banners.verifiedkyc.description': 'Verify your identity to deposit cash into the Wallet and buy crypto.'
-  'scenes.home.banners.verifiedkyc.button': 'Learn More'
   'scenes.home.banners.nonekyc.button': 'Link a Bank'
   'scenes.home.banners.nonekyc.description': 'Verify your identity to deposit cash into the Wallet and buy crypto.'
   'scenes.home.banners.nonekyc.title': 'Link a Bank to Buy Crypto'

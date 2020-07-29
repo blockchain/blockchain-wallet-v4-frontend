@@ -20,10 +20,6 @@ export const getShowInterestInfoBox = path([
 export const getShowKycGetStarted = path(['preferences', 'showKycGetStarted'])
 export const getShowSwapBanner = path(['preferences', 'showSwapBanner'])
 export const getShowSwapUpgrade = path(['preferences', 'showSwapUpgradeModal'])
-export const getShowNoneOrGoldBanner = path([
-  'preferences',
-  'showNoneOrGoldBanner'
-])
 export const getShowAirdropClaimModal = path([
   'preferences',
   'showAirdropClaimModal'

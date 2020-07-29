@@ -26,10 +26,6 @@ export const getData = (state): { bannerToShow: BannerType } => {
       order.state === 'PENDING_DEPOSIT'
   )
 
-  const showNoneOrGoldBanner = selectors.preferences.getShowNoneOrGoldBanner(
-    state
-  )
-
   const isUserActive =
     // @ts-ignore
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !==
@@ -51,9 +47,9 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'sbOrder'
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
-  } else if (isKycStateNone && showNoneOrGoldBanner) {
+  } else if (isKycStateNone) {
     bannerToShow = 'nonKyc'
-  } else if (isKycGold && showNoneOrGoldBanner) {
+  } else if (isKycGold) {
     bannerToShow = 'verifiedKyc'
   } else {
     bannerToShow = null
