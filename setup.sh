@@ -1,5 +1,5 @@
 #!/bin/bash
 echo 'Running install script'
-npm install -g yarn@1.13.0
-yarn global add npx@10.2.0
+npm install -g yarn@1.22.4
+yarn global add npx@10.2.2
 yarn
