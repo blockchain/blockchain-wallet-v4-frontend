@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { getCoinFromPair, getFiatFromPair } from './model'
 import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
@@ -234,6 +235,17 @@ export function simpleBuyReducer (
       return {
         ...state,
         suggestedAmounts: Remote.Success(action.payload.amounts)
+      }
+    case AT.INITIALIZE_CHECKOUT:
+      return {
+        ...state,
+        pair:
+          action.pair ||
+          action.pairs.find(
+            pair =>
+              getCoinFromPair(pair.pair) === state.cryptoCurrency &&
+              getFiatFromPair(pair.pair) === state.fiatCurrency
+          )
       }
     case AT.SET_STEP:
       switch (action.payload.step) {
