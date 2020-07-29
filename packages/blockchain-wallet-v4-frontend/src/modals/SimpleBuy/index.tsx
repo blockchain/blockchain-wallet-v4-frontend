@@ -7,7 +7,8 @@ import {
   SBPairType,
   SBPaymentMethodType
 } from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { RootState } from 'data/rootReducer'
 import { SimpleBuyStepType } from 'data/types'
@@ -25,6 +26,10 @@ import PaymentMethods from './PaymentMethods'
 import React, { PureComponent } from 'react'
 import ThreeDSHandler from './ThreeDSHandler'
 import TransferDetails from './TransferDetails'
+
+import Loading from './template.loading'
+import Pending from './template.pending'
+import Rejected from './template.rejected'
 
 class SimpleBuy extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -63,6 +68,77 @@ class SimpleBuy extends PureComponent<Props, State> {
     }, duration)
   }
 
+  renderStep = (props: Props) => {
+    switch (props.step) {
+      case 'CURRENCY_SELECTION':
+        return (
+          <FlyoutChild>
+            <CurrencySelection {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'ENTER_AMOUNT':
+        return (
+          <FlyoutChild>
+            <EnterAmount {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'CRYPTO_SELECTION':
+        return (
+          <FlyoutChild>
+            <CryptoSelection {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'PAYMENT_METHODS':
+        return (
+          <FlyoutChild>
+            <PaymentMethods {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'ADD_CARD':
+        return (
+          <FlyoutChild>
+            <AddCard {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'CC_BILLING_ADDRESS':
+        return (
+          <FlyoutChild>
+            <BillingAddress {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case '3DS_HANDLER':
+        return (
+          <FlyoutChild>
+            <ThreeDSHandler {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'CHECKOUT_CONFIRM':
+        return (
+          <FlyoutChild>
+            <CheckoutConfirm {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'ORDER_SUMMARY':
+        return (
+          <FlyoutChild>
+            <OrderSummary {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'TRANSFER_DETAILS':
+        return (
+          <FlyoutChild>
+            <TransferDetails {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+      case 'CANCEL_ORDER':
+        return (
+          <FlyoutChild>
+            <CancelOrder {...props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )
+    }
+  }
+
   render () {
     return (
       <Flyout
@@ -72,61 +148,33 @@ class SimpleBuy extends PureComponent<Props, State> {
         direction={this.state.direction}
         data-e2e='simpleBuyModal'
       >
-        {this.props.step === 'CURRENCY_SELECTION' && (
-          <FlyoutChild>
-            <CurrencySelection {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'ENTER_AMOUNT' && (
-          <FlyoutChild>
-            <EnterAmount {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'CRYPTO_SELECTION' && (
-          <FlyoutChild>
-            <CryptoSelection {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'PAYMENT_METHODS' && (
-          <FlyoutChild>
-            <PaymentMethods {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'ADD_CARD' && (
-          <FlyoutChild>
-            <AddCard {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'CC_BILLING_ADDRESS' && (
-          <FlyoutChild>
-            <BillingAddress {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === '3DS_HANDLER' && (
-          <FlyoutChild>
-            <ThreeDSHandler {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'CHECKOUT_CONFIRM' && (
-          <FlyoutChild>
-            <CheckoutConfirm {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'ORDER_SUMMARY' && (
-          <FlyoutChild>
-            <OrderSummary {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'TRANSFER_DETAILS' && (
-          <FlyoutChild>
-            <TransferDetails {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
-        {this.props.step === 'CANCEL_ORDER' && (
-          <FlyoutChild>
-            <CancelOrder {...this.props} handleClose={this.handleClose} />
-          </FlyoutChild>
-        )}
+        {this.props.data.cata({
+          Success: val => {
+            const { userData } = val
+            const { kycState } = userData
+            const isUserRejectedOrExpired =
+              kycState === 'REJECTED' || kycState === 'EXPIRED'
+            const isUserPending =
+              kycState === 'UNDER_REVIEW' || kycState === 'PENDING'
+
+            return isUserRejectedOrExpired ? (
+              <Rejected handleClose={this.handleClose} />
+            ) : isUserPending ? (
+              <Pending
+                handleClose={this.handleClose}
+                handleRefresh={() => {
+                  this.props.profileActions.fetchUserDataLoading()
+                  this.props.profileActions.fetchUser()
+                }}
+              />
+            ) : (
+              this.renderStep(this.props)
+            )
+          },
+          Failure: () => null,
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />
+        })}
       </Flyout>
     )
   }
@@ -140,23 +188,29 @@ const mapStateToProps = (state: RootState) => ({
   order: selectors.components.simpleBuy.getSBOrder(state),
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
-  displayBack: selectors.components.simpleBuy.getDisplayBack(state)
+  displayBack: selectors.components.simpleBuy.getDisplayBack(state),
+
+  data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
 const enhance = compose(
   ModalEnhancer('SIMPLE_BUY_MODAL', { transition: duration }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connector
 )
 
 type OwnProps = ModalPropsType
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form
+  profileActions: typeof actions.modules.profile
   settingsActions: typeof actions.modules.settings
   simpleBuyActions: typeof actions.components.simpleBuy
 }
@@ -196,7 +250,7 @@ type LinkStatePropsType =
       step: 'PAYMENT_METHODS'
     }
 
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(SimpleBuy)
