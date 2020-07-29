@@ -67,8 +67,8 @@ describe('Coin Selection', () => {
       const feePerByte = 55
       const selection = cs.findTarget(targets, feePerByte, inputs)
 
-      const estimatedSize = 10 + 2 * 147 + 2 * 34
-      const estimatedFee = estimatedSize * feePerByte
+      const estimatedSize = 10 + 2 * 147 + 2 * 34 // 372
+      const estimatedFee = estimatedSize * feePerByte // 20460
 
       expect(selection.fee).toEqual(estimatedFee)
       expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
@@ -113,9 +113,9 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.descentDraw(targets, 55, inputs, 'change-address')
-      expect(selection.fee).toEqual(12375)
-      expect(selection.inputs.map(x => x.value)).toEqual([300000])
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 187625])
+      expect(selection.fee).toEqual(20460)
+      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.outputs.map(x => x.value)).toEqual([100000, 199540])
     })
   })
   describe('ascentDraw', () => {
@@ -131,14 +131,9 @@ describe('Coin Selection', () => {
       ])
       const targets = map(Coin.fromJS, [{ value: 100000 }])
       const selection = cs.ascentDraw(targets, 55, inputs, 'change-address')
-      expect(selection.fee).toEqual(36630)
-      expect(selection.inputs.map(x => x.value)).toEqual([
-        20000,
-        30000,
-        50000,
-        300000
-      ])
-      expect(selection.outputs.map(x => x.value)).toEqual([100000, 263370])
+      expect(selection.fee).toEqual(20460)
+      expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
+      expect(selection.outputs.map(x => x.value)).toEqual([100000, 199540])
     })
   })
   describe('singleRandomDraw', () => {
@@ -189,7 +184,7 @@ describe('Coin Selection', () => {
         seed
       )
       expect(selection.fee).toEqual(35000)
-      expect(selection.inputs.map(x => x.value)).toEqual([50000, 45000, 20000])
+      expect(selection.inputs.map(x => x.value)).toEqual([20000, 50000, 45000])
       expect(selection.outputs.map(x => x.value)).toEqual([60000, 20000])
     })
     it('should return the right selection (singleRandomDraw FallBack)', () => {
@@ -213,9 +208,16 @@ describe('Coin Selection', () => {
         'change-address',
         seed
       )
-      expect(selection.fee).toEqual(12375)
-      expect(selection.inputs.map(x => x.value)).toEqual([300000])
-      expect(selection.outputs.map(x => x.value)).toEqual([150000, 137625])
+      expect(selection.fee).toEqual(52800)
+      expect(selection.inputs.map(x => x.value)).toEqual([
+        20000,
+        15000,
+        45000,
+        50000,
+        30000,
+        300000
+      ])
+      expect(selection.outputs.map(x => x.value)).toEqual([150000, 257200])
     })
   })
 })

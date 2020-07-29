@@ -2,11 +2,8 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 
-import { Props as OwnProps, SuccessStateType } from '.'
 import React from 'react'
 import styled from 'styled-components'
-
-export type Props = OwnProps & SuccessStateType
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -83,7 +80,7 @@ const RowNumber = styled.div`
   flex-direction: row;
 `
 
-const Rejected: React.FC<Props> = props => {
+const Rejected: React.FC<{ handleClose: () => void }> = props => {
   return (
     <Top>
       <MainText color='grey800' size='20px' weight={600}>

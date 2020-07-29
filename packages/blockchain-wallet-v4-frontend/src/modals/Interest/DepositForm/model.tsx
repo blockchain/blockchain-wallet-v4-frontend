@@ -62,6 +62,16 @@ export const PrincipalCcyAbsolute = styled.div`
   top: 16px;
   left: 12px;
 `
+export const ErrorText = styled(Text)`
+  display: inline-flex;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 32px;
+  background-color: ${props => props.theme.red000};
+  color: ${props => props.theme.red800};
+  margin-bottom: 16px;
+`
 export const FiatMaxContainer = styled.div`
   cursor: pointer;
   display: inline-block;
