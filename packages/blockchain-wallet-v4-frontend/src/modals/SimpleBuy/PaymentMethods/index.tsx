@@ -1,17 +1,19 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import { FiatType, RemoteDataType, SBOrderType, SBPairType } from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class PaymentMethods extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
+    if (this.props.fiatCurrency && Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
