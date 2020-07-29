@@ -272,6 +272,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            // @ts-ignore
             disabled={insufficientEth}
             displayCoin={displayCoin}
             name='depositAmount'
