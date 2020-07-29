@@ -10,7 +10,7 @@ export type BannerType =
   | 'finishKyc'
   | 'coinifyToSb'
   | 'verifiedKyc'
-  | 'nonKyc'
+  | 'noneKyc'
 
 export const getData = (state): { bannerToShow: BannerType } => {
   // @ts-ignore
@@ -61,13 +61,11 @@ export const getData = (state): { bannerToShow: BannerType } => {
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
   } else if (isKycStateNone) {
-    bannerToShow = 'nonKyc'
+    bannerToShow = 'noneKyc'
   } else if (isKycGold && !availableBalanceOnFiat) {
     bannerToShow = 'verifiedKyc'
   } else {
     bannerToShow = null
-    // eslint-disable-next-line
-    console.log()
   }
 
   return {

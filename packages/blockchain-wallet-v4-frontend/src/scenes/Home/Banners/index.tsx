@@ -42,7 +42,7 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
-      case 'nonKyc':
+      case 'noneKyc':
         return (
           <BannerWrapper>
             <NoneKyc />
