@@ -1,4 +1,5 @@
-import { anyPass, equals } from 'ramda'
+import { anyPass, equals, isEmpty } from 'ramda'
+import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { SBOrderType } from 'core/types'
 
@@ -40,6 +41,18 @@ export const getData = (state): { bannerToShow: BannerType } => {
     selectors.modules.profile.getUserKYCState(state).getOrElse('') ===
     'VERIFIED'
 
+  const coins = selectors.components.utils
+    .getSupportedCoinsWithBalanceAndOrder(state)
+    // @ts-ignore
+    .getOrElse({})
+
+  const availableBalanceOnFiat =
+    isEmpty(coins) ||
+    (!isEmpty(coins) &&
+      coins.filter(
+        coin => coin.coinCode in FiatTypeEnum && coin.availableBalance
+      ).length)
+
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
@@ -49,7 +62,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'finishKyc'
   } else if (isKycStateNone) {
     bannerToShow = 'nonKyc'
-  } else if (isKycGold) {
+  } else if (isKycGold && !availableBalanceOnFiat) {
     bannerToShow = 'verifiedKyc'
   } else {
     bannerToShow = null
