@@ -19,23 +19,11 @@ type AgentSimple = {
   recipient: string
 }
 
-type Agent = AgentSimple & {
+export type Agent = AgentSimple & {
   address: string
   country: string
   routingNumber: string
 }
-
-export type BeneficiaryType = {
-  address: string
-  agent: Agent
-  currency: WalletFiatType
-  id: string
-  name: string
-  state: 'CREATED' | 'ACTIVE' | 'UNDER_REVIEW' | 'DISABLED'
-  whitelisted: boolean
-}
-
-export type BeneficiariesType = Array<BeneficiaryType>
 
 export type SBAccountType =
   | (ISBAccountType & {

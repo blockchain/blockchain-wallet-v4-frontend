@@ -6,6 +6,7 @@ export type ModalNamesType =
   | 'BitPayInvoiceExpired'
   | 'BORROW_MODAL'
   | 'Confirm'
+  | 'CUSTODY_WITHDRAW_MODAL'
   | 'FAQ_MODAL'
   | 'INTEREST_MODAL'
   | 'KycDocResubmit'

@@ -1,0 +1,3 @@
+export const SET_STEP = '@EVENT.SET_WITHDRAW_STEP'
+
+export const SHOW_MODAL = '@EVENT.SHOW_WITHDRAW_MODAL'
