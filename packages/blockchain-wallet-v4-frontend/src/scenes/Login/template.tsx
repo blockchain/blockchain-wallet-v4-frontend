@@ -110,6 +110,16 @@ const SignUpText = styled(Text)`
     font-weight: 600;
   }
 `
+const ChannelWrapper = styled(Wrapper)`
+  position: absolute;
+  right: -260px;
+  top: -60px;
+  z-index: -1;
+  width: 245px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
@@ -175,30 +185,30 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               {console.info(
                 'SECURE CHANNEL STATE IS ' + props.secureChannelLoginState
               )}
-              {props.secureChannelLoginState.cata({
-                Success: val => {
-                  return (
-                    <Wrapper>
-                      <Text>Success! Logging in...</Text>
-                    </Wrapper>
-                  )
-                },
-                Failure: e => (
-                  <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
-                ),
-                Loading: () => {
-                  return (
-                    <Wrapper>
-                      <Text>
+              <ChannelWrapper>
+                {props.secureChannelLoginState.cata({
+                  Success: val => {
+                    return (
+                      <Text size='14px' weight={600}>
+                        Success! Logging in...
+                      </Text>
+                    )
+                  },
+                  Failure: e => (
+                    <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+                  ),
+                  Loading: () => {
+                    return (
+                      <Text size='14px' weight={600}>
                         Please confirm the login on your mobile device...
                       </Text>
-                    </Wrapper>
+                    )
+                  },
+                  NotAsked: () => (
+                    <QRCodeWrapper value={qr_data} length={qr_data.length} />
                   )
-                },
-                NotAsked: () => (
-                  <QRCodeWrapper value={qr_data} length={qr_data.length} />
-                )
-              })}
+                })}
+              </ChannelWrapper>
 
               <FormLabel htmlFor='guid'>
                 <FormattedMessage
