@@ -84,6 +84,27 @@ export default ({ api }) => {
     }
   }
 
+  const sendSecureChannelMessage = function * (action) {
+    const data = action.payload
+    try {
+      // yield put(A.authorizeLoginLoading())
+      console.info('SEND MESSAGE ' + JSON.stringify(action.payload))
+      const data = yield call(
+        api.sendSecureChannel,
+        JSON.stringify(action.payload)
+      )
+      // if (data.success || data.device_change_reason) {
+      //   yield put(A.authorizeLoginSuccess(data))
+      // } else {
+      //   yield put(A.authorizeLoginFailure(data.error))
+      // }
+    } catch (e) {
+      // TODO loading state?
+      console.warn('Error sending', e)
+      // yield put(A.authorizeLoginFailure(e.message || e.error))
+    }
+  }
+
   const handle2FAReset = function * (action) {
     const { token } = action.payload
     try {
@@ -118,6 +139,7 @@ export default ({ api }) => {
     authorizeLogin,
     fetchCaptcha,
     fetchLogs,
+    sendSecureChannelMessage,
     fetchPriceIndexSeries,
     encodePairingCode,
     verifyEmailToken,

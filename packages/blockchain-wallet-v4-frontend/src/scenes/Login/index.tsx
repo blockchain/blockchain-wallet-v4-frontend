@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
 import { isEmail, isGuid } from '../../services/ValidationHelper'
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import Login from './template'
 import React from 'react'
 
@@ -11,6 +12,10 @@ class LoginContainer extends React.PureComponent<Props> {
 
   componentWillUnmount () {
     this.props.formActions.reset('login')
+  }
+
+  componentDidMount () {
+    this.props.middlewareActions.startSocket()
   }
 
   onSubmit = () => {
@@ -67,11 +72,21 @@ const mapStateToProps = state => ({
   goals: selectors.goals.getGoals(state),
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
-  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))
+  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
+  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state),
+  qr_data: JSON.stringify({
+    ruid: selectors.cache.getChannelRuid(state),
+    pubkey: wCrypto
+      .derivePubFromPriv(
+        Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
+      )
+      .toString('hex')
+  })
 })
 
 const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
+  middlewareActions: bindActionCreators(actions.ws, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)

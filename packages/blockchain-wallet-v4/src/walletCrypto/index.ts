@@ -8,6 +8,9 @@ import BIP39 from 'bip39'
 import createRng from './rng'
 import Either from 'data.either'
 import Task from 'data.task'
+import * as curve from 'ecurve'
+import BigInteger from 'bigi'
+import * as bitcoinjs from 'bitcoinjs-lib'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
@@ -268,3 +271,34 @@ export const decryptWallet = curry((password, data) =>
     decryptWalletV2V3(password, data)
   )
 )
+
+export const derivePubFromPriv = (priv) => {
+  const privNumber = BigInteger.fromBuffer(priv)
+  let k = new bitcoinjs.ECPair(privNumber)
+  return k.getPublicKeyBuffer()
+}
+
+export const deriveSharedSecret = (priv, pub) => {
+  let c = curve.getCurveByName('secp256k1')
+  const privNumber = BigInteger.fromBuffer(priv)
+
+  const p = curve.Point.decodeFrom(c, pub)
+  const m = p.multiply(privNumber)
+
+  const encoded = m.getEncoded(true)
+  return sha256(encoded)
+}
+
+export const encryptAESGCM = (key, msg) => {
+  let IV = crypto.randomBytes(12)
+  let options = { mode: U.AES.GCM }
+  let encryptedBytes = U.AES.encrypt(msg, key, IV, options)
+  return Buffer.concat([IV, encryptedBytes])
+}
+
+export const decryptAESGCM = (key, msg) => {
+  let IV = msg.slice(0, 12)
+  let dataBytes = msg.slice(12)
+  let options = { mode: U.AES.GCM }
+  return U.AES.decrypt(dataBytes, key, IV, options)
+}

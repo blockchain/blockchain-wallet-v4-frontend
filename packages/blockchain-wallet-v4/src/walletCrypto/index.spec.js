@@ -171,4 +171,75 @@ describe('WalletCrypto', () => {
       )
     })
   })
+
+  describe('correctly work with shared secret', () => {
+    it('should correctly derive public from secret', () => {
+      const priv = Buffer.from(
+        '8ca745f6ff8c67a63dcb448b18c5cf111e44d16a6e587987d4212d0fba12c74f',
+        'hex'
+      )
+      const pub = Buffer.from(
+        '02a18a98316b5f52596e75bfa5ca9fa9912edd0c989b86b73d41bb64c9c6adb992',
+        'hex'
+      )
+      expect(wCrypto.derivePubFromPriv(priv).toString('hex')).toBe(
+        '03a4ddec8d6b42cce5eef709e1e99858caa47755e335564c42aafc61fb87aa8830'
+      )
+    })
+    it('should correctly calculate shared secret', () => {
+      const priv = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const pub = Buffer.from(
+        '02a18a98316b5f52596e75bfa5ca9fa9912edd0c989b86b73d41bb64c9c6adb992',
+        'hex'
+      )
+      expect(wCrypto.deriveSharedSecret(priv, pub).toString('hex')).toBe(
+        'ef2cf705af8714b35c0855030f358f2bee356ff3579cea2607b2025d80133c3a'
+      )
+    })
+    it('should correctly encrypt and decrypt', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const cipher = wCrypto.encryptAESGCM(key, Buffer.from(msg, 'utf8'))
+      const decrypted = wCrypto.decryptAESGCM(key, cipher).toString('utf8')
+      expect(decrypted).toBe(msg)
+    })
+    it('should fail for modified message', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const cipher = wCrypto.encryptAESGCM(key, Buffer.from(msg, 'utf8'))
+      for (let position = 0; position < cipher.length; position++) {
+        let c = Buffer.from(cipher)
+        c[position]++
+        expect(() => {
+          wCrypto.decryptAESGCM(key, c)
+        }).toThrow('Unsupported state or unable to authenticate data')
+      }
+    })
+    it('should correctly decrypt from test vector', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const decrypted = wCrypto
+        .decryptAESGCM(
+          key,
+          Buffer.from(
+            '83e77704adf28646b602047763a179b5991a5d5d4457658200c84936c71e5e7ffb54a1dcf665d836cb2ce34a471747eb64392e80',
+            'hex'
+          )
+        )
+        .toString('utf8')
+      expect(decrypted).toBe(msg)
+    })
+  })
 })

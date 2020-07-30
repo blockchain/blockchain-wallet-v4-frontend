@@ -64,6 +64,19 @@ export const restore = (mnemonic, email, password, language, network) => ({
 export const restoreLoading = () => ({ type: AT.RESTORE_LOADING })
 export const restoreSuccess = () => ({ type: AT.RESTORE_SUCCESS })
 export const restoreFailure = () => ({ type: AT.RESTORE_FAILURE })
+export const secureChannelLoginLoading = () => ({
+  type: AT.SECURE_CHANNEL_LOGIN_LOADING
+})
+export const secureChannelLoginSuccess = () => ({
+  type: AT.SECURE_CHANNEL_LOGIN_SUCCESS
+})
+export const secureChannelLoginNotAsked = () => ({
+  type: AT.SECURE_CHANNEL_LOGIN_NOTASKED
+})
+export const secureChannelLoginFailure = err => ({
+  type: AT.SECURE_CHANNEL_LOGIN_FAILURE,
+  payload: { err }
+})
 export const setAuthType = authType => ({
   type: AT.SET_AUTH_TYPE,
   payload: { authType }

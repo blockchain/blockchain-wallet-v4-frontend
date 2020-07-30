@@ -13,6 +13,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { required, validWalletId } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
+import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -27,7 +28,10 @@ import {
 } from 'components/Form'
 import media from 'services/ResponsiveService'
 
+import { fiatToString } from 'core/exchange/currency'
 import { Props as OwnProps } from '.'
+import { PriceChange } from '../Transactions/model'
+import { Skeletons } from '../Transactions/WalletBalanceDropdown/template.loading'
 import LinkAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
 
@@ -112,6 +116,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     guid,
     invalid,
     isGuidEmailAddress,
+    qr_data,
+    secureChannelLoginState,
     isGuidValid,
     loginError,
     password,
@@ -134,6 +140,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
+  console.info('RENDER: SECURE CHANNEL STATE IS ' + secureChannelLoginState)
 
   return (
     <LoginWrapper>
@@ -161,6 +168,34 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           )}
           <FormGroup>
             <FormItem>
+              {console.info(
+                'SECURE CHANNEL STATE IS ' + secureChannelLoginState
+              )}
+              {secureChannelLoginState.cata({
+                Success: val => {
+                  return (
+                    <Wrapper>
+                      <Text>Success! Logging in...</Text>
+                    </Wrapper>
+                  )
+                },
+                Failure: e => (
+                  <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+                ),
+                Loading: () => {
+                  return (
+                    <Wrapper>
+                      <Text>
+                        Please confirm the login on your mobile device...
+                      </Text>
+                    </Wrapper>
+                  )
+                },
+                NotAsked: () => (
+                  <QRCodeWrapper value={qr_data} length={qr_data.length} />
+                )
+              })}
+
               <FormLabel htmlFor='guid'>
                 <FormattedMessage
                   id='scenes.login.guid'

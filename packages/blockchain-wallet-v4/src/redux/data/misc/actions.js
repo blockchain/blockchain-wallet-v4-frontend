@@ -105,3 +105,8 @@ export const verifyEmailTokenFailure = data => ({
   type: AT.VERIFY_EMAIL_TOKEN_FAILURE,
   payload: data
 })
+
+export const sendSecureChannelMessage = data => ({
+  type: AT.SECURE_CHANNEL_SEND,
+  payload: data
+})

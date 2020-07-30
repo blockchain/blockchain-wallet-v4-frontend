@@ -10,11 +10,71 @@ import {
 import { call, put, select } from 'redux-saga/effects'
 import { concat, equals, prop } from 'ramda'
 import { WALLET_TX_SEARCH } from '../../../form/model'
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+import crypto from 'crypto'
+
+function uuidv4 () {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
+  )
+}
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
   const onOpen = function * () {
+    let secretHex = yield select(selectors.cache.getChannelPrivKey)
+    let ruid = yield select(selectors.cache.getChannelRuid)
+
+    if (!secretHex || !ruid) {
+      secretHex = crypto.randomBytes(32).toString('hex')
+      yield put(actions.cache.channelPrivKeyCreated(secretHex))
+
+      ruid = uuidv4()
+      yield put(actions.cache.channelRuidCreated(ruid))
+    }
+
+    yield call(
+      send,
+      JSON.stringify({
+        command: 'subscribe',
+        entity: 'secure_channel',
+        param: { ruid: ruid }
+      })
+    )
+
+    // Also, if we already know a phone, let's ping it to give us it's secrets
+    let phonePubkey = yield select(selectors.cache.getPhonePubkey)
+    let guid = yield select(selectors.cache.getLastGuid)
+    if (phonePubkey && guid) {
+      let msg = {
+        type: 'login_request',
+        ruid: ruid,
+        timestamp: Date.now()
+      }
+
+      let sharedSecret = wCrypto.deriveSharedSecret(
+        Buffer.from(secretHex, 'hex'),
+        Buffer.from(phonePubkey, 'hex')
+      )
+      let encrypted = wCrypto.encryptAESGCM(
+        sharedSecret,
+        Buffer.from(JSON.stringify(msg), 'utf8')
+      )
+      let payload = {
+        guid: guid,
+        pubkeyhash: wCrypto
+          .sha256(wCrypto.derivePubFromPriv(Buffer.from(secretHex, 'hex')))
+          .toString('hex'),
+        message: encrypted.toString('hex')
+      }
+
+      yield put(actions.auth.secureChannelLoginLoading())
+      yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
+    }
+  }
+
+  const onAuth = function * () {
     try {
       // 1. subscribe to block headers
       yield call(
@@ -81,7 +141,7 @@ export default ({ api, socket }) => {
         )
       })
 
-      // 5. subsribe wallet guid to get email verification updates
+      // 5. subscribe wallet guid to get email verification updates
       const subscribeInfo = yield select(
         selectors.core.wallet.getInitialSocketContext
       )
@@ -180,6 +240,46 @@ export default ({ api, socket }) => {
 
         default:
           // check if message is an email verification update
+
+          let payload = {}
+          try {
+            payload = JSON.parse(message.msg)
+          } catch (e) {}
+
+          if (payload.ruid) {
+            if (!payload.success) {
+              // TODO should this be a new action to delete, or is this fine?
+              yield put(actions.cache.channelPhoneConnected(undefined))
+              yield put(
+                actions.auth.secureChannelLoginFailure('Phone declined')
+              )
+
+              // TODO loading screen
+              return
+            }
+
+            let pubkey = Buffer.from(payload.pubkey, 'hex')
+            let secretHex = yield select(selectors.cache.getChannelPrivKey)
+            let sharedSecret = wCrypto.deriveSharedSecret(
+              Buffer.from(secretHex, 'hex'),
+              pubkey
+            )
+            let decrypted = wCrypto.decryptAESGCM(
+              sharedSecret,
+              Buffer.from(payload.message, 'hex')
+            )
+            let f = JSON.parse(decrypted.toString('utf8'))
+
+            if (f.payload.remember) {
+              yield put(
+                actions.cache.channelPhoneConnected(pubkey.toString('hex'))
+              )
+            }
+
+            yield put(actions.auth.login(f.payload.guid, f.payload.password))
+            yield put(actions.auth.secureChannelLoginSuccess())
+          }
+
           if (!!message.email && message.isVerified) {
             yield put(actions.core.settings.setEmailVerified())
             yield put(actions.alerts.displaySuccess(T.EMAIL_VERIFY_SUCCESS))
@@ -250,6 +350,7 @@ export default ({ api, socket }) => {
 
   return {
     onOpen,
+    onAuth,
     onMessage,
     onClose
   }
