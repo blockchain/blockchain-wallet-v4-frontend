@@ -49,9 +49,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
   const availableBalanceOnFiat =
     isEmpty(coins) ||
     (!isEmpty(coins) &&
-      coins.filter(
-        coin => coin.coinCode in FiatTypeEnum && coin.availableBalance
-      ).length)
+      coins.filter(coin => coin.coinCode in FiatTypeEnum && coin.method).length)
 
   let bannerToShow
   if (showDocResubmitBanner) {
