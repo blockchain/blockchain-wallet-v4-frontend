@@ -227,7 +227,7 @@ const mapStateToProps = (state: RootState) => ({
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
-
+  actionType: selectors.components.simpleBuy.getActionType(state),
   data: getData(state)
 })
 
