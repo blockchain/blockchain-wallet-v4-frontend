@@ -1,5 +1,5 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
 import {
+  BeneficiariesType,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -18,6 +18,7 @@ import {
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
+import { CoinType, CurrenciesType, FiatType } from '../../../types'
 import { Moment } from 'moment'
 import { UserDataType } from 'data/types'
 import axios from 'axios'
@@ -114,6 +115,12 @@ export default ({
     authorizedDelete({
       url: nabuUrl,
       endPoint: `/payments/cards/${cardId}`
+    })
+
+  const getBeneficiaries = (): BeneficiariesType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/payments/beneficiaries'
     })
 
   const getSBBalances = (currency?: CoinType): SBBalancesType =>
@@ -327,6 +334,7 @@ export default ({
     createSBOrder,
     confirmSBOrder,
     deleteSBCard,
+    getBeneficiaries,
     getSBBalances,
     getSBCard,
     getSBCards,
