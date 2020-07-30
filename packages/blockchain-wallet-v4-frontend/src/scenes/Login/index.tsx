@@ -74,14 +74,14 @@ const mapStateToProps = state => ({
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state),
-  qr_data: JSON.stringify({
+  qr_data: selectors.cache.getChannelPrivKey(state) ? JSON.stringify({
     ruid: selectors.cache.getChannelRuid(state),
     pubkey: wCrypto
       .derivePubFromPriv(
         Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
       )
       .toString('hex')
-  })
+  }) : ''
 })
 
 const mapDispatchToProps = dispatch => ({
