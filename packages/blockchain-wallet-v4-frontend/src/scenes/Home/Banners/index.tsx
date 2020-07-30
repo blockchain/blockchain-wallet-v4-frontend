@@ -4,9 +4,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
+import NoneKyc from './NoneKyc'
 import React from 'react'
 import SBOrderBanner from './SBOrderBanner'
 import styled from 'styled-components'
+import VerifiedKyc from './VerifiedKyc'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -38,6 +40,18 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <SBOrderBanner />
+          </BannerWrapper>
+        )
+      case 'noneKyc':
+        return (
+          <BannerWrapper>
+            <NoneKyc />
+          </BannerWrapper>
+        )
+      case 'verifiedKyc':
+        return (
+          <BannerWrapper>
+            <VerifiedKyc />
           </BannerWrapper>
         )
       default:
