@@ -6,6 +6,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { connect, ConnectedProps } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { find, path, propEq } from 'ramda'
 import { FormattedMessage } from 'react-intl'
@@ -28,9 +29,11 @@ import {
 } from 'components/Form'
 import media from 'services/ResponsiveService'
 
+import { compose } from 'redux'
 import { fiatToString } from 'core/exchange/currency'
 import { Props as OwnProps } from '.'
 import { PriceChange } from '../Transactions/model'
+import { selectors } from 'data'
 import { Skeletons } from '../Transactions/WalletBalanceDropdown/template.loading'
 import LinkAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
@@ -117,7 +120,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     invalid,
     isGuidEmailAddress,
     qr_data,
-    secureChannelLoginState,
     isGuidValid,
     loginError,
     password,
@@ -140,7 +142,9 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
-  console.info('RENDER: SECURE CHANNEL STATE IS ' + secureChannelLoginState)
+  console.info(
+    'RENDER: SECURE CHANNEL STATE IS ' + props.secureChannelLoginState
+  )
 
   return (
     <LoginWrapper>
@@ -169,9 +173,9 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           <FormGroup>
             <FormItem>
               {console.info(
-                'SECURE CHANNEL STATE IS ' + secureChannelLoginState
+                'SECURE CHANNEL STATE IS ' + props.secureChannelLoginState
               )}
-              {secureChannelLoginState.cata({
+              {props.secureChannelLoginState.cata({
                 Success: val => {
                   return (
                     <Wrapper>
@@ -431,12 +435,21 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   )
 }
 
+const mapStateToProps = state => ({
+  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state)
+})
+
+const connector = connect(mapStateToProps)
+
+const enhance = compose(
+  reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false }),
+  connector
+)
+
 type Props = OwnProps & {
   busy: boolean
   handleSmsResend: () => void
   loginError?: string
-}
+} & ConnectedProps<typeof connector>
 
-export default reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false })(
-  Login
-)
+export default enhance(Login) as React.FunctionComponent

@@ -55,6 +55,7 @@ class LoginContainer extends React.PureComponent<Props> {
     const guid = (isGuid(path) && path) || lastGuid
 
     return guid ? (
+      // @ts-ignore
       <Login {...this.props} {...loginProps} initialValues={{ guid }} />
     ) : (
       <Login {...this.props} {...loginProps} />
@@ -73,15 +74,16 @@ const mapStateToProps = state => ({
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state),
-  qr_data: selectors.cache.getChannelPrivKey(state) ? JSON.stringify({
-    ruid: selectors.cache.getChannelRuid(state),
-    pubkey: wCrypto
-      .derivePubFromPriv(
-        Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
-      )
-      .toString('hex')
-  }) : ''
+  qr_data: selectors.cache.getChannelPrivKey(state)
+    ? JSON.stringify({
+        ruid: selectors.cache.getChannelRuid(state),
+        pubkey: wCrypto
+          .derivePubFromPriv(
+            Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
+          )
+          .toString('hex')
+      })
+    : ''
 })
 
 const mapDispatchToProps = dispatch => ({
