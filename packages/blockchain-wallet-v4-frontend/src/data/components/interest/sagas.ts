@@ -187,7 +187,8 @@ export default ({
             ...values.interestDepositAccount,
             address: getAccountIndexOrAccount(coin)
           },
-          value
+          value,
+          coin === 'BTC' ? 'regular' : 'priority'
         )
 
         yield put(A.setPaymentSuccess(provisionalPayment))
