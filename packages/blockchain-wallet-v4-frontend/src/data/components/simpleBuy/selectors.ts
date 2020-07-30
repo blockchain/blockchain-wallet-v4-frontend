@@ -112,3 +112,5 @@ export const getSBSuggestedAmounts = (state: RootState) =>
   state.components.simpleBuy.suggestedAmounts
 
 export const getStep = (state: RootState) => state.components.simpleBuy.step
+export const getActionType = (state: RootState) =>
+  state.components.simpleBuy.actionType || 'BUY'

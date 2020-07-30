@@ -1,21 +1,20 @@
-import { Icon } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
-
 import { fiatToString } from 'core/exchange/currency'
 import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { SupportedCoinType } from 'core/types'
-import { Title, Value } from 'components/Flyout'
-
+import { Icon } from 'blockchain-info-components'
 import {
   Props as OwnProps,
   OwnProps as ParentOwnProps,
   SuccessStateType
 } from '.'
+import { SupportedCoinType } from 'core/types'
+import { Title, Value } from 'components/Flyout'
+import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
+import React from 'react'
+import styled from 'styled-components'
 
 const DisplayContainer = styled.div<{
   coinType: SupportedCoinType
@@ -45,6 +44,7 @@ const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
+  color: ${props => props.theme.grey900};
 `
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
@@ -72,7 +72,8 @@ const Success: React.FC<Props> = props => {
             value: props.rates[fiat].last,
             unit: fiat
           })}
-          <PriceMovement {...props} />
+          {props.actionType === 'BUY' && <PriceMovement {...props} />}
+          {props.actionType === 'SELL' && <BalanceMovement coin={coin} />}
         </DisplayTitle>
       </Display>
       {props.onClick && (

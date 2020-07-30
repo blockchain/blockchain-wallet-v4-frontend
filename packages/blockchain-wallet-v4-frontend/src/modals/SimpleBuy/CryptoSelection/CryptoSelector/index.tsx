@@ -1,7 +1,7 @@
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
@@ -13,6 +13,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
   flex-direction: column;
   height: 100%;
+`
+const TabsContainer = styled.div`
+  margin-top: 36px;
+  display: inline-block;
 `
 const Currencies = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
@@ -44,10 +48,11 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     <Wrapper>
       <Form>
         <FlyoutWrapper>
+          <Icon cursor name='cart' size='32px' color='blue600' />
           <TopText color='grey800' size='20px' weight={600}>
             <FormattedMessage
               id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy with Cash or Card'
+              defaultMessage='Buy Crypto. Sell for Cash.'
             />
             <Icon
               cursor
@@ -62,9 +67,31 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
               id='modals.simplebuy.selectcrypto'
-              defaultMessage='Select the crypto you want to buy.'
+              defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
+          <TabsContainer>
+            <TabMenu>
+              <TabMenuItem
+                selected={props.actionType === 'BUY'}
+                onClick={() => props.simpleBuyActions.updateActionType('BUY')}
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.buycrypto'
+                  defaultMessage='Buy Crypto'
+                />
+              </TabMenuItem>
+              <TabMenuItem
+                selected={props.actionType === 'SELL'}
+                onClick={() => props.simpleBuyActions.updateActionType('SELL')}
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.sellcrypto'
+                  defaultMessage='Sell Crypto'
+                />
+              </TabMenuItem>
+            </TabMenu>
+          </TabsContainer>
         </FlyoutWrapper>
         <Currencies>
           {props.pairs.map((value, index) => (
