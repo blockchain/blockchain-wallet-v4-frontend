@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { actions } from 'data'
 import {
   CoinType,
-  InterestEligibleType,
   InterestRateType,
   RemoteDataType,
   SupportedCoinsType
@@ -32,7 +31,7 @@ import { UserDataType } from 'data/types'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
-import IneligibiltyWarning from './template.ineligible'
+import IneligibiltyWarning from './IneligibilityCard'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 import TransactionList from './TransactionList'
@@ -75,7 +74,6 @@ class Interest extends React.PureComponent<Props, StateType> {
   componentDidMount () {
     this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
-    this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
   }
 
@@ -206,7 +204,6 @@ export type StateType = {
 }
 export type SuccessStateType = {
   instruments: Array<CoinType>
-  interestEligible: InterestEligibleType
   interestRate: InterestRateType
   interestRateArray: Array<number>
   supportedCoins: SupportedCoinsType
