@@ -4,10 +4,20 @@ import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-const Container = styled.span`
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const FiatDisplayTitle = styled(FiatDisplay)`
+  display: flex;
+  align-items: center;
+`
+const CoinDisplayTitle = styled(CoinDisplay)`
+  display: flex;
   margin-left: 8px;
 `
 
@@ -16,14 +26,22 @@ class BalancesMovement extends PureComponent<Props, State> {
     return this.props.data.cata({
       Success: val => (
         <Container>
-          <CoinDisplay
+          <FiatDisplayTitle
             coin={this.props.coin}
-            color='grey600'
             size='14px'
             weight={500}
+            color='grey900'
           >
             {val.balances[this.props.coin]?.available}
-          </CoinDisplay>
+          </FiatDisplayTitle>
+          <CoinDisplayTitle
+            coin={this.props.coin}
+            size='14px'
+            weight={500}
+            color='grey600'
+          >
+            {val.balances[this.props.coin]?.available}
+          </CoinDisplayTitle>
         </Container>
       ),
       Loading: () => <SkeletonRectangle height={'12px'} width={'40px'} />,
