@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.37.14-fix0",
+  "version": "4.37.26",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -21,7 +21,7 @@
     "wallet"
   ],
   "engines": {
-    "node": ">= 10.15",
+    "node": ">= 12.18",
     "yarn": ">= 1.13"
   },
   "workspaces": [
@@ -111,15 +111,16 @@
     "@codechecks/client": "0.1.10",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@storybook/addon-actions": "4.1.9",
-    "@storybook/addon-info": "4.1.9",
-    "@storybook/addon-links": "4.1.9",
-    "@storybook/cli": "4.1.9",
-    "@storybook/react": "4.1.9",
+    "@storybook/addon-actions": "5.3.19",
+    "@storybook/addon-info": "5.3.19",
+    "@storybook/addon-links": "5.3.19",
+    "@storybook/cli": "5.3.19",
+    "@storybook/preset-typescript": "3.0.0",
+    "@storybook/react": "5.3.19",
     "@storybook/storybook-deployer": "2.8.1",
     "@types/axios": "0.14.0",
-    "@types/jest": "22.2.3",
     "@types/hoist-non-react-statics": "3.3.1",
+    "@types/jest": "22.2.3",
     "@types/moment": "2.13.0",
     "@types/node": "13.9.0",
     "@types/ramda": "0.26.39",
@@ -165,6 +166,7 @@
     "express": "4.17.1",
     "favicons-webpack-plugin": "3.0.1",
     "file-loader": "6.0.0",
+    "fork-ts-checker-webpack-plugin": "5.0.11",
     "generate-changelog": "1.8.0",
     "hoist-non-react-statics": "3.3.2",
     "html-replace-webpack-plugin": "2.5.6",

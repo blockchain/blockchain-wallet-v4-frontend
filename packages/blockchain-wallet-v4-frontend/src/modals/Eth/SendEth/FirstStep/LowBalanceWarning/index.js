@@ -45,8 +45,8 @@ const LowBalanceWarning = props => {
           </Text>
           <Text size='13px' weight={400}>
             <FormattedMessage
-              id='modals.sendeth.lowbalancewarning.explain1'
-              defaultMessage="You'll need ETH to send your ERC20 Token, USD Digital."
+              id='modals.sendeth.lowethwarningforerc20.explain1'
+              defaultMessage="You'll need ETH to send your ERC20 Tokens."
             />
           </Text>
         </WarningLeftColumn>

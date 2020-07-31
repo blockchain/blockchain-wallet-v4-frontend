@@ -41,8 +41,17 @@ export const minimumWithdrawalAmount = (
 
   return new BigNumber(Number(withdrawalMin)).isGreaterThan(Number(value)) ? (
     <FormattedMessage
-      id='interest.withdrawal.validation.belowmin'
-      defaultMessage='Amount is below the minimum withdrawal amount.'
+      id='interest.withdrawal.validation.belowminamount'
+      defaultMessage='Amount is below the minimum withdrawal amount of {withdrawalMin} {currency}.'
+      values={{
+        withdrawalMin,
+        currency:
+          displayCoin && coin === 'PAX'
+            ? 'USD-D'
+            : displayCoin
+            ? coin
+            : walletCurrency
+      }}
     />
   ) : (
     false

@@ -57,6 +57,10 @@ export default ({ coreSagas, networks }) => {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
+      const erc20List = (yield select(
+        selectors.core.walletOptions.getErc20CoinList
+      )).getOrElse([])
+      isSourceErc20 = includes(coin, erc20List)
       const [network, provisionalScript] = isSourceErc20
         ? ethOptions
         : prop(coin, {
