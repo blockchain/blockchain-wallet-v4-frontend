@@ -1,8 +1,8 @@
-import { Agent, WalletFiatType } from 'core/types'
+import { AgentType, WalletFiatType } from 'core/types'
 
 export type BeneficiaryType = {
   address: string
-  agent: Agent
+  agent: AgentType
   currency: WalletFiatType
   id: string
   name: string

@@ -1,13 +1,13 @@
+import { actions, selectors } from 'data'
+import { ActionType } from 'data/types'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {
@@ -42,6 +42,7 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  actionType: ActionType
   handleClose: () => void
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

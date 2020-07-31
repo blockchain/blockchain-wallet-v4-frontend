@@ -63,9 +63,12 @@ export type SBShowModalOriginType =
   | 'SideNav'
   | 'WelcomeModal'
 
+export type ActionType = 'BUY' | 'SELL'
+
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
+  actionType: undefined | ActionType
   balances: RemoteDataType<string, SBBalancesType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -337,6 +340,12 @@ interface ShowModalAction {
   }
   type: typeof AT.SHOW_MODAL
 }
+interface UpdateActionType {
+  payload: {
+    actionType: ActionType
+  }
+  type: typeof AT.UPDATE_ACTION_TYPE
+}
 
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
@@ -379,3 +388,4 @@ export type SimpleBuyActionTypes =
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
+  | UpdateActionType

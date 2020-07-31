@@ -19,7 +19,7 @@ type AgentSimple = {
   recipient: string
 }
 
-export type Agent = AgentSimple & {
+export type AgentType = AgentSimple & {
   address: string
   country: string
   routingNumber: string
@@ -27,7 +27,7 @@ export type Agent = AgentSimple & {
 
 export type SBAccountType =
   | (ISBAccountType & {
-      agent: Agent
+      agent: AgentType
       currency: 'USD'
     })
   | (ISBAccountType & {

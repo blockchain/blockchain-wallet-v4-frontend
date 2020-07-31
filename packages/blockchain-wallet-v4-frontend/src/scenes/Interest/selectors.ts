@@ -9,29 +9,17 @@ export const getData = state => {
   const instrumentsR = selectors.components.interest.getInterestInstruments(
     state
   )
-  const interestEligibleR = selectors.components.interest.getInterestEligible(
-    state
-  )
-
-  const transform = (
-    instruments,
-    interestRate,
-    supportedCoins,
-    userData,
-    interestEligible
-  ) => ({
+  const transform = (instruments, interestRate, supportedCoins, userData) => ({
     instruments,
     interestRate,
     interestRateArray: values(interestRate),
     supportedCoins,
-    userData,
-    interestEligible
+    userData
   })
   return lift(transform)(
     instrumentsR,
     interestRateR,
     supportedCoinsR,
-    userDataR,
-    interestEligibleR
+    userDataR
   )
 }

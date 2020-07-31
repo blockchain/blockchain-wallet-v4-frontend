@@ -1,8 +1,6 @@
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
 import {
   ExtractSuccess,
   FiatType,
@@ -16,6 +14,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
