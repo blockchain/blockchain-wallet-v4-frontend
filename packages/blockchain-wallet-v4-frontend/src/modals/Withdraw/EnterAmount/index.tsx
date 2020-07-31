@@ -6,23 +6,33 @@ import React, { PureComponent } from 'react'
 import { actions } from 'data'
 import { ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Failure from './template.failure'
+import Loading from './template.loading'
 
 class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.custodialActions.fetchCustodialBeneficiaries(
-      this.props.fiatCurrency
-    )
+    if (!Remote.Success.is(this.props.data)) {
+      this.props.custodialActions.fetchCustodialBeneficiaries(
+        this.props.fiatCurrency
+      )
+    }
   }
 
   render () {
-    return <div>{JSON.stringify(this.props.data)}</div>
+    return this.props.data.cata({
+      Success: val => <div>{JSON.stringify(val)}</div>,
+      Failure: () => <Failure {...this.props} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -31,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
+export type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
