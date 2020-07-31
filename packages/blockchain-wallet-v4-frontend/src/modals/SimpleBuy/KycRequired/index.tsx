@@ -1,23 +1,15 @@
 import { actions } from 'data'
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 import Template from './template'
-
-export type OwnProps = {
-  handleClose: () => void
-}
 
 export type LinkDispatchPropsType = {
   identityVerificationActions: typeof actions.components.identityVerification
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 
-type LinkStatePropsType = {}
-type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
-type State = {}
-
-class KycRequired extends PureComponent<Props, State> {
+class KycRequired extends PureComponent<Props> {
   state = {}
 
   render () {
@@ -25,7 +17,7 @@ class KycRequired extends PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (): LinkStatePropsType => ({})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
@@ -35,6 +27,11 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   )
 })
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export default enhance(KycRequired)
+export type OwnProps = {
+  handleClose: () => void
+}
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(KycRequired)
