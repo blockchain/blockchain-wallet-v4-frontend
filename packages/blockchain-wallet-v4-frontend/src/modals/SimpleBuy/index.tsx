@@ -20,6 +20,7 @@ import CryptoSelection from './CryptoSelection'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import KycRequired from './KycRequired'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
@@ -188,6 +189,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <CancelOrder {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'KYC_REQUIRED' && (
+              <FlyoutChild>
+                <KycRequired {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       },
@@ -259,6 +265,7 @@ type LinkStatePropsType =
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
     }
   | {
       displayBack?: boolean
