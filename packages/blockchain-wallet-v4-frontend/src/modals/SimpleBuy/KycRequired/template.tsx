@@ -141,7 +141,7 @@ const Template: React.FC<Props> = props => {
             props.identityVerificationActions.verifyIdentity(
               2,
               false,
-              'SBEnterAmountCheckout'
+              'KycRequiredStep'
             )
           }
           style={{ marginTop: '16px' }}
