@@ -3,6 +3,10 @@ import { WalletFiatType } from 'core/types'
 import * as AT from './actionTypes'
 
 // types
+export type WithdrawCheckoutFormValuesType = {
+  amount: string
+}
+
 export enum WithdrawStepEnum {
   'ENTER_AMOUNT'
 }

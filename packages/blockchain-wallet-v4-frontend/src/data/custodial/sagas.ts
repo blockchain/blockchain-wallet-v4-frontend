@@ -2,7 +2,7 @@ import { APIType } from 'core/network/api'
 import { call, put } from 'redux-saga/effects'
 
 import * as A from './actions'
-import { errorHandler } from 'core/utils'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 export default ({ api }: { api: APIType }) => {
   const fetchBeneficiaries = function * () {

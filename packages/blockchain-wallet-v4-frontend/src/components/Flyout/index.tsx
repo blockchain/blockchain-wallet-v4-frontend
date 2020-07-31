@@ -118,6 +118,34 @@ export const Value = styled(Text)<{ asTitle?: boolean }>`
   margin-top: ${props => (props.asTitle ? '0px' : '4px')};
 `
 
+// Hide the default field error for NumberBox > div > div:last-child
+export const AmountFieldContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 54px;
+  input {
+    color: ${props => props.theme.black};
+    padding-left: 8px;
+    font-size: 56px;
+    font-weight: 500;
+    border: 0px !important;
+    &::placeholder {
+      font-size: 56px;
+      color: ${props => props.theme.grey600};
+    }
+  }
+  > div {
+    height: auto;
+    input {
+      height: auto;
+      outline: 0;
+    }
+  }
+  > div > div:last-child {
+    display: none;
+  }
+`
+
 type OwnProps = {
   'data-e2e': FlyoutE2EType
   direction: 'left' | 'right'

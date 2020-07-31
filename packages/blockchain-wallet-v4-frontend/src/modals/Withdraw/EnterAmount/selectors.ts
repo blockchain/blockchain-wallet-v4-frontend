@@ -8,15 +8,19 @@ import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const balanceR = getFiatBalance(ownProps.fiatCurrency, state)
-  const beneficiariesR = selectors.custodial.getBeneficiaries(state)
+  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(state)
+  const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(
+    state
+  )
 
   return lift(
     (
       balance: ExtractSuccess<typeof balanceR>,
-      beneficiaries: ExtractSuccess<typeof beneficiariesR>
+      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>
     ) => ({
       balance,
-      beneficiaries
+      defaultBeneficiary,
+      formErrors
     })
-  )(balanceR, beneficiariesR)
+  )(balanceR, defaultBeneficiaryR)
 }
