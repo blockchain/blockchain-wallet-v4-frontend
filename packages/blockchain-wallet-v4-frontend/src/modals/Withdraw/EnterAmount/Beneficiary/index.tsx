@@ -42,7 +42,7 @@ const Beneficary: React.FC<Props> = props => {
         </AccountName>
       </Col>
       <Col>
-        <Icon name='arrow-right' color='grey400' size='16px' role='button' />
+        <Icon name='arrow-right' color='grey400' size='20px' role='button' />
       </Col>
     </Container>
   )

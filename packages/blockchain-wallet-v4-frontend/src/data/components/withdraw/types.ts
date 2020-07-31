@@ -1,4 +1,4 @@
-import { WalletFiatType } from 'core/types'
+import { BeneficiaryType, WalletFiatType } from 'core/types'
 
 import * as AT from './actionTypes'
 
@@ -8,16 +8,25 @@ export type WithdrawCheckoutFormValuesType = {
 }
 
 export enum WithdrawStepEnum {
-  'ENTER_AMOUNT'
+  'ENTER_AMOUNT',
+  'CONFIRM_WITHDRAW'
 }
 
-export type WithdrawStepActionsPayload = {
-  fiatCurrency: WalletFiatType
-  step: 'ENTER_AMOUNT'
-}
+export type WithdrawStepActionsPayload =
+  | {
+      fiatCurrency: WalletFiatType
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      amount: string
+      beneficiary: BeneficiaryType
+      step: 'CONFIRM_WITHDRAW'
+    }
 
 // state
 export type WithdrawState = {
+  amount?: string
+  beneficiary?: BeneficiaryType
   fiatCurrency: WalletFiatType
   step: keyof typeof WithdrawStepEnum
 }

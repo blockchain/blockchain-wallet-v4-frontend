@@ -3,10 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { actions } from 'data'
-import { ExtractSuccess, WalletFiatType } from 'core/types'
+import { actions, selectors } from 'data'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -23,8 +24,15 @@ class EnterAmount extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    // eslint-disable-next-line
-    console.log('handleSubmit')
+    const { defaultBeneficiary } = this.props.data.getOrElse(
+      {} as SuccessStateType
+    )
+
+    this.props.withdrawActions.setStep({
+      step: 'CONFIRM_WITHDRAW',
+      amount: this.props.formValues.amount,
+      beneficiary: this.props.beneficiary || defaultBeneficiary
+    })
   }
 
   render () {
@@ -40,17 +48,25 @@ class EnterAmount extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  data: getData(state, ownProps)
+  data: getData(state, ownProps),
+  formValues: selectors.form.getFormValues('custodyWithdrawForm')(
+    state
+  ) as WithdrawCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
+export type OwnProps = {
+  beneficiary?: BeneficiaryType
+  fiatCurrency: WalletFiatType
+  handleClose: () => void
+}
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: { amount?: 'ABOVE_MAX' | false }
 }

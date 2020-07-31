@@ -142,6 +142,7 @@ const Success: React.FC<InjectedFormProps<
         </ToContainer>
         <ActionContainer>
           <Button
+            disabled={props.invalid}
             data-e2e='withdrawNext'
             type='submit'
             nature='primary'

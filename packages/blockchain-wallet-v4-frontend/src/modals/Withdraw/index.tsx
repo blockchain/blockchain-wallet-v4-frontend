@@ -3,11 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
+import { BeneficiaryType, WalletFiatType } from 'core/types'
 import { selectors } from 'data'
-import { WalletFiatType } from 'core/types'
 // import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { WithdrawStepEnum } from 'data/types'
+import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -53,12 +54,19 @@ class Withdraw extends PureComponent<Props> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'CONFIRM_WITHDRAW' && (
+          <FlyoutChild>
+            <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
+  amount: selectors.components.withdraw.getAmount(state),
+  beneficiary: selectors.components.withdraw.getBeneficiary(state),
   fiatCurrency: selectors.components.withdraw.getFiatCurrency(state),
   step: selectors.components.withdraw.getStep(state)
   // data: getData(state)
@@ -74,12 +82,22 @@ const enhance = compose(
 )
 
 type OwnProps = ModalPropsType
-type LinkStatePropsType = {
-  fiatCurrency: WalletFiatType
-  step: 'ENTER_AMOUNT'
-}
+type LinkStatePropsType =
+  | {
+      beneficiary?: BeneficiaryType
+      fiatCurrency: WalletFiatType
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      amount: string
+      beneficiary: BeneficiaryType
+      fiatCurrency: WalletFiatType
+      step: 'CONFIRM_WITHDRAW'
+    }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  LinkStatePropsType &
+  ConnectedProps<typeof connector>
 type State = { direction: 'left' | 'right'; show: boolean }
 
 export default enhance(Withdraw)

@@ -127,10 +127,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Row>
       <Row>
         <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.fee'
-            defaultMessage='Fee'
-          />
+          <FormattedMessage id='copy.fee' defaultMessage='Fee' />
         </Title>
         <Value>
           {props.order.fee
@@ -140,10 +137,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </Row>
       <Row>
         <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.total'
-            defaultMessage='Total'
-          />
+          <FormattedMessage id='copy.total' defaultMessage='Total' />
         </Title>
         <Value data-e2e='sbFiatBuyAmount'>
           {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}

@@ -2,6 +2,8 @@ import * as AT from './actionTypes'
 import { WithdrawActionTypes, WithdrawState } from './types'
 
 const INITIAL_STATE: WithdrawState = {
+  amount: undefined,
+  beneficiary: undefined,
   fiatCurrency: 'EUR',
   step: 'ENTER_AMOUNT'
 }
@@ -16,14 +18,19 @@ export function withdrawReducer (
         case 'ENTER_AMOUNT':
           return {
             ...state,
-            fiatCurrency: action.payload.fiatCurrency
-          }
-        default:
-          return {
-            ...state,
+            fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step
           }
+        case 'CONFIRM_WITHDRAW': {
+          return {
+            ...state,
+            amount: action.payload.amount,
+            beneficiary: action.payload.beneficiary,
+            step: action.payload.step
+          }
+        }
       }
+      break
     default:
       return state
   }
