@@ -3,15 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import {
-  CoinType,
-  FiatType,
-  InterestAccountBalanceType,
-  InterestEligibleType,
-  InterestRateType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
+import { CoinType, InterestRateType, RemoteDataType } from 'core/types'
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
 
 import { getData } from './selectors'
@@ -48,19 +40,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = {
-  interestAccountBalance: InterestAccountBalanceType
-  interestEligible: InterestEligibleType
-  showInterestInfoBox: boolean
-  supportedCoins: SupportedCoinsType
-  walletCurrency: FiatType
-}
-
 export type OwnPropsType = {
   coin: CoinType
   interestRate: InterestRateType
   isGoldTier: boolean
 }
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>

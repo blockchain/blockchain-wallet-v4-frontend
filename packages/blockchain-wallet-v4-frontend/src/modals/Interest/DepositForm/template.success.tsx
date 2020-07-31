@@ -60,7 +60,7 @@ import {
   maxFiat
 } from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { SuccessStateType } from '.'
+import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const FORM_NAME = 'interestDepositForm'
@@ -114,10 +114,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
   const isErc20 = coin === 'PAX' || coin === 'USDT'
-  const insufficientEth =
-    !!(isErc20 &&
+  const insufficientEth = !!(
+    isErc20 &&
     (payment.coin === 'PAX' || payment.coin === 'USDT') &&
-    !payment.isSufficientEthForErc20)
+    !payment.isSufficientEthForErc20
+  )
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -271,6 +272,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            // @ts-ignore
             disabled={insufficientEth}
             displayCoin={displayCoin}
             name='depositAmount'
@@ -611,6 +613,7 @@ type LinkStatePropsType = {
 
 export type Props = SuccessStateType &
   ConnectedProps<typeof connector> &
+  ParentOwnProps &
   FormProps
 
 type FormProps = {

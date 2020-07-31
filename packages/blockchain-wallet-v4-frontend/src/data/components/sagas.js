@@ -6,6 +6,7 @@ import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
+import fiatTransactions from './fiatTransactions/sagas'
 import identityVerification from './identityVerification/sagas.ts'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
@@ -40,6 +41,7 @@ export default ({ api, coreSagas, networks }) => ({
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
+  fiatTransactions: fiatTransactions({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),

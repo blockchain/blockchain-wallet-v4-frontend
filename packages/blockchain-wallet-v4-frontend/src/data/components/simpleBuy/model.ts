@@ -4,9 +4,11 @@ import {
   FiatType,
   FiatTypeEnum,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairsType,
-  SBQuoteType
+  SBQuoteType,
+  WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from '../exchange/services'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -14,15 +16,15 @@ import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
 export const DEFAULT_SB_BALANCE = { pending: '0', available: '0' }
+export const DEFAULT_SB_BALANCES = {}
+export const DEFAULT_SB_METHODS = {
+  currency: 'EUR' as WalletFiatType,
+  methods: []
+}
 
-export const DEFAULT_SB_BALANCES = Object.keys(CoinTypeEnum)
-  .filter(key => !isNaN(Number(CoinTypeEnum[key])))
-  .reduce((obj, item) => {
-    obj[item] = DEFAULT_SB_BALANCE
-    return obj
-  }, {})
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
+export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
 export const splitPair = (
   pair: SBPairsType
@@ -30,7 +32,7 @@ export const splitPair = (
   return pair.split('-') as [FiatType | CoinType, '-', FiatType | CoinType]
 }
 
-export const getOrderType = (pair: SBPairsType): 'BUY' | 'SELL' => {
+export const getOrderType = (pair: SBPairsType): SBOrderActionType => {
   return splitPair(pair)[0] in FiatTypeEnum ? 'SELL' : 'BUY'
 }
 

@@ -49,6 +49,7 @@ export type ModalOriginType =
   | 'RetrySendEth'
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
+  | 'SBPaymentMethodSelection'
   | 'Send'
   | 'SendBch'
   | 'SendBtc'

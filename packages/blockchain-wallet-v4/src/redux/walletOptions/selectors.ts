@@ -12,12 +12,19 @@ import {
   toUpper
 } from 'ramda'
 import { getInvitations } from '../settings/selectors'
+import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
-import { SupportedCoinType } from './types'
+import {
+  SupportedCoinType,
+  SupportedWalletCurrenciesType,
+  SupportedWalletCurrencyType,
+  WalletOptionsType
+} from './types'
 
 // general
-export const getOptions = (state: RootState) => state.walletOptionsPath
-export const getDomains = state => getOptions(state).map(prop('domains'))
+export const getOptions = (state: RootState) =>
+  state.walletOptionsPath as RemoteDataType<string, WalletOptionsType>
+export const getDomains = state => getOptions(state).map(x => x.domains)
 export const getWebOptions = state =>
   getOptions(state).map(path(['platforms', 'web']))
 export const getWalletHelperUrl = state =>
@@ -39,12 +46,19 @@ export const getSupportedCoins = createDeepEqualSelector(
       return set(lensProp('invited'), invited, obj)
     }
 
+    // @ts-ignore
     return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
   }
-)
+) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 export const getSyncToExchangeList = state =>
   getSupportedCoins(state)
-    .map(filter((value: SupportedCoinType) => value.availability.syncToPit))
+    .map(
+      filter(
+        (value: SupportedWalletCurrencyType) =>
+          // @ts-ignore
+          value.availability.syncToPit
+      )
+    )
     .map(keys)
 export const getBtcNetwork = state =>
   getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
@@ -61,9 +75,11 @@ export const getCoinAvailability = curry((state, coin) =>
 )
 export const getErc20CoinList = state =>
   getSupportedCoins(state).map(x =>
+    // @ts-ignore
     keys(filter((c: SupportedCoinType) => !!c.contractAddress, x))
   )
 export const getCoinModel = (state, coin) =>
+  // @ts-ignore
   getSupportedCoins(state).map(x => prop(toUpper(coin), x))
 export const getCoinIcons = (state, coin) =>
   // @ts-ignore

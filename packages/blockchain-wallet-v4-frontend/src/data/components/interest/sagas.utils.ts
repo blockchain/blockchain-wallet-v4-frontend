@@ -7,6 +7,7 @@ import {
   FiatType,
   PaymentType,
   PaymentValue,
+  RatesType,
   RemoteDataType
 } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -17,7 +18,6 @@ import { selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import { convertBaseToStandard } from '../exchange/services'
-import { RatesType } from '../borrow/types'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const buildAndPublishPayment = function * (

@@ -3,6 +3,7 @@ import { path, propOr, toUpper } from 'ramda'
 
 import { DEFAULT_INVITATIONS } from 'core/model'
 import { selectors } from 'data'
+import { SupportedWalletCurrenciesType } from 'core/types'
 
 export const getData = createSelector(
   [
@@ -26,9 +27,11 @@ export const getData = createSelector(
     const availability = getCoinAvailability(coin)
     return {
       coin: coin,
-      erc20List: erc20ListR.getOrFail(),
+      erc20List: erc20ListR.getOrElse([]),
       invitations: invitationsR.getOrElse(DEFAULT_INVITATIONS),
-      supportedCoins: supportedCoinsR.getOrFail(),
+      supportedCoins: supportedCoinsR.getOrElse(
+        {} as SupportedWalletCurrenciesType
+      ),
       sendAvailable: availability.map(propOr(true, 'send')).getOrElse(false),
       requestAvailable: availability
         .map(propOr(true, 'request'))

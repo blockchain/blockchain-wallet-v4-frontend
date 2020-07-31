@@ -1,4 +1,8 @@
-import { AccountTypes, RemoteDataType, SupportedCoinsType } from 'core/types'
+import {
+  AccountTypes,
+  RemoteDataType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { SkeletonRectangle } from 'blockchain-info-components'
@@ -39,7 +43,7 @@ type LinkStatePropsType = {
       data: Array<AccountTypes>
     }
   >
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 type Props = LinkStatePropsType
 

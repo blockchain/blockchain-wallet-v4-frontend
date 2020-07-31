@@ -1,5 +1,5 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, CurrenciesType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -12,35 +12,30 @@ export type ISBAccountType = {
   state: 'PENDING' | 'ACTIVE'
 }
 
+type AgentSimple = {
+  account: string
+  code: string
+  name: string
+  recipient: string
+}
+
+type Agent = AgentSimple & {
+  address: string
+  country: string
+  routingNumber: string
+}
+
 export type SBAccountType =
   | (ISBAccountType & {
-      agent: {
-        account: string
-        address: string
-        code: string
-        country: string
-        name: string
-        recipient: string
-        routingNumber: string
-      }
+      agent: Agent
       currency: 'USD'
     })
   | (ISBAccountType & {
-      agent: {
-        account: string
-        code: string
-        name: string
-        recipient: string
-      }
+      agent: AgentSimple
       currency: 'EUR'
     })
   | (ISBAccountType & {
-      agent: {
-        account: string
-        code: string
-        name: string
-        recipient: string
-      }
+      agent: AgentSimple
       currency: 'GBP'
     })
 
@@ -50,7 +45,7 @@ export type SBBalanceType = {
 }
 
 export type SBBalancesType = {
-  [key in keyof CurrenciesType]?: SBBalanceType
+  [key in WalletFiatType | CoinType]?: SBBalanceType
 }
 
 export type NabuAddressType = {
@@ -62,22 +57,30 @@ export type NabuAddressType = {
   state: string
 }
 
+export type CardType = 'VISA' | 'MASTERCARD'
+
+export type SBCard = {
+  expireMonth: number
+  expireYear: number
+  label: null | string
+  number: string
+  type: CardType
+}
+
 export type SBCardType = {
   addedAt: string
   address: null | NabuAddressType
   attributes: {}
   currency: FiatType
   id: string
+  limits?: {
+    max: string
+    min: string
+  }
   partner: SBCardPartnerType
 } & (
   | {
-      card: {
-        expireMonth: number
-        expireYear: number
-        label: null | string
-        number: string
-        type: 'VISA' | 'MASTERCARD'
-      }
+      card: SBCard
       state: 'ACTIVE'
     }
   | { card: null; state: Exclude<SBCardStateType, 'ACTIVE'> }
@@ -100,13 +103,26 @@ export type SBPairType = {
   pair: SBPairsType
 }
 
+export type SBPaymentTypes =
+  | 'PAYMENT_CARD'
+  | 'BANK_ACCOUNT'
+  | 'FUNDS'
+  | 'USER_CARD'
+
 export type SBPaymentMethodType = {
+  addedAt?: string
+  address?: null | NabuAddressType
+  attributes?: {}
+  card?: SBCard
+  currency: FiatType
+  id?: string
   limits: {
     max: string
     min: string
   }
-  subTypes: [] | [CardNameType]
-  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT' | 'FUNDS'
+  state?: 'ACTIVE' | Exclude<SBCardStateType, 'ACTIVE'>
+  subTypes?: [] | [CardNameType]
+  type: SBPaymentTypes
 }
 
 export type SBPaymentMethodsType = {
@@ -162,6 +178,7 @@ export type ISBBuyOrderType = {
   state: SBOrderStateType
   updatedAt: string
 }
+export type SBOrderActionType = 'BUY' | 'SELL'
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
@@ -184,13 +201,40 @@ export type SBOrderStateType =
   | 'EXPIRED'
 
 export type SBQuoteType = {
-  action: 'BUY' | 'SELL'
+  action: SBOrderActionType
   fee: string
   pair: SBPairsType
   rate: string
   rateWithoutFee: string
   time: string
 }
+
+export type SBTransactionType = {
+  amount: { symbol: FiatType; value: string }
+  extraAttributes: null
+  id: string
+  insertedAt: string
+  state: SBTransactionStateType
+  type: 'DEPOSIT' | 'WITHDRAWAL'
+}
+
+export type SBTransactionsType = {
+  items: Array<SBTransactionType>
+  next: string | null
+  prev: string | null
+}
+
+export type SBTransactionStateType =
+  | 'CREATED'
+  | 'PENDING'
+  | 'UNIDENTIFIED'
+  | 'FAILED'
+  | 'FRAUD_REVIEW'
+  | 'MANUAL_REVIEW'
+  | 'REJECTED'
+  | 'CLEARED'
+  | 'COMPLETE'
+  | 'REFUNDED'
 
 export type FiatEligibleType = {
   eligible: boolean

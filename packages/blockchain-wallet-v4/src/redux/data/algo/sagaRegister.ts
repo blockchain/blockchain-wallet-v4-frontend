@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { takeLatest } from 'redux-saga/effects'
+import { fork, takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
 export default ({ api }) => {
@@ -7,9 +7,6 @@ export default ({ api }) => {
 
   return function * coreDataAlgoSaga () {
     yield takeLatest(AT.FETCH_ALGO_RATES, dataAlgoSagas.fetchRates)
-    yield takeLatest(
-      AT.FETCH_ALGO_TRANSACTIONS,
-      dataAlgoSagas.fetchTransactions
-    )
+    yield fork(dataAlgoSagas.watchTransactions)
   }
 }

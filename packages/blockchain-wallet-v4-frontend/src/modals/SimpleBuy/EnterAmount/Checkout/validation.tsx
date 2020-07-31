@@ -1,34 +1,36 @@
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { Props } from './template.success'
+import { SBBalancesType, SBPairType, SBPaymentMethodType } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
 import BigNumber from 'bignumber.js'
 
 export const getMaxMin = (
+  pair: SBPairType,
+  minOrMax: 'min' | 'max',
+  sbBalances: SBBalancesType,
   allValues?: SBCheckoutFormValuesType,
-  minOrMax?: 'min' | 'max'
+  method?: SBPaymentMethodType
 ) => {
   switch (minOrMax || 'max') {
     case 'max':
       const defaultMax = convertBaseToStandard('FIAT', 0)
       if (!allValues) return defaultMax
-      if (!allValues.method) return defaultMax
-      if (!allValues.pair) return defaultMax
+      if (!method) return defaultMax
+      if (!pair) return defaultMax
 
-      const max = BigNumber.minimum(
-        allValues.method.limits.max,
-        allValues.pair.buyMax
-      ).toString()
+      let max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
+
+      if (method.type === 'FUNDS' && sbBalances)
+        max = sbBalances[method.currency].available
 
       return convertBaseToStandard('FIAT', max)
     case 'min':
       const defaultMin = convertBaseToStandard('FIAT', 0)
       if (!allValues) return defaultMin
-      if (!allValues.method) return defaultMin
-      if (!allValues.pair) return defaultMin
+      if (!method) return defaultMin
+      if (!pair) return defaultMin
 
-      const min = BigNumber.maximum(
-        allValues.method.limits.min,
-        allValues.pair.buyMin
-      ).toString()
+      const min = BigNumber.maximum(method.limits.min, pair.buyMin).toString()
 
       return convertBaseToStandard('FIAT', min)
   }
@@ -36,22 +38,34 @@ export const getMaxMin = (
 
 export const maximumAmount = (
   value: string,
-  allValues: SBCheckoutFormValuesType
+  allValues: SBCheckoutFormValuesType,
+  restProps: Props
 ) => {
-  if (!allValues.pair) return
   if (!value) return true
-  return Number(value) > Number(getMaxMin(allValues, 'max'))
+
+  const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
+  const method = selectedMethod || defaultMethod
+  if (!method) return true
+
+  return Number(value) >
+    Number(getMaxMin(pair, 'max', sbBalances, allValues, method))
     ? 'ABOVE_MAX'
     : false
 }
 
 export const minimumAmount = (
   value: string,
-  allValues: SBCheckoutFormValuesType
+  allValues: SBCheckoutFormValuesType,
+  restProps: Props
 ) => {
-  if (!allValues.pair) return
   if (!value) return true
-  return Number(value) < Number(getMaxMin(allValues, 'min'))
+
+  const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
+  const method = selectedMethod || defaultMethod
+  if (!method) return true
+
+  return Number(value) <
+    Number(getMaxMin(pair, 'min', sbBalances, allValues, method))
     ? 'BELOW_MIN'
     : false
 }

@@ -64,7 +64,13 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
     )
   }
 
-  if (!cardMethod?.subTypes.find(subType => subType === cardType.type)) {
+  if (
+    !(
+      cardMethod &&
+      cardMethod.subTypes &&
+      cardMethod.subTypes.find(subType => subType === cardType.type)
+    )
+  ) {
     return (
       <FormattedMessage
         id='formhelper.card_type_unsupported'

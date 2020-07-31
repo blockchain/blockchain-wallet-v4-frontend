@@ -85,6 +85,7 @@ export const HeartbeatLoader: FunctionComponent<{
   color?: keyof DefaultTheme
 }>
 export const Icon: FunctionComponent<{
+  className?: string
   name: keyof IcoMoonType
   weight?: number
   size?: string

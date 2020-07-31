@@ -7,7 +7,6 @@ export const getTags = state => {
     .getOrElse({ BLOCKSTACK: false })
 }
 export const getCurrentKYCState = state => {
-  // @ts-ignore
   return selectors.modules.profile.getUserKYCState(state).getOrElse('NONE')
 }
 export const currentUserTier = state => {

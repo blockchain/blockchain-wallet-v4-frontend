@@ -3,16 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React, { Component } from 'react'
 
-import {
-  FiatType,
-  InterestTransactionType,
-  NabuApiErrorType,
-  RemoteDataType,
-  SupportedCoinsType
-} from 'core/types'
-
 import { getData } from './selectors'
-import { RatesType } from 'data/components/borrow/types'
 import TransactionList from './template.success'
 
 class TransactionListContainer extends Component<Props> {
@@ -30,7 +21,7 @@ class TransactionListContainer extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
@@ -39,16 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = {
-  rates: RatesType
-  supportedCoins: SupportedCoinsType
-  txPages: Array<Array<InterestTransactionType>>
-  walletCurrency: FiatType
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<NabuApiErrorType, SuccessStateType>
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = ConnectedProps<typeof connector>
 

@@ -1,27 +1,29 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import {
-  FiatEligibleType,
+  ExtractSuccess,
   FiatType,
   RemoteDataType,
-  SBCardType,
+  SBOrderType,
   SBPairType,
-  SBPaymentMethodsType
+  SBPaymentMethodType
 } from 'core/types'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
     }
   }
@@ -51,13 +53,11 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  method?: SBPaymentMethodType
+  order?: SBOrderType
+  pair: SBPairType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-  eligibility: FiatEligibleType
-  pairs: Array<SBPairType>
-  paymentMethods: SBPaymentMethodsType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType

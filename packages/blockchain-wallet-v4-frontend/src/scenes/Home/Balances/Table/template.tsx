@@ -2,8 +2,8 @@ import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 import { Icon, Text } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { mapObjIndexed, toLower, values } from 'ramda'
-import { Props } from '.'
-import { SupportedCoinType } from 'core/types'
+import { Props, SuccessStateType } from '.'
+import { SupportedWalletCurrencyType } from 'core/types'
 import CoinBalance from '../CoinBalance'
 import React from 'react'
 import styled from 'styled-components'
@@ -40,26 +40,19 @@ const Amount = styled.div`
   }
 `
 
-const Success = (props: Props) => {
-  const { viewType, supportedCoins } = props
-  const coinOrder = [
-    supportedCoins.BTC,
-    supportedCoins.ETH,
-    supportedCoins.BCH,
-    supportedCoins.XLM,
-    supportedCoins.ALGO,
-    supportedCoins.PAX,
-    supportedCoins.USDT
-  ]
+const Success = (props: Props & SuccessStateType) => {
+  const { viewType, coins } = props
 
   return (
     <HomeBalanceTable>
       {values(
-        mapObjIndexed((coin: SupportedCoinType, i) => {
+        mapObjIndexed((coin: SupportedWalletCurrencyType, i) => {
+          // @ts-ignore
           if (viewType === 'Hardware' && !coin.hasLockboxSupport) return
           const link =
             viewType === 'Hardware' ? '/lockbox' : coin.txListAppRoute
           return (
+            coin.method &&
             coin.invited && (
               <HomeBalanceRow
                 key={i}
@@ -86,7 +79,7 @@ const Success = (props: Props) => {
               </HomeBalanceRow>
             )
           )
-        }, coinOrder)
+        }, coins)
       )}
     </HomeBalanceTable>
   )
