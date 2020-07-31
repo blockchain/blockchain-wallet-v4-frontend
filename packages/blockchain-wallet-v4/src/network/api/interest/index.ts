@@ -1,5 +1,6 @@
 import { CoinType, FiatType } from 'core/types'
 import {
+  DepositNotificationResponseType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestEligibleType,
@@ -92,6 +93,23 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const notifyDepositPending = (
+    amount: number,
+    currency: CoinType,
+    depositAddress: string
+  ): DepositNotificationResponseType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        txHash: 'txHash',
+        amount,
+        currency,
+        depositAddress
+      },
+      endPoint: '/savings/deposits',
+      url: nabuUrl
+    })
+
   return {
     getInterestAccountBalance,
     getInterestEligible,
@@ -101,6 +119,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     getInterestSavingsRate,
     getInterestTransactions,
     getWithdrawalMinsAndFees,
-    initiateInterestWithdrawal
+    initiateInterestWithdrawal,
+    notifyDepositPending
   }
 }

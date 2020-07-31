@@ -299,6 +299,15 @@ export default ({
       const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
+      let isPaymentAmount = payment.value().amount
+      let paymentAmount =
+        coin === 'BTC' ? isPaymentAmount && isPaymentAmount[0] : isPaymentAmount
+      yield call(
+        api.notifyDepositPending,
+        Number(paymentAmount),
+        coin,
+        depositAddress
+      )
       // build and publish payment to network
       yield call(buildAndPublishPayment, coin, payment, depositAddress)
       // notify success
