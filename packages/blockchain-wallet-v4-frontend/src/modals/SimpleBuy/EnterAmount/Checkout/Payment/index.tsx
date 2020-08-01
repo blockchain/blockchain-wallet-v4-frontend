@@ -172,6 +172,7 @@ const getText = (
 const Payment: React.FC<Props> = props => (
   <PaymentContainer
     role='button'
+    data-e2e='paymentMethodSelect'
     onClick={() =>
       props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',

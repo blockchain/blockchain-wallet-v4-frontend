@@ -51,7 +51,8 @@ export enum SimpleBuyStepType {
   'CC_BILLING_ADDRESS',
   '3DS_HANDLER',
   'TRANSFER_DETAILS',
-  'CANCEL_ORDER'
+  'CANCEL_ORDER',
+  'KYC_REQUIRED'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -326,7 +327,13 @@ export type StepActionsPayload =
       step: 'PAYMENT_METHODS'
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
-  | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
+  | {
+      step:
+        | 'ADD_CARD'
+        | 'CURRENCY_SELECTION'
+        | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
+    }
 
 interface SetStepAction {
   payload: StepActionsPayload

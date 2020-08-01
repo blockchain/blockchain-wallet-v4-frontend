@@ -30,11 +30,9 @@ class CheckoutConfirm extends PureComponent<Props> {
     } as SuccessStateType)
 
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(
-        2,
-        false,
-        'SBEnterAmountCheckout'
-      )
+      this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
       return
     }
 

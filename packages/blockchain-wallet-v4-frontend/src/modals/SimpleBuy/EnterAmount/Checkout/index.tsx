@@ -35,12 +35,10 @@ class Checkout extends PureComponent<Props> {
     const method = this.props.method || this.props.defaultMethod
 
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(
-        2,
-        false,
-        'SBEnterAmountCheckout'
-      )
       this.props.simpleBuyActions.createSBOrder(undefined, method?.type)
+      this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
