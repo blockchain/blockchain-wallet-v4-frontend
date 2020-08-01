@@ -63,6 +63,7 @@ export type SBShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'WelcomeModal'
+  | 'WithdrawModal'
 
 export type ActionType = 'BUY' | 'SELL'
 

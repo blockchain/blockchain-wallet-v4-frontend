@@ -1,11 +1,12 @@
+import { BeneficiaryIcon, BeneficiaryName } from './model'
+import { BeneficiaryType } from 'core/types'
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { Icon } from 'blockchain-info-components'
+import { Props as OwnProps } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
 
-import { BeneficiaryType } from 'core/types'
-import { Icon, Text } from 'blockchain-info-components'
-import { Props as OwnProps } from '../template.success'
-
-const Container = styled.div`
+const Container = styled.div<{ onClick }>`
   border: 1px solid ${props => props.theme['grey100']};
   border-radius: 8px;
   padding: 20px 24px;
@@ -24,21 +25,17 @@ const AccountName = styled.div`
 
 const Beneficary: React.FC<Props> = props => {
   return (
-    <Container>
+    <Container
+      onClick={() =>
+        props.handleBankSelection(props.userData, props.beneficiary)
+      }
+    >
       <Col>
-        <Icon name='bank-filled' color='blue600' />
+        <DisplayPaymentIcon showBackground>
+          <BeneficiaryIcon {...props} />
+        </DisplayPaymentIcon>
         <AccountName>
-          <Text color='grey900' size='14px' weight={600}>
-            {props.beneficiary.name}
-          </Text>
-          <Text
-            color='grey600'
-            size='12px'
-            weight={500}
-            style={{ marginTop: '4px' }}
-          >
-            Limit Here
-          </Text>
+          <BeneficiaryName {...props} />
         </AccountName>
       </Col>
       <Col>
@@ -48,6 +45,8 @@ const Beneficary: React.FC<Props> = props => {
   )
 }
 
-type Props = OwnProps & { beneficiary: BeneficiaryType }
+export type Props = OwnProps & {
+  beneficiary?: BeneficiaryType
+}
 
 export default Beneficary

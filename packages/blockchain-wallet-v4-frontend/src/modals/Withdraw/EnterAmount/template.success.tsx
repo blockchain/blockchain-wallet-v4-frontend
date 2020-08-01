@@ -4,6 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
+import { BeneficiaryType } from 'core/types'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { ErrorCartridge } from 'components/Cartridge'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -12,7 +13,7 @@ import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
 import { maximumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { WithdrawCheckoutFormValuesType } from 'data/types'
+import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Beneficary from './Beneficiary'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'core/exchange/currencies'
@@ -44,7 +45,8 @@ const normalizeAmount = (value, prevValue) => {
 }
 
 const Success: React.FC<InjectedFormProps<
-  Props & WithdrawCheckoutFormValuesType
+  WithdrawCheckoutFormValuesType,
+  Props
 > &
   Props> = props => {
   const beneficiary = props.defaultBeneficiary
@@ -158,7 +160,13 @@ const Success: React.FC<InjectedFormProps<
   )
 }
 
-export type Props = OwnProps & SuccessStateType
+export type Props = OwnProps &
+  SuccessStateType & {
+    handleBankSelection: (
+      userData: UserDataType,
+      beneficiary?: BeneficiaryType
+    ) => void
+  }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({
   form: 'custodyWithdrawForm'

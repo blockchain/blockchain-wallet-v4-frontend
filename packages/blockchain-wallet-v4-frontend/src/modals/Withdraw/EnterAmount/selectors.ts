@@ -12,15 +12,18 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(
     state
   )
+  const userDataR = selectors.modules.profile.getUserData(state)
 
   return lift(
     (
       balance: ExtractSuccess<typeof balanceR>,
-      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>
+      defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
+      userData: ExtractSuccess<typeof userDataR>
     ) => ({
       balance,
       defaultBeneficiary,
-      formErrors
+      formErrors,
+      userData
     })
-  )(balanceR, defaultBeneficiaryR)
+  )(balanceR, defaultBeneficiaryR, userDataR)
 }

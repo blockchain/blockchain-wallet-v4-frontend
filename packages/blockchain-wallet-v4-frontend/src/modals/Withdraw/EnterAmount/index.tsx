@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { WithdrawCheckoutFormValuesType } from 'data/types'
+import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -35,10 +35,39 @@ class EnterAmount extends PureComponent<Props> {
     })
   }
 
+  handleBankSelection = (
+    userData: UserDataType,
+    beneficiary?: BeneficiaryType
+  ) => {
+    if (!beneficiary) {
+      this.props.simpleBuyActions.showModal('WithdrawModal')
+      if (userData.tiers.current === 2) {
+        this.props.simpleBuyActions.setStep({
+          step: 'TRANSFER_DETAILS',
+          fiatCurrency: this.props.fiatCurrency,
+          displayBack: false
+        })
+      } else {
+        this.props.simpleBuyActions.setStep({
+          step: 'KYC_REQUIRED'
+        })
+      }
+    }
+
+    if (beneficiary) {
+      // set selection step
+    }
+  }
+
   render () {
     return this.props.data.cata({
       Success: val => (
-        <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+        <Success
+          {...this.props}
+          {...val}
+          onSubmit={this.handleSubmit}
+          handleBankSelection={this.handleBankSelection}
+        />
       ),
       Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
@@ -57,6 +86,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 
