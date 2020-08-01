@@ -1,4 +1,5 @@
-import { lift } from 'ramda'
+import { lift, pathOr, propOr } from 'ramda'
+
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
@@ -30,6 +31,8 @@ export const getData = (state: RootState) => {
       interestLimits,
       interestRate,
       payment,
+      btcFee: pathOr('0', ['selection', 'fee'], payment),
+      ethFee: propOr('0', 'fee', payment),
       rates,
       supportedCoins,
       walletCurrency

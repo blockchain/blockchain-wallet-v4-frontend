@@ -92,9 +92,11 @@ export type LinkDispatchPropsType = {
   interestActions: typeof actions.components.interest
 }
 export type SuccessStateType = {
+  btcFee: number
   coin: CoinType
   depositLimits: InterestMinMaxType
   displayCoin: boolean
+  ethFee: number
   formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType

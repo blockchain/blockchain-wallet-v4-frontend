@@ -54,6 +54,7 @@ import {
   TopText
 } from './model'
 import {
+  amountConverter,
   amountToCrypto,
   amountToFiat,
   calcCompoundInterest,
@@ -67,9 +68,11 @@ const FORM_NAME = 'interestDepositForm'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
+    btcFee,
     coin,
     depositLimits,
     displayCoin,
+    ethFee,
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -88,6 +91,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
+  const depositFee = coin === 'BTC' ? btcFee : ethFee
 
   const depositAmountFiat = amountToFiat(
     displayCoin,
@@ -105,6 +109,15 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     rates
   )
 
+  const depositFeeFiat = amountToFiat(
+    displayCoin,
+    depositFee,
+    coin,
+    walletCurrency,
+    rates
+  )
+
+  const depositFeeCrypto = amountConverter(depositFee, coin)
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
@@ -114,10 +127,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
   const isErc20 = coin === 'PAX' || coin === 'USDT'
-  const insufficientEth =
-    !!(isErc20 &&
+  const insufficientEth = !!(
+    isErc20 &&
     (payment.coin === 'PAX' || payment.coin === 'USDT') &&
-    !payment.isSufficientEthForErc20)
+    !payment.isSufficientEthForErc20
+  )
+
+  // const btcFee = coin === 'BTC' && payment.selection ? 'hi' : 'no'
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -556,14 +572,18 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <AgreementContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
               <FormattedMessage
-                id='modals.interest.deposit.agreement1'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                id='modals.interest.deposit.agreement2'
+                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus a network fee of ~{depositFeeFiat} ({depositFeeCrypto}) from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
                 values={{
                   lockupPeriod,
                   depositAmountFiat: `${currencySymbol}${formatFiat(
                     depositAmountFiat
                   )}`,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
+                  depositFeeFiat: `${currencySymbol}${formatFiat(
+                    depositFeeFiat
+                  )}`,
+                  depositFeeCrypto: `${depositFeeCrypto} ${coinTicker}`,
                   displayName
                 }}
               />

@@ -193,8 +193,8 @@ export default ({
         )
 
         yield put(A.setPaymentSuccess(provisionalPayment))
-
         break
+
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
         payment = yield call(createPayment, action.payload.index)
@@ -308,6 +308,7 @@ export default ({
         coin,
         depositAddress
       )
+
       // build and publish payment to network
       yield call(buildAndPublishPayment, coin, payment, depositAddress)
       // notify success

@@ -628,7 +628,7 @@
   "modals.importkey.label.privatekey": "Enter your private key",
   "modals.importkey.label.transferfunds": "Transfer funds to an existing wallet (optional)",
   "modals.interest.balance": "Your {coin} Balance",
-  "modals.interest.deposit.agreement1": "By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your Bitcoin Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.",
+  "modals.interest.deposit.agreement2": "By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus a network fee of ~{depositFeeFiat} ({depositFeeCrypto}) from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.",
   "modals.interest.deposit.amount": "Enter deposit amount",
   "modals.interest.deposit.calc": "Interest Calculator",
   "modals.interest.deposit.calcdesc": "With {currencySymbol}{depositAmountFiat} in your Interest Account you can earn:",

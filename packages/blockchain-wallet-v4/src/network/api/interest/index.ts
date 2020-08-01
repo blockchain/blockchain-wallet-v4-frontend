@@ -26,11 +26,17 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       }
     })
 
-  const getInterestEligible = (): InterestEligibleType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/eligible'
-    })
+  const getInterestEligible = (): InterestEligibleType => ({
+    BTC: { eligible: true, ineligibilityReason: null },
+    ETH: { eligible: true, ineligibilityReason: null },
+    PAX: { eligible: true, ineligibilityReason: null },
+    USDT: { eligible: true, ineligibilityReason: null }
+  })
+  // const getInterestEligible = (): InterestEligibleType =>
+  //   authorizedGet({
+  //     url: nabuUrl,
+  //     endPoint: '/savings/eligible'
+  //   })
 
   const getInterestInstruments = (): InterestInstrumentsType =>
     authorizedGet({

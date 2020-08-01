@@ -53,6 +53,7 @@ type EthPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'ETH' | 'PAX' | 'USDT'
   description?: string
+  fee?: number
   from: {
     address: string
     type: FromType
@@ -68,6 +69,7 @@ type XlmPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'XLM'
   description?: string
+  fee?: number
   to?: XlmAccountFromType | XlmAddressFromType
   txId?: string
 }
