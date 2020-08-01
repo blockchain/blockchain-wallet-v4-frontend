@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -16,11 +15,9 @@ class EnterAmount extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    if (!Remote.Success.is(this.props.data)) {
-      this.props.custodialActions.fetchCustodialBeneficiaries(
-        this.props.fiatCurrency
-      )
-    }
+    this.props.custodialActions.fetchCustodialBeneficiaries(
+      this.props.fiatCurrency
+    )
   }
 
   handleSubmit = () => {
@@ -55,7 +52,10 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     if (beneficiary) {
-      // set selection step
+      this.props.withdrawActions.setStep({
+        step: 'BANK_PICKER',
+        fiatCurrency: this.props.fiatCurrency
+      })
     }
   }
 

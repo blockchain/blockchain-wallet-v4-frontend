@@ -1,10 +1,12 @@
-import { BeneficiaryIcon, BeneficiaryName } from './model'
-import { BeneficiaryType } from 'core/types'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { Icon } from 'blockchain-info-components'
-import { Props as OwnProps } from '../template.success'
 import React from 'react'
 import styled from 'styled-components'
+
+import { BeneficiaryIcon, BeneficiaryName } from './model'
+import { BeneficiaryType } from 'core/types'
+import { Col } from 'components/Flyout'
+import { Content, DisplayPaymentIcon } from 'components/SimpleBuy'
+import { Icon } from 'blockchain-info-components'
+import { Props as OwnProps } from '../template.success'
 
 const Container = styled.div<{ onClick }>`
   border: 1px solid ${props => props.theme['grey100']};
@@ -14,13 +16,6 @@ const Container = styled.div<{ onClick }>`
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-`
-const Col = styled.div`
-  display: flex;
-  align-items: center;
-`
-const AccountName = styled.div`
-  margin-left: 16px;
 `
 
 const Beneficary: React.FC<Props> = props => {
@@ -34,9 +29,9 @@ const Beneficary: React.FC<Props> = props => {
         <DisplayPaymentIcon showBackground>
           <BeneficiaryIcon {...props} />
         </DisplayPaymentIcon>
-        <AccountName>
+        <Content>
           <BeneficiaryName {...props} />
-        </AccountName>
+        </Content>
       </Col>
       <Col>
         <Icon name='arrow-right' color='grey400' size='20px' role='button' />

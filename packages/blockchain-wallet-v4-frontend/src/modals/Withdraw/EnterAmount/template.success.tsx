@@ -18,7 +18,7 @@ import Beneficary from './Beneficiary'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Currencies from 'core/exchange/currencies'
 
-const Top = styled(Text)`
+const Top = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

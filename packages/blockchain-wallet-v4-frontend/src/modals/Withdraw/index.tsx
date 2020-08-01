@@ -8,6 +8,7 @@ import { selectors } from 'data'
 // import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { WithdrawStepEnum } from 'data/types'
+import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -54,6 +55,11 @@ class Withdraw extends PureComponent<Props> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'BANK_PICKER' && (
+          <FlyoutChild>
+            <BankPicker {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
         {this.props.step === 'CONFIRM_WITHDRAW' && (
           <FlyoutChild>
             <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
@@ -72,9 +78,7 @@ const mapStateToProps = (state: RootState) => ({
   // data: getData(state)
 })
 
-const mapDispatchToProps = () => ({})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps)
 
 const enhance = compose(
   ModalEnhancer('CUSTODY_WITHDRAW_MODAL', { transition: duration }),
@@ -87,6 +91,10 @@ type LinkStatePropsType =
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
       step: 'ENTER_AMOUNT'
+    }
+  | {
+      fiatCurrency: WalletFiatType
+      step: 'BANK_PICKER'
     }
   | {
       amount: string

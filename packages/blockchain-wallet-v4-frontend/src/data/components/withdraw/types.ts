@@ -9,13 +9,14 @@ export type WithdrawCheckoutFormValuesType = {
 
 export enum WithdrawStepEnum {
   'ENTER_AMOUNT',
+  'BANK_PICKER',
   'CONFIRM_WITHDRAW'
 }
 
 export type WithdrawStepActionsPayload =
   | {
       fiatCurrency: WalletFiatType
-      step: 'ENTER_AMOUNT'
+      step: 'ENTER_AMOUNT' | 'BANK_PICKER'
     }
   | {
       amount: string

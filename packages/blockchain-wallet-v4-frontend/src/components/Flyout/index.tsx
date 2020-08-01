@@ -104,6 +104,10 @@ export const Row = styled.div`
     border-bottom: 1px solid ${props => props.theme.grey000};
   }
 `
+export const Col = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 export const Title = styled(Text)<{ asValue?: boolean }>`
   font-size: 14px;

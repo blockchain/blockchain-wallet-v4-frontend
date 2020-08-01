@@ -2003,6 +2003,7 @@ type MessagesType = {
   'scenes.settings.general.walletid.description': 'Wallet ID is your unique identifier. It is completely individual to you, and it is what you will use to log in and access your wallet. It is NOT a bitcoin address for sending or receiving.'
   'scenes.settings.general.walletid.title': 'Wallet ID'
   'scenes.settings.general.walletid.warning': 'Do not share your Wallet ID with others.'
+  'scenes.settings.linked_banks': 'Linked Banks'
   'scenes.settings.linked_cards': 'Linked Cards'
   'scenes.settings.menu.title': 'Wallets & Addresses'
   'scenes.settings.menu.subtitle': 'Manage your wallet names, addresses and private keys.'

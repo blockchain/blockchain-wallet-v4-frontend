@@ -1,8 +1,9 @@
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import React from 'react'
 
 import { FormattedMessage } from 'react-intl'
 import { Props } from '.'
+import { Title, Value } from 'components/Flyout'
 
 export const BeneficiaryIcon = (props: Props) => {
   switch (true) {
@@ -20,24 +21,15 @@ export const BeneficiaryName = (props: Props) => {
     return (
       <>
         {' '}
-        <Text color='grey900' size='14px' weight={600}>
-          {props.beneficiary.name}
-        </Text>
-        <Text
-          color='grey600'
-          size='12px'
-          weight={500}
-          style={{ marginTop: '4px' }}
-        >
-          Limit Here
-        </Text>
+        <Value asTitle>{props.beneficiary.name}</Value>
+        <Title asValue>Limit Here</Title>
       </>
     )
   } else {
     return (
-      <Text color='grey900' size='14px' weight={600}>
+      <Value asTitle>
         <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
-      </Text>
+      </Value>
     )
   }
 }

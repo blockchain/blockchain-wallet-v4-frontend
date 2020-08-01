@@ -9,8 +9,9 @@ const DisplayContainer = styled.div`
   flex-direction: row;
   cursor: pointer;
   border-bottom: 1px solid ${props => props.theme.grey000};
-  &hover {
-    background-color: ${props => props.theme.grey100};
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: ${props => props.theme.grey000};
   }
 `
 
