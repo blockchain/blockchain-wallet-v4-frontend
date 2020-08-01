@@ -42,6 +42,7 @@ export type ModalOriginType =
   | 'Header'
   | 'InterestPage'
   | 'KycDocResubmitGoal'
+  | 'KycRequiredStep'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
