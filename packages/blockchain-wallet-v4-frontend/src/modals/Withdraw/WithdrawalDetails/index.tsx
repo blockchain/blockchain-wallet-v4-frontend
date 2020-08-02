@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { WalletFiatType, WithdrawResponseType } from 'core/types'
 
@@ -17,7 +19,25 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const Title = styled(Text)`
-  margin: 32px 0px 24px 0px;
+  margin: 32px 0px 4px 0px;
+`
+const SubTitle = styled(Text)`
+  text-align: center;
+  line-height: 150%;
+  margin-bottom: 32px;
+`
+const IconContainer = styled.div`
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+`
+const SuccessIcon = styled(Icon)`
+  padding: 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -16px;
+  right: -22px;
+  background: ${props => props.theme.white};
 `
 
 class WithdrawalDetails extends PureComponent<Props> {
@@ -27,12 +47,29 @@ class WithdrawalDetails extends PureComponent<Props> {
     return (
       <Wrapper>
         <div>
-          <Icon
-            size='72px'
-            color='fiat'
-            name={this.props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
-          />
-          <Title weight={600} size='20px' lineHeight='150%'>
+          <IconContainer>
+            <Icon
+              size='72px'
+              color='fiat'
+              name={this.props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
+            />
+            <SuccessIcon
+              name='checkmark-circle-filled'
+              color='fiat'
+              size='28px'
+            />
+          </IconContainer>
+          <Title weight={600} size='20px'>
+            {fiatToString({
+              value: convertBaseToStandard(
+                'FIAT',
+                this.props.withdrawal.amount.value
+              ),
+              unit: this.props.withdrawal.amount.symbol
+            })}{' '}
+            {this.props.withdrawal.amount.symbol}
+          </Title>
+          <SubTitle size='14px' color='grey600' weight={500}>
             <FormattedMessage
               id='modals.withdraw.success'
               defaultMessage='Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
@@ -40,7 +77,7 @@ class WithdrawalDetails extends PureComponent<Props> {
                 currency: this.props.fiatCurrency
               }}
             />
-          </Title>
+          </SubTitle>
           <Button
             fullwidth
             height='48px'

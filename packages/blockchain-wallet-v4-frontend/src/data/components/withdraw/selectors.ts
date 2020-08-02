@@ -9,3 +9,6 @@ export const getFiatCurrency = (state: RootState) =>
   state.components.withdraw.fiatCurrency
 
 export const getStep = (state: RootState) => state.components.withdraw.step
+
+export const getWithdrawal = (state: RootState) =>
+  state.components.withdraw.withdrawal
