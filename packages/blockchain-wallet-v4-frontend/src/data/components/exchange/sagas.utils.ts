@@ -88,6 +88,8 @@ export default ({ coreSagas, networks }) => {
         .build()
         .done()).value()
     } catch (e) {
+      // eslint-disable-next-line
+      console.log(e)
       return {}
     }
   }
