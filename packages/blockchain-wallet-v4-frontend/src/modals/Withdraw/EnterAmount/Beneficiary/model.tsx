@@ -22,7 +22,7 @@ export const BeneficiaryName = (props: Props) => {
       <>
         {' '}
         <Value asTitle>{props.beneficiary.name}</Value>
-        <Title asValue>Limit Here</Title>
+        <Title asValue>{props.beneficiary.agent.account}</Title>
       </>
     )
   } else {

@@ -15,6 +15,10 @@ const Top = styled.div`
   display: flex;
   align-items: center;
 `
+const ColBetween = styled(Col)`
+  width: 100%;
+  justify-content: space-between;
+`
 
 const Success: React.FC<Props> = props => {
   return (
@@ -46,7 +50,15 @@ const Success: React.FC<Props> = props => {
       </FlyoutWrapper>
       {props.beneficiaries.map(beneficiary => {
         return (
-          <DisplayContainer>
+          <DisplayContainer
+            onClick={() => {
+              props.withdrawActions.setStep({
+                beneficiary,
+                fiatCurrency: props.fiatCurrency,
+                step: 'ENTER_AMOUNT'
+              })
+            }}
+          >
             <Col>
               <DisplayPaymentIcon showBackground>
                 <Icon name='bank-filled' color='blue600' size='16px' />
@@ -76,7 +88,7 @@ const Success: React.FC<Props> = props => {
             <Icon name='bank-filled' color='blue600' size='16px' />
           </DisplayPaymentIcon>
         </Col>
-        <Col>
+        <ColBetween>
           <Content>
             <Value asTitle>
               <FormattedMessage
@@ -85,7 +97,8 @@ const Success: React.FC<Props> = props => {
               />
             </Value>
           </Content>
-        </Col>
+          <Icon name='plus-in-circle-filled' color='fiat' size='20px' />
+        </ColBetween>
       </DisplayContainer>
     </div>
   )

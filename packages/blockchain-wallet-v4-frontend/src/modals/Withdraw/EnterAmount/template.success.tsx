@@ -49,7 +49,7 @@ const Success: React.FC<InjectedFormProps<
   Props
 > &
   Props> = props => {
-  const beneficiary = props.defaultBeneficiary
+  const beneficiary = props.beneficiary || props.defaultBeneficiary
 
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount

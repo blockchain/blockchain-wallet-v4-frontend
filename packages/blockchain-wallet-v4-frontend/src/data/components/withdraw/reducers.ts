@@ -16,6 +16,12 @@ export function withdrawReducer (
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
+          return {
+            ...state,
+            beneficiary: action.payload.beneficiary,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step
+          }
         case 'BANK_PICKER':
           return {
             ...state,

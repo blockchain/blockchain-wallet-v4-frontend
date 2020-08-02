@@ -37,8 +37,9 @@ class ConfirmWithdraw extends PureComponent<Props> {
               style={{ marginRight: '16px' }}
               onClick={() =>
                 this.props.withdrawActions.setStep({
-                  step: 'ENTER_AMOUNT',
-                  fiatCurrency: this.props.fiatCurrency
+                  beneficiary: this.props.beneficiary,
+                  fiatCurrency: this.props.fiatCurrency,
+                  step: 'ENTER_AMOUNT'
                 })
               }
             />
