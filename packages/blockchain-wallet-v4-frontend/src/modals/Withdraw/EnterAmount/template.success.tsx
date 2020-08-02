@@ -169,5 +169,6 @@ export type Props = OwnProps &
   }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({
-  form: 'custodyWithdrawForm'
+  form: 'custodyWithdrawForm',
+  destroyOnUnmount: false
 })(Success)

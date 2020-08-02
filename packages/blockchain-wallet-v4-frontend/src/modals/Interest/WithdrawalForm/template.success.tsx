@@ -144,9 +144,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
-              id='modals.interest.withdrawal.title'
-              defaultMessage='Withdraw {displayName}'
-              values={{ displayName }}
+              id='buttons.withdraw_value'
+              defaultMessage='Withdraw {value}'
+              values={{ value: displayName }}
             />
           </Text>
         </Wrapper>

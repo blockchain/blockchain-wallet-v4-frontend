@@ -16,6 +16,7 @@ export type WalletFormType =
   | 'borrowForm'
   | 'cancelSBOrderForm'
   | 'ccBillingAddress'
+  | 'confirmCustodyWithdraw'
   | 'confirmRecoveryWords'
   | 'custodyWithdrawForm'
   | 'initBorrow'

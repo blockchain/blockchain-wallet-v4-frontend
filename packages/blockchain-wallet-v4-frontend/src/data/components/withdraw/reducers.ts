@@ -5,7 +5,8 @@ const INITIAL_STATE: WithdrawState = {
   amount: undefined,
   beneficiary: undefined,
   fiatCurrency: 'EUR',
-  step: 'ENTER_AMOUNT'
+  step: 'ENTER_AMOUNT',
+  withdrawal: undefined
 }
 
 export function withdrawReducer (
@@ -34,6 +35,13 @@ export function withdrawReducer (
             amount: action.payload.amount,
             beneficiary: action.payload.beneficiary,
             step: action.payload.step
+          }
+        }
+        case 'WITHDRAWAL_DETAILS': {
+          return {
+            ...state,
+            step: action.payload.step,
+            withdrawal: action.payload.withdrawal
           }
         }
       }

@@ -3,7 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { BeneficiaryType, WalletFiatType } from 'core/types'
+import {
+  BeneficiaryType,
+  WalletFiatType,
+  WithdrawResponseType
+} from 'core/types'
 import { selectors } from 'data'
 // import { getData } from './selectors'
 import { ModalPropsType } from '../types'
@@ -13,6 +17,7 @@ import ConfirmWithdraw from './ConfirmWithdraw'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
+import WithdrawalDetails from './WithdrawalDetails'
 
 class Withdraw extends PureComponent<Props> {
   state: State = { show: false, direction: 'left' }
@@ -65,6 +70,11 @@ class Withdraw extends PureComponent<Props> {
             <ConfirmWithdraw {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'WITHDRAWAL_DETAILS' && (
+          <FlyoutChild>
+            <WithdrawalDetails {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -101,6 +111,10 @@ type LinkStatePropsType =
       beneficiary: BeneficiaryType
       fiatCurrency: WalletFiatType
       step: 'CONFIRM_WITHDRAW'
+    }
+  | {
+      step: 'WITHDRAWAL_DETAILS'
+      withdrawal: WithdrawResponseType
     }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps &

@@ -53,6 +53,7 @@ const api = ({
     ...custodial({
       nabuUrl,
       authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
       ...http
     }),
     ...eth({ apiUrl, ...http }),

@@ -11,3 +11,11 @@ export type BeneficiaryType = {
 }
 
 export type BeneficiariesType = Array<BeneficiaryType>
+
+export type WithdrawResponseType = {
+  amount: { symbol: WalletFiatType; value: string }
+  id: string
+  product: 'SIMPLEBUY'
+  state: 'NONE'
+  user: string
+}

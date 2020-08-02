@@ -29,6 +29,7 @@ import signMessage from './signMessage/sagas'
 import simpleBuy from './simpleBuy/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
+import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
@@ -63,5 +64,6 @@ export default ({ api, coreSagas, networks }) => ({
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
+  withdraw: withdraw({ api }),
   veriff: veriff({ api, coreSagas })
 })

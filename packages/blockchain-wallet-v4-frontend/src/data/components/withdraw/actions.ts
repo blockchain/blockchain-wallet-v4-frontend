@@ -1,6 +1,19 @@
 import * as AT from './actionTypes'
-import { WalletFiatType } from 'core/types'
+import { BeneficiaryType, WalletFiatType } from 'core/types'
 import { WithdrawStepActionsPayload } from './types'
+
+export const handleCustodyWithdraw = (
+  amount: string,
+  beneficiary: BeneficiaryType,
+  fiatCurrency: WalletFiatType
+) => ({
+  type: AT.HANDLE_WITHDRAW_SUBMIT,
+  payload: {
+    amount,
+    beneficiary,
+    fiatCurrency
+  }
+})
 
 export const setStep = (payload: WithdrawStepActionsPayload) => ({
   type: AT.SET_STEP,
