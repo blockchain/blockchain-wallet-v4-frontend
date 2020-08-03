@@ -114,7 +114,7 @@ export type SBPaymentMethodType = {
   address?: null | NabuAddressType
   attributes?: {}
   card?: SBCard
-  currency: WalletCurrencyType
+  currency: FiatType
   id?: string
   limits: {
     max: string
