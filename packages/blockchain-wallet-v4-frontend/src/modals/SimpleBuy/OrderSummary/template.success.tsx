@@ -161,10 +161,7 @@ const Success: React.FC<Props> = props => {
         {props.order.fee !== '0' && (
           <Row>
             <Title>
-              <FormattedMessage
-                id='modals.simplebuy.summary.fee'
-                defaultMessage='Fee'
-              />
+              <FormattedMessage id='copy.fee' defaultMessage='Fee' />
             </Title>
             <Value data-e2e='sbFee'>
               {fiatToString({
@@ -191,10 +188,7 @@ const Success: React.FC<Props> = props => {
         {props.order.outputQuantity !== '0' && (
           <Row>
             <Title>
-              <FormattedMessage
-                id='modals.simplebuy.confirm.total'
-                defaultMessage='Total'
-              />
+              <FormattedMessage id='copy.total' defaultMessage='Total' />
             </Title>
             <Value data-e2e='sbSentTo'>
               {outputAmt} {props.order.outputCurrency}

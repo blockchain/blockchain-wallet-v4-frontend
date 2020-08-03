@@ -1,3 +1,4 @@
+import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
 import {
   BlueCartridge,
   CustomCartridge,
@@ -9,7 +10,6 @@ import {
 } from 'data/components/exchange/services'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
@@ -39,33 +39,6 @@ const TopText = styled(Text)`
 const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
-`
-// Hide the default field error for NumberBox > div > div:last-child
-const AmountFieldContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 54px;
-  input {
-    color: ${props => props.theme.black};
-    padding-left: 8px;
-    font-size: 56px;
-    font-weight: 500;
-    border: 0px !important;
-    &::placeholder {
-      font-size: 56px;
-      color: ${props => props.theme.grey600};
-    }
-  }
-  > div {
-    height: auto;
-    input {
-      height: auto;
-      outline: 0;
-    }
-  }
-  > div > div:last-child {
-    display: none;
-  }
 `
 const Amount = styled(BlueCartridge)`
   margin-right: 8px;
@@ -121,9 +94,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
 
   const amtError =
-    props.formErrors.amount &&
-    typeof props.formErrors.amount === 'string' &&
-    props.formErrors.amount
+    typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'

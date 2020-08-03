@@ -533,6 +533,8 @@ export default ({
     } else {
       yield put(A.showModal('EmptyFeed'))
 
+      // wait for modal
+      yield delay(1)
       yield put(
         A.setStep({
           step: 'TRANSFER_DETAILS',

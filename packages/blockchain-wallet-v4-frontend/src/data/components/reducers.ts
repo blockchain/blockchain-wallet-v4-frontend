@@ -9,6 +9,7 @@ import { sendBtcReducer } from './sendBtc/reducers'
 import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
+import { withdrawReducer } from './withdraw/reducers'
 import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
@@ -40,6 +41,7 @@ const componentReducer = combineReducers({
   signMessage,
   simpleBuy: simpleBuyReducer,
   uploadDocuments,
+  withdraw: withdrawReducer,
   veriff
 })
 

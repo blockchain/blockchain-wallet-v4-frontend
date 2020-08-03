@@ -25,10 +25,7 @@ class TabsContainer extends React.PureComponent<Props> {
           selected={currentTab === 'total'}
           onClick={() => this.handleClick('total')}
         >
-          <FormattedMessage
-            id='scenes.home.balance.total'
-            defaultMessage='Total'
-          />
+          <FormattedMessage id='copy.total' defaultMessage='Total' />
         </TabMenuItem>
         <TabMenuItem
           width='33%'

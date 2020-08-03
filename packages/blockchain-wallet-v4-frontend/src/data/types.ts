@@ -10,6 +10,7 @@ export type AppActionTypes =
   | ModalActionTypes
 
 export * from './components/types'
+export * from './custodial/types'
 export * from './modules/types'
 export * from './modals/types'
 // Import via `import { AppActionTypes } from 'data/types'`

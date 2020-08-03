@@ -104,6 +104,10 @@ export const Row = styled.div`
     border-bottom: 1px solid ${props => props.theme.grey000};
   }
 `
+export const Col = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 export const Title = styled(Text)<{ asValue?: boolean }>`
   font-size: 14px;
@@ -116,6 +120,34 @@ export const Value = styled(Text)<{ asTitle?: boolean }>`
   font-weight: 600;
   color: ${props => props.theme.grey800};
   margin-top: ${props => (props.asTitle ? '0px' : '4px')};
+`
+
+// Hide the default field error for NumberBox > div > div:last-child
+export const AmountFieldContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 54px;
+  input {
+    color: ${props => props.theme.black};
+    padding-left: 8px;
+    font-size: 56px;
+    font-weight: 500;
+    border: 0px !important;
+    &::placeholder {
+      font-size: 56px;
+      color: ${props => props.theme.grey600};
+    }
+  }
+  > div {
+    height: auto;
+    input {
+      height: auto;
+      outline: 0;
+    }
+  }
+  > div > div:last-child {
+    display: none;
+  }
 `
 
 type OwnProps = {

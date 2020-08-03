@@ -19,7 +19,7 @@ type AgentSimple = {
   recipient: string
 }
 
-type AgentType = AgentSimple & {
+export type AgentType = AgentSimple & {
   address: string
   country: string
   routingNumber: string

@@ -1,3 +1,7 @@
+import React from 'react'
+import styled from 'styled-components'
+
+import { DisplayContainer } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import {
   getCoinFromPair,
@@ -9,26 +13,10 @@ import {
   OwnProps as ParentOwnProps,
   SuccessStateType
 } from '.'
-import { SupportedCoinType } from 'core/types'
 import { Title, Value } from 'components/Flyout'
 import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
-import React from 'react'
-import styled from 'styled-components'
 
-const DisplayContainer = styled.div<{
-  coinType: SupportedCoinType
-}>`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 16px 40px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  &hover {
-    background-color: ${props => props.theme.grey100};
-  }
-`
 const Display = styled.div<{ canClick: boolean }>`
   position: relative;
   display: flex;
@@ -59,7 +47,6 @@ const Success: React.FC<Props> = props => {
 
   return (
     <DisplayContainer
-      coinType={coinType}
       data-e2e={`sb${props.value.pair}CurrencySelector`}
       role='button'
       onClick={props.onClick}
