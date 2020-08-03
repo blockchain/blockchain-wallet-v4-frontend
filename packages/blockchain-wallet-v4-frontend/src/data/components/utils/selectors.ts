@@ -33,7 +33,8 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
           method:
             coin.coinCode in CoinTypeEnum ||
             !!paymentMethods.methods.find(
-              method => method.currency === coin.coinCode
+              method =>
+                method.currency === coin.coinCode && method.type === 'FUNDS'
             )
         }
       }, coinOrder)
