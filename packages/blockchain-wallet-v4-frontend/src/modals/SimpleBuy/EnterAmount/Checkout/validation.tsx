@@ -21,7 +21,7 @@ export const getMaxMin = (
       let max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
 
       if (method.type === 'FUNDS' && sbBalances)
-        max = sbBalances[method.currency].available
+        max = sbBalances[method.currency]?.available || '0'
 
       return convertBaseToStandard('FIAT', max)
     case 'min':

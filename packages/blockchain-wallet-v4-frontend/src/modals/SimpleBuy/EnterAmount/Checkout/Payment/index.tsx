@@ -5,11 +5,11 @@ import {
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
+import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props } from '../template.success'
-import { SBBalancesType, SBPaymentMethodType, WalletFiatType } from 'core/types'
 import { Title, Value } from 'components/Flyout'
 import React, { ReactElement } from 'react'
 import styled, { css } from 'styled-components'
@@ -77,7 +77,7 @@ const renderCard = (value: SBPaymentMethodType) => (
         values={{
           card: `${fiatToString({
             value: convertBaseToStandard('FIAT', value.limits.max),
-            unit: String(value.currency) as WalletFiatType
+            unit: value.currency as FiatType
           })} ${value.currency}`
         }}
       />
@@ -92,9 +92,9 @@ const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesType) => (
       {fiatToString({
         value: convertBaseToStandard(
           'FIAT',
-          sbBalances[value.currency as WalletFiatType]?.available
+          sbBalances[value.currency]?.available || '0'
         ),
-        unit: String(value.currency) as WalletFiatType
+        unit: value.currency as FiatType
       })}{' '}
       <FormattedMessage id='copy.available' defaultMessage='Available' />
     </DisplayTitle>

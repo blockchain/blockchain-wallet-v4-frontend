@@ -121,7 +121,8 @@ export default ({
       url: nabuUrl,
       endPoint: '/accounts/simplebuy',
       data: {
-        ccy: currency
+        ccy: currency,
+        includeAllEligible: false
       }
     })
 
