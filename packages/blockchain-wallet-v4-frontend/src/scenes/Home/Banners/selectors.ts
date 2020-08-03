@@ -42,7 +42,7 @@ export const getData = (state): { bannerToShow: BannerType } => {
     'VERIFIED'
 
   const coins = selectors.components.utils
-    .getSupportedCoinsWithBalanceAndOrder(state)
+    .getSupportedCoinsWithMethodAndOrder(state)
     // @ts-ignore
     .getOrElse({})
 
