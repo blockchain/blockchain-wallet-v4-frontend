@@ -3,7 +3,7 @@ import { FormAction, initialize } from 'redux-form'
 import { head, last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { AccountTypes, CoinType, RatesType } from 'core/types'
+import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
@@ -203,12 +203,12 @@ export default ({
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
-        payment = yield call(createPayment, {
+        const newPayment: PaymentValue = yield call(createPayment, {
           ...values.interestDepositAccount,
           address: getAccountIndexOrAccount(coin, values.interestDepositAccount)
         })
-        yield call(createLimits, payment.value())
-        yield put(A.setPaymentSuccess(payment.value()))
+        yield call(createLimits, newPayment)
+        yield put(A.setPaymentSuccess(newPayment))
     }
   }
 
@@ -253,7 +253,7 @@ export default ({
     }
 
     const defaultAccount = defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
-    const payment = yield call(createPayment, {
+    const payment: PaymentValue = yield call(createPayment, {
       ...defaultAccount,
       address: getAccountIndexOrAccount(coin, defaultAccount)
     })

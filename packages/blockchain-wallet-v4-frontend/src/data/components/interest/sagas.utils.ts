@@ -129,7 +129,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const createPayment = function * (source: AccountTypes) {
     const coin = S.getCoinType(yield select())
 
-    const payment = yield call(
+    const payment: PaymentValue = yield call(
       calculateProvisionalPayment,
       source,
       0,
