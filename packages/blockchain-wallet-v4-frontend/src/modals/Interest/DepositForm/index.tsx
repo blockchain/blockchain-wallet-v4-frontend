@@ -93,7 +93,6 @@ export type LinkDispatchPropsType = {
 }
 export type SuccessStateType = {
   btcFee: number
-  coin: CoinType
   depositLimits: InterestMinMaxType
   displayCoin: boolean
   ethFee: number
