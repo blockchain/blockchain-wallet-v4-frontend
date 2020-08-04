@@ -141,8 +141,12 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.destroy('login'))
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
+      const currency = (yield select(
+        selectors.core.settings.getCurrency
+      )).getOrElse('USD')
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
+      yield put(actions.components.simpleBuy.fetchSBPaymentMethods(currency))
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {

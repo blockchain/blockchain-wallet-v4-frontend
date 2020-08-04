@@ -125,18 +125,14 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const funds = defaultMethods.filter(
       method =>
-        method.value.type === 'FUNDS' &&
-        method.value.currency in WalletFiatEnum &&
-        method.value.currency === this.props.fiatCurrency
+        method.value.type === 'FUNDS' && method.value.currency in WalletFiatEnum
     )
 
     const paymentCard = defaultMethods.find(
       method => method.value.type === 'PAYMENT_CARD'
     )
     const bankAccount = defaultMethods.find(
-      method =>
-        method.value.type === 'BANK_ACCOUNT' &&
-        method.value.currency === this.props.fiatCurrency
+      method => method.value.type === 'BANK_ACCOUNT'
     )
 
     const cardMethods = availableCards.map(card => ({
