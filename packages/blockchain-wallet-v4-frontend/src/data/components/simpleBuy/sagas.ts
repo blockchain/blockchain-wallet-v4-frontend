@@ -399,13 +399,13 @@ export default ({
   }: ReturnType<typeof A.fetchSBOrders>) {
     try {
       yield call(waitForUserData)
-      if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
       const { skipLoading } = payload
       if (!skipLoading) yield put(A.fetchSBOrdersLoading())
       const orders = yield call(api.getSBOrders, {})
       yield put(A.fetchSBOrdersSuccess(orders))
     } catch (e) {
       const error = errorHandler(e)
+      if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
       yield put(A.fetchSBOrdersFailure(error))
     }
   }
@@ -565,25 +565,21 @@ export default ({
     const { method } = action
 
     if (!pair) return NO_PAIR_SELECTED
+    const isUserTier2 = yield call(isTier2)
 
-    switch (method.type) {
-      case 'BANK_ACCOUNT':
-      case 'PAYMENT_CARD':
-        const isUserTier2 = yield call(isTier2)
-        if (!isUserTier2) {
-          return yield put(
-            actions.components.identityVerification.verifyIdentity(
-              2,
-              undefined,
-              'SBPaymentMethodSelection'
-            )
-          )
-        }
-        break
-      default:
-      // continue
+    if (!isUserTier2) {
+      switch (method.type) {
+        case 'PAYMENT_CARD':
+        case 'BANK_ACCOUNT':
+          const methodType =
+            method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
+          return yield put(A.createSBOrder(undefined, methodType))
+        default:
+          return
+      }
     }
 
+    // User is Tier 2
     switch (method.type) {
       case 'BANK_ACCOUNT':
         return yield put(

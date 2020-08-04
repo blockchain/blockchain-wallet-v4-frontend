@@ -45,7 +45,7 @@ export const maximumAmount = (
 
   const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
   const method = selectedMethod || defaultMethod
-  if (!method) return true
+  if (!method) return
 
   return Number(value) >
     Number(getMaxMin(pair, 'max', sbBalances, allValues, method))
@@ -62,7 +62,7 @@ export const minimumAmount = (
 
   const { pair, method: selectedMethod, defaultMethod, sbBalances } = restProps
   const method = selectedMethod || defaultMethod
-  if (!method) return true
+  if (!method) return
 
   return Number(value) <
     Number(getMaxMin(pair, 'min', sbBalances, allValues, method))

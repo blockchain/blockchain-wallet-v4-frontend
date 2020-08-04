@@ -10,6 +10,8 @@ type Props = {
   SuccessStateType
 
 const ActionButton: React.FC<Props> = props => {
+  const disabled = props.invalid || props.submitting || !props.method
+
   switch (props.userData.kycState) {
     case 'EXPIRED':
     case 'REJECTED':
@@ -70,7 +72,7 @@ const ActionButton: React.FC<Props> = props => {
             nature='primary'
             type='submit'
             fullwidth
-            disabled={props.invalid || props.submitting}
+            disabled={disabled}
           >
             {props.submitting ? (
               <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -103,7 +105,7 @@ const ActionButton: React.FC<Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={props.invalid || props.submitting}
+          disabled={disabled}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />

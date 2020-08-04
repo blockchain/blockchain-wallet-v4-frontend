@@ -2,16 +2,18 @@ import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import {
+  ExtractSuccess,
   FiatTypeEnum,
   RemoteDataType,
   SBOrderType,
-  SBQuoteType,
   SupportedCoinType,
-  SupportedWalletCurrenciesType
+  SupportedWalletCurrenciesType,
+  WalletFiatType
 } from 'core/types'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+import BigNumber from 'bignumber.js'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -25,9 +27,11 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    const { userData } = this.props.data.getOrElse({
+    const { userData, sbBalances } = this.props.data.getOrElse({
       userData: { tiers: { current: 0 } } as UserDataType
     } as SuccessStateType)
+
+    const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
     if (userData.tiers.current < 2) {
       this.props.identityVerificationActions.verifyIdentity(
@@ -38,15 +42,36 @@ class CheckoutConfirm extends PureComponent<Props> {
       return
     }
 
-    if (this.props.order.paymentMethodId) {
-      this.props.simpleBuyActions.confirmSBCreditCardOrder(
-        this.props.order.paymentMethodId
-      )
-      return
-    }
-
-    if (this.props.order.paymentType === 'FUNDS') {
-      this.props.simpleBuyActions.confirmSBFundsOrder()
+    switch (this.props.order.paymentType) {
+      case 'FUNDS':
+        const available = sbBalances[inputCurrency]?.available || '0'
+        if (
+          new BigNumber(available).isGreaterThanOrEqualTo(
+            this.props.order.inputQuantity
+          )
+        ) {
+          return this.props.simpleBuyActions.confirmSBFundsOrder()
+        } else {
+          return this.props.simpleBuyActions.setStep({
+            step: 'TRANSFER_DETAILS',
+            fiatCurrency: inputCurrency,
+            displayBack: false
+          })
+        }
+      case 'PAYMENT_CARD':
+        if (this.props.order.paymentMethodId) {
+          return this.props.simpleBuyActions.confirmSBCreditCardOrder(
+            this.props.order.paymentMethodId
+          )
+        } else {
+          return this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+        }
+      default:
+        // Not a valid payment method type, go back to ENTER_AMOUNT
+        return this.props.simpleBuyActions.setStep({
+          step: 'ENTER_AMOUNT',
+          fiatCurrency: inputCurrency
+        })
     }
   }
 
@@ -91,10 +116,7 @@ type OwnProps = {
   handleClose: () => void
   order: SBOrderType
 }
-export type SuccessStateType = {
-  quote: SBQuoteType
-  userData: UserDataType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   supportedCoins: SupportedWalletCurrenciesType
