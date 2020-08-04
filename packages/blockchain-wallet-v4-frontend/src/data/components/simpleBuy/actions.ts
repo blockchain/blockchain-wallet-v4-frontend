@@ -293,7 +293,7 @@ export const fetchSBPaymentAccountSuccess = (
   }
 })
 
-export const fetchSBPaymentMethods = (currency: FiatType) => ({
+export const fetchSBPaymentMethods = (currency?: FiatType) => ({
   type: AT.FETCH_SB_PAYMENT_METHODS,
   currency
 })
