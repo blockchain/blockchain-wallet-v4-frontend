@@ -569,11 +569,28 @@ export default ({
 
     if (!isUserTier2) {
       switch (method.type) {
-        case 'PAYMENT_CARD':
+        // https://blockc.slack.com/archives/GT1JZ1ZN2/p1596546978351100?thread_ts=1596541628.345800&cid=GT1JZ1ZN2
+        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+        // 👇--------------------------------------------------------
         case 'BANK_ACCOUNT':
-          const methodType =
-            method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
-          return yield put(A.createSBOrder(undefined, methodType))
+          return yield put(
+            actions.components.identityVerification.verifyIdentity(
+              2,
+              false,
+              'SBEnterAmountCheckout'
+            )
+          )
+        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+        // 👆--------------------------------------------------------
+        case 'PAYMENT_CARD':
+          // ADD THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+          // 👇-----------------------------------------------------
+          // const methodType =
+          //   method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
+          // return yield put(A.createSBOrder(undefined, methodType))
+          // 👆------------------------------------------------------
+
+          return yield put(A.createSBOrder(undefined, method.type))
         default:
           return
       }
