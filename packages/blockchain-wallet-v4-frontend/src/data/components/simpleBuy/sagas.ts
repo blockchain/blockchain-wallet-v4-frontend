@@ -462,7 +462,7 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
-      if (userData.state === 'NONE') {
+      if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
       }
       yield call(createUser)
@@ -471,12 +471,17 @@ export default ({
       // Only show Loading if not Success
       const sbMethodsR = S.getSBPaymentMethods(yield select())
       const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
-      if (!Remote.Success.is(sbMethodsR) && !sbMethods.methods.length)
+      if (!Remote.Success.is(sbMethodsR) || !sbMethods.methods.length)
         yield put(A.fetchSBPaymentMethodsLoading())
+
+      // If no currency fallback to sb fiat currency or wallet
+      const fallbackFiatCurrency =
+        S.getFiatCurrency(yield select()) ||
+        (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
       const methods = yield call(
         api.getSBPaymentMethods,
-        currency,
+        currency || fallbackFiatCurrency,
         isUserTier2 ? true : undefined
       )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
