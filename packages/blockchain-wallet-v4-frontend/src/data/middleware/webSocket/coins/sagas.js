@@ -48,7 +48,7 @@ export default ({ api, socket }) => {
     let guid = yield select(selectors.cache.getLastGuid)
     if (phonePubkey && guid) {
       let msg = {
-        type: 'login_request',
+        type: 'login_wallet',
         ruid: ruid,
         timestamp: Date.now()
       }
@@ -253,8 +253,6 @@ export default ({ api, socket }) => {
               yield put(
                 actions.auth.secureChannelLoginFailure('Phone declined')
               )
-
-              // TODO loading screen
               return
             }
 
@@ -264,20 +262,36 @@ export default ({ api, socket }) => {
               Buffer.from(secretHex, 'hex'),
               pubkey
             )
-            let decrypted = wCrypto.decryptAESGCM(
+            let decryptedRaw = wCrypto.decryptAESGCM(
               sharedSecret,
               Buffer.from(payload.message, 'hex')
             )
-            let f = JSON.parse(decrypted.toString('utf8'))
 
-            if (f.payload.remember) {
+            let decrypted = JSON.parse(decryptedRaw.toString('utf8'))
+            if (decrypted.payload.remember) {
               yield put(
                 actions.cache.channelPhoneConnected(pubkey.toString('hex'))
               )
             }
 
-            yield put(actions.auth.login(f.payload.guid, f.payload.password))
             yield put(actions.auth.secureChannelLoginSuccess())
+            yield put(
+              actions.form.change('login', 'guid', decrypted.payload.guid)
+            )
+            yield put(
+              actions.form.change(
+                'login',
+                'password',
+                decrypted.payload.password
+              )
+            )
+            yield put(actions.form.startSubmit('login'))
+            yield put(
+              actions.auth.login(
+                decrypted.payload.guid,
+                decrypted.payload.password
+              )
+            )
           }
 
           if (!!message.email && message.isVerified) {

@@ -74,8 +74,11 @@ const mapStateToProps = state => ({
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
   isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
+  // TODO where should we put this logic to build the QR code data?
+  // TODO the QR code should read some error if we aren't connected to WS
   qr_data: selectors.cache.getChannelPrivKey(state)
     ? JSON.stringify({
+        type: 'login_wallet',
         ruid: selectors.cache.getChannelRuid(state),
         pubkey: wCrypto
           .derivePubFromPriv(
