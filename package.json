@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.37.26",
+  "version": "4.38.9",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -48,6 +48,7 @@
       "git add"
     ]
   },
+  "postinstall": "rm -rf node_modules/@types/react-native",
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
@@ -128,7 +129,7 @@
     "@types/react-redux": "7.1.7",
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
-    "@types/styled-components": "4.0.3",
+    "@types/styled-components": "5.1.0",
     "@typescript-eslint/eslint-plugin": "2.28.0",
     "@typescript-eslint/parser": "2.28.0",
     "babel-eslint": "10.1.0",

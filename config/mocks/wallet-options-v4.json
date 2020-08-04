@@ -12,29 +12,43 @@
         }
       },
       "coins": {
-        "ALGO": {
+        "EUR": {
           "availability": {
             "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": false,
-            "syncToPit": false
+            "request": false
           },
-          "coinCode": "ALGO",
-          "coinTicker": "ALGO",
-          "colorCode": "algo",
-          "displayName": "Algorand",
-          "hasLockboxSupport": false,
+          "coinCode": "EUR",
+          "coinTicker": "EUR",
+          "colorCode": "fiat",
+          "displayName": "Euros",
           "icons": {
-            "default": "algo",
-            "circle": "algo",
-            "circleFilled": "algo"
+            "default": "eur",
+            "circle": "eur",
+            "circleFilled": "eur"
           },
           "learnMoreLink": "",
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "",
-          "txListAppRoute": "/algo/transactions"
+          "minConfirmations": 0,
+          "showNewTagSidenav": true,
+          "txListAppRoute": "/eur/transactions"
+        },
+        "GBP": {
+          "availability": {
+            "send": false,
+            "request": false
+          },
+          "coinCode": "GBP",
+          "coinTicker": "GBP",
+          "colorCode": "fiat",
+          "displayName": "Pounds",
+          "icons": {
+            "default": "gbp",
+            "circle": "gbp",
+            "circleFilled": "gbp"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 0,
+          "showNewTagSidenav": true,
+          "txListAppRoute": "/gbp/transactions"
         },
         "BTC": {
           "availability": {
@@ -62,6 +76,34 @@
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
           "txListAppRoute": "/btc/transactions"
+        },
+        "ETH": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": true,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "ETH",
+          "coinTicker": "ETH",
+          "colorCode": "eth",
+          "displayName": "Ether",
+          "config": {
+            "network": 1
+          },
+          "hasLockboxSupport": true,
+          "icons": {
+            "default": "eth",
+            "circle": "eth-circle",
+            "circleFilled": "eth-circle-filled"
+          },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
+          "lastTxFuse": 600,
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/eth/transactions"
         },
         "BCH": {
           "availability": {
@@ -108,84 +150,6 @@
           },
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
-        },
-        "USDT": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "USDT",
-          "coinTicker": "USDT",
-          "colorCode": "usdt",
-          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          "displayName": "Tether",
-          "hasLockboxSupport": false,
-          "icons": {
-            "default": "usdt",
-            "circle": "usdt",
-            "circleFilled": "usdt"
-          },
-          "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/usdt/transactions"
-        },
-        "ETH": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": true,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "ETH",
-          "coinTicker": "ETH",
-          "colorCode": "eth",
-          "displayName": "Ether",
-          "config": {
-            "network": 1
-          },
-          "hasLockboxSupport": true,
-          "icons": {
-            "default": "eth",
-            "circle": "eth-circle",
-            "circleFilled": "eth-circle-filled"
-          },
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
-          "lastTxFuse": 600,
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/eth/transactions"
-        },
-        "PAX": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "PAX",
-          "coinTicker": "USD-D",
-          "colorCode": "usd-d",
-          "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
-          "displayName": "USD Digital",
-          "hasLockboxSupport": false,
-          "icons": {
-            "default": "usd-d",
-            "circle": "usd-d",
-            "circleFilled": "usd-d"
-          },
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/usd-d/transactions"
         },
         "XLM": {
           "airdrop": {
@@ -256,6 +220,80 @@
           "minConfirmations": 1,
           "txExplorerBaseUrl": "https://stellarchain.io/tx",
           "txListAppRoute": "/xlm/transactions"
+        },
+        "ALGO": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "lockbox": false,
+            "exchangeTo": false,
+            "exchangeFrom": false,
+            "syncToPit": false
+          },
+          "coinCode": "ALGO",
+          "coinTicker": "ALGO",
+          "colorCode": "algo",
+          "displayName": "Algorand",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "algo",
+            "circle": "algo",
+            "circleFilled": "algo"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 3,
+          "txExplorerBaseUrl": "",
+          "txListAppRoute": "/algo/transactions"
+        },
+        "PAX": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "PAX",
+          "coinTicker": "USD-D",
+          "colorCode": "usd-d",
+          "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
+          "displayName": "USD Digital",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "usd-d",
+            "circle": "usd-d",
+            "circleFilled": "usd-d"
+          },
+          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/usd-d/transactions"
+        },
+        "USDT": {
+          "availability": {
+            "send": true,
+            "request": true,
+            "lockbox": false,
+            "exchangeTo": true,
+            "exchangeFrom": true,
+            "syncToPit": true
+          },
+          "coinCode": "USDT",
+          "coinTicker": "USDT",
+          "colorCode": "usdt",
+          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          "displayName": "Tether",
+          "hasLockboxSupport": false,
+          "icons": {
+            "default": "usdt",
+            "circle": "usdt",
+            "circleFilled": "usdt"
+          },
+          "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
+          "minConfirmations": 12,
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
+          "txListAppRoute": "/usdt/transactions"
         }
       },
       "thePit": {

@@ -9,10 +9,11 @@ import {
   InterestLimitsType,
   InterestRateType,
   PaymentValue,
+  RatesType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
-import { InterestMinMaxType, RatesType } from 'data/types'
+import { InterestMinMaxType } from 'data/types'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -96,12 +97,14 @@ export type SuccessStateType = {
   depositLimits: InterestMinMaxType
   displayCoin: boolean
   ethFee: number
-  formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
+  ethRates: RatesType
+  formErrors: any
+  // formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
   interestLimits: InterestLimitsType
   interestRate: InterestRateType
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
   walletCurrency: FiatType
 }
 type LinkStatePropsType = {

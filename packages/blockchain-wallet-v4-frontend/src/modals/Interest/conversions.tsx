@@ -1,3 +1,4 @@
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { Exchange } from 'core'
 import {
   fiatToString,
@@ -52,3 +53,21 @@ export const maxFiat = (maxFiat, walletCurrency) =>
     value: maxFiat,
     unit: walletCurrency
   })
+
+export const depositFeeCryptoCalc = (isErc20, coin, fee) =>
+  isErc20 ? convertBaseToStandard('ETH', fee) : convertBaseToStandard(coin, fee)
+export const depositFeeFiatCalc = (
+  fee,
+  isErc20,
+  coin,
+  walletCurrency,
+  ethRates,
+  rates
+) => {
+  Exchange.convertCoinToFiat(
+    fee,
+    isErc20 ? 'ETH' : coin,
+    walletCurrency,
+    isErc20 ? ethRates : rates
+  )
+}

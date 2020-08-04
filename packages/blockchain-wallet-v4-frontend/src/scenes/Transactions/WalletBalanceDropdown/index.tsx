@@ -1,7 +1,17 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, SupportedCoinType } from 'core/types'
+import {
+  CoinType,
+  CoinTypeEnum,
+  ExtractSuccess,
+  FiatType,
+  FiatTypeEnum,
+  SupportedCoinType,
+  WalletFiatType
+} from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
 import { Field } from 'redux-form'
 import { flatten } from 'ramda'
 import { FormattedMessage } from 'react-intl'
@@ -22,7 +32,7 @@ const Wrapper = styled.div`
   align-content: flex-start;
 `
 
-// FIXME: TypeScript use SupportedCoinsType
+// FIXME: TypeScript use SupportedWalletCurrenciesType
 const DisplayContainer = styled.div<{ coinType: any; isItem?: boolean }>`
   display: flex;
   width: 100%;
@@ -113,6 +123,8 @@ export class WalletBalanceDropdown extends Component<Props> {
   }
 
   hasBalanceOrAccounts = (groups: Array<any>) => {
+    if (this.props.coin in FiatTypeEnum) return false
+
     const balance = this.coinBalance(this.props.coin)
     const accounts = flatten(groups.map(group => group.options))
 
@@ -160,7 +172,9 @@ export class WalletBalanceDropdown extends Component<Props> {
         currency: 'USD',
         currencySymbol: '$',
         priceChangeFiat: 0,
-        priceChangePercentage: 0
+        price24H: { change: '0', movement: 'none', price: 1 },
+        priceChangePercentage: 0,
+        sbBalance: { available: '0', pending: '0' }
       }).balanceData
     } else if (selectProps.value) {
       // Account balance
@@ -195,6 +209,16 @@ export class WalletBalanceDropdown extends Component<Props> {
     const { coinCode, coinTicker } = this.props.coinModel
     const balance = this.coinBalance(props)
     const account = this.accountLabel(props)
+    const unsafe_data: SuccessStateType = this.props.data.getOrElse({
+      addressData: { data: [] },
+      balanceData: 0,
+      currency: 'USD' as FiatType,
+      currencySymbol: '$',
+      priceChangeFiat: 0,
+      price24H: { change: '0', movement: 'none', price: 1 },
+      priceChangePercentage: 0,
+      sbBalance: { available: '0', pending: '0' }
+    })
 
     return (
       <DisplayContainer coinType={coinCode}>
@@ -216,37 +240,42 @@ export class WalletBalanceDropdown extends Component<Props> {
             </FiatDisplay>
           </AmountContainer>
 
-          {this.hasBalanceOrAccounts(props.selectProps.options) ||
-          !this.props.coinModel.availability.request ? (
-            <PriceChange
-              {...this.props.data.getOrElse({
-                addressData: { data: [] },
-                balanceData: 0,
-                currency: 'USD',
-                currencySymbol: '$',
-                priceChangeFiat: 0,
-                priceChangePercentage: 0
-              })}
-            >
-              {' '}
-              <FormattedMessage
-                id='scenes.transactions.performance.prices.day'
-                defaultMessage='today'
-              />
-            </PriceChange>
+          {this.props.coin in CoinTypeEnum ? (
+            this.hasBalanceOrAccounts(props.selectProps.options) ||
+            !this.props.coinModel.availability.request ? (
+              <PriceChange {...unsafe_data}>
+                {' '}
+                <FormattedMessage
+                  id='scenes.transactions.performance.prices.day'
+                  defaultMessage='today'
+                />
+              </PriceChange>
+            ) : (
+              <Text
+                size='14px'
+                weight={500}
+                color='blue600'
+                onClick={this.handleRequest}
+                lineHeight='18px'
+              >
+                <FormattedMessage
+                  id='scenes.transactions.performance.request'
+                  defaultMessage='Request {coinTicker} Now'
+                  values={{ coinTicker }}
+                />
+              </Text>
+            )
           ) : (
-            <Text
-              size='14px'
-              weight={500}
-              color='blue600'
-              onClick={this.handleRequest}
-              lineHeight='18px'
-            >
-              <FormattedMessage
-                id='scenes.transactions.performance.request'
-                defaultMessage='Request {coinTicker} Now'
-                values={{ coinTicker }}
-              />
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+              {': '}
+              {fiatToString({
+                value: convertBaseToStandard(
+                  'FIAT',
+                  unsafe_data.sbBalance?.pending || '0'
+                ),
+                unit: this.props.coin as WalletFiatType
+              })}
             </Text>
           )}
         </AccountContainer>
@@ -343,10 +372,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  coin: CoinType
+  coin: CoinType | WalletFiatType
   coinModel: SupportedCoinType
   isCoinErc20: boolean
 }
+
+type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

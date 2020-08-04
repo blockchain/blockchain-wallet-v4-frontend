@@ -17,6 +17,7 @@ import {
 
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
+
 import {
   fiatToString,
   formatFiat
@@ -54,14 +55,15 @@ import {
   TopText
 } from './model'
 import {
-  amountConverter,
   amountToCrypto,
   amountToFiat,
   calcCompoundInterest,
+  depositFeeCryptoCalc,
+  depositFeeFiatCalc,
   maxFiat
 } from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { SuccessStateType } from '.'
+import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const FORM_NAME = 'interestDepositForm'
@@ -73,6 +75,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     depositLimits,
     displayCoin,
     ethFee,
+    ethRates,
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -88,7 +91,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     values
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
-
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
   const depositFee = coin === 'BTC' ? btcFee : ethFee
@@ -109,15 +111,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     rates
   )
 
-  const depositFeeFiat = amountToFiat(
-    displayCoin,
-    depositFee,
-    coin,
-    walletCurrency,
-    rates
-  )
-
-  const depositFeeCrypto = amountConverter(depositFee, coin)
   const loanTimeFrame = values && values.loanTimeFrame
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
@@ -133,7 +126,16 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     !payment.isSufficientEthForErc20
   )
 
-  // const btcFee = coin === 'BTC' && payment.selection ? 'hi' : 'no'
+  const depositFeeCrypto = depositFeeCryptoCalc(isErc20, coin, depositFee)
+  const depositFeeFiat = depositFeeFiatCalc(
+    depositFeeCrypto,
+    isErc20,
+    coin,
+    walletCurrency,
+    ethRates,
+    rates
+  )
+
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -287,6 +289,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            // @ts-ignore
             disabled={insufficientEth}
             displayCoin={displayCoin}
             name='depositAmount'
@@ -581,9 +584,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   )}`,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   depositFeeFiat: `${currencySymbol}${formatFiat(
-                    depositFeeFiat
+                    Number(depositFeeFiat)
                   )}`,
-                  depositFeeCrypto: `${depositFeeCrypto} ${coinTicker}`,
+                  depositFeeCrypto: isErc20
+                    ? `${depositFeeCrypto} ETH`
+                    : `${depositFeeCrypto} ${coinTicker}`,
                   displayName
                 }}
               />
@@ -631,6 +636,7 @@ type LinkStatePropsType = {
 
 export type Props = SuccessStateType &
   ConnectedProps<typeof connector> &
+  ParentOwnProps &
   FormProps
 
 type FormProps = {

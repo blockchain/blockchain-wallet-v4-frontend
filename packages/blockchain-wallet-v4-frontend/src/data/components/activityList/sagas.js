@@ -1,12 +1,10 @@
 import { actions, selectors } from 'data'
 import { isEmpty } from 'ramda'
 import { put, select } from 'redux-saga/effects'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export default () => {
   const initialized = function * () {
     try {
-      const logsR = yield select(selectors.core.data.misc.getLogs)
       const btcTransactions = yield select(
         selectors.core.data.btc.getTransactions
       )
@@ -19,9 +17,6 @@ export default () => {
       const xlmTransactions = yield select(
         selectors.core.data.xlm.getTransactions
       )
-      if (!Remote.Success.is(logsR)) {
-        yield put(actions.core.data.misc.fetchLogs())
-      }
       if (isEmpty(btcTransactions)) {
         yield put(actions.core.data.btc.fetchTransactions('', true))
       }

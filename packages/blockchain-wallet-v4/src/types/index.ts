@@ -75,9 +75,22 @@ export enum FiatTypeEnum {
   THB,
   TWD
 }
+export enum WalletFiatEnum {
+  EUR,
+  GBP
+}
+export const WalletCurrencyEnum = {
+  ...CoinTypeEnum,
+  ...WalletFiatEnum
+}
 export type CoinType = keyof typeof CoinTypeEnum
 export type Erc20CoinType = keyof Erc20CurrenciesType
+// All Fiats
 export type FiatType = keyof FiatCurrenciesType
+// Custodial Fiats
+export type WalletFiatType = keyof typeof WalletFiatEnum
+// Supported for transactions/balances
+export type WalletCurrencyType = CoinType | WalletFiatType
 
 export type BtcAccountType = {
   address?: string | number
@@ -94,8 +107,12 @@ export type AccountTypes = BtcAccountType
 
 export * from '../redux/payment/types'
 export * from '../redux/settings/'
+export * from '../redux/data/misc/types'
 export * from '../redux/walletOptions/types'
+export * from '../network/api/eth/types'
 export * from '../network/api/borrow/types'
+export * from '../network/api/interest/types'
+export * from '../network/api/misc/types'
 export * from '../network/api/simpleBuy/types'
 export * from '../exchange/currencies'
 export * from '../network/types'

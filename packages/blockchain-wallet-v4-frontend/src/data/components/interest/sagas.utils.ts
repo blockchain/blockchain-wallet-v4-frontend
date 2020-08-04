@@ -1,14 +1,15 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { includes } from 'ramda'
 
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
+  AccountTypes,
   CoinType,
   FiatType,
   PaymentType,
   PaymentValue,
+  RatesType,
   RemoteDataType
 } from 'core/types'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -17,9 +18,14 @@ import { selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import { convertBaseToStandard } from '../exchange/services'
-import { RatesType } from '../borrow/types'
+import exchangeSagaUtils from '../exchange/sagas.utils'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
+  const { calculateProvisionalPayment } = exchangeSagaUtils({
+    coreSagas,
+    networks
+  })
+
   const buildAndPublishPayment = function * (
     coin: CoinType,
     payment: PaymentType,
@@ -41,12 +47,12 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return !paymentError
   }
 
-  const createLimits = function * (payment: PaymentType) {
+  const createLimits = function * (payment: PaymentValue) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-      const balance = payment.value().effectiveBalance
+      const balance = payment.effectiveBalance
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({} as RatesType)
       const userCurrency = (yield select(
@@ -120,36 +126,15 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function * (accountIndex?: number) {
-    let payment
+  const createPayment = function * (source: AccountTypes) {
     const coin = S.getCoinType(yield select())
-    const erc20List = (yield select(
-      selectors.core.walletOptions.getErc20CoinList
-    )).getOrElse([])
-    const isErc20 = includes(coin, erc20List)
 
-    switch (coin) {
-      case 'BTC':
-        payment = coreSagas.payment.btc.create({
-          network: networks.btc
-        })
-        payment = yield payment.init()
-        payment = yield payment.from(accountIndex, ADDRESS_TYPES.ACCOUNT)
-        payment = yield payment.fee('regular')
-        break
-      case 'ETH':
-      case 'USDT':
-      case 'PAX':
-        payment = coreSagas.payment.eth.create({
-          network: networks.eth
-        })
-        payment = yield payment.init({ isErc20, coin })
-        payment = yield payment.from()
-        payment = yield payment.fee('priority')
-        break
-      default:
-        throw new Error(INVALID_COIN_TYPE)
-    }
+    const payment: PaymentValue = yield call(
+      calculateProvisionalPayment,
+      source,
+      0,
+      coin === 'BTC' ? 'regular' : 'priority'
+    )
 
     return payment
   }

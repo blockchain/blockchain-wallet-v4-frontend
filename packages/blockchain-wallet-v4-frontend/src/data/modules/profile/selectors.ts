@@ -23,6 +23,7 @@ import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
 import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { UserDataType } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) =>
@@ -34,7 +35,9 @@ export const getWalletAddresses = compose(
   getUserData
 )
 export const getUserActivationState = compose(lift(prop('state')), getUserData)
-export const getUserKYCState = compose(lift(prop('kycState')), getUserData)
+export const getUserKYCState = compose(lift(prop('kycState')), getUserData) as (
+  state: RootState
+) => RemoteDataType<string, UserDataType['kycState']>
 export const getTags = compose(lift(path(['tags'])), getUserData)
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
@@ -177,8 +180,8 @@ export const isExchangeAccountLinked = (
 // suggest to the linking saga that a relink should be attempted
 export const isExchangeRelinkRequired = (
   state
-): RemoteDataType<string, boolean> =>
-  lift(user => {
+): RemoteDataType<string, boolean | number> =>
+  lift((user: UserDataType) => {
     return (
       not(isNil(prop('settings', user))) && length(getRemainingCoins(state))
     )

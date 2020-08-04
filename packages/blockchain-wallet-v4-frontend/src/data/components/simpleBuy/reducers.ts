@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { getCoinFromPair, getFiatFromPair } from './model'
 import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
@@ -8,15 +9,17 @@ const INITIAL_STATE: SimpleBuyState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
+  displayBack: false,
   cryptoCurrency: undefined,
-  defaultMethod: undefined,
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  method: undefined,
   methods: Remote.NotAsked,
   order: undefined,
   orders: Remote.NotAsked,
   pairs: Remote.NotAsked,
+  pair: undefined,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   step: 'CURRENCY_SELECTION',
@@ -65,7 +68,7 @@ export function simpleBuyReducer (
         ...state,
         account: Remote.NotAsked,
         cardId: undefined,
-        defaultMethod: undefined,
+        fiatCurrency: undefined,
         order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
@@ -104,10 +107,11 @@ export function simpleBuyReducer (
         ...state,
         card: Remote.Success(action.payload.card)
       }
+    // cards fetch fails so often in staging that this is a temp fix
     case AT.FETCH_SB_CARDS_FAILURE: {
       return {
         ...state,
-        cards: Remote.Failure(action.payload.error)
+        cards: Remote.Success([])
       }
     }
     case AT.FETCH_SB_CARDS_LOADING:
@@ -232,26 +236,59 @@ export function simpleBuyReducer (
         ...state,
         suggestedAmounts: Remote.Success(action.payload.amounts)
       }
+    case AT.INITIALIZE_CHECKOUT:
+      return {
+        ...state,
+        pair:
+          action.pair ||
+          action.pairs.find(
+            pair =>
+              getCoinFromPair(pair.pair) === state.cryptoCurrency &&
+              getFiatFromPair(pair.pair) === state.fiatCurrency
+          )
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
           return {
             ...state,
             cryptoCurrency: action.payload.cryptoCurrency,
-            defaultMethod: action.payload.defaultMethod,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,
+            pair: action.payload.pair,
+            method: action.payload.method,
             order: undefined
+          }
+        case 'CRYPTO_SELECTION':
+          return {
+            ...state,
+            cryptoCurrency: action.payload.cryptoCurrency,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step
+          }
+        case 'PAYMENT_METHODS':
+          return {
+            ...state,
+            cryptoCurrency: action.payload.cryptoCurrency,
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step,
+            order: action.payload.order
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
         case 'ORDER_SUMMARY':
-        case 'TRANSFER_DETAILS':
         case 'CANCEL_ORDER':
           return {
             ...state,
             order: action.payload.order,
             step: action.payload.step
+          }
+        case 'TRANSFER_DETAILS':
+          return {
+            ...state,
+            step: action.payload.step,
+            fiatCurrency: action.payload.fiatCurrency,
+            displayBack: action.payload.displayBack
           }
         default: {
           return {

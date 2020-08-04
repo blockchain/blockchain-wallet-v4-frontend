@@ -1,41 +1,44 @@
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.layoutWallet.getMenuOpened,
-    selectors.components.layoutWallet.getLockboxOpened,
+    selectors.components.utils.getSupportedCoinsWithBalanceAndOrder,
     selectors.auth.getFirstLogin,
     selectors.router.getPathname,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
-    selectors.core.settings.getInvitations,
-    selectors.modules.profile.getUserKYCState
+    selectors.core.walletOptions.getDomains
   ],
   (
-    menuOpened,
-    lockboxOpened,
-    firstLogin,
+    menuOpened: boolean,
+    coinsR,
+    firstLogin: boolean,
     pathname,
     lockboxDevicesR,
     countryCodeR,
-    invitationsR,
-    userKYCState
+    domainsR
   ) => {
-    const transform = (lockboxDevices, countryCode, invitations) => {
+    const transform = (
+      coins: ExtractSuccess<typeof coinsR>,
+      countryCode,
+      domains: ExtractSuccess<typeof domainsR>,
+      lockboxDevices
+    ) => {
       return {
+        coins,
         countryCode,
-        invitations,
+        domains,
         firstLogin,
         lockboxDevices,
-        lockboxOpened,
         menuOpened,
-        pathname,
-        userKYCState: userKYCState.getOrElse(null)
+        pathname
       }
     }
 
-    return lift(transform)(lockboxDevicesR, countryCodeR, invitationsR)
+    return lift(transform)(coinsR, countryCodeR, domainsR, lockboxDevicesR)
   }
 )

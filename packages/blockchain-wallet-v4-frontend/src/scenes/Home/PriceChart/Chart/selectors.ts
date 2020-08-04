@@ -14,7 +14,9 @@ export const getData = createDeepEqualSelector(
   (currencyR, priceChartPreferences, coin, time, priceIndexSeriesDataR) => {
     const currency = currencyR.getOrElse('USD')
     const currencySymbol = Exchange.getSymbol(currency)
+    // @ts-ignore
     const cacheCoin = prop('coin', priceChartPreferences)
+    // @ts-ignore
     const cacheTime = prop('time', priceChartPreferences)
 
     const transform = priceIndexSeriesData => ({

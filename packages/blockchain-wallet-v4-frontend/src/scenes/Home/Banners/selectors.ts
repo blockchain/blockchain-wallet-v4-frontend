@@ -1,9 +1,16 @@
-import { anyPass, equals } from 'ramda'
+import { anyPass, equals, isEmpty } from 'ramda'
+import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { SBOrderType } from 'core/types'
 
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
-export type BannerType = 'resubmit' | 'sbOrder' | 'finishKyc' | 'coinifyToSb'
+export type BannerType =
+  | 'resubmit'
+  | 'sbOrder'
+  | 'finishKyc'
+  | 'coinifyToSb'
+  | 'verifiedKyc'
+  | 'noneKyc'
 
 export const getData = (state): { bannerToShow: BannerType } => {
   // @ts-ignore
@@ -29,6 +36,21 @@ export const getData = (state): { bannerToShow: BannerType } => {
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
+  const isKycGold =
+    // @ts-ignore
+    selectors.modules.profile.getUserKYCState(state).getOrElse('') ===
+    'VERIFIED'
+
+  const coins = selectors.components.utils
+    .getSupportedCoinsWithBalanceAndOrder(state)
+    // @ts-ignore
+    .getOrElse({})
+
+  const availableBalanceOnFiat =
+    isEmpty(coins) ||
+    (!isEmpty(coins) &&
+      coins.filter(coin => coin.coinCode in FiatTypeEnum && coin.method).length)
+
   let bannerToShow
   if (showDocResubmitBanner) {
     bannerToShow = 'resubmit'
@@ -36,6 +58,10 @@ export const getData = (state): { bannerToShow: BannerType } => {
     bannerToShow = 'sbOrder'
   } else if (isKycStateNone && isUserActive && !isFirstLogin) {
     bannerToShow = 'finishKyc'
+  } else if (isKycStateNone) {
+    bannerToShow = 'noneKyc'
+  } else if (isKycGold && !availableBalanceOnFiat) {
+    bannerToShow = 'verifiedKyc'
   } else {
     bannerToShow = null
   }

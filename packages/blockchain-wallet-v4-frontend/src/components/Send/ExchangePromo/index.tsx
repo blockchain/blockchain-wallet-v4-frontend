@@ -9,6 +9,7 @@ import styled, { css } from 'styled-components'
 import { actions, model, selectors } from 'data'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
+import { WalletOptionsType } from 'core/types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -169,9 +170,9 @@ class ExchangePromo extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  domains: selectors.core.walletOptions
-    .getDomains(state)
-    .getOrElse({ exchange: 'https://exchange.blockchain.com' }),
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    exchange: 'https://exchange.blockchain.com'
+  } as WalletOptionsType['domains']),
   isExchangeLinked: selectors.modules.profile
     .isExchangeAccountLinked(state)
     .getOrElse(false),

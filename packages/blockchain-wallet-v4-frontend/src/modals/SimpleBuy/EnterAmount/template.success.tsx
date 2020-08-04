@@ -5,8 +5,6 @@ import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = props => {
   const isUserEligible =
-    props.pairs.length &&
-    props.eligibility.eligible &&
     props.paymentMethods.methods.length &&
     props.paymentMethods.methods.find(method => method.limits.max !== '0')
 
@@ -14,8 +12,6 @@ const Success: React.FC<Props> = props => {
     props.analyticsActions.logEvent([
       'IS_USER_SB_ELIGIBLE',
       JSON.stringify({
-        pairs: props.pairs,
-        eligibility: props.eligibility,
         paymentMethods: props.paymentMethods,
         doesWalletConsiderUserEligible: !!isUserEligible
       })

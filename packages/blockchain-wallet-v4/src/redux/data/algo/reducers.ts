@@ -46,10 +46,10 @@ export const algoReducer = (
       return {
         ...state,
         transactions: [
-          Remote.Success(action.payload.transactions),
           ...state.transactions.filter(
             (tx, i) => i !== state.transactions.length - 1
-          )
+          ),
+          Remote.Success(action.payload.transactions)
         ]
       }
     default: {

@@ -1,13 +1,15 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import {
+  FiatTypeEnum,
   RemoteDataType,
   SBOrderType,
   SBQuoteType,
-  SupportedCoinsType
+  SupportedCoinType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
+import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
@@ -40,12 +42,11 @@ class CheckoutConfirm extends PureComponent<Props> {
       this.props.simpleBuyActions.confirmSBCreditCardOrder(
         this.props.order.paymentMethodId
       )
-    } else if (this.props.order.paymentType === 'PAYMENT_CARD') {
-      this.props.simpleBuyActions.setStep({
-        step: 'ADD_CARD'
-      })
-    } else {
-      this.props.simpleBuyActions.confirmSBBankTransferOrder()
+      return
+    }
+
+    if (this.props.order.paymentType === 'FUNDS') {
+      this.props.simpleBuyActions.confirmSBFundsOrder()
     }
   }
 
@@ -66,14 +67,14 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrElse({
-      BTC: { colorCode: 'btc' },
-      BCH: { colorCode: 'bch' },
-      ETH: { colorCode: 'eth' },
-      PAX: { colorCode: 'pax' },
-      USDT: { colorCode: 'usdt' },
-      STX: { colorCode: 'stx' },
-      XLM: { colorCode: 'xlm' }
-    })
+      ALGO: { colorCode: 'algo' } as SupportedCoinType,
+      BTC: { colorCode: 'btc' } as SupportedCoinType,
+      BCH: { colorCode: 'bch' } as SupportedCoinType,
+      ETH: { colorCode: 'eth' } as SupportedCoinType,
+      PAX: { colorCode: 'pax' } as SupportedCoinType,
+      USDT: { colorCode: 'usdt' } as SupportedCoinType,
+      XLM: { colorCode: 'xlm' } as SupportedCoinType
+    } as Omit<SupportedWalletCurrenciesType, keyof FiatTypeEnum>)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -96,7 +97,7 @@ export type SuccessStateType = {
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

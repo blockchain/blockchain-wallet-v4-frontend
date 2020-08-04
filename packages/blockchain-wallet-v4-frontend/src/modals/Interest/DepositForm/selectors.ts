@@ -12,6 +12,7 @@ export const getData = (state: RootState) => {
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const depositLimits = selectors.components.interest.getDepositLimits(state)
   const displayCoin = selectors.components.interest.getCoinDisplay(state)
+  const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
@@ -21,6 +22,7 @@ export const getData = (state: RootState) => {
       rates,
       interestLimits,
       interestRate,
+      ethRates,
       payment,
       supportedCoins,
       walletCurrency
@@ -30,9 +32,10 @@ export const getData = (state: RootState) => {
       displayCoin,
       interestLimits,
       interestRate,
+      ethRates,
       payment,
-      btcFee: pathOr('0', ['selection', 'fee'], payment),
-      ethFee: propOr('0', 'fee', payment),
+      btcFee: Number(pathOr('0', ['selection', 'fee'], payment)),
+      ethFee: Number(propOr('0', 'fee', payment)),
       rates,
       supportedCoins,
       walletCurrency
@@ -41,6 +44,7 @@ export const getData = (state: RootState) => {
     ratesR,
     interestLimitsR,
     interestRateR,
+    ethRatesR,
     paymentR,
     supportedCoinsR,
     walletCurrencyR
