@@ -21,6 +21,10 @@ export type InterestEligibleType = {
 
 export type InterestInstrumentsType = Array<CoinType>
 
+export type InterestFormErrorsType = {
+  depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
+}
+
 export type InterestLimitsType = {
   [key in CoinType]: {
     currency: FiatType

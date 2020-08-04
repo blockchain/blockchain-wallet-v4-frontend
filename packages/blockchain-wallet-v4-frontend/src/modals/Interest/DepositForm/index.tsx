@@ -3,17 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import {
-  CoinType,
-  FiatType,
-  InterestLimitsType,
-  InterestRateType,
-  PaymentValue,
-  RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
-import { InterestMinMaxType } from 'data/types'
+import { CoinType, FiatType } from 'core/types'
+import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
 
 import { getData } from './selectors'
@@ -75,7 +66,7 @@ class DepositForm extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
@@ -92,24 +83,7 @@ export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
 }
-export type SuccessStateType = {
-  btcFee: number
-  depositLimits: InterestMinMaxType
-  displayCoin: boolean
-  ethFee: number
-  ethRates: RatesType
-  formErrors: any
-  // formErrors: { depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
-  interestLimits: InterestLimitsType
-  interestRate: InterestRateType
-  payment: PaymentValue
-  rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
-  walletCurrency: FiatType
-}
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type OwnProps = {
   coin: CoinType

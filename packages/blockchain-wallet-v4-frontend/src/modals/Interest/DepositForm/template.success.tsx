@@ -58,8 +58,6 @@ import {
   amountToCrypto,
   amountToFiat,
   calcCompoundInterest,
-  depositFeeCryptoCalc,
-  depositFeeFiatCalc,
   maxFiat
 } from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
@@ -70,12 +68,11 @@ const FORM_NAME = 'interestDepositForm'
 
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
-    btcFee,
     coin,
+    feeCrypto,
+    feeFiat,
     depositLimits,
     displayCoin,
-    ethFee,
-    ethRates,
     formActions,
     formErrors,
     handleDisplayToggle,
@@ -93,7 +90,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const { coinTicker, displayName } = supportedCoins[coin]
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
-  const depositFee = coin === 'BTC' ? btcFee : ethFee
 
   const depositAmountFiat = amountToFiat(
     displayCoin,
@@ -124,16 +120,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     isErc20 &&
     (payment.coin === 'PAX' || payment.coin === 'USDT') &&
     !payment.isSufficientEthForErc20
-  )
-
-  const depositFeeCrypto = depositFeeCryptoCalc(isErc20, coin, depositFee)
-  const depositFeeFiat = depositFeeFiatCalc(
-    depositFeeCrypto,
-    isErc20,
-    coin,
-    walletCurrency,
-    ethRates,
-    rates
   )
 
   return submitting ? (
@@ -584,11 +570,11 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   )}`,
                   depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
                   depositFeeFiat: `${currencySymbol}${formatFiat(
-                    Number(depositFeeFiat)
+                    Number(feeFiat)
                   )}`,
                   depositFeeCrypto: isErc20
-                    ? `${depositFeeCrypto} ETH`
-                    : `${depositFeeCrypto} ${coinTicker}`,
+                    ? `${feeCrypto} ETH`
+                    : `${feeCrypto} ${coinTicker}`,
                   displayName
                 }}
               />
