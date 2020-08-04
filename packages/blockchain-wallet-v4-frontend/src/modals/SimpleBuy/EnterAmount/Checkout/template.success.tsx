@@ -22,8 +22,29 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
+import styled, { css, keyframes } from 'styled-components'
+
+const shake = keyframes`
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+`
+const shakeAnimation = css`
+  animation: ${shake} 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+`
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -54,10 +75,14 @@ const AmountFieldContainer = styled.div`
     &::placeholder {
       font-size: 56px;
       color: ${props => props.theme.grey600};
+      transition: all 0.5s;
     }
+    transition: all 0.5s;
+    transform: translate3d(0, 0, 0);
   }
   > div {
     height: auto;
+    transition: all 0.5s;
     input {
       height: auto;
       outline: 0;
@@ -65,6 +90,19 @@ const AmountFieldContainer = styled.div`
   }
   > div > div:last-child {
     display: none;
+  }
+
+  &.shake {
+    > div {
+      color: ${props => props.theme.red500};
+    }
+    input {
+      color: ${props => props.theme.red500};
+      &::placeholder {
+        color: ${props => props.theme.red500};
+      }
+    }
+    ${shakeAnimation};
   }
 `
 const Amount = styled(BlueCartridge)`
@@ -106,6 +144,8 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const [isAmtShakeActive, setShake] = useState(false)
+
   const { fiatCurrency, method: selectedMethod, defaultMethod } = props
   const method = selectedMethod || defaultMethod
 
@@ -132,6 +172,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       getMaxMin(props.pair, prop, props.sbBalances, props.formValues, method)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
+  }
+
+  const handleAmountErrorClick = () => {
+    if (isAmtShakeActive) return
+
+    setShake(true)
+    props.formActions.focus('simpleBuyCheckout', 'amount')
+
+    setTimeout(() => {
+      setShake(false)
+    }, 1000)
   }
 
   return (
@@ -174,7 +225,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </FlyoutWrapper>
       <CryptoItem value={props.pair} />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountFieldContainer>
+        <AmountFieldContainer className={isAmtShakeActive ? 'shake' : ''}>
           <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
           </Text>
@@ -290,7 +341,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        <Payment {...props} method={method} />
+        <Payment
+          {...props}
+          method={method}
+          handleAmountErrorClick={handleAmountErrorClick}
+        />
 
         {props.error && (
           <ErrorText>
@@ -302,7 +357,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
-        <ActionButton {...props} />
+        <ActionButton {...props} method={method} />
       </FlyoutWrapper>
     </CustomForm>
   )

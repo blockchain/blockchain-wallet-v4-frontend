@@ -7,7 +7,11 @@ import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
-import { SBPaymentMethodType, WalletFiatEnum } from 'core/types'
+import {
+  SBPaymentMethodType,
+  WalletCurrencyType,
+  WalletFiatEnum
+} from 'core/types'
 import BankAccount from './BankAccount'
 import Card from './Card'
 import Fund from './Fund'
@@ -127,7 +131,11 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        method.value.currency === this.props.fiatCurrency
+        method.value.currency === this.props.fiatCurrency &&
+        Number(
+          this.props.balances[method.value.currency as WalletCurrencyType]
+            ?.available
+        ) > 0
     )
 
     const paymentCard = defaultMethods.find(

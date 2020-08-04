@@ -143,6 +143,7 @@ export default ({ api, coreSagas }) => {
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
+      // simple buy tasks
       yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
