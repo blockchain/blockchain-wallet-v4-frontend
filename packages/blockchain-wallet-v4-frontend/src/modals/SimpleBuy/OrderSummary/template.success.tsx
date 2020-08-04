@@ -205,7 +205,7 @@ const Success: React.FC<Props> = props => {
           <Value data-e2e='sbPaymentMethod'>
             {card
               ? `${card.label ? card.label : card.type} ····${card.number}`
-              : 'Bank Wire Transfer'}
+              : `${props.order.inputCurrency} Wallet`}
           </Value>
         </Row>
       </div>
