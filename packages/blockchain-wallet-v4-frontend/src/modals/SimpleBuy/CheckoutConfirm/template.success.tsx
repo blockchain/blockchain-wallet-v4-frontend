@@ -67,14 +67,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.funds_wallet'
             defaultMessage='{coin} Wallet'
             values={{
-              coin: props.supportedCoins[order.outputCurrency].coinTicker
+              coin: props.supportedCoins[order.inputCurrency].coinTicker
             }}
           />
         )
       default:
         return (
           <FormattedMessage
-            id='modals.simplebuy.confirm.bunk_transfer'
+            id='modals.simplebuy.deposit.bank_transfer'
             defaultMessage='Bank Transfer'
           />
         )

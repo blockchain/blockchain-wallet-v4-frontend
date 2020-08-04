@@ -1,5 +1,6 @@
 import { FlyoutE2EType } from './types'
 import { Modal, Text } from 'blockchain-info-components'
+import { shakeAnimation } from './animations'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -147,6 +148,18 @@ export const AmountFieldContainer = styled.div`
   }
   > div > div:last-child {
     display: none;
+  }
+  &.shake {
+    > div {
+      color: ${props => props.theme.red500};
+    }
+    input {
+      color: ${props => props.theme.red500};
+      &::placeholder {
+        color: ${props => props.theme.red500};
+      }
+    }
+    ${shakeAnimation};
   }
 `
 

@@ -22,7 +22,7 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -79,6 +79,8 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const [isAmtShakeActive, setShake] = useState(false)
+
   const { fiatCurrency, method: selectedMethod, defaultMethod } = props
   const method = selectedMethod || defaultMethod
 
@@ -103,6 +105,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       getMaxMin(props.pair, prop, props.sbBalances, props.formValues, method)
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
+  }
+
+  const handleAmountErrorClick = () => {
+    if (isAmtShakeActive) return
+
+    setShake(true)
+    props.formActions.focus('simpleBuyCheckout', 'amount')
+
+    setTimeout(() => {
+      setShake(false)
+    }, 1000)
   }
 
   return (
@@ -145,7 +158,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </FlyoutWrapper>
       <CryptoItem value={props.pair} />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountFieldContainer>
+        <AmountFieldContainer className={isAmtShakeActive ? 'shake' : ''}>
           <Text size='56px' color='grey400' weight={500}>
             {Currencies[fiatCurrency].units[fiatCurrency].symbol}
           </Text>
@@ -261,7 +274,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </Amounts>
         )}
 
-        <Payment {...props} method={method} />
+        <Payment
+          {...props}
+          method={method}
+          handleAmountErrorClick={handleAmountErrorClick}
+        />
 
         {props.error && (
           <ErrorText>
@@ -273,7 +290,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
-        <ActionButton {...props} />
+        <ActionButton {...props} method={method} />
       </FlyoutWrapper>
     </CustomForm>
   )

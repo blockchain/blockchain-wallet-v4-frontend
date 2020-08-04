@@ -1125,7 +1125,6 @@ type MessagesType = {
   'modals.simplebuy.checkoutconfirm': 'Checkout'
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.buy': 'Buy {amount} {coin}'
-  'modals.simplebuy.confirm.bunk_transfer': 'Bank Transfer'
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
