@@ -85,22 +85,17 @@ export default ({ api }) => {
   }
 
   const sendSecureChannelMessage = function * (action) {
-    const data = action.payload
     try {
       // yield put(A.authorizeLoginLoading())
-      console.info('SEND MESSAGE ' + JSON.stringify(action.payload))
-      const data = yield call(
-        api.sendSecureChannel,
-        JSON.stringify(action.payload)
-      )
+      // const data =
+      yield call(api.sendSecureChannel, JSON.stringify(action.payload))
       // if (data.success || data.device_change_reason) {
       //   yield put(A.authorizeLoginSuccess(data))
       // } else {
       //   yield put(A.authorizeLoginFailure(data.error))
       // }
     } catch (e) {
-      // TODO loading state?
-      console.warn('Error sending', e)
+      // TODO Should this be a new loading state or can I import the other one?
       // yield put(A.authorizeLoginFailure(e.message || e.error))
     }
   }

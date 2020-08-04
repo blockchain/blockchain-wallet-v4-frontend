@@ -1,16 +1,16 @@
+import * as bitcoinjs from 'bitcoinjs-lib'
 import * as crypto from 'crypto'
+import * as curve from 'ecurve'
 import * as U from './utils'
 // @ts-ignore
 import { compose, curry, has, is, isNil, propSatisfies, sequence } from 'ramda'
 import { pbkdf2 } from 'pbkdf2'
 import assert from 'assert'
+import BigInteger from 'bigi'
 import BIP39 from 'bip39'
 import createRng from './rng'
 import Either from 'data.either'
 import Task from 'data.task'
-import * as curve from 'ecurve'
-import BigInteger from 'bigi'
-import * as bitcoinjs from 'bitcoinjs-lib'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
@@ -272,7 +272,7 @@ export const decryptWallet = curry((password, data) =>
   )
 )
 
-export const derivePubFromPriv = (priv) => {
+export const derivePubFromPriv = priv => {
   const privNumber = BigInteger.fromBuffer(priv)
   let k = new bitcoinjs.ECPair(privNumber)
   return k.getPublicKeyBuffer()

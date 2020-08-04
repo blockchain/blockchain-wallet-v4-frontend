@@ -10,12 +10,12 @@ import React from 'react'
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }
 
-  componentWillUnmount () {
-    this.props.formActions.reset('login')
-  }
-
   componentDidMount () {
     this.props.middlewareActions.startSocket()
+  }
+
+  componentWillUnmount () {
+    this.props.formActions.reset('login')
   }
 
   onSubmit = () => {

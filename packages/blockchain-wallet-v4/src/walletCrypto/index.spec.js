@@ -178,10 +178,6 @@ describe('WalletCrypto', () => {
         '8ca745f6ff8c67a63dcb448b18c5cf111e44d16a6e587987d4212d0fba12c74f',
         'hex'
       )
-      const pub = Buffer.from(
-        '02a18a98316b5f52596e75bfa5ca9fa9912edd0c989b86b73d41bb64c9c6adb992',
-        'hex'
-      )
       expect(wCrypto.derivePubFromPriv(priv).toString('hex')).toBe(
         '03a4ddec8d6b42cce5eef709e1e99858caa47755e335564c42aafc61fb87aa8830'
       )

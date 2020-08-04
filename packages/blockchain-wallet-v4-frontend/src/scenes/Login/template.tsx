@@ -30,11 +30,8 @@ import {
 import media from 'services/ResponsiveService'
 
 import { compose } from 'redux'
-import { fiatToString } from 'core/exchange/currency'
 import { Props as OwnProps } from '.'
-import { PriceChange } from '../Transactions/model'
 import { selectors } from 'data'
-import { Skeletons } from '../Transactions/WalletBalanceDropdown/template.loading'
 import LinkAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
 
@@ -152,9 +149,6 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
-  console.info(
-    'RENDER: SECURE CHANNEL STATE IS ' + props.secureChannelLoginState
-  )
 
   return (
     <LoginWrapper>
@@ -182,12 +176,9 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           )}
           <FormGroup>
             <FormItem>
-              {console.info(
-                'SECURE CHANNEL STATE IS ' + props.secureChannelLoginState
-              )}
               <ChannelWrapper>
                 {props.secureChannelLoginState.cata({
-                  Success: val => {
+                  Success: () => {
                     return (
                       <Text size='14px' weight={600}>
                         Success! Logging in...

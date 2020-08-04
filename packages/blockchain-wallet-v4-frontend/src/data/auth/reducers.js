@@ -74,19 +74,15 @@ const auth = (state = INITIAL_STATE, action) => {
       return assoc('remindGuid', Remote.NotAsked, state)
     }
     case AT.SECURE_CHANNEL_LOGIN_LOADING: {
-      console.info("SECURE CHANNEL LOGIN LOADING RECEIVED")
       return assoc('secureChannelLogin', Remote.Loading, state)
     }
     case AT.SECURE_CHANNEL_LOGIN_SUCCESS: {
-      console.info("SECURE CHANNEL LOGIN SUCCESS RECEIVED")
       return assoc('secureChannelLogin', Remote.Success(payload), state)
     }
     case AT.SECURE_CHANNEL_LOGIN_FAILURE: {
-      console.info("SECURE CHANNEL LOGIN FAILURE RECEIVED")
       return assoc('secureChannelLogin', Remote.Failure(payload), state)
     }
     case AT.SECURE_CHANNEL_LOGIN_NOTASKED: {
-      console.info("SECURE CHANNEL LOGIN NOTASKED RECEIVED")
       return assoc('secureChannelLogin', Remote.NotAsked, state)
     }
     case AT.SET_FIRST_LOGIN: {
