@@ -37,7 +37,7 @@ const Amount = styled.div`
 
 const Success: React.FC<Props> = props => {
   const inputAmt =
-    getOrderType(props.order.pair) === 'BUY'
+    getOrderType(props.order) === 'BUY'
       ? fiatToString({
           unit: props.order.inputCurrency as FiatType,
           value: convertBaseToStandard('FIAT', props.order.inputQuantity)
@@ -47,7 +47,7 @@ const Success: React.FC<Props> = props => {
           props.order.inputQuantity
         )
   const outputAmt =
-    getOrderType(props.order.pair) === 'BUY'
+    getOrderType(props.order) === 'BUY'
       ? convertBaseToStandard(
           getCoinFromPair(props.order.pair),
           props.order.outputQuantity

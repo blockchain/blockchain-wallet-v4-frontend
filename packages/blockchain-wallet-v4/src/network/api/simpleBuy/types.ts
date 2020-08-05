@@ -151,7 +151,7 @@ export type SBProviderDetailsType = {
 
 export type SBMoneyType = {
   amount: string
-  symbol: FiatType
+  symbol: WalletCurrencyType
 }
 
 export type SBSuggestedAmountType = Array<

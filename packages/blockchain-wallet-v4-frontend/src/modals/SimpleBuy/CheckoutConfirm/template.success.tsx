@@ -10,7 +10,13 @@ import {
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { getOutputAmount } from 'data/components/simpleBuy/model'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 
@@ -43,11 +49,15 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const outputAmt = getOutputAmount(props.order, props.quote)
+  const actionType = getOrderType(props.order)
+  const baseAmount = getBaseAmount(props.order)
+  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const counterAmount = getCounterAmount(props.order)
+  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
 
   const displayFiat = (amt: string) => {
     return fiatToString({
-      unit: props.order.inputCurrency as FiatType,
+      unit: counterCurrency as FiatType,
       value: convertBaseToStandard('FIAT', amt)
     })
   }
@@ -67,7 +77,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.funds_wallet'
             defaultMessage='{coin} Wallet'
             values={{
-              coin: props.supportedCoins[order.inputCurrency].coinTicker
+              coin: baseCurrency
             }}
           />
         )
@@ -104,12 +114,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Checkout'
           />
         </TopText>
-        <Amount data-e2e='sbTotalCryptoBuyAmount'>
+        <Amount data-e2e='sbTotalAmount'>
           <Text size='32px' weight={600} color='grey800'>
-            {outputAmt}
+            {baseAmount}
           </Text>
           <Text size='32px' weight={600} color='grey800'>
-            {props.supportedCoins[props.order.outputCurrency].coinTicker}
+            {baseCurrency}
           </Text>
         </Amount>
       </FlyoutWrapper>
@@ -119,7 +129,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.coin_price'
             defaultMessage='{coin} Price'
             values={{
-              coin: props.supportedCoins[props.order.outputCurrency].coinTicker
+              coin: baseCurrency
             }}
           />
         </Title>
@@ -140,7 +150,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <FormattedMessage id='copy.total' defaultMessage='Total' />
         </Title>
         <Value data-e2e='sbFiatBuyAmount'>
-          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
+          {fiatToString({ value: counterAmount, unit: counterCurrency })}
         </Value>
       </Row>
       <Row>
@@ -172,15 +182,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage
-              id='modals.simplebuy.confirm.buy'
-              defaultMessage='Buy {amount} {coin}'
-              values={{
-                amount: outputAmt,
-                coin:
-                  props.supportedCoins[props.order.outputCurrency].coinTicker
-              }}
-            />
+            `${
+              actionType === 'BUY' ? 'Buy' : 'Sell'
+            } ${baseAmount} ${baseCurrency}`
           )}
         </Button>
         <Button

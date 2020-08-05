@@ -264,7 +264,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                             value: min
                           })
                         : coinToString({
-                            value: max,
+                            value: min,
                             unit: { symbol: cryptoCurrency }
                           }),
                     orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'

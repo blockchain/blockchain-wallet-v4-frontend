@@ -65,7 +65,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
     const { order } = this.props
 
     const inputAmt =
-      getOrderType(order.pair) === 'BUY'
+      getOrderType(order) === 'BUY'
         ? fiatToString({
             unit: order.inputCurrency as FiatType,
             value: convertBaseToStandard('FIAT', order.inputQuantity)

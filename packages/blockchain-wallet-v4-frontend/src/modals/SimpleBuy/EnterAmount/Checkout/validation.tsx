@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
 import {
   getCoinFromPair,
   getFiatFromPair
@@ -63,8 +64,13 @@ export const getMaxMin = (
 
           return convertBaseToStandard(coin, maxAvailable)
         case 'min':
-          const minStandard = convertBaseToStandard('FIAT', pair.sellMin)
-          return new BigNumber(minStandard).dividedBy(rate).toString()
+          const minStandard = convertBaseToStandard(
+            'FIAT',
+            new BigNumber(pair.sellMin)
+          )
+          return new BigNumber(minStandard)
+            .dividedBy(rate)
+            .toFixed(CRYPTO_DECIMALS)
       }
   }
 }

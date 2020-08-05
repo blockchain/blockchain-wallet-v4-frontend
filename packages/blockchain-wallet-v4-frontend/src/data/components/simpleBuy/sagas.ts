@@ -200,16 +200,26 @@ export default ({
     try {
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
-      const amount = convertStandardToBase('FIAT', values.amount)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
+
+      const { actionType } = values
+      const fiat = getFiatFromPair(pair.pair)
+      const coin = getCoinFromPair(pair.pair)
+      const inputCurrency = actionType === 'BUY' ? fiat : coin
+      const outputCurrency = actionType === 'BUY' ? coin : fiat
+      const amount =
+        actionType === 'BUY'
+          ? convertStandardToBase('FIAT', values.amount)
+          : convertStandardToBase(coin, values.amount)
+
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
-        values.actionType,
+        actionType,
         true,
-        { amount, symbol: getFiatFromPair(pair.pair) },
-        { symbol: getCoinFromPair(pair.pair) },
+        { amount, symbol: inputCurrency },
+        { symbol: outputCurrency },
         paymentMethodId,
         paymentType
       )
@@ -497,16 +507,15 @@ export default ({
     }
   }
 
-  const fetchSBQuote = function * () {
+  const fetchSBQuote = function * (payload: ReturnType<typeof A.fetchSBQuote>) {
     try {
       yield put(A.fetchSBQuoteLoading())
       const order = S.getSBOrder(yield select())
       if (!order) throw new Error('NO_ORDER')
-      // TODO: Simple Buy - make dynamic
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
         order.pair,
-        'BUY',
+        payload.actionType,
         order.inputQuantity
       )
       yield put(A.fetchSBQuoteSuccess(quote))

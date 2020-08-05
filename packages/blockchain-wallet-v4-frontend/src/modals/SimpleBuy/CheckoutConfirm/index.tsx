@@ -1,6 +1,8 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -11,9 +13,9 @@ import {
   WalletFiatType
 } from 'core/types'
 import { getData } from './selectors'
+import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import BigNumber from 'bignumber.js'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -23,7 +25,7 @@ class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.simpleBuyActions.fetchSBQuote()
+    this.props.simpleBuyActions.fetchSBQuote(getOrderType(this.props.order))
   }
 
   handleSubmit = () => {

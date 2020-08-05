@@ -319,8 +319,9 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = () => ({
-  type: AT.FETCH_SB_QUOTE
+export const fetchSBQuote = (actionType: SBOrderActionType) => ({
+  type: AT.FETCH_SB_QUOTE,
+  actionType
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
