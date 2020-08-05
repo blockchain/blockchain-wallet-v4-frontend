@@ -292,6 +292,7 @@ type LinkStatePropsType =
       step: 'ENTER_AMOUNT'
     }
   | {
+      actionType: SBOrderActionType
       order: SBOrderType
       pair: SBPairType
       step: 'PAYMENT_METHODS'

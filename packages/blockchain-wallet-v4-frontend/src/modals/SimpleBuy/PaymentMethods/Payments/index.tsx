@@ -116,7 +116,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   render () {
     const { fiatCurrency } = this.props
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE'
+      card => card.state === 'ACTIVE' && this.props.actionType === 'BUY'
     )
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
       text: this.getType(value),
@@ -124,7 +124,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD'
+      m => m.type === 'PAYMENT_CARD' && this.props.actionType === 'BUY'
     )
 
     const funds = defaultMethods.filter(
@@ -139,7 +139,8 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const paymentCard = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD'
+      method =>
+        method.value.type === 'PAYMENT_CARD' && this.props.actionType === 'BUY'
     )
     const bankAccount = defaultMethods.find(
       method => method.value.type === 'BANK_ACCOUNT'
