@@ -22,6 +22,33 @@ function uuidv4 () {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
+  const pingPhone = function * (ruid, secretHex, phonePubkey, guid) {
+    let msg = {
+      type: 'login_wallet',
+      ruid: ruid,
+      timestamp: Date.now()
+    }
+
+    let sharedSecret = wCrypto.deriveSharedSecret(
+      Buffer.from(secretHex, 'hex'),
+      Buffer.from(phonePubkey, 'hex')
+    )
+    let encrypted = wCrypto.encryptAESGCM(
+      sharedSecret,
+      Buffer.from(JSON.stringify(msg), 'utf8')
+    )
+    let payload = {
+      guid: guid,
+      pubkeyhash: wCrypto
+        .sha256(wCrypto.derivePubFromPriv(Buffer.from(secretHex, 'hex')))
+        .toString('hex'),
+      message: encrypted.toString('hex')
+    }
+
+    yield put(actions.auth.secureChannelLoginLoading())
+    yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
+  }
+
   const onOpen = function * () {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
     let ruid = yield select(selectors.cache.getChannelRuid)
@@ -47,30 +74,7 @@ export default ({ api, socket }) => {
     let phonePubkey = yield select(selectors.cache.getPhonePubkey)
     let guid = yield select(selectors.cache.getLastGuid)
     if (phonePubkey && guid) {
-      let msg = {
-        type: 'login_wallet',
-        ruid: ruid,
-        timestamp: Date.now()
-      }
-
-      let sharedSecret = wCrypto.deriveSharedSecret(
-        Buffer.from(secretHex, 'hex'),
-        Buffer.from(phonePubkey, 'hex')
-      )
-      let encrypted = wCrypto.encryptAESGCM(
-        sharedSecret,
-        Buffer.from(JSON.stringify(msg), 'utf8')
-      )
-      let payload = {
-        guid: guid,
-        pubkeyhash: wCrypto
-          .sha256(wCrypto.derivePubFromPriv(Buffer.from(secretHex, 'hex')))
-          .toString('hex'),
-        message: encrypted.toString('hex')
-      }
-
-      yield put(actions.auth.secureChannelLoginLoading())
-      yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
+      pingPhone(ruid, secretHex, phonePubkey, guid)
     }
   }
 
@@ -256,8 +260,8 @@ export default ({ api, socket }) => {
               return
             }
 
-            let pubkey = Buffer.from(payload.pubkey, 'hex')
             let secretHex = yield select(selectors.cache.getChannelPrivKey)
+            let pubkey = Buffer.from(payload.pubkey, 'hex')
             let sharedSecret = wCrypto.deriveSharedSecret(
               Buffer.from(secretHex, 'hex'),
               pubkey
@@ -268,30 +272,32 @@ export default ({ api, socket }) => {
             )
 
             let decrypted = JSON.parse(decryptedRaw.toString('utf8'))
-            if (decrypted.payload.remember) {
+
+            if (decrypted.type === 'handshake') {
+              let ruid = yield select(selectors.cache.getChannelRuid)
+              yield pingPhone(ruid, secretHex, payload.pubkey, decrypted.guid)
+            } else if (decrypted.type === 'login_wallet') {
+              if (decrypted.remember) {
+                yield put(
+                  actions.cache.channelPhoneConnected(pubkey.toString('hex'))
+                )
+              }
+
+              yield put(actions.auth.secureChannelLoginSuccess())
+              yield put(actions.form.change('login', 'guid', decrypted.guid))
               yield put(
-                actions.cache.channelPhoneConnected(pubkey.toString('hex'))
+                actions.form.change('login', 'password', decrypted.password)
+              )
+              yield put(actions.form.startSubmit('login'))
+              yield put(
+                actions.auth.login(
+                  decrypted.guid,
+                  decrypted.password,
+                  undefined,
+                  decrypted.sharedKey
+                )
               )
             }
-
-            yield put(actions.auth.secureChannelLoginSuccess())
-            yield put(
-              actions.form.change('login', 'guid', decrypted.payload.guid)
-            )
-            yield put(
-              actions.form.change(
-                'login',
-                'password',
-                decrypted.payload.password
-              )
-            )
-            yield put(actions.form.startSubmit('login'))
-            yield put(
-              actions.auth.login(
-                decrypted.payload.guid,
-                decrypted.payload.password
-              )
-            )
           }
 
           if (!!message.email && message.isVerified) {
