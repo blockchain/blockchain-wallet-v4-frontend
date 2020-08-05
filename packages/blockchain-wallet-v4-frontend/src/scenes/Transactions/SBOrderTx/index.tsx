@@ -70,7 +70,10 @@ class SimpleBuyListItem extends PureComponent<Props> {
             unit: order.inputCurrency as FiatType,
             value: convertBaseToStandard('FIAT', order.inputQuantity)
           })
-        : 'Not yet implemented'
+        : fiatToString({
+            unit: order.outputCurrency as FiatType,
+            value: convertBaseToStandard('FIAT', order.outputQuantity)
+          })
 
     return (
       <CustodialTransactionRow onClick={() => this.showModal(order)}>
