@@ -3,6 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   CoinType,
   FiatType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
@@ -284,6 +285,7 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
+      actionType: SBOrderActionType
       method?: SBPaymentMethodType
       order?: SBOrderType
       pair: SBPairType

@@ -166,6 +166,7 @@ export default ({
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
+              actionType: 'BUY',
               fiatCurrency,
               pair,
               method
@@ -192,20 +193,18 @@ export default ({
     paymentMethodId,
     paymentType
   }: ReturnType<typeof A.createSBOrder>) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
     try {
-      const values: SBCheckoutFormValuesType = yield select(
-        selectors.form.getFormValues('simpleBuyCheckout')
-      )
       const pair = S.getSBPair(yield select())
       const amount = convertStandardToBase('FIAT', values.amount)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-      // TODO: Simple Buy - make dynamic
-      const action = 'BUY'
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
-        action,
+        values.actionType,
         true,
         { amount, symbol: getFiatFromPair(pair.pair) },
         { symbol: getCoinFromPair(pair.pair) },
@@ -226,7 +225,13 @@ export default ({
         const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
         if (pair) {
           yield put(
-            A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair, method })
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              actionType: values.actionType,
+              fiatCurrency,
+              pair,
+              method
+            })
           )
           yield take(AT.INITIALIZE_CHECKOUT)
           yield delay(3000)
@@ -650,7 +655,7 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    orderType,
+    actionType,
     amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
@@ -664,7 +669,7 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          orderType,
+          actionType,
           amount
         } as SBCheckoutFormValuesType)
       )

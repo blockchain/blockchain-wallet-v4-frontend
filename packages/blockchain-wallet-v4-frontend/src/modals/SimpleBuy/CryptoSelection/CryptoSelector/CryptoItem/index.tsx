@@ -1,9 +1,9 @@
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBPairType } from 'core/types'
+import { SBOrderActionType, SBPairType } from 'core/types'
 
 import React, { PureComponent } from 'react'
 import Success from './template.success'
@@ -20,8 +20,7 @@ class CryptoItem extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  data: getData(state, ownProps),
-  actionType: selectors.components.simpleBuy.getActionType(state)
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -31,6 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  actionType: SBOrderActionType
   onClick?: (string) => void
   value: SBPairType
 }

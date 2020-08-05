@@ -1,11 +1,5 @@
 import * as AT from './actionTypes'
 import {
-  ActionType,
-  SBShowModalOriginType,
-  SimpleBuyActionTypes,
-  StepActionsPayload
-} from './types'
-import {
   CoinType,
   CurrenciesType,
   Everypay3DSResponseType,
@@ -25,6 +19,11 @@ import {
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
+import {
+  SBShowModalOriginType,
+  SimpleBuyActionTypes,
+  StepActionsPayload
+} from './types'
 
 export const activateSBCard = (card: SBCardType) => ({
   type: AT.ACTIVATE_SB_CARD,
@@ -395,13 +394,13 @@ export const initializeBillingAddress = () => ({
 
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
-  orderType: SBOrderActionType,
+  actionType: SBOrderActionType,
   pair?: SBPairType,
   amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   amount,
-  orderType,
+  actionType,
   pair,
   pairs
 })
@@ -442,6 +441,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
+        actionType: payload.actionType || 'BUY',
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,
@@ -478,12 +478,5 @@ export const showModal = (
   payload: {
     origin,
     cryptoCurrency
-  }
-})
-
-export const updateActionType = (actionType: ActionType) => ({
-  type: AT.UPDATE_ACTION_TYPE,
-  payload: {
-    actionType
   }
 })

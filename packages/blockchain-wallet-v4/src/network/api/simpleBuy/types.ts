@@ -101,6 +101,8 @@ export type SBPairType = {
   buyMax: string
   buyMin: string
   pair: SBPairsType
+  sellMax: string
+  sellMin: string
 }
 
 export type SBPaymentTypes =

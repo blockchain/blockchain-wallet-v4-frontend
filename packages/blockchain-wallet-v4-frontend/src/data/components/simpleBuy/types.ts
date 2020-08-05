@@ -34,8 +34,8 @@ export type SBAddCardErrorType =
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType = {
+  actionType: SBOrderActionType
   amount: string
-  orderType: SBOrderActionType
 }
 export type SBCurrencySelectFormType = {
   search: string
@@ -65,12 +65,10 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
 
-export type ActionType = 'BUY' | 'SELL'
-
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
-  actionType: undefined | ActionType
+  actionType?: SBOrderActionType
   balances: RemoteDataType<string, SBBalancesType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -303,6 +301,7 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
+      actionType?: SBOrderActionType
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
@@ -348,12 +347,6 @@ interface ShowModalAction {
   }
   type: typeof AT.SHOW_MODAL
 }
-interface UpdateActionType {
-  payload: {
-    actionType: ActionType
-  }
-  type: typeof AT.UPDATE_ACTION_TYPE
-}
 
 export type SimpleBuyActionTypes =
   | ActivateSBCardFailure
@@ -396,4 +389,3 @@ export type SimpleBuyActionTypes =
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
-  | UpdateActionType

@@ -5,7 +5,7 @@ import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -36,9 +36,12 @@ export type Props = OwnProps & SuccessStateType
 
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
+  const [actionType, setActionType] = useState(props.actionType)
+
   const handleSubmit = (pair: SBPairType) => {
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
+      actionType: actionType,
       fiatCurrency: props.fiatCurrency,
       pair
     })
@@ -73,20 +76,20 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           <TabsContainer>
             <TabMenu>
               <TabMenuItem
-                selected={props.actionType === 'BUY'}
-                onClick={() => props.simpleBuyActions.updateActionType('BUY')}
+                selected={actionType === 'BUY'}
+                onClick={() => setActionType('BUY')}
               >
                 <FormattedMessage
-                  id='modals.simplebuy.buycrypto'
+                  id='buttons.buy_crypto'
                   defaultMessage='Buy Crypto'
                 />
               </TabMenuItem>
               <TabMenuItem
-                selected={props.actionType === 'SELL'}
-                onClick={() => props.simpleBuyActions.updateActionType('SELL')}
+                selected={actionType === 'SELL'}
+                onClick={() => setActionType('SELL')}
               >
                 <FormattedMessage
-                  id='modals.simplebuy.sellcrypto'
+                  id='buttons.sell_crypto'
                   defaultMessage='Sell Crypto'
                 />
               </TabMenuItem>
@@ -98,6 +101,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             <CryptoItem
               key={index}
               value={value}
+              actionType={actionType}
               onClick={() => handleSubmit(value as SBPairType)}
             />
           ))}

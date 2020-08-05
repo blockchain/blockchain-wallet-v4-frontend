@@ -4,6 +4,7 @@ import {
   CustomCartridge,
   ErrorCartridge
 } from 'components/Cartridge'
+import { BuyOrSellCrypto } from '../../model'
 import {
   convertBaseToStandard,
   convertStandardToBase
@@ -75,7 +76,7 @@ const normalizeAmount = (
   allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, allValues.orderType === 'BUY')
+  return formatTextAmount(value, allValues.actionType === 'BUY')
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -102,7 +103,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
       'FIAT',
-      getMaxMin(props.pair, prop, props.sbBalances, props.formValues, method)
+      getMaxMin(
+        props.pair,
+        prop,
+        props.sbBalances,
+        props.actionType,
+        props.rates,
+        props.formValues,
+        method
+      )
     )
     props.simpleBuyActions.handleSBSuggestedAmountClick(value)
   }
@@ -140,10 +149,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 })
               }
             />
-            <FormattedMessage
-              id='modals.simplebuy.buycrypto'
-              defaultMessage='Buy Crypto'
-            />
+            <BuyOrSellCrypto {...props} />
           </LeftTopCol>
           <Icon
             cursor
@@ -156,7 +162,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
       </FlyoutWrapper>
-      <CryptoItem value={props.pair} />
+      <CryptoItem value={props.pair} actionType={props.actionType} />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountFieldContainer className={isAmtShakeActive ? 'shake' : ''}>
           <Text size='56px' color='grey400' weight={500}>
@@ -190,12 +196,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.pair,
                         'max',
                         props.sbBalances,
+                        props.actionType,
+                        props.rates,
                         props.formValues,
                         method
                       )
                     }),
-                    orderType:
-                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
+                    orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               ) : (
@@ -209,12 +216,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                         props.pair,
                         'min',
                         props.sbBalances,
+                        props.actionType,
+                        props.rates,
                         props.formValues,
                         method
                       )
                     }),
-                    orderType:
-                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
+                    orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               )}

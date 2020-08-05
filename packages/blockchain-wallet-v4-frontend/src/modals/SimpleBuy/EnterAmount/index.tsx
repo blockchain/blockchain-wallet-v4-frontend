@@ -1,14 +1,16 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import {
+  CoinType,
   ExtractSuccess,
   FiatType,
   RemoteDataType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
 } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
@@ -39,6 +41,8 @@ class EnterAmount extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
@@ -51,6 +55,7 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  actionType: SBOrderActionType
   handleClose: () => void
   method?: SBPaymentMethodType
   order?: SBOrderType
@@ -58,6 +63,7 @@ export type OwnProps = {
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
+  cryptoCurrency: CoinType
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }
