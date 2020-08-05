@@ -9,11 +9,12 @@ import {
 } from './messageTypes'
 import { call, put, select } from 'redux-saga/effects'
 import { concat, equals, prop } from 'ramda'
+import { Remote, crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import { WALLET_TX_SEARCH } from '../../../form/model'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+
 import crypto from 'crypto'
 
-function uuidv4 () {
+function uuidv4() {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
   )
@@ -22,7 +23,11 @@ function uuidv4 () {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const pingPhone = function * (ruid, secretHex, phonePubkey, guid) {
+  const pingPhone = function*(ruid, secretHex, phonePubkey, guid) {
+    let currentState = yield select(selectors.auth.getSecureChannelLogin)
+    if (currentState !== Remote.NotAsked) {
+      return
+    }
     let msg = {
       type: 'login_wallet',
       ruid: ruid,
@@ -49,7 +54,7 @@ export default ({ api, socket }) => {
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
-  const onOpen = function * () {
+  const onOpen = function*() {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
     let ruid = yield select(selectors.cache.getChannelRuid)
 
@@ -74,11 +79,11 @@ export default ({ api, socket }) => {
     let phonePubkey = yield select(selectors.cache.getPhonePubkey)
     let guid = yield select(selectors.cache.getLastGuid)
     if (phonePubkey && guid) {
-      pingPhone(ruid, secretHex, phonePubkey, guid)
+      yield pingPhone(ruid, secretHex, phonePubkey, guid)
     }
   }
 
-  const onAuth = function * () {
+  const onAuth = function*() {
     try {
       // 1. subscribe to block headers
       yield call(
@@ -169,7 +174,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onMessage = function * (action) {
+  const onMessage = function*(action) {
     const message = prop('payload', action)
     try {
       switch (message.coin) {
@@ -317,7 +322,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const sentOrReceived = function * (coin, message) {
+  const sentOrReceived = function*(coin, message) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
@@ -340,7 +345,7 @@ export default ({ api, socket }) => {
     return 'sent'
   }
 
-  const transactionsUpdate = function * (coin) {
+  const transactionsUpdate = function*(coin) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
@@ -358,7 +363,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function * (action) {
+  const onClose = function*(action) {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',
