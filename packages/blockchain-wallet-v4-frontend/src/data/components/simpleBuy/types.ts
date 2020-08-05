@@ -33,10 +33,12 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
-export type SBCheckoutFormValuesType = {
-  actionType: SBOrderActionType
-  amount: string
-}
+export type SBCheckoutFormValuesType =
+  | undefined
+  | {
+      actionType: SBOrderActionType
+      amount: string
+    }
 export type SBCurrencySelectFormType = {
   search: string
 }

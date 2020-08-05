@@ -6,14 +6,22 @@ import {
 } from 'components/Cartridge'
 import { BuyOrSellCrypto } from '../../model'
 import {
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType } from 'core/types'
+import {
   convertBaseToStandard,
   convertStandardToBase
 } from 'data/components/exchange/services'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  CRYPTO_DECIMALS,
+  FIAT_DECIMALS,
+  formatTextAmount
+} from 'services/ValidationHelper'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/ValidationHelper'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -76,17 +84,27 @@ const normalizeAmount = (
   allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, allValues.actionType === 'BUY')
+  return formatTextAmount(value, allValues && allValues.actionType === 'BUY')
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [isAmtShakeActive, setShake] = useState(false)
 
-  const { fiatCurrency, method: selectedMethod, defaultMethod } = props
+  const {
+    actionType,
+    cryptoCurrency,
+    fiatCurrency,
+    method: selectedMethod,
+    defaultMethod
+  } = props
   const method = selectedMethod || defaultMethod
+  const digits = actionType === 'BUY' ? FIAT_DECIMALS : CRYPTO_DECIMALS
+  const baseCurrency = actionType === 'BUY' ? fiatCurrency : cryptoCurrency
+  const conversionCoinType: 'FIAT' | CoinType =
+    actionType === 'BUY' ? 'FIAT' : cryptoCurrency
 
   if (!props.formValues) return null
-  if (!fiatCurrency)
+  if (!fiatCurrency || !baseCurrency)
     return (
       <Failure
         fiatCurrency={props.fiatCurrency}
@@ -99,10 +117,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
+  const max = getMaxMin(
+    props.pair,
+    'max',
+    props.sbBalances,
+    props.actionType,
+    props.rates,
+    props.formValues,
+    method
+  )
+  const min = getMaxMin(
+    props.pair,
+    'min',
+    props.sbBalances,
+    props.actionType,
+    props.rates,
+    props.formValues,
+    method
+  )
+
   const handleMinMaxClick = () => {
     const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
     const value = convertStandardToBase(
-      'FIAT',
+      conversionCoinType,
       getMaxMin(
         props.pair,
         prop,
@@ -113,7 +150,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         method
       )
     )
-    props.simpleBuyActions.handleSBSuggestedAmountClick(value)
+    props.simpleBuyActions.handleSBSuggestedAmountClick(
+      value,
+      conversionCoinType
+    )
   }
 
   const handleAmountErrorClick = () => {
@@ -164,9 +204,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       </FlyoutWrapper>
       <CryptoItem value={props.pair} actionType={props.actionType} />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountFieldContainer className={isAmtShakeActive ? 'shake' : ''}>
-          <Text size='56px' color='grey400' weight={500}>
-            {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+        <AmountFieldContainer
+          className={isAmtShakeActive ? 'shake' : ''}
+          isCrypto={actionType === 'SELL'}
+        >
+          <Text
+            size={actionType === 'SELL' ? '36px' : '56px'}
+            color='grey400'
+            weight={500}
+          >
+            {Currencies[baseCurrency].units[baseCurrency].symbol}
           </Text>
           <Field
             data-e2e='sbAmountInput'
@@ -190,19 +237,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='modals.simplebuy.checkout.abovemax'
                   defaultMessage='{value} Maximum {orderType}'
                   values={{
-                    value: fiatToString({
-                      unit: fiatCurrency,
-                      value: getMaxMin(
-                        props.pair,
-                        'max',
-                        props.sbBalances,
-                        props.actionType,
-                        props.rates,
-                        props.formValues,
-                        method
-                      )
-                    }),
-                    orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'
+                    value:
+                      actionType === 'BUY'
+                        ? fiatToString({
+                            digits,
+                            unit: fiatCurrency,
+                            value: max
+                          })
+                        : coinToString({
+                            value: max,
+                            unit: { symbol: cryptoCurrency }
+                          }),
+                    orderType: actionType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               ) : (
@@ -210,18 +256,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   id='modals.simplebuy.checkout.belowmin'
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
-                    value: fiatToString({
-                      unit: fiatCurrency,
-                      value: getMaxMin(
-                        props.pair,
-                        'min',
-                        props.sbBalances,
-                        props.actionType,
-                        props.rates,
-                        props.formValues,
-                        method
-                      )
-                    }),
+                    value:
+                      actionType === 'BUY'
+                        ? fiatToString({
+                            digits,
+                            unit: fiatCurrency,
+                            value: min
+                          })
+                        : coinToString({
+                            value: max,
+                            unit: { symbol: cryptoCurrency }
+                          }),
                     orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
@@ -232,16 +277,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               role='button'
               onClick={handleMinMaxClick}
             >
+              {actionType === 'BUY' ? 'Buy' : 'Sell'}&nbsp;
               {amtError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.buymax'
-                  defaultMessage='Buy Max'
-                />
+                <FormattedMessage id='copy.max' defaultMessage='Max' />
               ) : (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.buymin'
-                  defaultMessage='Buy Min'
-                />
+                <FormattedMessage id='copy.min' defaultMessage='Min' />
               )}
             </GreyBlueCartridge>
           </Amounts>
@@ -255,7 +295,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     data-e2e={`sbBuy${amount}Chip`}
                     onClick={() =>
                       props.simpleBuyActions.handleSBSuggestedAmountClick(
-                        amount
+                        amount,
+                        conversionCoinType
                       )
                     }
                     role='button'

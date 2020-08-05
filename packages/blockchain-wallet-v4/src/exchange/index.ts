@@ -1360,6 +1360,8 @@ const displayCoinToCoin = (
     case 'EUR':
     case 'GBP':
       return Currency.fiatToString({ value, unit: toUnit })
+    default:
+      return 'Coin not supported'
   }
 }
 

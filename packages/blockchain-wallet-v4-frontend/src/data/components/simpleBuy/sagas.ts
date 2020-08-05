@@ -27,6 +27,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED
@@ -198,6 +199,7 @@ export default ({
     )
     try {
       const pair = S.getSBPair(yield select())
+      if (!values) throw new Error(NO_CHECKOUT_VALS)
       const amount = convertStandardToBase('FIAT', values.amount)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
@@ -227,7 +229,6 @@ export default ({
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
-              actionType: values.actionType,
               fiatCurrency,
               pair,
               method
@@ -561,8 +562,8 @@ export default ({
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
-    const { amount } = payload
-    const standardAmt = convertBaseToStandard('FIAT', amount)
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
 
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
   }
@@ -570,6 +571,9 @@ export default ({
   const handleSBMethodChange = function * (
     action: ReturnType<typeof A.handleSBMethodChange>
   ) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
     const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
     const pair = S.getSBPair(yield select())
     const { method } = action
@@ -624,6 +628,7 @@ export default ({
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
+            actionType: values?.actionType,
             method,
             fiatCurrency,
             pair

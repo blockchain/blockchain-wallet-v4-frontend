@@ -60,11 +60,11 @@ export const getMaxMin = (
       switch (minOrMax) {
         case 'max':
           const maxAvailable = sbBalances[coin]?.available || '0'
-          const maxStandard = convertBaseToStandard(coin, maxAvailable)
 
-          return new BigNumber(maxStandard).times(rate).toString()
+          return convertBaseToStandard(coin, maxAvailable)
         case 'min':
-          return convertBaseToStandard('FIAT', pair.sellMin)
+          const minStandard = convertBaseToStandard('FIAT', pair.sellMin)
+          return new BigNumber(minStandard).dividedBy(rate).toString()
       }
   }
 }

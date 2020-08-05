@@ -381,10 +381,14 @@ export const handleSBDepositFiatClick = (
   }
 })
 
-export const handleSBSuggestedAmountClick = (amount: string) => ({
+export const handleSBSuggestedAmountClick = (
+  amount: string,
+  coin: 'FIAT' | CoinType
+) => ({
   type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
   payload: {
-    amount
+    amount,
+    coin
   }
 })
 

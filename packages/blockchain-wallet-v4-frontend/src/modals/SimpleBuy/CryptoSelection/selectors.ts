@@ -17,7 +17,7 @@ export const getData = state => {
       pairs: ExtractSuccess<typeof pairsR>,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
-      actionType: formValues.actionType || 'BUY',
+      actionType: formValues ? formValues.actionType || 'BUY' : 'BUY',
       eligibility,
       pairs,
       userData

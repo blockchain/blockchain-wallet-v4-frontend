@@ -124,18 +124,19 @@ export const Value = styled(Text)<{ asTitle?: boolean }>`
 `
 
 // Hide the default field error for NumberBox > div > div:last-child
-export const AmountFieldContainer = styled.div`
+export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   display: flex;
   align-items: center;
   margin-top: 54px;
+  min-height: 76px;
   input {
     color: ${props => props.theme.black};
     padding-left: 8px;
-    font-size: 56px;
+    font-size: ${props => (props.isCrypto ? '36px' : '56px')};
     font-weight: 500;
     border: 0px !important;
     &::placeholder {
-      font-size: 56px;
+      font-size: ${props => (props.isCrypto ? '36px' : '56px')};
       color: ${props => props.theme.grey600};
     }
   }

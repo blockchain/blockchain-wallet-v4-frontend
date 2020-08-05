@@ -304,6 +304,7 @@ type MessagesType = {
   'copy.loading': 'Loading...'
   'copy.pending': 'Pending'
   'copy.max': 'Max'
+  'copy.min': 'Min'
   'copy.new': 'New'
   'copy.private_key': 'Private Key'
   'copy.refunded': 'Refunded'

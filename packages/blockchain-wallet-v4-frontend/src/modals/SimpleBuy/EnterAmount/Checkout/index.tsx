@@ -18,7 +18,7 @@ class Checkout extends PureComponent<Props> {
     const amount = this.props.formValues?.amount
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
-      'BUY',
+      this.props.actionType,
       this.props.pair,
       amount
     )
