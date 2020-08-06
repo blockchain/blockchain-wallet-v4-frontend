@@ -142,6 +142,7 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   }
   > div {
     height: auto;
+    white-space: nowrap;
     input {
       height: auto;
       outline: 0;

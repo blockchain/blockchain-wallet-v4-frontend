@@ -156,17 +156,19 @@ export default ({
     try {
       const { state } = order
       const fiatCurrency = S.getFiatCurrency(yield select())
+      const cryptoCurrency = S.getCryptoCurrency(yield select())
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
-      if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
+      if (state === 'PENDING_CONFIRMATION' && fiatCurrency && cryptoCurrency) {
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
         if (pair) {
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
+              cryptoCurrency,
               orderType: 'BUY',
               fiatCurrency,
               pair,
@@ -234,12 +236,12 @@ export default ({
       if (step !== 'ENTER_AMOUNT') {
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
-        const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
         if (pair) {
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
-              fiatCurrency,
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
               pair,
               method
             })
@@ -639,7 +641,8 @@ export default ({
             step: 'ENTER_AMOUNT',
             orderType: values?.orderType,
             method,
-            fiatCurrency,
+            cryptoCurrency: getCoinFromPair(pair.pair),
+            fiatCurrency: getFiatFromPair(pair.pair),
             pair
           })
         )

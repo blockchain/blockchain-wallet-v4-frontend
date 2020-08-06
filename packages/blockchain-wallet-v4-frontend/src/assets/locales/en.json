@@ -9,7 +9,7 @@
   "buttons.add_card": "Add Card",
   "buttons.back": "Back",
   "buttons.buy_crypto": "Buy Crypto",
-  "buttons.buycoin": "Buy {displayName}",
+  "buttons.buy_coin": "Buy {displayName}",
   "buttons.cancel": "Cancel",
   "buttons.close": "Close",
   "buttons.confirm_withdraw": "Confirm Withdraw",

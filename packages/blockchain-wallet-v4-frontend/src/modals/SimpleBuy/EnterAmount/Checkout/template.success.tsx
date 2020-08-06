@@ -4,7 +4,7 @@ import {
   CustomCartridge,
   ErrorCartridge
 } from 'components/Cartridge'
-import { BuyOrSellCrypto } from '../../model'
+import { BuyOrSell } from '../../model'
 import {
   coinToString,
   fiatToString
@@ -189,7 +189,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 })
               }
             />
-            <BuyOrSellCrypto {...props} />
+            <BuyOrSell {...props} crypto='Crypto' />
           </LeftTopCol>
           <Icon
             cursor

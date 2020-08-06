@@ -855,7 +855,7 @@ const convertCoinToCoin = ({
   baseToStandard
 }: {
   baseToStandard: boolean
-  coin: WalletCurrencyType | 'FIAT'
+  coin: WalletCurrencyType | 'FIAT' | 'USD-D'
   value: number | string
 }) => {
   switch (coin) {
@@ -867,6 +867,7 @@ const convertCoinToCoin = ({
       return baseToStandard
         ? convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
         : convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+    case 'USD-D':
     case 'PAX':
       return baseToStandard
         ? convertPaxToPax({ value, fromUnit: 'WEI', toUnit: 'PAX' })

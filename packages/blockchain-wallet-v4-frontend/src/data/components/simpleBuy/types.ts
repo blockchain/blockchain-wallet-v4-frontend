@@ -303,7 +303,7 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
-      cryptoCurrency?: CoinType
+      cryptoCurrency: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
       order?: SBOrderType

@@ -5,6 +5,7 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPairsType,
+  SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
@@ -79,14 +80,20 @@ export const getCounterAmount = (order: SBOrderType): string => {
   }
 }
 
-export const getBaseCurrency = (order: SBOrderType, supportedCoins) => {
+export const getBaseCurrency = (
+  order: SBOrderType,
+  supportedCoins: SupportedWalletCurrenciesType
+) => {
   const orderType = getOrderType(order)
   return supportedCoins[
     orderType === 'BUY' ? order.outputCurrency : order.inputCurrency
   ].coinTicker
 }
 
-export const getCounterCurrency = (order: SBOrderType, supportedCoins) => {
+export const getCounterCurrency = (
+  order: SBOrderType,
+  supportedCoins: SupportedWalletCurrenciesType
+) => {
   const orderType = getOrderType(order)
   return supportedCoins[
     orderType === 'BUY' ? order.inputCurrency : order.outputCurrency

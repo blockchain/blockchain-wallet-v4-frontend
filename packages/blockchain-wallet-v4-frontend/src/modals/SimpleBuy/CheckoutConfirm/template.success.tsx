@@ -1,12 +1,6 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
-import {
-  FiatType,
-  SBOrderType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -19,7 +13,9 @@ import {
 } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SupportedWalletCurrenciesType } from 'core/types'
 
+import { displayFiat, getPaymentMethod } from '../model'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -54,42 +50,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
-
-  const displayFiat = (amt: string) => {
-    return fiatToString({
-      unit: counterCurrency as FiatType,
-      value: convertBaseToStandard('FIAT', amt)
-    })
-  }
-
-  const getPaymentMethod = (order: SBOrderType) => {
-    switch (order.paymentType) {
-      case 'PAYMENT_CARD':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.payment_card'
-            defaultMessage='Credit Card'
-          />
-        )
-      case 'FUNDS':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.funds_wallet'
-            defaultMessage='{coin} Wallet'
-            values={{
-              coin: counterCurrency
-            }}
-          />
-        )
-      default:
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.deposit.bank_transfer'
-            defaultMessage='Bank Transfer'
-          />
-        )
-    }
-  }
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -133,7 +93,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </Title>
-        <Value data-e2e='sbExchangeRate'>{displayFiat(props.quote.rate)}</Value>
+        <Value data-e2e='sbExchangeRate'>
+          {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
+        </Value>
       </Row>
       <Row>
         <Title>
@@ -141,8 +103,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </Title>
         <Value>
           {props.order.fee
-            ? displayFiat(props.order.fee)
-            : `${displayFiat(props.quote.fee)} ${props.order.inputCurrency}`}
+            ? displayFiat(props.order, props.supportedCoins, props.order.fee)
+            : `${displayFiat(
+                props.order,
+                props.supportedCoins,
+                props.quote.fee
+              )} ${props.order.inputCurrency}`}
         </Value>
       </Row>
       <Row>
@@ -160,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        <Value>{getPaymentMethod(props.order)}</Value>
+        <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>

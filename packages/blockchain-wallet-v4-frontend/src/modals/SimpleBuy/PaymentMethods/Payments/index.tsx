@@ -5,6 +5,10 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import {
@@ -178,8 +182,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
                     step: 'ENTER_AMOUNT',
-                    fiatCurrency: this.props.fiatCurrency || 'USD',
-                    pair: this.props.pair
+                    pair: this.props.pair,
+                    cryptoCurrency: getCoinFromPair(this.props.pair.pair),
+                    fiatCurrency: getFiatFromPair(this.props.pair.pair)
                   })
                 }
               />

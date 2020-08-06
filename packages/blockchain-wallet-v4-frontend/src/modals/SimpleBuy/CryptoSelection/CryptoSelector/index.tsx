@@ -1,6 +1,10 @@
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
@@ -21,13 +25,18 @@ const TabsContainer = styled.div`
 const Currencies = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
 `
+const Top = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`
 const TopText = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 7px;
+  margin-bottom: 8px;
 `
-
 const SubTitleText = styled(Text)`
   margin-top: 0;
 `
@@ -42,7 +51,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
       orderType: orderType,
-      fiatCurrency: props.fiatCurrency,
+      cryptoCurrency: getCoinFromPair(pair.pair),
+      fiatCurrency: getFiatFromPair(pair.pair),
       pair
     })
   }
@@ -51,12 +61,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
     <Wrapper>
       <Form>
         <FlyoutWrapper>
-          <Icon cursor name='cart' size='32px' color='blue600' />
-          <TopText color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='modals.simplebuy.cryptoselect'
-              defaultMessage='Buy Crypto. Sell for Cash.'
-            />
+          <Top>
+            <Icon cursor name='cart' size='32px' color='blue600' />
             <Icon
               cursor
               data-e2e='sbCloseModalIcon'
@@ -65,6 +71,12 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               color='grey600'
               role='button'
               onClick={props.handleClose}
+            />
+          </Top>
+          <TopText color='grey800' size='20px' weight={600}>
+            <FormattedMessage
+              id='modals.simplebuy.cryptoselect'
+              defaultMessage='Buy Crypto. Sell for Cash.'
             />
           </TopText>
           <SubTitleText color='grey600' weight={500}>
@@ -76,6 +88,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           <TabsContainer>
             <TabMenu>
               <TabMenuItem
+                role='button'
                 selected={orderType === 'BUY'}
                 onClick={() => setOrderType('BUY')}
               >
@@ -85,6 +98,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 />
               </TabMenuItem>
               <TabMenuItem
+                role='button'
                 selected={orderType === 'SELL'}
                 onClick={() => setOrderType('SELL')}
               >

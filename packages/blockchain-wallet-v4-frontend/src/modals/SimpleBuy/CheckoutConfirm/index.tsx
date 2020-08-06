@@ -12,8 +12,12 @@ import {
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'core/types'
+import {
+  getCoinFromPair,
+  getFiatFromPair,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { getData } from './selectors'
-import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 import DataError from 'components/DataError'
@@ -70,7 +74,8 @@ class CheckoutConfirm extends PureComponent<Props> {
         // Not a valid payment method type, go back to ENTER_AMOUNT
         return this.props.simpleBuyActions.setStep({
           step: 'ENTER_AMOUNT',
-          fiatCurrency: inputCurrency
+          cryptoCurrency: getCoinFromPair(this.props.order.pair),
+          fiatCurrency: getFiatFromPair(this.props.order.pair)
         })
     }
   }
