@@ -85,30 +85,32 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
-          <TabsContainer>
-            <TabMenu>
-              <TabMenuItem
-                role='button'
-                selected={orderType === 'BUY'}
-                onClick={() => setOrderType('BUY')}
-              >
-                <FormattedMessage
-                  id='buttons.buy_crypto'
-                  defaultMessage='Buy Crypto'
-                />
-              </TabMenuItem>
-              <TabMenuItem
-                role='button'
-                selected={orderType === 'SELL'}
-                onClick={() => setOrderType('SELL')}
-              >
-                <FormattedMessage
-                  id='buttons.sell_crypto'
-                  defaultMessage='Sell Crypto'
-                />
-              </TabMenuItem>
-            </TabMenu>
-          </TabsContainer>
+          {props.invitations.simpleSell && (
+            <TabsContainer>
+              <TabMenu>
+                <TabMenuItem
+                  role='button'
+                  selected={orderType === 'BUY'}
+                  onClick={() => setOrderType('BUY')}
+                >
+                  <FormattedMessage
+                    id='buttons.buy_crypto'
+                    defaultMessage='Buy Crypto'
+                  />
+                </TabMenuItem>
+                <TabMenuItem
+                  role='button'
+                  selected={orderType === 'SELL'}
+                  onClick={() => setOrderType('SELL')}
+                >
+                  <FormattedMessage
+                    id='buttons.sell_crypto'
+                    defaultMessage='Sell Crypto'
+                  />
+                </TabMenuItem>
+              </TabMenu>
+            </TabsContainer>
+          )}
         </FlyoutWrapper>
         <Currencies>
           {props.pairs.map((value, index) => (
