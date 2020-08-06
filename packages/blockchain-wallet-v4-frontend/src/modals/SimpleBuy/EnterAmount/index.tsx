@@ -55,10 +55,10 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  actionType: SBOrderActionType
   handleClose: () => void
   method?: SBPaymentMethodType
   order?: SBOrderType
+  orderType: SBOrderActionType
   pair: SBPairType
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>

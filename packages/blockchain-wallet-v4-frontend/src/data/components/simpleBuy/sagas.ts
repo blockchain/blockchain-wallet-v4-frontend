@@ -167,7 +167,7 @@ export default ({
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
-              actionType: 'BUY',
+              orderType: 'BUY',
               fiatCurrency,
               pair,
               method
@@ -202,13 +202,13 @@ export default ({
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
 
-      const { actionType } = values
+      const { orderType } = values
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
-      const inputCurrency = actionType === 'BUY' ? fiat : coin
-      const outputCurrency = actionType === 'BUY' ? coin : fiat
+      const inputCurrency = orderType === 'BUY' ? fiat : coin
+      const outputCurrency = orderType === 'BUY' ? coin : fiat
       const amount =
-        actionType === 'BUY'
+        orderType === 'BUY'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
 
@@ -216,7 +216,7 @@ export default ({
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
-        actionType,
+        orderType,
         true,
         { amount, symbol: inputCurrency },
         { symbol: outputCurrency },
@@ -515,7 +515,7 @@ export default ({
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
         order.pair,
-        payload.actionType,
+        payload.orderType,
         order.inputQuantity
       )
       yield put(A.fetchSBQuoteSuccess(quote))
@@ -637,7 +637,7 @@ export default ({
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
-            actionType: values?.actionType,
+            orderType: values?.orderType,
             method,
             fiatCurrency,
             pair
@@ -669,7 +669,7 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    actionType,
+    orderType,
     amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
@@ -683,7 +683,7 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          actionType,
+          orderType,
           amount
         } as SBCheckoutFormValuesType)
       )

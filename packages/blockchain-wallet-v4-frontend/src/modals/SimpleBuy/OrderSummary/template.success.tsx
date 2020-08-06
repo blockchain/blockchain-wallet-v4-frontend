@@ -67,7 +67,7 @@ const Success: React.FC<Props> = props => {
           <TopText color='grey800' size='20px' weight={600}>
             {/* TODO: Simple Buy - order types */}
             <FormattedMessage
-              id='modals.simplebuy.ordersummary'
+              id='modals.simplebuy.buy_order_summary'
               defaultMessage='Buy Order Summary'
             />
             <Icon

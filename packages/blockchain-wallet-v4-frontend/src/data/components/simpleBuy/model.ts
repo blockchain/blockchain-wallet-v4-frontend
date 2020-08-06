@@ -48,9 +48,9 @@ export const getFiatFromPair = (pair: SBPairsType): WalletFiatType => {
 }
 
 export const getBaseAmount = (order: SBOrderType): string => {
-  const actionType = getOrderType(order)
+  const orderType = getOrderType(order)
 
-  if (actionType === 'BUY') {
+  if (orderType === 'BUY') {
     return convertBaseToStandard(
       order.outputCurrency as CoinType,
       order.outputQuantity
@@ -64,9 +64,9 @@ export const getBaseAmount = (order: SBOrderType): string => {
 }
 
 export const getCounterAmount = (order: SBOrderType): string => {
-  const actionType = getOrderType(order)
+  const orderType = getOrderType(order)
 
-  if (actionType === 'BUY') {
+  if (orderType === 'BUY') {
     return convertBaseToStandard(
       order.inputCurrency as CoinType,
       order.inputQuantity
@@ -80,16 +80,16 @@ export const getCounterAmount = (order: SBOrderType): string => {
 }
 
 export const getBaseCurrency = (order: SBOrderType, supportedCoins) => {
-  const actionType = getOrderType(order)
+  const orderType = getOrderType(order)
   return supportedCoins[
-    actionType === 'BUY' ? order.outputCurrency : order.inputCurrency
+    orderType === 'BUY' ? order.outputCurrency : order.inputCurrency
   ].coinTicker
 }
 
 export const getCounterCurrency = (order: SBOrderType, supportedCoins) => {
-  const actionType = getOrderType(order)
+  const orderType = getOrderType(order)
   return supportedCoins[
-    actionType === 'BUY' ? order.inputCurrency : order.outputCurrency
+    orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
   ].coinTicker
 }
 

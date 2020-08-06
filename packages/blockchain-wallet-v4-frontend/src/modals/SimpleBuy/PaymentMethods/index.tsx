@@ -50,9 +50,9 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  actionType: SBOrderActionType
   handleClose: () => void
   order: SBOrderType
+  orderType: SBOrderActionType
   pair: SBPairType
 }
 

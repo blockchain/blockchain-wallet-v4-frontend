@@ -234,7 +234,7 @@ const mapStateToProps = (state: RootState) => ({
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
-  actionType: selectors.components.simpleBuy.getActionType(state),
+  orderType: selectors.components.simpleBuy.getOrderType(state),
   data: getData(state)
 })
 
@@ -285,15 +285,15 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
-      actionType: SBOrderActionType
       method?: SBPaymentMethodType
       order?: SBOrderType
+      orderType: SBOrderActionType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {
-      actionType: SBOrderActionType
       order: SBOrderType
+      orderType: SBOrderActionType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
     }

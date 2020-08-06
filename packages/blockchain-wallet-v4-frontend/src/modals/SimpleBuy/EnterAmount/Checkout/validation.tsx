@@ -20,12 +20,12 @@ export const getMaxMin = (
   pair: SBPairType,
   minOrMax: 'min' | 'max',
   sbBalances: SBBalancesType,
-  actionType: SBOrderActionType,
+  orderType: SBOrderActionType,
   rates: RatesType,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType
 ) => {
-  switch (actionType) {
+  switch (orderType) {
     case 'BUY':
       switch (minOrMax || 'max') {
         case 'max':
@@ -83,7 +83,7 @@ export const maximumAmount = (
   if (!value) return true
 
   const {
-    actionType,
+    orderType,
     pair,
     rates,
     method: selectedMethod,
@@ -95,7 +95,7 @@ export const maximumAmount = (
 
   return Number(value) >
     Number(
-      getMaxMin(pair, 'max', sbBalances, actionType, rates, allValues, method)
+      getMaxMin(pair, 'max', sbBalances, orderType, rates, allValues, method)
     )
     ? 'ABOVE_MAX'
     : false
@@ -109,7 +109,7 @@ export const minimumAmount = (
   if (!value) return true
 
   const {
-    actionType,
+    orderType,
     pair,
     rates,
     method: selectedMethod,
@@ -121,7 +121,7 @@ export const minimumAmount = (
 
   return Number(value) <
     Number(
-      getMaxMin(pair, 'min', sbBalances, actionType, rates, allValues, method)
+      getMaxMin(pair, 'min', sbBalances, orderType, rates, allValues, method)
     )
     ? 'BELOW_MIN'
     : false

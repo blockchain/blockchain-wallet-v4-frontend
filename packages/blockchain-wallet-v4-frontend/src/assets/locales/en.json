@@ -1125,7 +1125,6 @@
   "modals.simplebuy.localcurrency": "Select the local currency for your wallet.",
   "modals.simplebuy.most_popular": "Most Popular",
   "modals.simplebuy.name_on_card": "Name on Card",
-  "modals.simplebuy.ordersummary": "Buy Order Summary",
   "modals.simplebuy.paymentmethods": "Payment Methods",
   "modals.simplebuy.refresh": "Refresh",
   "modals.simplebuy.rejected.blocked_by_laws": "Blocked by Local Laws",

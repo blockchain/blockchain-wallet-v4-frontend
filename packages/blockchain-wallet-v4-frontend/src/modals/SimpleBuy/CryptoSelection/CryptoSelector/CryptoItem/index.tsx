@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  actionType: SBOrderActionType
   onClick?: (string) => void
+  orderType: SBOrderActionType
   value: SBPairType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

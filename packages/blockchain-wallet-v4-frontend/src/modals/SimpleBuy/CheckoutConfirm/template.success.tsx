@@ -49,7 +49,7 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const actionType = getOrderType(props.order)
+  const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
@@ -77,7 +77,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.funds_wallet'
             defaultMessage='{coin} Wallet'
             values={{
-              coin: baseCurrency
+              coin: counterCurrency
             }}
           />
         )
@@ -183,7 +183,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
             `${
-              actionType === 'BUY' ? 'Buy' : 'Sell'
+              orderType === 'BUY' ? 'Buy' : 'Sell'
             } ${baseAmount} ${baseCurrency}`
           )}
         </Button>

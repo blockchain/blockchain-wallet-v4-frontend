@@ -319,9 +319,9 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = (actionType: SBOrderActionType) => ({
+export const fetchSBQuote = (orderType: SBOrderActionType) => ({
   type: AT.FETCH_SB_QUOTE,
-  actionType
+  orderType
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
@@ -399,13 +399,13 @@ export const initializeBillingAddress = () => ({
 
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
-  actionType: SBOrderActionType,
+  orderType: SBOrderActionType,
   pair?: SBPairType,
   amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   amount,
-  actionType,
+  orderType,
   pair,
   pairs
 })
@@ -446,7 +446,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
-        actionType: payload.actionType || 'BUY',
+        orderType: payload.orderType || 'BUY',
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,

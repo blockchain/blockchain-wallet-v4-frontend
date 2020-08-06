@@ -84,24 +84,24 @@ const normalizeAmount = (
   allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, allValues && allValues.actionType === 'BUY')
+  return formatTextAmount(value, allValues && allValues.orderType === 'BUY')
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [isAmtShakeActive, setShake] = useState(false)
 
   const {
-    actionType,
+    orderType,
     cryptoCurrency,
     fiatCurrency,
     method: selectedMethod,
     defaultMethod
   } = props
   const method = selectedMethod || defaultMethod
-  const digits = actionType === 'BUY' ? FIAT_DECIMALS : CRYPTO_DECIMALS
-  const baseCurrency = actionType === 'BUY' ? fiatCurrency : cryptoCurrency
+  const digits = orderType === 'BUY' ? FIAT_DECIMALS : CRYPTO_DECIMALS
+  const baseCurrency = orderType === 'BUY' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType =
-    actionType === 'BUY' ? 'FIAT' : cryptoCurrency
+    orderType === 'BUY' ? 'FIAT' : cryptoCurrency
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -121,7 +121,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     'max',
     props.sbBalances,
-    props.actionType,
+    props.orderType,
     props.rates,
     props.formValues,
     method
@@ -130,7 +130,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     props.pair,
     'min',
     props.sbBalances,
-    props.actionType,
+    props.orderType,
     props.rates,
     props.formValues,
     method
@@ -144,7 +144,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         props.pair,
         prop,
         props.sbBalances,
-        props.actionType,
+        props.orderType,
         props.rates,
         props.formValues,
         method
@@ -202,14 +202,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
       </FlyoutWrapper>
-      <CryptoItem value={props.pair} actionType={props.actionType} />
+      <CryptoItem value={props.pair} orderType={props.orderType} />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountFieldContainer
           className={isAmtShakeActive ? 'shake' : ''}
-          isCrypto={actionType === 'SELL'}
+          isCrypto={orderType === 'SELL'}
         >
           <Text
-            size={actionType === 'SELL' ? '36px' : '56px'}
+            size={orderType === 'SELL' ? '36px' : '56px'}
             color='grey400'
             weight={500}
           >
@@ -238,7 +238,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Maximum {orderType}'
                   values={{
                     value:
-                      actionType === 'BUY'
+                      orderType === 'BUY'
                         ? fiatToString({
                             digits,
                             unit: fiatCurrency,
@@ -248,7 +248,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                             value: max,
                             unit: { symbol: cryptoCurrency }
                           }),
-                    orderType: actionType === 'BUY' ? 'Buy' : 'Sell'
+                    orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               ) : (
@@ -257,7 +257,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   defaultMessage='{value} Minimum {orderType}'
                   values={{
                     value:
-                      actionType === 'BUY'
+                      orderType === 'BUY'
                         ? fiatToString({
                             digits,
                             unit: fiatCurrency,
@@ -267,7 +267,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                             value: min,
                             unit: { symbol: cryptoCurrency }
                           }),
-                    orderType: props.actionType === 'BUY' ? 'Buy' : 'Sell'
+                    orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
                   }}
                 />
               )}
@@ -277,7 +277,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               role='button'
               onClick={handleMinMaxClick}
             >
-              {actionType === 'BUY' ? 'Buy' : 'Sell'}&nbsp;
+              {orderType === 'BUY' ? 'Buy' : 'Sell'}&nbsp;
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage id='copy.max' defaultMessage='Max' />
               ) : (

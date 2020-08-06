@@ -36,12 +36,12 @@ export type Props = OwnProps & SuccessStateType
 
 const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
   Props> = props => {
-  const [actionType, setActionType] = useState(props.actionType)
+  const [orderType, setOrderType] = useState(props.orderType)
 
   const handleSubmit = (pair: SBPairType) => {
     props.simpleBuyActions.setStep({
       step: 'ENTER_AMOUNT',
-      actionType: actionType,
+      orderType: orderType,
       fiatCurrency: props.fiatCurrency,
       pair
     })
@@ -76,8 +76,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           <TabsContainer>
             <TabMenu>
               <TabMenuItem
-                selected={actionType === 'BUY'}
-                onClick={() => setActionType('BUY')}
+                selected={orderType === 'BUY'}
+                onClick={() => setOrderType('BUY')}
               >
                 <FormattedMessage
                   id='buttons.buy_crypto'
@@ -85,8 +85,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                 />
               </TabMenuItem>
               <TabMenuItem
-                selected={actionType === 'SELL'}
-                onClick={() => setActionType('SELL')}
+                selected={orderType === 'SELL'}
+                onClick={() => setOrderType('SELL')}
               >
                 <FormattedMessage
                   id='buttons.sell_crypto'
@@ -101,7 +101,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
             <CryptoItem
               key={index}
               value={value}
-              actionType={actionType}
+              orderType={orderType}
               onClick={() => handleSubmit(value as SBPairType)}
             />
           ))}

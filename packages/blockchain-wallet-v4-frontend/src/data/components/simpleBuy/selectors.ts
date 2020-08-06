@@ -2,8 +2,8 @@ import { ExtractSuccess, SBPaymentMethodType } from 'core/types'
 import { head, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
-export const getActionType = (state: RootState) =>
-  state.components.simpleBuy.actionType
+export const getOrderType = (state: RootState) =>
+  state.components.simpleBuy.orderType
 
 export const getEverypay3DSDetails = (state: RootState) =>
   state.components.simpleBuy.everypay3DS
@@ -25,7 +25,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const ordersR = getSBOrders(state)
   const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
-  const actionType = getActionType(state)
+  const actionType = getOrderType(state)
 
   const transform = (
     orders: ExtractSuccess<typeof ordersR>,

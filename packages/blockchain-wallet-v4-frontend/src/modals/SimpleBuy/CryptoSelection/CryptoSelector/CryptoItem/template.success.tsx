@@ -55,7 +55,7 @@ const Success: React.FC<Props> = props => {
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
-          {props.actionType === 'BUY' && (
+          {props.orderType === 'BUY' && (
             <>
               {fiatToString({
                 value: props.rates[fiat].last,
@@ -64,7 +64,7 @@ const Success: React.FC<Props> = props => {
               <PriceMovement {...props} />
             </>
           )}
-          {props.actionType === 'SELL' && <BalanceMovement coin={coin} />}
+          {props.orderType === 'SELL' && <BalanceMovement coin={coin} />}
         </DisplayTitle>
       </Display>
       {props.onClick && (

@@ -36,8 +36,8 @@ export type SBBillingAddressFormValuesType = NabuAddressType
 export type SBCheckoutFormValuesType =
   | undefined
   | {
-      actionType: SBOrderActionType
       amount: string
+      orderType: SBOrderActionType
     }
 export type SBCurrencySelectFormType = {
   search: string
@@ -70,7 +70,6 @@ export type SBShowModalOriginType =
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
-  actionType?: SBOrderActionType
   balances: RemoteDataType<string, SBBalancesType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -83,6 +82,7 @@ export type SimpleBuyState = {
   method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
+  orderType?: SBOrderActionType
   orders: RemoteDataType<string, Array<SBOrderType>>
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
@@ -303,11 +303,11 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
-      actionType?: SBOrderActionType
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
       order?: SBOrderType
+      orderType?: SBOrderActionType
       pair?: SBPairType
       step: 'ENTER_AMOUNT'
     }
