@@ -331,6 +331,7 @@ export default ({
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
       yield put(A.fetchInterestBalance())
+      yield put(A.fetchInterestTransactions(true))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
