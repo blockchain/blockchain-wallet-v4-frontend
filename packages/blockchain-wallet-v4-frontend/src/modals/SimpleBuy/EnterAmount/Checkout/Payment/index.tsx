@@ -17,7 +17,9 @@ const Payment: React.FC<Props & {
     role='button'
     data-e2e='paymentMethodSelect'
     onClick={() => {
-      props.formErrors && props.formErrors.amount
+      props.formErrors &&
+      props.formErrors.amount &&
+      props.formValues?.orderType === 'BUY'
         ? props.handleAmountErrorClick()
         : props.simpleBuyActions.setStep({
             step: 'PAYMENT_METHODS',

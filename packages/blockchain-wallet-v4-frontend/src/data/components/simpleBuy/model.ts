@@ -73,10 +73,7 @@ export const getCounterAmount = (order: SBOrderType): string => {
       order.inputQuantity
     )
   } else {
-    return convertBaseToStandard(
-      order.outputCurrency as CoinType,
-      order.outputQuantity
-    )
+    return convertBaseToStandard('FIAT', order.outputQuantity)
   }
 }
 
@@ -95,9 +92,11 @@ export const getCounterCurrency = (
   supportedCoins: SupportedWalletCurrenciesType
 ) => {
   const orderType = getOrderType(order)
-  return supportedCoins[
-    orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
-  ].coinTicker
+  return (
+    supportedCoins[
+      orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
+    ]?.coinTicker || 'USD'
+  )
 }
 
 export const getNextCardExists = (

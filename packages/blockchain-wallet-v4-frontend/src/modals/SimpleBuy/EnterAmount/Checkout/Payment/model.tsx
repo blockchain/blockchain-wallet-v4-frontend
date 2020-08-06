@@ -108,13 +108,7 @@ export const getIcon = (
 ): ReactElement => {
   if (!value) {
     return (
-      <Icon
-        cursor
-        name='plus-in-circle-filled'
-        size='22px'
-        color='blue600'
-        style={{ marginLeft: '5px' }}
-      />
+      <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
     )
   }
 
