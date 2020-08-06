@@ -1,5 +1,5 @@
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import {
-  DisplayPaymentIcon,
   getIcon,
   getText,
   PaymentArrowContainer,
@@ -28,7 +28,7 @@ const Payment: React.FC<Props & {
     }}
     isMethod={!!props.method}
   >
-    <DisplayPaymentIcon isMethod={!!props.method}>
+    <DisplayPaymentIcon showBackground={!props.method}>
       {getIcon(props.method)}
     </DisplayPaymentIcon>
     <PaymentText isMethod={!!props.method}>

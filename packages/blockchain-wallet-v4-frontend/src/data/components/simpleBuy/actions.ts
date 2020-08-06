@@ -319,8 +319,9 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = () => ({
-  type: AT.FETCH_SB_QUOTE
+export const fetchSBQuote = (orderType: SBOrderActionType) => ({
+  type: AT.FETCH_SB_QUOTE,
+  orderType
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
@@ -381,10 +382,14 @@ export const handleSBDepositFiatClick = (
   }
 })
 
-export const handleSBSuggestedAmountClick = (amount: string) => ({
+export const handleSBSuggestedAmountClick = (
+  amount: string,
+  coin: 'FIAT' | CoinType
+) => ({
   type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
   payload: {
-    amount
+    amount,
+    coin
   }
 })
 
@@ -441,6 +446,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
+        orderType: payload.orderType || 'BUY',
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,

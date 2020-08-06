@@ -46,6 +46,7 @@ const Failure: React.FC<LinkDispatchPropsType & {
           onClick={() =>
             props.simpleBuyActions.setStep({
               step: 'ENTER_AMOUNT',
+              cryptoCurrency: 'BTC',
               fiatCurrency: props.fiatCurrency || 'USD',
               pair: props.pair
             })

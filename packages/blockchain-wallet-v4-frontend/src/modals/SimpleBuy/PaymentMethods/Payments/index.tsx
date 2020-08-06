@@ -5,6 +5,10 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import {
@@ -114,9 +118,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { fiatCurrency } = this.props
+    const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE'
+      card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
       text: this.getType(value),
@@ -124,7 +128,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD'
+      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
 
     const funds = defaultMethods.filter(
@@ -139,7 +143,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const paymentCard = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD'
+      method => method.value.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     const bankAccount = defaultMethods.find(
       method => method.value.type === 'BANK_ACCOUNT'
@@ -178,8 +182,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
                     step: 'ENTER_AMOUNT',
-                    fiatCurrency: this.props.fiatCurrency || 'USD',
-                    pair: this.props.pair
+                    pair: this.props.pair,
+                    cryptoCurrency: getCoinFromPair(this.props.pair.pair),
+                    fiatCurrency: getFiatFromPair(this.props.pair.pair)
                   })
                 }
               />

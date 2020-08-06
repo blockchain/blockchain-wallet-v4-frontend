@@ -1,13 +1,13 @@
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import React, { PureComponent } from 'react'
-
-import { actions, selectors } from 'data'
+import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
+import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {
@@ -20,7 +20,7 @@ class CryptoSelection extends PureComponent<Props> {
 
   render () {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
+      Success: val => <Success {...this.props} {...val} />,
       Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -44,7 +44,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
 }
-export type SuccessStateType = ReturnType<typeof getData>['data']
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

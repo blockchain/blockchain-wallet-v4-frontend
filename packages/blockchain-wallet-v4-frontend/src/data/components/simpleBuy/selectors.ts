@@ -2,6 +2,9 @@ import { ExtractSuccess, SBPaymentMethodType } from 'core/types'
 import { head, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
+export const getOrderType = (state: RootState) =>
+  state.components.simpleBuy.orderType
+
 export const getEverypay3DSDetails = (state: RootState) =>
   state.components.simpleBuy.everypay3DS
 
@@ -22,6 +25,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
   const ordersR = getSBOrders(state)
   const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
+  const actionType = getOrderType(state)
 
   const transform = (
     orders: ExtractSuccess<typeof ordersR>,
@@ -35,31 +39,39 @@ export const getDefaultPaymentMethod = (state: RootState) => {
       method => method.type === lastOrder.paymentType
     )
 
-    switch (lastOrder.paymentType) {
-      case 'PAYMENT_CARD':
-        const method = head(methodsOfType)
-        if (!method) return
-        const sbCard = sbCards.find(
-          value => value.id === lastOrder.paymentMethodId
+    switch (actionType) {
+      case 'SELL':
+        return sbMethods.methods.find(
+          method => method.type === 'FUNDS' && method.currency === fiatCurrency
         )
-        const card = sbCard?.card || undefined
+      default:
+        switch (lastOrder.paymentType) {
+          case 'PAYMENT_CARD':
+            const method = head(methodsOfType)
+            if (!method) return
+            const sbCard = sbCards.find(
+              value => value.id === lastOrder.paymentMethodId
+            )
+            const card = sbCard?.card || undefined
 
-        return {
-          ...method,
-          ...sbCard,
-          type: 'USER_CARD',
-          card
+            return {
+              ...method,
+              ...sbCard,
+              type: 'USER_CARD',
+              card
+            }
+          case 'FUNDS':
+            return methodsOfType.find(
+              method =>
+                method.currency === lastOrder.inputCurrency &&
+                method.currency === fiatCurrency
+            )
+          case 'BANK_ACCOUNT':
+          case 'USER_CARD':
+          case undefined:
+            return undefined
         }
-      case 'FUNDS':
-        return methodsOfType.find(
-          method =>
-            method.currency === lastOrder.inputCurrency &&
-            method.currency === fiatCurrency
-        )
-      case 'BANK_ACCOUNT':
-      case 'USER_CARD':
-      case undefined:
-        return undefined
+        break
     }
   }
 

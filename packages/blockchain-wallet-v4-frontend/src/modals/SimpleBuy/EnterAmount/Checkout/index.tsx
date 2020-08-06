@@ -18,7 +18,7 @@ class Checkout extends PureComponent<Props> {
     const amount = this.props.formValues?.amount
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
-      'BUY',
+      this.props.orderType,
       this.props.pair,
       amount
     )
@@ -35,11 +35,6 @@ class Checkout extends PureComponent<Props> {
     const method = this.props.method || this.props.defaultMethod
 
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(
-        2,
-        false,
-        'SBEnterAmountCheckout'
-      )
       this.props.simpleBuyActions.createSBOrder(undefined, method?.type)
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'

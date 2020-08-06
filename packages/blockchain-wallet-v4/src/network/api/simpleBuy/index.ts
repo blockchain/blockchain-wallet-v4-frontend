@@ -1,4 +1,9 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -75,7 +80,7 @@ export default ({
     pending: boolean,
     input: SBMoneyType,
     output: {
-      symbol: CoinType
+      symbol: WalletCurrencyType
     },
     paymentMethodId?: SBCardType['id'],
     paymentType?: SBPaymentMethodType['type']

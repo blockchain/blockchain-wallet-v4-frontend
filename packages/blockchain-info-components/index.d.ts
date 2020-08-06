@@ -193,6 +193,7 @@ export const SpinningLoader: FunctionComponent<{
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
   activeClassName?: string
+  role?: string
   disabled?: boolean
   onClick?: () => void
   selected?: boolean

@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-const CRYPTO_DECIMALS = 8
-const FIAT_DECIMALS = 2
+export const CRYPTO_DECIMALS = 8
+export const FIAT_DECIMALS = 2
 const emailRegex = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 )
