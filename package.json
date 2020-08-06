@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.39.0",
+  "version": "4.39.1",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -109,7 +109,6 @@
     "@babel/polyfill": "7.8.7",
     "@babel/preset-env": "7.9.5",
     "@babel/preset-react": "7.9.4",
-    "@codechecks/client": "0.1.10",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
     "@storybook/addon-actions": "5.3.19",
