@@ -30,7 +30,7 @@ class BalancesMovement extends PureComponent<Props, State> {
             coin={this.props.coin}
             size='14px'
             weight={500}
-            color='grey900'
+            color='grey800'
           >
             {val.balances[this.props.coin]?.available}
           </FiatDisplayTitle>

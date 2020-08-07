@@ -32,7 +32,7 @@ const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
-  color: ${props => props.theme.grey900};
+  color: ${props => props.theme.grey800};
 `
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
