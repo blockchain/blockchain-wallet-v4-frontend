@@ -1,18 +1,15 @@
 import {
   CoinType,
   CoinTypeEnum,
-  FiatType,
-  FiatTypeEnum,
   SBCardType,
   SBOrderActionType,
   SBOrderType,
   SBPairsType,
   SBPaymentTypes,
-  SBQuoteType,
+  SupportedWalletCurrenciesType
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
-import { convertStandardToBase } from '../exchange/services'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
@@ -23,48 +20,84 @@ export const DEFAULT_SB_METHODS = {
   methods: []
 }
 
+export const NO_CHECKOUT_VALS = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
 export const splitPair = (
   pair: SBPairsType
-): [FiatType | CoinType, '-', FiatType | CoinType] => {
-  return pair.split('-') as [FiatType | CoinType, '-', FiatType | CoinType]
+): [WalletFiatType | CoinType, '-', WalletFiatType | CoinType] => {
+  return pair.split('-') as [
+    WalletFiatType | CoinType,
+    '-',
+    WalletFiatType | CoinType
+  ]
 }
 
-export const getOrderType = (pair: SBPairsType): SBOrderActionType => {
-  return splitPair(pair)[0] in FiatTypeEnum ? 'SELL' : 'BUY'
+export const getOrderType = (order: SBOrderType): SBOrderActionType => {
+  return order.inputCurrency in CoinTypeEnum ? 'SELL' : 'BUY'
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {
-  const index = getOrderType(pair) === 'BUY' ? 0 : 1
+  const index = 0
   return splitPair(pair)[index] as CoinType
 }
 
-export const getFiatFromPair = (pair: SBPairsType): FiatType => {
-  const index = getOrderType(pair) === 'BUY' ? 1 : 0
-  return splitPair(pair)[index] as FiatType
+export const getFiatFromPair = (pair: SBPairsType): WalletFiatType => {
+  const index = 1
+  return splitPair(pair)[index] as WalletFiatType
 }
 
-export const getOutputAmount = (
-  order: SBOrderType,
-  quote: SBQuoteType
-): string => {
-  if (splitPair(order.pair)[0] in CoinTypeEnum) {
-    const valueStandard = Number(order.inputQuantity) / Number(quote.rate)
-    const valueBase = convertStandardToBase(
+export const getBaseAmount = (order: SBOrderType): string => {
+  const orderType = getOrderType(order)
+
+  if (orderType === 'BUY') {
+    return convertBaseToStandard(
       order.outputCurrency as CoinType,
-      valueStandard
+      order.outputQuantity
     )
-    return Exchange.convertCoinToCoin({
-      value: valueBase,
-      coin: order.outputCurrency as CoinType,
-      baseToStandard: true
-    }).value
   } else {
-    return 'Not yet implemented'
+    return convertBaseToStandard(
+      order.inputCurrency as CoinType,
+      order.inputQuantity
+    )
   }
+}
+
+export const getCounterAmount = (order: SBOrderType): string => {
+  const orderType = getOrderType(order)
+
+  if (orderType === 'BUY') {
+    return convertBaseToStandard(
+      order.inputCurrency as CoinType,
+      order.inputQuantity
+    )
+  } else {
+    return convertBaseToStandard('FIAT', order.outputQuantity)
+  }
+}
+
+export const getBaseCurrency = (
+  order: SBOrderType,
+  supportedCoins: SupportedWalletCurrenciesType
+) => {
+  const orderType = getOrderType(order)
+  return supportedCoins[
+    orderType === 'BUY' ? order.outputCurrency : order.inputCurrency
+  ].coinTicker
+}
+
+export const getCounterCurrency = (
+  order: SBOrderType,
+  supportedCoins: SupportedWalletCurrenciesType
+) => {
+  const orderType = getOrderType(order)
+  return (
+    supportedCoins[
+      orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
+    ]?.coinTicker || 'USD'
+  )
 }
 
 export const getNextCardExists = (

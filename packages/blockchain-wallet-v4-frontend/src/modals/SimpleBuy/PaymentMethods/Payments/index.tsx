@@ -5,7 +5,11 @@ import {
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import {
   SBPaymentMethodType,
@@ -32,6 +36,9 @@ const TopText = styled(Text)`
 `
 const PaymentsWrapper = styled.div`
   border-top: 1px solid ${props => props.theme.grey000};
+`
+const NoMethods = styled(FlyoutWrapper)`
+  text-align: center;
 `
 const IconContainer = styled.div`
   width: 38px;
@@ -114,9 +121,9 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render () {
-    const { fiatCurrency } = this.props
+    const { fiatCurrency, orderType } = this.props
     const availableCards = this.props.cards.filter(
-      card => card.state === 'ACTIVE'
+      card => card.state === 'ACTIVE' && orderType === 'BUY'
     )
     const defaultMethods = this.props.paymentMethods.methods.map(value => ({
       text: this.getType(value),
@@ -124,7 +131,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }))
 
     const defaultCardMethod = this.props.paymentMethods.methods.find(
-      m => m.type === 'PAYMENT_CARD'
+      m => m.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
 
     const funds = defaultMethods.filter(
@@ -139,10 +146,13 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     )
 
     const paymentCard = defaultMethods.find(
-      method => method.value.type === 'PAYMENT_CARD'
+      method => method.value.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     const bankAccount = defaultMethods.find(
-      method => method.value.type === 'BANK_ACCOUNT'
+      method =>
+        method.value.type === 'BANK_ACCOUNT' &&
+        // TODO: simple buy USD
+        method.value.currency !== 'USD'
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -163,6 +173,12 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       } as SBPaymentMethodType
     }))
 
+    const availableMethods =
+      funds.length ||
+      cardMethods.length ||
+      paymentCard !== undefined ||
+      bankAccount !== undefined
+
     return (
       <Wrapper>
         <Form>
@@ -178,8 +194,10 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() =>
                   this.props.simpleBuyActions.setStep({
                     step: 'ENTER_AMOUNT',
-                    fiatCurrency: this.props.fiatCurrency || 'USD',
-                    pair: this.props.pair
+                    pair: this.props.pair,
+                    orderType: this.props.orderType,
+                    cryptoCurrency: getCoinFromPair(this.props.pair.pair),
+                    fiatCurrency: getFiatFromPair(this.props.pair.pair)
                   })
                 }
               />
@@ -192,6 +210,21 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             </TopText>
           </FlyoutWrapper>
           <PaymentsWrapper>
+            {!availableMethods && (
+              <NoMethods>
+                <Image
+                  height='60px'
+                  name='world-alert'
+                  srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
+                />
+                <Text size='16px' weight={500} style={{ marginTop: '8px' }}>
+                  <FormattedMessage
+                    id='copy.no_payment_methods'
+                    defaultMessage='No payment methods available.'
+                  />
+                </Text>
+              </NoMethods>
+            )}
             {funds &&
               funds.map((fund, index) => (
                 <Fund

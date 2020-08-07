@@ -5,6 +5,17 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
+import {
+  DisplayTitle,
+  NumberContainer,
+  NumberDescription,
+  NumberWrapper,
+  RowNumber,
+  Subcontent,
+  SubTitle,
+  Title
+} from './template.rejected.styles'
+
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
   position: relative;
@@ -22,62 +33,11 @@ const MainText = styled(Text)`
   justify-content: space-between;
 `
 
-const Title = styled(Text)`
-  margin: 16px 0;
-  text-align: left;
-`
-const SubTitle = styled(Title)`
-  color: ${props => props.theme.grey600};
-  font-size: 12px;
-  margin-top: 5px;
-`
 const DisclaimerTitle = styled(Title)`
   color: ${props => props.theme.grey600};
   margin-bottom: 34px;
   font-size: 12px;
   text-align: center;
-`
-
-const DisplayTitle = styled(Text)`
-  align-items: left;
-  font-weight: 600;
-  font-size: 14px;
-  display: flex;
-  color: ${props => props.theme.textBlack};
-  width: 100%;
-`
-
-const Subcontent = styled(Text)`
-  margin: 38px 0 46px 0;
-`
-
-const NumberDescription = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  color: ${props => props.theme.grey800};
-  margin-left: 16px;
-  flex: 1;
-  margin-top: 5px;
-`
-
-const NumberWrapper = styled.div`
-  width: 32px;
-`
-const NumberContainer = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: ${props => props.theme.blue000};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: ${props => props.theme.blue600};
-`
-const RowNumber = styled.div`
-  display: flex;
-  flex-direction: row;
 `
 
 const Rejected: React.FC<{ handleClose: () => void }> = props => {

@@ -3,7 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
-import { FiatType, RemoteDataType, SBOrderType, SBPairType } from 'core/types'
+import {
+  FiatType,
+  RemoteDataType,
+  SBOrderActionType,
+  SBOrderType,
+  SBPairType
+} from 'core/types'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
@@ -46,6 +52,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   handleClose: () => void
   order: SBOrderType
+  orderType: SBOrderActionType
   pair: SBPairType
 }
 

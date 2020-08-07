@@ -44,7 +44,9 @@ const CoinTitle = styled.div`
     margin-right: 14px;
   }
 `
-const TitleActionContainer = styled.div``
+const TitleActionContainer = styled.div`
+  display: flex;
+`
 const Header = styled.div`
   width: 100%;
 `
@@ -138,20 +140,35 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </CoinTitle>
               <TitleActionContainer>
                 {coin in WalletFiatEnum && (
-                  <Button
-                    nature='primary'
-                    data-e2e='depositFiat'
-                    style={{ minWidth: 'auto' }}
-                    onClick={() => {
-                      if (!this.props.simpleBuyActions) return
-                      this.props.simpleBuyActions.handleSBDepositFiatClick(
-                        coin as WalletFiatType,
-                        'TransactionList'
-                      )
-                    }}
-                  >
-                    Deposit
-                  </Button>
+                  <>
+                    <Button
+                      nature='primary'
+                      data-e2e='depositFiat'
+                      style={{ minWidth: 'auto' }}
+                      onClick={() => {
+                        if (!this.props.simpleBuyActions) return
+                        this.props.simpleBuyActions.handleSBDepositFiatClick(
+                          coin as WalletFiatType,
+                          'TransactionList'
+                        )
+                      }}
+                    >
+                      Deposit
+                    </Button>
+                    <Button
+                      nature='primary'
+                      data-e2e='withdrawFiat'
+                      style={{ minWidth: 'auto', marginLeft: '8px' }}
+                      onClick={() => {
+                        if (!this.props.withdrawActions) return
+                        this.props.withdrawActions.showModal(
+                          coin as WalletFiatType
+                        )
+                      }}
+                    >
+                      Withdraw
+                    </Button>
+                  </>
                 )}
               </TitleActionContainer>
             </PageTitle>
@@ -229,7 +246,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       simpleBuyActions: bindActionCreators(
         actions.components.simpleBuy,
         dispatch
-      )
+      ),
+      withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
     }
   }
   return {

@@ -4,6 +4,7 @@ import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SimpleBuyState = {
+  orderType: undefined,
   account: Remote.NotAsked,
   balances: Remote.NotAsked,
   card: Remote.NotAsked,
@@ -252,6 +253,7 @@ export function simpleBuyReducer (
         case 'ENTER_AMOUNT':
           return {
             ...state,
+            orderType: action.payload.orderType,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,

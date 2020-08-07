@@ -20,6 +20,7 @@ import * as simpleBuy from './simpleBuy/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
+import * as withdraw from './withdraw/selectors'
 
 export {
   borrow,
@@ -43,5 +44,6 @@ export {
   simpleBuy,
   uploadDocuments,
   utils,
+  withdraw,
   veriff
 }

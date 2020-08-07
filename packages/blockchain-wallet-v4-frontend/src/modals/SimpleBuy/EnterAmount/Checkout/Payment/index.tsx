@@ -1,5 +1,5 @@
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import {
-  DisplayPaymentIcon,
   getIcon,
   getText,
   PaymentArrowContainer,
@@ -17,7 +17,9 @@ const Payment: React.FC<Props & {
     role='button'
     data-e2e='paymentMethodSelect'
     onClick={() => {
-      props.formErrors && props.formErrors.amount
+      props.formErrors &&
+      props.formErrors.amount &&
+      props.formValues?.orderType === 'BUY'
         ? props.handleAmountErrorClick()
         : props.simpleBuyActions.setStep({
             step: 'PAYMENT_METHODS',
@@ -28,7 +30,7 @@ const Payment: React.FC<Props & {
     }}
     isMethod={!!props.method}
   >
-    <DisplayPaymentIcon isMethod={!!props.method}>
+    <DisplayPaymentIcon showBackground={!props.method}>
       {getIcon(props.method)}
     </DisplayPaymentIcon>
     <PaymentText isMethod={!!props.method}>

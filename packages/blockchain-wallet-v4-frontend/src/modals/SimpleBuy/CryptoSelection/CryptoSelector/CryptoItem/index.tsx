@@ -3,7 +3,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBPairType } from 'core/types'
+import { SBOrderActionType, SBPairType } from 'core/types'
+
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -30,6 +31,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   onClick?: (string) => void
+  orderType: SBOrderActionType
   value: SBPairType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']

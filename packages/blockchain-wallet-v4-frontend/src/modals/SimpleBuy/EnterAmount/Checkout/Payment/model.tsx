@@ -7,7 +7,6 @@ import {
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DisplayIcon } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType, SBBalancesType, SBPaymentMethodType } from 'core/types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
@@ -57,18 +56,6 @@ export const DisplayTitle = styled(Title)`
 `
 export const DisplayValue = styled(Value)`
   margin-top: 0px;
-`
-
-export const DisplayPaymentIcon = styled(DisplayIcon)<PaymentContainerProps>`
-  justify-content: center;
-  ${props =>
-    !props.isMethod &&
-    css`
-      background-color: ${props => props.theme.blue000};
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-    `}
 `
 
 export const renderCardText = (value: SBPaymentMethodType): string => {
@@ -121,13 +108,7 @@ export const getIcon = (
 ): ReactElement => {
   if (!value) {
     return (
-      <Icon
-        cursor
-        name='plus-in-circle-filled'
-        size='22px'
-        color='blue600'
-        style={{ marginLeft: '5px' }}
-      />
+      <Icon cursor name='plus-in-circle-filled' size='22px' color='blue600' />
     )
   }
 

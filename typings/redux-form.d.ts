@@ -16,7 +16,9 @@ export type WalletFormType =
   | 'borrowForm'
   | 'cancelSBOrderForm'
   | 'ccBillingAddress'
+  | 'confirmCustodyWithdraw'
   | 'confirmRecoveryWords'
+  | 'custodyWithdrawForm'
   | 'initBorrow'
   | 'interestDepositForm'
   | 'interestWithdrawalForm'
@@ -37,6 +39,73 @@ export type WalletFormType =
 
 declare module 'redux-form' {
   /* eslint-disable */
+
+  export function arrayInsert(
+    form: WalletFormType,
+    field: string,
+    index: number,
+    value: any
+  ): FormAction
+  export function arrayMove(
+    form: WalletFormType,
+    field: string,
+    from: number,
+    to: number
+  ): FormAction
+  export function arrayPop(form: WalletFormType, field: string): FormAction
+  export function arrayPush(
+    form: WalletFormType,
+    field: string,
+    value: any
+  ): FormAction
+  export function arrayRemove(
+    form: WalletFormType,
+    field: string,
+    index: number
+  ): FormAction
+  export function arrayRemoveAll(
+    form: WalletFormType,
+    field: string
+  ): FormAction
+  export function arrayShift(form: WalletFormType, field: string): FormAction
+  export function arraySplice(
+    form: WalletFormType,
+    field: string,
+    index: number,
+    removeNum: number,
+    value: any
+  ): FormAction
+  export function arraySwap(
+    form: WalletFormType,
+    field: string,
+    indexA: number,
+    indexB: number
+  ): FormAction
+  export function arrayUnshift(
+    form: WalletFormType,
+    field: string,
+    value: any
+  ): FormAction
+  export function autofill(
+    form: WalletFormType,
+    field: string,
+    value: any
+  ): FormAction
+  export function blur(
+    form: WalletFormType,
+    field: string,
+    value: any,
+    touch?: boolean
+  ): FormAction
+  export function change(
+    form: WalletFormType,
+    field: string,
+    value: any,
+    touch?: boolean,
+    persistentSubmitErrors?: boolean
+  ): FormAction
+  export function destroy(...form: WalletFormType[]): FormAction
+  export function focus(form: WalletFormType, field: string): FormAction
   export function initialize(
     form: WalletFormType,
     data: any,

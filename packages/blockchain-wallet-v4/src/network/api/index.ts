@@ -5,6 +5,7 @@ import bitpay from './bitpay'
 import borrow from './borrow'
 import btc from './btc'
 import coin from './coin'
+import custodial from './custodial'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -49,6 +50,12 @@ const api = ({
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coin({ apiUrl, ...http }),
+    ...custodial({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      ...http
+    }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
@@ -97,6 +104,7 @@ export type APIType = ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
+  ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof misc> &

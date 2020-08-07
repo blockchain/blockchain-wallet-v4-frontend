@@ -1,6 +1,8 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+
 import {
   ExtractSuccess,
   FiatTypeEnum,
@@ -10,10 +12,14 @@ import {
   SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'core/types'
+import {
+  getCoinFromPair,
+  getFiatFromPair,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
-import BigNumber from 'bignumber.js'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -23,7 +29,7 @@ class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.simpleBuyActions.fetchSBQuote()
+    this.props.simpleBuyActions.fetchSBQuote(getOrderType(this.props.order))
   }
 
   handleSubmit = () => {
@@ -34,11 +40,9 @@ class CheckoutConfirm extends PureComponent<Props> {
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
 
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(
-        2,
-        false,
-        'SBEnterAmountCheckout'
-      )
+      this.props.simpleBuyActions.setStep({
+        step: 'KYC_REQUIRED'
+      })
       return
     }
 
@@ -70,7 +74,8 @@ class CheckoutConfirm extends PureComponent<Props> {
         // Not a valid payment method type, go back to ENTER_AMOUNT
         return this.props.simpleBuyActions.setStep({
           step: 'ENTER_AMOUNT',
-          fiatCurrency: inputCurrency
+          cryptoCurrency: getCoinFromPair(this.props.order.pair),
+          fiatCurrency: getFiatFromPair(this.props.order.pair)
         })
     }
   }

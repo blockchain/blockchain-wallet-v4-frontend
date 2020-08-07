@@ -1,17 +1,19 @@
+import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
+
 import {
   Content,
   DisplayContainer,
   DisplayIcon,
   DisplayTitle
 } from 'components/SimpleBuy'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBPaymentMethodType } from 'core/types'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
+import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Title } from 'components/Flyout'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const SubTitle = styled(Title)`
   color: ${props => props.theme.grey600};
@@ -48,8 +50,8 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
           defaultMessage='{card} Limit'
           values={{
             card: `${fiatToString({
-              value: value.limits.max,
-              unit: String(value.currency) as FiatType
+              value: convertBaseToStandard('FIAT', value.limits.max),
+              unit: value.currency
             })} ${value.currency}`
           }}
         />

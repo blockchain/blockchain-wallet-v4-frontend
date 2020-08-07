@@ -27,6 +27,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED
@@ -155,17 +156,20 @@ export default ({
     try {
       const { state } = order
       const fiatCurrency = S.getFiatCurrency(yield select())
+      const cryptoCurrency = S.getCryptoCurrency(yield select())
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
-      if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
+      if (state === 'PENDING_CONFIRMATION' && fiatCurrency && cryptoCurrency) {
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
         if (pair) {
           yield put(
             A.setStep({
               step: 'ENTER_AMOUNT',
+              cryptoCurrency,
+              orderType: 'BUY',
               fiatCurrency,
               pair,
               method
@@ -192,23 +196,32 @@ export default ({
     paymentMethodId,
     paymentType
   }: ReturnType<typeof A.createSBOrder>) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
     try {
-      const values: SBCheckoutFormValuesType = yield select(
-        selectors.form.getFormValues('simpleBuyCheckout')
-      )
       const pair = S.getSBPair(yield select())
-      const amount = convertStandardToBase('FIAT', values.amount)
+      if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-      // TODO: Simple Buy - make dynamic
-      const action = 'BUY'
+
+      const { orderType } = values
+      const fiat = getFiatFromPair(pair.pair)
+      const coin = getCoinFromPair(pair.pair)
+      const inputCurrency = orderType === 'BUY' ? fiat : coin
+      const outputCurrency = orderType === 'BUY' ? coin : fiat
+      const amount =
+        orderType === 'BUY'
+          ? convertStandardToBase('FIAT', values.amount)
+          : convertStandardToBase(coin, values.amount)
+
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
-        action,
+        orderType,
         true,
-        { amount, symbol: getFiatFromPair(pair.pair) },
-        { symbol: getCoinFromPair(pair.pair) },
+        { amount, symbol: inputCurrency },
+        { symbol: outputCurrency },
         paymentMethodId,
         paymentType
       )
@@ -223,10 +236,15 @@ export default ({
       if (step !== 'ENTER_AMOUNT') {
         const pair = S.getSBPair(yield select())
         const method = S.getSBPaymentMethod(yield select())
-        const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
         if (pair) {
           yield put(
-            A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency, pair, method })
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
+              pair,
+              method
+            })
           )
           yield take(AT.INITIALIZE_CHECKOUT)
           yield delay(3000)
@@ -491,16 +509,15 @@ export default ({
     }
   }
 
-  const fetchSBQuote = function * () {
+  const fetchSBQuote = function * (payload: ReturnType<typeof A.fetchSBQuote>) {
     try {
       yield put(A.fetchSBQuoteLoading())
       const order = S.getSBOrder(yield select())
       if (!order) throw new Error('NO_ORDER')
-      // TODO: Simple Buy - make dynamic
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
         order.pair,
-        'BUY',
+        payload.orderType,
         order.inputQuantity
       )
       yield put(A.fetchSBQuoteSuccess(quote))
@@ -526,18 +543,23 @@ export default ({
   const handleSBDepositFiatClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBDepositFiatClick>) {
-    const { coin, origin } = payload
+    const { coin } = payload
 
     yield call(waitForUserData)
     const isUserTier2 = yield call(isTier2)
 
     if (!isUserTier2) {
+      yield put(A.showModal('EmptyFeed'))
       yield put(
-        actions.components.identityVerification.verifyIdentity(2, false, origin)
+        A.setStep({
+          step: 'KYC_REQUIRED'
+        })
       )
     } else {
       yield put(A.showModal('EmptyFeed'))
 
+      // wait for modal
+      yield delay(500)
       yield put(
         A.setStep({
           step: 'TRANSFER_DETAILS',
@@ -551,8 +573,8 @@ export default ({
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
-    const { amount } = payload
-    const standardAmt = convertBaseToStandard('FIAT', amount)
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
 
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
   }
@@ -560,6 +582,9 @@ export default ({
   const handleSBMethodChange = function * (
     action: ReturnType<typeof A.handleSBMethodChange>
   ) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
     const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
     const pair = S.getSBPair(yield select())
     const { method } = action
@@ -574,11 +599,9 @@ export default ({
         // 👇--------------------------------------------------------
         case 'BANK_ACCOUNT':
           return yield put(
-            actions.components.identityVerification.verifyIdentity(
-              2,
-              false,
-              'SBEnterAmountCheckout'
-            )
+            A.setStep({
+              step: 'KYC_REQUIRED'
+            })
           )
         // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
         // 👆--------------------------------------------------------
@@ -616,8 +639,10 @@ export default ({
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
+            orderType: values?.orderType,
             method,
-            fiatCurrency,
+            cryptoCurrency: getCoinFromPair(pair.pair),
+            fiatCurrency: getFiatFromPair(pair.pair),
             pair
           })
         )

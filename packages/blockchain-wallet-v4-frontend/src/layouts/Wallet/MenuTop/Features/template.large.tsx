@@ -62,8 +62,8 @@ const FeaturesLarge = (
           <NavbarNavItemIcon size='18px' name='cart-filled' />
           <NavbarNavItemTextHeader size='14px' weight={600}>
             <FormattedMessage
-              id='buttons.buy_crypto'
-              defaultMessage='Buy Crypto'
+              id='buttons.buy_sell_crypto'
+              defaultMessage='Buy/Sell Crypto'
             />
           </NavbarNavItemTextHeader>
         </NavbarNavItemButton>
