@@ -1,3 +1,7 @@
+import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
@@ -5,12 +9,9 @@ import {
   getCoinFromPair,
   getFiatFromPair
 } from 'data/components/simpleBuy/model'
-import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
-import React, { useState } from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -116,8 +117,9 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           {props.pairs.map((value, index) => (
             <CryptoItem
               key={index}
-              value={value}
               orderType={orderType}
+              fiat={getFiatFromPair(value.pair)}
+              coin={getCoinFromPair(value.pair)}
               onClick={() => handleSubmit(value as SBPairType)}
             />
           ))}

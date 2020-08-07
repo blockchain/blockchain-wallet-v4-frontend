@@ -154,12 +154,6 @@ export type SBMoneyType = {
   symbol: WalletCurrencyType
 }
 
-export type SBSuggestedAmountType = Array<
-  {
-    [key in FiatType]: Array<string>
-  }
->
-
 export type ISBBuyOrderType = {
   attributes?: {
     everypay: {

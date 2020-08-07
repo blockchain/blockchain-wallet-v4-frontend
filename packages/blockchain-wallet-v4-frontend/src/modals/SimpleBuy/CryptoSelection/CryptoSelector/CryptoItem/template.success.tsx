@@ -3,10 +3,6 @@ import styled from 'styled-components'
 
 import { DisplayContainer } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
 import { Icon } from 'blockchain-info-components'
 import {
   Props as OwnProps,
@@ -32,14 +28,14 @@ const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
-  color: ${props => props.theme.grey900};
+  color: ${props => props.theme.grey800};
 `
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
 const Success: React.FC<Props> = props => {
-  const coin = getCoinFromPair(props.value.pair)
-  const fiat = getFiatFromPair(props.value.pair)
+  const coin = props.coin
+  const fiat = props.fiat
   const coinType = props.supportedCoins[coin]
   const displayName = coinType.displayName
   const icon = coinType.icons.circleFilled
@@ -47,7 +43,7 @@ const Success: React.FC<Props> = props => {
 
   return (
     <DisplayContainer
-      data-e2e={`sb${props.value.pair}CurrencySelector`}
+      data-e2e={`sb${props.coin}-${props.fiat}CurrencySelector`}
       role='button'
       onClick={props.onClick}
     >

@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
+import { Icon, Image } from 'blockchain-info-components'
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
@@ -24,8 +24,17 @@ const DisplayIconPayment = styled(DisplayIcon)`
   min-height: 110px;
 `
 const CartridgeContainer = styled.div`
-  width: auto;
+  display: flex;
   margin-top: 8px;
+  align-items: center;
+`
+const CardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  > img {
+    margin-left: 8px;
+  }
 `
 
 type Props = {
@@ -69,6 +78,10 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
             defaultMessage='Most Popular'
           />
         </SuccessCartridge>
+        <CardContainer>
+          <Image name='visa-logo' />
+          <Image name='mastercard-logo' />
+        </CardContainer>
       </CartridgeContainer>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
