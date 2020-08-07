@@ -5,7 +5,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPairsType,
-  SupportedWalletCurrenciesType,
+  SBPaymentTypes,
+  SupportedWalletCurrenciesType
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
@@ -122,4 +123,11 @@ export const getNextCardExists = (
 
     return true
   })
+}
+
+export const getValidPaymentMethod = (method: SBPaymentTypes | undefined) => {
+  if (method === 'USER_CARD') return 'PAYMENT_CARD'
+  if (method === 'BANK_ACCOUNT') return 'FUNDS'
+
+  return method
 }
