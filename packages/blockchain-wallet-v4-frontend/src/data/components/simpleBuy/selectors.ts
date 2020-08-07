@@ -1,4 +1,8 @@
-import { ExtractSuccess, SBPaymentMethodType } from 'core/types'
+import {
+  ExtractSuccess,
+  FiatTypeEnum,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
 import { head, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
@@ -32,7 +36,14 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     sbCards: ExtractSuccess<typeof sbCardsR>,
     sbMethods: ExtractSuccess<typeof sbMethodsR>
   ): SBPaymentMethodType | undefined => {
-    const lastOrder = head(orders)
+    const lastOrder = orders.find(order => {
+      if (actionType === 'BUY') {
+        return order.inputCurrency in FiatTypeEnum
+      } else {
+        return order.outputCurrency in FiatTypeEnum
+      }
+    })
+
     if (!lastOrder) return undefined
 
     const methodsOfType = sbMethods.methods.filter(
