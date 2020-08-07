@@ -6,6 +6,7 @@ import {
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
 import { getData } from './selectors'
+import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
@@ -35,7 +36,10 @@ class Checkout extends PureComponent<Props> {
     const method = this.props.method || this.props.defaultMethod
 
     if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.createSBOrder(undefined, method?.type)
+      this.props.simpleBuyActions.createSBOrder(
+        undefined,
+        getValidPaymentMethod(method?.type)
+      )
     } else if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
@@ -56,8 +60,9 @@ class Checkout extends PureComponent<Props> {
           this.props.simpleBuyActions.createSBOrder(method.id)
           break
         case 'FUNDS':
+          this.props.simpleBuyActions.createSBOrder(undefined, 'FUNDS')
+          break
         case 'BANK_ACCOUNT':
-          this.props.simpleBuyActions.createSBOrder(undefined, method.type)
           break
       }
     }
