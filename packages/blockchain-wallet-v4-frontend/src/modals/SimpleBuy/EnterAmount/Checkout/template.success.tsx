@@ -1,19 +1,12 @@
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
-import {
-  BlueCartridge,
-  CustomCartridge,
-  ErrorCartridge
-} from 'components/Cartridge'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { BuyOrSell } from '../../model'
 import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
 import { CoinType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
+import { convertStandardToBase } from 'data/components/exchange/services'
 import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
@@ -31,7 +24,7 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
-import React, { useState } from 'react'
+import React, { ReactChild, useState } from 'react'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -49,22 +42,17 @@ const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
 `
-const Amount = styled(BlueCartridge)`
-  margin-right: 8px;
-  cursor: pointer;
-`
 const Amounts = styled.div`
   margin: 24px 0 40px;
   display: flex;
   justify-content: space-between;
 `
-const GreyBlueCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.grey100};
-  color: ${props => props.theme.blue600};
+const CustomBlueCartridge = styled(BlueCartridge)`
+  border: 1px solid ${props => props.theme.blue000};
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
+  border: 1px solid ${props => props.theme.red000};
   cursor: pointer;
 `
 const ErrorText = styled(Text)`
@@ -77,6 +65,18 @@ const ErrorText = styled(Text)`
   color: ${props => props.theme.red800};
   margin-bottom: 16px;
 `
+
+const BlueRedCartridge = ({
+  error,
+  children
+}: {
+  children: ReactChild
+  error: boolean
+}) => {
+  if (error)
+    return <CustomErrorCartridge role='button'>{children}</CustomErrorCartridge>
+  return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
+}
 
 const normalizeAmount = (
   value,
@@ -137,7 +137,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   )
 
   const handleMinMaxClick = () => {
-    const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
+    const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
     const value = convertStandardToBase(
       conversionCoinType,
       getMaxMin(
@@ -229,97 +229,55 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
-        {props.pair && amtError && (
-          <Amounts>
-            <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
-              {amtError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.abovemax'
-                  defaultMessage='{value} Maximum {orderType}'
-                  values={{
-                    value:
-                      orderType === 'BUY'
-                        ? fiatToString({
-                            digits,
-                            unit: fiatCurrency,
-                            value: max
-                          })
-                        : coinToString({
-                            value: max,
-                            unit: { symbol: cryptoCurrency }
-                          }),
-                    orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
-                  }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.belowmin'
-                  defaultMessage='{value} Minimum {orderType}'
-                  values={{
-                    value:
-                      orderType === 'BUY'
-                        ? fiatToString({
-                            digits,
-                            unit: fiatCurrency,
-                            value: min
-                          })
-                        : coinToString({
-                            value: min,
-                            unit: { symbol: cryptoCurrency }
-                          }),
-                    orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
-                  }}
-                />
-              )}
-            </CustomErrorCartridge>
-            <GreyBlueCartridge
-              data-e2e='sbBuyMinMaxBtn'
-              role='button'
-              onClick={handleMinMaxClick}
-            >
-              {orderType === 'BUY' ? 'Buy' : 'Sell'}&nbsp;
-              {amtError === 'ABOVE_MAX' ? (
-                <FormattedMessage id='copy.max' defaultMessage='Max' />
-              ) : (
-                <FormattedMessage id='copy.min' defaultMessage='Min' />
-              )}
-            </GreyBlueCartridge>
-          </Amounts>
-        )}
-        {props.suggestedAmounts[0] && !amtError && (
-          <Amounts>
-            <div>
-              {props.suggestedAmounts[0][fiatCurrency].map(amount => {
-                return (
-                  <Amount
-                    data-e2e={`sbBuy${amount}Chip`}
-                    onClick={() =>
-                      props.simpleBuyActions.handleSBSuggestedAmountClick(
-                        amount,
-                        conversionCoinType
-                      )
-                    }
-                    role='button'
-                    key={`sbBuy${amount}Chip`}
-                  >
-                    {fiatToString({
-                      unit: fiatCurrency,
-                      value: convertBaseToStandard('FIAT', amount),
-                      digits: 0
-                    })}
-                  </Amount>
-                )
-              })}
-            </div>
-            <GreyBlueCartridge
-              data-e2e='sbChangeCurrencyBtn'
-              role='button'
-              onClick={() =>
-                props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-              }
-            >
-              {fiatCurrency}
-            </GreyBlueCartridge>
+        {props.pair && (
+          <Amounts onClick={handleMinMaxClick}>
+            {method && (
+              <>
+                {amtError === 'BELOW_MIN' ? (
+                  <CustomErrorCartridge role='button'>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.belowmin'
+                      defaultMessage='{value} Minimum {orderType}'
+                      values={{
+                        value:
+                          orderType === 'BUY'
+                            ? fiatToString({
+                                digits,
+                                unit: fiatCurrency,
+                                value: min
+                              })
+                            : coinToString({
+                                value: min,
+                                unit: { symbol: cryptoCurrency }
+                              }),
+                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </CustomErrorCartridge>
+                ) : (
+                  <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.abovemax'
+                      defaultMessage='{value} Maximum {orderType}'
+                      values={{
+                        value:
+                          orderType === 'BUY'
+                            ? fiatToString({
+                                digits,
+                                unit: fiatCurrency,
+                                value: max
+                              })
+                            : coinToString({
+                                value: max,
+                                unit: { symbol: cryptoCurrency }
+                              }),
+                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </BlueRedCartridge>
+                )}
+              </>
+            )}
           </Amounts>
         )}
 

@@ -15,8 +15,7 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType,
-  SBSuggestedAmountType
+  SBQuoteType
 } from 'core/types'
 
 // Types
@@ -89,7 +88,6 @@ export type SimpleBuyState = {
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
-  suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
@@ -273,21 +271,6 @@ interface FetchSBQuoteSuccess {
   }
   type: typeof AT.FETCH_SB_QUOTE_SUCCESS
 }
-interface FetchSBSuggestedAmountsFailure {
-  payload: {
-    error: Error | string
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
-}
-interface FetchSBSuggestedAmountsLoading {
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-}
-interface FetchSBSuggestedAmountsSuccess {
-  payload: {
-    amounts: SBSuggestedAmountType
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
-}
 
 interface InitializeCheckout {
   amount: string
@@ -385,9 +368,6 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
-  | FetchSBSuggestedAmountsFailure
-  | FetchSBSuggestedAmountsLoading
-  | FetchSBSuggestedAmountsSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction

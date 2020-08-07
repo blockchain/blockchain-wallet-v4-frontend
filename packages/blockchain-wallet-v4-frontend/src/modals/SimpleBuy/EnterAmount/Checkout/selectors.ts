@@ -10,9 +10,6 @@ export const getData = (state: RootState) => {
   )
   const invitationsR = selectors.core.settings.getInvitations(state)
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
-  const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
-    state
-  )
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
@@ -21,15 +18,13 @@ export const getData = (state: RootState) => {
       invitations: ExtractSuccess<typeof invitationsR>,
       rates: ExtractSuccess<typeof ratesR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
-      suggestedAmounts: ExtractSuccess<typeof suggestedAmountsR>,
       userData: ExtractSuccess<typeof userDataR>
     ) => ({
       formErrors,
       invitations,
       rates,
       sbBalances,
-      suggestedAmounts,
       userData
     })
-  )(invitationsR, ratesR, sbBalancesR, suggestedAmountsR, userDataR)
+  )(invitationsR, ratesR, sbBalancesR, userDataR)
 }

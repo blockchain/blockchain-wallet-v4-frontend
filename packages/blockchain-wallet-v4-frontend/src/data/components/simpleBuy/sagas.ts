@@ -527,19 +527,6 @@ export default ({
     }
   }
 
-  const fetchSBSuggestedAmounts = function * ({
-    currency
-  }: ReturnType<typeof A.fetchSBSuggestedAmounts>) {
-    try {
-      yield put(A.fetchSBSuggestedAmountsLoading())
-      const amounts = yield call(api.getSBSuggestedAmounts, currency)
-      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchSBSuggestedAmountsFailure(error))
-    }
-  }
-
   const handleSBDepositFiatClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBDepositFiatClick>) {
@@ -681,8 +668,6 @@ export default ({
 
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
-
-      yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
@@ -850,7 +835,6 @@ export default ({
     fetchSBPaymentAccount,
     fetchSBPaymentMethods,
     fetchSBQuote,
-    fetchSBSuggestedAmounts,
     handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
     handleSBMethodChange,
