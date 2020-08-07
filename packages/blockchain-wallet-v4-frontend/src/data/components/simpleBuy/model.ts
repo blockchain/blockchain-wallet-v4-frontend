@@ -6,7 +6,7 @@ import {
   SBOrderType,
   SBPairsType,
   SBPaymentTypes,
-  SupportedWalletCurrenciesType
+  SupportedWalletCurrenciesType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard } from '../exchange/services'
