@@ -202,7 +202,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
       </FlyoutWrapper>
-      <CryptoItem value={props.pair} orderType={props.orderType} />
+      <CryptoItem
+        fiat={props.fiatCurrency || 'USD'}
+        coin={props.cryptoCurrency}
+        orderType={props.orderType}
+      />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountFieldContainer
           className={isAmtShakeActive ? 'shake' : ''}

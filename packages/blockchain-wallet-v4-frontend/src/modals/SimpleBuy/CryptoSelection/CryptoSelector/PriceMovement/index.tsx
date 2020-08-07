@@ -1,8 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { CoinType, FiatType, PriceMovementDirType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
-import { FiatType, PriceMovementDirType, SBPairType } from 'core/types'
-import { getCoinFromPair } from 'data/components/simpleBuy/model'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
@@ -43,11 +42,8 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
 class PriceMovement extends PureComponent<Props, State> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
-      const coin = getCoinFromPair(this.props.value.pair)
-      this.props.miscActions.fetchPrice24H(
-        coin,
-        this.props.fiatCurrency || 'EUR'
-      )
+      const coin = this.props.coin
+      this.props.miscActions.fetchPrice24H(coin, this.props.fiat || 'EUR')
     }
   }
 
@@ -81,8 +77,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  fiatCurrency?: FiatType
-  value: SBPairType
+  coin: CoinType
+  fiat?: FiatType
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
