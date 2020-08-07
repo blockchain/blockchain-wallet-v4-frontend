@@ -69,10 +69,7 @@ export const getCounterAmount = (order: SBOrderType): string => {
   const orderType = getOrderType(order)
 
   if (orderType === 'BUY') {
-    return convertBaseToStandard(
-      order.inputCurrency as CoinType,
-      order.inputQuantity
-    )
+    return convertBaseToStandard('FIAT', order.inputQuantity)
   } else {
     return convertBaseToStandard('FIAT', order.outputQuantity)
   }
