@@ -29,7 +29,11 @@ class CheckoutConfirm extends PureComponent<Props> {
   state = {}
 
   componentDidMount () {
-    this.props.simpleBuyActions.fetchSBQuote(getOrderType(this.props.order))
+    this.props.simpleBuyActions.fetchSBQuote(
+      this.props.order.pair,
+      getOrderType(this.props.order),
+      this.props.order.inputQuantity
+    )
   }
 
   handleSubmit = () => {

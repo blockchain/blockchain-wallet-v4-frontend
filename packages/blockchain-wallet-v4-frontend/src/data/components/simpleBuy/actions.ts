@@ -9,6 +9,7 @@ import {
   SBCardType,
   SBOrderActionType,
   SBOrderType,
+  SBPairsType,
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
@@ -320,9 +321,15 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = (orderType: SBOrderActionType) => ({
+export const fetchSBQuote = (
+  pair: SBPairsType,
+  orderType: SBOrderActionType,
+  amount: string
+) => ({
   type: AT.FETCH_SB_QUOTE,
-  orderType
+  pair,
+  orderType,
+  amount
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({

@@ -511,14 +511,13 @@ export default ({
 
   const fetchSBQuote = function * (payload: ReturnType<typeof A.fetchSBQuote>) {
     try {
+      const { pair, orderType, amount } = payload
       yield put(A.fetchSBQuoteLoading())
-      const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER')
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
-        order.pair,
-        payload.orderType,
-        order.inputQuantity
+        pair,
+        orderType,
+        amount
       )
       yield put(A.fetchSBQuoteSuccess(quote))
     } catch (e) {
@@ -668,6 +667,11 @@ export default ({
 
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
+      const pair = S.getSBPair(yield select())
+      if (!pair) throw new Error(NO_PAIR_SELECTED)
+
+      // Fetch rates
+      yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {

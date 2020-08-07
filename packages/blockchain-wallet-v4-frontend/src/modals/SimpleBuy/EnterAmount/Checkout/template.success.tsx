@@ -1,3 +1,8 @@
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import React, { ReactChild, useState } from 'react'
+import styled from 'styled-components'
+
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { BuyOrSell } from '../../model'
@@ -5,8 +10,11 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType } from 'core/types'
-import { convertStandardToBase } from 'data/components/exchange/services'
+import { CoinType, SBOrderActionType, SBQuoteType } from 'core/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
@@ -14,7 +22,10 @@ import {
 } from 'services/ValidationHelper'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -24,8 +35,6 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
-import React, { ReactChild, useState } from 'react'
-import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -87,6 +96,34 @@ const normalizeAmount = (
   return formatTextAmount(value, allValues && allValues.orderType === 'BUY')
 }
 
+const getQuote = (
+  quote: SBQuoteType,
+  orderType: SBOrderActionType,
+  baseAmount?: string
+) => {
+  if (orderType === 'BUY') {
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    const counterValue = new BigNumber(baseAmount || '0')
+      .dividedBy(standardRate)
+      .toString()
+
+    return coinToString({
+      value: counterValue,
+      unit: { symbol: getCoinFromPair(quote.pair) }
+    })
+  } else {
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    const counterValue = new BigNumber(baseAmount || '0')
+      .times(standardRate)
+      .toString()
+
+    return fiatToString({
+      value: counterValue,
+      unit: getFiatFromPair(quote.pair)
+    })
+  }
+}
+
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const [isAmtShakeActive, setShake] = useState(false)
 
@@ -102,6 +139,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const baseCurrency = orderType === 'BUY' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType =
     orderType === 'BUY' ? 'FIAT' : cryptoCurrency
+
+  const quote = getQuote(props.quote, props.orderType, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -233,6 +272,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
+
+        <Text size='14px' weight={500}>
+          {quote}
+        </Text>
+
         {props.pair && (
           <Amounts onClick={handleMinMaxClick}>
             {method && (
