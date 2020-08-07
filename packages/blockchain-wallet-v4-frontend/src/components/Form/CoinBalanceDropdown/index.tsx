@@ -83,16 +83,16 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     const isItem = !children
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon size='32px' color={color} name={icon} />
+        <Icon size="32px" color={color} name={icon} />
         <AccountContainer>
           {children || props.value.label}
           <AmountContainer>
             <CoinDisplay
               coin={props.value.coin}
-              size='12px'
+              size="12px"
               weight={500}
-              cursor='pointer'
-              color='grey800'
+              cursor="pointer"
+              color="grey800"
             >
               {props.value.balance}
             </CoinDisplay>
@@ -101,11 +101,11 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
               (
               <FiatDisplay
                 coin={props.value.coin}
-                size='12px'
+                size="12px"
                 weight={500}
-                color='grey400'
+                color="grey400"
                 currency={this.props.fiatCurrency || 'USD'}
-                cursor='pointer'
+                cursor="pointer"
                 rates={this.props.rates}
               >
                 {props.value.balance}
@@ -118,9 +118,10 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: values => {
+        console.log('coin balance', values)
         return (
           <Field
             component={SelectBox}
@@ -140,8 +141,8 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
           {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
         </Text>
       ),
-      Loading: () => <Text size='24px'>...</Text>,
-      NotAsked: () => <Text size='24px'>...</Text>
+      Loading: () => <Text size="24px">...</Text>,
+      NotAsked: () => <Text size="24px">...</Text>
     })
   }
 }
@@ -150,6 +151,7 @@ const mapStateToProps = (
   state: RootState,
   ownProps: OwnProps
 ): LinkStatePropsType => ({
+  //@ts-ignore
   data: getData(state, ownProps)
 })
 
