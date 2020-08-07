@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
-  CurrenciesType,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -15,7 +14,6 @@ import {
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SBSuggestedAmountType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -341,33 +339,6 @@ export const fetchSBQuoteSuccess = (
   type: AT.FETCH_SB_QUOTE_SUCCESS,
   payload: {
     quote
-  }
-})
-
-export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS,
-  currency
-})
-
-export const fetchSBSuggestedAmountsFailure = (
-  error: Error | string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const fetchSBSuggestedAmountsLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-})
-
-export const fetchSBSuggestedAmountsSuccess = (
-  amounts: SBSuggestedAmountType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
-  payload: {
-    amounts
   }
 })
 

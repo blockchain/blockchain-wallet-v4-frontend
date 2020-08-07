@@ -19,7 +19,6 @@ import {
   SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
-  SBSuggestedAmountType,
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
@@ -231,17 +230,6 @@ export default ({
       }
     })
 
-  const getSBSuggestedAmounts = (
-    currency: keyof CurrenciesType
-  ): SBSuggestedAmountType =>
-    get({
-      url: nabuUrl,
-      endPoint: '/simple-buy/amounts',
-      data: {
-        currency
-      }
-    })
-
   const getSBTransactions = (
     currency: FiatType,
     next?: string | null,
@@ -343,7 +331,6 @@ export default ({
     getSBPaymentMethods,
     getSBFiatEligible,
     getSBQuote,
-    getSBSuggestedAmounts,
     getSBTransactions,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds

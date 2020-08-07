@@ -124,7 +124,4 @@ export const getSBLatestPendingOrder = (state: RootState) =>
     )
   })
 
-export const getSBSuggestedAmounts = (state: RootState) =>
-  state.components.simpleBuy.suggestedAmounts
-
 export const getStep = (state: RootState) => state.components.simpleBuy.step
