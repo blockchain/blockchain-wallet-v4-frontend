@@ -64,6 +64,7 @@ export interface InterestState {
   interestLimits: RemoteDataType<string, InterestLimitsType>
   interestRate: RemoteDataType<string, InterestRateType['rates']>
   isCoinDisplayed: boolean
+  isCustodial: boolean
   payment: RemoteDataType<string, PaymentValue>
   step: {
     data: InterestStepMetadata
@@ -255,6 +256,13 @@ interface SetCoinDisplay {
   }
   type: typeof AT.SET_COIN_DISPLAY
 }
+
+interface SetCustodialDeposit {
+  payload: {
+    boolean
+  }
+  type: typeof AT.SET_CUSTODIAL_DEPOSIT
+}
 interface ShowInterestModal {
   payload: {
     step: InterestStep
@@ -294,6 +302,7 @@ export type InterestActionTypes =
   | SetWithdrawalMinimumsSuccess
   | ShowInterestModal
   | SetCoinDisplay
+  | SetCustodialDeposit
   | SetDepositLimitsAction
   | SetPaymentFailureAction
   | SetPaymentLoadingAction

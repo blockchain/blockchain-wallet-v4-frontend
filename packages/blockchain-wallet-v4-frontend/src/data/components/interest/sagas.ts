@@ -1,6 +1,6 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { head, last, nth } from 'ramda'
+import { head, last, nth, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
 import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
@@ -205,10 +205,15 @@ export default ({
 
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
+        prop('type', values.interestDepositAccount) === 'CUSTODIAL'
+          ? yield put(A.setCustodialDeposit(true))
+          : yield put(A.setCustodialDeposit(false))
+
         const newPayment: PaymentValue = yield call(createPayment, {
           ...values.interestDepositAccount,
           address: getAccountIndexOrAccount(coin, values.interestDepositAccount)
         })
+
         yield call(createLimits, newPayment)
         yield put(A.setPaymentSuccess(newPayment))
     }

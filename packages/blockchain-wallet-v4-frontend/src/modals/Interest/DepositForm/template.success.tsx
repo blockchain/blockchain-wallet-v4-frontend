@@ -242,6 +242,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <CoinBalanceDropdown
           {...props}
+          includeCustodial={true}
           fiatCurrency={walletCurrency}
           name='interestDepositAccount'
         />

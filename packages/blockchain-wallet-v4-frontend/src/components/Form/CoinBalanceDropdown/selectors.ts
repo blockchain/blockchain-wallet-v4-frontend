@@ -9,7 +9,7 @@ import { lift } from 'ramda'
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
-  const { coin } = ownProps
+  const { coin, includeCustodial } = ownProps
   let addressDataR
 
   switch (coin) {
@@ -17,7 +17,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
         excludeImported: true,
-        includeCustodial: true,
+        includeCustodial: includeCustodial,
         includeInterest: false,
         includeAll: false
       })
@@ -25,21 +25,21 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
-        includeCustodial: true,
+        includeCustodial: includeCustodial,
         includeInterest: false
       })
       break
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
-        includeCustodial: true,
+        includeCustodial: includeCustodial,
         includeInterest: false
       })
       break
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
         coin: 'USDT',
-        includeCustodial: true,
+        includeCustodial: includeCustodial,
         includeInterest: false
       })
       break

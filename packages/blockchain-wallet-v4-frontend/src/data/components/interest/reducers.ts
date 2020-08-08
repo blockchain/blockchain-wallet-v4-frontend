@@ -20,6 +20,7 @@ const INITIAL_STATE: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   isCoinDisplayed: false,
+  isCustodial: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -182,6 +183,13 @@ export function interestReducer (
       return {
         ...state,
         isCoinDisplayed: payload.isCoinDisplayed
+      }
+    }
+
+    case AT.SET_CUSTODIAL_DEPOSIT: {
+      return {
+        ...state,
+        isCustodial: payload.isCustodial
       }
     }
 

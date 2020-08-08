@@ -60,7 +60,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       )).getOrFail('Failed to get user currency')
       const walletCurrencyR = S.getWalletCurrency(yield select())
       const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
-
       let maxFiat
       switch (coin) {
         case 'BTC':
