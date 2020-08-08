@@ -1,8 +1,7 @@
 import {
-  AccountTypes,
   CoinType,
+  ExtractSuccess,
   RatesType,
-  RemoteDataType,
   SupportedCoinType,
   SupportedWalletCurrenciesType
 } from 'core/types'
@@ -10,7 +9,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
+
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import React, { PureComponent } from 'react'
@@ -63,52 +62,67 @@ const FiatContainer = styled.div`
 export class CoinBalanceDropdown extends PureComponent<Props> {
   state = {}
 
-  renderElements = (values: SuccessStateType) => {
-    return [
-      {
-        group: '',
-        items: values.map(value => ({
-          text: value.label,
-          value
-        }))
+  coinBalance = selectProps => {
+    if (selectProps.value) {
+      // Account balance
+      if (selectProps.value.balance) {
+        return selectProps.value.balance
+        // Custodial balance
+      } else {
+        return selectProps.value.available
       }
-    ]
+    } else {
+      return 0
+    }
   }
 
-  renderDisplay = (props: { value: AccountTypes }, children) => {
-    if (!props.value) return
-    const coinType = this.props.supportedCoins[props.value.coin]
-    const icon = coinType.icons.circleFilled
+  accountLabel = selectProps => {
+    if (selectProps.value) {
+      // Account/Custodial label
+      return selectProps.value.label || selectProps.label
+    } else {
+      return ''
+    }
+  }
+
+  renderDisplay = (
+    props: { selectProps: { options: Array<any> }; value },
+    children
+  ) => {
+    const coinType = this.props.supportedCoins[this.props.coin]
     const color = coinType.colorCode
+    const balance = this.coinBalance(props)
+    const account = this.accountLabel(props)
     const isItem = !children
+
     return (
       <DisplayContainer coinType={coinType} isItem={isItem}>
-        <Icon size="32px" color={color} name={icon} />
+        <Icon color={color} name={coinType.icons.circleFilled} size='32px' />
         <AccountContainer>
-          {children || props.value.label}
+          <Text weight={500} color='grey400' size='14px'>
+            {account}{' '}
+          </Text>
           <AmountContainer>
             <CoinDisplay
-              coin={props.value.coin}
-              size="12px"
+              coin={this.props.coin}
+              size='12px'
               weight={500}
-              cursor="pointer"
-              color="grey800"
+              cursor='pointer'
+              color='grey800'
             >
-              {props.value.balance}
+              {balance}
             </CoinDisplay>
-            <div style={{ width: '8px' }} />
+            <div style={{ width: '2px' }} />
             <FiatContainer>
               (
               <FiatDisplay
-                coin={props.value.coin}
-                size="12px"
+                coin={this.props.coin}
+                size='12px'
                 weight={500}
-                color="grey400"
-                currency={this.props.fiatCurrency || 'USD'}
-                cursor="pointer"
-                rates={this.props.rates}
+                color='grey400'
+                cursor='pointer'
               >
-                {props.value.balance}
+                {balance}
               </FiatDisplay>
               )
             </FiatContainer>
@@ -117,41 +131,39 @@ export class CoinBalanceDropdown extends PureComponent<Props> {
       </DisplayContainer>
     )
   }
-
-  render() {
+  render () {
     return this.props.data.cata({
       Success: values => {
-        console.log('coin balance', values)
+        const { addressData } = values
+        const options = addressData.data
         return (
           <Field
             component={SelectBox}
-            elements={this.renderElements(values)}
-            fiatCurrency={this.props.fiatCurrency}
+            elements={options}
+            grouped
+            hideIndicator={options.length <= 1}
+            openMenuOnClick={options.length > 1}
+            options={options}
+            name={this.props.name}
+            searchEnabled={false}
             templateDisplay={this.renderDisplay}
             templateItem={this.renderDisplay}
-            hideIndicator={values.length <= 1}
-            openMenuOnClick={values.length > 1}
-            searchEnabled={false}
-            name={this.props.name}
           />
         )
       },
       Failure: e => (
         <Text>
+          {' '}
           {typeof e === 'string' ? e : typeof e === 'object' ? e.message : e}
         </Text>
       ),
-      Loading: () => <Text size="24px">...</Text>,
-      NotAsked: () => <Text size="24px">...</Text>
+      Loading: () => <Text size='24px'>...</Text>,
+      NotAsked: () => <Text size='24px'>...</Text>
     })
   }
 }
 
-const mapStateToProps = (
-  state: RootState,
-  ownProps: OwnProps
-): LinkStatePropsType => ({
-  //@ts-ignore
+const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
@@ -160,14 +172,14 @@ const connector = connect(mapStateToProps)
 export type OwnProps = {
   coin: CoinType
   fiatCurrency?: string
+  includeCustodial: boolean
   name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
   rates: RatesType
   supportedCoins: SupportedWalletCurrenciesType
 }
-type SuccessStateType = Array<AccountTypes>
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
-}
+
+type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CoinBalanceDropdown)
