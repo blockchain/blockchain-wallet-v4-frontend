@@ -133,6 +133,7 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const WhatsNew = React.lazy(() => import('./WhatsNew'))
+const Withdraw = React.lazy(() => import('./Withdraw'))
 
 const Modals = () => (
   <Suspense fallback={null}>
@@ -203,6 +204,7 @@ const Modals = () => (
       <SunRiverWelcome disableOutsideClose />
       <VerifyMessage />
       <Welcome />
+      <Withdraw />
       <WhatsNew />
     </div>
   </Suspense>

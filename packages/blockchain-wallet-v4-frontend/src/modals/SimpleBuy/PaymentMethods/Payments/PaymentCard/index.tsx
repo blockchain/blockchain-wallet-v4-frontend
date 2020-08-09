@@ -1,17 +1,19 @@
+import { FormattedMessage } from 'react-intl'
+import { Icon, Image } from 'blockchain-info-components'
+import React, { ReactElement } from 'react'
+import styled from 'styled-components'
+
 import {
   Content,
   DisplayContainer,
   DisplayIcon,
   DisplayTitle
 } from 'components/SimpleBuy'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBPaymentMethodType } from 'core/types'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
+import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Title } from 'components/Flyout'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
 
 const SubTitle = styled(Title)`
   color: ${props => props.theme.grey600};
@@ -22,8 +24,17 @@ const DisplayIconPayment = styled(DisplayIcon)`
   min-height: 110px;
 `
 const CartridgeContainer = styled.div`
-  width: auto;
+  display: flex;
   margin-top: 8px;
+  align-items: center;
+`
+const CardContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 16px;
+  > img {
+    margin-left: 8px;
+  }
 `
 
 type Props = {
@@ -48,8 +59,8 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
           defaultMessage='{card} Limit'
           values={{
             card: `${fiatToString({
-              value: value.limits.max,
-              unit: String(value.currency) as FiatType
+              value: convertBaseToStandard('FIAT', value.limits.max),
+              unit: value.currency
             })} ${value.currency}`
           }}
         />
@@ -67,6 +78,10 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
             defaultMessage='Most Popular'
           />
         </SuccessCartridge>
+        <CardContainer>
+          <Image name='visa-logo' />
+          <Image name='mastercard-logo' />
+        </CardContainer>
       </CartridgeContainer>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />

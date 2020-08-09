@@ -1,18 +1,31 @@
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import React, { ReactChild, useState } from 'react'
+import styled from 'styled-components'
+
+import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import { BuyOrSell } from '../../model'
 import {
-  BlueCartridge,
-  CustomCartridge,
-  ErrorCartridge
-} from 'components/Cartridge'
+  coinToString,
+  fiatToString
+} from 'blockchain-wallet-v4/src/exchange/currency'
+import { CoinType, SBOrderActionType, SBQuoteType } from 'core/types'
 import {
   convertBaseToStandard,
   convertStandardToBase
 } from 'data/components/exchange/services'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import {
+  CRYPTO_DECIMALS,
+  FIAT_DECIMALS,
+  formatTextAmount
+} from 'services/ValidationHelper'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
 import { Form, NumberBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/ValidationHelper'
+import {
+  getCoinFromPair,
+  getFiatFromPair
+} from 'data/components/simpleBuy/model'
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -22,8 +35,6 @@ import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
-import React from 'react'
-import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -40,49 +51,17 @@ const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
 `
-// Hide the default field error for NumberBox > div > div:last-child
-const AmountFieldContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 54px;
-  input {
-    color: ${props => props.theme.black};
-    padding-left: 8px;
-    font-size: 56px;
-    font-weight: 500;
-    border: 0px !important;
-    &::placeholder {
-      font-size: 56px;
-      color: ${props => props.theme.grey600};
-    }
-  }
-  > div {
-    height: auto;
-    input {
-      height: auto;
-      outline: 0;
-    }
-  }
-  > div > div:last-child {
-    display: none;
-  }
-`
-const Amount = styled(BlueCartridge)`
-  margin-right: 8px;
-  cursor: pointer;
-`
 const Amounts = styled.div`
   margin: 24px 0 40px;
   display: flex;
   justify-content: space-between;
 `
-const GreyBlueCartridge = styled(CustomCartridge)`
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.grey100};
-  color: ${props => props.theme.blue600};
+const CustomBlueCartridge = styled(BlueCartridge)`
+  border: 1px solid ${props => props.theme.blue000};
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
+  border: 1px solid ${props => props.theme.red000};
   cursor: pointer;
 `
 const ErrorText = styled(Text)`
@@ -96,21 +75,75 @@ const ErrorText = styled(Text)`
   margin-bottom: 16px;
 `
 
+const BlueRedCartridge = ({
+  error,
+  children
+}: {
+  children: ReactChild
+  error: boolean
+}) => {
+  if (error)
+    return <CustomErrorCartridge role='button'>{children}</CustomErrorCartridge>
+  return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
+}
+
 const normalizeAmount = (
   value,
   prevValue,
   allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, allValues.orderType === 'BUY')
+  return formatTextAmount(value, allValues && allValues.orderType === 'BUY')
+}
+
+const getQuote = (
+  quote: SBQuoteType,
+  orderType: SBOrderActionType,
+  baseAmount?: string
+) => {
+  if (orderType === 'BUY') {
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    const counterValue = new BigNumber(baseAmount || '0')
+      .dividedBy(standardRate)
+      .toString()
+
+    return coinToString({
+      value: counterValue,
+      unit: { symbol: getCoinFromPair(quote.pair) }
+    })
+  } else {
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    const counterValue = new BigNumber(baseAmount || '0')
+      .times(standardRate)
+      .toString()
+
+    return fiatToString({
+      value: counterValue,
+      unit: getFiatFromPair(quote.pair)
+    })
+  }
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const { fiatCurrency, method: selectedMethod, defaultMethod } = props
+  const [isAmtShakeActive, setShake] = useState(false)
+
+  const {
+    orderType,
+    cryptoCurrency,
+    fiatCurrency,
+    method: selectedMethod,
+    defaultMethod
+  } = props
   const method = selectedMethod || defaultMethod
+  const digits = orderType === 'BUY' ? FIAT_DECIMALS : CRYPTO_DECIMALS
+  const baseCurrency = orderType === 'BUY' ? fiatCurrency : cryptoCurrency
+  const conversionCoinType: 'FIAT' | CoinType =
+    orderType === 'BUY' ? 'FIAT' : cryptoCurrency
+
+  const quote = getQuote(props.quote, props.orderType, props.formValues?.amount)
 
   if (!props.formValues) return null
-  if (!fiatCurrency)
+  if (!fiatCurrency || !baseCurrency)
     return (
       <Failure
         fiatCurrency={props.fiatCurrency}
@@ -121,17 +154,56 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
 
   const amtError =
-    props.formErrors.amount &&
-    typeof props.formErrors.amount === 'string' &&
-    props.formErrors.amount
+    typeof props.formErrors.amount === 'string' && props.formErrors.amount
+
+  const max = getMaxMin(
+    props.pair,
+    'max',
+    props.sbBalances,
+    props.orderType,
+    props.rates,
+    props.formValues,
+    method
+  )
+  const min = getMaxMin(
+    props.pair,
+    'min',
+    props.sbBalances,
+    props.orderType,
+    props.rates,
+    props.formValues,
+    method
+  )
 
   const handleMinMaxClick = () => {
-    const prop = amtError === 'ABOVE_MAX' ? 'max' : 'min'
+    const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
     const value = convertStandardToBase(
-      'FIAT',
-      getMaxMin(props.pair, prop, props.sbBalances, props.formValues, method)
+      conversionCoinType,
+      getMaxMin(
+        props.pair,
+        prop,
+        props.sbBalances,
+        props.orderType,
+        props.rates,
+        props.formValues,
+        method
+      )
     )
-    props.simpleBuyActions.handleSBSuggestedAmountClick(value)
+    props.simpleBuyActions.handleSBSuggestedAmountClick(
+      value,
+      conversionCoinType
+    )
+  }
+
+  const handleAmountErrorClick = () => {
+    if (isAmtShakeActive) return
+
+    setShake(true)
+    props.formActions.focus('simpleBuyCheckout', 'amount')
+
+    setTimeout(() => {
+      setShake(false)
+    }, 1000)
   }
 
   return (
@@ -156,10 +228,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 })
               }
             />
-            <FormattedMessage
-              id='modals.simplebuy.buycrypto'
-              defaultMessage='Buy Crypto'
-            />
+            <BuyOrSell {...props} crypto='Crypto' />
           </LeftTopCol>
           <Icon
             cursor
@@ -172,11 +241,22 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
       </FlyoutWrapper>
-      <CryptoItem value={props.pair} />
+      <CryptoItem
+        fiat={props.fiatCurrency || 'USD'}
+        coin={props.cryptoCurrency}
+        orderType={props.orderType}
+      />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountFieldContainer>
-          <Text size='56px' color='grey400' weight={500}>
-            {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+        <AmountFieldContainer
+          className={isAmtShakeActive ? 'shake' : ''}
+          isCrypto={orderType === 'SELL'}
+        >
+          <Text
+            size={orderType === 'SELL' ? '36px' : '56px'}
+            color='grey400'
+            weight={500}
+          >
+            {Currencies[baseCurrency].units[baseCurrency].symbol}
           </Text>
           <Field
             data-e2e='sbAmountInput'
@@ -192,105 +272,68 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }}
           />
         </AmountFieldContainer>
-        {props.pair && amtError && (
-          <Amounts>
-            <CustomErrorCartridge role='button' onClick={handleMinMaxClick}>
-              {amtError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.abovemax'
-                  defaultMessage='{value} Maximum {orderType}'
-                  values={{
-                    value: fiatToString({
-                      unit: fiatCurrency,
-                      value: getMaxMin(
-                        props.pair,
-                        'max',
-                        props.sbBalances,
-                        props.formValues,
-                        method
-                      )
-                    }),
-                    orderType:
-                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
-                  }}
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.belowmin'
-                  defaultMessage='{value} Minimum {orderType}'
-                  values={{
-                    value: fiatToString({
-                      unit: fiatCurrency,
-                      value: getMaxMin(
-                        props.pair,
-                        'min',
-                        props.sbBalances,
-                        props.formValues,
-                        method
-                      )
-                    }),
-                    orderType:
-                      props.formValues.orderType === 'BUY' ? 'Buy' : 'Sell'
-                  }}
-                />
-              )}
-            </CustomErrorCartridge>
-            <GreyBlueCartridge
-              data-e2e='sbBuyMinMaxBtn'
-              role='button'
-              onClick={handleMinMaxClick}
-            >
-              {amtError === 'ABOVE_MAX' ? (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.buymax'
-                  defaultMessage='Buy Max'
-                />
-              ) : (
-                <FormattedMessage
-                  id='modals.simplebuy.checkout.buymin'
-                  defaultMessage='Buy Min'
-                />
-              )}
-            </GreyBlueCartridge>
-          </Amounts>
-        )}
-        {props.suggestedAmounts[0] && !amtError && (
-          <Amounts>
-            <div>
-              {props.suggestedAmounts[0][fiatCurrency].map(amount => {
-                return (
-                  <Amount
-                    data-e2e={`sbBuy${amount}Chip`}
-                    onClick={() =>
-                      props.simpleBuyActions.handleSBSuggestedAmountClick(
-                        amount
-                      )
-                    }
-                    role='button'
-                    key={`sbBuy${amount}Chip`}
-                  >
-                    {fiatToString({
-                      unit: fiatCurrency,
-                      value: convertBaseToStandard('FIAT', amount),
-                      digits: 0
-                    })}
-                  </Amount>
-                )
-              })}
-            </div>
-            <GreyBlueCartridge
-              data-e2e='sbChangeCurrencyBtn'
-              role='button'
-              onClick={() =>
-                props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-              }
-            >
-              {fiatCurrency}
-            </GreyBlueCartridge>
+
+        <Text size='14px' weight={500}>
+          {quote}
+        </Text>
+
+        {props.pair && (
+          <Amounts onClick={handleMinMaxClick}>
+            {method && (
+              <>
+                {amtError === 'BELOW_MIN' ? (
+                  <CustomErrorCartridge role='button'>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.belowmin'
+                      defaultMessage='{value} Minimum {orderType}'
+                      values={{
+                        value:
+                          orderType === 'BUY'
+                            ? fiatToString({
+                                digits,
+                                unit: fiatCurrency,
+                                value: min
+                              })
+                            : coinToString({
+                                value: min,
+                                unit: { symbol: cryptoCurrency }
+                              }),
+                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </CustomErrorCartridge>
+                ) : (
+                  <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.abovemax'
+                      defaultMessage='{value} Maximum {orderType}'
+                      values={{
+                        value:
+                          orderType === 'BUY'
+                            ? fiatToString({
+                                digits,
+                                unit: fiatCurrency,
+                                value: max
+                              })
+                            : coinToString({
+                                value: max,
+                                unit: { symbol: cryptoCurrency }
+                              }),
+                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </BlueRedCartridge>
+                )}
+              </>
+            )}
           </Amounts>
         )}
 
-        <Payment {...props} method={method} />
+        <Payment
+          {...props}
+          method={method}
+          handleAmountErrorClick={handleAmountErrorClick}
+        />
 
         {props.error && (
           <ErrorText>
@@ -302,7 +345,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
-        <ActionButton {...props} />
+        <ActionButton {...props} method={method} />
       </FlyoutWrapper>
     </CustomForm>
   )

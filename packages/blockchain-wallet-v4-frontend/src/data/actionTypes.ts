@@ -3,6 +3,7 @@ import * as analytics from './analytics/actionTypes'
 import * as auth from './auth/actionTypes'
 import * as cache from './cache/actionTypes'
 import * as components from './components/actionTypes'
+import * as custodial from './custodial/actionTypes'
 import * as goals from './goals/actionTypes'
 import * as logs from './logs/actionTypes'
 import * as middleware from './middleware/actionTypes'
@@ -19,6 +20,7 @@ export {
   cache,
   core,
   components,
+  custodial,
   form,
   alerts,
   auth,

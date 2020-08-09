@@ -9,8 +9,8 @@ const INITIAL_STATE: SimpleBuyState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
-  displayBack: false,
   cryptoCurrency: undefined,
+  displayBack: false,
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
@@ -18,12 +18,12 @@ const INITIAL_STATE: SimpleBuyState = {
   methods: Remote.NotAsked,
   order: undefined,
   orders: Remote.NotAsked,
-  pairs: Remote.NotAsked,
+  orderType: undefined,
   pair: undefined,
+  pairs: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
-  step: 'CURRENCY_SELECTION',
-  suggestedAmounts: Remote.NotAsked
+  step: 'CURRENCY_SELECTION'
 }
 
 export function simpleBuyReducer (
@@ -72,8 +72,7 @@ export function simpleBuyReducer (
         order: undefined,
         pairs: Remote.NotAsked,
         quote: Remote.NotAsked,
-        step: 'CURRENCY_SELECTION',
-        suggestedAmounts: Remote.NotAsked
+        step: 'CURRENCY_SELECTION'
       }
     case AT.FETCH_SB_BALANCES_FAILURE: {
       return {
@@ -220,22 +219,6 @@ export function simpleBuyReducer (
         ...state,
         quote: Remote.Success(action.payload.quote)
       }
-    case AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE: {
-      return {
-        ...state,
-        suggestedAmounts: Remote.Failure(action.payload.error)
-      }
-    }
-    case AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING:
-      return {
-        ...state,
-        suggestedAmounts: Remote.Loading
-      }
-    case AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS:
-      return {
-        ...state,
-        suggestedAmounts: Remote.Success(action.payload.amounts)
-      }
     case AT.INITIALIZE_CHECKOUT:
       return {
         ...state,
@@ -252,6 +235,7 @@ export function simpleBuyReducer (
         case 'ENTER_AMOUNT':
           return {
             ...state,
+            orderType: action.payload.orderType,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             step: action.payload.step,

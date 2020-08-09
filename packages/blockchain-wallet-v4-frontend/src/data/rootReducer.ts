@@ -1,6 +1,7 @@
 import { analyticsReducer } from './analytics/reducers'
 import { combineReducers } from 'redux'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import { custodialReducer } from './custodial/reducers'
 import { goalsReducer } from './goals/reducers'
 import { modalsReducer } from './modals/reducers'
 import { preferencesReducer } from './preferences/reducers'
@@ -23,6 +24,7 @@ const rootReducer = {
   analytics: analyticsReducer,
   auth: authReducer,
   components: componentsReducer,
+  custodial: custodialReducer,
   form: formReducer,
   goals: goalsReducer,
   modals: modalsReducer,

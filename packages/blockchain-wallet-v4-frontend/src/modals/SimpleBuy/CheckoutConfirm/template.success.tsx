@@ -1,19 +1,21 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
-import {
-  FiatType,
-  SBOrderType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { getOutputAmount } from 'data/components/simpleBuy/model'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SupportedWalletCurrenciesType } from 'core/types'
 
+import { displayFiat, getPaymentMethod } from '../model'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -43,43 +45,11 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const outputAmt = getOutputAmount(props.order, props.quote)
-
-  const displayFiat = (amt: string) => {
-    return fiatToString({
-      unit: props.order.inputCurrency as FiatType,
-      value: convertBaseToStandard('FIAT', amt)
-    })
-  }
-
-  const getPaymentMethod = (order: SBOrderType) => {
-    switch (order.paymentType) {
-      case 'PAYMENT_CARD':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.payment_card'
-            defaultMessage='Credit Card'
-          />
-        )
-      case 'FUNDS':
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.funds_wallet'
-            defaultMessage='{coin} Wallet'
-            values={{
-              coin: props.supportedCoins[order.outputCurrency].coinTicker
-            }}
-          />
-        )
-      default:
-        return (
-          <FormattedMessage
-            id='modals.simplebuy.confirm.bunk_transfer'
-            defaultMessage='Bank Transfer'
-          />
-        )
-    }
-  }
+  const orderType = getOrderType(props.order)
+  const baseAmount = getBaseAmount(props.order)
+  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const counterAmount = getCounterAmount(props.order)
+  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -104,12 +74,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Checkout'
           />
         </TopText>
-        <Amount data-e2e='sbTotalCryptoBuyAmount'>
+        <Amount data-e2e='sbTotalAmount'>
           <Text size='32px' weight={600} color='grey800'>
-            {outputAmt}
+            {baseAmount}
           </Text>
           <Text size='32px' weight={600} color='grey800'>
-            {props.supportedCoins[props.order.outputCurrency].coinTicker}
+            {baseCurrency}
           </Text>
         </Amount>
       </FlyoutWrapper>
@@ -119,34 +89,34 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             id='modals.simplebuy.confirm.coin_price'
             defaultMessage='{coin} Price'
             values={{
-              coin: props.supportedCoins[props.order.outputCurrency].coinTicker
+              coin: baseCurrency
             }}
           />
         </Title>
-        <Value data-e2e='sbExchangeRate'>{displayFiat(props.quote.rate)}</Value>
-      </Row>
-      <Row>
-        <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.fee'
-            defaultMessage='Fee'
-          />
-        </Title>
-        <Value>
-          {props.order.fee
-            ? displayFiat(props.order.fee)
-            : `${displayFiat(props.quote.fee)} ${props.order.inputCurrency}`}
+        <Value data-e2e='sbExchangeRate'>
+          {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
         </Value>
       </Row>
       <Row>
         <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.total'
-            defaultMessage='Total'
-          />
+          <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+        </Title>
+        <Value>
+          {props.order.fee
+            ? displayFiat(props.order, props.supportedCoins, props.order.fee)
+            : `${displayFiat(
+                props.order,
+                props.supportedCoins,
+                props.quote.fee
+              )} ${props.order.inputCurrency}`}
+        </Value>
+      </Row>
+      <Row>
+        <Title>
+          <FormattedMessage id='copy.total' defaultMessage='Total' />
         </Title>
         <Value data-e2e='sbFiatBuyAmount'>
-          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
+          {fiatToString({ value: counterAmount, unit: counterCurrency })}
         </Value>
       </Row>
       <Row>
@@ -156,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        <Value>{getPaymentMethod(props.order)}</Value>
+        <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>
@@ -178,15 +148,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage
-              id='modals.simplebuy.confirm.buy'
-              defaultMessage='Buy {amount} {coin}'
-              values={{
-                amount: outputAmt,
-                coin:
-                  props.supportedCoins[props.order.outputCurrency].coinTicker
-              }}
-            />
+            `${
+              orderType === 'BUY' ? 'Buy' : 'Sell'
+            } ${baseAmount} ${baseCurrency}`
           )}
         </Button>
         <Button

@@ -13,4 +13,5 @@ export type InvitationsType = {
   kyc: boolean
   simpleBuy: boolean
   simpleBuyCC: boolean
+  simpleSell: boolean
 }

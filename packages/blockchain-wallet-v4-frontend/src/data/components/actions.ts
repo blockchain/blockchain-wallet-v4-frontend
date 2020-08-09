@@ -34,6 +34,7 @@ import * as simpleBuy from './simpleBuy/actions'
 import * as stxTransactions from './stxTransactions/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
+import * as withdraw from './withdraw/actions'
 import * as xlmTransactions from './xlmTransactions/actions'
 
 export {
@@ -73,5 +74,6 @@ export {
   simpleBuy,
   stxTransactions,
   uploadDocuments,
+  withdraw,
   veriff
 }

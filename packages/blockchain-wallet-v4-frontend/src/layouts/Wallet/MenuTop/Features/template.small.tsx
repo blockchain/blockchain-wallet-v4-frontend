@@ -83,8 +83,8 @@ const FeaturesSmall = (
           >
             <Destination>
               <FormattedMessage
-                id='buttons.buy_crypto'
-                defaultMessage='Buy Crypto'
+                id='buttons.buy_sell_crypto'
+                defaultMessage='Buy/Sell Crypto'
               />
             </Destination>
           </DropdownMenuItem>

@@ -1,35 +1,18 @@
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import { DisplayContainer } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
-import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { SupportedCoinType } from 'core/types'
-import { Title, Value } from 'components/Flyout'
-
+import { Icon } from 'blockchain-info-components'
 import {
   Props as OwnProps,
   OwnProps as ParentOwnProps,
   SuccessStateType
 } from '.'
+import { Title, Value } from 'components/Flyout'
+import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
 
-const DisplayContainer = styled.div<{
-  coinType: SupportedCoinType
-}>`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 16px 40px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  &hover {
-    background-color: ${props => props.theme.grey100};
-  }
-`
 const Display = styled.div<{ canClick: boolean }>`
   position: relative;
   display: flex;
@@ -45,13 +28,14 @@ const DisplayTitle = styled(Title)`
   margin-top: 4px;
   display: flex;
   align-items: center;
+  color: ${props => props.theme.grey800};
 `
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
 const Success: React.FC<Props> = props => {
-  const coin = getCoinFromPair(props.value.pair)
-  const fiat = getFiatFromPair(props.value.pair)
+  const coin = props.coin
+  const fiat = props.fiat
   const coinType = props.supportedCoins[coin]
   const displayName = coinType.displayName
   const icon = coinType.icons.circleFilled
@@ -59,8 +43,7 @@ const Success: React.FC<Props> = props => {
 
   return (
     <DisplayContainer
-      coinType={coinType}
-      data-e2e={`sb${props.value.pair}CurrencySelector`}
+      data-e2e={`sb${props.coin}-${props.fiat}CurrencySelector`}
       role='button'
       onClick={props.onClick}
     >
@@ -68,11 +51,16 @@ const Success: React.FC<Props> = props => {
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
-          {fiatToString({
-            value: props.rates[fiat].last,
-            unit: fiat
-          })}
-          <PriceMovement {...props} />
+          {props.orderType === 'BUY' && (
+            <>
+              {fiatToString({
+                value: props.rates[fiat].last,
+                unit: fiat
+              })}
+              <PriceMovement {...props} />
+            </>
+          )}
+          {props.orderType === 'SELL' && <BalanceMovement coin={coin} />}
         </DisplayTitle>
       </Display>
       {props.onClick && (

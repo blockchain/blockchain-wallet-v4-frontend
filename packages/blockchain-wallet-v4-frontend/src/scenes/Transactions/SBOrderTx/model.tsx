@@ -5,7 +5,7 @@ import { Text } from 'blockchain-info-components'
 import React from 'react'
 
 export const Status = ({ order }: { order: SBOrderType }) => {
-  const type = getOrderType(order.pair)
+  const type = getOrderType(order)
   switch (order.state) {
     case 'FINISHED':
       return (

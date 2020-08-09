@@ -1,4 +1,9 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -14,7 +19,6 @@ import {
   SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
-  SBSuggestedAmountType,
   SBTransactionStateType,
   SBTransactionsType
 } from './types'
@@ -75,7 +79,7 @@ export default ({
     pending: boolean,
     input: SBMoneyType,
     output: {
-      symbol: CoinType
+      symbol: WalletCurrencyType
     },
     paymentMethodId?: SBCardType['id'],
     paymentType?: SBPaymentMethodType['type']
@@ -226,17 +230,6 @@ export default ({
       }
     })
 
-  const getSBSuggestedAmounts = (
-    currency: keyof CurrenciesType
-  ): SBSuggestedAmountType =>
-    get({
-      url: nabuUrl,
-      endPoint: '/simple-buy/amounts',
-      data: {
-        currency
-      }
-    })
-
   const getSBTransactions = (
     currency: FiatType,
     next?: string | null,
@@ -338,7 +331,6 @@ export default ({
     getSBPaymentMethods,
     getSBFiatEligible,
     getSBQuote,
-    getSBSuggestedAmounts,
     getSBTransactions,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds

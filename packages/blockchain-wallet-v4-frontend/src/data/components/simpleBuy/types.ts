@@ -15,8 +15,7 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType,
-  SBSuggestedAmountType
+  SBQuoteType
 } from 'core/types'
 
 // Types
@@ -33,10 +32,12 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
-export type SBCheckoutFormValuesType = {
-  amount: string
-  orderType: SBOrderActionType
-}
+export type SBCheckoutFormValuesType =
+  | undefined
+  | {
+      amount: string
+      orderType: SBOrderActionType
+    }
 export type SBCurrencySelectFormType = {
   search: string
 }
@@ -51,7 +52,8 @@ export enum SimpleBuyStepType {
   'CC_BILLING_ADDRESS',
   '3DS_HANDLER',
   'TRANSFER_DETAILS',
-  'CANCEL_ORDER'
+  'CANCEL_ORDER',
+  'KYC_REQUIRED'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -62,6 +64,7 @@ export type SBShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'WelcomeModal'
+  | 'WithdrawModal'
 
 // State
 export type SimpleBuyState = {
@@ -78,13 +81,13 @@ export type SimpleBuyState = {
   method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
+  orderType?: SBOrderActionType
   orders: RemoteDataType<string, Array<SBOrderType>>
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
-  suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
@@ -268,21 +271,6 @@ interface FetchSBQuoteSuccess {
   }
   type: typeof AT.FETCH_SB_QUOTE_SUCCESS
 }
-interface FetchSBSuggestedAmountsFailure {
-  payload: {
-    error: Error | string
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
-}
-interface FetchSBSuggestedAmountsLoading {
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-}
-interface FetchSBSuggestedAmountsSuccess {
-  payload: {
-    amounts: SBSuggestedAmountType
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
-}
 
 interface InitializeCheckout {
   amount: string
@@ -298,10 +286,11 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
-      cryptoCurrency?: CoinType
+      cryptoCurrency: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType
       order?: SBOrderType
+      orderType?: SBOrderActionType
       pair?: SBPairType
       step: 'ENTER_AMOUNT'
     }
@@ -323,7 +312,13 @@ export type StepActionsPayload =
       step: 'PAYMENT_METHODS'
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
-  | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
+  | {
+      step:
+        | 'ADD_CARD'
+        | 'CURRENCY_SELECTION'
+        | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
+    }
 
 interface SetStepAction {
   payload: StepActionsPayload
@@ -373,9 +368,6 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
-  | FetchSBSuggestedAmountsFailure
-  | FetchSBSuggestedAmountsLoading
-  | FetchSBSuggestedAmountsSuccess
   | InitializeCheckout
   | SetStepAction
   | ShowModalAction
