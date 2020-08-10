@@ -17,11 +17,11 @@ import { SBCheckoutFormValuesType } from 'data/types'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 export const getMaxMin = (
-  pair: SBPairType,
   minOrMax: 'min' | 'max',
   sbBalances: SBBalancesType,
   orderType: SBOrderActionType,
   rates: RatesType,
+  pair?: SBPairType,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType
 ) => {
@@ -55,6 +55,8 @@ export const getMaxMin = (
       }
       break
     case 'SELL':
+      if (!pair) return '0'
+
       const coin = getCoinFromPair(pair.pair)
       const fiat = getFiatFromPair(pair.pair)
       const rate = rates[fiat].last
@@ -95,7 +97,7 @@ export const maximumAmount = (
 
   return Number(value) >
     Number(
-      getMaxMin(pair, 'max', sbBalances, orderType, rates, allValues, method)
+      getMaxMin('max', sbBalances, orderType, rates, pair, allValues, method)
     )
     ? 'ABOVE_MAX'
     : false
@@ -121,7 +123,7 @@ export const minimumAmount = (
 
   return Number(value) <
     Number(
-      getMaxMin(pair, 'min', sbBalances, orderType, rates, allValues, method)
+      getMaxMin('min', sbBalances, orderType, rates, pair, allValues, method)
     )
     ? 'BELOW_MIN'
     : false

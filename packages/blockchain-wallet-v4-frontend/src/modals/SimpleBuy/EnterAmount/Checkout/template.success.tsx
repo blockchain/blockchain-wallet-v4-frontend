@@ -157,20 +157,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
   const max = getMaxMin(
-    props.pair,
     'max',
     props.sbBalances,
     props.orderType,
     props.rates,
+    props.pair,
     props.formValues,
     method
   )
   const min = getMaxMin(
-    props.pair,
     'min',
     props.sbBalances,
     props.orderType,
     props.rates,
+    props.pair,
     props.formValues,
     method
   )
@@ -180,11 +180,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const value = convertStandardToBase(
       conversionCoinType,
       getMaxMin(
-        props.pair,
         prop,
         props.sbBalances,
         props.orderType,
         props.rates,
+        props.pair,
         props.formValues,
         method
       )
