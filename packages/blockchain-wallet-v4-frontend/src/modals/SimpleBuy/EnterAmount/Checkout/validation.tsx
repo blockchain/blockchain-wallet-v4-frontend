@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { CRYPTO_DECIMALS } from 'services/ValidationHelper'
 import {
   getCoinFromPair,
   getFiatFromPair
@@ -15,6 +14,7 @@ import {
   SBPaymentMethodType
 } from 'core/types'
 import { SBCheckoutFormValuesType } from 'data/types'
+import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 
 export const getMaxMin = (
   pair: SBPairType,
@@ -70,7 +70,7 @@ export const getMaxMin = (
           )
           return new BigNumber(minStandard)
             .dividedBy(rate)
-            .toFixed(CRYPTO_DECIMALS)
+            .toFixed(Currencies[coin].units[coin].decimal_digits)
       }
   }
 }
