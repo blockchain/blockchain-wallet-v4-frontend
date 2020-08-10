@@ -279,7 +279,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         {props.pair && (
           <Amounts onClick={handleMinMaxClick}>
-            {method && (
+            {(method || orderType === 'SELL') && (
               <>
                 {amtError === 'BELOW_MIN' ? (
                   <CustomErrorCartridge role='button'>

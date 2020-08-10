@@ -44,12 +44,6 @@ export const getDefaultPaymentMethod = (state: RootState) => {
       }
     })
 
-    if (!lastOrder) return undefined
-
-    const methodsOfType = sbMethods.methods.filter(
-      method => method.type === lastOrder.paymentType
-    )
-
     switch (actionType) {
       case 'SELL':
         return sbMethods.methods.find(
@@ -60,6 +54,12 @@ export const getDefaultPaymentMethod = (state: RootState) => {
             method.currency !== 'USD'
         )
       default:
+        if (!lastOrder) return undefined
+
+        const methodsOfType = sbMethods.methods.filter(
+          method => method.type === lastOrder.paymentType
+        )
+
         switch (lastOrder.paymentType) {
           case 'PAYMENT_CARD':
             const method = head(methodsOfType)
