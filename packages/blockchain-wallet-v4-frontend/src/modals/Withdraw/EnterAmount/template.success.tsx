@@ -1,12 +1,12 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import React from 'react'
+import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
 import { BeneficiaryType } from 'core/types'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { ErrorCartridge } from 'components/Cartridge'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
@@ -35,9 +35,23 @@ const MinMaxContainer = styled.div`
   min-height: 30px;
   display: flex;
 `
+const CustomBlueCartridge = styled(BlueCartridge)`
+  cursor: pointer;
+`
 const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
 `
+const BlueRedCartridge = ({
+  error,
+  children
+}: {
+  children: ReactChild
+  error: boolean
+}) => {
+  if (error)
+    return <CustomErrorCartridge role='button'>{children}</CustomErrorCartridge>
+  return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
+}
 
 const normalizeAmount = (value, prevValue) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -104,18 +118,17 @@ const Success: React.FC<InjectedFormProps<
             }}
           />
         </AmountFieldContainer>
-        <MinMaxContainer>
-          {amtError && amtError === 'ABOVE_MAX' && (
-            <CustomErrorCartridge
-              role='button'
-              onClick={() =>
-                props.formActions.change(
-                  'custodyWithdrawForm',
-                  'amount',
-                  displayFiatToFiat({ value: props.balance })
-                )
-              }
-            >
+        <MinMaxContainer
+          onClick={() =>
+            props.formActions.change(
+              'custodyWithdrawForm',
+              'amount',
+              displayFiatToFiat({ value: props.balance })
+            )
+          }
+        >
+          <BlueRedCartridge error={amtError && amtError === 'ABOVE_MAX'}>
+            <>
               <CoinDisplay
                 size='14px'
                 weight={600}
@@ -127,8 +140,8 @@ const Success: React.FC<InjectedFormProps<
               </CoinDisplay>
               &nbsp;
               <FormattedMessage id='copy.max' defaultMessage='Max' />
-            </CustomErrorCartridge>
-          )}
+            </>
+          </BlueRedCartridge>
         </MinMaxContainer>
         <ToContainer>
           <Text
@@ -144,7 +157,7 @@ const Success: React.FC<InjectedFormProps<
         </ToContainer>
         <ActionContainer>
           <Button
-            disabled={props.invalid}
+            disabled={props.invalid || !beneficiary}
             data-e2e='withdrawNext'
             type='submit'
             nature='primary'
