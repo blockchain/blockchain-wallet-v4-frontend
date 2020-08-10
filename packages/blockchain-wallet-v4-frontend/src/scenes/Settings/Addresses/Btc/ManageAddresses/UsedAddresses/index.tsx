@@ -1,11 +1,11 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
 import { actions, selectors } from 'data'
 import UsedAddressesShowTemplate from './template'
 
-class UsedAddressesContainer extends React.PureComponent {
+class UsedAddressesContainer extends React.PureComponent<Props> {
   onShowUsedAddresses = () => {
     if (this.props.usedAddressesVisible) {
       this.props.componentActions.toggleUsedAddresses(
@@ -14,7 +14,8 @@ class UsedAddressesContainer extends React.PureComponent {
       )
     } else {
       this.props.modalsActions.showModal('ShowUsedAddresses', {
-        walletIndex: this.props.walletIndex
+        walletIndex: this.props.walletIndex,
+        origin: 'SettingsPage'
       })
     }
   }
@@ -47,7 +48,8 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsedAddressesContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+
+export default connector(UsedAddressesContainer)

@@ -28,6 +28,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         archived
         address={address}
         dataE2e='btcArchivedAddressRow'
+        coin='BTC'
         renderOptions={() => [
           <ClickableText
             size='small'
@@ -68,7 +69,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.'
         />
       </SettingDescription>
-      <Table dataE2e='btcArchivedAddressesTable'>
+      <Table data-e2e='btcArchivedAddressesTable'>
         <TableHeader>
           <TableCell width='50%'>
             <Text size='13px' weight={500}>

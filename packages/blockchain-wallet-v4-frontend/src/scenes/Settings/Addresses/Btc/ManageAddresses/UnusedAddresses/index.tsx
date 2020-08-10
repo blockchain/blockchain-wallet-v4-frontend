@@ -1,9 +1,8 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
 import { length } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -27,7 +26,8 @@ const WalletLabelCell = styled.div`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-class UnusedAddressesContainer extends React.PureComponent {
+
+class UnusedAddressesContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
@@ -52,6 +52,7 @@ class UnusedAddressesContainer extends React.PureComponent {
     }
     const onDeleteLabel = i => {
       modalsActions.showModal('DeleteAddressLabel', {
+        origin: 'SettingsPage',
         accountIdx: account.index,
         walletIdx: walletIndex,
         addressIdx: i
@@ -62,7 +63,10 @@ class UnusedAddressesContainer extends React.PureComponent {
     }
 
     const onShowXPub = () => {
-      modalsActions.showModal('ShowXPub', { xpub: account.xpub })
+      modalsActions.showModal('ShowXPub', {
+        xpub: account.xpub,
+        origin: 'SettingsPage'
+      })
     }
 
     const onMakeDefault = () => {
@@ -232,10 +236,6 @@ class UnusedAddressesContainer extends React.PureComponent {
   }
 }
 
-UnusedAddressesContainer.propTypes = {
-  walletIndex: PropTypes.number
-}
-
 const mapStateToProps = (state, ownProps) => {
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(
     ownProps.walletIndex
@@ -270,7 +270,8 @@ const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnusedAddressesContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+
+export default connector(UnusedAddressesContainer)

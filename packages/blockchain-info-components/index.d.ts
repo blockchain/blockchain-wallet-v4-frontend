@@ -62,7 +62,7 @@ export const Carousel: FunctionComponent<{
   chips: boolean
 }>
 export const ComponentDropdown: ComponentClass<{
-  components: Array<JSX.Element>
+  components: Array<JSX.Element | boolean>
   color?: string
   toggleOnCallback?: boolean
   opened?: boolean
@@ -79,6 +79,11 @@ export function Color(
 ): DefaultTheme[keyof DefaultTheme]
 
 export const FontGlobalStyles: FunctionComponent<{}>
+export const FlatLoader: FunctionComponent<{
+  width?: string
+  height?: string
+  style?: CSSProperties
+}>
 export const HeartbeatLoader: FunctionComponent<{
   width?: string
   height?: string
@@ -206,6 +211,7 @@ export const TableCell: FunctionComponent<{
   onClick?: () => void
   width?: string
   hideMobile?: boolean
+  style?: CSSProperties
 }>
 export const TableHeader: FunctionComponent<{}>
 export const TableRow: FunctionComponent<{}>

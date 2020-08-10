@@ -1,4 +1,4 @@
-import { reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -10,8 +10,11 @@ const { WALLET_TX_SEARCH } = model.form
 const Wrapper = styled.section`
   box-sizing: border-box;
 `
-class ManageAddressesContainer extends React.PureComponent {
+class ManageAddressesContainer extends React.PureComponent<
+  InjectedFormProps<{}, {}>
+> {
   render () {
+    // @ts-ignore
     const walletIndex = this.props.match.params.index
     return (
       <Wrapper>
@@ -22,6 +25,6 @@ class ManageAddressesContainer extends React.PureComponent {
   }
 }
 
-export default reduxForm({
+export default reduxForm<{}, {}>({
   form: WALLET_TX_SEARCH
 })(ManageAddressesContainer)

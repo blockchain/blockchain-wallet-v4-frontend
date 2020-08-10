@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
@@ -11,7 +11,7 @@ import Template from './template'
 
 const { WALLET_TX_SEARCH } = model.form
 
-class BtcWalletsContainer extends React.Component {
+class BtcWalletsContainer extends React.Component<Props> {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
@@ -19,7 +19,9 @@ class BtcWalletsContainer extends React.Component {
   onAddNewWallet = wallets => {
     const allWalletLabels = wallets.map(wallet => wallet.label)
     this.props.modalActions.showModal('AddBtcWallet', {
-      uniqueWalletName: value => requireUniqueWalletName(value, allWalletLabels)
+      uniqueWalletName: value =>
+        requireUniqueWalletName(value, allWalletLabels),
+      origin: 'SettingsPage'
     })
   }
 
@@ -72,5 +74,9 @@ const mapStateToProps = state => ({
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)
 })
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = { context: any } & ConnectedProps<typeof connector>
 
 export default connect(mapStateToProps, mapDispatchToProps)(BtcWalletsContainer)

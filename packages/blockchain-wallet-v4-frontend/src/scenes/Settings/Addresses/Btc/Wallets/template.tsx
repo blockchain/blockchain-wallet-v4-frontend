@@ -58,6 +58,13 @@ const Success = ({
   search,
   failure,
   message
+}: {
+  failure?: any
+  message?: any
+  onAddNewWallet: () => void
+  onUnarchive: (i: any) => void
+  search: any
+  wallets: Array<any>
 }) => {
   const isMatch = wallet =>
     !search || wallet.label.toLowerCase().indexOf(search) > -1
@@ -65,7 +72,7 @@ const Success = ({
 
   const walletTableRows = matchedWallets.map(wallet => {
     return (
-      <TableRow key={wallet.index} dataE2e='btcWalletRow'>
+      <TableRow key={wallet.index} data-e2e='btcWalletRow'>
         <WalletTableCell width='50%'>
           <LabelCell size='13px' data-e2e='btcWalletName'>
             {wallet.label}
@@ -204,7 +211,7 @@ const Success = ({
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow dataE2e='btcNoWalletResults'>
+          <TableRow data-e2e='btcNoWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>

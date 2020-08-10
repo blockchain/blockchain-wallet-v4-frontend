@@ -13,17 +13,9 @@ import {
 } from 'blockchain-info-components'
 
 const UnusedAddressesTemplate = ({
-  account,
-  currentReceiveIndex,
   unusedAddresses,
-  isDefault,
-  onGenerateNextAddress,
   onEditLabel,
   onDeleteLabel,
-  onEditBtcAccountLabel,
-  onShowXPub,
-  onMakeDefault,
-  onSetArchived,
   search
 }) => {
   const isMatch = addr =>
@@ -32,7 +24,7 @@ const UnusedAddressesTemplate = ({
     addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
-      <TableRow key={i} dataE2e='btcUnusedAddressRow'>
+      <TableRow key={i} data-e2e='btcUnusedAddressRow'>
         <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}

@@ -14,7 +14,7 @@ import {
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 const UsedTable = ({ children }) => (
-  <Table dataE2e='btcUsedAddressesTable'>
+  <Table data-e2e='btcUsedAddressesTable'>
     <TableHeader>
       <TableCell width='40%'>
         <Text size='13px' weight={500}>
@@ -56,7 +56,7 @@ const UsedTableEntry = ({ address, search }) => {
   }
 
   return !isMatch() ? null : (
-    <TableRow dataE2e='btcUsedAddressesRow'>
+    <TableRow data-e2e='btcUsedAddressesRow'>
       <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
         <Link
           href={`https://blockchain.com/btc/address/${address.address}`}

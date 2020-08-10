@@ -51,12 +51,24 @@ const Success = ({
   onEditLabel,
   search,
   failure
+}: {
+  failure?: any
+  importedAddresses: any
+  onClickImport: any
+  onClickVerify: any
+  onEditLabel: any
+  onShowPriv: any
+  onShowSignMessage: any
+  onToggleArchived: any
+  onTransferAll: any
+  search: any
 }) => {
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => (
       <AddressRow
+        coin='BTC'
         key={address.addr}
         address={address}
         dataE2e='btcImportedAddressRow'
@@ -73,6 +85,7 @@ const Success = ({
               />
             </ClickableText>
           ].concat(
+            // @ts-ignore
             !address.priv
               ? []
               : [

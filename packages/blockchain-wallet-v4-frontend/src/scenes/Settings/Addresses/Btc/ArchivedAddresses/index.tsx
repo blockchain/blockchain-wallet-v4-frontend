@@ -1,13 +1,13 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { Types } from 'blockchain-wallet-v4/src'
 import ArchivedAddresses from './template'
 import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
-class ArchivedAddressesContainer extends React.PureComponent {
+class ArchivedAddressesContainer extends React.PureComponent<Props> {
   handleToggleArchived = address => {
     let isArchived = Types.Address.isArchived(address)
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
@@ -37,6 +37,7 @@ const selectArchived = compose(
 )
 
 const mapStateToProps = state => ({
+  // @ts-ignore
   archivedAddresses: selectArchived(state).toArray(),
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
@@ -45,7 +46,8 @@ const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArchivedAddressesContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(ArchivedAddressesContainer)
