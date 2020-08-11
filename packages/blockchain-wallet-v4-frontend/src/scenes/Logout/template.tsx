@@ -46,7 +46,12 @@ const Logout = props => {
         />
       </Text>
       <Footer>
-        <Button type='submit' nature='primary' onClick={onDeauthorizeBrowser}>
+        <Button
+          data-e2e='deauthBrowser'
+          type='submit'
+          nature='primary'
+          onClick={onDeauthorizeBrowser}
+        >
           <FormattedMessage
             id='scenes.logout.deauth'
             defaultMessage='De-Authorize Browser'

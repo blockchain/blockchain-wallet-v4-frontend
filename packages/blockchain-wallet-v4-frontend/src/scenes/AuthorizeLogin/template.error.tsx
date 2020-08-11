@@ -14,7 +14,7 @@ const Error = props => {
   return (
     <Wrapper>
       <Icon name='alert-filled' color='red600' size='40px' />
-      <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
+      <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
         <FormattedHTMLMessage
           id='scenes.authorizelogin.error.uhoh'
           defaultMessage='Uh Oh. Something went wrong.'

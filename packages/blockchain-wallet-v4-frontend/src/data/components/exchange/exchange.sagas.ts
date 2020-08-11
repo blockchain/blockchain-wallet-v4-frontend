@@ -826,12 +826,8 @@ export default ({ api, coreSagas, networks }) => {
             })
           )
         } else {
-          const supportedCoins = (yield select(
-            selectors.core.walletOptions.getSupportedCoins
-          )).getOrElse({})
-          const coin = supportedCoins['ETH']
           yield put(
-            actions.alerts.displayCoin(C.FIRST_PAX_TRADE_INFO, coin, true)
+            actions.alerts.displaySuccess(C.FIRST_PAX_TRADE_INFO, null, true)
           )
           yield put(
             actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
