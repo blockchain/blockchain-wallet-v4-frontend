@@ -47,7 +47,7 @@ const Footer = styled.div`
   }
 `
 
-const Help = props => {
+const Help = () => {
   return (
     <Wrapper>
       <Header>
@@ -75,7 +75,7 @@ const Help = props => {
         </Left>
         <Right>
           <LinkContainer to='/reminder'>
-            <Button nature='light'>
+            <Button data-e2e='linkToReminder' nature='light'>
               <FormattedMessage
                 id='scenes.help.remind'
                 defaultMessage='Remind Me'
@@ -101,7 +101,7 @@ const Help = props => {
         </Left>
         <Right>
           <LinkContainer to='/recover'>
-            <Button nature='light'>
+            <Button data-e2e='linkToRecover' nature='light'>
               <FormattedMessage
                 id='scenes.help.recover'
                 defaultMessage='Recover Funds'
@@ -127,7 +127,7 @@ const Help = props => {
         </Left>
         <Right>
           <LinkContainer to='/reset-2fa'>
-            <Button nature='light'>
+            <Button data-e2e='linkToReset2fa' nature='light'>
               <FormattedMessage
                 id='scenes.help.reset'
                 defaultMessage='Reset 2FA'
@@ -138,7 +138,12 @@ const Help = props => {
       </Row>
       <Footer>
         <LinkContainer to='/login'>
-          <Button nature='primary' height='56px' fullWidth>
+          <Button
+            data-e2e='linkToLogin'
+            nature='primary'
+            height='56px'
+            fullwidth
+          >
             <Text size='16px' color='white' weight={500}>
               <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Text>

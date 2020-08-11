@@ -1,10 +1,11 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Logout from './template.js'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
-class LogoutContainer extends React.PureComponent {
+import { actions } from 'data'
+import Logout from './template'
+
+class LogoutContainer extends React.PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.state = { secondsRemaining: 10 }
@@ -14,10 +15,12 @@ class LogoutContainer extends React.PureComponent {
   }
 
   componentDidMount () {
+    // @ts-ignore
     this.interval = setInterval(this.tick, 1000)
   }
 
   componentWillUnmount () {
+    // @ts-ignore
     clearInterval(this.interval)
   }
 
@@ -54,4 +57,12 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(LogoutContainer)
+const connector = connect(null, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+type State = {
+  secondsRemaining: number
+}
+
+export default connector(LogoutContainer)

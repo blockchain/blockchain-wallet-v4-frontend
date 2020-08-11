@@ -1,11 +1,11 @@
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Wrapper } from 'components/Public'
-import PropTypes from 'prop-types'
-import QRReader from 'components/QRReader'
 import React from 'react'
 import styled from 'styled-components'
+
+import { Wrapper } from 'components/Public'
+import QRReader from 'components/QRReader'
 
 const Header = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const Instruction = styled(Text)`
 `
 
 const MobileLogin = props => {
-  const { position, total, close, closeAll, ...rest } = props
+  const { close, ...rest } = props
   const { handleScan, handleError } = rest
 
   return (
@@ -83,7 +83,13 @@ const MobileLogin = props => {
         </InstructionsContainer>
       </Container>
       <LinkContainer to='/login'>
-        <Button type='submit' nature='primary' fullwidth height='56px'>
+        <Button
+          data-e2e='backToLogin'
+          type='submit'
+          nature='primary'
+          fullwidth
+          height='56px'
+        >
           <Text color='white' size='16px' weight={600} onClick={close}>
             <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </Text>
@@ -91,11 +97,6 @@ const MobileLogin = props => {
       </LinkContainer>
     </Wrapper>
   )
-}
-
-MobileLogin.propTypes = {
-  handleScan: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired
 }
 
 export default MobileLogin

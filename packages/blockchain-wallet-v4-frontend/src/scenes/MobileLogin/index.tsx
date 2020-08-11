@@ -1,12 +1,12 @@
 import * as C from 'services/AlertService'
 import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty, isNil } from 'ramda'
 import MobileLogin from './template'
 import React from 'react'
 
-class MobileLoginContainer extends React.PureComponent {
+class MobileLoginContainer extends React.PureComponent<Props> {
   handleScan = result => {
     if (!isNil(result) && !isEmpty(result)) {
       this.props.authActions.mobileLogin(result)
@@ -36,6 +36,8 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(connect(undefined, mapDispatchToProps))
+const connector = connect(undefined, mapDispatchToProps)
 
-export default enhance(MobileLoginContainer)
+type Props = ConnectedProps<typeof connector>
+
+export default connector(MobileLoginContainer)
