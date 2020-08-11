@@ -15,7 +15,7 @@ import { Title, Value } from 'components/Flyout'
 import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
 
-const ThisDisplayContainer = styled(DisplayContainer)`
+const CheckoutDisplayContainer = styled(DisplayContainer)`
   ${media.tablet`
 padding: 16px 20px;
 `}
@@ -63,7 +63,7 @@ const Success: React.FC<Props> = props => {
   const color = coinType.colorCode
 
   return (
-    <ThisDisplayContainer
+    <CheckoutDisplayContainer
       data-e2e={`sb${props.coin}-${props.fiat}CurrencySelector`}
       role='button'
       onClick={props.onClick}
@@ -106,7 +106,7 @@ const Success: React.FC<Props> = props => {
           </PlusMinusIconWrapper>
         </>
       )}
-    </ThisDisplayContainer>
+    </CheckoutDisplayContainer>
   )
 }
 
