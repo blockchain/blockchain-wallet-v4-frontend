@@ -10,11 +10,11 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading = props => {
+const Loading = () => {
   return (
     <Wrapper>
       <BlockchainLoader width='40px' height='40px' />
-      <Text size='16px' weight={400} style={{ 'margin-top': '25px' }}>
+      <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
         <FormattedMessage
           id='scenes.authorizelogin.verifying'
           defaultMessage="We're verifying your authorization attempt. Please wait..."

@@ -114,7 +114,7 @@ const Success = props => {
               size='24px'
               weight={500}
               color='grey700'
-              style={{ 'margin-top': '25px' }}
+              style={{ marginTop: '24px' }}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowser'
@@ -125,7 +125,7 @@ const Success = props => {
               size='13px'
               weight={400}
               color='grey700'
-              style={{ 'margin-top': '10px' }}
+              style={{ marginTop: '10px' }}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
@@ -251,7 +251,11 @@ const Success = props => {
               </DeviceDiff>
             </DeviceInfoWrapper>
             <ApproveWrapper>
-              <ApproveRejectButtons nature='warning' onClick={props.onAccept}>
+              <ApproveRejectButtons
+                data-e2e='approveLogin'
+                nature='warning'
+                onClick={props.onAccept}
+              >
                 <FormattedMessage
                   id='scenes.authorizelogin.accept'
                   defaultMessage='Accept'
@@ -263,7 +267,11 @@ const Success = props => {
                   defaultMessage='Or'
                 />
               </OrText>
-              <ApproveRejectButtons nature='primary' onClick={props.onReject}>
+              <ApproveRejectButtons
+                data-e2e='rejectLogin'
+                nature='primary'
+                onClick={props.onReject}
+              >
                 <FormattedMessage
                   id='scenes.authorizelogin.reject'
                   defaultMessage='Reject'

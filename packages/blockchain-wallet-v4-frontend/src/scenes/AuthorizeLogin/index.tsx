@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -22,7 +22,7 @@ const {
   VERIFY_DEVICE_REJECTED
 } = model.analytics.PREFERENCE_EVENTS.SECURITY
 
-class AuthorizeLogin extends React.PureComponent {
+class AuthorizeLogin extends React.PureComponent<Props, State> {
   constructor (props) {
     super(props)
     this.onAccept = this.onAccept.bind(this)
@@ -89,4 +89,13 @@ const mapDispatchToProps = dispatch => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorizeLogin)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+type State = {
+  loginApproved: boolean
+  token: string
+}
+
+export default connector(AuthorizeLogin)
