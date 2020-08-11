@@ -13,8 +13,6 @@ const Wrapper = styled.div`
   }
 `
 
-const Table = ({ children, dataE2e }) => (
-  <Wrapper data-e2e={dataE2e}>{children}</Wrapper>
-)
+const Table = ({ children, ...rest }) => <Wrapper {...rest}>{children}</Wrapper>
 
 export default Table

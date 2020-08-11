@@ -176,7 +176,7 @@ const Success = ({
         </ImportedActions>
       </ImportedAddressesSettingHeader>
       {importedAddressesTableRows.length > 0 && (
-        <Table>
+        <Table data-e2e='btcImportedAddrTable'>
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
