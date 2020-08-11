@@ -31,6 +31,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: CoinType
+  cryptoSelection: boolean
   fiat: FiatType
   onClick?: (string) => void
   orderType: SBOrderActionType

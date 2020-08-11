@@ -30,6 +30,20 @@ const DisplayTitle = styled(Title)`
   align-items: center;
   color: ${props => props.theme.grey800};
 `
+const IconBackground = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 24px;
+  z-index: 100;
+  background: ${props => props.theme[props.color]};
+`
+const IconWrapper = styled.div`
+  position: absolute;
+  right: 20px;
+`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
@@ -47,7 +61,7 @@ const Success: React.FC<Props> = props => {
       role='button'
       onClick={props.onClick}
     >
-      <Icon size='32px' color={color} name={icon} />
+      {props.cryptoSelection && <Icon size='32px' color={color} name={icon} />}
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
@@ -65,6 +79,20 @@ const Success: React.FC<Props> = props => {
       </Display>
       {props.onClick && (
         <Icon name='chevron-right' size='32px' color='grey600' />
+      )}
+      {!props.cryptoSelection && (
+        <>
+          <Icon size='32px' color={color} name={icon} />
+          <IconWrapper>
+            <IconBackground color={`${color}-light`}>
+              <Icon
+                name={props.orderType === 'BUY' ? 'plus' : 'minus'}
+                size='24px'
+                color={color}
+              />
+            </IconBackground>
+          </IconWrapper>
+        </>
       )}
     </DisplayContainer>
   )

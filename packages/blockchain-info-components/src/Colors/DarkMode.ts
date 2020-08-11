@@ -71,6 +71,7 @@ const DarkTheme: DefaultTheme = {
   fiat: '#00B26B',
   'fiat-light': 'rgba(0, 178, 107, 0.15)',
   algo: '#000000',
+  'algo-light': '#DFE3EB',
   btc: '#FF9B22',
   'btc-light': '#FFF2E5',
   bch: '#8DC351',
