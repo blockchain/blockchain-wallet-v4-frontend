@@ -6,6 +6,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
+import { CoinType, ImportedAddrType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
 import media from 'services/ResponsiveService'
 import React from 'react'
@@ -41,9 +42,21 @@ const MoreOptions = () => (
   </Link>
 )
 
-const AddressRow = ({ address, archived, coin, renderOptions, dataE2e }) => {
+const AddressRow = ({
+  address,
+  archived,
+  coin,
+  renderOptions,
+  dataE2e
+}: {
+  address: ImportedAddrType
+  archived?: boolean
+  coin?: CoinType
+  dataE2e: string
+  renderOptions: any
+}) => {
   return (
-    <TableRow dataE2e={dataE2e}>
+    <TableRow data-e2e={dataE2e}>
       <AddressTableCell width='50%'>
         <AddressCell
           size='13px'

@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 import { FlatLoader } from 'blockchain-info-components'
 import UsedAddressesTable from './template'
 
-class UsedAddressesTableContainer extends React.PureComponent {
+class UsedAddressesTableContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
@@ -49,7 +49,8 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsedAddressesTableContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+
+export default connector(UsedAddressesTableContainer)

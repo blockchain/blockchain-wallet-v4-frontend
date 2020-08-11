@@ -1,6 +1,6 @@
 import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { values } from 'ramda'
@@ -8,29 +8,35 @@ import ImportedAddresses from './template'
 import React from 'react'
 const { WALLET_TX_SEARCH } = model.form
 
-class ImportedAddressesContainer extends React.Component {
+class ImportedAddressesContainer extends React.Component<Props> {
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
   handleClickImport = () => {
-    this.props.modalActions.showModal('ImportBtcAddress')
+    this.props.modalActions.showModal('ImportBtcAddress', {
+      origin: 'SettingsPage'
+    })
   }
 
   handleClickVerify = () => {
-    this.props.modalActions.showModal('VerifyMessage')
+    this.props.modalActions.showModal('VerifyMessage', {
+      origin: 'SettingsPage'
+    })
   }
 
   handleShowPriv = address => {
     this.props.modalActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
-      balance: address.info.final_balance
+      balance: address.info.final_balance,
+      origin: 'SettingsPage'
     })
   }
 
   handleSignMessage = address => {
     this.props.modalActions.showModal('SignMessage', {
-      address: address.addr
+      address: address.addr,
+      origin: 'SettingsPage'
     })
   }
 
@@ -46,7 +52,8 @@ class ImportedAddressesContainer extends React.Component {
   handleTransferAll = () => {
     this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
       from: 'allImportedAddresses',
-      excludeHDWallets: true
+      excludeHDWallets: true,
+      origin: 'SettingsPage'
     })
   }
 
@@ -73,6 +80,7 @@ class ImportedAddressesContainer extends React.Component {
           onClickImport={this.handleClickImport}
           onClickVerify={this.handleClickVerify}
           search={search && search.toLowerCase()}
+          onShowPriv={this.handleShowPriv}
           onToggleArchived={this.handleToggleArchived}
           onTransferAll={this.handleTransferAll}
           onShowSignMessage={this.handleSignMessage}
@@ -100,7 +108,8 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ImportedAddressesContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(ImportedAddressesContainer)
