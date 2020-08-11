@@ -272,9 +272,7 @@ export default ({
               yield put(change(FORM, 'to', null))
               break
             default:
-              if (!payloadT.watchOnly) {
-                payment = yield payment.from(payloadT.address, fromType)
-              }
+              payment = yield payment.from(payloadT.address, fromType)
               break
           }
           break

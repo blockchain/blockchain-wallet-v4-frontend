@@ -21,8 +21,7 @@ const INITIAL_STATE: PreferencesState = {
   totalBalancesDropdown: {
     wallet: true,
     lockbox: false,
-    pending: false,
-    watchOnly: false
+    pending: false
   }
 }
 

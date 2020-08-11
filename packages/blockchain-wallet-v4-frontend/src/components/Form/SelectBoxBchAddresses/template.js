@@ -1,10 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Banner, Text } from 'blockchain-info-components'
 import { CreatableInputField, SelectBox } from 'components/Form'
+import { Text } from 'blockchain-info-components'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -32,14 +30,6 @@ const renderItem = item => {
       <Text weight={400} size='14px'>
         {item.text}
       </Text>
-      {path(['value', 'watchOnly'], item) && (
-        <Banner type='informational' inline>
-          <FormattedMessage
-            id='components.selectboxbchaddresses.watchonly'
-            defaultMessage='Non-Spendable'
-          />
-        </Banner>
-      )}
     </ItemWrapper>
   )
 }
