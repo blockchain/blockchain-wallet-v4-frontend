@@ -56,7 +56,6 @@ export const getData = (
     excludeHDWallets?: boolean
     excludeImported?: boolean
     excludeLockbox?: boolean
-    excludeWatchOnly?: boolean
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
@@ -68,7 +67,6 @@ export const getData = (
     excludeHDWallets,
     excludeImported,
     excludeLockbox,
-    excludeWatchOnly,
     includeAll = true,
     includeExchangeAddress,
     includeCustodial
@@ -158,12 +156,10 @@ export const getData = (
       state
     )
     const filterRelevantAddresses = addrs =>
-      excludeWatchOnly
-        ? filter(addr => {
-            // @ts-ignore
-            return not(isNil(prop('priv', addr)))
-          }, addrs)
-        : addrs
+      filter(addr => {
+        // @ts-ignore
+        return not(isNil(prop('priv', addr)))
+      }, addrs)
     const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
     return sequence(Remote.of, [

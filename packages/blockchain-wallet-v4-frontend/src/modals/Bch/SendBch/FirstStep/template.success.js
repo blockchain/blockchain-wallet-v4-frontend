@@ -114,7 +114,6 @@ const FirstStep = props => {
             component={SelectBoxBchAddresses}
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
-            excludeWatchOnly
             includeCustodial
           />
         </FormItem>
