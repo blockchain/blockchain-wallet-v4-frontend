@@ -9,8 +9,7 @@ export const getCoinType = (state: RootState) => state.components.interest.coin
 
 export const getCoinDisplay = (state: RootState) =>
   state.components.interest.isCoinDisplayed
-export const getCustodialPayment = (state: RootState) =>
-  state.components.interest.isCustodial
+
 export const getDepositAddress = (state: RootState) => {
   const account = getInterestAccount(state).getOrElse({ accountRef: '' })
   return account.accountRef

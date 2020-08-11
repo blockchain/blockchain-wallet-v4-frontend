@@ -258,10 +258,6 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   type: AT.SET_COIN_DISPLAY
 })
 
-export const setCustodialDeposit = (isCustodial: boolean) => ({
-  payload: { isCustodial },
-  type: AT.SET_CUSTODIAL_DEPOSIT
-})
 export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
   payload: { step, coin },
   type: AT.SHOW_INTEREST_MODAL

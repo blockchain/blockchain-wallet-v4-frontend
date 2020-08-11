@@ -3,7 +3,13 @@ import { FormAction, initialize } from 'redux-form'
 import { head, last, nth, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
+import {
+  AccountTypes,
+  CoinType,
+  PaymentValue,
+  RatesType,
+  SBBalancesType
+} from 'core/types'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
@@ -174,6 +180,7 @@ export default ({
     const rates = ratesR.getOrElse({} as RatesType)
     const rate = rates[userCurrency].last
     const paymentR = S.getPayment(yield select())
+    // @ts-ignore
     let payment = paymentGetOrElse(coin, paymentR)
     const values: InterestDepositFormType = yield select(
       selectors.form.getFormValues('interestDepositForm')
@@ -205,20 +212,27 @@ export default ({
 
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
-        prop('type', values.interestDepositAccount) === 'CUSTODIAL'
-          ? yield put(A.setCustodialDeposit(true))
-          : yield put(A.setCustodialDeposit(false))
+        // if custodial
+        if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
+          const custodialBalance: SBBalancesType = (yield select(
+            selectors.components.simpleBuy.getSBBalances
+          )).getOrFail('Failed to get balance')
+          // @ts-ignore
+          yield call(createLimits, null, custodialBalance)
+        } else {
+          const newPayment: PaymentValue = yield call(createPayment, {
+            ...values.interestDepositAccount,
+            address: getAccountIndexOrAccount(
+              coin,
+              values.interestDepositAccount
+            )
+          })
 
-        const newPayment: PaymentValue = yield call(createPayment, {
-          ...values.interestDepositAccount,
-          address: getAccountIndexOrAccount(coin, values.interestDepositAccount)
-        })
-
-        yield call(createLimits, newPayment)
-        yield put(A.setPaymentSuccess(newPayment))
+          yield call(createLimits, newPayment)
+          yield put(A.setPaymentSuccess(newPayment))
+        }
     }
   }
-
   const initializeDepositForm = function * ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
@@ -310,42 +324,54 @@ export default ({
 
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
-    try {
-      yield put(actions.form.startSubmit(FORM))
-      const coin = S.getCoinType(yield select())
-      yield call(fetchInterestAccount, coin)
-      const depositAddress = yield select(S.getDepositAddress)
-      const paymentR = S.getPayment(yield select())
-      let payment = paymentGetOrElse(coin, paymentR)
-      let isPaymentAmount = payment.value().amount
-      let paymentAmount =
-        coin === 'BTC' ? isPaymentAmount && isPaymentAmount[0] : isPaymentAmount
-      yield call(
-        api.notifyDepositPending,
-        Number(paymentAmount),
-        coin,
-        depositAddress
-      )
+    // get form values, if it's custodial, similar to value.interestAccountBalacne
+    const values: InterestDepositFormType = yield select(
+      selectors.form.getFormValues('interestDepositForm')
+    )
+    if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
+    } else {
+      try {
+        yield put(actions.form.startSubmit(FORM))
+        const coin = S.getCoinType(yield select())
+        yield call(fetchInterestAccount, coin)
+        const depositAddress = yield select(S.getDepositAddress)
+        const paymentR = S.getPayment(yield select())
+        // @ts-ignore
+        let payment = paymentGetOrElse(coin, paymentR)
+        let isPaymentAmount = payment.value().amount
+        let paymentAmount =
+          coin === 'BTC'
+            ? isPaymentAmount && isPaymentAmount[0]
+            : isPaymentAmount
+        yield call(
+          api.notifyDepositPending,
+          Number(paymentAmount),
+          coin,
+          depositAddress
+        )
 
-      // build and publish payment to network
-      yield call(buildAndPublishPayment, coin, payment, depositAddress)
-      // notify success
-      yield put(actions.form.stopSubmit(FORM))
-      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
-      yield put(
-        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
-      )
-      yield put(A.fetchInterestBalance())
-      yield put(A.fetchInterestTransactions(true))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit(FORM, { _error: error }))
-      yield put(
-        A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
-      )
-      yield put(
-        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
-      )
+        // build and publish payment to network
+        yield call(buildAndPublishPayment, coin, payment, depositAddress)
+        // notify success
+        yield put(actions.form.stopSubmit(FORM))
+        yield put(
+          A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true })
+        )
+        yield put(
+          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
+        )
+        yield put(A.fetchInterestBalance())
+        yield put(A.fetchInterestTransactions(true))
+      } catch (e) {
+        const error = errorHandler(e)
+        yield put(actions.form.stopSubmit(FORM, { _error: error }))
+        yield put(
+          A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
+        )
+        yield put(
+          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
+        )
+      }
     }
   }
 
