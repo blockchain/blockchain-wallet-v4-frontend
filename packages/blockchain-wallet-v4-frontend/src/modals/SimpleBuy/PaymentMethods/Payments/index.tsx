@@ -138,7 +138,6 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        method.value.currency === this.props.fiatCurrency &&
         Number(
           this.props.balances[method.value.currency as WalletCurrencyType]
             ?.available

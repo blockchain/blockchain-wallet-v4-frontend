@@ -181,6 +181,7 @@ export const ModalHeader: FunctionComponent<{
   icon?: keyof IcoMoonType
 }>
 export function Palette(theme: string): DefaultTheme
+export const Separator: FunctionComponent<{}>
 export const SkeletonCircle: FunctionComponent<{
   width?: string
   height?: string

@@ -571,9 +571,12 @@ export default ({
     const values: SBCheckoutFormValuesType = yield select(
       selectors.form.getFormValues('simpleBuyCheckout')
     )
-    const fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
-    const pair = S.getSBPair(yield select())
+
     const { method } = action
+    const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
+    const originalFiatCurrency = S.getFiatCurrency(yield select())
+    const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
+    const pair = S.getSBPair(yield select())
 
     if (!pair) return NO_PAIR_SELECTED
     const isUserTier2 = yield call(isTier2)
@@ -627,11 +630,17 @@ export default ({
             step: 'ENTER_AMOUNT',
             orderType: values?.orderType,
             method,
-            cryptoCurrency: getCoinFromPair(pair.pair),
-            fiatCurrency: getFiatFromPair(pair.pair),
-            pair
+            cryptoCurrency,
+            fiatCurrency
           })
         )
+    }
+
+    // Change wallet/sb fiatCurrency if necessary
+    // and fetch new pairs w/ new fiatCurrency
+    if (originalFiatCurrency !== fiatCurrency) {
+      yield put(actions.modules.settings.updateCurrency(method.currency, true))
+      yield put(A.fetchSBPairs(method.currency))
     }
   }
 

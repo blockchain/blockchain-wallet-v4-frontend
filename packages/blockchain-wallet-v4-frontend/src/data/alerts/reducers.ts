@@ -1,9 +1,10 @@
 import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from './actionTypes'
-import { filter, prepend } from 'ramda'
+import { AlertsState } from './types'
+import { prepend } from 'ramda'
 
-const INITIAL_STATE = []
+const INITIAL_STATE: AlertsState = []
 
-export default (state = INITIAL_STATE, action) => {
+export function alertsReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -12,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case ALERTS_DISMISS: {
       const { id } = payload
-      return filter(a => a.id !== id, state)
+      return state.filter(alert => alert.id !== id)
     }
     case ALERTS_SHOW: {
       return prepend({ ...action.payload }, state)
@@ -22,3 +23,5 @@ export default (state = INITIAL_STATE, action) => {
     }
   }
 }
+
+export default alertsReducer
