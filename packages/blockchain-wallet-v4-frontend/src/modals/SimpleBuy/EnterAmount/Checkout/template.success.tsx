@@ -56,6 +56,7 @@ const Amounts = styled.div`
   display: flex;
   justify-content: space-between;
 `
+
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
   cursor: pointer;

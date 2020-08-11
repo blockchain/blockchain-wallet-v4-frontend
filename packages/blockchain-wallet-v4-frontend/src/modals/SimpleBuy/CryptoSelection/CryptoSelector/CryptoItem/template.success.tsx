@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 import { DisplayContainer } from 'components/SimpleBuy'
 import { fiatToString } from 'core/exchange/currency'
 import { Icon } from 'blockchain-info-components'
@@ -12,6 +14,12 @@ import {
 import { Title, Value } from 'components/Flyout'
 import BalanceMovement from '../BalanceMovement'
 import PriceMovement from '../PriceMovement'
+
+const ThisDisplayContainer = styled(DisplayContainer)`
+  ${media.tablet`
+padding: 16px 20px;
+`}
+`
 
 const Display = styled.div<{ canClick: boolean }>`
   position: relative;
@@ -40,9 +48,8 @@ const IconBackground = styled.div<{ color: string }>`
   z-index: 100;
   background: ${props => props.theme[props.color]};
 `
-const IconWrapper = styled.div`
-  position: absolute;
-  right: 20px;
+const PlusMinusIconWrapper = styled.div`
+  z-index: 10;
 `
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
@@ -56,7 +63,7 @@ const Success: React.FC<Props> = props => {
   const color = coinType.colorCode
 
   return (
-    <DisplayContainer
+    <ThisDisplayContainer
       data-e2e={`sb${props.coin}-${props.fiat}CurrencySelector`}
       role='button'
       onClick={props.onClick}
@@ -82,8 +89,13 @@ const Success: React.FC<Props> = props => {
       )}
       {!props.cryptoSelection && (
         <>
-          <Icon size='32px' color={color} name={icon} />
-          <IconWrapper>
+          <Icon
+            size='32px'
+            color={color}
+            name={icon}
+            style={{ position: 'relative', left: '5px' }}
+          />
+          <PlusMinusIconWrapper>
             <IconBackground color={`${color}-light`}>
               <Icon
                 name={props.orderType === 'BUY' ? 'plus' : 'minus'}
@@ -91,10 +103,10 @@ const Success: React.FC<Props> = props => {
                 color={color}
               />
             </IconBackground>
-          </IconWrapper>
+          </PlusMinusIconWrapper>
         </>
       )}
-    </DisplayContainer>
+    </ThisDisplayContainer>
   )
 }
 
