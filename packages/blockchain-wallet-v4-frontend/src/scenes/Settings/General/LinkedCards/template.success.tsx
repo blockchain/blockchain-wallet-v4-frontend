@@ -3,6 +3,7 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
+import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
@@ -12,27 +13,12 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import {
   SettingComponent,
   SettingContainer,
-  SettingHeader,
   SettingSummary
 } from 'components/Setting'
 import media from 'services/ResponsiveService'
 import React, { SyntheticEvent } from 'react'
 import styled from 'styled-components'
 
-const CardWrapper = styled.div`
-  display: flex;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  justify-content: space-between;
-  border: 1px solid ${props => props.theme.grey000};
-  cursor: pointer;
-  width: 430px;
-
-  ${media.mobile`
-    width: 100%;
-  `}
-`
 const CustomSettingContainer = styled(SettingContainer)`
   ${media.atLeastLaptopL`
     flex-direction: row;
@@ -40,27 +26,15 @@ const CustomSettingContainer = styled(SettingContainer)`
     justify-content: space-between;
   `}
 `
-const CustomSettingHeader = styled(SettingHeader)`
-  margin-bottom: 18px;
-`
 const CustomSettingComponent = styled(SettingComponent)`
   margin-top: 36px;
   ${media.tablet`
     margin-top: 8px;
   `}
 `
-const Child = styled.div`
-  display: flex;
-  div:last-child {
-    margin-top: 4px;
-  }
-`
 const CardImg = styled.img`
   margin-right: 14px;
   width: 24px;
-`
-const CardDetails = styled.div<{ right?: boolean }>`
-  text-align: ${props => (props.right ? 'right' : 'initial')};
 `
 
 const Success: React.FC<InjectedFormProps<

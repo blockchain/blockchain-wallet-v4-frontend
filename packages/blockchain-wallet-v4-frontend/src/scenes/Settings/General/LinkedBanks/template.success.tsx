@@ -1,35 +1,14 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import {
-  SettingContainer,
-  SettingHeader,
-  SettingSummary
-} from 'components/Setting'
-import media from 'services/ResponsiveService'
+import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
 import styled from 'styled-components'
 
-const CardWrapper = styled.div`
-  display: flex;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  justify-content: space-between;
-  border: 1px solid ${props => props.theme.grey000};
-  cursor: pointer;
-  width: 430px;
-
-  ${media.mobile`
-    width: 100%;
-  `}
-`
-const CustomSettingHeader = styled(SettingHeader)`
-  margin-bottom: 18px;
-`
 const RemoveButton = styled(Button)`
   &:hover {
     border-color: ${props => props.theme.red400};
@@ -43,17 +22,8 @@ const BankIconWrapper = styled.div`
   flex-direction: column;
   display: flex;
 `
-const Child = styled.div`
-  display: flex;
-  div:last-child {
-    margin-top: 4px;
-  }
-`
-const CardDetails = styled.div<{ right?: boolean }>`
-  text-align: ${props => (props.right ? 'right' : 'initial')};
-`
 
-const getAvailableAmount = (methods, currency) => {
+const getAvailableAmountForCurrency = (methods, currency) => {
   const method = methods.find(
     method => method.type === 'FUNDS' && method.currency === currency
   )
@@ -91,7 +61,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                           amount: fiatToString({
                             value: convertBaseToStandard(
                               'FIAT',
-                              getAvailableAmount(
+                              getAvailableAmountForCurrency(
                                 props.paymentMethods.methods,
                                 beneficiary.currency
                               )
@@ -131,4 +101,4 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 type Props = OwnProps & SuccessStateType
-export default reduxForm<{}, Props>({ form: 'linkedCards' })(Success)
+export default reduxForm<{}, Props>({ form: 'linkedBanks' })(Success)
