@@ -2,7 +2,8 @@
   "hooks": {
     "before:init": [
       "rm -rf packages/blockchain-wallet-v4-frontend/build",
-      "rm -rf packages/blockchain-wallet-v4-frontend/extracted-ts"
+      "rm -rf packages/blockchain-wallet-v4-frontend/extracted-ts",
+      "yarn manage:translations"
     ]
   },
   "git": {
