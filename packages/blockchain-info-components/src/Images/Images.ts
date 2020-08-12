@@ -57,6 +57,7 @@ import money from './img/money.png'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
+import refresh from './img/refresh.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -71,6 +72,7 @@ import swapModalBg from './img/swap-modal-bg.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
+import wallet from './img/wallet.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -196,6 +198,7 @@ const Images = {
   printer: printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
+  refresh,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
@@ -215,6 +218,7 @@ const Images = {
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
+  wallet,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,
