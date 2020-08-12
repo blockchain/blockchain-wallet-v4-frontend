@@ -1,20 +1,14 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
+import { Icon, Text } from 'blockchain-info-components'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
 import styled from 'styled-components'
 
-const RemoveButton = styled(Button)`
-  &:hover {
-    border-color: ${props => props.theme.red400};
-    background-color: transparent;
-  }
-`
 const BankIconWrapper = styled.div`
   margin-right: 14px;
   width: 24px;
@@ -79,17 +73,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {beneficiary.address}
                     </Text>
                   </CardDetails>
-                  <RemoveButton
-                    data-e2e='removeCard'
-                    nature='light-red'
-                    disabled={props.submitting}
-                    style={{ marginLeft: '18px', minWidth: 'auto' }}
-                  >
-                    <FormattedMessage
-                      id='buttons.remove'
-                      defaultMessage='Remove'
-                    />
-                  </RemoveButton>
                 </Child>
               </CardWrapper>
             )

@@ -3,7 +3,13 @@ import {
   CARD_TYPES,
   DEFAULT_CARD_SVG_LOGO
 } from 'components/Form/CreditCardBox/model'
-import { CardDetails, CardWrapper, Child, CustomSettingHeader } from '../styles'
+import {
+  CardDetails,
+  CardWrapper,
+  Child,
+  CustomSettingHeader,
+  RemoveButton
+} from '../styles'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
@@ -102,7 +108,7 @@ const Success: React.FC<InjectedFormProps<
                     Exp: {card.card.expireMonth}/{card.card.expireYear}
                   </Text>
                 </CardDetails>
-                <Button
+                <RemoveButton
                   data-e2e='removeCard'
                   nature='light-red'
                   disabled={props.submitting}
@@ -117,7 +123,7 @@ const Success: React.FC<InjectedFormProps<
                     id='buttons.remove'
                     defaultMessage='Remove'
                   />
-                </Button>
+                </RemoveButton>
               </Child>
             </CardWrapper>
           )
