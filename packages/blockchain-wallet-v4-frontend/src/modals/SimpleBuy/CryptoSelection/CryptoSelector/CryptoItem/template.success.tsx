@@ -68,7 +68,7 @@ const Success: React.FC<Props> = props => {
       role='button'
       onClick={props.onClick}
     >
-      {props.cryptoSelection && <Icon size='32px' color={color} name={icon} />}
+      {props.onClick && <Icon size='32px' color={color} name={icon} />}
       <Display canClick={!!props.onClick}>
         <Value style={{ marginTop: '0px' }}>{displayName}</Value>
         <DisplayTitle>
@@ -87,7 +87,7 @@ const Success: React.FC<Props> = props => {
       {props.onClick && (
         <Icon name='chevron-right' size='32px' color='grey600' />
       )}
-      {!props.cryptoSelection && (
+      {!props.onClick && (
         <>
           <Icon
             size='32px'

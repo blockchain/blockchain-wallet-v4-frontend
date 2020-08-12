@@ -243,7 +243,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </TopText>
       </FlyoutWrapper>
       <CryptoItem
-        cryptoSelection={false}
         fiat={props.fiatCurrency || 'USD'}
         coin={props.cryptoCurrency}
         orderType={props.orderType}

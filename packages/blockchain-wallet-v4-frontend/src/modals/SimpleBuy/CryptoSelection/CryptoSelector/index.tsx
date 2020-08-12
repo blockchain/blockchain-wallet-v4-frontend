@@ -120,7 +120,6 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
               orderType={orderType}
               fiat={getFiatFromPair(value.pair)}
               coin={getCoinFromPair(value.pair)}
-              cryptoSelection={true}
               onClick={() => handleSubmit(value as SBPairType)}
             />
           ))}
