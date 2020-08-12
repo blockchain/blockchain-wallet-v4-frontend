@@ -80,7 +80,7 @@ const Success: React.FC<Props> = props => {
             <Text
               size='32px'
               weight={600}
-              color={props.supportedCoins[props.order.outputCurrency].colorCode}
+              color={props.supportedCoins[baseCurrency].colorCode}
             >
               {baseCurrency}
             </Text>
