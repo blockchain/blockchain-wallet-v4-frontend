@@ -19,7 +19,8 @@ const Payment: React.FC<Props & {
     onClick={() => {
       props.formErrors &&
       props.formErrors.amount &&
-      props.formValues?.orderType === 'BUY'
+      props.formValues?.orderType === 'BUY' &&
+      !props.method
         ? props.handleAmountErrorClick()
         : props.simpleBuyActions.setStep({
             step: 'PAYMENT_METHODS',
