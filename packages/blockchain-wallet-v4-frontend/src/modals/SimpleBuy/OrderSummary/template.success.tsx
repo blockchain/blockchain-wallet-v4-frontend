@@ -1,14 +1,10 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
-import React from 'react'
-import styled from 'styled-components'
-
 import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
+import { FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -18,6 +14,9 @@ import {
 } from 'data/components/simpleBuy/model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Status } from './model'
+import moment from 'moment'
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,7 +79,13 @@ const Success: React.FC<Props> = props => {
             <Text
               size='32px'
               weight={600}
-              color={props.supportedCoins[props.order.inputCurrency].colorCode}
+              color={
+                props.supportedCoins[
+                  orderType === 'BUY'
+                    ? props.order.outputCurrency
+                    : props.order.inputCurrency
+                ].colorCode
+              }
             >
               {baseCurrency}
             </Text>
