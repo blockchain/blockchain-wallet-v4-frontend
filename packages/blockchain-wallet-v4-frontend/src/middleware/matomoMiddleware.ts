@@ -1,5 +1,7 @@
 import { equals, includes, path, prop } from 'ramda'
 
+import { StepActionsPayload } from 'data/types'
+
 const PAYLOAD = ['payload']
 const NAME = ['payload', 'name']
 const TYPE = ['payload', 'type']
@@ -45,6 +47,25 @@ const sanitizeEvent = (
   switch (nextCategory) {
     case '@@router/LOCATION_CHANGE':
       return [nextCategory, formatEvent(nextAction.split('/')[1])]
+    case '@EVENT.KYC.UPDATE_EMAIL':
+      return [nextCategory]
+    case '@EVENT.SET_SB_STEP':
+      const sbAction = nextAction as StepActionsPayload
+      switch (sbAction.step) {
+        case 'ORDER_SUMMARY':
+        case 'CHECKOUT_CONFIRM':
+          return [
+            nextCategory,
+            formatEvent({
+              step: sbAction.step,
+              inputCurrency: sbAction.order.inputCurrency,
+              outputCurrency: sbAction.order.outputCurrency,
+              paymentType: sbAction.order.paymentType
+            })
+          ]
+        default:
+          return [nextCategory, formatEvent(sbAction.step)]
+      }
     default:
       return [nextCategory, formatEvent(nextAction), formatEvent(nextName)]
   }
