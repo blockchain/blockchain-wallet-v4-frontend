@@ -53,7 +53,7 @@ class TransactionList extends PureComponent<Props> {
         </TransactionsWrapper>
       ),
       Failure: message => (
-        <DataError onClick={this.props.onArchive} message={message} />
+        <DataError onClick={this.props.onRefresh} message={message} />
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

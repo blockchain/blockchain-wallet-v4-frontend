@@ -1,9 +1,10 @@
 import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { CoinType, FiatType, SBOrderActionType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { RootState } from 'data/rootReducer'
-import { SBPairType } from 'core/types'
+
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -29,8 +30,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  coin: CoinType
+  fiat: FiatType
   onClick?: (string) => void
-  value: SBPairType
+  orderType: SBOrderActionType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>

@@ -7,3 +7,4 @@ export type FlyoutE2EType =
   | 'welcomeModal'
   | 'whatsNewModal'
   | 'withdrawalModal'
+  | 'custodyWithdrawModal'

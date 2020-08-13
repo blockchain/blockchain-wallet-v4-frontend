@@ -1,7 +1,6 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
-  CurrenciesType,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -10,12 +9,12 @@ import {
   SBCardType,
   SBOrderActionType,
   SBOrderType,
+  SBPairsType,
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SBSuggestedAmountType,
   WalletFiatType
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -75,7 +74,10 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 
 export const createSBOrder = (
   paymentMethodId?: SBCardType['id'],
-  paymentType?: SBPaymentMethodType['type']
+  paymentType?: Exclude<
+    SBPaymentMethodType['type'],
+    'USER_CARD' | 'BANK_ACCOUNT'
+  >
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
@@ -292,7 +294,7 @@ export const fetchSBPaymentAccountSuccess = (
   }
 })
 
-export const fetchSBPaymentMethods = (currency: FiatType) => ({
+export const fetchSBPaymentMethods = (currency?: FiatType) => ({
   type: AT.FETCH_SB_PAYMENT_METHODS,
   currency
 })
@@ -319,8 +321,15 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = () => ({
-  type: AT.FETCH_SB_QUOTE
+export const fetchSBQuote = (
+  pair: SBPairsType,
+  orderType: SBOrderActionType,
+  amount: string
+) => ({
+  type: AT.FETCH_SB_QUOTE,
+  pair,
+  orderType,
+  amount
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
@@ -343,33 +352,6 @@ export const fetchSBQuoteSuccess = (
   }
 })
 
-export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS,
-  currency
-})
-
-export const fetchSBSuggestedAmountsFailure = (
-  error: Error | string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE,
-  payload: {
-    error
-  }
-})
-
-export const fetchSBSuggestedAmountsLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-})
-
-export const fetchSBSuggestedAmountsSuccess = (
-  amounts: SBSuggestedAmountType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
-  payload: {
-    amounts
-  }
-})
-
 export const handleSBDepositFiatClick = (
   coin: WalletFiatType,
   origin: ModalOriginType
@@ -381,10 +363,14 @@ export const handleSBDepositFiatClick = (
   }
 })
 
-export const handleSBSuggestedAmountClick = (amount: string) => ({
+export const handleSBSuggestedAmountClick = (
+  amount: string,
+  coin: 'FIAT' | CoinType
+) => ({
   type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
   payload: {
-    amount
+    amount,
+    coin
   }
 })
 
@@ -441,6 +427,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'ENTER_AMOUNT':
       return {
         step: payload.step,
+        orderType: payload.orderType || 'BUY',
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         method: payload.method,

@@ -5,6 +5,7 @@ import bitpay from './bitpay'
 import borrow from './borrow'
 import btc from './btc'
 import coin from './coin'
+import custodial from './custodial'
 import eth from './eth'
 import httpService from './http'
 import interest from './interest'
@@ -39,7 +40,7 @@ const api = ({
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
   return {
-    ...analytics({ rootUrl, ...http }),
+    ...analytics({ apiUrl, rootUrl, ...http }),
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
@@ -49,6 +50,12 @@ const api = ({
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
     ...coin({ apiUrl, ...http }),
+    ...custodial({
+      nabuUrl,
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      ...http
+    }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
@@ -93,10 +100,12 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow> &
+export type APIType = ReturnType<typeof analytics> &
+  ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
+  ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
   ReturnType<typeof misc> &

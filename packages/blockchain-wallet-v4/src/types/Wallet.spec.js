@@ -35,12 +35,12 @@ describe('Wallet', () => {
       )
     })
 
-    it('should select addresses', () => {
+    it('should select addresses with private keys', () => {
       let addressesJS = R.compose(
         AddressMap.toJS,
         Wallet.selectAddresses
       )(wallet)
-      expect(addressesJS).toEqual(walletFixture.keys)
+      expect(addressesJS).toEqual(walletFixture.keys.filter(key => key.priv))
     })
 
     it('should select if is double encrypted', () => {
@@ -50,7 +50,7 @@ describe('Wallet', () => {
   })
 
   describe('importLegacyAddress', () => {
-    const n = walletFixture.keys.length
+    const n = walletFixture.keys.filter(key => key.priv).length
     const address = Address.fromJS({
       addr: '1CC3X2gu58d6wXUWMffpuzN9JAfTUWu4Kj',
       priv: '5Kb8kLf9zgWQnogidDA76MzPL6TsZZY36hWXMssSzNydYXYB9KF'

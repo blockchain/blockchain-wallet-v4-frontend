@@ -31,7 +31,7 @@ export default ({ api }: { api: APIType }) => {
       const response: ReturnType<typeof api.getSBTransactions> = yield call(
         api.getSBTransactions,
         action.payload.currency,
-        next
+        reset ? undefined : next
       )
       yield put(
         A.fetchTransactionsSuccess(action.payload.currency, response, reset)

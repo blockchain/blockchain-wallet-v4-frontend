@@ -15,7 +15,6 @@ export type UTXOType = {
 export type IBtcFromType = {
   balance: number
   coin: 'BTC'
-  watchOnly: boolean
 }
 
 export type BtcAccountFromType = IBtcFromType & {
@@ -38,7 +37,6 @@ export type BtcLegacyFromType = IBtcFromType & {
   address: string
   label: string
   type: 'LEGACY'
-  watchOnly: boolean
 }
 
 export type BtcFromType =

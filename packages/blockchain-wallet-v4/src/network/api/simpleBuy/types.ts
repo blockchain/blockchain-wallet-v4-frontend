@@ -19,7 +19,7 @@ type AgentSimple = {
   recipient: string
 }
 
-type Agent = AgentSimple & {
+export type AgentType = AgentSimple & {
   address: string
   country: string
   routingNumber: string
@@ -27,7 +27,7 @@ type Agent = AgentSimple & {
 
 export type SBAccountType =
   | (ISBAccountType & {
-      agent: Agent
+      agent: AgentType
       currency: 'USD'
     })
   | (ISBAccountType & {
@@ -101,6 +101,8 @@ export type SBPairType = {
   buyMax: string
   buyMin: string
   pair: SBPairsType
+  sellMax: string
+  sellMin: string
 }
 
 export type SBPaymentTypes =
@@ -149,14 +151,8 @@ export type SBProviderDetailsType = {
 
 export type SBMoneyType = {
   amount: string
-  symbol: FiatType
+  symbol: WalletCurrencyType
 }
-
-export type SBSuggestedAmountType = Array<
-  {
-    [key in FiatType]: Array<string>
-  }
->
 
 export type ISBBuyOrderType = {
   attributes?: {

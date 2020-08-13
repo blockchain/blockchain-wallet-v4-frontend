@@ -130,8 +130,17 @@ export const fiatToString = ({
   return `${Currencies[unit].units[unit].symbol}${formatFiat(value, digits)}`
 }
 
-export const coinToString = ({ value, unit, minDigits = 0, maxDigits = 8 }) =>
-  `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
+export const coinToString = ({
+  value,
+  unit,
+  minDigits = 0,
+  maxDigits = 8
+}: {
+  maxDigits?: number
+  minDigits?: number
+  unit: { symbol: string }
+  value: any
+}) => `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
 
 export const formatFiat = (value, digits = 2) =>
   Number(value).toLocaleString(undefined, {

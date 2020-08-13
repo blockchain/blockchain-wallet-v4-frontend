@@ -7,7 +7,6 @@ import React from 'react'
 import styled from 'styled-components'
 import TotalBalance from './TotalBalance'
 import WalletBalance from './WalletBalance'
-import WatchOnlyBalance from './WatchOnlyBalance'
 
 const Wrapper = styled.div`
   position: relative;
@@ -115,7 +114,6 @@ const BalancesContainer = () => {
           components={[
             <WalletBalance />,
             <LockboxBalance />,
-            <WatchOnlyBalance />,
             <CurrencySwitch />
           ]}
         />

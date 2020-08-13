@@ -3,6 +3,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import {
   CoinType,
   FiatType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
@@ -20,6 +21,7 @@ import CryptoSelection from './CryptoSelection'
 import CurrencySelection from './CurrencySelection'
 import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import KycRequired from './KycRequired'
 import ModalEnhancer from 'providers/ModalEnhancer'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
@@ -57,6 +59,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
     this.props.simpleBuyActions.fetchSBOrders(true)
+    this.props.formActions.destroy('simpleBuyCheckout')
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')
   }
@@ -188,6 +191,11 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <CancelOrder {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'KYC_REQUIRED' && (
+              <FlyoutChild>
+                <KycRequired {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
           </Flyout>
         )
       },
@@ -227,7 +235,7 @@ const mapStateToProps = (state: RootState) => ({
   cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   displayBack: selectors.components.simpleBuy.getDisplayBack(state),
-
+  orderType: selectors.components.simpleBuy.getOrderType(state),
   data: getData(state)
 })
 
@@ -259,6 +267,7 @@ type LinkStatePropsType =
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER'
         | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
     }
   | {
       displayBack?: boolean
@@ -279,11 +288,13 @@ type LinkStatePropsType =
   | {
       method?: SBPaymentMethodType
       order?: SBOrderType
+      orderType: SBOrderActionType
       pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {
       order: SBOrderType
+      orderType: SBOrderActionType
       pair: SBPairType
       step: 'PAYMENT_METHODS'
     }
