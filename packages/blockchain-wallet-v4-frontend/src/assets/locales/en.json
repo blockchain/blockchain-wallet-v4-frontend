@@ -266,8 +266,6 @@
   "components.orderstatus.note.swaprefunded": "We have refunded your wallet after the trade failed.  Please return to the swap tab to start a new trade.",
   "components.orderstatus.note.swaprefunding": "We are now processing a refund for any funds broadcast minus the network fee. Please check your Order History to check the refund status.",
   "components.qrreader.warning": "Your browser does not have webcam support.",
-  "components.selectboxbchaddresses.watchonly": "Non-Spendable",
-  "components.selectboxbtcaddresses.watchonly": "Non-Spendable",
   "components.selectboxcountry.label": "Select country",
   "components.selectboxregion.placeholder.region": "Select region",
   "components.selectboxregion.placeholder.state": "Select state",
@@ -454,7 +452,6 @@
   "layouts.wallet.menuleft.navigation.earninterest": "Earn Interest",
   "layouts.wallet.menuleft.navigation.hardware": "Hardware",
   "layouts.wallet.menutop.balance.walletbalance.hardware": "Hardware",
-  "layouts.wallet.menutop.balance.walletbalance.nonspendable": "Non-Spendable",
   "layouts.wallet.menutop.balance.walletbalance.showcrypto": "Show Crypto",
   "layouts.wallet.menutop.balance.walletbalance.showfiat": "Show {currency}",
   "layouts.wallet.menutop.balance.walletbalance.wallet": "Wallet",
@@ -1951,6 +1948,7 @@
   "scenes.settings.general.walletid.title": "Wallet ID",
   "scenes.settings.general.walletid.warning": "Do not share your Wallet ID with others.",
   "scenes.settings.linked_banks": "Linked Banks",
+  "scenes.settings.linked_banks.daily_limit": "{amount} Daily Limit",
   "scenes.settings.linked_cards": "Linked Cards",
   "scenes.settings.manage_addresses.archive": "Archive",
   "scenes.settings.manage_addresses.edit_name": "Edit Name",
@@ -2080,8 +2078,6 @@
   "wallet.menutop.bchbalance.refresh": "Refresh {curr} data",
   "wallet.menutop.btcbalance.refresh": "Refresh {curr} data",
   "wallet.menutop.ethbalance.refresh": "Refresh {curr} data",
-  "wallet.menutop.watchonly.bchbalance.refresh": "Refresh {curr} data",
-  "wallet.menutop.watchonly.btcbalance.refresh": "Refresh {curr} data",
   "wallet.menutop.xlmbalance.refresh": "Refresh {curr} data",
   "whatsnew.tooltip.description": "What's New"
 }
