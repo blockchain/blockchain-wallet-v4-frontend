@@ -1,4 +1,11 @@
-export default ({ rootUrl, get }) => {
+export default ({ apiUrl, rootUrl, get }) => {
+  const checkExchangeUsage = (xpub: string) =>
+    get({
+      url: apiUrl,
+      endPoint: `/analysis/labels/xpub/${xpub}`,
+      ignoreQueryParams: true
+    })
+
   const incrementCurrencyUsageStats = (
     btcBalance,
     ethBalance,
@@ -16,6 +23,7 @@ export default ({ rootUrl, get }) => {
     })
 
   return {
+    checkExchangeUsage,
     incrementCurrencyUsageStats
   }
 }

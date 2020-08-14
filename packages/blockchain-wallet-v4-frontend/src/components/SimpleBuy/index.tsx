@@ -7,7 +7,7 @@ import DisplaySubTitle from './DisplaySubTitle'
 import DisplayTitle from './DisplayTitle'
 import MultiRowContainer from './MultiRowContainer'
 
-export const DisplayPaymentIcon = styled(DisplayIcon)<{
+const DisplayPaymentIcon = styled(DisplayIcon)<{
   showBackground: boolean
 }>`
   align-items: center;
@@ -28,5 +28,6 @@ export {
   Content,
   DisplayTitle,
   DisplaySubTitle,
-  MultiRowContainer
+  MultiRowContainer,
+  DisplayPaymentIcon
 }

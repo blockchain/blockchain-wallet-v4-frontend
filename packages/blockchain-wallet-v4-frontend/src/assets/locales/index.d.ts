@@ -2011,6 +2011,7 @@ type MessagesType = {
   'scenes.settings.general.walletid.title': 'Wallet ID'
   'scenes.settings.general.walletid.warning': 'Do not share your Wallet ID with others.'
   'scenes.settings.linked_banks': 'Linked Banks'
+  'scenes.settings.linked_banks.daily_limit': '{amount} Daily Limit'
   'scenes.settings.linked_cards': 'Linked Cards'
   'scenes.settings.menu.title': 'Wallets & Addresses'
   'scenes.settings.menu.subtitle': 'Manage your wallet names, addresses and private keys.'
