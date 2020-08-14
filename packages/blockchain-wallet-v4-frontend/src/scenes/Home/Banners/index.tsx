@@ -3,6 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import FinishKyc from './FinishKyc'
+import InterestPromo from './InterestPromo'
 import KycResubmit from './KycResubmit'
 import NoneKyc from './NoneKyc'
 import React from 'react'
@@ -55,7 +56,11 @@ class Banners extends React.PureComponent<Props> {
           </BannerWrapper>
         )
       default:
-        return null
+        return (
+          <BannerWrapper>
+            <InterestPromo />
+          </BannerWrapper>
+        )
     }
   }
 }
