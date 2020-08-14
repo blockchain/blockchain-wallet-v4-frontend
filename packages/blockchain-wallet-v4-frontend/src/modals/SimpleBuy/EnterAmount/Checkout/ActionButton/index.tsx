@@ -77,10 +77,7 @@ const ActionButton: React.FC<Props> = props => {
             {props.submitting ? (
               <HeartbeatLoader height='16px' width='16px' color='white' />
             ) : (
-              <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
-              />
+              <FormattedMessage id='buttons.next' defaultMessage='Next' />
             )}
           </Button>
           <Text
@@ -110,7 +107,7 @@ const ActionButton: React.FC<Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
           )}
         </Button>
       )
