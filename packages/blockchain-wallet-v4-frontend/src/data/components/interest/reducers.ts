@@ -20,7 +20,6 @@ const INITIAL_STATE: InterestState = {
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   isCoinDisplayed: false,
-
   payment: Remote.NotAsked,
   step: {
     data: {},

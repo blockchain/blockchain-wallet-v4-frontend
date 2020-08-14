@@ -211,15 +211,15 @@ export default ({
         break
 
       case 'interestDepositAccount':
-        yield put(A.setPaymentLoading())
         // if custodial
         if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-          const custodialBalance: SBBalancesType = (yield select(
+          const custodialBalances: SBBalancesType = (yield select(
             selectors.components.simpleBuy.getSBBalances
           )).getOrFail('Failed to get balance')
-          // @ts-ignore
-          yield call(createLimits, null, custodialBalance)
+          // @ts-ignore @ANDREW : not sure why there is a ts error here
+          yield call(createLimits, null, custodialBalances)
         } else {
+          yield put(A.setPaymentLoading())
           const newPayment: PaymentValue = yield call(createPayment, {
             ...values.interestDepositAccount,
             address: getAccountIndexOrAccount(
@@ -324,19 +324,19 @@ export default ({
 
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
-    // get form values, if it's custodial, similar to value.interestAccountBalacne
+
     const values: InterestDepositFormType = yield select(
       selectors.form.getFormValues('interestDepositForm')
     )
     if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-    } else {
+      // @ANDREW get form values to use in whatever backend wants us to do here
       try {
         yield put(actions.form.startSubmit(FORM))
         const coin = S.getCoinType(yield select())
         yield call(fetchInterestAccount, coin)
         const depositAddress = yield select(S.getDepositAddress)
         const paymentR = S.getPayment(yield select())
-        // @ts-ignore
+        // @ts-ignore @ANDREW this ignore should be removed too, once we do the check for if custodial
         let payment = paymentGetOrElse(coin, paymentR)
         let isPaymentAmount = payment.value().amount
         let paymentAmount =
