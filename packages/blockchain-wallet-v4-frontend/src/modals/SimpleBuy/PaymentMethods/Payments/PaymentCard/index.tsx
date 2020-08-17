@@ -14,6 +14,7 @@ import { fiatToString } from 'core/exchange/currency'
 import { SBPaymentMethodType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Title } from 'components/Flyout'
+import media from 'services/ResponsiveService'
 
 const SubTitle = styled(Title)`
   color: ${props => props.theme.grey600};
@@ -35,6 +36,12 @@ const CardContainer = styled.div`
   > img {
     margin-left: 8px;
   }
+`
+const ChevronWrapper = styled.div`
+  height: 125px;
+  ${media.mobile`
+    height: 132px;
+  `};
 `
 
 type Props = {
@@ -84,7 +91,9 @@ const PaymentCard: React.FC<Props> = ({ value, onClick, icon, text }) => (
         </CardContainer>
       </CartridgeContainer>
     </Content>
-    <Icon name='chevron-right' size='24px' color='grey400' />
+    <ChevronWrapper>
+      <Icon name='chevron-right' size='24px' color='grey400' />
+    </ChevronWrapper>
   </DisplayContainer>
 )
 

@@ -85,7 +85,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='credit-card' />
+            <Icon size='18px' color='blue600' name='credit-card-sb' />
           </IconContainer>
         )
       case 'USER_CARD':
