@@ -6,8 +6,7 @@ import styled from 'styled-components'
 const InfoWrapper = styled.div`
   box-sizing: border-box;
   width: 360px;
-  margin-top: 1rem;
-  margin-right: 1rem;
+  margin: 2rem 4rem 0 0;
   padding: 0;
 
   img {
@@ -52,7 +51,7 @@ const ListItem = styled.li`
 const LinkExchangeAccount = () => {
   return (
     <InfoWrapper>
-      <Image name='refresh' />
+      <Image height='2rem' name='refresh' />
       <Title>
         <FormattedMessage
           id='scenes.linkaccount.authorize2'
