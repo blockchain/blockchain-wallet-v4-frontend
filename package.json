@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.39.10",
+  "version": "4.40.0",
   "license": "AGPL-3.0-or-later",
   "private": true,
   "author": {
@@ -37,7 +37,7 @@
     "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "yarn test --findRelatedTests",
+      "yarn test --bail --findRelatedTests",
       "git add"
     ],
     "*.{js,tsx}": [
@@ -178,7 +178,7 @@
     "jest-cli": "25.3.0",
     "jest-css-modules": "2.1.0",
     "jest-fetch-mock": "3.0.3",
-    "lint-staged": "9.4.0",
+    "lint-staged": "10.2.11",
     "mock-socket": "8.0.5",
     "prettier": "1.19.1",
     "react-hot-loader": "4.12.20",

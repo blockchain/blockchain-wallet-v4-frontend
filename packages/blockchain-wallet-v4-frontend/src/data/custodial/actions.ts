@@ -2,7 +2,7 @@ import * as AT from './actionTypes'
 import { BeneficiariesType, WalletFiatType } from 'core/types'
 import { CustodialActionTypes } from './types'
 
-export const fetchCustodialBeneficiaries = (currency: WalletFiatType) => ({
+export const fetchCustodialBeneficiaries = (currency?: WalletFiatType) => ({
   type: AT.FETCH_CUSTODIAL_BENEFICIARIES,
   currency
 })

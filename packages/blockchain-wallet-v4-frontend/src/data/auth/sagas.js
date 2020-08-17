@@ -145,6 +145,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.analytics.initUserSession())
       // simple buy tasks
       yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
@@ -186,6 +187,19 @@ export default ({ api, coreSagas }) => {
     if (Remote.Failure.is(btcDataR)) {
       yield call(checkAndHandleVulnerableAddress, btcDataR)
     }
+  }
+  const checkExchangeUsage = function * () {
+    const accountsR = yield select(
+      selectors.core.common.btc.getActiveHDAccounts
+    )
+    const accounts = accountsR.getOrElse([])
+    const defaultIndex = yield select(
+      selectors.core.wallet.getDefaultAccountIndex
+    )
+    const defaultAccount = accounts.find(
+      account => account.index === defaultIndex
+    )
+    yield call(api.checkExchangeUsage, defaultAccount.xpub)
   }
   const pollingSession = function * (session, n = 50) {
     if (n === 0) {

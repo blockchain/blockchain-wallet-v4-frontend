@@ -40,7 +40,7 @@ const api = ({
   const rootUrl = options.domains.root
   const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
   return {
-    ...analytics({ rootUrl, ...http }),
+    ...analytics({ apiUrl, rootUrl, ...http }),
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
@@ -100,7 +100,8 @@ const api = ({
 
 export default api
 
-export type APIType = ReturnType<typeof borrow> &
+export type APIType = ReturnType<typeof analytics> &
+  ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
