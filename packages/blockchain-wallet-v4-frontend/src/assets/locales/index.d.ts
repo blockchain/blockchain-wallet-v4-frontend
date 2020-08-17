@@ -866,7 +866,7 @@ type MessagesType = {
   'modals.onboarding.linkfromexchange.success': 'You have connected your Blockchain Wallet to Exchange. Go back and finish signing up!'
   'modals.onboarding.linkfromexchange.successheader': 'Success!'
   'modals.onboarding.linkfromexchange.to_continue': "to continue. We'll be waiting right here in the meantime."
-  'modals.onboarding.linkfromexchange.unverified_email': 'Please Verify Email'
+  'modals.onboarding.linkfromexchange.unverified_email': 'Please Verify Your Email'
   'modals.onboarding.linktoexchangeaccount.error.title': 'Linking Error'
   'modals.onboarding.linktoexchangeaccount.loading.openhere-1': 'Open the Exchange'
   'modals.onboarding.linktoexchangeaccount.loading.sub': 'A new browser tab will open shortly where you can complete account linking.'
