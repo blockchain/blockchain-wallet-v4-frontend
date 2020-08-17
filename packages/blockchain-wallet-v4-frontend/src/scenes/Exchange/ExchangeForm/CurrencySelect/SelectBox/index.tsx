@@ -1,8 +1,10 @@
 import { Icon } from 'blockchain-info-components'
-import { pathOr, prop, toLower } from 'ramda'
-import { SelectBox } from 'components/Form'
+import { toLower } from 'ramda'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
+
+import { SelectBox } from 'components/Form'
+import { SwapAccountType } from '../types'
 
 const ExchangeSelect = styled(SelectBox)`
   .bc__control {
@@ -28,7 +30,7 @@ const ExchangeSelect = styled(SelectBox)`
   }
 `
 
-const DisplayWrapper = styled.div`
+const DisplayWrapper = styled.div<{ coin: keyof DefaultTheme }>`
   border-radius: 3px;
   background-color: ${props => props.theme[props.coin]};
   min-height: 30px;
@@ -54,7 +56,7 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   min-width: 0;
 `
-const Text = styled.span`
+const Text = styled.span<{ uppercase?: boolean }>`
   position: relative;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -77,7 +79,7 @@ const DisplayIcon = styled(Icon)`
 
 const selectItemIconColor = props => props.theme[props.coin]
 
-const ItemIcon = styled(Icon)`
+const ItemIcon = styled(Icon)<{ coin: keyof DefaultTheme }>`
   font-size: 20px;
   color: ${selectItemIconColor} !important;
   span {
@@ -85,39 +87,44 @@ const ItemIcon = styled(Icon)`
   }
 `
 
-const renderDisplay = (props, children) => {
-  const coin = pathOr('', ['value', 'coin'], props)
-  const icon = pathOr('', ['value', 'icon'], props)
+const renderDisplay = (item: SwapAccountType, children) => {
+  if (!item.value) return
+  const coin = item.value.coin
+  const icon = item.value.icon
 
   return (
-    <DisplayWrapper className={props.className} coin={toLower(coin)}>
+    <DisplayWrapper coin={toLower(coin) as keyof DefaultTheme}>
       {<DisplayIcon name={icon} />}
       <Text>{children}</Text>
     </DisplayWrapper>
   )
 }
 
-const renderItem = item => {
-  const coin = pathOr('', ['value', 'coin'], item)
-  const icon = pathOr('', ['value', 'icon'], item)
+const renderItem = (item: SwapAccountType) => {
+  if (!item.value) return
+  const coin = item.value.coin
+  const icon = item.value.icon
 
-  const isSelected = prop('isSelected', item)
   return (
     <ItemWrapper>
-      <ItemIcon coin={toLower(coin)} isSelected={isSelected} name={icon} />
+      <ItemIcon coin={toLower(coin) as keyof DefaultTheme} name={icon} />
       <Text>{item.text}</Text>
     </ItemWrapper>
   )
 }
 
-const SelectBoxExchange = props => (
-  <ExchangeSelect
-    {...props}
-    searchEnabled={false}
-    hideIndicator={true}
-    templateDisplay={renderDisplay}
-    templateItem={renderItem}
-  />
-)
+const SelectBoxExchange = (props: Props) => {
+  return (
+    <ExchangeSelect
+      {...props}
+      searchEnabled={false}
+      hideIndicator={true}
+      templateDisplay={renderDisplay}
+      templateItem={renderItem}
+    />
+  )
+}
+
+type Props = { elements: Array<SwapAccountType> }
 
 export default SelectBoxExchange

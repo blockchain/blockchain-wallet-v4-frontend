@@ -1,10 +1,12 @@
 import {
   compose,
   curry,
+  equals,
   gt,
   includes,
   length,
   map,
+  not,
   path,
   prop,
   propEq,
@@ -13,8 +15,14 @@ import {
   unnest
 } from 'ramda'
 
+import {
+  CoinType,
+  NO_SUPPORTED_COINS,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { model, selectors } from 'data'
+import { SwapAccountType } from './types'
 
 const {
   getAvailableSourceCoins,
@@ -33,11 +41,11 @@ const generateItems = ({ coin, accounts }, supportedCoins) =>
     }
   })
 
-const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'PAX','USDT']
+const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'PAX', 'USDT']
 const generateGroups = curry(
   (
     accounts,
-    supportedCoins,
+    supportedCoins: SupportedWalletCurrenciesType,
     sourceCoin,
     targetCoin,
     availableCurrencies,
@@ -45,9 +53,13 @@ const generateGroups = curry(
   ) => {
     let items = compose(
       unnest,
+      // @ts-ignore
       map(item => generateItems(item, supportedCoins)),
-      map(coin => ({ coin, accounts: prop(coin, accounts) })),
-      reject(coin => !path([coin, 'invited'], supportedCoins)),
+      // @ts-ignore
+      map((coin: CoinType) => ({ coin, accounts: prop(coin, accounts) })),
+      // @ts-ignore
+      reject((coin: CoinType) => !supportedCoins[coin].invited),
+      // @ts-ignore
       sort((a, b) => coinOrder.indexOf(a) - coinOrder.indexOf(b))
     )(availableCurrencies)
 
@@ -59,14 +71,17 @@ const generateGroups = curry(
       items = reject(({ value }) => propEq('coin', targetCoin)(value), items)
     }
 
-    return [{ group: '', items }]
+    return [{ group: '', items: items as Array<SwapAccountType> }]
   }
 )
 
 export const getData = createDeepEqualSelector(
   [
     selectors.components.exchange.getActiveAccounts,
-    state => selectors.core.walletOptions.getSupportedCoins(state).getOrFail(),
+    state =>
+      selectors.core.walletOptions
+        .getSupportedCoins(state)
+        .getOrFail(NO_SUPPORTED_COINS),
     (state, ownProps) => ownProps
   ],
   (accounts, supportedCoins, { availablePairs, sourceCoin, targetCoin }) => {
@@ -91,5 +106,5 @@ export const getData = createDeepEqualSelector(
 
 export const shouldUpdate = (prev, next) =>
   prev.swapDisabled !== next.swapDisabled ||
-  prev.fromElements !== next.fromElements ||
-  prev.toElements !== next.toElements
+  not(equals(prev.fromElements, next.fromElements)) ||
+  not(equals(prev.toElements, next.toElements))

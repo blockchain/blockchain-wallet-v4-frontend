@@ -108,11 +108,11 @@ export const unsafe_deprecated_fiatToString = ({
   unit,
   digits = 2
 }: {
-  digits: number
+  digits?: number
   unit: {
-    currency: string
-    decimal_digits: number
-    rate: string
+    currency?: string
+    decimal_digits?: number
+    rate?: string
     symbol: string
   }
   value: number | string

@@ -1,16 +1,17 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
+import styled from 'styled-components'
+
+import { actions } from 'data'
 import { Cell, Row } from '../Layout'
 import { compose } from 'ramda'
-import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData, shouldUpdate } from './selectors'
 import { Icon, TooltipHost } from 'blockchain-info-components'
-import React from 'react'
 import SelectBox from './SelectBox'
-import styled from 'styled-components'
 
-const CoinSwapIcon = styled(Icon)`
+const CoinSwapIcon = styled(Icon)<{ disabled?: boolean }>`
   font-size: 18px;
   margin: 0 15px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
@@ -28,20 +29,23 @@ const CurrencyRow = styled(Row)`
 
 const extractFieldValue = (e, value) => value
 
-export class CurrencySelect extends React.Component {
+export class CurrencySelect extends React.Component<Props> {
   shouldComponentUpdate (nextProps) {
     return shouldUpdate(this.props, nextProps)
   }
 
   render () {
     const { actions, fromElements, swapDisabled, toElements } = this.props
+
     return (
       <CurrencyRow height='32px' spaced>
         <Cell data-e2e='exchangeSourceCurrency'>
           <Field
             name='source'
             onChange={compose(actions.changeSource, extractFieldValue)}
+            // @ts-ignore
             component={SelectBox}
+            // @ts-ignore
             elements={fromElements}
           />
         </Cell>
@@ -64,7 +68,9 @@ export class CurrencySelect extends React.Component {
           <Field
             name='target'
             onChange={compose(actions.changeTarget, extractFieldValue)}
+            // @ts-ignore
             component={SelectBox}
+            // @ts-ignore
             elements={toElements}
           />
         </Cell>
@@ -77,4 +83,8 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(getData, mapDispatchToProps)(CurrencySelect)
+const connector = connect(getData, mapDispatchToProps)
+
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(CurrencySelect)

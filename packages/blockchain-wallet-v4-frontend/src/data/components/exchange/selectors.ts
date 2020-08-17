@@ -32,6 +32,7 @@ import { model, selectors } from 'data'
 export const canUseExchange = state =>
   selectors.modules.profile
     .getUserTiers(state)
+    // @ts-ignore
     .map(compose(lt(0), prop('current')))
     .getOrElse(false)
 
@@ -117,6 +118,7 @@ export const btcGetActiveAccounts = createDeepEqualSelector(
           coin: 'BTC',
           label: prop('label', acc) || prop('xpub', acc),
           address: prop('index', acc),
+          // @ts-ignore
           balance: prop('final_balance', prop(prop('xpub', acc), btcData)),
           type: ADDRESS_TYPES.ACCOUNT
         }))
@@ -190,6 +192,7 @@ export const xlmGetActiveAccounts = createDeepEqualSelector(
           const account = prop(address, xlmData)
           const noAccount = path(['error', 'message'], account) === 'Not Found'
           const balance = account
+            // @ts-ignore
             .map(coreSelectors.data.xlm.selectBalanceFromAccount)
             .getOrElse(0)
           return {
@@ -247,6 +250,7 @@ export const getAvailablePairs = state => {
   const filterAvailable = (pairs, activeAccounts) =>
     filter(
       compose(
+        // @ts-ignore
         all(currency => path([currency, 'length'], activeAccounts) > 0),
         model.rates.splitPair
       ),
@@ -278,6 +282,7 @@ const getInitialCoins = (
     defaultTo(requestedTargetCoin),
     last,
     getTargetCoinsPairedToSource
+    // @ts-ignore
   )(initialSourceCoin, availablePairs)
 
   return [initialSourceCoin, initialTargetCoin]
@@ -330,7 +335,9 @@ export const getInitialValues = (state, requested) => {
   const availablePairs = getAvailablePairs(state).getOrElse(fallbackPairs)
 
   const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  // @ts-ignore
   const prevSource = prop('source', prevValues)
+  // @ts-ignore
   const prevTarget = prop('target', prevValues)
   const prevFromIndex = findAccountIndexOr(0, prevSource, availableAccounts)
   const prevToIndex = findAccountIndexOr(0, prevTarget, availableAccounts)
@@ -338,6 +345,7 @@ export const getInitialValues = (state, requested) => {
   const { from, to, fix, amount } = requested
   const requestedValues = { from, to }
 
+  // @ts-ignore
   if (fix) requestedValues.fix = fix
   if (amount) requestedValues[model.rates.mapFixToFieldName(fix)] = amount
 

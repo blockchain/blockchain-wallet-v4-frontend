@@ -64,3 +64,5 @@ export type SupportedWalletCurrenciesType = {
   }
 
 export type SupportedWalletCurrencyType = SupportedCoinType | SupportedFiatType
+
+export const NO_SUPPORTED_COINS = 'No supported coins available.'
