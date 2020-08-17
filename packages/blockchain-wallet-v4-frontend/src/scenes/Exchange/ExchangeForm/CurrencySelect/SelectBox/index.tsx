@@ -17,6 +17,10 @@ const ExchangeSelect = styled(SelectBox)`
     }
   }
 
+  .bc__group-heading {
+    display: initial;
+  }
+
   .bc__value-container {
     padding: 0;
   }
@@ -95,7 +99,10 @@ const renderDisplay = (item: SwapAccountType, children) => {
   return (
     <DisplayWrapper coin={toLower(coin) as keyof DefaultTheme}>
       {<DisplayIcon name={icon} />}
-      <Text>{children}</Text>
+      <Text>
+        {item.value.label}
+        {children}
+      </Text>
     </DisplayWrapper>
   )
 }
@@ -108,7 +115,7 @@ const renderItem = (item: SwapAccountType) => {
   return (
     <ItemWrapper>
       <ItemIcon coin={toLower(coin) as keyof DefaultTheme} name={icon} />
-      <Text>{item.text}</Text>
+      <Text>{item.value.label}</Text>
     </ItemWrapper>
   )
 }
@@ -117,8 +124,10 @@ const SelectBoxExchange = (props: Props) => {
   return (
     <ExchangeSelect
       {...props}
+      grouped={true}
       searchEnabled={false}
       hideIndicator={true}
+      menuIsOpen
       templateDisplay={renderDisplay}
       templateItem={renderItem}
     />

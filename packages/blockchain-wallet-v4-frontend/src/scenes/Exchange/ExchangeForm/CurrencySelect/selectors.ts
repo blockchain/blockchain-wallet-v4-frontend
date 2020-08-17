@@ -2,17 +2,13 @@ import {
   compose,
   curry,
   equals,
-  gt,
   includes,
-  length,
   map,
   not,
   path,
   prop,
-  propEq,
   reject,
-  sort,
-  unnest
+  sort
 } from 'ramda'
 
 import {
@@ -22,7 +18,6 @@ import {
 } from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { model, selectors } from 'data'
-import { SwapAccountType } from './types'
 
 const {
   getAvailableSourceCoins,
@@ -30,16 +25,22 @@ const {
 } = model.components.exchange
 const { formatPair } = model.rates
 
-const generateItems = ({ coin, accounts }, supportedCoins) =>
-  accounts.map(account => {
+const generateItems = (
+  { coin, accounts },
+  supportedCoins: SupportedWalletCurrenciesType
+) => {
+  const options = accounts.map(account => {
     account.icon = path([coin, 'icons', 'circleFilled'], supportedCoins)
     return {
       value: account,
-      text: gt(length(accounts), 1)
-        ? prop('label', account)
-        : path([coin, 'displayName'], supportedCoins)
+      text: prop('label', account)
     }
   })
+
+  const label = supportedCoins[coin as CoinType].displayName
+
+  return { label, options }
+}
 
 const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'PAX', 'USDT']
 const generateGroups = curry(
@@ -48,11 +49,10 @@ const generateGroups = curry(
     supportedCoins: SupportedWalletCurrenciesType,
     sourceCoin,
     targetCoin,
-    availableCurrencies,
-    isToElements
+    availableCurrencies
   ) => {
-    let items = compose(
-      unnest,
+    let groups = compose(
+      // unnest,
       // @ts-ignore
       map(item => generateItems(item, supportedCoins)),
       // @ts-ignore
@@ -63,15 +63,7 @@ const generateGroups = curry(
       sort((a, b) => coinOrder.indexOf(a) - coinOrder.indexOf(b))
     )(availableCurrencies)
 
-    // if this is the 'to' select box, then we will filter out the sourceCoin from items
-    // otherwise if this is the 'from' select box, then we will filter out the targetCoin from items
-    if (isToElements) {
-      items = reject(({ value }) => propEq('coin', sourceCoin)(value), items)
-    } else {
-      items = reject(({ value }) => propEq('coin', targetCoin)(value), items)
-    }
-
-    return [{ group: '', items: items as Array<SwapAccountType> }]
+    return groups
   }
 )
 
@@ -94,8 +86,8 @@ export const getData = createDeepEqualSelector(
       targetCoin
     )
     return {
-      fromElements: generateActiveGroups(availableSourceCoins, false),
-      toElements: generateActiveGroups(availableTargetCoins, true),
+      fromElements: generateActiveGroups(availableSourceCoins),
+      toElements: generateActiveGroups(availableTargetCoins),
       swapDisabled: !includes(
         formatPair(targetCoin, sourceCoin),
         availablePairs
