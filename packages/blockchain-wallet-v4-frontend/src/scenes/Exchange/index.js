@@ -15,7 +15,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.section`
-  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

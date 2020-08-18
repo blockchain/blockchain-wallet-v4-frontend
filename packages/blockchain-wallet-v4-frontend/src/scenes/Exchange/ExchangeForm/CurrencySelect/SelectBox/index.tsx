@@ -1,4 +1,4 @@
-import { Icon } from 'blockchain-info-components'
+import { Icon, Text as TextComponent } from 'blockchain-info-components'
 import { toLower } from 'ramda'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
@@ -17,8 +17,39 @@ const ExchangeSelect = styled(SelectBox)`
     }
   }
 
+  .bc__menu-list {
+    margin: 0;
+    overflow: initial;
+    max-height: initial !important;
+  }
+
+  ${`/* 
+    🚨🚨🚨
+    > div:last-child
+    refers to the options list container
+    unfortunately it does not have a classname
+  */`}
+  .bc__group {
+    position: relative;
+    > div:last-child {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+    }
+    &:hover {
+      > div:last-child {
+        display: block;
+      }
+    }
+  }
+
   .bc__group-heading {
-    display: initial;
+    display: block;
+    padding: 0;
+    margin: 0;
+    font-size: initial;
+    text-transform: initial;
   }
 
   .bc__value-container {
@@ -60,13 +91,21 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   min-width: 0;
 `
-const Text = styled.span<{ uppercase?: boolean }>`
+const GroupHeadingWrapper = styled.div`
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`
+const Text = styled(TextComponent)<{
+  color?: keyof DefaultTheme
+  uppercase?: boolean
+}>`
   position: relative;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   font-size: 13px;
-  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;
   cursor: pointer;
   width: 100%;
@@ -74,6 +113,8 @@ const Text = styled.span<{ uppercase?: boolean }>`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${props => props.theme[props.color || 'grey700']};
+  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
 `
 
 const DisplayIcon = styled(Icon)`
@@ -99,7 +140,7 @@ const renderDisplay = (item: SwapAccountType, children) => {
   return (
     <DisplayWrapper coin={toLower(coin) as keyof DefaultTheme}>
       {<DisplayIcon name={icon} />}
-      <Text>
+      <Text color='white'>
         {item.value.label}
         {children}
       </Text>
@@ -120,6 +161,10 @@ const renderItem = (item: SwapAccountType) => {
   )
 }
 
+const renderGroupHeading = (x, children) => {
+  return <GroupHeadingWrapper>{children}</GroupHeadingWrapper>
+}
+
 const SelectBoxExchange = (props: Props) => {
   return (
     <ExchangeSelect
@@ -127,8 +172,8 @@ const SelectBoxExchange = (props: Props) => {
       grouped={true}
       searchEnabled={false}
       hideIndicator={true}
-      menuIsOpen
       templateDisplay={renderDisplay}
+      templateGroupHeading={renderGroupHeading}
       templateItem={renderItem}
     />
   )

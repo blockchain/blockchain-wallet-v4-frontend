@@ -174,6 +174,16 @@ const ValueContainer = ({ children, ...props }) => {
   )
 }
 
+const GroupHeading = ({ children, ...props }) => {
+  return (
+    <components.GroupHeading {...props}>
+      {props.selectProps.templateGroupHeading
+        ? props.selectProps.templateGroupHeading(props, children)
+        : children}
+    </components.GroupHeading>
+  )
+}
+
 const DropdownIndicator = props => {
   return props.selectProps.hideIndicator ? null : (
     <components.DropdownIndicator {...props} />
@@ -210,6 +220,7 @@ const SelectInput = props => {
     openMenuOnFocus,
     searchEnabled,
     templateDisplay,
+    templateGroupHeading,
     templateItem
   } = props
   const options = grouped
@@ -228,11 +239,12 @@ const SelectInput = props => {
         className={className}
         classNamePrefix='bc'
         components={{
-          Option,
-          ValueContainer,
           Control,
           DropdownIndicator,
-          IndicatorSeparator
+          GroupHeading,
+          IndicatorSeparator,
+          Option,
+          ValueContainer
         }}
         focusedBorderColor={selectFocusBorderColor(errorState)}
         filterOption={filterOption}
@@ -253,6 +265,7 @@ const SelectInput = props => {
         placeholder={defaultDisplay}
         ref={getRef}
         templateDisplay={templateDisplay}
+        templateGroupHeading={templateGroupHeading}
         templateItem={templateItem}
         value={defaultValue}
       />
