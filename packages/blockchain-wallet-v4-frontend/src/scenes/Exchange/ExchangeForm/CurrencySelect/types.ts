@@ -14,3 +14,9 @@ export type SwapAccountType = {
     type: 'ACCOUNT'
   }
 }
+
+export type GroupHeadingLabelType = {
+  coin: CoinType
+  icon: keyof IcoMoonType
+  name: string
+}

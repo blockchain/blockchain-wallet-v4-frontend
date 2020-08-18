@@ -17,6 +17,7 @@ import {
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { GroupHeadingLabelType } from './types'
 import { model, selectors } from 'data'
 
 const {
@@ -37,7 +38,11 @@ const generateItems = (
     }
   })
 
-  const label = supportedCoins[coin as CoinType].displayName
+  const label: GroupHeadingLabelType = {
+    coin,
+    name: supportedCoins[coin as CoinType].displayName,
+    icon: supportedCoins[coin as CoinType].icons.circleFilled
+  }
 
   return { label, options }
 }

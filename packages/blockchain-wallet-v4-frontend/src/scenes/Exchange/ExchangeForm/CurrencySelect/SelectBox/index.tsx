@@ -3,8 +3,8 @@ import { toLower } from 'ramda'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { GroupHeadingLabelType, SwapAccountType } from '../types'
 import { SelectBox } from 'components/Form'
-import { SwapAccountType } from '../types'
 
 const ExchangeSelect = styled(SelectBox)`
   .bc__control {
@@ -17,20 +17,27 @@ const ExchangeSelect = styled(SelectBox)`
     }
   }
 
+  .bc__menu {
+    width: auto;
+    min-width: 240px;
+  }
+
   .bc__menu-list {
     margin: 0;
     overflow: initial;
     max-height: initial !important;
   }
 
-  ${`/* 
-    🚨🚨🚨
-    > div:last-child
-    refers to the options list container
-    unfortunately it does not have a classname
-  */`}
   .bc__group {
     position: relative;
+    padding: 12px 20px;
+
+    ${`/* 
+      🚨🚨🚨
+      > div:last-child
+      refers to the options list container
+      unfortunately it does not have a classname
+    */`}
     > div:last-child {
       display: none;
       position: absolute;
@@ -38,6 +45,7 @@ const ExchangeSelect = styled(SelectBox)`
       top: 0;
     }
     &:hover {
+      background-color: ${props => props.theme['blue000']};
       > div:last-child {
         display: block;
       }
@@ -46,8 +54,8 @@ const ExchangeSelect = styled(SelectBox)`
 
   .bc__group-heading {
     display: block;
-    padding: 0;
     margin: 0;
+    padding: 0;
     font-size: initial;
     text-transform: initial;
   }
@@ -92,24 +100,22 @@ const ItemWrapper = styled.div`
   min-width: 0;
 `
 const GroupHeadingWrapper = styled.div`
-  padding: 24px;
   display: flex;
   align-items: center;
   cursor: pointer;
+`
+const GroupContent = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `
 const Text = styled(TextComponent)<{
   color?: keyof DefaultTheme
   uppercase?: boolean
 }>`
-  position: relative;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  font-style: normal;
   cursor: pointer;
   width: 100%;
-  padding-left: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -119,6 +125,7 @@ const Text = styled(TextComponent)<{
 
 const DisplayIcon = styled(Icon)`
   font-size: 26px;
+  margin-right: 8px;
   color: ${props => props.theme.white};
 `
 
@@ -126,6 +133,7 @@ const selectItemIconColor = props => props.theme[props.coin]
 
 const ItemIcon = styled(Icon)<{ coin: keyof DefaultTheme }>`
   font-size: 20px;
+  margin-right: 8px;
   color: ${selectItemIconColor} !important;
   span {
     color: ${selectItemIconColor} !important;
@@ -140,7 +148,7 @@ const renderDisplay = (item: SwapAccountType, children) => {
   return (
     <DisplayWrapper coin={toLower(coin) as keyof DefaultTheme}>
       {<DisplayIcon name={icon} />}
-      <Text color='white'>
+      <Text size='13px' weight={600} color='white'>
         {item.value.label}
         {children}
       </Text>
@@ -156,19 +164,42 @@ const renderItem = (item: SwapAccountType) => {
   return (
     <ItemWrapper>
       <ItemIcon coin={toLower(coin) as keyof DefaultTheme} name={icon} />
-      <Text>{item.value.label}</Text>
+      <Text size='13px' weight={600}>
+        {item.value.label}
+      </Text>
     </ItemWrapper>
   )
 }
 
-const renderGroupHeading = (x, children) => {
-  return <GroupHeadingWrapper>{children}</GroupHeadingWrapper>
+const renderGroupHeading = (props, heading: GroupHeadingLabelType) => {
+  return (
+    <GroupHeadingWrapper>
+      <Icon
+        size='28px'
+        color={heading.coin.toLowerCase() as keyof DefaultTheme}
+        name={heading.icon}
+        style={{ marginRight: '12px' }}
+      />
+      <GroupContent>
+        <div>
+          <Text size='16px' weight={600} color='grey800'>
+            {heading.name}
+          </Text>
+          <Text size='14px' weight={500} color='grey600'>
+            {heading.coin}
+          </Text>
+        </div>
+        <Icon size='24px' color={'grey400'} name='chevron-right' />
+      </GroupContent>
+    </GroupHeadingWrapper>
+  )
 }
 
 const SelectBoxExchange = (props: Props) => {
   return (
     <ExchangeSelect
       {...props}
+      menuIsOpen
       grouped={true}
       searchEnabled={false}
       hideIndicator={true}
