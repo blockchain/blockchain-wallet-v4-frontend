@@ -1,3 +1,11 @@
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { find, path, propEq } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import Bowser from 'bowser'
+import React from 'react'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -7,16 +15,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import { required, validWalletId } from 'services/FormHelper'
-import { Wrapper } from 'components/Public'
-import Bowser from 'bowser'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Form,
   FormError,
@@ -26,10 +24,12 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { required, validWalletId } from 'services/FormHelper'
+import { Wrapper } from 'components/Public'
 import media from 'services/ResponsiveService'
 
 import { Props as OwnProps } from '.'
-import LinkAccount from '../Register/LinkExchangeAccount'
+import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
@@ -45,10 +45,9 @@ const isSupportedBrowser = browser.satisfies({
 
 export const removeWhitespace = string => string.replace(/\s/g, ``)
 
-const OutterWrapper = styled.div`
+const OuterWrapper = styled.div`
   display: flex;
 `
-
 const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -170,8 +169,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
 
   return (
-    <OutterWrapper>
-      {isLinkAccountGoal && <LinkAccount />}
+    <OuterWrapper>
+      {isLinkAccountGoal && <LinkExchangeAccount />}
       <LoginWrapper>
         <PublicWrapper>
           <Modals />
@@ -432,7 +431,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
           </Link>
         </LinkContainer>
       </LoginWrapper>
-    </OutterWrapper>
+    </OuterWrapper>
   )
 }
 

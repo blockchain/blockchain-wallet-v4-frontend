@@ -1778,6 +1778,7 @@ type MessagesType = {
   'scenes.register.walletcard.item.2.regular': 'crypto on mobile and desktop.'
   'scenes.register.walletcard.item.3.bold': 'Control your money'
   'scenes.register.walletcard.item.3.regular': 'by holding your private keys.'
+  'scenes.register.walletcard.linktitle': 'Create a New Wallet'
   'scenes.register.walletcard.title': 'Blockchain Wallet'
   'scenes.register.youremail': 'Your Email'
   'scenes.reminder.captcha': 'Captcha'
