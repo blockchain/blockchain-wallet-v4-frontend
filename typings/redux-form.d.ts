@@ -7,6 +7,8 @@ import {
 } from 'redux-form'
 
 export type WalletFormType =
+  | '@EXCHANGE.CONFIRM_FORM'
+  | '@EXCHANGE.EXCHANGE_FORM'
   | '@SEND.BCH.FORM'
   | '@SEND.BTC.FORM'
   | '@SEND.ETH.FORM'

@@ -20,6 +20,7 @@ import {
   toUpper,
   values
 } from 'ramda'
+import { CoinType, ExtractSuccess, SBBalanceType } from 'core/types'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
@@ -28,6 +29,22 @@ import {
   getTargetCoinsPairedToSource
 } from './model'
 import { model, selectors } from 'data'
+
+const getCustodyBalance = curry((coin: CoinType, state) => {
+  return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
+})
+const generateCustodyAccount = (coin: CoinType, sbBalance?: SBBalanceType) => {
+  // hack to support PAX rebrand 🤬
+  const ticker = coin === 'PAX' ? 'USD-D' : coin
+  return [
+    {
+      coin,
+      label: `${ticker} Trading Wallet`,
+      type: ADDRESS_TYPES.CUSTODIAL,
+      balance: sbBalance?.available || '0'
+    }
+  ]
+}
 
 export const canUseExchange = state =>
   selectors.modules.profile
@@ -78,10 +95,16 @@ export const bchGetActiveAccounts = createDeepEqualSelector(
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
     coreSelectors.kvStore.bch.getAccounts,
-    coreSelectors.common.bch.getLockboxBchBalances
+    coreSelectors.common.bch.getLockboxBchBalances,
+    getCustodyBalance('BCH')
   ],
-  (bchAccounts, bchDataR, bchMetadataR, lockboxBchAccountsR) => {
-    const transform = (bchData, bchMetadata, lockboxBchAccounts) =>
+  (bchAccounts, bchDataR, bchMetadataR, lockboxBchAccountsR, sbBalanceR) => {
+    const transform = (
+      bchData,
+      bchMetadata,
+      lockboxBchAccounts,
+      sbBalance: ExtractSuccess<typeof sbBalanceR>
+    ) =>
       bchAccounts
         .map(acc => {
           const index = prop('index', acc)
@@ -100,7 +123,14 @@ export const bchGetActiveAccounts = createDeepEqualSelector(
         })
         .filter(isActive)
         .concat(lockboxBchAccounts)
-    return lift(transform)(bchDataR, bchMetadataR, lockboxBchAccountsR)
+        .concat(generateCustodyAccount('BCH', sbBalance))
+
+    return lift(transform)(
+      bchDataR,
+      bchMetadataR,
+      lockboxBchAccountsR,
+      sbBalanceR
+    )
   }
 )
 
@@ -108,10 +138,15 @@ export const btcGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.btc.getAddresses,
-    coreSelectors.common.btc.getLockboxBtcBalances
+    coreSelectors.common.btc.getLockboxBtcBalances,
+    getCustodyBalance('BTC')
   ],
-  (btcAccounts, btcDataR, lockboxBtcAccountsR) => {
-    const transform = (btcData, lockboxBtcAccounts) => {
+  (btcAccounts, btcDataR, lockboxBtcAccountsR, sbBalanceR) => {
+    const transform = (
+      btcData,
+      lockboxBtcAccounts,
+      sbBalance: ExtractSuccess<typeof sbBalanceR>
+    ) => {
       return btcAccounts
         .map(acc => ({
           archived: prop('archived', acc),
@@ -124,9 +159,10 @@ export const btcGetActiveAccounts = createDeepEqualSelector(
         }))
         .filter(isActive)
         .concat(lockboxBtcAccounts)
+        .concat(generateCustodyAccount('BTC', sbBalance))
     }
 
-    return lift(transform)(btcDataR, lockboxBtcAccountsR)
+    return lift(transform)(btcDataR, lockboxBtcAccountsR, sbBalanceR)
   }
 )
 
@@ -134,10 +170,16 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses,
     coreSelectors.kvStore.eth.getAccounts,
-    coreSelectors.common.eth.getLockboxEthBalances
+    coreSelectors.common.eth.getLockboxEthBalances,
+    getCustodyBalance('ETH')
   ],
-  (ethDataR, ethMetadataR, lockboxEthDataR) => {
-    const transform = (ethData, ethMetadata, lockboxEthData) =>
+  (ethDataR, ethMetadataR, lockboxEthDataR, sbBalanceR) => {
+    const transform = (
+      ethData,
+      ethMetadata,
+      lockboxEthData,
+      sbBalance: ExtractSuccess<typeof sbBalanceR>
+    ) =>
       ethMetadata
         .map(acc => {
           const address = prop('addr', acc)
@@ -152,8 +194,9 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
           }
         })
         .concat(lockboxEthData)
+        .concat(generateCustodyAccount('ETH', sbBalance))
 
-    return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR)
+    return lift(transform)(ethDataR, ethMetadataR, lockboxEthDataR, sbBalanceR)
   }
 )
 
@@ -162,19 +205,33 @@ export const erc20GetActiveAccounts = createDeepEqualSelector(
     coreSelectors.data.eth.getDefaultAddress,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
     (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
+    (state, token) => getCustodyBalance(token, state),
     (state, token) => token
   ],
-  (ethAddressR, erc20AccountR, erc20BalanceR, token) => {
-    const transform = (ethAddress, erc20Account, erc20Balance) => [
-      {
-        coin: toUpper(token),
-        label: prop('label', erc20Account),
-        address: ethAddress,
-        balance: erc20Balance,
-        type: ADDRESS_TYPES.ACCOUNT
-      }
-    ]
-    return lift(transform)(ethAddressR, erc20AccountR, erc20BalanceR)
+  (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, token) => {
+    const transform = (
+      ethAddress,
+      erc20Account,
+      erc20Balance,
+      sbBalance: ExtractSuccess<typeof sbBalanceR>
+    ) =>
+      [
+        {
+          coin: toUpper(token),
+          label: prop('label', erc20Account),
+          address: ethAddress,
+          balance: erc20Balance,
+          type: ADDRESS_TYPES.ACCOUNT
+        }
+        // @ts-ignore
+      ].concat(generateCustodyAccount(toUpper(token), sbBalance))
+
+    return lift(transform)(
+      ethAddressR,
+      erc20AccountR,
+      erc20BalanceR,
+      sbBalanceR
+    )
   }
 )
 
@@ -182,10 +239,15 @@ export const xlmGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
-    coreSelectors.common.xlm.getLockboxXlmBalances
+    coreSelectors.common.xlm.getLockboxXlmBalances,
+    getCustodyBalance('XLM')
   ],
-  (xlmData, xlmMetadataR, lockboxXlmDataR) => {
-    const transform = (xlmMetadata, lockboxXlmData) =>
+  (xlmData, xlmMetadataR, lockboxXlmDataR, sbBalanceR) => {
+    const transform = (
+      xlmMetadata,
+      lockboxXlmData,
+      sbBalance: ExtractSuccess<typeof sbBalanceR>
+    ) =>
       xlmMetadata
         .map(acc => {
           const address = prop('publicKey', acc)
@@ -207,8 +269,9 @@ export const xlmGetActiveAccounts = createDeepEqualSelector(
         })
         .filter(isActive)
         .concat(lockboxXlmData)
+        .concat(generateCustodyAccount('XLM', sbBalance))
 
-    return lift(transform)(xlmMetadataR, lockboxXlmDataR)
+    return lift(transform)(xlmMetadataR, lockboxXlmDataR, sbBalanceR)
   }
 )
 

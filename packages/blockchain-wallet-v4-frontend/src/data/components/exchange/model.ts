@@ -69,6 +69,7 @@ export const getTargetCoinsPairedToSource = getPairedCoins(last, head)
 export const getSourceCoinsPairedToTarget = getPairedCoins(head, last)
 
 const getAvailableCoin = headOrLast => availablePairs =>
+  // @ts-ignore
   compose(sortByOrder, uniq, map(headOrLast), map(splitPair))(availablePairs)
 export const getAvailableSourceCoins = getAvailableCoin(head)
 export const getAvailableTargetCoins = getAvailableCoin(last)
