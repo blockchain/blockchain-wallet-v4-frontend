@@ -206,7 +206,6 @@ const SelectBoxExchange = (props: Props) => {
   return (
     <ExchangeSelect
       {...props}
-      menuIsOpen
       grouped={true}
       searchEnabled={false}
       hideIndicator={true}
