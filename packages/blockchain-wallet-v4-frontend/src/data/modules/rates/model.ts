@@ -123,28 +123,28 @@ export const getComplementaryField = flip(prop)({
   sourceFiat: 'sourceAmount',
   targetAmount: 'targetFiat',
   targetFiat: 'targetAmount'
-})
+}) as any
 
 export const mapFixToFieldName = flip(prop)({
   [BASE]: 'sourceAmount',
   [BASE_IN_FIAT]: 'sourceFiat',
   [COUNTER]: 'targetAmount',
   [COUNTER_IN_FIAT]: 'targetFiat'
-})
+}) as any
 
 export const swapCoinAndFiat = flip(prop)({
   [BASE]: BASE_IN_FIAT,
   [COUNTER]: COUNTER_IN_FIAT,
   [BASE_IN_FIAT]: BASE,
   [COUNTER_IN_FIAT]: COUNTER
-})
+}) as any
 
 export const swapBaseAndCounter = flip(prop)({
   [BASE]: COUNTER,
   [COUNTER]: BASE,
   [BASE_IN_FIAT]: COUNTER_IN_FIAT,
   [COUNTER_IN_FIAT]: BASE_IN_FIAT
-})
+}) as any
 
 export const coinActive = flip(contains)([BASE, COUNTER])
 export const fiatActive = flip(contains)([BASE_IN_FIAT, COUNTER_IN_FIAT])

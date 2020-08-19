@@ -12,6 +12,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       endPoint: '/payments/beneficiaries'
     })
 
+  const getCustodialTrades = () =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/custodial/trades'
+    })
+
   const withdrawFunds = (
     beneficiary: BeneficiaryType,
     currency: WalletFiatType,
@@ -33,6 +39,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     getBeneficiaries,
+    getCustodialTrades,
     withdrawFunds
   }
 }

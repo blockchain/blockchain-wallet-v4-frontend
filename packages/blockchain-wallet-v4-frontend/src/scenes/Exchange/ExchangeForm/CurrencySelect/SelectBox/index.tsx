@@ -185,7 +185,7 @@ const renderItem = (item: SwapAccountDropdownItemType) => {
 
 const renderGroupHeading = (props, heading: GroupHeadingLabelType) => {
   return (
-    <GroupHeadingWrapper>
+    <GroupHeadingWrapper role='button'>
       <Icon
         size='28px'
         color={heading.coin.toLowerCase() as keyof DefaultTheme}

@@ -7,27 +7,35 @@ import { actions, selectors } from 'data'
 import { configEquals, splitPair } from './model'
 
 export default ({ api }) => {
-  const subscribeToAdvice = function * ({ payload }) {
-    const { pair, volume, fix, fiatCurrency } = payload
+  const subscribeToAdvice = function * ({
+    payload
+  }: ReturnType<typeof A.subscribeToAdvice>) {
+    try {
+      const { pair, volume, fix, fiatCurrency } = payload
 
-    yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
-    yield put(
-      actions.middleware.webSocket.rates.openAdviceChannel(
-        pair,
-        volume,
-        fix,
-        fiatCurrency
+      yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
+      yield put(
+        actions.middleware.webSocket.rates.openAdviceChannel(
+          pair,
+          volume,
+          fix,
+          fiatCurrency
+        )
       )
-    )
+    } catch (e) {}
   }
 
-  const unsubscribeFromAdvice = function * ({ payload }) {
+  const unsubscribeFromAdvice = function * ({
+    payload
+  }: ReturnType<typeof A.unsubscribeFromAdvice>) {
     const { pair } = payload
 
     yield put(actions.middleware.webSocket.rates.closeAdviceChannel(pair))
   }
 
-  const subscribeToRates = function * ({ payload }) {
+  const subscribeToRates = function * ({
+    payload
+  }: ReturnType<typeof A.subscribeToRates>) {
     const { pairs } = payload
 
     yield put(actions.middleware.webSocket.rates.closeRatesChannel())
@@ -66,7 +74,9 @@ export default ({ api }) => {
     }
   }
 
-  const updateAdvice = function * ({ payload: { quote } }) {
+  const updateAdvice = function * ({
+    payload: { quote }
+  }: ReturnType<typeof A.updateAdvice>) {
     const { pair, fix, volume, fiatCurrency } = quote
     const currentConfig = yield select(S.getPairConfig(pair))
     if (configEquals(currentConfig, { fix, volume, fiatCurrency })) {

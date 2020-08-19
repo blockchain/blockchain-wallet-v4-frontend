@@ -1,12 +1,21 @@
+import { CustodialOrderDirectionType } from './types'
 import isObject from 'isobject'
 
+import { SwapExchangeQuoteType } from 'data/modules/rates/types'
+
 export default ({ nabuUrl, post, put, get }) => {
-  const executeTrade = (quote, refundAddress, destinationAddress) =>
+  const executeTrade = (
+    quote: SwapExchangeQuoteType,
+    refundAddress?: string,
+    destinationAddress?: string,
+    orderDirection?: CustodialOrderDirectionType | null
+  ) =>
     post({
       url: nabuUrl,
-      endPoint: `/trades`,
+      endPoint: orderDirection ? `/custodial/trades` : `/trades`,
       data: {
         quote,
+        orderDirection,
         destinationAddress,
         refundAddress
       },
@@ -23,7 +32,7 @@ export default ({ nabuUrl, post, put, get }) => {
     })
 
   const fetchTrades = (limit, userFiatCurrency, before = null) => {
-    const data = { limit, userFiatCurrency }
+    const data = { limit, userFiatCurrency, before }
     if (before) data.before = before
     return get({
       url: nabuUrl,
@@ -50,7 +59,7 @@ export default ({ nabuUrl, post, put, get }) => {
     })
 
   const failTrade = (tradeId, err, txHash = null) => {
-    let failureReason = null
+    let failureReason: null | { message: string } = null
     if (typeof err === 'string') failureReason = { message: err }
     if (isObject(err)) failureReason = err
     if (err instanceof Error) failureReason = { message: err.message }

@@ -44,6 +44,7 @@ import {
   validateVolume
 } from './services'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { APIType } from 'core/network/api'
 import { CoinType, PaymentValue } from 'core/types'
 import {
   CONFIRM_FORM,
@@ -59,10 +60,13 @@ import {
   NO_LIMITS_ERROR
 } from './model'
 import { currencySymbolMap } from 'services/CoinifyService'
+import { CustodialOrderDirectionType } from 'core/network/api/trades/types'
 import { ETH_AIRDROP_MODAL } from '../exchangeHistory/model'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 import { selectReceiveAddress } from '../utils/sagas'
+import { SwapAccountType } from './types'
+import { SwapExchangeQuoteType } from 'data/modules/rates/types'
 import utils from './sagas.utils'
 
 export const logLocation = 'exchange/sagas'
@@ -70,7 +74,15 @@ export const renewLimitsDelay = 30 * 1000
 const fallbackSourceFees = { source: 0, target: 0, mempoolFees: {} }
 
 let renewLimitsTask = null
-export default ({ api, coreSagas, networks }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
   const { SWAP_EVENTS } = model.analytics
   const {
     RESULTS_MODAL,
@@ -708,22 +720,43 @@ export default ({ api, coreSagas, networks }) => {
     return { scrambleKey, connection }
   }
 
-  const createTrade = function * (source, target, pair) {
-    const quote = (yield select(
+  const createTrade = function * (
+    source: SwapAccountType,
+    target: SwapAccountType,
+    pair
+  ) {
+    const quote: SwapExchangeQuoteType = (yield select(
       selectors.modules.rates.getPairQuote(pair)
     )).getOrFail(NO_ADVICE_ERROR)
-    const refundAddress = yield call(selectReceiveAddress, source, networks)
-    const destinationAddress = yield call(
-      selectReceiveAddress,
-      target,
-      networks
-    )
+
+    const getOrderDirection = () => {
+      if (source.type === 'CUSTODIAL' || target.type === 'CUSTODIAL') {
+        if (source.type === 'CUSTODIAL' && target.type === 'CUSTODIAL')
+          return 'INTERNAL'
+        if (source.type === 'ACCOUNT') return 'FROM_USERKEY'
+        if (target.type === 'ACCOUNT') return 'TO_USERKEY'
+      }
+
+      return null
+    }
+
+    const orderDirection: CustodialOrderDirectionType | null = getOrderDirection()
+    const refundAddress =
+      source.type === 'ACCOUNT'
+        ? yield call(selectReceiveAddress, source, networks)
+        : null
+    const destinationAddress =
+      target.type === 'ACCOUNT'
+        ? yield call(selectReceiveAddress, target, networks)
+        : null
+
     // Execute trade
     return yield call(
       api.executeTrade,
       quote,
       refundAddress,
-      destinationAddress
+      destinationAddress,
+      orderDirection
     )
   }
 
