@@ -1,14 +1,25 @@
+import { always, equals, head, includes, prop, toLower } from 'ramda'
+import {
+  call,
+  cancel,
+  fork,
+  join,
+  put,
+  select,
+  SelectEffect,
+  take
+} from 'redux-saga/effects'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import BigNumber from 'bignumber.js'
+
 import * as S from './selectors'
-import { AccountTypes } from 'core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { always, equals, head, includes, prop, toLower } from 'ramda'
-import { call, cancel, fork, join, put, select, take } from 'redux-saga/effects'
 import { convertStandardToBase } from './services'
 import { CREATE_ACCOUNT_ERROR, NO_ACCOUNT_ERROR, RESERVE_ERROR } from './model'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { MempoolFeeType } from './types'
-import BigNumber from 'bignumber.js'
+import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { MempoolFeeType, SwapAccountType } from './types'
+import { PaymentType, PaymentValue } from 'core/types'
 
 const PROVISIONAL_BTC_SCRIPT = '00000000000000000000000'
 const PROVISIONAL_BCH_SCRIPT = '0000000000000000000000000'
@@ -17,6 +28,7 @@ export default ({ coreSagas, networks }) => {
   const btcOptions = [networks.btc, PROVISIONAL_BTC_SCRIPT]
   const bchOptions = [networks.bch, PROVISIONAL_BCH_SCRIPT]
   const ethOptions = [networks.eth, null]
+  const algoOptions = [null, null]
   const xlmOptions = [null, null]
   let prevPaymentSource
   let prevPaymentAmount
@@ -49,48 +61,72 @@ export default ({ coreSagas, networks }) => {
   }
 
   const calculateProvisionalPayment = function * (
-    source: AccountTypes,
+    source: SwapAccountType,
     amount,
     fee: MempoolFeeType = 'priority'
-  ) {
-    try {
-      const coin = prop('coin', source)
-      const addressOrIndex = prop('address', source)
-      const addressType = prop('type', source)
-      const erc20List = (yield select(
-        selectors.core.walletOptions.getErc20CoinList
-      )).getOrElse([])
-      isSourceErc20 = includes(coin, erc20List)
-      const [network, provisionalScript] = isSourceErc20
-        ? ethOptions
-        : prop(coin, {
+  ): Generator<PaymentType | SelectEffect, PaymentValue> {
+    switch (source.type) {
+      case 'CUSTODIAL':
+        // @ts-ignore
+        return {
+          change: '',
+          coin: source.coin,
+          fromType: source.type,
+          fees: {
+            limits: { max: 0, min: 0 },
+            priority: 0,
+            regular: 0
+          },
+          effectiveBalance: source.balance
+        }
+      case 'ACCOUNT':
+        try {
+          const coin = prop('coin', source)
+          const addressOrIndex = prop('address', source)
+          const addressType = prop('type', source)
+          const erc20List = selectors.core.walletOptions
+            .getErc20CoinList(yield select())
+            .getOrElse([])
+          isSourceErc20 = includes(coin, erc20List)
+          const [network, provisionalScript] = prop(coin, {
             BTC: btcOptions,
             BCH: bchOptions,
             ETH: ethOptions,
+            PAX: ethOptions,
+            USDT: ethOptions,
+            ALGO: algoOptions,
             XLM: xlmOptions
           })
-      const paymentType = isSourceErc20 ? 'eth' : toLower(coin)
-      const payment = yield coreSagas.payment[paymentType]
-        .create({ network })
-        .chain()
-        .init({ isErc20: isSourceErc20, coin })
-        .fee(fee)
-        .from(addressOrIndex, addressType)
-        .done()
-      if (isSourceErc20 || includes(coin, ['ETH', 'XLM'])) {
-        return payment.amount(convertStandardToBase(coin, amount)).value()
-      }
-
-      return (yield payment
-        .chain()
-        .to(provisionalScript, ADDRESS_TYPES.SCRIPT)
-        .amount(parseInt(convertStandardToBase(coin, amount)))
-        .build()
-        .done()).value()
-    } catch (e) {
-      // eslint-disable-next-line
-      console.log(e)
-      return {}
+          const paymentType = isSourceErc20 ? 'eth' : toLower(coin)
+          const payment = (yield coreSagas.payment[paymentType]
+            .create({ network })
+            .chain()
+            .init({ isErc20: isSourceErc20, coin })
+            .fee(fee)
+            .from(addressOrIndex, addressType)
+            .done()) as PaymentType
+          switch (payment.coin) {
+            case 'ETH':
+            case 'PAX':
+            case 'USDT':
+            case 'XLM':
+              return payment.amount(convertStandardToBase(coin, amount)).value()
+            case 'BCH':
+            case 'BTC':
+              return ((yield payment
+                .chain()
+                .to(provisionalScript, ADDRESS_TYPES.SCRIPT)
+                .amount(parseInt(convertStandardToBase(coin, amount)))
+                .build()
+                .done()) as PaymentType).value()
+            default:
+              throw new Error(INVALID_COIN_TYPE)
+          }
+        } catch (e) {
+          // eslint-disable-next-line
+          console.log(e)
+          return {} as PaymentValue
+        }
     }
   }
 

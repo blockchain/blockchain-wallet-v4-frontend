@@ -3,9 +3,9 @@ import { FormAction, initialize } from 'redux-form'
 import { head, last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
+import { CoinType, PaymentValue, RatesType } from 'core/types'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -19,6 +19,7 @@ import {
   INVALID_COIN_TYPE,
   NO_DEFAULT_ACCOUNT
 } from 'blockchain-wallet-v4/src/model'
+import { SwapAccountType } from '../exchange/types'
 import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
 
@@ -44,7 +45,10 @@ export default ({
     networks
   })
 
-  const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
+  const getAccountIndexOrAccount = (
+    coin: CoinType,
+    account: SwapAccountType
+  ) => {
     switch (coin) {
       case 'ETH':
       case 'PAX':

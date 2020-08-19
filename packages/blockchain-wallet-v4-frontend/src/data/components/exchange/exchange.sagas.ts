@@ -303,11 +303,11 @@ export default ({ api, coreSagas, networks }) => {
     const source = prop('source', form)
     const amounts = yield call(getAmounts, getCurrentPair(form))
     const sourceAmount = prop('sourceAmount', amounts)
-    return yield call(
+    return (yield call(
       memo ? calculatePaymentMemo : calculateProvisionalPayment,
       source,
       sourceAmount
-    )
+    )) as PaymentValue
   }
 
   const updateSourceFee = function * (payment?: PaymentValue) {

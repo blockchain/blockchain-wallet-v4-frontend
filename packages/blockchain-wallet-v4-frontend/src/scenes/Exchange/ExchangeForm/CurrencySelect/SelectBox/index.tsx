@@ -4,8 +4,9 @@ import React from 'react'
 import styled, { css, DefaultTheme } from 'styled-components'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { GroupHeadingLabelType, SwapAccountType } from '../types'
+import { GroupHeadingLabelType } from '../types'
 import { SelectBox } from 'components/Form'
+import { SwapAccountDropdownItemType } from 'data/types'
 
 const option = css`
   padding: 12px 20px;
@@ -150,7 +151,7 @@ const DisplayIcon = styled(Icon)`
   color: ${props => props.theme.white};
 `
 
-const renderDisplay = (item: SwapAccountType, children) => {
+const renderDisplay = (item: SwapAccountDropdownItemType, children) => {
   if (!item.value) return
   const coin = item.value.coin
   const icon = item.value.icon
@@ -166,7 +167,7 @@ const renderDisplay = (item: SwapAccountType, children) => {
   )
 }
 
-const renderItem = (item: SwapAccountType) => {
+const renderItem = (item: SwapAccountDropdownItemType) => {
   if (!item.value) return
 
   return (
@@ -216,6 +217,6 @@ const SelectBoxExchange = (props: Props) => {
   )
 }
 
-type Props = { elements: Array<SwapAccountType> }
+type Props = { elements: Array<SwapAccountDropdownItemType> }
 
 export default SelectBoxExchange

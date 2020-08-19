@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
-import { CurrenciesType, RemoteDataType } from 'core/types'
+import { CoinType, CurrenciesType, RemoteDataType } from 'core/types'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 
 // Types
 export type LimitAmountType = {
@@ -41,6 +42,23 @@ export type SourceFeeType =
       source: number
       target: number
     }
+
+export type SwapAccountType = {
+  address: number | string
+  archived: boolean
+  balance: number
+  coin: CoinType
+  icon: keyof IcoMoonType
+  index: number
+  label: string
+  noAccount: boolean
+  type: 'ACCOUNT' | 'CUSTODIAL'
+}
+
+export type SwapAccountDropdownItemType = {
+  text: string
+  value?: SwapAccountType
+}
 
 export type SwapLimitsType = {
   annual: LimitDurationType

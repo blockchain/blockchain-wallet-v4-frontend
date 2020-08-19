@@ -1,7 +1,7 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
 
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
-  AccountTypes,
   CoinType,
   FiatType,
   PaymentType,
@@ -9,7 +9,6 @@ import {
   RatesType,
   RemoteDataType
 } from 'core/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -18,6 +17,7 @@ import { selectors } from 'data'
 import * as A from './actions'
 import * as S from './selectors'
 import { convertBaseToStandard } from '../exchange/services'
+import { SwapAccountType } from '../exchange/types'
 import exchangeSagaUtils from '../exchange/sagas.utils'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
@@ -126,7 +126,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function * (source: AccountTypes) {
+  const createPayment = function * (source: SwapAccountType) {
     const coin = S.getCoinType(yield select())
 
     const payment: PaymentValue = yield call(

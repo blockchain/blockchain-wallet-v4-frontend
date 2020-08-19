@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
 import {
-  AccountTypes,
   CoinType,
   LoanTransactionsType,
   LoanType,
@@ -9,12 +8,13 @@ import {
   PaymentValue,
   RemoteDataType
 } from 'core/types'
+import { SwapAccountType } from '../exchange/types'
 
 // Types
 
 export type BorrowFormValuesType = {
   additionalCollateral?: string
-  collateral: AccountTypes
+  collateral: SwapAccountType
   collateralCryptoAmt?: number
   maxCollateral?: number
   offer: OfferType

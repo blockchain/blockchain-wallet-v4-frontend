@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
 import {
-  AccountTypes,
   CoinType,
   InterestAccountBalanceType,
   InterestAccountType,
@@ -13,6 +12,7 @@ import {
   RemoteDataType,
   WithdrawalMinimumType
 } from 'core/types'
+import { SwapAccountType } from '../exchange/types'
 
 //
 // Types
@@ -20,7 +20,7 @@ import {
 export type InterestDepositFormType = {
   agreement: boolean
   depositAmount: number
-  interestDepositAccount: AccountTypes
+  interestDepositAccount: SwapAccountType
   loanTimeFrame: 'long' | 'short'
   terms: boolean
 }
