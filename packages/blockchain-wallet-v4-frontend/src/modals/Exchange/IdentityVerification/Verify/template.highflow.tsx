@@ -1,5 +1,4 @@
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import QRCodeReact from 'qrcode.react'
 import React from 'react'
 import styled from 'styled-components'
@@ -16,6 +15,8 @@ import {
 import { Button, Link, Text } from 'blockchain-info-components'
 import { FooterShadowWrapper } from 'components/Form'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+
+import { Props, SuccessStateType } from '.'
 
 const ColumnSubHeader = styled(IdentityVerificationSubHeader)`
   display: flex;
@@ -34,7 +35,7 @@ const QrCode = styled(QRCodeReact)`
   padding: 0 40px;
 `
 
-class Verify extends React.PureComponent {
+class Verify extends React.PureComponent<OwnProps & Props & SuccessStateType> {
   componentDidMount () {
     this.props.send()
   }
@@ -74,7 +75,10 @@ class Verify extends React.PureComponent {
                       <React.Fragment>
                         <CenterWrapper>
                           <Link href={deeplink} target='_blank'>
-                            <Button nature='primary'>
+                            <Button
+                              data-e2e='continueOnMobile'
+                              nature='primary'
+                            >
                               <FormattedMessage
                                 id='identityverification.highflow.continueonmobile'
                                 defaultMessage='Continue on mobile'
@@ -103,7 +107,7 @@ class Verify extends React.PureComponent {
                         <Text weight={400}>
                           <FormattedHTMLMessage
                             id='identityverification.highflow.scanqr'
-                            defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app. '
+                            defaultMessage='1 - <b>Scan this QR code</b> with your phone to log into this wallet or download our mobile app.'
                           />
                           <br />
                           <br />
@@ -119,7 +123,7 @@ class Verify extends React.PureComponent {
                     <Text weight={400}>
                       <FormattedHTMLMessage
                         id='identityverification.highflow.getidready'
-                        defaultMessage='3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video. '
+                        defaultMessage='3 - Get your <b>Identity documents</b> (e.g. Passport) and be ready to take a selfie video.'
                       />
                     </Text>
                   </ColumnSubHeader>
@@ -150,8 +154,9 @@ class Verify extends React.PureComponent {
   }
 }
 
-Verify.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+type OwnProps = {
+  done: () => void
+  send: () => void
 }
 
 export default Verify

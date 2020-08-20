@@ -26,7 +26,10 @@ export const getOptions = (state: RootState) =>
   state.walletOptionsPath as RemoteDataType<string, WalletOptionsType>
 export const getDomains = state => getOptions(state).map(x => x.domains)
 export const getWebOptions = state =>
-  getOptions(state).map(path(['platforms', 'web']))
+  getOptions(state).map(path(['platforms', 'web'])) as RemoteDataType<
+    string,
+    WalletOptionsType['platforms']['web']
+  >
 export const getWalletHelperUrl = state =>
   getDomains(state).map(prop('walletHelper'))
 export const getAppEnv = state =>
@@ -37,6 +40,7 @@ export const getAnnouncements = state =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
 // coins
+// @ts-ignore
 export const getSupportedCoins = createDeepEqualSelector(
   [getInvitations, getWebOptions],
   (invitationsR, webOptionsR) => {
@@ -91,3 +95,6 @@ export const getVeriffDomain = state => getDomains(state).map(prop('veriff'))
 // partners
 export const getSiftKey = state =>
   getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getSiftPaymentKey = (state: RootState) => {
+  return getWebOptions(state).map(options => options.sift.paymentKey)
+}
