@@ -41,8 +41,7 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const waitForUserData = profileSagas({ api, coreSagas, networks })
-    .waitForUserData
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
   const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
     .calculateProvisionalPayment
   const {

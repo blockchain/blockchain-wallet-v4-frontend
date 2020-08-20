@@ -1,5 +1,5 @@
 import * as WalletOptions from '../../../../../config/mocks/wallet-options-v4.json'
-import { CoinType, WalletFiatType } from '../../types'
+import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 
 export type WalletOptionsType = typeof WalletOptions
@@ -66,3 +66,5 @@ export type SupportedWalletCurrenciesType = {
 export type SupportedWalletCurrencyType = SupportedCoinType | SupportedFiatType
 
 export const NO_SUPPORTED_COINS = 'No supported coins available.'
+// state
+export type WalletOptionsState = RemoteDataType<string, WalletOptionsType>

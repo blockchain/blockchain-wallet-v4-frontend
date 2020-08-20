@@ -7,6 +7,7 @@ import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
 import { sendEthReducer } from './sendEth/reducers'
+import { sendReducer } from './send/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import { withdrawReducer } from './withdraw/reducers'
@@ -16,7 +17,6 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import onfido from './onfido/reducers'
 import priceChart from './priceChart/reducers'
-import send from './send/reducers'
 import signMessage from './signMessage/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
@@ -33,7 +33,7 @@ const componentReducer = combineReducers({
   onfido,
   priceChart,
   recoveryPhrase: recoveryPhraseReducer,
-  send,
+  send: sendReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
   sendEth: sendEthReducer,

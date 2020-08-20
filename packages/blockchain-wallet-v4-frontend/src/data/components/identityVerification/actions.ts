@@ -53,7 +53,7 @@ export const setSupportedCountriesFailure = (
   payload: { e }
 })
 
-export const fetchSupportedDocuments = (countryCode: string) => ({
+export const fetchSupportedDocuments = (countryCode?: string) => ({
   type: AT.FETCH_SUPPORTED_DOCUMENTS,
   payload: { countryCode }
 })

@@ -199,6 +199,7 @@ const Verify = ({
                       :
                     </Text>
                     {resubmissionTipList.map(t => (
+                      // @ts-ignore
                       <Text key={t.key} size='16px' weight={400}>
                         {t}
                       </Text>
