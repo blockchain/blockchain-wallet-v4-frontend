@@ -41,11 +41,13 @@ const rootReducer = {
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
-  [paths.walletOptionsPath]: coreReducers.walletOptions,
+  [paths.walletOptionsPath]: coreReducers.walletOptionsReducer,
   [paths.kvStorePath]: coreReducers.kvStore
 }
 
 const combinedReducer = combineReducers(rootReducer)
 export type RootState = ReturnType<typeof combinedReducer>
+
+type s = RootState['walletOptionsPath']
 
 export default rootReducer

@@ -1,5 +1,6 @@
 import { anyPass, equals, lift } from 'ramda'
 
+import { ExtractSuccess, RemoteDataType } from 'core/types'
 import { model, selectors } from 'data'
 const { GENERAL, EXPIRED } = model.profile.DOC_RESUBMISSION_REASONS
 const { getEmail } = selectors.core.settings
@@ -32,11 +33,13 @@ export const getData = state => {
 
 export const getPreIdvData = state => {
   const getPreIdvDataR = getSiftData(state)
-  const getSiftKeyR = selectors.core.walletOptions.getSiftKey(state)
+  const getSiftKeyR = selectors.core.walletOptions.getSiftKey(
+    state
+  ) as RemoteDataType<any, string>
 
   const siftKey = getSiftKeyR.getOrElse('')
 
-  return lift(preIdvData => {
+  return lift((preIdvData: ExtractSuccess<typeof getPreIdvDataR>) => {
     return {
       ...preIdvData,
       siftKey

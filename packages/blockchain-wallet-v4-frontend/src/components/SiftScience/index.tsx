@@ -1,7 +1,9 @@
-import { connect } from 'react-redux'
-import { path, prop } from 'ramda'
+import { connect, ConnectedProps } from 'react-redux'
+import { WalletOptionsType } from 'core/types'
 import React, { Component } from 'react'
 import styled from 'styled-components'
+
+import { RootState } from 'data/rootReducer'
 
 const SiftScienceIframe = styled.iframe`
   opacity: 0;
@@ -12,17 +14,12 @@ const SiftScienceIframe = styled.iframe`
   left: -1000px;
 `
 
-class SiftScience extends Component {
+class SiftScience extends Component<Props> {
   componentDidMount () {
     let receiveMessage = e => {
-      // const helperDomain = path(
-      //   ['domains', 'walletHelper'],
-      //   this.props.walletOptions
-      // )
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return
       if (e.data.to !== 'exchange') return
-      // if (e.origin !== helperDomain) return
       switch (e.data.command) {
         case 'done':
           this.props.onDone && this.props.onDone()
@@ -35,14 +32,20 @@ class SiftScience extends Component {
   }
 
   render () {
-    const { options, userId, sessionId = '', siftKey } = this.props
+    const { userId, sessionId = '' } = this.props
 
     if (!userId) {
       return null
     }
 
-    const walletOptions = options || prop('data', this.props.walletOptions)
-    const helperDomain = path(['domains', 'walletHelper'], walletOptions)
+    if (!this.props.walletOptions.data) {
+      return null
+    }
+
+    const walletOptions = this.props.walletOptions.data as WalletOptionsType
+    const helperDomain = walletOptions.domains.walletHelper
+    const siftKey =
+      this.props.siftKey || walletOptions.platforms.web.sift.paymentKey
     // reverse sift-science
     let url = `${helperDomain}/wallet-helper/ecneics-tfis/#/key/${siftKey}/user/${userId}/sessionId/${sessionId}`
     return (
@@ -51,8 +54,19 @@ class SiftScience extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  walletOptions: path(['walletOptionsPath'], state)
+const mapStateToProps = (state: RootState) => ({
+  walletOptions: state.walletOptionsPath
 })
 
-export default connect(mapStateToProps)(SiftScience)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  onDone?: () => void
+  sessionId?: string
+  siftKey?: string
+  userId?: string
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(SiftScience)
