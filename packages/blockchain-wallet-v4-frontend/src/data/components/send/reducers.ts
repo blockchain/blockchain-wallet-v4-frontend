@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
-import { assocPath } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { SendState } from './types'
 
-const INITIAL_STATE = {
+const INITIAL_STATE: SendState = {
   exchangePaymentsAccount: {
     BTC: Remote.NotAsked,
     BCH: Remote.NotAsked,
@@ -14,33 +14,39 @@ const INITIAL_STATE = {
   }
 }
 
-export default (state = INITIAL_STATE, action) => {
+export function sendReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS: {
       const { currency, data } = payload
-      return assocPath(
-        ['exchangePaymentsAccount', currency],
-        Remote.Success(data),
-        state
-      )
+      return {
+        ...state,
+        exchangePaymentsAccount: {
+          ...state.exchangePaymentsAccount,
+          [currency]: Remote.Success(data)
+        }
+      }
     }
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_LOADING: {
       const { currency } = payload
-      return assocPath(
-        ['exchangePaymentsAccount', currency],
-        Remote.Loading,
-        state
-      )
+      return {
+        ...state,
+        exchangePaymentsAccount: {
+          ...state.exchangePaymentsAccount,
+          [currency]: Remote.Loading
+        }
+      }
     }
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_FAILURE: {
       const { currency, e } = payload
-      return assocPath(
-        ['exchangePaymentsAccount', currency],
-        Remote.Failure(e),
-        state
-      )
+      return {
+        ...state,
+        exchangePaymentsAccount: {
+          ...state.exchangePaymentsAccount,
+          [currency]: Remote.Failure(e)
+        }
+      }
     }
     default:
       return state

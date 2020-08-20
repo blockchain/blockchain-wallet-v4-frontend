@@ -1,18 +1,14 @@
-import * as A from './actions.js'
-import { actions, actionTypes, model, selectors } from 'data'
-import { call, put, select, take } from 'redux-saga/effects'
-import { Remote } from 'blockchain-wallet-v4/src'
+import * as A from './actions'
+import { actions, model, selectors } from 'data'
+import { call, put, select } from 'redux-saga/effects'
+
+import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
-export default ({ api }) => {
+export default ({ api, coreSagas, networks }) => {
   const logLocation = 'components/send/sagas'
-
-  const waitForUserData = function * () {
-    const userData = yield select(selectors.modules.profile.getUserData)
-    if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
-  }
+  const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload

@@ -55,7 +55,7 @@ export default ({ api, coreSagas, networks }) => ({
   requestBch: requestBch(),
   requestEth: requestEth(),
   requestXlm: requestXlm(),
-  send: send({ api }),
+  send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ coreSagas, networks }),
   sendBtc: sendBtc({ coreSagas, networks }),
   sendEth: sendEth({ api, coreSagas, networks }),

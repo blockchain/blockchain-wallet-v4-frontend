@@ -59,6 +59,7 @@ export default ({ api, coreSagas, networks }) => {
     // Fetch balances when profile/user is fetched
     yield takeLatest(
       [
+        actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
         actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
         actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],
