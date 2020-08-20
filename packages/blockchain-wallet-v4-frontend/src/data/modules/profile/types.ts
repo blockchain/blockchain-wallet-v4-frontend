@@ -120,6 +120,15 @@ export type UserTierType = {
   state: TierStateType
 }
 
+export type AddressType = {
+  city: string
+  country: string
+  line1: string
+  line2: null
+  postCode: string
+  state: null
+}
+
 export type UserTiersType = Array<UserTierType>
 
 // State
@@ -194,6 +203,8 @@ interface FetchUserDataSuccessAction {
 }
 interface LinkFromExchangeAccountAction {
   payload: {
+    address?: AddressType
+    email?: string
     linkId: string
   }
   type: typeof AT.LINK_FROM_EXCHANGE_ACCOUNT

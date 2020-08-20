@@ -39,13 +39,18 @@ export default ({
     })
   }
 
-  const linkAccount = linkId => {
+  const linkAccount = (linkId, email, address) => {
     return authorizedPut({
       url: nabuUrl,
       endPoint: '/users/link-account/existing',
       contentType: 'application/json',
+      removeDefaultPostData: true,
       data: {
-        linkId
+        linkId,
+        email,
+        address,
+        // TODO we should make this dynamic once when designs are ready
+        kycMerge: true
       }
     })
   }

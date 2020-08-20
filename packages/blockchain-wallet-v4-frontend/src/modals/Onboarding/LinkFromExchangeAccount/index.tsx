@@ -22,6 +22,7 @@ export type LinkStatePropsType = {
   emailVerified: boolean
   linkFromExchangeAccountStatus: any
   userTiers: RemoteDataType<any, UserTiersType>
+  walletId: string
 }
 
 export type LinkDispatchPropsType = {
@@ -66,7 +67,6 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
           </FlyoutChild>
         </Flyout>
       ),
-
       Failure: error => (
         <Flyout
           {...this.props}
@@ -76,7 +76,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
-            <Failure {...this.props} close={this.handleClose} {...error} />
+            <Failure {...this.props} close={this.handleClose} error={error} />
           </FlyoutChild>
         </Flyout>
       ),
@@ -118,7 +118,8 @@ const mapStateToProps = state => ({
   linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromExchangeAccountStatus(
     state
   ),
-  userTiers: selectors.modules.profile.getUserTiers(state)
+  userTiers: selectors.modules.profile.getUserTiers(state),
+  walletId: selectors.core.wallet.getGuid(state) as string
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
