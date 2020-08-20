@@ -4,19 +4,23 @@ import React from 'react'
 import styled, { css, DefaultTheme } from 'styled-components'
 
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { FormattedMessage } from 'react-intl'
 import { GroupHeadingLabelType } from '../types'
 import { SelectBox } from 'components/Form'
+import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountDropdownItemType } from 'data/types'
 
 const option = css`
   padding: 12px 20px;
+
+  &.bc__option--is-focused {
+    background-color: ${props => props.theme.white} !important;
+  }
+
+  &.bc__option--is-selected,
   &:hover {
     background-color: ${props => props.theme['blue000']} !important;
   }
-`
-
-const width = css`
-  width: 240px;
 `
 
 const ExchangeSelect = styled(SelectBox)`
@@ -31,7 +35,7 @@ const ExchangeSelect = styled(SelectBox)`
   }
 
   .bc__menu {
-    ${width}
+    width: 260px;
   }
 
   .bc__menu-list {
@@ -77,11 +81,11 @@ const ExchangeSelect = styled(SelectBox)`
   }
   .bc__option {
     border-radius: 0px;
-    &.bc__option--is-focused {
-      background-color: ${props => props.theme.white};
-    }
-    ${width}
+    width: 280px;
     ${option}
+    &:after {
+      display: none;
+    }
   }
 
   .bc__single-value {
@@ -106,6 +110,7 @@ const DisplayWrapper = styled.div<{ coin: keyof DefaultTheme }>`
 const ItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
@@ -179,6 +184,11 @@ const renderItem = (item: SwapAccountDropdownItemType) => {
           {item.value.coin}
         </Value>
       </div>
+      {item.value.type === 'CUSTODIAL' && (
+        <SuccessCartridge>
+          <FormattedMessage id='copy.low_fees' defaultMessage='Low Fees' />
+        </SuccessCartridge>
+      )}
     </ItemWrapper>
   )
 }
