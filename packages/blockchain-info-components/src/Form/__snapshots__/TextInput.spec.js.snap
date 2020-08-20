@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextInput component default renders correctly 1`] = `
+<styled.div>
+  <styled.input
+    borderColor="grey100"
+    disabled={false}
+    focusedBorderColor="blue600"
+    height="48px"
+    minHeight="48px"
+    onKeyDown={[Function]}
+  />
+</styled.div>
+`;

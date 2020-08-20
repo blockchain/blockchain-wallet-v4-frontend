@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextAreaInput component default renders correctly 1`] = `
+<styled.textarea
+  borderColor="grey100"
+  focusedBorderColor="blue600"
+  resize={true}
+/>
+`;

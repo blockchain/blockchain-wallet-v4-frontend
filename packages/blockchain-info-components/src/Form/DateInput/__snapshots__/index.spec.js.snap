@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateInput component default renders correctly 1`] = `
+<Styled(DateTime)
+  borderColor="grey100"
+  bordercolor="red600"
+  className=""
+  closeOnSelect={true}
+  closeOnTab={true}
+  dateFormat={true}
+  focusedBorderColor="blue600"
+  fullwidth={false}
+  input={true}
+  strictParsing={false}
+  timeFormat={false}
+  utc={false}
+  viewMode="days"
+/>
+`;
