@@ -245,7 +245,7 @@ const Success = props => {
           </TableCell>
         </TableHeader>
         {search && !matchedWallets.length ? (
-          <TableRow dataE2e='noBchWalletResults'>
+          <TableRow data-e2e='noBchWalletResults'>
             <NoSearchMatchCell>
               <LabelCell size='13px'>
                 <Text size='13px' weight={500}>
