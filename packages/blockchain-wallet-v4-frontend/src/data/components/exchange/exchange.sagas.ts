@@ -13,10 +13,8 @@ import {
   compose,
   converge,
   equals,
-  head,
   includes,
   keys,
-  last,
   or,
   path,
   pathOr,
@@ -50,8 +48,6 @@ import {
   CONFIRM_FORM,
   CONFIRM_MODAL,
   EXCHANGE_FORM,
-  getSourceCoinsPairedToTarget,
-  getTargetCoinsPairedToSource,
   INSUFFICIENT_ETH_FOR_TX_FEE,
   LATEST_TX_ERROR,
   LATEST_TX_FETCH_FAILED_ERROR,
@@ -549,17 +545,11 @@ export default ({
       const prevSourceCoin = path(['source', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'source', source))
 
-      const pairs = (yield select(S.getAvailablePairs)).getOrElse([])
-      const pairedCoins = getTargetCoinsPairedToSource(sourceCoin, pairs)
       let newTargetCoin = null
       if (equals(sourceCoin, targetCoin)) {
         // @ts-ignore
-        newTargetCoin = includes(prevSourceCoin, pairedCoins)
-          ? prevSourceCoin
-          : last(pairedCoins)
+        newTargetCoin = prevSourceCoin
       }
-      // @ts-ignore
-      if (!includes(targetCoin, pairedCoins)) newTargetCoin = last(pairedCoins)
       if (newTargetCoin) {
         const newTarget = yield call(getDefaultAccount, newTargetCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'target', newTarget))
@@ -585,17 +575,11 @@ export default ({
       const prevTargetCoin = path(['target', 'coin'], form)
       yield put(actions.form.change(EXCHANGE_FORM, 'target', target))
 
-      const pairs = (yield select(S.getAvailablePairs)).getOrElse([])
-      const pairedCoins = getSourceCoinsPairedToTarget(targetCoin, pairs)
       let newSourceCoin = null
       if (equals(sourceCoin, targetCoin)) {
         // @ts-ignore
-        newSourceCoin = includes(prevTargetCoin, pairedCoins)
-          ? prevTargetCoin
-          : head(pairedCoins)
+        newSourceCoin = prevTargetCoin
       }
-      // @ts-ignore
-      if (!includes(sourceCoin, pairedCoins)) newSourceCoin = head(pairedCoins)
       if (newSourceCoin) {
         const newSource = yield call(getDefaultAccount, newSourceCoin)
         yield put(actions.form.change(EXCHANGE_FORM, 'source', newSource))

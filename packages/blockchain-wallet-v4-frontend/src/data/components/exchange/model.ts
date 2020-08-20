@@ -66,7 +66,6 @@ const getPairedCoins = curry(
     )(availablePairs)
 )
 export const getTargetCoinsPairedToSource = getPairedCoins(last, head)
-export const getSourceCoinsPairedToTarget = getPairedCoins(head, last)
 
 const getAvailableCoin = headOrLast => availablePairs =>
   // @ts-ignore

@@ -81,7 +81,7 @@ const ExchangeSelect = styled(SelectBox)`
   }
   .bc__option {
     border-radius: 0px;
-    width: 280px;
+    width: 300px;
     ${option}
     &:after {
       display: none;
