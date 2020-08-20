@@ -125,7 +125,7 @@
     "@types/node": "13.9.0",
     "@types/ramda": "0.26.39",
     "@types/react": "16.9.34",
-    "@types/react-redux": "^7.1.9",
+    "@types/react-redux": "7.1.9",
     "@types/redux": "3.6.0",
     "@types/redux-form": "8.2.3",
     "@types/styled-components": "5.1.0",
