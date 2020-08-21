@@ -62,7 +62,7 @@ export const Carousel: FunctionComponent<{
   chips: boolean
 }>
 export const ComponentDropdown: ComponentClass<{
-  components: Array<JSX.Element>
+  components: Array<JSX.Element | boolean>
   color?: string
   toggleOnCallback?: boolean
   opened?: boolean
@@ -79,12 +79,18 @@ export function Color(
 ): DefaultTheme[keyof DefaultTheme]
 
 export const FontGlobalStyles: FunctionComponent<{}>
+export const FlatLoader: FunctionComponent<{
+  width?: string
+  height?: string
+  style?: CSSProperties
+}>
 export const HeartbeatLoader: FunctionComponent<{
   width?: string
   height?: string
   color?: keyof DefaultTheme
 }>
 export const Icon: FunctionComponent<{
+  className?: string
   name: keyof IcoMoonType
   weight?: number
   size?: string
@@ -175,6 +181,7 @@ export const ModalHeader: FunctionComponent<{
   icon?: keyof IcoMoonType
 }>
 export function Palette(theme: string): DefaultTheme
+export const Separator: FunctionComponent<{}>
 export const SkeletonCircle: FunctionComponent<{
   width?: string
   height?: string
@@ -192,6 +199,7 @@ export const SpinningLoader: FunctionComponent<{
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
   activeClassName?: string
+  role?: string
   disabled?: boolean
   onClick?: () => void
   selected?: boolean
@@ -204,6 +212,7 @@ export const TableCell: FunctionComponent<{
   onClick?: () => void
   width?: string
   hideMobile?: boolean
+  style?: CSSProperties
 }>
 export const TableHeader: FunctionComponent<{}>
 export const TableRow: FunctionComponent<{}>

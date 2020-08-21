@@ -74,7 +74,6 @@ export const getData = createDeepEqualSelector(
           ]
         }
       ]
-      const watchOnly = prop('watchOnly', from)
       const network = Bitcoin.networks[networkType]
 
       return {
@@ -92,8 +91,7 @@ export const getData = createDeepEqualSelector(
         network,
         priorityFeePerByte,
         regularFeePerByte,
-        totalFee,
-        watchOnly
+        totalFee
       }
     }
 

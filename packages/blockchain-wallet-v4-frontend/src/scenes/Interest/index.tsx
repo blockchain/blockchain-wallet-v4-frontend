@@ -9,10 +9,16 @@ import {
   CoinType,
   InterestRateType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { Container } from 'components/Box'
-import { Icon, Link, SkeletonRectangle, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  SkeletonRectangle,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   IconBackground,
   SceneHeader,
@@ -25,6 +31,7 @@ import { UserDataType } from 'data/types'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 
 import { getData } from './selectors'
+import IneligibiltyWarning from './IneligibilityCard'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 import TransactionList from './TransactionList'
@@ -36,14 +43,29 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   align-items: flex-start;
   box-sizing: border-box;
 `
+const ContainerStyled = styled(Container)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 100%;
+`
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
 `
 const LearnMoreText = styled(Text)`
   margin-left: 3px;
-  size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: ${props => props.theme.blue600};
+`
+const DisclaimerText = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+const SubheaderSeparator = styled.div`
+  display: flex;
+  flex-grow: 2;
 `
 
 class Interest extends React.PureComponent<Props, StateType> {
@@ -52,7 +74,6 @@ class Interest extends React.PureComponent<Props, StateType> {
   componentDidMount () {
     this.props.interestActions.fetchInterestInstruments()
     this.props.interestActions.fetchInterestRate()
-    this.props.interestActions.fetchInterestEligible()
     this.props.interestActions.fetchInterestBalance()
   }
 
@@ -116,11 +137,28 @@ class Interest extends React.PureComponent<Props, StateType> {
               />
             </LearnMoreText>
           </LearnMoreLink>
+          <SubheaderSeparator />
+          <DisclaimerText>
+            <TooltipHost id='scenes.interest.legaldisclaimer'>
+              <Icon name='info' size='12px' color='blue600' />
+              <Text
+                size='12px'
+                color='blue600'
+                weight={500}
+                style={{ margin: '-2px 0 0 5px' }}
+              >
+                <FormattedMessage
+                  id='scenes.interest.legaldiscalimer'
+                  defaultMessage='Legal disclaimer'
+                />
+              </Text>
+            </TooltipHost>
+          </DisclaimerText>
         </SceneSubHeaderText>
         {data.cata({
           Success: val => (
             <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
-              <Container>
+              <ContainerStyled>
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
                   val.instruments.map(instrument => {
@@ -133,13 +171,14 @@ class Interest extends React.PureComponent<Props, StateType> {
                       />
                     )
                   })}
-              </Container>
+              </ContainerStyled>
+              <IneligibiltyWarning {...val} {...this.props} />
               <TransactionList />
             </LazyLoadWrapper>
           ),
           Failure: () => null,
-          Loading: () => <SkeletonRectangle width='330px' height='275px' />,
-          NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
+          Loading: () => <SkeletonRectangle width='275px' height='275px' />,
+          NotAsked: () => <SkeletonRectangle width='275px' height='275px' />
         })}
       </SceneWrapper>
     )
@@ -167,7 +206,7 @@ export type SuccessStateType = {
   instruments: Array<CoinType>
   interestRate: InterestRateType
   interestRateArray: Array<number>
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

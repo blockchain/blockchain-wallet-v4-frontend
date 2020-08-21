@@ -1,6 +1,7 @@
 import * as analytics from './analytics/sagas'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
+import * as custodial from './custodial/sagas'
 import * as middleware from './middleware/sagas'
 import * as modules from './modules/sagas'
 import * as preferences from './preferences/sagas'
@@ -11,6 +12,7 @@ export {
   analytics,
   auth,
   components,
+  custodial,
   middleware,
   modules,
   preferences,

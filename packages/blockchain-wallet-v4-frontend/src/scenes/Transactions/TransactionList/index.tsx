@@ -1,15 +1,18 @@
 import {
-  CoinType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
-  SBOrderType
+  SBOrderType,
+  SBTransactionType,
+  WalletCurrencyType
 } from 'core/types'
 import DataError from 'components/DataError'
-import Loading from './template.loading'
 import React, { PureComponent } from 'react'
-import SimpleBuyListItem from './template.simplebuy'
 import styled from 'styled-components'
+
+import CustodialTxListItem from '../CustodialTx'
+import Loading from './template.loading'
+import SimpleBuyListItem from '../SBOrderTx'
 import TransactionListItem from 'components/TransactionListItem'
 
 const TransactionsWrapper = styled.div`
@@ -30,7 +33,7 @@ class TransactionList extends PureComponent<Props> {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
-      Success: (transactions: Array<SBOrderType | ProcessedTxType>) => (
+      Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
@@ -41,14 +44,16 @@ class TransactionList extends PureComponent<Props> {
                 coinTicker={coinTicker}
                 currency={currency}
               />
-            ) : (
+            ) : 'pair' in tx ? (
               <SimpleBuyListItem order={tx} />
+            ) : (
+              <CustodialTxListItem tx={tx} {...this.props} />
             )
           })}
         </TransactionsWrapper>
       ),
       Failure: message => (
-        <DataError onClick={this.props.onArchive} message={message} />
+        <DataError onClick={this.props.onRefresh} message={message} />
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -57,7 +62,7 @@ class TransactionList extends PureComponent<Props> {
 }
 
 export type Props = {
-  coin: CoinType
+  coin: WalletCurrencyType
   coinTicker: string
   currency: FiatType
   data: RemoteDataType<
@@ -69,5 +74,9 @@ export type Props = {
   onRefresh: () => void
   sourceType?: string
 }
+
+export type SuccessStateType = Array<
+  SBOrderType | SBTransactionType | ProcessedTxType
+>
 
 export default TransactionList

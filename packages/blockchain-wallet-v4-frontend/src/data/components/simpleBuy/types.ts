@@ -9,13 +9,13 @@ import {
   SBAccountType,
   SBBalancesType,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
-  SBQuoteType,
-  SBSuggestedAmountType
+  SBQuoteType
 } from 'core/types'
 
 // Types
@@ -32,31 +32,28 @@ export type SBAddCardErrorType =
   | 'CARD_CREATION_FAILED'
   | 'CARD_ALREADY_SAVED'
 export type SBBillingAddressFormValuesType = NabuAddressType
-export type SBCheckoutFormValuesType = {
-  amount: string
-  method?: SBFormPaymentMethod
-  orderType: 'BUY' | 'SELL'
-  pair?: SBPairType
-}
+export type SBCheckoutFormValuesType =
+  | undefined
+  | {
+      amount: string
+      orderType: SBOrderActionType
+    }
 export type SBCurrencySelectFormType = {
   search: string
 }
-export type SBFormPaymentMethod =
-  | SBPaymentMethodType
-  | (SBCardType & {
-      limits: SBPaymentMethodType['limits']
-      type: 'USER_CARD'
-    })
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
+  'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
+  'PAYMENT_METHODS',
   'ORDER_SUMMARY',
   'CHECKOUT_CONFIRM',
   'ADD_CARD',
   'CC_BILLING_ADDRESS',
   '3DS_HANDLER',
   'TRANSFER_DETAILS',
-  'CANCEL_ORDER'
+  'CANCEL_ORDER',
+  'KYC_REQUIRED'
 }
 export type SBShowModalOriginType =
   | 'EmptyFeed'
@@ -67,6 +64,7 @@ export type SBShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'WelcomeModal'
+  | 'WithdrawModal'
 
 // State
 export type SimpleBuyState = {
@@ -76,18 +74,20 @@ export type SimpleBuyState = {
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
   cryptoCurrency: undefined | CoinType
-  defaultMethod: undefined | SBFormPaymentMethod
+  displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>
   fiatCurrency: undefined | FiatType
   fiatEligible: RemoteDataType<string, FiatEligibleType>
+  method: undefined | SBPaymentMethodType
   methods: RemoteDataType<string, SBPaymentMethodsType>
   order: undefined | SBOrderType
+  orderType?: SBOrderActionType
   orders: RemoteDataType<string, Array<SBOrderType>>
+  pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   providerDetails: RemoteDataType<string, SBProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   step: keyof typeof SimpleBuyStepType
-  suggestedAmounts: RemoteDataType<Error | string, SBSuggestedAmountType>
 }
 
 // Actions
@@ -271,46 +271,60 @@ interface FetchSBQuoteSuccess {
   }
   type: typeof AT.FETCH_SB_QUOTE_SUCCESS
 }
-interface FetchSBSuggestedAmountsFailure {
-  payload: {
-    error: Error | string
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE
+
+interface InitializeCheckout {
+  amount: string
+  orderType: SBOrderActionType
+  pair?: SBPairType
+  pairs: Array<SBPairType>
+  type: typeof AT.INITIALIZE_CHECKOUT
 }
-interface FetchSBSuggestedAmountsLoading {
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-}
-interface FetchSBSuggestedAmountsSuccess {
-  payload: {
-    amounts: SBSuggestedAmountType
-  }
-  type: typeof AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS
-}
+
+export type StepActionsPayload =
+  | {
+      order: SBOrderType
+      step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
+    }
+  | {
+      cryptoCurrency: CoinType
+      fiatCurrency: FiatType
+      method?: SBPaymentMethodType
+      order?: SBOrderType
+      orderType?: SBOrderActionType
+      pair?: SBPairType
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      cryptoCurrency?: CoinType
+      fiatCurrency: FiatType
+      step: 'CRYPTO_SELECTION'
+    }
+  | {
+      displayBack: boolean
+      fiatCurrency: FiatType
+      step: 'TRANSFER_DETAILS'
+    }
+  | {
+      cryptoCurrency: CoinType
+      fiatCurrency: FiatType
+      order?: SBOrderType
+      pair: SBPairType
+      step: 'PAYMENT_METHODS'
+    }
+  | { order?: SBOrderType; step: '3DS_HANDLER' }
+  | {
+      step:
+        | 'ADD_CARD'
+        | 'CURRENCY_SELECTION'
+        | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
+    }
+
 interface SetStepAction {
-  payload:
-    | {
-        cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
-        fiatCurrency: FiatType
-        step: 'ENTER_AMOUNT'
-      }
-    | {
-        order: SBOrderType
-        step:
-          | 'CHECKOUT_CONFIRM'
-          | 'ORDER_SUMMARY'
-          | 'TRANSFER_DETAILS'
-          | 'CANCEL_ORDER'
-      }
-    | {
-        order?: SBOrderType
-        step: '3DS_HANDLER'
-      }
-    | {
-        step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS'
-      }
+  payload: StepActionsPayload
   type: typeof AT.SET_STEP
 }
+
 interface ShowModalAction {
   payload: {
     cryptoCurrency?: CoinType
@@ -354,8 +368,6 @@ export type SimpleBuyActionTypes =
   | FetchSBQuoteFailure
   | FetchSBQuoteLoading
   | FetchSBQuoteSuccess
-  | FetchSBSuggestedAmountsFailure
-  | FetchSBSuggestedAmountsLoading
-  | FetchSBSuggestedAmountsSuccess
+  | InitializeCheckout
   | SetStepAction
   | ShowModalAction

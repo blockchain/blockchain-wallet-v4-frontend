@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
 import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
+import React from 'react'
+import styled from 'styled-components'
 
-import Layout from '../components/layout'
 import { Button, ButtonGroup, IconButton } from '../../src'
+import Layout from '../components/layout'
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -58,16 +58,26 @@ const ButtonLayout = props => {
 }
 
 const natures = [
+  'dark',
+  'dark-grey',
   'empty',
+  'empty-blue',
+  'empty-secondary',
+  'gray',
+  'light',
+  'light-red',
+  'exchangeTurquoise',
   'primary',
+  'purple',
   'secondary',
-  'success',
   'received',
   'sent',
+  'success',
   'transferred',
-  'logout',
-  'dark',
-  'gray'
+  'warning',
+  'white-transparent',
+  'white-blue',
+  'green'
 ]
 
 storiesOf('Buttons', module)

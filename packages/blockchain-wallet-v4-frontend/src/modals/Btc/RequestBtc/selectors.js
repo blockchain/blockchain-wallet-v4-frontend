@@ -1,5 +1,5 @@
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { equals, filter, head, lift, map, nth, prop, propOr } from 'ramda'
+import { equals, filter, head, lift, nth, prop, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
@@ -113,8 +113,5 @@ export const getInitialValues = (state, ownProps) => {
 
 export const getImportedAddresses = state => {
   const balances = selectors.core.common.btc.getAddressesBalances(state)
-  const isWatchOnly = a => {
-    if (equals(prop('watchOnly', a), true)) return prop('address', a)
-  }
-  return map(isWatchOnly, balances.getOrElse([]))
+  return balances.getOrElse([])
 }

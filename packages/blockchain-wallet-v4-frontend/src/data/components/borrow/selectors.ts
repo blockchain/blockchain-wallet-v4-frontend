@@ -1,5 +1,4 @@
-import { RatesType } from './types'
-import { RemoteDataType } from 'core/types'
+import { RatesType, RemoteDataType } from 'core/types'
 import { RootState } from '../../rootReducer'
 import { selectors } from 'data'
 
@@ -23,7 +22,7 @@ export const getBorrowHistory = (state: RootState) =>
 
 export const getRates = (
   state: RootState
-): RemoteDataType<string | Error, RatesType> => {
+): RemoteDataType<string, RatesType> => {
   const coinType = getCoinType(state)
 
   return selectors.core.data.misc.getRatesSelector(coinType, state)

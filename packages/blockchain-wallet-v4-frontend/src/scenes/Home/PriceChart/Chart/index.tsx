@@ -33,6 +33,7 @@ export class ChartContainer extends React.PureComponent<Props> {
   }
 }
 
+// @ts-ignore
 const mapStateToProps = (state): LinkStatePropsType => getData(state)
 
 const mapDispatchToProps = dispatch => ({

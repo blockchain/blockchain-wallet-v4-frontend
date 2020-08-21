@@ -1,16 +1,19 @@
 import { APIType } from 'core/network/api'
 import { call } from 'redux-saga/effects'
-import { CoinType, SBOrderType } from 'core/types'
+import {
+  CoinTypeEnum,
+  SBOrderType,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
 import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 
 export default ({ api }: { api: APIType }) => {
-  // TODO - filter orders by coin
   const fetchSBOrders = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: CoinType
+    currency: WalletCurrencyType
   ) {
     try {
       const latestTx = page[0]
@@ -46,7 +49,11 @@ export default ({ api }: { api: APIType }) => {
         before,
         after
       })
-      return orders.filter(order => order.outputCurrency === currency)
+      return orders.filter(order => {
+        return order.inputCurrency in CoinTypeEnum
+          ? order.inputCurrency === currency
+          : order.outputCurrency === currency
+      })
     } catch (e) {
       // no simple buy transactions
       return []

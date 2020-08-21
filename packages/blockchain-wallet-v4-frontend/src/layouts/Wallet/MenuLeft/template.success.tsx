@@ -1,11 +1,13 @@
-import Balances from './Balances'
-import Footer from './Footer'
-import Navigation from './Navigation'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
 import media, { useMedia } from 'services/ResponsiveService'
+
+import Balances from './Balances'
+import Navigation from './Navigation'
+
+import { Props as OwnProps, SuccessStateType } from '.'
 
 export const Container = styled.div<{ toggled?: boolean }>`
   display: flex;
@@ -42,7 +44,7 @@ const Overflow = styled.div`
   height: 100%;
 `
 
-const MenuLeft = props => {
+const MenuLeft = (props: Props) => {
   const isLaptop = useMedia('laptop')
 
   return (
@@ -50,7 +52,6 @@ const MenuLeft = props => {
       {!isLaptop && <Balances />}
       <Overflow>
         <Navigation {...props} />
-        <Footer {...props} />
       </Overflow>
     </Container>
   )
@@ -63,5 +64,7 @@ MenuLeft.propTypes = {
 MenuLeft.defaultProps = {
   toggled: false
 }
+
+export type Props = OwnProps & SuccessStateType
 
 export default MenuLeft

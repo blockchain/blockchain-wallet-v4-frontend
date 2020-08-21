@@ -7,6 +7,12 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
 import TransferEth from './template'
 
+const DEFAULTS = {
+  txFee: '0',
+  ethBalance: '0',
+  ethAddr: ''
+}
+
 class TransferEthContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.transferEthActions.initialized({
@@ -17,7 +23,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
 
   componentDidUpdate () {
     if (Remote.Success.is(this.props.data)) {
-      const { txFee, ethBalance } = this.props.data.getOrElse({})
+      const { txFee, ethBalance } = this.props.data.getOrElse(DEFAULTS)
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
         this.props.modalActions.closeAllModals()
       }
@@ -25,7 +31,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    const { ethAddr, ethBalance } = this.props.data.getOrElse({})
+    const { ethAddr, ethBalance } = this.props.data.getOrElse(DEFAULTS)
     this.props.transferEthActions.confirmTransferEth({
       to: ethAddr,
       effectiveBalance: ethBalance

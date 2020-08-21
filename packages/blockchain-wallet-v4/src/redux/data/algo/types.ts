@@ -1,5 +1,4 @@
-import { RatesType } from 'data/types'
-import { RemoteDataType } from 'core/types'
+import { RatesType, RemoteDataType } from 'core/types'
 
 import * as AT from './actionTypes'
 

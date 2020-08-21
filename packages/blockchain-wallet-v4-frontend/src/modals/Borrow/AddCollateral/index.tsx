@@ -1,13 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
-import { BorrowMinMaxType, RatesType } from 'data/types'
+import { BorrowMinMaxType } from 'data/types'
 import {
   CoinType,
   LoanType,
   OfferType,
   PaymentValue,
+  RatesType,
   RemoteDataType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
@@ -31,7 +32,7 @@ export type SuccessStateType = {
   limits: BorrowMinMaxType
   payment: PaymentValue
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type LinkStatePropsType = {

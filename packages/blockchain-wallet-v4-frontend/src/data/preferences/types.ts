@@ -20,6 +20,5 @@ export type PreferencesState = {
     lockbox: boolean
     pending: boolean
     wallet: boolean
-    watchOnly: boolean
   }
 }

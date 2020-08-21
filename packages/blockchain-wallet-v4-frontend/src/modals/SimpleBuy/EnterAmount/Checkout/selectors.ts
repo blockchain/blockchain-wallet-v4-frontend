@@ -1,64 +1,33 @@
+import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
+  const coin = selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC'
   const formErrors = selectors.form.getFormSyncErrors('simpleBuyCheckout')(
     state
   )
-  const formValues = selectors.form.getFormValues('simpleBuyCheckout')(state)
   const invitationsR = selectors.core.settings.getInvitations(state)
-  const suggestedAmountsR = selectors.components.simpleBuy.getSBSuggestedAmounts(
-    state
-  )
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const quoteR = selectors.components.simpleBuy.getSBQuote(state)
+  const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
 
-  const bchRatesR = selectors.core.data.bch.getRates(state)
-  const btcRatesR = selectors.core.data.btc.getRates(state)
-  const ethRatesR = selectors.core.data.eth.getRates(state)
-  const paxRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
-  const usdtRatesR = selectors.core.data.eth.getErc20Rates(state, 'usdt')
-  const xlmRatesR = selectors.core.data.xlm.getRates(state)
-  const algoRatesR = selectors.core.data.algo.getRates(state)
-
-  const ratesR = lift(
-    (
-      bchRates,
-      btcRates,
-      ethRates,
-      paxRates,
-      xlmRates,
-      usdtRates,
-      algoRates
-    ) => ({
-      BCH: bchRates,
-      BTC: btcRates,
-      ETH: ethRates,
-      PAX: paxRates,
-      XLM: xlmRates,
-      USDT: usdtRates,
-      ALGO: algoRates
-    })
-  )(
-    bchRatesR,
-    btcRatesR,
-    ethRatesR,
-    paxRatesR,
-    xlmRatesR,
-    usdtRatesR,
-    algoRatesR
-  )
-
   return lift(
-    (invitations, rates, suggestedAmounts, supportedCoins, userData) => ({
+    (
+      invitations: ExtractSuccess<typeof invitationsR>,
+      quote: ExtractSuccess<typeof quoteR>,
+      rates: ExtractSuccess<typeof ratesR>,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>,
+      userData: ExtractSuccess<typeof userDataR>
+    ) => ({
       formErrors,
-      formValues,
       invitations,
+      quote,
       rates,
-      suggestedAmounts,
-      supportedCoins,
+      sbBalances,
       userData
     })
-  )(invitationsR, ratesR, suggestedAmountsR, supportedCoinsR, userDataR)
+  )(invitationsR, quoteR, ratesR, sbBalancesR, userDataR)
 }

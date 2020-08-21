@@ -1,4 +1,3 @@
-import { ABTestCmdType } from 'data/analytics/types'
 import { actions, model } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
@@ -6,7 +5,6 @@ import { debounce } from 'utils/helpers'
 import { getData } from './selectors'
 import { isEmpty } from 'ramda'
 import { reduxForm } from 'redux-form'
-import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import React from 'react'
@@ -20,41 +18,16 @@ const { swapCoinAndFiat, swapBaseAndCounter } = model.rates
 const { EXCHANGE_FORM } = model.components.exchange
 
 class ExchangeForm extends React.Component<Props> {
-  componentDidMount () {
-    this.props.analyticsActions.createABTest('SwapFees')
-
-    setTimeout(() => {
-      if (!Remote.Success.is(this.props.data)) {
-        this.props.analyticsActions.createABTestSuccess('SwapFees', {
-          to: 'swap',
-          from: 'matomo',
-          command: 'priority'
-        })
-      }
-    }, 3000)
-
-    window.addEventListener('message', this.receiveMessage)
-  }
-
   shouldComponentUpdate (nextProps) {
     return nextProps.data !== this.props.data
   }
 
   componentWillUnmount () {
     this.props.actions.setShowError(false)
-    window.removeEventListener('message', this.receiveMessage)
   }
 
   debounceTime = 50
   changeAmount = debounce(this.props.actions.changeAmount, this.debounceTime)
-
-  receiveMessage = (e: { data: ABTestCmdType }) => {
-    if (!e.data) return
-    if (e.data.from !== 'matomo') return
-    if (e.data.to !== 'swap') return
-
-    this.props.analyticsActions.createABTestSuccess('SwapFees', e.data)
-  }
 
   initialize = () => {
     const { actions, from, to, fix, amount } = this.props

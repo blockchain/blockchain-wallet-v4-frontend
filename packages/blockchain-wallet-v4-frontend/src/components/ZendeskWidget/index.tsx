@@ -1,7 +1,7 @@
 import { any } from 'ramda'
 import { connect } from 'react-redux'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType } from 'core/types'
+import { SBOrderType, WalletOptionsType } from 'core/types'
 
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
@@ -94,7 +94,7 @@ class ZendeskWidget extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
-  }),
+  } as WalletOptionsType['domains']),
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([]),
   userData: selectors.modules.profile
     .getUserData(state)

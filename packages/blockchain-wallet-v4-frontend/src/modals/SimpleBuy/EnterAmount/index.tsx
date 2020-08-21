@@ -1,15 +1,18 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import {
-  FiatEligibleType,
+  CoinType,
+  ExtractSuccess,
   FiatType,
   RemoteDataType,
-  SBCardType,
+  SBOrderActionType,
+  SBOrderType,
   SBPairType,
-  SBPaymentMethodsType
+  SBPaymentMethodType
 } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
@@ -18,10 +21,10 @@ import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
     }
   }
@@ -38,6 +41,8 @@ class EnterAmount extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
@@ -51,14 +56,14 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  method?: SBPaymentMethodType
+  order?: SBOrderType
+  orderType: SBOrderActionType
+  pair: SBPairType
 }
-export type SuccessStateType = {
-  cards: Array<SBCardType>
-  eligibility: FiatEligibleType
-  pairs: Array<SBPairType>
-  paymentMethods: SBPaymentMethodsType
-}
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type LinkStatePropsType = {
+  cryptoCurrency: CoinType
   data: RemoteDataType<string, SuccessStateType>
   fiatCurrency: undefined | FiatType
 }

@@ -8,14 +8,14 @@ import {
   CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
-  FiatType,
   SBAccountType,
   SBCardStateType,
   SBCardType,
   SBOrderType,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType,
+  WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 import {
   convertBaseToStandard,
@@ -23,19 +23,22 @@ import {
 } from '../exchange/services'
 import {
   DEFAULT_SB_BALANCES,
+  DEFAULT_SB_METHODS,
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
+  NO_ORDER_EXISTS,
   NO_PAIR_SELECTED
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
   SBAddCardFormValuesType,
   SBBillingAddressFormValuesType,
-  SBCheckoutFormValuesType,
-  SBFormPaymentMethod
+  SBCheckoutFormValuesType
 } from './types'
 import { UserDataType } from 'data/modules/types'
 import moment from 'moment'
@@ -65,7 +68,7 @@ export default ({
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       if (card.partner === 'EVERYPAY') {
         providerDetails = yield call(
           api.activateSBCard,
@@ -153,17 +156,33 @@ export default ({
     try {
       const { state } = order
       const fiatCurrency = S.getFiatCurrency(yield select())
+      const cryptoCurrency = S.getCryptoCurrency(yield select())
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
       yield put(A.fetchSBOrders())
-      if (state === 'PENDING_CONFIRMATION' && fiatCurrency) {
-        yield put(
-          A.setStep({
-            step: 'ENTER_AMOUNT',
-            fiatCurrency
-          })
-        )
+      if (state === 'PENDING_CONFIRMATION' && fiatCurrency && cryptoCurrency) {
+        const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
+        if (pair) {
+          yield put(
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              cryptoCurrency,
+              orderType: 'BUY',
+              fiatCurrency,
+              pair,
+              method
+            })
+          )
+        } else {
+          yield put(
+            A.setStep({
+              step: 'CRYPTO_SELECTION',
+              fiatCurrency
+            })
+          )
+        }
       } else {
         yield put(actions.modals.closeAllModals())
       }
@@ -177,23 +196,32 @@ export default ({
     paymentMethodId,
     paymentType
   }: ReturnType<typeof A.createSBOrder>) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
     try {
-      const values: SBCheckoutFormValuesType = yield select(
-        selectors.form.getFormValues('simpleBuyCheckout')
-      )
-      const pair = values.pair
-      const amount = convertStandardToBase('FIAT', values.amount)
+      const pair = S.getSBPair(yield select())
+      if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-      // TODO: Simple Buy - make dynamic
-      const action = 'BUY'
+
+      const { orderType } = values
+      const fiat = getFiatFromPair(pair.pair)
+      const coin = getCoinFromPair(pair.pair)
+      const inputCurrency = orderType === 'BUY' ? fiat : coin
+      const outputCurrency = orderType === 'BUY' ? coin : fiat
+      const amount =
+        orderType === 'BUY'
+          ? convertStandardToBase('FIAT', values.amount)
+          : convertStandardToBase(coin, values.amount)
+
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
         api.createSBOrder,
         pair.pair,
-        action,
+        orderType,
         true,
-        { amount, symbol: getFiatFromPair(pair.pair) },
-        { symbol: getCoinFromPair(pair.pair) },
+        { amount, symbol: inputCurrency },
+        { symbol: outputCurrency },
         paymentMethodId,
         paymentType
       )
@@ -206,11 +234,22 @@ export default ({
       // Wait for the form to be INITIALIZED and display err
       const step = S.getStep(yield select())
       if (step !== 'ENTER_AMOUNT') {
-        const fiatCurrency = S.getFiatCurrency(yield select()) || 'EUR'
-        yield put(A.setStep({ step: 'ENTER_AMOUNT', fiatCurrency }))
-        yield take(AT.INITIALIZE_CHECKOUT)
-        yield delay(3000)
-        yield put(actions.form.startSubmit('simpleBuyCheckout'))
+        const pair = S.getSBPair(yield select())
+        const method = S.getSBPaymentMethod(yield select())
+        if (pair) {
+          yield put(
+            A.setStep({
+              step: 'ENTER_AMOUNT',
+              cryptoCurrency: getCoinFromPair(pair.pair),
+              fiatCurrency: getFiatFromPair(pair.pair),
+              pair,
+              method
+            })
+          )
+          yield take(AT.INITIALIZE_CHECKOUT)
+          yield delay(3000)
+          yield put(actions.form.startSubmit('simpleBuyCheckout'))
+        }
       }
 
       const error = errorHandler(e)
@@ -218,30 +257,15 @@ export default ({
     }
   }
 
-  const confirmSBBankTransferOrder = function * () {
-    try {
-      const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
-      yield put(A.setStep({ step: 'TRANSFER_DETAILS', order: confirmedOrder }))
-      yield put(A.fetchSBOrders())
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
-    }
-  }
-
   const confirmSBCreditCardOrder = function * () {
     try {
       const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER_EXISTS_TO_CONFIRM')
+      if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
-      })
+      } as WalletOptionsType['domains'])
       const attributes = order.paymentMethodId
         ? {
             everypay: {
@@ -257,6 +281,21 @@ export default ({
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
       yield put(A.fetchSBOrders())
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+    }
+  }
+
+  const confirmSBFundsOrder = function * () {
+    try {
+      const order = S.getSBOrder(yield select())
+      if (!order) throw new Error(NO_ORDER_EXISTS)
+      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      const confirmedOrder: SBOrderType = yield call(api.confirmSBOrder, order)
+      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(A.fetchSBOrders())
+      yield put(A.setStep({ step: 'ORDER_SUMMARY', order: confirmedOrder }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
@@ -384,6 +423,7 @@ export default ({
       yield put(A.fetchSBOrdersSuccess(orders))
     } catch (e) {
       const error = errorHandler(e)
+      if (!(yield call(isTier2))) return yield put(A.fetchSBOrdersSuccess([]))
       yield put(A.fetchSBOrdersFailure(error))
     }
   }
@@ -400,7 +440,7 @@ export default ({
       )
       const supportedCoins = selectors.core.walletOptions
         .getSupportedCoins(yield select())
-        .getOrElse({}) as SupportedCoinsType
+        .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter(pair => {
         return (
           getCoinFromPair(pair.pair) in CoinTypeEnum &&
@@ -417,10 +457,7 @@ export default ({
   const fetchSBPaymentAccount = function * () {
     try {
       yield put(A.fetchSBPaymentAccountLoading())
-      const order = S.getSBOrder(yield select())
-      const fiatCurrency: FiatType | false = order
-        ? (order.pair.split('-')[1] as FiatType)
-        : false
+      const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
       const account: SBAccountType = yield call(
         api.getSBPaymentAccount,
@@ -437,13 +474,32 @@ export default ({
     currency
   }: ReturnType<typeof A.fetchSBPaymentMethods>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
-      const isUserTier2: boolean = yield call(isTier2)
-      yield put(A.fetchSBPaymentMethodsLoading())
+      const userData = selectors.modules.profile
+        .getUserData(yield select())
+        .getOrElse({
+          state: 'NONE'
+        } as UserDataType)
+      if (userData.state === 'NONE' && !currency) {
+        return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
+      }
+      yield call(createUser)
+      const isUserTier2 = yield call(isTier2)
+
+      // Only show Loading if not Success
+      const sbMethodsR = S.getSBPaymentMethods(yield select())
+      const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
+      if (!Remote.Success.is(sbMethodsR) || !sbMethods.methods.length)
+        yield put(A.fetchSBPaymentMethodsLoading())
+
+      // If no currency fallback to sb fiat currency or wallet
+      const fallbackFiatCurrency =
+        S.getFiatCurrency(yield select()) ||
+        (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
+
       const methods = yield call(
         api.getSBPaymentMethods,
-        currency,
+        currency || fallbackFiatCurrency,
         isUserTier2 ? true : undefined
       )
       yield put(A.fetchSBPaymentMethodsSuccess(methods))
@@ -453,17 +509,15 @@ export default ({
     }
   }
 
-  const fetchSBQuote = function * () {
+  const fetchSBQuote = function * (payload: ReturnType<typeof A.fetchSBQuote>) {
     try {
+      const { pair, orderType, amount } = payload
       yield put(A.fetchSBQuoteLoading())
-      const order = S.getSBOrder(yield select())
-      if (!order) throw new Error('NO_ORDER')
-      // TODO: Simple Buy - make dynamic
       const quote: SBQuoteType = yield call(
         api.getSBQuote,
-        order.pair,
-        'BUY',
-        order.inputQuantity
+        pair,
+        orderType,
+        amount
       )
       yield put(A.fetchSBQuoteSuccess(quote))
     } catch (e) {
@@ -472,26 +526,122 @@ export default ({
     }
   }
 
-  const fetchSBSuggestedAmounts = function * ({
-    currency
-  }: ReturnType<typeof A.fetchSBSuggestedAmounts>) {
-    try {
-      yield put(A.fetchSBSuggestedAmountsLoading())
-      const amounts = yield call(api.getSBSuggestedAmounts, currency)
-      yield put(A.fetchSBSuggestedAmountsSuccess(amounts))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchSBSuggestedAmountsFailure(error))
+  const handleSBDepositFiatClick = function * ({
+    payload
+  }: ReturnType<typeof A.handleSBDepositFiatClick>) {
+    const { coin } = payload
+
+    yield call(waitForUserData)
+    const isUserTier2 = yield call(isTier2)
+
+    if (!isUserTier2) {
+      yield put(A.showModal('EmptyFeed'))
+      yield put(
+        A.setStep({
+          step: 'KYC_REQUIRED'
+        })
+      )
+    } else {
+      yield put(A.showModal('EmptyFeed'))
+
+      // wait for modal
+      yield delay(500)
+      yield put(
+        A.setStep({
+          step: 'TRANSFER_DETAILS',
+          displayBack: false,
+          fiatCurrency: coin
+        })
+      )
     }
   }
 
   const handleSBSuggestedAmountClick = function * ({
     payload
   }: ReturnType<typeof A.handleSBSuggestedAmountClick>) {
-    const { amount } = payload
-    const standardAmt = convertBaseToStandard('FIAT', amount)
+    const { amount, coin } = payload
+    const standardAmt = convertBaseToStandard(coin, amount)
 
     yield put(actions.form.change('simpleBuyCheckout', 'amount', standardAmt))
+  }
+
+  const handleSBMethodChange = function * (
+    action: ReturnType<typeof A.handleSBMethodChange>
+  ) {
+    const values: SBCheckoutFormValuesType = yield select(
+      selectors.form.getFormValues('simpleBuyCheckout')
+    )
+
+    const { method } = action
+    const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
+    const originalFiatCurrency = S.getFiatCurrency(yield select())
+    const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
+    const pair = S.getSBPair(yield select())
+
+    if (!pair) return NO_PAIR_SELECTED
+    const isUserTier2 = yield call(isTier2)
+
+    if (!isUserTier2) {
+      switch (method.type) {
+        // https://blockc.slack.com/archives/GT1JZ1ZN2/p1596546978351100?thread_ts=1596541628.345800&cid=GT1JZ1ZN2
+        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+        // 👇--------------------------------------------------------
+        case 'BANK_ACCOUNT':
+          return yield put(
+            A.setStep({
+              step: 'KYC_REQUIRED'
+            })
+          )
+        // REMOVE THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+        // 👆--------------------------------------------------------
+        case 'PAYMENT_CARD':
+          // ADD THIS WHEN BACKEND CAN HANDLE PENDING 'FUNDS' ORDERS
+          // 👇-----------------------------------------------------
+          // const methodType =
+          //   method.type === 'BANK_ACCOUNT' ? 'FUNDS' : method.type
+          // return yield put(A.createSBOrder(undefined, methodType))
+          // 👆------------------------------------------------------
+
+          return yield put(A.createSBOrder(undefined, method.type))
+        default:
+          return
+      }
+    }
+
+    // User is Tier 2
+    switch (method.type) {
+      case 'BANK_ACCOUNT':
+        return yield put(
+          A.setStep({
+            step: 'TRANSFER_DETAILS',
+            displayBack: true,
+            fiatCurrency
+          })
+        )
+      case 'PAYMENT_CARD':
+        return yield put(
+          A.setStep({
+            step: 'ADD_CARD'
+          })
+        )
+      default:
+        yield put(
+          A.setStep({
+            step: 'ENTER_AMOUNT',
+            orderType: values?.orderType,
+            method,
+            cryptoCurrency,
+            fiatCurrency
+          })
+        )
+    }
+
+    // Change wallet/sb fiatCurrency if necessary
+    // and fetch new pairs w/ new fiatCurrency
+    if (originalFiatCurrency !== fiatCurrency) {
+      yield put(actions.modules.settings.updateCurrency(method.currency, true))
+      yield put(A.fetchSBPairs(method.currency))
+    }
   }
 
   const initializeBillingAddress = function * () {
@@ -517,52 +667,25 @@ export default ({
   }
 
   const initializeCheckout = function * ({
-    pairs,
-    paymentMethods,
-    cards,
-    orderType
+    orderType,
+    amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(createUser)
       yield call(waitForUserData)
 
-      const cryptoCurrency = S.getCryptoCurrency(yield select())
-      const defaultMethod = S.getDefaultMethod(yield select())
       const fiatCurrency = S.getFiatCurrency(yield select())
       if (!fiatCurrency) throw new Error(NO_FIAT_CURRENCY)
+      const pair = S.getSBPair(yield select())
+      if (!pair) throw new Error(NO_PAIR_SELECTED)
 
-      yield put(A.fetchSBSuggestedAmounts(fiatCurrency))
-
-      const isSimpleBuyCCInvited = true
-      const pair = pairs.find(
-        pair => getCoinFromPair(pair.pair) === cryptoCurrency
-      )
-      const cardMethod = paymentMethods.methods.find(
-        method => method.type === 'PAYMENT_CARD'
-      )
-      const activeCard = cards.find(card => card.state === 'ACTIVE')
-
-      const method: SBFormPaymentMethod =
-        defaultMethod ||
-        (activeCard
-          ? cardMethod
-            ? {
-                ...activeCard,
-                limits: cardMethod.limits,
-                type: 'USER_CARD'
-              }
-            : paymentMethods.methods[0]
-          : paymentMethods.methods[0])
+      // Fetch rates
+      yield put(A.fetchSBQuote(pair.pair, orderType, '0'))
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
-          method: isSimpleBuyCCInvited
-            ? method
-            : paymentMethods.methods.find(
-                method => method.type === 'BANK_ACCOUNT'
-              ),
           orderType,
-          pair: pair || pairs[0]
+          amount
         } as SBCheckoutFormValuesType)
       )
     } catch (e) {
@@ -631,7 +754,6 @@ export default ({
         const order = S.getSBOrder(yield select())
         yield put(A.fetchSBCards(skipLoading))
         // If the order was already created
-        // TODO: test locally!
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBCreditCardOrder(card.id))
         } else {
@@ -698,9 +820,13 @@ export default ({
           order: latestPendingOrder
         })
       )
-    } else {
+    } else if (cryptoCurrency) {
       yield put(
         A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
+      )
+    } else {
+      yield put(
+        A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
       )
     }
   }
@@ -709,8 +835,8 @@ export default ({
     activateSBCard,
     addCardDetails,
     cancelSBOrder,
-    confirmSBBankTransferOrder,
     confirmSBCreditCardOrder,
+    confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
     fetchSBBalances,
@@ -722,8 +848,9 @@ export default ({
     fetchSBPaymentAccount,
     fetchSBPaymentMethods,
     fetchSBQuote,
-    fetchSBSuggestedAmounts,
+    handleSBDepositFiatClick,
     handleSBSuggestedAmountClick,
+    handleSBMethodChange,
     initializeBillingAddress,
     initializeCheckout,
     pollSBBalances,

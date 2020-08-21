@@ -38,7 +38,6 @@ import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
-  isAddressDerivedFromPriv,
   maximumAmount,
   maximumFeePerByte,
   minimumAmount,
@@ -48,11 +47,7 @@ import {
   shouldWarn
 } from './validation'
 import { model } from 'data'
-import {
-  required,
-  validBtcAddress,
-  validBtcPrivateKey
-} from 'services/FormHelper'
+import { required, validBtcAddress } from 'services/FormHelper'
 import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import ExchangePromo from 'components/Send/ExchangePromo'
@@ -110,8 +105,7 @@ const FirstStep = props => {
     payPro,
     priorityFeePerByte,
     regularFeePerByte,
-    totalFee,
-    watchOnly
+    totalFee
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -153,26 +147,6 @@ const FirstStep = props => {
             excludeLockbox={excludeLockbox}
             includeCustodial
           />
-          {watchOnly && (
-            <Row>
-              <Field
-                name='priv'
-                placeholder='Please enter your private key...'
-                component={TextBox}
-                validate={[
-                  required,
-                  validBtcPrivateKey,
-                  isAddressDerivedFromPriv
-                ]}
-                autoFocus
-                errorBottom
-              />
-              <QRCodeCapture
-                scanType='btcPriv'
-                border={['top', 'bottom', 'right']}
-              />
-            </Row>
-          )}
         </FormItem>
       </FormGroup>
       {isFromLockbox && !disableLockboxSend && (

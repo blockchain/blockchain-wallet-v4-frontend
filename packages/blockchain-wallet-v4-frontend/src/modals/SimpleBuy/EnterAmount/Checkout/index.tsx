@@ -1,22 +1,14 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import {
-  CoinType,
-  FiatType,
-  InvitationsType,
-  RemoteDataType,
-  SBPaymentMethodType,
-  SBSuggestedAmountType,
-  SupportedCoinsType
-} from 'core/types'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
 import { getData } from './selectors'
-import { RatesType, SBCheckoutFormValuesType, UserDataType } from 'data/types'
+import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
+import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
 import Failure from '../template.failure'
 import Loading from './template.loading'
 import React, { PureComponent } from 'react'
@@ -24,50 +16,54 @@ import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
+    const amount = this.props.formValues?.amount
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
-      this.props.paymentMethods,
-      this.props.cards,
-      'BUY'
+      this.props.orderType,
+      this.props.pair,
+      amount
     )
   }
 
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail
-    const { formValues, userData } = this.props.data.getOrElse({
-      formValues: {
-        method: { limits: { min: '0', max: '0' }, type: 'BANK_ACCOUNT' }
-      } as SBCheckoutFormValuesType,
+    const { formValues } = this.props
+    const { userData } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
 
+    const method = this.props.method || this.props.defaultMethod
+
     if (userData.tiers.current < 2) {
-      this.props.identityVerificationActions.verifyIdentity(
-        2,
-        false,
-        'SBEnterAmountCheckout'
-      )
       this.props.simpleBuyActions.createSBOrder(
         undefined,
-        formValues?.method?.type as SBPaymentMethodType['type']
+        getValidPaymentMethod(method?.type)
       )
-    } else if (formValues && formValues.method) {
-      switch (formValues.method.type) {
+    } else if (!method) {
+      const fiatCurrency = this.props.fiatCurrency || 'USD'
+      this.props.simpleBuyActions.setStep({
+        step: 'PAYMENT_METHODS',
+        fiatCurrency,
+        pair: this.props.pair,
+        cryptoCurrency: this.props.cryptoCurrency,
+        order: this.props.order
+      })
+    } else if (formValues && method) {
+      switch (method.type) {
         case 'PAYMENT_CARD':
           this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD'
           })
           break
         case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder(formValues.method.id)
-          break
-        case 'BANK_ACCOUNT':
-          this.props.simpleBuyActions.createSBOrder()
+          this.props.simpleBuyActions.createSBOrder(method.id)
           break
         case 'FUNDS':
-          // eslint-disable-next-line
-          console.log('Payment method type not supported.')
+          this.props.simpleBuyActions.createSBOrder(undefined, 'FUNDS')
+          break
+        case 'BANK_ACCOUNT':
+          break
       }
     }
   }
@@ -79,6 +75,7 @@ class Checkout extends PureComponent<Props> {
       ),
       Failure: () => (
         <Failure
+          fiatCurrency={this.props.fiatCurrency}
           simpleBuyActions={this.props.simpleBuyActions}
           formActions={this.props.formActions}
           analyticsActions={this.props.analyticsActions}
@@ -90,9 +87,14 @@ class Checkout extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || 'BTC',
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
+    | SBCheckoutFormValuesType
+    | undefined
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -106,29 +108,12 @@ const mapDispatchToProps = dispatch => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const enhance = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = EnterAmountOwnProps & EnterAmountSuccessStateType
-export type SuccessStateType = {
+export type SuccessStateType = ReturnType<typeof getData>['data'] & {
   formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean }
-  formValues?: SBCheckoutFormValuesType
-  invitations: InvitationsType
-  rates: { [key in CoinType]: RatesType }
-  suggestedAmounts: SBSuggestedAmountType
-  supportedCoins: SupportedCoinsType
-  userData: UserDataType
 }
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  fiatCurrency: undefined | FiatType
-}
-export type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
-  formActions: typeof actions.form
-  identityVerificationActions: typeof actions.components.identityVerification
-  profileActions: typeof actions.modules.profile
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-export type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default enhance(Checkout)
+export default connector(Checkout)

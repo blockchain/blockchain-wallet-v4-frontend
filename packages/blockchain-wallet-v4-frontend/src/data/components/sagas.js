@@ -6,6 +6,7 @@ import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
+import fiatTransactions from './fiatTransactions/sagas'
 import identityVerification from './identityVerification/sagas.ts'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
@@ -28,6 +29,7 @@ import signMessage from './signMessage/sagas'
 import simpleBuy from './simpleBuy/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
+import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
@@ -40,6 +42,7 @@ export default ({ api, coreSagas, networks }) => ({
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
+  fiatTransactions: fiatTransactions({ api, coreSagas }),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
@@ -52,7 +55,7 @@ export default ({ api, coreSagas, networks }) => ({
   requestBch: requestBch(),
   requestEth: requestEth(),
   requestXlm: requestXlm(),
-  send: send({ api }),
+  send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ coreSagas, networks }),
   sendBtc: sendBtc({ coreSagas, networks }),
   sendEth: sendEth({ api, coreSagas, networks }),
@@ -61,5 +64,6 @@ export default ({ api, coreSagas, networks }) => ({
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
+  withdraw: withdraw({ api }),
   veriff: veriff({ api, coreSagas })
 })

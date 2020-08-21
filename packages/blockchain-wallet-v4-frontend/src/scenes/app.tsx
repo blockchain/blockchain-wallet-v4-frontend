@@ -12,8 +12,10 @@ import AnalyticsTracker from 'providers/AnalyticsTracker'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
 
+import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
 import PublicLoading from './loading.public'
+import SiftScience from 'components/SiftScience'
 import WalletLayout from 'layouts/Wallet'
 import WalletLoading from './loading.wallet'
 
@@ -156,6 +158,7 @@ class App extends React.PureComponent<Props> {
                     </Switch>
                   </Suspense>
                 </ConnectedRouter>
+                <SiftScience userId={this.props.userData.id} />
                 <AnalyticsTracker />
                 <FontGlobalStyles />
                 <IconGlobalStyles />
@@ -172,7 +175,10 @@ const mapStateToProps = state => ({
   isAuthenticated: selectors.auth.isAuthenticated(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrFail('No supported coins.'),
+  userData: selectors.modules.profile
+    .getUserData(state)
+    .getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)

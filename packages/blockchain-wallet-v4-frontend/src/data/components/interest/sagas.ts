@@ -3,11 +3,11 @@ import { FormAction, initialize } from 'redux-form'
 import { head, last, nth } from 'ramda'
 import BigNumber from 'bignumber.js'
 
+import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { PaymentType, PaymentValue } from 'core/types'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
@@ -15,8 +15,10 @@ import * as AT from './actionTypes'
 import * as S from './selectors'
 import { DEFAULT_INTEREST_BALANCES } from './model'
 import { InterestDepositFormType } from './types'
-import { RatesType } from '../borrow/types'
-import exchangeSagaUtils from '../exchange/sagas.utils'
+import {
+  INVALID_COIN_TYPE,
+  NO_DEFAULT_ACCOUNT
+} from 'blockchain-wallet-v4/src/model'
 import profileSagas from '../../modules/profile/sagas'
 import utils from './sagas.utils'
 
@@ -31,8 +33,6 @@ export default ({
   coreSagas: any
   networks: any
 }) => {
-  const calculateProvisionalPayment = exchangeSagaUtils({ coreSagas, networks })
-    .calculateProvisionalPayment
   const { isTier2 } = profileSagas({ api, coreSagas, networks })
   const {
     buildAndPublishPayment,
@@ -43,6 +43,17 @@ export default ({
     coreSagas,
     networks
   })
+
+  const getAccountIndexOrAccount = (coin: CoinType, account: AccountTypes) => {
+    switch (coin) {
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return account.address
+      default:
+        return account.index
+    }
+  }
 
   const fetchInterestBalance = function * () {
     try {
@@ -172,26 +183,32 @@ export default ({
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
-        let provisionalPayment: PaymentValue = yield call(
-          calculateProvisionalPayment,
-          {
-            ...values.interestDepositAccount,
-            address:
-              coin === 'ETH'
-                ? values.interestDepositAccount.address
-                : values.interestDepositAccount.index
-          },
-          value
-        )
+        switch (payment.coin) {
+          case 'BTC':
+            payment = yield payment.amount(
+              parseInt(convertStandardToBase(coin, value))
+            )
+            break
+          case 'USDT':
+          case 'PAX':
+          case 'ETH':
+            payment = yield payment.amount(convertStandardToBase(coin, value))
+            break
+          default:
+            throw new Error(INVALID_COIN_TYPE)
+        }
 
-        yield put(A.setPaymentSuccess(provisionalPayment))
+        yield put(A.setPaymentSuccess(payment.value()))
 
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
-        payment = yield call(createPayment, action.payload.index)
-        yield call(createLimits, payment)
-        yield put(A.setPaymentSuccess(payment.value()))
+        const newPayment: PaymentValue = yield call(createPayment, {
+          ...values.interestDepositAccount,
+          address: getAccountIndexOrAccount(coin, values.interestDepositAccount)
+        })
+        yield call(createLimits, newPayment)
+        yield put(A.setPaymentSuccess(newPayment))
     }
   }
 
@@ -200,7 +217,6 @@ export default ({
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
     let defaultAccountR
-    let payment: PaymentType = <PaymentType>{}
     yield put(A.setPaymentLoading())
     yield put(A.fetchInterestLimits(coin, currency))
     yield take([
@@ -217,22 +233,33 @@ export default ({
           selectors.core.wallet.getDefaultAccountIndex
         )
         defaultAccountR = btcAccountsR.map(nth(defaultIndex))
-        payment = yield call(createPayment, defaultIndex)
         break
-
       case 'ETH':
         const ethAccountR = yield select(
           selectors.core.common.eth.getAccountBalances
         )
         defaultAccountR = ethAccountR.map(head)
-        payment = yield call(createPayment, defaultAccountR)
+        break
+      case 'PAX':
+      case 'USDT':
+        const erc20AccountR = yield select(
+          selectors.core.common.eth.getErc20AccountBalances,
+          coin
+        )
+        defaultAccountR = erc20AccountR.map(head)
         break
       default:
         throw new Error('Invalid Coin Type')
     }
 
+    const defaultAccount = defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
+    const payment: PaymentValue = yield call(createPayment, {
+      ...defaultAccount,
+      address: getAccountIndexOrAccount(coin, defaultAccount)
+    })
+
     yield call(createLimits, payment)
-    yield put(A.setPaymentSuccess(payment.value()))
+    yield put(A.setPaymentSuccess(payment))
     yield put(
       initialize('interestDepositForm', {
         interestDepositAccount: defaultAccountR.getOrElse(),
@@ -252,7 +279,6 @@ export default ({
       )
       yield put(A.setWithdrawalMinimimumsLoading())
       yield put(A.setWithdrawalMinimimumsSuccess(response))
-      // setWithdrawalMinimimumsSuccess init form for analytics
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setWithdrawalMinimimumsFailure(error))
@@ -268,7 +294,9 @@ export default ({
     payload
   }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    yield put(actions.router.push(`/${coin}/transactions`))
+    coin === 'PAX'
+      ? yield put(actions.router.push(`/usd-d/transactions`))
+      : yield put(actions.router.push(`/${coin}/transactions`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }
@@ -313,11 +341,6 @@ export default ({
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
       switch (coin) {
-        case 'ETH':
-          receiveAddress = selectors.core.data.eth
-            .getDefaultAddress(yield select())
-            .getOrFail('Failed to get ETH receive address')
-          break
         case 'BTC':
           receiveAddress = selectors.core.common.btc
             .getNextAvailableReceiveAddress(
@@ -326,6 +349,13 @@ export default ({
               yield select()
             )
             .getOrFail('Failed to get BTC receive address')
+          break
+        case 'ETH':
+        case 'PAX':
+        case 'USDT':
+          receiveAddress = selectors.core.data.eth
+            .getDefaultAddress(yield select())
+            .getOrFail(`Failed to get ${coin} receive address`)
           break
         default:
           throw new Error('Invalid Coin Type')

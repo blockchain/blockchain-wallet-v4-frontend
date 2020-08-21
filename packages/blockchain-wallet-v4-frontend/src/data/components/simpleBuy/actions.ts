@@ -1,25 +1,27 @@
 import * as AT from './actionTypes'
 import {
   CoinType,
-  CurrenciesType,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
   SBAccountType,
   SBBalancesType,
   SBCardType,
+  SBOrderActionType,
   SBOrderType,
+  SBPairsType,
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBProviderDetailsType,
   SBQuoteType,
-  SBSuggestedAmountType
+  WalletFiatType
 } from 'core/types'
+import { ModalOriginType } from 'data/modals/types'
 import {
-  SBFormPaymentMethod,
   SBShowModalOriginType,
-  SimpleBuyActionTypes
+  SimpleBuyActionTypes,
+  StepActionsPayload
 } from './types'
 
 export const activateSBCard = (card: SBCardType) => ({
@@ -72,15 +74,14 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 
 export const createSBOrder = (
   paymentMethodId?: SBCardType['id'],
-  paymentType?: SBPaymentMethodType['type']
+  paymentType?: Exclude<
+    SBPaymentMethodType['type'],
+    'USER_CARD' | 'BANK_ACCOUNT'
+  >
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
   paymentType
-})
-
-export const confirmSBBankTransferOrder = () => ({
-  type: AT.CONFIRM_BANK_TRANSFER_ORDER
 })
 
 export const confirmSBCreditCardOrder = (
@@ -90,6 +91,10 @@ export const confirmSBCreditCardOrder = (
   paymentMethodId
 })
 
+export const confirmSBFundsOrder = () => ({
+  type: AT.CONFIRM_FUNDS_ORDER
+})
+
 export const deleteSBCard = (cardId?: SBCardType['id']) => ({
   type: AT.DELETE_SB_CARD,
   cardId
@@ -97,6 +102,11 @@ export const deleteSBCard = (cardId?: SBCardType['id']) => ({
 
 export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
+})
+
+export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
+  type: AT.HANDLE_SB_METHOD_CHANGE,
+  method
 })
 
 export const fetchSBBalances = (
@@ -284,7 +294,7 @@ export const fetchSBPaymentAccountSuccess = (
   }
 })
 
-export const fetchSBPaymentMethods = (currency: FiatType) => ({
+export const fetchSBPaymentMethods = (currency?: FiatType) => ({
   type: AT.FETCH_SB_PAYMENT_METHODS,
   currency
 })
@@ -311,8 +321,15 @@ export const fetchSBPaymentMethodsSuccess = (
   }
 })
 
-export const fetchSBQuote = () => ({
-  type: AT.FETCH_SB_QUOTE
+export const fetchSBQuote = (
+  pair: SBPairsType,
+  orderType: SBOrderActionType,
+  amount: string
+) => ({
+  type: AT.FETCH_SB_QUOTE,
+  pair,
+  orderType,
+  amount
 })
 
 export const fetchSBQuoteFailure = (error: string): SimpleBuyActionTypes => ({
@@ -335,37 +352,25 @@ export const fetchSBQuoteSuccess = (
   }
 })
 
-export const fetchSBSuggestedAmounts = (currency: keyof CurrenciesType) => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS,
-  currency
-})
-
-export const fetchSBSuggestedAmountsFailure = (
-  error: Error | string
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_FAILURE,
+export const handleSBDepositFiatClick = (
+  coin: WalletFiatType,
+  origin: ModalOriginType
+) => ({
+  type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
   payload: {
-    error
+    coin,
+    origin
   }
 })
 
-export const fetchSBSuggestedAmountsLoading = (): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_LOADING
-})
-
-export const fetchSBSuggestedAmountsSuccess = (
-  amounts: SBSuggestedAmountType
-): SimpleBuyActionTypes => ({
-  type: AT.FETCH_SB_SUGGESTED_AMOUNTS_SUCCESS,
-  payload: {
-    amounts
-  }
-})
-
-export const handleSBSuggestedAmountClick = (amount: string) => ({
+export const handleSBSuggestedAmountClick = (
+  amount: string,
+  coin: 'FIAT' | CoinType
+) => ({
   type: AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
   payload: {
-    amount
+    amount,
+    coin
   }
 })
 
@@ -375,15 +380,15 @@ export const initializeBillingAddress = () => ({
 
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
-  paymentMethods: SBPaymentMethodsType,
-  cards: Array<SBCardType>,
-  orderType: 'BUY' | 'SELL'
+  orderType: SBOrderActionType,
+  pair?: SBPairType,
+  amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
-  pairs,
-  paymentMethods,
-  cards,
-  orderType
+  amount,
+  orderType,
+  pair,
+  pairs
 })
 
 export const pollSBBalances = () => ({
@@ -404,45 +409,52 @@ export const pollSBOrder = (orderId: string) => ({
   }
 })
 
-export const setStep = (
-  payload:
-    | {
-        order: SBOrderType
-        step:
-          | 'CHECKOUT_CONFIRM'
-          | 'TRANSFER_DETAILS'
-          | 'ORDER_SUMMARY'
-          | 'CANCEL_ORDER'
-      }
-    | {
-        cryptoCurrency?: CoinType
-        defaultMethod?: SBFormPaymentMethod
-        fiatCurrency: FiatType
-        step: 'ENTER_AMOUNT'
-      }
-    | { order?: SBOrderType; step: '3DS_HANDLER' }
-    | { step: 'ADD_CARD' | 'CURRENCY_SELECTION' | 'CC_BILLING_ADDRESS' }
-): SimpleBuyActionTypes => ({
+export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP,
-  payload:
-    payload.step === 'ENTER_AMOUNT'
-      ? {
-          step: payload.step,
-          cryptoCurrency: payload.cryptoCurrency,
-          defaultMethod: payload.defaultMethod,
-          fiatCurrency: payload.fiatCurrency
-        }
-      : payload.step === 'CHECKOUT_CONFIRM' ||
-        payload.step === 'TRANSFER_DETAILS' ||
-        payload.step === 'ORDER_SUMMARY' ||
-        payload.step === 'CANCEL_ORDER'
-      ? { step: payload.step, order: payload.order }
-      : payload.step === '3DS_HANDLER'
-      ? { step: payload.step, order: payload.order }
-      : {
-          step: payload.step
-        }
+  payload: getPayloadObjectForStep(payload)
 })
+
+const getPayloadObjectForStep = (payload: StepActionsPayload) => {
+  switch (payload.step) {
+    case 'PAYMENT_METHODS':
+      return {
+        step: payload.step,
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency,
+        order: payload.order,
+        pair: payload.pair
+      }
+    case 'ENTER_AMOUNT':
+      return {
+        step: payload.step,
+        orderType: payload.orderType || 'BUY',
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency,
+        method: payload.method,
+        pair: payload.pair
+      }
+    case 'CRYPTO_SELECTION':
+      return {
+        step: payload.step,
+        cryptoCurrency: payload.cryptoCurrency,
+        fiatCurrency: payload.fiatCurrency
+      }
+    case 'TRANSFER_DETAILS':
+      return {
+        step: payload.step,
+        fiatCurrency: payload.fiatCurrency,
+        displayBack: payload.displayBack
+      }
+    case 'CHECKOUT_CONFIRM':
+    case 'ORDER_SUMMARY':
+    case 'CANCEL_ORDER':
+      return { step: payload.step, order: payload.order }
+    case '3DS_HANDLER':
+      return { step: payload.step, order: payload.order }
+    default:
+      return { step: payload.step }
+  }
+}
 
 export const showModal = (
   origin: SBShowModalOriginType,

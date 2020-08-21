@@ -1,4 +1,9 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -6,6 +11,7 @@ import {
   SBBalancesType,
   SBCardType,
   SBMoneyType,
+  SBOrderActionType,
   SBOrderType,
   SBPairsType,
   SBPairType,
@@ -13,7 +19,8 @@ import {
   SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
-  SBSuggestedAmountType
+  SBTransactionStateType,
+  SBTransactionsType
 } from './types'
 import { Moment } from 'moment'
 import { UserDataType } from 'data/types'
@@ -68,11 +75,11 @@ export default ({
 
   const createSBOrder = (
     pair: SBPairsType,
-    action: 'BUY' | 'SELL',
+    action: SBOrderActionType,
     pending: boolean,
     input: SBMoneyType,
     output: {
-      symbol: CoinType
+      symbol: WalletCurrencyType
     },
     paymentMethodId?: SBCardType['id'],
     paymentType?: SBPaymentMethodType['type']
@@ -118,7 +125,8 @@ export default ({
       url: nabuUrl,
       endPoint: '/accounts/simplebuy',
       data: {
-        ccy: currency
+        ccy: currency,
+        includeAllEligible: false
       }
     })
 
@@ -209,7 +217,7 @@ export default ({
 
   const getSBQuote = (
     currencyPair: SBPairsType,
-    action: 'BUY' | 'SELL',
+    action: SBOrderActionType,
     amount: string
   ): SBQuoteType =>
     authorizedGet({
@@ -222,16 +230,30 @@ export default ({
       }
     })
 
-  const getSBSuggestedAmounts = (
-    currency: keyof CurrenciesType
-  ): SBSuggestedAmountType =>
-    get({
-      url: nabuUrl,
-      endPoint: '/simple-buy/amounts',
-      data: {
-        currency
-      }
-    })
+  const getSBTransactions = (
+    currency: FiatType,
+    next?: string | null,
+    limit?: string,
+    type?: 'DEPOSIT' | 'WITHDRAWAL',
+    state?: SBTransactionStateType
+  ): SBTransactionsType =>
+    next
+      ? authorizedGet({
+          url: nabuUrl,
+          endPoint: next,
+          ignoreQueryParams: true
+        })
+      : authorizedGet({
+          url: nabuUrl,
+          endPoint: '/payments/transactions',
+          data: {
+            currency,
+            limit,
+            product: 'SIMPLEBUY',
+            state,
+            type
+          }
+        })
 
   const submitSBCardDetailsToEverypay = ({
     accessToken,
@@ -309,7 +331,7 @@ export default ({
     getSBPaymentMethods,
     getSBFiatEligible,
     getSBQuote,
-    getSBSuggestedAmounts,
+    getSBTransactions,
     submitSBCardDetailsToEverypay,
     withdrawSBFunds
   }

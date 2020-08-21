@@ -1,6 +1,7 @@
 import { Banner, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import About from './About'
+import LinkedBanks from './LinkedBanks'
 import LinkedCards from './LinkedCards'
 import PairingCode from './PairingCode'
 import PrivacyPolicy from './PrivacyPolicy'
@@ -29,6 +30,7 @@ const General = () => {
       </Banner>
       <WalletId />
       <PairingCode />
+      <LinkedBanks />
       <LinkedCards />
       <PrivacyPolicy />
       <TermsOfService />

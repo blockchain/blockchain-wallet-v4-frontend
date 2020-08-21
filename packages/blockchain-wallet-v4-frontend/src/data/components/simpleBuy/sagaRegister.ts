@@ -11,10 +11,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
     yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
     yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
-    yield takeLatest(
-      AT.CONFIRM_BANK_TRANSFER_ORDER,
-      simpleBuySagas.confirmSBBankTransferOrder
-    )
+    yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
     yield takeLatest(
       AT.CONFIRM_CREDIT_CARD_ORDER,
       simpleBuySagas.confirmSBCreditCardOrder
@@ -39,8 +36,12 @@ export default ({ api, coreSagas, networks }) => {
     )
     yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
     yield takeLatest(
-      AT.FETCH_SB_SUGGESTED_AMOUNTS,
-      simpleBuySagas.fetchSBSuggestedAmounts
+      AT.HANDLE_SB_DEPOSIT_FIAT_CLICK,
+      simpleBuySagas.handleSBDepositFiatClick
+    )
+    yield takeLatest(
+      AT.HANDLE_SB_METHOD_CHANGE,
+      simpleBuySagas.handleSBMethodChange
     )
     yield takeLatest(
       AT.HANDLE_SB_SUGGESTED_AMOUNT_CLICK,
@@ -58,6 +59,7 @@ export default ({ api, coreSagas, networks }) => {
     // Fetch balances when profile/user is fetched
     yield takeLatest(
       [
+        actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
         actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
         actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],

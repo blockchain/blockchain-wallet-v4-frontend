@@ -6,6 +6,7 @@ import * as btcTransactions from './btcTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
+import * as fiatTransactions from './fiatTransactions/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import * as interest from './interest/actions'
@@ -33,6 +34,7 @@ import * as simpleBuy from './simpleBuy/actions'
 import * as stxTransactions from './stxTransactions/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
+import * as withdraw from './withdraw/actions'
 import * as xlmTransactions from './xlmTransactions/actions'
 
 export {
@@ -45,6 +47,7 @@ export {
   xlmTransactions,
   exchange,
   exchangeHistory,
+  fiatTransactions,
   identityVerification,
   importBtcAddress,
   interest,
@@ -71,5 +74,6 @@ export {
   simpleBuy,
   stxTransactions,
   uploadDocuments,
+  withdraw,
   veriff
 }

@@ -14,6 +14,7 @@ import {
   take
 } from 'redux-saga/effects'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { ExtractSuccess } from 'core/types'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -31,9 +32,16 @@ export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
+    // If success or failure already return
     if (Remote.Success.is(userData)) return
+    if (Remote.Failure.is(userData)) return
+    // If api key failure return
     if (Remote.Failure.is(apiToken)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    // Wait for success or failure
+    return yield race({
+      success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
+      failure: take(actionTypes.modules.profile.FETCH_USER_DATA_FAILURE)
+    })
   }
 
   const isTier2 = function * () {
@@ -264,7 +272,7 @@ export default ({ api, coreSagas, networks }) => {
         if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
       })
-      .getOrElse({})
+      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
 
     yield call(setSession, userId, lifetimeToken, email, guid)
   }

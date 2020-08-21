@@ -3,7 +3,7 @@ import { MempoolFeeType } from 'data/components/types'
 import { RemoteDataType } from 'core/types'
 
 // types
-export type ABTestNameType = 'SwapFees'
+export type ABTestNameType = ''
 
 export type ABTestCmdType = {
   command: MempoolFeeType

@@ -1,5 +1,10 @@
 import { lift } from 'ramda'
 
+import {
+  ExtractSuccess,
+  FiatType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { selectors } from 'data'
 
 export const getData = state => {
@@ -11,15 +16,15 @@ export const getData = state => {
   )
   const showInterestInfoBox = selectors.preferences.getShowInterestInfoBox(
     state
-  )
+  ) as boolean
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   const transform = (
-    interestAccountBalance,
-    interestEligible,
-    supportedCoins,
-    walletCurrency
+    interestAccountBalance: ExtractSuccess<typeof interestAccountBalanceR>,
+    interestEligible: ExtractSuccess<typeof interestEligibleR>,
+    supportedCoins: SupportedWalletCurrenciesType,
+    walletCurrency: FiatType
   ) => ({
     interestAccountBalance,
     interestEligible,

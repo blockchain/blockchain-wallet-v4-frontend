@@ -34,10 +34,6 @@ export const selectSpendable = pipe(
   AddressMap.guard,
   reject(Address.isWatchOnly)
 )
-export const selectUnspendable = pipe(
-  AddressMap.guard,
-  filter(Address.isWatchOnly)
-)
 
 export const deleteAddress = curry((string, addressMap) =>
   pipe(AddressMap.guard, amap => amap.delete(string))(addressMap)

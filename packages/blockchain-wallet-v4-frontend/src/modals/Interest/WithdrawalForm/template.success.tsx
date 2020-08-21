@@ -144,9 +144,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
-              id='modals.interest.withdrawal.title'
-              defaultMessage='Withdraw {displayName}'
-              values={{ displayName }}
+              id='buttons.withdraw_value'
+              defaultMessage='Withdraw {value}'
+              values={{ value: displayName }}
             />
           </Text>
         </Wrapper>
@@ -154,9 +154,9 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
           <BalanceItem>
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
-                id='modals.interest.withdrawal.balance'
-                defaultMessage='Your {coin} Balance'
-                values={{ coin }}
+                id='modals.interest.withdrawal.balance1'
+                defaultMessage='Your {coinTicker} Balance'
+                values={{ coinTicker }}
               />
             </Text>
 
@@ -166,7 +166,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               style={{ marginTop: '8px' }}
               weight={600}
             >
-              {accountBalanceStandard} {coin}
+              {accountBalanceStandard} {coinTicker}
             </Text>
 
             <FiatDisplay
@@ -194,7 +194,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
               style={{ marginTop: '8px' }}
               weight={600}
             >
-              {interestBalanceStandard} {coin}
+              {interestBalanceStandard} {coinTicker}
             </Text>
 
             <FiatDisplay
@@ -275,8 +275,10 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            coin={coin}
             component={NumberBox}
             data-e2e='withdrawalAmount'
+            displayCoin={displayCoin}
             name='withdrawalAmount'
             validate={[
               required,
@@ -312,16 +314,16 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> &
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(
                   withdrawalAmountFiat
                 )}`,
-                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coin}`
+                withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`
               }}
             />
           </Text>
           <Availability>
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
-                id='modals.interest.withdrawal.availability'
-                defaultMessage='A small network fee will be applied, and your {coin} will be available in your {coin} Wallet within 2 days.'
-                values={{ coin }}
+                id='modals.interest.withdrawal.available'
+                defaultMessage='A small network fee will be applied, and your {coinTicker} will be available in your {coinTicker} Wallet within 2 days.'
+                values={{ coinTicker }}
               />
             </Text>
           </Availability>

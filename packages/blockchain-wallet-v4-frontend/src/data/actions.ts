@@ -3,6 +3,7 @@ import * as analytics from './analytics/actions'
 import * as auth from './auth/actions'
 import * as cache from './cache/actions'
 import * as components from './components/actions'
+import * as custodial from './custodial/actions'
 import * as form from './form/actions'
 import * as goals from './goals/actions'
 import * as logs from './logs/actions'
@@ -22,6 +23,7 @@ export {
   cache,
   core,
   components,
+  custodial,
   alerts,
   auth,
   goals,

@@ -8,7 +8,7 @@ export const getData = createDeepEqualSelector(
     selectors.components.priceChart.getTime,
     selectors.core.settings.getCurrency
   ],
-  (priceIndexSeriesR, priceChartTime, currencyR) => {
+  (priceIndexSeriesR, priceChartTime: '1day', currencyR) => {
     const transform = (priceIndexSeries, currency) => {
       // @ts-ignore
       const priceStart = prop('price', head(priceIndexSeries))

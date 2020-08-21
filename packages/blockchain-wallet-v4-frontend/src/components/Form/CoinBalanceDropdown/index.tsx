@@ -1,15 +1,15 @@
 import {
   AccountTypes,
   CoinType,
+  RatesType,
   RemoteDataType,
-  SupportedCoinsType,
-  SupportedCoinType
+  SupportedCoinType,
+  SupportedWalletCurrenciesType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
-import { RatesType } from 'data/types'
 import { RootState } from 'data/rootReducer'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -160,7 +160,7 @@ export type OwnProps = {
   fiatCurrency?: string
   name: 'collateral' | 'interestDepositAccount' | 'repay-principal'
   rates: RatesType
-  supportedCoins: SupportedCoinsType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 type SuccessStateType = Array<AccountTypes>
 type LinkStatePropsType = {

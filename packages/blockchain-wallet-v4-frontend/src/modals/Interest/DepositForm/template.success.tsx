@@ -7,6 +7,7 @@ import React from 'react'
 import { actions, selectors } from 'data'
 import {
   Button,
+  Icon,
   Link,
   SpinningLoader,
   Text,
@@ -37,6 +38,7 @@ import {
   CustomField,
   CustomForm,
   CustomFormLabel,
+  ErrorText,
   FiatMaxContainer,
   GreyBlueCartridge,
   InfoText,
@@ -58,7 +60,7 @@ import {
   maxFiat
 } from '../conversions'
 import { maxDepositAmount, minDepositAmount } from './validation'
-import { SuccessStateType } from '.'
+import { OwnProps as ParentOwnProps, SuccessStateType } from '.'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 
 const FORM_NAME = 'interestDepositForm'
@@ -75,6 +77,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     interestLimits,
     interestRate,
     invalid,
+    payment,
     rates,
     submitting,
     supportedCoins,
@@ -110,6 +113,12 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
+  const isErc20 = coin === 'PAX' || coin === 'USDT'
+  const insufficientEth = !!(
+    isErc20 &&
+    (payment.coin === 'PAX' || payment.coin === 'USDT') &&
+    !payment.isSufficientEthForErc20
+  )
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -164,43 +173,70 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           >
             <FormattedMessage
               id='modals.interest.deposit.subheader'
-              defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto. You can deposit up to'
+              defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
               values={{
                 displayName,
                 rate: interestRate[coin]
               }}
             />{' '}
-            <FiatMaxContainer
-              onClick={() =>
-                formActions.change(
-                  FORM_NAME,
-                  'depositAmount',
-                  displayCoin ? depositLimits.maxCoin : depositLimits.maxFiat
-                )
-              }
-            >
-              {displayCoin ? (
-                <Text color='blue600' size='14px' weight={500}>
-                  {depositLimits.maxCoin}{' '}
-                </Text>
-              ) : (
-                <Text color='blue600' size='14px' weight={500}>
-                  {maxDepositFiat}{' '}
-                </Text>
-              )}
-            </FiatMaxContainer>{' '}
-            <FormattedMessage
-              id='modals.interest.deposit.uptoamount2'
-              defaultMessage='of {coin} from this wallet.'
-              values={{
-                coin
-              }}
-            />
-            <TooltipHost id='modals.interest.depositmax.tooltip'>
-              <TooltipIcon name='info' size='12px' />
-            </TooltipHost>
+            {!insufficientEth && (
+              <>
+                <FormattedMessage
+                  id='modals.interest.deposit.youcandeposit'
+                  defaultMessage='You can deposit up to'
+                  values={{
+                    coin: coinTicker
+                  }}
+                />{' '}
+                <FiatMaxContainer
+                  onClick={() =>
+                    formActions.change(
+                      FORM_NAME,
+                      'depositAmount',
+                      displayCoin
+                        ? depositLimits.maxCoin
+                        : depositLimits.maxFiat
+                    )
+                  }
+                >
+                  {displayCoin ? (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {depositLimits.maxCoin}{' '}
+                    </Text>
+                  ) : (
+                    <Text color='blue600' size='14px' weight={500}>
+                      {maxDepositFiat}{' '}
+                    </Text>
+                  )}
+                </FiatMaxContainer>{' '}
+                <FormattedMessage
+                  id='modals.interest.deposit.uptoamount2'
+                  defaultMessage='of {coin} from this wallet.'
+                  values={{
+                    coin: coinTicker
+                  }}
+                />
+                <TooltipHost id='modals.interest.depositmax.tooltip'>
+                  <TooltipIcon name='info' size='12px' />
+                </TooltipHost>
+              </>
+            )}
           </Text>
         </InfoText>
+        {isErc20 && insufficientEth && (
+          <ErrorText>
+            <Icon
+              name='alert-filled'
+              color='red600'
+              style={{ marginRight: '4px' }}
+            />
+            <FormattedMessage
+              id='modals.interest.deposit.notenougheth'
+              defaultMessage='ETH is required to send {coinTicker}. You do not have enough ETH to perform a transaction.'
+              values={{ coinTicker }}
+            />
+          </ErrorText>
+        )}
         <CoinBalanceDropdown
           {...props}
           fiatCurrency={walletCurrency}
@@ -233,12 +269,15 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CustomFormLabel>
         <AmountFieldContainer>
           <CustomField
+            coin={coin}
             component={NumberBox}
             data-e2e='depositAmount'
+            // @ts-ignore
+            disabled={insufficientEth}
+            displayCoin={displayCoin}
             name='depositAmount'
             validate={[required, minDepositAmount, maxDepositAmount]}
             {...{
-              autoFocus: true,
               errorBottom: true,
               errorLeft: true
             }}
@@ -460,9 +499,9 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </InterestTermWrapper>
             <Text size='11px' weight={400} style={{ marginTop: '6px' }}>
               <FormattedMessage
-                id='modals.interest.deposit.calcfooter'
-                defaultMessage='Estimates based on current interest rate and {coin} price.'
-                values={{ coin }}
+                id='modals.interest.deposit.calcrate'
+                defaultMessage='Estimates based on current interest rate and {coinTicker} price.'
+                values={{ coinTicker }}
               />
             </Text>
           </CalculatorContainer>
@@ -536,7 +575,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ButtonContainer>
           <Button
             data-e2e='interestDepositSubmit'
-            disabled={invalid}
+            disabled={invalid || insufficientEth}
             fullwidth
             height='48px'
             nature='primary'
@@ -574,6 +613,7 @@ type LinkStatePropsType = {
 
 export type Props = SuccessStateType &
   ConnectedProps<typeof connector> &
+  ParentOwnProps &
   FormProps
 
 type FormProps = {

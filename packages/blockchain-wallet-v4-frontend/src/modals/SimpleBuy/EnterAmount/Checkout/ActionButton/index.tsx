@@ -1,15 +1,17 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, SuccessStateType } from '..'
+import { Props as OwnProps, SuccessStateType } from '..'
 import React from 'react'
 
 type Props = {
   invalid: boolean
   submitting: boolean
-} & SuccessStateType &
-  LinkDispatchPropsType
+} & OwnProps &
+  SuccessStateType
 
 const ActionButton: React.FC<Props> = props => {
+  const disabled = props.invalid || props.submitting || !props.method
+
   switch (props.userData.kycState) {
     case 'EXPIRED':
     case 'REJECTED':
@@ -70,15 +72,12 @@ const ActionButton: React.FC<Props> = props => {
             nature='primary'
             type='submit'
             fullwidth
-            disabled={props.invalid || props.submitting}
+            disabled={disabled}
           >
             {props.submitting ? (
               <HeartbeatLoader height='16px' width='16px' color='white' />
             ) : (
-              <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
-              />
+              <FormattedMessage id='buttons.next' defaultMessage='Next' />
             )}
           </Button>
           <Text
@@ -103,12 +102,12 @@ const ActionButton: React.FC<Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={props.invalid || props.submitting}
+          disabled={disabled}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
           )}
         </Button>
       )

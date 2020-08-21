@@ -5,7 +5,7 @@ import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 import {
   Erc20CoinType,
   InterestAccountBalanceType,
-  SupportedCoinsType
+  SupportedWalletCurrenciesType
 } from 'core/types'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
@@ -148,16 +148,20 @@ export const getErc20Data = (
     exclude?: Array<string>
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
     coin,
     exclude = [],
     includeExchangeAddress,
-    includeCustodial
+    includeCustodial,
+    includeInterest
   } = ownProps
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse({}) as SupportedCoinsType
+  const supportedCoins = supportedCoinsR.getOrElse(
+    {} as SupportedWalletCurrenciesType
+  )
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
@@ -187,6 +191,21 @@ export const getErc20Data = (
       `${displayName} Trading Wallet` +
       ` (${displayErc20Fixed({
         value: x ? x.available : 0,
+        fromUnit: 'WEI',
+        toUnit: coin
+      })})`
+    )
+  }
+
+  const buildInterestDisplay = (
+    coin: Erc20CoinType,
+    displayName: string,
+    x
+  ) => {
+    return (
+      `${displayName} Interest Wallet` +
+      ` (${Exchange.displayEtherToEther({
+        value: x ? x.balance : 0,
         fromUnit: 'WEI',
         toUnit: coin
       })})`
@@ -225,6 +244,17 @@ export const getErc20Data = (
     }
   ]
 
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x, coin, supportedCoins[coin].displayName),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: `${supportedCoins[coin].coinTicker} Interest Wallet`
+      }
+    }
+  ]
+
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
     coin,
     state
@@ -245,6 +275,13 @@ export const getErc20Data = (
             .map(x => x[coin])
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map(x => x[coin])
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
         : Remote.of([]),
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))

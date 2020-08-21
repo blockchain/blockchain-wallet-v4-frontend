@@ -118,7 +118,6 @@ interface FetchInterestInstrumentsSuccess {
 }
 
 // LIMITS
-
 interface FetchInterestLimitsFailure {
   payload: { error: string }
   type: typeof AT.FETCH_INTEREST_LIMITS_FAILURE
@@ -135,7 +134,6 @@ interface SetWithdrawalMinimumsFailure {
   payload: { error: string }
   type: typeof AT.SET_WITHDRAWAL_MINIMUMS_FAILURE
 }
-
 interface SetWithdrawalMinimumsLoading {
   type: typeof AT.SET_WITHDRAWAL_MINIMUMS_LOADING
 }

@@ -1,14 +1,21 @@
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SupportedCoinsType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { getOutputAmount } from 'data/components/simpleBuy/model'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SupportedWalletCurrenciesType } from 'core/types'
+
+import { displayFiat, getPaymentMethod } from '../model'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -38,14 +45,11 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const outputAmt = getOutputAmount(props.order, props.quote)
-
-  const displayFiat = (amt: string) => {
-    return fiatToString({
-      unit: props.order.inputCurrency as FiatType,
-      value: convertBaseToStandard('FIAT', amt)
-    })
-  }
+  const orderType = getOrderType(props.order)
+  const baseAmount = getBaseAmount(props.order)
+  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const counterAmount = getCounterAmount(props.order)
+  const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -70,25 +74,49 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Checkout'
           />
         </TopText>
-        <Amount data-e2e='sbTotalCryptoBuyAmount'>
+        <Amount data-e2e='sbTotalAmount'>
           <Text size='32px' weight={600} color='grey800'>
-            {outputAmt}
+            {baseAmount}
           </Text>
           <Text size='32px' weight={600} color='grey800'>
-            {props.supportedCoins[props.order.outputCurrency].coinTicker}
+            {baseCurrency}
           </Text>
         </Amount>
       </FlyoutWrapper>
       <Row>
         <Title>
           <FormattedMessage
-            id='modals.simplebuy.confirm.rate'
-            defaultMessage='Exchange Rate'
+            id='modals.simplebuy.confirm.coin_price'
+            defaultMessage='{coin} Price'
+            values={{
+              coin: baseCurrency
+            }}
           />
         </Title>
         <Value data-e2e='sbExchangeRate'>
-          {displayFiat(props.quote.rate)} /{' '}
-          {props.supportedCoins[props.order.outputCurrency].coinTicker}
+          {displayFiat(props.order, props.supportedCoins, props.quote.rate)}
+        </Value>
+      </Row>
+      <Row>
+        <Title>
+          <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+        </Title>
+        <Value>
+          {props.order.fee
+            ? displayFiat(props.order, props.supportedCoins, props.order.fee)
+            : `${displayFiat(
+                props.order,
+                props.supportedCoins,
+                props.quote.fee
+              )} ${props.order.inputCurrency}`}
+        </Value>
+      </Row>
+      <Row>
+        <Title>
+          <FormattedMessage id='copy.total' defaultMessage='Total' />
+        </Title>
+        <Value data-e2e='sbFiatBuyAmount'>
+          {fiatToString({ value: counterAmount, unit: counterCurrency })}
         </Value>
       </Row>
       <Row>
@@ -98,37 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             defaultMessage='Payment Method'
           />
         </Title>
-        <Value>
-          {props.order.paymentMethodId ||
-          props.order.paymentType === 'PAYMENT_CARD'
-            ? 'Credit Card'
-            : 'Bank Transfer'}
-        </Value>
-      </Row>
-      <Row>
-        <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.fee'
-            defaultMessage='Fees'
-          />
-        </Title>
-        <Value>
-          {props.order.fee
-            ? displayFiat(props.order.fee)
-            : displayFiat(props.quote.fee)}{' '}
-          {props.order.inputCurrency}
-        </Value>
-      </Row>
-      <Row>
-        <Title>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.total'
-            defaultMessage='Total'
-          />
-        </Title>
-        <Value data-e2e='sbFiatBuyAmount'>
-          {displayFiat(props.order.inputQuantity)} {props.order.inputCurrency}
-        </Value>
+        <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
         <Text size='12px' weight={500} color='grey600'>
@@ -150,10 +148,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage
-              id='modals.simplebuy.confirm.buynow'
-              defaultMessage='Buy Now'
-            />
+            `${
+              orderType === 'BUY' ? 'Buy' : 'Sell'
+            } ${baseAmount} ${baseCurrency}`
           )}
         </Button>
         <Button
@@ -161,7 +158,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           disabled={props.submitting}
           size='16px'
           height='48px'
-          nature='light'
+          nature='light-red'
           onClick={() =>
             props.simpleBuyActions.setStep({
               step: 'CANCEL_ORDER',
@@ -191,6 +188,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 type Props = OwnProps &
-  SuccessStateType & { supportedCoins: SupportedCoinsType }
+  SuccessStateType & { supportedCoins: SupportedWalletCurrenciesType }
 
 export default reduxForm<{}, Props>({ form: 'sbCheckoutConfirm' })(Success)
