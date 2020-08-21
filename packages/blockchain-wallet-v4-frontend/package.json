@@ -104,7 +104,7 @@
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
     "qs": "6.7.0",
-    "ramda": "0.26.1",
+    "ramda": "0.27.1",
     "react": "16.13.1",
     "react-addons-css-transition-group": "15.6.2",
     "react-animations": "1.0.0",
