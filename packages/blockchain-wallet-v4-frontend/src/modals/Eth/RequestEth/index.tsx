@@ -14,7 +14,7 @@ import {
 } from 'core/types'
 import { getData, getInitialValues } from './selectors'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
-import { ModalPropsType } from 'data/types'
+import { ModalPropsType } from '../../types'
 import Announcements from 'components/Announcements'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -158,6 +158,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(modalEnhancer('@MODAL.REQUEST.ETH'), connector)
 
-type Props = ConnectedProps<typeof connector> & ModalPropsType
+type OwnProps = { lockboxIndex?: number }
+
+type Props = ConnectedProps<typeof connector> & ModalPropsType & OwnProps
 
 export default enhance(RequestEthContainer)
