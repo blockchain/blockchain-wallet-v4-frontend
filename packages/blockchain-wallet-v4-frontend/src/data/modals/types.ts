@@ -80,14 +80,14 @@ export type ModalOriginType =
   | 'WhatsNewHeader'
   | 'WithdrawModal'
 
-export type ModalPropsType = {
+export type ModalParamPropsType = {
   [key: string]: any
   origin: ModalOriginType
 }
 
 export type ModalType = {
   options: any
-  props: ModalPropsType
+  props: ModalParamPropsType
   type: ModalNamesType
 }
 
