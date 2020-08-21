@@ -49,7 +49,6 @@ export default ({
         linkId,
         email,
         address,
-        // TODO we should make this dynamic once when designs are ready
         kycMerge: true
       }
     })

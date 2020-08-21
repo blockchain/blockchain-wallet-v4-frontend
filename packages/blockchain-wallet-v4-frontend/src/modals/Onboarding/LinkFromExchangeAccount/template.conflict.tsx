@@ -1,6 +1,6 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { ButtonWrapper, MainWrapper } from './styles'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { MainWrapper } from './styles'
 import { Props } from '.'
 
 import React, { PureComponent } from 'react'
@@ -90,10 +90,19 @@ class Conflict extends PureComponent<
   handleSubmit = () => {
     const { linkId, error } = this.props
     const { selectedAddress, selectedEmail } = this.state
+
+    const choosenEmail =
+      selectedEmail ||
+      (error.email.wallet !== 'null'
+        ? error.email.wallet
+        : error.email.exchange)
+    const choosenAddress =
+      (selectedAddress as string) ||
+      (error.address.wallet !== 'null' ? 'wallet' : 'exchange')
     this.props.actions.linkFromExchangeAccount(
       linkId,
-      selectedEmail,
-      JSON.parse(error.address[selectedAddress as string])
+      choosenEmail,
+      JSON.parse(error.address[choosenAddress])
     )
   }
 
@@ -105,11 +114,16 @@ class Conflict extends PureComponent<
         <Text color={color} weight={500} style={{ textAlign: 'left' }}>
           {addressProcessed.line1}
         </Text>
+        {addressProcessed.line2 && addressProcessed.line2 !== 'null' && (
+          <Text color={color} weight={500} style={{ textAlign: 'left' }}>
+            {addressProcessed.line2}
+          </Text>
+        )}
         <Text color={color} weight={500} style={{ textAlign: 'left' }}>
-          {addressProcessed.line2}
-        </Text>
-        <Text color={color} weight={500} style={{ textAlign: 'left' }}>
-          {`${addressProcessed.city}, ${addressProcessed.state}`}
+          {addressProcessed.city}
+          {addressProcessed.state &&
+            addressProcessed.state !== 'null' &&
+            `, ${addressProcessed.state}`}
         </Text>
         <Text color={color} weight={500} style={{ textAlign: 'left' }}>
           {addressProcessed.postCode}
@@ -151,26 +165,14 @@ class Conflict extends PureComponent<
             <Text color='grey600' weight={500} style={{ textAlign: 'left' }}>
               <FormattedMessage
                 id='modals.onboarding.linkfromexchange.conflict_subtitle'
-                defaultMessage='Your Wallet and Exchange accounts are now linked, but there are some discrepancies between your profiles.'
-              />
-            </Text>
-          </TitleWrapper>
-          <TitleWrapper>
-            <Text
-              color='grey600'
-              weight={500}
-              style={{ textAlign: 'left', marginTop: '24px' }}
-            >
-              <FormattedMessage
-                id='modals.onboarding.linkfromexchange.conflict_subtitle_caption'
-                defaultMessage='Help us resolve by filling out the below form:'
+                defaultMessage='Your Wallet and Exchange accounts are now linked! Please select your preferred contact information.'
               />
             </Text>
           </TitleWrapper>
         </HeadingContainer>
 
         {considerAddress && (
-          <SectionWrapper>
+          <SectionWrapper style={{ marginBottom: '24px' }}>
             <TitleWrapper>
               <Text
                 color='grey900'
@@ -212,7 +214,7 @@ class Conflict extends PureComponent<
         )}
 
         {considerEmail && (
-          <SectionWrapper style={{ marginTop: '48px' }}>
+          <SectionWrapper style={{ marginBottom: '24px' }}>
             <TitleWrapper>
               <Text color='grey900' weight={500} style={{ textAlign: 'left' }}>
                 <FormattedMessage
@@ -320,22 +322,23 @@ class Conflict extends PureComponent<
           </SectionWrapper>
         )}
 
-        <Button
-          nature='primary'
-          height='56px'
-          fullwidth
-          onClick={this.handleSubmit}
-          data-e2e='submitProfileDetails'
-          disabled={!allowSubmit}
-          style={{ marginTop: '80px', marginBottom: '40px' }}
-        >
-          <Text color='white' size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.prompt.button'
-              defaultMessage='Submit'
-            />
-          </Text>
-        </Button>
+        <ButtonWrapper>
+          <Button
+            nature='primary'
+            height='56px'
+            fullwidth
+            onClick={this.handleSubmit}
+            data-e2e='submitProfileDetails'
+            disabled={!allowSubmit}
+          >
+            <Text color='white' size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.prompt.button'
+                defaultMessage='Submit'
+              />
+            </Text>
+          </Button>
+        </ButtonWrapper>
       </MainWrapper>
     )
   }

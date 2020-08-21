@@ -1,7 +1,7 @@
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { ButtonWrapper, MainWrapper, TitleWrapper } from './styles'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { MainWrapper, TitleWrapper } from './styles'
 import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
@@ -22,7 +22,7 @@ const getStatus = tier => {
     case 1:
       return 'Silver Verified'
     default:
-      return 'Golden Verified'
+      return 'Gold Verified'
   }
 }
 
@@ -52,7 +52,7 @@ const ImageWrapper = styled.div`
   flex-direction: column;
 `
 
-const Success: React.FC<Props & { close: () => void }> = props => {
+const Success: React.FC<Props & { close: () => void; data: any }> = props => {
   const { close, userTiers } = props
 
   // @ts-ignore
@@ -168,7 +168,7 @@ const Success: React.FC<Props & { close: () => void }> = props => {
               id='modals.onboarding.linkfromexchange.success_subinfo1_description1'
               defaultMessage='- Use Wallet ID {walletId}'
               values={{
-                walletId: props.walletId
+                walletId: props.data.walletGuid
               }}
             />
           </Text>
@@ -212,7 +212,7 @@ const Success: React.FC<Props & { close: () => void }> = props => {
               id='modals.onboarding.linkfromexchange.success_subinfo2_description1'
               defaultMessage='- Use Email Address: {exchangeEmail}'
               values={{
-                exchangeEmail: props.email
+                exchangeEmail: props.data.email
               }}
             />
           </Text>
@@ -242,35 +242,37 @@ const Success: React.FC<Props & { close: () => void }> = props => {
         />
       </InfoText>
 
-      <Button
-        nature='empty-blue'
-        height='56px'
-        fullwidth
-        onClick={close}
-        data-e2e='linkDone'
-        style={{ marginBottom: '18px' }}
-      >
-        <Text color='blue600' size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.onboarding.linkfromexchange.take_me_to_wallet'
-            defaultMessage='Take Me to My Wallet'
-          />
-        </Text>
-      </Button>
-      <Button
-        nature='primary'
-        height='56px'
-        fullwidth
-        onClick={close}
-        data-e2e='linkDone'
-      >
-        <Text color='white' size='16px' weight={500}>
-          <FormattedMessage
-            id='modals.onboarding.linkfromexchange.back_to_exchange'
-            defaultMessage='Back to the Exchange'
-          />
-        </Text>
-      </Button>
+      <ButtonWrapper>
+        <Button
+          nature='empty-blue'
+          height='56px'
+          fullwidth
+          onClick={close}
+          data-e2e='linkDone'
+          style={{ marginBottom: '18px' }}
+        >
+          <Text color='blue600' size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.onboarding.linkfromexchange.take_me_to_wallet'
+              defaultMessage='Take Me to My Wallet'
+            />
+          </Text>
+        </Button>
+        <Button
+          nature='primary'
+          height='56px'
+          fullwidth
+          onClick={close}
+          data-e2e='linkDone'
+        >
+          <Text color='white' size='16px' weight={500}>
+            <FormattedMessage
+              id='modals.onboarding.linkfromexchange.back_to_exchange'
+              defaultMessage='Back to the Exchange'
+            />
+          </Text>
+        </Button>
+      </ButtonWrapper>
     </MainWrapper>
   )
 }

@@ -36,11 +36,12 @@ export const MainContent = styled.div`
 export const MainWrapper = styled.div`
   display: flex;
   min-height: 300px;
+  height: calc(100% - 80px);
   align-items: center;
-  height: 90%;
+  flex: 1;
   flex-direction: column;
   text-align: center;
-  padding: 40px 20px 20px 40px;
+  padding: 40px;
 `
 
 export const TitleWrapper = styled.div`
@@ -48,4 +49,12 @@ export const TitleWrapper = styled.div`
   width: 100%;
   display: flex;
   margin-bottom: 40px;
+`
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  width: 100%;
+  flex-direction: column;
 `

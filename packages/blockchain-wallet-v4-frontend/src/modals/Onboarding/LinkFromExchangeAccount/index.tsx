@@ -63,7 +63,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
           data-e2e='infoModalLinkFromExchangeAccount'
         >
           <FlyoutChild>
-            <Success {...val} {...this.props} close={this.handleClose} />
+            <Success data={val} {...this.props} close={this.handleClose} />
           </FlyoutChild>
         </Flyout>
       ),
