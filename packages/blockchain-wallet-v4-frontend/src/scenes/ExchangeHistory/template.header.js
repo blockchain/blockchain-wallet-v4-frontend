@@ -9,6 +9,8 @@ import {
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const HeaderWrapper = styled.div`
   width: 100%;
 `
@@ -16,6 +18,9 @@ const HeaderWrapper = styled.div`
 const SupportButton = styled(Button)`
   margin-left: auto;
   border-radius: 8px;
+  ${media.mobile`
+    display: none;
+  `}
 `
 
 const ExchangeHeader = ({ showHelpModal }) => {

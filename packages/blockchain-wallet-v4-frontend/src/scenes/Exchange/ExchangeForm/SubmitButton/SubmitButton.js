@@ -6,8 +6,14 @@ import { Row } from '../Layout'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const ButtonRow = styled(Row)`
   padding: 0 32px 23px;
+  ${media.mobile`
+    padding-left: 0px;
+    padding-right: 0px;
+  `}
 `
 const BigButton = styled(Button)`
   height: 56px;

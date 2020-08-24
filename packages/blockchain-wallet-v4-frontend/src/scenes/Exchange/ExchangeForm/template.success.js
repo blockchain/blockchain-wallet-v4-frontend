@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   width: 100%;
   box-sizing: border-box;
 
-  ${media.mobile`
+  ${media.tabletL`
     border: 0px;
     padding: 0;
     flex-direction: column;
@@ -44,7 +44,7 @@ const ColumnLeft = styled.div`
   max-width: 450px;
   width: 60%;
   border-radius: 8px;
-  ${media.mobile`
+  ${media.tabletL`
     margin-right: 0;
     margin-bottom: 20px;
     width: 100%;
@@ -62,6 +62,9 @@ const ColumnRight = styled.div`
 `
 const SwapReceiveRow = styled(Row)`
   padding: 22px 32px 0 32px;
+  ${media.mobile`
+    padding: 0px;
+  `}
 `
 const SwapReceiveGap = styled(Cell)`
   min-width: 50px;

@@ -14,11 +14,17 @@ import { unsafe_deprecated_fiatToString } from 'blockchain-wallet-v4/src/exchang
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const LimitText = styled(ExchangeText)`
   font-weight: 500;
 `
 const LimitRow = styled(Row)`
   padding-top: 0;
+  ${media.mobile`
+    padding-left: 0px;
+    padding-right: 0px;
+  `}
 `
 const Group = styled.div`
   display: flex;

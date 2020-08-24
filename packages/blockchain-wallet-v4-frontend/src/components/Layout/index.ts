@@ -1,6 +1,5 @@
 import { Box } from '../Box'
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const StickyHeader = styled.div`
@@ -46,9 +45,6 @@ export const SceneHeader = styled.div`
   > :first-child {
     margin-right: 16px;
   }
-  ${media.mobile`
-    flex-direction: column;
-  `}
 `
 export const HeaderTextWrapper = styled.div`
   display: flex;

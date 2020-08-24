@@ -1,16 +1,20 @@
 import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 export const Wrapper = styled.div`
-  padding: 32px;
   max-width: 440px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey000};
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  ${media.atLeastMobile`
+    padding: 32px;
+    border: 1px solid ${props => props.theme.grey000};
+  `}
 `
 export const ExchangeText = styled(Text)`
   font-size: 14px;

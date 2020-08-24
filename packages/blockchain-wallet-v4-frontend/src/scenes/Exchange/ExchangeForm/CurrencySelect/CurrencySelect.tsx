@@ -11,9 +11,10 @@ import { getData, shouldUpdate } from './selectors'
 import { Icon, TooltipHost } from 'blockchain-info-components'
 import SelectBox from './SelectBox'
 
+import media from 'services/ResponsiveService'
+
 const CoinSwapIcon = styled(Icon)<{ disabled?: boolean }>`
   font-size: 18px;
-  margin: 0 15px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
     props.disabled ? props.theme.grey000 : props.theme['grey800']};
@@ -21,10 +22,18 @@ const CoinSwapIcon = styled(Icon)<{ disabled?: boolean }>`
     color: ${props =>
       props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
+
+  ${media.atLeastMobile`
+    margin: 0 15px;
+  `}
 `
 
 const CurrencyRow = styled(Row)`
   padding-top: 8px;
+  ${media.mobile`
+    padding-left: 0px;
+    padding-right: 0px;
+  `}
 `
 
 const extractFieldValue = (e, value) => value

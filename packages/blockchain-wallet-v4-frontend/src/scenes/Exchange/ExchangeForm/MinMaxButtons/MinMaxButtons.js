@@ -9,6 +9,8 @@ import { Row } from '../Layout'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 export const MinMaxButton = styled(Button)`
   width: 48%;
   font-size: 10px;
@@ -27,6 +29,10 @@ export const MinMaxValue = styled.div`
 `
 const MinMaxRow = styled(Row)`
   padding: 20px 32px;
+  ${media.mobile`
+    padding-left: 0px;
+    padding-right: 0px;
+  `}
 `
 export class MinMaxButtons extends React.PureComponent {
   render () {
