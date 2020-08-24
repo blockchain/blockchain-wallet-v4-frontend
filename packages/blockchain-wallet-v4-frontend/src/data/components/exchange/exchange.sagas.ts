@@ -724,7 +724,7 @@ export default ({
       return null
     }
 
-    const orderDirection: CustodialOrderDirectionType | null = getOrderDirection()
+    const direction: CustodialOrderDirectionType | null = getOrderDirection()
     const refundAddress =
       source.type === 'ACCOUNT'
         ? yield call(selectReceiveAddress, source, networks)
@@ -740,7 +740,7 @@ export default ({
       quote,
       refundAddress,
       destinationAddress,
-      orderDirection
+      direction
     )
   }
 

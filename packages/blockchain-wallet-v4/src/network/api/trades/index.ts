@@ -8,14 +8,14 @@ export default ({ nabuUrl, post, put, get }) => {
     quote: SwapExchangeQuoteType,
     refundAddress?: string,
     destinationAddress?: string,
-    orderDirection?: CustodialOrderDirectionType | null
+    direction?: CustodialOrderDirectionType | null
   ) =>
     post({
       url: nabuUrl,
-      endPoint: orderDirection ? `/custodial/trades` : `/trades`,
+      endPoint: direction ? `/custodial/trades` : `/trades`,
       data: {
         quote,
-        orderDirection,
+        direction,
         destinationAddress,
         refundAddress
       },
