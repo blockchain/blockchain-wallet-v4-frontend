@@ -65,18 +65,6 @@ export const ButtonWrapper = styled.div`
 
 export const ListWrapper = styled.div`
   max-width: 356px;
-  ul {
-    list-style-type: none;
-    /*use padding to move list item from left to right*/
-    padding-left: 1em;
-  }
-
-  ul li:before {
-    content: '–';
-    position: absolute;
-    /*change margin to move dash around*/
-    margin-left: -1em;
-  }
 `
 
 export const ItemIcon = styled.div`
