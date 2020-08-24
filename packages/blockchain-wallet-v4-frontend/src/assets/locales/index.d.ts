@@ -664,6 +664,7 @@ type MessagesType = {
   'modals.interest.deposit.calcdesccoin': 'With {depositAmount} {coinTicker} in your Interest Account you can earn:'
   'modals.interest.deposit.confirm': 'Confirm Deposit'
   'modals.interest.deposit.agreement2': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus a network fee of ~{depositFeeFiat} ({depositFeeCrypto}) from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+  'modals.interest.deposit.agreement.custodial': 'By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
   'modals.interest.deposit.calcrate': 'Estimates based on current interest rate and {coinTicker} price.'
   'modals.interest.deposit.calculator.tooltip': 'This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
   'modals.interest.deposit.max': 'Maximum deposit: {maxFiat}'

@@ -49,7 +49,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   }
 
   const createLimits = function * (
-    payment?: PaymentValue,
+    payment?: PaymentValue | null,
     balances?: SBBalancesType
   ) {
     try {

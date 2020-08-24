@@ -216,7 +216,6 @@ export default ({
           const custodialBalances: SBBalancesType = (yield select(
             selectors.components.simpleBuy.getSBBalances
           )).getOrFail('Failed to get balance')
-          // @ts-ignore @ANDREW : not sure why there is a ts error here
           yield call(createLimits, null, custodialBalances)
         } else {
           yield put(A.setPaymentLoading())
