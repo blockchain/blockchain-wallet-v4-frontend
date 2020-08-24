@@ -1,5 +1,11 @@
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { ButtonWrapper, MainWrapper, TitleWrapper } from './styles'
+import {
+  ButtonWrapper,
+  ItemIcon,
+  ListWrapper,
+  MainWrapper,
+  TitleWrapper
+} from './styles'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Props } from '.'
@@ -21,8 +27,10 @@ const getStatus = tier => {
   switch (tier) {
     case 1:
       return 'Silver Verified'
-    default:
+    case 2:
       return 'Gold Verified'
+    default:
+      return ''
   }
 }
 
@@ -47,9 +55,21 @@ const InfoText = styled(Text)`
   }
 `
 const ImageWrapper = styled.div`
+  width: 40px;
   justify-content: flex-start;
   display: flex;
   flex-direction: column;
+`
+
+const ListText = styled(Text)`
+  text-align: left;
+  margin-left: 18px;
+  margin-top: 8px;
+  span {
+    text-indent: -12px;
+    display: inline-block;
+    padding-left: 12px;
+  }
 `
 
 const Success: React.FC<Props & { close: () => void; data: any }> = props => {
@@ -137,16 +157,16 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
       </InfoText>
 
       <InfoWrapper style={{ marginTop: '18px' }}>
-        <DisplayPaymentIcon showBackground>
+        <ItemIcon>
           <Icon
             name='wallet-filled'
-            size='18px'
-            color='green600'
+            size='32px'
+            color='blue600'
             role='button'
             style={{ justifyContent: 'flex-start' }}
           />
-        </DisplayPaymentIcon>
-        <div>
+        </ItemIcon>
+        <ListWrapper>
           <Text
             color='grey900'
             size='16px'
@@ -158,12 +178,8 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
               defaultMessage='To Log In to Your Wallet'
             />
           </Text>
-          <Text
-            color='grey600'
-            size='16px'
-            weight={500}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
-          >
+
+          <ListText color='grey600' size='16px' weight={500}>
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo1_description1'
               defaultMessage='- Use Wallet ID {walletId}'
@@ -171,8 +187,9 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
                 walletId: props.data.walletGuid
               }}
             />
-          </Text>
-          <Text
+          </ListText>
+
+          <ListText
             color='grey600'
             size='16px'
             weight={500}
@@ -182,15 +199,15 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
               id='modals.onboarding.linkfromexchange.success_subinfo1_description2'
               defaultMessage='- Wallet’s Password'
             />
-          </Text>
-        </div>
+          </ListText>
+        </ListWrapper>
       </InfoWrapper>
 
       <InfoWrapper>
         <ImageWrapper>
-          <Image name='exchange' width='24px' />
+          <Image name='exchange' width='40px' />
         </ImageWrapper>
-        <div>
+        <ListWrapper>
           <Text
             color='grey900'
             size='16px'
@@ -202,12 +219,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
               defaultMessage='To Log In to Your Exchange'
             />
           </Text>
-          <Text
-            color='grey600'
-            size='16px'
-            weight={500}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
-          >
+          <ListText color='grey600' size='16px' weight={500}>
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo2_description1'
               defaultMessage='- Use Email Address: {exchangeEmail}'
@@ -215,19 +227,14 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
                 exchangeEmail: props.data.email
               }}
             />
-          </Text>
-          <Text
-            color='grey600'
-            size='16px'
-            weight={500}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
-          >
+          </ListText>
+          <ListText color='grey600' size='16px' weight={500}>
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo2_description2'
               defaultMessage='- Exchange’s Password'
             />
-          </Text>
-        </div>
+          </ListText>
+        </ListWrapper>
       </InfoWrapper>
 
       <InfoText

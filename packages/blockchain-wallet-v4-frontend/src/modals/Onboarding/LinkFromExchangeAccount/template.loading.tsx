@@ -37,13 +37,12 @@ const Loading: React.FC<Props & { close: () => void }> = props => {
         )}
       </ActionsWrapper>
       <MainContent>
-        {props.emailVerified && <SpinningLoader />}
+        {props.emailVerified ? <SpinningLoader /> : null}
         {!props.emailVerified && (
           <>
             <DisplayIcon showBackground>
               <Icon name='email' color='blue600' size='24px' />
             </DisplayIcon>
-
             <Status>
               <MainTitle color='grey800' size='24px' weight={600}>
                 <FormattedMessage

@@ -4,7 +4,7 @@ export const Content = styled.div`
   display: flex;
   min-height: 300px;
   align-items: center;
-  height: 90%;
+  height: calc(100% - 80px);
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
@@ -44,6 +44,10 @@ export const MainWrapper = styled.div`
   padding: 40px;
 `
 
+export const MainWrapperCentered = styled(MainWrapper)`
+  justify-content: center;
+`
+
 export const TitleWrapper = styled.div`
   margin-top: 8px;
   width: 100%;
@@ -57,4 +61,36 @@ export const ButtonWrapper = styled.div`
   flex: 1;
   width: 100%;
   flex-direction: column;
+`
+
+export const ListWrapper = styled.div`
+  max-width: 356px;
+  ul {
+    list-style-type: none;
+    /*use padding to move list item from left to right*/
+    padding-left: 1em;
+  }
+
+  ul li:before {
+    content: '–';
+    position: absolute;
+    /*change margin to move dash around*/
+    margin-left: -1em;
+  }
+`
+
+export const ItemIcon = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 500;
+  max-width: 40px;
+  color: ${props => props.theme.grey800};
+  align-items: center;
+  justify-content: center;
+  background-color: ${props => props.theme.blue000};
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 `

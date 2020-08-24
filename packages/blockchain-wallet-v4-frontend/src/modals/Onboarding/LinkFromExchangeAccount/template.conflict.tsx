@@ -50,8 +50,19 @@ type State = {
   selectedEmail: string | null
 }
 
+type LinkExchangeErrorType = {
+  address: {
+    exchange: string
+    wallet: string
+  }
+  email: {
+    exchange: string
+    wallet: string
+  }
+}
+
 class Conflict extends PureComponent<
-  Props & { close: () => void; error: any },
+  Props & { close: () => void; error: LinkExchangeErrorType },
   State
 > {
   constructor (props) {
