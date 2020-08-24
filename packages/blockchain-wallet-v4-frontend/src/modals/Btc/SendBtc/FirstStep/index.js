@@ -47,7 +47,6 @@ class FirstStep extends React.Component {
           priorityFeePerByte={value.priorityFeePerByte}
           regularFeePerByte={value.regularFeePerByte}
           totalFee={value.totalFee}
-          watchOnly={value.watchOnly}
         />
       ),
       Failure: message => (

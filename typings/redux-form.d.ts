@@ -22,6 +22,7 @@ export type WalletFormType =
   | 'initBorrow'
   | 'interestDepositForm'
   | 'interestWithdrawalForm'
+  | 'linkedBanks'
   | 'linkedCards'
   | 'login'
   | 'register'

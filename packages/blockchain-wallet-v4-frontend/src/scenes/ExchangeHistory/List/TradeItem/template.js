@@ -40,7 +40,7 @@ const TradeItem = props => {
   return (
     <MediaContextConsumer>
       {({ mobile }) => (
-        <TableRow dataE2e='exchangeHistoryOrderRow'>
+        <TableRow data-e2e='exchangeHistoryOrderRow'>
           <StatusContainer width='30%' mobileWidth='25%'>
             <TableCell width='50%'>
               <Text

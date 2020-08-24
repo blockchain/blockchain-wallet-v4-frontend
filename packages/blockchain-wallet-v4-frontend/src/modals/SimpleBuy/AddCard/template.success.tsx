@@ -172,7 +172,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
             type='submit'
             disabled={props.invalid || props.submitting}
           >
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
         </FormGroup>
       </Form>

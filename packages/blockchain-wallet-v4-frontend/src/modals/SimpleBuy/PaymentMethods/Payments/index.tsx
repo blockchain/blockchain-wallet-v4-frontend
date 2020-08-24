@@ -85,7 +85,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       case 'PAYMENT_CARD':
         return (
           <IconContainer>
-            <Icon size='18px' color='blue600' name='credit-card' />
+            <Icon size='18px' color='blue600' name='credit-card-sb' />
           </IconContainer>
         )
       case 'USER_CARD':
@@ -138,11 +138,11 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method =>
         method.value.type === 'FUNDS' &&
         method.value.currency in WalletFiatEnum &&
-        method.value.currency === this.props.fiatCurrency &&
-        Number(
-          this.props.balances[method.value.currency as WalletCurrencyType]
-            ?.available
-        ) > 0
+        (orderType === 'SELL' ||
+          Number(
+            this.props.balances[method.value.currency as WalletCurrencyType]
+              ?.available
+          ) > 0)
     )
 
     const paymentCard = defaultMethods.find(
@@ -152,7 +152,8 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method =>
         method.value.type === 'BANK_ACCOUNT' &&
         // TODO: simple buy USD
-        method.value.currency !== 'USD'
+        method.value.currency !== 'USD' &&
+        orderType === 'BUY'
     )
 
     const cardMethods = availableCards.map(card => ({

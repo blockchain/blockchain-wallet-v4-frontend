@@ -32,9 +32,16 @@ export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
+    // If success or failure already return
     if (Remote.Success.is(userData)) return
+    if (Remote.Failure.is(userData)) return
+    // If api key failure return
     if (Remote.Failure.is(apiToken)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    // Wait for success or failure
+    return yield race({
+      success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
+      failure: take(actionTypes.modules.profile.FETCH_USER_DATA_FAILURE)
+    })
   }
 
   const isTier2 = function * () {

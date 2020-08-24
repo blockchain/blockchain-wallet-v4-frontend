@@ -1,17 +1,6 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
-  | 'AirdropClaim'
-  | 'AirdropSuccess'
-  | 'BitPayInvoiceExpired'
-  | 'BORROW_MODAL'
-  | 'Confirm'
-  | 'CUSTODY_WITHDRAW_MODAL'
-  | 'FAQ_MODAL'
-  | 'INTEREST_MODAL'
-  | 'KycDocResubmit'
-  | 'LinkFromExchangeAccount'
-  | 'LinkToExchangeAccount'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
   | '@MODAL.REQUEST.ETH'
@@ -20,15 +9,35 @@ export type ModalNamesType =
   | '@MODAL.SEND.BTC'
   | '@MODAL.SEND.ETH'
   | '@MODAL.SEND.XLM'
+  | 'AddBtcWallet'
+  | 'AirdropClaim'
+  | 'AirdropSuccess'
+  | 'BitPayInvoiceExpired'
+  | 'BORROW_MODAL'
+  | 'Confirm'
+  | 'CUSTODY_WITHDRAW_MODAL'
+  | 'DeleteAddressLabel'
+  | 'FAQ_MODAL'
+  | 'ImportBtcAddress'
+  | 'INTEREST_MODAL'
+  | 'KycDocResubmit'
+  | 'LinkFromExchangeAccount'
+  | 'LinkToExchangeAccount'
+  | 'Onfido'
   | 'PairingCode'
   | 'RECOVERY_PHRASE_MODAL'
+  | 'ShowBtcPrivateKey'
+  | 'ShowUsedAddresses'
+  | 'ShowXPub'
+  | 'SignMessage'
   | 'SIMPLE_BUY_MODAL'
   | 'SunRiverWelcome'
   | 'SwapGetStarted'
   | 'SwapUpgrade'
-  | 'TransferEth'
   | 'TRANSACTION_REPORT'
+  | 'TransferEth'
   | 'UpgradeForAirdrop'
+  | 'VerifyMessage'
   | 'WELCOME_MODAL'
   | 'WHATS_NEW_MODAL'
   | 'WITHDRAWAL_MODAL'
@@ -71,14 +80,14 @@ export type ModalOriginType =
   | 'WhatsNewHeader'
   | 'WithdrawModal'
 
-export type ModalPropsType = {
+export type ModalParamPropsType = {
   [key: string]: any
   origin: ModalOriginType
 }
 
 export type ModalType = {
   options: any
-  props: ModalPropsType
+  props: ModalParamPropsType
   type: ModalNamesType
 }
 

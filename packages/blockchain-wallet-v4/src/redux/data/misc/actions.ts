@@ -81,7 +81,7 @@ export const encodePairingCodeFailure = error => ({
 })
 
 // AUTHORIZE_LOGIN
-export const authorizeLogin = (token, confirm) => ({
+export const authorizeLogin = (token, confirm?: any) => ({
   type: AT.AUTHORIZE_LOGIN,
   payload: { token, confirm }
 })

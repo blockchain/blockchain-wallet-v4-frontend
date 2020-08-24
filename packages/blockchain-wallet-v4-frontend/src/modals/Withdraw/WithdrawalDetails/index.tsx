@@ -3,7 +3,6 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FormattedMessage } from 'react-intl'
 import { WalletFiatType, WithdrawResponseType } from 'core/types'
@@ -61,10 +60,7 @@ class WithdrawalDetails extends PureComponent<Props> {
           </IconContainer>
           <Title weight={600} size='20px'>
             {fiatToString({
-              value: convertBaseToStandard(
-                'FIAT',
-                this.props.withdrawal.amount.value
-              ),
+              value: this.props.withdrawal.amount.value,
               unit: this.props.withdrawal.amount.symbol
             })}{' '}
             {this.props.withdrawal.amount.symbol}

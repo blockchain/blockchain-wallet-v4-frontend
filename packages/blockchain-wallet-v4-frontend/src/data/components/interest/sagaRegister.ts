@@ -60,6 +60,7 @@ export default ({
     yield takeLatest(
       [
         actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
+        actionTypes.modules.profile.FETCH_USER_DATA_FAILURE,
         actionTypes.modules.profile.SET_API_TOKEN_FAILURE
       ],
       interestSagas.fetchInterestBalance
