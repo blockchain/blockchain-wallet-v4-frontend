@@ -333,7 +333,8 @@ export default ({
       selectors.form.getFormValues('interestDepositForm')
     )
     if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-      // @ANDREW get form values to use in whatever backend wants us to do here
+      // tbd based on backend
+    } else {
       try {
         yield put(actions.form.startSubmit(FORM))
         const coin = S.getCoinType(yield select())
