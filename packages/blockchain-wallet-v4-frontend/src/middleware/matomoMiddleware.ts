@@ -68,9 +68,11 @@ const sanitizeEvent = (
           return [
             nextCategory,
             formatEvent({
-              step: sbAction.step,
+              cryptoCurrency: sbAction.cryptoCurrency,
+              fiatCurrency: sbAction.fiatCurrency,
+              pair: sbAction.pair ? sbAction.pair.pair : '',
               side: sbAction.orderType,
-              pair: sbAction.pair
+              step: sbAction.step
             })
           ]
         default:
