@@ -49,7 +49,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   }
 
   const createLimits = function * (
-    payment?: PaymentValue | null,
+    payment?: PaymentValue,
     balances?: SBBalancesType
   ) {
     try {
@@ -145,7 +145,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   const paymentGetOrElse = (
     coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue>
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): PaymentType => {
     switch (coin) {
       case 'USDT':

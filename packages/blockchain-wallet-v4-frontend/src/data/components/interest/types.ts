@@ -65,7 +65,7 @@ export interface InterestState {
   interestRate: RemoteDataType<string, InterestRateType['rates']>
   isCoinDisplayed: boolean
   // make this optional here. places where ts doesnt like it, check, custodial
-  payment?: RemoteDataType<string, PaymentValue>
+  payment?: RemoteDataType<string, PaymentValue | undefined>
   step: {
     data: InterestStepMetadata
     name: InterestStep
@@ -229,7 +229,7 @@ interface SetPaymentLoadingAction {
 }
 interface SetPaymentSuccessAction {
   payload: {
-    payment: PaymentValue
+    payment: PaymentValue | undefined
   }
   type: typeof AT.SET_PAYMENT_SUCCESS
 }

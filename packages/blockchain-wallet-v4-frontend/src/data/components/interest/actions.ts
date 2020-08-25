@@ -232,7 +232,7 @@ export const setPaymentLoading = (): InterestActionTypes => ({
   type: AT.SET_PAYMENT_LOADING
 })
 export const setPaymentSuccess = (
-  payment: PaymentValue
+  payment?: PaymentValue
 ): InterestActionTypes => ({
   type: AT.SET_PAYMENT_SUCCESS,
   payload: {
