@@ -1,13 +1,14 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
-import { CoinType, FiatType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
+import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
+  getCoinFromPair,
   getCounterAmount,
   getCounterCurrency,
   getOrderType
@@ -60,11 +61,7 @@ const Success: React.FC<Props> = props => {
             <span>
               <BuyOrSell
                 orderType={orderType}
-                crypto={
-                  orderType === 'BUY'
-                    ? (props.order.outputCurrency as CoinType)
-                    : (props.order.inputCurrency as CoinType)
-                }
+                crypto={getCoinFromPair(props.order.pair)}
               />
             </span>
             <Icon
