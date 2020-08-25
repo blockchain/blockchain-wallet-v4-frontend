@@ -2,9 +2,9 @@ import { darken } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
 
-const BaseButton = styled.button.attrs({
-  type: props => (props.type ? props.type : 'button')
-})`
+const BaseButton = styled.button.attrs(props => ({
+  type: props.type ? props.type : 'button'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: center;

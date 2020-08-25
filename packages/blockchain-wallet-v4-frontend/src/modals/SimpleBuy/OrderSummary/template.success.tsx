@@ -1,8 +1,8 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
+import { CoinType, FiatType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -58,10 +58,13 @@ const Success: React.FC<Props> = props => {
         <FlyoutWrapper>
           <TopText color='grey800' size='20px' weight={600}>
             <span>
-              <BuyOrSell orderType={getOrderType(props.order)} />{' '}
-              <FormattedMessage
-                id='modals.simplebuy.order_summary'
-                defaultMessage='Order Summary'
+              <BuyOrSell
+                orderType={orderType}
+                crypto={
+                  orderType === 'BUY'
+                    ? (props.order.outputCurrency as CoinType)
+                    : (props.order.inputCurrency as CoinType)
+                }
               />
             </span>
             <Icon
@@ -116,30 +119,29 @@ const Success: React.FC<Props> = props => {
         </Row>
         {props.order.price ? (
           <>
+            {props.order.state !== 'FAILED' && (
+              <Row>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.summary.rate'
+                    defaultMessage='Exchange Rate'
+                  />
+                </Title>
+                <Value data-e2e='sbRate'>
+                  {fiatToString({
+                    unit: counterCurrency as FiatType,
+                    value: convertBaseToStandard(
+                      orderType === 'BUY' ? 'FIAT' : baseCurrency,
+                      props.order.price
+                    )
+                  })}{' '}
+                  / {baseCurrency}
+                </Value>
+              </Row>
+            )}
             <Row>
               <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.summary.rate'
-                  defaultMessage='Exchange Rate'
-                />
-              </Title>
-              <Value data-e2e='sbRate'>
-                {fiatToString({
-                  unit: counterCurrency as FiatType,
-                  value: convertBaseToStandard(
-                    orderType === 'BUY' ? 'FIAT' : baseCurrency,
-                    props.order.price
-                  )
-                })}{' '}
-                / {baseCurrency}
-              </Value>
-            </Row>
-            <Row>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.summary.value'
-                  defaultMessage='Value'
-                />
+                <FormattedMessage id='copy.amount' defaultMessage='Amount' />
               </Title>
               <Value data-e2e='sbPurchasing'>
                 {baseAmount} of {baseCurrency}
@@ -169,12 +171,11 @@ const Success: React.FC<Props> = props => {
                 props.order,
                 props.supportedCoins,
                 props.order.fee || '0'
-              )}{' '}
-              {props.order.inputCurrency}
+              )}
             </Value>
           </Row>
         )}
-        {props.order.outputQuantity !== '0' && (
+        {props.order.outputQuantity !== '0' && props.order.state !== 'FAILED' && (
           <Row>
             <Title>
               <FormattedMessage
