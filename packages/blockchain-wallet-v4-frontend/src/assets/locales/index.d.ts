@@ -863,10 +863,30 @@ type MessagesType = {
   'modals.onboarding.linkfromexchange.need_to_verify': "You'll need to verify"
   'modals.onboarding.linkfromexchange.no_email': 'You do not have an email associated with this wallet. Please to Security Center to set your email.'
   'modals.onboarding.linkfromexchange.send_email': 'Resend Email'
+  'modals.onboarding.linkfromexchange.conflict': 'Profile Details'
+  'modals.onboarding.linkfromexchange.conflict_subtitle': 'Your Wallet and Exchange accounts are now linked! Please select your preferred contact information.'
+  'modals.onboarding.linkfromexchange.conflict_address': 'Select your most up to date residential address'
+  'modals.onboarding.linkfromexchange.conflict_email': 'Select your primary email address'
+  'modals.onboarding.linkfromexchange.conflict_email_description': 'This email will be used for all Wallet & Exchange communications.'
+  'modals.onboarding.linkfromexchange.email_disclaimer1': 'Keep using <span class="grey900">{exchangeEmail}</span> to log into the Exchange'
+  'modals.onboarding.linkfromexchange.email_disclaimer2': 'If you have 2FA enable for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.'
   'modals.onboarding.linkfromexchange.success': 'You have connected your Blockchain Wallet to Exchange. Go back and finish signing up!'
-  'modals.onboarding.linkfromexchange.successheader': 'Success!'
+  'modals.onboarding.linkfromexchange.success_info1': "Your Blockchain.com Wallet and Exchange are now connected. Seamlessly send funds between platforms to your heart's content."
+  'modals.onboarding.linkfromexchange.success_info2': 'You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn interest and borrow BTC.'
+  'modals.onboarding.linkfromexchange.success_remember_title': 'Remember!'
+  'modals.onboarding.linkfromexchange.success_remember_password_info': "You'll still have a separate password for each product."
+  'modals.onboarding.linkfromexchange.success_subinfo1_title': 'To Log In to Your Wallet'
+  'modals.onboarding.linkfromexchange.success_subinfo1_description1': '- Use Wallet ID {walletId}'
+  'modals.onboarding.linkfromexchange.success_subinfo1_description2': '- Wallet’s Password'
+  'modals.onboarding.linkfromexchange.success_subinfo2_title': 'To Log In to Your Exchange'
+  'modals.onboarding.linkfromexchange.success_subinfo2_description1': '- Use Email Address: {exchangeEmail}'
+  'modals.onboarding.linkfromexchange.success_subinfo2_description2': '- Exchange’s Password'
+  'modals.onboarding.linkfromexchange.success_disclaimer': "Having different Exchange and Wallet passwords helps to keep your accounts safe! <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>Learn more.</a> about the Wallet."
+  'modals.onboarding.linkfromexchange.successheader': 'Your Accounts are Connected!'
   'modals.onboarding.linkfromexchange.to_continue': "to continue. We'll be waiting right here in the meantime."
   'modals.onboarding.linkfromexchange.unverified_email': 'Please Verify Your Email'
+  'modals.onboarding.linkfromexchange.take_me_to_wallet': 'Take Me to My Wallet'
+  'modals.onboarding.linkfromexchange.back_to_exchange': 'Back to the Exchange'
   'modals.onboarding.linktoexchangeaccount.error.title': 'Linking Error'
   'modals.onboarding.linktoexchangeaccount.loading.openhere-1': 'Open the Exchange'
   'modals.onboarding.linktoexchangeaccount.loading.sub': 'A new browser tab will open shortly where you can complete account linking.'

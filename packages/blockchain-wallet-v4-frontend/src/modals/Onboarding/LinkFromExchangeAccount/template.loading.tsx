@@ -1,5 +1,11 @@
 import { ActionsWrapper, Content, MainContent, Status } from './styles'
-import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  SpinningLoader,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { FormattedMessage } from 'react-intl'
 import { Props } from '.'
@@ -18,22 +24,25 @@ const Loading: React.FC<Props & { close: () => void }> = props => {
   return (
     <Content>
       <ActionsWrapper>
-        <Icon
-          cursor
-          data-e2e='onboadingCloseModalIcon'
-          name='close'
-          size='20px'
-          color='grey600'
-          role='button'
-          onClick={props.close}
-        />
+        {!props.emailVerified && (
+          <Icon
+            cursor
+            data-e2e='onboadingCloseModalIcon'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={props.close}
+          />
+        )}
       </ActionsWrapper>
       <MainContent>
-        <DisplayIcon showBackground>
-          <Icon name='email' color='blue600' size='24px' />
-        </DisplayIcon>
+        {props.emailVerified ? <SpinningLoader /> : null}
         {!props.emailVerified && (
           <>
+            <DisplayIcon showBackground>
+              <Icon name='email' color='blue600' size='24px' />
+            </DisplayIcon>
             <Status>
               <MainTitle color='grey800' size='24px' weight={600}>
                 <FormattedMessage

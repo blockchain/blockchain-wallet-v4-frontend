@@ -29,6 +29,7 @@ import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
+import exchange from './img/exchange.svg'
 import exchangeLogo from './img/exchange-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
@@ -143,6 +144,7 @@ const Images = {
   'empty-tx': emptyTx,
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
+  exchange: exchange,
   'exchange-logo': exchangeLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
