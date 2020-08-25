@@ -1,4 +1,4 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, FiatType, NabuMoneyFloatType } from 'core/types'
 
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
@@ -79,7 +79,4 @@ export type InterestWithdrawalResponseType = {
   user: string
 }
 
-export type WithdrawalMinimumType = Array<{
-  symbol: CoinType | FiatType
-  value: string
-}>
+export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
