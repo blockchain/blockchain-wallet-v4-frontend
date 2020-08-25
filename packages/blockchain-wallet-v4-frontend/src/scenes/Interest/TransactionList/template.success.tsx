@@ -147,7 +147,7 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
 
-                    <Value data-e2e='depositTx'>{coinTicker} Deposit</Value>
+                    <Value data-e2e='depositTx'>{coinTicker} Transfer</Value>
                     {state === 'REJECTED' || state === 'FAILED' ? (
                       <ErrorTag>
                         <FormattedMessage

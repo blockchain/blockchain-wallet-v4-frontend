@@ -79,8 +79,8 @@ class IntroCard extends PureComponent<
                 style={{ marginTop: '4px', lineHeight: 1.5 }}
               >
                 <FormattedMessage
-                  id='scenes.interest.earninfo.verified.body'
-                  defaultMessage='Earn up to {highestRate}% annually when you deposit crypto to your Interest Account.'
+                  id='scenes.interest.earninfo.verified.copy'
+                  defaultMessage='Earn up to {highestRate}% annually when you transfer crypto to your Interest Account.'
                   values={{ highestRate }}
                 />
               </Text>
