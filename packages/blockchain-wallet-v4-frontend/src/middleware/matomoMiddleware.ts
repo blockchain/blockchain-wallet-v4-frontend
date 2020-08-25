@@ -54,6 +54,7 @@ const sanitizeEvent = (
       switch (sbAction.step) {
         case 'ORDER_SUMMARY':
         case 'CHECKOUT_CONFIRM':
+        case 'CANCEL_ORDER':
           return [
             nextCategory,
             formatEvent({
@@ -61,6 +62,15 @@ const sanitizeEvent = (
               inputCurrency: sbAction.order.inputCurrency,
               outputCurrency: sbAction.order.outputCurrency,
               paymentType: sbAction.order.paymentType
+            })
+          ]
+        case 'ENTER_AMOUNT':
+          return [
+            nextCategory,
+            formatEvent({
+              step: sbAction.step,
+              side: sbAction.orderType,
+              pair: sbAction.pair
             })
           ]
         default:
