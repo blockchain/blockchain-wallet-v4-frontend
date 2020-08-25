@@ -15,6 +15,7 @@ import {
   touch
 } from 'redux-form'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { FromType, XlmPaymentType } from 'core/types'
@@ -108,7 +109,6 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           payment = yield call(setFrom, payment, source, fromType)
           if (fromType === 'CUSTODIAL') {
             yield put(A.paymentUpdatedSuccess(payment.value()))
-            yield call(setAmount, source.available)
             yield put(change(FORM, 'to', null))
           }
           break
@@ -307,6 +307,10 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
+      const error = errorHandler(e)
+      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+        yield put(actions.alerts.displayError(error))
+      }
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
