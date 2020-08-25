@@ -332,11 +332,11 @@ export default ({
         api.getSBBalances,
         currency
       )
-      const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
-        api.getWithdrawalLocks
-      )
+      // const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
+      //   api.getWithdrawalLocks
+      // )
       // eslint-disable-next-line
-      console.log(locks)
+      // console.log(locks)
       yield put(A.fetchSBBalancesSuccess(balances))
     } catch (e) {
       const error = errorHandler(e)

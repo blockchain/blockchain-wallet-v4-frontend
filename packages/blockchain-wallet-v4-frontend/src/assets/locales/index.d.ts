@@ -300,6 +300,7 @@ type MessagesType = {
   'copy.balance': 'Balance'
   'copy.confirm_withdrawal': 'Confirm Withdrawal'
   'copy.date': 'Date'
+  'copy.error.locked_withdraw_error': 'Your Trading balance will be available once the holding period expires.'
   'copy.failed': 'Failed'
   'copy.fee': 'Fee'
   'copy.from': 'From'

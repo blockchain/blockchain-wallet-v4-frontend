@@ -223,7 +223,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            disabled={unconfirmedTx || isFromCustody}
+            disabled={unconfirmedTx}
             component={FiatConverter}
             coin={coin}
             validate={[

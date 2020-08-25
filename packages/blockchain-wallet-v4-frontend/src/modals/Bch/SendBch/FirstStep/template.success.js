@@ -218,7 +218,7 @@ const FirstStep = props => {
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
-            disabled={isPayPro || isFromCustody}
+            disabled={isPayPro}
           />
         </FormItem>
       </FormGroup>
