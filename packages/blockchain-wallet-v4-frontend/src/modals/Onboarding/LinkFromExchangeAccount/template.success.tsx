@@ -12,14 +12,14 @@ import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
-const getIcon = tier => {
+const shouldRenderInfo = (tier: number) => {
   switch (tier) {
     case 1:
-      return 'silver-approved'
+      return false
     case 2:
-      return 'gold-approved'
+      return true
     default:
-      return 'checkmark-green'
+      return false
   }
 }
 
@@ -118,25 +118,32 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
           />
         </Text>
       </InfoWrapper>
-      <InfoWrapper>
-        <ImageWrapper>
-          <Image name={getIcon(current)} width='24px' />
-        </ImageWrapper>
-        <Text
-          color='grey600'
-          size='16px'
-          weight={500}
-          style={{ textAlign: 'left', marginLeft: '18px' }}
-        >
-          <FormattedMessage
-            id='modals.onboarding.linkfromexchange.success_info2'
-            defaultMessage='You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn interest and borrow BTC.'
-            values={{
-              status: getStatus(current)
-            }}
+
+      {shouldRenderInfo(current) && (
+        <InfoWrapper>
+          <Icon
+            name='checkmark-circle-filled'
+            size='24px'
+            color='green600'
+            role='button'
+            style={{ justifyContent: 'flex-start' }}
           />
-        </Text>
-      </InfoWrapper>
+          <Text
+            color='grey600'
+            size='16px'
+            weight={500}
+            style={{ textAlign: 'left', marginLeft: '18px' }}
+          >
+            <FormattedMessage
+              id='modals.onboarding.linkfromexchange.success_info2'
+              defaultMessage='You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn interest and borrow BTC.'
+              values={{
+                status: getStatus(current)
+              }}
+            />
+          </Text>
+        </InfoWrapper>
+      )}
 
       <InfoText
         color='grey900'
