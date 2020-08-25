@@ -249,7 +249,7 @@ const FirstStep = props => {
             ]}
             coin='BTC'
             data-e2e='sendBtc'
-            disabled={isPayPro || isFromCustody}
+            disabled={isPayPro}
             marginTop='8px'
           />
         </FormItem>

@@ -1,4 +1,4 @@
-import { AgentType, WalletFiatType } from 'core/types'
+import { AgentType, CoinType, FiatType, WalletFiatType } from 'core/types'
 
 export type BeneficiaryType = {
   address: string
@@ -11,6 +11,27 @@ export type BeneficiaryType = {
 }
 
 export type BeneficiariesType = Array<BeneficiaryType>
+
+export type NabuMoneyFloatType = {
+  symbol: CoinType | FiatType
+  value: string
+}
+
+export type WithdrawalLock = {
+  attributes: {}
+  expiresAt: string
+  id: string
+  insertedAt: string
+  lockRuleId: string
+  paymentId: string
+  updatedAt: string
+  usdAmount: NabuMoneyFloatType
+  userId: string
+}
+
+export type WithdrawalLockResponseType = {
+  locks: Array<WithdrawalLock>
+}
 
 export type WithdrawResponseType = {
   amount: { symbol: WalletFiatType; value: string }

@@ -31,6 +31,7 @@ import {
   startSubmit,
   stopSubmit
 } from 'redux-form'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
@@ -242,33 +243,8 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
-              const appState = yield select(identity)
-              const currency = selectors.core.settings
-                .getCurrency(appState)
-                .getOrFail('Can not retrieve currency.')
-              const btcRates = selectors.core.data.btc
-                .getRates(appState)
-                .getOrFail('Can not retrieve bitcoin rates.')
-
-              const available = new BigNumber(
-                payloadT.available || 0
-              ).toNumber()
-              const coin = Exchange.convertBtcToBtc({
-                value: available,
-                fromUnit: 'SAT',
-                toUnit: 'BTC'
-              }).value
-              const fiat = Exchange.convertBtcToFiat({
-                value: coin,
-                fromUnit: 'BTC',
-                toCurrency: currency,
-                rates: btcRates
-              }).value
-
               payment = yield payment.from(payloadT.label, fromType)
-              payment = yield payment.amount(available)
               yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
-              yield put(change(FORM, 'amount', { coin, fiat }))
               yield put(change(FORM, 'to', null))
               break
             default:
@@ -585,6 +561,10 @@ export default ({
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
+      const error = errorHandler(e)
+      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+        yield put(actions.alerts.displayError(error))
+      }
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
