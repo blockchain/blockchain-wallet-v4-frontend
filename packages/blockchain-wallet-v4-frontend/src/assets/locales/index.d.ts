@@ -1129,6 +1129,7 @@ type MessagesType = {
   'modals.simplebuy.checkout.buymin': 'Buy Min'
   'modals.simplebuy.checkoutconfirm': 'Checkout'
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
+  'modals.simplebuy.confirm.activity_card': 'Your final amount may change due to market activity. An initial holding period of <b>7 days</b> will be applied to your funds.'
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
