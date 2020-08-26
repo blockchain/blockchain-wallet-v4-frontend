@@ -32,11 +32,15 @@ export const getData = createDeepEqualSelector(
     noAccount,
     coinAvailabilityR
   ) => {
+    const amount = prop('amount', formValues)
+    const destination = prop('to', formValues)
     const excludeLockbox = !prop(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
     )
+    const from = prop('from', formValues)
     const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
+
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
@@ -46,12 +50,11 @@ export const getData = createDeepEqualSelector(
         payment
       )
       const fee = propOr('0', 'fee', payment)
-      const destination = prop('to', formValues)
-      const from = prop('from', formValues)
       const isDestinationChecked = Remote.Success.is(checkDestinationR)
 
       return {
         activeField,
+        amount,
         balanceStatus: balanceR,
         currency,
         destination,
