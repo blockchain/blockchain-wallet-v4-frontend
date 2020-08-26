@@ -42,10 +42,16 @@ export type SBAccountType =
 export type SBBalanceType = {
   available: string
   pending: string
+  withdrawable: string
 }
 
 export type SBBalancesType = {
   [key in WalletCurrencyType]?: SBBalanceType
+}
+
+export type CustodialFromType = SBBalanceType & {
+  label: string
+  type: 'CUSTODIAL'
 }
 
 export type NabuAddressType = {

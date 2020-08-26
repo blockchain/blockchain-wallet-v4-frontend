@@ -308,9 +308,6 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
       yield put(stopSubmit(FORM))
       // Set errors
       const error = errorHandler(e)
-      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
-        yield put(actions.alerts.displayError(error))
-      }
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -328,11 +325,19 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             e
           ])
         )
-        yield put(
-          actions.alerts.displayError(C.SEND_COIN_ERROR, {
-            coinName: 'Stellar'
-          })
-        )
+        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+          if (error === 'Pending withdrawal locks') {
+            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+          } else {
+            yield put(actions.alerts.displayError(error))
+          }
+        } else {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Stellar'
+            })
+          )
+        }
       }
     }
   }

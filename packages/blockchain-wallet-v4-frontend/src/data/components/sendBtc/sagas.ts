@@ -562,9 +562,6 @@ export default ({
       yield put(stopSubmit(FORM))
       // Set errors
       const error = errorHandler(e)
-      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
-        yield put(actions.alerts.displayError(error))
-      }
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -582,11 +579,19 @@ export default ({
             e
           ])
         )
-        yield put(
-          actions.alerts.displayError(C.SEND_COIN_ERROR, {
-            coinName: 'Bitcoin'
-          })
-        )
+        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+          if (error === 'Pending withdrawal locks') {
+            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+          } else {
+            yield put(actions.alerts.displayError(error))
+          }
+        } else {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Bitcoin'
+            })
+          )
+        }
         if (payPro) {
           yield put(
             actions.analytics.logEvent([
