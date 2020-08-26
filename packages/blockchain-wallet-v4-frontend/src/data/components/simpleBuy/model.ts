@@ -13,7 +13,11 @@ import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
-export const DEFAULT_SB_BALANCE = { pending: '0', available: '0' }
+export const DEFAULT_SB_BALANCE = {
+  pending: '0',
+  available: '0',
+  withdrawable: '0'
+}
 export const DEFAULT_SB_BALANCES = {}
 export const DEFAULT_SB_METHODS = {
   currency: 'EUR' as WalletFiatType,
