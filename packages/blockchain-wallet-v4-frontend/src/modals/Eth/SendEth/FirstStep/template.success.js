@@ -223,7 +223,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='amount'
-            disabled={unconfirmedTx || isFromCustody}
+            disabled={unconfirmedTx}
             component={FiatConverter}
             coin={coin}
             validate={[
@@ -256,10 +256,10 @@ const FirstStep = props => {
           </FormLabel>
           <Field
             name='description'
+            disabled={isFromCustody}
             component={TextAreaDebounced}
             placeholder="What's this transaction for? (optional)"
             data-e2e={`${coin}SendDescription`}
-            disabled={isFromCustody}
             fullwidth
           />
         </FormItem>

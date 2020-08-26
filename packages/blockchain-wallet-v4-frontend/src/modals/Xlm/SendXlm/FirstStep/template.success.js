@@ -205,7 +205,6 @@ const FirstStep = props => {
               <Field
                 name='amount'
                 component={XlmFiatConverter}
-                disabled={isFromCustody}
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds]}
@@ -291,9 +290,9 @@ const FirstStep = props => {
               </FormLabel>
               <Field
                 name='description'
+                disabled={isFromCustody}
                 component={TextAreaDebounced}
                 placeholder="What's this transaction for? (optional)"
-                disabled={isFromCustody}
                 data-e2e='sendXlmDescription'
                 fullwidth
               />
