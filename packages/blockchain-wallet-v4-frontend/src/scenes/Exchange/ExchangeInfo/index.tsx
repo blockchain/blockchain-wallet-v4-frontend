@@ -1,8 +1,11 @@
+import { actions, selectors } from 'data'
 import { Box, Container } from 'components/Box'
+import { connect, ConnectedProps } from 'react-redux'
+import { Dispatch } from 'redux'
 import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const ContainerWithBackground = styled(Container)`
@@ -28,9 +31,8 @@ const Header = styled.div`
   margin-bottom: 20px;
 `
 
-const ExchangeInfo = () => {
-  const [isVisible, setVisible] = useState(true)
-  if (!isVisible) {
+const ExchangeInfo = ({ showSwapInfoBanner, hideSwapInfoBanner }) => {
+  if (!showSwapInfoBanner) {
     return null
   }
   return (
@@ -45,7 +47,7 @@ const ExchangeInfo = () => {
             name='close-circle'
             size='20px'
             color='grey400'
-            onClick={() => setVisible(false)}
+            onClick={() => hideSwapInfoBanner()}
           />
         </Header>
         <div>
@@ -77,4 +79,20 @@ const ExchangeInfo = () => {
   )
 }
 
-export default ExchangeInfo
+const mapStateToProps = (state): LinkStatePropsType => ({
+  showSwapInfoBanner: selectors.preferences.getShowSwapInfoBanner(
+    state
+  ) as boolean
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  hideSwapInfoBanner: () => dispatch(actions.preferences.hideSwapInfoBanner())
+})
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type LinkStatePropsType = {
+  showSwapInfoBanner: boolean
+}
+export type Props = ConnectedProps<typeof connector>
+
+export default connector(ExchangeInfo)
