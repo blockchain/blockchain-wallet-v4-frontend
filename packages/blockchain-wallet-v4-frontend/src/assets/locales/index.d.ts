@@ -1565,7 +1565,6 @@ type MessagesType = {
   'scenes.home.banners.kycresubmit.resubmit': 'Resubmit Now'
   'scenes.home.banners.kycresubmit.subtitle': "We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
   'scenes.home.banners.kycresubmit.title': 'Documents Needed'
-  'scenes.home.banners.verifiedkyc.tag': 'NEW'
   'scenes.home.banners.verifiedkyc.title': 'Keep Cash in Your Wallet'
   'scenes.home.banners.verifiedkyc.description': 'Verify your identity to deposit cash into the Wallet and buy crypto.'
   'scenes.home.banners.nonekyc.button': 'Link a Bank'
@@ -2137,6 +2136,8 @@ type MessagesType = {
   'swap.carousel.title.page5': 'Manage Risk Better'
   'swap.getstarted.readytoswap.body': 'Complete your profile and start exchanging cryptocurrencies today.'
   'swap.getstarted.readytoswap.title': 'Ready to Swap? '
+  'swap.getstarted.readytoswap.info.title': 'Swap is Now<br />Faster & Cheaper.'
+  'swap.getstarted.readytoswap.info.description': 'Intrdoducing Swap with your Trade Wallets. The same Wallet you use to Buy & Sell can now access Swap. Save time and money with 100% off-chain swaps!'
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'
   'tooltip.transaction.pending.eth': 'Your transaction is currently pending. You can attempt to resend it with a higher fee.'
