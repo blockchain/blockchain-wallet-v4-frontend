@@ -2,7 +2,6 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -126,7 +125,7 @@ const Success: React.FC<Props> = props => {
                 </Title>
                 <Value data-e2e='sbRate'>
                   {fiatToString({
-                    unit: counterCurrency as FiatType,
+                    unit: counterCurrency,
                     value: convertBaseToStandard(
                       orderType === 'BUY' ? 'FIAT' : baseCurrency,
                       props.order.price
@@ -192,7 +191,7 @@ const Success: React.FC<Props> = props => {
             </Title>
             <Value data-e2e='sbSentTotal'>
               {fiatToString({
-                unit: counterCurrency as FiatType,
+                unit: counterCurrency,
                 value: counterAmount
               })}
             </Value>
