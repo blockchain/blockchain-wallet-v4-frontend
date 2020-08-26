@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SBPaymentMethodType, WalletFiatType } from 'core/types'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
 import styled from 'styled-components'
@@ -17,11 +18,17 @@ const BankIconWrapper = styled.div`
   display: flex;
 `
 
-const getAvailableAmountForCurrency = (methods, currency) => {
+const getAvailableAmountForCurrency = (
+  methods: SBPaymentMethodType[],
+  currency: WalletFiatType
+) => {
   const method = methods.find(
     method => method.type === 'FUNDS' && method.currency === currency
   )
-  return Number(method.limits.max)
+  if (method) {
+    return Number(method.limits.max)
+  }
+  return 0
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
