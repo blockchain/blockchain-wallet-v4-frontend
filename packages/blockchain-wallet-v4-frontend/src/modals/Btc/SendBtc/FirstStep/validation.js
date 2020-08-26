@@ -15,9 +15,7 @@ import React from 'react'
 const DUST = 546
 
 const getEffectiveBalance = props => {
-  return (
-    props.effectiveBalance || (props.from ? Number(props.from.available) : 0)
-  )
+  return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {

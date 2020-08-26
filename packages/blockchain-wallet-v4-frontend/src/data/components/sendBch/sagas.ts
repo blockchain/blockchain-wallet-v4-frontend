@@ -218,7 +218,11 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
-              payment = yield payment.from(payloadT.label, fromType)
+              payment = yield payment.from(
+                payloadT.label,
+                fromType,
+                payloadT.withdrawable
+              )
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
               break
