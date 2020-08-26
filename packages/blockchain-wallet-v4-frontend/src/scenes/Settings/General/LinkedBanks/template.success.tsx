@@ -45,7 +45,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           {props.beneficiaries.map((beneficiary, i) => {
             const availableAmount = getAvailableAmountForCurrency(
               props.paymentMethods.methods,
-              beneficiary.currency
+              beneficiary.currency as WalletFiatType
             )
             return (
               <CardWrapper key={i}>
@@ -69,7 +69,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                                 'FIAT',
                                 availableAmount
                               ),
-                              unit: beneficiary.currency || 'EUR'
+                              unit: (beneficiary.currency ||
+                                'EUR') as WalletFiatType
                             })
                           }}
                         />

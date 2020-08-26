@@ -1,4 +1,10 @@
-import { AgentType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
+import {
+  AgentType,
+  CoinType,
+  FiatType,
+  WalletCurrencyType,
+  WalletFiatType
+} from 'core/types'
 
 export type BeneficiaryType = {
   address: string
@@ -34,7 +40,7 @@ export type WithdrawalLockResponseType = {
 }
 
 export type WithdrawResponseType = {
-  amount: { symbol: WalletCurrencyType; value: string }
+  amount: { symbol: WalletFiatType; value: string }
   id: string
   product: 'SIMPLEBUY'
   state: 'NONE'
