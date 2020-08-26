@@ -404,6 +404,8 @@ export default ({ api, coreSagas, networks }) => {
       // share addresses
       yield put(A.shareWalletAddressesWithExchange())
       yield put(A.linkFromExchangeAccountSuccess(data))
+      // finalise linking
+      yield call(api.finaliseLinking)
       // update user
       yield call(fetchUser)
     } catch (e) {
