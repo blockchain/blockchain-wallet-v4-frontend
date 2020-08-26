@@ -2136,7 +2136,7 @@ type MessagesType = {
   'swap.carousel.title.page5': 'Manage Risk Better'
   'swap.getstarted.readytoswap.body': 'Complete your profile and start exchanging cryptocurrencies today.'
   'swap.getstarted.readytoswap.title': 'Ready to Swap? '
-  'swap.getstarted.readytoswap.info.title': 'Swap is Now<br />Faster & Cheaper.'
+  'swap.getstarted.readytoswap.info.title': 'Swap is Now Faster & Cheaper.'
   'swap.getstarted.readytoswap.info.description': 'Intrdoducing Swap with your Trade Wallets. The same Wallet you use to Buy & Sell can now access Swap. Save time and money with 100% off-chain swaps!'
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'

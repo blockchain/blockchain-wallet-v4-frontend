@@ -2,7 +2,7 @@ import { actions, selectors } from 'data'
 import { Box, Container } from 'components/Box'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from 'redux'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import React from 'react'
@@ -55,11 +55,11 @@ const ExchangeInfo = ({ showSwapInfoBanner, hideSwapInfoBanner }) => {
             size='20px'
             weight={600}
             color='grey900'
-            style={{ marginBottom: '10px' }}
+            style={{ marginBottom: '10px', width: '175px' }}
           >
-            <FormattedHTMLMessage
+            <FormattedMessage
               id='swap.getstarted.readytoswap.info.title'
-              defaultMessage='Swap is Now<br />Faster & Cheaper.'
+              defaultMessage='Swap is Now Faster & Cheaper.'
             />
           </Text>
           <Text
@@ -79,10 +79,8 @@ const ExchangeInfo = ({ showSwapInfoBanner, hideSwapInfoBanner }) => {
   )
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
-  showSwapInfoBanner: selectors.preferences.getShowSwapInfoBanner(
-    state
-  ) as boolean
+const mapStateToProps = state => ({
+  showSwapInfoBanner: selectors.preferences.getShowSwapInfoBanner(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -90,9 +88,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type LinkStatePropsType = {
-  showSwapInfoBanner: boolean
-}
 export type Props = ConnectedProps<typeof connector>
 
 export default connector(ExchangeInfo)
