@@ -9,12 +9,9 @@ const { RESULTS_MODAL } = model.components.exchangeHistory
 
 class PagesContainer extends React.PureComponent {
   showDetails = () => {
-    const { modalActions, deposit, isShapeShiftTrade } = this.props
-    isShapeShiftTrade
-      ? modalActions.showModal('ShapeshiftTradeDetails', {
-          depositAddress: deposit
-        })
-      : modalActions.showModal(RESULTS_MODAL, this.props)
+    const { modalActions } = this.props
+
+    modalActions.showModal(RESULTS_MODAL, this.props)
   }
 
   render () {

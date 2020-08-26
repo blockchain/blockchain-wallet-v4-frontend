@@ -19,7 +19,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 const enhance = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
-  disableOutsideClose: boolean
+  disableOutsideClose?: boolean
 }
 type LinkDispatchPropsType = {
   close: () => void

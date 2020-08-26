@@ -16,7 +16,6 @@ import misc from './misc'
 import profile from './profile'
 import rates from './rates'
 import settings from './settings'
-import shapeShift from './shapeShift'
 import simpleBuy from './simpleBuy'
 import trades from './trades'
 import wallet from './wallet'
@@ -38,7 +37,7 @@ const api = ({
   const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
-  const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
+
   return {
     ...analytics({ apiUrl, rootUrl, ...http }),
     ...bch({ apiUrl, ...http }),
@@ -81,7 +80,6 @@ const api = ({
       ...http
     }),
     ...settings({ rootUrl, ...http }),
-    ...shapeShift({ shapeShiftApiKey, ...http }),
     ...simpleBuy({
       everypayUrl,
       nabuUrl,

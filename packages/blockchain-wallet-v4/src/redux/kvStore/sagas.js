@@ -5,7 +5,6 @@ import contacts from './contacts/sagas'
 import eth from './eth/sagas'
 import lockbox from './lockbox/sagas'
 import root from './root/sagas'
-import shapeShift from './shapeShift/sagas'
 import userCredentials from './userCredentials/sagas'
 import whatsNew from './whatsNew/sagas'
 import xlm from './xlm/sagas'
@@ -19,7 +18,6 @@ export default ({ api, networks }) => ({
   buySell: buySell({ api, networks }),
   whatsNew: whatsNew({ api, networks }),
   contacts: contacts({ api, networks }),
-  shapeShift: shapeShift({ api, networks }),
   userCredentials: userCredentials({ api, networks }),
   xlm: xlm({ api, networks })
 })
