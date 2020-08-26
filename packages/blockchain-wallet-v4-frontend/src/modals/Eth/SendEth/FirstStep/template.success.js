@@ -208,14 +208,13 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      <FormGroup>
-        <ExchangePromo />
-      </FormGroup>
       {isFromCustody && isMnemonicVerified ? (
         <FormGroup>
-          <CustodyToAccountMessage coin={coin} />
+          <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
         </FormGroup>
-      ) : null}
+      ) : (
+        <ExchangePromo />
+      )}
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel HtmlFor='amount'>

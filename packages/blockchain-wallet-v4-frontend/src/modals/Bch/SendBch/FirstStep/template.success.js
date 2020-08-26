@@ -63,6 +63,7 @@ const ImageInInputContainer = styled.div`
 
 const FirstStep = props => {
   const {
+    amount,
     excludeHDWallets,
     excludeLockbox,
     from,
@@ -196,7 +197,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         {isFromCustody && isMnemonicVerified ? (
-          <CustodyToAccountMessage coin='BCH' />
+          <CustodyToAccountMessage coin='BCH' account={from} amount={amount} />
         ) : (
           <ExchangePromo />
         )}

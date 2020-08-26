@@ -74,6 +74,7 @@ const MemoField = styled.div`
 const FirstStep = props => {
   const {
     activeField,
+    amount,
     balanceStatus,
     error,
     excludeLockbox,
@@ -189,7 +190,11 @@ const FirstStep = props => {
           </FormGroup>
           {isFromCustody && isMnemonicVerified ? (
             <FormGroup>
-              <CustodyToAccountMessage coin={'XLM'} />
+              <CustodyToAccountMessage
+                coin={'XLM'}
+                account={from}
+                amount={amount}
+              />
             </FormGroup>
           ) : (
             <ExchangePromo />
