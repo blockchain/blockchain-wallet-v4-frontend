@@ -175,7 +175,7 @@ export default ({
               payment = yield payment.from(
                 source,
                 fromPayload.type,
-                fromPayload.available
+                fromPayload.withdrawable
               )
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
               yield put(change(FORM, 'to', null))
