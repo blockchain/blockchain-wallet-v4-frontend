@@ -28,7 +28,7 @@ const getAvailableAmountForCurrency = (
   if (method) {
     return Number(method.limits.max)
   }
-  return 0
+  return null
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -43,6 +43,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CustomSettingHeader>
         <div>
           {props.beneficiaries.map((beneficiary, i) => {
+            const availableAmount = getAvailableAmountForCurrency(
+              props.paymentMethods.methods,
+              beneficiary.currency
+            )
             return (
               <CardWrapper key={i}>
                 <Child>
@@ -54,24 +58,23 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {beneficiary.name}
                     </Text>
 
-                    <Text size='14px' color='grey600' weight={500}>
-                      <FormattedMessage
-                        id='scenes.settings.linked_banks.daily_limit'
-                        defaultMessage='{amount} Daily Limit'
-                        values={{
-                          amount: fiatToString({
-                            value: convertBaseToStandard(
-                              'FIAT',
-                              getAvailableAmountForCurrency(
-                                props.paymentMethods.methods,
-                                beneficiary.currency
-                              )
-                            ),
-                            unit: beneficiary.currency || 'EUR'
-                          })
-                        }}
-                      />
-                    </Text>
+                    {availableAmount && (
+                      <Text size='14px' color='grey600' weight={500}>
+                        <FormattedMessage
+                          id='scenes.settings.linked_banks.daily_limit'
+                          defaultMessage='{amount} Daily Limit'
+                          values={{
+                            amount: fiatToString({
+                              value: convertBaseToStandard(
+                                'FIAT',
+                                availableAmount
+                              ),
+                              unit: beneficiary.currency || 'EUR'
+                            })
+                          }}
+                        />
+                      </Text>
+                    )}
                   </CardDetails>
                 </Child>
                 <Child>
