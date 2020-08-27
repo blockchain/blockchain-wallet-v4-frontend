@@ -49,10 +49,17 @@ export const getData = createDeepEqualSelector(
   [
     getBlockLockbox,
     selectors.core.settings.getCurrency,
+    selectors.preferences.getShowSwapInfoBanner,
     getFormValues,
     getAvailablePairs
   ],
-  (blockLockbox, currencyR, formValues, availablePairsR) => {
+  (
+    blockLockbox,
+    currencyR,
+    showSwapInfoBanner,
+    formValues,
+    availablePairsR
+  ) => {
     const { fix, sourceCoin, targetCoin, volume } = formValues
 
     const transform = (currency, availablePairs) => {
@@ -78,6 +85,7 @@ export const getData = createDeepEqualSelector(
         fix,
         inputField,
         inputSymbol: currencySymbolMap[inputCurrency],
+        showSwapInfoBanner,
         sourceActive: sourceActive(fix),
         sourceCoin,
         targetActive: targetActive(fix),

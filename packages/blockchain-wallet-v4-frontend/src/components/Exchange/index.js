@@ -12,7 +12,6 @@ export const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   ${media.atLeastMobile`
-    padding: 32px;
     border: 1px solid ${props => props.theme.grey000};
   `}
 `
