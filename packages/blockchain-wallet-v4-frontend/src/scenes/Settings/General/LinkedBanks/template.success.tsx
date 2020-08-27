@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { SBPaymentMethodType, WalletFiatType } from 'core/types'
+import { SBPaymentMethodType, WalletFiatEnum, WalletFiatType } from 'core/types'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
 import styled from 'styled-components'
@@ -32,9 +32,12 @@ const getAvailableAmountForCurrency = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  if (!props.beneficiaries || props.beneficiaries.length === 0) {
-    return null
-  }
+  const walletBeneficiaries = props.beneficiaries.filter(
+    beneficiary => beneficiary.currency in WalletFiatEnum
+  )
+
+  if (!walletBeneficiaries.length) return null
+
   return (
     <SettingContainer>
       <SettingSummary>
