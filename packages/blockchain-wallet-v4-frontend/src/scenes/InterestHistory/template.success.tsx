@@ -28,6 +28,8 @@ import {
   ViewTransaction
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import Empty from './Empty'
+import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -303,7 +305,11 @@ function TransactionList (props: Props): ReactElement | null {
         </LoadingWrapper>
       )}
     </Container>
-  ) : null
+  ) : Remote.Loading ? (
+    <Loading />
+  ) : (
+    <Empty />
+  )
 }
 
 type Props = OwnProps & SuccessStateType
