@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React, { ReactChild, useState } from 'react'
 import styled from 'styled-components'
 
-import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
+import { AmountTextBox } from 'components/Exchange'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { BuyOrSell } from '../../model'
 import {
@@ -21,7 +21,8 @@ import {
   formatTextAmount
 } from 'services/ValidationHelper'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { Form, NumberBox } from 'components/Form'
+import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
 import {
   getCoinFromPair,
   getFiatFromPair
@@ -29,6 +30,7 @@ import {
 import { getMaxMin, maximumAmount, minimumAmount } from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
 import { SBCheckoutFormValuesType } from 'data/types'
 import ActionButton from './ActionButton'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
@@ -36,6 +38,12 @@ import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import Failure from '../template.failure'
 import Payment from './Payment'
 
+const AmountRow = styled(Row)`
+  position: relative;
+  padding: 4px 32px 0 32px;
+  justify-content: center;
+  border: 4px solid transparent;
+`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -56,7 +64,6 @@ const Amounts = styled.div`
   display: flex;
   justify-content: space-between;
 `
-
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
   cursor: pointer;
@@ -207,6 +214,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     }, 1000)
   }
 
+  const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
+    const amountRowNode = inputNode.closest('#amount-row')
+    const currencyNode = isFiat
+      ? amountRowNode.children[0]
+      : amountRowNode.children[amountRowNode.length - 1]
+    currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
+  }
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ paddingBottom: '0px' }}>
@@ -248,10 +263,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         orderType={props.orderType}
       />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountFieldContainer
-          className={isAmtShakeActive ? 'shake' : ''}
-          isCrypto={orderType === 'SELL'}
-        >
+        <AmountRow className={isAmtShakeActive ? 'shake' : ''} id='amount-row'>
           <Text
             size={orderType === 'SELL' ? '36px' : '56px'}
             color='grey400'
@@ -262,17 +274,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Field
             data-e2e='sbAmountInput'
             name='amount'
-            component={NumberBox}
+            component={AmountTextBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
+            onUpdate={resizeSymbol.bind(null, orderType === 'BUY')}
+            maxFontSize='56px'
             placeholder='0'
+            fiatActive={orderType === 'BUY'}
             {...{
               autoFocus: true,
               errorBottom: true,
               errorLeft: true
             }}
           />
-        </AmountFieldContainer>
+        </AmountRow>
 
         <Text size='14px' weight={500}>
           {quote}
