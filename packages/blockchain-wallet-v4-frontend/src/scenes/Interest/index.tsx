@@ -1,21 +1,20 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
-
 import { actions } from 'data'
+import { bindActionCreators, Dispatch } from 'redux'
 import {
   CoinType,
   InterestRateType,
   RemoteDataType,
   SupportedWalletCurrenciesType
 } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
+import { FormattedMessage } from 'react-intl'
 import {
   Icon,
   Link,
   SkeletonRectangle,
+  TabMenu,
+  TabMenuItem,
   Text,
   TooltipHost
 } from 'blockchain-info-components'
@@ -26,9 +25,12 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
+import { LinkContainer } from 'react-router-bootstrap'
 import { Remote } from 'core'
 import { UserDataType } from 'data/types'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import React from 'react'
+import styled from 'styled-components'
 
 import { getData } from './selectors'
 import IneligibiltyWarning from './IneligibilityCard'
@@ -66,6 +68,11 @@ const DisclaimerText = styled(Text)`
 const SubheaderSeparator = styled.div`
   display: flex;
   flex-grow: 2;
+`
+const TabRow = styled.div`
+  width: 100%;
+  display: flex;
+  margin-bottom: 26px;
 `
 
 class Interest extends React.PureComponent<Props, StateType> {
@@ -155,6 +162,26 @@ class Interest extends React.PureComponent<Props, StateType> {
             </TooltipHost>
           </DisclaimerText>
         </SceneSubHeaderText>
+        <TabRow>
+          <TabMenu>
+            <LinkContainer to='/interest' exact>
+              <TabMenuItem data-e2e='interestTabMenuAccountss'>
+                <FormattedMessage
+                  id='scenes.interest.tab.accounts'
+                  defaultMessage='Accounts'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+            <LinkContainer to='/interest/history'>
+              <TabMenuItem data-e2e='interestTabMenuHistory'>
+                <FormattedMessage
+                  id='scenes.interest.tab.history'
+                  defaultMessage='Transaction History'
+                />
+              </TabMenuItem>
+            </LinkContainer>
+          </TabMenu>
+        </TabRow>
         {data.cata({
           Success: val => (
             <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>

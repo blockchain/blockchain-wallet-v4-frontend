@@ -1602,6 +1602,8 @@ type MessagesType = {
   'scenes.interest.summarycard.tooltip': 'The rate is subject to change. Interest rate will be paid in {coin}.'
   'scenes.interest.summarycard.totalinterest': 'Total Interest Earned'
   'scenes.interest.summarycard.earnbutton': 'Earn Interest'
+  'scenes.interest.tab.accounts': 'Accounts'
+  'scenes.interest.tab.history': 'Transaction History'
   'scenes.interest.verifyid': 'Upgrade Now'
   'scenes.interest.kycunderreview': 'Gold Verification In Review'
   'scenes.interest.subheader': 'Deposit crypto and watch it grow.'
