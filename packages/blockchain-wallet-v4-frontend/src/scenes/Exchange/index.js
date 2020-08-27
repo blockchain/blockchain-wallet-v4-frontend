@@ -7,7 +7,6 @@ import DataError from 'components/DataError'
 import EmailRequired from 'components/EmailRequired'
 import Exchange from './ExchangeContainer'
 import ExchangeHeader from './template.header'
-import ExchangeInfo from './ExchangeInfo'
 import GetStarted from './GetStarted'
 import Loading from './template.loading'
 import media from 'services/ResponsiveService'
@@ -57,11 +56,6 @@ export const ExchangeScene = ({ data, location, fetchUser, showHelpModal }) => {
                     amount={path(['state', 'amount'], location)}
                   />
                 </Column>
-                {!path(['state', 'amount'], location) && (
-                  <Column>
-                    <ExchangeInfo />
-                  </Column>
-                )}
               </Container>
             </>
           ) : (

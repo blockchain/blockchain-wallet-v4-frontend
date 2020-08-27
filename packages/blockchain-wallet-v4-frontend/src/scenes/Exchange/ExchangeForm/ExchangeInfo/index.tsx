@@ -21,7 +21,6 @@ const ContainerWithBackground = styled(Container)`
   box-sizing: border-box;
   max-width: 328px;
   background-size: 333px 129px;
-  margin-left: 24px;
 `
 
 const Header = styled.div`
