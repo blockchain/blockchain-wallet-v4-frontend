@@ -32,6 +32,9 @@ const getAvailableAmountForCurrency = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  if (!props.beneficiaries || props.beneficiaries.length === 0) {
+    return null
+  }
   return (
     <SettingContainer>
       <SettingSummary>
