@@ -2,17 +2,38 @@ import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React, { Component } from 'react'
+import styled from 'styled-components'
 
 import { getData } from './selectors'
-import TransactionList from './template.success'
 
 import { SceneWrapper } from 'components/Layout'
 import InterestHeader from '../Interest/template.header'
 import InterestMenu from '../Interest/template.menu'
+import LazyLoadContainer from 'components/LazyLoadContainer'
+import Loading from './template.loading'
+import TransactionList from './template.success'
+
+const LazyLoadWrapper = styled(LazyLoadContainer)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount () {
     this.props.interestActions.fetchInterestTransactions(true)
+  }
+
+  componentWillUnmount () {
+    // clear transactions related data on exit
+    this.props.interestActions.fetchInterestTransactionsSuccess([], true)
+    this.props.interestActions.setTransactionsNextPage(null)
+  }
+
+  onFetchMoreTransactions = () => {
+    this.props.interestActions.fetchInterestTransactions(false)
   }
 
   render () {
@@ -21,10 +42,14 @@ class InterestHistoryContainer extends Component<Props> {
         <InterestHeader />
         <InterestMenu />
         {this.props.data.cata({
-          Success: val => <TransactionList {...val} {...this.props} />,
+          Success: val => (
+            <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
+              <TransactionList {...val} {...this.props} />
+            </LazyLoadWrapper>
+          ),
           Failure: () => null,
-          Loading: () => null,
-          NotAsked: () => null
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />
         })}
       </SceneWrapper>
     )

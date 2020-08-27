@@ -367,6 +367,7 @@ export default ({
         )
         yield put(A.fetchInterestBalance())
         yield put(A.fetchInterestTransactions(true))
+        yield put(actions.router.push('/interest/history'))
       } catch (e) {
         const error = errorHandler(e)
         yield put(actions.form.stopSubmit(FORM, { _error: error }))
@@ -421,6 +422,7 @@ export default ({
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
       yield put(A.fetchInterestBalance())
       yield put(A.fetchInterestTransactions(true))
+      yield put(actions.router.push('/interest/history'))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
       )

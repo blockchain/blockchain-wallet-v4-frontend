@@ -1591,6 +1591,7 @@ type MessagesType = {
   'scenes.interest.earnupgrade.header': 'Upgrade to Gold Level so you can earn interest on your crypto.'
   'scenes.interest.history.header': 'History'
   'scenes.interest.history.type': 'Type'
+  'scenes.interest.history.empty.here': 'All your Interest transactions will show up here.'
   'scenes.interest.interestaccount': 'Interest Account'
   'scenes.interest.legaldiscalimer': 'Legal disclaimer'
   'scenes.interest.legal.one': 'Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
