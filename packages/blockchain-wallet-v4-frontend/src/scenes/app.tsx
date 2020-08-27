@@ -104,7 +104,11 @@ class App extends React.PureComponent<Props> {
                       <WalletLayout path='/borrow' component={Borrow} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
-                      <WalletLayout path='/interest' component={Interest} />
+                      <WalletLayout
+                        path='/interest'
+                        component={Interest}
+                        exact
+                      />
                       <WalletLayout
                         path='/interest/history'
                         component={InterestHistory}
