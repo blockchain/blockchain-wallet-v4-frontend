@@ -175,20 +175,21 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
-  initialize,
-  inputField,
-  inputSymbol,
-  sourceActive,
-  sourceCoin,
-  targetActive,
-  targetCoin,
-  volume,
   handleAmountChange,
   handleInputBlur,
   handleInputFocus,
   handleSubmit,
+  initialize,
+  inputField,
+  inputSymbol,
+  showSwapInfoBanner,
+  sourceActive,
+  sourceCoin,
   swapCoinAndFiat,
-  swapFix
+  swapFix,
+  targetActive,
+  targetCoin,
+  volume
 }) => {
   const swapDisabled = !includes(
     formatPair(targetCoin, sourceCoin),
@@ -332,7 +333,7 @@ const Success = ({
         <Notifications sourceCoin={sourceCoin} targetCoin={targetCoin} />
       </ColumnLeft>
       <ColumnRight>
-        {volume && volume > 0 ? (
+        {volume || !showSwapInfoBanner ? (
           <>
             <Summary
               sourceCoin={sourceCoin}
