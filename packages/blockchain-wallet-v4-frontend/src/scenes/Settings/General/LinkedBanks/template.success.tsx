@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { SBPaymentMethodType, WalletFiatEnum, WalletFiatType } from 'core/types'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import React from 'react'
 import styled from 'styled-components'
@@ -17,14 +18,26 @@ const BankIconWrapper = styled.div`
   display: flex;
 `
 
-const getAvailableAmountForCurrency = (methods, currency) => {
+const getAvailableAmountForCurrency = (
+  methods: SBPaymentMethodType[],
+  currency: WalletFiatType
+) => {
   const method = methods.find(
     method => method.type === 'FUNDS' && method.currency === currency
   )
-  return Number(method.limits.max)
+  if (method) {
+    return Number(method.limits.max)
+  }
+  return null
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const walletBeneficiaries = props.beneficiaries.filter(
+    beneficiary => beneficiary.currency in WalletFiatEnum
+  )
+
+  if (!walletBeneficiaries.length) return null
+
   return (
     <SettingContainer>
       <SettingSummary>
@@ -36,6 +49,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CustomSettingHeader>
         <div>
           {props.beneficiaries.map((beneficiary, i) => {
+            const availableAmount = getAvailableAmountForCurrency(
+              props.paymentMethods.methods,
+              beneficiary.currency as WalletFiatType
+            )
             return (
               <CardWrapper key={i}>
                 <Child>
@@ -47,24 +64,24 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       {beneficiary.name}
                     </Text>
 
-                    <Text size='14px' color='grey600' weight={500}>
-                      <FormattedMessage
-                        id='scenes.settings.linked_banks.daily_limit'
-                        defaultMessage='{amount} Daily Limit'
-                        values={{
-                          amount: fiatToString({
-                            value: convertBaseToStandard(
-                              'FIAT',
-                              getAvailableAmountForCurrency(
-                                props.paymentMethods.methods,
-                                beneficiary.currency
-                              )
-                            ),
-                            unit: beneficiary.currency || 'EUR'
-                          })
-                        }}
-                      />
-                    </Text>
+                    {availableAmount && (
+                      <Text size='14px' color='grey600' weight={500}>
+                        <FormattedMessage
+                          id='scenes.settings.linked_banks.daily_limit'
+                          defaultMessage='{amount} Daily Limit'
+                          values={{
+                            amount: fiatToString({
+                              value: convertBaseToStandard(
+                                'FIAT',
+                                availableAmount
+                              ),
+                              unit: (beneficiary.currency ||
+                                'EUR') as WalletFiatType
+                            })
+                          }}
+                        />
+                      </Text>
+                    )}
                   </CardDetails>
                 </Child>
                 <Child>

@@ -1,9 +1,15 @@
-import { AgentType, CoinType, FiatType, WalletFiatType } from 'core/types'
+import {
+  AgentType,
+  CoinType,
+  FiatType,
+  WalletCurrencyType,
+  WalletFiatType
+} from 'core/types'
 
 export type BeneficiaryType = {
   address: string
   agent: AgentType
-  currency: WalletFiatType
+  currency: WalletCurrencyType
   id: string
   name: string
   state: 'CREATED' | 'ACTIVE' | 'UNDER_REVIEW' | 'DISABLED'
