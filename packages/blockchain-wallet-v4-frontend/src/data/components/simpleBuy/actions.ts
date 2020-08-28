@@ -470,9 +470,14 @@ export const showModal = (
   }
 })
 
-export const switchFix = (orderType: SBOrderActionType, fix: SBFixType) => ({
+export const switchFix = (
+  amount: string,
+  orderType: SBOrderActionType,
+  fix: SBFixType
+) => ({
   type: AT.SWITCH_FIX,
   payload: {
+    amount,
     orderType,
     fix
   }

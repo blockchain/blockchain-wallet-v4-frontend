@@ -204,15 +204,35 @@ export default ({
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
 
-      const { orderType } = values
+      const { fix, orderType } = values
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
       const inputCurrency = orderType === 'BUY' ? fiat : coin
       const outputCurrency = orderType === 'BUY' ? coin : fiat
       const amount =
-        orderType === 'BUY'
+        fix === 'FIAT'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
+
+      // TODO: rewrite this 🤯
+      const input =
+        orderType === 'BUY'
+          ? fix === 'FIAT'
+            ? { amount, symbol: inputCurrency }
+            : { symbol: inputCurrency }
+          : fix === 'FIAT'
+          ? { symbol: inputCurrency }
+          : { amount, symbol: inputCurrency }
+
+      // TODO: rewrite this 🤯
+      const output =
+        orderType === 'SELL'
+          ? fix === 'FIAT'
+            ? { amount, symbol: outputCurrency }
+            : { symbol: outputCurrency }
+          : fix === 'FIAT'
+          ? { symbol: outputCurrency }
+          : { amount, symbol: outputCurrency }
 
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
@@ -220,8 +240,8 @@ export default ({
         pair.pair,
         orderType,
         true,
-        { amount, symbol: inputCurrency },
-        { symbol: outputCurrency },
+        input,
+        output,
         paymentMethodId,
         paymentType
       )
@@ -843,7 +863,9 @@ export default ({
     yield put(
       actions.preferences.setSBCheckoutFix(payload.orderType, payload.fix)
     )
-    yield delay(100)
+    yield put(
+      actions.form.change('simpleBuyCheckout', 'amount', payload.amount)
+    )
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 

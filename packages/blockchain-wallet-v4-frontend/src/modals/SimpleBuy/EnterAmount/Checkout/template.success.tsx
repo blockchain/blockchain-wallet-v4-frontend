@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl'
-import BigNumber from 'bignumber.js'
 import React, { ReactChild, useState } from 'react'
 import styled from 'styled-components'
 
@@ -10,11 +9,8 @@ import {
   coinToString,
   fiatToString
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { CoinType, SBOrderActionType, SBQuoteType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
+import { CoinType } from 'core/types'
+import { convertStandardToBase } from 'data/components/exchange/services'
 import {
   CRYPTO_DECIMALS,
   FIAT_DECIMALS,
@@ -24,10 +20,12 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import {
-  getCoinFromPair,
-  getFiatFromPair
-} from 'data/components/simpleBuy/model'
-import { getMaxMin, maximumAmount, minimumAmount } from './validation'
+  formatQuote,
+  getMaxMin,
+  getQuote,
+  maximumAmount,
+  minimumAmount
+} from './validation'
 import { Icon, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Row } from 'blockchain-wallet-v4-frontend/src/scenes/Exchange/ExchangeForm/Layout'
@@ -106,35 +104,7 @@ const normalizeAmount = (
   allValues: SBCheckoutFormValuesType
 ) => {
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
-  return formatTextAmount(value, allValues && allValues.orderType === 'BUY')
-}
-
-const getQuote = (
-  quote: SBQuoteType,
-  orderType: SBOrderActionType,
-  baseAmount?: string
-) => {
-  if (orderType === 'BUY') {
-    const standardRate = convertBaseToStandard('FIAT', quote.rate)
-    const counterValue = new BigNumber(baseAmount || '0')
-      .dividedBy(standardRate)
-      .toString()
-
-    return coinToString({
-      value: counterValue,
-      unit: { symbol: getCoinFromPair(quote.pair) }
-    })
-  } else {
-    const standardRate = convertBaseToStandard('FIAT', quote.rate)
-    const counterValue = new BigNumber(baseAmount || '0')
-      .times(standardRate)
-      .toString()
-
-    return fiatToString({
-      value: counterValue,
-      unit: getFiatFromPair(quote.pair)
-    })
-  }
+  return formatTextAmount(value, allValues && allValues.fix === 'FIAT')
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
@@ -148,13 +118,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     defaultMethod
   } = props
   const method = selectedMethod || defaultMethod
-  const digits = orderType === 'BUY' ? FIAT_DECIMALS : CRYPTO_DECIMALS
-  const baseCurrency = orderType === 'BUY' ? fiatCurrency : cryptoCurrency
-  const conversionCoinType: 'FIAT' | CoinType =
-    orderType === 'BUY' ? 'FIAT' : cryptoCurrency
-
   const fix = props.preferences[props.orderType].fix
-  const quote = getQuote(props.quote, props.orderType, props.formValues?.amount)
+  const digits = fix === 'FIAT' ? FIAT_DECIMALS : CRYPTO_DECIMALS
+  const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
+  const conversionCoinType: 'FIAT' | CoinType =
+    fix === 'FIAT' ? 'FIAT' : cryptoCurrency
+
+  const quoteAmt = getQuote(props.quote, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -170,39 +140,37 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const max = getMaxMin(
+  const max: string = getMaxMin(
     'max',
     props.sbBalances,
     props.orderType,
-    props.rates,
+    props.quote,
     props.pair,
     props.formValues,
     method
-  )
-  const min = getMaxMin(
+  )[fix]
+  const min: string = getMaxMin(
     'min',
     props.sbBalances,
     props.orderType,
-    props.rates,
+    props.quote,
     props.pair,
     props.formValues,
     method
-  )
+  )[fix]
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
-    const value = convertStandardToBase(
-      conversionCoinType,
-      getMaxMin(
-        prop,
-        props.sbBalances,
-        props.orderType,
-        props.rates,
-        props.pair,
-        props.formValues,
-        method
-      )
-    )
+    const maxMin: string = getMaxMin(
+      prop,
+      props.sbBalances,
+      props.orderType,
+      props.quote,
+      props.pair,
+      props.formValues,
+      method
+    )[fix]
+    const value = convertStandardToBase(conversionCoinType, maxMin)
     props.simpleBuyActions.handleSBSuggestedAmountClick(
       value,
       conversionCoinType
@@ -284,7 +252,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
-            fiatActive={fix === 'FIAT'}
+            // leave fiatActive always to avoid 50% width in HOC?
+            fiatActive
             {...{
               autoFocus: true,
               hideError: true
@@ -300,7 +269,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <QuoteRow>
           <div />
           <Text color='grey600' size='14px' weight={500}>
-            {quote}
+            {formatQuote(quoteAmt, props.quote, fix)}
           </Text>
           <Icon
             color='blue600'
@@ -308,6 +277,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             name='vertical-arrow-switch'
             onClick={() =>
               props.simpleBuyActions.switchFix(
+                quoteAmt,
                 props.orderType,
                 props.preferences[props.orderType].fix === 'CRYPTO'
                   ? 'FIAT'
@@ -330,7 +300,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       defaultMessage='{value} Minimum {orderType}'
                       values={{
                         value:
-                          orderType === 'BUY'
+                          fix === 'FIAT'
                             ? fiatToString({
                                 digits,
                                 unit: fiatCurrency,
@@ -351,7 +321,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                       defaultMessage='{value} Maximum {orderType}'
                       values={{
                         value:
-                          orderType === 'BUY'
+                          fix === 'FIAT'
                             ? fiatToString({
                                 digits,
                                 unit: fiatCurrency,

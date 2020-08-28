@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 
+import { coinToString, fiatToString } from 'core/exchange/currency'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getCoinFromPair,
@@ -7,29 +8,70 @@ import {
 } from 'data/components/simpleBuy/model'
 import { Props } from './template.success'
 import {
-  RatesType,
   SBBalancesType,
   SBOrderActionType,
   SBPairType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SBQuoteType
 } from 'core/types'
-import { SBCheckoutFormValuesType } from 'data/types'
+import { SBCheckoutFormValuesType, SBFixType } from 'data/types'
+import { UnitType } from 'core/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+
+export const getQuote = (
+  quote: SBQuoteType,
+  fix: SBFixType,
+  baseAmount?: string
+) => {
+  if (fix === 'FIAT') {
+    const coin = getCoinFromPair(quote.pair)
+    const decimals = Currencies[coin].units[coin as UnitType].decimal_digits
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    return new BigNumber(baseAmount || '0')
+      .dividedBy(standardRate)
+      .toFixed(decimals)
+  } else {
+    const fiat = getFiatFromPair(quote.pair)
+    const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+    const standardRate = convertBaseToStandard('FIAT', quote.rate)
+    return new BigNumber(baseAmount || '0')
+      .times(standardRate)
+      .toFixed(decimals)
+  }
+}
+
+export const formatQuote = (
+  amt: string,
+  quote: SBQuoteType,
+  fix: SBFixType
+) => {
+  if (fix === 'FIAT') {
+    return coinToString({
+      value: amt,
+      unit: { symbol: getCoinFromPair(quote.pair) }
+    })
+  } else {
+    return fiatToString({
+      value: amt,
+      unit: getFiatFromPair(quote.pair)
+    })
+  }
+}
 
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: SBBalancesType,
   orderType: SBOrderActionType,
-  rates: RatesType,
+  quote: SBQuoteType,
   pair?: SBPairType,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType
-) => {
+): { CRYPTO: string; FIAT: string } => {
   switch (orderType) {
     case 'BUY':
-      switch (minOrMax || 'max') {
+      switch (minOrMax) {
         case 'max':
-          const defaultMax = convertBaseToStandard('FIAT', 0)
+          let defaultMax = { FIAT: '0', CRYPTO: '0' }
           if (!allValues) return defaultMax
           if (!method) return defaultMax
           if (!pair) return defaultMax
@@ -39,9 +81,12 @@ export const getMaxMin = (
           if (method.type === 'FUNDS' && sbBalances)
             max = sbBalances[method.currency]?.available || '0'
 
-          return convertBaseToStandard('FIAT', max)
+          const maxFiat = convertBaseToStandard('FIAT', max)
+          const maxCrypto = getQuote(quote, 'FIAT', maxFiat)
+
+          return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
-          const defaultMin = convertBaseToStandard('FIAT', 0)
+          const defaultMin = { FIAT: '0', CRYPTO: '0' }
           if (!allValues) return defaultMin
           if (!method) return defaultMin
           if (!pair) return defaultMin
@@ -51,30 +96,48 @@ export const getMaxMin = (
             pair.buyMin
           ).toString()
 
-          return convertBaseToStandard('FIAT', min)
+          const minFiat = convertBaseToStandard('FIAT', min)
+          const minCrypto = getQuote(quote, 'FIAT', minFiat)
+
+          return { FIAT: minFiat, CRYPTO: minCrypto }
       }
       break
     case 'SELL':
-      if (!pair) return '0'
+      if (!pair) return { FIAT: '0', CRYPTO: '0' }
 
       const coin = getCoinFromPair(pair.pair)
-      const fiat = getFiatFromPair(pair.pair)
-      const rate = rates[fiat].last
+      const rate = quote.rate
       switch (minOrMax) {
         case 'max':
           const maxAvailable = sbBalances[coin]?.available || '0'
 
-          return convertBaseToStandard(coin, maxAvailable)
+          const maxCrypto = convertBaseToStandard(coin, maxAvailable)
+          const maxFiat = getQuote(quote, 'CRYPTO', maxCrypto)
+          return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
           const minStandard = convertBaseToStandard(
             'FIAT',
             new BigNumber(pair.sellMin)
           )
-          return new BigNumber(minStandard)
+
+          const minCrypto = new BigNumber(minStandard)
             .dividedBy(rate)
             .toFixed(Currencies[coin].units[coin].decimal_digits)
+          const minFiat = minStandard
+
+          return { FIAT: minFiat, CRYPTO: minCrypto }
       }
   }
+}
+
+export const useConvertedValue = (
+  orderType: SBOrderActionType,
+  fix: SBFixType
+) => {
+  return (
+    (orderType === 'BUY' && fix === 'CRYPTO') ||
+    (orderType === 'SELL' && fix === 'FIAT')
+  )
 }
 
 export const maximumAmount = (
@@ -85,19 +148,22 @@ export const maximumAmount = (
   if (!value) return true
 
   const {
+    defaultMethod,
+    method: selectedMethod,
     orderType,
     pair,
-    rates,
-    method: selectedMethod,
-    defaultMethod,
+    quote,
     sbBalances
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!method) return
+  if (!allValues) return
 
   return Number(value) >
     Number(
-      getMaxMin('max', sbBalances, orderType, rates, pair, allValues, method)
+      getMaxMin('max', sbBalances, orderType, quote, pair, allValues, method)[
+        allValues.fix
+      ]
     )
     ? 'ABOVE_MAX'
     : false
@@ -111,19 +177,22 @@ export const minimumAmount = (
   if (!value) return true
 
   const {
+    defaultMethod,
+    method: selectedMethod,
     orderType,
     pair,
-    rates,
-    method: selectedMethod,
-    defaultMethod,
+    quote,
     sbBalances
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!method) return
+  if (!allValues) return
 
   return Number(value) <
     Number(
-      getMaxMin('min', sbBalances, orderType, rates, pair, allValues, method)
+      getMaxMin('min', sbBalances, orderType, quote, pair, allValues, method)[
+        allValues.fix
+      ]
     )
     ? 'BELOW_MIN'
     : false
