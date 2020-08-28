@@ -8,6 +8,7 @@ import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
 const FilterText = styled(Value)`
   margin-right: 8px;
+  font-size: 16px;
 `
 
 const SelectCoinWrapper = styled.div`
@@ -30,8 +31,9 @@ class CoinFilter extends React.PureComponent<InjectedFormProps> {
         <Field
           name='coin'
           onChange={this.onChange}
+          label='Select Crypto'
           component={SelectBoxCoin}
-          type='send'
+          type='request'
           height='32px'
         />
       </SelectCoinWrapper>
