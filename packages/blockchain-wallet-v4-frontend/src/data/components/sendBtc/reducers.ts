@@ -6,7 +6,8 @@ import { SendBtcState } from './types'
 const INITIAL_STATE: SendBtcState = {
   step: 1,
   feePerByteToggled: false,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  account: Remote.NotAsked
 }
 
 export function sendBtcReducer (state = INITIAL_STATE, action) {
@@ -32,6 +33,9 @@ export function sendBtcReducer (state = INITIAL_STATE, action) {
     }
     case AT.SEND_BTC_SECOND_STEP_CANCEL_CLICKED: {
       return assoc('step', 1, state)
+    }
+    case AT.SEND_BTC_ACCOUNTS_SUCCESS: {
+      return assoc('account', action.payload, state)
     }
     default:
       return state

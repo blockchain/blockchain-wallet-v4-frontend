@@ -3,6 +3,7 @@ import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
+import { AccountType } from './types'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
   add,
@@ -71,6 +72,10 @@ export default ({
       })
       payment = yield payment.init()
       let defaultAccountR
+
+      const account: AccountType = yield call(api.getSBPaymentAccount, 'BTC')
+      yield put(A.sendBtcAccountsSuccess(account))
+
       if (lockboxIndex && lockboxIndex >= 0) {
         const accountsR = yield select(
           selectors.core.common.btc.getLockboxBtcBalances

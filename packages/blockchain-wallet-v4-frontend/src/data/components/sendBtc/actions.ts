@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { AccountType } from './types'
 import { PaymentValue } from 'core/types'
 
 export const initialized = payload => ({
@@ -62,4 +63,9 @@ export const sendBtcSecondStepCancelClicked = () => ({
 
 export const sendBtcBitPayInvoiceExpired = () => ({
   type: AT.SEND_BTC_BITPAY_INVOICE_EXPIRED
+})
+
+export const sendBtcAccountsSuccess = (account: AccountType) => ({
+  type: AT.SEND_BTC_ACCOUNTS_SUCCESS,
+  payload: account
 })

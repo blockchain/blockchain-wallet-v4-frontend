@@ -51,6 +51,7 @@ export const getData = (
     excludeHDWallets?: boolean
     excludeImported?: boolean
     excludeLockbox?: boolean
+    forceCustodialFirst?: boolean
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
@@ -65,8 +66,12 @@ export const getData = (
     includeAll = true,
     includeCustodial,
     includeExchangeAddress,
-    includeInterest
+    includeInterest,
+    forceCustodialFirst
   } = ownProps
+
+  const accountAddress = selectors.components.sendBtc.getAccountAddress(state)
+
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
     if (has('balance', wallet)) {
@@ -109,6 +114,7 @@ export const getData = (
       label: buildCustodialDisplay(x),
       value: {
         ...x,
+        address: accountAddress,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BTC Trading Wallet'
       }
@@ -181,8 +187,12 @@ export const getData = (
             .map(toDropdown)
             .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3, b4, b5]) => {
+      const orderArray = forceCustodialFirst
+        ? [b3, b1, b2, b4, b5]
+        : [b1, b2, b3, b4, b5]
       // @ts-ignore
-      const data = reduce(concat, [], [b1, b2, b3, b4, b5])
+      const data = reduce(concat, [], orderArray)
+
       if (includeAll) {
         return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {
