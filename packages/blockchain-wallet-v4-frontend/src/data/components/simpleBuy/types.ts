@@ -36,6 +36,7 @@ export type SBCheckoutFormValuesType =
   | undefined
   | {
       amount: string
+      fix: 'CRYPTO' | 'FIAT'
       orderType: SBOrderActionType
     }
 export type SBCurrencySelectFormType = {

@@ -40,9 +40,9 @@ import Payment from './Payment'
 
 const AmountRow = styled(Row)`
   position: relative;
-  padding: 4px 32px 0 32px;
+  padding: 24px;
   justify-content: center;
-  border: 4px solid transparent;
+  border: 0px;
 `
 const CustomForm = styled(Form)`
   height: 100%;
@@ -60,9 +60,14 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 const Amounts = styled.div`
-  margin: 24px 0 40px;
+  margin: 56px 0 24px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+`
+const CounterQuote = styled(Text)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
@@ -266,7 +271,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <AmountRow className={isAmtShakeActive ? 'shake' : ''} id='amount-row'>
           <Text
             size={orderType === 'SELL' ? '36px' : '56px'}
-            color='grey400'
+            color='textBlack'
             weight={500}
           >
             {Currencies[baseCurrency].units[baseCurrency].symbol}
@@ -283,15 +288,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             fiatActive={orderType === 'BUY'}
             {...{
               autoFocus: true,
-              errorBottom: true,
-              errorLeft: true
+              hideError: true
             }}
           />
         </AmountRow>
 
-        <Text size='14px' weight={500}>
+        <CounterQuote color='grey600' size='14px' weight={500}>
           {quote}
-        </Text>
+        </CounterQuote>
 
         {props.pair && (
           <Amounts onClick={handleMinMaxClick}>
