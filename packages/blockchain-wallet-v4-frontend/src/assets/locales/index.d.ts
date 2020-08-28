@@ -1589,6 +1589,7 @@ type MessagesType = {
   'scenes.interest.earninfo.verified.body': 'Earn up to {highestRate}% annually when you deposit crypto to your Interest Account.'
   'scenes.interest.earnheaderverified': 'Earn interest on your crypto today.'
   'scenes.interest.earnupgrade.header': 'Upgrade to Gold Level so you can earn interest on your crypto.'
+  'scenes.interest.history.filter': 'Filter by:'
   'scenes.interest.history.header': 'History'
   'scenes.interest.history.type': 'Type'
   'scenes.interest.history.empty.here': 'All your Interest transactions will show up here.'

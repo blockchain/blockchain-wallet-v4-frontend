@@ -7,7 +7,6 @@ import styled from 'styled-components'
 const TabRow = styled.div`
   width: 100%;
   display: flex;
-  margin-bottom: 26px;
 `
 
 const InterestMenu = () => {

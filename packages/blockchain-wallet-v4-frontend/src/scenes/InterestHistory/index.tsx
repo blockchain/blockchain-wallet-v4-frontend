@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import { getData } from './selectors'
 
 import { SceneWrapper } from 'components/Layout'
+
+import CoinFilter from './CoinFilter'
 import InterestHeader from '../Interest/template.header'
 import InterestMenu from '../Interest/template.menu'
 import LazyLoadContainer from 'components/LazyLoadContainer'
@@ -19,6 +21,14 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   justify-content: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
+`
+
+const MenuRow = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
 `
 
 class InterestHistoryContainer extends Component<Props> {
@@ -40,7 +50,10 @@ class InterestHistoryContainer extends Component<Props> {
     return (
       <SceneWrapper>
         <InterestHeader />
-        <InterestMenu />
+        <MenuRow>
+          <InterestMenu />
+          <CoinFilter />
+        </MenuRow>
         {this.props.data.cata({
           Success: val => (
             <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
