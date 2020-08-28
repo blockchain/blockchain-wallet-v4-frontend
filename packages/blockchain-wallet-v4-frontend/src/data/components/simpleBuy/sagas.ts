@@ -672,6 +672,7 @@ export default ({
   }
 
   const initializeCheckout = function * ({
+    fix,
     orderType,
     amount
   }: ReturnType<typeof A.initializeCheckout>) {
@@ -689,6 +690,7 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
+          fix,
           orderType,
           amount
         } as SBCheckoutFormValuesType)
@@ -836,6 +838,15 @@ export default ({
     }
   }
 
+  const switchFix = function * ({ payload }: ReturnType<typeof A.switchFix>) {
+    yield put(actions.form.change('simpleBuyCheckout', 'fix', payload.fix))
+    yield put(
+      actions.preferences.setSBCheckoutFix(payload.orderType, payload.fix)
+    )
+    yield delay(100)
+    yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -862,6 +873,7 @@ export default ({
     pollSBCard,
     pollSBOrder,
     setStepChange,
-    showModal
+    showModal,
+    switchFix
   }
 }

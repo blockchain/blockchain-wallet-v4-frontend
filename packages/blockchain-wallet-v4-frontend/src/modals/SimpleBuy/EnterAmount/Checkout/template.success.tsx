@@ -64,10 +64,10 @@ const Amounts = styled.div`
   display: flex;
   justify-content: center;
 `
-const CounterQuote = styled(Text)`
+const QuoteRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `
 const CustomBlueCartridge = styled(BlueCartridge)`
   border: 1px solid ${props => props.theme.blue000};
@@ -153,6 +153,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const conversionCoinType: 'FIAT' | CoinType =
     orderType === 'BUY' ? 'FIAT' : cryptoCurrency
 
+  const fix = props.preferences[props.orderType].fix
   const quote = getQuote(props.quote, props.orderType, props.formValues?.amount)
 
   if (!props.formValues) return null
@@ -223,7 +224,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
       ? amountRowNode.children[0]
-      : amountRowNode.children[amountRowNode.length - 1]
+      : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontSizeRatio}px`
   }
 
@@ -269,33 +270,54 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
       />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
         <AmountRow className={isAmtShakeActive ? 'shake' : ''} id='amount-row'>
-          <Text
-            size={orderType === 'SELL' ? '36px' : '56px'}
-            color='textBlack'
-            weight={500}
-          >
-            {Currencies[baseCurrency].units[baseCurrency].symbol}
-          </Text>
+          {fix === 'FIAT' && (
+            <Text size={'56px'} color='textBlack' weight={500}>
+              {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+            </Text>
+          )}
           <Field
             data-e2e='sbAmountInput'
             name='amount'
             component={AmountTextBox}
             validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
-            onUpdate={resizeSymbol.bind(null, orderType === 'BUY')}
+            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
             maxFontSize='56px'
             placeholder='0'
-            fiatActive={orderType === 'BUY'}
+            fiatActive={fix === 'FIAT'}
             {...{
               autoFocus: true,
               hideError: true
             }}
           />
+          {fix === 'CRYPTO' && (
+            <Text size={'56px'} color='textBlack' weight={500}>
+              {cryptoCurrency}
+            </Text>
+          )}
         </AmountRow>
 
-        <CounterQuote color='grey600' size='14px' weight={500}>
-          {quote}
-        </CounterQuote>
+        <QuoteRow>
+          <div />
+          <Text color='grey600' size='14px' weight={500}>
+            {quote}
+          </Text>
+          <Icon
+            color='blue600'
+            cursor
+            name='vertical-arrow-switch'
+            onClick={() =>
+              props.simpleBuyActions.switchFix(
+                props.orderType,
+                props.preferences[props.orderType].fix === 'CRYPTO'
+                  ? 'FIAT'
+                  : 'CRYPTO'
+              )
+            }
+            role='button'
+            size='24px'
+          />
+        </QuoteRow>
 
         {props.pair && (
           <Amounts onClick={handleMinMaxClick}>

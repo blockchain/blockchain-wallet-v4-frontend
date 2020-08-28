@@ -56,6 +56,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.POLL_SB_CARD, simpleBuySagas.pollSBCard)
     yield takeLatest(AT.POLL_SB_ORDER, simpleBuySagas.pollSBOrder)
     yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
+    yield takeLatest(AT.SWITCH_FIX, simpleBuySagas.switchFix)
     // Fetch balances when profile/user is fetched
     yield takeLatest(
       [

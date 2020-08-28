@@ -20,6 +20,7 @@ class Checkout extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
+      this.props.preferences[this.props.orderType].fix,
       this.props.pair,
       amount
     )
@@ -94,7 +95,8 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
     | SBCheckoutFormValuesType
-    | undefined
+    | undefined,
+  preferences: selectors.preferences.getSBCheckoutPreferences(state)
 })
 
 const mapDispatchToProps = dispatch => ({
