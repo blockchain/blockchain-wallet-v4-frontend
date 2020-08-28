@@ -3,7 +3,6 @@ import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
 import * as Lockbox from 'services/LockboxService'
 import * as S from './selectors'
-import { AccountType } from './types'
 import { actions, actionTypes, model, selectors } from 'data'
 import {
   add,
@@ -66,15 +65,15 @@ export default ({
         payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
+
+      // eslint-disable-next-line
+      console.log('idemoooo')
       yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
       payment = yield payment.init()
       let defaultAccountR
-
-      const account: AccountType = yield call(api.getSBPaymentAccount, 'BTC')
-      yield put(A.sendBtcAccountsSuccess(account))
 
       if (lockboxIndex && lockboxIndex >= 0) {
         const accountsR = yield select(

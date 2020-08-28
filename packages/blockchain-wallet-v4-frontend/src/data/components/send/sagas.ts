@@ -2,6 +2,7 @@ import * as A from './actions'
 import { actions, model, selectors } from 'data'
 import { call, put, select } from 'redux-saga/effects'
 
+import { BeneficiaryType } from 'core/types'
 import profileSagas from '../../modules/profile/sagas'
 
 const { BAD_2FA } = model.profile.ERROR_TYPES
@@ -13,6 +14,12 @@ export default ({ api, coreSagas, networks }) => {
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
+      const tradingAccount: BeneficiaryType = yield call(
+        api.getSBPaymentAccount,
+        currency
+      )
+      yield put(A.setPaymentsTradingAccountSuccess(currency, tradingAccount))
+
       yield call(waitForUserData)
       const isExchangeAccountLinked = (yield select(
         selectors.modules.profile.isExchangeAccountLinked

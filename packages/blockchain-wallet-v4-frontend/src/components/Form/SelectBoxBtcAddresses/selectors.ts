@@ -70,7 +70,10 @@ export const getData = (
     forceCustodialFirst
   } = ownProps
 
-  const accountAddress = selectors.components.sendBtc.getAccountAddress(state)
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    'BTC',
+    state
+  )
 
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
