@@ -175,7 +175,7 @@ interface FetchInterestTransactionsFailure {
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_FAILURE
 }
 interface FetchInterestTransactionsLoading {
-  payload: { reset: boolean }
+  payload: { coin?: CoinType; reset: boolean }
   type: typeof AT.FETCH_INTEREST_TRANSACTIONS_LOADING
 }
 interface FetchInterestTransactionsSuccess {

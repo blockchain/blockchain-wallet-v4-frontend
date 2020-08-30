@@ -28,6 +28,7 @@ import {
   ViewTransaction
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import CoinFilter from './CoinFilter'
 import Empty from './Empty'
 import Loading from './template.loading'
 
@@ -51,6 +52,7 @@ function TransactionList (props: Props): ReactElement | null {
   )
   return txList && txList.length > 0 ? (
     <Container style={{ minWidth: '900px', paddingBottom: '45px' }}>
+      <CoinFilter />
       <Text
         size='24px'
         weight={600}

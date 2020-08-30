@@ -1,3 +1,7 @@
+import { actions } from 'data'
+import { bindActionCreators, compose, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
@@ -17,8 +21,10 @@ const SelectCoinWrapper = styled.div`
   align-items: center;
 `
 
-class CoinFilter extends React.PureComponent<InjectedFormProps> {
-  onChange = () => {}
+class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
+  onChange = (e, val) => {
+    this.props.interestActions.fetchInterestTransactions(true, val)
+  }
   render () {
     return (
       <SelectCoinWrapper>
@@ -41,4 +47,16 @@ class CoinFilter extends React.PureComponent<InjectedFormProps> {
   }
 }
 
-export default reduxForm({ form: 'interestHistoryCoin' })(CoinFilter)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+type Props = ConnectedProps<typeof connector>
+
+const enhance = compose<any>(
+  reduxForm({ form: 'interestHistoryCoin' }),
+  connector
+)
+
+export default enhance(CoinFilter)

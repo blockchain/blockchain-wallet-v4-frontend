@@ -54,14 +54,13 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     })
 
   const getInterestTransactions = (
-    ccy?: CoinType,
     nextPageUrl?: string
   ): InterestTransactionResponseType =>
     authorizedGet({
       url: nabuUrl,
       endPoint: nextPageUrl
         ? nextPageUrl + '&'
-        : `/payments/transactions?product=SAVINGS&`
+        : '/payments/transactions?product=SAVINGS&'
     })
 
   const getInterestSavingsRate = (): InterestRateType =>
