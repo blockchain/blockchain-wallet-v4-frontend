@@ -36,11 +36,13 @@ export type SBCheckoutFormValuesType =
   | undefined
   | {
       amount: string
+      fix: SBFixType
       orderType: SBOrderActionType
     }
 export type SBCurrencySelectFormType = {
   search: string
 }
+export type SBFixType = 'CRYPTO' | 'FIAT'
 export enum SimpleBuyStepType {
   'CURRENCY_SELECTION',
   'CRYPTO_SELECTION',

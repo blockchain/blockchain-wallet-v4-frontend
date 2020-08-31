@@ -156,7 +156,7 @@ export type SBProviderDetailsType = {
 }
 
 export type SBMoneyType = {
-  amount: string
+  amount?: string
   symbol: WalletCurrencyType
 }
 

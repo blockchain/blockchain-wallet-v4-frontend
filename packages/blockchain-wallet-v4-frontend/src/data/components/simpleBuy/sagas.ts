@@ -30,7 +30,8 @@ import {
   NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
-  NO_PAIR_SELECTED
+  NO_PAIR_SELECTED,
+  NO_PAYMENT_TYPE
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -41,6 +42,7 @@ import {
   SBCheckoutFormValuesType
 } from './types'
 import { UserDataType } from 'data/modules/types'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
@@ -203,16 +205,32 @@ export default ({
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
-      const { orderType } = values
+      const { fix, orderType } = values
       const fiat = getFiatFromPair(pair.pair)
       const coin = getCoinFromPair(pair.pair)
       const inputCurrency = orderType === 'BUY' ? fiat : coin
       const outputCurrency = orderType === 'BUY' ? coin : fiat
       const amount =
-        orderType === 'BUY'
+        fix === 'FIAT'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
+      const input = { amount, symbol: inputCurrency }
+      const output = { amount, symbol: outputCurrency }
+
+      if (
+        (orderType === 'BUY' && fix === 'CRYPTO') ||
+        (orderType === 'SELL' && fix === 'FIAT')
+      ) {
+        delete input.amount
+      }
+      if (
+        (orderType === 'BUY' && fix === 'FIAT') ||
+        (orderType === 'SELL' && fix === 'CRYPTO')
+      ) {
+        delete output.amount
+      }
 
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
@@ -220,10 +238,10 @@ export default ({
         pair.pair,
         orderType,
         true,
-        { amount, symbol: inputCurrency },
-        { symbol: outputCurrency },
-        paymentMethodId,
-        paymentType
+        input,
+        output,
+        paymentType,
+        paymentMethodId
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
@@ -381,7 +399,6 @@ export default ({
     payload
   }: ReturnType<typeof A.fetchSBCards>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
       const { skipLoading } = payload
       if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
@@ -485,17 +502,21 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
+
+      // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
       }
-      yield call(createUser)
-      const isUserTier2 = yield call(isTier2)
 
-      // Only show Loading if not Success
+      // Only show Loading if not Success or 0 methods
       const sbMethodsR = S.getSBPaymentMethods(yield select())
       const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
       if (!Remote.Success.is(sbMethodsR) || !sbMethods.methods.length)
         yield put(A.fetchSBPaymentMethodsLoading())
+
+      // 🚨Create the user if you have a currency
+      yield call(createUser)
+      const isUserTier2 = yield call(isTier2)
 
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
@@ -672,11 +693,11 @@ export default ({
   }
 
   const initializeCheckout = function * ({
+    fix,
     orderType,
     amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
 
       const fiatCurrency = S.getFiatCurrency(yield select())
@@ -689,6 +710,7 @@ export default ({
 
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
+          fix,
           orderType,
           amount
         } as SBCheckoutFormValuesType)
@@ -836,6 +858,18 @@ export default ({
     }
   }
 
+  const switchFix = function * ({ payload }: ReturnType<typeof A.switchFix>) {
+    yield put(actions.form.change('simpleBuyCheckout', 'fix', payload.fix))
+    yield put(
+      actions.preferences.setSBCheckoutFix(payload.orderType, payload.fix)
+    )
+    const newAmount = new BigNumber(payload.amount).isGreaterThan(0)
+      ? payload.amount
+      : undefined
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', newAmount))
+    yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -862,6 +896,7 @@ export default ({
     pollSBCard,
     pollSBOrder,
     setStepChange,
-    showModal
+    showModal,
+    switchFix
   }
 }
