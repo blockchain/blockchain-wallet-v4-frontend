@@ -14,7 +14,7 @@ export default ({ api, coreSagas, networks }) => {
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
-      yield put(actions.components.send.fetchPaymentsTradingAccount(currency))
+      yield call(fetchPaymentsTradingAccount, currency)
       yield call(waitForUserData)
       const isExchangeAccountLinked = (yield select(
         selectors.modules.profile.isExchangeAccountLinked
@@ -42,7 +42,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchPaymentsAccountTrading = function * (action) {
+  const fetchPaymentsTradingAccount = function * (action) {
     const { currency } = action.payload
     try {
       yield put(A.fetchPaymentsTradingAccountLoading(currency))
@@ -55,7 +55,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          'fetchPaymentsAccountTrading',
+          'fetchPaymentsTradingAccount',
           e
         )
       )
@@ -65,6 +65,6 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     fetchPaymentsAccountExchange,
-    fetchPaymentsAccountTrading
+    fetchPaymentsTradingAccount
   }
 }
