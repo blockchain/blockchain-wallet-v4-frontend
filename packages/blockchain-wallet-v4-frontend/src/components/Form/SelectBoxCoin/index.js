@@ -65,8 +65,13 @@ class SelectBoxCoin extends React.PureComponent {
     )
   }
   render () {
-    const { coins, supportedCoins, ...rest } = this.props
-    const elements = [{ group: '', items: coins }]
+    const { additionalOptions, coins, supportedCoins, ...rest } = this.props
+    const elements = [
+      {
+        group: '',
+        items: additionalOptions ? [...additionalOptions, ...coins] : coins
+      }
+    ]
     return (
       <SelectBox
         supportedCoins={supportedCoins}
