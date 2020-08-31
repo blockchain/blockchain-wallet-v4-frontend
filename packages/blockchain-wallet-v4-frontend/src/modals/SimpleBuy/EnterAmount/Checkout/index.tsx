@@ -36,12 +36,7 @@ class Checkout extends PureComponent<Props> {
 
     const method = this.props.method || this.props.defaultMethod
 
-    if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.createSBOrder(
-        undefined,
-        getValidPaymentMethod(method?.type)
-      )
-    } else if (!method) {
+    if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -50,6 +45,11 @@ class Checkout extends PureComponent<Props> {
         cryptoCurrency: this.props.cryptoCurrency,
         order: this.props.order
       })
+    } else if (userData.tiers.current < 2) {
+      this.props.simpleBuyActions.createSBOrder(
+        undefined,
+        getValidPaymentMethod(method?.type)
+      )
     } else if (formValues && method) {
       switch (method.type) {
         case 'PAYMENT_CARD':

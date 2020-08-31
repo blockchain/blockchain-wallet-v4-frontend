@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl'
-import React, { ReactChild, useState } from 'react'
+import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountTextBox } from 'components/Exchange'
@@ -108,8 +108,6 @@ const normalizeAmount = (
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
-  const [isAmtShakeActive, setShake] = useState(false)
-
   const {
     orderType,
     cryptoCurrency,
@@ -177,17 +175,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     )
   }
 
-  const handleAmountErrorClick = () => {
-    if (isAmtShakeActive) return
-
-    setShake(true)
-    props.formActions.focus('simpleBuyCheckout', 'amount')
-
-    setTimeout(() => {
-      setShake(false)
-    }, 1000)
-  }
-
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
@@ -237,7 +224,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         orderType={props.orderType}
       />
       <FlyoutWrapper style={{ paddingTop: '0px' }}>
-        <AmountRow className={isAmtShakeActive ? 'shake' : ''} id='amount-row'>
+        <AmountRow id='amount-row'>
           {fix === 'FIAT' && (
             <Text size={'56px'} color='textBlack' weight={500}>
               {Currencies[fiatCurrency].units[fiatCurrency].symbol}
@@ -291,61 +278,55 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         {props.pair && (
           <Amounts onClick={handleMinMaxClick}>
-            {(method || orderType === 'SELL') && (
-              <>
-                {amtError === 'BELOW_MIN' ? (
-                  <CustomErrorCartridge role='button'>
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.belowmin'
-                      defaultMessage='{value} Minimum {orderType}'
-                      values={{
-                        value:
-                          fix === 'FIAT'
-                            ? fiatToString({
-                                digits,
-                                unit: fiatCurrency,
-                                value: min
-                              })
-                            : coinToString({
-                                value: min,
-                                unit: { symbol: cryptoCurrency }
-                              }),
-                        orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
-                      }}
-                    />
-                  </CustomErrorCartridge>
-                ) : (
-                  <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.abovemax'
-                      defaultMessage='{value} Maximum {orderType}'
-                      values={{
-                        value:
-                          fix === 'FIAT'
-                            ? fiatToString({
-                                digits,
-                                unit: fiatCurrency,
-                                value: max
-                              })
-                            : coinToString({
-                                value: max,
-                                unit: { symbol: cryptoCurrency }
-                              }),
-                        orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
-                      }}
-                    />
-                  </BlueRedCartridge>
-                )}
-              </>
-            )}
+            <>
+              {amtError === 'BELOW_MIN' ? (
+                <CustomErrorCartridge role='button'>
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.belowmin'
+                    defaultMessage='{value} Minimum {orderType}'
+                    values={{
+                      value:
+                        fix === 'FIAT'
+                          ? fiatToString({
+                              digits,
+                              unit: fiatCurrency,
+                              value: min
+                            })
+                          : coinToString({
+                              value: min,
+                              unit: { symbol: cryptoCurrency }
+                            }),
+                      orderType: props.orderType === 'BUY' ? 'Buy' : 'Sell'
+                    }}
+                  />
+                </CustomErrorCartridge>
+              ) : (
+                <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.abovemax'
+                    defaultMessage='{value} Maximum {orderType}'
+                    values={{
+                      value:
+                        fix === 'FIAT'
+                          ? fiatToString({
+                              digits,
+                              unit: fiatCurrency,
+                              value: max
+                            })
+                          : coinToString({
+                              value: max,
+                              unit: { symbol: cryptoCurrency }
+                            }),
+                      orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
+                    }}
+                  />
+                </BlueRedCartridge>
+              )}
+            </>
           </Amounts>
         )}
 
-        <Payment
-          {...props}
-          method={method}
-          handleAmountErrorClick={handleAmountErrorClick}
-        />
+        <Payment {...props} method={method} />
 
         {props.error && (
           <ErrorText>
@@ -357,7 +338,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             Error: {props.error}
           </ErrorText>
         )}
-        <ActionButton {...props} method={method} />
+        <ActionButton {...props} />
       </FlyoutWrapper>
     </CustomForm>
   )

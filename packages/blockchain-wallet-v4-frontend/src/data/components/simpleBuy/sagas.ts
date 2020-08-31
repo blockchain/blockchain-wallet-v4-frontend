@@ -30,7 +30,8 @@ import {
   NO_CHECKOUT_VALS,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
-  NO_PAIR_SELECTED
+  NO_PAIR_SELECTED,
+  NO_PAYMENT_TYPE
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -203,6 +204,7 @@ export default ({
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
 
       const { fix, orderType } = values
       const fiat = getFiatFromPair(pair.pair)
@@ -237,8 +239,8 @@ export default ({
         true,
         input,
         output,
-        paymentMethodId,
-        paymentType
+        paymentType,
+        paymentMethodId
       )
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))

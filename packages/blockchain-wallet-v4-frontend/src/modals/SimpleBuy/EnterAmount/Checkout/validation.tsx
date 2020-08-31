@@ -63,7 +63,7 @@ export const getMaxMin = (
   sbBalances: SBBalancesType,
   orderType: SBOrderActionType,
   quote: SBQuoteType,
-  pair?: SBPairType,
+  pair: SBPairType,
   allValues?: SBCheckoutFormValuesType,
   method?: SBPaymentMethodType
 ): { CRYPTO: string; FIAT: string } => {
@@ -71,10 +71,17 @@ export const getMaxMin = (
     case 'BUY':
       switch (minOrMax) {
         case 'max':
-          let defaultMax = { FIAT: '0', CRYPTO: '0' }
+          let defaultMax = {
+            FIAT: convertBaseToStandard('FIAT', pair.buyMax),
+            CRYPTO: getQuote(
+              quote,
+              'FIAT',
+              convertBaseToStandard('FIAT', pair.buyMax)
+            )
+          }
+
           if (!allValues) return defaultMax
           if (!method) return defaultMax
-          if (!pair) return defaultMax
 
           let max = BigNumber.minimum(method.limits.max, pair.buyMax).toString()
 
@@ -86,10 +93,17 @@ export const getMaxMin = (
 
           return { FIAT: maxFiat, CRYPTO: maxCrypto }
         case 'min':
-          const defaultMin = { FIAT: '0', CRYPTO: '0' }
+          let defaultMin = {
+            FIAT: convertBaseToStandard('FIAT', pair.buyMin),
+            CRYPTO: getQuote(
+              quote,
+              'FIAT',
+              convertBaseToStandard('FIAT', pair.buyMin)
+            )
+          }
+
           if (!allValues) return defaultMin
           if (!method) return defaultMin
-          if (!pair) return defaultMin
 
           const min = BigNumber.maximum(
             method.limits.min,
@@ -103,8 +117,6 @@ export const getMaxMin = (
       }
       break
     case 'SELL':
-      if (!pair) return { FIAT: '0', CRYPTO: '0' }
-
       const coin = getCoinFromPair(pair.pair)
       const rate = quote.rate
       switch (minOrMax) {
@@ -156,7 +168,6 @@ export const maximumAmount = (
     sbBalances
   } = restProps
   const method = selectedMethod || defaultMethod
-  if (!method) return
   if (!allValues) return
 
   return Number(value) >
@@ -185,7 +196,6 @@ export const minimumAmount = (
     sbBalances
   } = restProps
   const method = selectedMethod || defaultMethod
-  if (!method) return
   if (!allValues) return
 
   return Number(value) <

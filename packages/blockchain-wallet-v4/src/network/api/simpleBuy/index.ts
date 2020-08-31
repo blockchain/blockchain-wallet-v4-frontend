@@ -74,8 +74,8 @@ export default ({
     pending: boolean,
     input: SBMoneyType,
     output: SBMoneyType,
-    paymentMethodId?: SBCardType['id'],
-    paymentType?: SBPaymentMethodType['type']
+    paymentType: SBPaymentMethodType['type'],
+    paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
