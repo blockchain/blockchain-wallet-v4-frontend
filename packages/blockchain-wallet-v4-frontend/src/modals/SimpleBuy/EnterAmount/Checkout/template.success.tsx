@@ -205,7 +205,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 })
               }
             />
-            <BuyOrSell {...props} crypto='Crypto' />
+            <BuyOrSell {...props} crypto={cryptoCurrency || 'Crypto'} />
           </LeftTopCol>
           <Icon
             cursor
