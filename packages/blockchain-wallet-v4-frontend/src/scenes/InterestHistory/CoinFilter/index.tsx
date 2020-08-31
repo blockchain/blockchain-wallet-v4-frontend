@@ -8,6 +8,7 @@ import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import { Props as OwnProps, SuccessStateType } from '..'
 import { Value } from '../model'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
 
@@ -31,7 +32,8 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
     this.props.reset()
   }
   render () {
-    return (
+    const { txPages } = this.props
+    return txPages ? (
       <SelectCoinWrapper>
         <FilterText>
           <FormattedMessage
@@ -61,17 +63,16 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
           z-index='10'
         />
       </SelectCoinWrapper>
-    )
+    ) : null
   }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & OwnProps & SuccessStateType
 
 const enhance = compose<any>(
   reduxForm({

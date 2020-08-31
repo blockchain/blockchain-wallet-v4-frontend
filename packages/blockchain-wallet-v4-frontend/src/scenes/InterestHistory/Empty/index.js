@@ -1,5 +1,5 @@
+import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 
 import React from 'react'
 import styled from 'styled-components'
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 220px;
+  margin-top: 100px;
   & > :first-child {
     margin-bottom: 10px;
   }
@@ -28,6 +28,9 @@ const Empty = () => (
         defaultMessage='All your Interest transactions will show up here.'
       />
     </Text>
+    <Button nature='empty-secondary' style={{ marginTop: '20px' }}>
+      Start Earning Interest
+    </Button>
   </Wrapper>
 )
 

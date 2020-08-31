@@ -50,15 +50,17 @@ class InterestHistoryContainer extends Component<Props> {
     return (
       <SceneWrapper>
         <InterestHeader />
-        <MenuRow>
-          <InterestMenu />
-          <CoinFilter />
-        </MenuRow>
         {this.props.data.cata({
           Success: val => (
-            <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
-              <TransactionList {...val} {...this.props} />
-            </LazyLoadWrapper>
+            <>
+              <MenuRow>
+                <InterestMenu />
+                <CoinFilter {...val} />
+              </MenuRow>
+              <LazyLoadWrapper onLazyLoad={this.onFetchMoreTransactions}>
+                <TransactionList {...val} {...this.props} />
+              </LazyLoadWrapper>
+            </>
           ),
           Failure: () => null,
           Loading: () => <Loading />,
