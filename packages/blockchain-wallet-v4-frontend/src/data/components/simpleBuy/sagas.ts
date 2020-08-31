@@ -213,26 +213,21 @@ export default ({
         fix === 'FIAT'
           ? convertStandardToBase('FIAT', values.amount)
           : convertStandardToBase(coin, values.amount)
+      const input = { amount, symbol: inputCurrency }
+      const output = { amount, symbol: outputCurrency }
 
-      // TODO: rewrite this 🤯
-      const input =
-        orderType === 'BUY'
-          ? fix === 'FIAT'
-            ? { amount, symbol: inputCurrency }
-            : { symbol: inputCurrency }
-          : fix === 'FIAT'
-          ? { symbol: inputCurrency }
-          : { amount, symbol: inputCurrency }
-
-      // TODO: rewrite this 🤯
-      const output =
-        orderType === 'SELL'
-          ? fix === 'FIAT'
-            ? { amount, symbol: outputCurrency }
-            : { symbol: outputCurrency }
-          : fix === 'FIAT'
-          ? { symbol: outputCurrency }
-          : { amount, symbol: outputCurrency }
+      if (
+        (orderType === 'BUY' && fix === 'CRYPTO') ||
+        (orderType === 'SELL' && fix === 'FIAT')
+      ) {
+        delete input.amount
+      }
+      if (
+        (orderType === 'BUY' && fix === 'FIAT') ||
+        (orderType === 'SELL' && fix === 'CRYPTO')
+      ) {
+        delete output.amount
+      }
 
       yield put(actions.form.startSubmit('simpleBuyCheckout'))
       const order: SBOrderType = yield call(
