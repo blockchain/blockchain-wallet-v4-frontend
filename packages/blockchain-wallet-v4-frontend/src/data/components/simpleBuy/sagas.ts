@@ -398,7 +398,6 @@ export default ({
     payload
   }: ReturnType<typeof A.fetchSBCards>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
       const { skipLoading } = payload
       if (!(yield call(isTier2))) return yield put(A.fetchSBCardsSuccess([]))
@@ -502,17 +501,21 @@ export default ({
         .getOrElse({
           state: 'NONE'
         } as UserDataType)
+
+      // 🚨DO NOT create the user if no currency is passed
       if (userData.state === 'NONE' && !currency) {
         return yield put(A.fetchSBPaymentMethodsSuccess(DEFAULT_SB_METHODS))
       }
-      yield call(createUser)
-      const isUserTier2 = yield call(isTier2)
 
-      // Only show Loading if not Success
+      // Only show Loading if not Success or 0 methods
       const sbMethodsR = S.getSBPaymentMethods(yield select())
       const sbMethods = sbMethodsR.getOrElse(DEFAULT_SB_METHODS)
       if (!Remote.Success.is(sbMethodsR) || !sbMethods.methods.length)
         yield put(A.fetchSBPaymentMethodsLoading())
+
+      // 🚨Create the user if you have a currency
+      yield call(createUser)
+      const isUserTier2 = yield call(isTier2)
 
       // If no currency fallback to sb fiat currency or wallet
       const fallbackFiatCurrency =
@@ -694,7 +697,6 @@ export default ({
     amount
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
-      yield call(createUser)
       yield call(waitForUserData)
 
       const fiatCurrency = S.getFiatCurrency(yield select())
