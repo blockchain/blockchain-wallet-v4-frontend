@@ -17,10 +17,23 @@ export const fetchPaymentsAccountExchangeSuccess = (currency, data) => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS,
   payload: { currency, data }
 })
-export const setPaymentsTradingAccountSuccess = (
+
+export const fetchPaymentsTradingAccount = (currency: CoinType) => ({
+  type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS,
+  payload: { currency }
+})
+export const fetchPaymentsTradingAccountLoading = (currency: CoinType) => ({
+  type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_LOADING,
+  payload: { currency }
+})
+export const fetchPaymentsTradingAccountFailure = (currency: CoinType, e) => ({
+  type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE,
+  payload: { currency, e }
+})
+export const fetchPaymentsTradingAccountSuccess = (
   currency: CoinType,
   tradingAccount: BeneficiaryType
 ) => ({
-  type: AT.FETCH_PAYMENTS_TRADING_AACCOUNTS_SUCCESS,
+  type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
   payload: { currency, tradingAccount }
 })

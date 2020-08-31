@@ -14,12 +14,7 @@ export default ({ api, coreSagas, networks }) => {
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
-      const tradingAccount: BeneficiaryType = yield call(
-        api.getSBPaymentAccount,
-        currency
-      )
-      yield put(A.setPaymentsTradingAccountSuccess(currency, tradingAccount))
-
+      yield put(actions.components.send.fetchPaymentsTradingAccount(currency))
       yield call(waitForUserData)
       const isExchangeAccountLinked = (yield select(
         selectors.modules.profile.isExchangeAccountLinked
@@ -47,7 +42,29 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const fetchPaymentsAccountTrading = function * (action) {
+    const { currency } = action.payload
+    try {
+      yield put(A.fetchPaymentsTradingAccountLoading(currency))
+      const tradingAccount: BeneficiaryType = yield call(
+        api.getSBPaymentAccount,
+        currency
+      )
+      yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'fetchPaymentsAccountTrading',
+          e
+        )
+      )
+      yield put(A.fetchPaymentsTradingAccountFailure(currency, e))
+    }
+  }
+
   return {
-    fetchPaymentsAccountExchange
+    fetchPaymentsAccountExchange,
+    fetchPaymentsAccountTrading
   }
 }

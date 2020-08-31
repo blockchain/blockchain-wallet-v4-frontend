@@ -57,13 +57,33 @@ export function sendReducer (state = INITIAL_STATE, action) {
         }
       }
     }
-    case AT.FETCH_PAYMENTS_TRADING_AACCOUNTS_SUCCESS: {
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS: {
       const { currency, tradingAccount } = payload
       return {
         ...state,
         tradingPaymentsAccount: {
           ...state.tradingPaymentsAccount,
           [currency]: Remote.Success(tradingAccount)
+        }
+      }
+    }
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_LOADING: {
+      const { currency } = payload
+      return {
+        ...state,
+        tradingPaymentsAccount: {
+          ...state.tradingPaymentsAccount,
+          [currency]: Remote.Loading
+        }
+      }
+    }
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE: {
+      const { currency, e } = payload
+      return {
+        ...state,
+        tradingPaymentsAccount: {
+          ...state.tradingPaymentsAccount,
+          [currency]: Remote.Failure(e)
         }
       }
     }

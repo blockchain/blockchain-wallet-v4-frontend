@@ -10,5 +10,9 @@ export default ({ api, coreSagas, networks }) => {
       AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
       sendSagas.fetchPaymentsAccountExchange
     )
+    yield takeLatest(
+      AT.FETCH_PAYMENTS_TRADING_ACCOUNTS,
+      sendSagas.fetchPaymentsAccountExchange
+    )
   }
 }

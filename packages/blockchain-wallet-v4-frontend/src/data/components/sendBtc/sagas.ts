@@ -66,8 +66,6 @@ export default ({
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
 
-      // eslint-disable-next-line
-      console.log('idemoooo')
       yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
