@@ -1,3 +1,9 @@
+import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled, { DefaultTheme } from 'styled-components'
+
 import {
   Badge,
   Button,
@@ -6,17 +12,12 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { find, propEq } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import { GoalsType } from 'data/goals/types'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
+import media from 'services/ResponsiveService'
+
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
-import media from 'services/ResponsiveService'
-import React from 'react'
 import SignupForm from './SignupForm'
-import styled, { DefaultTheme } from 'styled-components'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -74,8 +75,8 @@ const CardHeader = styled.div`
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
   background: ${props => props.theme[props.color]};
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 3rem;
+  width: 3rem;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
@@ -92,7 +93,6 @@ const CardInfo = styled.div`
   flex-direction: column;
   margin-bottom: 2rem;
 `
-
 const InfoTitle = styled(Text)`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -172,127 +172,135 @@ const SignInText = styled(Text)`
     font-weight: 600;
   }
 `
+const LinkAccountSpacer = styled.div`
+  height: 1rem;
+`
 
-const Register = ({
+const SignupCard = ({
   busy,
-  goals,
   handleSubmit,
   invalid,
+  isLinkAccountGoal,
   password,
   passwordLength,
   showForm,
   toggleForm
 }: InjectedFormProps<{}, Props> & Props) => {
-  const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
   const buttonSubmit = showForm ? handleSubmit : toggleForm
-
   return (
-    <SignupWrapper>
-      {isLinkAccountGoal && <LinkExchangeAccount />}
-      <Header />
-
-      <CardsWrapper>
-        <CardWrapper>
-          <Card>
-            <CardHeader>
-              <IconWrapper color='blue600'>
-                <Icon color='white' name='wallet-filled' size='32px' />
-              </IconWrapper>
-              <Text size='24px' color='textBlack' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.title'
-                  defaultMessage='Blockchain Wallet'
-                />
-              </Text>
-            </CardHeader>
-
-            <CardInfo>
-              <InfoTitle color='grey800' size='18px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.infotitle'
-                  defaultMessage='Be your own bank.'
-                />
-              </InfoTitle>
-
-              <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.1.bold'
-                    defaultMessage='Easily buy and sell'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.1.regular'
-                    defaultMessage='Bitcoin, Ether, and more.'
-                  />
-                </Text>
-              </InfoItem>
-
-              <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.2.bold'
-                    defaultMessage='Securely store your'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.2.regular'
-                    defaultMessage='crypto on mobile and desktop.'
-                  />
-                </Text>
-              </InfoItem>
-
-              <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.3.bold'
-                    defaultMessage='Control your money'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.3.regular'
-                    defaultMessage='by holding your private keys.'
-                  />
-                </Text>
-              </InfoItem>
-            </CardInfo>
-
-            {showForm ? (
-              <SignupForm
-                busy={busy}
-                handleSubmit={handleSubmit}
-                invalid={invalid}
-                password={password}
-                passwordLength={passwordLength}
+    <CardWrapper>
+      <Card>
+        <CardHeader>
+          <IconWrapper color='blue600'>
+            <Icon color='white' name='wallet-filled' size='28px' />
+          </IconWrapper>
+          <Text size='24px' color='textBlack' weight={600}>
+            {isLinkAccountGoal ? (
+              <FormattedMessage
+                id='scenes.register.walletcard.linktitle'
+                defaultMessage='Create a New Wallet'
               />
             ) : (
-              <Button
-                data-e2e='signupButton'
-                fullwidth
-                height='48px'
-                nature='primary'
-                onClick={buttonSubmit}
-                style={{
-                  borderRadius: '8px'
-                }}
-                type='submit'
-              >
-                {busy ? (
-                  <HeartbeatLoader height='20px' width='20px' color='white' />
-                ) : (
-                  <Text color='whiteFade900' size='16px' weight={600}>
-                    <FormattedMessage
-                      id='scenes.public.register.createWallet'
-                      defaultMessage='Create Wallet'
-                    />
-                  </Text>
-                )}
-              </Button>
+              <FormattedMessage
+                id='scenes.register.walletcard.title'
+                defaultMessage='Blockchain Wallet'
+              />
             )}
+          </Text>
+        </CardHeader>
 
+        {isLinkAccountGoal ? (
+          <LinkAccountSpacer />
+        ) : (
+          <CardInfo>
+            <InfoTitle color='grey800' size='18px' weight={600}>
+              <FormattedMessage
+                id='scenes.register.walletcard.infotitle'
+                defaultMessage='Be your own bank.'
+              />
+            </InfoTitle>
+
+            <InfoItem>
+              <Text color='grey800' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.1.bold'
+                  defaultMessage='Easily buy and sell'
+                />
+              </Text>
+              <Text color='grey600' size='16px' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.1.regular'
+                  defaultMessage='Bitcoin, Ether, and more.'
+                />
+              </Text>
+            </InfoItem>
+
+            <InfoItem>
+              <Text color='grey800' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.2.bold'
+                  defaultMessage='Securely store your'
+                />
+              </Text>
+              <Text color='grey600' size='16px' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.2.regular'
+                  defaultMessage='crypto on mobile and desktop.'
+                />
+              </Text>
+            </InfoItem>
+
+            <InfoItem>
+              <Text color='grey800' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.3.bold'
+                  defaultMessage='Control your money'
+                />
+              </Text>
+              <Text color='grey600' size='16px' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.item.3.regular'
+                  defaultMessage='by holding your private keys.'
+                />
+              </Text>
+            </InfoItem>
+          </CardInfo>
+        )}
+
+        {showForm || isLinkAccountGoal ? (
+          <SignupForm
+            busy={busy}
+            handleSubmit={handleSubmit}
+            invalid={invalid}
+            password={password}
+            passwordLength={passwordLength}
+          />
+        ) : (
+          <Button
+            data-e2e='signupButton'
+            fullwidth
+            height='48px'
+            nature='primary'
+            onClick={buttonSubmit}
+            style={{
+              borderRadius: '8px'
+            }}
+            type='submit'
+          >
+            {busy ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <Text color='whiteFade900' size='16px' weight={600}>
+                <FormattedMessage
+                  id='scenes.public.register.createWallet'
+                  defaultMessage='Create Wallet'
+                />
+              </Text>
+            )}
+          </Button>
+        )}
+        {!isLinkAccountGoal && (
+          <>
             <Line showForm={showForm} />
             <AppButtons showForm={showForm}>
               <Bottom>
@@ -300,28 +308,52 @@ const Register = ({
                 <Badge type='googleplay' />
               </Bottom>
             </AppButtons>
-          </Card>
+          </>
+        )}
+      </Card>
 
-          <LinkContainer to='/login'>
-            <Link>
-              <SubCard>
-                <Text size='14px' color='whiteFade600' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.wallet.link'
-                    defaultMessage='Already have a wallet?'
-                  />
-                </Text>
-                &nbsp;
-                <SignInText color='whiteFade900' size='14px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.wallet.signin'
-                    defaultMessage='Sign In'
-                  />
-                </SignInText>
-              </SubCard>
-            </Link>
-          </LinkContainer>
-        </CardWrapper>
+      <LinkContainer to='/login'>
+        <Link>
+          <SubCard>
+            <Text size='14px' color='whiteFade600' weight={500}>
+              <FormattedMessage
+                id='scenes.register.wallet.link'
+                defaultMessage='Already have a wallet?'
+              />
+            </Text>
+            &nbsp;
+            <SignInText color='whiteFade900' size='14px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.wallet.signin'
+                defaultMessage='Sign In'
+              />
+            </SignInText>
+          </SubCard>
+        </Link>
+      </LinkContainer>
+    </CardWrapper>
+  )
+}
+
+const Register = (props: InjectedFormProps<{}, Props> & Props) => {
+  const { isLinkAccountGoal } = props
+
+  if (isLinkAccountGoal) {
+    return (
+      <SignupWrapper>
+        <CardsWrapper>
+          <LinkExchangeAccount />
+          <SignupCard {...props} />
+        </CardsWrapper>
+      </SignupWrapper>
+    )
+  }
+
+  return (
+    <SignupWrapper>
+      <Header />
+      <CardsWrapper>
+        <SignupCard {...props} />
 
         <CardWrapper>
           <Card>
@@ -432,6 +464,7 @@ type Props = {
   busy: boolean
   email: string
   goals: Array<{ data: any; id: string; name: GoalsType }>
+  isLinkAccountGoal: boolean
   language: string
   password: string
   passwordLength: number
