@@ -22,10 +22,14 @@ export const getData = (
     forceCustodialFirst
   } = ownProps
 
-  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+  const accountAddressR = selectors.components.send.getPaymentsTradingAccountAddress(
     'XLM',
     state
   )
+  const hasAccountAddress = Remote.Success.is(accountAddressR)
+  const accountAddress = hasAccountAddress
+    ? accountAddressR.data
+    : Remote.of('')
 
   const buildDisplay = wallet => {
     if (has('balance', wallet)) {

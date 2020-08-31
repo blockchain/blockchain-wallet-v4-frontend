@@ -32,10 +32,14 @@ export const getEthData = (
     forceCustodialFirst
   } = ownProps
 
-  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+  const accountAddressR = selectors.components.send.getPaymentsTradingAccountAddress(
     'ETH',
     state
   )
+  const hasAccountAddress = Remote.Success.is(accountAddressR)
+  const accountAddress = hasAccountAddress
+    ? accountAddressR.data
+    : Remote.of('')
 
   const displayEthFixed = data => {
     const etherAmount = Exchange.convertEtherToEther(data)
@@ -177,10 +181,14 @@ export const getErc20Data = (
   const supportedCoins = supportedCoinsR.getOrElse(
     {} as SupportedWalletCurrenciesType
   )
-  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+  const accountAddressR = selectors.components.send.getPaymentsTradingAccountAddress(
     coin,
     state
   )
+  const hasAccountAddress = Remote.Success.is(accountAddressR)
+  const accountAddress = hasAccountAddress
+    ? accountAddressR.data
+    : Remote.of('')
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {

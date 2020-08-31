@@ -14,6 +14,6 @@ export const getPaymentsTradingAccountAddress = curry(
   (currency: CoinType, state: RootState) => {
     return state.components.send.tradingPaymentsAccount[currency].map(
       x => x.address
-    ).data
+    )
   }
 )

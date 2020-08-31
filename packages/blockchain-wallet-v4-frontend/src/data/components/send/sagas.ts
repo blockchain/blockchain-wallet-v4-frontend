@@ -14,7 +14,7 @@ export default ({ api, coreSagas, networks }) => {
   const fetchPaymentsAccountExchange = function * (action) {
     const { currency } = action.payload
     try {
-      yield call(fetchPaymentsTradingAccount, currency)
+      yield call(fetchPaymentsTradingAccount, { payload: { currency } })
       yield call(waitForUserData)
       const isExchangeAccountLinked = (yield select(
         selectors.modules.profile.isExchangeAccountLinked

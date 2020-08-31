@@ -70,10 +70,14 @@ export const getData = (
     forceCustodialFirst
   } = ownProps
 
-  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+  const accountAddressR = selectors.components.send.getPaymentsTradingAccountAddress(
     'BTC',
     state
   )
+  const hasAccountAddress = Remote.Success.is(accountAddressR)
+  const accountAddress = hasAccountAddress
+    ? accountAddressR.data
+    : Remote.of('')
 
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
