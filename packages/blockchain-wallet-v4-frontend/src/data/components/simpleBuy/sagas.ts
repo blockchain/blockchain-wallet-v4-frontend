@@ -42,6 +42,7 @@ import {
   SBCheckoutFormValuesType
 } from './types'
 import { UserDataType } from 'data/modules/types'
+import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import profileSagas from '../../modules/profile/sagas'
 
@@ -862,9 +863,10 @@ export default ({
     yield put(
       actions.preferences.setSBCheckoutFix(payload.orderType, payload.fix)
     )
-    yield put(
-      actions.form.change('simpleBuyCheckout', 'amount', payload.amount)
-    )
+    const newAmount = new BigNumber(payload.amount).isGreaterThan(0)
+      ? payload.amount
+      : undefined
+    yield put(actions.form.change('simpleBuyCheckout', 'amount', newAmount))
     yield put(actions.form.focus('simpleBuyCheckout', 'amount'))
   }
 
