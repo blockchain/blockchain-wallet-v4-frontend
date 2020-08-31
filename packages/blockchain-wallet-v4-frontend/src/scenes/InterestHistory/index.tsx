@@ -8,7 +8,7 @@ import { getData } from './selectors'
 
 import { SceneWrapper } from 'components/Layout'
 
-// import CoinFilter from './CoinFilter'
+import CoinFilter from './CoinFilter'
 import InterestHeader from '../Interest/template.header'
 import InterestMenu from '../Interest/template.menu'
 import LazyLoadContainer from 'components/LazyLoadContainer'
@@ -52,7 +52,7 @@ class InterestHistoryContainer extends Component<Props> {
         <InterestHeader />
         <MenuRow>
           <InterestMenu />
-          {/* <CoinFilter /> */}
+          <CoinFilter />
         </MenuRow>
         {this.props.data.cata({
           Success: val => (

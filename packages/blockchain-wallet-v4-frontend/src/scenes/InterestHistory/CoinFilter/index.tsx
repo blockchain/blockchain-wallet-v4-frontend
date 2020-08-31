@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -25,6 +26,10 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
   onChange = (e, val) => {
     this.props.interestActions.fetchInterestTransactions(true, val)
   }
+
+  handleClear = () => {
+    this.props.reset()
+  }
   render () {
     return (
       <SelectCoinWrapper>
@@ -41,6 +46,19 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
           component={SelectBoxCoin}
           type='request'
           height='32px'
+          value=''
+        >
+          {' '}
+        </Field>
+        <Icon
+          cursor
+          data-e2e='interestClearFilter'
+          name='close'
+          size='14px'
+          color='grey600'
+          role='button'
+          onClick={this.handleClear}
+          z-index='10'
         />
       </SelectCoinWrapper>
     )
@@ -48,6 +66,7 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
@@ -55,7 +74,9 @@ const connector = connect(null, mapDispatchToProps)
 type Props = ConnectedProps<typeof connector>
 
 const enhance = compose<any>(
-  reduxForm({ form: 'interestHistoryCoin' }),
+  reduxForm({
+    form: 'interestHistoryCoin'
+  }),
   connector
 )
 
