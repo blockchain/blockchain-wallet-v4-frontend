@@ -194,6 +194,8 @@ interface FetchUserDataSuccessAction {
 }
 interface LinkFromExchangeAccountAction {
   payload: {
+    address?: NabuAddressType
+    email?: string
     linkId: string
   }
   type: typeof AT.LINK_FROM_EXCHANGE_ACCOUNT

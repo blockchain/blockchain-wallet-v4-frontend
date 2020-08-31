@@ -50,6 +50,14 @@ export default ({
     })
   }
 
+  const finaliseLinking = () => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/link-account/finalise',
+      contentType: 'application/json'
+    })
+  }
+
   const createLinkAccountId = () => {
     return authorizedPut({
       url: nabuUrl,
@@ -171,6 +179,7 @@ export default ({
     getUser,
     getUserCampaigns,
     linkAccount,
+    finaliseLinking,
     recoverUser,
     registerUserCampaign,
     syncUserWithWallet,
