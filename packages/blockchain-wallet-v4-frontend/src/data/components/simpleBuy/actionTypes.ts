@@ -91,4 +91,6 @@ export const SET_STEP = '@EVENT.SET_SB_STEP'
 
 export const SHOW_MODAL = '@EVENT.SHOW_SB_MODAL'
 
+export const SWITCH_FIX = '@EVENT.SWITCH_SB_FIX'
+
 export const UPDATE_ACTION_TYPE = '@EVENT.UPDATE_ACTION_TYPE'

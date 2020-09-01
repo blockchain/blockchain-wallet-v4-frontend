@@ -24,7 +24,9 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CREATE_USER, createUser)
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
+    // @ts-ignore
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
+    // @ts-ignore
     yield takeLatest(AT.LINK_TO_EXCHANGE_ACCOUNT, linkToExchangeAccount)
     yield takeLatest(
       AT.SHARE_WALLET_ADDRESSES_WITH_EXCHANGE,

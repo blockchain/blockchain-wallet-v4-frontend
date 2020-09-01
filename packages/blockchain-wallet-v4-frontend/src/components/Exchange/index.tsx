@@ -1,6 +1,9 @@
 import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { AutosizeTextBox } from '../Form'
+import { ResizeableFontInputHOC } from '../ResizeableFontInputHOC'
+
 export const Wrapper = styled.div`
   padding: 32px;
   max-width: 440px;
@@ -11,6 +14,37 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+`
+export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
+  fiatActive: boolean
+}>`
+  height: 86px;
+  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '50%')};
+  > div {
+    border: none;
+    height: 100%;
+    padding: 0;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  input {
+    outline: 0;
+    position: relative;
+    font-weight: 400;
+    font-size: 62px;
+    line-height: 88px;
+    height: 88px;
+    padding: 0;
+    width: 100%;
+    min-width: 45px;
+    max-width: 100%;
+    border: none;
+    text-align: center;
+    color: ${props => props.theme.textBlack};
+    background-color: ${props => props.theme.white};
+  }
 `
 export const ExchangeText = styled(Text)`
   font-size: 14px;

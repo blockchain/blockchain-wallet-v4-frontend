@@ -1,9 +1,4 @@
-import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
+import { CoinType, CurrenciesType, FiatType } from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -78,11 +73,9 @@ export default ({
     action: SBOrderActionType,
     pending: boolean,
     input: SBMoneyType,
-    output: {
-      symbol: WalletCurrencyType
-    },
-    paymentMethodId?: SBCardType['id'],
-    paymentType?: SBPaymentMethodType['type']
+    output: SBMoneyType,
+    paymentType: SBPaymentMethodType['type'],
+    paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
