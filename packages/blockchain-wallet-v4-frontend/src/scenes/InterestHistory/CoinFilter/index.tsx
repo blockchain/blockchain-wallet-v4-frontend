@@ -1,13 +1,11 @@
-import { actions } from 'data'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import { actions } from 'data'
 import { Props as OwnProps, SuccessStateType } from '..'
 import { Value } from '../model'
 import SelectBoxCoin from 'components/Form/SelectBoxCoin'
@@ -16,7 +14,6 @@ const FilterText = styled(Value)`
   margin-right: 8px;
   font-size: 16px;
 `
-
 const SelectCoinWrapper = styled.div`
   display: flex;
   width: 40%;
@@ -26,10 +23,6 @@ const SelectCoinWrapper = styled.div`
 class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
   onChange = (e, val) => {
     this.props.interestActions.fetchInterestTransactions(true, val)
-  }
-
-  handleClear = () => {
-    this.props.reset()
   }
   render () {
     const { txPages } = this.props
@@ -42,25 +35,13 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
           />
         </FilterText>
         <Field
+          additionalOptions={[{ text: 'All Coins', value: 'ALL' }]}
+          component={SelectBoxCoin}
+          height='32px'
+          label='Select Coin'
           name='coin'
           onChange={this.onChange}
-          label='Select Crypto'
-          component={SelectBoxCoin}
           type='request'
-          height='32px'
-          value=''
-        >
-          {' '}
-        </Field>
-        <Icon
-          cursor
-          data-e2e='interestClearFilter'
-          name='close'
-          size='14px'
-          color='grey600'
-          role='button'
-          onClick={this.handleClear}
-          z-index='10'
         />
       </SelectCoinWrapper>
     ) : null
@@ -76,7 +57,8 @@ type Props = ConnectedProps<typeof connector> & OwnProps & SuccessStateType
 
 const enhance = compose<any>(
   reduxForm({
-    form: 'interestHistoryCoin'
+    form: 'interestHistoryCoin',
+    initialValues: { coin: 'ALL' }
   }),
   connector
 )

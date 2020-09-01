@@ -1,4 +1,4 @@
-import { flatten, last, map } from 'ramda'
+import { flatten, head, last, map } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
@@ -29,7 +29,7 @@ import {
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import Empty from './Empty'
-// import Loading from './template.loading'
+import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -305,10 +305,9 @@ function TransactionList (props: Props): ReactElement | null {
         </LoadingWrapper>
       )}
     </Container>
+  ) : Remote.Loading.is(head(txPages)) ? (
+    <Loading />
   ) : (
-    // Remote.Loading ? (
-    //   <Loading />
-    // ) :
     <Empty />
   )
 }

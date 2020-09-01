@@ -160,7 +160,10 @@ export const fetchInterestRateSuccess = (
 })
 
 // TRANSACTIONS
-export const fetchInterestTransactions = (reset: boolean, coin?: CoinType) => ({
+export const fetchInterestTransactions = (
+  reset: boolean,
+  coin?: CoinType | 'ALL'
+) => ({
   payload: { reset, coin },
   type: AT.FETCH_INTEREST_TRANSACTIONS
 })

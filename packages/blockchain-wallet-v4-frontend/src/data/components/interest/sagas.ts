@@ -149,7 +149,7 @@ export default ({
   const fetchInterestTransactions = function * ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
-    const { reset } = payload
+    const { reset, coin } = payload
     try {
       const nextPage = yield select(S.getTransactionsNextPage)
       // check if invoked from continuous scroll
@@ -160,7 +160,11 @@ export default ({
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
       // can be undefined
-      const resp = yield call(api.getInterestTransactions, nextPage)
+
+      const resp =
+        coin === 'ALL'
+          ? yield call(api.getInterestTransactions, nextPage)
+          : yield call(api.getInterestTransactions, nextPage, coin)
       yield put(A.fetchInterestTransactionsSuccess(resp.items, reset))
       yield put(A.setTransactionsNextPage(resp.next))
     } catch (e) {
