@@ -35,7 +35,7 @@ class SellBanner extends React.PureComponent<Props> {
         >
           <FormattedHTMLMessage
             id='modals.simplebuy.selectcrypto.sell_banner_description'
-            defaultMessage='Send crypto from your to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.'
+            defaultMessage='Send crypto from your Wallets to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.'
           />
         </Text>
 
