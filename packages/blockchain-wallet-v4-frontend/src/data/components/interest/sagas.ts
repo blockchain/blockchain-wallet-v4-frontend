@@ -8,6 +8,7 @@ import {
   CoinType,
   PaymentValue,
   RatesType,
+  RemoteDataType,
   SBBalancesType
 } from 'core/types'
 import { actions, model, selectors } from 'data'
@@ -332,16 +333,30 @@ export default ({
     const values: InterestDepositFormType = yield select(
       selectors.form.getFormValues('interestDepositForm')
     )
-    if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-      // tbd based on backend
-    } else {
-      try {
-        yield put(actions.form.startSubmit(FORM))
-        const coin = S.getCoinType(yield select())
+    const coin = S.getCoinType(yield select())
+    try {
+      yield put(actions.form.startSubmit(FORM))
+      if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
+        const ratesR = S.getRates(yield select())
+        const userCurrency = (yield select(
+          selectors.core.settings.getCurrency
+        )).getOrFail('Failed to get user currency')
+        const rates = ratesR.getOrElse({} as RatesType)
+        const rate = rates[userCurrency].last
+        const isDisplayed = S.getCoinDisplay(yield select())
+        const transferAmountAbsolute = values.depositAmount
+        const tranferAmountParsed = isDisplayed
+          ? new BigNumber(transferAmountAbsolute).toNumber()
+          : new BigNumber(transferAmountAbsolute).dividedBy(rate).toNumber()
+        // @ts-ignore
+        yield call(api.transferFromCustodial, tranferAmountParsed, coin)
+      } else {
         yield call(fetchInterestAccount, coin)
         const depositAddress = yield select(S.getDepositAddress)
-        const paymentR = S.getPayment(yield select())
-        // @ts-ignore @ANDREW this ignore should be removed too, once we do the check for if custodial
+        const paymentR = S.getPayment(yield select()) as RemoteDataType<
+          string,
+          PaymentValue
+        >
         let payment = paymentGetOrElse(coin, paymentR)
         let isPaymentAmount = payment.value().amount
         let paymentAmount =
@@ -358,25 +373,23 @@ export default ({
         // build and publish payment to network
         yield call(buildAndPublishPayment, coin, payment, depositAddress)
         // notify success
-        yield put(actions.form.stopSubmit(FORM))
-        yield put(
-          A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true })
-        )
-        yield put(
-          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
-        )
-        yield put(A.fetchInterestBalance())
-        yield put(A.fetchInterestTransactions(true))
-      } catch (e) {
-        const error = errorHandler(e)
-        yield put(actions.form.stopSubmit(FORM, { _error: error }))
-        yield put(
-          A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
-        )
-        yield put(
-          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
-        )
       }
+      yield put(actions.form.stopSubmit(FORM))
+      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
+      )
+      yield put(A.fetchInterestBalance())
+      yield put(A.fetchInterestTransactions(true))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit(FORM, { _error: error }))
+      yield put(
+        A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: false, error })
+      )
+      yield put(
+        actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE)
+      )
     }
   }
 

@@ -106,3 +106,8 @@ export type DepositNotificationResponseType = {
     | 'REFUNDED'
   txHash: string
 }
+
+export type CustodialTransferResponseType = {
+  amount: string
+  coin: CoinType
+}

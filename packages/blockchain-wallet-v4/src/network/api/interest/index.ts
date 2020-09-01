@@ -1,5 +1,6 @@
 import { CoinType, FiatType } from 'core/types'
 import {
+  CustodialTransferResponseType,
   DepositNotificationResponseType,
   InterestAccountBalanceType,
   InterestAccountType,
@@ -116,6 +117,20 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const transferFromCustodial = (
+    amount: string,
+    currency: CoinType
+  ): CustodialTransferResponseType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        amount,
+        currency,
+        origin: 'SIMPLEBUY',
+        destination: 'SAVINGS'
+      }
+    })
+
   return {
     getInterestAccountBalance,
     getInterestEligible,
@@ -126,6 +141,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     getInterestTransactions,
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
-    notifyDepositPending
+    notifyDepositPending,
+    transferFromCustodial
   }
 }
