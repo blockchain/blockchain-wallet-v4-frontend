@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Cell = styled.div`
+export const Cell = styled.div<{ center?: boolean; size?: 'small' }>`
   display: flex;
   flex-direction: row;
   align-items: center;

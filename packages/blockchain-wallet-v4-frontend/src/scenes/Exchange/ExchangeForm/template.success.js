@@ -1,13 +1,19 @@
-import { AutosizeTextBox, Form } from 'components/Form'
-import { Banner, Icon, Text } from 'blockchain-info-components'
-import { Wrapper as BorderWrapper, Note } from 'components/Exchange'
-import { Cell, Row } from './Layout'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/ValidationHelper'
 import { head, includes, last } from 'ramda'
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+
+import {
+  AmountTextBox,
+  Wrapper as BorderWrapper,
+  Note
+} from 'components/Exchange'
+import { Banner, Icon, Text } from 'blockchain-info-components'
+import { Cell, Row } from './Layout'
+import { Form } from 'components/Form'
+import { formatTextAmount } from 'services/ValidationHelper'
 import { model } from 'data'
-import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import ComplementaryAmount from './ComplementaryAmount'
 import CurrencySelect from './CurrencySelect'
 import Error from './Error'
@@ -16,8 +22,6 @@ import media from 'services/ResponsiveService'
 import MinMaxButtons from './MinMaxButtons'
 import Notifications from './Notifications'
 import RatesBox from './RatesBox'
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
 
@@ -74,38 +78,6 @@ const AmountRow = styled(Row)`
 `
 const ComplementaryRow = styled(Row)`
   padding: 0 32px;
-`
-
-const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
-  height: 86px;
-  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '50%')};
-  > div {
-    border: none;
-    height: 100%;
-    padding: 0;
-    display: flex !important;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-  }
-  input {
-    outline: 0;
-    position: relative;
-    font-weight: 400;
-    font-size: 62px;
-    line-height: 88px;
-    height: 88px;
-    padding: 0;
-    width: 100%;
-    min-width: 45px;
-    max-width: 100%;
-    border: none;
-    text-align: center;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: ${props => props.theme.grey700};
-    background-color: ${props => props.theme.white};
-  }
 `
 const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;

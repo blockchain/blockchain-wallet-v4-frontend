@@ -26,17 +26,18 @@ class AutosizeTextBox extends React.Component {
   render () {
     const {
       autoComplete,
-      className,
-      meta,
-      input,
-      disabled,
-      placeholder,
-      center,
-      errorBottom,
-      noLastPass,
-      maxLength,
       autoFocus,
-      borderRightNone
+      borderRightNone,
+      center,
+      className,
+      disabled,
+      errorBottom,
+      hideError,
+      input,
+      maxLength,
+      meta,
+      noLastPass,
+      placeholder
     } = this.props
     const { initial, active, touched, error, warning } = meta
     const errorState = getErrorState(meta)
@@ -58,7 +59,7 @@ class AutosizeTextBox extends React.Component {
           maxLength={maxLength}
           data-e2e={this.props['data-e2e']}
         />
-        {touched && error && (
+        {touched && error && !hideError && (
           <Error
             size='12px'
             weight={500}
