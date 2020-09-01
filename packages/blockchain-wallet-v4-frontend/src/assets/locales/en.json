@@ -1152,6 +1152,8 @@
   "modals.simplebuy.rejected.title": "Unable to Verify Your ID",
   "modals.simplebuy.save_my_card": "Save My Card",
   "modals.simplebuy.selectcrypto": "Select the crypto you want to buy.",
+  "modals.simplebuy.selectcrypto.sell_banner_description": "Send crypto from your Wallets to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.",
+  "modals.simplebuy.selectcrypto.sell_banner_title": "Want to sell from your other Wallets?",
   "modals.simplebuy.selectcurrency": "Select Your Currency",
   "modals.simplebuy.setupaccount": "Next, we'll set up your account.",
   "modals.simplebuy.success": "Trade Complete",
