@@ -1205,6 +1205,8 @@ type MessagesType = {
   'modals.simplebuy.instantly_buy': 'Instantly buy crypto with any Visa or Mastercard.'
   'modals.simplebuy.most_popular': 'Most Popular'
   'modals.simplebuy.selectcrypto': 'We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
+  'modals.simplebuy.selectcrypto.sell_banner_title': 'Want to sell from your other Wallets?'
+  'modals.simplebuy.selectcrypto.sell_banner_description': 'Send crypto from your to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.'
   'modals.simplebuy.kycrequired': 'We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
   'modals.simplebuy.kycrequired.verify_identity_description': 'To prevent identity theft or fraud, we’ll need a make sure it’s really you by uploading an ID.'
   'modals.simplebuy.kycrequired.buy_crypto_description': 'Use your Bank, Debit or Credit card to fund any crypto purchase.'
