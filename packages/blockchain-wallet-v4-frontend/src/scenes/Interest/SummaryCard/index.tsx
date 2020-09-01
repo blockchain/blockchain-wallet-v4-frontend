@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
 import { CoinType, InterestRateType, RemoteDataType } from 'core/types'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { SkeletonRectangle } from 'blockchain-info-components'
 
 import { getData } from './selectors'
 import {
@@ -18,11 +18,7 @@ class SummaryCardContainer extends PureComponent<Props> {
   render () {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
-      Failure: () => (
-        <Text size='16px' weight={500}>
-          Oops. Something went wrong. Please refresh and try again.
-        </Text>
-      ),
+      Failure: () => null,
       Loading: () => <SkeletonRectangle width='330px' height='275px' />,
       NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
     })
