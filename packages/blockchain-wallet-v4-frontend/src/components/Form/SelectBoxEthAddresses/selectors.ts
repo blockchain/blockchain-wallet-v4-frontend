@@ -17,6 +17,7 @@ export const getEthData = (
   ownProps: {
     exclude?: Array<string>
     excludeLockbox?: boolean
+    forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
@@ -27,8 +28,10 @@ export const getEthData = (
     excludeLockbox,
     includeExchangeAddress,
     includeCustodial,
-    includeInterest
+    includeInterest,
+    forceCustodialFirst
   } = ownProps
+
   const displayEthFixed = data => {
     const etherAmount = Exchange.convertEtherToEther(data)
     return Exchange.displayEtherToEther({
@@ -101,6 +104,12 @@ export const getEthData = (
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    'ETH',
+    state
+  )
+  const hasAccountAddress = Remote.Success.is(accountAddress)
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
@@ -111,10 +120,10 @@ export const getEthData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
+      includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x.ETH)
+            .map(x => x.ETH && { ...x.ETH, address: accountAddress.data })
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
@@ -132,10 +141,14 @@ export const getEthData = (
             .map(excluded)
             .map(toDropdown)
             .map(toGroup('Lockbox'))
-    ]).map(([b1, b2, b3, b4]) => ({
+    ]).map(([b1, b2, b3, b4, b5]) => {
+      const orderArray = forceCustodialFirst
+        ? [b3, b1, b2, b4, b5]
+        : [b1, b2, b3, b4, b5]
       // @ts-ignore
-      data: reduce(concat, [], [b1, b2, b3, b4])
-    }))
+      const data = reduce(concat, [], orderArray)
+      return { data }
+    })
   }
 
   return getAddressesData()
@@ -146,6 +159,7 @@ export const getErc20Data = (
   ownProps: {
     coin: Erc20CoinType
     exclude?: Array<string>
+    forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
     includeInterest?: boolean
@@ -156,12 +170,14 @@ export const getErc20Data = (
     exclude = [],
     includeExchangeAddress,
     includeCustodial,
-    includeInterest
+    includeInterest,
+    forceCustodialFirst
   } = ownProps
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const supportedCoins = supportedCoinsR.getOrElse(
     {} as SupportedWalletCurrenciesType
   )
+
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
@@ -261,6 +277,12 @@ export const getErc20Data = (
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    coin,
+    state
+  )
+  const hasAccountAddress = Remote.Success.is(accountAddress)
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       selectors.core.common.eth
@@ -269,10 +291,10 @@ export const getErc20Data = (
         .map(toDropdown)
         .map(toGroup('Wallet')),
       Remote.of([]),
-      includeCustodial
+      includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x[coin])
+            .map(x => x[coin] && { ...x[coin], address: accountAddress.data })
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
@@ -286,10 +308,14 @@ export const getErc20Data = (
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => ({
+    ]).map(([b1, b2, b3, b4]) => {
+      const orderArray = forceCustodialFirst
+        ? [b2, b1, b3, b4]
+        : [b1, b2, b3, b4]
       // @ts-ignore
-      data: reduce(concat, [], [b1, b2, b3, b4])
-    }))
+      const data = reduce(concat, [], orderArray)
+      return { data }
+    })
   }
 
   return getAddressesData()
