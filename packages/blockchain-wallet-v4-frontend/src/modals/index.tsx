@@ -72,9 +72,6 @@ const IdentityVerification = React.lazy(() =>
   import('./Exchange/IdentityVerification')
 )
 const KycDocResubmit = React.lazy(() => import('./Exchange/KycDocResubmit'))
-const ShapeshiftTradeDetails = React.lazy(() =>
-  import('./Exchange/ShapeshiftTradeDetails')
-)
 const SwapUpgrade = React.lazy(() => import('./Exchange/SwapUpgrade'))
 const UserExists = React.lazy(() => import('./Exchange/UserExists'))
 
@@ -181,7 +178,6 @@ const Modals = () => (
       <SendBtc />
       <SendEth />
       <SendXlm />
-      <ShapeshiftTradeDetails />
       <ShowBtcPrivateKey />
       <ShowUsedAddresses />
       <SignMessage />

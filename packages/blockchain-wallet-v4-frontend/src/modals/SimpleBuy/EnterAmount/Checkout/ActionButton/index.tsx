@@ -10,7 +10,7 @@ type Props = {
   SuccessStateType
 
 const ActionButton: React.FC<Props> = props => {
-  const disabled = props.invalid || props.submitting || !props.method
+  const disabled = props.invalid || props.submitting
 
   switch (props.userData.kycState) {
     case 'EXPIRED':

@@ -11,6 +11,15 @@ const INITIAL_STATE: SendState = {
     XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     ALGO: Remote.NotAsked
+  },
+  tradingPaymentsAccount: {
+    BTC: Remote.NotAsked,
+    BCH: Remote.NotAsked,
+    ETH: Remote.NotAsked,
+    PAX: Remote.NotAsked,
+    XLM: Remote.NotAsked,
+    USDT: Remote.NotAsked,
+    ALGO: Remote.NotAsked
   }
 }
 
@@ -44,6 +53,36 @@ export function sendReducer (state = INITIAL_STATE, action) {
         ...state,
         exchangePaymentsAccount: {
           ...state.exchangePaymentsAccount,
+          [currency]: Remote.Failure(e)
+        }
+      }
+    }
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS: {
+      const { currency, tradingAccount } = payload
+      return {
+        ...state,
+        tradingPaymentsAccount: {
+          ...state.tradingPaymentsAccount,
+          [currency]: Remote.Success(tradingAccount)
+        }
+      }
+    }
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_LOADING: {
+      const { currency } = payload
+      return {
+        ...state,
+        tradingPaymentsAccount: {
+          ...state.tradingPaymentsAccount,
+          [currency]: Remote.Loading
+        }
+      }
+    }
+    case AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE: {
+      const { currency, e } = payload
+      return {
+        ...state,
+        tradingPaymentsAccount: {
+          ...state.tradingPaymentsAccount,
           [currency]: Remote.Failure(e)
         }
       }

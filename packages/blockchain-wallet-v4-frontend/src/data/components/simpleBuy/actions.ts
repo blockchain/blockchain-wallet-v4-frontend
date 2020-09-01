@@ -19,6 +19,7 @@ import {
 } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
 import {
+  SBFixType,
   SBShowModalOriginType,
   SimpleBuyActionTypes,
   StepActionsPayload
@@ -73,11 +74,11 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 })
 
 export const createSBOrder = (
-  paymentMethodId?: SBCardType['id'],
-  paymentType?: Exclude<
+  paymentType: Exclude<
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
-  >
+  >,
+  paymentMethodId?: SBCardType['id']
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
@@ -381,11 +382,13 @@ export const initializeBillingAddress = () => ({
 export const initializeCheckout = (
   pairs: Array<SBPairType>,
   orderType: SBOrderActionType,
+  fix: SBFixType,
   pair?: SBPairType,
   amount?: string
 ) => ({
   type: AT.INITIALIZE_CHECKOUT,
   amount,
+  fix,
   orderType,
   pair,
   pairs
@@ -464,5 +467,18 @@ export const showModal = (
   payload: {
     origin,
     cryptoCurrency
+  }
+})
+
+export const switchFix = (
+  amount: string,
+  orderType: SBOrderActionType,
+  fix: SBFixType
+) => ({
+  type: AT.SWITCH_FIX,
+  payload: {
+    amount,
+    orderType,
+    fix
   }
 })

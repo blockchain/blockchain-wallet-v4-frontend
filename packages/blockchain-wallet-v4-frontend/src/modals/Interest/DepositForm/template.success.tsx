@@ -165,8 +165,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             color='grey600'
           />
           <FormattedMessage
-            id='modals.interest.deposit.title'
-            defaultMessage='Deposit {displayName}'
+            id='modals.interest.deposit.title_transfer'
+            defaultMessage='Transfer {displayName}'
             values={{ displayName }}
           />
         </TopText>
@@ -178,8 +178,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             style={{ margin: '18px 0 8px 0', lineHeight: '1.5' }}
           >
             <FormattedMessage
-              id='modals.interest.deposit.subheader'
-              defaultMessage='Deposit {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
+              id='modals.interest.deposit.subheader_transfer'
+              defaultMessage='Transfer {displayName} to your Interest Account and earn up to {rate}% interest annually on your crypto.'
               values={{
                 displayName,
                 rate: interestRate[coin]
@@ -188,8 +188,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             {!insufficientEth && (
               <>
                 <FormattedMessage
-                  id='modals.interest.deposit.youcandeposit'
-                  defaultMessage='You can deposit up to'
+                  id='modals.interest.deposit.youcantransfer'
+                  defaultMessage='You can transfer up to'
                   values={{
                     coin: coinTicker
                   }}
@@ -252,8 +252,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
-              id='modals.interest.deposit.amount'
-              defaultMessage='Enter deposit amount'
+              id='modals.interest.deposit.transferamount'
+              defaultMessage='Enter transfer amount'
             />{' '}
           </Text>
           <ToggleCoinFiat>
@@ -306,8 +306,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             <Text size='14px' weight={500} color='red600'>
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.max'
-                  defaultMessage='Maximum deposit: {maxFiat}'
+                  id='modals.interest.deposit.maxtransfer'
+                  defaultMessage='Maximum transfer: {maxFiat}'
                   values={{
                     maxFiat: displayCoin
                       ? depositLimits.maxCoin
@@ -319,8 +319,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               ) : (
                 <FormattedMessage
-                  id='modals.interest.deposit.min'
-                  defaultMessage='Minimum deposit: {minFiat}'
+                  id='modals.interest.deposit.mintransfer'
+                  defaultMessage='Minimum transfer: {minFiat}'
                   values={{
                     minFiat: displayCoin
                       ? depositLimits.minCoin
@@ -355,13 +355,13 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             >
               {amtError === 'ABOVE_MAX' ? (
                 <FormattedMessage
-                  id='modals.interest.deposit.max.button'
-                  defaultMessage='Deposit Max'
+                  id='modals.interest.deposit.maxtransfer.button'
+                  defaultMessage='Transfer Max'
                 />
               ) : (
                 <FormattedMessage
-                  id='modals.interest.deposit.min.button'
-                  defaultMessage='Deposit Min'
+                  id='modals.interest.deposit.mintransfer.button'
+                  defaultMessage='Transfer Min'
                 />
               )}
             </GreyBlueCartridge>
@@ -611,8 +611,8 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           >
             <Text size='16px' weight={600} color='white'>
               <FormattedMessage
-                id='modals.interest.deposit.confirm'
-                defaultMessage='Confirm Deposit'
+                id='modals.interest.deposit.confirmtransfer'
+                defaultMessage='Confirm Transfer'
               />
             </Text>
           </Button>

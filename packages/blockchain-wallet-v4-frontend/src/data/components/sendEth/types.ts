@@ -1,8 +1,10 @@
-import { Erc20CoinType, EthPaymentType, RemoteDataType } from 'core/types'
 import {
-  EthAccountFromType,
-  EthCustodialFromType
-} from 'core/redux/payment/eth/types'
+  CustodialFromType,
+  Erc20CoinType,
+  EthPaymentType,
+  RemoteDataType
+} from 'core/types'
+import { EthAccountFromType } from 'core/redux/payment/eth/types'
 
 export type SendEthState = {
   feeToggled: boolean
@@ -46,13 +48,13 @@ export type SendEthFormFromActionType = ISendEthFormChangeActionType & {
   meta: {
     field: 'from'
   }
-  payload: EthAccountFromType | EthCustodialFromType
+  payload: EthAccountFromType | CustodialFromType
 }
 export type SendEthFormToActionType = ISendEthFormChangeActionType & {
   meta: {
     field: 'to'
   }
-  payload: { value: { value: EthAccountFromType | EthCustodialFromType } }
+  payload: { value: { value: EthAccountFromType | CustodialFromType } }
 }
 
 export type SendEthFormActionType =

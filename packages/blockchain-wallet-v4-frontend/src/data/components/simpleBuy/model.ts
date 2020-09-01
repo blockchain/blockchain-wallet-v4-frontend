@@ -13,15 +13,22 @@ import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'
 import moment from 'moment'
 
-export const DEFAULT_SB_BALANCE = { pending: '0', available: '0' }
+export const DEFAULT_SB_BALANCE = {
+  pending: '0',
+  available: '0',
+  withdrawable: '0'
+}
 export const DEFAULT_SB_BALANCES = {}
 export const DEFAULT_SB_METHODS = {
   currency: 'EUR' as WalletFiatType,
   methods: []
 }
 
+export const WITHDRAWAL_LOCK_TIME_DAYS = '7'
+
 export const NO_CHECKOUT_VALS = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
+export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
@@ -122,7 +129,7 @@ export const getNextCardExists = (
   })
 }
 
-export const getValidPaymentMethod = (method: SBPaymentTypes | undefined) => {
+export const getValidPaymentMethod = (method: SBPaymentTypes) => {
   if (method === 'USER_CARD') return 'PAYMENT_CARD'
   if (method === 'BANK_ACCOUNT') return 'FUNDS'
 

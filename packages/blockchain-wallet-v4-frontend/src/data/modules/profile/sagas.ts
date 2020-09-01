@@ -395,7 +395,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const linkFromExchangeAccount = function * ({ payload }) {
     try {
-      const { linkId } = payload
+      const { linkId, email, address } = payload
       yield put(A.linkFromExchangeAccountLoading())
       // ensure email is verified else wait
       const isEmailVerified = (yield select(
@@ -407,10 +407,12 @@ export default ({ api, coreSagas, networks }) => {
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
       if (isUserStateNone) yield call(createUser)
       // link Account
-      const data = yield call(api.linkAccount, linkId)
+      const data = yield call(api.linkAccount, linkId, email, address)
       // share addresses
       yield put(A.shareWalletAddressesWithExchange())
       yield put(A.linkFromExchangeAccountSuccess(data))
+      // finalise linking
+      yield call(api.finaliseLinking)
       // update user
       yield call(fetchUser)
     } catch (e) {

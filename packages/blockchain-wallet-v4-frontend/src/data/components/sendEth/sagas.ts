@@ -31,6 +31,7 @@ import {
   Erc20ListEnum,
   EthPaymentType
 } from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { EthAccountFromType } from 'core/redux/payment/eth/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
@@ -174,15 +175,9 @@ export default ({
               payment = yield payment.from(
                 source,
                 fromPayload.type,
-                fromPayload.available
+                fromPayload.withdrawable
               )
               yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
-              payment = yield call(
-                setAmount,
-                fromPayload.available,
-                coin,
-                payment
-              )
               yield put(change(FORM, 'to', null))
               break
           }
@@ -407,6 +402,8 @@ export default ({
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
+      // Set errors
+      const error = errorHandler(e)
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -429,11 +426,19 @@ export default ({
               : e
           ])
         )
-        yield put(
-          actions.alerts.displayError(C.SEND_COIN_ERROR, {
-            coinName: coinModel.displayName
-          })
-        )
+        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+          if (error === 'Pending withdrawal locks') {
+            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+          } else {
+            yield put(actions.alerts.displayError(error))
+          }
+        } else {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: coinModel.displayName
+            })
+          )
+        }
       }
     }
   }
