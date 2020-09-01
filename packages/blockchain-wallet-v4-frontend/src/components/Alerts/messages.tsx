@@ -1157,6 +1157,13 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to remove Lockbox.'
         />
       )
+    case C.LOCKED_WITHDRAW_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='copy.error.locked_withdraw_error'
+          defaultMessage='Your crypto will be available to be withdrawn within 7 days.'
+        />
+      )
     default:
       return buildMessageTemplate(
         message || (

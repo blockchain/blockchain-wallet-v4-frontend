@@ -12,19 +12,21 @@ const INITIAL_STATE = {
 const updateTrade = (id, tradeData) =>
   map(ifElse(propEq('id', id), always(tradeData), identity))
 
-export default (state = INITIAL_STATE, action) => {
+export function exchangeHistoryReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {
     case AT.FETCH_TRADES_LOADING: {
       return compose(
         assoc('loadingNextPage', true),
+        // @ts-ignore
         assoc('error', null)
       )(state)
     }
     case AT.FETCH_TRADES_SUCCESS: {
       return compose(
         assoc('loadingNextPage', false),
+        // @ts-ignore
         assoc('error', null),
         assoc('trades', Remote.of(payload.trades))
       )(state)
@@ -32,6 +34,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_TRADES_ERROR: {
       return compose(
         assoc('error', payload.error),
+        // @ts-ignore
         assoc('loadingNextPage', false)
       )(state)
     }

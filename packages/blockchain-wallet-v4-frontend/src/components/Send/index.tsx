@@ -1,8 +1,14 @@
 import { Banner } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
-import { CoinType } from 'core/types'
+import { CoinType, CustodialFromType } from 'core/types'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from 'data/components/exchange/services'
 import { FormattedMessage } from 'react-intl'
 import { FormGroup, FormLabel } from 'components/Form'
+import { WITHDRAWAL_LOCK_TIME_DAYS } from 'data/components/simpleBuy/model'
+import BigNumber from 'bignumber.js'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import styled, { css } from 'styled-components'
@@ -86,14 +92,67 @@ const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
 
-export const CustodyToAccountMessage = ({ coin }: { coin: CoinType }) => {
-  return (
-    <CustomBlueCartridge>
-      <FormattedMessage
-        id='modals.send.firststep.fromcustody1'
-        defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
-        values={{ coin }}
-      />
-    </CustomBlueCartridge>
+export const CustodyToAccountMessage = ({
+  account,
+  amount,
+  coin
+}: {
+  account: CustodialFromType
+  amount?: {
+    coin: string
+    coinCode: CoinType
+    fiat: string
+  }
+  coin: CoinType
+}) => {
+  const baseAmt = amount ? convertStandardToBase(coin, amount.coin) : 0
+  const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo(
+    '0'
   )
+  const isWithdrawableNone = new BigNumber(
+    account.withdrawable
+  ).isLessThanOrEqualTo('0')
+  const isAmtGreaterThanWithdrawable = new BigNumber(baseAmt).isGreaterThan(
+    account.withdrawable
+  )
+
+  const lockTime = WITHDRAWAL_LOCK_TIME_DAYS
+
+  switch (true) {
+    // all funds are 'locked'
+    case isWithdrawableNone && !isAvailableNone:
+      return (
+        <CustomBlueCartridge>
+          <FormattedMessage
+            id='modals.send.firststep.available_in_x_days'
+            defaultMessage='Your {coin} will be available to be withdrawn within {lockTime} days.'
+            values={{ coin, lockTime }}
+          />
+        </CustomBlueCartridge>
+      )
+    case isAmtGreaterThanWithdrawable && !isWithdrawableNone:
+      return (
+        <CustomBlueCartridge>
+          <FormattedMessage
+            id='modals.send.firststep.amt_greater_than_custody_withdraw'
+            defaultMessage='Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.'
+            values={{
+              coin,
+              lockTime,
+              withdrawable: convertBaseToStandard(coin, account.withdrawable)
+            }}
+          />
+        </CustomBlueCartridge>
+      )
+    default:
+      return (
+        <CustomBlueCartridge>
+          <FormattedMessage
+            id='modals.send.firststep.fromcustody1'
+            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
+            values={{ coin }}
+          />
+        </CustomBlueCartridge>
+      )
+  }
 }

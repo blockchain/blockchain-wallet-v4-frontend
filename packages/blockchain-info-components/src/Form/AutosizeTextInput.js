@@ -37,7 +37,7 @@ const BaseTextInput = styled(AutosizeInput).attrs({
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${props => props.theme.grey600};
     font-size: 14px;
     font-weight: 500;
   }

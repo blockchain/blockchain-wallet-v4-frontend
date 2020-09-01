@@ -1,5 +1,6 @@
 import { borrowReducer } from './borrow/reducers'
 import { combineReducers } from 'redux'
+import { exchangeHistoryReducer } from './exchangeHistory/reducers'
 import { exchangeReducer } from './exchange/reducers'
 import { identityVerificationReducer } from './identityVerification/reducers'
 import { interestReducer } from './interest/reducers'
@@ -11,7 +12,6 @@ import { sendReducer } from './send/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import { withdrawReducer } from './withdraw/reducers'
-import exchangeHistory from './exchangeHistory/reducers'
 import layoutWallet from './layoutWallet/reducers'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
@@ -24,7 +24,7 @@ import veriff from './veriff/reducers'
 const componentReducer = combineReducers({
   borrow: borrowReducer,
   exchange: exchangeReducer,
-  exchangeHistory,
+  exchangeHistory: exchangeHistoryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,

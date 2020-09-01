@@ -26,27 +26,13 @@ class FirstStep extends React.Component {
     return data.cata({
       Success: value => (
         <Success
+          {...value}
           autofilled={!!(amount && to)}
-          destination={value.destination}
-          effectiveBalance={value.effectiveBalance}
-          enableToggle={value.enableToggle}
-          excludeLockbox={value.excludeLockbox}
           excludeHDWallets={excludeHDWallets}
-          feePerByte={value.feePerByte}
-          feePerByteElements={value.feePerByteElements}
-          feePerByteToggled={value.feePerByteToggled}
-          from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
-          isMnemonicVerified={value.isMnemonicVerified}
-          maxFeePerByte={value.maxFeePerByte}
-          minFeePerByte={value.minFeePerByte}
-          network={value.network}
           onSubmit={actions.sendBtcFirstStepSubmitClicked}
           payPro={payPro}
-          priorityFeePerByte={value.priorityFeePerByte}
-          regularFeePerByte={value.regularFeePerByte}
-          totalFee={value.totalFee}
         />
       ),
       Failure: message => (

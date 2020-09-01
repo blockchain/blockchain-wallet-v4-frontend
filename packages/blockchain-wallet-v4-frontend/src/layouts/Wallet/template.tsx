@@ -6,7 +6,7 @@ import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import media from 'services/ResponsiveService'
-import Modals from 'modals'
+import Modals from '../../modals'
 import Tooltips from 'components/Tooltips'
 import ZendeskWidget from 'components/ZendeskWidget'
 
@@ -60,7 +60,7 @@ const WalletLayout = props => {
           <Announcements type='static' />
         </Nav>
         <Container>
-          <MenuLeft location={location} />
+          <MenuLeft />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Page>{children}</Page>
           </Content>

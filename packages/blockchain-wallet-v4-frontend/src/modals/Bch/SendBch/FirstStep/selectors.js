@@ -4,6 +4,16 @@ import { path, prop } from 'ramda'
 import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
+  const amount = formValueSelector(model.components.sendBch.FORM)(
+    state,
+    'amount'
+  )
+  const destination = formValueSelector(model.components.sendBch.FORM)(
+    state,
+    'to'
+  )
+  const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
+
   const paymentR = selectors.components.sendBch.getPayment(state)
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
@@ -21,13 +31,9 @@ export const getData = state => {
     const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
     const totalFee = path(['selection', 'fee'], payment)
     const effectiveBalance = prop('effectiveBalance', payment)
-    const destination = formValueSelector(model.components.sendBch.FORM)(
-      state,
-      'to'
-    )
-    const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
 
     return {
+      amount,
       destination,
       effectiveBalance,
       excludeLockbox,

@@ -15,17 +15,11 @@ class FirstStep extends React.Component {
     return data.cata({
       Success: value => (
         <Success
-          destination={value.destination}
-          effectiveBalance={value.effectiveBalance}
+          {...value}
           excludeHDWallets={excludeHDWallets}
-          excludeLockbox={value.excludeLockbox}
-          from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
-          isMnemonicVerified={value.isMnemonicVerified}
-          network={value.network}
           onSubmit={actions.sendBchFirstStepSubmitClicked}
           payPro={payPro}
-          totalFee={value.totalFee}
         />
       ),
       Failure: message => <Error>{message}</Error>,

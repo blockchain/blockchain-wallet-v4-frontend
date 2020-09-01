@@ -44,8 +44,8 @@ const InterestHeader = () => {
       </SceneHeader>
       <SceneSubHeaderText>
         <FormattedMessage
-          id='scenes.interest.subheader'
-          defaultMessage='Deposit crypto and watch it grow.'
+          id='scenes.interest.subheader_store'
+          defaultMessage='Store crypto and watch it grow.'
         />
         <LearnMoreLink
           href='https://support.blockchain.com/hc/en-us/categories/360003244552-Interest-Account'

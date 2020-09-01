@@ -1,4 +1,4 @@
-import { difference, has, propOr, values } from 'ramda'
+import { difference, propOr, values } from 'ramda'
 
 import { splitPair } from 'data/modules/rates/model'
 
@@ -29,8 +29,6 @@ export const COMPLETE_STATES = [
 
 export const INCOMPLETE_STATES = difference(values(STATES), COMPLETE_STATES)
 
-export const isShapeShiftTrade = has('status')
-
 export const formatExchangeTrade = ({
   id,
   state,
@@ -45,18 +43,18 @@ export const formatExchangeTrade = ({
 }) => {
   const [sourceCoin, targetCoin] = splitPair(pair)
   return {
-    id,
-    status: state,
-    date: createdAt,
-    sourceCoin,
-    targetCoin,
-    depositAmount: propOr('', 'value', deposit),
-    withdrawalAmount: propOr(0, 'value', withdrawal),
-    targetFiat: propOr('', 'value', fiatValue),
     currency: propOr('', 'symbol', fiatValue),
+    date: createdAt,
+    depositAmount: propOr('', 'value', deposit),
     fee: propOr('', 'value', withdrawalFee),
+    id,
+    origin: 'ExchangeHistory',
     rate,
     refundAmount,
-    isShapeShiftTrade: false
+    sourceCoin,
+    status: state,
+    targetCoin,
+    targetFiat: propOr('', 'value', fiatValue),
+    withdrawalAmount: propOr(0, 'value', withdrawal)
   }
 }

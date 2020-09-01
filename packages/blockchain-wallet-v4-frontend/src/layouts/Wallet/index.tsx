@@ -1,11 +1,12 @@
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 import React from 'react'
 
+import { CoinType } from 'core/types'
 import { selectors } from 'data'
 import WalletLayout from './template'
 
-class WalletLayoutContainer extends React.PureComponent {
+class WalletLayoutContainer extends React.PureComponent<Props> {
   render () {
     const {
       isAuthenticated,
@@ -34,4 +35,15 @@ const mapStateToProps = state => ({
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
-export default connect(mapStateToProps)(WalletLayoutContainer)
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector> & {
+  coin?: CoinType
+  component: React.ComponentType<any>
+  computedMatch?: any
+  exact?: boolean
+  isCoinErc20?: boolean
+  path: string
+}
+
+export default connector(WalletLayoutContainer)

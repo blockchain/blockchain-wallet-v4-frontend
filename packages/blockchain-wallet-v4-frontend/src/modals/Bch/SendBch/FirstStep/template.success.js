@@ -63,6 +63,7 @@ const ImageInInputContainer = styled.div`
 
 const FirstStep = props => {
   const {
+    amount,
     excludeHDWallets,
     excludeLockbox,
     from,
@@ -168,6 +169,8 @@ const FirstStep = props => {
                   includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  includeCustodial={!isFromCustody}
+                  forceCustodialFirst={!isFromCustody}
                   name='to'
                   noOptionsMessage={() => null}
                   openMenuOnClick={!!isFromCustody}
@@ -196,7 +199,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         {isFromCustody && isMnemonicVerified ? (
-          <CustodyToAccountMessage coin='BCH' />
+          <CustodyToAccountMessage coin='BCH' account={from} amount={amount} />
         ) : (
           <ExchangePromo />
         )}
@@ -218,7 +221,7 @@ const FirstStep = props => {
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
-            disabled={isPayPro || isFromCustody}
+            disabled={isPayPro}
           />
         </FormItem>
       </FormGroup>

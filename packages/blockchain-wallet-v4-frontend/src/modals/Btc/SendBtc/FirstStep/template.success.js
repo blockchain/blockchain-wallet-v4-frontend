@@ -94,6 +94,7 @@ const FirstStep = props => {
   } = props
 
   const {
+    amount,
     autofilled,
     excludeHDWallets,
     excludeLockbox,
@@ -119,7 +120,7 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -134,7 +135,7 @@ const FirstStep = props => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel htmlFor='from'>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
@@ -189,7 +190,7 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {!isPayPro ? (
-              <React.Fragment>
+              <>
                 <Field
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
@@ -199,6 +200,8 @@ const FirstStep = props => {
                   includeExchangeAddress={!isFromCustody}
                   isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  includeCustodial={!isFromCustody}
+                  forceCustodialFirst={!isFromCustody}
                   name='to'
                   openMenuOnClick={!!isFromCustody}
                   noOptionsMessage={() => null}
@@ -213,7 +216,7 @@ const FirstStep = props => {
                     border={['top', 'bottom', 'right', 'left']}
                   />
                 )}
-              </React.Fragment>
+              </>
             ) : (
               <Field
                 name='to'
@@ -227,7 +230,7 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         {isFromCustody && isMnemonicVerified ? (
-          <CustodyToAccountMessage coin='BTC' />
+          <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
         ) : (
           <ExchangePromo />
         )}
@@ -249,7 +252,7 @@ const FirstStep = props => {
             ]}
             coin='BTC'
             data-e2e='sendBtc'
-            disabled={isPayPro || isFromCustody}
+            disabled={isPayPro}
             marginTop='8px'
           />
         </FormItem>
@@ -275,7 +278,7 @@ const FirstStep = props => {
               data-e2e='sendBtcDescription'
             />
           ) : (
-            <React.Fragment>
+            <>
               <CustomMerchantInput
                 name='description'
                 component={TextBox}
@@ -286,13 +289,13 @@ const FirstStep = props => {
               <ImageInInputContainer>
                 <Image name='bitpay-logo' height='24px' />
               </ImageInInputContainer>
-            </React.Fragment>
+            </>
           )}
         </FormItem>
       </FormGroup>
       {!isPayPro ? (
         isFromCustody ? null : (
-          <React.Fragment>
+          <>
             <FeeFormGroup inline margin={'10px'}>
               <ColLeft>
                 <FeeFormContainer toggled={feePerByteToggled}>
@@ -368,7 +371,7 @@ const FirstStep = props => {
                 </Text>
               </CustomFeeAlertBanner>
             )}
-          </React.Fragment>
+          </>
         )
       ) : (
         <FeeFormGroup margin={'10px'}>

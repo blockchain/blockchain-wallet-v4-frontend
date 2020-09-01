@@ -174,7 +174,7 @@ export class WalletBalanceDropdown extends Component<Props> {
         priceChangeFiat: 0,
         price24H: { change: '0', movement: 'none', price: 1 },
         priceChangePercentage: 0,
-        sbBalance: { available: '0', pending: '0' }
+        sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       }).balanceData
     } else if (selectProps.value) {
       // Account balance
@@ -217,24 +217,24 @@ export class WalletBalanceDropdown extends Component<Props> {
       priceChangeFiat: 0,
       price24H: { change: '0', movement: 'none', price: 1 },
       priceChangePercentage: 0,
-      sbBalance: { available: '0', pending: '0' }
+      sbBalance: { available: '0', pending: '0', withdrawable: '0' }
     })
 
     return (
       <DisplayContainer coinType={coinCode}>
         <AccountContainer>
           {children && children.length && children[1]}
-          <Text weight={500} color="grey400">
+          <Text weight={500} color='grey400'>
             {account}{' '}
-            <FormattedMessage id="copy.balance" defaultMessage="Balance" />
+            <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
           <AmountContainer>
             <FiatDisplay
               coin={this.props.coin}
-              size="24px"
+              size='24px'
               weight={500}
-              cursor="pointer"
-              color="grey800"
+              cursor='pointer'
+              color='grey800'
             >
               {balance}
             </FiatDisplay>
@@ -246,28 +246,28 @@ export class WalletBalanceDropdown extends Component<Props> {
               <PriceChange {...unsafe_data}>
                 {' '}
                 <FormattedMessage
-                  id="scenes.transactions.performance.prices.day"
-                  defaultMessage="today"
+                  id='scenes.transactions.performance.prices.day'
+                  defaultMessage='today'
                 />
               </PriceChange>
             ) : (
               <Text
-                size="14px"
+                size='14px'
                 weight={500}
-                color="blue600"
+                color='blue600'
                 onClick={this.handleRequest}
-                lineHeight="18px"
+                lineHeight='18px'
               >
                 <FormattedMessage
-                  id="scenes.transactions.performance.request"
-                  defaultMessage="Request {coinTicker} Now"
+                  id='scenes.transactions.performance.request'
+                  defaultMessage='Request {coinTicker} Now'
                   values={{ coinTicker }}
                 />
               </Text>
             )
           ) : (
-            <Text size="14px" color="grey600" weight={500}>
-              <FormattedMessage id="copy.pending" defaultMessage="Pending" />
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage id='copy.pending' defaultMessage='Pending' />
               {': '}
               {fiatToString({
                 value: convertBaseToStandard(
@@ -293,22 +293,22 @@ export class WalletBalanceDropdown extends Component<Props> {
         <Icon
           color={coinType.colorCode}
           name={coinType.icons.circleFilled}
-          size="32px"
+          size='32px'
         />
         <AccountContainer isItem>
-          <Text weight={500} color="grey400" size="14px">
+          <Text weight={500} color='grey400' size='14px'>
             {account}{' '}
             {this.isTotalBalanceType(props) && (
-              <FormattedMessage id="copy.balance" defaultMessage="Balance" />
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             )}
           </Text>
           <AmountContainer isItem>
             <CoinDisplay
               coin={this.props.coin}
-              size="12px"
+              size='12px'
               weight={500}
-              cursor="pointer"
-              color="grey800"
+              cursor='pointer'
+              color='grey800'
             >
               {balance}
             </CoinDisplay>
@@ -317,10 +317,10 @@ export class WalletBalanceDropdown extends Component<Props> {
               (
               <FiatDisplay
                 coin={this.props.coin}
-                size="12px"
+                size='12px'
                 weight={500}
-                color="grey400"
-                cursor="pointer"
+                color='grey400'
+                cursor='pointer'
               >
                 {balance}
               </FiatDisplay>
@@ -332,7 +332,7 @@ export class WalletBalanceDropdown extends Component<Props> {
     )
   }
 
-  render() {
+  render () {
     return this.props.data.cata({
       Success: values => {
         const { addressData } = values
@@ -346,7 +346,7 @@ export class WalletBalanceDropdown extends Component<Props> {
               hideIndicator={!this.hasBalanceOrAccounts(options)}
               openMenuOnClick={this.hasBalanceOrAccounts(options)}
               options={options}
-              name="source"
+              name='source'
               searchEnabled={false}
               templateDisplay={this.renderDisplay}
               templateItem={this.renderItem}
