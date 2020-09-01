@@ -152,8 +152,9 @@ export const getHeaderExplainer = (coinModel: SupportedWalletCurrencyType) => {
         </ExplainerText>
       )
     }
-    case 'GBP':
     case 'EUR':
+    case 'GBP':
+    case 'USD':
       return (
         <ExplainerText>
           <FormattedMessage

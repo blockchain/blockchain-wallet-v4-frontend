@@ -38,6 +38,7 @@ export const getRatesSelector = (
   switch (coin) {
     case 'EUR':
     case 'GBP':
+    case 'USD':
     case 'BTC':
       return selectors.data.btc.getRates(state)
     case 'BCH':

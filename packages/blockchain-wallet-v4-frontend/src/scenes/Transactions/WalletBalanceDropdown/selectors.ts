@@ -88,6 +88,7 @@ export const getData = (state, ownProps: OwnProps) => {
       break
     case 'EUR':
     case 'GBP':
+    case 'USD':
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = balanceSelectors.getFiatBalance(coin, state)
       coinRatesR = selectors.core.data.btc.getRates(state)

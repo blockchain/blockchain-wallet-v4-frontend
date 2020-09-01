@@ -149,11 +149,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method => method.value.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     const bankAccount = defaultMethods.find(
-      method =>
-        method.value.type === 'BANK_ACCOUNT' &&
-        // TODO: simple buy USD
-        method.value.currency !== 'USD' &&
-        orderType === 'BUY'
+      method => method.value.type === 'BANK_ACCOUNT' && orderType === 'BUY'
     )
 
     const cardMethods = availableCards.map(card => ({

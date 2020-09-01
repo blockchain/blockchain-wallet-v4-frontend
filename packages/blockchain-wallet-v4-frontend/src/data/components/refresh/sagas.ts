@@ -53,6 +53,9 @@ export default () => {
         case contains('/gbp/transactions', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('GBP', true))
           break
+        case contains('/usd/transactions', pathname):
+          yield put(actions.core.data.fiat.fetchTransactions('USD', true))
+          break
         case contains('/lockbox/', pathname):
           yield put(
             actions.components.lockbox.initializeDashboard(
