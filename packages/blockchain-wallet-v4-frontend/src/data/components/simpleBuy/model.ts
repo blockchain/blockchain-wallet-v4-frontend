@@ -129,7 +129,7 @@ export const getNextCardExists = (
   })
 }
 
-export const getValidPaymentMethod = (method: SBPaymentTypes | undefined) => {
+export const getValidPaymentMethod = (method: SBPaymentTypes) => {
   if (method === 'USER_CARD') return 'PAYMENT_CARD'
   if (method === 'BANK_ACCOUNT') return 'FUNDS'
 

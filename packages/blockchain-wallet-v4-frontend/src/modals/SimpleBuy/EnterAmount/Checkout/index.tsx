@@ -47,8 +47,7 @@ class Checkout extends PureComponent<Props> {
       })
     } else if (userData.tiers.current < 2) {
       this.props.simpleBuyActions.createSBOrder(
-        undefined,
-        getValidPaymentMethod(method?.type)
+        getValidPaymentMethod(method.type)
       )
     } else if (formValues && method) {
       switch (method.type) {
@@ -58,10 +57,10 @@ class Checkout extends PureComponent<Props> {
           })
           break
         case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder(method.id)
+          this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD', method.id)
           break
         case 'FUNDS':
-          this.props.simpleBuyActions.createSBOrder(undefined, 'FUNDS')
+          this.props.simpleBuyActions.createSBOrder('FUNDS')
           break
         case 'BANK_ACCOUNT':
           break

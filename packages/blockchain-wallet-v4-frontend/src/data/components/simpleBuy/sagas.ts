@@ -628,7 +628,7 @@ export default ({
           // return yield put(A.createSBOrder(undefined, methodType))
           // 👆------------------------------------------------------
 
-          return yield put(A.createSBOrder(undefined, method.type))
+          return yield put(A.createSBOrder(method.type))
         default:
           return
       }
@@ -785,7 +785,7 @@ export default ({
         if (order && order.state === 'PENDING_CONFIRMATION') {
           return yield put(A.confirmSBCreditCardOrder(card.id))
         } else {
-          return yield put(A.createSBOrder(card.id))
+          return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
         }
       default:
         yield call(pollSBCardErrorHandler, card.state)

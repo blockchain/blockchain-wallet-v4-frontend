@@ -74,11 +74,11 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 })
 
 export const createSBOrder = (
-  paymentMethodId?: SBCardType['id'],
-  paymentType?: Exclude<
+  paymentType: Exclude<
     SBPaymentMethodType['type'],
     'USER_CARD' | 'BANK_ACCOUNT'
-  >
+  >,
+  paymentMethodId?: SBCardType['id']
 ) => ({
   type: AT.CREATE_ORDER,
   paymentMethodId,
