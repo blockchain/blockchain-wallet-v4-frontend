@@ -68,6 +68,8 @@ export const getDefaultPaymentMethod = (state: RootState) => {
             )
             const card = sbCard?.card || undefined
 
+            if (!card) return undefined
+
             return {
               ...method,
               ...sbCard,

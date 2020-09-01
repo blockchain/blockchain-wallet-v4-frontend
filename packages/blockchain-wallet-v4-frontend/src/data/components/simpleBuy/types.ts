@@ -293,7 +293,7 @@ export type StepActionsPayload =
       method?: SBPaymentMethodType
       order?: SBOrderType
       orderType?: SBOrderActionType
-      pair?: SBPairType
+      pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {

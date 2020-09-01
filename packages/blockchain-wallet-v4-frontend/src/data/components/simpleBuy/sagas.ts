@@ -654,10 +654,11 @@ export default ({
         yield put(
           A.setStep({
             step: 'ENTER_AMOUNT',
-            orderType: values?.orderType,
-            method,
             cryptoCurrency,
-            fiatCurrency
+            fiatCurrency,
+            method,
+            orderType: values?.orderType,
+            pair
           })
         )
     }
@@ -849,6 +850,13 @@ export default ({
       )
     } else if (cryptoCurrency) {
       yield put(
+        // 🚨 SPECIAL TS-IGNORE
+        // Usually ENTER_AMOUNT should require a pair but
+        // here we do not require a pair. Instead we have
+        // cryptoCurrency and fiatCurrency and
+        // INITIALIZE_CHECKOUT will set the pair on state.
+        // 🚨 SPECIAL TS-IGNORE
+        // @ts-ignore
         A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
       )
     } else {
