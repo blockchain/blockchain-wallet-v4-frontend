@@ -73,14 +73,6 @@ export const getData = (
     includeCustodial,
     forceCustodialFirst
   } = ownProps
-  const accountAddressR = selectors.components.send.getPaymentsTradingAccountAddress(
-    'BCH',
-    state
-  )
-  const hasAccountAddress = Remote.Success.is(accountAddressR)
-  const accountAddress = hasAccountAddress
-    ? accountAddressR.data
-    : Remote.of('')
 
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
@@ -126,7 +118,6 @@ export const getData = (
       label: buildCustodialDisplay(x),
       value: {
         ...x,
-        address: accountAddress,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BCH Trading Wallet'
       }
@@ -138,6 +129,12 @@ export const getData = (
     state
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
+
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    'BCH',
+    state
+  )
+  const hasAccountAddress = Remote.Success.is(accountAddress)
 
   const formatAddress = addressData => {
     const formattedAddress = {}
@@ -184,10 +181,10 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
+      includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x.BCH)
+            .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
