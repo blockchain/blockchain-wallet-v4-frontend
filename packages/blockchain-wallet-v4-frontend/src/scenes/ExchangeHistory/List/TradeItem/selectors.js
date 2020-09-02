@@ -1,31 +1,5 @@
-import { getCoinFromPair } from 'services/ShapeshiftService'
-import { ifElse } from 'ramda'
 import { model } from 'data'
 
-const {
-  formatExchangeTrade,
-  isShapeShiftTrade
-} = model.components.exchangeHistory
+const { formatExchangeTrade } = model.components.exchangeHistory
 
-const formatShapeshiftTrade = trade => {
-  const { status, timestamp, quote } = trade
-  const { pair, depositAmount, withdrawalAmount, deposit } = quote
-  const { sourceCoin, targetCoin } = getCoinFromPair(pair)
-
-  return {
-    status,
-    date: timestamp,
-    sourceCoin,
-    targetCoin,
-    deposit,
-    depositAmount,
-    withdrawalAmount,
-    isShapeShiftTrade: true
-  }
-}
-
-export const formatTrade = ifElse(
-  isShapeShiftTrade,
-  formatShapeshiftTrade,
-  formatExchangeTrade
-)
+export const formatTrade = formatExchangeTrade

@@ -10,24 +10,17 @@ import { Icon } from 'blockchain-info-components'
 import { Props } from '../template.success'
 import React from 'react'
 
-const Payment: React.FC<Props & {
-  handleAmountErrorClick: () => void
-}> = props => (
+const Payment: React.FC<Props> = props => (
   <PaymentContainer
     role='button'
     data-e2e='paymentMethodSelect'
     onClick={() => {
-      props.formErrors &&
-      props.formErrors.amount &&
-      props.formValues?.orderType === 'BUY' &&
-      !props.method
-        ? props.handleAmountErrorClick()
-        : props.simpleBuyActions.setStep({
-            step: 'PAYMENT_METHODS',
-            pair: props.pair,
-            fiatCurrency: props.fiatCurrency || 'USD',
-            cryptoCurrency: props.cryptoCurrency
-          })
+      props.simpleBuyActions.setStep({
+        step: 'PAYMENT_METHODS',
+        pair: props.pair,
+        fiatCurrency: props.fiatCurrency || 'USD',
+        cryptoCurrency: props.cryptoCurrency
+      })
     }}
     isMethod={!!props.method}
   >

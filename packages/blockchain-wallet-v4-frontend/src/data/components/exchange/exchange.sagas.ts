@@ -847,11 +847,13 @@ export default ({
             actions.alerts.displaySuccess(C.FIRST_PAX_TRADE_INFO, null, true)
           )
           yield put(
+            // @ts-ignore
             actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
           )
         }
       } else {
         yield put(
+          // @ts-ignore
           actions.modals.showModal(RESULTS_MODAL, formatExchangeTrade(trade))
         )
       }

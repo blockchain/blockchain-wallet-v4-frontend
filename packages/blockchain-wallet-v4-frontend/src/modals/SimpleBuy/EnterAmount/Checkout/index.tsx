@@ -20,6 +20,7 @@ class Checkout extends PureComponent<Props> {
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
+      this.props.preferences[this.props.orderType].fix,
       this.props.pair,
       amount
     )
@@ -35,12 +36,7 @@ class Checkout extends PureComponent<Props> {
 
     const method = this.props.method || this.props.defaultMethod
 
-    if (userData.tiers.current < 2) {
-      this.props.simpleBuyActions.createSBOrder(
-        undefined,
-        getValidPaymentMethod(method?.type)
-      )
-    } else if (!method) {
+    if (!method) {
       const fiatCurrency = this.props.fiatCurrency || 'USD'
       this.props.simpleBuyActions.setStep({
         step: 'PAYMENT_METHODS',
@@ -49,6 +45,10 @@ class Checkout extends PureComponent<Props> {
         cryptoCurrency: this.props.cryptoCurrency,
         order: this.props.order
       })
+    } else if (userData.tiers.current < 2) {
+      this.props.simpleBuyActions.createSBOrder(
+        getValidPaymentMethod(method.type)
+      )
     } else if (formValues && method) {
       switch (method.type) {
         case 'PAYMENT_CARD':
@@ -57,10 +57,10 @@ class Checkout extends PureComponent<Props> {
           })
           break
         case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder(method.id)
+          this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD', method.id)
           break
         case 'FUNDS':
-          this.props.simpleBuyActions.createSBOrder(undefined, 'FUNDS')
+          this.props.simpleBuyActions.createSBOrder('FUNDS')
           break
         case 'BANK_ACCOUNT':
           break
@@ -94,7 +94,8 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
     | SBCheckoutFormValuesType
-    | undefined
+    | undefined,
+  preferences: selectors.preferences.getSBCheckoutPreferences(state)
 })
 
 const mapDispatchToProps = dispatch => ({

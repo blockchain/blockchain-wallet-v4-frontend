@@ -32,6 +32,7 @@ import { FORM } from './model'
 import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
 
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
 
@@ -217,33 +218,12 @@ export default ({
               payment = yield payment.from(payloadT.xpub, fromType)
               break
             case 'CUSTODIAL':
-              const appState = yield select(identity)
-              const currency = selectors.core.settings
-                .getCurrency(appState)
-                .getOrFail('Can not retrieve currency.')
-              const bchRates = selectors.core.data.bch
-                .getRates(appState)
-                .getOrFail('Can not retrieve BCH rates.')
-
-              const available = new BigNumber(
-                payloadT.available || 0
-              ).toNumber()
-              const coin = Exchange.convertBchToBch({
-                value: available,
-                fromUnit: 'SAT',
-                toUnit: 'BCH'
-              }).value
-              const fiat = Exchange.convertBchToFiat({
-                value: coin,
-                fromUnit: 'BCH',
-                toCurrency: currency,
-                rates: bchRates
-              }).value
-
-              payment = yield payment.from(payloadT.label, fromType)
-              payment = yield payment.amount(available)
+              payment = yield payment.from(
+                payloadT.label,
+                fromType,
+                payloadT.withdrawable
+              )
               yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
-              yield put(change(FORM, 'amount', { coin, fiat }))
               yield put(change(FORM, 'to', null))
               break
             default:
@@ -436,6 +416,7 @@ export default ({
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
+      const error = errorHandler(e)
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -453,11 +434,19 @@ export default ({
             e
           ])
         )
-        yield put(
-          actions.alerts.displayError(C.SEND_COIN_ERROR, {
-            coinName: 'Bitcoin Cash'
-          })
-        )
+        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+          if (error === 'Pending withdrawal locks') {
+            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+          } else {
+            yield put(actions.alerts.displayError(error))
+          }
+        } else {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Bitcoin Cash'
+            })
+          )
+        }
       }
     }
   }

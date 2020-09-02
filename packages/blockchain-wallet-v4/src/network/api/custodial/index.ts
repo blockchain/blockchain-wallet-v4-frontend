@@ -1,6 +1,7 @@
 import {
   BeneficiariesType,
   BeneficiaryType,
+  WithdrawalLockResponseType,
   WithdrawResponseType
 } from './types'
 import { WalletFiatType } from 'core/types'
@@ -16,6 +17,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     authorizedGet({
       url: nabuUrl,
       endPoint: '/custodial/trades'
+    })
+
+  const getWithdrawalLocks = (): WithdrawalLockResponseType =>
+    authorizedGet({
+      url: nabuUrl,
+      endPoint: '/payments/withdrawals/locks'
     })
 
   const withdrawFunds = (
@@ -40,6 +47,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   return {
     getBeneficiaries,
     getCustodialTrades,
+    getWithdrawalLocks,
     withdrawFunds
   }
 }

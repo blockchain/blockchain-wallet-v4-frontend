@@ -8,9 +8,7 @@ import { prop } from 'ramda'
 import React from 'react'
 
 const getEffectiveBalance = props => {
-  return (
-    props.effectiveBalance || (props.from ? Number(props.from.available) : 0)
-  )
+  return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {

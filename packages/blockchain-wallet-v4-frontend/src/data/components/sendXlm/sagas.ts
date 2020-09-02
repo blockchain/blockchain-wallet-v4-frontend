@@ -14,13 +14,13 @@ import {
   stopSubmit,
   touch
 } from 'redux-form'
+import { CustodialFromType, FromType, XlmPaymentType } from 'core/types'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FORM } from './model'
-import { FromType, XlmPaymentType } from 'core/types'
 import { ModalNamesType } from 'data/modals/types'
 import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
-import { XlmCustodialFromType } from 'core/redux/payment/xlm/types'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
@@ -108,7 +108,6 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           payment = yield call(setFrom, payment, source, fromType)
           if (fromType === 'CUSTODIAL') {
             yield put(A.paymentUpdatedSuccess(payment.value()))
-            yield call(setAmount, source.available)
             yield put(change(FORM, 'to', null))
           }
           break
@@ -307,6 +306,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
     } catch (e) {
       yield put(stopSubmit(FORM))
       // Set errors
+      const error = errorHandler(e)
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
@@ -324,11 +324,19 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             e
           ])
         )
-        yield put(
-          actions.alerts.displayError(C.SEND_COIN_ERROR, {
-            coinName: 'Stellar'
-          })
-        )
+        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+          if (error === 'Pending withdrawal locks') {
+            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+          } else {
+            yield put(actions.alerts.displayError(error))
+          }
+        } else {
+          yield put(
+            actions.alerts.displayError(C.SEND_COIN_ERROR, {
+              coinName: 'Stellar'
+            })
+          )
+        }
       }
     }
   }
@@ -356,14 +364,14 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
 
   const setFrom = function * (
     payment: XlmPaymentType,
-    from?: string | XlmCustodialFromType,
+    from?: string | CustodialFromType,
     type?: FromType
   ) {
     let updatedPayment
     try {
       switch (type) {
         case 'CUSTODIAL':
-          const fromCustodialT = from as XlmCustodialFromType
+          const fromCustodialT = from as CustodialFromType
           yield put(A.showNoAccountForm(false))
           updatedPayment = yield call(
             payment.from,

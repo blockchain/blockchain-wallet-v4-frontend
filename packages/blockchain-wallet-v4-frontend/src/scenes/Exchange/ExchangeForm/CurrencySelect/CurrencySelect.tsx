@@ -47,7 +47,7 @@ export class CurrencySelect extends React.Component<Props> {
     const { actions, fromElements, swapDisabled, toElements } = this.props
 
     return (
-      <CurrencyRow height='32px' spaced>
+      <CurrencyRow>
         <Cell data-e2e='exchangeSourceCurrency'>
           <Field
             name='source'

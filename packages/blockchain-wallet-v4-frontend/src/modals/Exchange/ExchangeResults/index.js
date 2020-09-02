@@ -33,6 +33,7 @@ const SummaryWrapper = styled(BorderWrapper)`
   padding: 0;
   width: 100%;
   margin-bottom: 16px;
+  border: 0 !important;
 `
 const SummaryNote = styled(Note)`
   font-size: 13px;

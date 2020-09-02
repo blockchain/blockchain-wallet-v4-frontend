@@ -8,3 +8,4 @@ export type FlyoutE2EType =
   | 'whatsNewModal'
   | 'withdrawalModal'
   | 'custodyWithdrawModal'
+  | 'infoModalLinkFromExchangeAccount'

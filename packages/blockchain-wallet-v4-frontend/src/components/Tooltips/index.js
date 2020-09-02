@@ -314,8 +314,8 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
           <FormattedMessage
-            id='modals.interest.deposit.max.tooltip'
-            defaultMessage='Maximum deposit is determined by spendable balance minus priority fee.'
+            id='modals.interest.deposit.maxtransfer.tooltip'
+            defaultMessage='Maximum transfer is determined by spendable balance minus priority fee.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.calculator.tooltip'>
@@ -326,14 +326,14 @@ class Tooltips extends React.PureComponent {
         </Tooltip>
         <Tooltip id='modals.interest.summary.accrued.tooltip'>
           <FormattedMessage
-            id='modals.interest.summary.accrued.tooltip.description'
-            defaultMessage='Interest earned month to date. Total interest earned during any month will be deposited on the 1st of the following month.'
+            id='modals.interest.summary.accrued.description.tooltip'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be transferred on the 1st of the following month.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
           <FormattedMessage
-            id='modals.interest.summary.lock.tooltip.description'
-            defaultMessage='The period of time the deposit will be restricted from being withdrawn.'
+            id='modals.interest.summary.transferlock.tooltip.description'
+            defaultMessage='The period of time the transfer will be restricted from being withdrawn.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>

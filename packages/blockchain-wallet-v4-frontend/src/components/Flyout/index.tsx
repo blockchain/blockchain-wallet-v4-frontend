@@ -1,6 +1,5 @@
-import { FlyoutE2EType } from './types'
 import { Modal, Text } from 'blockchain-info-components'
-import { shakeAnimation } from './animations'
+import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import media from 'services/ResponsiveService'
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
@@ -151,31 +150,15 @@ export const AmountFieldContainer = styled.div<{ isCrypto?: boolean }>`
   > div > div:last-child {
     display: none;
   }
-  &.shake {
-    > div {
-      color: ${props => props.theme.red500};
-    }
-    input {
-      color: ${props => props.theme.red500};
-      &::placeholder {
-        color: ${props => props.theme.red500};
-      }
-    }
-    ${shakeAnimation};
-  }
 `
 
-type OwnProps = {
-  'data-e2e': FlyoutE2EType
-  direction: 'left' | 'right'
-  in: boolean
-  onClose: () => void
-  position: number
-  total: number
-  userClickedOutside: boolean
-}
-
-class Flyout extends React.PureComponent<OwnProps> {
+class Flyout extends React.PureComponent<
+  Omit<ModalPropsType, 'close'> & {
+    direction: 'right' | 'left'
+    in: boolean
+    onClose: () => void
+  }
+> {
   render () {
     const { children, ...rest } = this.props
 

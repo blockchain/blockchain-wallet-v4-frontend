@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   right: 0;
   z-index: 10;
 `
-const Iframe = styled.iframe<CustomIframe>`
+const Iframe = styled.iframe<{ widgetOpen: State['widgetOpen'] }>`
   height: ${props => (props.widgetOpen ? '580px' : '60px')};
   width: ${props => (props.widgetOpen ? '400px' : '190px')};
   border: none;
@@ -109,7 +109,6 @@ type LinkStatePropsType = {
   userData: UserDataType | null
 }
 type State = { chatEnabled: boolean; widgetOpen: boolean }
-type CustomIframe = { widgetOpen: boolean }
-type Props = LinkStatePropsType & CustomIframe
+type Props = LinkStatePropsType
 
 export default connector(ZendeskWidget)

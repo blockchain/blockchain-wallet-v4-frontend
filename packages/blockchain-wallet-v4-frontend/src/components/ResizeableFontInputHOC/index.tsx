@@ -18,7 +18,14 @@ const calculateFontSizeRatio = (
 
 const getValueLength = value => {
   const length = String(value).length
-  return /\./.test(value) ? length - 0.5 : length
+  const matchDot = /\.*/.exec(value)
+  const matchOne = /1*/.exec(value)
+  const matchDotLength = matchDot ? matchDot[0].length : 0
+  const matchOneLength = matchOne ? matchOne[0].length : 0
+  const altLength = length - matchDotLength - matchOneLength
+  return altLength !== length
+    ? altLength + matchDotLength / 2 + matchOneLength / 1.3
+    : length
 }
 
 /**
@@ -70,6 +77,7 @@ export const ResizeableFontInputHOC = Component =>
       const input = this.selectInput()
       if (!input) return
 
+      // @ts-ignore
       const { maxFontSize, onUpdate } = this.props
       const fontSizeNumber = fontSizeToNumber(maxFontSize)
       let fontSizeRatio = calculateFontSizeRatio(
@@ -94,6 +102,7 @@ export const ResizeableFontInputHOC = Component =>
     }
 
     onValueChange = e => {
+      // @ts-ignore
       this.props.input.onChange(e)
       requestAnimationFrame(this.updateValueLength)
     }
@@ -102,6 +111,7 @@ export const ResizeableFontInputHOC = Component =>
       return (
         <Component
           {...this.props}
+          // @ts-ignore
           input={{ ...this.props.input, onChange: this.onValueChange }}
           ref={this.componentRef}
         />

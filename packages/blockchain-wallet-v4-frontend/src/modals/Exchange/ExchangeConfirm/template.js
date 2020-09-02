@@ -16,7 +16,7 @@ import TargetFiatAmount from '../../../scenes/Exchange/ExchangeForm/Summary/Targ
 const { CONFIRM_FORM } = model.components.exchange
 
 const ConfirmWrapper = styled(Wrapper)`
-  border: 0;
+  border: 0 !important;
   padding: 0;
   > :last-child {
     margin-bottom: 0;

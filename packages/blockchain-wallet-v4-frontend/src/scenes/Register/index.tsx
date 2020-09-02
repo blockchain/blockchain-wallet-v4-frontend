@@ -1,10 +1,13 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { find, propEq } from 'ramda'
 import { formValueSelector } from 'redux-form'
+import React from 'react'
+
+import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import React from 'react'
+
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
@@ -22,7 +25,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   render () {
-    const { data, password, search } = this.props
+    const { data, goals, password, search } = this.props
     let busy = data.cata({
       Success: () => false,
       Failure: () => false,
@@ -32,10 +35,12 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
     const passwordLength = (password && password.length) || 0
     const showWalletFormQuery = search.includes('showWallet')
+    const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
 
     return (
       <Register
         busy={busy}
+        isLinkAccountGoal={isLinkAccountGoal}
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}

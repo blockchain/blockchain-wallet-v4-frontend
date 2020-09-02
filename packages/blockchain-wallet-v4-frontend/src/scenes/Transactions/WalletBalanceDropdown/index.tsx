@@ -174,7 +174,7 @@ export class WalletBalanceDropdown extends Component<Props> {
         priceChangeFiat: 0,
         price24H: { change: '0', movement: 'none', price: 1 },
         priceChangePercentage: 0,
-        sbBalance: { available: '0', pending: '0' }
+        sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       }).balanceData
     } else if (selectProps.value) {
       // Account balance
@@ -217,7 +217,7 @@ export class WalletBalanceDropdown extends Component<Props> {
       priceChangeFiat: 0,
       price24H: { change: '0', movement: 'none', price: 1 },
       priceChangePercentage: 0,
-      sbBalance: { available: '0', pending: '0' }
+      sbBalance: { available: '0', pending: '0', withdrawable: '0' }
     })
 
     return (
