@@ -123,6 +123,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   ): CustodialTransferResponseType =>
     authorizedPost({
       contentType: 'application/json',
+      endpoint: '/user/balance/transfer',
       data: {
         amount,
         currency,
