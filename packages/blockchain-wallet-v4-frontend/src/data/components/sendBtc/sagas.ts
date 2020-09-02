@@ -65,12 +65,14 @@ export default ({
         payPro
       } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
+
       yield put(actions.components.send.fetchPaymentsAccountExchange('BTC'))
       let payment = coreSagas.payment.btc.create({
         network: networks.btc
       })
       payment = yield payment.init()
       let defaultAccountR
+
       if (lockboxIndex && lockboxIndex >= 0) {
         const accountsR = yield select(
           selectors.core.common.btc.getLockboxBtcBalances

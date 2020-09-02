@@ -9,6 +9,7 @@ export const getData = (
   ownProps: {
     exclude?: Array<string>
     excludeLockbox?: boolean
+    forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
   }
@@ -17,7 +18,8 @@ export const getData = (
     exclude = [],
     excludeLockbox,
     includeExchangeAddress,
-    includeCustodial
+    includeCustodial,
+    forceCustodialFirst
   } = ownProps
 
   const buildDisplay = wallet => {
@@ -63,6 +65,12 @@ export const getData = (
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    'XLM',
+    state
+  )
+  const hasAccountAddress = Remote.Success.is(accountAddress)
+
   return sequence(Remote.of, [
     includeExchangeAddress && hasExchangeAddress
       ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
@@ -79,15 +87,17 @@ export const getData = (
           .map(excluded)
           .map(toDropdown)
           .map(toGroup('Lockbox')),
-    includeCustodial
+    includeCustodial && hasAccountAddress
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => x.XLM)
+          .map(x => x.XLM && { ...x.XLM, address: accountAddress.data })
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])
-  ]).map(([b1, b2, b3, b4]) => ({
+  ]).map(([b1, b2, b3, b4]) => {
+    const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
     // @ts-ignore
-    data: reduce(concat, [], [b1, b2, b3, b4])
-  }))
+    const data = reduce(concat, [], orderArray)
+    return { data }
+  })
 }

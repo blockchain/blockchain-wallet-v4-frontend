@@ -56,6 +56,7 @@ export const getData = (
     excludeHDWallets?: boolean
     excludeImported?: boolean
     excludeLockbox?: boolean
+    forceCustodialFirst?: boolean
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
@@ -69,8 +70,10 @@ export const getData = (
     excludeLockbox,
     includeAll = true,
     includeExchangeAddress,
-    includeCustodial
+    includeCustodial,
+    forceCustodialFirst
   } = ownProps
+
   const buildDisplay = wallet => {
     const label = collapse(wallet.label)
     if (has('balance', wallet)) {
@@ -127,6 +130,12 @@ export const getData = (
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
+  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+    'BCH',
+    state
+  )
+  const hasAccountAddress = Remote.Success.is(accountAddress)
+
   const formatAddress = addressData => {
     const formattedAddress = {}
     return compose(
@@ -172,10 +181,10 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
+      includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x.BCH)
+            .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
@@ -203,16 +212,15 @@ export const getData = (
             .map(toDropdown)
             .map(toGroup('Lockbox'))
     ]).map(([b1, b2, b3, b4, b5]) => {
+      const orderArray = forceCustodialFirst
+        ? [b3, b1, b2, b4, b5]
+        : [b1, b2, b3, b4, b5]
       // @ts-ignore
-      const data = reduce(concat, [], [b1, b2, b3, b4, b5])
+      const data = reduce(concat, [], orderArray)
       if (includeAll) {
-        return {
-          data: prepend(allWallets, data)
-        }
+        return { data: prepend(allWallets, data) }
       } else if (excludeHDWallets) {
-        return {
-          data: [allImportedAddresses]
-        }
+        return { data: [allImportedAddresses] }
       } else {
         return { data }
       }
