@@ -13,7 +13,7 @@ components [library](https://github.com/blockchain/components).
 2. Navigate to https://icomoon.io/app/#/select
 3. Drag and drop src/Fonts/Icomoon/selection.json
 4. Add your new icon
-5. Find 'View/Edit Info' in hamburger menu, click 'Remove All Colors'
+5. Find 'View/Edit Info' in hamburger menu, click 'Remove All Colors' (it's under the properties option)
 6. Select the contents from selection.json and the new icon.
 7. Generate the font family/files
 8. Make sure to replace the old selection.json with the new one

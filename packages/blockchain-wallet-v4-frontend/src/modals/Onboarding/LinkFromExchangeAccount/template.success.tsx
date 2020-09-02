@@ -1,4 +1,4 @@
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import {
   ButtonWrapper,
   ItemIcon,
@@ -272,20 +272,27 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
             />
           </Text>
         </Button>
-        <Button
-          nature='primary'
-          height='56px'
-          fullwidth
-          onClick={close}
-          data-e2e='linkDone'
+        <Link
+          style={{ width: '100%' }}
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://exchange.blockchain.com/trade'
         >
-          <Text color='white' size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.onboarding.linkfromexchange.back_to_exchange'
-              defaultMessage='Back to the Exchange'
-            />
-          </Text>
-        </Button>
+          <Button
+            nature='primary'
+            height='56px'
+            fullwidth
+            onClick={close}
+            data-e2e='linkDone'
+          >
+            <Text color='white' size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.onboarding.linkfromexchange.back_to_exchange'
+                defaultMessage='Back to the Exchange'
+              />
+            </Text>
+          </Button>
+        </Link>
       </ButtonWrapper>
     </MainWrapper>
   )

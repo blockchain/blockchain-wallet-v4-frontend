@@ -85,7 +85,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     })
 
   const initiateInterestWithdrawal = (
-    amount: number,
+    amount: string,
     currency: CoinType,
     withdrawalAddress: string
   ): InterestWithdrawalResponseType =>
