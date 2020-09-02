@@ -15,7 +15,8 @@ import { SceneWrapper } from 'components/Layout'
 import {
   SkeletonRectangle,
   TabMenu,
-  TabMenuItem
+  TabMenuItem,
+  Text
 } from 'blockchain-info-components'
 import { UserDataType } from 'data/types'
 import React from 'react'
