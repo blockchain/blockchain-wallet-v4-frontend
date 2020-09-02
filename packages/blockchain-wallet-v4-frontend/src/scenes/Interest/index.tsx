@@ -116,7 +116,11 @@ class Interest extends React.PureComponent<Props, StateType> {
               <IneligibiltyWarning {...val} {...this.props} />
             </>
           ),
-          Failure: () => null,
+          Failure: () => (
+            <Text size='16px' weight={500}>
+              Oops. Something went wrong. Please refresh and try again.
+            </Text>
+          ),
           Loading: () => <SkeletonRectangle width='275px' height='275px' />,
           NotAsked: () => <SkeletonRectangle width='275px' height='275px' />
         })}
