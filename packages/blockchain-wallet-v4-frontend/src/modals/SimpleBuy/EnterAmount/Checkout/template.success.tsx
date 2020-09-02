@@ -75,6 +75,11 @@ const CustomErrorCartridge = styled(ErrorCartridge)`
   border: 1px solid ${props => props.theme.red000};
   cursor: pointer;
 `
+const ErrorTextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+`
 const ErrorText = styled(Text)`
   display: inline-flex;
   font-weight: 500;
@@ -329,14 +334,16 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Payment {...props} method={method} />
 
         {props.error && (
-          <ErrorText>
-            <Icon
-              name='alert-filled'
-              color='red600'
-              style={{ marginRight: '4px' }}
-            />
-            Error: {props.error}
-          </ErrorText>
+          <ErrorTextContainer>
+            <ErrorText>
+              <Icon
+                name='alert-filled'
+                color='red600'
+                style={{ marginRight: '4px' }}
+              />
+              Error: {props.error}
+            </ErrorText>
+          </ErrorTextContainer>
         )}
         <ActionButton {...props} />
       </FlyoutWrapper>
