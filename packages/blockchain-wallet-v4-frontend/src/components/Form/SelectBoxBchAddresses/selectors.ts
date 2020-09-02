@@ -181,12 +181,18 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial && hasAccountAddress
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
-            .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
-            .map(toCustodialDropdown)
-            .map(toGroup('Custodial Wallet'))
+      includeCustodial
+        ? hasAccountAddress
+          ? selectors.components.simpleBuy
+              .getSBBalances(state)
+              .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
+              .map(toCustodialDropdown)
+              .map(toGroup('Custodial Wallet'))
+          : selectors.components.simpleBuy
+              .getSBBalances(state)
+              .map(x => x.BCH)
+              .map(toCustodialDropdown)
+              .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])
