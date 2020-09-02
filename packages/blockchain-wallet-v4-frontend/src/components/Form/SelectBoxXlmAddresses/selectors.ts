@@ -87,12 +87,18 @@ export const getData = (
           .map(excluded)
           .map(toDropdown)
           .map(toGroup('Lockbox')),
-    includeCustodial && hasAccountAddress
-      ? selectors.components.simpleBuy
-          .getSBBalances(state)
-          .map(x => x.XLM && { ...x.XLM, address: accountAddress.data })
-          .map(toCustodialDropdown)
-          .map(toGroup('Custodial Wallet'))
+    includeCustodial
+      ? hasAccountAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(x => x.XLM && { ...x.XLM, address: accountAddress.data })
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
+        : selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(x => x.XLM)
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => {
     const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
