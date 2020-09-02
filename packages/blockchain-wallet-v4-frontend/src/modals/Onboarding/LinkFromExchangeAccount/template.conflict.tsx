@@ -243,7 +243,7 @@ class Conflict extends PureComponent<
               >
                 <FormattedMessage
                   id='modals.onboarding.linkfromexchange.conflict_email_description'
-                  defaultMessage='This email will be used for all Wallet & Exchange communications.'
+                  defaultMessage='This email will be used for all Wallet & Exchange communications only. Your Exchange & Wallet emails will not change.'
                 />
               </Text>
             </TitleWrapper>
@@ -325,7 +325,7 @@ class Conflict extends PureComponent<
               >
                 <FormattedHTMLMessage
                   id='modals.onboarding.linkfromexchange.email_disclaimer2'
-                  defaultMessage={`If you have 2FA enable for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.`}
+                  defaultMessage={`If you have 2FA enabled for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.`}
                   values={{ walletEmail: email.wallet }}
                 />
               </Text>

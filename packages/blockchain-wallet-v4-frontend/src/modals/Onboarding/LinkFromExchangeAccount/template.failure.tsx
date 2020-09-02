@@ -1,4 +1,10 @@
-import { Button, Image, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Button,
+  Image,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { MainWrapperCentered, Status } from './styles'
 import { Props } from '.'
@@ -35,21 +41,28 @@ const Failure: React.FC<Props & { close: () => void; error: any }> = props => {
             </Text>
           </TextGroup>
         </Status>
-        <Button
-          nature='empty-blue'
-          height='56px'
-          fullwidth
-          onClick={props.close}
-          data-e2e='linkBackToExchange'
-          style={{ marginTop: '36px' }}
+        <Link
+          style={{ width: '100%' }}
+          target='_blank'
+          rel='noopener noreferrer'
+          href='https://exchange.blockchain.com/trade'
         >
-          <Text color='blue600' size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.onboarding.linkfromexchange.back_to_exchange'
-              defaultMessage='Back to the Exchange'
-            />
-          </Text>
-        </Button>
+          <Button
+            nature='empty-blue'
+            height='56px'
+            fullwidth
+            onClick={props.close}
+            data-e2e='linkBackToExchange'
+            style={{ marginTop: '36px' }}
+          >
+            <Text color='blue600' size='16px' weight={500}>
+              <FormattedMessage
+                id='modals.onboarding.linkfromexchange.back_to_exchange'
+                defaultMessage='Back to the Exchange'
+              />
+            </Text>
+          </Button>
+        </Link>
       </div>
     </MainWrapperCentered>
   )
