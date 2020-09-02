@@ -69,6 +69,8 @@ import swapCarousel2 from './img/swap-carousel2.png'
 import swapCarousel3 from './img/swap-carousel3.png'
 import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
+import swapInfo from './img/swap-info.png'
+import swapInfo2 from './img/swap-info@2x.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
@@ -212,6 +214,8 @@ const Images = {
   'swap-carousel4': swapCarousel4,
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
+  'swap-info': swapInfo,
+  'swap-info2': swapInfo2,
   'twitter-white': twitterWhite,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,

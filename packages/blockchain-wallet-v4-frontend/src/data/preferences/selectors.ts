@@ -32,3 +32,5 @@ export const getTheme = (state: RootState) =>
   path(['preferences', 'theme'], state)
 export const getTotalBalancesDropdown = (state: RootState) =>
   state.preferences.totalBalancesDropdown
+export const getShowSwapInfoBanner = (state: RootState) =>
+  state.preferences.showSwapInfoBanner

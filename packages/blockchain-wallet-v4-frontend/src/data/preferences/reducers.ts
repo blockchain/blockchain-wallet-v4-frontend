@@ -26,6 +26,7 @@ const INITIAL_STATE: PreferencesState = {
   showKycGetStarted: true,
   showLockboxSoftwareDownload: true,
   showSwapBanner: true,
+  showSwapInfoBanner: true,
   showSwapUpgradeModal: true,
   showUpgradeForAirdropModal: false,
   showAirdropClaimModal: true,
@@ -183,6 +184,13 @@ export function preferencesReducer (
       return {
         ...state,
         showSwapBanner: false
+      }
+    }
+    // @ts-ignore
+    case AT.HIDE_SWAP_INFO_BANNER: {
+      return {
+        ...state,
+        showSwapInfoBanner: false
       }
     }
     // @ts-ignore

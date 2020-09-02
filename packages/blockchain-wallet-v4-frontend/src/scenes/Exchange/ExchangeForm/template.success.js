@@ -17,6 +17,7 @@ import { model } from 'data'
 import ComplementaryAmount from './ComplementaryAmount'
 import CurrencySelect from './CurrencySelect'
 import Error from './Error'
+import ExchangeInfo from './ExchangeInfo'
 import LimitInfo from './LimitInfo'
 import media from 'services/ResponsiveService'
 import MinMaxButtons from './MinMaxButtons'
@@ -146,20 +147,21 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
-  initialize,
-  inputField,
-  inputSymbol,
-  sourceActive,
-  sourceCoin,
-  targetActive,
-  targetCoin,
-  volume,
   handleAmountChange,
   handleInputBlur,
   handleInputFocus,
   handleSubmit,
+  initialize,
+  inputField,
+  inputSymbol,
+  showSwapInfoBanner,
+  sourceActive,
+  sourceCoin,
   swapCoinAndFiat,
-  swapFix
+  swapFix,
+  targetActive,
+  targetCoin,
+  volume
 }) => {
   const swapDisabled = !includes(
     formatPair(targetCoin, sourceCoin),
@@ -303,22 +305,28 @@ const Success = ({
         <Notifications sourceCoin={sourceCoin} targetCoin={targetCoin} />
       </ColumnLeft>
       <ColumnRight>
-        <Summary
-          sourceCoin={sourceCoin}
-          targetCoin={targetCoin}
-          currency={currency}
-        />
-        <RatesBox
-          sourceCoin={sourceCoin}
-          targetCoin={targetCoin}
-          currency={currency}
-        />
-        <Note>
-          <FormattedMessage
-            id='scenes.exchange.exchangeform.summary.note'
-            defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
-          />
-        </Note>
+        {volume || !showSwapInfoBanner ? (
+          <>
+            <Summary
+              sourceCoin={sourceCoin}
+              targetCoin={targetCoin}
+              currency={currency}
+            />
+            <RatesBox
+              sourceCoin={sourceCoin}
+              targetCoin={targetCoin}
+              currency={currency}
+            />
+            <Note>
+              <FormattedMessage
+                id='scenes.exchange.exchangeform.summary.note'
+                defaultMessage='All amounts are correct at this time but may change depending on the market price and network congestion at the time of your transaction.'
+              />
+            </Note>
+          </>
+        ) : (
+          <ExchangeInfo />
+        )}
       </ColumnRight>
     </Wrapper>
   )
