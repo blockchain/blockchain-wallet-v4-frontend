@@ -363,7 +363,7 @@ export default ({
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
-        Number(withdrawalAmountBase),
+        withdrawalAmountBase,
         coin,
         receiveAddress
       )
