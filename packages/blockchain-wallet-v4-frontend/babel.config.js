@@ -29,7 +29,21 @@ module.exports = {
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
         ['module-resolver', { root: ['./src'] }],
-        'react-hot-loader/babel'
+        'react-hot-loader/babel',
+        ['babel-plugin-styled-components', { displayName: true }]
+      ]
+    },
+    staging: {
+      presets: [
+        ['@babel/preset-env', { modules: false }],
+        '@babel/preset-react'
+      ],
+      plugins: [
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-object-rest-spread',
+        ['module-resolver', { root: ['./src'] }],
+        'react-hot-loader/babel',
+        ['babel-plugin-styled-components', { displayName: true }]
       ]
     }
   }
