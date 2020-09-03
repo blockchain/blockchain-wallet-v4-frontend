@@ -60,9 +60,9 @@
           "colorCode": "fiat",
           "displayName": "U.S Dollars",
           "icons": {
-            "default": "usdt",
-            "circle": "usdt",
-            "circleFilled": "usdt"
+            "default": "usd",
+            "circle": "usd",
+            "circleFilled": "usd"
           },
           "learnMoreLink": "",
           "minConfirmations": 0,
