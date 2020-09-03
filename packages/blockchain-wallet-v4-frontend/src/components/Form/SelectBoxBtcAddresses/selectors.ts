@@ -140,6 +140,10 @@ export const getData = (
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
 
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
@@ -150,18 +154,18 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
-        ? hasAccountAddress
-          ? selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BTC && { ...x.BTC, address: accountAddress.data })
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
-          : selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BTC)
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
+      showCustodial || showCustodialWithAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(
+              x =>
+                x.BTC && {
+                  ...x.BTC,
+                  address: accountAddress ? accountAddress.data : null
+                }
+            )
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest

@@ -171,6 +171,10 @@ export const getData = (
       }, addrs)
     const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
+    const showCustodial = includeCustodial && !forceCustodialFirst
+    const showCustodialWithAddress =
+      includeCustodial && forceCustodialFirst && hasAccountAddress
+
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
@@ -181,18 +185,18 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
-        ? hasAccountAddress
-          ? selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
-          : selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BCH)
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
+      showCustodial || showCustodialWithAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(
+              x =>
+                x.BCH && {
+                  ...x.BCH,
+                  address: accountAddress ? accountAddress.data : null
+                }
+            )
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])
