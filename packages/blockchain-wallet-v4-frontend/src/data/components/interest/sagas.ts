@@ -345,10 +345,16 @@ export default ({
         const rate = rates[userCurrency].last
         const isDisplayed = S.getCoinDisplay(yield select())
         const transferAmountAbsolute = values.depositAmount
+
         const transferAmountParsed = isDisplayed
-          ? new BigNumber(transferAmountAbsolute).toString()
-          : new BigNumber(transferAmountAbsolute).dividedBy(rate).toString()
-        yield call(api.transferFromCustodial, transferAmountParsed, coin)
+          ? new BigNumber(transferAmountAbsolute).toNumber()
+          : new BigNumber(transferAmountAbsolute).dividedBy(rate).toNumber()
+
+        const transferAmountToBase = convertStandardToBase(
+          coin,
+          transferAmountParsed
+        )
+        yield call(api.transferFromCustodial, transferAmountToBase, coin)
       } else {
         yield call(fetchInterestAccount, coin)
         const depositAddress = yield select(S.getDepositAddress)
