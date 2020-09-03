@@ -30,7 +30,9 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     BTC: { eligible: true, ineligibilityReason: null },
     ETH: { eligible: true, ineligibilityReason: null },
     PAX: { eligible: true, ineligibilityReason: null },
-    USDT: { eligible: true, ineligibilityReason: null }
+    USDT: { eligible: true, ineligibilityReason: null },
+    XLM: { eligible: true, ineligibilityReason: null },
+    BCH: { eligible: true, ineligibilityReason: null }
   })
 
   // const getInterestEligible = (): InterestEligibleType =>
@@ -39,11 +41,20 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   //     endPoint: '/savings/eligible'
   //   })
 
-  const getInterestInstruments = (): InterestInstrumentsType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/instruments'
-    })
+  // const getInterestInstruments = (): InterestInstrumentsType =>
+  //   authorizedGet({
+  //     url: nabuUrl,
+  //     endPoint: '/savings/instruments'
+  //   })
+
+  const getInterestInstruments = (): InterestInstrumentsType => [
+    'BTC',
+    'ETH',
+    'USDT',
+    'PAX',
+    'BCH',
+    'XLM'
+  ]
 
   const getInterestLimits = (
     ccy: CoinType,
