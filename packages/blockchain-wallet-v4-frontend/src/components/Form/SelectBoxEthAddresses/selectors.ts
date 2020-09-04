@@ -245,7 +245,10 @@ export const getErc20Data = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label: `Exchange ${coin} Address`,
+      label:
+        coin === 'PAX'
+          ? 'Exhange USD Digital Address'
+          : `Exchange ${coin} Address`,
       value: x
     }
   ]
@@ -285,6 +288,9 @@ export const getErc20Data = (
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
       selectors.core.common.eth
         .getErc20AccountBalances(state, coin)
         .map(excluded)
@@ -304,9 +310,6 @@ export const getErc20Data = (
             .map(x => x[coin])
             .map(toInterestDropdown)
             .map(toGroup('Interest Wallet'))
-        : Remote.of([]),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const orderArray = forceCustodialFirst
