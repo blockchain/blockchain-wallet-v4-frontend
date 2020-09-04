@@ -70,6 +70,9 @@ export const getData = (
     state
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
 
   return sequence(Remote.of, [
     includeExchangeAddress && hasExchangeAddress
@@ -87,10 +90,13 @@ export const getData = (
           .map(excluded)
           .map(toDropdown)
           .map(toGroup('Lockbox')),
-    includeCustodial && hasAccountAddress
+    showCustodial || showCustodialWithAddress
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => ({ ...x.XLM, address: accountAddress.data }))
+          .map(x => ({
+            ...x.XLM,
+            address: accountAddress ? accountAddress.data : null
+          }))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])

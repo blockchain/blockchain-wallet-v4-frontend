@@ -48,12 +48,6 @@ export const getData = (
   )
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
-  const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
-    'ALGO',
-    state
-  )
-  const hasAccountAddress = Remote.Success.is(accountAddress)
-
   return sequence(Remote.of, [
     includeExchangeAddress && hasExchangeAddress
       ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
@@ -61,7 +55,7 @@ export const getData = (
     includeCustodial
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => ({ ...x.ALGO, address: hasAccountAddress.data }))
+          .map(x => x.ALGO)
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])

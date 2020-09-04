@@ -171,6 +171,10 @@ export const getData = (
       }, addrs)
     const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
+    const showCustodial = includeCustodial && !forceCustodialFirst
+    const showCustodialWithAddress =
+      includeCustodial && forceCustodialFirst && hasAccountAddress
+
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
         ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
@@ -181,10 +185,13 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial && hasAccountAddress
+      showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => ({ ...x.BCH, address: accountAddress.data }))
+            .map(x => ({
+              ...x.BCH,
+              address: accountAddress ? accountAddress.data : null
+            }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
