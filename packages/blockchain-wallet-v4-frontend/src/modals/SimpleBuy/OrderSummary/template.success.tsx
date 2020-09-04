@@ -3,7 +3,7 @@ import { BuyOrSell, displayFiat, getOrderDestination } from '../model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -39,6 +39,14 @@ const Amount = styled.div`
   margin-top: 40px;
   > div {
     display: inline;
+  }
+`
+
+const BottomInfo = styled(Bottom)`
+  text-align: center;
+  a {
+    color: ${props => props.theme.blue600};
+    text-decoration: none;
   }
 `
 
@@ -259,6 +267,18 @@ const Success: React.FC<Props> = props => {
             </Button>
           </Bottom>
         )}
+
+      {(props.order.paymentType === 'PAYMENT_CARD' ||
+        props.order.paymentType === 'USER_CARD') && (
+        <BottomInfo>
+          <Text color='grey600' size='14px' weight={500}>
+            <FormattedHTMLMessage
+              id='modals.simplebuy.summary.complete_card_payment'
+              defaultMessage="Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the USD Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+            />
+          </Text>
+        </BottomInfo>
+      )}
     </Wrapper>
   )
 }
