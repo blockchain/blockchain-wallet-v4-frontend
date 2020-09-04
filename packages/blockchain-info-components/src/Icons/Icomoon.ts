@@ -71,6 +71,7 @@ const IcoMoon = {
   magnifier: '\\e943',
   minus: '\\e94e',
   mobile: '\\e967',
+  'market-up': '\\e94f',
   'nav-buy': '\\e988',
   'open-in-new-tab': '\\e979',
   parachute: '\\e931',

@@ -132,19 +132,36 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
+        {(props.order.paymentType === 'PAYMENT_CARD' ||
+          props.order.paymentType === 'USER_CARD') && (
+          <Info style={{ marginBottom: '12px' }}>
+            <Icon
+              name='market-up'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedHTMLMessage
+                id='modals.simplebuy.confirm.activity_card1'
+                defaultMessage='Your final amount might change due to market activity.'
+              />
+            </Text>
+          </Info>
+        )}
         <Info>
           <Icon
             name='info'
-            color='grey600'
+            color='grey900'
             size='16px'
             style={{ marginRight: '8px' }}
           />
-          <Text size='12px' weight={500} color='grey600'>
+          <Text size='12px' weight={500} color='grey900'>
             {props.order.paymentType === 'PAYMENT_CARD' ||
             props.order.paymentType === 'USER_CARD' ? (
               <FormattedHTMLMessage
-                id='modals.simplebuy.confirm.activity_card'
-                defaultMessage='Your final amount may change due to market activity. An initial holding period of <b>7 days</b> will be applied to your funds.'
+                id='modals.simplebuy.confirm.activity_card2'
+                defaultMessage='Your crypto will be available to be withdrawn within <b>7 days</b>.'
               />
             ) : (
               <FormattedMessage
