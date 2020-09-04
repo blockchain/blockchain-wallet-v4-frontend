@@ -123,7 +123,7 @@ export const getEthData = (
       includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x.ETH && { ...x.ETH, address: accountAddress.data })
+            .map(x => ({ ...x.ETH, address: accountAddress.data }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
@@ -294,7 +294,7 @@ export const getErc20Data = (
       includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x[coin] && { ...x[coin], address: accountAddress.data })
+            .map(x => ({ ...x[coin], address: accountAddress.data }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

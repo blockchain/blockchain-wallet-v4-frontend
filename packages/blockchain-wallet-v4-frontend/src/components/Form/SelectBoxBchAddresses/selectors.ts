@@ -184,7 +184,7 @@ export const getData = (
       includeCustodial && hasAccountAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(x => x.BCH && { ...x.BCH, address: accountAddress.data })
+            .map(x => ({ ...x.BCH, address: accountAddress.data }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

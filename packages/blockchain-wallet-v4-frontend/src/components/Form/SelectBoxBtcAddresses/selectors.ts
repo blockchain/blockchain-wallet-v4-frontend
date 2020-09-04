@@ -107,16 +107,19 @@ export const getData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
-  const toCustodialDropdown = x => [
-    {
-      label: buildCustodialDisplay(x),
-      value: {
-        ...x,
-        type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BTC Trading Wallet'
+  const toCustodialDropdown = x => {
+    if (!x) return []
+    return [
+      {
+        label: buildCustodialDisplay(x),
+        value: {
+          ...x,
+          type: ADDRESS_TYPES.CUSTODIAL,
+          label: 'BTC Trading Wallet'
+        }
       }
-    }
-  ]
+    ]
+  }
   const toInterestDropdown = x => [
     {
       label: buildInterestDisplay(x),
