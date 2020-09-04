@@ -107,19 +107,16 @@ export const getData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
-  const toCustodialDropdown = x => {
-    if (!x) return []
-    return [
-      {
-        label: buildCustodialDisplay(x),
-        value: {
-          ...x,
-          type: ADDRESS_TYPES.CUSTODIAL,
-          label: 'BTC Trading Wallet'
-        }
+  const toCustodialDropdown = currencyDetails => [
+    {
+      label: buildCustodialDisplay(currencyDetails),
+      value: {
+        ...currencyDetails,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'BTC Trading Wallet'
       }
-    ]
-  }
+    }
+  ]
   const toInterestDropdown = x => [
     {
       label: buildInterestDisplay(x),
@@ -160,13 +157,10 @@ export const getData = (
       showCustodial || showCustodialWithAddress
         ? selectors.components.simpleBuy
             .getSBBalances(state)
-            .map(
-              x =>
-                x.BTC && {
-                  ...x.BTC,
-                  address: accountAddress ? accountAddress.data : null
-                }
-            )
+            .map(x => ({
+              ...x.BTC,
+              address: accountAddress ? accountAddress.data : null
+            }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
         : Remote.of([]),

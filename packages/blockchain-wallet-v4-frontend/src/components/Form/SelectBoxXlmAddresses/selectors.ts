@@ -48,11 +48,11 @@ export const getData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange XLM Address`, value: x }]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'XLM Trading Wallet'
       }

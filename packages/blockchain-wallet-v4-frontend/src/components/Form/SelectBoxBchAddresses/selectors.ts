@@ -113,11 +113,11 @@ export const getData = (
       value: x
     }
   ]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BCH Trading Wallet'
       }

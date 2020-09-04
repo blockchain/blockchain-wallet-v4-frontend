@@ -76,11 +76,11 @@ export const getEthData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
   const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'ETH Trading Wallet'
       }
@@ -256,11 +256,15 @@ export const getErc20Data = (
       value: x
     }
   ]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x, coin, supportedCoins[coin].displayName),
+      label: buildCustodialDisplay(
+        currencyDetails,
+        coin,
+        supportedCoins[coin].displayName
+      ),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: `${supportedCoins[coin].coinTicker} Trading Wallet`
       }
