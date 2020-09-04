@@ -1,4 +1,10 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import React, { ReactChild } from 'react'
 import styled from 'styled-components'
@@ -35,11 +41,18 @@ const MinMaxContainer = styled.div`
   min-height: 30px;
   display: flex;
 `
+const CoinContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 const CustomBlueCartridge = styled(BlueCartridge)`
   cursor: pointer;
 `
 const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
+`
+const TooltipWrapper = styled.div`
+  padding-top: 2px;
 `
 const BlueRedCartridge = ({
   error,
@@ -90,15 +103,28 @@ const Success: React.FC<InjectedFormProps<
         <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
         {props.fiatCurrency}
       </Text>
-      <CoinDisplay
-        size='24px'
-        color='grey600'
-        weight={600}
-        coin={props.fiatCurrency}
-        style={{ marginTop: '4px' }}
-      >
-        {props.balance}
-      </CoinDisplay>
+      <CoinContainer style={{ marginTop: '4px' }}>
+        <Text size='14px' color='grey900' weight={500}>
+          <FormattedMessage
+            id='modals.withdraw.available_for_withdrawal'
+            defaultMessage='Available to Withdraw'
+          />
+        </Text>{' '}
+        <CoinDisplay
+          size='14px'
+          color='grey600'
+          weight={500}
+          coin={props.fiatCurrency}
+          style={{ marginLeft: '4px' }}
+        >
+          {props.balance}
+        </CoinDisplay>
+        <TooltipWrapper>
+          <TooltipHost id='modals.withdraw.info_tooltip'>
+            <TooltipIcon name='info' color='grey400' size='14px' />
+          </TooltipHost>
+        </TooltipWrapper>
+      </CoinContainer>
       <Form onSubmit={props.handleSubmit}>
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
