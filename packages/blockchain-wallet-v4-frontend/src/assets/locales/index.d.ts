@@ -1340,6 +1340,8 @@ type MessagesType = {
   'modals.wallet.welcome.sb.skip': 'Skip'
   'modals.wallet.welcome.sb.title': 'Own Crypto in a Few Minutes'
   'modals.wallet.welcome.sb.verifybuy': 'Verify your identity and buy crypto.'
+  'modals.withdraw.info_tooltip': 'The remaining balance will be available to be withdrawn within 7 days.'
+  'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
   'modals.withdraw.success': 'Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
   'modals.xlmairdropwelcome.inprogress.completenow': 'Complete Now'
   'modals.xlmairdropwelcome.inprogress.subtitle2': 'Complete your profile to start instantly trading crypto from the security of your wallet and become eligible for our Airdrop Program.'
