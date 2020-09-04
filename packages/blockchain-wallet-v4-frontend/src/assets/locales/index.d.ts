@@ -1216,8 +1216,8 @@ type MessagesType = {
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
-  'modals.simplebuy.summary.complete_card_payment': "Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the USD Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-  'modals.simplebuy.summary.complete_card_info': 'Complete Card Payment'
+  'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
+  'modals.simplebuy.summary.complete_card_info': "Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the {wallet} Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.simplebuy.summary.created': 'Created'
   'modals.simplebuy.summary.paymentmethod': 'Payment Method'
   'modals.simplebuy.summary.purchasing': 'Purchasing'

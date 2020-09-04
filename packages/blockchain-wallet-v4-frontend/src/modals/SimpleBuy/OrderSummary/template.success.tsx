@@ -268,17 +268,19 @@ const Success: React.FC<Props> = props => {
           </Bottom>
         )}
 
-      {(props.order.paymentType === 'PAYMENT_CARD' ||
-        props.order.paymentType === 'USER_CARD') && (
-        <BottomInfo>
-          <Text color='grey600' size='14px' weight={500}>
-            <FormattedHTMLMessage
-              id='modals.simplebuy.summary.complete_card_payment'
-              defaultMessage="Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the USD Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
-            />
-          </Text>
-        </BottomInfo>
-      )}
+      {orderType === 'BUY' &&
+        (props.order.paymentType === 'PAYMENT_CARD' ||
+          props.order.paymentType === 'USER_CARD') && (
+          <BottomInfo>
+            <Text color='grey600' size='14px' weight={500}>
+              <FormattedHTMLMessage
+                id='modals.simplebuy.summary.complete_card_info'
+                defaultMessage="Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the {wallet} Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                values={{ wallet: props.order.inputCurrency }}
+              />
+            </Text>
+          </BottomInfo>
+        )}
     </Wrapper>
   )
 }
