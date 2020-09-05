@@ -48,11 +48,11 @@ export const getData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange XLM Address`, value: x }]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'XLM Trading Wallet'
       }
@@ -70,6 +70,9 @@ export const getData = (
     state
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
 
   return sequence(Remote.of, [
     includeExchangeAddress && hasExchangeAddress
@@ -87,10 +90,13 @@ export const getData = (
           .map(excluded)
           .map(toDropdown)
           .map(toGroup('Lockbox')),
-    includeCustodial && hasAccountAddress
+    showCustodial || showCustodialWithAddress
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => x.XLM && { ...x.XLM, address: accountAddress.data })
+          .map(x => ({
+            ...x.XLM,
+            address: accountAddress ? accountAddress.data : null
+          }))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])
