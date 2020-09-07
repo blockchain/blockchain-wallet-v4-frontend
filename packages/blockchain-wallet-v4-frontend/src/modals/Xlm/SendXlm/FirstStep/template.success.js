@@ -174,8 +174,9 @@ const FirstStep = props => {
                   name='to'
                   noOptionsMessage={() => null}
                   openMenuOnClick={!!isFromCustody}
-                  includeCustodial={!isFromCustody}
-                  forceCustodialFirst={!isFromCustody}
+                  // hiding send to non-custodial
+                  // includeCustodial={!isFromCustody}
+                  // forceCustodialFirst={!isFromCustody}
                   placeholder='Paste, scan, or select destination'
                   validate={
                     isFromCustody ? [required] : [required, validXlmAddress]
