@@ -1138,7 +1138,7 @@ type MessagesType = {
   'modals.simplebuy.cancelorder.areyousure': 'Are you sure?'
   'modals.simplebuy.cancelorder.cancel': 'Yes. Cancel Order'
   'modals.simplebuy.cancelorder.goback': 'No. Go Back'
-  'modals.simplebuy.cancelorder.outcome': 'Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now.'
+  'modals.simplebuy.cancelorder.outcome': 'Cancelling this {pair} {orderType} will remove your order. You can always create a new order from the menu if you cancel now.'
   'modals.simplebuy.card_activation_failed': 'We could not activate your card. Please contact support.'
   'modals.simplebuy.card_already_saved': 'This card has already been saved.'
   'modals.simplebuy.card_creation_failed': 'We could not save your card. Please contact support.'

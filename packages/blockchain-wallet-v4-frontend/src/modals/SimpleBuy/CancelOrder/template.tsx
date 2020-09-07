@@ -3,6 +3,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
+import { getOrderType } from 'data/components/simpleBuy/model'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkDispatchPropsType, OwnProps } from '.'
 import React from 'react'
@@ -22,6 +23,7 @@ const CustomForm = styled(Form)`
 type Props = OwnProps & LinkDispatchPropsType
 
 const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const orderType = getOrderType(props.order)
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -52,9 +54,10 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           >
             <FormattedMessage
               id='modals.simplebuy.cancelorder.outcome'
-              defaultMessage='Cancelling this {pair} Buy will remove your order. You can always create a new order from the menu if you cancel now.'
+              defaultMessage='Cancelling this {pair} {orderType} will remove your order. You can always create a new order from the menu if you cancel now.'
               values={{
-                pair: props.order.pair
+                pair: props.order.pair,
+                orderType: orderType === 'BUY' ? 'Buy' : 'Sell'
               }}
             />
           </Text>
