@@ -1169,6 +1169,7 @@ type MessagesType = {
   'modals.simplebuy.deposit.processing_time': 'Processing Time'
   'modals.simplebuy.deposit.processing_time.info.eur': 'Funds will be credited to your EUR wallet as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
   'modals.simplebuy.deposit.processing_time.info.gbp': 'Funds will be credited to your GBP wallet as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
+  'modals.simplebuy.deposit.processing_time.info.usd': 'Funds will be credited to your USD wallet as soon as we receive them. Funds are generally available within one business day.'
   'modals.simplebuy.deposit.title': 'Deposit {currency}'
   'modals.simplebuy.deposit.terms_and_condition': 'Deposit {currency}'
   'modals.simplebuy.eligible.failure': 'Oops. Something went wrong on our side. Please try again.'

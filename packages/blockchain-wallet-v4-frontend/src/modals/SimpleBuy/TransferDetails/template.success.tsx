@@ -277,6 +277,12 @@ const Success: React.FC<Props> = props => {
                     defaultMessage='Funds will be credited to your EUR wallet as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
                   />
                 )}
+                {props.fiatCurrency === 'USD' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.processing_time.info.usd'
+                    defaultMessage='Funds will be credited to your USD wallet as soon as we receive them. Funds are generally available within one business day.'
+                  />
+                )}
               </DisplaySubTitle>
             </BottomMultiRowContainer>
           </BottomRow>
