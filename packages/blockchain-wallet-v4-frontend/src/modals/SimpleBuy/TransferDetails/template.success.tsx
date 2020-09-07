@@ -5,6 +5,7 @@ import {
 } from 'components/SimpleBuy'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
 import CopyClipboardButton from 'components/CopyClipboardButton'
@@ -113,7 +114,7 @@ const Success: React.FC<Props> = props => {
           <Icon
             size='32px'
             color='fiat'
-            name={props.fiatCurrency === 'EUR' ? 'eur' : 'gbp'}
+            name={props.fiatCurrency.toLowerCase() as keyof IcoMoonType}
           />
           <InfoContainer>
             <TopText color='grey800' size='24px' weight={600}>
@@ -274,6 +275,12 @@ const Success: React.FC<Props> = props => {
                   <FormattedMessage
                     id='modals.simplebuy.deposit.processing_time.info.eur'
                     defaultMessage='Funds will be credited to your EUR wallet as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
+                  />
+                )}
+                {props.fiatCurrency === 'USD' && (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.processing_time.info.usd'
+                    defaultMessage='Funds will be credited to your USD wallet as soon as we receive them. Funds are generally available within one business day.'
                   />
                 )}
               </DisplaySubTitle>

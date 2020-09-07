@@ -50,6 +50,25 @@
           "showNewTagSidenav": true,
           "txListAppRoute": "/gbp/transactions"
         },
+        "USD": {
+          "availability": {
+            "send": false,
+            "request": false
+          },
+          "coinCode": "USD",
+          "coinTicker": "USD",
+          "colorCode": "fiat",
+          "displayName": "U.S Dollars",
+          "icons": {
+            "default": "usd",
+            "circle": "usd",
+            "circleFilled": "usd"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 0,
+          "showNewTagSidenav": true,
+          "txListAppRoute": "/usd/transactions"
+        },
         "BTC": {
           "availability": {
             "send": true,

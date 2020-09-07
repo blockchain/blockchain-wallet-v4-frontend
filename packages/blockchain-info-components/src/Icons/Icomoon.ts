@@ -100,6 +100,7 @@ const IcoMoon = {
   trash: '\\e951',
   twitter: '\\e916',
   'usd-d': '\\e948',
+  usd: '\\e94f',
   usdt: '\\e94a',
   user: '\\e955',
   users: '\\e928',

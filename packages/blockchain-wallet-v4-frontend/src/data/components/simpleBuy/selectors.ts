@@ -46,11 +46,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     switch (actionType) {
       case 'SELL':
         return sbMethods.methods.find(
-          method =>
-            method.type === 'FUNDS' &&
-            method.currency === fiatCurrency &&
-            // TODO: simple buy USD
-            method.currency !== 'USD'
+          method => method.type === 'FUNDS' && method.currency === fiatCurrency
         )
       default:
         if (!lastOrder) return undefined
