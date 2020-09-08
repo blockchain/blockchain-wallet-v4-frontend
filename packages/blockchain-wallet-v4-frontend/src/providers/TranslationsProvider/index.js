@@ -21,7 +21,6 @@ class TranslationsProvider extends React.Component {
   // is that these pages will never be translated.
   componentDidUpdate (prevProps) {
     const urlHash = window.location.hash
-
     if (
       this.props.locale !== prevProps.locale &&
       !includes('authorize-approve', urlHash) &&
@@ -35,7 +34,6 @@ class TranslationsProvider extends React.Component {
     const locale = any(propOr('en', this.props.locale), languages)
       ? this.props.locale
       : 'en'
-
     loadLocaleData(locale, messages => {
       this.setState({ messages, locale })
     })
