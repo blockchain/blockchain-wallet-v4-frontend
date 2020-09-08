@@ -17,7 +17,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { maximumAmount } from './validation'
+import { maximumAmount, MIN_AMOUNT, minimumAmount } from './validation'
 import { Props as OwnProps, SuccessStateType } from '.'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Beneficary from './Beneficiary'
@@ -52,7 +52,7 @@ const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
 `
 const TooltipWrapper = styled.div`
-  padding-top: 2px;
+  padding-top: 1px;
 `
 const BlueRedCartridge = ({
   error,
@@ -103,7 +103,7 @@ const Success: React.FC<InjectedFormProps<
         <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
         {props.fiatCurrency}
       </Text>
-      <CoinContainer style={{ marginTop: '4px' }}>
+      <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
         <Text size='14px' color='grey900' weight={500}>
           <FormattedMessage
             id='modals.withdraw.available_for_withdrawal'
@@ -135,7 +135,7 @@ const Success: React.FC<InjectedFormProps<
             name='amount'
             component={NumberBox}
             normalize={normalizeAmount}
-            validate={[maximumAmount]}
+            validate={[minimumAmount, maximumAmount]}
             placeholder='0'
             {...{
               autoFocus: true,
@@ -144,30 +144,60 @@ const Success: React.FC<InjectedFormProps<
             }}
           />
         </AmountFieldContainer>
-        <MinMaxContainer
-          onClick={() =>
-            props.formActions.change(
-              'custodyWithdrawForm',
-              'amount',
-              displayFiatToFiat({ value: props.balance })
-            )
-          }
-        >
-          <BlueRedCartridge error={amtError && amtError === 'ABOVE_MAX'}>
-            <>
-              <CoinDisplay
-                size='14px'
-                weight={600}
-                color='inherit'
-                cursor='pointer'
-                coin={props.fiatCurrency}
-              >
-                {props.balance}
-              </CoinDisplay>
-              &nbsp;
-              <FormattedMessage id='copy.max' defaultMessage='Max' />
-            </>
-          </BlueRedCartridge>
+        <MinMaxContainer>
+          <div
+            style={{ marginRight: '4px' }}
+            onClick={() =>
+              props.formActions.change(
+                'custodyWithdrawForm',
+                'amount',
+                displayFiatToFiat({ value: MIN_AMOUNT })
+              )
+            }
+          >
+            <BlueRedCartridge error={amtError && amtError === 'BELOW_MIN'}>
+              <>
+                <CoinDisplay
+                  size='14px'
+                  weight={600}
+                  color='inherit'
+                  cursor='pointer'
+                  coin={props.fiatCurrency}
+                >
+                  {MIN_AMOUNT}
+                </CoinDisplay>
+                &nbsp;
+                <FormattedMessage id='copy.min' defaultMessage='Min' />
+              </>
+            </BlueRedCartridge>
+          </div>
+          {MIN_AMOUNT < Number(props.balance) && (
+            <div
+              onClick={() =>
+                props.formActions.change(
+                  'custodyWithdrawForm',
+                  'amount',
+                  displayFiatToFiat({ value: props.balance })
+                )
+              }
+            >
+              <BlueRedCartridge error={amtError && amtError === 'ABOVE_MAX'}>
+                <>
+                  <CoinDisplay
+                    size='14px'
+                    weight={600}
+                    color='inherit'
+                    cursor='pointer'
+                    coin={props.fiatCurrency}
+                  >
+                    {props.balance}
+                  </CoinDisplay>
+                  &nbsp;
+                  <FormattedMessage id='copy.max' defaultMessage='Max' />
+                </>
+              </BlueRedCartridge>
+            </div>
+          )}
         </MinMaxContainer>
         <ToContainer>
           <Text
