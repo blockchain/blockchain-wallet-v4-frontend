@@ -183,9 +183,8 @@ const FirstStep = props => {
               includeExchangeAddress={!isFromCustody}
               isCreatable={!isFromCustody}
               isValidNewOption={() => false}
-              // hiding send to non-custodial
-              // includeCustodial={!isFromCustody}
-              // forceCustodialFirst={!isFromCustody}
+              includeCustodial={!isFromCustody}
+              forceCustodialFirst={!isFromCustody}
               name='to'
               noOptionsMessage={() => null}
               openMenuOnClick={isFromCustody}
