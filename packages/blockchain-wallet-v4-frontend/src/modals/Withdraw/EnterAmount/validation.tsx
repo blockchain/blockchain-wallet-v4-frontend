@@ -1,6 +1,7 @@
 import { Props } from './template.success'
 
-export const MIN_AMOUNT = 1000
+// TODO - MOVE TO BE 1000 before release
+export const MIN_AMOUNT = 5
 
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   if (!value) return true
