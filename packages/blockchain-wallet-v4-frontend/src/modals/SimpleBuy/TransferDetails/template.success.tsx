@@ -78,14 +78,6 @@ const BottomMultiRowContainer = styled.div`
 const Copy = styled.div`
   display: flex;
 `
-const AddressLine = styled.p`
-  margin: 0;
-`
-
-const printAddress = (address: string) => {
-  const lines = address.split(',')
-  return lines.map(line => <AddressLine key={line}>{line}</AddressLine>)
-}
 
 const Success: React.FC<Props> = props => {
   return (
@@ -287,7 +279,7 @@ const Success: React.FC<Props> = props => {
                 />
               </Title>
               <Value data-e2e='sbRecipientAddress'>
-                {printAddress((props.account.agent as AgentType).address)}
+                {(props.account.agent as AgentType).address}
               </Value>
             </div>
             <Copy>
