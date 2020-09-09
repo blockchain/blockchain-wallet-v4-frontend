@@ -275,32 +275,38 @@ export default ({
     }
   }
 
-  const confirmSBCreditCardOrder = function * () {
+  const confirmSBCreditCardOrder = function * (
+    payload: ReturnType<typeof A.confirmSBCreditCardOrder>
+  ) {
+    const { order, paymentMethodId } = payload
     try {
-      const order = S.getSBOrder(yield select())
       if (!order) throw new Error(NO_ORDER_EXISTS)
       yield put(actions.form.startSubmit('sbCheckoutConfirm'))
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
-      const attributes = order.paymentMethodId
-        ? {
-            everypay: {
-              customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+      const attributes =
+        order.paymentMethodId || paymentMethodId
+          ? {
+              everypay: {
+                customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+              }
             }
-          }
-        : undefined
+          : undefined
       const confirmedOrder: SBOrderType = yield call(
         api.confirmSBOrder,
         order,
-        attributes
+        attributes,
+        paymentMethodId
       )
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
       yield put(A.setStep({ step: '3DS_HANDLER', order: confirmedOrder }))
       yield put(A.fetchSBOrders())
     } catch (e) {
       const error = errorHandler(e)
+      yield put(A.setStep({ step: 'CHECKOUT_CONFIRM', order }))
+      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
       yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
     }
   }
@@ -779,11 +785,11 @@ export default ({
         return
       case 'ACTIVE':
         const skipLoading = true
-        const order = S.getSBOrder(yield select())
+        const order = S.getSBLatestPendingOrder(yield select())
         yield put(A.fetchSBCards(skipLoading))
         // If the order was already created
         if (order && order.state === 'PENDING_CONFIRMATION') {
-          return yield put(A.confirmSBCreditCardOrder(card.id))
+          return yield put(A.confirmSBCreditCardOrder(card.id, order))
         } else {
           return yield put(A.createSBOrder('PAYMENT_CARD', card.id))
         }
