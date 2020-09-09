@@ -269,7 +269,7 @@ const Success: React.FC<Props> = props => {
             {props.userData.firstName} {props.userData.lastName}
           </Value>
         </Row>
-        {props.fiatCurrency === 'USD' && (
+        {props.account.currency === 'USD' && (
           <RowCopy>
             <div>
               <Title>
@@ -279,13 +279,11 @@ const Success: React.FC<Props> = props => {
                 />
               </Title>
               <Value data-e2e='sbRecipientAddress'>
-                {(props.account.agent as AgentType).address}
+                {props.account.agent.address}
               </Value>
             </div>
             <Copy>
-              <CopyClipboardButton
-                address={(props.account.agent as AgentType).address}
-              />
+              <CopyClipboardButton address={props.account.agent.address} />
             </Copy>
           </RowCopy>
         )}
