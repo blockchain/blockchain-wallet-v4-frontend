@@ -1,3 +1,4 @@
+import { AgentType } from 'core/types'
 import {
   DisplayIcon,
   DisplaySubTitle,
@@ -77,6 +78,14 @@ const BottomMultiRowContainer = styled.div`
 const Copy = styled.div`
   display: flex;
 `
+const AddressLine = styled.p`
+  margin: 0;
+`
+
+const printAddress = (address: string) => {
+  const lines = address.split(',')
+  return lines.map(line => <AddressLine key={line}>{line}</AddressLine>)
+}
 
 const Success: React.FC<Props> = props => {
   return (
@@ -143,6 +152,22 @@ const Success: React.FC<Props> = props => {
             </TopText>
           </InfoContainer>
         </FlyoutWrapper>
+        {props.fiatCurrency === 'USD' && (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.referenceID'
+                  defaultMessage='Reference ID (Mandatory)'
+                />
+              </Title>
+              <Value data-e2e='sbReferenceId'>{props.account.address}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton address={props.account.address} />
+            </Copy>
+          </RowCopy>
+        )}
         {(props.fiatCurrency === 'USD' || props.fiatCurrency === 'EUR') && (
           <Row>
             <Title>
@@ -170,24 +195,25 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
-        {props.fiatCurrency === 'GBP' && (
-          <RowCopy>
-            <div>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.transferdetails.account'
-                  defaultMessage='Account Number'
-                />
-              </Title>
-              <Value data-e2e='sbAccountNumber'>
-                {props.account.agent.account}
-              </Value>
-            </div>
-            <Copy>
-              <CopyClipboardButton address={props.account.agent.account} />
-            </Copy>
-          </RowCopy>
-        )}
+        {(props.fiatCurrency === 'USD' || props.fiatCurrency === 'GBP') &&
+          props.account.agent.account !== '' && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.account'
+                    defaultMessage='Account Number'
+                  />
+                </Title>
+                <Value data-e2e='sbAccountNumber'>
+                  {props.account.agent.account}
+                </Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton address={props.account.agent.account} />
+              </Copy>
+            </RowCopy>
+          )}
         {props.fiatCurrency === 'GBP' && (
           <RowCopy>
             <div>
@@ -220,6 +246,26 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
+        {props.fiatCurrency === 'USD' && (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.routingnumber'
+                  defaultMessage='Routing Number'
+                />
+              </Title>
+              <Value data-e2e='sbRoutingNumber'>
+                {(props.account.agent as AgentType).routingNumber}
+              </Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton
+                address={(props.account.agent as AgentType).routingNumber}
+              />
+            </Copy>
+          </RowCopy>
+        )}
         <Row>
           <Title>
             <FormattedMessage
@@ -231,6 +277,26 @@ const Success: React.FC<Props> = props => {
             {props.userData.firstName} {props.userData.lastName}
           </Value>
         </Row>
+        {props.fiatCurrency === 'USD' && (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.bankAddress'
+                  defaultMessage='Bank Address'
+                />
+              </Title>
+              <Value data-e2e='sbRecipientAddress'>
+                {printAddress((props.account.agent as AgentType).address)}
+              </Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton
+                address={(props.account.agent as AgentType).address}
+              />
+            </Copy>
+          </RowCopy>
+        )}
       </div>
       <Bottom>
         <BottomInfoContainer>
