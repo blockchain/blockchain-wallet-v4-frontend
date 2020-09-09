@@ -188,7 +188,7 @@ const Success: React.FC<Props> = props => {
           </RowCopy>
         )}
         {(props.fiatCurrency === 'USD' || props.fiatCurrency === 'GBP') &&
-          props.account.agent.account !== '' && (
+          !!props.account.agent.account && (
             <RowCopy>
               <div>
                 <Title>
