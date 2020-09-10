@@ -1,8 +1,10 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
+import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { SBOrderType } from 'core/types'
 import media from 'services/ResponsiveService'
@@ -79,6 +81,8 @@ class SBOrderBanner extends PureComponent<Props> {
 
     if (!latestPendingOrder) return null
 
+    const orderType = getOrderType(latestPendingOrder)
+
     return (
       <Wrapper>
         <Row>
@@ -87,10 +91,8 @@ class SBOrderBanner extends PureComponent<Props> {
           </PendingIconWrapper>
           <Column>
             <Text size='20px' weight={600} color='grey800'>
-              <FormattedMessage
-                id='scenes.home.banner.pendingbuy'
-                defaultMessage='Pending Buy'
-              />
+              <FormattedMessage id='copy.pending' defaultMessage='Pending' />{' '}
+              <BuyOrSell orderType={orderType} />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
               {latestPendingOrder.paymentMethodId ||
@@ -99,10 +101,15 @@ class SBOrderBanner extends PureComponent<Props> {
                   id='scenes.home.banner.receive_cc_order'
                   defaultMessage='Once you finalize your credit card information, your buy order will complete.'
                 />
+              ) : orderType === 'BUY' ? (
+                <FormattedMessage
+                  id='scenes.home.banner.finalize_funds'
+                  defaultMessage='Once we receive your funds, your buy order will complete.'
+                />
               ) : (
                 <FormattedMessage
-                  id='scenes.home.banner.receivetransfer'
-                  defaultMessage='Once we receive your bank transfer, your buy order will complete.'
+                  id='scenes.home.banner.finalize_sell'
+                  defaultMessage='Confirm the transaction details to finalize your sell order.'
                 />
               )}
             </Copy>
