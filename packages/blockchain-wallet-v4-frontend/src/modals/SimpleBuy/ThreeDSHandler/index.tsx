@@ -24,6 +24,16 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     window.addEventListener('message', this.handlePostMessage, false)
   }
 
+  componentDidUpdate (prevProps: Props) {
+    if (
+      !prevProps.data.getOrElse({ order: {} } as SuccessStateType).order &&
+      this.props.data.getOrElse({ order: {} } as SuccessStateType).order
+    ) {
+      // eslint-disable-next-line
+      this.setState({ threeDSCallbackReceived: false })
+    }
+  }
+
   componentWillUnmount () {
     window.removeEventListener('message', this.handlePostMessage, false)
   }
