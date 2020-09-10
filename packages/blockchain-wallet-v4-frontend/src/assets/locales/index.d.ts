@@ -1589,10 +1589,11 @@ type MessagesType = {
   'scenes.home.banner.coinifyToSB.checkitout': 'Check It Out'
   'scenes.home.banner.coinifyToSB.read': 'read here.'
   'scenes.home.banner.coinifyToSB.revamped': "We've revamped the Buy Crypto experience"
+  'scenes.home.banner.finalize_funds': 'Once we receive your funds, your buy order will complete.'
+  'scenes.home.banner.finalize_sell': 'Confirm the transaction details to finalize your sell order.'
   'scenes.home.banner.finishsigningup': 'Finish Signing Up'
   'scenes.home.banner.pendingbuy': 'Pending Buy'
   'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
-  'scenes.home.banner.receivetransfer': 'Once we receive your bank transfer, your buy order will complete.'
   'scenes.home.banner.sborder.details': 'View Details'
   'scenes.home.banner.signupapprove': 'Once you finish and get approved, start buying crypto.'
   'scenes.home.banners.kycresubmit.resubmit': 'Resubmit Now'
