@@ -275,7 +275,7 @@ const Success: React.FC<Props> = props => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedHTMLMessage
                 id='modals.simplebuy.summary.complete_card_info'
-                defaultMessage="Your crypto will be available to be withdrawn within 7 days. During this period you can sell your crypto into the {wallet} Wallet. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+                defaultMessage="These funds will be available to sell into a {wallet} fiat wallet immediately, but you will not be able to send or withdraw these funds from Blockchain.com for up to 7 days. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
                 values={{ wallet: props.order.inputCurrency }}
               />
             </Text>
