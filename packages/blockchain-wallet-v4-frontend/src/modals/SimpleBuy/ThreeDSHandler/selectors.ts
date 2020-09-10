@@ -18,7 +18,7 @@ export const getData = (state: RootState) => {
     walletHelper: 'https://wallet-helper.blockchain.com'
   } as WalletOptionsType['domains'])
 
-  if (order && order.paymentMethodId) {
+  if (order) {
     return Remote.Success({
       type: 'ORDER',
       domains,
