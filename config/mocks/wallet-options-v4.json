@@ -15,7 +15,9 @@
         "EUR": {
           "availability": {
             "send": false,
-            "request": false
+            "request": false,
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "EUR",
           "coinTicker": "EUR",
@@ -34,7 +36,9 @@
         "GBP": {
           "availability": {
             "send": false,
-            "request": false
+            "request": false,
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "GBP",
           "coinTicker": "GBP",
@@ -53,7 +57,9 @@
         "USD": {
           "availability": {
             "send": false,
-            "request": false
+            "request": false,
+            "deposit": false,
+            "withdrawal": false
           },
           "coinCode": "USD",
           "coinTicker": "USD",

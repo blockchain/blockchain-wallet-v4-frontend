@@ -5,7 +5,8 @@ import {
   CoinType,
   CoinTypeEnum,
   FiatType,
-  SupportedCoinType,
+  SupportedFiatType,
+  SupportedWalletCurrencyType,
   WalletCurrencyType,
   WalletFiatEnum,
   WalletFiatType
@@ -141,33 +142,38 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <TitleActionContainer>
                 {coin in WalletFiatEnum && (
                   <>
-                    <Button
-                      nature='primary'
-                      data-e2e='depositFiat'
-                      style={{ minWidth: 'auto' }}
-                      onClick={() => {
-                        if (!this.props.simpleBuyActions) return
-                        this.props.simpleBuyActions.handleSBDepositFiatClick(
-                          coin as WalletFiatType,
-                          'TransactionList'
-                        )
-                      }}
-                    >
-                      Deposit
-                    </Button>
-                    <Button
-                      nature='primary'
-                      data-e2e='withdrawFiat'
-                      style={{ minWidth: 'auto', marginLeft: '8px' }}
-                      onClick={() => {
-                        if (!this.props.withdrawActions) return
-                        this.props.withdrawActions.showModal(
-                          coin as WalletFiatType
-                        )
-                      }}
-                    >
-                      Withdraw
-                    </Button>
+                    {(coinModel as SupportedFiatType).availability.deposit && (
+                      <Button
+                        nature='primary'
+                        data-e2e='depositFiat'
+                        style={{ minWidth: 'auto' }}
+                        onClick={() => {
+                          if (!this.props.simpleBuyActions) return
+                          this.props.simpleBuyActions.handleSBDepositFiatClick(
+                            coin as WalletFiatType,
+                            'TransactionList'
+                          )
+                        }}
+                      >
+                        Deposit
+                      </Button>
+                    )}
+                    {(coinModel as SupportedFiatType).availability
+                      .withdrawal && (
+                      <Button
+                        nature='primary'
+                        data-e2e='withdrawFiat'
+                        style={{ minWidth: 'auto', marginLeft: '8px' }}
+                        onClick={() => {
+                          if (!this.props.withdrawActions) return
+                          this.props.withdrawActions.showModal(
+                            coin as WalletFiatType
+                          )
+                        }}
+                      >
+                        Withdraw
+                      </Button>
+                    )}
                   </>
                 )}
               </TitleActionContainer>
@@ -272,7 +278,7 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
-  coinModel: SupportedCoinType
+  coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
   isSearchEntered: boolean
