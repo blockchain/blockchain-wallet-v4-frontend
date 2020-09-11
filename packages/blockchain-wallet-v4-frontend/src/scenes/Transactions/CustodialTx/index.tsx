@@ -29,8 +29,6 @@ const StyledFiatDisplay = styled(FiatDisplay)`
 `
 
 const CustodialTxListItem: React.FC<Props> = props => {
-  // eslint-disable-next-line
-  console.log('propspropsprops', props)
   return (
     <StyledCustodialTransactionRow>
       <Row width='30%'>
