@@ -24,6 +24,7 @@ class OrderSummary extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
     }
+    this.props.simpleBuyActions.fetchSBOrders()
   }
 
   handleRefresh = () => {
