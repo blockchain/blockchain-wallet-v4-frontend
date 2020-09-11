@@ -192,7 +192,7 @@ describe('WalletCrypto', () => {
         'hex'
       )
       expect(wCrypto.deriveSharedSecret(priv, pub).toString('hex')).toBe(
-        'ef2cf705af8714b35c0855030f358f2bee356ff3579cea2607b2025d80133c3a'
+        'c87e593a1b22bad696489aa7c240356ffc8ff453d4637dc9cd32b4696df93f5c'
       )
     })
     it('should correctly encrypt and decrypt', () => {
