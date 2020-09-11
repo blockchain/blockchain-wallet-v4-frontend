@@ -43,7 +43,11 @@ class PriceMovement extends PureComponent<Props, State> {
   componentDidMount () {
     if (!Remote.Success.is(this.props.data)) {
       const coin = this.props.coin
-      this.props.miscActions.fetchPrice24H(coin, this.props.fiat || 'EUR')
+      this.props.miscActions.fetchPriceChange(
+        coin,
+        this.props.fiat || 'EUR',
+        'day'
+      )
     }
   }
 
@@ -54,7 +58,7 @@ class PriceMovement extends PureComponent<Props, State> {
           Success: val => (
             <Change color={getColorFromMovement(val.price24Hr.movement)}>
               {getSignFromMovement(val.price24Hr.movement)}
-              {val.price24Hr.change}%
+              {val.price24Hr.percentChange}%
             </Change>
           ),
           Loading: () => <SkeletonRectangle height={'12px'} width={'40px'} />,

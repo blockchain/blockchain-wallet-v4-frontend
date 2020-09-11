@@ -1,11 +1,5 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
-import {
-  CoinType,
-  CoinTypeEnum,
-  ExtractSuccess,
-  FiatType,
-  RatesType
-} from 'core/types'
+import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
@@ -23,7 +17,6 @@ export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
-  let coinRatesR
 
   switch (coin) {
     case 'BTC':
@@ -33,7 +26,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getBtcBalance(state)
-      coinRatesR = selectors.core.data.btc.getRates(state)
       break
     case 'BCH':
       addressDataR = getBchAddressData(state, {
@@ -42,7 +34,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true
       })
       balanceDataR = balanceSelectors.getBchBalance(state)
-      coinRatesR = selectors.core.data.bch.getRates(state)
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
@@ -51,7 +42,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getEthBalance(state)
-      coinRatesR = selectors.core.data.eth.getRates(state)
       break
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
@@ -60,7 +50,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getPaxBalance(state)
-      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
       break
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
@@ -69,7 +58,6 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: true
       })
       balanceDataR = balanceSelectors.getUsdtBalance(state)
-      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'usdt')
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
@@ -77,29 +65,26 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
-      coinRatesR = selectors.core.data.xlm.getRates(state)
       break
     case 'ALGO':
       addressDataR = getAlgoAddressData(state, {
         includeCustodial: true
       })
       balanceDataR = balanceSelectors.getAlgoBalance(state)
-      coinRatesR = selectors.core.data.algo.getRates(state)
       break
     case 'EUR':
     case 'GBP':
     case 'USD':
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = balanceSelectors.getFiatBalance(coin, state)
-      coinRatesR = selectors.core.data.btc.getRates(state)
       break
     default:
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = Remote.Success(0)
-      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
   }
-  const price24HrR = selectors.core.data.misc.getPrice24H(
+  const priceChangeR = selectors.core.data.misc.getPriceChange(
     coin as CoinType,
+    'day',
     state
   )
   const currencyR = selectors.core.settings.getCurrency(state)
@@ -108,48 +93,16 @@ export const getData = (state, ownProps: OwnProps) => {
   const transform = (
     addressData,
     balanceData,
-    coinRates: RatesType,
     currency: FiatType,
-    price24H: ExtractSuccess<typeof price24HrR>,
+    priceChange: ExtractSuccess<typeof priceChangeR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
-    let value
-    let currentValue
-
-    if (coin in CoinTypeEnum) {
-      value = Exchange.convertCoinToCoin({
-        value: balanceData,
-        coin: coin as CoinType,
-        baseToStandard: true
-      }).value
-      currentValue = Exchange.convertCoinToFiat(
-        value,
-        coin,
-        currency,
-        coinRates
-      )
-    }
-
-    let yesterdayPrice = price24H.price
-    const yesterdayValue = Exchange.convertCoinToFiat(value, coin, currency, {
-      ...coinRates,
-      [currency]: {
-        last: yesterdayPrice
-      }
-    })
-
-    const changePercentage = price24H.change
-
-    const changeFiat = currentValue - yesterdayValue
-
     return {
       currency,
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),
-      price24H,
-      priceChangeFiat: changeFiat,
-      priceChangePercentage: Number(changePercentage),
+      priceChange,
       sbBalance: sbBalances[coin]
     }
   }
@@ -158,9 +111,8 @@ export const getData = (state, ownProps: OwnProps) => {
   return lift(transform)(
     addressDataR,
     balanceDataR,
-    coinRatesR,
     currencyR,
-    price24HrR,
+    priceChangeR,
     sbBalancesR
   )
 }

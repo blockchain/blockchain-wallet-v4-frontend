@@ -26,36 +26,49 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchPrice24H = function * (action: ReturnType<typeof A.fetchPrice24H>) {
-    const { base, quote } = action.payload
+  const fetchPriceChange = function * (
+    action: ReturnType<typeof A.fetchPriceChange>
+  ) {
+    const { base, quote, range } = action.payload
     try {
       if (base in FiatTypeEnum) return
-      yield put(A.fetchPrice24HLoading(base))
-      const yesterday: ReturnType<typeof api.getPriceIndex> = yield call(
+      yield put(A.fetchPriceChangeLoading(base, range))
+      const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
-        moment().subtract(1, 'day')
+        moment().subtract(1, range)
       )
-      const today: ReturnType<typeof api.getPriceIndex> = yield call(
+      const current: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
         moment()
       )
-      const diff = new BigNumber(
-        (today.price - yesterday.price) / yesterday.price
+      const diff = (current.price - previous.price).toFixed(2)
+      const diffPercent = new BigNumber(
+        (current.price - previous.price) / previous.price
       ).times(100)
-      const change = diff.abs().toFixed(2)
-      const movement = diff.isEqualTo(0)
+      const change = diffPercent.abs().toFixed(2)
+      const movement = diffPercent.isEqualTo(0)
         ? 'none'
-        : diff.isGreaterThan(0)
+        : diffPercent.isGreaterThan(0)
         ? 'up'
         : 'down'
-      yield put(A.fetchPrice24HSuccess(base, change, movement, yesterday.price))
+      yield put(
+        A.fetchPriceChangeSuccess(
+          base,
+          diff,
+          change,
+          movement,
+          current.price,
+          previous.price,
+          range
+        )
+      )
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchPrice24HFailure(base, error))
+      yield put(A.fetchPriceChangeFailure(base, error, range))
     }
   }
 
@@ -142,7 +155,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     authorizeLogin,
     fetchCaptcha,
-    fetchPrice24H,
+    fetchPriceChange,
     fetchPriceIndexSeries,
     encodePairingCode,
     verifyEmailToken,

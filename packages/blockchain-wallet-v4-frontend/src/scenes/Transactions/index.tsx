@@ -90,9 +90,15 @@ const StatsContainer = styled.div`
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
-    this.props.miscActions.fetchPrice24H(
+    this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
-      this.props.currency
+      this.props.currency,
+      'day'
+    )
+    this.props.miscActions.fetchPriceChange(
+      this.props.coin as CoinType,
+      this.props.currency,
+      'week'
     )
   }
 

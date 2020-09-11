@@ -1,13 +1,14 @@
 import { connect, ConnectedProps } from 'react-redux'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType, RemoteDataType, SupportedCoinType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
+import React from 'react'
+import styled from 'styled-components'
+
+import { fiatToString } from 'core/exchange/currency'
 import { getData } from './selectors'
 import { PriceChange } from '../../model'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
+import { SupportedCoinType } from 'core/types'
 import { Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -34,7 +35,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
 
     return data.cata({
       Success: val => {
-        const { priceCurrent } = val
+        const { priceChange } = val
 
         return (
           <Wrapper>
@@ -47,7 +48,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             </TitleText>
             <PriceText>
               {fiatToString({
-                value: priceCurrent,
+                value: priceChange.currentPrice,
                 unit: val.currency
               })}
             </PriceText>
@@ -68,25 +69,14 @@ class CoinPricesContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state): LinkStatePropsType => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps)
 })
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = {
+export type OwnProps = {
   coinModel: SupportedCoinType
-}
-
-type SuccessStateType = {
-  currency: FiatType
-  priceChangeFiat: number
-  priceChangePercentage: number
-  priceCurrent: number
-}
-
-type LinkStatePropsType = {
-  data: RemoteDataType<string | Error, SuccessStateType>
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
