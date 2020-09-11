@@ -10,7 +10,7 @@ import React, { PureComponent } from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
 const Container = styled.span`
-  margin-left: 8px;
+  margin-left: 4px;
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
   font-weight: 500;

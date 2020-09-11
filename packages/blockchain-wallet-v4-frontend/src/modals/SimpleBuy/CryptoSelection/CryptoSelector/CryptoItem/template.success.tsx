@@ -17,8 +17,8 @@ import PriceMovement from '../PriceMovement'
 
 const CheckoutDisplayContainer = styled(DisplayContainer)`
   ${media.tablet`
-padding: 16px 20px;
-`}
+    padding: 16px 20px;
+  `}
 `
 
 const Display = styled.div<{ canClick: boolean }>`
@@ -85,7 +85,7 @@ const Success: React.FC<Props> = props => {
         </DisplayTitle>
       </Display>
       {props.onClick && (
-        <Icon name='chevron-right' size='32px' color='grey600' />
+        <Icon name='chevron-right' size='32px' color='grey400' />
       )}
       {!props.onClick && (
         <>
