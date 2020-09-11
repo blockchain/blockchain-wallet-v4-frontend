@@ -10,8 +10,8 @@ import BigInteger from 'bigi'
 import BIP39 from 'bip39'
 import createRng from './rng'
 import Either from 'data.either'
-import Task from 'data.task'
 import hkdf from 'futoin-hkdf'
+import Task from 'data.task'
 
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
@@ -289,7 +289,7 @@ export const deriveSharedSecret = (priv, pub) => {
   const encoded = m.getEncoded(true)
   const hashed = sha256(encoded)
 
-  return hkdf(hashed, 32, {hash: 'SHA-256'})
+  return hkdf(hashed, 32, { hash: 'SHA-256' })
 }
 
 export const encryptAESGCM = (key, msg) => {
