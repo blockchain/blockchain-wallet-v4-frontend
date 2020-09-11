@@ -29,11 +29,13 @@ const StyledFiatDisplay = styled(FiatDisplay)`
 `
 
 const CustodialTxListItem: React.FC<Props> = props => {
+  // eslint-disable-next-line
+  console.log('propspropsprops', props)
   return (
     <StyledCustodialTransactionRow>
       <Row width='30%'>
         <IconTx {...props} />
-        <Status>
+        <Status data-e2e='orderStatusColumn'>
           <Text size='16px' color='grey800' weight={600}>
             {props.tx.type === 'DEPOSIT' ? (
               <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
@@ -66,7 +68,11 @@ const CustodialTxListItem: React.FC<Props> = props => {
           {props.tx.type === 'DEPOSIT' ? 'Wallet' : 'Bank Account'}
         </Text>
       </Col>
-      <Col width='20%' style={{ textAlign: 'right' }}>
+      <Col
+        width='20%'
+        style={{ textAlign: 'right' }}
+        data-e2e='orderAmountColumn'
+      >
         <Text size='16px' weight={600} color='grey800'>
           {fiatToString({
             value: props.tx.amount.value,
