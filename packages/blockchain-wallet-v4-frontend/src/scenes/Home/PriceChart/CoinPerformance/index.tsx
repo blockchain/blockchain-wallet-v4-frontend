@@ -1,35 +1,27 @@
-import { connect } from 'react-redux'
-import { ExtractSuccess, RemoteDataType } from 'core/types'
-import { getData } from './selectors'
-import Loading from './template.loading'
+import { bindActionCreators } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
-import Success from './template.success'
+
+import { actions, selectors } from 'data'
+import CoinPriceChange from './CoinPriceChange'
 
 class CoinPerformance extends React.PureComponent<Props> {
   render () {
-    const { data } = this.props
-
-    return data.cata({
-      Success: value => <Success {...value} />,
-      Failure: () => null,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    return <CoinPriceChange {...this.props} />
   }
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  priceChart: selectors.preferences.getPriceChart(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = dispatch => ({
+  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+})
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-}
-
-type Props = LinkStatePropsType
+type Props = ConnectedProps<typeof connector>
 
 export default connector(CoinPerformance)

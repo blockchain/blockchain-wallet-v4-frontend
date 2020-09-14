@@ -1,14 +1,24 @@
 import * as AT from './actionTypes'
 
-import { FiatType, SBOrderActionType } from 'core/types'
+import {
+  CoinType,
+  FiatType,
+  PriceChangeTimeRangeType,
+  SBOrderActionType
+} from 'core/types'
 import { SBFixType } from 'data/components/types'
+
+export type PriceChartPreferenceType = {
+  coin: CoinType
+  time?: PriceChangeTimeRangeType
+}
 
 // State
 export type PreferencesState = {
   coinDisplayed: boolean
   culture: string
   language: string
-  priceChart: any
+  priceChart: PriceChartPreferenceType
   sbCheckout: {
     [key in SBOrderActionType]: {
       fix: SBFixType

@@ -5,6 +5,7 @@ import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { start } from './model'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import readBlob from 'read-blob'
@@ -33,11 +34,15 @@ export default ({ api }: { api: APIType }) => {
     try {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
+
+      const time =
+        range === 'all' ? moment.unix(start[base]) : moment().subtract(1, range)
+
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
-        moment().subtract(1, range)
+        time
       )
       const current: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,

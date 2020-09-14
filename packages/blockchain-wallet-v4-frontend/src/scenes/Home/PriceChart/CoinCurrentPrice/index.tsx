@@ -1,4 +1,5 @@
-import { connect } from 'react-redux'
+import { CoinType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { propOr } from 'ramda'
 import { selectors } from 'data'
@@ -20,10 +21,10 @@ const Header = styled(Text).attrs({
   margin-bottom: 8px;
 `
 
-class CoinCurrentPrice extends React.PureComponent {
+class CoinCurrentPrice extends React.PureComponent<Props> {
   render () {
     const { priceChart } = this.props
-    const coin = propOr('BTC', 'coin', priceChart)
+    const coin = propOr('BTC', 'coin', priceChart) as CoinType
 
     return (
       <Wrapper>
@@ -43,4 +44,8 @@ const mapStateToProps = state => ({
   priceChart: selectors.preferences.getPriceChart(state)
 })
 
-export default connect(mapStateToProps)(CoinCurrentPrice)
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(CoinCurrentPrice)

@@ -29,15 +29,12 @@ const Loading = () => (
 
 export class CoinPerformanceContainer extends React.PureComponent<Props> {
   componentDidMount () {
-    this.props.priceChartActions.initialized(toUpper(this.props.coin), '1week')
+    this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.coin !== prevProps.coin) {
-      this.props.priceChartActions.initialized(
-        toUpper(this.props.coin),
-        '1week'
-      )
+      this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
     }
   }
 

@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
-import { DEFAULT_PRICE_CHANGE } from './model'
+import { initialPriceChange } from './model'
 import { MiscActionTypes, MiscStateType } from './types'
 import Remote from '../../../remote'
 
@@ -9,30 +9,11 @@ const INITIAL_STATE: MiscStateType = {
   captcha: Remote.NotAsked,
   pairing_code: Remote.NotAsked,
   price_change: {
-    day: {
-      BTC: Remote.NotAsked,
-      ETH: Remote.NotAsked,
-      BCH: Remote.NotAsked,
-      XLM: Remote.NotAsked,
-      ALGO: Remote.NotAsked,
-      PAX: Remote.NotAsked,
-      USDT: Remote.NotAsked,
-      EUR: Remote.Success(DEFAULT_PRICE_CHANGE),
-      GBP: Remote.Success(DEFAULT_PRICE_CHANGE),
-      USD: Remote.Success(DEFAULT_PRICE_CHANGE)
-    },
-    week: {
-      BTC: Remote.NotAsked,
-      ETH: Remote.NotAsked,
-      BCH: Remote.NotAsked,
-      XLM: Remote.NotAsked,
-      ALGO: Remote.NotAsked,
-      PAX: Remote.NotAsked,
-      USDT: Remote.NotAsked,
-      EUR: Remote.Success(DEFAULT_PRICE_CHANGE),
-      GBP: Remote.Success(DEFAULT_PRICE_CHANGE),
-      USD: Remote.Success(DEFAULT_PRICE_CHANGE)
-    }
+    all: initialPriceChange,
+    day: initialPriceChange,
+    week: initialPriceChange,
+    month: initialPriceChange,
+    year: initialPriceChange
   },
   price_index_series: Remote.NotAsked,
   verify_email_token: Remote.NotAsked,

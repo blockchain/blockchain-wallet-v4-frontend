@@ -1,6 +1,6 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { FiatType, PriceChangeType } from 'core/types'
-import { formatFiat } from 'core/exchange/currency'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'

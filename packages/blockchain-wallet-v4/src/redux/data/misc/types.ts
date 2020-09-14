@@ -24,7 +24,7 @@ export type PriceChangeType = {
   previousPrice: number
 }
 
-export type PriceChangeTimeRangeType = 'day' | 'week'
+export type PriceChangeTimeRangeType = 'day' | 'week' | 'month' | 'year' | 'all'
 
 // state
 export type MiscStateType = {
