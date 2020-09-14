@@ -10,7 +10,7 @@ import { SBFixType } from 'data/components/types'
 
 export type PriceChartPreferenceType = {
   coin: CoinType
-  time?: PriceChangeTimeRangeType
+  time: PriceChangeTimeRangeType
 }
 
 // State

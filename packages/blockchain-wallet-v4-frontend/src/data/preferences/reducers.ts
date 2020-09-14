@@ -9,7 +9,8 @@ const INITIAL_STATE: PreferencesState = {
   theme: 'default',
   coinDisplayed: true,
   priceChart: {
-    coin: 'BTC'
+    coin: 'BTC',
+    time: 'month'
   },
   sbCheckout: {
     BUY: {
