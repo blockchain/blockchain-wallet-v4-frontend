@@ -1,13 +1,13 @@
 import { actions, selectors } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { CoinType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import Error from './template.error'
 import Loading from './template.loading'
-import PropTypes from 'prop-types'
 import React from 'react'
 import Success from './template.success'
 
-export class CoinTickerContainer extends React.PureComponent {
+export class CoinTickerContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.actions.initialized()
   }
@@ -26,7 +26,7 @@ export class CoinTickerContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps: OwnProps) => ({
   data: selectors.components.priceTicker.getData(ownProps.coin, state)
 })
 
@@ -34,10 +34,12 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceTicker, dispatch)
 })
 
-CoinTickerContainer.propTypes = {
-  coin: PropTypes.string,
-  handleClick: PropTypes.func,
-  selected: PropTypes.bool
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  coin: CoinType
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinTickerContainer)
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CoinTickerContainer)
