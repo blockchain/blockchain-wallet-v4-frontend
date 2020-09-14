@@ -2,8 +2,8 @@ import * as AT from './actionTypes'
 import { takeEvery } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default ({ coreSagas }) => {
-  const priceChartSagas = sagas({ coreSagas })
+export default () => {
+  const priceChartSagas = sagas()
 
   return function * priceChartSaga () {
     yield takeEvery(AT.PRICE_CHART_INITIALIZED, priceChartSagas.initialized)

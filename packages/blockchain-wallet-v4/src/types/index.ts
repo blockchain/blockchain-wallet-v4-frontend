@@ -77,7 +77,8 @@ export enum FiatTypeEnum {
 }
 export enum WalletFiatEnum {
   EUR,
-  GBP
+  GBP,
+  USD
 }
 export const WalletCurrencyEnum = {
   ...CoinTypeEnum,

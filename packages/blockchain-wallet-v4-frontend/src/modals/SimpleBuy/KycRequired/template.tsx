@@ -1,7 +1,7 @@
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps } from '.'
+import { Props } from '.'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -37,8 +37,6 @@ const ShortTitleContainer = styled.div`
 const SubcontentContainer = styled(FlyoutWrapper)`
   border-top: 1px solid ${props => props.theme.grey000};
 `
-
-type Props = OwnProps & LinkDispatchPropsType
 
 const Template: React.FC<Props> = props => {
   return (
@@ -137,13 +135,19 @@ const Template: React.FC<Props> = props => {
           height='48px'
           nature='primary'
           data-e2e='handleVerified'
-          onClick={() =>
+          onClick={() => {
             props.identityVerificationActions.verifyIdentity(
               2,
               false,
               'KycRequiredStep'
             )
-          }
+            if (props.order) {
+              props.simpleBuyActions.setStep({
+                step: 'CHECKOUT_CONFIRM',
+                order: props.order
+              })
+            }
+          }}
           style={{ marginTop: '16px' }}
           type='button'
         >

@@ -1,6 +1,7 @@
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
+import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 import Template from './template'
 
@@ -17,7 +18,9 @@ class KycRequired extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state: RootState) => ({
+  order: selectors.components.simpleBuy.getSBOrder(state)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),

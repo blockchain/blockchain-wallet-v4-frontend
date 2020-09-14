@@ -1,12 +1,11 @@
 import * as AT from './actionTypes'
-import { assoc } from 'ramda'
 
 const INITIAL_STATE = {
   coin: 'BTC',
   time: 'all'
 }
 
-export default (state = INITIAL_STATE, action) => {
+export function priceChartReducer (state = INITIAL_STATE, action) {
   const { type, payload } = action
 
   switch (type) {
@@ -16,11 +15,17 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload
-      return assoc('coin', coin, state)
+      return {
+        ...state,
+        coin
+      }
     }
     case AT.PRICE_CHART_TIME_CLICKED: {
       const { time } = payload
-      return assoc('time', time, state)
+      return {
+        ...state,
+        time
+      }
     }
     default:
       return state

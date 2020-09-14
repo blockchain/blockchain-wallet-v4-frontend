@@ -107,11 +107,11 @@ export const getData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [{ label: `Exchange BTC Address`, value: x }]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BTC Trading Wallet'
       }
@@ -140,6 +140,10 @@ export const getData = (
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
 
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
@@ -150,18 +154,15 @@ export const getData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
-        ? hasAccountAddress
-          ? selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BTC && { ...x.BTC, address: accountAddress.data })
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
-          : selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.BTC)
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
+      showCustodial || showCustodialWithAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(x => ({
+              ...x.BTC,
+              address: accountAddress ? accountAddress.data : null
+            }))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest

@@ -94,7 +94,8 @@ export default ({
 
   const confirmSBOrder = (
     order: SBOrderType,
-    attributes?: SBProviderAttributesType
+    attributes?: SBProviderAttributesType,
+    paymentMethodId?: string
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -103,7 +104,8 @@ export default ({
       removeDefaultPostData: true,
       data: {
         action: 'confirm',
-        attributes
+        attributes,
+        paymentMethodId
       }
     })
 
