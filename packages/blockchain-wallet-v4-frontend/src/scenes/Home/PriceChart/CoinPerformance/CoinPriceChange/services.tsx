@@ -1,9 +1,12 @@
 import { FormattedMessage } from 'react-intl'
+import { PriceChartPreferenceType } from 'data/preferences/types'
 import React from 'react'
 
-export const getPriceChartTime = priceChartTime => {
+export const getPriceChartTime = (
+  priceChartTime: PriceChartPreferenceType['time']
+) => {
   switch (priceChartTime) {
-    case '1day': {
+    case 'day': {
       return (
         <FormattedMessage
           id='scenes.home.pricechart.coinperformance.day'
@@ -11,7 +14,7 @@ export const getPriceChartTime = priceChartTime => {
         />
       )
     }
-    case '1week': {
+    case 'week': {
       return (
         <FormattedMessage
           id='scenes.home.pricechart.coinperformance.week'
@@ -19,7 +22,7 @@ export const getPriceChartTime = priceChartTime => {
         />
       )
     }
-    case '1month': {
+    case 'month': {
       return (
         <FormattedMessage
           id='scenes.home.pricechart.coinperformance.month'
@@ -27,7 +30,7 @@ export const getPriceChartTime = priceChartTime => {
         />
       )
     }
-    case '1year': {
+    case 'year': {
       return (
         <FormattedMessage
           id='scenes.home.pricechart.coinperformance.year'

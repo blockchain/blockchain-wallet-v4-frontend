@@ -1,18 +1,23 @@
-import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { CoinType, FiatType, RemoteDataType } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
 import { pathOr, toUpper } from 'ramda'
+import React from 'react'
+
+import { actions } from 'data'
+import { getData } from './selectors'
+import { PriceChangeTimeRangeType } from 'core/types'
 import Error from './template.error'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent<Props> {
   componentDidMount () {
     const coin = pathOr('BTC', ['cache', 'coin'], this.props)
-    const time = pathOr('1month', ['cache', 'time'], this.props)
+    const time = pathOr(
+      'month',
+      ['cache', 'time'],
+      this.props
+    ) as PriceChangeTimeRangeType
     this.props.priceChartActions.initialized(toUpper(coin), time)
   }
 
@@ -41,18 +46,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-
-export type SuccessStateType = {
-  coin: CoinType
-  data: Array<any>
-  time: string
-}
-
-type LinkStatePropsType = {
-  currency: FiatType
-  currencySymbol: string
-  data: RemoteDataType<string, SuccessStateType>
-}
 
 type Props = ConnectedProps<typeof connector>
 

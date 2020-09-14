@@ -98,7 +98,7 @@ export type OwnProps = {
   handleClose: () => void
 }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
-  formErrors: { amount?: 'ABOVE_MAX' | false }
+  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

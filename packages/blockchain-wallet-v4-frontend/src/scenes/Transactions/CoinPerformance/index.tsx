@@ -1,9 +1,9 @@
+import React from 'react'
+import styled from 'styled-components'
+
 import CoinChart from './CoinChart'
 import CoinPrices from './CoinPrices'
 import media from 'services/ResponsiveService'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,13 +24,9 @@ const Wrapper = styled.div`
 
 const CoinPerformanceContainer = ({ coin, coinModel }) => (
   <Wrapper>
-    <CoinPrices coin={coin} coinModel={coinModel} />
+    <CoinPrices coinModel={coinModel} />
     <CoinChart coin={coin} />
   </Wrapper>
 )
-
-CoinPerformanceContainer.propTypes = {
-  coin: PropTypes.string.isRequired
-}
 
 export default CoinPerformanceContainer

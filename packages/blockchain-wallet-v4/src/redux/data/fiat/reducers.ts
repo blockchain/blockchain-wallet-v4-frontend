@@ -12,7 +12,8 @@ const DEFAULT_STATE = {
 
 const INITIAL_STATE: FiatStateType = {
   EUR: DEFAULT_STATE,
-  GBP: DEFAULT_STATE
+  GBP: DEFAULT_STATE,
+  USD: DEFAULT_STATE
 }
 
 let txs: Array<RemoteDataType<string, SBTransactionsType['items']>>

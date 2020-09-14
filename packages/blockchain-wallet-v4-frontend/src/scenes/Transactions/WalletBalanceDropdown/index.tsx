@@ -171,9 +171,13 @@ export class WalletBalanceDropdown extends Component<Props> {
         balanceData: 0,
         currency: 'USD',
         currencySymbol: '$',
-        priceChangeFiat: 0,
-        price24H: { change: '0', movement: 'none', price: 1 },
-        priceChangePercentage: 0,
+        priceChange: {
+          diff: '0',
+          percentChange: '0',
+          movement: 'none',
+          currentPrice: 1,
+          previousPrice: 1
+        },
         sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       }).balanceData
     } else if (selectProps.value) {
@@ -214,9 +218,13 @@ export class WalletBalanceDropdown extends Component<Props> {
       balanceData: 0,
       currency: 'USD' as FiatType,
       currencySymbol: '$',
-      priceChangeFiat: 0,
-      price24H: { change: '0', movement: 'none', price: 1 },
-      priceChangePercentage: 0,
+      priceChange: {
+        diff: '0',
+        percentChange: '0',
+        movement: 'none',
+        currentPrice: 1,
+        previousPrice: 1
+      },
       sbBalance: { available: '0', pending: '0', withdrawable: '0' }
     })
 

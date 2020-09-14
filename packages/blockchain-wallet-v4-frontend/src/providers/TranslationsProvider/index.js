@@ -8,7 +8,7 @@ import { selectors } from 'data'
 
 class TranslationsProvider extends React.Component {
   state = {
-    locale: '',
+    locale: 'en',
     messages: {}
   }
 

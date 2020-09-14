@@ -1,6 +1,7 @@
 import * as selectors from '../../selectors'
 import {
   CoinType,
+  PriceChangeTimeRangeType,
   RatesType,
   RemoteDataType,
   WalletCurrencyType
@@ -28,8 +29,11 @@ export const handle2FAReset = (state: RootState) =>
 export const verifyEmailToken = (state: RootState) =>
   state.dataPath.misc.verify_email_token
 
-export const getPrice24H = (coin: CoinType, state: RootState) =>
-  state.dataPath.misc.price_24h[coin]
+export const getPriceChange = (
+  coin: CoinType,
+  range: PriceChangeTimeRangeType,
+  state: RootState
+) => state.dataPath.misc.price_change[range][coin]
 
 export const getRatesSelector = (
   coin: WalletCurrencyType,
@@ -38,6 +42,7 @@ export const getRatesSelector = (
   switch (coin) {
     case 'EUR':
     case 'GBP':
+    case 'USD':
     case 'BTC':
       return selectors.data.btc.getRates(state)
     case 'BCH':

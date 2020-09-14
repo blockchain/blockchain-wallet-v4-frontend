@@ -303,6 +303,7 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getAlgoBalance
     case 'EUR':
     case 'GBP':
+    case 'USD':
       return getFiatBalance(coin)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)

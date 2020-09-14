@@ -76,11 +76,11 @@ export const getEthData = (
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
   const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x),
+      label: buildCustodialDisplay(currencyDetails),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'ETH Trading Wallet'
       }
@@ -110,6 +110,10 @@ export const getEthData = (
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
 
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
+
   const getAddressesData = () => {
     return sequence(Remote.of, [
       includeExchangeAddress && hasExchangeAddress
@@ -120,18 +124,15 @@ export const getEthData = (
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
-      includeCustodial
-        ? hasAccountAddress
-          ? selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.ETH && { ...x.ETH, address: accountAddress.data })
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
-          : selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x.ETH)
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
+      showCustodial || showCustodialWithAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(x => ({
+              ...x.ETH,
+              address: accountAddress ? accountAddress.data : null
+            }))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
@@ -251,15 +252,22 @@ export const getErc20Data = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label: `Exchange ${coin} Address`,
+      label:
+        coin === 'PAX'
+          ? 'Exhange USD Digital Address'
+          : `Exchange ${coin} Address`,
       value: x
     }
   ]
-  const toCustodialDropdown = x => [
+  const toCustodialDropdown = currencyDetails => [
     {
-      label: buildCustodialDisplay(x, coin, supportedCoins[coin].displayName),
+      label: buildCustodialDisplay(
+        currencyDetails,
+        coin,
+        supportedCoins[coin].displayName
+      ),
       value: {
-        ...x,
+        ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: `${supportedCoins[coin].coinTicker} Trading Wallet`
       }
@@ -288,27 +296,30 @@ export const getErc20Data = (
     state
   )
   const hasAccountAddress = Remote.Success.is(accountAddress)
+  const showCustodial = includeCustodial && !forceCustodialFirst
+  const showCustodialWithAddress =
+    includeCustodial && forceCustodialFirst && hasAccountAddress
 
   const getAddressesData = () => {
     return sequence(Remote.of, [
+      includeExchangeAddress && hasExchangeAddress
+        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
+        : Remote.of([]),
       selectors.core.common.eth
         .getErc20AccountBalances(state, coin)
         .map(excluded)
         .map(toDropdown)
         .map(toGroup('Wallet')),
       Remote.of([]),
-      includeCustodial
-        ? hasAccountAddress
-          ? selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x[coin] && { ...x[coin], address: accountAddress.data })
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
-          : selectors.components.simpleBuy
-              .getSBBalances(state)
-              .map(x => x[coin])
-              .map(toCustodialDropdown)
-              .map(toGroup('Custodial Wallet'))
+      showCustodial || showCustodialWithAddress
+        ? selectors.components.simpleBuy
+            .getSBBalances(state)
+            .map(x => ({
+              ...x[coin],
+              address: accountAddress ? accountAddress.data : null
+            }))
+            .map(toCustodialDropdown)
+            .map(toGroup('Custodial Wallet'))
         : Remote.of([]),
       includeInterest
         ? selectors.components.interest
@@ -316,9 +327,6 @@ export const getErc20Data = (
             .map(x => x[coin])
             .map(toInterestDropdown)
             .map(toGroup('Interest Wallet'))
-        : Remote.of([]),
-      includeExchangeAddress && hasExchangeAddress
-        ? exchangeAddress.map(toExchange).map(toGroup('Exchange'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4]) => {
       const orderArray = forceCustodialFirst
