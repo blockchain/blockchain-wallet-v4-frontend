@@ -65,6 +65,7 @@ export type SBShowModalOriginType =
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'
+  | 'SimpleBuyLink'
   | 'WelcomeModal'
   | 'WithdrawModal'
 
@@ -288,6 +289,7 @@ export type StepActionsPayload =
       step: 'CHECKOUT_CONFIRM' | 'ORDER_SUMMARY' | 'CANCEL_ORDER'
     }
   | {
+      amount?: string
       cryptoCurrency: CoinType
       fiatCurrency: FiatType
       method?: SBPaymentMethodType

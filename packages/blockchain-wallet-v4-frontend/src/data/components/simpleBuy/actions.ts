@@ -431,6 +431,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       }
     case 'ENTER_AMOUNT':
       return {
+        amount: payload.amount || '',
         step: payload.step,
         orderType: payload.orderType || 'BUY',
         cryptoCurrency: payload.cryptoCurrency,

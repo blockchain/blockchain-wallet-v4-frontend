@@ -1,5 +1,5 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
@@ -31,6 +31,7 @@ import media from 'services/ResponsiveService'
 import { Props as OwnProps } from '.'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -127,6 +128,12 @@ const TitleWrapper = styled.div`
   }
 `
 
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+`
+
 const LinkAccountTitle = () => (
   <TitleWrapper>
     <Image name='wallet' height='2rem' />
@@ -136,6 +143,12 @@ const LinkAccountTitle = () => (
     />
   </TitleWrapper>
 )
+
+type GoalDataType = {
+  amount: string
+  crypto: 'btc' | 'eth' | 'bch'
+  displayName: string
+}
 
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
@@ -167,11 +180,23 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
+  const dataGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', dataGoal)
 
   return (
     <OuterWrapper>
       {isLinkAccountGoal && <LinkExchangeAccount />}
       <LoginWrapper>
+        {!isNil(goalData) && !isEmpty(goalData) && (
+          <HeaderWrapper>
+            <Text color='white' size='32px' weight={600}>
+              <FormattedMessage
+                defaultMessage='Buy Crypto With Credit Card'
+                id='scenes.login.simplebuy.header'
+              />
+            </Text>
+          </HeaderWrapper>
+        )}
         <PublicWrapper>
           <Modals />
           <Header>
@@ -186,6 +211,9 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               )}
             </Text>
           </Header>
+          {!isNil(goalData) && !isEmpty(goalData) && (
+            <SimpleBuyInfo goalData={goalData} />
+          )}
           <LoginForm onSubmit={handleSubmit}>
             {!isSupportedBrowser && (
               <BrowserWarning>

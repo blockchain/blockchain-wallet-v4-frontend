@@ -5,6 +5,7 @@ import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
+import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { getData } from './selectors'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -16,7 +17,10 @@ import Success from './template.success'
 
 class Checkout extends PureComponent<Props> {
   componentDidMount () {
-    const amount = this.props.formValues?.amount
+    const dataGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
+    const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
+    const amount = goalAmount || this.props.formValues?.amount
+
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
@@ -33,7 +37,10 @@ class Checkout extends PureComponent<Props> {
     const { userData } = this.props.data.getOrElse({
       userData: { tiers: { current: 0, next: 0, selected: 0 } } as UserDataType
     } as SuccessStateType)
+    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
+    const id = propOr('', 'id', simpleBuyGoal)
 
+    !isEmpty(id) && this.props.deleteGoal(id)
     const method = this.props.method || this.props.defaultMethod
 
     if (!method) {
@@ -95,11 +102,13 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
     | SBCheckoutFormValuesType
     | undefined,
+  goals: selectors.goals.getGoals(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  deleteGoal: id => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

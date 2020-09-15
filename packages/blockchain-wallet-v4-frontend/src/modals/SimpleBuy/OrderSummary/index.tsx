@@ -13,7 +13,7 @@ import { getData } from './selectors'
 import { Remote } from 'core'
 import { RootState } from 'data/rootReducer'
 import DataError from 'components/DataError'
-import Loading from '../AddCard/template.loading'
+// import Loading from '../AddCard/template.loading'
 import React, { PureComponent } from 'react'
 import Success from './template.success'
 
@@ -35,8 +35,10 @@ class OrderSummary extends PureComponent<Props> {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Loading: () => <div>loadingasdkjh</div>,
+      // Loading: () => <Loading />,
+      NotAsked: () => <div>not askedsda</div>
+      // NotAsked: () => <Loading />
     })
   }
 }
