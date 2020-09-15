@@ -1,3 +1,4 @@
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -18,6 +19,7 @@ import media from 'services/ResponsiveService'
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import SignupForm from './SignupForm'
+import SimpleBuyInfo from './SimpleBuyInfo'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -68,6 +70,11 @@ const Card = styled.div`
     padding: 1.5rem;
   `}
 `
+
+const SimpleBuyCard = styled(Card)`
+  max-width: 27rem;
+`
+
 const CardHeader = styled.div`
   align-items: center;
   display: flex;
@@ -335,8 +342,16 @@ const SignupCard = ({
   )
 }
 
+type GoalDataType = {
+  amount: string
+  crypto: 'btc' | 'eth' | 'bch'
+  displayName: string
+}
+
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { isLinkAccountGoal } = props
+  const { isLinkAccountGoal, isSimpleBuyGoal, goals } = props
+  const dataGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', dataGoal)
 
   if (isLinkAccountGoal) {
     return (
@@ -345,6 +360,63 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
           <LinkExchangeAccount />
           <SignupCard {...props} />
         </CardsWrapper>
+      </SignupWrapper>
+    )
+  }
+
+  if (isSimpleBuyGoal) {
+    return (
+      <SignupWrapper>
+        <CardsWrapper>
+          <SimpleBuyCard>
+            <CardHeader>
+              <Text size='24px' color='textBlack' weight={600}>
+                <FormattedMessage
+                  defaultMessage='Sign Up to Continue Your Crypto Purchase.'
+                  id='scenes.register.simplebuy.signup'
+                />
+              </Text>
+            </CardHeader>
+
+            {!isNil(goalData) && !isEmpty(goalData) && (
+              <SimpleBuyInfo goalData={goalData} />
+            )}
+
+            <Text size='14px' color='grey600' weight={500}>
+              <FormattedMessage
+                id='scenes.register.simplebuy.change'
+                defaultMessage='You will be able to change your amount later.'
+              />
+            </Text>
+
+            <SignupForm
+              busy={props.busy}
+              handleSubmit={props.handleSubmit}
+              invalid={props.invalid}
+              password={props.password}
+              passwordLength={props.passwordLength}
+            />
+          </SimpleBuyCard>
+        </CardsWrapper>
+        <LinkContainer to='/login'>
+          <Link>
+            <SubCard>
+              <Text size='14px' color='whiteFade600' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.wallet.link'
+                  defaultMessage='Already have a wallet?'
+                />
+              </Text>
+              &nbsp;
+              <SignInText color='whiteFade900' size='14px' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.wallet.signin'
+                  defaultMessage='Sign In'
+                />
+              </SignInText>
+            </SubCard>
+          </Link>
+        </LinkContainer>
       </SignupWrapper>
     )
   }
@@ -465,9 +537,11 @@ type Props = {
   email: string
   goals: Array<{ data: any; id: string; name: GoalsType }>
   isLinkAccountGoal: boolean
+  isSimpleBuyGoal: boolean
   language: string
   password: string
   passwordLength: number
+  pathname: string
   showForm: boolean
   toggleForm: any
 }

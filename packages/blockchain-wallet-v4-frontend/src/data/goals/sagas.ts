@@ -100,6 +100,20 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
   }
 
+  const defineSimpleBuyGoal = function * (search) {
+    // /#/open/simple-buy?crypto={crypto}&amount={amount}&displayName={displayName}
+    const params = new URLSearchParams(search)
+    const amount = params.get('amount')
+    const crypto = params.get('crypto')
+    const displayName = params.get('displayName')
+
+    yield put(
+      actions.goals.saveGoal('simpleBuy', { amount, crypto, displayName })
+    )
+
+    yield put(actions.router.push('/signup'))
+  }
+
   const defineSendCryptoGoal = function * (pathname, search) {
     // special case to handle bitcoin bip21 link integration
     const decodedPayload = decodeURIComponent(pathname + search)
@@ -156,6 +170,11 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+  // define goal
+  // make sure to get goal inside register/login
+  // run goal
+  // showinitial modal
+  // showthe simple buy modal
 
   const defineDeepLinkGoals = function * (pathname, search) {
     if (startsWith('xlm', pathname))
@@ -170,6 +189,9 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSendCryptoGoal, pathname, search)
     if (startsWith('log-level', pathname))
       return yield call(defineLogLevel, search)
+    // simple-buy widget
+    if (startsWith('simple-buy', pathname))
+      return yield call(defineSimpleBuyGoal, search)
     yield call(defineActionGoal, pathname, search)
   }
 
@@ -223,6 +245,20 @@ export default ({ api, coreSagas, networks }) => {
         actions.logs.logErrorMessage(logLocation, 'runKycGoal', err.message)
       )
     }
+  }
+
+  const runSimpleBuyGoal = function * (goal) {
+    const {
+      data: { amount, crypto, displayName }
+    } = goal
+
+    yield put(
+      actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
+        amount,
+        crypto,
+        displayName
+      })
+    )
   }
 
   const runLinkAccountGoal = function * (goal) {
@@ -601,6 +637,7 @@ export default ({ api, coreSagas, networks }) => {
       kycDocResubmit,
       linkAccount,
       payment,
+      simpleBuyModal,
       sunriver,
       swapGetStarted,
       swapUpgrade,
@@ -609,6 +646,7 @@ export default ({ api, coreSagas, networks }) => {
       transferEth,
       xlmPayment
     } = initialModals
+
     // Order matters here
     if (linkAccount) {
       return yield put(
@@ -660,6 +698,14 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
+    if (simpleBuyModal) {
+      return yield put(
+        actions.components.simpleBuy.showModal(
+          'SimpleBuyLink',
+          simpleBuyModal.data.crypto
+        )
+      )
+    }
     if (welcomeModal) {
       yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
     }
@@ -690,6 +736,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'referral':
           yield call(runReferralGoal, goal)
+          break
+        case 'simpleBuy':
+          yield call(runSimpleBuyGoal, goal)
           break
         case 'swapGetStarted':
           yield call(runSwapGetStartedGoal, goal)

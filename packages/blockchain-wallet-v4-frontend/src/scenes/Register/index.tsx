@@ -36,11 +36,13 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     const passwordLength = (password && password.length) || 0
     const showWalletFormQuery = search.includes('showWallet')
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
+    const isSimpleBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
 
     return (
       <Register
         busy={busy}
         isLinkAccountGoal={isLinkAccountGoal}
+        isSimpleBuyGoal={isSimpleBuyGoal}
         onSubmit={this.onSubmit}
         password={password}
         passwordLength={passwordLength}
@@ -59,6 +61,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   email: formValueSelector('register')(state, 'email'),
   goals: selectors.goals.getGoals(state),
   password: formValueSelector('register')(state, 'password') || '',
+  pathname: selectors.router.getPathname(state),
   search: selectors.router.getSearch(state)
 })
 
@@ -77,6 +80,7 @@ type LinkStatePropsType = {
   goals: Array<{ data: any; id: string; name: GoalsType }>
   language: string
   password: string
+  pathname: string
   search: string
 }
 
