@@ -417,7 +417,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               <Text size='14px' color='whiteFade600' weight={500}>
                 <FormattedMessage
                   id='scenes.login.wallet.link'
-                  defaultMessage='Dont have a wallet?'
+                  defaultMessage="Don't have a wallet?"
                 />
               </Text>
               &nbsp;
