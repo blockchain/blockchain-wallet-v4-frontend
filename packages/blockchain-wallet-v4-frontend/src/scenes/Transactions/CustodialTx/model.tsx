@@ -86,7 +86,13 @@ export const Timestamp = (props: Props) => {
   }
 
   return (
-    <Text size='14px' weight={500} color='grey600' style={{ marginTop: '4px' }}>
+    <Text
+      size='14px'
+      weight={500}
+      color='grey600'
+      style={{ marginTop: '4px' }}
+      data-e2e='txTimeOrStatus'
+    >
       {getTimeOrStatus()}
     </Text>
   )
