@@ -29,10 +29,7 @@ describe('kvStore bch reducers', () => {
   )
 
   const bchMetadataSuccess = Remote.Success(bchMetadata)
-  const valueLens = compose(
-    mapped,
-    KVStoreEntry.value
-  )
+  const valueLens = compose(mapped, KVStoreEntry.value)
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)

@@ -27,10 +27,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('UpgradeWallet'),
   reduxForm({ form: 'upgradeWallet' }),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(UpgradeContainer)

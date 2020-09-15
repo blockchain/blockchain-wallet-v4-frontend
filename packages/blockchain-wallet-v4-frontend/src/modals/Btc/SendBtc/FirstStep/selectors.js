@@ -12,6 +12,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveHDAccounts,
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
+    selectors.core.wallet.isMnemonicVerified,
     selectors.core.walletOptions.getBtcNetwork,
     selectors.form.getFormValues(model.components.sendBtc.FORM),
     selectors.core.walletOptions.getCoinAvailability
@@ -22,6 +23,7 @@ export const getData = createDeepEqualSelector(
     btcAccountsR,
     btcAddressesR,
     lockboxDevicesR,
+    isMnemonicVerified,
     networkTypeR,
     formValues,
     coinAvailabilityR
@@ -36,6 +38,7 @@ export const getData = createDeepEqualSelector(
     const enableToggle =
       btcAccountsLength + btcAddressesLength > 1 ||
       !isEmpty(lockboxDevicesR.getOrElse([]))
+    const amount = prop('amount', formValues)
     const feePerByte = prop('feePerByte', formValues)
     const destination = prop('to', formValues)
     const from = prop('from', formValues)
@@ -72,25 +75,25 @@ export const getData = createDeepEqualSelector(
           ]
         }
       ]
-      const watchOnly = prop('watchOnly', from)
       const network = Bitcoin.networks[networkType]
 
       return {
-        from,
-        network,
-        enableToggle,
-        feePerByte,
-        feePerByteToggled,
-        feePerByteElements,
-        effectiveBalance,
-        minFeePerByte,
-        maxFeePerByte,
-        regularFeePerByte,
-        priorityFeePerByte,
+        amount,
         destination,
-        totalFee,
-        watchOnly,
-        excludeLockbox
+        effectiveBalance,
+        enableToggle,
+        excludeLockbox,
+        feePerByte,
+        feePerByteElements,
+        feePerByteToggled,
+        from,
+        isMnemonicVerified,
+        maxFeePerByte,
+        minFeePerByte,
+        network,
+        priorityFeePerByte,
+        regularFeePerByte,
+        totalFee
       }
     }
 

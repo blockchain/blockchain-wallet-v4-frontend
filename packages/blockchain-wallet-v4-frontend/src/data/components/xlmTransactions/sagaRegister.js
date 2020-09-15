@@ -14,9 +14,5 @@ export default () => {
       AT.XLM_TRANSACTIONS_LOAD_MORE,
       xlmTransactionsSagas.loadMore
     )
-    yield takeEvery(
-      AT.TRANSACTIONS_REPORT_CLICKED,
-      xlmTransactionsSagas.reportClicked
-    )
   }
 }

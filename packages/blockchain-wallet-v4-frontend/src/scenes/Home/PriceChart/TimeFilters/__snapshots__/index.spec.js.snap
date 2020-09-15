@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`TimeFilters container renders correctly 1`] = `
-<template.na.js
-  handleClick={[Function]}
-  isSilverOrAbove={false}
-  time="1month"
-/>
-`;

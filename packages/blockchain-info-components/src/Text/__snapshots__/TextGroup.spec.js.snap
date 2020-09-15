@@ -1,20 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextGroup component default renders correctly 1`] = `
-.c0 > * {
-  white-space: nowrap;
-}
-
-.c0 > * {
-  display: inline;
-  margin-right: 2px;
-}
-
-<div
-  className="c0"
+<styled.div
+  inline={true}
+  nowrap={true}
 >
   <span>
     Hello World
   </span>
-</div>
+</styled.div>
 `;

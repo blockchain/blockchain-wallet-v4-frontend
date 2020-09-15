@@ -29,7 +29,4 @@ const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(FinishSetupStepContainer)
+export default connect(null, mapDispatchToProps)(FinishSetupStepContainer)

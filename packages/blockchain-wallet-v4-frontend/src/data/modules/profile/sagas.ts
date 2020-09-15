@@ -13,19 +13,12 @@ import {
   spawn,
   take
 } from 'redux-saga/effects'
-import {
-  compose,
-  difference,
-  equals,
-  keys,
-  lift,
-  prop,
-  sortBy,
-  tail
-} from 'ramda'
+import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
+import { ExtractSuccess } from 'core/types'
 import { KYC_STATES, USER_ACTIVATION_STATES } from './model'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { UserDataType } from './types'
 import moment from 'moment'
 
 export const logLocation = 'modules/profile/sagas'
@@ -38,8 +31,26 @@ let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
     const userData = yield select(selectors.modules.profile.getUserData)
+    const apiToken = yield select(selectors.modules.profile.getApiToken)
+    // If success or failure already return
     if (Remote.Success.is(userData)) return
-    yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+    if (Remote.Failure.is(userData)) return
+    // If api key failure return
+    if (Remote.Failure.is(apiToken)) return
+    // Wait for success or failure
+    return yield race({
+      success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
+      failure: take(actionTypes.modules.profile.FETCH_USER_DATA_FAILURE)
+    })
+  }
+
+  const isTier2 = function * () {
+    yield call(waitForUserData)
+    const userDataR = selectors.modules.profile.getUserData(yield select())
+    const userData = userDataR.getOrElse({
+      tiers: { current: 0 }
+    } as UserDataType)
+    return userData.tiers && userData.tiers.current >= 2
   }
 
   const getCampaignData = function * (campaign) {
@@ -261,7 +272,7 @@ export default ({ api, coreSagas, networks }) => {
         if (!userId || !lifetimeToken) return call(generateAuthCredentials)
         return authCredentials
       })
-      .getOrElse({})
+      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
 
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
@@ -270,13 +281,14 @@ export default ({ api, coreSagas, networks }) => {
     const { data } = payload
     const userR = S.getUserData(yield select())
     const user = userR.getOrElse({
-      id: undefined,
+      id: '',
       address: undefined,
-      mobile: undefined,
-      mobileVerified: undefined,
-      state: undefined,
-      kycState: undefined
-    })
+      mobile: '',
+      mobileVerified: false,
+      state: 'NONE',
+      kycState: 'NONE'
+    } as UserDataType)
+    /* eslint-disable */
     const {
       id,
       address,
@@ -286,6 +298,7 @@ export default ({ api, coreSagas, networks }) => {
       kycState,
       ...userData
     } = user
+    /* eslint-enable */
     const updatedData = { ...userData, ...data }
 
     if (equals(updatedData, userData)) return user
@@ -324,8 +337,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const fetchTiers = function * () {
     try {
-      const tiers = yield select(S.getTiers)
-      if (!Remote.Success.is(tiers)) yield put(A.fetchTiersLoading())
+      yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
       yield put(
         A.fetchTiersSuccess(
@@ -344,16 +356,10 @@ export default ({ api, coreSagas, networks }) => {
   const shareWalletAddressesWithExchange = function * () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
-      // TODO: move to goal and pass remaining coins to saga
-      // Only run saga if remainingCoins is !empty
-      const supportedCoinsList = (yield select(
-        selectors.core.walletOptions.getSyncToExchangeList
-      )).getOrFail('no_supported_coins')
+      const remainingCoins = S.getRemainingCoins(yield select())
       const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
         'no_deposit_addresses'
       )
-      const walletAddressesList = keys(walletAddresses)
-      const remainingCoins = difference(supportedCoinsList, walletAddressesList)
       // BTC
       const defaultIdx = yield select(
         selectors.core.wallet.getDefaultAccountIndex
@@ -371,7 +377,7 @@ export default ({ api, coreSagas, networks }) => {
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
-      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH }
+      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH, USDT: ETH }
       const state = yield select()
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
@@ -389,7 +395,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const linkFromExchangeAccount = function * ({ payload }) {
     try {
-      const { linkId } = payload
+      const { linkId, email, address } = payload
       yield put(A.linkFromExchangeAccountLoading())
       // ensure email is verified else wait
       const isEmailVerified = (yield select(
@@ -401,10 +407,12 @@ export default ({ api, coreSagas, networks }) => {
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
       if (isUserStateNone) yield call(createUser)
       // link Account
-      const data = yield call(api.linkAccount, linkId)
+      const data = yield call(api.linkAccount, linkId, email, address)
       // share addresses
       yield put(A.shareWalletAddressesWithExchange())
       yield put(A.linkFromExchangeAccountSuccess(data))
+      // finalise linking
+      yield call(api.finaliseLinking)
       // update user
       yield call(fetchUser)
     } catch (e) {
@@ -416,6 +424,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
+
       // check if wallet is already linked
       const isExchangeAccountLinked = (yield select(
         S.isExchangeAccountLinked
@@ -423,6 +432,7 @@ export default ({ api, coreSagas, networks }) => {
       if (isExchangeAccountLinked) {
         throw new Error('Account has already been linked.')
       }
+
       // ensure email address is verified
       const isEmailVerified = (yield select(
         selectors.core.settings.getEmailVerified
@@ -430,37 +440,50 @@ export default ({ api, coreSagas, networks }) => {
       if (!isEmailVerified) {
         throw new Error('Email address is not verified.')
       }
-      // get or create nabu user
-      const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
-      if (isUserStateNone) yield call(createUser)
-      // get exchange linkId, exchange domain and user email
-      const domains = (yield select(
-        selectors.core.walletOptions.getDomains
+
+      // check if wallet relink should be attempted
+      const isRelinkAttempt = (yield select(
+        S.isExchangeRelinkRequired
       )).getOrFail()
-      const exchangeDomain = prop('exchange', domains)
-      const data = yield call(api.createLinkAccountId)
-      const exchangeLinkId = prop('linkId', data)
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
-        email
-      )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-        'wallet_exchange_page'}`
-      // share addresses
-      yield put(A.shareWalletAddressesWithExchange())
-      // simulate wait while allowing user to read modal
-      yield delay(2000)
-      // attempt to open url for user
-      window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
-      yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
-      // poll for account link
-      yield race({
-        task: call(pollForAccountLinkSuccess, 0),
-        cancel: take([
-          AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
-          AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
-          actionTypes.modals.CLOSE_MODAL
-        ])
-      })
+
+      if (isRelinkAttempt) {
+        yield put(A.shareWalletAddressesWithExchange())
+        return yield put(actions.modals.closeAllModals())
+      } else {
+        // get or create nabu user
+        const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
+        if (isUserStateNone) yield call(createUser)
+        // get exchange linkId, exchange domain and user email
+        const domains = (yield select(
+          selectors.core.walletOptions.getDomains
+        )).getOrFail()
+        const exchangeDomain = prop('exchange', domains)
+        const data = yield call(api.createLinkAccountId)
+        const exchangeLinkId = prop('linkId', data)
+        const email = (yield select(
+          selectors.core.settings.getEmail
+        )).getOrFail()
+        const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
+          email
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
+          'wallet_exchange_page'}`
+        // share addresses
+        yield put(A.shareWalletAddressesWithExchange())
+        // simulate wait while allowing user to read modal
+        yield delay(2000)
+        // attempt to open url for user
+        window.open(accountDeeplinkUrl, '_blank', 'noreferrer')
+        yield put(A.setLinkToExchangeAccountDeepLink(accountDeeplinkUrl))
+        // poll for account link
+        yield race({
+          task: call(pollForAccountLinkSuccess, 0),
+          cancel: take([
+            AT.LINK_TO_EXCHANGE_ACCOUNT_FAILURE,
+            AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS,
+            actionTypes.modals.CLOSE_MODAL
+          ])
+        })
+      }
     } catch (e) {
       yield put(A.linkToExchangeAccountFailure(e.message))
     }
@@ -507,6 +530,7 @@ export default ({ api, coreSagas, networks }) => {
     generateAuthCredentials,
     generateRetailToken,
     getCampaignData,
+    isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     recoverUser,
@@ -518,6 +542,7 @@ export default ({ api, coreSagas, networks }) => {
     signIn,
     syncUserWithWallet,
     updateUser,
-    updateUserAddress
+    updateUserAddress,
+    waitForUserData
   }
 }

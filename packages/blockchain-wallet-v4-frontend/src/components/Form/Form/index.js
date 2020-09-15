@@ -1,5 +1,4 @@
 import { Form as ReduxForm } from 'redux-form'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -15,10 +14,6 @@ const Form = props => {
       {children}
     </BaseForm>
   )
-}
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired
 }
 
 export default Form

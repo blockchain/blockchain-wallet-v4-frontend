@@ -26,10 +26,7 @@ class AppManagerStepContainer extends React.PureComponent {
         <AppManager
           newDevice
           mainButtonText={
-            <FormattedMessage
-              id='modals.lockboxsetup.appmanagerstep.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           }
           onClose={this.onStepChange}
         />
@@ -43,7 +40,4 @@ const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(AppManagerStepContainer)
+export default connect(null, mapDispatchToProps)(AppManagerStepContainer)

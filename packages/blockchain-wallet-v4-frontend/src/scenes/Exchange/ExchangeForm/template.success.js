@@ -1,13 +1,19 @@
-import { AutosizeTextBox, Form } from 'components/Form'
-import { Banner, Icon, Text } from 'blockchain-info-components'
-import { Wrapper as BorderWrapper, Note } from 'components/Exchange'
-import { Cell, Row } from './Layout'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { formatTextAmount } from 'services/ValidationHelper'
 import { head, includes, last } from 'ramda'
+import React, { useEffect } from 'react'
+import styled from 'styled-components'
+
+import {
+  AmountTextBox,
+  Wrapper as BorderWrapper,
+  Note
+} from 'components/Exchange'
+import { Banner, Icon, Text } from 'blockchain-info-components'
+import { Cell, Row } from './Layout'
+import { Form } from 'components/Form'
+import { formatTextAmount } from 'services/ValidationHelper'
 import { model } from 'data'
-import { ResizeableFontInputHOC } from 'components/ResizeableFontInputHOC'
 import ComplementaryAmount from './ComplementaryAmount'
 import CurrencySelect from './CurrencySelect'
 import Error from './Error'
@@ -16,8 +22,6 @@ import media from 'services/ResponsiveService'
 import MinMaxButtons from './MinMaxButtons'
 import Notifications from './Notifications'
 import RatesBox from './RatesBox'
-import React from 'react'
-import styled from 'styled-components'
 import SubmitButton from './SubmitButton'
 import Summary from './Summary'
 
@@ -54,11 +58,11 @@ const ColumnRight = styled.div`
   max-width: 350px;
   width: 100%;
   align-self: center;
-  @media (min-width: 992px) {
+  ${media.atLeastTabletL`
     align-self: flex-start;
     max-width: 345px;
     width: 40%;
-  }
+  `}
 `
 const SwapReceiveRow = styled(Row)`
   padding: 22px 32px 0 32px;
@@ -75,45 +79,14 @@ const AmountRow = styled(Row)`
 const ComplementaryRow = styled(Row)`
   padding: 0 32px;
 `
-
-const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))`
-  height: 86px;
-  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '80%')};
-  > div {
-    border: none;
-    height: 100%;
-    padding: 0;
-    display: flex !important;
-    flex-direction: row;
-    justify-content: center;
-  }
-  input {
-    outline: 0;
-    position: relative;
-    font-weight: 400;
-    font-size: 72px;
-    line-height: 88px;
-    height: 88px;
-    padding: 0;
-    width: 100%;
-    min-width: 45px;
-    max-width: 100%;
-    border: none;
-    text-align: center;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: ${props => props.theme['gray-5']};
-    background-color: ${props => props.theme.white};
-  }
-`
 const CoinFiatSwapIcon = styled(Icon)`
   font-size: 24px;
   cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.blue900};
+    props.disabled ? props.theme.grey000 : props.theme.blue900};
   &:hover {
     color: ${props =>
-      props.disabled ? props.theme['gray-1'] : props.theme.blue600};
+      props.disabled ? props.theme.grey000 : props.theme.blue600};
   }
 `
 const ActiveCurrencyButton = styled.div`
@@ -125,7 +98,7 @@ const ActiveCurrencyButton = styled.div`
   margin-right: 8px;
   border: 1px solid
     ${props =>
-      props.checked ? props.theme[props.coin] : props.theme['gray-4']};
+      props.checked ? props.theme[props.coin] : props.theme['grey500']};
 `
 const FormWrapper = styled(BorderWrapper)`
   padding: 0;
@@ -137,10 +110,11 @@ const CurrencyBox = styled(Text)`
   justify-content: center;
   align-items: center;
   height: 88px;
-  font-size: 72px;
+  font-size: 62px;
   font-weight: 400;
+  margin-left: 2px;
   background-color: ${props =>
-    props.disabled ? props.theme['gray-1'] : props.theme.white};
+    props.disabled ? props.theme.grey000 : props.theme.white};
 `
 const ClickableText = styled(Text)`
   cursor: pointer;
@@ -169,6 +143,7 @@ const Success = ({
   complementarySymbol,
   currency,
   fiatActive,
+  initialize,
   inputField,
   inputSymbol,
   sourceActive,
@@ -187,6 +162,11 @@ const Success = ({
     formatPair(targetCoin, sourceCoin),
     availablePairs
   )
+
+  useEffect(() => {
+    return initialize()
+  }, [])
+
   return (
     <Wrapper>
       <ColumnLeft>
@@ -274,7 +254,7 @@ const Success = ({
                 onUpdate={resizeSymbol.bind(null, fiatActive)}
                 component={AmountTextBox}
                 fiatActive={fiatActive}
-                maxFontSize='72px'
+                maxFontSize='62px'
                 data-e2e='exchangeAmountInput'
               />
               {!fiatActive && <CurrencyBox>{inputSymbol}</CurrencyBox>}

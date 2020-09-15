@@ -1,6 +1,5 @@
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -10,20 +9,19 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: ${({ isSilverOrAbove }) => (isSilverOrAbove ? '100px' : '12px')};
+  bottom: 100px;
   width: 100%;
 `
 
 const FilterContainer = styled(Text).attrs({
   size: '12px',
-  weight: 300
+  weight: 400
 })`
-  color: ${props =>
-    props.selected ? props.theme.white : props.theme['gray-3']};
+  color: ${props => (props.selected ? props.theme.white : props.theme.grey300)};
   border: ${props =>
     props.selected
       ? `1px solid ${props.theme.blue600}`
-      : `1px solid ${props.theme['gray-3']}`};
+      : `1px solid ${props.theme.grey100}`};
   background: ${props =>
     props.selected ? props.theme.blue600 : props.theme.white};
   letter-spacing: 1px;
@@ -39,13 +37,13 @@ const FilterContainer = styled(Text).attrs({
 `
 
 const TimeFilters = props => {
-  const { time, isSilverOrAbove, handleClick } = props
+  const { time, handleClick } = props
 
   return (
-    <Wrapper isSilverOrAbove={isSilverOrAbove}>
+    <Wrapper>
       <FilterContainer
-        selected={time === '1day'}
-        onClick={() => handleClick('1day')}
+        selected={time === 'day'}
+        onClick={() => handleClick('day')}
         data-e2e='priceChartDay'
       >
         <FormattedMessage
@@ -54,8 +52,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1week'}
-        onClick={() => handleClick('1week')}
+        selected={time === 'week'}
+        onClick={() => handleClick('week')}
         data-e2e='priceChartWeek'
       >
         <FormattedMessage
@@ -64,8 +62,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1month'}
-        onClick={() => handleClick('1month')}
+        selected={time === 'month'}
+        onClick={() => handleClick('month')}
         data-e2e='priceChartMonth'
       >
         <FormattedMessage
@@ -74,8 +72,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1year'}
-        onClick={() => handleClick('1year')}
+        selected={time === 'year'}
+        onClick={() => handleClick('year')}
         data-e2e='priceChartYear'
       >
         <FormattedMessage
@@ -95,11 +93,6 @@ const TimeFilters = props => {
       </FilterContainer>
     </Wrapper>
   )
-}
-
-TimeFilters.propTypes = {
-  time: PropTypes.oneOf(['all', '1day', '1week', '1month', '1year']).isRequired,
-  handleClick: PropTypes.func.isRequired
 }
 
 export default TimeFilters

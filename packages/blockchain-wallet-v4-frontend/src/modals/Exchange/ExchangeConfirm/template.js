@@ -86,7 +86,7 @@ const OrderInfoBox = styled.div`
   display: flex;
   box-sizing: border-box;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
@@ -186,7 +186,7 @@ const ExchangeConfirm = ({
             defaultMessage='Order Info'
           />
         </Text>
-        <Icon name='chevron-down' weight={600} size='20px' color='gray-3' />
+        <Icon name='chevron-down' weight={600} size='20px' color='grey400' />
       </OrderInfoBox>
       {showOrderInfo && (
         <Summary

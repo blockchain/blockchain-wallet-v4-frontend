@@ -2,6 +2,8 @@ import { Icon } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const Circle = styled.div`
   display: none;
   justify-content: center;
@@ -10,14 +12,14 @@ const Circle = styled.div`
   width: 74px;
   height: 74px;
   background: ${props => props.theme.white};
-  border: 2px solid ${props => props.theme['gray-2']};
+  border: 2px solid ${props => props.theme.grey200};
   border-radius: 74px;
   &.active {
-    background: ${props => props.theme['gray-1']};
+    background: ${props => props.theme.grey000};
   }
-  @media (min-width: 480px) {
+  ${media.atLeastMobile`
     display: flex;
-  }
+  `}
 `
 const StyledIcon = styled(Icon)`
   display: flex;
@@ -27,7 +29,7 @@ const SecurityIcon = props => (
   <Circle className={props.enabled ? 'active' : ''}>
     <StyledIcon
       size='40px'
-      color={props.enabled ? 'success' : 'gray-2'}
+      color={props.enabled ? 'success' : 'grey200'}
       name={props.enabled ? 'checkmark-in-circle-filled' : props.name}
     />
   </Circle>

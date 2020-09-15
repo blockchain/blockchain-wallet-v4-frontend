@@ -86,10 +86,7 @@ const SecondStep = props => {
           onClick={closeAll}
           data-e2e='signMessageDoneButton'
         >
-          <FormattedMessage
-            id='modals.signmessage.secondstep.done'
-            defaultMessage='Done'
-          />
+          <FormattedMessage id='buttons.done' defaultMessage='Done' />
         </Button>
       </SubmitRow>
     </Wrapper>

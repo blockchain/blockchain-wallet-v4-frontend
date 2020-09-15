@@ -28,9 +28,6 @@ const SelectBoxCoin = styled(SelectBox)`
   .bc__control {
     border: 0px !important;
   }
-  .bc__indicator-separator {
-    display: none;
-  }
   .bc__dropdown-indicator {
     padding-left: 0px;
     color: ${props => props.theme.black};

@@ -11,7 +11,7 @@ import {
 import * as AT from './actionTypes'
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 import { FIX_TYPES, MAX_ERROR, MIN_ERROR } from './model'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   availablePairs: Remote.NotAsked,

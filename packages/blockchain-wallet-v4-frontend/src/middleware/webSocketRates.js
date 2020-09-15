@@ -12,20 +12,14 @@ const socket = socket => store => {
       clearInterval(fallbackIntervalPID)
       socket.connect(
         // onOpen
-        compose(
-          store.dispatch,
-          actions.middleware.webSocket.rates.openSocket
-        ),
+        compose(store.dispatch, actions.middleware.webSocket.rates.openSocket),
         // onMessage
         compose(
           store.dispatch,
           actions.middleware.webSocket.rates.messageSocket
         ),
         // onClose
-        compose(
-          store.dispatch,
-          actions.middleware.webSocket.rates.closeSocket
-        ),
+        compose(store.dispatch, actions.middleware.webSocket.rates.closeSocket),
         // onError
         // eslint-disable-next-line no-console
         e => console.error('Failed to connect to websocket', e),

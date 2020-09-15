@@ -21,9 +21,9 @@ const InputRow = styled(Row)`
     flex-direction: column;
   `};
   input {
-    @media screen and (min-width: 480px) {
+    ${media.atLeastMobile`
       border-right: none;
-    }
+    `}
   }
 `
 
@@ -133,12 +133,7 @@ const EmailInput = ({
     <InputRow>
       <TextBox
         errorBottom={errorBottom}
-        placeholder={
-          <FormattedMessage
-            id='components.EmailVerification.placeholder'
-            defaultMessage='Email'
-          />
-        }
+        placeholder={'satoshi@blockchain.com'}
         input={input}
         meta={meta}
       />

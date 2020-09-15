@@ -19,7 +19,6 @@ import Description from './Description'
 import FiatAtTime from './FiatAtTime'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import media from 'services/ResponsiveService'
-import PartnerLabel from './PartnerLabel'
 import Status from './Status'
 import TransactionFee from './TransactionFee'
 
@@ -45,7 +44,7 @@ const TransactionRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 16px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const DetailsRow = styled.div`
   width: 100%;
@@ -84,9 +83,9 @@ const AddressesColumn = styled.div`
   align-items: flex-start;
   white-space: nowrap;
   width: 50%;
-  @media (min-width: 992px) {
-    display: flex;
-  }
+  ${media.atLeastTabletL`
+    display: flex;  
+  `}
 `
 const AmountColumn = styled.div`
   display: flex;
@@ -109,13 +108,15 @@ const dateHelper = (time, isMobile) =>
     .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = ({
+  buySellPartner,
   coin,
+  coinTicker,
   currency,
   isToggled,
   transaction,
-  buySellPartner,
   handleToggle,
   handleEditDescription,
+  handleRetrySendEth,
   onViewTxDetails
 }) => (
   <TransactionRowContainer
@@ -124,7 +125,7 @@ const TransactionListItem = ({
   >
     <TransactionRow onClick={() => handleToggle()}>
       <StatusColumn data-e2e='transactionDateColumn'>
-        <Status type={transaction.type} coin={coin} />
+        <Status type={transaction.type} coinTicker={coinTicker} />
         <MediaContextConsumer>
           {({ mobile }) => (
             <Text size='14px' weight={400} data-e2e='transactionDate'>
@@ -156,19 +157,28 @@ const TransactionListItem = ({
           <BannerWrapper>
             <Banner label='true' type='informational'>
               <FormattedMessage
-                id='components.txlistitem.paxfee'
-                defaultMessage='USD Pax Fee'
+                id='components.txlistitem.erc20fee'
+                defaultMessage='ERC20 Fee'
               />
             </Banner>
           </BannerWrapper>
         )}
-        {prop('partnerLabel', transaction) ? (
-          <PartnerLabel
-            txType={prop('type', transaction)}
-            partnerLabel={prop('partnerLabel', transaction)}
-            buySellPartner={buySellPartner}
-          />
-        ) : null}
+        {transaction.state === 'PENDING' && transaction.type === 'sent' && (
+          <TooltipHost id='transaction.pending.eth' data-place='right'>
+            <BannerWrapper
+              onClick={e =>
+                handleRetrySendEth(e, transaction.hash, transaction.erc20)
+              }
+            >
+              <Banner label='true'>
+                <FormattedMessage
+                  id='components.txlistitem.retrytx'
+                  defaultMessage='Resend Transaction'
+                />
+              </Banner>
+            </BannerWrapper>
+          </TooltipHost>
+        )}
       </StatusColumn>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses
@@ -289,7 +299,7 @@ const TransactionListItem = ({
                       defaultMessage='(Change Address)'
                     />
                     <TooltipHost id='txlist.change.tooltip'>
-                      <TooltipIcon name='question-in-circle' />
+                      <TooltipIcon name='info' />
                     </TooltipHost>
                   </React.Fragment>
                 )}

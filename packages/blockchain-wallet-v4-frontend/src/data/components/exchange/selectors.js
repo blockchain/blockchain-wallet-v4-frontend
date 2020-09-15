@@ -17,9 +17,10 @@ import {
   pathOr,
   prop,
   propEq,
+  toUpper,
   values
 } from 'ramda'
-import { coreSelectors } from 'blockchain-wallet-v4/src'
+import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
   EXCHANGE_FORM,
@@ -27,17 +28,11 @@ import {
   getTargetCoinsPairedToSource
 } from './model'
 import { model, selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4'
 
 export const canUseExchange = state =>
   selectors.modules.profile
     .getUserTiers(state)
-    .map(
-      compose(
-        lt(0),
-        prop('current')
-      )
-    )
+    .map(compose(lt(0), prop('current')))
     .getOrElse(false)
 
 export const getStep = path(['components', 'exchange', 'step'])
@@ -160,17 +155,17 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
-// TODO: make generic, dont hardcore PAX
 export const erc20GetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getDefaultAddress,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
-    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token)
+    (state, token) => coreSelectors.data.eth.getErc20Balance(state, token),
+    (state, token) => token
   ],
-  (ethAddressR, erc20AccountR, erc20BalanceR) => {
+  (ethAddressR, erc20AccountR, erc20BalanceR, token) => {
     const transform = (ethAddress, erc20Account, erc20Balance) => [
       {
-        coin: 'PAX',
+        coin: toUpper(token),
         label: prop('label', erc20Account),
         address: ethAddress,
         balance: erc20Balance,
@@ -221,6 +216,7 @@ export const getActiveAccountsR = state => {
     BTC: btcGetActiveAccounts(state),
     ETH: ethGetActiveAccounts(state),
     PAX: erc20GetActiveAccounts(state, 'pax'),
+    USDT: erc20GetActiveAccounts(state, 'usdt'),
     XLM: xlmGetActiveAccounts(state)
   }
 
@@ -238,6 +234,7 @@ export const getActiveAccounts = compose(
       BTC: [],
       ETH: [],
       PAX: [],
+      USDT: [],
       XLM: []
     }),
   getActiveAccountsR
@@ -320,7 +317,9 @@ const findAccountIndexOr = (defaultIndex, targetAccount, accounts) => {
   return index
 }
 
-export const getInitialValues = (state, availablePairs, requested) => {
+const fallbackPairs = ['BTC-ETH', 'BTC-PAX', 'BTC-BCH', 'BTC-XLM', 'BTC-USDT']
+
+export const getInitialValues = (state, requested) => {
   const availableAccounts = getActiveAccounts(state)
   const defaultValues = {
     sourceFiat: 0,
@@ -328,6 +327,7 @@ export const getInitialValues = (state, availablePairs, requested) => {
     from: 'BTC',
     to: 'ETH'
   }
+  const availablePairs = getAvailablePairs(state).getOrElse(fallbackPairs)
 
   const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
   const prevSource = prop('source', prevValues)

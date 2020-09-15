@@ -52,7 +52,7 @@ const LinkToExchangeAccountLoading = ({ close, deeplinkToExchange }) => {
       <ModalHeaderStyled onClose={close} />
       <ModalBody>
         <Content>
-          <BlockchainLoader height='100px' width='100px' />
+          <BlockchainLoader height='80px' width='80px' />
           {deeplinkToExchange ? (
             <Status style={{ marginTop: '40px ' }}>
               <Text color='white' size='26px' weight={600}>

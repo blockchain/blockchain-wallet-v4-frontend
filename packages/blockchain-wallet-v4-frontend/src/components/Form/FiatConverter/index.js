@@ -52,7 +52,8 @@ FiatConverterContainer.propTypes = {
       PropTypes.number.isRequired
     ])
   }).isRequired,
-  coin: PropTypes.string.isRequired
+  coin: PropTypes.string.isRequired,
+  coinTicker: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

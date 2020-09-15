@@ -10,14 +10,16 @@ import styled from 'styled-components'
 import Transactions from './Transactions'
 import UpdateRequiredNotice from './UpdateRequiredNotice'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   height: 100%;
   width: calc(100% - 250px);
   position: fixed;
 
-  @media (max-width: 770px) {
+  ${media.tablet`
     width: 100%;
-  }
+  `}
 `
 const Header = styled(Menu)`
   width: 100%;
@@ -83,10 +85,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   withRouter,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(LockboxDashboardContainer)

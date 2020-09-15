@@ -29,7 +29,4 @@ const mapDispatchToProps = (dispatch, props) => ({
   )
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ModalIconContainer)
+export default connect(null, mapDispatchToProps)(ModalIconContainer)

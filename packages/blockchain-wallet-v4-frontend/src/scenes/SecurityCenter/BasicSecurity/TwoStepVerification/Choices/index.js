@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 import { FormattedMessage } from 'react-intl'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'

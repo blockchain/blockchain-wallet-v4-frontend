@@ -11,7 +11,8 @@ import SendXlm from './template'
 
 class SendXlmContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized()
+    const { amount, memo, to } = this.props
+    this.props.actions.initialized({ amount, memo, to })
   }
 
   componentWillUnmount () {
@@ -47,10 +48,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer(model.components.sendXlm.MODAL),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SendXlmContainer)

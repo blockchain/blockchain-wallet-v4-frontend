@@ -61,7 +61,4 @@ const mapDispatchToProps = dispatch => ({
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TakeTourContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TakeTourContainer)

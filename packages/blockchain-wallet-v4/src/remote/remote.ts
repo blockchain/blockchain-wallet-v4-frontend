@@ -21,14 +21,14 @@ Remote.prototype.ap = function (that) {
     Success: f => that.map(f),
     Failure: () =>
       that.cata({
-        Success: f => this,
+        Success: () => this,
         Failure: () => this,
         Loading: () => this,
         NotAsked: () => that
       }),
     Loading: () =>
       that.cata({
-        Success: f => this,
+        Success: () => this,
         Failure: () => that,
         Loading: () => that,
         NotAsked: () => that

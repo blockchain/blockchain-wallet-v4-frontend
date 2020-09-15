@@ -1,4 +1,3 @@
-import * as ed25519 from 'ed25519-hd-key'
 import * as StellarSdk from 'stellar-sdk'
 import { assoc } from 'ramda'
 import { BigNumber } from 'bignumber.js'
@@ -53,8 +52,14 @@ export const decodeXlmURI = uri => {
 }
 
 export const getKeyPair = mnemonic => {
-  const seed = BIP39.mnemonicToSeed(mnemonic)
-  const seedHex = seed.toString('hex')
-  const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
-  return StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
+  return import(
+    /* webpackChunkName: "ed25519" */
+    /* webpackMode: "lazy" */
+    'ed25519-hd-key'
+  ).then(ed25519 => {
+    const seed = BIP39.mnemonicToSeed(mnemonic)
+    const seedHex = seed.toString('hex')
+    const masterKey = ed25519.derivePath("m/44'/148'/0'", seedHex)
+    return StellarSdk.Keypair.fromRawEd25519Seed(masterKey.key)
+  })
 }

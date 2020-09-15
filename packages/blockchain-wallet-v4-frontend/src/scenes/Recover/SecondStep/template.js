@@ -1,31 +1,24 @@
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Field, reduxForm } from 'redux-form'
 import {
-  CheckBox,
   Form,
   FormGroup,
   FormLabel,
   PasswordBox,
   TextBox
 } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
 import {
   required,
   validEmail,
-  validPasswordConfirmation
+  validPasswordConfirmation,
+  validStrongPassword
 } from 'services/FormHelper'
 import { Wrapper } from 'components/Public'
 import React from 'react'
 import styled from 'styled-components'
 import Terms from 'components/Terms'
-
-// load zxcvbn dependency async and set on window
-require.ensure(
-  ['zxcvbn'],
-  require => (window.zxcvbn = require('zxcvbn')),
-  'zxcvbn'
-)
 
 const Header = styled.div`
   display: flex;
@@ -44,19 +37,6 @@ const GoBackLink = styled(Link)`
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
-
-const checkboxShouldBeChecked = value =>
-  value ? undefined : 'You must agree to the terms and conditions'
-
-const validStrongPassword = value =>
-  value !== undefined && window.zxcvbn(value).score > 1
-    ? undefined
-    : () => (
-        <FormattedMessage
-          id='scenes.register.invalidstrongpassword'
-          defaultMessage='Your password is not strong enough'
-        />
-      )
 
 const SecondStep = props => {
   const { busy, invalid, handleSubmit, password, previousStep } = props
@@ -80,6 +60,7 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
             name='email'
             validate={[required, validEmail]}
             component={TextBox}
@@ -93,6 +74,7 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
             name='password'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
@@ -110,26 +92,18 @@ const SecondStep = props => {
             />
           </FormLabel>
           <Field
+            bgColor='grey000'
             name='confirmationPassword'
             validate={[required, validatePasswordConfirmation]}
             component={PasswordBox}
           />
         </FormGroup>
         <FormGroup>
-          <Field
-            name='terms'
-            validate={[checkboxShouldBeChecked]}
-            component={CheckBox}
-          >
-            <Terms />
-          </Field>
+          <Terms recovery />
         </FormGroup>
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>
-            <FormattedMessage
-              id='scenes.recover.secondstep.back'
-              defaultMessage='Go Back'
-            />
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </GoBackLink>
           <Button type='submit' nature='primary' disabled={busy || invalid}>
             {busy ? (

@@ -54,13 +54,6 @@ describe('kvstore bch selectors', () => {
     })
   })
 
-  describe('getUnspendableContext', () => {
-    it('should return context with legacy and watch-only addresses', () => {
-      let context = selectors.getUnspendableContext(mockStateLegacy)
-      expect(context).toEqual(['12BeccoHhdZ5DtoZbuphji1FbQEgNNhy3P'])
-    })
-  })
-
   it('getMetadata should return success of metadata', () => {
     const expectedResult = Remote.Success(bchMetadata)
     expect(selectors.getMetadata(successState)).toEqual(expectedResult)

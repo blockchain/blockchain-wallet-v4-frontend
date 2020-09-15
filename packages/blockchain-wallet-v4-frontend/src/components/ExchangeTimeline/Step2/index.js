@@ -31,9 +31,7 @@ const Circle = styled.div`
   border-radius: 40px;
   border: 1px solid
     ${props =>
-      props.status === 'disabled'
-        ? props.theme['gray-2']
-        : props.theme.blue900};
+      props.status === 'disabled' ? props.theme.grey200 : props.theme.blue900};
   box-sizing: border-box;
   overflow: hidden;
 `
@@ -55,13 +53,13 @@ const Step2 = props => (
       <Icon
         name='arrow-switch-thick'
         size='50px'
-        color={props.status === 'disabled' ? 'gray-2' : 'blue900'}
+        color={props.status === 'disabled' ? 'grey200' : 'blue900'}
         status={props.status}
       />
       <SmallCircle>
         <Icon
           name='stack-of-coins'
-          color={props.status === 'disabled' ? 'gray-2' : 'blue900'}
+          color={props.status === 'disabled' ? 'grey200' : 'blue900'}
         />
       </SmallCircle>
     </Circle>

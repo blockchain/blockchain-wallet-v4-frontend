@@ -23,10 +23,7 @@ const Row = styled.div`
   width: 100%;
 `
 
-const sortByTime = compose(
-  reverse,
-  sortBy(prop('time'))
-)
+const sortByTime = compose(reverse, sortBy(prop('time')))
 
 const LockboxTransactions = props => {
   const { transactions, transactionsAtBounds, isLoading, loadMore } = props

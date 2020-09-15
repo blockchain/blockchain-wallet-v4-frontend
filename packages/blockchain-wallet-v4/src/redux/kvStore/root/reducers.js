@@ -10,14 +10,7 @@ export const kvRootReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
     case AT.UPDATE_METADATA_ROOT: {
-      return set(
-        compose(
-          mapped,
-          KVStoreEntry.value
-        ),
-        payload,
-        state
-      )
+      return set(compose(mapped, KVStoreEntry.value), payload, state)
     }
     case AT.FETCH_METADATA_ROOT_LOADING: {
       return Remote.Loading

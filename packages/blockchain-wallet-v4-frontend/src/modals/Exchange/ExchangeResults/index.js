@@ -188,7 +188,7 @@ const getButton = status => {
         >
           <Button fullwidth height='56px' nature='primary' weight={400}>
             <FormattedMessage
-              id='modals.exchangedetails.support'
+              id='buttons.contact_support'
               defaultMessage='Contact Support'
             />
           </Button>
@@ -199,11 +199,11 @@ const getButton = status => {
   }
 }
 
-const getTargetAmount = (withdrawalAmount, targetCoin, status) =>
+const getTargetAmount = (withdrawalAmount, targetCoinModel, status) =>
   includes(status, [FAILED, EXPIRED]) ? (
-    <StrikeThrough>{`${withdrawalAmount} ${targetCoin}`}</StrikeThrough>
+    <StrikeThrough>{`${withdrawalAmount} ${targetCoinModel.coinTicker}`}</StrikeThrough>
   ) : (
-    `${withdrawalAmount} ${targetCoin}`
+    `${withdrawalAmount} ${targetCoinModel.coinTicker}`
   )
 
 export const ExchangeResults = ({
@@ -222,9 +222,11 @@ export const ExchangeResults = ({
   rate,
   refundAmount
 }) => {
-  const color = ifElse(equals('transferred'), always('brand-yellow'), identity)(
-    selectColor(status)
-  )
+  const color = ifElse(
+    equals('transferred'),
+    always('brand-yellow'),
+    identity
+  )(selectColor(status))
   return (
     <Modal size='small' position={position} total={total}>
       <Header onClose={close} />
@@ -264,7 +266,7 @@ export const ExchangeResults = ({
                 defaultMessage='Status'
               />
             </ExchangeText>
-            <SummaryExchangeAmount color='gray-5'>
+            <SummaryExchangeAmount color='grey700'>
               <StatusCircle color={color} marginRight='4px' />
               <OrderStatus status={status} />
             </SummaryExchangeAmount>
@@ -273,7 +275,7 @@ export const ExchangeResults = ({
             <ExchangeText>{getSourceMessage(status)}</ExchangeText>
             <ExchangeAmounts>
               <SummaryExchangeAmount
-                color='gray-5'
+                color='grey700'
                 data-e2e='exchangeResultsSourceValue'
               >
                 {`${depositAmount} ${sourceCoinModel.coinTicker}`}
@@ -285,10 +287,10 @@ export const ExchangeResults = ({
               <ExchangeText>{getTargetMessage(status)}</ExchangeText>
               <ExchangeAmounts>
                 <SummaryExchangeAmount
-                  color='gray-5'
+                  color='grey700'
                   data-e2e='exchangeResultsTargetValue'
                 >
-                  {getTargetAmount(withdrawalAmount, targetCoin, status)}
+                  {getTargetAmount(withdrawalAmount, targetCoinModel, status)}
                 </SummaryExchangeAmount>
               </ExchangeAmounts>
             </LargeTableRow>
@@ -365,9 +367,6 @@ const mapStateToProps = (state, ownProps) => ({
     .getOrFail()
 })
 
-const enhance = compose(
-  modalEnhancer(RESULTS_MODAL),
-  connect(mapStateToProps)
-)
+const enhance = compose(modalEnhancer(RESULTS_MODAL), connect(mapStateToProps))
 
 export default enhance(ExchangeResults)

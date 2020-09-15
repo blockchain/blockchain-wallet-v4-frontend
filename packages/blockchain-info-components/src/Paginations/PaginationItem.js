@@ -13,10 +13,10 @@ const Wrapper = styled.a`
   font-size: 14px;
   font-weight: 500;
   color: ${props =>
-    props.selected === 1 ? props.theme.white : props.theme['gray-6']};
+    props.selected === 1 ? props.theme.white : props.theme['grey800']};
   background-color: ${props =>
     props.selected === 1 ? props.theme.blue900 : 'transparent'};
-  border: 1px solid ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme.grey000};
   border-radius: 5px;
   margin-right: 5px;
   cursor: pointer;

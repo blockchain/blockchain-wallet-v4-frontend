@@ -1,7 +1,7 @@
 import { prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { Exchange } from 'blockchain-wallet-v4'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const getData = (state, props) => {
   const fee = prop('fee', props)

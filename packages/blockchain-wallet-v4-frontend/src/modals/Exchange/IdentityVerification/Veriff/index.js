@@ -2,7 +2,7 @@ import { actions } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import React from 'react'
@@ -62,7 +62,4 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(Veriff)
+export default connect(getData, mapDispatchToProps)(Veriff)

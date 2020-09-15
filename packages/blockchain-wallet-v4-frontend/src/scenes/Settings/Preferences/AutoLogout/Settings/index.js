@@ -70,7 +70,4 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)

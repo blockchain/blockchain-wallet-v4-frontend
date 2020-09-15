@@ -45,8 +45,8 @@ const LowBalanceWarning = props => {
           </Text>
           <Text size='13px' weight={400}>
             <FormattedMessage
-              id='modals.sendeth.lowbalancewarning.explain'
-              defaultMessage="You'll need ETH to send your ERC20 Token, USD Pax."
+              id='modals.sendeth.lowethwarningforerc20.explain1'
+              defaultMessage="You'll need ETH to send your ERC20 Tokens."
             />
           </Text>
         </WarningLeftColumn>
@@ -58,7 +58,7 @@ const LowBalanceWarning = props => {
             target='_blank'
           >
             <FormattedMessage
-              id='modals.sendeth.lowbalancewarning.learn'
+              id='buttons.learn_more'
               defaultMessage='Learn More'
             />
           </Link>
@@ -73,7 +73,4 @@ const mapStateToProps = state => ({
   ethRates: selectors.core.data.eth.getRates(state).getOrFail()
 })
 
-export default connect(
-  mapStateToProps,
-  null
-)(LowBalanceWarning)
+export default connect(mapStateToProps, null)(LowBalanceWarning)

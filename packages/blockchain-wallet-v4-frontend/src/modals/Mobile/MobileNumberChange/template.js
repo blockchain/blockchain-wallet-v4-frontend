@@ -36,7 +36,6 @@ const MobileNumberChange = props => {
     submitting,
     invalid,
     pristine,
-    countryCode,
     smsNumber,
     handleSubmit
   } = props
@@ -68,7 +67,6 @@ const MobileNumberChange = props => {
               name='mobileNumber'
               validate={[validMobileNumber, required]}
               component={PhoneNumberBox}
-              countryCode={countryCode}
               defaultValue={smsNumber}
               errorBottom
             />
@@ -76,10 +74,7 @@ const MobileNumberChange = props => {
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={500} onClick={close}>
-            <FormattedMessage
-              id='modals.mobilenumberchange.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Link>
           <Button
             type='submit'

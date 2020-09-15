@@ -75,10 +75,7 @@ const SecondPassword = props => {
             onClick={close}
             data-e2e='secondPasswordModalCancelButton'
           >
-            <FormattedMessage
-              id='modals.secondpassword.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Link>
           <Button
             type='submit'

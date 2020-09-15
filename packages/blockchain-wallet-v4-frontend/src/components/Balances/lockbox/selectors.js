@@ -164,37 +164,3 @@ export const getTotalBalance = createDeepEqualSelector(
     )
   }
 )
-
-export const getCoinAndTotalBalances = createDeepEqualSelector(
-  [
-    getLockboxBtcBalance,
-    getLockboxBchBalance,
-    getLockboxEthBalance,
-    getLockboxXlmBalance,
-    getTotalBalance
-  ],
-  (
-    btcBalanceInfoR,
-    bchBalanceInfoR,
-    ethBalanceInfoR,
-    xlmBalanceInfoR,
-    getTotalBalanceR
-  ) => {
-    const transform = (
-      btcBalance,
-      bchBalance,
-      ethBalance,
-      xlmBalance,
-      totalBalance
-    ) => {
-      return { btcBalance, bchBalance, ethBalance, xlmBalance, totalBalance }
-    }
-    return lift(transform)(
-      btcBalanceInfoR,
-      bchBalanceInfoR,
-      ethBalanceInfoR,
-      xlmBalanceInfoR,
-      getTotalBalanceR
-    )
-  }
-)

@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Chart container renders correctly (Failure) 1`] = `<template.na.js.error />`;
-
-exports[`Chart container renders correctly (Loading) 1`] = `<template.na.js.loading />`;
-
-exports[`Chart container renders correctly (NotAsked) 1`] = `<template.na.js.loading />`;
-
-exports[`Chart container renders correctly (Success) 1`] = `<template.na.js.success />`;

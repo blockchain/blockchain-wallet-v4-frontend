@@ -18,7 +18,7 @@ const Steps = styled.div`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
-  border-bottom: 8px solid ${props => props.theme['gray-2']};
+  border-bottom: 8px solid ${props => props.theme.grey200};
   max-width: calc(100% - 50px);
   &:after {
     left: 0;
@@ -34,7 +34,7 @@ const Steps = styled.div`
     border-bottom: 0;
     padding-bottom: 0px;
     flex-direction: column;
-    border-left: 8px solid ${props => props.theme['gray-2']};
+    border-left: 8px solid ${props => props.theme.grey200};
     ${props =>
       !props.horizontalMobile &&
       `&:after {

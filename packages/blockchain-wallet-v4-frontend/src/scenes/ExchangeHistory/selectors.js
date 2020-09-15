@@ -18,16 +18,14 @@ const getTradesWithStatus = curry((statuses, states, trades) =>
   )
 )
 
-const { exchangeHistory, exchange } = selectors.components
+const { exchangeHistory } = selectors.components
 
 export const getData = state => {
   const coinModels = selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail()
-  const canUseExchange = exchange.canUseExchange(state)
-  const tradesR = canUseExchange
-    ? exchangeHistory.getTrades(state)
-    : selectors.core.kvStore.shapeShift.getTrades(state)
+  const canUseExchange = true
+  const tradesR = exchangeHistory.getTrades(state)
   const allFetched = exchangeHistory.allFetched(state)
   const loadingNextPage = exchangeHistory.loadingNextPage(state)
   const completeTradesR = lift(

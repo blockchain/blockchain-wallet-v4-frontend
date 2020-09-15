@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import React from 'react'
 
 import { actions, selectors } from 'data'
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 
 import * as C from 'services/AlertService'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -55,10 +55,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('SecondPassword'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SecondPasswordContainer)

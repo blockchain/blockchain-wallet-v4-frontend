@@ -15,7 +15,6 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  height: 25px;
 `
 const Error = styled(Text)`
   display: block;

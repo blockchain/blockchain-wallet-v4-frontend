@@ -52,6 +52,13 @@ export const getTransactionsAtBound = () =>
 export const getLowEthBalanceWarning = () =>
   path([dataPath, 'eth', 'warn_low_eth_balance'])
 
+export const getTransactionHistory = path([
+  dataPath,
+  'eth',
+  'transaction_history',
+  'eth'
+])
+
 //
 // ERC20
 //
@@ -71,4 +78,7 @@ export const getErc20Transactions = (state, token) => {
 }
 export const getErc20TransactionsAtBound = (state, token) => {
   return path([dataPath, 'eth', 'transactions_at_bound', token])(state)
+}
+export const getErc20TransactionHistory = (state, token) => {
+  return path([dataPath, 'eth', 'transaction_history', token])(state)
 }

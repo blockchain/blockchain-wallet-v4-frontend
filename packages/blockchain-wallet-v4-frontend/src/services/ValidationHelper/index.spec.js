@@ -1,4 +1,4 @@
-import { isNumeric } from './index.js'
+import { isNumeric } from './index'
 
 var testCases = [
   { input: '', output: false },

@@ -87,7 +87,7 @@ const selectStyle = type => {
     default:
       return {
         backgroundColor: 'textBlack',
-        textColor: 'gray-2',
+        textColor: 'grey200',
         uppercase: false
       }
   }

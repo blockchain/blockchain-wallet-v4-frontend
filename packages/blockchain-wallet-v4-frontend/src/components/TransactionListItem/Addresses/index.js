@@ -29,10 +29,7 @@ const Addresses = props => {
       </TextGroup>
       <TextGroup inline>
         <Text size='14px' weight={400}>
-          <FormattedMessage
-            id='components.transactionlistitem.addresses.from'
-            defaultMessage='From: '
-          />
+          <FormattedMessage id='copy.from:' defaultMessage='From: ' />
         </Text>
         <Text size='14px' weight={400} data-e2e='transactionListItemFrom'>
           {from}

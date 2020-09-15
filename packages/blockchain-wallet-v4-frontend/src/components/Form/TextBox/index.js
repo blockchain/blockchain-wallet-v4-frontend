@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Text, TextInput } from 'blockchain-info-components'
+import { Icon, Text, TextInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -19,6 +19,14 @@ const Error = styled(Text)`
   top: ${props => (props.errorBottom ? props.height : '-20px')};
   right: 0;
 `
+
+const WarningIcon = styled(Icon)`
+  position: absolute;
+  margin: auto 0;
+  right: 16px;
+  top: 14px;
+`
+
 const getErrorState = ({ touched, invalid }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
@@ -65,16 +73,21 @@ const TextBox = field => {
         placeholder={placeholder}
       />
       {touched && error && (
-        <Error
-          size='12px'
-          weight={500}
-          color='error'
-          height={height}
-          errorBottom={errorBottom}
-          data-e2e='textBoxError'
-        >
-          {error}
-        </Error>
+        <>
+          <Error
+            size='12px'
+            weight={500}
+            color='error'
+            height={height}
+            errorBottom={errorBottom}
+            data-e2e='textBoxError'
+          >
+            {error}
+          </Error>
+          {noLastPass && (
+            <WarningIcon name='alert-filled' color='red600' size='20px' />
+          )}
+        </>
       )}
       {touched && !error && warning && (
         <Error size='12px' weight={400} color='sent' errorBottom={errorBottom}>

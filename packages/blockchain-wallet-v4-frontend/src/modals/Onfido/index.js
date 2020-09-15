@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { getData } from './selectors'
 import { Modal } from 'blockchain-info-components'
 import { pathEq, toLower } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -92,9 +92,6 @@ const mapDispatchToProps = dispatch => ({
 })
 const enhance = compose(
   modalEnhancer(MODAL_NAME),
-  connect(
-    getData,
-    mapDispatchToProps
-  )
+  connect(getData, mapDispatchToProps)
 )
 export default enhance(OnfidoContainer)

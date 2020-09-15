@@ -23,7 +23,4 @@ const mapDispatchToProps = dispatch => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CheckVersionsContainer)
+export default connect(null, mapDispatchToProps)(CheckVersionsContainer)

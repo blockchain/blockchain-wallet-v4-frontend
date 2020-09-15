@@ -25,11 +25,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.CREATE_NEW_DEVICE_ENTRY: {
       const { deviceEntry } = payload
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value,
-        lensProp('devices')
-      )
+      const valueLens = compose(mapped, KVStoreEntry.value, lensProp('devices'))
       return over(valueLens, append(deviceEntry), state)
     }
     // FETCH
@@ -62,9 +58,10 @@ export default (state = INITIAL_STATE, action) => {
         set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
         lockboxKv => {
           if (lockboxKv.xlm) {
-            return set(accountLabelLens('xlm'), deviceName + ' - XLM Wallet')(
-              lockboxKv
-            )
+            return set(
+              accountLabelLens('xlm'),
+              deviceName + ' - XLM Wallet'
+            )(lockboxKv)
           }
           return lockboxKv
         }
@@ -108,11 +105,7 @@ export default (state = INITIAL_STATE, action) => {
     // DELETE
     case AT.DELETE_DEVICE_LOCKBOX: {
       const { deviceIndex } = payload
-      const valueLens = compose(
-        mapped,
-        KVStoreEntry.value,
-        lensProp('devices')
-      )
+      const valueLens = compose(mapped, KVStoreEntry.value, lensProp('devices'))
       return over(valueLens, remove(deviceIndex, 1), state)
     }
     default:

@@ -49,7 +49,4 @@ const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RecoverContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverContainer)

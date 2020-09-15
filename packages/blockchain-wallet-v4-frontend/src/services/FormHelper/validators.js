@@ -1,5 +1,5 @@
 import * as M from './validationMessages'
-import { all, any, concat, equals, path, prop, propOr, takeWhile } from 'ramda'
+import { all, any, equals, gt, path, prop, propOr } from 'ramda'
 import {
   isAlphaNumeric,
   isDOB,
@@ -24,6 +24,15 @@ import React from 'react'
 const { BAD_2FA } = model.profile.ERROR_TYPES
 
 export const required = value => (value ? undefined : <M.RequiredMessage />)
+
+export const maxValue = (max, canEqual = false) => value =>
+  value && gt(value, max) ? (
+    <M.ValueOverMaxMessage />
+  ) : !canEqual && value && +value === max ? (
+    <M.ValueIsEqualToMaxMessage />
+  ) : (
+    undefined
+  )
 
 export const optional = validator => value =>
   value === undefined || value === '' ? undefined : validator(value)
@@ -57,6 +66,16 @@ export const validIpList = ipList => {
     undefined
   ) : (
     <M.InvalidIpListMessage />
+  )
+}
+
+export const validStrongPassword = value => {
+  return value !== undefined &&
+    window.zxcvbn &&
+    window.zxcvbn(value).score > 1 ? (
+    undefined
+  ) : (
+    <M.InvalidStrongPassword />
   )
 }
 
@@ -115,7 +134,8 @@ export const validXlmAddress = ({ value: dropdownValue }) => {
 
 export const validBtcAddress = (value, allValues, props) => {
   let address = value
-  if (isObject(value)) {
+  if (value && isObject(value)) {
+    if (!value.value) return
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return
@@ -136,7 +156,7 @@ export const validBtcAddress = (value, allValues, props) => {
 
 export const validBchAddress = (value, allValues, props) => {
   let address = value
-  if (isObject(value)) {
+  if (value && isObject(value)) {
     const { value: dropdownValue } = value
     const { value: option } = dropdownValue
     if (prop('xpub', option)) return
@@ -199,8 +219,8 @@ export const countryUsesPostalcode = countryCode => {
 export const countryUsesZipcode = countryCode => countryCode === 'US'
 
 export const requiredZipCode = (value, allVals) => {
-  const countryCode = path(['country', 'code'], allVals)
-  // If country does not have a postal code format it's not required
+  const countryCode =
+    path(['country', 'code'], allVals) || path(['country'], allVals)
   if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
   if (!value) return <M.RequiredMessage />
 
@@ -208,36 +228,6 @@ export const requiredZipCode = (value, allVals) => {
     undefined
   ) : (
     <M.InvalidZipCodeMessage />
-  )
-}
-
-export const onPartnerCountryWhitelist = (
-  value,
-  allValues,
-  props,
-  name,
-  countries
-) => {
-  const country = value && takeWhile(x => x !== '-', value)
-  const options = path(['options', 'platforms', 'web'], props)
-  const sfoxCountries = path(['sfox', 'countries'], options)
-  const coinifyCountries = path(['coinify', 'countries'], options)
-  const allCountries = countries || concat(sfoxCountries, coinifyCountries)
-  return country && allCountries.includes(country) ? (
-    undefined
-  ) : (
-    <M.PartnerCountryWhitelist />
-  )
-}
-
-export const onPartnerStateWhitelist = (value, allValues, props) => {
-  const usState = prop('code', value)
-  const options = path(['options', 'platforms', 'web'], props)
-  const sfoxStates = path(['sfox', 'states'], options)
-  return usState && sfoxStates.includes(usState) ? (
-    undefined
-  ) : (
-    <M.PartnerStateWhitelist />
   )
 }
 

@@ -71,6 +71,7 @@ const FirstStep = props => {
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
               autoFocus
               component={TextBox}
               disableSpellcheck
@@ -104,6 +105,7 @@ const FirstStep = props => {
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
               name='email'
               validate={[required, validEmail]}
               component={TextBox}
@@ -125,6 +127,7 @@ const FirstStep = props => {
               />
             </FormLabel>
             <Field
+              bgColor='grey000'
               name='newEmail'
               validate={[validNullableEmail]}
               component={TextBox}
@@ -140,10 +143,7 @@ const FirstStep = props => {
         <Footer>
           <GoBackLink to='/help'>
             <Link size='13px' weight={500}>
-              <FormattedMessage
-                id='scenes.reset2fa.firststep.back'
-                defaultMessage='Go Back'
-              />
+              <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
           <Button
@@ -151,10 +151,7 @@ const FirstStep = props => {
             nature='primary'
             disabled={submitting || invalid}
           >
-            <FormattedMessage
-              id='scenes.reset2fa.firststep.firststepform.continue'
-              defaultMessage='Continue'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
       </FirstStepForm>

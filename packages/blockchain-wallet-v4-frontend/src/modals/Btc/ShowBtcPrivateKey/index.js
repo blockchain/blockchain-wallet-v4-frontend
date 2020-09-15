@@ -8,7 +8,10 @@ import ShowBtcPrivateKeyTemplate from './template'
 const formats = [
   {
     group: '',
-    items: [{ text: 'WIF', value: 'wif' }, { text: 'Base-58', value: 'base58' }]
+    items: [
+      { text: 'WIF', value: 'wif' },
+      { text: 'Base-58', value: 'base58' }
+    ]
   }
 ]
 
@@ -53,10 +56,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('ShowBtcPrivateKey'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ShowBtcPrivateKeyContainer)

@@ -59,9 +59,9 @@ const getErrorState = meta => {
 const Converter = props => {
   const {
     coin,
+    coinTicker,
     disabled,
     fiat,
-    unit,
     currency,
     meta,
     errorBottom,
@@ -104,7 +104,7 @@ const Converter = props => {
             data-e2e={`${props['data-e2e']}CryptoAmount`}
             noLastPass
           />
-          <Unit>{unit}</Unit>
+          <Unit>{coinTicker}</Unit>
         </Container>
       </FiatConverterInput>
       {meta.touched && meta.error && (

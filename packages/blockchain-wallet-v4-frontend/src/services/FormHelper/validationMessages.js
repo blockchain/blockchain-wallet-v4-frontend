@@ -119,6 +119,12 @@ export const PartnerStateWhitelist = () => (
     defaultMessage='State not available for buy & sell'
   />
 )
+export const InvalidStrongPassword = () => (
+  <FormattedMessage
+    id='scenes.register.invalidstrongpassword'
+    defaultMessage='Your password is not strong enough'
+  />
+)
 export const PasswordsDoNotMatch = () => (
   <FormattedMessage
     id='formhelper.passwordsdonotmatch'
@@ -212,5 +218,19 @@ export const UniqueWalletName = () => (
   <FormattedMessage
     id='formhelper.uniquewalletname'
     defaultMessage='Wallet name is already taken.'
+  />
+)
+
+export const ValueOverMaxMessage = () => (
+  <FormattedMessage
+    id='formhelper.valueovermax'
+    defaultMessage='Value is over the max'
+  />
+)
+
+export const ValueIsEqualToMaxMessage = () => (
+  <FormattedMessage
+    id='formhelper.valueisequaltomax'
+    defaultMessage='Value must not be equal to the max'
   />
 )

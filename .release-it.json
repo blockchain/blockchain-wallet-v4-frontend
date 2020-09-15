@@ -2,8 +2,8 @@
   "hooks": {
     "before:init": [
       "rm -rf packages/blockchain-wallet-v4-frontend/build",
-      "yarn manage:translations",
-      "npx audit-ci --critical"
+      "rm -rf packages/blockchain-wallet-v4-frontend/extracted-ts",
+      "yarn manage:translations"
     ]
   },
   "git": {

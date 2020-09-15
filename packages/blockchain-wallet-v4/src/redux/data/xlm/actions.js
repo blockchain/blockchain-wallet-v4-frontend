@@ -1,5 +1,11 @@
 import * as AT from './actionTypes'
 
+// UTILS
+export const createTestAccounts = () => ({
+  type: AT.CREATE_TEST_ACCOUNTS
+})
+
+// LEDGER DETAILS
 export const fetchLedgerDetails = () => ({ type: AT.FETCH_LEDGER_DETAILS })
 export const setLedgerDetailsLoading = () => ({
   type: AT.SET_LEDGER_DETAILS_LOADING
@@ -13,6 +19,7 @@ export const setLedgerDetailsFailure = e => ({
   payload: { e }
 })
 
+// ACCOUNT DATA
 export const fetchData = () => ({ type: AT.FETCH_DATA })
 export const fetchAccountSuccess = (id, account) => ({
   type: AT.FETCH_ACCOUNT_SUCCESS,
@@ -31,6 +38,7 @@ export const fetchDataSuccess = accounts => ({
   payload: { accounts }
 })
 
+// RATES
 export const fetchRates = () => ({ type: AT.FETCH_RATES })
 export const setRatesLoading = () => ({ type: AT.SET_RATES_LOADING })
 export const setRatesSuccess = rates => ({
@@ -42,6 +50,7 @@ export const setRatesFailure = e => ({
   payload: { e }
 })
 
+// TRANSACTIONS
 export const fetchTransactions = (accountId, reset) => ({
   type: AT.FETCH_TRANSACTIONS,
   payload: { accountId, reset }
@@ -62,12 +71,27 @@ export const transactionsAtBound = atBound => ({
   type: AT.TRANSACTIONS_AT_BOUND,
   payload: { atBound }
 })
-
-export const createTestAccounts = () => ({
-  type: AT.CREATE_TEST_ACCOUNTS
-})
-
 export const addNewTransactions = txs => ({
   type: AT.ADD_NEW_TRANSACTIONS,
   payload: { txs }
+})
+
+// TRANSACTION HISTORY
+export const fetchTransactionHistory = (address, start, end) => ({
+  type: AT.FETCH_TRANSACTION_HISTORY,
+  payload: { address, start, end }
+})
+export const fetchTransactionHistoryLoading = () => ({
+  type: AT.FETCH_TRANSACTION_HISTORY_LOADING
+})
+export const fetchTransactionHistorySuccess = data => ({
+  type: AT.FETCH_TRANSACTION_HISTORY_SUCCESS,
+  payload: data
+})
+export const fetchTransactionHistoryFailure = error => ({
+  type: AT.FETCH_TRANSACTION_HISTORY_FAILURE,
+  payload: error
+})
+export const clearTransactionHistory = () => ({
+  type: AT.CLEAR_TRANSACTION_HISTORY
 })

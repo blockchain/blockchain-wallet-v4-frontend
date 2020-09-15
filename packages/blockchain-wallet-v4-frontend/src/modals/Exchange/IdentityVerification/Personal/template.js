@@ -549,7 +549,7 @@ const Personal = ({
             >
               {!submitting ? (
                 <FormattedMessage
-                  id='identityverification.personal.continue'
+                  id='buttons.continue'
                   defaultMessage='Continue'
                 />
               ) : (

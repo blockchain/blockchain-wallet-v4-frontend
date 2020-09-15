@@ -94,7 +94,7 @@ const LearnMoreContainer = styled.div`
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
   ${media.mobile`
     width: 100%;
     flex-direction: column;
@@ -208,7 +208,7 @@ const Onboard = props => {
           >
             <LearnMoreText size='15px'>
               <FormattedMessage
-                id='scenes.lockbox.welcome.learnmore'
+                id='buttons.learn_more'
                 defaultMessage='Learn More'
               />
             </LearnMoreText>

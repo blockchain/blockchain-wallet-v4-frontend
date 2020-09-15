@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { ExchangeActionTypes, LimitAmountType, LimitsType } from './types'
+import { CurrenciesType } from 'core/types'
+import { ExchangeActionTypes, LimitAmountType, SwapLimitsType } from './types'
 
 export const initialize = requestedValues => ({
   type: AT.INITIALIZE,
@@ -38,7 +38,7 @@ export const fetchLimitsLoading = (): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_LOADING
 })
 export const fetchLimitsSuccess = (
-  limits: Currencies<LimitsType>
+  limits: { [key in keyof CurrenciesType]?: SwapLimitsType }
 ): ExchangeActionTypes => ({
   type: AT.FETCH_LIMITS_SUCCESS,
   payload: { limits }
@@ -48,8 +48,8 @@ export const fetchLimitsError = (error: string): ExchangeActionTypes => ({
   payload: { error }
 })
 export const setMinMax = (
-  min: LimitAmountType,
-  max: LimitAmountType
+  min: LimitAmountType | null,
+  max: LimitAmountType | null
 ): ExchangeActionTypes => ({
   type: AT.SET_MIN_MAX,
   payload: { min, max }
@@ -71,7 +71,7 @@ export const setShowError = (showError: boolean): ExchangeActionTypes => ({
 export const recheckLatestTx = () => ({
   type: AT.RECHECK_LATEST_TX
 })
-export const setTxError = (error: string): ExchangeActionTypes => ({
+export const setTxError = (error: string | null): ExchangeActionTypes => ({
   type: AT.SET_TX_ERROR,
   payload: { error }
 })

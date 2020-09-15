@@ -1,3 +1,5 @@
+import adBitcoinGames from './img/ad-bitcoin-games.png'
+import adBitcoinGames2 from './img/ad-bitcoin-games@2x.png'
 import airdropEnrolled from './img/airdrop-enrolled.png'
 import airdropWelcome from './img/airdrop-welcome.png'
 import airdropWelcome2 from './img/airdrop-welcome@2x.png'
@@ -15,11 +17,10 @@ import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
-import chartPlaceholder from './img/chart-placeholder.png'
+import buyWallet from './img/buy-wallet.svg'
+import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkGreen from './img/checkmark-green.svg'
 import closeError from './img/close-error.svg'
-import coinifyLanding from './img/coinify-landing.svg'
-import coinifyLogo from './img/coinify-logo.svg'
 import coinPax from './img/coin-pax.svg'
 import coins from './img/coins.png'
 import emailError from './img/email-error.svg'
@@ -28,6 +29,7 @@ import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
+import exchange from './img/exchange.svg'
 import exchangeLogo from './img/exchange-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
@@ -49,12 +51,14 @@ import introSendGif from './img/intro-send.gif'
 import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
+import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
-import poweredByCoinify from './img/powered_by_coinify.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
+import recoverPadlock from './img/recover-padlock.svg'
+import refresh from './img/refresh.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
@@ -67,7 +71,9 @@ import swapCarousel4 from './img/swap-carousel4.png'
 import swapCarousel5 from './img/swap-carousel5.png'
 import swapModalBg from './img/swap-modal-bg.svg'
 import twitterWhite from './img/twitter-white.svg'
+import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
+import wallet from './img/wallet.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -102,8 +108,13 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import worldAlert from './img/world-alert.jpg'
+import worldAlert2 from './img/world-alert@2x.jpg'
+import worldAlert3 from './img/world-alert@3x.jpg'
 
 const Images = {
+  'ad-bitcoin-games': adBitcoinGames,
+  'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
   'airdrop-welcome-banner': airdropWelcomeBanner,
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
@@ -121,12 +132,11 @@ const Images = {
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
+  'buy-wallet': buyWallet,
   'chart-placeholder': chartPlaceholder,
   'checkmark-green': checkmarkGreen,
   coins: coins,
   'coin-pax': coinPax,
-  'coinify-landing': coinifyLanding,
-  'coinify-logo': coinifyLogo,
   'close-error': closeError,
   'email-error': emailError,
   'email-success': emailSuccess,
@@ -134,6 +144,7 @@ const Images = {
   'empty-tx': emptyTx,
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
+  exchange: exchange,
   'exchange-logo': exchangeLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
@@ -182,12 +193,14 @@ const Images = {
   'lockbox-success': lockboxSuccess,
   'lockbox-success2': lockboxSuccess2,
   'lockbox-success3': lockboxSuccess3,
+  'logo-loader': logoLoader,
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money: money,
-  'powered-by-coinify': poweredByCoinify,
   printer: printer,
   'qr-code': qrCode,
+  'recover-padlock': recoverPadlock,
+  refresh,
   search: search,
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
@@ -200,12 +213,17 @@ const Images = {
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
   'twitter-white': twitterWhite,
+  'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
+  wallet,
+  'world-alert': worldAlert,
+  'world-alert2': worldAlert2,
+  'world-alert3': worldAlert3,
   yubikey: yubikey
 }
 

@@ -1,7 +1,7 @@
-import * as Actions from './actions.js'
+import * as Actions from './actions'
 import { AddressMap, Wallet, Wrapper } from '../../types'
 import { compose } from 'ramda'
-import walletReducer from './reducers.js'
+import walletReducer from './reducers'
 
 const wrapperFixture = require('../../types/__mocks__/wrapper.v4')
 
@@ -46,10 +46,7 @@ describe('reducers', () => {
       let label = 'changed_label'
       let action = Actions.setHdAddressLabel(0, 0, 'legacy', label)
       let next = walletReducer(wrapped, action)
-      let select = compose(
-        Wallet.toJS,
-        Wrapper.selectWallet
-      )
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
       expect(
         select(next).hd_wallets[0].accounts[0].derivations[0].address_labels[0]
           .label
@@ -59,10 +56,7 @@ describe('reducers', () => {
     it('should handle DELETE_HD_ADDRESS_LABEL', () => {
       let action = Actions.deleteHdAddressLabel(0, 0, 'legacy')
       let next = walletReducer(wrapped, action)
-      let select = compose(
-        Wallet.toJS,
-        Wrapper.selectWallet
-      )
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
       expect(
         select(next).hd_wallets[0].accounts[0].derivations[0].address_labels
           .length

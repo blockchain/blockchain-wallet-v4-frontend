@@ -61,11 +61,7 @@ export const signLegacy = curry(
 
 export const wifToKeys = curry((network, selection) =>
   over(
-    compose(
-      lensProp('inputs'),
-      mapped,
-      Coin.priv
-    ),
+    compose(lensProp('inputs'), mapped, Coin.priv),
     wif => BitcoinCash.ECPair.fromWIF(wif, network),
     selection
   )

@@ -3,7 +3,7 @@
 exports[`IconButton component default renders correctly 1`] = `
 <Styled(Button)>
   <Icon
-    color="gray-6"
+    color="grey800"
     cursor={false}
     name="test"
     size="16px"

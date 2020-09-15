@@ -43,6 +43,7 @@ export default ({ api, networks } = {}) => {
       )
     }
   }
+
   const buildErc20Entry = (token, coinModels) => ({
     label: `My ${coinModels[token].displayName} Wallet`,
     contract: path([token, 'contractAddress'], coinModels),
@@ -108,6 +109,22 @@ export default ({ api, networks } = {}) => {
     yield put(A.fetchMetadataEthSuccess(newkv))
   }
 
+  // Fixing wrong display names for USDT and PAX 🤦‍♀️
+  const updatePaxLabelToUSDDigital = function * ({ newkv }) {
+    const coinModels = (yield select(getSupportedCoins)).getOrFail()
+
+    newkv.value.ethereum.erc20.pax.label = `My ${coinModels['PAX'].displayName} Wallet`
+    yield put(A.fetchMetadataEthSuccess(newkv))
+  }
+
+  // Fixing wrong display names for USDT and PAX 🤦‍♀️
+  const updateUSDTetherLabel = function * ({ newkv }) {
+    const coinModels = (yield select(getSupportedCoins)).getOrFail()
+
+    newkv.value.ethereum.erc20.usdt.label = `My ${coinModels['USDT'].displayName} Wallet`
+    yield put(A.fetchMetadataEthSuccess(newkv))
+  }
+
   const fetchMetadataEth = function * (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[ETH]
@@ -126,6 +143,15 @@ export default ({ api, networks } = {}) => {
       } else if (keys(newkv.value.ethereum.erc20).length !== erc20List.length) {
         // missing 1 or more supported erc20 token entries, add each to kvStore
         yield call(createErc20, { newkv })
+      } else if (
+        toLower(newkv.value.ethereum.erc20.pax.label) === 'my usd pax wallet'
+      ) {
+        yield call(updatePaxLabelToUSDDigital, { newkv })
+      } else if (
+        toLower(newkv.value.ethereum.erc20.usdt.label) ===
+        'my usd tether wallet'
+      ) {
+        yield call(updateUSDTetherLabel, { newkv })
       } else {
         yield put(A.fetchMetadataEthSuccess(newkv))
       }

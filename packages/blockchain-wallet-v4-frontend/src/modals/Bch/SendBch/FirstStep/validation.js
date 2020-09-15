@@ -7,8 +7,16 @@ import {
 import { prop } from 'ramda'
 import React from 'react'
 
+const getEffectiveBalance = props => {
+  return Number(props.effectiveBalance)
+}
+
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
+  return getEffectiveBalance(props) > 0 ? (
+    undefined
+  ) : (
+    <InsufficientFundsMessage />
+  )
 }
 
 export const invalidAmount = (value, allValues, props) => {
@@ -28,7 +36,7 @@ export const maximumAmount = (value, allValues, props) => {
     fromUnit: 'BCH',
     toUnit: 'SAT'
   }).value
-  return valueSatoshi <= props.effectiveBalance ? (
+  return valueSatoshi <= getEffectiveBalance(props) ? (
     undefined
   ) : (
     <MaximumAmountMessage />

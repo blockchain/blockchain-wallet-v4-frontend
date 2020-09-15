@@ -78,7 +78,6 @@ export const AES = {
   CBC: 'aes-256-cbc',
   OFB: 'aes-256-ofb',
   ECB: 'aes-256-ecb',
-  GCM: 'aes-256-gcm',
 
   /*
    *   Encrypt / Decrypt with aes-256
@@ -106,12 +105,7 @@ export const AES = {
       cipher.final()
     ])
 
-    let tag
-    if (options.mode === AES.GCM) {
-      tag = cipher.getAuthTag()
-    }
-
-    return { encryptedBytes, tag }
+    return { encryptedBytes }
   },
 
   decrypt: function (dataBytes, key, salt, options) {
@@ -129,8 +123,6 @@ export const AES = {
       salt || ''
     )
     decipher.setAutoPadding(!options.padding)
-
-    if (options.tag) decipher.setAuthTag(options.tag)
 
     let decryptedBytes = Buffer.concat([
       decipher.update(dataBytes),

@@ -14,12 +14,7 @@ const taskToPromise = t =>
 
 export default ({ api, networks }) => {
   const callTask = function * (task) {
-    return yield call(
-      compose(
-        taskToPromise,
-        () => task
-      )
-    )
+    return yield call(compose(taskToPromise, () => task))
   }
   const createRoot = function * ({ password }) {
     try {

@@ -53,6 +53,12 @@ class RequestXlmContainer extends React.PureComponent {
         coin: 'PAX',
         lockboxIndex: this.props.lockboxIndex
       })
+    } else if (coin === 'USDT') {
+      this.props.modalActions.closeAllModals()
+      this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+        coin: 'USDT',
+        lockboxIndex: this.props.lockboxIndex
+      })
     }
     if (
       !Remote.Success.is(prevProps.initialValues) &&
@@ -135,10 +141,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('@MODAL.REQUEST.XLM'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(RequestXlmContainer)

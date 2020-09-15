@@ -24,24 +24,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.UPDATE_METADATA_WHATSNEW: {
       const { lastViewed } = payload
       return set(
-        compose(
-          mapped,
-          KVStoreEntry.value,
-          lensProp('lastViewed')
-        ),
+        compose(mapped, KVStoreEntry.value, lensProp('lastViewed')),
         lastViewed,
-        state
-      )
-    }
-    case AT.SET_HAS_SKIPPED_WALLET_TOUR: {
-      const { hasSkippedWalletTour } = payload
-      return set(
-        compose(
-          mapped,
-          KVStoreEntry.value,
-          lensProp('hasSkippedWalletTour')
-        ),
-        hasSkippedWalletTour,
         state
       )
     }

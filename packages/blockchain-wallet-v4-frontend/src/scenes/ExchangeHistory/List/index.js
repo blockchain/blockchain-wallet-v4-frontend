@@ -38,7 +38,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(ListContainer)
+export default connect(undefined, mapDispatchToProps)(ListContainer)

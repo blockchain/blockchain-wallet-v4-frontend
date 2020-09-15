@@ -157,12 +157,7 @@ export const selectCancel = message => {
         />
       )
     default:
-      return (
-        <FormattedMessage
-          id='modals.confirm.button.cancel'
-          defaultMessage='Cancel'
-        />
-      )
+      return <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
   }
 }
 

@@ -5,7 +5,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Codechecks](https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true)](https://codechecks.io)
 
-# Blockchain Wallet v4
+# Blockchain.com Wallet
 Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
@@ -19,7 +19,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.15 is installed.
+1. Ensure Node version >= 12.18 is installed.
 2. From the project root, run the following command to install dependencies: `./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
@@ -57,6 +57,24 @@ Notes:
  * [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) Inspect the React component tree
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
 
+## Release Process
+#### Prerequisites
+To be able to create a release follow these steps starting with "Obtain a personal access token...": 
+https://github.com/release-it/release-it#github-releases
+
+`GITHUB_TOKEN` should be saved as `RELEASE_IT_TOKEN` instead in your bash_profile or wherever you keep env variables
+
+You'll need git changelog to generate the history since the last release:
+`npm install -g changelog`
+
+#### Release Steps
+1) From the tip of the `development` branch, run `yarn release`
+2) Answer the questions prompted via CLI, accepting the defaults for each
+3) Once completed, this will create a new tag which will trigger a builds
+4) Once builds have finished, deploy the images to desired environments
+5) Test and verify the latest changes in desired environments
+6) Create PR to merge the HEAD of `development` into `master`
+7) Merge PR to `master` so that `master` always reflects what is currently in production
 
 ## Code Quality
  * `yarn vet` Runs Prettier, lint JS, lint CSS and finally all unit tests
@@ -88,6 +106,8 @@ It is recommended to setup a Prettier plugin for your IDE plugins/packages that 
  * [Atom](https://atom.io/packages/prettier-atom)
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
  * [WebStorm](https://prettier.io/docs/en/webstorm.html)
+ 
+ *When installing the plugin for VS Code make sure you are on [v3.7.0 or lower](https://github.com/prettier/prettier-vscode/issues/1085#issuecomment-557027886)*
  
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
@@ -143,9 +163,6 @@ TypeScript is supported and should be used when adding new code. It's also recom
 We are using [Codechecks](https://www.codechecks.io/) and [Typecov](https://github.com/codechecks/typecov) for coverage reporting. Coverage is automatically analyzed for PRs and the following command is available.
 * `yarn codechecks`
 
-### Typecov
-It is recommended that you install the VSCode plugin for Typecov reporting so you can see any (no pun intended) errors inline. You can find that [here](https://marketplace.visualstudio.com/items?itemName=york-yao.vscode-type-coverage)
-
 ## Code Bundle Analysis/Reports
 To visualize and interact with the tree of the production code bundles files:
  * `yarn analyze`
@@ -161,7 +178,7 @@ The following commands are available:
 If the deploy begins to fail, deleting the static build file before redeploy will likely help.
 
 ## Contribute
-Bug fixes and feedback on our code is always appreciated.
+Please review to the [Wiki](https://github.com/blockchain/blockchain-wallet-v4-frontend/wiki) 
 
 ## Security
 Security issues can be reported to us in the following venues:

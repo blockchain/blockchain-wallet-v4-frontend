@@ -45,7 +45,7 @@ Text.defaultProps = {
   capitalize: false,
   lineHeight: 'inherit',
   italic: false,
-  color: 'gray-5',
+  color: 'grey700',
   altFont: false,
   cursor: 'inherit',
   opacity: 1

@@ -38,10 +38,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
+  connect(null, mapDispatchToProps),
   wizardProvider('reset2FA', 3)
 )
 

@@ -37,7 +37,7 @@ const CheckVersionsStep = props => {
         </Text>
       </Title>
       <LoaderContainer>
-        <BlockchainLoader width='100px' height='100px' />
+        <BlockchainLoader width='80px' height='80px' />
       </LoaderContainer>
       <Content>
         {status ? (
@@ -61,7 +61,7 @@ const CheckVersionsStep = props => {
         {status ? (
           <Button fullwidth nature='primary' onClick={onStartInstall}>
             <FormattedMessage
-              id='modals.lockboxfirmware.checkversionsstep.continue'
+              id='buttons.continue'
               defaultMessage='Install Update'
             />
           </Button>

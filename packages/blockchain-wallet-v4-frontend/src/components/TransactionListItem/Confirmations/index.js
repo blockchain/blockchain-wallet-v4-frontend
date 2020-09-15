@@ -14,15 +14,16 @@ import {
   TooltipHost
 } from 'blockchain-info-components'
 import { selectors } from 'data'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   z-index: 9;
-  @media (min-width: 480px) {
+  ${media.atLeastMobile`
     flex-direction: row;
-  }
+  `}
 `
 const ConfirmationsText = styled(Text)`
   * {
@@ -66,7 +67,7 @@ const Confirmations = props => {
           />
         </Text>
       ) : (
-        <ConfirmationsText size='14px' weight={400} color='gray-3'>
+        <ConfirmationsText size='14px' weight={400} color='grey400'>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
             defaultMessage='Pending: {count}/{total} Confirmations'

@@ -71,10 +71,7 @@ export default class ApiSocket {
   }
 
   extractMessage (msg) {
-    return compose(
-      JSON.parse,
-      prop('data')
-    )(msg)
+    return compose(JSON.parse, prop('data'))(msg)
   }
 
   send = message => {

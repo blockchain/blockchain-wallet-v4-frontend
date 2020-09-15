@@ -1,11 +1,10 @@
 import { darken } from 'polished'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const BaseButton = styled.button.attrs({
-  type: props => (props.type ? props.type : 'button')
-})`
+const BaseButton = styled.button.attrs(props => ({
+  type: props.type ? props.type : 'button'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -36,7 +35,7 @@ const BaseButton = styled.button.attrs({
   color: ${props => props.theme[props.color]};
   background-color: ${props =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'transparent'};
-  border-radius: ${props => (props.rounded ? '20px' : '4px')};
+  border-radius: ${props => (props.rounded ? '20px' : '8px')};
   border-style: solid;
   border-width: ${props => (props.rounded ? '2px' : '1px')};
   border-color: ${props => props.theme[props.borderColor]};
@@ -66,31 +65,54 @@ const selectColor = (nature, disabled, small) => {
     case 'dark':
       return {
         color: 'white',
-        backgroundColor: 'gray-6',
-        borderColor: 'gray-6'
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
+    case 'dark-grey':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
       }
     case 'empty':
       return {
-        color: small ? 'blue600' : 'gray-6',
+        color: small ? 'blue600' : 'grey800',
         backgroundColor: 'white',
-        borderColor: 'gray-2',
+        borderColor: 'grey000',
         hoverBorderColor: 'white'
       }
+
+    case 'empty-blue': {
+      return {
+        color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey100',
+        hoverBorderColor: 'blue600'
+      }
+    }
+
     case 'empty-secondary':
       return {
         color: 'blue600',
         backgroundColor: 'white',
         borderColor: 'blue600'
       }
+
     case 'gray':
       return {
         color: 'white',
-        backgroundColor: 'gray-4',
-        borderColor: 'gray-4'
+        backgroundColor: 'grey500',
+        borderColor: 'grey500'
       }
     case 'light':
       return {
         color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'grey000'
+      }
+    case 'light-red':
+      return {
+        color: 'red600',
         backgroundColor: 'white',
         borderColor: 'grey000'
       }
@@ -145,17 +167,29 @@ const selectColor = (nature, disabled, small) => {
         color: 'white',
         borderColor: 'white'
       }
+    case 'white-blue':
+      return {
+        color: 'blue600',
+        backgroundColor: 'white',
+        borderColor: 'white'
+      }
     case 'green':
       return {
         color: 'white',
         backgroundColor: 'green600',
         borderColor: 'green600'
       }
+    case 'grey800':
+      return {
+        color: 'white',
+        backgroundColor: 'grey800',
+        borderColor: 'grey800'
+      }
     default:
       return {
-        color: 'gray-6',
+        color: 'grey800',
         backgroundColor: 'grey000',
-        borderColor: 'gray-2',
+        borderColor: 'grey200',
         hoverBorderColor: 'white'
       }
   }
@@ -180,36 +214,6 @@ const Button = props => {
       {children}
     </BaseButton>
   )
-}
-
-Button.propTypes = {
-  nature: PropTypes.oneOf([
-    'copy',
-    'dark',
-    'empty-secondary',
-    'empty',
-    'gray-3',
-    'light',
-    'primary',
-    'purple',
-    'received',
-    'secondary',
-    'sent',
-    'success',
-    'transferred',
-    'warning',
-    'white-transparent'
-  ]),
-  fullwidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  rounded: PropTypes.bool,
-  bold: PropTypes.bool,
-  small: PropTypes.bool,
-  uppercase: PropTypes.bool,
-  capitalize: PropTypes.bool,
-  width: PropTypes.string,
-  padding: PropTypes.string,
-  margin: PropTypes.string
 }
 
 Button.defaultProps = {

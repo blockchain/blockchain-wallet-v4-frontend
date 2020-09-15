@@ -3,6 +3,8 @@ import React from 'react'
 import ReactDatetime from 'react-datetime'
 import styled from 'styled-components'
 
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
+
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
   width: ${props => (props.fullwidth ? '100%' : '150px')};
@@ -18,12 +20,17 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: ${props => props.theme['gray-6']};
-    background-color: ${props => props.theme.white};
+    color: ${props => props.theme['grey800']};
+    background-color: ${({ theme }) => theme.white};
     background-image: none;
     outline-width: 0;
     user-select: text;
-    border: 1px solid ${props => props.theme[props.borderColor]};
+    border-radius: 8px;
+    border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
+    &:focus {
+      border: 1px solid
+        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    }
   }
 
   .rdtPicker {
@@ -74,14 +81,14 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker td.rdtSecond:hover,
   .rdtPicker .rdtTimeToggle:hover {
     cursor: pointer;
-    background: ${props => props.theme['gray-1']};
-    border: 1px solid ${props => props.theme['gray-1']};
+    background: ${props => props.theme.grey000};
+    border: 1px solid ${props => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
   .rdtPicker td.rdtOld,
   .rdtPicker td.rdtNew {
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
   }
   .rdtPicker td.rdtToday {
     position: relative;
@@ -111,17 +118,17 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker td.rdtDisabled,
   .rdtPicker td.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
     cursor: not-allowed;
   }
 
   .rdtPicker td span.rdtOld {
-    color: ${props => props.theme['gray-3']};
+    color: ${props => props.theme['grey400']};
   }
   .rdtPicker td span.rdtDisabled,
   .rdtPicker td span.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
     cursor: not-allowed;
   }
   .rdtPicker th {
@@ -135,7 +142,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme['gray-6']};
+    color: ${props => props.theme['grey800']};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;
@@ -144,7 +151,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    border: 1px solid ${props => props.theme['gray-1']};
+    border: 1px solid ${props => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
@@ -160,7 +167,7 @@ const BaseDateInput = styled(ReactDatetime)`
       Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
     font-weight: 400;
-    border: 1px solid ${props => props.theme['gray-1']};
+    border: 1px solid ${props => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
@@ -175,7 +182,7 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker th.rdtDisabled,
   .rdtPicker th.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
     cursor: not-allowed;
   }
   .rdtPicker thead tr:first-child th {
@@ -195,7 +202,7 @@ const BaseDateInput = styled(ReactDatetime)`
     cursor: pointer;
   }
   .rdtPicker button:hover {
-    background-color: ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey000};
   }
 
   .rdtPicker thead button {
@@ -263,24 +270,16 @@ const BaseDateInput = styled(ReactDatetime)`
   }
 `
 
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
-
 const DateInput = props => {
   const { errorState, ...rest } = props
-  const borderColor = selectBorderColor(props.errorState)
 
-  return <BaseDateInput borderColor={borderColor} {...rest} />
+  return (
+    <BaseDateInput
+      borderColor={selectBorderColor(errorState)}
+      focusedBorderColor={selectFocusBorderColor(errorState)}
+      {...rest}
+    />
+  )
 }
 
 // Documentation: https://github.com/arqex/react-datetime

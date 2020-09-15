@@ -99,11 +99,7 @@ export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
 
 export const wifToKeys = curry((network, selection) =>
   over(
-    compose(
-      lensProp('inputs'),
-      mapped,
-      Coin.priv
-    ),
+    compose(lensProp('inputs'), mapped, Coin.priv),
     wif => Bitcoin.ECPair.fromWIF(wif, network),
     selection
   )
@@ -111,11 +107,7 @@ export const wifToKeys = curry((network, selection) =>
 
 // signWithWIF :: network -> selection -> selection
 export const signWithWIF = curry((network, selection) =>
-  compose(
-    signSelection(network),
-    sortSelection,
-    wifToKeys(network)
-  )(selection)
+  compose(signSelection(network), sortSelection, wifToKeys(network))(selection)
 )
 
 export const signMessage = (priv, addr, message) => {

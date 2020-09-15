@@ -2,7 +2,7 @@ import { compose, groupBy, head, map, path, prop } from 'ramda'
 
 import { actions, model, selectors } from 'data'
 import { createTestStore, getDispatchSpyReducer } from 'utils/testbed'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
 import profileReducer from 'data/modules/profile/reducers'
 import ratesReducer from './reducers'
@@ -267,10 +267,7 @@ describe('rates service', () => {
 
     it('should update bestRates upon rates message', () => {
       const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
-      const resultRates = compose(
-        map(head),
-        groupBy(prop('pair'))
-      )(rates)
+      const resultRates = compose(map(head), groupBy(prop('pair')))(rates)
       ratesSocket.triggerMessage({
         ...model.rates.RATES_UPDATED_MESSAGE,
         pairs,

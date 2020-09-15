@@ -7,14 +7,13 @@ export const iRename = curry((from, to, i) =>
 )
 
 export const iLensProp = key =>
-  lens(x => x.get(key), (val, x) => x.set(key, val))
+  lens(
+    x => x.get(key),
+    (val, x) => x.set(key, val)
+  )
 
 export const iLensPath = reduceRight(
-  (key, lens) =>
-    compose(
-      iLensProp(key),
-      lens
-    ),
+  (key, lens) => compose(iLensProp(key), lens),
   identity
 )
 

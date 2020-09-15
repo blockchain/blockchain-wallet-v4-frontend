@@ -2,7 +2,7 @@ import * as Bitcoin from 'bitcoinjs-lib'
 import * as WalletCrypto from './utils'
 import Base58 from 'bs58'
 import BigInteger from 'bigi'
-import scrypt from 'scryptsy'
+import scrypt from 'scrypt-js'
 import Unorm from 'unorm'
 
 const {

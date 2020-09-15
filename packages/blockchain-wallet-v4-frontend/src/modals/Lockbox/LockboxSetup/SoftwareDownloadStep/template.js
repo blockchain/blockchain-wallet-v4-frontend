@@ -74,7 +74,7 @@ const SoftwareDownloadStep = props => {
   return hasDownloaded ? (
     <Wrapper>
       <HeadingWrapper>
-        <BlockchainLoader width='90px' height='90px' />
+        <BlockchainLoader width='80px' height='80px' />
       </HeadingWrapper>
       <Text size='13px' weight={500}>
         <FormattedMessage
@@ -90,10 +90,7 @@ const SoftwareDownloadStep = props => {
       </Text>
       <DownloadButton nature='primary' fullwidth onClick={onStepChange}>
         <Text size='16px' weight={500} color='white'>
-          <FormattedMessage
-            id='modals.lockboxsetup.softwaredownloadstep.downloaded.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Text>
       </DownloadButton>
       <DismissText size='12px' weight={500} onClick={onGoBackToDownload}>

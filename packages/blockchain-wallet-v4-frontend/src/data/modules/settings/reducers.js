@@ -19,6 +19,9 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.ADD_SHOWN_ETH_PRIV_KEY: {
       return assoc('shownEthPrivKey', payload.priv, state)
     }
+    case AT.ADD_SHOWN_ETH_LEGACY_PRIV_KEY: {
+      return assoc('shownEthLegacyPrivKey', payload.priv, state)
+    }
     case AT.ADD_SHOWN_XLM_PRIV_KEY: {
       return assoc('shownXlmPrivKey', payload.priv, state)
     }
@@ -27,6 +30,9 @@ const settings = (state = INITIAL_STATE, action) => {
     }
     case AT.CLEAR_SHOWN_ETH_PRIV_KEY: {
       return dissoc('shownEthPrivKey', state)
+    }
+    case AT.CLEAR_SHOWN_ETH_LEGACY_PRIV_KEY: {
+      return dissoc('shownEthLegacyPrivKey', state)
     }
     case AT.CLEAR_SHOWN_XLM_PRIV_KEY: {
       return dissoc('shownXlmPrivKey', state)

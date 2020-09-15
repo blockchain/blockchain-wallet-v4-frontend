@@ -60,14 +60,11 @@ export const messages = {
   ),
   ADDRESS: (
     <Text size='12px'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.address'
-        defaultMessage='Address'
-      />
+      <FormattedMessage id='copy.address' defaultMessage='Address' />
     </Text>
   ),
   TIER1: (
-    <Text size='12px' color='gray-3'>
+    <Text size='12px' color='grey400'>
       <FormattedMessage
         id='components.identityverification.tiercard.silverplus'
         defaultMessage='Silver Level +'
@@ -96,16 +93,16 @@ export const limits = {
   ANNUAL: (
     <Text size='14px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.annuallimit'
-        defaultMessage='Annual Swap Limit'
+        id='components.identityverification.tiercard.annualtradinglimit'
+        defaultMessage='Annual Trading Limit'
       />
     </Text>
   ),
   DAILY: (
     <Text size='14px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.dailylimit'
-        defaultMessage='Daily Swap Limit'
+        id='components.identityverification.tiercard.dailytradinglimit'
+        defaultMessage='Daily Trading Limit'
       />
     </Text>
   )

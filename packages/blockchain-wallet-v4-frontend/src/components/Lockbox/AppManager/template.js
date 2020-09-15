@@ -165,7 +165,7 @@ const LockboxAppManager = props => {
         </IconBox>
         <div>
           <NameContainer>
-            <Text size='14px' weight={500} color={'gray-5'}>
+            <Text size='14px' weight={500} color={'grey700'}>
               {name}
             </Text>
             {equals('btc', coinLower) && requireBtc && (

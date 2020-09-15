@@ -3,6 +3,7 @@ import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
 
 import { Color, Palette } from '../../src/Colors/index.ts'
+import { FontGlobalStyles, IconGlobalStyles } from '../../src'
 import { SimpleDropdown } from '../../src/Dropdowns'
 
 const BasePage = styled.div`
@@ -13,7 +14,7 @@ const BasePage = styled.div`
   font-weight: 400;
   line-height: 1.45;
   font-size: 15px;
-  border: 1px solid ${Color('gray-2')};
+  border: 1px solid ${Color('grey200')};
   padding: 20px 40px 40px;
   border-radius: 2px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px;
@@ -25,7 +26,7 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid ${Color('gray-2')};
+  border-bottom: 1px solid ${Color('grey200')};
   padding: 10px;
   box-sizing: border-box;
   margin-bottom: 30px;
@@ -72,7 +73,11 @@ class Layout extends React.PureComponent {
           />
         </TitleWrapper>
         <Content height={this.props.height}>
-          <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            {this.props.children}
+            <FontGlobalStyles />
+            <IconGlobalStyles />
+          </ThemeProvider>
         </Content>
       </BasePage>
     )

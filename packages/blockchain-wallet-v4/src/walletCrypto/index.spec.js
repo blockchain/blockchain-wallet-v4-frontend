@@ -41,7 +41,7 @@ describe('WalletCrypto', () => {
       wCrypto
         .encryptDataWithPassword(message, '1714', 11)
         .chain(msg =>
-          wCrypto.decryptDataWithPassword(msg, '1714', 11, { mode: U.AES.GCM })
+          wCrypto.decryptDataWithPassword(msg, '1714', 11, { mode: U.AES.CBC })
         )
         .fork(done, text => {
           expect(text).toEqual(message)
@@ -144,39 +144,10 @@ describe('WalletCrypto', () => {
 
   describe('decryptWallet (V4)', () => {
     it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWallet('blockchainwallet', data.v4).fork(done, wallet => {
-        expect(wallet.guid).toEqual('e84398b8-77a4-4811-9806-2f85e22cb967')
+      wCrypto.decryptWallet('blockchain', data.v4).fork(done, wallet => {
+        expect(wallet.guid).toEqual('d9e5766d-d646-4b3a-b32e-4bda649e4c45')
         done()
       })
-    })
-    it('should fail because of wrong password', done => {
-      wCrypto.decryptWallet('wrong password', data.v4).fork(failure => {
-        expect(failure.message).toEqual(
-          'Unsupported state or unable to authenticate data'
-        )
-        done()
-      }, done)
-    })
-  })
-
-  describe('decryptWallet (Corrupted V4)', () => {
-    it('should fail to decrypt corrupted payload', done => {
-      wCrypto.decryptWallet('blockchain', data.corrupted.v4).fork(failure => {
-        expect(failure.message).toEqual(
-          'Unsupported state or unable to authenticate data'
-        )
-        done()
-      }, done)
-    })
-    it('should fail because of wrong password', done => {
-      wCrypto
-        .decryptWallet('wrong password', data.corrupted.v4)
-        .fork(failure => {
-          expect(failure.message).toEqual(
-            'Unsupported state or unable to authenticate data'
-          )
-          done()
-        }, done)
     })
   })
 

@@ -52,11 +52,7 @@ class Socket {
         this.socket.on('open', onOpen)
         this.socket.on(
           'message',
-          compose(
-            onMessage,
-            this.onPong,
-            this.extractMessage
-          )
+          compose(onMessage, this.onPong, this.extractMessage)
         )
         this.socket.on('close', onClose)
         this.socket.on('error', onError)
@@ -69,10 +65,7 @@ class Socket {
   }
 
   extractMessage (msg) {
-    return compose(
-      JSON.parse,
-      prop('data')
-    )(msg)
+    return compose(JSON.parse, prop('data'))(msg)
   }
 
   send (message) {
@@ -84,10 +77,7 @@ class Socket {
   ping = () => {
     this.send(Socket.pingMessage())
     this.pingTimeoutPID = setTimeout(
-      compose(
-        this.reconnect,
-        this.close
-      ),
+      compose(this.reconnect, this.close),
       this.pingTimeout
     )
   }

@@ -49,7 +49,7 @@ const selectStyle = type => {
     case 'white':
       return { color: 'white', uppercase: true, icon: null }
     case 'informational':
-      return { color: 'gray-5', uppercase: false, icon: null }
+      return { color: 'grey700', uppercase: false, icon: null }
     default:
       return { color: 'blue600', uppercase: false, icon: null }
   }

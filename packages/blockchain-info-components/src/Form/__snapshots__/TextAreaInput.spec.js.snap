@@ -3,7 +3,7 @@
 exports[`TextAreaInput component default renders correctly 1`] = `
 <styled.textarea
   borderColor="grey100"
-  bordercolor="red600"
+  focusedBorderColor="blue600"
   resize={true}
 />
 `;

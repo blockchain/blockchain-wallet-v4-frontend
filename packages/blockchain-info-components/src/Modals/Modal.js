@@ -20,6 +20,13 @@ const ModalBackground = styled.div`
   @media (min-width: 768px) {
     align-items: center;
   }
+
+  @media (max-width: 767px) {
+    min-height: 100vh;
+    /* stylelint-disable-next-line */
+    min-height: -webkit-fill-available;
+    overflow: auto;
+  }
 `
 
 const BaseModal = styled.div`

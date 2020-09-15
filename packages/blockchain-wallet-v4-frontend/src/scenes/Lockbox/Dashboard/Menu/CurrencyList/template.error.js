@@ -7,14 +7,14 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   padding: 20px 40px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
+  border-bottom: 1px solid ${props => props.theme.grey000};
   > div {
     margin-right: 25px;
   }
 `
 
 const Refresh = styled.div`
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
   border-radius: 3px;
   margin-right: 25px;
   max-height: 72px;

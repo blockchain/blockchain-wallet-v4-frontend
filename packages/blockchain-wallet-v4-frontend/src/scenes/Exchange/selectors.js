@@ -1,4 +1,4 @@
-import { complement, equals, path } from 'ramda'
+import { complement, equals, lift, path } from 'ramda'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { model, selectors } from 'data'
 
@@ -17,5 +17,10 @@ export const getData = createDeepEqualSelector(
         .map(path([0, 'state']))
         .map(complement(equals(TIERS_STATES.NONE)))
   ],
-  (hasEmail, userCreated) => ({ hasEmail, userCreated })
+  (hasEmail, userCreatedR) => {
+    return lift(userCreated => ({
+      hasEmail,
+      userCreated
+    }))(userCreatedR)
+  }
 )

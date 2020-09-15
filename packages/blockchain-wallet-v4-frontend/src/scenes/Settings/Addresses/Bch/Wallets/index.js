@@ -76,7 +76,4 @@ const mapDispatchToProps = dispatch => ({
   modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BchWalletsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(BchWalletsContainer)

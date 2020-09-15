@@ -41,7 +41,7 @@ class ExchangeError extends React.PureComponent {
         <HeaderText>
           <ErrorMessageHeader {...this.props} />
         </HeaderText>
-        <CopyText>
+        <CopyText data-e2e='swapErrorMessage'>
           <ErrorMessageBody {...this.props} {...this.props.data} />
         </CopyText>
         <Buttons>
@@ -61,7 +61,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.components.identityVerification.verifyIdentity())
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExchangeError)
+export default connect(mapStateToProps, mapDispatchToProps)(ExchangeError)

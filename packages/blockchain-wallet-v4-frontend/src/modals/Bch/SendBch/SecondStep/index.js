@@ -37,7 +37,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SecondStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

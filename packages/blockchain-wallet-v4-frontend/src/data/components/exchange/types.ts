@@ -1,20 +1,7 @@
 import * as AT from './actionTypes'
-import * as Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { RemoteDataType } from 'core/types'
+import { CurrenciesType, RemoteDataType } from 'core/types'
 
 // Types
-
-export type LimitsType = {
-  annual: LimitDurationType
-  balanceMax: LimitAmountType
-  daily: LimitDurationType
-  maxFiatLimit: LimitAmountType
-  maxOrder: LimitAmountType
-  maxPossibleOrder: LimitAmountType
-  minOrder: LimitAmountType
-  weekly: LimitDurationType
-}
-
 export type LimitAmountType = {
   amount: string
   fiat: boolean
@@ -32,6 +19,8 @@ export type LimitDurationType = {
   fiat: boolean
   symbol: string
 }
+
+export type MempoolFeeType = 'regular' | 'priority'
 
 export type SourceFeeType =
   | {
@@ -53,9 +42,23 @@ export type SourceFeeType =
       target: number
     }
 
+export type SwapLimitsType = {
+  annual: LimitDurationType
+  balanceMax: LimitAmountType
+  daily: LimitDurationType
+  maxFiatLimit: LimitAmountType
+  maxOrder: LimitAmountType
+  maxPossibleOrder: LimitAmountType
+  minOrder: LimitAmountType
+  weekly: LimitDurationType
+}
+
 // State
 export interface ExchangeState {
-  limits: RemoteDataType<string, Currencies<LimitsType>>
+  limits: RemoteDataType<
+    string,
+    { [key in keyof CurrenciesType]?: SwapLimitsType }
+  >
   max: null | LimitAmountType
   min: null | LimitAmountType
   showError: boolean
@@ -79,7 +82,7 @@ interface FetchLimitsLoading {
 
 interface FetchLimitsSuccess {
   payload: {
-    limits: Currencies<LimitsType>
+    limits: { [key in keyof CurrenciesType]?: SwapLimitsType }
   }
   type: typeof AT.FETCH_LIMITS_SUCCESS
 }
@@ -106,7 +109,7 @@ interface SetSourceFee {
 }
 interface SetTxError {
   payload: {
-    error: string
+    error: string | null
   }
   type: typeof AT.SET_TX_ERROR
 }

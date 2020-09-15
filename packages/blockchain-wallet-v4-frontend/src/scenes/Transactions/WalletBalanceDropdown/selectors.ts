@@ -1,5 +1,7 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
+import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
@@ -7,98 +9,110 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { last, lift, negate, nth, prop } from 'ramda'
+import { lift } from 'ramda'
 import { OwnProps } from '.'
 import { selectors } from 'data'
-import BigNumber from 'bignumber.js'
 
 export const getData = (state, ownProps: OwnProps) => {
   const { coin } = ownProps
   let addressDataR
   let balanceDataR
-  let coinRatesR
 
   switch (coin) {
     case 'BTC':
-      addressDataR = getBtcAddressData(state, { excludeLockbox: true })
+      addressDataR = getBtcAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true,
+        includeInterest: true
+      })
       balanceDataR = balanceSelectors.getBtcBalance(state)
-      coinRatesR = selectors.core.data.btc.getRates(state)
       break
     case 'BCH':
-      addressDataR = getBchAddressData(state, { excludeLockbox: true })
+      addressDataR = getBchAddressData(state, {
+        coin: 'BCH',
+        excludeLockbox: true,
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getBchBalance(state)
-      coinRatesR = selectors.core.data.bch.getRates(state)
       break
     case 'ETH':
-      addressDataR = getEthAddressData(state, { excludeLockbox: true })
+      addressDataR = getEthAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true,
+        includeInterest: true
+      })
       balanceDataR = balanceSelectors.getEthBalance(state)
-      coinRatesR = selectors.core.data.eth.getRates(state)
       break
     case 'PAX':
-      addressDataR = getErc20AddressData(state, { coin: 'PAX' })
+      addressDataR = getErc20AddressData(state, {
+        coin: 'PAX',
+        includeCustodial: true,
+        includeInterest: true
+      })
       balanceDataR = balanceSelectors.getPaxBalance(state)
-      coinRatesR = selectors.core.data.eth.getErc20Rates(state, 'pax')
+      break
+    case 'USDT':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDT',
+        includeCustodial: true,
+        includeInterest: true
+      })
+      balanceDataR = balanceSelectors.getUsdtBalance(state)
       break
     case 'XLM':
-      addressDataR = getXlmAddressData(state, { excludeLockbox: true })
+      addressDataR = getXlmAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: true
+      })
       balanceDataR = balanceSelectors.getXlmBalance(state)
-      coinRatesR = selectors.core.data.xlm.getRates(state)
+      break
+    case 'ALGO':
+      addressDataR = getAlgoAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getAlgoBalance(state)
+      break
+    case 'EUR':
+    case 'GBP':
+    case 'USD':
+      addressDataR = Remote.Success({ data: [] })
+      balanceDataR = balanceSelectors.getFiatBalance(coin, state)
       break
     default:
       addressDataR = Remote.Success({ data: [] })
+      balanceDataR = Remote.Success(0)
   }
-  const priceIndexSeriesR = selectors.core.data.misc.getPriceIndexSeries(state)
+  const priceChangeR = selectors.core.data.misc.getPriceChange(
+    coin as CoinType,
+    'day',
+    state
+  )
   const currencyR = selectors.core.settings.getCurrency(state)
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
 
   const transform = (
     addressData,
     balanceData,
-    coinRates,
-    currency,
-    priceIndexSeries
+    currency: FiatType,
+    priceChange: ExtractSuccess<typeof priceChangeR>,
+    sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
-    const { value } = Exchange.convertCoinToCoin({
-      value: balanceData,
-      coin,
-      baseToStandard: true
-    })
-    const currentValue = Exchange.convertCoinToFiat(
-      value,
-      coin,
-      currency,
-      coinRates
-    )
-    // @ts-ignore
-    let currentPrice = prop('price', last(priceIndexSeries))
-    // @ts-ignore
-    let yesterdayPrice = prop('price', nth(23, priceIndexSeries))
-    const yesterdayValue = Exchange.convertCoinToFiat(value, coin, currency, {
-      [currency]: {
-        last: yesterdayPrice
-      }
-    })
-
-    const changePercentage =
-      ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
-    const changeFiat =
-      changePercentage <= 0
-        ? negate(currentValue - yesterdayValue)
-        : currentValue - yesterdayValue
-
     return {
+      currency,
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),
-      priceChangeFiat: changeFiat,
-      priceChangePercentage: changePercentage
+      priceChange,
+      sbBalance: sbBalances[coin]
     }
   }
 
+  // @ts-ignore
   return lift(transform)(
     addressDataR,
     balanceDataR,
-    coinRatesR,
     currencyR,
-    priceIndexSeriesR
+    priceChangeR,
+    sbBalancesR
   )
 }

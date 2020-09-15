@@ -11,10 +11,6 @@ export default () => {
       AT.BTC_TRANSACTIONS_INITIALIZED,
       btcTransactionsSagas.initialized
     )
-    yield takeEvery(
-      AT.BTC_TRANSACTIONS_REPORT_CLICKED,
-      btcTransactionsSagas.reportClicked
-    )
     yield takeLatest(
       AT.BTC_TRANSACTIONS_LOAD_MORE,
       btcTransactionsSagas.loadMore

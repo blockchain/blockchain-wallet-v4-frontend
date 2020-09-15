@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.32",
+  "version": "0.0.37",
   "description": "A shared UI components library for blockchain.com applications.",
   "license": "AGPL-3.0-or-later",
   "author": {
@@ -60,14 +60,14 @@
     "polished": "3.3.0",
     "prop-types": "15.7.2",
     "ramda": "0.26.1",
-    "react": "16.8.6",
+    "react": "16.13.1",
     "react-datetime": "2.16.3",
     "react-input-autosize": "2.2.1",
     "react-intl": "2.8.0",
     "react-onclickoutside": "6.8.0",
-    "react-select": "2.4.3",
+    "react-select": "3.0.3",
     "react-transition-group": "2.5.3",
-    "styled-components": "4.2.0",
+    "styled-components": "4.4.1",
     "universal-cookie": "4.0.0"
   }
 }

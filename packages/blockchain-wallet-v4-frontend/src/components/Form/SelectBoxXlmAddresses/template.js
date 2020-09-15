@@ -36,12 +36,7 @@ export default props => {
   const { input, meta, ...rest } = props
 
   return rest.isCreatable ? (
-    <CreatableInputField
-      {...props}
-      templateItem={renderItem}
-      maxWidth={'calc(100% - 40px)'}
-      grouped
-    />
+    <CreatableInputField {...props} templateItem={renderItem} grouped />
   ) : (
     <SelectBox {...props} templateItem={renderItem} grouped />
   )

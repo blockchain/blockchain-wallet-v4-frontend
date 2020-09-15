@@ -32,7 +32,7 @@ const CheckForUpdatesStep = props => {
         </Text>
       </Title>
       <Content>
-        <Text color='gray-4' weight={400}>
+        <Text color='grey500' weight={400}>
           <FormattedMessage
             id='modals.lockboxfirmware.connectdevice.subtitle'
             defaultMessage='Connect and unlock your Lockbox. Then open the Dashboard app.'

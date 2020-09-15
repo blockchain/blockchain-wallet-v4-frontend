@@ -3,8 +3,8 @@
 exports[`NumberInput component default renders correctly 1`] = `
 <styled.input
   borderColor="grey100"
-  bordercolor="red600"
   disabled={false}
+  focusedBorderColor="blue600"
   height="48px"
   minHeight="48px"
   step="0.01"

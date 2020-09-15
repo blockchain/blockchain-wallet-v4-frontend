@@ -23,19 +23,12 @@ export const defaultAccountIdx = HDWallet.define('default_account_idx')
 export const mnemonicVerified = HDWallet.define('mnemonic_verified')
 
 // Lens used to traverse all secrets for double encryption
-export const secretsLens = compose(
-  accounts,
-  traversed,
-  HDAccount.secretsLens
-)
+export const secretsLens = compose(accounts, traversed, HDAccount.secretsLens)
 
 export const selectSeedHex = view(seedHex)
 export const selectAccounts = view(accounts)
 export const selectDefaultAccountIdx = view(defaultAccountIdx)
-export const selectMnemonicVerified = compose(
-  Boolean,
-  view(mnemonicVerified)
-)
+export const selectMnemonicVerified = compose(Boolean, view(mnemonicVerified))
 
 export const selectAccount = curry((index, hdwallet) =>
   selectAccounts(hdwallet).get(index)
@@ -54,32 +47,25 @@ export const selectContext = compose(
   selectAccounts
 )
 
-const shiftHDWallet = compose(
-  shiftIProp('seed_hex', 'seedHex'),
-  shift
-)
+const shiftHDWallet = compose(shiftIProp('seed_hex', 'seedHex'), shift)
 
 export const fromJS = x => {
   if (is(HDWallet, x)) {
     return x
   }
-  const hdwalletCons = compose(
-    over(accounts, HDAccountList.fromJS),
-    hdw => shiftHDWallet(hdw).forward()
+  const hdwalletCons = compose(over(accounts, HDAccountList.fromJS), hdw =>
+    shiftHDWallet(hdw).forward()
   )
   return hdwalletCons(new HDWallet(x))
 }
 
-export const toJS = pipe(
-  HDWallet.guard,
-  hd => {
-    const hdwalletDecons = compose(
-      hdw => shiftHDWallet(hdw).back(),
-      over(accounts, HDAccountList.toJS)
-    )
-    return hdwalletDecons(hd).toJS()
-  }
-)
+export const toJS = pipe(HDWallet.guard, hd => {
+  const hdwalletDecons = compose(
+    hdw => shiftHDWallet(hdw).back(),
+    over(accounts, HDAccountList.toJS)
+  )
+  return hdwalletDecons(hd).toJS()
+})
 
 export const reviver = jsObject => {
   return new HDWallet(jsObject)

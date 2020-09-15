@@ -63,10 +63,7 @@ const TwoStepYubico = props => {
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={400} onClick={close} capitalize>
-            <FormattedMessage
-              id='modals.twostepyubico.back'
-              defaultMessage='Go Back'
-            />
+            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </Link>
           <Button
             type='submit'

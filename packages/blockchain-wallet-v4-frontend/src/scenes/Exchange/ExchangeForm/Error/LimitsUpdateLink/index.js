@@ -23,7 +23,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(LimitsUpdateLink)
+export default connect(undefined, mapDispatchToProps)(LimitsUpdateLink)

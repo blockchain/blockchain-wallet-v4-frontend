@@ -8,7 +8,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
 >
   <styled.div>
     <Styled(Icon)
-      color="gray-5"
+      color="grey700"
       name="x"
       size="28px"
       weight={400}
@@ -17,7 +17,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       altFont={false}
       capitalize={true}
       className="headerText"
-      color="gray-5"
+      color="grey700"
       cursor="inherit"
       data-e2e="modalHeaderText"
       italic={false}
@@ -29,7 +29,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
     />
   </styled.div>
   <Icon
-    color="gray-5"
+    color="grey700"
     cursor={true}
     data-e2e="modalCloseButton"
     name="close"

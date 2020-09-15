@@ -27,7 +27,7 @@ const Unit = styled(Text)`
   font-size: 12px;
   font-weight: 400;
   position: absolute;
-  color: ${props => props.theme['gray-4']};
+  color: ${props => props.theme['grey500']};
   right: 0px;
   bottom: 30%;
 `

@@ -31,10 +31,7 @@ const APIAccess = () => {
             size='13px'
             weight={500}
           >
-            <FormattedMessage
-              id='scenes.securitycenter.advanced.apiaccess.description.part2'
-              defaultMessage='here'
-            />
+            <FormattedMessage id='copy.here' defaultMessage='here' />
           </Link>
           <FormattedMessage
             id='scenes.securitycenter.advanced.apiaccess.description.part3'

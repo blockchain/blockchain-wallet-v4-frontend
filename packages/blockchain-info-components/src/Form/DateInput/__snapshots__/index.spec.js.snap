@@ -8,6 +8,7 @@ exports[`DateInput component default renders correctly 1`] = `
   closeOnSelect={true}
   closeOnTab={true}
   dateFormat={true}
+  focusedBorderColor="blue600"
   fullwidth={false}
   input={true}
   strictParsing={false}

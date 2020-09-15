@@ -1,5 +1,4 @@
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import styled, { keyframes } from 'styled-components'
 
 export const Scale = () => {
@@ -68,29 +67,4 @@ export const StepTitle = styled(Text)`
 
 export const StepContent = styled(Text)`
   line-height: 24px;
-`
-
-export const CloseTourIcon = styled(Icon)`
-  &:hover {
-    color: ${({ theme }) => theme.grey600};
-  }
-
-  &:active {
-    color: ${({ theme }) => theme.grey800};
-  }
-`
-
-export const SpotlightLinkContainer = styled(LinkContainer)`
-  position: relative;
-`
-
-export const JoyrideSpotlight = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto 11px;
-  width: 28px;
-  height: 28px;
 `

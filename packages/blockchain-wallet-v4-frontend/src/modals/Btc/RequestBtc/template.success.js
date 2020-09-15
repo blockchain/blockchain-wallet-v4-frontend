@@ -155,7 +155,7 @@ const FirstStep = props => {
                 name='message'
                 component={TextArea}
                 validate={[required]}
-                placeholder="What's this transaction for? (optional)"
+                placeholder="What's this transaction for?"
                 data-e2e='requestBtcDescription'
               />
             </FormItem>
@@ -254,10 +254,7 @@ const FirstStep = props => {
             nature='primary'
             data-e2e='requestBtcDoneButton'
           >
-            <FormattedMessage
-              id='modals.requestbtc.dont'
-              defaultMessage='Done'
-            />
+            <FormattedMessage id='buttons.done' defaultMessage='Done' />
           </ContinueButton>
           <ChangeViewContainer inline>
             <MakeRequestLinkText

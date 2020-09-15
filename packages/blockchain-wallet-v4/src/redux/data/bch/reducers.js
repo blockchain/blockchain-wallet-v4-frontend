@@ -84,10 +84,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
         ? assoc('transactions', [Remote.Success(transactions)], state)
         : over(
             lensProp('transactions'),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
     }

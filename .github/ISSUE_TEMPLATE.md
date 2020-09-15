@@ -1,8 +1,7 @@
 # 🐛Bug Report 🐛
 ***Do***
-1. Follow [this guide](https://www.draw.io/#G1QFFRM0KBAJBCMLpm3Rb9OcyxFO-enz_A)
-2. Fill out the **Description**, **Expected Behavior**, **Reproduction Steps**, **Screenshots/Logs**, and **Additional Information** below.
-3. Provide as much information as possible
+1. Fill out the **Description**, **Expected Behavior**, **Reproduction Steps**, **Screenshots/Logs**, and **Additional Information** below.
+2. Provide as much information as possible
 
 ***Don't***
 1. Leave this form blank

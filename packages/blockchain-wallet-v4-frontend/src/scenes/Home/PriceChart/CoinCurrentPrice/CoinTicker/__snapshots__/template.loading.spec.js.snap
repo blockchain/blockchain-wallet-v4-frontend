@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`CoinTicker template loading renders correctly 1`] = `
-<skeleton_rectangle
-  height="44px"
-  width="100px"
-/>
-`;

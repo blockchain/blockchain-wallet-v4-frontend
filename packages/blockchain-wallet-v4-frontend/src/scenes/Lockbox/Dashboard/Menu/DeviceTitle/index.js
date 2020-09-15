@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -13,10 +15,10 @@ const Wrapper = styled.div`
   align-items: center;
   width: calc(100% - 330px);
   padding: 10px 30px;
-  @media (max-width: 770px) {
+  ${media.tablet`
     width: 100%;
-    padding: 10px 15px;
-  }
+    padding: 8px 16px;
+  `}
 `
 const ToggleIcon = styled(Icon)`
   transition: color 0.3s;
@@ -89,7 +91,4 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(DeviceTitle)
+export default connect(null, mapDispatchToProps)(DeviceTitle)

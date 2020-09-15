@@ -4,6 +4,16 @@ import { model, selectors } from 'data'
 import { path, prop } from 'ramda'
 
 export const getData = state => {
+  const amount = formValueSelector(model.components.sendBch.FORM)(
+    state,
+    'amount'
+  )
+  const destination = formValueSelector(model.components.sendBch.FORM)(
+    state,
+    'to'
+  )
+  const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
+
   const paymentR = selectors.components.sendBch.getPayment(state)
   const availability = selectors.core.walletOptions.getCoinAvailability(
     state,
@@ -13,6 +23,7 @@ export const getData = state => {
   const networkType = selectors.core.walletOptions
     .getBtcNetwork(state)
     .getOrElse('bitcoin')
+  const isMnemonicVerified = selectors.core.wallet.isMnemonicVerified(state)
   const network = Bitcoin.networks[networkType]
 
   const transform = payment => {
@@ -20,21 +31,18 @@ export const getData = state => {
     const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
     const totalFee = path(['selection', 'fee'], payment)
     const effectiveBalance = prop('effectiveBalance', payment)
-    const destination = formValueSelector(model.components.sendBch.FORM)(
-      state,
-      'to'
-    )
-    const from = formValueSelector(model.components.sendBch.FORM)(state, 'from')
 
     return {
-      from,
-      network,
-      effectiveBalance,
-      minFeePerByte,
-      maxFeePerByte,
+      amount,
       destination,
-      totalFee,
-      excludeLockbox
+      effectiveBalance,
+      excludeLockbox,
+      from,
+      isMnemonicVerified,
+      maxFeePerByte,
+      minFeePerByte,
+      network,
+      totalFee
     }
   }
 

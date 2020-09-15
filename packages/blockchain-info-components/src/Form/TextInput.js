@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
+import { selectBorderColor, selectFocusBorderColor } from './helper'
 
 const BaseTextInput = styled.input.attrs({
   type: 'text',
@@ -19,24 +20,33 @@ const BaseTextInput = styled.input.attrs({
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme['gray400']};
-  background-color: ${props => props.theme.white};
+  color: ${props => props.theme['grey800']};
+  background-color: ${({ theme }) => theme.white};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
   border-right: ${props => (props.borderRightNone ? 'none' : '')};
-  border-radius: 4px;
+  border-radius: 8px;
 
+  &:focus {
+    border: 1px solid
+      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+  }
+  &:focus::placeholder {
+    opacity: 0.25;
+  }
   &::placeholder {
-    color: ${props => props.theme['gray-3']};
-    opacity: 0.4;
+    color: ${props => props.theme.grey400};
+    font-size: 14px;
+    font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme['gray-1']};
+    background-color: ${props => props.theme.grey100};
+    border: '1px solid transparent';
   }
 `
 const Container = styled.div`
@@ -51,18 +61,6 @@ const InputIcon = styled(Icon)`
   left: 12px;
   color: ${props => props.theme['grey400']};
 `
-const selectBorderColor = state => {
-  switch (state) {
-    case 'initial':
-      return 'grey100'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'grey100'
-  }
-}
 
 class TextInput extends React.Component {
   static propTypes = {
@@ -96,7 +94,7 @@ class TextInput extends React.Component {
   }
 
   render () {
-    const { disabled, errorState, icon, iconSize, ...rest } = this.props
+    const { disabled, errorState, icon, iconSize, value, ...rest } = this.props
 
     return (
       <Container>
@@ -105,9 +103,11 @@ class TextInput extends React.Component {
           borderColor={selectBorderColor(errorState)}
           disabled={disabled}
           data-e2e={this.props['data-e2e']}
+          focusedBorderColor={selectFocusBorderColor(errorState)}
           icon={icon}
           onKeyDown={this.onKeyPressed}
           ref={this.refInput}
+          value={value}
           {...rest}
         />
       </Container>

@@ -95,8 +95,5 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(LockboxContainer)
+  connect(mapStateToProps, mapDispatchToProps)(LockboxContainer)
 )

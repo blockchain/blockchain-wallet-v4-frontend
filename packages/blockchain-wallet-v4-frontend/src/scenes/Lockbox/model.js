@@ -69,10 +69,7 @@ export const TourTooltip = ({
                 style={{ marginRight: '8px' }}
                 {...backProps}
               >
-                <FormattedMessage
-                  id='scenes.lockbox.tour.back'
-                  defaultMessage='Back'
-                />
+                <FormattedMessage id='buttons.back' defaultMessage='Back' />
               </Button>
             )}
             <Button

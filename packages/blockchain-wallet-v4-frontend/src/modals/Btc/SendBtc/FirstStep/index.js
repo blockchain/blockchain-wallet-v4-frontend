@@ -10,7 +10,15 @@ import Success from './template.success'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {
-    this.props.actions.initialized()
+    const { from, to, description, amount, lockboxIndex, payPro } = this.props
+    this.props.actions.initialized({
+      from,
+      to,
+      description,
+      amount,
+      lockboxIndex,
+      payPro
+    })
   }
 
   render () {
@@ -18,27 +26,13 @@ class FirstStep extends React.Component {
     return data.cata({
       Success: value => (
         <Success
+          {...value}
           autofilled={!!(amount && to)}
-          destination={value.destination}
-          effectiveBalance={value.effectiveBalance}
-          enableToggle={value.enableToggle}
-          excludeLockbox={value.excludeLockbox}
           excludeHDWallets={excludeHDWallets}
-          feePerByte={value.feePerByte}
-          feePerByteElements={value.feePerByteElements}
-          feePerByteToggled={value.feePerByteToggled}
-          from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBtcBitPayInvoiceExpired}
           handleFeePerByteToggle={actions.sendBtcFirstStepFeePerByteToggled}
-          maxFeePerByte={value.maxFeePerByte}
-          minFeePerByte={value.minFeePerByte}
-          network={value.network}
           onSubmit={actions.sendBtcFirstStepSubmitClicked}
           payPro={payPro}
-          priorityFeePerByte={value.priorityFeePerByte}
-          regularFeePerByte={value.regularFeePerByte}
-          totalFee={value.totalFee}
-          watchOnly={value.watchOnly}
         />
       ),
       Failure: message => (
@@ -60,7 +54,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

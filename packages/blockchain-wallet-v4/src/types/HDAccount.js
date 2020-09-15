@@ -63,27 +63,15 @@ export const selectIndex = view(index)
 export const selectDerivations = view(derivations)
 export const selectDefaultDerivation = view(defaultDerivation)
 
-export const isArchived = compose(
-  Boolean,
-  view(archived)
-)
+export const isArchived = compose(Boolean, view(archived))
 
-export const isActive = compose(
-  not,
-  isArchived
-)
+export const isActive = compose(not, isArchived)
 
 export const isWatchOnly = account =>
-  compose(
-    isNil,
-    selectXpriv('segwitP2SH')
-  )(account)
+  compose(isNil, selectXpriv('segwitP2SH'))(account)
 
 export const isXpub = curry((myxpub, account) =>
-  compose(
-    contains(myxpub),
-    selectAllXpubs
-  )(account)
+  compose(contains(myxpub), selectAllXpubs)(account)
 )
 
 export const selectAllXpubsGrouped = account => {
@@ -194,18 +182,12 @@ export const fromJS = (account, index) => {
   return accountCons(account)
 }
 
-export const toJSwithIndex = pipe(
-  HDAccount.guard,
-  acc => {
-    const accountDecons = compose(over(derivations, DerivationList.toJS))
-    return accountDecons(acc).toJS()
-  }
-)
+export const toJSwithIndex = pipe(HDAccount.guard, acc => {
+  const accountDecons = compose(over(derivations, DerivationList.toJS))
+  return accountDecons(acc).toJS()
+})
 
-export const toJS = compose(
-  dissoc('index'),
-  toJSwithIndex
-)
+export const toJS = compose(dissoc('index'), toJSwithIndex)
 
 export const reviver = jsObject => {
   return new HDAccount(jsObject)

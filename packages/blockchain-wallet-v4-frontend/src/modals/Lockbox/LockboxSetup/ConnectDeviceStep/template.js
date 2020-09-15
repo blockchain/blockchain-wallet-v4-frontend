@@ -82,7 +82,7 @@ const ConnectDeviceStep = props => {
       </Text>
       <SupportText href={supportLink} target='_blank' size='10px' weight={500}>
         <FormattedMessage
-          id='modals.lockboxsetup.connectdevice.timeout.support'
+          id='buttons.contact_support'
           defaultMessage='Contact Support'
         />
       </SupportText>
@@ -207,7 +207,7 @@ const ConnectDeviceStep = props => {
           <ButtonContainer>
             <Button fullwidth onClick={onNewDeviceContinue} nature='primary'>
               <FormattedMessage
-                id='modals.lockboxsetup.connectdevice.continue'
+                id='buttons.continue'
                 defaultMessage='Continue'
               />
             </Button>

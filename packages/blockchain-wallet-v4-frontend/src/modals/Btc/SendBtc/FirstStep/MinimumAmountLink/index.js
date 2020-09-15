@@ -24,7 +24,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(MinimumAmountLink)
+export default connect(undefined, mapDispatchToProps)(MinimumAmountLink)

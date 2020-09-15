@@ -4,10 +4,10 @@ import { IntlProvider } from 'react-intl'
 import { map } from 'ramda'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import { MemoryRouter } from 'react-router'
+import { preferencesReducer } from 'data/preferences/reducers'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import formReducer from 'data/form/reducers'
-import preferencesReducer from 'data/preferences/reducers'
 import PropTypes from 'prop-types'
 import React from 'react'
 import ThemeProvider from 'providers/ThemeProvider'
@@ -23,9 +23,10 @@ export const createTestStore = (
     preferences: preferencesReducer,
     ...reducers
   })
-  const createTestStore = applyMiddleware(sagaMiddleware, ...middlewares)(
-    createStore
-  )
+  const createTestStore = applyMiddleware(
+    sagaMiddleware,
+    ...middlewares
+  )(createStore)
   const testStore = createTestStore(combinedReducers)
   sagaMiddleware.run(function * () {
     yield all(map(fork, sagas))

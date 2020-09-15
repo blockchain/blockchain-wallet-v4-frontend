@@ -61,10 +61,7 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendxlm.secondstep.from'
-              defaultMessage='From:'
-            />
+            <FormattedMessage id='copy.from:' defaultMessage='From:' />
           </Text>
           <Text size='16px' weight={400} data-e2e='xlmFromWallet'>
             {fromAddress}
@@ -194,10 +191,7 @@ const Success = props => {
           weight={400}
           data-e2e='xlmSendBackLink'
         >
-          <FormattedMessage
-            id='modals.sendxlm.sendconfirm.back'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </React.Fragment>

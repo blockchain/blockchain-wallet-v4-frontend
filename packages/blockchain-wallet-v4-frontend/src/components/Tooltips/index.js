@@ -24,10 +24,10 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Exporting the public keys from the device allows the app to show your hardware wallets balances even when the device is not connected to your computer.'
           />
         </Tooltip>
-        <Tooltip id='isx.expiredtooltip'>
+        <Tooltip id='import.privatekeys'>
           <FormattedMessage
-            id='scenes.buysell.coinify.isx.expiredtooltip'
-            defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.'
+            id='modals.import.privatekeys.tooltip'
+            defaultMessage='Private key format must be compressed WIF. If you are importing a private key that is in an uncompressed format, please convert it to compressed prior to importing.'
           />
         </Tooltip>
         <Tooltip id='recurring.tooltip'>
@@ -40,12 +40,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='modals.exchangedetails.exchangetooltip'
             defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-          />
-        </Tooltip>
-        <Tooltip id='exchangedetails.feetooltip'>
-          <FormattedMessage
-            id='modals.exchangedetails.feetooltip'
-            defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
           />
         </Tooltip>
         <Tooltip id='qrcode.tooltip'>
@@ -132,42 +126,11 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Memos are used to communicate optional information to the recipient.'
           />
         </Tooltip>
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
-          />
-        </Tooltip>
         <Tooltip id='exchangecheckout.rate'>
           <FormattedMessage
             id='scenes.buysell.exchangecheckout.rate'
             defaultMessage="The rate offered by your region's exchange partner. May include fees."
           />
-        </Tooltip>
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
-          />
-        </Tooltip>
-        <Tooltip id='firststep.tooltip'>
-          <TextGroup inline>
-            <FormattedMessage
-              id='scenes.exchange.shapeshift.firststep.tooltip'
-              defaultMessage='This quote may change depending on the market price at the time of your transaction.'
-            />
-            <Link
-              size='12px'
-              weight={500}
-              href='https://info.shapeshift.io/about'
-              target='_blank'
-            >
-              <FormattedMessage
-                id='scenes.exchange.shapeshift.firststep.tooltip2'
-                defaultMessage='Learn more'
-              />
-            </Link>
-          </TextGroup>
         </Tooltip>
         <Tooltip id='exchange.networkfees'>
           <FormattedMessage
@@ -181,36 +144,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Change Input'
           />
         </Tooltip>
-        <Tooltip id='secondstep.txfeeexplanation'>
-          <FormattedMessage
-            id='scenes.exchange.shapeshift.secondstep.txfeeexplanation'
-            defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
-          />
-        </Tooltip>
-        <Tooltip id='secondstep.ratetooltip'>
-          <FormattedMessage
-            id='scenes.exchange.shapeshift.secondstep.ratetooltip'
-            defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-          />
-        </Tooltip>
-        <Tooltip id='secondstep.networkfeetooltip'>
-          <FormattedMessage
-            id='scenes.exchange.shapeshift.secondstep.networkfeetooltip'
-            defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.'
-          />
-        </Tooltip>
-        <Tooltip id='shapeshift.exchangetooltip'>
-          <FormattedMessage
-            id='modals.exchange.shapeshift.exchangetooltip'
-            defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-          />
-        </Tooltip>
-        <Tooltip id='shapeshift.feetooltip'>
-          <FormattedMessage
-            id='modals.exchange.shapeshift.feetooltip'
-            defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.'
-          />
-        </Tooltip>
         <Tooltip id='activityFeedWatchOnly'>
           <FormattedMessage
             id='scenes.home.activitylist.nonspendable'
@@ -222,6 +155,22 @@ class Tooltips extends React.PureComponent {
             id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip'
             defaultMessage='When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.'
           />
+        </Tooltip>
+        <Tooltip id='scenes.interest.legaldisclaimer'>
+          <TextGroup block style={{ paddingTop: '8px' }}>
+            <Text size='12px' weight={500} color='white'>
+              <FormattedMessage
+                id='scenes.interest.legal.one'
+                defaultMessage='Digital/virtual currencies are not bank deposits, are not legal tender, are not backed by the government, and accounts and value balances are not subject to US Federal Deposit Insurance Corporation or Securities Investor Protection Corporation or any other non-US governmental or government-backed protections.'
+              />
+            </Text>
+            <Text size='12px' weight={500} color='white'>
+              <FormattedMessage
+                id='scenes.interest.legal.two'
+                defaultMessage='Legislative and regulatory changes or actions at the US State, Federal, or international level may adversely affect the use, transfer, exchange, and value of digital/virtual currencies.'
+              />
+            </Text>
+          </TextGroup>
         </Tooltip>
         <Tooltip id='sendbtc.firststep.sharetooltip'>
           <FormattedMessage
@@ -263,12 +212,6 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Frequently Asked Questions'
           />
         </Tooltip>
-        <Tooltip id='refresh.tooltip'>
-          <FormattedMessage
-            id='refresh.tooltip.description'
-            defaultMessage='Refresh'
-          />
-        </Tooltip>
         <Tooltip id='verifyMessage'>
           <FormattedMessage
             id='modals.verifymessage.tooltip'
@@ -291,12 +234,6 @@ class Tooltips extends React.PureComponent {
           <FormattedMessage
             id='txlist.change.tooltip.description'
             defaultMessage='This change address belongs to your wallet'
-          />
-        </Tooltip>
-        <Tooltip id='buysellOrderReview'>
-          <FormattedMessage
-            id='buysellOrderReview.tooltip'
-            defaultMessage='Bank Transfers have a small fee of 0.25%. Credit Cards have a 3% convenience fee required by Coinify.'
           />
         </Tooltip>
         <Tooltip id='identityverification.headerhelper'>
@@ -332,6 +269,84 @@ class Tooltips extends React.PureComponent {
               defaultMessage='connected'
             />
           </Text>
+        </Tooltip>
+        <Tooltip id='borrow.amount.tooltip'>
+          <FormattedMessage
+            id='borrow.amount.tooltip.description'
+            defaultMessage='This amount does not include the required collateral network fee.'
+          />
+        </Tooltip>
+        <Tooltip id='borrow.interest.tooltip'>
+          <FormattedMessage
+            id='borrow.interest.tooltip.description'
+            defaultMessage='Interest will be taken from the collateral deposited on a monthly basis.'
+          />
+        </Tooltip>
+        <Tooltip id='borrow.collateral.tooltip'>
+          <FormattedMessage
+            id='borrow.collateral.tooltip.description'
+            defaultMessage='The amount you need to deposit to open this loan.'
+          />
+        </Tooltip>
+        <Tooltip id='borrow.collateralpending.tooltip'>
+          <FormattedMessage
+            id='borrow.collateralpending.tooltip.description'
+            defaultMessage='The collateral deposit is pending until it is confirmed by the network and a Blockchain.com agent.'
+          />
+        </Tooltip>
+        <Tooltip id='transaction.pending.eth'>
+          <FormattedMessage
+            id='tooltip.transaction.pending.eth'
+            defaultMessage='Your transaction is currently pending. You can attempt to resend it with a higher fee.'
+          />
+        </Tooltip>
+        <Tooltip id='coming-soon'>
+          <FormattedMessage
+            id='tooltip.comingsoon'
+            defaultMessage='Coming soon.'
+          />
+        </Tooltip>
+        <Tooltip id='earninterest.calculation.tooltip'>
+          <FormattedMessage
+            id='scenes.interest.summarycard.tooltip'
+            defaultMessage='The rate is subject to change. Interest will be paid in crypto.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.depositmax.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.maxtransfer.tooltip'
+            defaultMessage='Maximum transfer is determined by spendable balance minus priority fee.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.calculator.tooltip'>
+          <FormattedMessage
+            id='modals.interest.deposit.calculator.tooltip'
+            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.accrued.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.accrued.description.tooltip'
+            defaultMessage='Interest earned month to date. Total interest earned during any month will be transferred on the 1st of the following month.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.lock.tooltip'>
+          <FormattedMessage
+            id='modals.interest.summary.transferlock.tooltip.description'
+            defaultMessage='The period of time the transfer will be restricted from being withdrawn.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
+          <FormattedMessage
+            id='modals.interest.moredetails.tooltip.description'
+            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+          />
+        </Tooltip>
+        <Tooltip id='modals.withdraw.info_tooltip' maxWidth='250px'>
+          <FormattedMessage
+            id='modals.withdraw.info_tooltip'
+            defaultMessage='The remaining balance will be available to be withdrawn within 7 days.'
+          />
         </Tooltip>
       </TooltipWrapper>
     )

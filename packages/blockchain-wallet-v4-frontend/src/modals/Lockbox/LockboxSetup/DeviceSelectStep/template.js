@@ -31,7 +31,7 @@ const DeviceWrapper = styled.div`
   align-items: center;
   height: 170px;
   width: 160px;
-  border: 1px solid ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme.grey200};
   border-radius: 3px;
   &:hover {
     cursor: pointer;
@@ -48,7 +48,7 @@ const RestoreDeviceWrapper = styled.div`
   padding: 20px 18px;
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
   &:hover {
     cursor: pointer;
     border-color: ${props => props.theme.blue200};

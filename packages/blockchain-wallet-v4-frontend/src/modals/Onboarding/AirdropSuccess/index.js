@@ -21,7 +21,7 @@ const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme['gray-1']};
+    color: ${props => props.theme.grey000};
   }
 `
 const Body = styled.div`
@@ -160,10 +160,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('AirdropSuccess'),
-  connect(
-    null,
-    mapDispatchToProps
-  )
+  connect(null, mapDispatchToProps)
 )
 
 export default enhance(AirdropSuccess)

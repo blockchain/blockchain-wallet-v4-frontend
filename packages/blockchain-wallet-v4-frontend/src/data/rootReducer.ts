@@ -1,21 +1,22 @@
+import { alertsReducer } from './alerts/reducers'
+import { analyticsReducer } from './analytics/reducers'
 import { combineReducers } from 'redux'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
-import alertsReducer from './alerts/reducers'
-import analyticsReducer from './analytics/reducers'
+import { custodialReducer } from './custodial/reducers'
+import { goalsReducer } from './goals/reducers'
+import { modalsReducer } from './modals/reducers'
+import { preferencesReducer } from './preferences/reducers'
+import { transferEthReducer } from './modules/transferEth/reducers'
 import authReducer from './auth/reducers'
 import cacheReducer from './cache/reducers'
 import componentsReducer from './components/reducers'
 import formReducer from './form/reducers'
-import goalsReducer from './goals/reducers'
 import logsReducer from './logs/reducers'
-import modalsReducer from './modals/reducers'
-import preferencesReducer from './preferences/reducers'
 import profileReducer from './modules/profile/reducers'
 import qaReducer from './modules/qa/reducers'
 import ratesReducer from './modules/rates/reducers'
 import sessionReducer from './session/reducers'
 import settingsReducer from './modules/settings/reducers'
-import sfoxSignupReducer from './modules/sfox/reducers'
 import wizardReducer from './wizard/reducers'
 
 const rootReducer = {
@@ -23,6 +24,7 @@ const rootReducer = {
   analytics: analyticsReducer,
   auth: authReducer,
   components: componentsReducer,
+  custodial: custodialReducer,
   form: formReducer,
   goals: goalsReducer,
   modals: modalsReducer,
@@ -34,16 +36,18 @@ const rootReducer = {
   session: sessionReducer,
   wizard: wizardReducer,
   securityCenter: settingsReducer,
-  sfoxSignup: sfoxSignupReducer,
+  transferEth: transferEthReducer,
   qa: qaReducer,
   [paths.dataPath]: coreReducers.data,
   [paths.walletPath]: coreReducers.wallet,
   [paths.settingsPath]: coreReducers.settings,
-  [paths.walletOptionsPath]: coreReducers.walletOptions,
+  [paths.walletOptionsPath]: coreReducers.walletOptionsReducer,
   [paths.kvStorePath]: coreReducers.kvStore
 }
 
 const combinedReducer = combineReducers(rootReducer)
 export type RootState = ReturnType<typeof combinedReducer>
+
+type s = RootState['walletOptionsPath']
 
 export default rootReducer

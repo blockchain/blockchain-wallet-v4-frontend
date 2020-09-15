@@ -1,3 +1,5 @@
+/* stylelint-disable */
+
 import { Button, Link, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -138,10 +140,7 @@ const TwoStepVerification = props => {
           pulseText={props.pulseText}
         />
         <Button nature='empty' onClick={props.handleClick}>
-          <FormattedMessage
-            id='scenes.security.2fa.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </SecuritySummaryChoice>
     )
@@ -239,10 +238,7 @@ const TwoStepVerification = props => {
   }
   const goBackLink = () => (
     <Link size='14px' onClick={handleGoBack}>
-      <FormattedMessage
-        id='scenes.security.twostepverification.cancel'
-        defaultMessage='Cancel'
-      />
+      <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
     </Link>
   )
 

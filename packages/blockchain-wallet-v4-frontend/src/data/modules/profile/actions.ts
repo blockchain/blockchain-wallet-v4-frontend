@@ -6,6 +6,10 @@ export const clearSession = () => ({
   type: AT.CLEAR_SESSION
 })
 
+export const createUser = () => ({
+  type: AT.CREATE_USER
+})
+
 export const fetchTiersFailure = (error): ProfileActionTypes => ({
   type: AT.FETCH_TIERS_FAILURE,
   payload: { error }
@@ -52,9 +56,13 @@ export const fetchUserDataSuccess = (userData): ProfileActionTypes => ({
   payload: { userData }
 })
 
-export const linkFromExchangeAccount = (linkId): ProfileActionTypes => ({
+export const linkFromExchangeAccount = (
+  linkId,
+  email?,
+  address?
+): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT,
-  payload: { linkId }
+  payload: { linkId, email, address }
 })
 export const linkFromExchangeAccountFailure = (error): ProfileActionTypes => ({
   type: AT.LINK_FROM_EXCHANGE_ACCOUNT_FAILURE,

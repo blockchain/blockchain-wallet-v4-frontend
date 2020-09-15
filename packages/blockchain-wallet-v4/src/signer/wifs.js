@@ -13,10 +13,7 @@ export const addHDWalletWIFS = curry(
         // .map(wif => Bitcoin.ECPair.fromWIF(wif, network))
         .map(wif => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(
-      compose(
-        lensProp('inputs'),
-        traversed
-      ),
+      compose(lensProp('inputs'), traversed),
       Task.of,
       deriveKey,
       selection
@@ -37,10 +34,7 @@ export const addLegacyWIFS = curry(
         wallet
       ).map(wif => set(Coin.priv, wif, coin))
     const selectionWithKeys = traverseOf(
-      compose(
-        lensProp('inputs'),
-        traversed
-      ),
+      compose(lensProp('inputs'), traversed),
       Task.of,
       getPriv,
       selection

@@ -2,7 +2,7 @@ import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  padding: 40px;
+  padding: 32px;
   border-radius: 8px;
   box-sizing: border-box;
   background-color: ${props => props.theme.white};

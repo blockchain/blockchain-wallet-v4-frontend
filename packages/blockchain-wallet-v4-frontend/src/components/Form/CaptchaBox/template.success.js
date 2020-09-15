@@ -50,6 +50,8 @@ const getErrorState = meta => {
 }
 
 const CaptchaBox = field => {
+  const { bgColor, borderNone, meta } = field
+  const { invalid, touched } = meta
   const errorState = getErrorState(field.meta)
 
   return (
@@ -65,7 +67,14 @@ const CaptchaBox = field => {
         />
       </RefreshLink>
       <Container>
-        <TextInput {...field.input} errorState={errorState} />
+        <TextInput
+          bgColor={bgColor}
+          borderNone={
+            borderNone ? (invalid && touched ? null : borderNone) : null
+          }
+          {...field.input}
+          errorState={errorState}
+        />
         {field.meta.touched && field.meta.error && (
           <Error size='12px' weight={500} color='error'>
             {field.meta.error}

@@ -1,7 +1,7 @@
 import { actions, actionTypes, selectors } from 'data'
 import { assoc } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
-import { Types } from 'blockchain-wallet-v4'
+import { Types } from 'blockchain-wallet-v4/src'
 
 export const askSecondPasswordEnhancer = coreSaga =>
   function * (args) {

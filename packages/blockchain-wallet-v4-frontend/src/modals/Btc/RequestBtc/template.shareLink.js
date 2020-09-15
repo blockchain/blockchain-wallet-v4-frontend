@@ -88,10 +88,7 @@ const ShareRequestLink = props => {
           </SummaryGroup>
           <SummaryGroup>
             <Text size='14px' weight={600}>
-              <FormattedMessage
-                id='modals.requestbtc.share.amount'
-                defaultMessage='Amount'
-              />
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
             <CoinDisplay size='13px' weight={400} coin='BTC'>
               {requestAmountSats}
@@ -126,10 +123,7 @@ const ShareRequestLink = props => {
         nature='primary'
         data-e2e='btcShareLinkDoneButton'
       >
-        <FormattedMessage
-          id='modals.requestbtc.share.done'
-          defaultMessage='Done'
-        />
+        <FormattedMessage id='buttons.done' defaultMessage='Done' />
       </Button>
     </React.Fragment>
   )

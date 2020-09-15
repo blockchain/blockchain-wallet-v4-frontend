@@ -27,7 +27,7 @@ export const signErc20 = curry(
       data:
         transferMethodHex +
         EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
-        EthereumAbi.rawEncode(['uint256'], [amount]).toString('hex')
+        EthereumAbi.rawEncode(['uint256'], [amount.toString()]).toString('hex')
     }
     const tx = new EthereumTx(txParams)
     tx.sign(privateKey)

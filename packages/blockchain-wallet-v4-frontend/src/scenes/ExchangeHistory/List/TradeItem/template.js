@@ -40,7 +40,7 @@ const TradeItem = props => {
   return (
     <MediaContextConsumer>
       {({ mobile }) => (
-        <TableRow dataE2e='exchangeHistoryOrderRow'>
+        <TableRow data-e2e='exchangeHistoryOrderRow'>
           <StatusContainer width='30%' mobileWidth='25%'>
             <TableCell width='50%'>
               <Text
@@ -95,8 +95,8 @@ const TradeItem = props => {
               weight={400}
               color={
                 status === 'complete' || status === FINISHED
-                  ? 'gray-5'
-                  : 'gray-2'
+                  ? 'grey700'
+                  : 'grey200'
               }
             >{`${withdrawalAmount} ${pathOr(
               targetCoin,

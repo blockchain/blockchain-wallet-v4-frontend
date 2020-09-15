@@ -14,7 +14,7 @@ import {
   Text
 } from 'blockchain-info-components'
 import { FAIL_STATUS_TIMEOUT, SUCCESS_STATUS_TIMEOUT } from './model'
-import { Remote } from 'blockchain-wallet-v4'
+import { Remote } from 'blockchain-wallet-v4/src'
 import LockboxAppManager from './template'
 
 const Wrapper = styled.div`

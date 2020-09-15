@@ -6,12 +6,12 @@ import React from 'react'
 
 describe('FormHelper', () => {
   beforeEach(() => {
-    jest.mock('blockchain-wallet-v4')
+    jest.mock('blockchain-wallet-v4/src')
     jest.mock('./../ValidationHelper')
   })
 
   afterEach(() => {
-    jest.unmock('blockchain-wallet-v4')
+    jest.unmock('blockchain-wallet-v4/src')
     jest.unmock('./../ValidationHelper')
   })
 

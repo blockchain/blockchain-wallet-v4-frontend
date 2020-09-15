@@ -83,10 +83,7 @@ class XlmCreateAccountLearn extends React.PureComponent {
               data-e2e='xlmMinimumModalBack'
               size='20px'
             />
-            <FormattedMessage
-              id='modal.reservelearn.back'
-              defaultMessage='Back'
-            />
+            <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </Header>
         </ModalHeader>
         <ModalBody>

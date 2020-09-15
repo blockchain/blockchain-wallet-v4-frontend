@@ -9,12 +9,10 @@ const Wrapper = styled.div`
   width: 100%;
 
   & > :last-child {
-    border-bottom: 1px solid ${props => props.theme['gray-2']};
+    border-bottom: 1px solid ${props => props.theme.grey000};
   }
 `
 
-const Table = ({ children, dataE2e }) => (
-  <Wrapper data-e2e={dataE2e}>{children}</Wrapper>
-)
+const Table = ({ children, ...rest }) => <Wrapper {...rest}>{children}</Wrapper>
 
 export default Table

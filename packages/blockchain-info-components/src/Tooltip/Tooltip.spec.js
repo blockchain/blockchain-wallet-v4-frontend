@@ -1,16 +1,16 @@
-import 'jest-styled-components'
+import { shallow } from 'enzyme'
 import React from 'react'
-import renderer from 'react-test-renderer'
+import toJson from 'enzyme-to-json'
 import Tooltip from './template'
 
 describe('Tooltip component', () => {
   it('renders correctly', () => {
-    const component = renderer.create(
+    const component = shallow(
       <Tooltip id={'tip'}>
         <span>Tool Text</span>
       </Tooltip>
     )
-    const tree = component.toJSON()
+    const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 })

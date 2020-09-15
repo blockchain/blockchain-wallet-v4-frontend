@@ -12,6 +12,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
     selectors.core.data.xlm.getRates,
+    selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
     selectors.components.sendXlm.showNoAccountForm,
@@ -25,16 +26,21 @@ export const getData = createDeepEqualSelector(
     lockboxXlmAccountsR,
     currencyR,
     ratesR,
+    isMnemonicVerified,
     formValues,
     activeField,
     noAccount,
     coinAvailabilityR
   ) => {
+    const amount = prop('amount', formValues)
+    const destination = prop('to', formValues)
     const excludeLockbox = !prop(
       'lockbox',
       coinAvailabilityR('XLM').getOrElse({})
     )
+    const from = prop('from', formValues)
     const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
+
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
@@ -44,12 +50,11 @@ export const getData = createDeepEqualSelector(
         payment
       )
       const fee = propOr('0', 'fee', payment)
-      const destination = prop('to', formValues)
-      const from = prop('from', formValues)
       const isDestinationChecked = Remote.Success.is(checkDestinationR)
 
       return {
         activeField,
+        amount,
         balanceStatus: balanceR,
         currency,
         destination,
@@ -60,6 +65,7 @@ export const getData = createDeepEqualSelector(
         from,
         isDestinationChecked,
         isDestinationExchange,
+        isMnemonicVerified,
         noAccount,
         rates,
         reserve

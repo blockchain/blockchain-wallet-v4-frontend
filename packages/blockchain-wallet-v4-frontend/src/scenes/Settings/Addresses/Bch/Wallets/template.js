@@ -119,7 +119,7 @@ const Success = props => {
             <ComponentDropdown
               down
               forceSelected
-              color={'gray-5'}
+              color={'grey700'}
               selectedComponent={
                 <Link weight={500} size='13px' data-e2e='bchManageWalletLink'>
                   <FormattedMessage
@@ -229,10 +229,7 @@ const Success = props => {
           </TableCell>
           <TableCell width='30%'>
             <Text size='13px' weight={500}>
-              <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.balance'
-                defaultMessage='Balance'
-              />
+              <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
           <TableCell

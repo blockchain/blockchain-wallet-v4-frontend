@@ -21,7 +21,7 @@ const Content = styled.div`
   align-items: center;
 `
 const XPubText = styled(Text)`
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
   padding: 25px;
   margin-bottom: 20px;
   word-break: break-all;
@@ -69,10 +69,7 @@ class ShowXPubContainer extends Component {
             onClick={closeAll}
             data-e2e='closeShowXpubModalButton'
           >
-            <FormattedMessage
-              id='modals.wallet.showxpub.close'
-              defaultMessage='Close'
-            />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>

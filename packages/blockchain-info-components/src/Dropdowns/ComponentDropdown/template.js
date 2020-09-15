@@ -55,7 +55,7 @@ const DropdownList = styled.ul`
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
   cursor: pointer;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

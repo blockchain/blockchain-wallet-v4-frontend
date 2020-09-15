@@ -96,10 +96,7 @@ const MobileNumberVerify = props => {
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={500} onClick={close}>
-            <FormattedMessage
-              id='modals.mobilenumberverify.cancel'
-              defaultMessage='Cancel'
-            />
+            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Link>
           <Button
             type='submit'

@@ -4,6 +4,7 @@ import * as S from '../../selectors'
 import {
   ADDRESS_TYPES,
   fromAccount,
+  fromCustodial,
   fromLegacy,
   fromLegacyList,
   fromLockbox,
@@ -112,6 +113,8 @@ export default ({ api }) => {
         return fromLegacy(origin)
       case ADDRESS_TYPES.LOCKBOX:
         return fromLockbox(network, appState, origin, 'BTC')
+      case ADDRESS_TYPES.CUSTODIAL:
+        return fromCustodial(origin)
       default:
         const pkformat = detectPrivateKeyFormat(origin)
         if (pkformat != null) {
@@ -265,6 +268,8 @@ export default ({ api }) => {
 
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
+      coin: 'BTC',
+
       value () {
         return p
       },
@@ -272,7 +277,7 @@ export default ({ api }) => {
       * init () {
         try {
           let fees = yield call(api.getBtcFees)
-          return makePayment(merge(p, { fees }))
+          return makePayment(merge(p, { fees, coin: 'BTC' }))
         } catch (e) {
           throw new Error(FETCH_FEES_FAILURE)
         }
@@ -288,7 +293,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      * from (origins, type) {
+      * from (origins, type, defaultEffectiveBalance) {
         let fromData = yield call(__calculateFrom, origins, type, network)
         try {
           let coins = yield call(__getWalletUnspent, network, fromData)
@@ -299,7 +304,11 @@ export default ({ api }) => {
           return makePayment(merge(p, { ...fromData, coins, effectiveBalance }))
         } catch (e) {
           return makePayment(
-            merge(p, { ...fromData, coins: [], effectiveBalance: 0 })
+            merge(p, {
+              ...fromData,
+              coins: [],
+              effectiveBalance: defaultEffectiveBalance || 0
+            })
           )
         }
       },
@@ -314,6 +323,7 @@ export default ({ api }) => {
       },
 
       * build () {
+        if (p.fromType === 'CUSTODIAL') return makePayment(p)
         let selection = yield call(__calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },

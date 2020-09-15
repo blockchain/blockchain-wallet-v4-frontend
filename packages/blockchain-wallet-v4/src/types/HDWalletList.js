@@ -13,12 +13,9 @@ export const hdwallet = HDWalletList.define(0)
 
 export const selectHDWallet = view(hdwallet)
 
-export const toJS = pipe(
-  HDWalletList.guard,
-  wList => {
-    return map(HDWallet.toJS, wList).toArray()
-  }
-)
+export const toJS = pipe(HDWalletList.guard, wList => {
+  return map(HDWallet.toJS, wList).toArray()
+})
 
 export const fromJS = wallets => {
   if (is(HDWalletList, wallets)) {

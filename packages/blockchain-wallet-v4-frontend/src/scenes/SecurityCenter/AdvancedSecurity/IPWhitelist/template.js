@@ -76,7 +76,7 @@ const IPWhitelist = props => {
               <ButtonWrapper>
                 <Button nature='empty' capitalize onClick={handleCancel}>
                   <FormattedMessage
-                    id='scenes.securitycenter.advanced.ipwhitelist.cancel'
+                    id='buttons.cancel'
                     defaultMessage='Cancel'
                   />
                 </Button>

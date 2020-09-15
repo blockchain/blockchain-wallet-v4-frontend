@@ -21,24 +21,25 @@ export const changeChain = 1
 
 const _getAddress = (cache, chain, index, network, type) => {
   const derive = c => {
-    const node = getNode(c, chain, network)
-    const childNode = node.derive(index)
-    const publicKey = childNode.publicKey
+    try {
+      const node = getNode(c, chain, network)
+      const childNode = node.derive(index)
+      const publicKey = childNode.publicKey
 
-    if (equals('segwitP2SH', type)) {
-      const { address } = Bitcoin.payments.p2sh({
-        redeem: Bitcoin.payments.p2wpkh({ pubkey: publicKey })
-      })
+      if (equals('segwitP2SH', type)) {
+        const { address } = Bitcoin.payments.p2sh({
+          redeem: Bitcoin.payments.p2wpkh({ pubkey: publicKey })
+        })
+        return address
+      }
+
+      const { address } = Bitcoin.payments.p2pkh({ pubkey: publicKey })
       return address
+    } catch (e) {
+      throw e
     }
-
-    const { address } = Bitcoin.payments.p2pkh({ pubkey: publicKey })
-    return address
   }
-  return pipe(
-    Cache.guard,
-    derive
-  )(cache)
+  return pipe(Cache.guard, derive)(cache)
 }
 export const getAddress = memoize(_getAddress)
 
@@ -56,10 +57,7 @@ export const getNode = memoize(_getNode)
 
 export const fromJS = x => (is(Cache, x) ? x : new Cache(x))
 
-export const toJS = pipe(
-  Cache.guard,
-  iToJS
-)
+export const toJS = pipe(Cache.guard, iToJS)
 
 export const reviver = jsObject => {
   return new Cache(jsObject)

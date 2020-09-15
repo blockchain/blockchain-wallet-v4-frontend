@@ -3,11 +3,14 @@ import {
   complement,
   compose,
   curry,
+  difference,
   equals,
   find,
   findLast,
   hasPath,
   isNil,
+  keys,
+  length,
   lift,
   lte,
   not,
@@ -17,32 +20,25 @@ import {
   propEq
 } from 'ramda'
 import { KYC_STATES, TIERS_STATES, USER_ACTIVATION_STATES } from './model'
+import { RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { UserDataType } from './types'
 
 export const getUserData = (state: RootState) => state.profile.userData
-export const getUserId = compose(
-  lift(prop('id')),
-  getUserData
-)
 export const getUserCampaigns = (state: RootState) =>
   state.profile.userCampaigns
+
+export const getUserId = compose(lift(prop('id')), getUserData)
 export const getWalletAddresses = compose(
   lift(prop('walletAddresses')),
   getUserData
 )
-export const getUserActivationState = compose(
-  lift(prop('state')),
-  getUserData
-)
-export const getUserKYCState = compose(
-  lift(prop('kycState')),
-  getUserData
-)
-export const getTags = compose(
-  lift(path(['tags'])),
-  getUserData
-)
+export const getUserActivationState = compose(lift(prop('state')), getUserData)
+export const getUserKYCState = compose(lift(prop('kycState')), getUserData) as (
+  state: RootState
+) => RemoteDataType<string, UserDataType['kycState']>
+export const getTags = compose(lift(path(['tags'])), getUserData)
 export const getSunRiverTag = compose(
   lift(path(['tags', 'SUNRIVER'])),
   getUserData
@@ -93,14 +89,8 @@ export const getUserStateCode = compose(
   lift(path(['address', 'state'])),
   getUserData
 )
-export const getUserTiers = compose(
-  lift(prop('tiers')),
-  getUserData
-)
-export const getUserLimits = compose(
-  lift(prop('limits')),
-  getUserData
-)
+export const getUserTiers = compose(lift(prop('tiers')), getUserData)
+export const getUserLimits = compose(lift(prop('limits')), getUserData)
 export const getKycDocResubmissionStatus = compose(
   lift(path(['resubmission', 'reason'])),
   getUserData
@@ -162,6 +152,37 @@ export const getLinkToExchangeAccountDeeplink = path([
   'exchangeOnboarding',
   'linkToExchangeAccountDeeplink'
 ])
+export const getShareWalletAddressesStatus = (state: RootState) =>
+  state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
-export const isExchangeAccountLinked = state =>
+export const getRemainingCoins = state => {
+  const supportedCoinsList = selectors.core.walletOptions
+    .getSyncToExchangeList(state)
+    .getOrElse([])
+  const walletAddressesR = getWalletAddresses(state) as RemoteDataType<
+    string,
+    any
+  >
+  const walletAddresses = walletAddressesR.getOrElse({})
+  const walletAddressesList = keys(walletAddresses)
+  return difference(supportedCoinsList, walletAddressesList)
+}
+
+// initially a wallet was linked if the user had a `settings` prop in their user data
+// sometimes the link is "successful" but the addresses are not persisted and/or lost
+// now we need to ensure both settings exist and walletAddresses has keys (i.e. addresses)
+export const isExchangeAccountLinked = (
+  state
+): RemoteDataType<string, boolean> =>
   lift(user => not(isNil(prop('settings', user))))(getUserData(state))
+
+// related to selector above, but will check if addresses are no longer stored and
+// suggest to the linking saga that a relink should be attempted
+export const isExchangeRelinkRequired = (
+  state
+): RemoteDataType<string, boolean | number> =>
+  lift((user: UserDataType) => {
+    return (
+      not(isNil(prop('settings', user))) && length(getRemainingCoins(state))
+    )
+  })(getUserData(state))

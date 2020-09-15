@@ -15,16 +15,11 @@ class FirstStep extends React.Component {
     return data.cata({
       Success: value => (
         <Success
-          destination={value.destination}
-          effectiveBalance={value.effectiveBalance}
-          excludeLockbox={value.excludeLockbox}
+          {...value}
           excludeHDWallets={excludeHDWallets}
-          from={value.from}
           handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
-          network={value.network}
           onSubmit={actions.sendBchFirstStepSubmitClicked}
           payPro={payPro}
-          totalFee={value.totalFee}
         />
       ),
       Failure: message => <Error>{message}</Error>,
@@ -43,7 +38,4 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

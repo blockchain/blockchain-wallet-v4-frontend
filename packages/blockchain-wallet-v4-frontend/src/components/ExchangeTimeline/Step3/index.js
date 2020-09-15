@@ -36,7 +36,7 @@ const Circle = styled.div`
 const getColor = status => {
   switch (status) {
     case 'disabled':
-      return Color('gray-2')
+      return Color('grey200')
     case 'refunded':
       return Color('error')
     default:
@@ -56,7 +56,7 @@ const Step3 = props => {
           <Icon
             name='checkmark'
             size='40px'
-            color={status === 'disabled' ? 'gray-2' : 'blue900'}
+            color={status === 'disabled' ? 'grey200' : 'blue900'}
           />
         )}
       </Circle>

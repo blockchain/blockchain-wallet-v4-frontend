@@ -1,10 +1,3 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -17,6 +10,7 @@ import {
 import {
   ColLeft,
   ColRight,
+  CustodyToAccountMessage,
   CustomFeeAlertBanner,
   FeeFormContainer,
   FeeFormGroup,
@@ -39,10 +33,11 @@ import {
   TextAreaDebounced,
   TextBox
 } from 'components/Form'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   insufficientFunds,
   invalidAmount,
-  isAddressDerivedFromPriv,
   maximumAmount,
   maximumFeePerByte,
   minimumAmount,
@@ -52,16 +47,17 @@ import {
   shouldWarn
 } from './validation'
 import { model } from 'data'
-import {
-  required,
-  validBtcAddress,
-  validBtcPrivateKey
-} from 'services/FormHelper'
-import BitPayCTA from 'components/BitPayCTA'
+import { required, validBtcAddress } from 'services/FormHelper'
+import Bowser from 'bowser'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import ExchangePromo from 'components/Send/ExchangePromo'
+import MnemonicRequiredForCustodySend from 'components/Send/RecoveryPhrase'
 import PriorityFeeLink from './PriorityFeeLink'
+import PropTypes from 'prop-types'
 import QRCodeCapture from 'components/QRCodeCapture'
+import React from 'react'
 import RegularFeeLink from './RegularFeeLink'
+import styled from 'styled-components'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -98,30 +94,33 @@ const FirstStep = props => {
   } = props
 
   const {
-    from,
-    watchOnly,
-    feePerByte,
-    feePerByteToggled,
-    feePerByteElements,
-    regularFeePerByte,
-    priorityFeePerByte,
-    totalFee,
-    excludeLockbox,
+    amount,
+    autofilled,
     excludeHDWallets,
+    excludeLockbox,
+    feePerByte,
+    feePerByteElements,
+    feePerByteToggled,
+    from,
+    isMnemonicVerified,
     payPro,
-    autofilled
+    priorityFeePerByte,
+    regularFeePerByte,
+    totalFee
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
+  const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
   const isBrowserSupported = browser.satisfies(
     model.components.lockbox.supportedBrowsers
   )
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
+  const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
         <FormItem width={'40%'}>
           <FormLabel htmlFor='coin'>
             <FormattedMessage
@@ -136,12 +135,9 @@ const FirstStep = props => {
             validate={[required]}
           />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel htmlFor='from'>
-            <FormattedMessage
-              id='modals.sendbtc.firststep.fromwallet'
-              defaultMessage='From'
-            />
+            <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
           <Field
             name='from'
@@ -150,27 +146,8 @@ const FirstStep = props => {
             component={SelectBoxBtcAddresses}
             excludeHDWallets={excludeHDWallets}
             excludeLockbox={excludeLockbox}
+            includeCustodial
           />
-          {watchOnly && (
-            <Row>
-              <Field
-                name='priv'
-                placeholder='Please enter your private key...'
-                component={TextBox}
-                validate={[
-                  required,
-                  validBtcPrivateKey,
-                  isAddressDerivedFromPriv
-                ]}
-                autoFocus
-                errorBottom
-              />
-              <QRCodeCapture
-                scanType='btcPriv'
-                border={['top', 'bottom', 'right']}
-              />
-            </Row>
-          )}
         </FormItem>
       </FormGroup>
       {isFromLockbox && !disableLockboxSend && (
@@ -193,7 +170,7 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
           <FormLabel htmlFor='to'>
             <FormattedMessage
@@ -213,26 +190,33 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {!isPayPro ? (
-              <React.Fragment>
+              <>
                 <Field
-                  name='to'
-                  placeholder='Paste, scan, or select destination'
                   component={SelectBoxBtcAddresses}
                   dataE2e='sendBtcAddressInput'
-                  validate={[required, validBtcAddress]}
                   exclude={[from.label]}
-                  openMenuOnClick={false}
+                  excludeImported={isFromCustody}
                   includeAll={false}
-                  includeExchangeAddress
-                  isCreatable
-                  noOptionsMessage={() => null}
+                  includeExchangeAddress={!isFromCustody}
+                  isCreatable={!isFromCustody}
                   isValidNewOption={() => false}
+                  includeCustodial={!isFromCustody}
+                  forceCustodialFirst={!isFromCustody}
+                  name='to'
+                  openMenuOnClick={!!isFromCustody}
+                  noOptionsMessage={() => null}
+                  placeholder='Paste, scan, or select destination'
+                  validate={
+                    isFromCustody ? [required] : [required, validBtcAddress]
+                  }
                 />
-                <QRCodeCapture
-                  scanType='btcAddress'
-                  border={['top', 'bottom', 'right']}
-                />
-              </React.Fragment>
+                {!isFromCustody && (
+                  <QRCodeCapture
+                    scanType='btcAddress'
+                    border={['top', 'bottom', 'right', 'left']}
+                  />
+                )}
+              </>
             ) : (
               <Field
                 name='to'
@@ -245,15 +229,16 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <BitPayCTA coin='BTC' />
+        {isFromCustody && isMnemonicVerified ? (
+          <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
+        ) : (
+          <ExchangePromo />
+        )}
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel htmlFor='amount'>
-            <FormattedMessage
-              id='modals.sendbtc.firststep.sendamount'
-              defaultMessage='Amount'
-            />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />
           </FormLabel>
           <Field
             name='amount'
@@ -280,19 +265,20 @@ const FirstStep = props => {
               defaultMessage='Description'
             />
             <TooltipHost id='sendbtc.firststep.sharetooltip'>
-              <TooltipIcon name='question-in-circle' size='12px' />
+              <TooltipIcon name='info' size='12px' />
             </TooltipHost>
           </FormLabel>
           {!isPayPro ? (
             <Field
               name='description'
+              disabled={isFromCustody}
               component={TextAreaDebounced}
               placeholder="What's this transaction for? (optional)"
               rows={3}
               data-e2e='sendBtcDescription'
             />
           ) : (
-            <React.Fragment>
+            <>
               <CustomMerchantInput
                 name='description'
                 component={TextBox}
@@ -303,88 +289,90 @@ const FirstStep = props => {
               <ImageInInputContainer>
                 <Image name='bitpay-logo' height='24px' />
               </ImageInInputContainer>
-            </React.Fragment>
+            </>
           )}
         </FormItem>
       </FormGroup>
       {!isPayPro ? (
-        <React.Fragment>
-          <FeeFormGroup inline margin={'10px'}>
-            <ColLeft>
-              <FeeFormContainer toggled={feePerByteToggled}>
-                <FeeFormLabel>
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.networkfee'
-                    defaultMessage='Network Fee'
-                  />
-                  <span>&nbsp;</span>
-                  {!feePerByteToggled && (
-                    <Field
-                      name='feePerByte'
-                      component={SelectBox}
-                      elements={feePerByteElements}
+        isFromCustody ? null : (
+          <>
+            <FeeFormGroup inline margin={'10px'}>
+              <ColLeft>
+                <FeeFormContainer toggled={feePerByteToggled}>
+                  <FeeFormLabel>
+                    <FormattedMessage
+                      id='modals.sendbtc.firststep.networkfee'
+                      defaultMessage='Network Fee'
                     />
-                  )}
+                    <span>&nbsp;</span>
+                    {!feePerByteToggled && (
+                      <Field
+                        name='feePerByte'
+                        component={SelectBox}
+                        elements={feePerByteElements}
+                      />
+                    )}
+                    {feePerByteToggled && (
+                      <FeeOptionsContainer>
+                        <RegularFeeLink fee={regularFeePerByte} />
+                        <span>&nbsp;</span>
+                        <PriorityFeeLink fee={priorityFeePerByte} />
+                      </FeeOptionsContainer>
+                    )}
+                  </FeeFormLabel>
                   {feePerByteToggled && (
-                    <FeeOptionsContainer>
-                      <RegularFeeLink fee={regularFeePerByte} />
-                      <span>&nbsp;</span>
-                      <PriorityFeeLink fee={priorityFeePerByte} />
-                    </FeeOptionsContainer>
+                    <FeePerByteContainer style={{ marginTop: '10px' }}>
+                      <Field
+                        name='feePerByte'
+                        component={NumberBoxDebounced}
+                        validate={[required, minimumOneSatoshi]}
+                        warn={[minimumFeePerByte, maximumFeePerByte]}
+                        errorBottom
+                        errorLeft
+                        unit='sat/byte'
+                        data-e2e='sendBtcCustomFeeInput'
+                      />
+                    </FeePerByteContainer>
                   )}
-                </FeeFormLabel>
-                {feePerByteToggled && (
-                  <FeePerByteContainer style={{ marginTop: '10px' }}>
-                    <Field
-                      name='feePerByte'
-                      component={NumberBoxDebounced}
-                      validate={[required, minimumOneSatoshi]}
-                      warn={[minimumFeePerByte, maximumFeePerByte]}
-                      errorBottom
-                      errorLeft
-                      unit='sat/byte'
-                      data-e2e='sendBtcCustomFeeInput'
+                </FeeFormContainer>
+              </ColLeft>
+              <ColRight>
+                <ComboDisplay size='13px' weight={600} coin='BTC'>
+                  {totalFee}
+                </ComboDisplay>
+                <Link
+                  size='12px'
+                  weight={400}
+                  capitalize
+                  onClick={handleFeePerByteToggle}
+                  data-e2e='sendBtcCustomFeeLink'
+                >
+                  {feePerByteToggled ? (
+                    <FormattedMessage
+                      id='buttons.cancel'
+                      defaultMessage='Cancel'
                     />
-                  </FeePerByteContainer>
-                )}
-              </FeeFormContainer>
-            </ColLeft>
-            <ColRight>
-              <ComboDisplay size='13px' weight={600} coin='BTC'>
-                {totalFee}
-              </ComboDisplay>
-              <Link
-                size='12px'
-                weight={400}
-                capitalize
-                onClick={handleFeePerByteToggle}
-                data-e2e='sendBtcCustomFeeLink'
-              >
-                {feePerByteToggled ? (
+                  ) : (
+                    <FormattedMessage
+                      id='modals.sendbtc.firststep.customizefee'
+                      defaultMessage='Customize Fee'
+                    />
+                  )}
+                </Link>
+              </ColRight>
+            </FeeFormGroup>
+            {feePerByteToggled && (
+              <CustomFeeAlertBanner type='alert'>
+                <Text size='12px'>
                   <FormattedMessage
-                    id='modals.sendbtc.firststep.cancel'
-                    defaultMessage='Cancel'
+                    id='modals.sendbtc.firststep.customfeeinfo'
+                    defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
                   />
-                ) : (
-                  <FormattedMessage
-                    id='modals.sendbtc.firststep.customizefee'
-                    defaultMessage='Customize Fee'
-                  />
-                )}
-              </Link>
-            </ColRight>
-          </FeeFormGroup>
-          {feePerByteToggled && (
-            <CustomFeeAlertBanner type='alert'>
-              <Text size='12px'>
-                <FormattedMessage
-                  id='modals.sendbtc.firststep.customfeeinfo'
-                  defaultMessage='This feature is recommended for advanced users only. By choosing a custom fee, you risk overpaying or your transaction never being confirmed.'
-                />
-              </Text>
-            </CustomFeeAlertBanner>
-          )}
-        </React.Fragment>
+                </Text>
+              </CustomFeeAlertBanner>
+            )}
+          </>
+        )
       ) : (
         <FeeFormGroup margin={'10px'}>
           <FormLabel>
@@ -402,8 +390,8 @@ const FirstStep = props => {
         {feePerByte > regularFeePerByte ? (
           <Text size='13px' weight={400} data-e2e='btcSendEstTimeMinutes'>
             <FormattedMessage
-              id='modals.sendbtc.firststep.estimated2'
               defaultMessage='Estimated confirmation time 0-60 minutes'
+              id='modals.sendbtc.firststep.estimated2'
             />
           </Text>
         ) : (
@@ -428,6 +416,9 @@ const FirstStep = props => {
           />
         </Text>
       )}
+      {isFromCustody && !isMnemonicVerified ? (
+        <MnemonicRequiredForCustodySend />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -438,14 +429,12 @@ const FirstStep = props => {
           disabled={
             submitting ||
             invalid ||
-            (!isPayPro && pristine && !autofilled) ||
-            disableLockboxSend
+            disableLockboxSend ||
+            disableCustodySend ||
+            (!isPayPro && pristine && !autofilled)
           }
         >
-          <FormattedMessage
-            id='modals.sendbtc.firststep.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       </SubmitFormGroup>
     </Form>

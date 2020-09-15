@@ -56,10 +56,7 @@ class PairingCodeContainer extends React.PureComponent {
         </ModalBody>
         <ModalFooter>
           <Button nature='primary' fullwidth onClick={close}>
-            <FormattedMessage
-              id='modals.pairingcode.close'
-              defaultMessage='Close'
-            />
+            <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>
@@ -77,10 +74,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('PairingCode'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(PairingCodeContainer)

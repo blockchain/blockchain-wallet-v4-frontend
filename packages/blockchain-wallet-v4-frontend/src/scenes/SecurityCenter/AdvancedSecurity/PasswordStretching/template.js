@@ -88,7 +88,7 @@ const PasswordStretching = props => {
                   data-e2e='passwordStretchCancelButton'
                 >
                   <FormattedMessage
-                    id='scenes.securitycenter.advanced.passwordstretching.cancel'
+                    id='buttons.cancel'
                     defaultMessage='Cancel'
                   />
                 </Button>

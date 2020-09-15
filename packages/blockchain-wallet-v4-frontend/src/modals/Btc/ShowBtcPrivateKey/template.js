@@ -81,10 +81,7 @@ const SecondStep = ({
     <DetailTable>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showbtcpriv.balance'
-            defaultMessage='Balance'
-          />
+          <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -94,10 +91,7 @@ const SecondStep = ({
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.showbtcpriv.address'
-            defaultMessage='Address'
-          />
+          <FormattedMessage id='copy.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}
         &nbsp;
@@ -108,7 +102,7 @@ const SecondStep = ({
       <DetailRow>
         <DetailRowText size='14px' weight={500}>
           <FormattedMessage
-            id='modals.showbtcpriv.priv_key'
+            id='copy.private_key'
             defaultMessage='Private Key'
           />
         </DetailRowText>
@@ -160,10 +154,7 @@ const ShowBtcPrivateKeyTemplate = ({
 }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
-      <FormattedMessage
-        id='modals.showbtcpriv.title'
-        defaultMessage='Private Key'
-      />
+      <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
@@ -177,10 +168,7 @@ const ShowBtcPrivateKeyTemplate = ({
         onClick={close}
         data-e2e='btcPrivateKeyCloseButton'
       >
-        <FormattedMessage
-          id='modals.showbtcpriv.close'
-          defaultMessage='Close'
-        />
+        <FormattedMessage id='buttons.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
         <Button
@@ -188,10 +176,7 @@ const ShowBtcPrivateKeyTemplate = ({
           onClick={onContinue}
           data-e2e='btcPrivateKeyContinueButton'
         >
-          <FormattedMessage
-            id='modals.showbtcpriv.continue'
-            defaultMessage='Continue'
-          />
+          <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

@@ -2,13 +2,13 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { FormattedMessage } from 'react-intl'
 import { gt, head, includes, isEmpty, path, prop, propOr } from 'ramda'
 import { model, selectors } from 'data'
-import BigNumber from 'bignumber.js'
 import React from 'react'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.core.wallet.isMnemonicVerified,
     selectors.components.sendEth.getPayment,
     selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
@@ -20,7 +20,6 @@ export const getData = createDeepEqualSelector(
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
-    state => selectors.core.data.eth.getDefaultAddressBalance(state),
     state =>
       selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
@@ -29,11 +28,11 @@ export const getData = createDeepEqualSelector(
       selectors.core.walletOptions.getCoinAvailability(state, coin)
   ],
   (
+    isMnemonicVerified,
     paymentR,
     isContractR,
     feeToggled,
     balanceR,
-    ethBalanceR,
     paxBalanceR,
     lockboxDevicesR,
     formValues,
@@ -45,6 +44,7 @@ export const getData = createDeepEqualSelector(
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
     const transform = payment => {
+      const amount = prop('amount', payment)
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)
       const fee = propOr('0', 'fee', payment)
@@ -53,9 +53,9 @@ export const getData = createDeepEqualSelector(
       const priorityFee = path(['fees', 'priority'], payment)
       const minFee = path(['fees', 'limits', 'min'], payment)
       const maxFee = path(['fees', 'limits', 'max'], payment)
-      const isSufficientEthForErc20 = new BigNumber(
-        ethBalanceR.getOrElse(0)
-      ).isGreaterThan(new BigNumber(fee))
+      const isSufficientEthForErc20 = path(['isSufficientEthForErc20'], payment)
+      const isRetryAttempt = path(['isRetryAttempt'], payment)
+      const minFeeRequiredForRetry = path(['minFeeRequiredForRetry'], payment)
       const isContractChecked = Remote.Success.is(isContractR)
       const feeElements = [
         {
@@ -84,22 +84,26 @@ export const getData = createDeepEqualSelector(
       ]
 
       return {
-        effectiveBalance,
-        unconfirmedTx,
-        isContractChecked,
-        isSufficientEthForErc20,
-        fee,
-        feeToggled,
-        enableToggle,
-        from,
-        regularFee,
-        priorityFee,
-        minFee,
-        maxFee,
-        feeElements,
+        amount,
         balanceStatus: balanceR,
+        effectiveBalance,
+        enableToggle,
+        excludeLockbox,
+        fee,
+        feeElements,
+        feeToggled,
+        from,
         hasErc20Balance,
-        excludeLockbox
+        isContractChecked,
+        isMnemonicVerified,
+        isRetryAttempt,
+        isSufficientEthForErc20,
+        maxFee,
+        minFee,
+        minFeeRequiredForRetry,
+        priorityFee,
+        regularFee,
+        unconfirmedTx
       }
     }
     return paymentR.map(transform)

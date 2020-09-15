@@ -42,14 +42,14 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 18px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
   line-height: 1.6;
   max-width: 300px;
-  color: ${props => props.theme['gray-6']};
+  color: ${props => props.theme['grey800']};
 `
 const FooterButton = styled(Button)`
   height: 56px;
@@ -150,10 +150,7 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   modalEnhancer('AirdropClaim'),
   reduxForm({ form: 'airdropClaim' }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(AirdropClaim)

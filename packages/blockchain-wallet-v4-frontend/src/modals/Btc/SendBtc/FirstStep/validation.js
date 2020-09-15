@@ -14,8 +14,13 @@ import React from 'react'
 
 const DUST = 546
 
+const getEffectiveBalance = props => {
+  return Number(props.effectiveBalance)
+}
+
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance > 0 && DUST <= props.effectiveBalance ? (
+  const effectiveBalance = getEffectiveBalance(props)
+  return effectiveBalance > 0 && DUST <= effectiveBalance ? (
     undefined
   ) : (
     <InsufficientFundsMessage />
@@ -43,17 +48,14 @@ export const minimumAmount = (value, allValues, props) => {
 }
 
 export const maximumAmount = (value, allValues, props) => {
+  const effectiveBalance = getEffectiveBalance(props)
   const valueBtc = prop('coin', value)
   const valueSatoshi = Exchange.convertBtcToBtc({
     value: valueBtc,
     fromUnit: 'BTC',
     toUnit: 'SAT'
   }).value
-  return valueSatoshi <= props.effectiveBalance ? (
-    undefined
-  ) : (
-    <MaximumAmountMessage />
-  )
+  return valueSatoshi <= effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
 export const minimumFeePerByte = (value, allValues, props) =>

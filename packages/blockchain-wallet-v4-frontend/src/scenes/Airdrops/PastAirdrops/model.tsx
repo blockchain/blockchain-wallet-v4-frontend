@@ -2,7 +2,7 @@ import {
   BlueCartridge,
   GreyCartridge,
   SuccessCartridge
-} from '../AirdropInfo/model'
+} from 'components/Cartridge'
 import { CampaignInfoType } from 'data/types'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
@@ -35,7 +35,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
         <TypeWrapper>
           <Icon name='pax' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
-            USD Pax
+            USD Digital
           </Text>
         </TypeWrapper>
       )

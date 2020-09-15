@@ -118,10 +118,7 @@ const walletSync = ({
 
   const handleChecksum = encrypted => {
     const checksum = Wrapper.computeChecksum(encrypted)
-    compose(
-      store.dispatch,
-      A.wallet.setPayloadChecksum
-    )(checksum)
+    compose(store.dispatch, A.wallet.setPayloadChecksum)(checksum)
     return encrypted
   }
 
@@ -145,14 +142,8 @@ const walletSync = ({
       .map(handleChecksum)
       .chain(promiseToTask(api.savePayload))
       .fork(
-        compose(
-          store.dispatch,
-          A.walletSync.syncError
-        ),
-        compose(
-          store.dispatch,
-          A.walletSync.syncSuccess
-        )
+        compose(store.dispatch, A.walletSync.syncError),
+        compose(store.dispatch, A.walletSync.syncSuccess)
       )
   }
 

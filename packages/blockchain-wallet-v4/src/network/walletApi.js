@@ -92,20 +92,14 @@ const createWalletApi = (
   const saveWalletTask = wrapper =>
     Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload))
 
-  const saveWallet = compose(
-    taskToPromise,
-    saveWalletTask
-  )
+  const saveWallet = compose(taskToPromise, saveWalletTask)
   // ////////////////////////////////////////////////////////////////
   const createWalletTask = email => wrapper => {
     const create = w => ApiPromise.createPayload(email, w)
     return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
   }
   const createWallet = (email, wrapper) =>
-    compose(
-      taskToPromise,
-      createWalletTask(email)
-    )(wrapper)
+    compose(taskToPromise, createWalletTask(email))(wrapper)
 
   // ////////////////////////////////////////////////////////////////
   const Api = map(future, ApiPromise)

@@ -37,6 +37,12 @@ class RequestBchContainer extends React.PureComponent {
           coin: 'PAX',
           lockboxIndex: this.props.lockboxIndex
         })
+      } else if (equals(prop('coin', x), 'USDT')) {
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
+          coin: 'USDT',
+          lockboxIndex: this.props.lockboxIndex
+        })
       } else if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('@MODAL.REQUEST.ETH', {
@@ -139,10 +145,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('@MODAL.REQUEST.BCH'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(RequestBchContainer)

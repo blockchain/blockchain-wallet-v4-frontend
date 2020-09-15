@@ -4,6 +4,8 @@ import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,9 +21,9 @@ const Wrapper = styled.div`
     margin-top: 8px;
   }
 
-  @media (min-width: 960px) {
+  ${media.atLeastTabletL`
     width: 500px;
-  }
+  `}
 `
 const Row = styled.div`
   display: flex;

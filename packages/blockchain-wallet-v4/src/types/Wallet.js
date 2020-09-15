@@ -65,14 +65,8 @@ export const txNotes = Wallet.define('tx_notes')
 export const txNames = Wallet.define('tx_names')
 export const addressBook = Wallet.define('address_book')
 
-export const hdwallet = compose(
-  hdWallets,
-  HDWalletList.hdwallet
-)
-export const accounts = compose(
-  hdwallet,
-  HDWallet.accounts
-)
+export const hdwallet = compose(hdWallets, HDWalletList.hdwallet)
+export const accounts = compose(hdwallet, HDWallet.accounts)
 
 export const selectGuid = view(guid)
 export const selectSharedKey = view(sharedKey)
@@ -85,19 +79,15 @@ export const selectIterations = compose(
   Options.selectPbkdf2Iterations,
   selectOptions
 )
-export const selectAddresses = view(addresses)
+
 export const selectHdWallets = view(hdWallets)
-export const isDoubleEncrypted = compose(
-  Boolean,
-  view(doubleEncryption)
+export const selectAddresses = compose(
+  AddressMap.selectSpendable,
+  view(addresses)
 )
+export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
 export const selectAddrContext = compose(
-  AddressMap.selectContext,
-  AddressMap.selectActive,
-  selectAddresses
-)
-export const selectArchivedContext = compose(
   AddressMap.selectContext,
   AddressMap.selectActive,
   selectAddresses
@@ -117,12 +107,6 @@ export const selectSpendableAddrContext = compose(
   AddressMap.selectSpendable,
   selectAddresses
 )
-export const selectUnspendableAddrContext = compose(
-  AddressMap.selectContext,
-  AddressMap.selectUnspendable,
-  AddressMap.selectActive,
-  selectAddresses
-)
 export const selectContextGrouped = w => ({
   addresses: selectAddrContext(w).toJS(),
   ...selectXpubsContextGrouped(w)
@@ -133,12 +117,8 @@ export const selectHDAccounts = w =>
   selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectSpendableContext = w =>
   selectSpendableAddrContext(w).concat(selectXpubsContext(w))
-export const selectUnspendableContext = w => selectUnspendableAddrContext(w)
 
-const shiftWallet = compose(
-  shiftIProp('keys', 'addresses'),
-  shift
-)
+const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
 export const fromJS = x => {
   if (is(Wallet, x)) {
@@ -156,21 +136,18 @@ export const fromJS = x => {
   return walletCons(new Wallet(x))
 }
 
-export const toJS = pipe(
-  Wallet.guard,
-  wallet => {
-    const walletDecons = compose(
-      w => shiftWallet(w).back(),
-      over(options, Options.toJS),
-      over(txNotes, TXNotes.toJS),
-      over(txNames, TXNames.toJS),
-      over(hdWallets, HDWalletList.toJS),
-      over(addresses, AddressMap.toJS),
-      over(addressBook, AddressBook.toJS)
-    )
-    return walletDecons(wallet).toJS()
-  }
-)
+export const toJS = pipe(Wallet.guard, wallet => {
+  const walletDecons = compose(
+    w => shiftWallet(w).back(),
+    over(options, Options.toJS),
+    over(txNotes, TXNotes.toJS),
+    over(txNames, TXNames.toJS),
+    over(hdWallets, HDWalletList.toJS),
+    over(addresses, AddressMap.toJS),
+    over(addressBook, AddressBook.toJS)
+  )
+  return walletDecons(wallet).toJS()
+})
 
 export const reviver = jsObject => {
   return new Wallet(jsObject)
@@ -232,18 +209,8 @@ export const getAccount = curry((index, wallet) =>
     Maybe.fromNullable,
     selectHdWallets
   )(wallet)
-    .chain(
-      compose(
-        Maybe.fromNullable,
-        HDWalletList.selectHDWallet
-      )
-    )
-    .chain(
-      compose(
-        Maybe.fromNullable,
-        HDWallet.selectAccount(index)
-      )
-    )
+    .chain(compose(Maybe.fromNullable, HDWalletList.selectHDWallet))
+    .chain(compose(Maybe.fromNullable, HDWallet.selectAccount(index)))
 )
 
 // applyCipher :: Wallet -> String -> Cipher -> a -> Task Error a
@@ -362,10 +329,7 @@ export const newHDAccount = curry((label, password, network, wallet) => {
 
 // setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
 export const setLegacyAddressLabel = curry((address, label, wallet) => {
-  const addressLens = compose(
-    addresses,
-    AddressMap.address(address)
-  )
+  const addressLens = compose(addresses, AddressMap.address(address))
   const eitherW = Either.try(over(addressLens, Address.setLabel(label)))(wallet)
   return eitherW.getOrElse(wallet)
 })
@@ -380,10 +344,7 @@ export const getPrivateKeyForAddress = curry((wallet, password, addr) => {
 
 // setLegacyAddressLabel :: String -> Bool -> Wallet -> Wallet
 export const setAddressArchived = curry((address, archived, wallet) => {
-  const addressLens = compose(
-    addresses,
-    AddressMap.address(address)
-  )
+  const addressLens = compose(addresses, AddressMap.address(address))
   return over(addressLens, Address.setArchived(archived), wallet)
 })
 
@@ -442,53 +403,23 @@ export const setAccountLabel = curry((accountIdx, label, wallet) => {
 
 // setAccountArchived :: Number -> Bool -> Wallet -> Wallet
 export const setAccountArchived = curry((index, archived, wallet) => {
-  let lens = compose(
-    accounts,
-    HDAccountList.account(index),
-    HDAccount.archived
-  )
+  let lens = compose(accounts, HDAccountList.account(index), HDAccount.archived)
   return set(lens, archived, wallet)
 })
 
 // setDefaultAccountIdx :: Number -> Wallet -> Wallet
 export const setDefaultAccountIdx = curry((index, wallet) => {
-  return set(
-    compose(
-      hdwallet,
-      HDWallet.defaultAccountIdx
-    ),
-    index,
-    wallet
-  )
+  return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)
 })
 export const setTxNote = curry((txHash, txNote, wallet) => {
-  return set(
-    compose(
-      txNotes,
-      TXNotes.note(txHash)
-    ),
-    txNote,
-    wallet
-  )
+  return set(compose(txNotes, TXNotes.note(txHash)), txNote, wallet)
 })
 
 // traversePrivValues :: Monad m => (a -> m a) -> (String -> m String) -> Wallet -> m Wallet
 export const traverseKeyValues = curry((of, f, wallet) => {
-  const trAddr = traverseOf(
-    compose(
-      addresses,
-      traversed,
-      Address.priv
-    ),
-    of,
-    f
-  )
+  const trAddr = traverseOf(compose(addresses, traversed, Address.priv), of, f)
   const trSeed = traverseOf(
-    compose(
-      hdWallets,
-      traversed,
-      HDWallet.seedHex
-    ),
+    compose(hdWallets, traversed, HDWallet.seedHex),
     of,
     f
   )
@@ -519,12 +450,7 @@ export const encryptMonadic = curry((of, cipher, password, wallet) => {
       .toString('hex')
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
-    return traverseKeyValues(of, enc, wallet).map(
-      compose(
-        setHash,
-        setFlag
-      )
-    )
+    return traverseKeyValues(of, enc, wallet).map(compose(setHash, setFlag))
   }
 })
 
@@ -542,12 +468,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
 
     return verify(password, wallet)
       .chain(traverseKeyValues(of, dec))
-      .map(
-        compose(
-          setHash,
-          setFlag
-        )
-      )
+      .map(compose(setHash, setFlag))
   } else {
     return of(wallet)
   }
@@ -645,9 +566,12 @@ export const getLegacyPrivateKey = curry(
 
 export const getLegacyPrivateKeyWIF = curry(
   (address, secondPassword, network, wallet) => {
-    return getLegacyPrivateKey(address, secondPassword, network, wallet).map(
-      ecpair => ecpair.toWIF()
-    )
+    return getLegacyPrivateKey(
+      address,
+      secondPassword,
+      network,
+      wallet
+    ).map(ecpair => ecpair.toWIF())
   }
 )
 

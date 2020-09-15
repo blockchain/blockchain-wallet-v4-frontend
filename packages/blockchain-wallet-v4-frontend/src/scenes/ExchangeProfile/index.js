@@ -9,7 +9,7 @@ import React from 'react'
 
 const Loading = () => (
   <SceneWrapper centerContent>
-    <BlockchainLoader width='200px' height='200px' />
+    <BlockchainLoader width='80px' height='80px' />
   </SceneWrapper>
 )
 
@@ -29,7 +29,4 @@ const mapDispatchToProps = dispatch => ({
   fetchUser: () => dispatch(actions.modules.profile.fetchUser())
 })
 
-export default connect(
-  getData,
-  mapDispatchToProps
-)(Profile)
+export default connect(getData, mapDispatchToProps)(Profile)

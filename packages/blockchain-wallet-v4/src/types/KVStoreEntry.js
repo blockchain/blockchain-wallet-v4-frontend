@@ -174,28 +174,12 @@ export const extractResponse = curry((encKey, res) => {
       console.info(
         'LOG: ',
         encKey
-          ? compose(
-              decrypt(encKey),
-              prop('payload')
-            )(res)
-          : compose(
-              BufferToString,
-              B64ToBuffer,
-              prop('payload')
-            )(res)
+          ? compose(decrypt(encKey), prop('payload'))(res)
+          : compose(BufferToString, B64ToBuffer, prop('payload'))(res)
       )
     }
     return encKey
-      ? compose(
-          JSON.parse,
-          decrypt(encKey),
-          prop('payload')
-        )(res)
-      : compose(
-          JSON.parse,
-          BufferToString,
-          B64ToBuffer,
-          prop('payload')
-        )(res)
+      ? compose(JSON.parse, decrypt(encKey), prop('payload'))(res)
+      : compose(JSON.parse, BufferToString, B64ToBuffer, prop('payload'))(res)
   }
 })

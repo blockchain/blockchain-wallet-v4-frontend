@@ -1,3 +1,10 @@
+import {
+  Button,
+  HeartbeatLoader,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
 import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
@@ -6,13 +13,7 @@ import PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const FileContainer = styled.div`
   display: flex;
@@ -84,11 +85,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme.grey000};
 
-  @media (max-width: 760px) {
+  ${media.tablet`
     flex-direction: column;
-  }
+  `}
 `
 
 const isMobile = window.matchMedia('(max-width: 760px)')
@@ -228,7 +229,7 @@ const UploadDocuments = ({
                     </Text>
                   </FileInfo>
                   <Text
-                    color='gray-3'
+                    color='grey400'
                     cursor='pointer'
                     onClick={() => deleteFileAt(index)}
                     size='12px'
@@ -250,7 +251,7 @@ const UploadDocuments = ({
             </Link>
           </Fragment>
         )}
-        <Text color='gray-3' size='14px' weight={400}>
+        <Text color='grey400' size='14px' weight={400}>
           <FormattedMessage
             id='scenes.uploaddoc.filesize'
             defaultMessage='Please upload a JPG, PNG or PDF up to 3MB in size.'

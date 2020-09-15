@@ -54,9 +54,6 @@ export const getSpendableContext = createDeepEqualSelector(
   }
 )
 
-export const getUnspendableContext = state =>
-  walletSelectors.getUnspendableContext(state)
-
 export const getDefaultAccountIndex = state =>
   getMetadata(state).map(path(['value', 'default_account_idx']))
 

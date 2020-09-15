@@ -15,15 +15,8 @@ const toTask = promise =>
 export default ({ apiUrl, networks, get, put }) => {
   const updateKVStore = kv => {
     let createEncPayloadBuffer = kv.encKeyBuffer
-      ? compose(
-          KV.B64ToBuffer,
-          KV.encrypt(kv.encKeyBuffer),
-          JSON.stringify
-        )
-      : compose(
-          KV.StringToBuffer,
-          JSON.stringify
-        )
+      ? compose(KV.B64ToBuffer, KV.encrypt(kv.encKeyBuffer), JSON.stringify)
+      : compose(KV.StringToBuffer, JSON.stringify)
 
     let encPayloadBuffer = createEncPayloadBuffer(kv.value)
     let signatureBuffer = KV.computeSignature(

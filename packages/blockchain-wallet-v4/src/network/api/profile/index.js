@@ -39,14 +39,25 @@ export default ({
     })
   }
 
-  const linkAccount = linkId => {
+  const linkAccount = (linkId, email, address) => {
     return authorizedPut({
       url: nabuUrl,
       endPoint: '/users/link-account/existing',
       contentType: 'application/json',
       data: {
-        linkId
+        linkId,
+        email,
+        address,
+        kycMerge: true
       }
+    })
+  }
+
+  const finaliseLinking = () => {
+    return authorizedPut({
+      url: nabuUrl,
+      endPoint: '/users/link-account/finalise',
+      contentType: 'application/json'
     })
   }
 
@@ -171,6 +182,7 @@ export default ({
     getUser,
     getUserCampaigns,
     linkAccount,
+    finaliseLinking,
     recoverUser,
     registerUserCampaign,
     syncUserWithWallet,

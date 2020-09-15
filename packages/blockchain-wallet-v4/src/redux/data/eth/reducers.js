@@ -22,7 +22,7 @@ const buildStateWithTokens = defaultValue =>
   compose(
     reduce((acc, curr) => assoc(curr, defaultValue, acc), {}),
     prepend('eth')
-  )(['pax'])
+  )(['pax', 'usdt'])
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
@@ -34,6 +34,7 @@ const INITIAL_STATE = {
   rates: buildStateWithTokens(Remote.NotAsked),
   transactions: buildStateWithTokens([]),
   transactions_at_bound: buildStateWithTokens(false),
+  transaction_history: buildStateWithTokens(Remote.NotAsked),
   warn_low_eth_balance: false
 }
 
@@ -145,10 +146,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', 'eth']),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
     }
@@ -161,6 +159,26 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.ETH_TRANSACTIONS_AT_BOUND: {
       return assocPath(['transactions_at_bound', 'eth'], payload, state)
+    }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_LOADING: {
+      return assocPath(['transaction_history', 'eth'], Remote.Loading, state)
+    }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_SUCCESS: {
+      return assocPath(
+        ['transaction_history', 'eth'],
+        Remote.Success(payload),
+        state
+      )
+    }
+    case AT.FETCH_ETH_TRANSACTION_HISTORY_FAILURE: {
+      return assocPath(
+        ['transaction_history', 'eth'],
+        Remote.Failure(payload),
+        state
+      )
+    }
+    case AT.CLEAR_ETH_TRANSACTION_HISTORY: {
+      return assocPath(['transaction_history', 'eth'], Remote.NotAsked, state)
     }
     case AT.CHECK_LOW_ETH_BALANCE_SUCCESS: {
       return assoc('warn_low_eth_balance', payload, state)
@@ -222,10 +240,7 @@ export default (state = INITIAL_STATE, action) => {
           )
         : over(
             lensPath(['transactions', token]),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
+            compose(append(Remote.Success(transactions)), dropLast(1)),
             state
           )
     }
@@ -239,15 +254,7 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
       const { fee, hash, token } = payload
@@ -255,15 +262,7 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
       const { hash, token, error } = payload
@@ -271,19 +270,35 @@ export default (state = INITIAL_STATE, action) => {
       const setData = target => tx =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
 
-      return over(
-        compose(
-          txListLens,
-          mapped,
-          mapped
-        ),
-        setData(hash),
-        state
-      )
+      return over(compose(txListLens, mapped, mapped), setData(hash), state)
     }
     case AT.ERC20_TOKEN_TX_AT_BOUND: {
       const { token, isAtBound } = payload
       return assocPath(['transactions_at_bound', token], isAtBound, state)
+    }
+    case AT.FETCH_ERC20_TRANSACTION_HISTORY_LOADING: {
+      const { token } = payload
+      return assocPath(['transaction_history', token], Remote.Loading, state)
+    }
+    case AT.FETCH_ERC20_TRANSACTION_HISTORY_SUCCESS: {
+      const { token, txList } = payload
+      return assocPath(
+        ['transaction_history', token],
+        Remote.Success(txList),
+        state
+      )
+    }
+    case AT.FETCH_ERC20_TRANSACTION_HISTORY_FAILURE: {
+      const { token, error } = payload
+      return assocPath(
+        ['transaction_history', token],
+        Remote.Failure(error),
+        state
+      )
+    }
+    case AT.CLEAR_ERC20_TRANSACTION_HISTORY: {
+      const { token } = payload
+      return assocPath(['transaction_history', token], Remote.NotAsked, state)
     }
     default:
       return state
