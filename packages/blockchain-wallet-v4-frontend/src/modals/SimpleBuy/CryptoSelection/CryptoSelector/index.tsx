@@ -94,6 +94,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   role='button'
                   selected={orderType === 'BUY'}
                   onClick={() => setOrderType('BUY')}
+                  data-e2e='sbBuyButton'
                 >
                   <FormattedMessage
                     id='buttons.buy_crypto'
@@ -104,6 +105,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   role='button'
                   selected={orderType === 'SELL'}
                   onClick={() => setOrderType('SELL')}
+                  data-e2e='sbSellButton'
                 >
                   <FormattedMessage
                     id='buttons.sell_crypto'
