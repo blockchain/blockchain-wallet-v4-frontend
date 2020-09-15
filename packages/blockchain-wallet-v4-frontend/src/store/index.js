@@ -1,4 +1,14 @@
 import * as Bitcoin from 'bitcoinjs-lib'
+import { applyMiddleware, compose, createStore } from 'redux'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { createHashHistory } from 'history'
+import { head } from 'ramda'
+import { persistCombineReducers, persistStore } from 'redux-persist'
+import BitcoinCash from 'bitcoinforksjs-lib'
+import createSagaMiddleware from 'redux-saga'
+import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
+import storage from 'redux-persist/lib/storage'
+
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
   ApiSocket,
@@ -6,7 +16,6 @@ import {
   HorizonStreamingService,
   Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
-import { applyMiddleware, createStore } from 'redux'
 import {
   autoDisconnection,
   matomoMiddleware,
@@ -14,16 +23,8 @@ import {
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { compose, head } from 'ramda'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { createHashHistory } from 'history'
-import { persistCombineReducers, persistStore } from 'redux-persist'
 import { serializer } from 'blockchain-wallet-v4/src/types'
-import BitcoinCash from 'bitcoinforksjs-lib'
-import createSagaMiddleware from 'redux-saga'
-import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
-import storage from 'redux-persist/lib/storage'
 
 const devToolsConfig = {
   maxAge: 1000,
