@@ -3,6 +3,7 @@ import {
   CoinType,
   FiatType,
   MiscActionTypes,
+  PriceChangeTimeRangeType,
   PriceMovementDirType
 } from 'core/types'
 
@@ -18,34 +19,59 @@ export const fetchCaptchaFailure = error => ({
   payload: error
 })
 
-// FETCH_PRICE_24H
-export const fetchPrice24H = (base: CoinType, quote: FiatType) => ({
-  type: AT.FETCH_PRICE_24H,
-  payload: { base, quote }
-})
-export const fetchPrice24HLoading = (base: CoinType): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_24H_LOADING,
-  payload: { base }
-})
-export const fetchPrice24HSuccess = (
+// FETCH_PRICE_CHANGE
+export const fetchPriceChange = (
   base: CoinType,
-  change: string,
-  movement: PriceMovementDirType,
-  price: number
+  quote: FiatType,
+  range: PriceChangeTimeRangeType,
+  positionAmt?: string
+) => ({
+  type: AT.FETCH_PRICE_CHANGE,
+  payload: { base, quote, range, positionAmt }
+})
+export const fetchPriceChangeLoading = (
+  base: CoinType,
+  range: PriceChangeTimeRangeType
 ): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_24H_SUCCESS,
+  type: AT.FETCH_PRICE_CHANGE_LOADING,
+  payload: { base, range }
+})
+export const fetchPriceChangeSuccess = (
+  base: CoinType,
+  previousPrice: number,
+  currentPrice: number,
+  range: PriceChangeTimeRangeType,
+  overallChange: {
+    diff: string
+    movement: PriceMovementDirType
+    percentChange: string
+  },
+  positionChange: {
+    diff: string
+    movement: PriceMovementDirType
+    percentChange: string
+  }
+): MiscActionTypes => ({
+  type: AT.FETCH_PRICE_CHANGE_SUCCESS,
   payload: {
     base,
-    change,
-    movement,
-    price
+    currentPrice,
+    overallChange,
+    positionChange,
+    previousPrice,
+    range
   }
 })
-export const fetchPrice24HFailure = (base, error): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_24H_FAILURE,
+export const fetchPriceChangeFailure = (
+  base,
+  error,
+  range: PriceChangeTimeRangeType
+): MiscActionTypes => ({
+  type: AT.FETCH_PRICE_CHANGE_FAILURE,
   payload: {
+    base,
     error,
-    base
+    range
   }
 })
 

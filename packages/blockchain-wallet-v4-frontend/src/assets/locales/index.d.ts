@@ -1206,7 +1206,7 @@ type MessagesType = {
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.instantly_buy': 'Instantly buy crypto with any Visa or Mastercard.'
   'modals.simplebuy.most_popular': 'Most Popular'
-  'modals.simplebuy.selectcrypto': 'We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
+  'modals.simplebuy.select_crypto': 'Easily buy and sell Crypto straight from your Wallet.'
   'modals.simplebuy.selectcrypto.sell_banner_title': 'Want to sell from your other Wallets?'
   'modals.simplebuy.selectcrypto.sell_banner_description': 'Send crypto from your Wallets to your <b>Trading Wallet</b>s. Once that send completes, sell that crypto for cash.'
   'modals.simplebuy.kycrequired': 'We’ve made it just as easy to buy and sell Crypto straight from your Wallet. Every Buy & Sell happens in seconds or less.'
@@ -1716,7 +1716,7 @@ type MessagesType = {
   'scenes.login.password': 'Password'
   'scenes.login.resendsms': 'Resend SMS'
   'scenes.login.sendguid': 'Send my Wallet ID'
-  'scenes.login.wallet.link': 'Dont have a wallet?'
+  'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.signup': 'Sign Up'
   'scenes.login.welcome': 'Welcome back!'
   'scenes.login.wrong_password': 'Error decrypting wallet. Wrong password'
