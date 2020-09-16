@@ -99,22 +99,43 @@ class Conflict extends PureComponent<
     }
   }
   handleSubmit = () => {
-    const { linkId, error } = this.props
+    const { actions, linkId, error } = this.props
     const { selectedAddress, selectedEmail } = this.state
+    let chosenAddress, chosenEmail
 
-    const choosenEmail =
-      selectedEmail ||
-      (error.email.wallet !== 'null'
-        ? error.email.wallet
-        : error.email.exchange)
-    const choosenAddress =
-      (selectedAddress as string) ||
-      (error.address.wallet !== 'null' ? 'wallet' : 'exchange')
-    this.props.actions.linkFromExchangeAccount(
-      linkId,
-      choosenEmail,
-      JSON.parse(error.address[choosenAddress])
-    )
+    // determine which email to use, if any
+    switch (true) {
+      case !!selectedEmail:
+        chosenEmail = selectedEmail
+        break
+      case error.email && error.email.wallet !== 'null':
+        chosenEmail = error.email.wallet
+        break
+      case error.email && error.email.exchange !== 'null':
+        chosenEmail = error.email.exchange
+        break
+      default:
+        chosenEmail = null
+    }
+
+    // determine which address to use, if any
+    switch (true) {
+      case !!selectedAddress:
+        chosenAddress = JSON.parse(
+          selectedAddress && error.address[selectedAddress]
+        )
+        break
+      case error.address && error.address.wallet !== 'null':
+        chosenAddress = JSON.parse(error.address.wallet)
+        break
+      case error.address && error.address.exchange !== 'null':
+        chosenAddress = JSON.parse(error.address.exchange)
+        break
+      default:
+        chosenAddress = null
+    }
+
+    actions.linkFromExchangeAccount(linkId, chosenEmail, chosenAddress)
   }
 
   printAddress = (address: string, color: 'grey900' | 'grey600') => {
