@@ -37,7 +37,12 @@ export type SupportedCoinType = {
 }
 
 export type SupportedFiatType = {
-  availability: {}
+  availability: {
+    deposit: boolean
+    request: false
+    send: false
+    withdrawal: boolean
+  }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
   colorCode: 'fiat'

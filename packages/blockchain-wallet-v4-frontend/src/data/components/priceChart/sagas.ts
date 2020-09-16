@@ -2,7 +2,8 @@ import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import { calculateScale, calculateStart } from 'services/ChartService'
+import { calculateScale } from 'services/ChartService'
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
 import { put, select, take } from 'redux-saga/effects'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -10,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
  * Price Chart Sagas
  * @return {Object} price chart sagas
  */
-export default ({ coreSagas }) => {
+export default () => {
   const logLocation = 'components/priceChart/sagas'
 
   /**
@@ -24,17 +25,19 @@ export default ({ coreSagas }) => {
         yield take(actionTypes.core.settings.FETCH_SETTINGS_SUCCESS)
       }
       const currencyR = yield select(selectors.core.settings.getCurrency)
+      const currency = currencyR.getOrElse('USD')
       const { coin, time } = action.payload
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse('USD'),
+          currency,
           start,
           scale
         )
       )
+      yield put(actions.core.data.misc.fetchPriceChange(coin, currency, time))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -48,17 +51,19 @@ export default ({ coreSagas }) => {
     try {
       const { coin } = action.payload
       const currencyR = yield select(selectors.core.settings.getCurrency)
+      const currency = currencyR.getOrElse('USD')
       const time = yield select(S.getTime)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse('USD'),
+          currency,
           start,
           scale
         )
       )
+      yield put(actions.core.data.misc.fetchPriceChange(coin, currency, time))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
     }
@@ -72,17 +77,19 @@ export default ({ coreSagas }) => {
     try {
       const { time } = action.payload
       const currencyR = yield select(selectors.core.settings.getCurrency)
+      const currency = currencyR.getOrElse('USD')
       const coin = yield select(S.getCoin)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse('USD'),
+          currency,
           start,
           scale
         )
       )
+      yield put(actions.core.data.misc.fetchPriceChange(coin, currency, time))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
     }

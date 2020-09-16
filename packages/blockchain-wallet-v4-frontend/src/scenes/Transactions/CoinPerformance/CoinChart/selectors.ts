@@ -14,7 +14,7 @@ export const getData = createDeepEqualSelector(
     const transform = priceIndexSeriesData => ({
       data: map(d => [d.timestamp * 1000, d.price], priceIndexSeriesData),
       coin,
-      time: '1week'
+      time: 'week'
     })
     return {
       data: lift(transform)(priceIndexSeriesDataR),

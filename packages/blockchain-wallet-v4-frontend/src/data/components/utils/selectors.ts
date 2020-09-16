@@ -16,6 +16,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
     supportedCoins: ExtractSuccess<typeof supportedCoinsR>
   ) => {
     const coinOrder = [
+      supportedCoins.USD,
       supportedCoins.EUR,
       supportedCoins.GBP,
       supportedCoins.BTC,

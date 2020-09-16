@@ -33,8 +33,8 @@ const CustodialTxListItem: React.FC<Props> = props => {
     <StyledCustodialTransactionRow>
       <Row width='30%'>
         <IconTx {...props} />
-        <Status>
-          <Text size='16px' color='grey800' weight={600}>
+        <Status data-e2e='orderStatusColumn'>
+          <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
             {props.tx.type === 'DEPOSIT' ? (
               <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
             ) : (
@@ -48,7 +48,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
         </Status>
       </Row>
       <Col width='50%'>
-        <Text size='16px' weight={600} color='grey800'>
+        <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>
           <FormattedMessage id='copy.from' defaultMessage='From' />
           {': '}
           {props.tx.amount.symbol}{' '}
@@ -59,6 +59,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
           weight={500}
           color='grey600'
           style={{ marginTop: '4px' }}
+          data-e2e='txTo'
         >
           <FormattedMessage id='copy.to' defaultMessage='To' />
           {': '}
@@ -66,8 +67,12 @@ const CustodialTxListItem: React.FC<Props> = props => {
           {props.tx.type === 'DEPOSIT' ? 'Wallet' : 'Bank Account'}
         </Text>
       </Col>
-      <Col width='20%' style={{ textAlign: 'right' }}>
-        <Text size='16px' weight={600} color='grey800'>
+      <Col
+        width='20%'
+        style={{ textAlign: 'right' }}
+        data-e2e='orderAmountColumn'
+      >
+        <Text size='16px' weight={600} color='grey800' data-e2e='orderFiatAmt'>
           {fiatToString({
             value: props.tx.amount.value,
             unit: props.tx.amount.symbol

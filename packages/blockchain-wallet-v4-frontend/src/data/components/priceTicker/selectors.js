@@ -20,16 +20,18 @@ export const getData = (coin, state) => {
   const ratesR = selectRates(coin, state)
   const currencyR = selectors.core.settings.getCurrency(state)
 
-  const transform = (rates, currency) => ({
-    coin: `1 ${coin}`,
-    fiat: Exchange.displayCoinToFiat({
-      fromCoin: coin,
-      value: 1,
-      fromUnit: coin,
-      toCurrency: currency,
-      rates
-    })
-  })
+  const transform = (rates, currency) => {
+    return {
+      coin: `1 ${coin}`,
+      fiat: Exchange.displayCoinToFiat({
+        fromCoin: coin,
+        value: 1,
+        fromUnit: coin,
+        toCurrency: currency,
+        rates
+      })
+    }
+  }
 
   return lift(transform)(ratesR, currencyR)
 }

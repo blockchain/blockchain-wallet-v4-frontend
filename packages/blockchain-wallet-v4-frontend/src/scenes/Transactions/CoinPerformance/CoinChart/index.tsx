@@ -1,6 +1,7 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { CoinType } from 'core/types'
+import { connect, ConnectedProps } from 'react-redux'
 import { getData } from './selectors'
 import { Image, Text } from 'blockchain-info-components'
 import { toUpper } from 'ramda'
@@ -26,17 +27,14 @@ const Loading = () => (
   <CustomImage name='chart-placeholder' width='450px' height='100px' />
 )
 
-export class CoinPerformanceContainer extends React.PureComponent {
+export class CoinPerformanceContainer extends React.PureComponent<Props> {
   componentDidMount () {
-    this.props.priceChartActions.initialized(toUpper(this.props.coin), '1week')
+    this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
   }
 
   componentDidUpdate (prevProps) {
     if (this.props.coin !== prevProps.coin) {
-      this.props.priceChartActions.initialized(
-        toUpper(this.props.coin),
-        '1week'
-      )
+      this.props.priceChartActions.initialized(toUpper(this.props.coin), 'week')
     }
   }
 
@@ -71,7 +69,10 @@ const mapDispatchToProps = dispatch => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CoinPerformanceContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = { coin: CoinType }
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CoinPerformanceContainer)

@@ -1,10 +1,11 @@
-import { calculateInterval, calculateStart } from 'services/ChartService'
-import { getConfig } from './model'
-import media from 'services/ResponsiveService'
-import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
+
+import { calculateInterval } from 'services/ChartService'
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
+import { getConfig } from './model'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   margin-left: 50px;
@@ -39,7 +40,7 @@ const Chart = props => {
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
   const interval = calculateInterval(coin, time)
-  let config = getConfig(coin, currency, data, decimals, interval, start)
+  let config = getConfig(coin, currency, data, decimals)
 
   const [chartObj, setChartObj] = useState({
     config,
@@ -49,7 +50,8 @@ const Chart = props => {
   })
 
   useEffect(() => {
-    config = getConfig(coin, currency, data, decimals, interval, start)
+    config = getConfig(coin, currency, data, decimals)
+    // @ts-ignore
     setChartObj({ config })
   }, [])
 
@@ -58,13 +60,6 @@ const Chart = props => {
       <ReactHighcharts config={chartObj.config} isPureConfig />
     </Wrapper>
   )
-}
-
-Chart.propTypes = {
-  currencySymbol: PropTypes.string.isRequired,
-  coin: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired
 }
 
 export default Chart

@@ -41,6 +41,7 @@ export const getConfig = (coin, currency, data, decimals) => ({
     useHTML: true,
     pointFormatter: function () {
       return Currency.fiatToString({
+        // @ts-ignore
         value: this.y,
         digits: decimals,
         unit: currency

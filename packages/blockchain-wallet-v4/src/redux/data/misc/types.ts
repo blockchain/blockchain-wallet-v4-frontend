@@ -15,12 +15,20 @@ export type RatesType = {
 }
 
 export type PriceMovementDirType = 'none' | 'up' | 'down'
+export type PriceDiffType = {
+  diff: string
+  movement: PriceMovementDirType
+  percentChange: string
+}
 
 export type PriceChangeType = {
-  change: string
-  movement: PriceMovementDirType
-  price: number
+  currentPrice: number
+  overallChange: PriceDiffType
+  positionChange: PriceDiffType
+  previousPrice: number
 }
+
+export type PriceChangeTimeRangeType = 'day' | 'week' | 'month' | 'year' | 'all'
 
 // state
 export type MiscStateType = {
@@ -29,8 +37,13 @@ export type MiscStateType = {
   handle_2fa_reset: RemoteDataType<any, any>
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
-  price_24h: {
-    [key in CoinType | WalletFiatType]: RemoteDataType<string, PriceChangeType>
+  price_change: {
+    [key in PriceChangeTimeRangeType]: {
+      [key in CoinType | WalletFiatType]: RemoteDataType<
+        string,
+        PriceChangeType
+      >
+    }
   }
   price_index_series: RemoteDataType<any, any>
   verify_email_token: RemoteDataType<any, any>
@@ -77,27 +90,27 @@ interface FetchCaptchaSuccessActionType {
   payload: any
   type: typeof AT.FETCH_CAPTCHA_SUCCESS
 }
-interface FetchPrice24HFailureActionType {
+interface FetchPriceChangeFailureActionType {
   payload: {
     base: CoinType
     error: string
+    range: PriceChangeTimeRangeType
   }
-  type: typeof AT.FETCH_PRICE_24H_FAILURE
+  type: typeof AT.FETCH_PRICE_CHANGE_FAILURE
 }
-interface FetchPrice24HLoadingActionType {
+interface FetchPriceChangeLoadingActionType {
   payload: {
     base: CoinType
+    range: PriceChangeTimeRangeType
   }
-  type: typeof AT.FETCH_PRICE_24H_LOADING
+  type: typeof AT.FETCH_PRICE_CHANGE_LOADING
 }
-interface FetchPrice24HSuccessActionType {
+interface FetchPriceChangeSuccessActionType {
   payload: {
     base: CoinType
-    change: string
-    movement: PriceMovementDirType
-    price: number
-  }
-  type: typeof AT.FETCH_PRICE_24H_SUCCESS
+    range: PriceChangeTimeRangeType
+  } & PriceChangeType
+  type: typeof AT.FETCH_PRICE_CHANGE_SUCCESS
 }
 interface FetchPriceIndexSeriesFailureActionType {
   payload: {
@@ -149,9 +162,9 @@ export type MiscActionTypes =
   | FetchCaptchaFailureActionType
   | FetchCaptchaLoadingActionType
   | FetchCaptchaSuccessActionType
-  | FetchPrice24HFailureActionType
-  | FetchPrice24HLoadingActionType
-  | FetchPrice24HSuccessActionType
+  | FetchPriceChangeFailureActionType
+  | FetchPriceChangeLoadingActionType
+  | FetchPriceChangeSuccessActionType
   | FetchPriceIndexSeriesFailureActionType
   | FetchPriceIndexSeriesLoadingActionType
   | FetchPriceIndexSeriesSuccessActionType

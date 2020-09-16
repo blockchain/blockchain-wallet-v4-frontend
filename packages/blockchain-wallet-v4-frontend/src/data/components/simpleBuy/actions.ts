@@ -86,10 +86,12 @@ export const createSBOrder = (
 })
 
 export const confirmSBCreditCardOrder = (
-  paymentMethodId: SBCardType['id']
+  paymentMethodId: SBCardType['id'],
+  order: SBOrderType
 ) => ({
   type: AT.CONFIRM_CREDIT_CARD_ORDER,
-  paymentMethodId
+  paymentMethodId,
+  order
 })
 
 export const confirmSBFundsOrder = () => ({

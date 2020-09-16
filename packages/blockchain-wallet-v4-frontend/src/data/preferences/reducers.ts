@@ -9,7 +9,8 @@ const INITIAL_STATE: PreferencesState = {
   theme: 'default',
   coinDisplayed: true,
   priceChart: {
-    coin: 'BTC'
+    coin: 'BTC',
+    time: 'month'
   },
   sbCheckout: {
     BUY: {
@@ -124,6 +125,7 @@ export function preferencesReducer (
         showLockboxSoftwareDownload: false
       }
     }
+    // @ts-ignore
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       // @ts-ignore
       const { coin } = action.payload
@@ -135,6 +137,7 @@ export function preferencesReducer (
         }
       }
     }
+    // @ts-ignore
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       // @ts-ignore
       const { time } = action.payload

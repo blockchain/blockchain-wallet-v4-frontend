@@ -1,7 +1,7 @@
-import { calculateInterval, calculateStart } from 'services/ChartService'
-import { CoinType, FiatType } from 'core/types'
+import { calculateInterval } from 'services/ChartService'
+import { calculateStart } from 'blockchain-wallet-v4/src/redux/data/misc/model'
+import { CoinType, FiatType, PriceChangeTimeRangeType } from 'core/types'
 import { getConfig, renderMinMax } from './services'
-import PropTypes from 'prop-types'
 import React from 'react'
 import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
@@ -46,14 +46,7 @@ const Wrapper = styled.div<{ coin: CoinType }>`
   }
 `
 
-type Props = {
-  coin: CoinType
-  currency: FiatType
-  data: any
-  time: string
-}
-
-const Chart = (props: Props) => {
+const Chart = (props: OwnProps) => {
   const { coin, time, data, currency } = props
   const decimals = coin === 'XLM' ? 4 : 2
   const start = calculateStart(coin, time)
@@ -70,11 +63,11 @@ const Chart = (props: Props) => {
   )
 }
 
-Chart.propTypes = {
-  currency: PropTypes.string.isRequired,
-  coin: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired
+type OwnProps = {
+  coin: CoinType
+  currency: FiatType
+  data: any
+  time: PriceChangeTimeRangeType
 }
 
 export default Chart

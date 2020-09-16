@@ -890,6 +890,7 @@ const convertCoinToCoin = ({
         : convertAlgoToAlgo({ value, fromUnit: 'ALGO', toUnit: 'mALGO' })
     case 'EUR':
     case 'GBP':
+    case 'USD':
     case 'FIAT':
       return baseToStandard
         ? { value: new BigNumber(value).dividedBy(100).valueOf() }
@@ -1360,6 +1361,7 @@ const displayCoinToCoin = (
       })
     case 'EUR':
     case 'GBP':
+    case 'USD':
       return Currency.fiatToString({ value, unit: toUnit })
     default:
       return 'Coin not supported'
