@@ -34,6 +34,17 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
+const ImageContainer = styled.div`
+  @media only screen and (max-height: 600px) {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    img {
+      max-width: 180px;
+    }
+  }
+`
+
 class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
@@ -64,7 +75,9 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
               />
             </Text>
           </ContentContainer>
-          <Image name='recover-padlock' width='375px' />
+          <ImageContainer>
+            <Image name='recover-padlock' width='375px' />
+          </ImageContainer>
         </FlyoutWrapper>
 
         <ButtonWrapper>
