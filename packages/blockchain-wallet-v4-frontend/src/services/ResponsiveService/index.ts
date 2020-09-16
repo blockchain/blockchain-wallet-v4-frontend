@@ -14,7 +14,8 @@ export const sizes = {
 }
 
 export const heights = {
-  small: 600
+  small: 600,
+  big: 800
 }
 
 export type SizesTypes = typeof sizes
@@ -39,6 +40,7 @@ export type MediaServiceType = {
 }
 
 export type MediaHeightServiceType = {
+  big: (...args) => any
   small: (...args) => any
 }
 

@@ -36,10 +36,10 @@ const ButtonWrapper = styled(FlyoutWrapper)`
 `
 
 const ImageContainer = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
   ${mediaHeight.small`
-    width: 100%;
-    justify-content: center;
-    display: flex;
     img {
       max-width: 180px;
     }
