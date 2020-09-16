@@ -1,6 +1,7 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { mediaHeight } from 'services/ResponsiveService'
 import { Props } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -35,14 +36,14 @@ const ButtonWrapper = styled(FlyoutWrapper)`
 `
 
 const ImageContainer = styled.div`
-  @media only screen and (max-height: 600px) {
+  ${mediaHeight.small`
     width: 100%;
     justify-content: center;
     display: flex;
     img {
       max-width: 180px;
     }
-  }
+  `};
 `
 
 class RecoveryPhraseIntro extends PureComponent<Props> {

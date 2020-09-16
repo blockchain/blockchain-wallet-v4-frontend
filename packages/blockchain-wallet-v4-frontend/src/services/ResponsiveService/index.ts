@@ -13,8 +13,14 @@ export const sizes = {
   desktop: 2560
 }
 
+export const heights = {
+  small: 600
+}
+
 export type SizesTypes = typeof sizes
+export type HeightTypes = typeof heights
 export type Sizes = keyof SizesTypes
+export type Heights = keyof HeightTypes
 export type MediaServiceType = {
   atLeastDesktop: (...args) => any
   atLeastLaptop: (...args) => any
@@ -30,6 +36,10 @@ export type MediaServiceType = {
   mobile: (...args) => any
   tablet: (...args) => any
   tabletL: (...args) => any
+}
+
+export type MediaHeightServiceType = {
+  small: (...args) => any
 }
 
 // Iterate through the sizes and create a media template
@@ -74,5 +84,15 @@ export function useMedia (size: Sizes): boolean {
 
   return isSize
 }
+
+export const mediaHeight = Object.keys(heights).reduce((acc, label) => {
+  acc[label] = (...args) => css`
+    @media (max-height: ${heights[label]}px) {
+      // @ts-ignore
+      ${css(...args)};
+    }
+  `
+  return acc
+}, {}) as MediaHeightServiceType
 
 export default media as MediaServiceType
