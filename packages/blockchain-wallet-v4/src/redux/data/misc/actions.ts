@@ -38,12 +38,14 @@ export const fetchPriceChangeLoading = (
 })
 export const fetchPriceChangeSuccess = (
   base: CoinType,
-  diff: string,
-  percentChange: string,
-  movement: PriceMovementDirType,
   previousPrice: number,
   currentPrice: number,
   range: PriceChangeTimeRangeType,
+  overallChange: {
+    diff: string
+    movement: PriceMovementDirType
+    percentChange: string
+  },
   positionChange: {
     diff: string
     movement: PriceMovementDirType
@@ -53,13 +55,11 @@ export const fetchPriceChangeSuccess = (
   type: AT.FETCH_PRICE_CHANGE_SUCCESS,
   payload: {
     base,
-    diff,
-    percentChange,
-    movement,
-    previousPrice,
     currentPrice,
-    range,
-    positionChange
+    overallChange,
+    positionChange,
+    previousPrice,
+    range
   }
 })
 export const fetchPriceChangeFailure = (

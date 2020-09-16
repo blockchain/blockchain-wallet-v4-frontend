@@ -56,9 +56,11 @@ class PriceMovement extends PureComponent<Props, State> {
       <Container>
         {this.props.data.cata({
           Success: val => (
-            <Change color={getColorFromMovement(val.price24Hr.movement)}>
-              {getSignFromMovement(val.price24Hr.movement)}
-              {val.price24Hr.percentChange}%
+            <Change
+              color={getColorFromMovement(val.price24Hr.overallChange.movement)}
+            >
+              {getSignFromMovement(val.price24Hr.overallChange.movement)}
+              {val.price24Hr.overallChange.percentChange}%
             </Change>
           ),
           Loading: () => <SkeletonRectangle height={'12px'} width={'40px'} />,

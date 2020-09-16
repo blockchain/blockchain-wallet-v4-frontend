@@ -15,17 +15,16 @@ export type RatesType = {
 }
 
 export type PriceMovementDirType = 'none' | 'up' | 'down'
-
-export type PriceChangeType = {
-  currentPrice: number
+export type PriceDiffType = {
   diff: string
   movement: PriceMovementDirType
   percentChange: string
-  positionChange: {
-    diff: string
-    movement: PriceMovementDirType
-    percentChange: string
-  }
+}
+
+export type PriceChangeType = {
+  currentPrice: number
+  overallChange: PriceDiffType
+  positionChange: PriceDiffType
   previousPrice: number
 }
 

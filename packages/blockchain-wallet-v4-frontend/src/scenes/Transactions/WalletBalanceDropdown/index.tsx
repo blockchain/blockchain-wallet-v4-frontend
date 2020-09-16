@@ -173,7 +173,7 @@ export class WalletBalanceDropdown extends Component<Props> {
         currency: 'USD',
         currencySymbol: '$',
         sbBalance: { available: '0', pending: '0', withdrawable: '0' }
-      }).balanceData
+      } as SuccessStateType).balanceData
     } else if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
@@ -205,22 +205,15 @@ export class WalletBalanceDropdown extends Component<Props> {
     children
   ) => {
     const { coinCode, coinTicker } = this.props.coinModel
-    const balance = this.coinBalance(props)
+    const balance = this.coinBalance(props) || 0
     const account = this.accountLabel(props)
-    const unsafe_data: SuccessStateType = this.props.data.getOrElse({
+    const unsafe_data = this.props.data.getOrElse({
       addressData: { data: [] },
       balanceData: 0,
       currency: 'USD' as FiatType,
       currencySymbol: '$',
-      priceChange: {
-        diff: '0',
-        percentChange: '0',
-        movement: 'none',
-        currentPrice: 1,
-        previousPrice: 1
-      },
       sbBalance: { available: '0', pending: '0', withdrawable: '0' }
-    })
+    } as SuccessStateType)
 
     return (
       <DisplayContainer coinType={coinCode}>

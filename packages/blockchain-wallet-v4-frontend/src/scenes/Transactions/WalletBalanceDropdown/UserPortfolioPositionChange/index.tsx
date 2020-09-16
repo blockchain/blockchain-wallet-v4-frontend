@@ -39,11 +39,9 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
     return this.props.data.cata({
       Success: val => (
         <PriceChange
+          isPortfolioPosition
           priceChange={{
-            ...val.priceChange,
-            diff: val.priceChange.positionChange.diff,
-            percentChange: val.priceChange.positionChange.percentChange,
-            movement: val.priceChange.positionChange.movement
+            ...val.priceChange
           }}
           {...this.props}
         >
