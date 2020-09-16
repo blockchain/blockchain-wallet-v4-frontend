@@ -6,7 +6,7 @@
   ],
   "rules": {
     "property-no-vendor-prefix": null,
-    "media-feature-name-blacklist": ["max-width", "min-width"],
+    "media-feature-name-disallowed-list": ["max-width", "min-width"],
     "at-rule-disallowed-list": ['media'],
     "no-descending-specificity": null
   }
