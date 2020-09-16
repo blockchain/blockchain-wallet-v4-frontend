@@ -93,11 +93,6 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
       this.props.currency,
-      'day'
-    )
-    this.props.miscActions.fetchPriceChange(
-      this.props.coin as CoinType,
-      this.props.currency,
       'week'
     )
   }

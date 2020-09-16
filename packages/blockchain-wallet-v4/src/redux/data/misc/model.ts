@@ -10,7 +10,12 @@ export const DEFAULT_PRICE_CHANGE: PriceChangeType = {
   diff: '0',
   movement: 'none',
   currentPrice: 1,
-  previousPrice: 1
+  previousPrice: 1,
+  positionChange: {
+    diff: '0',
+    percentChange: '0',
+    movement: 'none'
+  }
 }
 
 export const initialPriceChange = {

@@ -18,13 +18,14 @@ import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { ModalNamesType } from 'data/types'
-import { PriceChange } from '../model'
+import BigNumber from 'bignumber.js'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import Loading from './template.loading'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
+import UserPortfolioPositionChange from './UserPortfolioPositionChange'
 
 const Wrapper = styled.div`
   display: flex;
@@ -171,13 +172,6 @@ export class WalletBalanceDropdown extends Component<Props> {
         balanceData: 0,
         currency: 'USD',
         currencySymbol: '$',
-        priceChange: {
-          diff: '0',
-          percentChange: '0',
-          movement: 'none',
-          currentPrice: 1,
-          previousPrice: 1
-        },
         sbBalance: { available: '0', pending: '0', withdrawable: '0' }
       }).balanceData
     } else if (selectProps.value) {
@@ -251,13 +245,11 @@ export class WalletBalanceDropdown extends Component<Props> {
           {this.props.coin in CoinTypeEnum ? (
             this.hasBalanceOrAccounts(props.selectProps.options) ||
             !this.props.coinModel.availability.request ? (
-              <PriceChange {...unsafe_data}>
-                {' '}
-                <FormattedMessage
-                  id='scenes.transactions.performance.prices.day'
-                  defaultMessage='today'
-                />
-              </PriceChange>
+              <UserPortfolioPositionChange
+                coin={this.props.coin as CoinType}
+                currency={unsafe_data.currency}
+                coinBalance={new BigNumber(balance)}
+              />
             ) : (
               <Text
                 size='14px'

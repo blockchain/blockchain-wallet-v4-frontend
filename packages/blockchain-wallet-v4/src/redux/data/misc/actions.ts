@@ -23,10 +23,11 @@ export const fetchCaptchaFailure = error => ({
 export const fetchPriceChange = (
   base: CoinType,
   quote: FiatType,
-  range: PriceChangeTimeRangeType
+  range: PriceChangeTimeRangeType,
+  positionAmt?: string
 ) => ({
   type: AT.FETCH_PRICE_CHANGE,
-  payload: { base, quote, range }
+  payload: { base, quote, range, positionAmt }
 })
 export const fetchPriceChangeLoading = (
   base: CoinType,
@@ -42,7 +43,12 @@ export const fetchPriceChangeSuccess = (
   movement: PriceMovementDirType,
   previousPrice: number,
   currentPrice: number,
-  range: PriceChangeTimeRangeType
+  range: PriceChangeTimeRangeType,
+  positionChange: {
+    diff: string
+    movement: PriceMovementDirType
+    percentChange: string
+  }
 ): MiscActionTypes => ({
   type: AT.FETCH_PRICE_CHANGE_SUCCESS,
   payload: {
@@ -52,7 +58,8 @@ export const fetchPriceChangeSuccess = (
     movement,
     previousPrice,
     currentPrice,
-    range
+    range,
+    positionChange
   }
 })
 export const fetchPriceChangeFailure = (

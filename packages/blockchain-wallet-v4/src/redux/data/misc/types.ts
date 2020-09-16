@@ -21,6 +21,11 @@ export type PriceChangeType = {
   diff: string
   movement: PriceMovementDirType
   percentChange: string
+  positionChange: {
+    diff: string
+    movement: PriceMovementDirType
+    percentChange: string
+  }
   previousPrice: number
 }
 
@@ -104,13 +109,8 @@ interface FetchPriceChangeLoadingActionType {
 interface FetchPriceChangeSuccessActionType {
   payload: {
     base: CoinType
-    currentPrice: number
-    diff: string
-    movement: PriceMovementDirType
-    percentChange: string
-    previousPrice: number
     range: PriceChangeTimeRangeType
-  }
+  } & PriceChangeType
   type: typeof AT.FETCH_PRICE_CHANGE_SUCCESS
 }
 interface FetchPriceIndexSeriesFailureActionType {

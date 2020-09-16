@@ -30,7 +30,7 @@ export default ({ api }: { api: APIType }) => {
   const fetchPriceChange = function * (
     action: ReturnType<typeof A.fetchPriceChange>
   ) {
-    const { base, quote, range } = action.payload
+    const { base, quote, range, positionAmt = 0 } = action.payload
     try {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
@@ -50,6 +50,8 @@ export default ({ api }: { api: APIType }) => {
         quote,
         moment()
       )
+
+      // Overall coin price movement
       const diff = (current.price - previous.price).toFixed(2)
       const diffPercent = new BigNumber(
         (current.price - previous.price) / previous.price
@@ -60,6 +62,30 @@ export default ({ api }: { api: APIType }) => {
         : diffPercent.isGreaterThan(0)
         ? 'up'
         : 'down'
+
+      // User's position, if given an amount will provide the
+      // change for that amount or else will fallback to 0
+      const currentPosition = new BigNumber(positionAmt)
+        .times(current.price)
+        .toNumber()
+      const previousPosition = new BigNumber(positionAmt)
+        .times(previous.price)
+        .toNumber()
+      const positionDiff = new BigNumber(
+        currentPosition - previousPosition
+      ).toFixed(2)
+      const positionDiffPercent = new BigNumber(positionAmt).isZero()
+        ? new BigNumber(0)
+        : new BigNumber(
+            (currentPosition - previousPosition) / previousPosition
+          ).times(100)
+      const positionChange = positionDiffPercent.abs().toFixed(2)
+      const positionMovement = positionDiffPercent.isZero()
+        ? 'none'
+        : positionDiffPercent.isPositive()
+        ? 'up'
+        : 'down'
+
       yield put(
         A.fetchPriceChangeSuccess(
           base,
@@ -68,7 +94,12 @@ export default ({ api }: { api: APIType }) => {
           movement,
           current.price,
           previous.price,
-          range
+          range,
+          {
+            diff: positionDiff,
+            percentChange: positionChange,
+            movement: positionMovement
+          }
         )
       )
     } catch (e) {
