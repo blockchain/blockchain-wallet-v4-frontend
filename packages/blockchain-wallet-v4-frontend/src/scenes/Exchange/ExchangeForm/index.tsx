@@ -1,13 +1,15 @@
-import { actions, model } from 'data'
 import { bindActionCreators, compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { debounce } from 'utils/helpers'
-import { getData } from './selectors'
 import { isEmpty } from 'ramda'
 import { reduxForm } from 'redux-form'
+import React from 'react'
+
+import { actions, model } from 'data'
+import { debounce } from 'utils/helpers'
+import { getData } from './selectors'
+import { SwapFormValuesType } from 'data/types'
 import DataError from 'components/DataError'
 import Loading from './template.loading'
-import React from 'react'
 import Success from './template.success'
 
 const extractFieldValue = (e, value) => {
@@ -118,17 +120,10 @@ const enhance = compose(
   connector
 )
 
-type ExchangeFormValuesType = {
-  amount: any
-  fix: any
-  from: any
-  to: any
-}
-
 type Props = ConnectedProps<typeof connector> &
-  ExchangeFormValuesType & {
+  SwapFormValuesType & {
     showError: boolean
     txError: any
   }
 
-export default enhance(ExchangeForm)
+export default enhance(ExchangeForm) as React.ComponentType<SwapFormValuesType>

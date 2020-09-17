@@ -17,8 +17,11 @@ import {
   SupportedWalletCurrenciesType
 } from 'core/types'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { EXCHANGE_FORM } from 'data/components/exchange/model'
 import { GroupHeadingLabelType } from './types'
 import { model, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { SwapAccountType, SwapFormValuesType } from 'data/types'
 
 const {
   getAvailableSourceCoins,
@@ -30,13 +33,15 @@ const generateItems = (
   { coin, accounts },
   supportedCoins: SupportedWalletCurrenciesType
 ) => {
-  const options = accounts.map(account => {
-    account.icon = path([coin, 'icons', 'circleFilled'], supportedCoins)
-    return {
-      value: account,
-      text: prop('label', account)
+  const options: Array<{ text: string; value: SwapAccountType }> = accounts.map(
+    account => {
+      account.icon = path([coin, 'icons', 'circleFilled'], supportedCoins)
+      return {
+        value: account,
+        text: prop('label', account)
+      }
     }
-  })
+  )
 
   const label: GroupHeadingLabelType = {
     coin,
@@ -74,14 +79,20 @@ const generateGroups = curry(
 
 export const getData = createDeepEqualSelector(
   [
+    selectors.form.getFormValues(EXCHANGE_FORM),
     selectors.components.exchange.getActiveAccounts,
-    state =>
+    (state: RootState) =>
       selectors.core.walletOptions
         .getSupportedCoins(state)
         .getOrFail(NO_SUPPORTED_COINS),
     (state, ownProps) => ownProps
   ],
-  (accounts, supportedCoins, { availablePairs, sourceCoin, targetCoin }) => {
+  (
+    formValues: SwapFormValuesType,
+    accounts,
+    supportedCoins,
+    { availablePairs, sourceCoin, targetCoin }
+  ) => {
     const availableSourceCoins = getAvailableSourceCoins(availablePairs)
     const availableTargetCoins = getAvailableTargetCoins(availablePairs)
     const generateActiveGroups = generateGroups(
@@ -90,9 +101,25 @@ export const getData = createDeepEqualSelector(
       sourceCoin,
       targetCoin
     )
+
+    // We do not supported FROM trading TO user key
+    const isFromCustodial = formValues?.source?.type === 'CUSTODIAL'
+
+    const fromElements = generateActiveGroups(availableSourceCoins)
+    const toElements = generateActiveGroups(availableTargetCoins).map(group => {
+      return isFromCustodial
+        ? {
+            ...group,
+            options: group.options.filter(
+              value => value.value.type === 'CUSTODIAL'
+            )
+          }
+        : group
+    })
+
     return {
-      fromElements: generateActiveGroups(availableSourceCoins),
-      toElements: generateActiveGroups(availableTargetCoins),
+      fromElements,
+      toElements,
       swapDisabled: !includes(
         formatPair(targetCoin, sourceCoin),
         availablePairs

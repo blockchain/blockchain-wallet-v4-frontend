@@ -15,8 +15,10 @@ export type SwapExchangeQuoteType = {
     counterToFiatRate: string
   }
   fiatCurrency: FiatType
-  fix: 'baseInFiat' | 'base' | 'counter' | 'counterInFiat'
+  fix: SwapFixType
   pair: string
   time: string
   volume: string
 }
+
+export type SwapFixType = 'baseInFiat' | 'base' | 'counter' | 'counterInFiat'
