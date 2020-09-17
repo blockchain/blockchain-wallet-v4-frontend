@@ -66,7 +66,7 @@ const ExchangeInfo = ({ preferencesActions }: Props) => {
           >
             <FormattedMessage
               id='swap.getstarted.readytoswap.info.description'
-              defaultMessage='Intrdoducing Swap with your Trade Wallets. The same Wallet you use to Buy & Sell can now access Swap. Save time and money with 100% off-chain swaps!'
+              defaultMessage='Introducing Swap with your Trading Wallets. The same Wallet you use to Buy & Sell can now be used to Swap. Save time and money with 100% off-chain swaps!'
             />
           </Text>
         </div>

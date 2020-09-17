@@ -2176,7 +2176,7 @@ type MessagesType = {
   'swap.getstarted.readytoswap.body': 'Complete your profile and start exchanging cryptocurrencies today.'
   'swap.getstarted.readytoswap.title': 'Ready to Swap? '
   'swap.getstarted.readytoswap.info.title': 'Swap is Now Faster & Cheaper.'
-  'swap.getstarted.readytoswap.info.description': 'Intrdoducing Swap with your Trade Wallets. The same Wallet you use to Buy & Sell can now access Swap. Save time and money with 100% off-chain swaps!'
+  'swap.getstarted.readytoswap.info.description': 'Introducing Swap with your Trading Wallets. The same Wallet you use to Buy & Sell can now be used to Swap. Save time and money with 100% off-chain swaps!'
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'
   'tooltip.transaction.pending.eth': 'Your transaction is currently pending. You can attempt to resend it with a higher fee.'
