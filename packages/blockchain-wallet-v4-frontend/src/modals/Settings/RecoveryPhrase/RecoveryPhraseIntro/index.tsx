@@ -1,6 +1,7 @@
 import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
+import { mediaHeight } from 'services/ResponsiveService'
 import { Props } from '../index'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
@@ -34,6 +35,17 @@ const ButtonWrapper = styled(FlyoutWrapper)`
   }
 `
 
+const ImageContainer = styled.div`
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  ${mediaHeight.small`
+    img {
+      max-width: 180px;
+    }
+  `};
+`
+
 class RecoveryPhraseIntro extends PureComponent<Props> {
   handleBackupNow = () => {
     this.props.recoveryPhraseActions.setStep('FIRST_SET_WORDS')
@@ -64,7 +76,9 @@ class RecoveryPhraseIntro extends PureComponent<Props> {
               />
             </Text>
           </ContentContainer>
-          <Image name='recover-padlock' width='375px' />
+          <ImageContainer>
+            <Image name='recover-padlock' width='375px' />
+          </ImageContainer>
         </FlyoutWrapper>
 
         <ButtonWrapper>
