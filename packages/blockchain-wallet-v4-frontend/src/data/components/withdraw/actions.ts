@@ -50,10 +50,10 @@ export const fetchWithdrawalFeesLoading = (): WithdrawActionTypes => ({
 })
 
 export const fetchWithdrawalFeesSuccess = (
-  withdrawFeesRespons: WithdrawalMinsAndFeesResponse
+  withdrawFeesResponse: WithdrawalMinsAndFeesResponse
 ): WithdrawActionTypes => ({
   type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS,
   payload: {
-    withdrawFeesRespons
+    withdrawFeesResponse
   }
 })

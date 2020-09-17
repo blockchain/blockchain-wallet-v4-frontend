@@ -25,7 +25,7 @@ export const getFeeForCurrency = (state: RootState, currency: string) => {
   return lift(
     (fees: ExtractSuccess<typeof feesR>) =>
       fees.fees.filter(fee => fee.symbol === currency)[0] || {
-        simbol: currency,
+        symbol: currency,
         value: '0.00'
       }
   )(feesR)

@@ -66,7 +66,7 @@ interface FetchWithdrawalFeesLoading {
 }
 interface FetchWithdrawalFeesSuccess {
   payload: {
-    withdrawFeesRespons: WithdrawalMinsAndFeesResponse
+    withdrawFeesResponse: WithdrawalMinsAndFeesResponse
   }
   type: typeof AT.FETCH_WITHDRAWAL_FEES_SUCCESS
 }

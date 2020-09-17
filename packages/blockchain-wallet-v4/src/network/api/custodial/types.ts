@@ -52,3 +52,5 @@ export type WithdrawalMinsAndFeesResponse = {
   fees: Array<NabuMoneyFloatType>
   minAmounts: Array<NabuMoneyFloatType>
 }
+
+export type CustodialProductType = 'simplebuy' | 'mercurial'
