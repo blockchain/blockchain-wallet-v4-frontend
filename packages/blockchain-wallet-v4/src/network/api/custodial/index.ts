@@ -39,11 +39,11 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getWithdrawalFees = (): WithdrawalMinsAndFeesResponse =>
+  const getWithdrawalFees = (product: string): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
       ignoreQueryParams: true,
-      endPoint: '/payments/withdrawals/fees?product=simplebuy'
+      endPoint: `/payments/withdrawals/fees?product=${product}`
     })
 
   return {

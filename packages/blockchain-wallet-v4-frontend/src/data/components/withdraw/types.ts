@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  RemoteDataType,
   WalletFiatType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
@@ -43,10 +44,8 @@ export type WithdrawStepActionsPayload =
 export type WithdrawState = {
   amount?: string
   beneficiary?: BeneficiaryType
-  feesResponse?: WithdrawalMinsAndFeesResponse
+  feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
-  isLoadingFees?: boolean
-  loadingFeesError?: string
   step: keyof typeof WithdrawStepEnum
   withdrawal?: WithdrawResponseType
 }

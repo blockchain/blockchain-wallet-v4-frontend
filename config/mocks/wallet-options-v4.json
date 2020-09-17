@@ -56,10 +56,10 @@
         },
         "USD": {
           "availability": {
-            "send": false,
-            "request": false,
-            "deposit": false,
-            "withdrawal": false
+            "send": true,
+            "request": true,
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "USD",
           "coinTicker": "USD",

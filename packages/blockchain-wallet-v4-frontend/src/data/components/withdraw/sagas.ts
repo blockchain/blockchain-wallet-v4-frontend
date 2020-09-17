@@ -6,6 +6,8 @@ import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
+const SERVICE_NAME = 'simplebuy'
+
 export default ({ api }: { api: APIType }) => {
   const handleWithdrawSubmit = function * ({
     payload
@@ -47,7 +49,8 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.fetchWithdrawalFeesLoading())
     try {
       const withdrawalFees: ReturnType<typeof api.getWithdrawalFees> = yield call(
-        api.getWithdrawalFees
+        api.getWithdrawalFees,
+        SERVICE_NAME
       )
 
       yield put(A.fetchWithdrawalFeesSuccess(withdrawalFees))
