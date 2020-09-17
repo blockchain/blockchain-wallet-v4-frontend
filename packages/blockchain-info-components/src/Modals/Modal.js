@@ -33,7 +33,6 @@ const BaseModal = styled.div`
   display: ${props => (props.isLast ? 'block' : 'none')};
   position: relative;
   width: 100%;
-  margin-top: 60px;
   z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme.white};
   box-shadow: none;
