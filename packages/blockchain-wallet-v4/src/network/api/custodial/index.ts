@@ -1,6 +1,7 @@
 import {
   BeneficiariesType,
   BeneficiaryType,
+  CustodialProductType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
@@ -39,7 +40,9 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
-  const getWithdrawalFees = (product: string): WithdrawalMinsAndFeesResponse =>
+  const getWithdrawalFees = (
+    product: CustodialProductType
+  ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
       ignoreQueryParams: true,

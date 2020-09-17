@@ -5,7 +5,6 @@ import React, { PureComponent } from 'react'
 import { actions, selectors } from 'data'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
 import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import { WithdrawCheckoutFormValuesType } from 'data/types'
 import Failure from './template.failure'
@@ -14,9 +13,7 @@ import Success from './template.success'
 
 class ConfirmWithdraw extends PureComponent<Props> {
   componentDidMount () {
-    if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.withdrawActions.fetchWithdrawalFees()
-    }
+    this.props.withdrawActions.fetchWithdrawalFees()
   }
 
   render () {

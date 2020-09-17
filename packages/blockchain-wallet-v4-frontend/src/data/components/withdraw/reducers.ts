@@ -57,7 +57,7 @@ export function withdrawReducer (
     case AT.FETCH_WITHDRAWAL_FEES_SUCCESS: {
       return {
         ...state,
-        feesAndMinAmount: Remote.Success(action.payload.withdrawFeesRespons)
+        feesAndMinAmount: Remote.Success(action.payload.withdrawFeesResponse)
       }
     }
     case AT.FETCH_WITHDRAWAL_FEES_FAILURE: {
