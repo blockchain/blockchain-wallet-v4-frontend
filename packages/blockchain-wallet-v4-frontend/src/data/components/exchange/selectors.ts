@@ -6,7 +6,6 @@ import {
   curry,
   defaultTo,
   filter,
-  findIndex,
   head,
   includes,
   last,
@@ -20,7 +19,7 @@ import {
   toUpper,
   values
 } from 'ramda'
-import { CoinType, ExtractSuccess, SBBalanceType } from 'core/types'
+import { CoinType, ExtractSuccess, FromType, SBBalanceType } from 'core/types'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import {
@@ -29,6 +28,7 @@ import {
   getTargetCoinsPairedToSource
 } from './model'
 import { model, selectors } from 'data'
+import { SwapAccountType, SwapFormValuesType } from './types'
 
 const getCustodyBalance = curry((coin: CoinType, state) => {
   return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
@@ -375,14 +375,29 @@ const getInitialAccounts = (
   }
 }
 
-const findAccountIndexOr = (defaultIndex, targetAccount, accounts) => {
-  const index = findIndex(
-    propEq('address', prop('address', targetAccount)),
-    accounts
-  )
+const findAccountIndexOr = (
+  defaultIndex,
+  accounts: { [key in CoinType]: Array<SwapAccountType> },
+  formValues: SwapFormValuesType,
+  side: 'from' | 'to',
+  type: FromType,
+  targetAccount?: SwapAccountType
+) => {
+  let index = defaultIndex
 
-  if (index === -1) return defaultIndex
-  return index
+  try {
+    const coin = formValues[side]!
+    if (targetAccount) {
+      index = accounts[coin].findIndex(
+        account => account.index === targetAccount.index
+      )
+    } else {
+      index = accounts[coin].findIndex(account => account.type === type)
+    }
+    return index === -1 ? defaultIndex : index
+  } catch (e) {
+    return defaultIndex
+  }
 }
 
 const fallbackPairs = ['BTC-ETH', 'BTC-PAX', 'BTC-BCH', 'BTC-XLM', 'BTC-USDT']
@@ -397,13 +412,29 @@ export const getInitialValues = (state, requested) => {
   }
   const availablePairs = getAvailablePairs(state).getOrElse(fallbackPairs)
 
-  const prevValues = selectors.form.getFormValues(EXCHANGE_FORM)(state)
+  const prevValues: SwapFormValuesType = selectors.form.getFormValues(
+    EXCHANGE_FORM
+  )(state)
   // @ts-ignore
-  const prevSource = prop('source', prevValues)
+  const prevSource: SwapAccountType | undefined = prop('source', prevValues)
   // @ts-ignore
-  const prevTarget = prop('target', prevValues)
-  const prevFromIndex = findAccountIndexOr(0, prevSource, availableAccounts)
-  const prevToIndex = findAccountIndexOr(0, prevTarget, availableAccounts)
+  const prevTarget: SwapAccountType | undefined = prop('target', prevValues)
+  const prevFromIndex = findAccountIndexOr(
+    0,
+    availableAccounts,
+    prevValues || defaultValues,
+    'from',
+    'ACCOUNT',
+    prevSource
+  )
+  const prevToIndex = findAccountIndexOr(
+    0,
+    availableAccounts,
+    prevValues || defaultValues,
+    'to',
+    'CUSTODIAL',
+    prevTarget
+  )
 
   const { from, to, fix, amount } = requested
   const requestedValues = { from, to }
@@ -415,7 +446,9 @@ export const getInitialValues = (state, requested) => {
   const accounts = getInitialAccounts(
     availableAccounts,
     availablePairs,
+    // @ts-ignore
     from || prop('coin', prevSource) || defaultValues.from,
+    // @ts-ignore
     to || prop('coin', prevTarget) || defaultValues.to,
     prevFromIndex,
     prevToIndex

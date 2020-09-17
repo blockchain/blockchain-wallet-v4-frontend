@@ -1,11 +1,11 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { SwapFormValuesType } from 'data/types'
 import ExchangeForm from '../ExchangeForm'
-import PropTypes from 'prop-types'
 import React from 'react'
 
-export class ExchangeContainer extends React.PureComponent {
+export class ExchangeContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.ratesActions.fetchAvailablePairs()
   }
@@ -20,14 +20,15 @@ export class ExchangeContainer extends React.PureComponent {
   }
 }
 
-ExchangeContainer.propTypes = {
-  step: PropTypes.number.isRequired
-}
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch),
   ratesActions: bindActionCreators(actions.modules.rates, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(ExchangeContainer)
+const connector = connect(null, mapDispatchToProps)
+
+type OwnProps = SwapFormValuesType
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(ExchangeContainer)
