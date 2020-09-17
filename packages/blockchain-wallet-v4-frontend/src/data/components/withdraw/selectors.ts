@@ -12,3 +12,6 @@ export const getStep = (state: RootState) => state.components.withdraw.step
 
 export const getWithdrawal = (state: RootState) =>
   state.components.withdraw.withdrawal
+
+export const getFees = (state: RootState) =>
+  state.components.withdraw.feesResponse?.fees

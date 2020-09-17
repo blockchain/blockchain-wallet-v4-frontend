@@ -6,7 +6,10 @@ const INITIAL_STATE: WithdrawState = {
   beneficiary: undefined,
   fiatCurrency: 'EUR',
   step: 'ENTER_AMOUNT',
-  withdrawal: undefined
+  withdrawal: undefined,
+  feesResponse: undefined,
+  isLoadingFees: undefined,
+  loadingFeesError: undefined
 }
 
 export function withdrawReducer (
@@ -46,6 +49,27 @@ export function withdrawReducer (
         }
       }
       break
+    case AT.FETCH_WITHDRAWAL_FEES_LOADING: {
+      return {
+        ...state,
+        isLoadingFees: true
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_FEES_SUCCESS: {
+      return {
+        ...state,
+        feesResponse: action.payload.withdrawFeesRespons,
+        isLoadingFees: false,
+        loadingFeesError: undefined
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_FEES_FAILURE: {
+      return {
+        ...state,
+        isLoadingFees: false,
+        loadingFeesError: action.payload.error
+      }
+    }
     default:
       return state
   }

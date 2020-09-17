@@ -2,6 +2,7 @@ import {
   BeneficiariesType,
   BeneficiaryType,
   WithdrawalLockResponseType,
+  WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from './types'
 import { WalletFiatType } from 'core/types'
@@ -38,9 +39,17 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const getWithdrawalFees = (): WithdrawalMinsAndFeesResponse =>
+    authorizedGet({
+      url: nabuUrl,
+      ignoreQueryParams: true,
+      endPoint: '/payments/withdrawals/fees?product=simplebuy'
+    })
+
   return {
     getBeneficiaries,
     getWithdrawalLocks,
-    withdrawFunds
+    withdrawFunds,
+    getWithdrawalFees
   }
 }

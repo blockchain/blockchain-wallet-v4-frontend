@@ -46,3 +46,9 @@ export type WithdrawResponseType = {
   state: 'NONE'
   user: string
 }
+
+export type WithdrawalMinsAndFeesResponse = {
+  feeType: 'NETWORK'
+  fees: Array<NabuMoneyFloatType>
+  minAmounts: Array<NabuMoneyFloatType>
+}
