@@ -105,7 +105,9 @@ class ConfirmWithdraw extends PureComponent<
           <Title>
             <FormattedMessage id='copy.fee' defaultMessage='Fee' />
           </Title>
-          <Value>0.00 {this.props.fiatCurrency}</Value>
+          <Value>
+            {this.props.fee} {this.props.fiatCurrency}
+          </Value>
         </Row>
         <Row>
           <Title>
@@ -172,14 +174,28 @@ class ConfirmWithdraw extends PureComponent<
 const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
-  ) as WithdrawCheckoutFormValuesType
+  ) as WithdrawCheckoutFormValuesType,
+  fees: selectors.components.withdraw.getFees(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const mergeProps = (stateProps, dispatchProps, ownProps: OwnProps) => {
+  const { fiatCurrency } = ownProps
+  const { fees } = stateProps
+  const fee = fees.find(f => f.symbol === fiatCurrency)
+
+  return {
+    ...ownProps,
+    ...dispatchProps,
+    ...stateProps,
+    fee: fee && fee.value ? fee.value : '0.00'
+  }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps, mergeProps)
 
 type OwnProps = {
   amount: string
@@ -187,7 +203,8 @@ type OwnProps = {
   fiatCurrency: WalletFiatType
   handleClose: () => void
 }
-export type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps &
+  ConnectedProps<typeof connector> & { fee: string }
 
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'confirmCustodyWithdraw' }),
