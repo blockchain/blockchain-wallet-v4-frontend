@@ -1,6 +1,6 @@
 import * as balanceSelectors from 'components/Balances/wallet/selectors'
-import { CoinType, ExtractSuccess, FiatType } from 'core/types'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ExtractSuccess, FiatType } from 'core/types'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -82,11 +82,6 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = Remote.Success({ data: [] })
       balanceDataR = Remote.Success(0)
   }
-  const priceChangeR = selectors.core.data.misc.getPriceChange(
-    coin as CoinType,
-    'day',
-    state
-  )
   const currencyR = selectors.core.settings.getCurrency(state)
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
 
@@ -94,7 +89,6 @@ export const getData = (state, ownProps: OwnProps) => {
     addressData,
     balanceData,
     currency: FiatType,
-    priceChange: ExtractSuccess<typeof priceChangeR>,
     sbBalances: ExtractSuccess<typeof sbBalancesR>
   ) => {
     return {
@@ -102,17 +96,9 @@ export const getData = (state, ownProps: OwnProps) => {
       addressData,
       balanceData,
       currencySymbol: Exchange.getSymbol(currency),
-      priceChange,
       sbBalance: sbBalances[coin]
     }
   }
 
-  // @ts-ignore
-  return lift(transform)(
-    addressDataR,
-    balanceDataR,
-    currencyR,
-    priceChangeR,
-    sbBalancesR
-  )
+  return lift(transform)(addressDataR, balanceDataR, currencyR, sbBalancesR)
 }

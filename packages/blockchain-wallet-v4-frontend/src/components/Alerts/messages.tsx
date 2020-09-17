@@ -1161,7 +1161,7 @@ export const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='copy.error.locked_withdraw_error'
-          defaultMessage='Your crypto will be available to be withdrawn within 7 days.'
+          defaultMessage='Your crypto will be available to be withdrawn within 3 days.'
         />
       )
     default:

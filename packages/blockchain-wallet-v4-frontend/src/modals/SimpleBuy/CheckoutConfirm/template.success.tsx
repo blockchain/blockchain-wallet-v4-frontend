@@ -161,7 +161,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             props.order.paymentType === 'USER_CARD' ? (
               <FormattedHTMLMessage
                 id='modals.simplebuy.confirm.activity_card2'
-                defaultMessage='Your crypto will be available to be withdrawn within <b>7 days</b>.'
+                defaultMessage='Your crypto will be available to be withdrawn within <b>3 days</b>.'
               />
             ) : (
               <FormattedMessage
