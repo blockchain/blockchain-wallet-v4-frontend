@@ -1,5 +1,5 @@
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { prop, propOr } from 'ramda'
+import { prop, propOr, toLower } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -37,12 +37,20 @@ const CryptoWrapper = styled(AmountWrapper)`
 
 const getIcon = crypto => {
   switch (crypto) {
-    case 'btc':
+    case 'BTC':
       return 'btc-circle-filled'
-    case 'eth':
+    case 'ETH':
       return 'eth-circle-filled'
-    case 'bch':
+    case 'BCH':
       return 'bch-circle-filled'
+    case 'XLM':
+      return 'xlm-circle-filled'
+    case 'USD-D':
+      return 'usd-d'
+    case 'ALGO':
+      return 'algo'
+    case 'USDT':
+      return 'usdt'
     default:
       return 'btc-circle-filled'
   }
@@ -64,8 +72,8 @@ const SimpleBuyInfo = ({ goalData }) => (
 
     <CryptoWrapper>
       <Icon
-        color={propOr('btc', 'crypto', goalData)}
-        name={getIcon(propOr('btc', 'crypto', goalData))}
+        color={toLower(propOr('BTC', 'crypto', goalData))}
+        name={getIcon(propOr('BTC', 'crypto', goalData))}
         size='24px'
         weight={400}
       />
