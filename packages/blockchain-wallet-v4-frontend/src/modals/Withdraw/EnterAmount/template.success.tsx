@@ -10,14 +10,15 @@ import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
-import { BeneficiaryType } from 'core/types'
+import { BeneficiaryType, NabuMoneyFloatType } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { maximumAmount, MIN_AMOUNT, minimumAmount } from './validation'
+import { maximumAmount, minimumAmount } from './validation'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Beneficary from './Beneficiary'
@@ -151,7 +152,7 @@ const Success: React.FC<InjectedFormProps<
               props.formActions.change(
                 'custodyWithdrawForm',
                 'amount',
-                displayFiatToFiat({ value: MIN_AMOUNT })
+                displayFiatToFiat({ value: props.minAmount.value })
               )
             }
           >
@@ -164,14 +165,14 @@ const Success: React.FC<InjectedFormProps<
                   cursor='pointer'
                   coin={props.fiatCurrency}
                 >
-                  {MIN_AMOUNT}
+                  {props.minAmount.value}
                 </CoinDisplay>
                 &nbsp;
                 <FormattedMessage id='copy.min' defaultMessage='Min' />
               </>
             </BlueRedCartridge>
           </div>
-          {MIN_AMOUNT < Number(props.balance) && (
+          {Number(props.minAmount.value) < Number(props.balance) && (
             <div
               onClick={() =>
                 props.formActions.change(
@@ -235,6 +236,7 @@ export type Props = OwnProps &
       userData: UserDataType,
       beneficiary?: BeneficiaryType
     ) => void
+    minAmount: NabuMoneyFloatType
   }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({

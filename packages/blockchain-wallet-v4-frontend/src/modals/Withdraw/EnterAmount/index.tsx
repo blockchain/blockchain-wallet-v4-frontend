@@ -18,6 +18,7 @@ class EnterAmount extends PureComponent<Props> {
     this.props.custodialActions.fetchCustodialBeneficiaries(
       this.props.fiatCurrency
     )
+    this.props.withdrawActions.fetchWithdrawalFees()
   }
 
   handleSubmit = () => {
