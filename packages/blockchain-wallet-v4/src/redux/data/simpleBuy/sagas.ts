@@ -49,6 +49,7 @@ export default ({ api }: { api: APIType }) => {
         before,
         after
       })
+
       return orders.filter(order => {
         return order.inputCurrency in CoinTypeEnum
           ? order.inputCurrency === currency
