@@ -13,17 +13,23 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state
   )
   const userDataR = selectors.modules.profile.getUserData(state)
+  const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(
+    state,
+    ownProps.fiatCurrency
+  )
 
   return lift(
     (
       balance: ExtractSuccess<typeof balanceR>,
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
-      userData: ExtractSuccess<typeof userDataR>
+      userData: ExtractSuccess<typeof userDataR>,
+      minAmount: ExtractSuccess<typeof minAmountR>
     ) => ({
       balance,
       defaultBeneficiary,
       formErrors,
-      userData
+      userData,
+      minAmount
     })
-  )(balanceR, defaultBeneficiaryR, userDataR)
+  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR)
 }

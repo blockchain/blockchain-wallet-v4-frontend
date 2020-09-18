@@ -3,6 +3,9 @@ import { lift } from 'ramda'
 import { ExtractSuccess } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
+// TODO - MOVE TO BE 1000 before release
+export const MIN_AMOUNT = '5.00'
+
 export const getAmount = (state: RootState) => state.components.withdraw.amount
 
 export const getBeneficiary = (state: RootState) =>
@@ -27,6 +30,17 @@ export const getFeeForCurrency = (state: RootState, currency: string) => {
       fees.fees.filter(fee => fee.symbol === currency)[0] || {
         symbol: currency,
         value: '0.00'
+      }
+  )(feesR)
+}
+export const getMinAmountForCurrency = (state: RootState, currency: string) => {
+  const feesR = getFeesAndMinAmount(state)
+
+  return lift(
+    (fees: ExtractSuccess<typeof feesR>) =>
+      fees.minAmounts.filter(fee => fee.symbol === currency)[0] || {
+        symbol: currency,
+        value: MIN_AMOUNT
       }
   )(feesR)
 }
