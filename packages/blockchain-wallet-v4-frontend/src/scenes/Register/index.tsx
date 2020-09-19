@@ -61,7 +61,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   email: formValueSelector('register')(state, 'email'),
   goals: selectors.goals.getGoals(state),
   password: formValueSelector('register')(state, 'password') || '',
-  pathname: selectors.router.getPathname(state),
   search: selectors.router.getSearch(state)
 })
 
@@ -80,7 +79,6 @@ type LinkStatePropsType = {
   goals: Array<{ data: any; id: string; name: GoalsType }>
   language: string
   password: string
-  pathname: string
   search: string
 }
 

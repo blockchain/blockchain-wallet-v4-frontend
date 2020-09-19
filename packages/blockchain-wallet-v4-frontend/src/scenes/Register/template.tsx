@@ -1,3 +1,4 @@
+import { CoinType } from 'core/types'
 import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -344,7 +345,7 @@ const SignupCard = ({
 
 type GoalDataType = {
   amount: string
-  crypto: 'btc' | 'eth' | 'bch'
+  crypto: CoinType
   displayName: string
 }
 
@@ -541,7 +542,6 @@ type Props = {
   language: string
   password: string
   passwordLength: number
-  pathname: string
   showForm: boolean
   toggleForm: any
 }
