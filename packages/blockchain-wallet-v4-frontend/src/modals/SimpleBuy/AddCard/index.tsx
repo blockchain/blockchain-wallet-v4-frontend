@@ -32,7 +32,7 @@ class AddCard extends PureComponent<Props> {
           onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
         />
       ),
-      Loading: () => <div>ADD CARD</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }

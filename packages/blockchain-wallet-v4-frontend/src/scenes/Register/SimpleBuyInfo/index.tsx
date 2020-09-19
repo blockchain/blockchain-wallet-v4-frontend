@@ -1,6 +1,6 @@
 import { CoinType } from 'core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { prop, propOr, toLower } from 'ramda'
+import { prop, propOr } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -36,7 +36,27 @@ const CryptoWrapper = styled(AmountWrapper)`
   }
 `
 
-const getIcon = (crypto: CoinType) => {
+type IconType =
+  | 'btc-circle-filled'
+  | 'eth-circle-filled'
+  | 'bch-circle-filled'
+  | 'xlm-circle-filled'
+  | 'usd-d'
+  | 'algo'
+  | 'usdt'
+  | 'btc-circle-filled'
+
+type ColorIconType =
+  | 'btc'
+  | 'eth'
+  | 'bch'
+  | 'xlm'
+  | 'pax'
+  | 'algo'
+  | 'usdt'
+  | 'usd-d'
+
+const getIcon = (crypto: CoinType): IconType => {
   switch (crypto) {
     case 'BTC':
       return 'btc-circle-filled'
@@ -57,6 +77,27 @@ const getIcon = (crypto: CoinType) => {
   }
 }
 
+const getColor = (crypto: CoinType): ColorIconType => {
+  switch (crypto) {
+    case 'BTC':
+      return 'btc'
+    case 'ETH':
+      return 'eth'
+    case 'BCH':
+      return 'bch'
+    case 'XLM':
+      return 'xlm'
+    case 'PAX':
+      return 'usd-d'
+    case 'ALGO':
+      return 'algo'
+    case 'USDT':
+      return 'usdt'
+    default:
+      return 'btc'
+  }
+}
+
 const SimpleBuyInfo = ({ goalData }) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>
@@ -73,7 +114,7 @@ const SimpleBuyInfo = ({ goalData }) => (
 
     <CryptoWrapper>
       <Icon
-        color={toLower(propOr('BTC', 'crypto', goalData))}
+        color={getColor(propOr('BTC', 'crypto', goalData))}
         name={getIcon(propOr('BTC', 'crypto', goalData))}
         size='24px'
         weight={400}

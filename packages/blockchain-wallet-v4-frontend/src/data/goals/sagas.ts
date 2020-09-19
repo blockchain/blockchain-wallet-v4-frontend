@@ -170,11 +170,6 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
-  // define goal
-  // make sure to get goal inside register/login
-  // run goal
-  // showinitial modal
-  // showthe simple buy modal
 
   const defineDeepLinkGoals = function * (pathname, search) {
     if (startsWith('xlm', pathname))
