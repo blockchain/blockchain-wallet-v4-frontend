@@ -1,3 +1,4 @@
+import { CoinType } from 'core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { prop, propOr, toLower } from 'ramda'
 import React from 'react'
@@ -35,7 +36,7 @@ const CryptoWrapper = styled(AmountWrapper)`
   }
 `
 
-const getIcon = crypto => {
+const getIcon = (crypto: CoinType) => {
   switch (crypto) {
     case 'BTC':
       return 'btc-circle-filled'
@@ -45,7 +46,7 @@ const getIcon = crypto => {
       return 'bch-circle-filled'
     case 'XLM':
       return 'xlm-circle-filled'
-    case 'USD-D':
+    case 'PAX':
       return 'usd-d'
     case 'ALGO':
       return 'algo'
