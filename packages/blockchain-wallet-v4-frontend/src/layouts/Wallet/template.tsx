@@ -37,6 +37,7 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: calc(100% - 250px);
+  max-width: calc(100% - 250px);
   background-color: ${props => props.theme.white};
   padding: 16px 30px;
   ${media.tablet`
