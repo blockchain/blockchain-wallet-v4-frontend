@@ -74,12 +74,8 @@ export default ({ api }: { api: APIType }) => {
         A.setNextSBTransactionsUrl(currency as CoinType, transactions.next)
       )
 
-      const filteredTxs = transactions.items.filter(
-        item => item.amount.symbol === currency
-      )
-
       const response: FetchSBOrdersAndTransactionsReturnType = {
-        orders: [...filteredOrders, ...filteredTxs]
+        orders: [...filteredOrders, ...transactions.items]
       }
 
       return response
