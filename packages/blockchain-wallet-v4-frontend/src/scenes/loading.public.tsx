@@ -9,7 +9,7 @@ import media from 'services/ResponsiveService'
 interface Props {}
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.blue900};
+  background-color: ${props => props.theme.grey900};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
