@@ -3,6 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { CoinTypeEnum } from 'core/types'
 import { Props } from '.'
 
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
@@ -35,6 +36,7 @@ export const IconTx = (props: Props) => {
     case 'FRAUD_REVIEW':
     case 'MANUAL_REVIEW':
     case 'PENDING':
+    case 'PENDING_DEPOSIT':
     case 'CLEARED':
       return (
         <IconWrapper color='grey000'>
@@ -80,6 +82,8 @@ export const Timestamp = (props: Props) => {
       case 'REJECTED':
       case 'UNIDENTIFIED':
         return 'Failed'
+      case 'MANUAL_REVIEW':
+        return 'In Review'
       default:
         return 'In Progress'
     }
@@ -96,4 +100,30 @@ export const Timestamp = (props: Props) => {
       {getTimeOrStatus()}
     </Text>
   )
+}
+
+export const Origin = (props: Props) => {
+  switch (props.tx.type) {
+    case 'DEPOSIT':
+      if (props.tx.amount.symbol in CoinTypeEnum) {
+        return <>Wallet</>
+      }
+
+      return <>Bank Account</>
+    case 'WITHDRAWAL':
+      return <>Trading Wallet</>
+  }
+}
+
+export const Destination = (props: Props) => {
+  switch (props.tx.type) {
+    case 'DEPOSIT':
+      return <>Trading Wallet</>
+    case 'WITHDRAWAL':
+      if (props.tx.amount.symbol in CoinTypeEnum) {
+        return <>Wallet</>
+      }
+
+      return <>Bank Account</>
+  }
 }

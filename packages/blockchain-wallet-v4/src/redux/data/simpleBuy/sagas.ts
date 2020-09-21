@@ -1,45 +1,54 @@
+import { call, put } from 'redux-saga/effects'
+import moment from 'moment'
+
+import * as A from './actions'
 import { APIType } from 'core/network/api'
-import { call } from 'redux-saga/effects'
 import {
+  CoinType,
   CoinTypeEnum,
   SBOrderType,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
+import { FetchSBOrdersAndTransactionsReturnType } from './types'
 import { ProcessedTxType } from 'core/transactions/types'
-import moment from 'moment'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchSBOrders = function * (
+  const fetchSBOrdersAndTransactions = function * (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: WalletCurrencyType
+    currency: WalletCurrencyType,
+    nextSBTransactionsURL: string | null
   ) {
     try {
-      const latestTx = page[0]
+      const newestTx = page[0]
       const oldestTx = page[page.length - 1]
-      let after // ⏫
-      let before // ⏬
+      let after: string | undefined // ⏫
+      let before: string | undefined // ⏬
 
       // if offset === 0 get transactions from after the oldestTx
       // if offset === 0 and no transactions get all before and after
       // if offset === 0 and transactions at bounds get all before and after
-      // if offset > 0 get transactions before the latestTx
+      // if offset > 0 get transactions before the newestTx
       // if offset > 0 get transactions after the oldestTx
       // if offset > 0 and no transactions return []
       // if any error is thrown return []
 
       if (offset === 0) {
         if (transactionsAtBound) {
-          // get all before and after
+          // get all
         } else if (oldestTx) {
+          // get all after the oldest tx on the first page
           after = moment(oldestTx.insertedAt).toISOString()
         }
       } else {
         if (!page[0]) return []
-        if (latestTx) {
-          before = moment(latestTx.insertedAt).toISOString()
+        // subsequent pages
+        // before the newest
+        if (newestTx && !transactionsAtBound) {
+          before = moment(newestTx.insertedAt).toISOString()
         }
+        // after the oldest
         if (oldestTx) {
           after = moment(oldestTx.insertedAt).toISOString()
         }
@@ -49,18 +58,38 @@ export default ({ api }: { api: APIType }) => {
         before,
         after
       })
-      return orders.filter(order => {
+      const filteredOrders = orders.filter(order => {
         return order.inputCurrency in CoinTypeEnum
           ? order.inputCurrency === currency
           : order.outputCurrency === currency
       })
+
+      const transactions: ReturnType<typeof api.getSBTransactions> = yield call(
+        api.getSBTransactions,
+        currency,
+        nextSBTransactionsURL
+      )
+
+      yield put(
+        A.setNextSBTransactionsUrl(currency as CoinType, transactions.next)
+      )
+
+      const filteredTxs = transactions.items.filter(
+        item => item.amount.symbol === currency
+      )
+
+      const response: FetchSBOrdersAndTransactionsReturnType = {
+        orders: [...filteredOrders, ...filteredTxs]
+      }
+
+      return response
     } catch (e) {
       // no simple buy transactions
-      return []
+      return { orders: [] }
     }
   }
 
   return {
-    fetchSBOrders
+    fetchSBOrdersAndTransactions
   }
 }
