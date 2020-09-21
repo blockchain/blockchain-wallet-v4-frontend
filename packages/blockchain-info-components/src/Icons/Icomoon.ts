@@ -88,6 +88,7 @@ const IcoMoon = {
   'qr-code': '\\e946',
   'question-in-circle': '\\e96e',
   'question-in-circle-filled': '\\e909',
+  'qr-camera': '\\e952',
   refresh: '\\e90a',
   request: '\\e912',
   send: '\\e925',

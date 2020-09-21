@@ -71,7 +71,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const startSockets = function * () {
-    yield put(actions.middleware.webSocket.coins.startSocket())
+    yield put(actions.middleware.webSocket.coins.authSocket())
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
