@@ -7,10 +7,11 @@ import * as walletSelectors from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
 import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList, SBOrderType, Wallet } from '../../../types'
+import { HDAccountList, Wallet } from '../../../types'
 import { ProcessedTxType } from 'core/transactions/types'
 import moment from 'moment'
 import Remote from '../../../remote'
@@ -20,7 +21,7 @@ const transformTx = transactions.btc.transformTx
 const TX_PER_PAGE = 10
 
 export default ({ api }: { api: APIType }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
 
   const fetchData = function * () {
     try {
@@ -75,14 +76,19 @@ export default ({ api }: { api: APIType }) => {
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+        yield select(),
+        'BTC'
+      )
+      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
+        fetchSBOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
-        'BTC'
+        'BTC',
+        nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage]).sort((a, b) => {
+      const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))

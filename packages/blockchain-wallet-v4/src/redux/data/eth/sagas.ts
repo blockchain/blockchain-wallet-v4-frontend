@@ -30,7 +30,10 @@ import {
 } from 'ramda'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { call, put, select, take } from 'redux-saga/effects'
-import { Erc20CoinType, SBOrderType } from 'core/types'
+import {
+  Erc20CoinType,
+  FetchSBOrdersAndTransactionsReturnType
+} from 'core/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { EthProcessedTxType } from 'core/transactions/types'
 import { EthRawTxType } from 'core/network/api/eth/types'
@@ -44,7 +47,7 @@ const TX_REPORT_PAGE_SIZE = 50
 const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
   //
   // ETH
   //
@@ -132,14 +135,19 @@ export default ({ api }) => {
         __processTxs,
         txPage
       )
-      const sbPage = yield call(
-        fetchSBOrders,
+      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+        yield select(),
+        'ETH'
+      )
+      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
+        fetchSBOrdersAndTransactions,
         processedTxPage,
         nextPage,
         atBounds,
-        'ETH'
+        'ETH',
+        nextSBTransactionsURL
       )
-      const page = flatten([processedTxPage, sbPage]).sort((a, b) => {
+      const page = flatten([processedTxPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
@@ -308,14 +316,19 @@ export default ({ api }) => {
         token
       )
       const coin: Erc20CoinType = token.toUpperCase()
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+        yield select(),
+        coin
+      )
+      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
+        fetchSBOrdersAndTransactions,
         walletPage,
         nextPage,
         atBounds,
-        coin
+        coin,
+        nextSBTransactionsURL
       )
-      const page = flatten([walletPage, sbPage]).sort((a, b) => {
+      const page = flatten([walletPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))

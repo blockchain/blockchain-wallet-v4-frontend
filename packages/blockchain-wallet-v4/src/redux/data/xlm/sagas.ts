@@ -24,9 +24,9 @@ import {
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
 import { APIType } from 'core/network/api'
+import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
 import { getAccounts, getXlmTxNotes } from '../../kvStore/xlm/selectors'
 import { getLockboxXlmAccounts } from '../../kvStore/lockbox/selectors'
-import { SBOrderType } from 'core/types'
 import { xlm } from '../../../transactions'
 import { XlmTxType } from 'core/transactions/types'
 import BigNumber from 'bignumber.js'
@@ -55,7 +55,7 @@ const sumBalance = compose(
 )
 
 export default ({ api, networks }: { api: APIType; networks: any }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
 
   const fetchLedgerDetails = function * () {
     try {
@@ -134,15 +134,20 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       } catch (e) {}
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
+      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+        yield select(),
+        'XLM'
+      )
       const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
+        fetchSBOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
-        'XLM'
+        'XLM',
+        nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage]).sort((a, b) => {
+      const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
