@@ -74,14 +74,9 @@ export default ({ api }: { api: APIType }) => {
         A.setNextSBTransactionsUrl(currency as CoinType, transactions.next)
       )
 
-      const filteredTxs =
-        offset === 0
-          ? transactions.items.filter(transaction => {
-              return moment(transaction.insertedAt).isAfter(after)
-            })
-          : transactions.items.filter(transaction => {
-              return moment(transaction.insertedAt).isBetween(after, before)
-            })
+      const filteredTxs = transactions.items.filter(
+        item => item.amount.symbol === currency
+      )
 
       const response: FetchSBOrdersAndTransactionsReturnType = {
         orders: [...filteredOrders, ...filteredTxs]

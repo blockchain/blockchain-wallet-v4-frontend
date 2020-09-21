@@ -86,7 +86,7 @@ export default ({ api }: { api: APIType }) => {
         offset,
         atBounds,
         'BTC',
-        nextSBTransactionsURL
+        reset ? null : nextSBTransactionsURL
       )
       const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

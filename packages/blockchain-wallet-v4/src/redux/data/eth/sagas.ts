@@ -145,7 +145,7 @@ export default ({ api }) => {
         nextPage,
         atBounds,
         'ETH',
-        nextSBTransactionsURL
+        reset ? null : nextSBTransactionsURL
       )
       const page = flatten([processedTxPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
@@ -326,7 +326,7 @@ export default ({ api }) => {
         nextPage,
         atBounds,
         coin,
-        nextSBTransactionsURL
+        reset ? null : nextSBTransactionsURL
       )
       const page = flatten([walletPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
