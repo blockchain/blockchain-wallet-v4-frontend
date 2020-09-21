@@ -53,7 +53,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       url: nabuUrl,
       endPoint: nextPageUrl
         ? nextPageUrl + '&'
-        : '/payments/transactions?product=savings&pending=true&'
+        : '/payments/transactions?product=SAVINGS&pending=true&'
     })
 
   const getInterestSavingsRate = (): InterestRateType =>
