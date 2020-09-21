@@ -3,11 +3,16 @@ import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
 import { isEmail, isGuid } from '../../services/ValidationHelper'
+import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import Login from './template'
 import React from 'react'
 
 class LoginContainer extends React.PureComponent<Props> {
   state = { useCode: true }
+
+  componentDidMount () {
+    this.props.middlewareActions.startSocket()
+  }
 
   componentWillUnmount () {
     this.props.formActions.reset('login')
@@ -50,6 +55,7 @@ class LoginContainer extends React.PureComponent<Props> {
     const guid = (isGuid(path) && path) || lastGuid
 
     return guid ? (
+      // @ts-ignore
       <Login {...this.props} {...loginProps} initialValues={{ guid }} />
     ) : (
       <Login {...this.props} {...loginProps} />
@@ -67,11 +73,25 @@ const mapStateToProps = state => ({
   goals: selectors.goals.getGoals(state),
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
-  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))
+  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
+  // TODO where should we put this logic to build the QR code data?
+  // TODO the QR code should read some error if we aren't connected to WS
+  qr_data: selectors.cache.getChannelPrivKey(state)
+    ? JSON.stringify({
+        type: 'login_wallet',
+        ruid: selectors.cache.getChannelRuid(state),
+        pubkey: wCrypto
+          .derivePubFromPriv(
+            Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
+          )
+          .toString('hex')
+      })
+    : ''
 })
 
 const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
+  middlewareActions: bindActionCreators(actions.ws, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)

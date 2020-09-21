@@ -1,11 +1,3 @@
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
-import Bowser from 'bowser'
-import React from 'react'
-import styled from 'styled-components'
-
 import {
   Banner,
   Button,
@@ -16,6 +8,9 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { connect, ConnectedProps } from 'react-redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { find, path, propEq } from 'ramda'
 import {
   Form,
   FormError,
@@ -25,11 +20,20 @@ import {
   PasswordBox,
   TextBox
 } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import { required, validWalletId } from 'services/FormHelper'
+import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
+import Bowser from 'bowser'
+import QRCodeWrapper from 'components/QRCodeWrapper'
+import React from 'react'
+import styled from 'styled-components'
 
+import { compose } from 'redux'
 import { Props as OwnProps } from '.'
-import LinkExchangeAccount from '../Register/LinkExchangeAccount'
+import { selectors } from 'data'
+import LinkAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
@@ -55,11 +59,13 @@ const SideWrapper = styled.div`
   padding: 12px 0 12px 0;
   display: flex;
   flex-direction: column;
+  z-index: -1;
 `
 const CenterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 480px;
+  z-index: 1;
 `
 const LoginWrapper = styled.div`
   display: flex;
@@ -76,6 +82,8 @@ const PublicSideWrapper = styled(Wrapper)`
   overflow: visible;
   max-width: 274px;
   border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
 `
 const Header = styled.div`
   display: flex;
@@ -118,7 +126,11 @@ const SignUpTextWithHover = styled(SignUpText)`
     text-decoration: underline;
   }
 `
-
+const QRCodeContainer = styled.div`
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -135,6 +147,13 @@ const TitleWrapper = styled.div`
     border-radius: 1.75rem;
     padding: 0.5rem;
     margin-right: 20px;
+  }
+`
+
+export const CartridgeContainer = styled.div`
+  width: auto;
+  > span {
+    text-transform: uppercase;
   }
 `
 
@@ -156,6 +175,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     guid,
     invalid,
     isGuidEmailAddress,
+    qr_data,
     isGuidValid,
     loginError,
     password,
@@ -183,7 +203,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     <OuterWrapper>
       <SideWrapper />
       <CenterWrapper>
-        {isLinkAccountGoal && <LinkExchangeAccount />}
+        {isLinkAccountGoal && <LinkAccount />}
         <LoginWrapper>
           <PublicWrapper>
             <Modals />
@@ -276,8 +296,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                     </LinkContainer>
                   </LoginTextGroup>
                 ) : (
-                  <LoginTextGroup inline>
-                    <Text size='12px' color='grey800' weight={500}>
+                  <LoginTextGroup inline style={{ textAlign: 'left' }}>
+                    <Text size='12px' color='grey400' weight={500}>
                       <FormattedMessage
                         id='scenes.login.findyourguid'
                         defaultMessage='Your Wallet ID can be found at the bottom of any email we’ve ever sent you. Need a reminder?'
@@ -428,18 +448,85 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
         </LoginWrapper>
       </CenterWrapper>
       <SideWrapper>
-        <PublicSideWrapper>bbb</PublicSideWrapper>
+        <PublicSideWrapper>
+          <CartridgeContainer>
+            <SuccessCartridge>
+              <FormattedMessage id='copy.new' defaultMessage='New' />
+            </SuccessCartridge>
+          </CartridgeContainer>
+
+          <Text
+            size='16px'
+            color='grey900'
+            weight={600}
+            style={{ marginTop: '8px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.qrcodelogin'
+              defaultMessage='QR Code Log In'
+            />
+          </Text>
+          <TextGroup inline style={{ marginTop: '8px' }}>
+            <Text size='12px' color='grey900' weight={500}>
+              <FormattedMessage
+                id='scenes.login.qrcodelogin_description_1'
+                defaultMessage='Open your mobile Blockchain App, tap the QR Code Scanner'
+              />
+            </Text>
+            <Icon color='grey900' name='qr-camera' size='16px' />
+            <Text size='12px' color='grey900' weight={500}>
+              <FormattedMessage
+                id='scenes.login.qrcodelogin_description_2'
+                defaultMessage='in the top right & scan this code to log in.'
+              />
+            </Text>
+          </TextGroup>
+
+          <QRCodeContainer>
+            {props.secureChannelLoginState.cata({
+              Success: () => {
+                return (
+                  <Text size='14px' weight={600}>
+                    Success! Logging in...
+                  </Text>
+                )
+              },
+              Failure: e => (
+                <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+              ),
+              Loading: () => {
+                return (
+                  <Text size='14px' weight={600}>
+                    Please confirm the login on your mobile device...
+                  </Text>
+                )
+              },
+              NotAsked: () => (
+                <QRCodeWrapper value={qr_data} size={qr_data.length} />
+              )
+            })}
+          </QRCodeContainer>
+        </PublicSideWrapper>
       </SideWrapper>
     </OuterWrapper>
   )
 }
 
+const mapStateToProps = state => ({
+  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state)
+})
+
+const connector = connect(mapStateToProps)
+
+const enhance = compose(
+  reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false }),
+  connector
+)
+
 type Props = OwnProps & {
   busy: boolean
   handleSmsResend: () => void
   loginError?: string
-}
+} & ConnectedProps<typeof connector>
 
-export default reduxForm<{}, Props>({ form: 'login', destroyOnUnmount: false })(
-  Login
-)
+export default enhance(Login) as React.FunctionComponent
