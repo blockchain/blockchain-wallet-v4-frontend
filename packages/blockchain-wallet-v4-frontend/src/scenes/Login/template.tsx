@@ -129,7 +129,7 @@ const SignUpTextWithHover = styled(SignUpText)`
 const QRCodeContainer = styled.div`
   margin-top: 8px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
 `
 const TitleWrapper = styled.div`
   display: flex;
