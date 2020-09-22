@@ -489,7 +489,11 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 )
               },
               NotAsked: () => (
-                <QRCodeWrapper value={qr_data} size={qr_data.length} />
+                <QRCodeWrapper
+                  value={qr_data}
+                  size={qr_data.length}
+                  showImage
+                />
               )
             })}
           </QRCodeContainer>
