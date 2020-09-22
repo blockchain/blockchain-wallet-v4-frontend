@@ -30,11 +30,9 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coin: CoinType,
     payment: PaymentType,
     destination: string
-  ): Generator<PaymentType | CallEffect, boolean, any> {
-    let paymentError
-
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     try {
-      payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.to(destination, ADDRESS_TYPES.CUSTODIAL)
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
@@ -44,7 +42,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       throw e
     }
 
-    return !paymentError
+    return payment.value()
   }
 
   const createLimits = function * (payment: PaymentValue) {

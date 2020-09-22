@@ -213,6 +213,7 @@ export type SBQuoteType = {
 
 export type SBTransactionType = {
   amount: { symbol: FiatType; value: string }
+  amountMinor: string
   extraAttributes: null
   id: string
   insertedAt: string
@@ -229,6 +230,7 @@ export type SBTransactionsType = {
 export type SBTransactionStateType =
   | 'CREATED'
   | 'PENDING'
+  | 'PENDING_DEPOSIT'
   | 'UNIDENTIFIED'
   | 'FAILED'
   | 'FRAUD_REVIEW'
