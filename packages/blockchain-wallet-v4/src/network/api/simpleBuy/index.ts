@@ -169,7 +169,7 @@ export default ({
     after?: string
     before?: string
     pendingOnly?: boolean
-  }): { orders: Array<SBOrderType> } =>
+  }): Array<SBOrderType> =>
     authorizedGet({
       url: nabuUrl,
       endPoint: '/simple-buy/trades',

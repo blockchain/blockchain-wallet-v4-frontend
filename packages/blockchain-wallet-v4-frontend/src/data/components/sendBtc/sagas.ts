@@ -16,13 +16,13 @@ import {
   prop
 } from 'ramda'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
 import {
+  AddressTypesType,
   BtcAccountFromType,
   BtcFromType,
-  BtcPaymentType,
-  FromType
+  BtcPaymentType
 } from 'core/types'
+import { APIType } from 'core/network/api'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import {
   change,
@@ -232,7 +232,7 @@ export default ({
           break
         case 'from':
           let payloadT = payload as BtcFromType
-          const fromType = payloadT.type as FromType
+          const fromType = payloadT.type as AddressTypesType
           if (typeof payloadT === 'string') {
             yield payment.from(payloadT, fromType)
             break
@@ -438,7 +438,10 @@ export default ({
       payment: p.getOrElse({}),
       network: networks.btc
     })
-    const fromType: FromType | undefined = path(['fromType'], payment.value())
+    const fromType: AddressTypesType | undefined = path(
+      ['fromType'],
+      payment.value()
+    )
     const { payPro } = yield select(selectors.form.getFormValues(FORM))
     try {
       // Sign payment
