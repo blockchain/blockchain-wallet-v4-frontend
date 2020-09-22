@@ -311,7 +311,12 @@ export default ({
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
       // build and publish payment to network
-      const depositTx = yield call(buildAndPublishPayment, coin, payment, depositAddress)
+      const depositTx = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        depositAddress
+      )
       // notify backend of incoming non-custodial deposit
       yield put(
         actions.components.send.notifyNonCustodialToCustodialTransfer(

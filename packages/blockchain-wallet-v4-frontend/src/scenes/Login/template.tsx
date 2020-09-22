@@ -133,21 +133,8 @@ const QRCodeContainer = styled.div`
 `
 const TitleWrapper = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
-
-  span {
-    font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 135%;
-  }
-
-  img {
-    background-color: ${p => p.theme['marketing-primary']};
-    border-radius: 1.75rem;
-    padding: 0.5rem;
-    margin-right: 20px;
-  }
 `
 
 export const CartridgeContainer = styled.div`
