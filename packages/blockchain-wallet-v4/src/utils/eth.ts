@@ -106,3 +106,5 @@ export const convertFeeToWei = fees => ({
     max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
+
+export const sanitazeEth = (data: string) => data.replace(/.*:/, '')

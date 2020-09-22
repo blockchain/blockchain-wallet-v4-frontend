@@ -1,6 +1,8 @@
 import * as AT from './actionTypes'
 
 export type ModalNamesType =
+  | '@EXCHANGE.ETH_AIRDROP_MODAL'
+  | '@EXCHANGE.RESULTS_MODAL'
   | '@MODAL.REQUEST.BCH'
   | '@MODAL.REQUEST.BTC'
   | '@MODAL.REQUEST.ETH'

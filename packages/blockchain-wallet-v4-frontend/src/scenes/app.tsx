@@ -1,6 +1,5 @@
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import { FontGlobalStyles, IconGlobalStyles } from 'blockchain-info-components'
 import { has, map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Redirect, Switch } from 'react-router-dom'
@@ -160,8 +159,6 @@ class App extends React.PureComponent<Props> {
                 </ConnectedRouter>
                 <SiftScience userId={this.props.userData.id} />
                 <AnalyticsTracker />
-                <FontGlobalStyles />
-                <IconGlobalStyles />
               </MediaContextProvider>
             </PersistGate>
           </TranslationsProvider>

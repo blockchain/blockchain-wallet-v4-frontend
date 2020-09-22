@@ -4,7 +4,8 @@ import * as wS from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
+import { start } from './model'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import readBlob from 'read-blob'
@@ -26,36 +27,74 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchPrice24H = function * (action: ReturnType<typeof A.fetchPrice24H>) {
-    const { base, quote } = action.payload
+  const getPercentChange = (newNum: number, oldNum: number): PriceDiffType => {
+    const current = new BigNumber(newNum)
+    const previous = new BigNumber(oldNum)
+    const diff = current.minus(previous)
+    const diffPercent = diff.isZero()
+      ? new BigNumber(0)
+      : new BigNumber(diff.dividedBy(previous)).times(100)
+
+    return {
+      diff: diff.toFixed(2),
+      percentChange: diffPercent.abs().toFixed(2),
+      movement: diffPercent.isEqualTo(0)
+        ? 'none'
+        : diffPercent.isGreaterThan(0)
+        ? 'up'
+        : 'down'
+    }
+  }
+
+  const fetchPriceChange = function * (
+    action: ReturnType<typeof A.fetchPriceChange>
+  ) {
+    const { base, quote, range, positionAmt = 0 } = action.payload
     try {
       if (base in FiatTypeEnum) return
-      yield put(A.fetchPrice24HLoading(base))
-      const yesterday: ReturnType<typeof api.getPriceIndex> = yield call(
+      yield put(A.fetchPriceChangeLoading(base, range))
+
+      const time =
+        range === 'all' ? moment.unix(start[base]) : moment().subtract(1, range)
+
+      const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
-        moment().subtract(1, 'day')
+        time
       )
-      const today: ReturnType<typeof api.getPriceIndex> = yield call(
+      const current: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,
         base,
         quote,
         moment()
       )
-      const diff = new BigNumber(
-        (today.price - yesterday.price) / yesterday.price
-      ).times(100)
-      const change = diff.abs().toFixed(2)
-      const movement = diff.isEqualTo(0)
-        ? 'none'
-        : diff.isGreaterThan(0)
-        ? 'up'
-        : 'down'
-      yield put(A.fetchPrice24HSuccess(base, change, movement, yesterday.price))
+
+      // Overall coin price movement
+      const overallChange = getPercentChange(current.price, previous.price)
+      // User's position, if given an amount will provide the
+      // change for that amount or else will fallback to 0
+      const currentPosition = new BigNumber(positionAmt)
+        .times(current.price)
+        .toNumber()
+      const previousPosition = new BigNumber(positionAmt)
+        .times(previous.price)
+        .toNumber()
+      const positionChange = getPercentChange(currentPosition, previousPosition)
+
+      yield put(
+        A.fetchPriceChangeSuccess(
+          base,
+          current.price,
+          previous.price,
+          range,
+          overallChange,
+          positionChange
+        )
+      )
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchPrice24HFailure(base, error))
+      yield put(A.fetchPriceChangeFailure(base, error, range))
     }
   }
 
@@ -159,7 +198,7 @@ export default ({ api }: { api: APIType }) => {
     authorizeLogin,
     encodePairingCode,
     fetchCaptcha,
-    fetchPrice24H,
+    fetchPriceChange,
     fetchPriceIndexSeries,
     handle2FAReset,
     sendSecureChannelMessage,

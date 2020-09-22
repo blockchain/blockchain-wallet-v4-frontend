@@ -175,8 +175,8 @@ const AccountSummary: React.FC<Props> = props => {
                 weight={500}
               >
                 <FormattedMessage
-                  id='modals.interest.deposit.success.confirm'
-                  defaultMessage='Waiting on your deposit to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
+                  id='modals.interest.deposit.success.confirmtransfer'
+                  defaultMessage='Waiting on your transfer to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
                 />
               </Text>
             </StatusWrapper>
@@ -186,8 +186,8 @@ const AccountSummary: React.FC<Props> = props => {
               </StatusIconWrapper>
               <Text color='grey600' size='14px' weight={500}>
                 <FormattedMessage
-                  id='modals.interest.deposit.clears'
-                  defaultMessage='Once the deposit clears, your balance will update and you’ll start earning interest.'
+                  id='modals.interest.deposit.transferclears'
+                  defaultMessage='Once the transfer clears, your balance will update and you’ll start earning interest.'
                 />
               </Text>
             </StatusWrapper>
@@ -242,7 +242,10 @@ const AccountSummary: React.FC<Props> = props => {
             width='192px'
           >
             <Text weight={600} color='white'>
-              <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
+              <FormattedMessage
+                id='buttons.transfer'
+                defaultMessage='Transfer'
+              />
             </Text>
           </Button>
           <Button
@@ -291,7 +294,7 @@ const AccountSummary: React.FC<Props> = props => {
                       values={{
                         action: stepMetadata.withdrawSuccess
                           ? 'Withdrawal'
-                          : 'Deposit'
+                          : 'Transfer'
                       }}
                     />
                   </Text>

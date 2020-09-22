@@ -7,7 +7,6 @@ import contacts from './contacts/reducers'
 import eth from './eth/reducers'
 import lockbox from './lockbox/reducers'
 import root from './root/reducers'
-import shapeShift from './shapeShift/reducers'
 import userCredentials from './userCredentials/reducers'
 import whatsNew from './whatsNew/reducers'
 import xlm from './xlm/reducers'
@@ -16,7 +15,6 @@ const kvStoreReducer = combineReducers({
   [C.ROOT]: root,
   [C.WHATSNEW]: whatsNew,
   [C.ETH]: eth,
-  [C.SHAPESHIFT]: shapeShift,
   [C.BUYSELL]: buySell,
   [C.CONTACTS]: contacts,
   [C.BCH]: bch,

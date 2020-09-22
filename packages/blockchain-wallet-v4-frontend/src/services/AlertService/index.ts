@@ -158,3 +158,5 @@ export const LOCKBOX_UPDATE_SUCCESS = 'lockbox_update_success'
 export const LOCKBOX_UPDATE_ERROR = 'lockbox_update_error'
 export const LOCKBOX_DELETE_SUCCESS = 'lockbox_delete_success'
 export const LOCKBOX_DELETE_ERROR = 'lockbox_delete_error'
+
+export const LOCKED_WITHDRAW_ERROR = 'locked_withdraw_error'

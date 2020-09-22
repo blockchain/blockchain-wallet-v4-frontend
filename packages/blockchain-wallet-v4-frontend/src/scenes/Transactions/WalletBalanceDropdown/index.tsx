@@ -18,13 +18,14 @@ import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { ModalNamesType } from 'data/types'
-import { PriceChange } from '../model'
+import BigNumber from 'bignumber.js'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import Loading from './template.loading'
 import React, { Component } from 'react'
 import SelectBox from 'components/Form/SelectBox'
 import styled from 'styled-components'
+import UserPortfolioPositionChange from './UserPortfolioPositionChange'
 
 const Wrapper = styled.div`
   display: flex;
@@ -171,11 +172,8 @@ export class WalletBalanceDropdown extends Component<Props> {
         balanceData: 0,
         currency: 'USD',
         currencySymbol: '$',
-        priceChangeFiat: 0,
-        price24H: { change: '0', movement: 'none', price: 1 },
-        priceChangePercentage: 0,
-        sbBalance: { available: '0', pending: '0' }
-      }).balanceData
+        sbBalance: { available: '0', pending: '0', withdrawable: '0' }
+      } as SuccessStateType).balanceData
     } else if (selectProps.value) {
       // Account balance
       if (selectProps.value.balance) {
@@ -207,18 +205,15 @@ export class WalletBalanceDropdown extends Component<Props> {
     children
   ) => {
     const { coinCode, coinTicker } = this.props.coinModel
-    const balance = this.coinBalance(props)
+    const balance = this.coinBalance(props) || 0
     const account = this.accountLabel(props)
-    const unsafe_data: SuccessStateType = this.props.data.getOrElse({
+    const unsafe_data = this.props.data.getOrElse({
       addressData: { data: [] },
       balanceData: 0,
       currency: 'USD' as FiatType,
       currencySymbol: '$',
-      priceChangeFiat: 0,
-      price24H: { change: '0', movement: 'none', price: 1 },
-      priceChangePercentage: 0,
-      sbBalance: { available: '0', pending: '0' }
-    })
+      sbBalance: { available: '0', pending: '0', withdrawable: '0' }
+    } as SuccessStateType)
 
     return (
       <DisplayContainer coinType={coinCode}>
@@ -243,13 +238,11 @@ export class WalletBalanceDropdown extends Component<Props> {
           {this.props.coin in CoinTypeEnum ? (
             this.hasBalanceOrAccounts(props.selectProps.options) ||
             !this.props.coinModel.availability.request ? (
-              <PriceChange {...unsafe_data}>
-                {' '}
-                <FormattedMessage
-                  id='scenes.transactions.performance.prices.day'
-                  defaultMessage='today'
-                />
-              </PriceChange>
+              <UserPortfolioPositionChange
+                coin={this.props.coin as CoinType}
+                currency={unsafe_data.currency}
+                coinBalance={new BigNumber(balance)}
+              />
             ) : (
               <Text
                 size='14px'

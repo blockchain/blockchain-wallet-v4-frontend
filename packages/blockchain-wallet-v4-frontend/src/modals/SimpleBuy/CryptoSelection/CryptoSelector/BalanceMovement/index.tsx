@@ -18,7 +18,7 @@ const FiatDisplayTitle = styled(FiatDisplay)`
 `
 const CoinDisplayTitle = styled(CoinDisplay)`
   display: flex;
-  margin-left: 8px;
+  margin-left: 4px;
 `
 
 class BalancesMovement extends PureComponent<Props, State> {

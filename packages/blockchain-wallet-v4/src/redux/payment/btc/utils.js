@@ -193,6 +193,12 @@ export const toOutputScript = script => ({
   script
 })
 
+// toOutputCustodial :: String -> Object
+export const toOutputCustodial = address => ({
+  type: ADDRESS_TYPES.CUSTODIAL,
+  address
+})
+
 // toOutputAddress :: String -> Object
 export const toOutputAddress = address => ({
   type: ADDRESS_TYPES.ADDRESS,
@@ -209,6 +215,9 @@ export const toOutput = curry((coin, network, state, destination, type) => {
     }
     case ADDRESS_TYPES.SCRIPT: {
       return toOutputScript(destination)
+    }
+    case ADDRESS_TYPES.CUSTODIAL: {
+      return toOutputCustodial(destination)
     }
     default:
       return toOutputAddress(destination)

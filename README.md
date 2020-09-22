@@ -57,6 +57,24 @@ Notes:
  * [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) Inspect the React component tree
  * [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) View/debug Redux state changes
 
+## Release Process
+#### Prerequisites
+To be able to create a release follow these steps starting with "Obtain a personal access token...": 
+https://github.com/release-it/release-it#github-releases
+
+`GITHUB_TOKEN` should be saved as `RELEASE_IT_TOKEN` instead in your bash_profile or wherever you keep env variables
+
+You'll need git changelog to generate the history since the last release:
+`npm install -g changelog`
+
+#### Release Steps
+1) From the tip of the `development` branch, run `yarn release`
+2) Answer the questions prompted via CLI, accepting the defaults for each
+3) Once completed, this will create a new tag which will trigger a builds
+4) Once builds have finished, deploy the images to desired environments
+5) Test and verify the latest changes in desired environments
+6) Create PR to merge the HEAD of `development` into `master`
+7) Merge PR to `master` so that `master` always reflects what is currently in production
 
 ## Code Quality
  * `yarn vet` Runs Prettier, lint JS, lint CSS and finally all unit tests

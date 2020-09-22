@@ -1,6 +1,6 @@
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FiatType, PriceChangeType } from 'core/types'
-import { formatFiat } from 'core/exchange/currency'
+import { FiatType, PriceChangeType, PriceDiffType } from 'core/types'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
@@ -14,39 +14,34 @@ const PriceChangeText = styled(Text)`
 `
 
 const PriceChangeColoredText = styled.span<{
-  priceChange: number | PriceChangeType
+  change: PriceDiffType
 }>`
   font-weight: 600;
   color: ${props =>
-    typeof props.priceChange === 'number'
-      ? props.priceChange === 0
-        ? props.theme.grey600
-        : props.priceChange > 0
-        ? props.theme.green400
-        : props.theme.red500
-      : props.priceChange.movement === 'down'
+    props.change.movement === 'down'
       ? props.theme.red500
-      : props.priceChange.movement === 'up'
+      : props.change.movement === 'up'
       ? props.theme.green400
       : props.theme.grey600};
 `
 
 export const PriceChange = ({
   currency,
-  priceChangeFiat,
-  priceChangePercentage,
-  price24H,
+  priceChange,
+  isPortfolioPosition,
   children
 }: {
   children: any
   currency: FiatType
-  price24H?: PriceChangeType
-  priceChangeFiat: number
-  priceChangePercentage: number
+  isPortfolioPosition?: boolean
+  priceChange: PriceChangeType
 }) => {
+  const change = isPortfolioPosition
+    ? priceChange.positionChange
+    : priceChange.overallChange
   let priceFormatted
-  let price = formatFiat(priceChangeFiat)
-  if (priceChangeFiat < 0 || price24H?.movement === 'down') {
+  let price = formatFiat(change.diff)
+  if (change.movement === 'down') {
     priceFormatted = `-${Exchange.getSymbol(currency)}${price.substring(1)}`
   } else {
     priceFormatted = `${Exchange.getSymbol(currency)}${price}`
@@ -54,8 +49,8 @@ export const PriceChange = ({
 
   return (
     <PriceChangeText>
-      <PriceChangeColoredText priceChange={price24H || priceChangePercentage}>
-        {priceFormatted} ({formatFiat(priceChangePercentage)})%
+      <PriceChangeColoredText change={change}>
+        {priceFormatted} ({formatFiat(change.percentChange)})%
       </PriceChangeColoredText>
       {children}
     </PriceChangeText>

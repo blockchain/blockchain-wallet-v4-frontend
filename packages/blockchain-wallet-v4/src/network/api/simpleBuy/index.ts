@@ -78,11 +78,9 @@ export default ({
     action: SBOrderActionType,
     pending: boolean,
     input: SBMoneyType,
-    output: {
-      symbol: WalletCurrencyType
-    },
-    paymentMethodId?: SBCardType['id'],
-    paymentType?: SBPaymentMethodType['type']
+    output: SBMoneyType,
+    paymentType: SBPaymentMethodType['type'],
+    paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -101,7 +99,8 @@ export default ({
 
   const confirmSBOrder = (
     order: SBOrderType,
-    attributes?: SBProviderAttributesType
+    attributes?: SBProviderAttributesType,
+    paymentMethodId?: string
   ): SBOrderType =>
     authorizedPost({
       url: nabuUrl,
@@ -110,7 +109,8 @@ export default ({
       removeDefaultPostData: true,
       data: {
         action: 'confirm',
-        attributes
+        attributes,
+        paymentMethodId
       }
     })
 
@@ -231,7 +231,7 @@ export default ({
     })
 
   const getSBTransactions = (
-    currency: FiatType,
+    currency: WalletCurrencyType,
     next?: string | null,
     limit?: string,
     type?: 'DEPOSIT' | 'WITHDRAWAL',
@@ -249,6 +249,7 @@ export default ({
           data: {
             currency,
             limit,
+            pending: true,
             product: 'SIMPLEBUY',
             state,
             type

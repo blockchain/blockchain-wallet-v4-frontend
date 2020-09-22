@@ -42,10 +42,16 @@ export type SBAccountType =
 export type SBBalanceType = {
   available: string
   pending: string
+  withdrawable: string
 }
 
 export type SBBalancesType = {
   [key in WalletCurrencyType]?: SBBalanceType
+}
+
+export type CustodialFromType = SBBalanceType & {
+  label: string
+  type: 'CUSTODIAL'
 }
 
 export type NabuAddressType = {
@@ -150,7 +156,7 @@ export type SBProviderDetailsType = {
 }
 
 export type SBMoneyType = {
-  amount: string
+  amount?: string
   symbol: WalletCurrencyType
 }
 
@@ -207,6 +213,7 @@ export type SBQuoteType = {
 
 export type SBTransactionType = {
   amount: { symbol: FiatType; value: string }
+  amountMinor: string
   extraAttributes: null
   id: string
   insertedAt: string
@@ -223,6 +230,7 @@ export type SBTransactionsType = {
 export type SBTransactionStateType =
   | 'CREATED'
   | 'PENDING'
+  | 'PENDING_DEPOSIT'
   | 'UNIDENTIFIED'
   | 'FAILED'
   | 'FRAUD_REVIEW'

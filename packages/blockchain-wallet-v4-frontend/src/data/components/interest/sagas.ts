@@ -311,13 +311,28 @@ export default ({
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
       // build and publish payment to network
-      yield call(buildAndPublishPayment, coin, payment, depositAddress)
-      // notify success
+      const depositTx = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        depositAddress
+      )
+      // notify backend of incoming non-custodial deposit
+      yield put(
+        actions.components.send.notifyNonCustodialToCustodialTransfer(
+          depositTx,
+          'SAVINGS'
+        )
+      )
+      // notify UI of success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
+      // fetch transactions and balances to get pending deposit info
+      yield delay(3000)
+      yield put(A.fetchInterestTransactions(true))
       yield put(A.fetchInterestBalance())
     } catch (e) {
       const error = errorHandler(e)
@@ -363,7 +378,7 @@ export default ({
       // initiate withdrawal request
       yield call(
         api.initiateInterestWithdrawal,
-        Number(withdrawalAmountBase),
+        withdrawalAmountBase,
         coin,
         receiveAddress
       )

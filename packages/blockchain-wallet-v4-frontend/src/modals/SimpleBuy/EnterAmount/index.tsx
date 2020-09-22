@@ -1,5 +1,9 @@
-import { actions, selectors } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
+import React, { PureComponent } from 'react'
+
+import { actions, selectors } from 'data'
 import {
   CoinType,
   ExtractSuccess,
@@ -10,13 +14,12 @@ import {
   SBPairType,
   SBPaymentMethodType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
+import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
 import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RootState } from 'data/rootReducer'
 import Failure from './template.failure'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
@@ -26,6 +29,15 @@ class EnterAmount extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
       this.props.simpleBuyActions.fetchSBCards()
+    }
+
+    // data was successful but paymentMethods was DEFAULT_SB_METHODS
+    if (this.props.fiatCurrency && Remote.Success.is(this.props.data)) {
+      if (equals(this.props.data.data.paymentMethods, DEFAULT_SB_METHODS)) {
+        this.props.simpleBuyActions.fetchSBPaymentMethods(
+          this.props.fiatCurrency
+        )
+      }
     }
   }
 

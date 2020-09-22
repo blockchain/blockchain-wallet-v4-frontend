@@ -13,6 +13,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '../index'
 import {
   SBPaymentMethodType,
+  SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
 } from 'core/types'
@@ -149,11 +150,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       method => method.value.type === 'PAYMENT_CARD' && orderType === 'BUY'
     )
     const bankAccount = defaultMethods.find(
-      method =>
-        method.value.type === 'BANK_ACCOUNT' &&
-        // TODO: simple buy USD
-        method.value.currency !== 'USD' &&
-        orderType === 'BUY'
+      method => method.value.type === 'BANK_ACCOUNT' && orderType === 'BUY'
     )
 
     const cardMethods = availableCards.map(card => ({
@@ -179,6 +176,11 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
       cardMethods.length ||
       paymentCard !== undefined ||
       bankAccount !== undefined
+
+    const canDeposit =
+      fiatCurrency &&
+      (this.props.supportedCoins[fiatCurrency] as SupportedFiatType)
+        .availability.deposit
 
     return (
       <Wrapper>
@@ -260,7 +262,7 @@ class Payments extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 onClick={() => this.handleSubmit(paymentCard.value)}
               />
             )}
-            {bankAccount && fiatCurrency && (
+            {bankAccount && fiatCurrency && canDeposit && (
               <BankAccount
                 key={`${bankAccount.text}`}
                 {...bankAccount}

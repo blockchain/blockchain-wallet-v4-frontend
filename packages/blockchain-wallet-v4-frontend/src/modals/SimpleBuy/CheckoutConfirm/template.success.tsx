@@ -3,7 +3,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { Form } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -34,8 +34,11 @@ const Bottom = styled(FlyoutWrapper)`
   flex-direction: column;
   padding-top: 30px;
   height: 100%;
-  text-align: center;
   border-top: 1px solid ${props => props.theme.grey000};
+`
+const Info = styled.div`
+  display: flex;
+  align-items: center;
 `
 const Amount = styled.div`
   margin-top: 40px;
@@ -129,12 +132,45 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <Value>{getPaymentMethod(props.order, props.supportedCoins)}</Value>
       </Row>
       <Bottom>
-        <Text size='12px' weight={500} color='grey600'>
-          <FormattedMessage
-            id='modals.simplebuy.confirm.activity'
-            defaultMessage='Your final amount may change due to market activity.'
+        {(props.order.paymentType === 'PAYMENT_CARD' ||
+          props.order.paymentType === 'USER_CARD') && (
+          <Info style={{ marginBottom: '12px' }}>
+            <Icon
+              name='market-up'
+              color='grey900'
+              size='16px'
+              style={{ marginRight: '8px' }}
+            />
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedHTMLMessage
+                id='modals.simplebuy.confirm.activity_card1'
+                defaultMessage='Your final amount might change due to market activity.'
+              />
+            </Text>
+          </Info>
+        )}
+        <Info>
+          <Icon
+            name='info'
+            color='grey900'
+            size='16px'
+            style={{ marginRight: '8px' }}
           />
-        </Text>
+          <Text size='12px' weight={500} color='grey900'>
+            {props.order.paymentType === 'PAYMENT_CARD' ||
+            props.order.paymentType === 'USER_CARD' ? (
+              <FormattedHTMLMessage
+                id='modals.simplebuy.confirm.activity_card2'
+                defaultMessage='Your crypto will be available to be withdrawn within <b>3 days</b>.'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.simplebuy.confirm.activity'
+                defaultMessage='Your final amount may change due to market activity.'
+              />
+            )}
+          </Text>
+        </Info>
         <Button
           fullwidth
           nature='primary'

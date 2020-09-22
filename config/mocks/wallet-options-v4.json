@@ -15,7 +15,9 @@
         "EUR": {
           "availability": {
             "send": false,
-            "request": false
+            "request": false,
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "EUR",
           "coinTicker": "EUR",
@@ -34,7 +36,9 @@
         "GBP": {
           "availability": {
             "send": false,
-            "request": false
+            "request": false,
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "GBP",
           "coinTicker": "GBP",
@@ -49,6 +53,27 @@
           "minConfirmations": 0,
           "showNewTagSidenav": true,
           "txListAppRoute": "/gbp/transactions"
+        },
+        "USD": {
+          "availability": {
+            "send": false,
+            "request": false,
+            "deposit": false,
+            "withdrawal": false
+          },
+          "coinCode": "USD",
+          "coinTicker": "USD",
+          "colorCode": "fiat",
+          "displayName": "U.S Dollars",
+          "icons": {
+            "default": "usd",
+            "circle": "usd",
+            "circleFilled": "usd"
+          },
+          "learnMoreLink": "",
+          "minConfirmations": 0,
+          "showNewTagSidenav": true,
+          "txListAppRoute": "/usd/transactions"
         },
         "BTC": {
           "availability": {
@@ -340,47 +365,6 @@
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
           "plaidEnv": "sandbox",
           "siftScience": "a19cc360a1"
-        }
-      },
-      "shapeshift": {
-        "availability": {
-          "buy": true,
-          "sell": true,
-          "history": true
-        },
-        "countries": "*",
-        "states": [
-          "AR",
-          "AZ",
-          "CA",
-          "CO",
-          "ID",
-          "IL",
-          "IN",
-          "KS",
-          "KY",
-          "LA",
-          "MA",
-          "MD",
-          "MI",
-          "MN",
-          "MO",
-          "MT",
-          "NE",
-          "NV",
-          "OK",
-          "PA",
-          "SC",
-          "SD",
-          "TN",
-          "TX",
-          "VA",
-          "WI",
-          "WV"
-        ],
-        "config": {
-          "apiKey": "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
-          "upperLimit": 750
         }
       },
       "sift": {

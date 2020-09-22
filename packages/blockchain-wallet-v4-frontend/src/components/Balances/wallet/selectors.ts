@@ -229,6 +229,20 @@ export const getFiatBalance = curry(
   }
 )
 
+export const getWithdrawableFiatBalance = curry(
+  (
+    currency: WalletFiatType,
+    state: RootState
+  ): RemoteDataType<string, SBBalanceType['withdrawable']> => {
+    const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+    const fiatBalance =
+      sbBalancesR.getOrElse({
+        [currency]: DEFAULT_SB_BALANCE
+      })[currency]?.withdrawable || '0'
+    return Remote.of(convertBaseToStandard('FIAT', fiatBalance))
+  }
+)
+
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
     getBtcBalance,
@@ -453,6 +467,7 @@ export const getBalanceSelector = (coin: WalletCurrencyType) => {
       return getAlgoBalance
     case 'EUR':
     case 'GBP':
+    case 'USD':
       return getFiatBalance(coin)
     default:
       return Remote.Failure(INVALID_COIN_TYPE)

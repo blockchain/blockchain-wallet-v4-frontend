@@ -77,7 +77,8 @@ export enum FiatTypeEnum {
 }
 export enum WalletFiatEnum {
   EUR,
-  GBP
+  GBP,
+  USD
 }
 export const WalletCurrencyEnum = {
   ...CoinTypeEnum,
@@ -110,6 +111,7 @@ export * from './WalletPayload'
 export * from '../redux/payment/types'
 export * from '../redux/settings/'
 export * from '../redux/data/misc/types'
+export * from '../redux/data/simpleBuy/types'
 export * from '../redux/walletOptions/types'
 export * from '../network/api/eth/types'
 export * from '../network/api/borrow/types'

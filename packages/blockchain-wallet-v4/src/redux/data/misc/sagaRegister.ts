@@ -8,7 +8,7 @@ export default ({ api }) => {
   return function * coreDataMiscSaga () {
     yield takeLatest(AT.AUTHORIZE_LOGIN, dataMiscSagas.authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, dataMiscSagas.fetchCaptcha)
-    yield takeEvery(AT.FETCH_PRICE_24H, dataMiscSagas.fetchPrice24H)
+    yield takeEvery(AT.FETCH_PRICE_CHANGE, dataMiscSagas.fetchPriceChange)
     yield takeLatest(
       AT.FETCH_PRICE_INDEX_SERIES,
       dataMiscSagas.fetchPriceIndexSeries

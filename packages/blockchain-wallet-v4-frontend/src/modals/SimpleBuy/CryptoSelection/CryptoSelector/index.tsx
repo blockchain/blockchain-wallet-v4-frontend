@@ -12,6 +12,7 @@ import {
 import { Props as OwnProps, SuccessStateType } from '../index'
 import { SBPairType } from 'core/types'
 import CryptoItem from './CryptoItem'
+import SellBanner from './SellBanner'
 
 const Wrapper = styled.div`
   display: flex;
@@ -63,7 +64,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       <Form>
         <FlyoutWrapper>
           <Top>
-            <Icon cursor name='cart' size='32px' color='blue600' />
+            <Icon cursor name='cart-filled' size='32px' color='blue600' />
             <Icon
               cursor
               data-e2e='sbCloseModalIcon'
@@ -82,8 +83,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           </TopText>
           <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
-              id='modals.simplebuy.selectcrypto'
-              defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
+              id='modals.simplebuy.select_crypto'
+              defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
           {props.invitations.simpleSell && (
@@ -93,6 +94,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   role='button'
                   selected={orderType === 'BUY'}
                   onClick={() => setOrderType('BUY')}
+                  data-e2e='sbBuyButton'
                 >
                   <FormattedMessage
                     id='buttons.buy_crypto'
@@ -103,6 +105,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
                   role='button'
                   selected={orderType === 'SELL'}
                   onClick={() => setOrderType('SELL')}
+                  data-e2e='sbSellButton'
                 >
                   <FormattedMessage
                     id='buttons.sell_crypto'
@@ -125,6 +128,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           ))}
         </Currencies>
       </Form>
+      {orderType === 'SELL' && <SellBanner />}
     </Wrapper>
   )
 }

@@ -1,3 +1,5 @@
+import { CustodialFromType } from 'core/types'
+
 export type UTXOType = {
   address: string
   change: boolean
@@ -25,14 +27,6 @@ export type BtcAccountFromType = IBtcFromType & {
   xpub: string
 }
 
-export type BtcCustodialFromType = IBtcFromType & {
-  available?: string
-  fiatAmount: null
-  label: string
-  pending?: string
-  type: 'CUSTODIAL'
-}
-
 export type BtcLegacyFromType = IBtcFromType & {
   address: string
   label: string
@@ -41,5 +35,5 @@ export type BtcLegacyFromType = IBtcFromType & {
 
 export type BtcFromType =
   | BtcAccountFromType
-  | BtcCustodialFromType
   | BtcLegacyFromType
+  | CustodialFromType
