@@ -1,50 +1,25 @@
 import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType, SBOrderType } from 'core/types'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
+import { SBOrderType } from 'core/types'
+import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import {
+  Col,
+  CustodialTransactionRow,
+  Row,
+  StyledCoinDisplay,
+  StyledFiatDisplay
+} from '../components'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { getOrigin, IconTx, Timestamp } from './model'
 
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { CustodialTransactionRow } from '../components'
-import { getOrderType } from 'data/components/simpleBuy/model'
-import { Status } from './model'
-
-const StatusColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 30%;
-  ${media.mobile`
-    width: 50%;
-  `};
-`
-const AmountColumn = styled.div`
-  display: none;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  white-space: nowrap;
-  width: 50%;
-  ${media.atLeastTabletL`
-    display: flex;
-  `}
-`
-const ViewInfoColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 20%;
-  align-items: flex-end;
-  ${media.mobile`
-    min-width: 50%;
-  `};
+const Type = styled.div`
+  margin-left: 16px;
 `
 
 class SimpleBuyListItem extends PureComponent<Props> {
@@ -63,41 +38,70 @@ class SimpleBuyListItem extends PureComponent<Props> {
 
   render () {
     const { order } = this.props
-
-    const inputAmt =
-      getOrderType(order) === 'BUY'
-        ? fiatToString({
-            unit: order.inputCurrency as FiatType,
-            value: convertBaseToStandard('FIAT', order.inputQuantity)
-          })
-        : fiatToString({
-            unit: order.outputCurrency as FiatType,
-            value: convertBaseToStandard('FIAT', order.outputQuantity)
-          })
+    const coin = getCoinFromPair(order.pair)
+    const orderType = getOrderType(order)
 
     return (
       <CustodialTransactionRow onClick={() => this.showModal(order)}>
-        <StatusColumn data-e2e='orderStatusColumn'>
-          <Status order={order} />
-        </StatusColumn>
-        <AmountColumn data-e2e='orderAmountColumn'>
-          <Text size='14px' weight={500}>
-            {inputAmt}
-          </Text>
-        </AmountColumn>
-        <ViewInfoColumn>
-          <Button
-            data-e2e='viewInfoButton'
-            size='14px'
-            height='35px'
-            nature='light'
-          >
+        <Row width='30%' data-e2e='orderStatusColumn'>
+          <IconTx {...this.props} />
+          <Type>
+            <Text
+              size='16px'
+              color='grey800'
+              weight={600}
+              data-e2e='txTypeText'
+            >
+              <BuyOrSell crypto={coin} orderType={orderType} />
+            </Text>
+            <Timestamp {...this.props} />
+          </Type>
+        </Row>
+        <Col width='50%' data-e2e='orderToAndFrom'>
+          <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>
             <FormattedMessage
-              id='modals.simplebuy.transactionlist.viewdetails'
-              defaultMessage='View Details'
+              id='modals.simplebuy.confirm.payment'
+              defaultMessage='Payment Method'
             />
-          </Button>
-        </ViewInfoColumn>
+            {': '}
+            {getOrigin(this.props)}
+          </Text>
+          <Text
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ marginTop: '4px' }}
+            data-e2e='txTo'
+          >
+            <FormattedMessage id='copy.to' defaultMessage='To' />
+            {': '}
+            {this.props.order.outputCurrency} Trading Wallet
+          </Text>
+        </Col>
+        <Col
+          width='20%'
+          style={{ textAlign: 'right' }}
+          data-e2e='orderAmountColumn'
+        >
+          <StyledCoinDisplay
+            coin={coin}
+            size='16px'
+            weight={600}
+            color='grey800'
+            data-e2e='orderFiatAmt'
+          >
+            {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
+          </StyledCoinDisplay>
+          <StyledFiatDisplay
+            coin={coin}
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
+          >
+            {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
+          </StyledFiatDisplay>
+        </Col>
       </CustodialTransactionRow>
     )
   }
@@ -114,6 +118,6 @@ type OwnProps = {
   order: SBOrderType
 }
 
-type Props = OwnProps & ConnectedProps<typeof connector>
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(SimpleBuyListItem)

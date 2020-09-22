@@ -1,8 +1,73 @@
+import { DefaultTheme } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { getOrderType } from 'data/components/simpleBuy/model'
-import { SBOrderType } from 'core/types'
-import { Text } from 'blockchain-info-components'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
+import { Icon, Text } from 'blockchain-info-components'
+import moment from 'moment'
 import React from 'react'
+
+import { IconWrapper } from '../components'
+import { Props } from '.'
+import { SBOrderType } from 'core/types'
+
+export const IconTx = (props: Props) => {
+  const orderType = getOrderType(props.order)
+  const coin = getCoinFromPair(props.order.pair)
+  return (
+    <IconWrapper color={(coin.toLowerCase() + '-light') as keyof DefaultTheme}>
+      <Icon
+        size='24px'
+        weight={600}
+        name={orderType === 'BUY' ? 'plus' : 'minus'}
+        color={coin.toLowerCase() as keyof DefaultTheme}
+      />
+    </IconWrapper>
+  )
+}
+
+export const getOrigin = (props: Props) => {
+  switch (props.order.paymentType) {
+    case 'FUNDS':
+      return props.order.inputCurrency + ' Wallet'
+    case 'PAYMENT_CARD':
+    case 'USER_CARD':
+      return 'Credit/Debit Card'
+    case 'BANK_ACCOUNT':
+      return 'Bank Transfer'
+    case undefined:
+      return 'Unknown Payment Type'
+  }
+}
+
+export const Timestamp = (props: Props) => {
+  const getTimeOrStatus = () => {
+    switch (props.order.state) {
+      case 'FINISHED':
+      case 'FAILED':
+      case 'DEPOSIT_MATCHED':
+        return moment(props.order.insertedAt).format('MMM. D, YYYY')
+      case 'EXPIRED':
+        return 'Expired'
+      case 'CANCELED':
+        return 'Canceled'
+      case 'PENDING_DEPOSIT':
+        return 'Pending Deposit'
+      case 'PENDING_CONFIRMATION':
+        return 'Pending Confirmation'
+    }
+  }
+
+  return (
+    <Text
+      size='14px'
+      weight={500}
+      color='grey600'
+      style={{ marginTop: '4px' }}
+      data-e2e='txTimeOrStatus'
+    >
+      {getTimeOrStatus()}
+    </Text>
+  )
+}
 
 export const Status = ({ order }: { order: SBOrderType }) => {
   const type = getOrderType(order)

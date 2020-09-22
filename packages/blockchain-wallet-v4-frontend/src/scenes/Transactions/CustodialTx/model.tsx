@@ -1,20 +1,12 @@
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import styled from 'styled-components'
 
 import { CoinTypeEnum } from 'core/types'
+import { IconWrapper } from '../components'
 import { Props } from '.'
-
-const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  border-radius: 16px;
-  background: ${props => props.theme[props.color]};
-`
 
 const Icon = styled(BCIcon)`
   size: 18px;
@@ -27,6 +19,7 @@ export const IconTx = (props: Props) => {
       return (
         <IconWrapper color='fiat-light'>
           <Icon
+            size='20px'
             color='fiat'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
@@ -42,6 +35,7 @@ export const IconTx = (props: Props) => {
         <IconWrapper color='grey000'>
           <Icon
             color='grey600'
+            size='20px'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -54,6 +48,7 @@ export const IconTx = (props: Props) => {
         <IconWrapper color='red000'>
           <Icon
             color='red600'
+            size='20px'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
@@ -62,7 +57,7 @@ export const IconTx = (props: Props) => {
       return (
         <IconWrapper color='grey000'>
           <Icon
-            size='16px'
+            size='20px'
             weight={500}
             color='grey600'
             name={'question-in-circle'}
@@ -100,6 +95,21 @@ export const Timestamp = (props: Props) => {
       {getTimeOrStatus()}
     </Text>
   )
+}
+
+export const DepositOrWithdrawal = (props: Props) => {
+  // if (props.tx.amount.symbol in CoinTypeEnum) {
+  //   return <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
+  // } else {
+  switch (props.tx.type) {
+    case 'DEPOSIT':
+      return <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
+    case 'WITHDRAWAL':
+      return (
+        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+      )
+  }
+  // }
 }
 
 export const Origin = (props: Props) => {

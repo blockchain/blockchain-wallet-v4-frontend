@@ -4,31 +4,28 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { CoinTypeEnum, SBTransactionType } from 'core/types'
-import { CustodialTransactionRow } from '../components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import {
+  Col,
+  CustodialTransactionRow,
+  Row,
+  StyledCoinDisplay,
+  StyledFiatDisplay
+} from '../components'
 
-import { Destination, IconTx, Origin, Timestamp } from './model'
+import {
+  DepositOrWithdrawal,
+  Destination,
+  IconTx,
+  Origin,
+  Timestamp
+} from './model'
 import { Props as OwnProps } from '../TransactionList'
 
 const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
   cursor: initial;
 `
-const Col = styled.div<{ width: string }>`
-  width: ${props => props.width};
-`
-const Row = styled(Col)`
-  display: flex;
-  align-items: center;
-`
 const Status = styled.div`
   margin-left: 16px;
-`
-const StyledCoinDisplay = styled(CoinDisplay)`
-  justify-content: flex-end;
-`
-const StyledFiatDisplay = styled(FiatDisplay)`
-  justify-content: flex-end;
 `
 
 const CustodialTxListItem: React.FC<Props> = props => {
@@ -38,14 +35,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
         <IconTx {...props} />
         <Status data-e2e='orderStatusColumn'>
           <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-            {props.tx.type === 'DEPOSIT' ? (
-              <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
-            ) : (
-              <FormattedMessage
-                id='buttons.withdraw'
-                defaultMessage='Withdraw'
-              />
-            )}
+            <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
           </Text>
           <Timestamp {...props} />
         </Status>
