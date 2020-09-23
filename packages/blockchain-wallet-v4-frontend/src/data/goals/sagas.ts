@@ -248,14 +248,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const runSimpleBuyGoal = function * (goal) {
     const {
-      data: { amount, crypto, displayName }
+      data: { amount, crypto }
     } = goal
 
     yield put(
       actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
         amount,
-        crypto,
-        displayName
+        crypto
       })
     )
   }
