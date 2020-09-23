@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
+import { RowValue } from '../../components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,28 +32,17 @@ const EditDescription = props => {
     <Wrapper onClick={handleChange}>
       {value ? (
         <DisplayContainer>
-          <Text
-            size='14px'
-            weight={400}
-            data-e2e='transactionListItemDescription'
-          >
-            {value}
-          </Text>
+          <RowValue data-e2e='transactionListItemDescription'>{value}</RowValue>
           <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       ) : (
         <DisplayContainer data-e2e='transactionListItemAddDescription'>
-          <Text
-            size='14px'
-            weight={400}
-            cursor='pointer'
-            data-e2e='editTransactionDescriptionLink'
-          >
+          <RowValue data-e2e='editTransactionDescriptionLink'>
             <FormattedMessage
               id='components.editdescription.add'
               defaultMessage='Add a description'
             />
-          </Text>
+          </RowValue>
           <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       )}

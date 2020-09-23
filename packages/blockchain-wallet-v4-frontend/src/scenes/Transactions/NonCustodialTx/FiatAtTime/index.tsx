@@ -1,14 +1,14 @@
 import { actions } from 'data'
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FiatType } from 'core/types'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
-import PropTypes from 'prop-types'
 import React from 'react'
 import Success from './template.success'
 
-class FiatAtTime extends React.PureComponent {
+class FiatAtTime extends React.PureComponent<Props> {
   componentDidMount () {
     const { amount, hash, time, currency } = this.props
     this.props.actions.fetchFiatAtTime(hash, amount, time * 1000, currency)
@@ -26,7 +26,7 @@ class FiatAtTime extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps: OwnProps) => ({
   data: getData(ownProps.hash, ownProps.currency, state)
 })
 
@@ -34,11 +34,15 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.btc, dispatch)
 })
 
-FiatAtTime.propTypes = {
-  amount: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired,
-  time: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  amount: number
+  currency: FiatType
+  hash: string
+  time: number
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FiatAtTime)
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(FiatAtTime)

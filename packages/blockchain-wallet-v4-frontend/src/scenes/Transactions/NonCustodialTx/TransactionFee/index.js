@@ -6,6 +6,7 @@ import React from 'react'
 import { actions, selectors } from 'data'
 import { FlatLoader, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { RowHeader } from '../../components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
 class TransactionFee extends React.PureComponent {
@@ -21,36 +22,34 @@ class TransactionFee extends React.PureComponent {
 
     return (
       <React.Fragment>
-        <Text
-          size='14px'
-          weight={500}
-          style={{ marginBottom: '5px', marginTop: '15px' }}
-        >
+        <RowHeader>
           <FormattedMessage
             id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
             defaultMessage='Transaction Fee'
           />
-        </Text>
+        </RowHeader>
         {feeR.cata({
           Success: value => (
             <ComboDisplay
               coin={supportedCoins[coin].contractAddress ? 'ETH' : coin}
-              size='14px'
-              weight={400}
+              size='16px'
+              weight={600}
+              color='grey800'
+              style={{ marginTop: '4px' }}
             >
               {value}
             </ComboDisplay>
           ),
           Failure: () => (
-            <Text size='12px' weight={400} color='red600'>
+            <Text size='14px' weight={500} color='red600'>
               <FormattedMessage
                 id='scenes.transactions.bitcoin.content.pages.listitem.fee.error'
                 defaultMessage='Failed to retrieve fee!'
               />
             </Text>
           ),
-          Loading: () => <FlatLoader width='60px' height='15px' />,
-          NotAsked: () => <FlatLoader width='60px' height='15px' />
+          Loading: () => <FlatLoader width='60px' height='16px' />,
+          NotAsked: () => <FlatLoader width='60px' height='16px' />
         })}
       </React.Fragment>
     )

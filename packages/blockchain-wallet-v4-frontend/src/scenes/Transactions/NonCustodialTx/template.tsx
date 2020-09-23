@@ -20,6 +20,8 @@ import {
   Addresses,
   IconTx,
   Row,
+  RowHeader,
+  RowValue,
   StatusAndType,
   StyledCoinDisplay,
   StyledFiatDisplay,
@@ -44,6 +46,7 @@ const DetailsRow = styled.div`
   justify-content: space-between;
   box-sizing: border-box;
   padding: 20px;
+  padding-top: 8px;
 `
 const DetailsColumn = styled.div`
   display: flex;
@@ -170,93 +173,78 @@ const NonCustodialTx = ({
     {isToggled && (
       <DetailsRow data-e2e='expandedTransactionRow'>
         <DetailsColumn data-e2e='descriptionTransactionColumn'>
-          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+          <RowHeader>
             <FormattedMessage
               id='components.txlistitem.description'
               defaultMessage='Description'
             />
-          </Text>
+          </RowHeader>
           <Description
             description={transaction.description}
             handleEditDescription={handleEditDescription}
           />
           {coin === 'BTC' && (
             <React.Fragment>
-              <Text
-                size='14px'
-                capitalize
-                weight={500}
-                style={{ marginBottom: '5px', marginTop: '15px' }}
-              >
+              <RowHeader>
                 <FormattedMessage
                   id='components.txlistitem.valueattime'
                   defaultMessage='Value When {type}'
                   values={{ type: transaction.type }}
                 />
-              </Text>
-              <FiatAtTime
-                amount={transaction.amount}
-                hash={transaction.hash}
-                time={transaction.time}
-                type={transaction.type}
-                currency={currency}
-              />
+              </RowHeader>
+              <RowValue data-e2e='valueAtTimeOfTransaction'>
+                <FiatAtTime
+                  amount={Number(transaction.amount)}
+                  hash={transaction.hash}
+                  time={Number(transaction.time)}
+                  currency={currency}
+                />
+              </RowValue>
             </React.Fragment>
           )}
           {transaction.coin === 'XLM' && transaction.memo && (
             <React.Fragment>
-              <Text
-                size='14px'
-                capitalize
-                weight={500}
-                style={{ marginBottom: '5px', marginTop: '15px' }}
-              >
+              <RowHeader>
                 <FormattedMessage
                   id='components.txlistitem.memo'
                   defaultMessage='Memo'
                 />
                 &nbsp;
                 {transaction.memoType}
-              </Text>
-              <Text
+              </RowHeader>
+              <RowValue
                 size='14px'
                 capitalize
                 weight={400}
                 data-e2e='xlmTransactionMemo'
               >
                 {transaction.memo}
-              </Text>
+              </RowValue>
             </React.Fragment>
           )}
         </DetailsColumn>
         {'inputs' in transaction && transaction.inputs && transaction.outputs && (
           <DetailsColumn data-e2e='sentFromTransactionColumn'>
-            <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+            <RowHeader>
               <FormattedMessage
                 id='components.txlistitem.sentfrom'
                 defaultMessage='Sent From'
               />
-            </Text>
+            </RowHeader>
             {prop('inputs', transaction).map(input => (
-              <Text size='14px' weight={400}>
-                {input.address}
-              </Text>
+              <RowValue>{input.address}</RowValue>
             ))}
-            <Text
-              size='14px'
-              weight={500}
-              style={{ marginBottom: '5px', marginTop: '15px' }}
-            >
+            <RowHeader>
               <FormattedMessage
                 id='components.txlistitem.receivedby'
                 defaultMessage='Received By'
               />
-            </Text>
+            </RowHeader>
             {prop('outputs', transaction).map(output => (
               <IOAddressText size='14px' weight={400}>
-                {output.address}
+                <RowValue>{output.address}</RowValue>
                 {output.change && (
-                  <React.Fragment>
+                  <RowValue>
                     <span>&nbsp;</span>
                     <FormattedMessage
                       id='components.txlistitem.change'
@@ -265,19 +253,19 @@ const NonCustodialTx = ({
                     <TooltipHost id='txlist.change.tooltip'>
                       <TooltipIcon name='info' />
                     </TooltipHost>
-                  </React.Fragment>
+                  </RowValue>
                 )}
               </IOAddressText>
             ))}
           </DetailsColumn>
         )}
         <DetailsColumn data-e2e='statusTransactionColumn'>
-          <Text size='14px' weight={500} style={{ marginBottom: '5px' }}>
+          <RowHeader>
             <FormattedMessage
               id='components.txlistitem.status'
               defaultMessage='Status'
             />
-          </Text>
+          </RowHeader>
           <Confirmations
             coin={coin}
             hash={transaction.hash}

@@ -146,6 +146,18 @@ export const Row = styled(Col)`
   display: flex;
   align-items: center;
 `
+export const RowHeader = styled(Text)`
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 12px;
+  color: ${props => props.theme.grey600};
+`
+export const RowValue = styled(Text)`
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 4px;
+  color: ${props => props.theme.grey800};
+`
 export const StyledCoinDisplay = styled(CoinDisplay)`
   color: ${props => props.theme.grey800};
   justify-content: flex-end;
