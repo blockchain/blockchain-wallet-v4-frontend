@@ -148,6 +148,7 @@ export const Image: FunctionComponent<{
   height?: string
   color?: string
   size?: string
+  style?: CSSProperties
 }>
 export const Link: FunctionComponent<{
   weight?: number
