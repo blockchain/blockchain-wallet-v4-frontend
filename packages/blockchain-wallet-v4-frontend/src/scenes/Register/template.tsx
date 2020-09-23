@@ -1,4 +1,3 @@
-import { CoinType } from 'core/types'
 import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
@@ -14,6 +13,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import media from 'services/ResponsiveService'
 
@@ -343,7 +343,7 @@ const SignupCard = ({
   )
 }
 
-type GoalDataType = {
+export type GoalDataType = {
   amount: string
   crypto: CoinType
   displayName: string
@@ -380,7 +380,10 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
             </CardHeader>
 
             {!isNil(goalData) && !isEmpty(goalData) && (
-              <SimpleBuyInfo goalData={goalData} />
+              <SimpleBuyInfo
+                goalData={goalData}
+                supportedCoins={props.supportedCoins}
+              />
             )}
 
             <Text size='14px' color='grey600' weight={500}>
@@ -543,6 +546,7 @@ type Props = {
   password: string
   passwordLength: number
   showForm: boolean
+  supportedCoins: SupportedWalletCurrenciesType
   toggleForm: any
 }
 
