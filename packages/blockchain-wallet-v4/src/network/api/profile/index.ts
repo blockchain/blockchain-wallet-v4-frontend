@@ -80,7 +80,7 @@ export default ({
     })
   }
 
-  const getUserCampaigns = currency => {
+  const getUserCampaigns = () => {
     return authorizedGet({
       url: nabuUrl,
       endPoint: '/users/user-campaigns',

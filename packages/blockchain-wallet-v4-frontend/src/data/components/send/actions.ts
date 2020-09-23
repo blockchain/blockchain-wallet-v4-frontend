@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { BeneficiaryType, CoinType } from 'core/types'
+import { BeneficiaryType, CoinType, PaymentValue } from 'core/types'
 
 export const fetchPaymentsAccountExchange = currency => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
@@ -36,4 +36,15 @@ export const fetchPaymentsTradingAccountSuccess = (
 ) => ({
   type: AT.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
   payload: { currency, tradingAccount }
+})
+
+export const notifyNonCustodialToCustodialTransfer = (
+  payment: PaymentValue,
+  product: 'SAVINGS' | 'SIMPLEBUY'
+) => ({
+  type: AT.NOTIFY_NON_CUSTODIAL_TO_CUSTODIAL_TRANSFER,
+  payload: {
+    payment,
+    product
+  }
 })

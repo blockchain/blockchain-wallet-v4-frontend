@@ -8,8 +8,13 @@ import { getConfig } from './model'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
-  margin-left: 50px;
   width: 100%;
+  ${media.atLeastTablet`
+    width: calc(100% - 350px);
+  `}
+  ${media.tablet`
+    margin-left: 20px;
+  `}
   ${media.mobile`
     margin-left: 0px;
   `}
