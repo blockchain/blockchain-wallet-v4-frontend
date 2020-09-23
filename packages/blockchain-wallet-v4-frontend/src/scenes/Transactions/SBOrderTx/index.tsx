@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import { SBOrderType } from 'core/types'
 import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 import { actions } from 'data'
 import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
@@ -12,15 +11,13 @@ import {
   Col,
   CustodialTransactionRow,
   Row,
+  StatusAndType,
   StyledCoinDisplay,
-  StyledFiatDisplay
+  StyledFiatDisplay,
+  Timestamp
 } from '../components'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { getOrigin, IconTx, Timestamp } from './model'
-
-const Type = styled.div`
-  margin-left: 16px;
-`
+import { getOrigin, IconTx } from './model'
 
 class SimpleBuyListItem extends PureComponent<Props> {
   showModal = (order: SBOrderType) => {
@@ -45,7 +42,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
       <CustodialTransactionRow onClick={() => this.showModal(order)}>
         <Row width='30%' data-e2e='orderStatusColumn'>
           <IconTx {...this.props} />
-          <Type>
+          <StatusAndType>
             <Text
               size='16px'
               color='grey800'
@@ -54,8 +51,8 @@ class SimpleBuyListItem extends PureComponent<Props> {
             >
               <BuyOrSell crypto={coin} orderType={orderType} />
             </Text>
-            <Timestamp {...this.props} />
-          </Type>
+            <Timestamp time={order.insertedAt} />
+          </StatusAndType>
         </Row>
         <Col width='50%' data-e2e='orderToAndFrom'>
           <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>

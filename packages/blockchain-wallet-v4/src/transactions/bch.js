@@ -250,23 +250,24 @@ export const _transformTx = (wallet, accountList, txNotes, tx) => {
   const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
+    amount: computeAmount(type, inputData, outputData),
     blockHeight: tx.block_height,
+    coin: 'BCH',
     description: pathOr('', [tx.hash], txNotes),
     double_spend: tx.double_spend,
-    hash: tx.hash,
-    amount: computeAmount(type, inputData, outputData),
-    type: toLower(type),
-    time: tx.time,
-    insertedAt: tx.time * 1000,
-    timeFormatted: getTime(tx),
     fee: Remote.Success(tx.fee),
-    inputs: inputs,
-    outputs: outputs,
-    fromWatchOnly: inputData.isWatchOnly,
-    toWatchOnly: outputData.isWatchOnly,
-    toAddress,
     from,
-    to
+    fromWatchOnly: inputData.isWatchOnly,
+    hash: tx.hash,
+    inputs: inputs,
+    insertedAt: tx.time * 1000,
+    outputs: outputs,
+    time: tx.time,
+    timeFormatted: getTime(tx),
+    to,
+    toAddress,
+    toWatchOnly: outputData.isWatchOnly,
+    type: toLower(type)
   }
 }
 

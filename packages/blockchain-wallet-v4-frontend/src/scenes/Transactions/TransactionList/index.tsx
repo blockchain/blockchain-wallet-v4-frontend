@@ -1,4 +1,5 @@
 import {
+  CoinType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
@@ -12,8 +13,8 @@ import styled from 'styled-components'
 
 import CustodialTxListItem from '../CustodialTx'
 import Loading from './template.loading'
+import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'
-import TransactionListItem from 'components/TransactionListItem'
 
 // width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
@@ -38,10 +39,10 @@ class TransactionList extends PureComponent<Props> {
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
-              <TransactionListItem
+              <NonCustodialTxListItem
                 key={tx.hash}
                 transaction={tx}
-                coin={coin}
+                coin={coin as CoinType}
                 coinTicker={coinTicker}
                 currency={currency}
               />

@@ -27,6 +27,7 @@ import {
 import { model, selectors } from 'data'
 
 import { RootState } from 'data/rootReducer'
+import { TransferType, TxType } from './types'
 
 const { WALLET_TX_SEARCH } = model.form
 
@@ -131,6 +132,3 @@ export const getData = (state, coin, isCoinErc20) =>
       }
     }
   )(state)
-
-type TransferType = 'send' | 'receive' | 'transfer' | ''
-type TxType = SBTransactionType | SBOrderType | ProcessedTxType

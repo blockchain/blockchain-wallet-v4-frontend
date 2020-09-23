@@ -8,6 +8,7 @@ import {
   Col,
   CustodialTransactionRow,
   Row,
+  StatusAndType,
   StyledCoinDisplay,
   StyledFiatDisplay
 } from '../components'
@@ -24,21 +25,18 @@ import { Props as OwnProps } from '../TransactionList'
 const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
   cursor: initial;
 `
-const Status = styled.div`
-  margin-left: 16px;
-`
 
 const CustodialTxListItem: React.FC<Props> = props => {
   return (
     <StyledCustodialTransactionRow>
       <Row width='30%'>
         <IconTx {...props} />
-        <Status data-e2e='orderStatusColumn'>
+        <StatusAndType data-e2e='orderStatusColumn'>
           <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
             <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
           </Text>
           <Timestamp {...props} />
-        </Status>
+        </StatusAndType>
       </Row>
       <Col width='50%'>
         <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>

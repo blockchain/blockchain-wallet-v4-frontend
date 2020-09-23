@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'core/types'
+import { Erc20CoinType, RemoteDataType } from 'core/types'
 
 export type IOType = {
   accountIndex: number
@@ -10,7 +10,7 @@ export type IOType = {
   label: string
   receiveIndex: number
 }
-export type BtcTxType = {
+export type BtcProcessedTxType = {
   amount: number
   blockHeight: number
   description: string
@@ -22,6 +22,7 @@ export type BtcTxType = {
   inputs: Array<IOType>
   insertedAt: number
   outputs: Array<IOType>
+  rbf?: boolean
   time: number
   timeFormatted: string
   to: string
@@ -29,10 +30,16 @@ export type BtcTxType = {
   toWatchOnly: boolean
   type: 'sent' | 'received' | 'transferred'
 }
-export type BchTxType = BtcTxType
+export type BtcTxType = BtcProcessedTxType & {
+  coin: 'BTC'
+}
+export type BchTxType = BtcProcessedTxType & {
+  coin: 'BCH'
+}
 export type EthProcessedTxType = {
   amount: number
   blockHeight: string
+  coin: Erc20CoinType | 'ETH'
   description: undefined | string
   erc20: boolean
   fee: RemoteDataType<string, number>
@@ -49,6 +56,7 @@ export type XlmTxType = {
   amount: string
   belongsToWallet: true
   blockHeight: number
+  coin: 'XLM'
   description: string
   from: string
   hash: string

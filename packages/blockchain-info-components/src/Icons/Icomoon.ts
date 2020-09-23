@@ -7,6 +7,8 @@ const IcoMoon = {
   'arrow-right': '\\e927',
   'arrow-switch': '\\e97e',
   'arrow-switch-thick': '\\e922',
+  'arrow-bottom-right': '\\e953',
+  'arrow-top-right': '\\971',
   'arrow-up': '\\e91c',
   'arrow-up-circle': '\\e936',
   'bank-filled': '\\e901',

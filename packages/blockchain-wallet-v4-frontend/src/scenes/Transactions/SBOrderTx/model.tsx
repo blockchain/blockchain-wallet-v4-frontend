@@ -2,7 +2,6 @@ import { DefaultTheme } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { Icon, Text } from 'blockchain-info-components'
-import moment from 'moment'
 import React from 'react'
 
 import { IconWrapper } from '../components'
@@ -36,37 +35,6 @@ export const getOrigin = (props: Props) => {
     case undefined:
       return 'Unknown Payment Type'
   }
-}
-
-export const Timestamp = (props: Props) => {
-  const getTimeOrStatus = () => {
-    switch (props.order.state) {
-      case 'FINISHED':
-      case 'FAILED':
-      case 'DEPOSIT_MATCHED':
-        return moment(props.order.insertedAt).format('MMM. D, YYYY')
-      case 'EXPIRED':
-        return 'Expired'
-      case 'CANCELED':
-        return 'Canceled'
-      case 'PENDING_DEPOSIT':
-        return 'Pending Deposit'
-      case 'PENDING_CONFIRMATION':
-        return 'Pending Confirmation'
-    }
-  }
-
-  return (
-    <Text
-      size='14px'
-      weight={500}
-      color='grey600'
-      style={{ marginTop: '4px' }}
-      data-e2e='txTimeOrStatus'
-    >
-      {getTimeOrStatus()}
-    </Text>
-  )
 }
 
 export const Status = ({ order }: { order: SBOrderType }) => {

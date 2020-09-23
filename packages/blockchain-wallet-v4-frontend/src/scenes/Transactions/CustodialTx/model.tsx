@@ -1,11 +1,10 @@
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
 import React from 'react'
 import styled from 'styled-components'
 
 import { CoinTypeEnum } from 'core/types'
-import { IconWrapper } from '../components'
+import { IconWrapper, Timestamp as SharedTimestamp } from '../components'
 import { Props } from '.'
 
 const Icon = styled(BCIcon)`
@@ -56,12 +55,7 @@ export const IconTx = (props: Props) => {
     default:
       return (
         <IconWrapper color='grey000'>
-          <Icon
-            size='20px'
-            weight={500}
-            color='grey600'
-            name={'question-in-circle'}
-          />
+          <Icon size='20px' weight={500} color='grey600' name={'timer'} />
         </IconWrapper>
       )
   }
@@ -71,7 +65,7 @@ export const Timestamp = (props: Props) => {
   const getTimeOrStatus = () => {
     switch (props.tx.state) {
       case 'COMPLETE':
-        return moment(props.tx.insertedAt).format('MMM. D, YYYY')
+        return <SharedTimestamp time={props.tx.insertedAt} />
       case 'FAILED':
       case 'REFUNDED':
       case 'REJECTED':
