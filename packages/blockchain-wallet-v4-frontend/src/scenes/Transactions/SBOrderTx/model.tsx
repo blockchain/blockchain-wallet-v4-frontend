@@ -1,26 +1,16 @@
-import { DefaultTheme } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { Icon, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import React from 'react'
 
-import { IconWrapper } from '../components'
 import { Props } from '.'
 import { SBOrderType } from 'core/types'
+import { IconTx as SharedIconTx } from '../components'
 
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)
   const coin = getCoinFromPair(props.order.pair)
-  return (
-    <IconWrapper color={(coin.toLowerCase() + '-light') as keyof DefaultTheme}>
-      <Icon
-        size='24px'
-        weight={600}
-        name={orderType === 'BUY' ? 'plus' : 'minus'}
-        color={coin.toLowerCase() as keyof DefaultTheme}
-      />
-    </IconWrapper>
-  )
+  return <SharedIconTx type={orderType} coin={coin} />
 }
 
 export const getOrigin = (props: Props) => {

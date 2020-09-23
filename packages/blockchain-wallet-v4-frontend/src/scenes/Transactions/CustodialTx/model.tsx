@@ -3,8 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 import styled from 'styled-components'
 
-import { CoinTypeEnum } from 'core/types'
-import { IconWrapper, Timestamp as SharedTimestamp } from '../components'
+import { CoinType, CoinTypeEnum, WalletFiatEnum } from 'core/types'
+import {
+  IconWrapper,
+  IconTx as SharedIconTx,
+  Timestamp as SharedTimestamp
+} from '../components'
 import { Props } from '.'
 
 const Icon = styled(BCIcon)`
@@ -15,7 +19,7 @@ const Icon = styled(BCIcon)`
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
     case 'COMPLETE':
-      return (
+      return props.coin in WalletFiatEnum ? (
         <IconWrapper color='fiat-light'>
           <Icon
             size='20px'
@@ -23,6 +27,11 @@ export const IconTx = (props: Props) => {
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
+      ) : (
+        <SharedIconTx
+          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
+          coin={props.coin as CoinType}
+        />
       )
     case 'CREATED':
     case 'FRAUD_REVIEW':
@@ -30,20 +39,12 @@ export const IconTx = (props: Props) => {
     case 'PENDING':
     case 'PENDING_DEPOSIT':
     case 'CLEARED':
-      return (
-        <IconWrapper color='grey000'>
-          <Icon
-            color='grey600'
-            size='20px'
-            name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
-          />
-        </IconWrapper>
-      )
+      return <SharedIconTx type='PENDING' />
     case 'FAILED':
     case 'REFUNDED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
-      return (
+      return props.coin in WalletFiatEnum ? (
         <IconWrapper color='red000'>
           <Icon
             color='red600'
@@ -51,6 +52,11 @@ export const IconTx = (props: Props) => {
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
+      ) : (
+        <SharedIconTx
+          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
+          coin={props.coin as CoinType}
+        />
       )
     default:
       return (

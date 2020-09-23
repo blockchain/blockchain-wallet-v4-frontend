@@ -47,6 +47,7 @@ const DetailsRow = styled.div`
   box-sizing: border-box;
   padding: 20px;
   padding-top: 8px;
+  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const DetailsColumn = styled.div`
   display: flex;

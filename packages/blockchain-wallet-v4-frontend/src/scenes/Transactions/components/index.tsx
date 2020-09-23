@@ -65,18 +65,25 @@ export const IconTx = ({
   coin,
   type
 }: {
-  coin: CoinType | 'FIAT'
+  coin?: CoinType | 'FIAT'
   type:
     | 'BUY'
     | 'SELL'
     | 'DEPOSIT'
     | 'WITHDRAWAL'
+    | 'PENDING'
     | 'sent'
     | 'received'
     | 'transferred'
 }) => {
+  const color = coin ? (coin.toLowerCase() as keyof DefaultTheme) : 'grey600'
+
   const getIcon = () => {
     switch (type) {
+      case 'PENDING':
+        return (
+          <Icon size='20px' weight={600} name={'timer'} color={'grey700'} />
+        )
       case 'BUY':
       case 'SELL':
         return (
@@ -84,7 +91,7 @@ export const IconTx = ({
             size='24px'
             weight={600}
             name={type === 'BUY' ? 'plus' : 'minus'}
-            color={coin.toLowerCase() as keyof DefaultTheme}
+            color={color}
           />
         )
       case 'DEPOSIT':
@@ -103,7 +110,7 @@ export const IconTx = ({
             size='12px'
             weight={600}
             name={'arrow-bottom-right'}
-            color={coin.toLowerCase() as keyof DefaultTheme}
+            color={color}
           />
         )
       case 'sent':
@@ -112,7 +119,7 @@ export const IconTx = ({
             size='18px'
             weight={600}
             name={'arrow-top-right'}
-            color={coin.toLowerCase() as keyof DefaultTheme}
+            color={color}
           />
         )
       case 'transferred':
@@ -121,17 +128,18 @@ export const IconTx = ({
             size='12px'
             weight={600}
             name={'arrow-top-right-bottom-left'}
-            color={coin.toLowerCase() as keyof DefaultTheme}
+            color={color}
           />
         )
     }
   }
 
-  return (
-    <IconWrapper color={(coin.toLowerCase() + '-light') as keyof DefaultTheme}>
-      {getIcon()}
-    </IconWrapper>
-  )
+  const bgColor =
+    type === 'PENDING' || !coin
+      ? 'grey000'
+      : ((color + '-light') as keyof DefaultTheme)
+
+  return <IconWrapper color={bgColor}>{getIcon()}</IconWrapper>
 }
 export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
