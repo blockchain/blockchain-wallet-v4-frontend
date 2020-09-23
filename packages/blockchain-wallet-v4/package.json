@@ -81,7 +81,7 @@
     "futurize": "1.2.0",
     "immutable": "3.8.1",
     "immutable-ext": "1.1.5",
-    "isomorphic-fetch": "2.2.1",
+    "isomorphic-fetch": "3.0.0",
     "pbkdf2": "3.0.17",
     "query-string": "6.5.0",
     "ramda": "0.26.1",
