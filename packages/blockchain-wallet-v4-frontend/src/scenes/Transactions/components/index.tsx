@@ -69,7 +69,7 @@ export const IconTx = ({
       case 'sent':
         return (
           <Icon
-            size='12px'
+            size='18px'
             weight={600}
             name={'arrow-top-right'}
             color={coin.toLowerCase() as keyof DefaultTheme}
@@ -80,7 +80,7 @@ export const IconTx = ({
           <Icon
             size='12px'
             weight={600}
-            name={'arrow-switch-thick'}
+            name={'arrow-top-right-bottom-left'}
             color={coin.toLowerCase() as keyof DefaultTheme}
           />
         )
