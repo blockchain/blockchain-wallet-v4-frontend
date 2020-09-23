@@ -103,7 +103,7 @@
     "moment": "2.27.0",
     "postal-codes-js": "2.5.0",
     "prop-types": "15.7.2",
-    "qrcode.react": "0.9.3",
+    "qrcode.react": "1.0.0",
     "qs": "6.7.0",
     "ramda": "0.26.1",
     "react": "16.13.1",
