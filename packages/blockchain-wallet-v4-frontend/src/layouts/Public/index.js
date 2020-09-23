@@ -49,7 +49,6 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 32px;
   z-index: 1;
   width: 100%;
   ${media.mobile`
@@ -72,7 +71,7 @@ const PublicLayoutContainer = ({ component: Component, ...rest }) => (
           </ContentContainer>
           <FooterWrapper>
             <FooterInner>
-              <DropdownLanguage color='grey400' />
+              <DropdownLanguage color='grey400' size='16px' />
               <Footer />
             </FooterInner>
           </FooterWrapper>

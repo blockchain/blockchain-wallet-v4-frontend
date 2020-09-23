@@ -20,18 +20,24 @@ const Footer = () => (
       <Link
         color='grey400'
         href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
-        size='16px'
+        size='14px'
         target='_blank'
         weight={500}
       >
-        Version {V}
+        <FormattedMessage
+          id='scenes.login.version'
+          defaultMessage='Version {version}'
+          values={{
+            version: V
+          }}
+        />
       </Link>
     </VersionWrapper>
     <LinkContainer to='/help'>
       <Link size='16px' weight={600} color='grey400' data-e2e='loginGetHelp'>
         <FormattedMessage
           id='scenes.login.needhelp'
-          defaultMessage='Need some help?'
+          defaultMessage='Need help?'
         />
       </Link>
     </LinkContainer>

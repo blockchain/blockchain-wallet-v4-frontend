@@ -96,6 +96,16 @@ const LoginForm = styled(Form)`
 const LoginButton = styled(Button)`
   margin-top: 15px;
 `
+const DescriptionText = styled(Text)`
+  margin-right: 15px;
+`
+const DescriptionIcon = styled(Icon)`
+  &:before {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: -16px;
+  }
+`
 const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
   margin: 12px 0;
@@ -453,14 +463,14 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               defaultMessage='QR Code Log In'
             />
           </Text>
-          <TextGroup inline style={{ marginTop: '8px' }}>
-            <Text size='12px' color='grey900' weight={500}>
+          <TextGroup inline style={{ marginTop: '8px', lineHeight: '18px' }}>
+            <DescriptionText size='12px' color='grey900' weight={500}>
               <FormattedMessage
                 id='scenes.login.qrcodelogin_description_1'
                 defaultMessage='Open your mobile Blockchain App, tap the QR Code Scanner'
               />
-            </Text>
-            <Icon color='grey900' name='qr-camera' size='16px' />
+            </DescriptionText>
+            <DescriptionIcon color='grey900' name='qr-camera' size='16px' />
             <Text size='12px' color='grey900' weight={500}>
               <FormattedMessage
                 id='scenes.login.qrcodelogin_description_2'

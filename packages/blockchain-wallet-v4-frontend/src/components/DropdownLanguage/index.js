@@ -13,7 +13,7 @@ class DropdownLanguageContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentLanguage, languages, color } = this.props
+    const { currentLanguage, languages, color, size } = this.props
     const languageList = languages.map(lang => {
       return {
         text: lang.name,
@@ -28,6 +28,7 @@ class DropdownLanguageContainer extends React.PureComponent {
         uppercase={false}
         items={languageList}
         selectedValue={currentLanguage}
+        size={size}
         callback={selectedLanguage => this.handleClick(selectedLanguage)}
       />
     )

@@ -10,7 +10,7 @@ const NavbarStyled = styled(Navbar)`
   padding: 0 16px;
   box-sizing: border-box;
   background-color: ${props => props.theme.grey900};
-  background-image: url('/img/bg-illo.svg');
+  background-image: url('/img/bg-pattern.svg');
 `
 
 const NavbarBrandStyled = styled(NavbarBrand)`
@@ -18,6 +18,7 @@ const NavbarBrandStyled = styled(NavbarBrand)`
   flex-direction: row;
   width: 100%;
   justify-content: center;
+  padding-left: 0;
 `
 
 const BlockchainLogoImage = styled(Image)`
