@@ -1,12 +1,10 @@
-import { CoinType } from 'core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { prop, propOr } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
 const SimpleBuyItemWrapper = styled.div`
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   width: 100%;
 `
 
@@ -16,14 +14,14 @@ const SimpleWrapper = styled.div`
 
 const AmountWrapper = styled.div`
   display: flex;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   justify-content: space-between;
   align-items: center;
   flex: 1;
   border: 1px solid ${props => props.theme.grey100};
-  padding: 0.75rem;
-  margin-right: 1rem;
-  margin-top: 2rem;
+  padding: 12px;
+  margin-right: 16px;
+  margin-top: 32px;
 `
 
 const CryptoWrapper = styled(AmountWrapper)`
@@ -32,73 +30,11 @@ const CryptoWrapper = styled(AmountWrapper)`
   margin-right: 0;
 
   > * {
-    margin-right: 0.5rem;
+    margin-right: 8px;
   }
 `
 
-type IconType =
-  | 'btc-circle-filled'
-  | 'eth-circle-filled'
-  | 'bch-circle-filled'
-  | 'xlm-circle-filled'
-  | 'usd-d'
-  | 'algo'
-  | 'usdt'
-  | 'btc-circle-filled'
-
-type ColorIconType =
-  | 'btc'
-  | 'eth'
-  | 'bch'
-  | 'xlm'
-  | 'pax'
-  | 'algo'
-  | 'usdt'
-  | 'usd-d'
-
-const getIcon = (crypto: CoinType): IconType => {
-  switch (crypto) {
-    case 'BTC':
-      return 'btc-circle-filled'
-    case 'ETH':
-      return 'eth-circle-filled'
-    case 'BCH':
-      return 'bch-circle-filled'
-    case 'XLM':
-      return 'xlm-circle-filled'
-    case 'PAX':
-      return 'usd-d'
-    case 'ALGO':
-      return 'algo'
-    case 'USDT':
-      return 'usdt'
-    default:
-      return 'btc-circle-filled'
-  }
-}
-
-const getColor = (crypto: CoinType): ColorIconType => {
-  switch (crypto) {
-    case 'BTC':
-      return 'btc'
-    case 'ETH':
-      return 'eth'
-    case 'BCH':
-      return 'bch'
-    case 'XLM':
-      return 'xlm'
-    case 'PAX':
-      return 'usd-d'
-    case 'ALGO':
-      return 'algo'
-    case 'USDT':
-      return 'usdt'
-    default:
-      return 'btc'
-  }
-}
-
-const SimpleBuyInfo = ({ goalData }) => (
+const SimpleBuyInfo = ({ supportedCoins, goalData: { amount, crypto } }) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>
       <SimpleWrapper>
@@ -106,7 +42,7 @@ const SimpleBuyInfo = ({ goalData }) => (
           $
         </Text>
         <Text size='16px' color='black' weight={500}>
-          {prop('amount', goalData)}
+          {amount}
         </Text>
       </SimpleWrapper>
       <Image name='us-flag' height='24px' />
@@ -114,16 +50,16 @@ const SimpleBuyInfo = ({ goalData }) => (
 
     <CryptoWrapper>
       <Icon
-        color={getColor(propOr('BTC', 'crypto', goalData))}
-        name={getIcon(propOr('BTC', 'crypto', goalData))}
+        color={supportedCoins[crypto].colorCode}
+        name={supportedCoins[crypto].icons.circleFilled}
         size='24px'
         weight={400}
       />
       <Text capitalize color='black' size='16px' weight={500}>
-        {prop('displayName', goalData)}
+        {supportedCoins[crypto].displayName}
       </Text>
       <Text color='grey400' size='16px' uppercase weight={500}>
-        {prop('crypto', goalData)}
+        {crypto}
       </Text>
     </CryptoWrapper>
   </SimpleBuyItemWrapper>

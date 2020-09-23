@@ -101,14 +101,18 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const defineSimpleBuyGoal = function * (search) {
-    // /#/open/simple-buy?crypto={crypto}&amount={amount}&displayName={displayName}
+    // /#/open/simple-buy?crypto={crypto}&amount={amount}&email={email}
     const params = new URLSearchParams(search)
     const amount = params.get('amount')
     const crypto = params.get('crypto')
-    const displayName = params.get('displayName')
+    const email = params.get('email')
 
     yield put(
-      actions.goals.saveGoal('simpleBuy', { amount, crypto, displayName })
+      actions.goals.saveGoal('simpleBuy', {
+        amount,
+        crypto,
+        email
+      })
     )
 
     yield put(actions.router.push('/signup'))
