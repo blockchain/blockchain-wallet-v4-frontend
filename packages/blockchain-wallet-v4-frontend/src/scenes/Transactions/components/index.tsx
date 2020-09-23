@@ -1,22 +1,62 @@
+import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React from 'react'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { CoinType } from 'core/types'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
-export const CustodialTransactionRow = styled.div`
-  width: calc(100% - 14px);
+const AddressesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`
+
+export const Addresses = ({ to, from }) => {
+  return (
+    <AddressesWrapper>
+      <TextGroup inline style={{ marginBottom: '5px' }}>
+        <Text size='14px' color={'grey600'} weight={500}>
+          <FormattedMessage id='copy.to:' defaultMessage='To: ' />
+        </Text>
+        <Text
+          size='14px'
+          color={'grey600'}
+          weight={500}
+          data-e2e='transactionListItemTo'
+        >
+          {to}
+        </Text>
+      </TextGroup>
+      <TextGroup inline>
+        <Text size='14px' color={'grey600'} weight={500}>
+          <FormattedMessage id='copy.from:' defaultMessage='From: ' />
+        </Text>
+        <Text
+          size='14px'
+          color={'grey600'}
+          weight={500}
+          data-e2e='transactionListItemFrom'
+        >
+          {from}
+        </Text>
+      </TextGroup>
+    </AddressesWrapper>
+  )
+}
+
+export const TxRow = styled.div`
+  width: 100%;
+  box-sizing: border-box;
   display: flex;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid ${props => props.theme.grey000} !important;
   padding: 14px;
-  padding-left: 0px;
-  margin-left: 14px;
 `
 export const Col = styled.div<{ width: string }>`
   width: ${props => props.width};
@@ -107,9 +147,14 @@ export const Row = styled(Col)`
   align-items: center;
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
+  color: ${props => props.theme.grey800};
   justify-content: flex-end;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 `
 export const StyledFiatDisplay = styled(FiatDisplay)`
+  color: ${props => props.theme.grey600};
+  margin-top: 4px;
   justify-content: flex-end;
 `
 export const StatusAndType = styled.div`
@@ -126,7 +171,7 @@ export const Timestamp = ({ time }: { time: string | number }) => {
     >
       {moment(time)
         .local()
-        .format('MMMM D YYYY @ h:mm A')}
+        .format('MMMM D YYYY @h:mmA')}
     </Text>
   )
 }

@@ -9,17 +9,23 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import Addresses from './Addresses'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import Confirmations from './Confirmations'
 import Description from './Description'
 import FiatAtTime from './FiatAtTime'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import media from 'services/ResponsiveService'
 import Status from './Status'
 import TransactionFee from './TransactionFee'
 
-import { IconTx, Row, StatusAndType, Timestamp } from '../components'
+import {
+  Addresses,
+  IconTx,
+  Row,
+  StatusAndType,
+  StyledCoinDisplay,
+  StyledFiatDisplay,
+  Timestamp,
+  TxRow
+} from '../components'
 import { Props } from '.'
 
 const TransactionRowContainer = styled.div`
@@ -29,29 +35,15 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  box-shadow: none;
-  padding: 16px 16px 0;
   box-sizing: border-box;
-  transition: box-shadow 0.3s;
-  &.active {
-    box-shadow: 0 5px 30px 0 rgba(0, 0, 0, 0.1);
-  }
-`
-const TransactionRow = styled.div`
-  width: 100%;
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 16px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
 `
 const DetailsRow = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 25px 0;
+  box-sizing: border-box;
+  padding: 20px;
 `
 const DetailsColumn = styled.div`
   display: flex;
@@ -107,7 +99,7 @@ const NonCustodialTx = ({
     className={isToggled ? 'active' : ''}
     data-e2e='transactionRow'
   >
-    <TransactionRow onClick={() => handleToggle()}>
+    <TxRow onClick={() => handleToggle()}>
       <Row data-e2e='transactionDateColumn' width='30%'>
         <IconTx coin={coin} type={transaction.type} />
         <StatusAndType data-e2e='transactionListItemStatus'>
@@ -169,19 +161,12 @@ const NonCustodialTx = ({
         <Addresses to={transaction.to} from={transaction.from} />
       </AddressesColumn>
       <AmountColumn data-e2e='transactionAmountColumn'>
-        <FiatDisplay
-          coin={coin}
-          size='14px'
-          weight={500}
-          style={{ marginBottom: '5px' }}
-        >
+        <StyledCoinDisplay coin={coin}>{transaction.amount}</StyledCoinDisplay>
+        <StyledFiatDisplay coin={coin} size='14px' weight={500} color='grey600'>
           {transaction.amount}
-        </FiatDisplay>
-        <CoinDisplay coin={coin} size='14px' weight={400}>
-          {transaction.amount}
-        </CoinDisplay>
+        </StyledFiatDisplay>
       </AmountColumn>
-    </TransactionRow>
+    </TxRow>
     {isToggled && (
       <DetailsRow data-e2e='expandedTransactionRow'>
         <DetailsColumn data-e2e='descriptionTransactionColumn'>

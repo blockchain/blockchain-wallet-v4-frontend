@@ -1,21 +1,21 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import { SBOrderType } from 'core/types'
 import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 
 import { actions } from 'data'
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import {
+  Addresses,
   Col,
-  CustodialTransactionRow,
   Row,
   StatusAndType,
   StyledCoinDisplay,
   StyledFiatDisplay,
-  Timestamp
+  Timestamp,
+  TxRow
 } from '../components'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { getOrigin, IconTx } from './model'
 
@@ -39,7 +39,7 @@ class SimpleBuyListItem extends PureComponent<Props> {
     const orderType = getOrderType(order)
 
     return (
-      <CustodialTransactionRow onClick={() => this.showModal(order)}>
+      <TxRow onClick={() => this.showModal(order)}>
         <Row width='30%' data-e2e='orderStatusColumn'>
           <IconTx {...this.props} />
           <StatusAndType>
@@ -55,51 +55,30 @@ class SimpleBuyListItem extends PureComponent<Props> {
           </StatusAndType>
         </Row>
         <Col width='50%' data-e2e='orderToAndFrom'>
-          <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>
-            <FormattedMessage
-              id='modals.simplebuy.confirm.payment'
-              defaultMessage='Payment Method'
-            />
-            {': '}
-            {getOrigin(this.props)}
-          </Text>
-          <Text
-            size='14px'
-            weight={500}
-            color='grey600'
-            style={{ marginTop: '4px' }}
-            data-e2e='txTo'
-          >
-            <FormattedMessage id='copy.to' defaultMessage='To' />
-            {': '}
-            {this.props.order.outputCurrency} Trading Wallet
-          </Text>
+          <Addresses
+            from={<>{getOrigin(this.props)}</>}
+            to={<>{this.props.order.outputCurrency} Trading Wallet</>}
+          />
         </Col>
         <Col
           width='20%'
           style={{ textAlign: 'right' }}
           data-e2e='orderAmountColumn'
         >
-          <StyledCoinDisplay
-            coin={coin}
-            size='16px'
-            weight={600}
-            color='grey800'
-            data-e2e='orderFiatAmt'
-          >
+          <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
             {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
           </StyledCoinDisplay>
           <StyledFiatDisplay
-            coin={coin}
             size='14px'
             weight={500}
             color='grey600'
-            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
+            coin={coin}
+            data-e2e='orderFiatAmt'
           >
             {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
           </StyledFiatDisplay>
         </Col>
-      </CustodialTransactionRow>
+      </TxRow>
     )
   }
 }

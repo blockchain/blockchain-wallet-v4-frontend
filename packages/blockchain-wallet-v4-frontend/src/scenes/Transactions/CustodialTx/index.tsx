@@ -1,17 +1,17 @@
-import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { CoinTypeEnum, SBTransactionType } from 'core/types'
 import {
+  Addresses,
   Col,
-  CustodialTransactionRow,
   Row,
   StatusAndType,
   StyledCoinDisplay,
-  StyledFiatDisplay
+  StyledFiatDisplay,
+  TxRow
 } from '../components'
+import { CoinTypeEnum, SBTransactionType } from 'core/types'
 
 import {
   DepositOrWithdrawal,
@@ -22,13 +22,13 @@ import {
 } from './model'
 import { Props as OwnProps } from '../TransactionList'
 
-const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
+const StyledTxRow = styled(TxRow)`
   cursor: initial;
 `
 
 const CustodialTxListItem: React.FC<Props> = props => {
   return (
-    <StyledCustodialTransactionRow>
+    <StyledTxRow>
       <Row width='30%'>
         <IconTx {...props} />
         <StatusAndType data-e2e='orderStatusColumn'>
@@ -39,46 +39,36 @@ const CustodialTxListItem: React.FC<Props> = props => {
         </StatusAndType>
       </Row>
       <Col width='50%'>
-        <Text size='16px' weight={600} color='grey800' data-e2e='txFrom'>
-          <FormattedMessage id='copy.from' defaultMessage='From' />
-          {': '}
-          {props.tx.amount.symbol} <Origin {...props} />
-        </Text>
-        <Text
-          size='14px'
-          weight={500}
-          color='grey600'
-          style={{ marginTop: '4px' }}
-          data-e2e='txTo'
-        >
-          <FormattedMessage id='copy.to' defaultMessage='To' />
-          {': '}
-          {props.tx.amount.symbol} <Destination {...props} />
-        </Text>
+        <Addresses
+          from={
+            <>
+              {props.tx.amount.symbol} <Origin {...props} />
+            </>
+          }
+          to={
+            <>
+              {props.tx.amount.symbol} <Destination {...props} />
+            </>
+          }
+        />
       </Col>
       <Col
         width='20%'
         style={{ textAlign: 'right' }}
         data-e2e='orderAmountColumn'
       >
-        <StyledCoinDisplay
-          coin={props.coin}
-          size='16px'
-          weight={600}
-          color='grey800'
-          data-e2e='orderFiatAmt'
-        >
+        <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
           {props.tx.amount.symbol in CoinTypeEnum
             ? props.tx.amountMinor
             : props.tx.amount.value}
         </StyledCoinDisplay>
         {props.coin !== props.currency && (
           <StyledFiatDisplay
-            coin={props.coin}
             size='14px'
             weight={500}
+            coin={props.coin}
             color='grey600'
-            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
+            data-e2e='orderFiatAmt'
           >
             {props.tx.amount.symbol in CoinTypeEnum
               ? props.tx.amountMinor
@@ -86,7 +76,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
           </StyledFiatDisplay>
         )}
       </Col>
-    </StyledCustodialTransactionRow>
+    </StyledTxRow>
   )
 }
 
