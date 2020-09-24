@@ -23,14 +23,14 @@ function uuidv4() {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const pingPhone = function*(ruid, secretHex, phonePubkey, guid) {
+  const pingPhone = function*(channelId, secretHex, phonePubkey, guid) {
     let currentState = yield select(selectors.auth.getSecureChannelLogin)
     if (currentState !== Remote.NotAsked) {
       return
     }
     let msg = {
       type: 'login_wallet',
-      ruid: ruid,
+      channelId: channelId,
       timestamp: Date.now()
     }
 
@@ -56,14 +56,14 @@ export default ({ api, socket }) => {
 
   const onOpen = function*() {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
-    let ruid = yield select(selectors.cache.getChannelRuid)
+    let channelId = yield select(selectors.cache.getChannelChannelId)
 
-    if (!secretHex || !ruid) {
+    if (!secretHex || !channelId) {
       secretHex = crypto.randomBytes(32).toString('hex')
       yield put(actions.cache.channelPrivKeyCreated(secretHex))
 
-      ruid = uuidv4()
-      yield put(actions.cache.channelRuidCreated(ruid))
+      channelId = uuidv4()
+      yield put(actions.cache.channelChannelIdCreated(channelId))
     }
 
     yield call(
@@ -71,7 +71,7 @@ export default ({ api, socket }) => {
       JSON.stringify({
         command: 'subscribe',
         entity: 'secure_channel',
-        param: { ruid: ruid }
+        param: { channelId: channelId }
       })
     )
 
@@ -79,7 +79,7 @@ export default ({ api, socket }) => {
     let phonePubkey = yield select(selectors.cache.getPhonePubkey)
     let guid = yield select(selectors.cache.getLastGuid)
     if (phonePubkey && guid) {
-      yield pingPhone(ruid, secretHex, phonePubkey, guid)
+      yield pingPhone(channelId, secretHex, phonePubkey, guid)
     }
   }
 
@@ -255,7 +255,7 @@ export default ({ api, socket }) => {
             payload = JSON.parse(message.msg)
           } catch (e) {}
 
-          if (payload.ruid) {
+          if (payload.channelId) {
             if (!payload.success) {
               // TODO should this be a new action to delete, or is this fine?
               yield put(actions.cache.channelPhoneConnected(undefined))
@@ -279,8 +279,8 @@ export default ({ api, socket }) => {
             let decrypted = JSON.parse(decryptedRaw.toString('utf8'))
 
             if (decrypted.type === 'handshake') {
-              let ruid = yield select(selectors.cache.getChannelRuid)
-              yield pingPhone(ruid, secretHex, payload.pubkey, decrypted.guid)
+              let channelId = yield select(selectors.cache.getChannelChannelId)
+              yield pingPhone(channelId, secretHex, payload.pubkey, decrypted.guid)
             } else if (decrypted.type === 'login_wallet') {
               if (decrypted.remember) {
                 yield put(

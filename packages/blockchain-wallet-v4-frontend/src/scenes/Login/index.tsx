@@ -79,7 +79,7 @@ const mapStateToProps = state => ({
   qr_data: selectors.cache.getChannelPrivKey(state)
     ? JSON.stringify({
         type: 'login_wallet',
-        ruid: selectors.cache.getChannelRuid(state),
+        channelId: selectors.cache.getChannelChannelId(state),
         pubkey: wCrypto
           .derivePubFromPriv(
             Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
