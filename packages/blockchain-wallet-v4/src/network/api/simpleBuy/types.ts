@@ -1,5 +1,10 @@
+import {
+  BeneficiaryType,
+  CoinType,
+  FiatType,
+  WalletCurrencyType
+} from 'core/types'
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, FiatType, WalletCurrencyType } from 'core/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -213,9 +218,20 @@ export type SBQuoteType = {
 }
 
 export type SBTransactionType = {
-  amount: { symbol: FiatType; value: string }
+  amount: { symbol: WalletCurrencyType; value: string }
   amountMinor: string
-  extraAttributes: null
+  extraAttributes: null | {
+    amount: {
+      [key in WalletCurrencyType]: number
+    }
+    beneficiary: BeneficiaryType
+    externalRef: string
+    fee: {
+      BTC: 0
+    }
+    product: 'SIMPLEBUY'
+    user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
+  }
   id: string
   insertedAt: string
   state: SBTransactionStateType

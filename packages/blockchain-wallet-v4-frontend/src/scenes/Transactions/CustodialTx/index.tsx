@@ -1,10 +1,14 @@
 import { Text } from 'blockchain-info-components'
-import React from 'react'
+import React, { useState } from 'react'
 
 import {
   Addresses,
   Col,
+  DetailsColumn,
+  DetailsRow,
   Row,
+  RowHeader,
+  RowValue,
   StatusAndType,
   StyledCoinDisplay,
   StyledFiatDisplay,
@@ -18,13 +22,17 @@ import {
   Destination,
   IconTx,
   Origin,
+  Status,
   Timestamp
 } from './model'
+import { FormattedMessage } from 'react-intl'
 import { Props as OwnProps } from '../TransactionList'
 
 const CustodialTxListItem: React.FC<Props> = props => {
+  const [isToggled, setIsToggled] = useState(false)
+
   return (
-    <TxRowContainer>
+    <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
       <TxRow>
         <Row width='30%'>
           <IconTx {...props} />
@@ -79,6 +87,31 @@ const CustodialTxListItem: React.FC<Props> = props => {
           )}
         </Col>
       </TxRow>
+      {isToggled && (
+        <DetailsRow>
+          <DetailsColumn>
+            <RowHeader>
+              <FormattedMessage
+                defaultMessage='Transaction ID'
+                id='modals.simplebuy.summary.txid'
+              />
+            </RowHeader>
+            <RowValue>{props.tx.id}</RowValue>
+          </DetailsColumn>
+          <DetailsColumn />
+          <DetailsColumn>
+            <RowHeader>
+              <FormattedMessage
+                defaultMessage='Status'
+                id='components.txlistitem.status'
+              />
+            </RowHeader>
+            <RowValue>
+              <Status {...props} />
+            </RowValue>
+          </DetailsColumn>
+        </DetailsRow>
+      )}
     </TxRowContainer>
   )
 }
