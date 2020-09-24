@@ -574,7 +574,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                   size='12px'
                   weight={500}
                   onClick={() =>
-                    middlewareActions.webSocket.coins.resendMessageSocket
+                    middlewareActions.webSocket.coins.resendMessageSocket()
                   }
                 >
                   <FormattedMessage
