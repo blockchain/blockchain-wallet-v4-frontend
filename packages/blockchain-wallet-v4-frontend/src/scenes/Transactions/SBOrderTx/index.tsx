@@ -1,9 +1,10 @@
 import { bindActionCreators, Dispatch } from 'redux'
+import { Button, Text } from 'blockchain-info-components'
 import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { SBOrderType, SupportedWalletCurrenciesType } from 'core/types'
-import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import {
@@ -37,6 +38,10 @@ import {
 import { getOrigin, IconTx, Status, Timestamp } from './model'
 import { RootState } from 'data/rootReducer'
 
+const LastCol = styled(Col)`
+  display: flex;
+  justify-content: flex-end;
+`
 class SimpleBuyListItem extends PureComponent<Props, State> {
   state: State = { isToggled: false }
 
@@ -92,24 +97,51 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               to={<>{this.props.order.outputCurrency} Trading Wallet</>}
             />
           </Col>
-          <Col
-            width='20%'
-            style={{ textAlign: 'right' }}
-            data-e2e='orderAmountColumn'
-          >
-            <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
-              {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
-            </StyledCoinDisplay>
-            <StyledFiatDisplay
-              size='14px'
-              weight={500}
-              color='grey600'
-              coin={coin}
-              data-e2e='orderFiatAmt'
+          {order.state === 'PENDING_CONFIRMATION' ||
+          order.state === 'PENDING_DEPOSIT' ? (
+            <LastCol
+              width='20%'
+              style={{ textAlign: 'right', alignItems: 'flex-end' }}
+              data-e2e='orderAmountColumn'
             >
-              {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
-            </StyledFiatDisplay>
-          </Col>
+              <Button
+                data-e2e='viewInfoButton'
+                size='14px'
+                height='35px'
+                nature='light'
+                // @ts-ignore
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  return this.showModal(order)
+                }}
+              >
+                <FormattedMessage
+                  id='modals.simplebuy.transactionlist.viewdetails'
+                  defaultMessage='View Details'
+                />
+              </Button>
+            </LastCol>
+          ) : (
+            <Col width='20%' data-e2e='orderAmountColumn'>
+              <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
+                {orderType === 'BUY'
+                  ? order.outputQuantity
+                  : order.inputQuantity}
+              </StyledCoinDisplay>
+              <StyledFiatDisplay
+                size='14px'
+                weight={500}
+                color='grey600'
+                coin={coin}
+                data-e2e='orderFiatAmt'
+              >
+                {orderType === 'BUY'
+                  ? order.outputQuantity
+                  : order.inputQuantity}
+              </StyledFiatDisplay>
+            </Col>
+          )}
         </TxRow>
         {this.state.isToggled && (
           <DetailsRow>
