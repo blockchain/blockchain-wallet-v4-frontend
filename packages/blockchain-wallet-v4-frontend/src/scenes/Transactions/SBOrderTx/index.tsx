@@ -1,25 +1,49 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { SBOrderType } from 'core/types'
+import { FormattedMessage } from 'react-intl'
+import { SBOrderType, SupportedWalletCurrenciesType } from 'core/types'
 import { Text } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import {
   Addresses,
   Col,
+  DetailsColumn,
+  DetailsRow,
   Row,
+  RowHeader,
+  RowValue,
   StatusAndType,
   StyledCoinDisplay,
   StyledFiatDisplay,
-  Timestamp,
-  TxRow
+  TxRow,
+  TxRowContainer
 } from '../components'
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
-import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { getOrigin, IconTx } from './model'
+import {
+  BuyOrSell,
+  displayFiat
+} from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { fiatToString } from 'core/exchange/currency'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCoinFromPair,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
+import { getOrigin, IconTx, Status, Timestamp } from './model'
+import { RootState } from 'data/rootReducer'
 
-class SimpleBuyListItem extends PureComponent<Props> {
+class SimpleBuyListItem extends PureComponent<Props, State> {
+  state: State = { isToggled: false }
+
+  handleToggle = () => {
+    this.setState({ isToggled: !this.state.isToggled })
+  }
+
   showModal = (order: SBOrderType) => {
     this.props.modalActions.showModal('SIMPLE_BUY_MODAL', {
       origin: 'TransactionList'
@@ -34,51 +58,123 @@ class SimpleBuyListItem extends PureComponent<Props> {
   }
 
   render () {
-    const { order } = this.props
+    const { order, supportedCoins } = this.props
     const coin = getCoinFromPair(order.pair)
     const orderType = getOrderType(order)
+    const baseAmount = getBaseAmount(order)
+    const baseCurrency = getBaseCurrency(order, supportedCoins)
+    const counterAmount = getCounterAmount(order)
+    const counterCurrency = getCounterCurrency(order, supportedCoins)
 
     return (
-      <TxRow onClick={() => this.showModal(order)}>
-        <Row width='30%' data-e2e='orderStatusColumn'>
-          <IconTx {...this.props} />
-          <StatusAndType>
-            <Text
-              size='16px'
-              color='grey800'
-              weight={600}
-              data-e2e='txTypeText'
-            >
-              <BuyOrSell crypto={coin} orderType={orderType} />
-            </Text>
-            <Timestamp time={order.insertedAt} />
-          </StatusAndType>
-        </Row>
-        <Col width='50%' data-e2e='orderToAndFrom'>
-          <Addresses
-            from={<>{getOrigin(this.props)}</>}
-            to={<>{this.props.order.outputCurrency} Trading Wallet</>}
-          />
-        </Col>
-        <Col
-          width='20%'
-          style={{ textAlign: 'right' }}
-          data-e2e='orderAmountColumn'
-        >
-          <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
-            {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
-          </StyledCoinDisplay>
-          <StyledFiatDisplay
-            size='14px'
-            weight={500}
-            color='grey600'
-            coin={coin}
-            data-e2e='orderFiatAmt'
+      <TxRowContainer
+        className={this.state.isToggled ? 'active' : ''}
+        data-e2e='transactionRow'
+      >
+        <TxRow onClick={this.handleToggle}>
+          <Row width='30%' data-e2e='orderStatusColumn'>
+            <IconTx {...this.props} />
+            <StatusAndType>
+              <Text
+                size='16px'
+                color='grey800'
+                weight={600}
+                data-e2e='txTypeText'
+              >
+                <BuyOrSell crypto={coin} orderType={orderType} />
+              </Text>
+              <Timestamp {...this.props} />
+            </StatusAndType>
+          </Row>
+          <Col width='50%' data-e2e='orderToAndFrom'>
+            <Addresses
+              from={<>{getOrigin(this.props)}</>}
+              to={<>{this.props.order.outputCurrency} Trading Wallet</>}
+            />
+          </Col>
+          <Col
+            width='20%'
+            style={{ textAlign: 'right' }}
+            data-e2e='orderAmountColumn'
           >
-            {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
-          </StyledFiatDisplay>
-        </Col>
-      </TxRow>
+            <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
+              {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
+            </StyledCoinDisplay>
+            <StyledFiatDisplay
+              size='14px'
+              weight={500}
+              color='grey600'
+              coin={coin}
+              data-e2e='orderFiatAmt'
+            >
+              {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
+            </StyledFiatDisplay>
+          </Col>
+        </TxRow>
+        {this.state.isToggled && (
+          <DetailsRow>
+            <DetailsColumn>
+              <RowHeader>
+                <FormattedMessage
+                  defaultMessage='Transaction ID'
+                  id='modals.simplebuy.summary.txid'
+                />
+              </RowHeader>
+              <RowValue>{order.id}</RowValue>
+              <RowHeader>
+                <FormattedMessage
+                  id='modals.simplebuy.summary.rate'
+                  defaultMessage='Exchange Rate'
+                />
+              </RowHeader>
+              <RowValue data-e2e='sbRate'>
+                {fiatToString({
+                  unit: counterCurrency,
+                  value: convertBaseToStandard('FIAT', order.price)
+                })}{' '}
+                / {baseCurrency}
+              </RowValue>
+              {order.fee !== '0' && (
+                <>
+                  <RowHeader>
+                    <FormattedMessage id='copy.fee' defaultMessage='Fee' />
+                  </RowHeader>
+                  <RowValue data-e2e='sbFee'>
+                    {displayFiat(order, supportedCoins, order.fee || '0')}
+                  </RowValue>
+                </>
+              )}
+            </DetailsColumn>
+            <DetailsColumn />
+            <DetailsColumn>
+              <RowHeader>
+                <FormattedMessage
+                  defaultMessage='Status'
+                  id='components.txlistitem.status'
+                />
+              </RowHeader>
+              <RowValue>
+                <Status {...this.props} />
+              </RowValue>
+              <RowHeader>
+                <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+              </RowHeader>
+              <RowValue data-e2e='sbPurchasing'>
+                {baseAmount} of {baseCurrency}
+              </RowValue>
+              <RowHeader>
+                <FormattedMessage id='copy.total' defaultMessage='Total' />
+              </RowHeader>
+              <RowValue data-e2e='sbSentTotal'>
+                {fiatToString({
+                  unit: counterCurrency,
+                  value: counterAmount
+                })}
+              </RowValue>
+            </DetailsColumn>
+          </DetailsRow>
+        )}
+      </TxRowContainer>
     )
   }
 }
@@ -88,12 +184,18 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(undefined, mapDispatchToProps)
+const mapStateToProps = (state: RootState) => ({
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   order: SBOrderType
 }
-
 export type Props = OwnProps & ConnectedProps<typeof connector>
+type State = { isToggled: boolean }
 
 export default connector(SimpleBuyListItem)

@@ -35,7 +35,7 @@ const SearchField = styled<any>(Field)`
 
 const TransactionFilters = ({ handleClickReporting }) => (
   <StickyHeader>
-    <HorizontalMenu marginBottom='0px'>
+    <HorizontalMenu marginBottom='0px' border={false}>
       <Field
         name='status'
         statuses={['', 'sent', 'received', 'transferred']}

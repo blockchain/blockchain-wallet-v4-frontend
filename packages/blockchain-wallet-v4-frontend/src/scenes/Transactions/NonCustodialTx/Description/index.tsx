@@ -1,12 +1,11 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 
 import { actions } from 'data'
 import EditDescription from './template'
 
-class EditDescriptionContainer extends React.PureComponent {
+class EditDescriptionContainer extends React.PureComponent<Props> {
   state = { newDescription: this.props.description }
 
   handleConfirm = desc => {
@@ -17,6 +16,7 @@ class EditDescriptionContainer extends React.PureComponent {
 
   handleChange = () => {
     this.props.modalActions.showModal('EditTxDescription', {
+      origin: 'TransactionList',
       handleConfirm: this.handleConfirm,
       value: this.state.newDescription
     })
@@ -34,12 +34,16 @@ class EditDescriptionContainer extends React.PureComponent {
   }
 }
 
-EditDescriptionContainer.propTypes = {
-  description: PropTypes.string,
-  handleEditDescription: PropTypes.func.isRequired
+type OwnProps = {
+  description?: string
+  handleEditDescription: (value?: string) => void
 }
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connect(null, mapDispatchToProps)(EditDescriptionContainer)

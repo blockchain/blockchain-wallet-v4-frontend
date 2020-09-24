@@ -177,6 +177,7 @@ export type ISBBuyOrderType = {
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
   price?: string
+  side: SBOrderActionType
   state: SBOrderStateType
   updatedAt: string
 }

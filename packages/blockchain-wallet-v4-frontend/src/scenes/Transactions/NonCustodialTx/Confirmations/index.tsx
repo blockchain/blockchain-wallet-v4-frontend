@@ -1,7 +1,6 @@
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -9,6 +8,7 @@ import { getBlockHeight } from './selectors'
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { RowValue } from '../../components'
 import { selectors } from 'data'
+import { SupportedWalletCurrenciesType } from 'core/types'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -118,17 +118,21 @@ const Confirmations = props => {
   )
 }
 
-Confirmations.propTypes = {
-  blockHeight: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired,
-  txBlockHeight: PropTypes.number.isRequired
-}
-
 const mapStateToProps = (state, ownProps) => ({
   blockHeight: getBlockHeight(state, ownProps.coin),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-export default connect(mapStateToProps)(Confirmations)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  blockHeight: number
+  hash: string
+  txBlockHeight: number
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Confirmations)

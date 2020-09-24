@@ -47,7 +47,18 @@ export const Addresses = ({ to, from }) => {
     </AddressesWrapper>
   )
 }
-
+export const TxRowContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+  &:not(:last-child) {
+    border-bottom: 1px solid ${props => props.theme.grey000};
+  }
+`
 export const TxRow = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -55,12 +66,32 @@ export const TxRow = styled.div`
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid ${props => props.theme.grey000} !important;
   padding: 14px;
 `
 export const Col = styled.div<{ width: string }>`
   width: ${props => props.width};
 `
+
+export const DetailsRow = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 20px;
+  padding-top: 8px;
+`
+export const DetailsColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 33.333%;
+  &:last-child {
+    align-items: flex-end;
+  }
+`
+
 export const IconTx = ({
   coin,
   type

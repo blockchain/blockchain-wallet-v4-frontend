@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -50,9 +49,9 @@ const EditDescription = props => {
   )
 }
 
-EditDescription.propTypes = {
-  value: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired
+type OwnProps = {
+  handleChange: (value?: string) => void
+  value?: string
 }
 
 export default EditDescription

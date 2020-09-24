@@ -317,6 +317,7 @@ type MessagesType = {
   'copy.refunded': 'Refunded'
   'copy.to': 'To'
   'copy.to:': 'To: '
+  'copy.transaction_fee': 'Transaction Fee'
   'copy.total': 'Total'
   'copy.view': 'View'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'
