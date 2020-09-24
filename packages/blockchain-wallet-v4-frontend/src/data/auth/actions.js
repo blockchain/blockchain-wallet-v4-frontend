@@ -20,6 +20,9 @@ export const mobileLogin = data => ({
   type: AT.MOBILE_LOGIN,
   payload: { data }
 })
+export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
+export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
+
 export const register = (email, password, language) => ({
   type: AT.REGISTER,
   payload: { email, password, language }
