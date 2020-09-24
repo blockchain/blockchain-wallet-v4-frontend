@@ -13,7 +13,7 @@ const AndroidAppBanner = () => {
   const [installPromptDeffered, setInstallPromptDeffered] = useState<
     PromptType
   >({})
-  const [showPrompt, setShowPrompt] = useState(true)
+  const [showPrompt, setShowPrompt] = useState(false)
 
   useEffect(() => {
     console.log('component mounted')
