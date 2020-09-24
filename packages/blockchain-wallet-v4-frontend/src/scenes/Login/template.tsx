@@ -59,7 +59,6 @@ const SideWrapper = styled.div`
   padding: 12px 0 12px 0;
   display: flex;
   flex-direction: column;
-  z-index: -1;
 `
 const CenterWrapper = styled.div`
   display: flex;
@@ -153,6 +152,9 @@ export const CartridgeContainer = styled.div`
     text-transform: uppercase;
   }
 `
+export const CartridgeSentContainer = styled.div`
+  width: auto;
+`
 
 const LinkAccountTitle = () => (
   <TitleWrapper>
@@ -177,6 +179,8 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     loginError,
     password,
     submitting,
+    phonePubKey,
+    cacheActions,
     ...rest
   } = props
   const { handleSubmit, handleSmsResend, authType } = rest
@@ -446,67 +450,152 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
       </CenterWrapper>
       <SideWrapper>
         <PublicSideWrapper>
-          <CartridgeContainer>
-            <SuccessCartridge>
-              <FormattedMessage id='copy.new' defaultMessage='New' />
-            </SuccessCartridge>
-          </CartridgeContainer>
+          {!phonePubKey && (
+            <>
+              <CartridgeContainer>
+                <SuccessCartridge>
+                  <FormattedMessage id='copy.new' defaultMessage='New' />
+                </SuccessCartridge>
+              </CartridgeContainer>
 
-          <Text
-            size='16px'
-            color='grey900'
-            weight={600}
-            style={{ marginTop: '8px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.qrcodelogin'
-              defaultMessage='QR Code Log In'
-            />
-          </Text>
-          <TextGroup inline style={{ marginTop: '8px', lineHeight: '18px' }}>
-            <DescriptionText size='12px' color='grey900' weight={500}>
-              <FormattedMessage
-                id='scenes.login.qrcodelogin_description_1'
-                defaultMessage='Open your mobile Blockchain App, tap the QR Code Scanner'
-              />
-            </DescriptionText>
-            <DescriptionIcon color='grey900' name='qr-camera' size='16px' />
-            <Text size='12px' color='grey900' weight={500}>
-              <FormattedMessage
-                id='scenes.login.qrcodelogin_description_2'
-                defaultMessage='in the top right & scan this code to log in.'
-              />
-            </Text>
-          </TextGroup>
-
-          <QRCodeContainer>
-            {props.secureChannelLoginState.cata({
-              Success: () => {
-                return (
-                  <Text size='14px' weight={600}>
-                    Success! Logging in...
-                  </Text>
-                )
-              },
-              Failure: e => (
-                <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
-              ),
-              Loading: () => {
-                return (
-                  <Text size='14px' weight={600}>
-                    Please confirm the login on your mobile device...
-                  </Text>
-                )
-              },
-              NotAsked: () => (
-                <QRCodeWrapper
-                  value={qr_data}
-                  size={qr_data.length}
-                  showImage
+              <Text
+                size='16px'
+                color='grey900'
+                weight={600}
+                style={{ marginTop: '8px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.qrcodelogin'
+                  defaultMessage='QR Code Log In'
                 />
-              )
-            })}
-          </QRCodeContainer>
+              </Text>
+              <TextGroup
+                inline
+                style={{ marginTop: '8px', lineHeight: '18px' }}
+              >
+                <DescriptionText size='12px' color='grey900' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_description_1'
+                    defaultMessage='Open your mobile Blockchain App, tap the QR Code Scanner'
+                  />
+                </DescriptionText>
+                <DescriptionIcon color='grey900' name='qr-camera' size='16px' />
+                <Text size='12px' color='grey900' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_description_2'
+                    defaultMessage='in the top right & scan this code to log in.'
+                  />
+                </Text>
+              </TextGroup>
+
+              <QRCodeContainer>
+                {props.secureChannelLoginState.cata({
+                  Success: () => {
+                    return (
+                      <Text size='14px' weight={600}>
+                        Success! Logging in...
+                      </Text>
+                    )
+                  },
+                  Failure: e => (
+                    <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>
+                  ),
+                  Loading: () => {
+                    return (
+                      <Text size='14px' weight={600}>
+                        Please confirm the login on your mobile device...
+                      </Text>
+                    )
+                  },
+                  NotAsked: () => (
+                    <QRCodeWrapper
+                      value={qr_data}
+                      size={qr_data.length}
+                      showImage
+                    />
+                  )
+                })}
+              </QRCodeContainer>
+            </>
+          )}
+
+          {phonePubKey && (
+            <>
+              <CartridgeSentContainer>
+                <SuccessCartridge>
+                  <FormattedMessage
+                    id='scenes.login.wallet.message.sent'
+                    defaultMessage='Message Sent'
+                  />
+                </SuccessCartridge>
+              </CartridgeSentContainer>
+
+              <Text
+                size='16px'
+                color='grey900'
+                weight={600}
+                style={{ marginTop: '8px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.wallet.connected.title'
+                  defaultMessage='Mobile Device Connected'
+                />
+              </Text>
+
+              <Text
+                size='12px'
+                color='grey900'
+                weight={500}
+                style={{ marginTop: '8px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.wallet.connected.description_1'
+                  defaultMessage='We sent your connected mobile device a notification. Open the app to auto-log in on the web.'
+                />
+              </Text>
+              <Text
+                size='12px'
+                color='grey900'
+                weight={500}
+                style={{ marginTop: '24px' }}
+              >
+                <FormattedMessage
+                  id='scenes.login.wallet.connected.description_2'
+                  defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled.'
+                />
+              </Text>
+
+              <TextGroup
+                inline
+                style={{ marginTop: '8px', lineHeight: '18px' }}
+              >
+                <Link size='12px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.login.wallet.connected.send_it_again'
+                    defaultMessage='Send Again'
+                  />
+                </Link>
+
+                <Text size='12px' color='grey900' weight={500}>
+                  <FormattedMessage
+                    id='modals.mobilenumberverify.getcode2'
+                    defaultMessage='or'
+                  />
+                </Text>
+
+                <Link
+                  size='12px'
+                  weight={500}
+                  onClick={() => cacheActions.disconnectChannelPhone()}
+                >
+                  <FormattedMessage
+                    id='scenes.login.wallet.connected.add_a_new_device'
+                    defaultMessage='Add a New Device'
+                  />
+                </Link>
+              </TextGroup>
+            </>
+          )}
         </PublicSideWrapper>
       </SideWrapper>
     </OuterWrapper>

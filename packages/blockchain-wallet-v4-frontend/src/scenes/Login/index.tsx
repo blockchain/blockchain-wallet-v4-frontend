@@ -79,14 +79,15 @@ const mapStateToProps = state => ({
   qr_data: selectors.cache.getChannelPrivKey(state)
     ? JSON.stringify({
         type: 'login_wallet',
-        ruid: selectors.cache.getChannelRuid(state),
+        channelId: selectors.cache.getChannelRuid(state),
         pubkey: wCrypto
           .derivePubFromPriv(
             Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex')
           )
           .toString('hex')
       })
-    : ''
+    : '',
+  phonePubKey: selectors.cache.getPhonePubkey(state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -94,7 +95,8 @@ const mapDispatchToProps = dispatch => ({
   middlewareActions: bindActionCreators(actions.ws, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
