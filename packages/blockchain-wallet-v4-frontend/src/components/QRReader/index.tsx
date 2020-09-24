@@ -1,7 +1,6 @@
 import { Banner, BlockchainLoader } from 'blockchain-info-components'
 import { checkHasWebcam } from 'utils/helpers'
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import QrReader from 'react-qr-reader'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
@@ -22,7 +21,7 @@ const Wrapper = styled.div`
   margin: 20px;
 `
 
-const QRReader = props => {
+const QRReader = (props: Props) => {
   const { onScan, onError } = props
   const [hasWebcam, setHasWebcam] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -52,9 +51,9 @@ const QRReader = props => {
   )
 }
 
-QRReader.propTypes = {
-  onScan: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired
+type Props = {
+  onError: () => void
+  onScan: () => void
 }
 
 export default QRReader

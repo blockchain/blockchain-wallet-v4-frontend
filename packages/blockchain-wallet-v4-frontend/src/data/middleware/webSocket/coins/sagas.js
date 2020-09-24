@@ -56,14 +56,14 @@ export default ({ api, socket }) => {
 
   const onOpen = function * () {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
-    let channelId = yield select(selectors.cache.getChannelRuid)
+    let channelId = yield select(selectors.cache.getChannelChannelId)
 
     if (!secretHex || !channelId) {
       secretHex = crypto.randomBytes(32).toString('hex')
       yield put(actions.cache.channelPrivKeyCreated(secretHex))
 
       channelId = uuidv4()
-      yield put(actions.cache.channelRuidCreated(channelId))
+      yield put(actions.cache.channelChannelIdCreated(channelId))
     }
 
     yield call(
@@ -255,7 +255,7 @@ export default ({ api, socket }) => {
             payload = JSON.parse(message.msg)
           } catch (e) {}
 
-          if (payload.ruid) {
+          if (payload.channelId) {
             if (!payload.success) {
               // TODO should this be a new action to delete, or is this fine?
               yield put(actions.cache.channelPhoneConnected(undefined))
@@ -279,8 +279,13 @@ export default ({ api, socket }) => {
             let decrypted = JSON.parse(decryptedRaw.toString('utf8'))
 
             if (decrypted.type === 'handshake') {
-              let ruid = yield select(selectors.cache.getChannelRuid)
-              yield pingPhone(ruid, secretHex, payload.pubkey, decrypted.guid)
+              let channelId = yield select(selectors.cache.getChannelChannelId)
+              yield pingPhone(
+                channelId,
+                secretHex,
+                payload.pubkey,
+                decrypted.guid
+              )
             } else if (decrypted.type === 'login_wallet') {
               if (decrypted.remember) {
                 yield put(

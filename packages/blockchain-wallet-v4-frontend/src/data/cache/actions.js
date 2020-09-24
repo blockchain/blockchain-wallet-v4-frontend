@@ -16,9 +16,9 @@ export const channelPrivKeyCreated = privKey => ({
   type: AT.CHANNEL_PRIV_KEY_CREATED,
   payload: { privKey }
 })
-export const channelRuidCreated = ruid => ({
-  type: AT.CHANNEL_RUID_CREATED,
-  payload: { ruid }
+export const channelChannelIdCreated = channelId => ({
+  type: AT.CHANNEL_CHANNEL_ID_CREATED,
+  payload: { channelId }
 })
 export const channelPhoneConnected = phonePubkey => ({
   type: AT.CHANNEL_PHONE_CONNECTED,

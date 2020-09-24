@@ -23,9 +23,9 @@ const cache = (state = INITIAL_STATE, action) => {
       const { privKey } = payload
       return assoc('channelPrivKey', privKey, state)
     }
-    case AT.CHANNEL_RUID_CREATED: {
-      const { ruid } = payload
-      return assoc('channelRuid', ruid, state)
+    case AT.CHANNEL_CHANNEL_ID_CREATED: {
+      const { channelId } = payload
+      return assoc('channelChannelId', channelId, state)
     }
     case AT.CHANNEL_PHONE_CONNECTED: {
       const { phonePubkey } = payload
