@@ -378,10 +378,19 @@ export default ({ api, socket }) => {
     )
   }
 
+  const resendMessageSocket = function * () {
+    const secretHex = yield select(selectors.cache.getChannelPrivKey)
+    const channelId = yield select(selectors.cache.getChannelChannelId)
+    const phonePubkey = yield select(selectors.cache.getPhonePubkey)
+    const guid = yield select(selectors.cache.getLastGuid)
+    yield pingPhone(channelId, secretHex, phonePubkey, guid)
+  }
+
   return {
     onOpen,
     onAuth,
     onMessage,
-    onClose
+    onClose,
+    resendMessageSocket
   }
 }

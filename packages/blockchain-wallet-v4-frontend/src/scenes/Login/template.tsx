@@ -181,6 +181,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     submitting,
     phonePubKey,
     cacheActions,
+    middlewareActions,
     ...rest
   } = props
   const { handleSubmit, handleSmsResend, authType } = rest
@@ -569,7 +570,13 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
                 inline
                 style={{ marginTop: '8px', lineHeight: '18px' }}
               >
-                <Link size='12px' weight={500}>
+                <Link
+                  size='12px'
+                  weight={500}
+                  onClick={() =>
+                    middlewareActions.webSocket.coins.resendMessageSocket
+                  }
+                >
                   <FormattedMessage
                     id='scenes.login.wallet.connected.send_it_again'
                     defaultMessage='Send Again'
