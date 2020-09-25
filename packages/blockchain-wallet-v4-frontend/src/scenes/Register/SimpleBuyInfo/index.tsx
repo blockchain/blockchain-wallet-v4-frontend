@@ -1,4 +1,4 @@
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -10,6 +10,7 @@ const SimpleBuyItemWrapper = styled.div`
 
 const SimpleWrapper = styled.div`
   display: flex;
+  min-width: 0;
 `
 
 const AmountWrapper = styled.div`
@@ -22,16 +23,25 @@ const AmountWrapper = styled.div`
   padding: 12px;
   margin-right: 16px;
   margin-top: 32px;
+  min-width: 0;
 `
 
 const CryptoWrapper = styled(AmountWrapper)`
   flex: 3;
   justify-content: initial;
   margin-right: 0;
+  min-width: initial;
 
   > * {
     margin-right: 8px;
   }
+`
+
+const Amount = styled(Text)`
+  padding-left: 4px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const SimpleBuyInfo = ({ supportedCoins, goalData: { amount, crypto } }) => (
@@ -41,11 +51,10 @@ const SimpleBuyInfo = ({ supportedCoins, goalData: { amount, crypto } }) => (
         <Text size='16px' color='grey400' weight={500}>
           $
         </Text>
-        <Text size='16px' color='black' weight={500}>
+        <Amount size='16px' color='black' weight={500}>
           {amount}
-        </Text>
+        </Amount>
       </SimpleWrapper>
-      <Image name='us-flag' height='24px' />
     </AmountWrapper>
 
     <CryptoWrapper>
