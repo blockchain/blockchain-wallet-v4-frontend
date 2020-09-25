@@ -9,8 +9,9 @@ import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
+  max-width: 100%;
   ${media.atLeastTablet`
-    width: calc(100% - 350px);
+    width: calc(100% - 100px);
   `}
   ${media.tablet`
     margin-left: 20px;
