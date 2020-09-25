@@ -74,7 +74,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   return {
     getBeneficiaries,
     getWithdrawalLocks,
-    getWithdrawalFees
+    getWithdrawalFees,
     notifyNonCustodialToCustodialTransfer,
     withdrawFunds
   }
