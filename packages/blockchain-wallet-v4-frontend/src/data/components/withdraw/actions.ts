@@ -1,6 +1,10 @@
 import * as AT from './actionTypes'
-import { BeneficiaryType, WalletFiatType } from 'core/types'
-import { WithdrawStepActionsPayload } from './types'
+import {
+  BeneficiaryType,
+  WalletFiatType,
+  WithdrawalMinsAndFeesResponse
+} from 'core/types'
+import { WithdrawActionTypes, WithdrawStepActionsPayload } from './types'
 
 export const handleCustodyWithdraw = (
   amount: string,
@@ -24,5 +28,32 @@ export const showModal = (fiatCurrency: WalletFiatType) => ({
   type: AT.SHOW_MODAL,
   payload: {
     fiatCurrency
+  }
+})
+
+export const fetchWithdrawalFees = (currency?: WalletFiatType) => ({
+  type: AT.FETCH_WITHDRAWAL_FEES,
+  currency
+})
+
+export const fetchWithdrawalFeesFailure = (
+  error: string
+): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_FEES_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchWithdrawalFeesLoading = (): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_FEES_LOADING
+})
+
+export const fetchWithdrawalFeesSuccess = (
+  withdrawFeesResponse: WithdrawalMinsAndFeesResponse
+): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS,
+  payload: {
+    withdrawFeesResponse
   }
 })

@@ -1,9 +1,11 @@
 import {
   BeneficiariesType,
   BeneficiaryType,
+  CustodialProductType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
   WithdrawalLockResponseType,
+  WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from './types'
 import { CoinType, WalletFiatType } from 'core/types'
@@ -60,9 +62,19 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       }
     })
 
+  const getWithdrawalFees = (
+    product: CustodialProductType
+  ): WithdrawalMinsAndFeesResponse =>
+    authorizedGet({
+      url: nabuUrl,
+      ignoreQueryParams: true,
+      endPoint: `/payments/withdrawals/fees?product=${product}`
+    })
+
   return {
     getBeneficiaries,
     getWithdrawalLocks,
+    getWithdrawalFees,
     notifyNonCustodialToCustodialTransfer,
     withdrawFunds
   }

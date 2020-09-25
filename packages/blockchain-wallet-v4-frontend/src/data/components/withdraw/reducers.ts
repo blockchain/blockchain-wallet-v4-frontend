@@ -1,12 +1,14 @@
 import * as AT from './actionTypes'
 import { WithdrawActionTypes, WithdrawState } from './types'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: WithdrawState = {
   amount: undefined,
   beneficiary: undefined,
   fiatCurrency: 'EUR',
   step: 'ENTER_AMOUNT',
-  withdrawal: undefined
+  withdrawal: undefined,
+  feesAndMinAmount: Remote.NotAsked
 }
 
 export function withdrawReducer (
@@ -46,6 +48,24 @@ export function withdrawReducer (
         }
       }
       break
+    case AT.FETCH_WITHDRAWAL_FEES_LOADING: {
+      return {
+        ...state,
+        feesAndMinAmount: Remote.Loading
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_FEES_SUCCESS: {
+      return {
+        ...state,
+        feesAndMinAmount: Remote.Success(action.payload.withdrawFeesResponse)
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_FEES_FAILURE: {
+      return {
+        ...state,
+        feesAndMinAmount: Remote.Failure(action.payload.error)
+      }
+    }
     default:
       return state
   }
