@@ -26,6 +26,7 @@ import { required, validWalletId } from 'services/FormHelper'
 import { SuccessCartridge } from 'components/Cartridge'
 import { Wrapper } from 'components/Public'
 import Bowser from 'bowser'
+import media from 'services/ResponsiveService'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
 import styled from 'styled-components'
@@ -53,13 +54,19 @@ const OuterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 1028px;
+  ${media.tabletL`
+    width: 100%;
+    justify-content: center;
+  `};
 `
 const SideWrapper = styled.div`
   width: 274px;
   padding: 12px 0 12px 0;
   display: flex;
   flex-direction: column;
-  z-index: -1;
+  ${media.tabletL`
+    display: none;
+  `};
 `
 const CenterWrapper = styled.div`
   display: flex;
