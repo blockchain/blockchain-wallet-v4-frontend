@@ -1,13 +1,15 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { includes } from 'ramda'
 import React from 'react'
 
 import { actions, model, selectors } from 'data'
-import TransactionListItem from './template'
+import { CoinType, FiatType, ProcessedTxType } from 'core/types'
+import NonCustodialTx from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics
-class ListItemContainer extends React.PureComponent {
+
+class NonCustodialTxListItem extends React.PureComponent<Props> {
   state = { isToggled: false }
 
   handleToggle = () => {
@@ -40,7 +42,7 @@ class ListItemContainer extends React.PureComponent {
       }
       default: {
         this.props.logActions.logErrorMessage(
-          'components/TransactionListItem',
+          'components/NonCustodialTx',
           'handleEditDescription',
           'Unsupported Coin Code'
         )
@@ -61,25 +63,21 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
-    const { coin, coinTicker, currency, transaction } = this.props
     return (
-      <TransactionListItem
-        coin={coin}
-        coinTicker={coinTicker}
-        currency={currency}
+      <NonCustodialTx
+        {...this.props}
         handleEditDescription={this.handleEditDescription}
         handleRetrySendEth={this.handleRetrySendEth}
         handleToggle={this.handleToggle}
-        isToggled={this.state.isToggled}
         onViewTxDetails={this.onViewTxDetails}
-        transaction={transaction}
+        isToggled={this.state.isToggled}
       />
     )
   }
 }
 
 const mapStateToProps = state => ({
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
+  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -94,4 +92,15 @@ const mapDispatchToProps = dispatch => ({
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListItemContainer)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  coin: CoinType
+  coinTicker: string
+  currency: FiatType
+  transaction: ProcessedTxType
+}
+
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(NonCustodialTxListItem)

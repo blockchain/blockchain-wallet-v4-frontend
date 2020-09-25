@@ -1,5 +1,6 @@
 import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
+import { AddressTypesType } from '../types'
 import {
   calculateEffectiveBalance,
   calculateFee,
@@ -10,7 +11,6 @@ import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
 import { EthRawTxType } from 'core/types'
 import { FETCH_FEES_FAILURE } from '../model'
-import { FromType } from '../types'
 import {
   identity,
   indexOf,
@@ -171,7 +171,7 @@ export default ({ api }) => {
         return makePayment(mergeRight(p, { amount }))
       },
 
-      * from (origin, type: FromType, effectiveBalance?: string) {
+      * from (origin, type: AddressTypesType, effectiveBalance?: string) {
         let from, unconfirmedTx
 
         if (type === 'CUSTODIAL') {

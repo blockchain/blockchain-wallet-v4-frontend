@@ -6,13 +6,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { getBlockHeight } from './selectors'
-import {
-  Icon,
-  Link,
-  Text,
-  Tooltip,
-  TooltipHost
-} from 'blockchain-info-components'
+import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
+import { RowValue } from '../../components'
 import { selectors } from 'data'
 import media from 'services/ResponsiveService'
 
@@ -25,7 +20,7 @@ const Wrapper = styled.div`
     flex-direction: row;
   `}
 `
-const ConfirmationsText = styled(Text)`
+const ConfirmationsText = styled(RowValue)`
   * {
     white-space: nowrap;
   }
@@ -60,12 +55,12 @@ const Confirmations = props => {
   return (
     <Wrapper>
       {confirmations >= minConfirmations ? (
-        <Text size='14px' weight={400} color='received'>
+        <RowValue>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
             defaultMessage='Transaction Confirmed'
           />
-        </Text>
+        </RowValue>
       ) : (
         <ConfirmationsText size='14px' weight={400} color='grey400'>
           <FormattedMessage

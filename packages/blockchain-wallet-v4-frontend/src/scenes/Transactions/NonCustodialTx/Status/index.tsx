@@ -1,17 +1,10 @@
 import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
 
 import { Text } from 'blockchain-info-components'
 
-const Status = props => (
-  <Text
-    size='14px'
-    weight={500}
-    color={props.type}
-    style={{ marginBottom: '5px' }}
-    data-e2e='transactionListItemStatus'
-  >
+const Status = (props: Props) => (
+  <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
     {props.type === 'sent' && (
       <FormattedMessage
         id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
@@ -36,9 +29,9 @@ const Status = props => (
   </Text>
 )
 
-Status.propTypes = {
-  type: PropTypes.string.isRequired,
-  coinTicker: PropTypes.string.isRequired
+type Props = {
+  coinTicker: string
+  type: 'sent' | 'received' | 'transferred'
 }
 
 export default Status

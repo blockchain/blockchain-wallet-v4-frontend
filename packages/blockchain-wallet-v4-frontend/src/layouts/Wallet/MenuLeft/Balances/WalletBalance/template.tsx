@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Header, Wrapper } from 'components/Balances'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 
 import { BalancesWrapper } from '../model'
 import { SupportedWalletCurrencyType } from 'core/types'
@@ -26,9 +26,8 @@ const Template = props => {
     <Wrapper>
       <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
         <Title>
-          <Icon
-            color='grey400'
-            name='wallet-filled'
+          <Image
+            name='wallet-blue'
             size='22px'
             style={{ marginRight: '14px' }}
           />

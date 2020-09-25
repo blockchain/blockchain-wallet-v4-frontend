@@ -78,6 +78,7 @@ import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
 import wallet from './img/wallet.svg'
+import walletBlue from './img/wallet-blue.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -231,6 +232,7 @@ const Images = {
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
+  'wallet-blue': walletBlue,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,

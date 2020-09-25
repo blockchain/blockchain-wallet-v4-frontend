@@ -1,8 +1,31 @@
 import { FormattedMessage } from 'react-intl'
-import { getOrderType } from 'data/components/simpleBuy/model'
-import { SBOrderType } from 'core/types'
+import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { Text } from 'blockchain-info-components'
 import React from 'react'
+
+import { Props } from '.'
+import { SBOrderType } from 'core/types'
+import { IconTx as SharedIconTx } from '../components'
+
+export const IconTx = (props: Props) => {
+  const orderType = getOrderType(props.order)
+  const coin = getCoinFromPair(props.order.pair)
+  return <SharedIconTx type={orderType} coin={coin} />
+}
+
+export const getOrigin = (props: Props) => {
+  switch (props.order.paymentType) {
+    case 'FUNDS':
+      return props.order.inputCurrency + ' Wallet'
+    case 'PAYMENT_CARD':
+    case 'USER_CARD':
+      return 'Credit/Debit Card'
+    case 'BANK_ACCOUNT':
+      return 'Bank Transfer'
+    case undefined:
+      return 'Unknown Payment Type'
+  }
+}
 
 export const Status = ({ order }: { order: SBOrderType }) => {
   const type = getOrderType(order)

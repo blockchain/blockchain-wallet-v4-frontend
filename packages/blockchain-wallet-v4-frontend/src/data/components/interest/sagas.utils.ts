@@ -9,7 +9,6 @@ import {
   RatesType,
   RemoteDataType
 } from 'core/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -32,7 +31,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     try {
-      payment = yield payment.to(destination, ADDRESS_TYPES.CUSTODIAL)
+      payment = yield payment.to(destination, 'CUSTODIAL')
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
