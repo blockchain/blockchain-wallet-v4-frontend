@@ -1,4 +1,9 @@
-import { CoinType, CurrenciesType, FiatType } from '../../../types'
+import {
+  CoinType,
+  CurrenciesType,
+  FiatType,
+  WalletCurrencyType
+} from '../../../types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -226,7 +231,7 @@ export default ({
     })
 
   const getSBTransactions = (
-    currency: FiatType,
+    currency: WalletCurrencyType,
     next?: string | null,
     limit?: string,
     type?: 'DEPOSIT' | 'WITHDRAWAL',
@@ -244,6 +249,7 @@ export default ({
           data: {
             currency,
             limit,
+            pending: true,
             product: 'SIMPLEBUY',
             state,
             type

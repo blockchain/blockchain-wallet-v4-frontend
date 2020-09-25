@@ -4,6 +4,7 @@ import * as btc from './btc/selectors'
 import * as eth from './eth/selectors'
 import * as fiat from './fiat/selectors'
 import * as misc from './misc/selectors'
+import * as sbCore from './simpleBuy/selectors'
 import * as xlm from './xlm/selectors'
 
-export { algo, bch, btc, eth, fiat, xlm, misc }
+export { algo, bch, btc, eth, fiat, sbCore, xlm, misc }

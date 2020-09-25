@@ -15,12 +15,13 @@ import Loading from './template.loading'
 import SimpleBuyListItem from '../SBOrderTx'
 import TransactionListItem from 'components/TransactionListItem'
 
+// width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
+  width: 99%;
   &:last-child {
     > div {
       border: none;

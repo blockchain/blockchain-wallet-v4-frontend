@@ -51,6 +51,10 @@ import introSendGif from './img/intro-send.gif'
 import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
+import logo144 from './img/logo-144.png'
+import logo192 from './img/logo-192.png'
+import logo512 from './img/logo-512.png'
+import logo96 from './img/logo-96.png'
 import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -176,6 +180,10 @@ const Images = {
   'ledger-logo3': ledgerLogo3,
   'ledger-nano-s': deviceNanoS,
   'linkedin-white': linkedinWhite,
+  'logo-96': logo96,
+  'logo-144': logo144,
+  'logo-192': logo192,
+  'logo-512': logo512,
   'lockbox-device': deviceLockbox,
   'lockbox-failed': lockboxFailed,
   'lockbox-failed2': lockboxFailed2,

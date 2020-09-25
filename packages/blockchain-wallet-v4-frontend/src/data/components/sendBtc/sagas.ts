@@ -438,7 +438,7 @@ export default ({
       payment: p.getOrElse({}),
       network: networks.btc
     })
-    const fromType = path(['fromType'], payment.value())
+    const fromType: FromType | undefined = path(['fromType'], payment.value())
     const { payPro } = yield select(selectors.form.getFormValues(FORM))
     try {
       // Sign payment
@@ -505,6 +505,13 @@ export default ({
       } else {
         payment = yield payment.publish()
       }
+
+      yield put(
+        actions.components.send.notifyNonCustodialToCustodialTransfer(
+          payment.value(),
+          'SIMPLEBUY'
+        )
+      )
       yield put(actions.core.data.btc.fetchData())
       yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       // Set tx note
