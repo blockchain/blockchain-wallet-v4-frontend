@@ -95,10 +95,18 @@ export const DepositOrWithdrawal = (props: Props) => {
   if (props.tx.amount.symbol in CoinTypeEnum) {
     switch (props.tx.type) {
       case 'DEPOSIT':
-        return <FormattedMessage id='buttons.send' defaultMessage='Send' />
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.received'
+            defaultMessage='Received'
+          />
+        )
       case 'WITHDRAWAL':
         return (
-          <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.sent'
+            defaultMessage='Sent'
+          />
         )
     }
   } else {
@@ -155,8 +163,8 @@ export const Status = (props: Props) => {
         return (
           <Confirmations
             coin={props.tx.amount.symbol}
-            confirmationsN={props.tx.extraAttributes.confirmations}
             hash={props.tx.extraAttributes.hash}
+            isConfirmed={props.tx.extraAttributes.confirmations >= 1}
             onViewTxDetails={() => {}}
           />
         )

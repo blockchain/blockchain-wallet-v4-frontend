@@ -44,18 +44,18 @@ const Confirmations = (props: Props) => {
   const {
     blockHeight,
     coin,
-    txBlockHeight = 0,
+    isConfirmed,
     supportedCoins,
-    onViewTxDetails,
-    confirmationsN
+    txBlockHeight = 0,
+    onViewTxDetails
   } = props
-  const conf = confirmationsN || blockHeight - txBlockHeight + 1
+  const conf = blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
   const minConfirmations = supportedCoins[coin].minConfirmations
 
   return (
     <Wrapper>
-      {confirmations >= minConfirmations ? (
+      {confirmations >= minConfirmations || isConfirmed ? (
         <RowValue>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
@@ -130,8 +130,8 @@ const connector = connect(mapStateToProps)
 
 type OwnProps = {
   coin: CoinType
-  confirmationsN?: number
   hash: string
+  isConfirmed?: boolean
   onViewTxDetails: (coin: CoinType) => void
   txBlockHeight?: number
 }

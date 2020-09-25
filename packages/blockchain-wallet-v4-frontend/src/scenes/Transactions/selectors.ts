@@ -38,14 +38,18 @@ const filterTransactions = curry(
     sourceType: '' | AddressTypesType,
     transactions: Array<TxType>
   ) => {
-    const isOfTxType = curry((filter, tx) =>
-      propSatisfies(
-        // @ts-ignore
-        x => filter === '' || (x && toUpper(x) === toUpper(filter)),
+    const isOfTxType = curry((filter: TransferType, tx) => {
+      return propSatisfies(
+        x =>
+          filter === '' ||
+          // @ts-ignore
+          (x && toUpper(x) === toUpper(filter)) ||
+          (x === 'DEPOSIT' && filter === 'received') ||
+          (x === 'WITHDRAWAL' && filter === 'sent'),
         'type',
         tx
       )
-    )
+    })
     const search = curry((text, txPath, tx) =>
       compose(includes(toUpper(text || '')), toUpper, String, path(txPath))(tx)
     )

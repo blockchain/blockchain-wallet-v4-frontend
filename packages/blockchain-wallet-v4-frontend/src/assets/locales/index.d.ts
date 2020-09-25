@@ -316,6 +316,7 @@ type MessagesType = {
   'copy.min': 'Min'
   'copy.new': 'New'
   'copy.no_payment_methods': 'No payment methods available.'
+  'copy.on_chain_txs': 'On-chain transactions only'
   'copy.private_key': 'Private Key'
   'copy.refunded': 'Refunded'
   'copy.to': 'To'

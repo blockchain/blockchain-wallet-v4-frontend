@@ -223,35 +223,38 @@ export type SBTransactionType = {
   id: string
   insertedAt: string
   state: SBTransactionStateType
-} & {
-  extraAttributes: null | {
-    address: string
-    amount: {
-      [key in WalletCurrencyType]: number
+} & (
+  | {
+      extraAttributes: null | {
+        address: string
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        confirmations: number
+        dsr: number
+        hash: string
+        id: string
+        status: 'UNCONFIRMED' | 'CONFIRMED'
+        txHash: string
+      }
+      type: 'DEPOSIT'
     }
-    confirmations: number
-    dsr: number
-    hash: string
-    id: string
-    status: 'UNCONFIRMED' | 'CONFIRMED'
-    txHash: string
-  }
-  type: 'DEPOSIT'
-} & {
-  extraAttributes: null | {
-    amount: {
-      [key in WalletCurrencyType]: number
+  | {
+      extraAttributes: null | {
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        beneficiary: BeneficiaryType
+        externalRef: string
+        fee: {
+          BTC: 0
+        }
+        product: 'SIMPLEBUY'
+        user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
+      }
+      type: 'WITHDRAWAL'
     }
-    beneficiary: BeneficiaryType
-    externalRef: string
-    fee: {
-      BTC: 0
-    }
-    product: 'SIMPLEBUY'
-    user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
-  }
-  type: 'WITHDRAWAL'
-}
+)
 
 export type SBTransactionsType = {
   items: Array<SBTransactionType>
