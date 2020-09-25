@@ -220,6 +220,24 @@ export type SBQuoteType = {
 export type SBTransactionType = {
   amount: { symbol: WalletCurrencyType; value: string }
   amountMinor: string
+  id: string
+  insertedAt: string
+  state: SBTransactionStateType
+} & {
+  extraAttributes: null | {
+    address: string
+    amount: {
+      [key in WalletCurrencyType]: number
+    }
+    confirmations: number
+    dsr: number
+    hash: string
+    id: string
+    status: 'UNCONFIRMED' | 'CONFIRMED'
+    txHash: string
+  }
+  type: 'DEPOSIT'
+} & {
   extraAttributes: null | {
     amount: {
       [key in WalletCurrencyType]: number
@@ -232,10 +250,7 @@ export type SBTransactionType = {
     product: 'SIMPLEBUY'
     user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
   }
-  id: string
-  insertedAt: string
-  state: SBTransactionStateType
-  type: 'DEPOSIT' | 'WITHDRAWAL'
+  type: 'WITHDRAWAL'
 }
 
 export type SBTransactionsType = {

@@ -4,11 +4,11 @@ import { toString } from 'ramda'
 import React from 'react'
 import styled from 'styled-components'
 
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { getBlockHeight } from './selectors'
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { RowValue } from '../../components'
 import { selectors } from 'data'
-import { SupportedWalletCurrenciesType } from 'core/types'
 import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
@@ -40,15 +40,16 @@ const IconWrapper = styled.div`
   }
 `
 
-const Confirmations = props => {
+const Confirmations = (props: Props) => {
   const {
     blockHeight,
     coin,
-    txBlockHeight,
+    txBlockHeight = 0,
     supportedCoins,
-    onViewTxDetails
+    onViewTxDetails,
+    confirmationsN
   } = props
-  const conf = blockHeight - txBlockHeight + 1
+  const conf = confirmationsN || blockHeight - txBlockHeight + 1
   const confirmations = conf > 0 && txBlockHeight ? conf : 0
   const minConfirmations = supportedCoins[coin].minConfirmations
 
@@ -128,9 +129,11 @@ const mapStateToProps = (state, ownProps) => ({
 const connector = connect(mapStateToProps)
 
 type OwnProps = {
-  blockHeight: number
+  coin: CoinType
+  confirmationsN?: number
   hash: string
-  txBlockHeight: number
+  onViewTxDetails: (coin: CoinType) => void
+  txBlockHeight?: number
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

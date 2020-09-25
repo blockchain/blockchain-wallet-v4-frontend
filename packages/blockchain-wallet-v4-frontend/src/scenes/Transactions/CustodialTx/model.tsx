@@ -10,6 +10,7 @@ import {
   Timestamp as SharedTimestamp
 } from '../components'
 import { Props } from '.'
+import Confirmations from '../NonCustodialTx/Confirmations'
 
 const Icon = styled(BCIcon)`
   size: 18px;
@@ -142,7 +143,24 @@ export const Destination = (props: Props) => {
 
 export const Status = (props: Props) => {
   switch (props.tx.state) {
+    case 'PENDING':
+    case 'CLEARED':
+    case 'CREATED':
     case 'COMPLETE':
+      if (
+        props.tx.amount.symbol in CoinTypeEnum &&
+        props.tx.extraAttributes !== null &&
+        'confirmations' in props.tx.extraAttributes
+      ) {
+        return (
+          <Confirmations
+            coin={props.tx.amount.symbol}
+            confirmationsN={props.tx.extraAttributes.confirmations}
+            hash={props.tx.extraAttributes.hash}
+            onViewTxDetails={() => {}}
+          />
+        )
+      }
       return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
     case 'FAILED':
     case 'REFUNDED':
