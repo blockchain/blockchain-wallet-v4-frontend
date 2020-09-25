@@ -1,5 +1,5 @@
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { find, path, propEq } from 'ramda'
+import { find, isEmpty, isNil, path, propEq, propOr } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import Bowser from 'bowser'
@@ -15,6 +15,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { CoinType } from 'core/types'
 import {
   Form,
   FormError,
@@ -31,6 +32,7 @@ import media from 'services/ResponsiveService'
 import { Props as OwnProps } from '.'
 import LinkExchangeAccount from '../Register/LinkExchangeAccount'
 import Modals from '../../modals'
+import SimpleBuyInfo from '../Register/SimpleBuyInfo'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -99,7 +101,7 @@ const BrowserWarning = styled.div`
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 1.25rem;
+  margin-top: 20px;
 `
 const SignUpText = styled(Text)`
   &:hover {
@@ -111,20 +113,26 @@ const SignUpText = styled(Text)`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 
   span {
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 24px;
     line-height: 135%;
   }
 
   img {
     background-color: ${p => p.theme['marketing-primary']};
-    border-radius: 1.75rem;
-    padding: 0.5rem;
+    border-radius: 29px;
+    padding: 8px;
     margin-right: 20px;
   }
+`
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
 `
 
 const LinkAccountTitle = () => (
@@ -137,6 +145,12 @@ const LinkAccountTitle = () => (
   </TitleWrapper>
 )
 
+type GoalDataType = {
+  amount: string
+  crypto: CoinType
+  displayName: string
+}
+
 const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const {
     busy,
@@ -148,6 +162,7 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
     isGuidValid,
     loginError,
     password,
+    supportedCoins,
     submitting,
     ...rest
   } = props
@@ -167,11 +182,23 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
   const isGuidTouched = path(['guid', 'touched'], formMeta)
   const showGuidInvalidError = guid && !isGuidValid && isGuidTouched
   const isLinkAccountGoal = find(propEq('name', 'linkAccount'), goals)
+  const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: GoalDataType = propOr({}, 'data', simpleBuyGoal)
 
   return (
     <OuterWrapper>
       {isLinkAccountGoal && <LinkExchangeAccount />}
       <LoginWrapper>
+        {!isNil(goalData) && !isEmpty(goalData) && (
+          <HeaderWrapper>
+            <Text color='white' size='32px' weight={600}>
+              <FormattedMessage
+                defaultMessage='Buy Crypto With Credit Card'
+                id='scenes.login.simplebuy.header'
+              />
+            </Text>
+          </HeaderWrapper>
+        )}
         <PublicWrapper>
           <Modals />
           <Header>
@@ -186,6 +213,12 @@ const Login = (props: InjectedFormProps<{}, Props> & Props) => {
               )}
             </Text>
           </Header>
+          {!isNil(goalData) && !isEmpty(goalData) && (
+            <SimpleBuyInfo
+              goalData={goalData}
+              supportedCoins={supportedCoins}
+            />
+          )}
           <LoginForm onSubmit={handleSubmit}>
             {!isSupportedBrowser && (
               <BrowserWarning>

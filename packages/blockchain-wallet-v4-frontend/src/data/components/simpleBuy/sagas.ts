@@ -34,6 +34,7 @@ import {
   NO_PAYMENT_TYPE
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
   SBAddCardErrorType,
@@ -863,7 +864,11 @@ export default ({
         // INITIALIZE_CHECKOUT will set the pair on state.
         // 🚨 SPECIAL TS-IGNORE
         // @ts-ignore
-        A.setStep({ step: 'ENTER_AMOUNT', cryptoCurrency, fiatCurrency })
+        A.setStep({
+          step: 'ENTER_AMOUNT',
+          cryptoCurrency,
+          fiatCurrency
+        })
       )
     } else {
       yield put(

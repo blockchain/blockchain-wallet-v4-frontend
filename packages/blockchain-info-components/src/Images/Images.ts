@@ -112,6 +112,7 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import usFlag from './img/us-flag.svg'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
@@ -221,6 +222,7 @@ const Images = {
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
   'twitter-white': twitterWhite,
+  'us-flag': usFlag,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
   'wallet-v3-backup': walletV3Backup,

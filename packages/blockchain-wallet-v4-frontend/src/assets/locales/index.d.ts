@@ -1716,6 +1716,7 @@ type MessagesType = {
   'scenes.login.password': 'Password'
   'scenes.login.resendsms': 'Resend SMS'
   'scenes.login.sendguid': 'Send my Wallet ID'
+  'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.signup': 'Sign Up'
   'scenes.login.welcome': 'Welcome back!'
@@ -1807,6 +1808,9 @@ type MessagesType = {
   'scenes.register.registerform.blockchain.terms': 'Terms of Service'
   'scenes.register.registerform.blockchainkyc.read': 'By hitting continue, I agree to Blockchain’s'
   'scenes.register.securelybuy': 'Securely buy, sell, and store crypto.'
+  'scenes.register.simplebuy.change': 'You will be able to change your amount later.'
+  'scenes.register.simplebuy.signin': 'Sign In to Continue Your Crypto Purchase.'
+  'scenes.register.simplebuy.signup': 'Sign Up to Continue Your Crypto Purchase.'
   'scenes.register.wallet.link': 'Already have a wallet?'
   'scenes.register.wallet.signin': 'Sign In'
   'scenes.register.walletcard.infotitle': 'Be your own bank.'

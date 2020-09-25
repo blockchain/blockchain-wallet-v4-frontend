@@ -9,6 +9,7 @@ export type GoalsType =
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
+  | 'simpleBuy'
   | 'swapGetStarted'
   | 'swapUpgrade'
   | 'syncPit'
