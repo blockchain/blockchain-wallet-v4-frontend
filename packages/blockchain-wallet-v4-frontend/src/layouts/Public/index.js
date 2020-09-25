@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
-import AndroidAppBanner from 'components/AndroidAppBanner'
+// import AndroidAppBanner from 'components/AndroidAppBanner'
 import DropdownLanguage from 'components/DropdownLanguage'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import media from 'services/ResponsiveService'
@@ -66,7 +66,8 @@ const PublicLayoutContainer = ({ component: Component, ...rest }) => (
     render={matchProps => (
       <Wrapper>
         <ErrorBoundary>
-          <AndroidAppBanner />
+          {/* TODO: STILL NEEDS DEV/QA */}
+          {/* <AndroidAppBanner /> */}
           <Alerts />
           <HeaderContainer>
             <Header />
