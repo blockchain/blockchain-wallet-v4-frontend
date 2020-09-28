@@ -1719,6 +1719,12 @@ type MessagesType = {
   'scenes.login.sendguid': 'Send my Wallet ID'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.signup': 'Sign up Now'
+  'scenes.login.wallet.message.sent': 'Message Sent'
+  'scenes.login.wallet.connected.title': 'Mobile Device Connected'
+  'scenes.login.wallet.connected.description_1': 'We sent your connected mobile device a notification. Open the app to auto-log in on the web.'
+  'scenes.login.wallet.connected.description_2': 'Didn’t get the notification? Make sure you have push notifications enabled.'
+  'scenes.login.wallet.connected.send_it_again': 'Send Again'
+  'scenes.login.wallet.connected.add_a_new_device': 'Add a New Device'
   'scenes.login.welcome': 'Welcome back!'
   'scenes.login.wrong_password': 'Error decrypting wallet. Wrong password'
   'scenes.login.yubikey': 'Yubikey'

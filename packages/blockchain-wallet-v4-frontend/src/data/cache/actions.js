@@ -24,3 +24,6 @@ export const channelPhoneConnected = phonePubkey => ({
   type: AT.CHANNEL_PHONE_CONNECTED,
   payload: { phonePubkey }
 })
+export const disconnectChannelPhone = () => ({
+  type: AT.DISCONNECT_CHANNEL_PHONE
+})
