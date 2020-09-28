@@ -1,4 +1,3 @@
-import activityList from './activityList/sagas'
 import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import borrow from './borrow/sagas'
@@ -7,7 +6,7 @@ import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/exchange.sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
-import identityVerification from './identityVerification/sagas.ts'
+import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
 import manageAddresses from './manageAddresses/sagas'
@@ -33,7 +32,6 @@ import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
-  activityList: activityList(),
   algoTransactions: algoTransactions(),
   bchTransactions: bchTransactions(),
   borrow: borrow({ api, coreSagas, networks }),
@@ -41,14 +39,14 @@ export default ({ api, coreSagas, networks }) => ({
   ethTransactions: ethTransactions(),
   xlmTransactions: xlmTransactions(),
   exchange: exchange({ api, coreSagas, networks }),
-  exchangeHistory: exchangeHistory({ api, coreSagas }),
-  fiatTransactions: fiatTransactions({ api, coreSagas }),
+  exchangeHistory: exchangeHistory({ api }),
+  fiatTransactions: fiatTransactions(),
   identityVerification: identityVerification({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   manageAddresses: manageAddresses({ api, networks }),
   onfido: onfido({ api }),
-  priceChart: priceChart({ coreSagas }),
+  priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
   refresh: refresh(),
   requestBtc: requestBtc(),
@@ -56,8 +54,8 @@ export default ({ api, coreSagas, networks }) => ({
   requestEth: requestEth(),
   requestXlm: requestXlm(),
   send: send({ api, coreSagas, networks }),
-  sendBch: sendBch({ coreSagas, networks }),
-  sendBtc: sendBtc({ coreSagas, networks }),
+  sendBch: sendBch({ api, coreSagas, networks }),
+  sendBtc: sendBtc({ api, coreSagas, networks }),
   sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ api, coreSagas }),
   settings: settings({ coreSagas }),

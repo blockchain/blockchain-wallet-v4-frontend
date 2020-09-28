@@ -275,6 +275,15 @@ export type SBTransactionStateType =
   | 'COMPLETE'
   | 'REFUNDED'
 
+export enum SBPendingTransactionStateEnum {
+  CLEARED = 'CLEARED',
+  CREATED = 'CREATED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+  PENDING = 'PENDING',
+  PENDING_DEPOSIT = 'PENDING_DEPOSIT'
+}
+
 export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean

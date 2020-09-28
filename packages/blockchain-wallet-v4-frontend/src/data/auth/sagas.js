@@ -200,6 +200,7 @@ export default ({ api, coreSagas }) => {
       const defaultAccount = accounts.find(
         account => account.index === defaultIndex
       )
+      if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line

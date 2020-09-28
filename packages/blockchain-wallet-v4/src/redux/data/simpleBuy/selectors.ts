@@ -7,3 +7,11 @@ export const getNextSBTransactionsURL = (
 ) => {
   return state.dataPath.sbCore[currency].nextSBTransactionsURL
 }
+
+export const getTotalSBTransactionsPendingN = (state: RootState) => {
+  let n = 0
+  Object.keys(state.dataPath.sbCore).map(
+    coin => (n += state.dataPath.sbCore[coin].pendingTxsN)
+  )
+  return n
+}

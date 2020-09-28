@@ -9,6 +9,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import { BalancesWrapper } from '../model'
 import { SupportedWalletCurrencyType } from 'core/types'
 import Balance from './Balance'
+import PendingSBTransactions from './PendingSBTransactions'
 
 const Title = styled(Text)`
   display: flex;
@@ -43,6 +44,7 @@ const Template = props => {
           className={props.isActive ? 'active' : ''}
         />
       </Header>
+      <PendingSBTransactions />
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {values(
           mapObjIndexed(

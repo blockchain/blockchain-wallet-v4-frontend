@@ -37,6 +37,12 @@ export default ({ api, coreSagas, networks }) => {
     if (Remote.Failure.is(userData)) return
     // If api key failure return
     if (Remote.Failure.is(apiToken)) return
+    // Wait for api (nabu sign in) success or failure
+    yield race({
+      success: take(actionTypes.modules.profile.SET_API_TOKEN_FAILURE),
+      failure: take(actionTypes.modules.profile.SET_API_TOKEN_SUCCESS)
+    })
+
     // Wait for success or failure
     return yield race({
       success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
