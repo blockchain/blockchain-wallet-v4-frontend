@@ -302,6 +302,7 @@ const FirstStep = props => {
                 placeholder="What's this transaction for? (optional)"
                 data-e2e='sendXlmDescription'
                 fullwidth
+                maxLength={100}
               />
             </FormItem>
           </FormGroup>
