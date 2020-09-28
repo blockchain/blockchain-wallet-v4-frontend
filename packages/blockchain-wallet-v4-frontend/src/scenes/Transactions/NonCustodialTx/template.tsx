@@ -18,6 +18,8 @@ import TransactionFee from './TransactionFee'
 
 import {
   Addresses,
+  DetailsColumn,
+  DetailsRow,
   IconTx,
   Row,
   RowHeader,
@@ -26,39 +28,11 @@ import {
   StyledCoinDisplay,
   StyledFiatDisplay,
   Timestamp,
-  TxRow
+  TxRow,
+  TxRowContainer
 } from '../components'
 import { Props } from '.'
 
-const TransactionRowContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  box-sizing: border-box;
-`
-const DetailsRow = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  box-sizing: border-box;
-  padding: 20px;
-  padding-top: 8px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-`
-const DetailsColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 33.333%;
-  &:last-child {
-    align-items: flex-end;
-  }
-`
 const BannerWrapper = styled.div`
   margin-left: 8px;
 `
@@ -99,7 +73,7 @@ const NonCustodialTx = ({
   handleRetrySendEth,
   onViewTxDetails
 }: Props & ParentClassProps) => (
-  <TransactionRowContainer
+  <TxRowContainer
     className={isToggled ? 'active' : ''}
     data-e2e='transactionRow'
   >
@@ -283,7 +257,7 @@ const NonCustodialTx = ({
         </DetailsColumn>
       </DetailsRow>
     )}
-  </TransactionRowContainer>
+  </TxRowContainer>
 )
 
 type ParentClassProps = {

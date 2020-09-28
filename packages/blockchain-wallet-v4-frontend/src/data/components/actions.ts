@@ -1,4 +1,3 @@
-import * as activityList from './activityList/actions'
 import * as algoTransactions from './algoTransactions/actions'
 import * as bchTransactions from './bchTransactions/actions'
 import * as borrow from './borrow/actions'
@@ -38,7 +37,6 @@ import * as withdraw from './withdraw/actions'
 import * as xlmTransactions from './xlmTransactions/actions'
 
 export {
-  activityList,
   algoTransactions,
   bchTransactions,
   borrow,

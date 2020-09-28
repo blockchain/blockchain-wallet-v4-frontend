@@ -1,5 +1,4 @@
 import { fork } from 'redux-saga/effects'
-import activityList from './activityList/sagaRegister'
 import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import borrow from './borrow/sagaRegister'
@@ -36,7 +35,6 @@ import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function * componentsSaga () {
-    yield fork(activityList())
     yield fork(algoTransactions())
     yield fork(borrow({ api, coreSagas, networks }))
     yield fork(bchTransactions())
@@ -44,15 +42,15 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(exchange({ api, coreSagas, networks }))
-    yield fork(exchangeHistory({ api, coreSagas }))
-    yield fork(fiatTransactions({ api, coreSagas }))
+    yield fork(exchangeHistory({ api }))
+    yield fork(fiatTransactions())
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
     yield fork(onfido({ api, coreSagas }))
-    yield fork(priceChart({ coreSagas }))
+    yield fork(priceChart())
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(requestBtc({ networks }))

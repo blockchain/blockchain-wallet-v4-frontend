@@ -1,15 +1,20 @@
 import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
 
 import { actions, selectors } from 'data'
+import {
+  CoinType,
+  RemoteDataType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
 import { FlatLoader, Text } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { RowHeader } from '../../components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
-class TransactionFee extends React.PureComponent {
+class TransactionFee extends React.PureComponent<Props> {
   componentDidMount () {
     const { coin, feeR, hash, supportedCoins } = this.props
     if (Remote.NotAsked.is(feeR) && supportedCoins[coin].contractAddress) {
@@ -24,7 +29,7 @@ class TransactionFee extends React.PureComponent {
       <React.Fragment>
         <RowHeader>
           <FormattedMessage
-            id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
+            id='copy.transaction_fee'
             defaultMessage='Transaction Fee'
           />
         </RowHeader>
@@ -59,11 +64,20 @@ class TransactionFee extends React.PureComponent {
 const mapStateToProps = state => ({
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = dispatch => ({
   ethActions: bindActionCreators(actions.core.data.eth, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransactionFee)
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  coin: CoinType
+  feeR: RemoteDataType<any, number>
+  hash: string
+}
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(TransactionFee)

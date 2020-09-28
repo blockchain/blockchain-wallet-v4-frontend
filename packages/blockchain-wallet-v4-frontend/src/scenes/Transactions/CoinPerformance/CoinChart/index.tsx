@@ -71,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = { coin: CoinType }
+export type OwnProps = { coin: CoinType }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 

@@ -9,6 +9,7 @@ export type FetchSBOrdersAndTransactionsReturnType = {
 export type SBCoreStateType = {
   [key in WalletCurrencyType]: {
     nextSBTransactionsURL: string | null
+    pendingTxsN: number
   }
 }
 
@@ -17,8 +18,9 @@ interface SetNextSBTransactionsURL {
   payload: {
     coin: WalletCurrencyType
     next: string | null
+    pendingTxsN: number
   }
-  type: typeof AT.SET_NEXT_SB_TRANSACTIONS_URL
+  type: typeof AT.SET_SB_CORE_COIN_DATA
 }
 
 export type SBCoreActionTypes = SetNextSBTransactionsURL

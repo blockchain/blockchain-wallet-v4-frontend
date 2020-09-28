@@ -10,6 +10,7 @@ import {
   Timestamp as SharedTimestamp
 } from '../components'
 import { Props } from '.'
+import Confirmations from '../NonCustodialTx/Confirmations'
 
 const Icon = styled(BCIcon)`
   size: 18px;
@@ -72,15 +73,8 @@ export const Timestamp = (props: Props) => {
     switch (props.tx.state) {
       case 'COMPLETE':
         return <SharedTimestamp time={props.tx.insertedAt} />
-      case 'FAILED':
-      case 'REFUNDED':
-      case 'REJECTED':
-      case 'UNIDENTIFIED':
-        return 'Failed'
-      case 'MANUAL_REVIEW':
-        return 'In Review'
       default:
-        return 'In Progress'
+        return <Status {...props} />
     }
   }
 
@@ -98,18 +92,35 @@ export const Timestamp = (props: Props) => {
 }
 
 export const DepositOrWithdrawal = (props: Props) => {
-  // if (props.tx.amount.symbol in CoinTypeEnum) {
-  //   return <FormattedMessage id='buttons.transfer' defaultMessage='Transfer' />
-  // } else {
-  switch (props.tx.type) {
-    case 'DEPOSIT':
-      return <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
-    case 'WITHDRAWAL':
-      return (
-        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
-      )
+  if (props.tx.amount.symbol in CoinTypeEnum) {
+    switch (props.tx.type) {
+      case 'DEPOSIT':
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.received'
+            defaultMessage='Received'
+          />
+        )
+      case 'WITHDRAWAL':
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.sent'
+            defaultMessage='Sent'
+          />
+        )
+    }
+  } else {
+    switch (props.tx.type) {
+      case 'DEPOSIT':
+        return (
+          <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
+        )
+      case 'WITHDRAWAL':
+        return (
+          <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+        )
+    }
   }
-  // }
 }
 
 export const Origin = (props: Props) => {
@@ -135,5 +146,38 @@ export const Destination = (props: Props) => {
       }
 
       return <>Bank Account</>
+  }
+}
+
+export const Status = (props: Props) => {
+  switch (props.tx.state) {
+    case 'PENDING':
+    case 'CLEARED':
+    case 'CREATED':
+    case 'COMPLETE':
+      if (
+        props.tx.amount.symbol in CoinTypeEnum &&
+        props.tx.extraAttributes !== null &&
+        'confirmations' in props.tx.extraAttributes
+      ) {
+        return (
+          <Confirmations
+            coin={props.tx.amount.symbol}
+            hash={props.tx.extraAttributes.hash}
+            isConfirmed={props.tx.extraAttributes.confirmations >= 1}
+            onViewTxDetails={() => {}}
+          />
+        )
+      }
+      return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
+    case 'FAILED':
+    case 'REFUNDED':
+    case 'REJECTED':
+    case 'UNIDENTIFIED':
+      return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
+    case 'MANUAL_REVIEW':
+      return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+    default:
+      return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
   }
 }

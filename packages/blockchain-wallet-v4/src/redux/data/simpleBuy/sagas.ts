@@ -1,11 +1,13 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import moment from 'moment'
 
 import * as A from './actions'
+import * as S from './selectors'
 import { APIType } from 'core/network/api'
 import {
   CoinType,
   CoinTypeEnum,
+  SBPendingTransactionStateEnum,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { FetchSBOrdersAndTransactionsReturnType } from './types'
@@ -33,12 +35,12 @@ export default ({ api }: { api: APIType }) => {
     // getSBTransactions is set up w/ pagination, so it does not take before or after
     // params
 
-    try {
-      const newestTx = page[0]
-      const oldestTx = page[page.length - 1]
-      let after: string | undefined // ⏫
-      let before: string | undefined // ⏬
+    const newestTx = page[0]
+    const oldestTx = page[page.length - 1]
+    let before: string | undefined // ⏬
+    let after: string | undefined // ⏫
 
+    try {
       // if offset === 0 get transactions from after the oldestTx
       // if offset === 0 and no transactions get all before and after
       // if offset === 0 and transactions at bounds get all before and after
@@ -90,8 +92,22 @@ export default ({ api }: { api: APIType }) => {
           : // get transactions whether or not nextSBTransactionsURL is null
             yield call(api.getSBTransactions, currency, nextSBTransactionsURL)
 
+      const pendingTxsOnState = S.getSBTransactionsPending(
+        yield select(),
+        currency
+      )
+      const pendingTxs = transactions.items.filter(
+        val => val.state in SBPendingTransactionStateEnum
+      )
+
       yield put(
-        A.setNextSBTransactionsUrl(currency as CoinType, transactions.next)
+        A.setSBCoreCoinData(
+          currency as CoinType,
+          transactions.next,
+          offset === 0
+            ? pendingTxs.length
+            : pendingTxs.length + pendingTxsOnState
+        )
       )
 
       const response: FetchSBOrdersAndTransactionsReturnType = {

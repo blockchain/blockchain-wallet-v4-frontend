@@ -1,37 +1,22 @@
 import * as AT from './actionTypes'
 import { SBCoreActionTypes, SBCoreStateType } from './types'
 
+const DEFAULT_COIN_SB_STATE = {
+  nextSBTransactionsURL: null,
+  pendingTxsN: 0
+}
+
 const INITIAL_STATE: SBCoreStateType = {
-  BCH: {
-    nextSBTransactionsURL: null
-  },
-  BTC: {
-    nextSBTransactionsURL: null
-  },
-  ETH: {
-    nextSBTransactionsURL: null
-  },
-  ALGO: {
-    nextSBTransactionsURL: null
-  },
-  PAX: {
-    nextSBTransactionsURL: null
-  },
-  USDT: {
-    nextSBTransactionsURL: null
-  },
-  XLM: {
-    nextSBTransactionsURL: null
-  },
-  USD: {
-    nextSBTransactionsURL: null
-  },
-  GBP: {
-    nextSBTransactionsURL: null
-  },
-  EUR: {
-    nextSBTransactionsURL: null
-  }
+  BCH: DEFAULT_COIN_SB_STATE,
+  BTC: DEFAULT_COIN_SB_STATE,
+  ETH: DEFAULT_COIN_SB_STATE,
+  ALGO: DEFAULT_COIN_SB_STATE,
+  PAX: DEFAULT_COIN_SB_STATE,
+  USDT: DEFAULT_COIN_SB_STATE,
+  XLM: DEFAULT_COIN_SB_STATE,
+  USD: DEFAULT_COIN_SB_STATE,
+  GBP: DEFAULT_COIN_SB_STATE,
+  EUR: DEFAULT_COIN_SB_STATE
 }
 
 export function simpleBuyCoreReducer (
@@ -39,12 +24,13 @@ export function simpleBuyCoreReducer (
   action: SBCoreActionTypes
 ) {
   switch (action.type) {
-    case AT.SET_NEXT_SB_TRANSACTIONS_URL: {
+    case AT.SET_SB_CORE_COIN_DATA: {
       return {
         ...state,
         [action.payload.coin]: {
           ...state[action.payload.coin],
-          nextSBTransactionsURL: action.payload.next
+          nextSBTransactionsURL: action.payload.next,
+          pendingTxsN: action.payload.pendingTxsN
         }
       }
     }

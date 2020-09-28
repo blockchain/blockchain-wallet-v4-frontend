@@ -23,11 +23,8 @@ const TransactionsWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 99%;
-  &:last-child {
-    > div {
-      border: none;
-    }
-  }
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.grey000};
 `
 
 class TransactionList extends PureComponent<Props> {

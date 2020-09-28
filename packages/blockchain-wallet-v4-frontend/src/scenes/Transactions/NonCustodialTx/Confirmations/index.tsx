@@ -1,10 +1,10 @@
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { getBlockHeight } from './selectors'
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { RowValue } from '../../components'
@@ -40,12 +40,13 @@ const IconWrapper = styled.div`
   }
 `
 
-const Confirmations = props => {
+const Confirmations = (props: Props) => {
   const {
     blockHeight,
     coin,
-    txBlockHeight,
+    isConfirmed,
     supportedCoins,
+    txBlockHeight = 0,
     onViewTxDetails
   } = props
   const conf = blockHeight - txBlockHeight + 1
@@ -54,7 +55,7 @@ const Confirmations = props => {
 
   return (
     <Wrapper>
-      {confirmations >= minConfirmations ? (
+      {confirmations >= minConfirmations || isConfirmed ? (
         <RowValue>
           <FormattedMessage
             id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
@@ -118,17 +119,23 @@ const Confirmations = props => {
   )
 }
 
-Confirmations.propTypes = {
-  blockHeight: PropTypes.number.isRequired,
-  hash: PropTypes.string.isRequired,
-  txBlockHeight: PropTypes.number.isRequired
-}
-
 const mapStateToProps = (state, ownProps) => ({
   blockHeight: getBlockHeight(state, ownProps.coin),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail()
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
-export default connect(mapStateToProps)(Confirmations)
+const connector = connect(mapStateToProps)
+
+type OwnProps = {
+  coin: CoinType
+  hash: string
+  isConfirmed?: boolean
+  onViewTxDetails: (coin: CoinType) => void
+  txBlockHeight?: number
+}
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Confirmations)
