@@ -66,6 +66,7 @@ export type SBShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'SimpleBuyLink'
+  | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
 
