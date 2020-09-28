@@ -1,7 +1,8 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import moment from 'moment'
 
 import * as A from './actions'
+import * as S from './selectors'
 import { APIType } from 'core/network/api'
 import {
   CoinType,
@@ -91,6 +92,10 @@ export default ({ api }: { api: APIType }) => {
           : // get transactions whether or not nextSBTransactionsURL is null
             yield call(api.getSBTransactions, currency, nextSBTransactionsURL)
 
+      const pendingTxsOnState = S.getSBTransactionsPending(
+        yield select(),
+        currency
+      )
       const pendingTxs = transactions.items.filter(
         val => val.state in SBPendingTransactionStateEnum
       )
@@ -99,7 +104,9 @@ export default ({ api }: { api: APIType }) => {
         A.setSBCoreCoinData(
           currency as CoinType,
           transactions.next,
-          pendingTxs.length
+          offset === 0
+            ? pendingTxs.length
+            : pendingTxs.length + pendingTxsOnState
         )
       )
 

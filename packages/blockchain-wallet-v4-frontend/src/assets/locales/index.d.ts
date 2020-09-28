@@ -311,6 +311,7 @@ type MessagesType = {
   'copy.here': 'here'
   'copy.loading': 'Loading...'
   'copy.pending': 'Pending'
+  'copy.pending_txs': 'Pending Transactions'
   'copy.max': 'Max'
   'copy.in_review': 'In Review'
   'copy.min': 'Min'

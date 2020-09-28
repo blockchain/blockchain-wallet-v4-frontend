@@ -30,8 +30,7 @@ export function simpleBuyCoreReducer (
         [action.payload.coin]: {
           ...state[action.payload.coin],
           nextSBTransactionsURL: action.payload.next,
-          pendingTxsN:
-            state[action.payload.coin].pendingTxsN + action.payload.pendingTxsN
+          pendingTxsN: action.payload.pendingTxsN
         }
       }
     }
