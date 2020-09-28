@@ -14,7 +14,7 @@ import { WALLET_TX_SEARCH } from '../../../form/model'
 
 import crypto from 'crypto'
 
-function uuidv4() {
+function uuidv4 () {
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
     (c ^ (crypto.randomBytes(1)[0] & (15 >> (c / 4)))).toString(16)
   )
@@ -23,7 +23,7 @@ function uuidv4() {
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
 
-  const pingPhone = function*(channelId, secretHex, phonePubkey, guid) {
+  const pingPhone = function * (channelId, secretHex, phonePubkey, guid) {
     let currentState = yield select(selectors.auth.getSecureChannelLogin)
     if (currentState !== Remote.NotAsked) {
       return
@@ -54,7 +54,7 @@ export default ({ api, socket }) => {
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
-  const onOpen = function*() {
+  const onOpen = function * () {
     let secretHex = yield select(selectors.cache.getChannelPrivKey)
     let channelId = yield select(selectors.cache.getChannelChannelId)
 
@@ -83,7 +83,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onAuth = function*() {
+  const onAuth = function * () {
     try {
       // 1. subscribe to block headers
       yield call(
@@ -174,7 +174,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onMessage = function*(action) {
+  const onMessage = function * (action) {
     const message = prop('payload', action)
     try {
       switch (message.coin) {
@@ -280,7 +280,12 @@ export default ({ api, socket }) => {
 
             if (decrypted.type === 'handshake') {
               let channelId = yield select(selectors.cache.getChannelChannelId)
-              yield pingPhone(channelId, secretHex, payload.pubkey, decrypted.guid)
+              yield pingPhone(
+                channelId,
+                secretHex,
+                payload.pubkey,
+                decrypted.guid
+              )
             } else if (decrypted.type === 'login_wallet') {
               if (decrypted.remember) {
                 yield put(
@@ -322,7 +327,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const sentOrReceived = function*(coin, message) {
+  const sentOrReceived = function * (coin, message) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. sentOrReceived only accepts btc and bch types.`
@@ -345,7 +350,7 @@ export default ({ api, socket }) => {
     return 'sent'
   }
 
-  const transactionsUpdate = function*(coin) {
+  const transactionsUpdate = function * (coin) {
     if (coin !== 'btc' && coin !== 'bch')
       throw new Error(
         `${coin} is not a valid coin. transactionsUpdate only accepts btc and bch types.`
@@ -363,7 +368,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function*(action) {
+  const onClose = function * (action) {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',
@@ -373,10 +378,19 @@ export default ({ api, socket }) => {
     )
   }
 
+  const resendMessageSocket = function * () {
+    const secretHex = yield select(selectors.cache.getChannelPrivKey)
+    const channelId = yield select(selectors.cache.getChannelChannelId)
+    const phonePubkey = yield select(selectors.cache.getPhonePubkey)
+    const guid = yield select(selectors.cache.getLastGuid)
+    yield pingPhone(channelId, secretHex, phonePubkey, guid)
+  }
+
   return {
     onOpen,
     onAuth,
     onMessage,
-    onClose
+    onClose,
+    resendMessageSocket
   }
 }

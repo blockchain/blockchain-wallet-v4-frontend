@@ -31,6 +31,9 @@ const cache = (state = INITIAL_STATE, action) => {
       const { phonePubkey } = payload
       return assoc('channelPhonePubkey', phonePubkey, state)
     }
+    case AT.DISCONNECT_CHANNEL_PHONE: {
+      return assoc('channelPhonePubkey', undefined, state)
+    }
     default:
       return state
   }

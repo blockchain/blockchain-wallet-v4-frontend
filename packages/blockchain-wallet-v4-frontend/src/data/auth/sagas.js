@@ -501,6 +501,7 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield select(selectors.session.getSession, guid)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
+      yield put(actions.cache.disconnectChannelPhone())
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e)

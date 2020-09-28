@@ -9,6 +9,7 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
 import blockchainIcon from './img/bc-icon.svg'
@@ -128,6 +129,7 @@ const Images = {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
+  'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
   'blockchain-logo': blockchainLogo,

@@ -25,7 +25,7 @@ const FooterInner = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.blue900};
+  background-color: ${props => props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -49,9 +49,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 32px;
   z-index: 1;
-  max-width: 100%;
+  width: 100%;
   ${media.mobile`
     padding: 0 15px;
   `}
@@ -72,7 +71,7 @@ const PublicLayoutContainer = ({ component: Component, ...rest }) => (
           </ContentContainer>
           <FooterWrapper>
             <FooterInner>
-              <DropdownLanguage color='whiteFade900' />
+              <DropdownLanguage color='grey400' size='16px' />
               <Footer />
             </FooterInner>
           </FooterWrapper>
