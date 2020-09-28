@@ -8,7 +8,10 @@ import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
   const balanceR = getWithdrawableFiatBalance(ownProps.fiatCurrency, state)
-  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(state)
+  const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
+    ownProps.fiatCurrency,
+    state
+  )
   const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(
     state
   )

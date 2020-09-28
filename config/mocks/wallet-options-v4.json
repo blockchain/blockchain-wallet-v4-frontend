@@ -58,8 +58,8 @@
           "availability": {
             "send": false,
             "request": false,
-            "deposit": false,
-            "withdrawal": false
+            "deposit": true,
+            "withdrawal": true
           },
           "coinCode": "USD",
           "coinTicker": "USD",

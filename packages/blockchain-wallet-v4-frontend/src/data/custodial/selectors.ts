@@ -1,15 +1,18 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess, WalletCurrencyType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 export const getBeneficiaries = (state: RootState) =>
   state.custodial.beneficiaries
 
-export const getDefaultBeneficiary = (state: RootState) => {
+export const getDefaultBeneficiary = (
+  currency: WalletCurrencyType,
+  state: RootState
+) => {
   const beneficiariesR = getBeneficiaries(state)
 
-  return lift(
-    (beneficiaries: ExtractSuccess<typeof beneficiariesR>) => beneficiaries[0]
+  return lift((beneficiaries: ExtractSuccess<typeof beneficiariesR>) =>
+    beneficiaries.find(val => val.currency === currency)
   )(beneficiariesR)
 }

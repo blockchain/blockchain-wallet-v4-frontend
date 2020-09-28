@@ -29,8 +29,8 @@ class BankPicker extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  data: getData(state)
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
+export type OwnProps = { fiatCurrency: WalletFiatType; handleClose: () => void }
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

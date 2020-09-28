@@ -26,6 +26,8 @@ class EnterAmount extends PureComponent<Props> {
       {} as SuccessStateType
     )
 
+    if (!defaultBeneficiary || !this.props.beneficiary) return
+
     this.props.withdrawActions.setStep({
       step: 'CONFIRM_WITHDRAW',
       amount: this.props.formValues.amount,
