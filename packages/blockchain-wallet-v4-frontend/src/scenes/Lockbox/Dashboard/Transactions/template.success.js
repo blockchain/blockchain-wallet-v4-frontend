@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import EmptyTx from 'components/EmptyTx'
 import LazyLoadContainer from 'components/LazyLoadContainer'
+import NonCustodialTxItem from '../../../Transactions/NonCustodialTx'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
-import TransactionListItem from 'components/TransactionListItem'
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
   display: flex;
@@ -30,7 +30,7 @@ const LockboxTransactions = props => {
   return (
     <LazyLoadWrapper onLazyLoad={loadMore}>
       {sortByTime(transactions).map(transaction => (
-        <TransactionListItem
+        <NonCustodialTxItem
           key={transaction.hash}
           coin={transaction.coin}
           currency={props.currency}

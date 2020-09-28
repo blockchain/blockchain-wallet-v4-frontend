@@ -1,6 +1,5 @@
 import {
   CoinType,
-  CoinTypeEnum,
   SBCardType,
   SBOrderActionType,
   SBOrderType,
@@ -43,7 +42,7 @@ export const splitPair = (
 }
 
 export const getOrderType = (order: SBOrderType): SBOrderActionType => {
-  return order.inputCurrency in CoinTypeEnum ? 'SELL' : 'BUY'
+  return order.side
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {

@@ -4,11 +4,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Header, Wrapper } from 'components/Balances'
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Image, Text } from 'blockchain-info-components'
 
 import { BalancesWrapper } from '../model'
 import { SupportedWalletCurrencyType } from 'core/types'
 import Balance from './Balance'
+import PendingSBTransactions from './PendingSBTransactions'
 
 const Title = styled(Text)`
   display: flex;
@@ -26,9 +27,8 @@ const Template = props => {
     <Wrapper>
       <Header onClick={props.handleToggle} data-e2e='balanceDropdown-wallet'>
         <Title>
-          <Icon
-            color='grey400'
-            name='wallet-filled'
+          <Image
+            name='wallet-blue'
             size='22px'
             style={{ marginRight: '14px' }}
           />
@@ -44,6 +44,7 @@ const Template = props => {
           className={props.isActive ? 'active' : ''}
         />
       </Header>
+      <PendingSBTransactions />
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {values(
           mapObjIndexed(

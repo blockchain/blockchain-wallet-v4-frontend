@@ -140,6 +140,7 @@ export const _transformErc20Tx = curry((addresses, state, token, tx) => {
 
   return {
     amount: parseInt(tx.value),
+    coin: token,
     blockHeight: tx.blockNumber,
     description: getErc20TxNote(state, token, tx.transactionHash).getOrElse(''),
     fee: Remote.NotAsked,

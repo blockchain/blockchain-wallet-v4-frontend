@@ -148,8 +148,10 @@ export const Image: FunctionComponent<{
   height?: string
   color?: string
   size?: string
+  style?: CSSProperties
 }>
 export const Link: FunctionComponent<{
+  altFont?: boolean
   weight?: number
   size?: string
   color?: keyof DefaultTheme
@@ -242,6 +244,7 @@ export const Toast: FunctionComponent<{
   persist?: boolean
   timeout?: number
 }>
+export const Tooltip: FunctionComponent<{ id: string; offset?: any }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme

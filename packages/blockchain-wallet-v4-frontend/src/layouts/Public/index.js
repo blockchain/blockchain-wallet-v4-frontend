@@ -1,12 +1,15 @@
 import { Route } from 'react-router-dom'
-import Alerts from 'components/Alerts'
-import DropdownLanguage from 'components/DropdownLanguage'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import Footer from './Footer'
-import Header from './Header'
-import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
+
+import Alerts from 'components/Alerts'
+// import AndroidAppBanner from 'components/AndroidAppBanner'
+import DropdownLanguage from 'components/DropdownLanguage'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import media from 'services/ResponsiveService'
+
+import Footer from './Footer'
+import Header from './Header'
 
 const FooterWrapper = styled.div`
   display: flex;
@@ -63,6 +66,8 @@ const PublicLayoutContainer = ({ component: Component, ...rest }) => (
     render={matchProps => (
       <Wrapper>
         <ErrorBoundary>
+          {/* TODO: STILL NEEDS DEV/QA */}
+          {/* <AndroidAppBanner /> */}
           <Alerts />
           <HeaderContainer>
             <Header />

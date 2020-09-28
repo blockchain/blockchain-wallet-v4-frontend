@@ -57,7 +57,7 @@ const Success = props => {
   } = props
 
   return (
-    <React.Fragment>
+    <>
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
@@ -140,16 +140,23 @@ const Success = props => {
           </Text>
           <ExchangeAmounts>
             {coin === 'ETH' ? (
-              <React.Fragment>
+              <>
                 <SummaryExchangeAmount>{totalFiat}</SummaryExchangeAmount>
                 <SummarySubExchangeAmount>
-                  <CoinDisplay coin={coin} size='14px' weight={300}>
+                  <CoinDisplay
+                    coin={coin}
+                    size='14px'
+                    weight={300}
+                    data-e2e={`ETHSendTotal`}
+                  >
                     {totalCrypto}
                   </CoinDisplay>
                 </SummarySubExchangeAmount>
-              </React.Fragment>
+              </>
             ) : (
-              <SummaryExchangeAmount>-{totalFiat}</SummaryExchangeAmount>
+              <SummaryExchangeAmount data-e2e={`${coin}SendTotal`}>
+                -{totalFiat}
+              </SummaryExchangeAmount>
             )}
           </ExchangeAmounts>
         </LargeTableRow>
@@ -184,7 +191,7 @@ const Success = props => {
           <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
-    </React.Fragment>
+    </>
   )
 }
 

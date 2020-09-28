@@ -25,6 +25,7 @@ import media from 'services/ResponsiveService'
 import React from 'react'
 import styled from 'styled-components'
 
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import InterestTransactions from './TransactionList/template.interest'
 import TransactionFilters from './TransactionFilters'
 import TransactionList from './TransactionList'
@@ -90,9 +91,10 @@ const StatsContainer = styled.div`
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount () {
     this.props.initTxs()
-    this.props.miscActions.fetchPrice24H(
+    this.props.miscActions.fetchPriceChange(
       this.props.coin as CoinType,
-      this.props.currency
+      this.props.currency,
+      'week'
     )
   }
 
@@ -140,6 +142,20 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
+                {coin in CoinTypeEnum && (
+                  <Button
+                    nature='primary'
+                    data-e2e='buyCrypto'
+                    onClick={() => {
+                      this.props.simpleBuyActions.showModal(
+                        'TransactionList',
+                        coin as CoinType
+                      )
+                    }}
+                  >
+                    <BuyOrSell crypto={coin as CoinType} orderType={'BUY'} />
+                  </Button>
+                )}
                 {coin in WalletFiatEnum && (
                   <>
                     {(coinModel as SupportedFiatType).availability.deposit && (
@@ -238,7 +254,11 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
         dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () =>
         dispatch(actions.components.ethTransactions.loadMoreErc20(coin)),
-      miscActions: bindActionCreators(actions.core.data.misc, dispatch)
+      miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+      simpleBuyActions: bindActionCreators(
+        actions.components.simpleBuy,
+        dispatch
+      )
     }
   }
   if (coin in WalletFiatEnum) {
@@ -266,7 +286,8 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
       dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     setAddressArchived: address =>
-      dispatch(actions.core.wallet.setAddressArchived(address, true))
+      dispatch(actions.core.wallet.setAddressArchived(address, true)),
+    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
   }
 }
 

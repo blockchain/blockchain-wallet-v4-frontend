@@ -61,7 +61,8 @@ const sanitizeEvent = (
               step: sbAction.step,
               inputCurrency: sbAction.order.inputCurrency,
               outputCurrency: sbAction.order.outputCurrency,
-              paymentType: sbAction.order.paymentType
+              paymentType: sbAction.order.paymentType,
+              side: sbAction.order.side
             })
           ]
         case 'ENTER_AMOUNT':

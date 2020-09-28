@@ -11,7 +11,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 import { Props as OwnProps } from './WalletBalance/Balance/template.success'
 
-const CoinBalanceMain = styled.div`
+export const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
   align-items: center;

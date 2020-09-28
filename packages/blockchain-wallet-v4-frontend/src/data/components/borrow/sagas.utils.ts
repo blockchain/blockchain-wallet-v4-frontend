@@ -43,7 +43,7 @@ export default ({
             parseInt(convertStandardToBase(coin, amount))
           )
       }
-      payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      payment = yield payment.to(destination, 'ADDRESS')
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)

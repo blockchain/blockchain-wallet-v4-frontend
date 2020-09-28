@@ -1,6 +1,6 @@
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { lift, map, prop } from 'ramda'
+import { lift, map } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
@@ -15,9 +15,9 @@ export const getData = createDeepEqualSelector(
     const currency = currencyR.getOrElse('USD')
     const currencySymbol = Exchange.getSymbol(currency)
     // @ts-ignore
-    const cacheCoin = prop('coin', priceChartPreferences)
+    const cacheCoin = priceChartPreferences.coin
     // @ts-ignore
-    const cacheTime = prop('time', priceChartPreferences)
+    const cacheTime = priceChartPreferences.time || 'month'
 
     const transform = priceIndexSeriesData => ({
       data: map(d => [d.timestamp * 1000, d.price], priceIndexSeriesData),

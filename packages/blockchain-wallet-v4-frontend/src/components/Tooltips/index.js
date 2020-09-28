@@ -348,6 +348,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='The remaining balance will be available to be withdrawn within 3 days.'
           />
         </Tooltip>
+        <Tooltip id='copy.on_chain_txs' maxWidth='250px'>
+          <FormattedMessage
+            id='copy.on_chain_txs'
+            defaultMessage='On-chain transactions only'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

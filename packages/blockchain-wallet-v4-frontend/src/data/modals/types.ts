@@ -19,6 +19,7 @@ export type ModalNamesType =
   | 'Confirm'
   | 'CUSTODY_WITHDRAW_MODAL'
   | 'DeleteAddressLabel'
+  | 'EditTxDescription'
   | 'FAQ_MODAL'
   | 'ImportBtcAddress'
   | 'INTEREST_MODAL'

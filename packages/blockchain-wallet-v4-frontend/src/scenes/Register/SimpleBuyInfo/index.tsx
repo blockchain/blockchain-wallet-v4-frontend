@@ -43,7 +43,7 @@ const Amount = styled(Text)`
   overflow: hidden;
   text-overflow: ellipsis;
 `
-
+        
 const SimpleBuyInfo = ({ supportedCoins, goalData: { amount, crypto } }) => (
   <SimpleBuyItemWrapper>
     <AmountWrapper>

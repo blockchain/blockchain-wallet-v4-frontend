@@ -1,5 +1,10 @@
+import {
+  BeneficiaryType,
+  CoinType,
+  FiatType,
+  WalletCurrencyType
+} from 'core/types'
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, FiatType, WalletCurrencyType } from 'core/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -177,6 +182,7 @@ export type ISBBuyOrderType = {
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
   price?: string
+  side: SBOrderActionType
   state: SBOrderStateType
   updatedAt: string
 }
@@ -212,13 +218,43 @@ export type SBQuoteType = {
 }
 
 export type SBTransactionType = {
-  amount: { symbol: FiatType; value: string }
-  extraAttributes: null
+  amount: { symbol: WalletCurrencyType; value: string }
+  amountMinor: string
   id: string
   insertedAt: string
   state: SBTransactionStateType
-  type: 'DEPOSIT' | 'WITHDRAWAL'
-}
+} & (
+  | {
+      extraAttributes: null | {
+        address: string
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        confirmations: number
+        dsr: number
+        hash: string
+        id: string
+        status: 'UNCONFIRMED' | 'CONFIRMED'
+        txHash: string
+      }
+      type: 'DEPOSIT'
+    }
+  | {
+      extraAttributes: null | {
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        beneficiary: BeneficiaryType
+        externalRef: string
+        fee: {
+          BTC: 0
+        }
+        product: 'SIMPLEBUY'
+        user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
+      }
+      type: 'WITHDRAWAL'
+    }
+)
 
 export type SBTransactionsType = {
   items: Array<SBTransactionType>
@@ -229,6 +265,7 @@ export type SBTransactionsType = {
 export type SBTransactionStateType =
   | 'CREATED'
   | 'PENDING'
+  | 'PENDING_DEPOSIT'
   | 'UNIDENTIFIED'
   | 'FAILED'
   | 'FRAUD_REVIEW'
@@ -237,6 +274,15 @@ export type SBTransactionStateType =
   | 'CLEARED'
   | 'COMPLETE'
   | 'REFUNDED'
+
+export enum SBPendingTransactionStateEnum {
+  CLEARED = 'CLEARED',
+  CREATED = 'CREATED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+  PENDING = 'PENDING',
+  PENDING_DEPOSIT = 'PENDING_DEPOSIT'
+}
 
 export type FiatEligibleType = {
   eligible: boolean

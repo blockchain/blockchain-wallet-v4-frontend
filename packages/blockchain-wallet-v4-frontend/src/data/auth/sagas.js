@@ -200,6 +200,7 @@ export default ({ api, coreSagas }) => {
       const defaultAccount = accounts.find(
         account => account.index === defaultIndex
       )
+      if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line
@@ -330,6 +331,7 @@ export default ({ api, coreSagas }) => {
   }
   const mobileLogin = function * (action) {
     try {
+      yield put(actions.auth.mobileLoginStarted())
       const { guid, sharedKey, password } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
@@ -342,6 +344,7 @@ export default ({ api, coreSagas }) => {
         true
       )
       yield call(login, loginAction)
+      yield put(actions.auth.mobileLoginFinish())
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'mobileLogin', error))
       if (error === 'qr_code_expired') {
@@ -351,6 +354,7 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
+      yield put(actions.auth.mobileLoginFinish())
     }
   }
   const register = function * (action) {
