@@ -17,19 +17,25 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state,
     ownProps.fiatCurrency
   )
+  const feesR = selectors.components.withdraw.getFeeForCurrency(
+    state,
+    ownProps.fiatCurrency
+  )
 
   return lift(
     (
       balance: ExtractSuccess<typeof balanceR>,
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
       userData: ExtractSuccess<typeof userDataR>,
-      minAmount: ExtractSuccess<typeof minAmountR>
+      minAmount: ExtractSuccess<typeof minAmountR>,
+      fees: ExtractSuccess<typeof feesR>
     ) => ({
       balance,
       defaultBeneficiary,
       formErrors,
       userData,
-      minAmount
+      minAmount,
+      fees
     })
-  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR)
+  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR, feesR)
 }

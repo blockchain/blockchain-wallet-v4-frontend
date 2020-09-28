@@ -4,11 +4,13 @@ import { selectors } from 'data'
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   if (!value) return true
 
-  const { balance } = restProps
+  const { balance, fees } = restProps
 
   if (!balance) return true
 
-  return Number(value) > Number(balance) ? 'ABOVE_MAX' : false
+  const maxAmount = Number(balance) - Number(fees.value)
+
+  return Number(value) > maxAmount ? 'ABOVE_MAX' : false
 }
 
 export const minimumAmount = (value: string, allValues, restProps: Props) => {
