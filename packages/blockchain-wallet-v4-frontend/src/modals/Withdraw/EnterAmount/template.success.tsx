@@ -83,6 +83,16 @@ const Success: React.FC<InjectedFormProps<
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
   const userCanWithdraw = Number(props.balance) > Number(props.fees.value)
+  const showFee = Number(props.fees.value) > 0
+
+  const maxAmount = userCanWithdraw
+    ? Number(props.balance) - Number(props.fees.value)
+    : Number(props.balance)
+
+  const isEnteredAmountGreaterThanWithdrawable =
+    props.formValues &&
+    props.formValues.amount &&
+    Number(props.formValues.amount) > maxAmount
 
   return (
     <FlyoutWrapper>
@@ -128,6 +138,25 @@ const Success: React.FC<InjectedFormProps<
           </TooltipHost>
         </TooltipWrapper>
       </CoinContainer>
+      {showFee && (
+        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+          <Text size='14px' color='grey900' weight={500}>
+            <FormattedMessage
+              id='modals.withdraw.fee'
+              defaultMessage='Withdraw Fee'
+            />
+          </Text>{' '}
+          <CoinDisplay
+            size='14px'
+            color='grey600'
+            weight={500}
+            coin={props.fees.symbol}
+            style={{ marginLeft: '4px' }}
+          >
+            {props.fees.value}
+          </CoinDisplay>
+        </CoinContainer>
+      )}
       <Form onSubmit={props.handleSubmit}>
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
@@ -193,7 +222,7 @@ const Success: React.FC<InjectedFormProps<
                     cursor='pointer'
                     coin={props.fiatCurrency}
                   >
-                    {props.balance}
+                    {maxAmount}
                   </CoinDisplay>
                   &nbsp;
                   <FormattedMessage id='copy.max' defaultMessage='Max' />
@@ -202,6 +231,26 @@ const Success: React.FC<InjectedFormProps<
             </div>
           )}
         </MinMaxContainer>
+
+        {showFee && isEnteredAmountGreaterThanWithdrawable && (
+          <Text
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ marginBottom: '4px' }}
+          >
+            <FormattedMessage
+              id='modals.withdraw.not_enought_founds'
+              defaultMessage='Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
+              values={{
+                balance: props.balance,
+                symbol: props.fiatCurrency,
+                fee: props.fees.value
+              }}
+            />
+          </Text>
+        )}
+
         <ToContainer>
           <Text
             size='14px'
