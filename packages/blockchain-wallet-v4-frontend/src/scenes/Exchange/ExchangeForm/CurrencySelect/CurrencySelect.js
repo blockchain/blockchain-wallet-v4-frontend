@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData, shouldUpdate } from './selectors'
 import { Icon, TooltipHost } from 'blockchain-info-components'
-import React, { memo } from 'react'
+import React from 'react'
 import SelectBox from './SelectBox'
 import styled from 'styled-components'
 
@@ -78,4 +78,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(getData, mapDispatchToProps)(memo(CurrencySelect))
+export default connect(getData, mapDispatchToProps)(CurrencySelect)
