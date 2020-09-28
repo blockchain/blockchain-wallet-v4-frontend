@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { Field } from 'redux-form'
 import { getData, shouldUpdate } from './selectors'
 import { Icon, TooltipHost } from 'blockchain-info-components'
-import React from 'react'
+import React, { memo } from 'react'
 import SelectBox from './SelectBox'
 import styled from 'styled-components'
 
@@ -35,6 +35,7 @@ export class CurrencySelect extends React.Component {
 
   render () {
     const { actions, fromElements, swapDisabled, toElements } = this.props
+
     return (
       <CurrencyRow height='32px' spaced>
         <Cell data-e2e='exchangeSourceCurrency'>
@@ -77,4 +78,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(getData, mapDispatchToProps)(CurrencySelect)
+export default connect(getData, mapDispatchToProps)(memo(CurrencySelect))
