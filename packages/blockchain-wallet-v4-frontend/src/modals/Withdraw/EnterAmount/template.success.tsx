@@ -82,6 +82,8 @@ const Success: React.FC<InjectedFormProps<
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
+  const userCanWithdraw = Number(props.balance) > Number(props.fees.value)
+
   return (
     <FlyoutWrapper>
       <Top>
@@ -214,7 +216,7 @@ const Success: React.FC<InjectedFormProps<
         </ToContainer>
         <ActionContainer>
           <Button
-            disabled={props.invalid || !beneficiary}
+            disabled={props.invalid || !beneficiary || !userCanWithdraw}
             data-e2e='withdrawNext'
             type='submit'
             nature='primary'
