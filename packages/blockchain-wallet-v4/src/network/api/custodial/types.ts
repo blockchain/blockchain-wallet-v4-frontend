@@ -2,7 +2,8 @@ import {
   AgentType,
   CoinType,
   FiatType,
-  SBTransactionStateType,
+  InterestTransactionType,
+  SBTransactionType,
   WalletCurrencyType,
   WalletFiatType
 } from 'core/types'
@@ -19,7 +20,26 @@ export type BeneficiaryType = {
 
 export type BeneficiariesType = Array<BeneficiaryType>
 
-export type NabuCustodialProductType = 'SIMPLEBUY' | 'SAVINGS'
+export type CustodialTxStateType =
+  | 'CREATED'
+  | 'PENDING'
+  | 'PENDING_DEPOSIT'
+  | 'UNIDENTIFIED'
+  | 'FAILED'
+  | 'FRAUD_REVIEW'
+  | 'MANUAL_REVIEW'
+  | 'REJECTED'
+  | 'CLEARED'
+  | 'COMPLETE'
+  | 'REFUNDED'
+
+export type CustodialTxResponseType = {
+  items: Array<SBTransactionType | InterestTransactionType>
+  next: string | null
+  prev: string | null
+}
+
+export type NabuCustodialProductType = 'SIMPLEBUY' | 'SAVINGS' | 'SWAP'
 
 export type NabuMoneyFloatType = {
   symbol: CoinType | FiatType
@@ -38,7 +58,7 @@ export type PaymentDepositPendingResponseType = {
   insertedAt: string
   owner: string
   product: NabuCustodialProductType
-  state: SBTransactionStateType
+  state: CustodialTxStateType
   txHash: string
   updatedAt: string
 }
@@ -72,5 +92,3 @@ export type WithdrawalMinsAndFeesResponse = {
   fees: Array<NabuMoneyFloatType>
   minAmounts: Array<NabuMoneyFloatType>
 }
-
-export type CustodialProductType = 'simplebuy' | 'mercurial'

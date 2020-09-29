@@ -1,6 +1,7 @@
 import {
   BeneficiaryType,
   CoinType,
+  CustodialTxStateType,
   FiatType,
   WalletCurrencyType
 } from 'core/types'
@@ -222,7 +223,7 @@ export type SBTransactionType = {
   amountMinor: string
   id: string
   insertedAt: string
-  state: SBTransactionStateType
+  state: CustodialTxStateType
 } & (
   | {
       extraAttributes: null | {
@@ -261,19 +262,6 @@ export type SBTransactionsType = {
   next: string | null
   prev: string | null
 }
-
-export type SBTransactionStateType =
-  | 'CREATED'
-  | 'PENDING'
-  | 'PENDING_DEPOSIT'
-  | 'UNIDENTIFIED'
-  | 'FAILED'
-  | 'FRAUD_REVIEW'
-  | 'MANUAL_REVIEW'
-  | 'REJECTED'
-  | 'CLEARED'
-  | 'COMPLETE'
-  | 'REFUNDED'
 
 export enum SBPendingTransactionStateEnum {
   CLEARED = 'CLEARED',

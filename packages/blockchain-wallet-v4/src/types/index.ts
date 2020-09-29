@@ -110,6 +110,7 @@ export * from './WalletPayload'
 
 export * from '../redux/payment/types'
 export * from '../redux/settings/'
+export * from '../redux/data/activity/types'
 export * from '../redux/data/misc/types'
 export * from '../redux/data/simpleBuy/types'
 export * from '../redux/walletOptions/types'

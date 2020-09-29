@@ -1,3 +1,4 @@
+import * as activity from './activity/actionTypes'
 import * as algo from './algo/actionTypes'
 import * as bch from './bch/actionTypes'
 import * as btc from './btc/actionTypes'
@@ -7,4 +8,4 @@ import * as misc from './misc/actionTypes'
 import * as stx from './stx/actionTypes'
 import * as xlm from './xlm/actionTypes'
 
-export { algo, bch, btc, eth, fiat, misc, stx, xlm }
+export { activity, algo, bch, btc, eth, fiat, misc, stx, xlm }

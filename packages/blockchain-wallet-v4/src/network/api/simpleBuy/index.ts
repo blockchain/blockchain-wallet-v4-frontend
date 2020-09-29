@@ -1,6 +1,7 @@
 import {
   CoinType,
   CurrenciesType,
+  CustodialTxStateType,
   FiatType,
   WalletCurrencyType
 } from '../../../types'
@@ -19,7 +20,6 @@ import {
   SBPaymentMethodType,
   SBProviderAttributesType,
   SBQuoteType,
-  SBTransactionStateType,
   SBTransactionsType
 } from './types'
 import { Moment } from 'moment'
@@ -235,7 +235,7 @@ export default ({
     next?: string | null,
     limit?: string,
     type?: 'DEPOSIT' | 'WITHDRAWAL',
-    state?: SBTransactionStateType
+    state?: CustodialTxStateType
   ): SBTransactionsType =>
     next
       ? authorizedGet({

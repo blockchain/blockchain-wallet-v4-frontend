@@ -1,3 +1,4 @@
+import activity from './activity/sagas'
 import algo from './algo/sagas'
 import bch from './bch/sagas'
 import btc from './btc/sagas'
@@ -7,6 +8,7 @@ import stx from './stx/sagas'
 import xlm from './xlm/sagas'
 
 export default ({ api, networks }) => ({
+  activity: activity({ api }),
   algo: algo({ api }),
   bch: bch({ api }),
   btc: btc({ api }),

@@ -36,6 +36,7 @@ const UploadDocumentsSuccess = React.lazy(() =>
 const VerifyEmailToken = React.lazy(() => import('./VerifyEmailToken'))
 
 // WALLET
+const Activity = React.lazy(() => import('./Activity'))
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
 const Borrow = React.lazy(() => import('./Borrow'))
@@ -98,6 +99,7 @@ class App extends React.PureComponent<Props> {
                         component={UploadDocuments}
                       />
                       <PublicLayout path='/wallet' component={Login} />
+                      <WalletLayout path='/activity' component={Activity} />
                       <WalletLayout path='/airdrops' component={Airdrops} />
                       <WalletLayout path='/borrow' component={Borrow} />
                       <WalletLayout path='/exchange' component={TheExchange} />

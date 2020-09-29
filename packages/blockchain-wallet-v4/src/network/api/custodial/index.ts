@@ -1,7 +1,7 @@
 import {
   BeneficiariesType,
   BeneficiaryType,
-  CustodialProductType,
+  CustodialTxResponseType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
   WithdrawalLockResponseType,
@@ -16,6 +16,27 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl,
       endPoint: '/payments/beneficiaries'
     })
+
+  const getCustodialTxs = (
+    product: NabuCustodialProductType,
+    next?: string | null,
+    limit?: string
+  ): CustodialTxResponseType =>
+    next
+      ? authorizedGet({
+          url: nabuUrl,
+          endPoint: next,
+          ignoreQueryParams: true
+        })
+      : authorizedGet({
+          url: nabuUrl,
+          endPoint: '/payments/transactions',
+          data: {
+            limit,
+            pending: true,
+            product: product
+          }
+        })
 
   const getWithdrawalLocks = (): WithdrawalLockResponseType =>
     authorizedGet({
@@ -63,7 +84,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const getWithdrawalFees = (
-    product: CustodialProductType
+    product: NabuCustodialProductType
   ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       url: nabuUrl,
@@ -73,6 +94,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   return {
     getBeneficiaries,
+    getCustodialTxs,
     getWithdrawalLocks,
     getWithdrawalFees,
     notifyNonCustodialToCustodialTransfer,

@@ -1,4 +1,9 @@
-import { CoinType, FiatType, NabuMoneyFloatType } from 'core/types'
+import {
+  CoinType,
+  CustodialTxStateType,
+  FiatType,
+  NabuMoneyFloatType
+} from 'core/types'
 
 export type InterestAccountBalanceType = {
   [key in CoinType]?: {
@@ -46,7 +51,7 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
-    address: 'string'
+    address: string
     confirmations: number
     hash: string
     id: string
@@ -54,15 +59,7 @@ export type InterestTransactionType = {
   }
   id: string
   insertedAt: string
-  state:
-    | 'FAILED'
-    | 'REJECTED'
-    | 'PROCESSING'
-    | 'COMPLETE'
-    | 'PENDING'
-    | 'MANUAL_REVIEW'
-    | 'CLEARED'
-    | 'REFUNDED'
+  state: CustodialTxStateType
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'INTEREST_OUTGOING'
 }
 

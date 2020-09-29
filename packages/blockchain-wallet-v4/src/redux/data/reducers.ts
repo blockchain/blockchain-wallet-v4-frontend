@@ -1,5 +1,7 @@
-import { algoReducer } from './algo/reducers'
 import { combineReducers } from 'redux'
+
+import { activityReducer } from './activity/reducers'
+import { algoReducer } from './algo/reducers'
 import { fiatReducer } from './fiat/reducers'
 import { miscReducer } from './misc/reducers'
 import { simpleBuyCoreReducer } from './simpleBuy/reducers'
@@ -9,6 +11,7 @@ import eth from './eth/reducers'
 import xlm from './xlm/reducers'
 
 const dataReducer = combineReducers({
+  activity: activityReducer,
   algo: algoReducer,
   bch,
   btc,
