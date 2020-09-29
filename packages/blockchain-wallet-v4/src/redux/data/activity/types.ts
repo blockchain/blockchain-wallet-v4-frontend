@@ -3,19 +3,26 @@ import * as AT from './actionTypes'
 import {
   CoinType,
   CustodialTxResponseType,
-  NabuCustodialProductType
+  NabuCustodialProductType,
+  RemoteDataType,
+  SBOrderType
 } from 'core/types'
+
+// types
+export type CustodialActivityType = {
+  orders: Array<RemoteDataType<string, Array<SBOrderType>>>
+  transactions: {
+    items: Array<
+      RemoteDataType<string, Array<CustodialTxResponseType['items']>>
+    >
+    next: string | null
+    prev: string | null
+  }
+}
 
 // states
 export type ActivityStateType = {
-  [key in NabuCustodialProductType]: {
-    orders: Array<any>
-    transactions: {
-      items: Array<any>
-      next: string | null
-      prev: string | null
-    }
-  }
+  [key in NabuCustodialProductType]: CustodialActivityType
 } & {
   NON_CUSTODIAL: {
     [key in CoinType]: {
@@ -40,8 +47,8 @@ interface FetchCustodialActivityLoading {
 }
 interface FetchCustodialActivitySuccess {
   payload: {
-    orders: any,
-    product: NabuCustodialProductType,
+    orders: Array<SBOrderType>
+    product: NabuCustodialProductType
     transactions: CustodialTxResponseType
   }
   type: typeof AT.FETCH_CUSTODIAL_ACTIVITY_SUCCESS

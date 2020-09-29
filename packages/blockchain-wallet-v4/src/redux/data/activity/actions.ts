@@ -2,7 +2,8 @@ import * as AT from './actionTypes'
 import {
   ActivityActionType,
   CustodialTxResponseType,
-  NabuCustodialProductType
+  NabuCustodialProductType,
+  SBOrderType
 } from 'core/types'
 
 export const fetchActivity = () => ({
@@ -32,7 +33,7 @@ export const fetchCustodialActivityLoading = (
 export const fetchCustodialActivitySuccess = (
   product: NabuCustodialProductType,
   transactions: CustodialTxResponseType,
-  orders
+  orders: Array<SBOrderType>
 ): ActivityActionType => ({
   type: AT.FETCH_CUSTODIAL_ACTIVITY_SUCCESS,
   payload: {
