@@ -276,6 +276,7 @@ const FirstStep = props => {
               placeholder="What's this transaction for? (optional)"
               rows={3}
               data-e2e='sendBtcDescription'
+              maxLength={100}
             />
           ) : (
             <>
@@ -285,6 +286,7 @@ const FirstStep = props => {
                 placeholder="What's this transaction for? (optional)"
                 rows={3}
                 data-e2e='sendBtcDescription'
+                maxLength={100}
               />
               <ImageInInputContainer>
                 <Image name='bitpay-logo' height='24px' />
