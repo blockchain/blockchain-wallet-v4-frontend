@@ -6,7 +6,7 @@ import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.core.data.activity.getCustodialTransactions,
+    selectors.core.data.activity.getCustodialActivity,
     selectors.core.data.activity.getCustodialActivityStatus
   ],
   (activity, status) => {

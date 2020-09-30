@@ -11,6 +11,8 @@ export default ({ api }: { api: APIType }) => {
     try {
       for (const value of NabuProducts) {
         try {
+          yield put(A.fetchCustodialActivityLoading(value))
+
           let transactions: ReturnType<typeof api.getCustodialTxs>
           let orders: ReturnType<typeof api.getSBOrders> = []
           switch (value) {

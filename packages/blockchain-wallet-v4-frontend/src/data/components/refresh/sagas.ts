@@ -16,7 +16,6 @@ export default () => {
       yield put(actions.core.data.eth.fetchErc20Data('usdt'))
       yield put(actions.components.interest.fetchInterestBalance())
       yield put(actions.components.simpleBuy.fetchSBBalances())
-      yield put(actions.components.simpleBuy.fetchSBOrders())
       // Rates
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.btc.fetchRates())
@@ -26,6 +25,9 @@ export default () => {
       yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
       const pathname = yield select(selectors.router.getPathname)
       switch (true) {
+        case contains('/activity', pathname):
+          yield put(actions.core.data.activity.fetchActivity())
+          break
         case contains('/bch/transactions', pathname):
           yield call(refreshBchTransactions)
           break

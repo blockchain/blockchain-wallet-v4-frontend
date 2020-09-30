@@ -92,7 +92,12 @@ export const activityReducer = (
         orders: {
           items: [
             ...action.payload.orders,
-            ...state[action.payload.product].orders.items
+            ...state[action.payload.product].orders.items.filter(
+              oldItem =>
+                !action.payload.orders.find(
+                  newItem => newItem.id === oldItem.id
+                )
+            )
           ],
           status: Remote.Success(SUCCESS_STATUS)
         },
@@ -100,7 +105,12 @@ export const activityReducer = (
           ...state[action.payload.product].transactions,
           items: [
             ...action.payload.transactions.items,
-            ...state[action.payload.product].transactions.items
+            ...state[action.payload.product].transactions.items.filter(
+              oldItem =>
+                !action.payload.transactions.items.find(
+                  newItem => newItem.id === oldItem.id
+                )
+            )
           ],
           next: action.payload.transactions.next,
           prev: action.payload.transactions.prev,
