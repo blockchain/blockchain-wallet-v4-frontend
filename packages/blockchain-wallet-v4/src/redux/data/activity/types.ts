@@ -15,6 +15,10 @@ export const NabuProducts: Array<NabuCustodialProductType> = [
   'SIMPLEBUY',
   'SWAP'
 ]
+export const NabuTxType: Array<'orders' | 'transactions'> = [
+  'orders',
+  'transactions'
+]
 
 // types
 export type CustodialActivityType = {

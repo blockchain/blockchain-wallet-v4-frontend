@@ -20,7 +20,13 @@ class Activity extends PureComponent<Props> {
   render () {
     return (
       <SceneWrapper>
-        {this.props.data.map(value => {
+        {this.props.data.status.cata({
+          Success: () => <div>done loading</div>,
+          Loading: () => <div>loading something</div>,
+          NotAsked: () => <div>not asked</div>,
+          Failure: e => <div>something failed: {e}</div>
+        })}
+        {this.props.data.activity.map(value => {
           return <div key={value.id}>{JSON.stringify(value)}</div>
         })}
       </SceneWrapper>
