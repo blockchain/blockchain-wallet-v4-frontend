@@ -72,20 +72,21 @@ export const activityReducer = (
     // should we keep this on a separate field?
     // => maybe `status`?
     // ❓
-    // case AT.FETCH_CUSTODIAL_ACTIVITY_LOADING:
-    //   return {
-    //     ...state,
-    //     [action.payload.product]: {
-    //       orders: [Remote.Loading, ...state[action.payload.product].orders],
-    //       transactions: {
-    //         ...state[action.payload.product].transactions,
-    //         items: [
-    //           Remote.Loading,
-    //           ...state[action.payload.product].transactions.items
-    //         ]
-    //       }
-    //     } as CustodialActivityType
-    //   }
+    case AT.FETCH_CUSTODIAL_ACTIVITY_LOADING:
+      const loading: CustodialActivityType = {
+        orders: {
+          ...state[action.payload.product].orders,
+          status: Remote.Loading
+        },
+        transactions: {
+          ...state[action.payload.product].transactions,
+          status: Remote.Loading
+        }
+      }
+      return {
+        ...state,
+        [action.payload.product]: loading
+      }
     case AT.FETCH_CUSTODIAL_ACTIVITY_SUCCESS:
       const success: CustodialActivityType = {
         orders: {
