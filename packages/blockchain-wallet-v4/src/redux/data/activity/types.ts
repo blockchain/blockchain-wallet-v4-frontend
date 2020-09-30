@@ -8,26 +8,43 @@ import {
   SBOrderType
 } from 'core/types'
 
+export const SUCCESS_STATUS = 'Success'
+
+export const NabuProducts: Array<NabuCustodialProductType> = [
+  'SAVINGS',
+  'SIMPLEBUY',
+  'SWAP'
+]
+
 // types
 export type CustodialActivityType = {
-  orders: Array<RemoteDataType<string, Array<SBOrderType>>>
+  orders: {
+    items: Array<SBOrderType>
+    status: ActivityStatusType
+  }
   transactions: {
-    items: Array<
-      RemoteDataType<string, Array<CustodialTxResponseType['items']>>
-    >
+    items: CustodialTxResponseType['items']
     next: string | null
     prev: string | null
+    status: ActivityStatusType
   }
 }
+
+export type NonCustodialActivityType = {
+  transactions: {
+    items: Array<any>
+    status: ActivityStatusType
+  }
+}
+
+export type ActivityStatusType = RemoteDataType<string, typeof SUCCESS_STATUS>
 
 // states
 export type ActivityStateType = {
   [key in NabuCustodialProductType]: CustodialActivityType
 } & {
   NON_CUSTODIAL: {
-    [key in CoinType]: {
-      transactions: Array<any>
-    }
+    [key in CoinType]: NonCustodialActivityType
   }
 }
 

@@ -5,7 +5,9 @@ import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
-  const activity = selectors.core.data.activity.getActivity(state)
+  const custodialActivity = selectors.core.data.activity.getCustodialTransactions(
+    state
+  )
 
-  return activity
+  return custodialActivity
 }

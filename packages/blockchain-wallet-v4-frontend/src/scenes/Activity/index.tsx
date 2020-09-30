@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react'
 import { actions } from 'data'
 import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
+import { SceneWrapper } from 'components/Layout'
 
 class Activity extends PureComponent<Props> {
   state = {}
@@ -17,7 +18,13 @@ class Activity extends PureComponent<Props> {
   }
 
   render () {
-    return <div />
+    return (
+      <SceneWrapper>
+        {this.props.data.map(value => {
+          return <div key={value.id}>{JSON.stringify(value)}</div>
+        })}
+      </SceneWrapper>
+    )
   }
 }
 

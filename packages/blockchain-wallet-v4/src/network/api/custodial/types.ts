@@ -39,7 +39,13 @@ export type CustodialTxResponseType = {
   prev: string | null
 }
 
-export type NabuCustodialProductType = 'SIMPLEBUY' | 'SAVINGS' | 'SWAP'
+export enum NabuCustodialProductEnum {
+  SAVINGS,
+  SIMPLEBUY,
+  SWAP
+}
+
+export type NabuCustodialProductType = keyof typeof NabuCustodialProductEnum
 
 export type NabuMoneyFloatType = {
   symbol: CoinType | FiatType

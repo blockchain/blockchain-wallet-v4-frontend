@@ -1,20 +1,15 @@
 import { call, put } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
-import { NabuCustodialProductType } from 'core/types'
 
 import * as A from './actions'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { NabuProducts } from './types'
 
 export default ({ api }: { api: APIType }) => {
   const fetchActivity = function * () {
     try {
-      const products: Array<NabuCustodialProductType> = [
-        'SAVINGS',
-        'SIMPLEBUY',
-        'SWAP'
-      ]
-      for (const value of products) {
+      for (const value of NabuProducts) {
         try {
           let transactions: ReturnType<typeof api.getCustodialTxs>
           let orders: ReturnType<typeof api.getSBOrders> = []
