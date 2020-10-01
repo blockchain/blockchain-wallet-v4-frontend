@@ -24,6 +24,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     state,
     ownProps.fiatCurrency
   )
+  const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
 
   return lift(
     (
@@ -31,14 +32,16 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
       userData: ExtractSuccess<typeof userDataR>,
       minAmount: ExtractSuccess<typeof minAmountR>,
-      fees: ExtractSuccess<typeof feesR>
+      fees: ExtractSuccess<typeof feesR>,
+      locks: ExtractSuccess<typeof lockR>
     ) => ({
       balance,
       defaultBeneficiary,
       formErrors,
       userData,
       minAmount,
-      fees
+      fees,
+      locks
     })
-  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR, feesR)
+  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR, feesR, lockR)
 }

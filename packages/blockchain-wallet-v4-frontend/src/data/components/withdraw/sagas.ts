@@ -60,9 +60,26 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchWithdrawLocks = function * () {
+    yield put(A.fetchWithdrawalFeesLoading())
+    try {
+      const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
+        api.getWithdrawalLocks
+      )
+      // eslint-disable-next-line
+      console.log('locks', locks)
+
+      yield put(A.fetchWithdrawalLockSuccess(locks))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchWithdrawalLockFailure(error))
+    }
+  }
+
   return {
     handleWithdrawSubmit,
     showModal,
-    fetchFees
+    fetchFees,
+    fetchWithdrawLocks
   }
 }

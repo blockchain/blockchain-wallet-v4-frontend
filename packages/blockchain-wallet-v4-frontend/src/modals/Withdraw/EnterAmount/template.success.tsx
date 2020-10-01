@@ -15,8 +15,9 @@ import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
+import { isEmpty } from 'ramda'
 import { maximumAmount, minimumAmount } from './validation'
 
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -54,6 +55,12 @@ const CustomErrorCartridge = styled(ErrorCartridge)`
 `
 const TooltipWrapper = styled.div`
   padding-top: 1px;
+`
+const PendingText = styled(Text)`
+  a {
+    color: ${props => props.theme.blue600};
+    text-decoration: none;
+  }
 `
 const BlueRedCartridge = ({
   error,
@@ -94,6 +101,8 @@ const Success: React.FC<InjectedFormProps<
     props.formValues.amount &&
     Number(props.formValues.amount) > maxAmount
 
+  const showPendingTransactions = !isEmpty(props.locks)
+
   return (
     <FlyoutWrapper>
       <Top>
@@ -116,6 +125,7 @@ const Success: React.FC<InjectedFormProps<
         <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
         {props.fiatCurrency}
       </Text>
+
       <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
         <Text size='14px' color='grey900' weight={500}>
           <FormattedMessage
@@ -138,6 +148,19 @@ const Success: React.FC<InjectedFormProps<
           </TooltipHost>
         </TooltipWrapper>
       </CoinContainer>
+      {showPendingTransactions && (
+        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+          <PendingText size='14px' color='grey900' weight={500}>
+            <FormattedHTMLMessage
+              id='modals.withdraw.lock_description'
+              defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+              values={{
+                locks: props.locks.length
+              }}
+            />
+          </PendingText>
+        </CoinContainer>
+      )}
       {showFee && (
         <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
           <Text size='14px' color='grey900' weight={500}>

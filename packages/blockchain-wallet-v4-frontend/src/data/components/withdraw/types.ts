@@ -2,6 +2,7 @@ import {
   BeneficiaryType,
   RemoteDataType,
   WalletFiatType,
+  WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from 'core/types'
@@ -47,6 +48,7 @@ export type WithdrawState = {
   feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
   step: keyof typeof WithdrawStepEnum
+  withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawal?: WithdrawResponseType
 }
 
@@ -71,8 +73,27 @@ interface FetchWithdrawalFeesSuccess {
   type: typeof AT.FETCH_WITHDRAWAL_FEES_SUCCESS
 }
 
+interface FetchWithdrawalLockFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_WITHDRAWAL_LOCK_FAILURE
+}
+interface FetchWithdrawalLockLoading {
+  type: typeof AT.FETCH_WITHDRAWAL_LOCK_LOADING
+}
+interface FetchWithdrawalLockSuccess {
+  payload: {
+    withdrawLockResponse: WithdrawalLockResponseType
+  }
+  type: typeof AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
+}
+
 export type WithdrawActionTypes =
   | SetStepAction
   | FetchWithdrawalFeesFailure
   | FetchWithdrawalFeesSuccess
   | FetchWithdrawalFeesLoading
+  | FetchWithdrawalLockFailure
+  | FetchWithdrawalLockLoading
+  | FetchWithdrawalLockSuccess

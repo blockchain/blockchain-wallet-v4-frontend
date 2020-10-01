@@ -12,5 +12,6 @@ export default ({ api }) => {
     )
     yield takeLatest(AT.SHOW_MODAL, withdrawSagas.showModal)
     yield takeLatest(AT.FETCH_WITHDRAWAL_FEES, withdrawSagas.fetchFees)
+    yield takeLatest(AT.FETCH_WITHDRAWAL_LOCK, withdrawSagas.fetchWithdrawLocks)
   }
 }

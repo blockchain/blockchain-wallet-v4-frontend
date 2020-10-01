@@ -44,3 +44,14 @@ export const getMinAmountForCurrency = (state: RootState, currency: string) => {
       }
   )(feesR)
 }
+
+export const getLocks = (state: RootState) =>
+  state.components.withdraw.withdrawLocks
+
+export const getWithdrawalLocks = (state: RootState) => {
+  const locksR = getLocks(state)
+
+  return lift(
+    (locksResponse: ExtractSuccess<typeof locksR>) => locksResponse.locks
+  )(locksR)
+}

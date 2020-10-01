@@ -8,7 +8,8 @@ const INITIAL_STATE: WithdrawState = {
   fiatCurrency: 'EUR',
   step: 'ENTER_AMOUNT',
   withdrawal: undefined,
-  feesAndMinAmount: Remote.NotAsked
+  feesAndMinAmount: Remote.NotAsked,
+  withdrawLocks: Remote.NotAsked
 }
 
 export function withdrawReducer (
@@ -64,6 +65,24 @@ export function withdrawReducer (
       return {
         ...state,
         feesAndMinAmount: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_LOCK_LOADING: {
+      return {
+        ...state,
+        withdrawLocks: Remote.Loading
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_LOCK_SUCCESS: {
+      return {
+        ...state,
+        withdrawLocks: Remote.Success(action.payload.withdrawLockResponse)
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_LOCK_FAILURE: {
+      return {
+        ...state,
+        withdrawLocks: Remote.Failure(action.payload.error)
       }
     }
     default:
