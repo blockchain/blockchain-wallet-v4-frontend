@@ -95,6 +95,11 @@ const TabsContainer = styled.div`
 const Success: React.FC<Props> = props => {
   const [transferType, setTransferType] = useState(TransferType.DOMESTIC)
 
+  const recipientName =
+    props.account.currency === 'USD'
+      ? props.account.agent.recipient
+      : `${props.userData.firstName} ${props.userData.lastName}`
+
   return (
     <Wrapper>
       <div>
@@ -230,14 +235,10 @@ const Success: React.FC<Props> = props => {
                 defaultMessage='Recipient'
               />
             </Title>
-            <Value data-e2e='sbRecipientName'>
-              {props.userData.firstName} {props.userData.lastName}
-            </Value>
+            <Value data-e2e='sbRecipientName'>{recipientName}</Value>
           </div>
           <Copy>
-            <CopyClipboardButton
-              address={`${props.userData.firstName} ${props.userData.lastName}`}
-            />
+            <CopyClipboardButton address={recipientName} />
           </Copy>
         </RowCopy>
         {(props.account.currency === 'USD' ||
