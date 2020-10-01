@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   BeneficiaryType,
   WalletFiatType,
+  WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse
 } from 'core/types'
 import { WithdrawActionTypes, WithdrawStepActionsPayload } from './types'
@@ -55,5 +56,32 @@ export const fetchWithdrawalFeesSuccess = (
   type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS,
   payload: {
     withdrawFeesResponse
+  }
+})
+
+export const fetchWithdrawalLock = (currency?: WalletFiatType) => ({
+  type: AT.FETCH_WITHDRAWAL_LOCK,
+  currency
+})
+
+export const fetchWithdrawalLockFailure = (
+  error: string
+): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_LOCK_FAILURE,
+  payload: {
+    error
+  }
+})
+
+export const fetchWithdrawalLockLoading = (): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_LOCK_LOADING
+})
+
+export const fetchWithdrawalLockSuccess = (
+  withdrawLockResponse: WithdrawalLockResponseType
+): WithdrawActionTypes => ({
+  type: AT.FETCH_WITHDRAWAL_LOCK_SUCCESS,
+  payload: {
+    withdrawLockResponse
   }
 })

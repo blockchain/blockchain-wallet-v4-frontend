@@ -1353,6 +1353,7 @@ type MessagesType = {
   'modals.wallet.welcome.sb.verifybuy': 'Verify your identity and buy crypto.'
   'modals.withdraw.info_tooltip': 'The remaining balance will be available to be withdrawn within 3 days.'
   'modals.withdraw.available_for_withdrawal': 'Available to Withdraw'
+  'modals.withdraw.lock_description': "You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
   'modals.withdraw.fee': 'Withdraw Fee'
   'modals.withdraw.not_enought_founds': 'Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
   'modals.withdraw.success': 'Success! We are withdrawing the cash from your {currency} Wallet now. The funds should be in your bank in 1-3 business days.'
