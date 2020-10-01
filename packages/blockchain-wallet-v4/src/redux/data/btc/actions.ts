@@ -58,7 +58,11 @@ export const fetchTransactionsLoading = reset => ({
   type: AT.FETCH_BTC_TRANSACTIONS_LOADING,
   payload: { reset }
 })
-export const fetchTransactionsSuccess = (transactions, reset, isFinalPage) => ({
+export const fetchTransactionsSuccess = (
+  transactions,
+  reset,
+  isFinalPage?: boolean
+) => ({
   type: AT.FETCH_BTC_TRANSACTIONS_SUCCESS,
   payload: { transactions, reset, isFinalPage }
 })

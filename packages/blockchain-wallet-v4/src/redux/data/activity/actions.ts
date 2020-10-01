@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 import {
   ActivityActionType,
+  CoinType,
   CustodialTxResponseType,
   NabuCustodialProductType,
   SBOrderType
@@ -20,7 +21,6 @@ export const fetchCustodialActivityFailure = (
     error
   }
 })
-
 export const fetchCustodialActivityLoading = (
   product: NabuCustodialProductType
 ): ActivityActionType => ({
@@ -29,7 +29,6 @@ export const fetchCustodialActivityLoading = (
     product
   }
 })
-
 export const fetchCustodialActivitySuccess = (
   product: NabuCustodialProductType,
   transactions: CustodialTxResponseType,
@@ -39,6 +38,35 @@ export const fetchCustodialActivitySuccess = (
   payload: {
     product,
     orders,
+    transactions
+  }
+})
+
+export const fetchNonCustodialActivityFailure = (
+  coin: CoinType,
+  error: string
+): ActivityActionType => ({
+  type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_FAILURE,
+  payload: {
+    coin,
+    error
+  }
+})
+export const fetchNonCustodialActivityLoading = (
+  coin: CoinType
+): ActivityActionType => ({
+  type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_LOADING,
+  payload: {
+    coin
+  }
+})
+export const fetchNonCustodialActivitySuccess = (
+  coin: CoinType,
+  transactions: any
+): ActivityActionType => ({
+  type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS,
+  payload: {
+    coin,
     transactions
   }
 })

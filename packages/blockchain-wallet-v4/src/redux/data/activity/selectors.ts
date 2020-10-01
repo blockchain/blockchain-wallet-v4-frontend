@@ -2,6 +2,7 @@ import moment from 'moment'
 
 import {
   InterestTransactionType,
+  NonCustodialCoins,
   RemoteDataType,
   SBOrderType,
   SBTransactionType
@@ -43,4 +44,17 @@ export const getCustodialActivityStatus = (
     NabuProducts.length * NabuTxType.length,
     (...args) => args
   )(...statuses)
+}
+
+export const getNonCustodialActivityStatus = (
+  state: RootState
+): RemoteDataType<string, typeof SUCCESS_STATUS> => {
+  const statuses: Array<RemoteDataType<string, typeof SUCCESS_STATUS>> = []
+  for (const coin of NonCustodialCoins) {
+    statuses.push(
+      state.dataPath.activity.NON_CUSTODIAL[coin].transactions.status
+    )
+  }
+
+  return liftN(NonCustodialCoins.length, (...args) => args)(...statuses)
 }

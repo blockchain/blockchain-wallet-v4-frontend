@@ -23,3 +23,6 @@ export const errorHandler = (e): string => {
     ? e
     : 'Unknown Error'
 }
+
+// helper for typescript enums
+export const stringIsNumber = value => isNaN(Number(value)) === false;

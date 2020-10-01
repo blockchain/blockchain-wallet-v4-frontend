@@ -74,8 +74,31 @@ interface FetchCustodialActivitySuccess {
   }
   type: typeof AT.FETCH_CUSTODIAL_ACTIVITY_SUCCESS
 }
+interface FetchNonCustodialActivityFailure {
+  payload: {
+    coin: CoinType
+    error: string
+  }
+  type: typeof AT.FETCH_NON_CUSTODIAL_ACTIVITY_FAILURE
+}
+interface FetchNonCustodialActivityLoading {
+  payload: {
+    coin: CoinType
+  }
+  type: typeof AT.FETCH_NON_CUSTODIAL_ACTIVITY_LOADING
+}
+interface FetchNonCustodialActivitySuccess {
+  payload: {
+    coin: CoinType
+    transactions: CustodialTxResponseType
+  }
+  type: typeof AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS
+}
 
 export type ActivityActionType =
   | FetchCustodialActivityFailure
   | FetchCustodialActivityLoading
   | FetchCustodialActivitySuccess
+  | FetchNonCustodialActivityFailure
+  | FetchNonCustodialActivityLoading
+  | FetchNonCustodialActivitySuccess

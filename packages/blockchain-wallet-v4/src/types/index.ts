@@ -19,6 +19,7 @@ import {
   Erc20CurrenciesType,
   FiatCurrenciesType
 } from 'core/exchange/currencies'
+import { stringIsNumber } from 'core/utils'
 import serializer from './Serializer'
 
 export {
@@ -92,6 +93,10 @@ export type FiatType = keyof FiatCurrenciesType
 export type WalletFiatType = keyof typeof WalletFiatEnum
 // Supported for transactions/balances
 export type WalletCurrencyType = CoinType | WalletFiatType
+// NonCustodial Coin List
+export const NonCustodialCoins: Array<CoinType> = Object.keys(CoinTypeEnum)
+  .filter(stringIsNumber)
+  .map(key => CoinTypeEnum[key])
 
 export type BtcAccountType = {
   address?: string | number

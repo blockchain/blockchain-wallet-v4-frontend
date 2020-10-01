@@ -97,7 +97,8 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function * (action) {
+    const { payload } = action
     const { address, start, end } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
