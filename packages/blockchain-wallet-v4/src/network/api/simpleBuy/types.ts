@@ -25,9 +25,12 @@ type AgentSimple = {
 }
 
 export type AgentType = AgentSimple & {
+  accountType: string
   address: string
   country: string
+  recipientAddress: string
   routingNumber: string
+  swiftCode: string
 }
 
 export type SBAccountType =
