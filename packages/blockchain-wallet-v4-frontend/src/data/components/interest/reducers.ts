@@ -80,9 +80,7 @@ export function interestReducer (
     case AT.FETCH_INTEREST_INSTRUMENTS_SUCCESS:
       return {
         ...state,
-        // switch back after removing mock response
-        // instruments: Remote.Success(payload.interestInstruments.instruments)
-        instruments: Remote.Success(payload.interestInstruments)
+        instruments: Remote.Success(payload.interestInstruments.instruments)
       }
     case AT.FETCH_INTEREST_LIMITS_FAILURE:
       return {

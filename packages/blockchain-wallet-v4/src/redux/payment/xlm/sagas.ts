@@ -4,6 +4,7 @@ import { contains, merge, path, prop, values } from 'ramda'
 
 import * as S from '../../selectors'
 import { ADDRESS_TYPES } from '../btc/utils'
+import { AddressTypesType } from '../types'
 import {
   calculateEffectiveBalance,
   calculateReserve,
@@ -13,7 +14,6 @@ import {
   calculateFee as utilsCalculateFee
 } from '../../../utils/xlm'
 import { convertXlmToXlm } from '../../../exchange'
-import { FromType } from '../types'
 import {
   isPositiveInteger,
   isPositiveNumber,
@@ -166,7 +166,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
       },
 
-      * from (origin, type: FromType, effectiveBalance?: string) {
+      * from (origin, type: AddressTypesType, effectiveBalance?: string) {
         let from
 
         if (type === 'CUSTODIAL') {

@@ -85,25 +85,6 @@ export type InterestWithdrawalResponseType = {
 
 export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
 
-export type DepositNotificationResponseType = {
-  amount: number
-  currency: string
-  depositAddress: string
-  id: string
-  owner: string
-  state:
-    | 'CREATED'
-    | 'FAILED'
-    | 'REJECTED'
-    | 'PROCESSING'
-    | 'COMPLETE'
-    | 'PENDING'
-    | 'MANUAL_REVIEW'
-    | 'CLEARED'
-    | 'REFUNDED'
-  txHash: string
-}
-
 export type CustodialTransferResponseType = {
   amount: string
   coin: CoinType

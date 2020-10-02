@@ -1,4 +1,4 @@
-import { Button, Text } from 'blockchain-info-components'
+import { Button, SpinningLoader, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
@@ -22,6 +22,17 @@ const QRCodeContainer = styled.div`
   margin-top: 24px;
   box-sizing: border-box;
 `
+
+const LoaderSpacer = styled.div`
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  div {
+    margin: 0 auto;
+  }
+`
 const InstructionsContainer = styled.div`
   margin: 24px 0;
 `
@@ -39,7 +50,7 @@ const Instruction = styled(Text)`
 
 const MobileLogin = props => {
   const { close, ...rest } = props
-  const { handleScan, handleError } = rest
+  const { handleScan, handleError, isScanning } = rest
 
   return (
     <Wrapper>
@@ -53,7 +64,13 @@ const MobileLogin = props => {
       </Header>
       <Container>
         <QRCodeContainer>
-          <QRReader onScan={handleScan} onError={handleError} />
+          {isScanning ? (
+            <LoaderSpacer>
+              <SpinningLoader />
+            </LoaderSpacer>
+          ) : (
+            <QRReader onScan={handleScan} onError={handleError} />
+          )}
         </QRCodeContainer>
         <InstructionsContainer>
           <Instruction>

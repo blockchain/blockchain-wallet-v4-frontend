@@ -1,15 +1,18 @@
-import { actions } from 'data'
 import { bindActionCreators, Dispatch } from 'redux'
+import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import React from 'react'
+import styled from 'styled-components'
+
+import { actions } from 'data'
 import {
   CoinType,
   InterestRateType,
   RemoteDataType,
   SupportedWalletCurrenciesType
 } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
 import { Container } from 'components/Box'
-import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Remote } from 'core'
 import { SceneWrapper } from 'components/Layout'
 import {
@@ -19,13 +22,10 @@ import {
   Text
 } from 'blockchain-info-components'
 import { UserDataType } from 'data/types'
-import React from 'react'
-import styled from 'styled-components'
 
 import { getData } from './selectors'
-import IneligibiltyWarning from './IneligibilityCard'
+import IneligibilityCard from './IneligibilityCard'
 import InterestHeader from './template.header'
-// import InterestMenu from './template.menu'
 import IntroCard from './IntroCard'
 import SummaryCard from './SummaryCard'
 
@@ -35,7 +35,6 @@ const ContainerStyled = styled(Container)`
   flex-wrap: wrap;
   max-width: 100%;
 `
-
 const TabRow = styled.div`
   width: 100%;
   display: flex;
@@ -79,7 +78,7 @@ class Interest extends React.PureComponent<Props, StateType> {
           <TabRow>
             <TabMenu>
               <LinkContainer to='/interest' exact>
-                <TabMenuItem data-e2e='interestTabMenuAccountss'>
+                <TabMenuItem data-e2e='interestTabMenuAccounts'>
                   <FormattedMessage
                     id='scenes.interest.tab.accounts'
                     defaultMessage='Accounts'
@@ -113,8 +112,9 @@ class Interest extends React.PureComponent<Props, StateType> {
                       />
                     )
                   })}
+
               </ContainerStyled>
-              <IneligibiltyWarning {...val} {...this.props} />
+              <IneligibilityCard {...val} {...this.props} />
             </>
           ),
           Failure: () => (

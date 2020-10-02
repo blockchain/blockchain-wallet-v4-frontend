@@ -1,95 +1,118 @@
-import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react'
 
-import { CustodialTransactionRow } from '../components'
-import { fiatToString } from 'core/exchange/currency'
-import { SBTransactionType } from 'core/types'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import {
+  Addresses,
+  Col,
+  DetailsColumn,
+  DetailsRow,
+  Row,
+  RowHeader,
+  RowValue,
+  StatusAndType,
+  StyledCoinDisplay,
+  StyledFiatDisplay,
+  TxRow,
+  TxRowContainer
+} from '../components'
+import { CoinTypeEnum, SBTransactionType } from 'core/types'
 
-import { IconTx, Timestamp } from './model'
+import {
+  DepositOrWithdrawal,
+  Destination,
+  IconTx,
+  Origin,
+  Status,
+  Timestamp
+} from './model'
+import { FormattedMessage } from 'react-intl'
 import { Props as OwnProps } from '../TransactionList'
 
-const StyledCustodialTransactionRow = styled(CustodialTransactionRow)`
-  cursor: initial;
-`
-const Col = styled.div<{ width: string }>`
-  width: ${props => props.width};
-`
-const Row = styled(Col)`
-  display: flex;
-  align-items: center;
-`
-const Status = styled.div`
-  margin-left: 16px;
-`
-const StyledFiatDisplay = styled(FiatDisplay)`
-  justify-content: flex-end;
-`
-
 const CustodialTxListItem: React.FC<Props> = props => {
+  const [isToggled, setIsToggled] = useState(false)
+
   return (
-    <StyledCustodialTransactionRow>
-      <Row width='30%'>
-        <IconTx {...props} />
-        <Status data-e2e='orderStatusColumn'>
-          <Text size='16px' color='grey800' weight={600}>
-            {props.tx.type === 'DEPOSIT' ? (
-              <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
-            ) : (
-              <FormattedMessage
-                id='buttons.withdraw'
-                defaultMessage='Withdraw'
-              />
-            )}
-          </Text>
-          <Timestamp {...props} />
-        </Status>
-      </Row>
-      <Col width='50%'>
-        <Text size='16px' weight={600} color='grey800'>
-          <FormattedMessage id='copy.from' defaultMessage='From' />
-          {': '}
-          {props.tx.amount.symbol}{' '}
-          {props.tx.type === 'DEPOSIT' ? 'Bank Account' : 'Wallet'}
-        </Text>
-        <Text
-          size='14px'
-          weight={500}
-          color='grey600'
-          style={{ marginTop: '4px' }}
+    <TxRowContainer onClick={() => setIsToggled(!isToggled)}>
+      <TxRow>
+        <Row width='30%'>
+          <IconTx {...props} />
+          <StatusAndType data-e2e='orderStatusColumn'>
+            <Text
+              size='16px'
+              color='grey800'
+              weight={600}
+              data-e2e='txTypeText'
+            >
+              <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
+            </Text>
+            <Timestamp {...props} />
+          </StatusAndType>
+        </Row>
+        <Col width='50%'>
+          <Addresses
+            from={
+              <>
+                {props.tx.amount.symbol} <Origin {...props} />
+              </>
+            }
+            to={
+              <>
+                {props.tx.amount.symbol} <Destination {...props} />
+              </>
+            }
+          />
+        </Col>
+        <Col
+          width='20%'
+          style={{ textAlign: 'right' }}
+          data-e2e='orderAmountColumn'
         >
-          <FormattedMessage id='copy.to' defaultMessage='To' />
-          {': '}
-          {props.tx.amount.symbol}{' '}
-          {props.tx.type === 'DEPOSIT' ? 'Wallet' : 'Bank Account'}
-        </Text>
-      </Col>
-      <Col
-        width='20%'
-        style={{ textAlign: 'right' }}
-        data-e2e='orderAmountColumn'
-      >
-        <Text size='16px' weight={600} color='grey800'>
-          {fiatToString({
-            value: props.tx.amount.value,
-            unit: props.tx.amount.symbol
-          })}
-        </Text>
-        {props.coin !== props.currency && (
-          <StyledFiatDisplay
-            coin={props.coin}
-            size='14px'
-            weight={500}
-            color='grey600'
-            style={{ marginTop: '4px', alignSelf: 'flex-end' }}
-          >
-            {props.tx.amount.value}
-          </StyledFiatDisplay>
-        )}
-      </Col>
-    </StyledCustodialTransactionRow>
+          <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
+            {props.tx.amount.symbol in CoinTypeEnum
+              ? props.tx.amountMinor
+              : props.tx.amount.value}
+          </StyledCoinDisplay>
+          {props.coin !== props.currency && (
+            <StyledFiatDisplay
+              size='14px'
+              weight={500}
+              coin={props.coin}
+              color='grey600'
+              data-e2e='orderFiatAmt'
+            >
+              {props.tx.amount.symbol in CoinTypeEnum
+                ? props.tx.amountMinor
+                : props.tx.amount.value}
+            </StyledFiatDisplay>
+          )}
+        </Col>
+      </TxRow>
+      {isToggled && (
+        <DetailsRow>
+          <DetailsColumn>
+            <RowHeader>
+              <FormattedMessage
+                defaultMessage='Transaction ID'
+                id='modals.simplebuy.summary.txid'
+              />
+            </RowHeader>
+            <RowValue>{props.tx.id}</RowValue>
+          </DetailsColumn>
+          <DetailsColumn />
+          <DetailsColumn>
+            <RowHeader>
+              <FormattedMessage
+                defaultMessage='Status'
+                id='components.txlistitem.status'
+              />
+            </RowHeader>
+            <RowValue>
+              <Status {...props} />
+            </RowValue>
+          </DetailsColumn>
+        </DetailsRow>
+      )}
+    </TxRowContainer>
   )
 }
 

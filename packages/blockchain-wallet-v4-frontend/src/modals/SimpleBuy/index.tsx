@@ -58,7 +58,6 @@ class SimpleBuy extends PureComponent<Props, State> {
   componentWillUnmount () {
     this.props.simpleBuyActions.pollSBBalances()
     this.props.simpleBuyActions.destroyCheckout()
-    this.props.simpleBuyActions.fetchSBOrders(true)
     this.props.formActions.destroy('simpleBuyCheckout')
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')

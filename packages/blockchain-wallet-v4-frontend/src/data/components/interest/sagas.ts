@@ -161,7 +161,6 @@ export default ({
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
       // can be undefined
-
       const resp =
         coin === 'ALL'
           ? yield call(api.getInterestTransactions, nextPage)
@@ -335,73 +334,38 @@ export default ({
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
 
-    const values: InterestDepositFormType = yield select(
-      selectors.form.getFormValues('interestDepositForm')
-    )
-    const coin = S.getCoinType(yield select())
     try {
       yield put(actions.form.startSubmit(FORM))
-      if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
-        const ratesR = S.getRates(yield select())
-        const userCurrency = (yield select(
-          selectors.core.settings.getCurrency
-        )).getOrFail('Failed to get user currency')
-        const rates = ratesR.getOrElse({} as RatesType)
-        const rate = rates[userCurrency].last
-        const isDisplayed = S.getCoinDisplay(yield select())
-        const transferAmountAbsolute = values.depositAmount
-
-        const transferAmountParsed = isDisplayed
-          ? new BigNumber(transferAmountAbsolute).toNumber()
-          : new BigNumber(transferAmountAbsolute).dividedBy(rate).toNumber()
-
-        const transferAmountToBase = convertStandardToBase(
-          coin,
-          transferAmountParsed
+      const coin = S.getCoinType(yield select())
+      yield call(fetchInterestAccount, coin)
+      const depositAddress = yield select(S.getDepositAddress)
+      const paymentR = S.getPayment(yield select())
+      let payment = paymentGetOrElse(coin, paymentR as RemoteDataType<string, any>)
+      // build and publish payment to network
+      const depositTx = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        depositAddress
+      )
+      // notify backend of incoming non-custodial deposit
+      yield put(
+        actions.components.send.notifyNonCustodialToCustodialTransfer(
+          depositTx,
+          'SAVINGS'
         )
-        yield call(api.transferFromCustodial, transferAmountToBase, coin)
-      } else {
-        yield call(fetchInterestAccount, coin)
-        const depositAddress = yield select(S.getDepositAddress)
-        const paymentR = S.getPayment(yield select()) as RemoteDataType<
-          string,
-          PaymentValue
-        >
-        let payment = paymentGetOrElse(coin, paymentR)
-        let isPaymentAmount = payment.value().amount
-        let paymentAmount =
-          coin === 'BTC'
-            ? isPaymentAmount && isPaymentAmount[0]
-            : isPaymentAmount
-        yield call(
-          api.notifyDepositPending,
-          Number(paymentAmount),
-          coin,
-          depositAddress
-        )
-
-        // build and publish payment to network
-        yield call(buildAndPublishPayment, coin, payment, depositAddress)
-        // notify success
-        yield put(actions.form.stopSubmit(FORM))
-        yield put(
-          A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true })
-        )
-        yield put(
-          actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
-        )
-        yield put(A.fetchInterestBalance())
-        yield put(A.fetchInterestTransactions(true))
-        yield put(actions.router.push('/interest/history'))
-      }
-
+      )
+      // notify UI of success
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { depositSuccess: true }))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
-      yield put(A.fetchInterestBalance())
+      // fetch transactions and balances to get pending deposit info
+      yield delay(3000)
       yield put(A.fetchInterestTransactions(true))
+      yield put(A.fetchInterestBalance())
+      yield put(actions.router.push('/interest/history'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))

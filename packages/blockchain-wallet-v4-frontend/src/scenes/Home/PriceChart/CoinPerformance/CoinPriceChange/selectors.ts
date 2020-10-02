@@ -10,7 +10,7 @@ export const getData = createDeepEqualSelector(
   [
     (state: RootState, ownProps: OwnProps) =>
       selectors.core.data.misc.getPriceChange(
-        ownProps.priceChart.coin,
+        ownProps.priceChart.coin || 'BTC',
         ownProps.priceChart.time || 'month',
         state
       )

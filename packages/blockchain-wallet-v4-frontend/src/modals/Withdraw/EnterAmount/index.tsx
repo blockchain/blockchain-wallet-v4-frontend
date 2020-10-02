@@ -18,12 +18,16 @@ class EnterAmount extends PureComponent<Props> {
     this.props.custodialActions.fetchCustodialBeneficiaries(
       this.props.fiatCurrency
     )
+    this.props.withdrawActions.fetchWithdrawalFees()
+    this.props.withdrawActions.fetchWithdrawalLock()
   }
 
   handleSubmit = () => {
     const { defaultBeneficiary } = this.props.data.getOrElse(
       {} as SuccessStateType
     )
+
+    if (!defaultBeneficiary || !this.props.beneficiary) return
 
     this.props.withdrawActions.setStep({
       step: 'CONFIRM_WITHDRAW',

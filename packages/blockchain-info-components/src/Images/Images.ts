@@ -51,6 +51,10 @@ import introSendGif from './img/intro-send.gif'
 import introSwap from './img/intro-swap.png'
 import introSwapGif from './img/intro-swap.gif'
 import linkedinWhite from './img/linkedin-white.svg'
+import logo144 from './img/logo-144.png'
+import logo192 from './img/logo-192.png'
+import logo512 from './img/logo-512.png'
+import logo96 from './img/logo-96.png'
 import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -74,6 +78,7 @@ import twitterWhite from './img/twitter-white.svg'
 import usddIntro from './img/usdd-intro.svg'
 import visaLogo from './img/visa-logo.svg'
 import wallet from './img/wallet.svg'
+import walletBlue from './img/wallet-blue.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -108,6 +113,7 @@ import sendConnect3 from './img/lockbox/send-connect@3x.png'
 import sendReview from './img/lockbox/send-review.png'
 import sendReview2 from './img/lockbox/send-review@2x.png'
 import sendReview3 from './img/lockbox/send-review@3x.png'
+import usFlag from './img/us-flag.svg'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
 import worldAlert3 from './img/world-alert@3x.jpg'
@@ -176,6 +182,10 @@ const Images = {
   'ledger-logo3': ledgerLogo3,
   'ledger-nano-s': deviceNanoS,
   'linkedin-white': linkedinWhite,
+  'logo-96': logo96,
+  'logo-144': logo144,
+  'logo-192': logo192,
+  'logo-512': logo512,
   'lockbox-device': deviceLockbox,
   'lockbox-failed': lockboxFailed,
   'lockbox-failed2': lockboxFailed2,
@@ -213,6 +223,7 @@ const Images = {
   'swap-carousel5': swapCarousel5,
   'swap-modal-bg': swapModalBg,
   'twitter-white': twitterWhite,
+  'us-flag': usFlag,
   'usdd-intro': usddIntro,
   'visa-logo': visaLogo,
   'wallet-v3-backup': walletV3Backup,
@@ -221,6 +232,7 @@ const Images = {
   'wallet-v3-security-upgrade': walletV3SecurityUpgrade,
   'warning-circle-filled': warningCircleFilled,
   wallet,
+  'wallet-blue': walletBlue,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
   'world-alert3': worldAlert3,

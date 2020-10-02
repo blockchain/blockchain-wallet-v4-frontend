@@ -7,11 +7,19 @@ import {
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
-import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  TabMenu,
+  TabMenuItem,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { Props as OwnProps, SuccessStateType } from '.'
+import { TransferType } from './types'
 import CopyClipboardButton from 'components/CopyClipboardButton'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -79,7 +87,19 @@ const Copy = styled.div`
   display: flex;
 `
 
+const TabsContainer = styled.div`
+  margin-top: 40px;
+  display: inline-block;
+`
+
 const Success: React.FC<Props> = props => {
+  const [transferType, setTransferType] = useState(TransferType.DOMESTIC)
+
+  const recipientName =
+    props.account.currency === 'USD'
+      ? props.account.agent.recipient
+      : `${props.userData.firstName} ${props.userData.lastName}`
+
   return (
     <Wrapper>
       <div>
@@ -119,13 +139,23 @@ const Success: React.FC<Props> = props => {
           />
           <InfoContainer>
             <TopText color='grey800' size='24px' weight={600}>
-              <FormattedMessage
-                id='modals.simplebuy.deposit.title'
-                defaultMessage='Deposit {currency}'
-                values={{
-                  currency: Currencies[props.account.currency].displayName
-                }}
-              />
+              {props.account.currency === 'USD' ? (
+                <FormattedMessage
+                  id='modals.simplebuy.deposit.title_add'
+                  defaultMessage='Add a {currency} Bank'
+                  values={{
+                    currency: props.account.currency
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.deposit.title'
+                  defaultMessage='Deposit {currency}'
+                  values={{
+                    currency: Currencies[props.account.currency].displayName
+                  }}
+                />
+              )}
               {!props.displayBack && (
                 <Icon
                   cursor
@@ -137,12 +167,49 @@ const Success: React.FC<Props> = props => {
               )}
             </TopText>
             <TopText color='grey600' size='24px' weight={600}>
-              <FormattedMessage
-                id='modals.simplebuy.deposit.bank_transfer'
-                defaultMessage='Bank Transfer'
-              />
+              {props.account.currency === 'USD' ? (
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.wire_transfer'
+                  defaultMessage='Wire Transfer'
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.simplebuy.deposit.bank_transfer'
+                  defaultMessage='Bank Transfer'
+                />
+              )}
             </TopText>
           </InfoContainer>
+
+          {props.account.currency === 'USD' && (
+            <TabsContainer>
+              <TabMenu>
+                <TabMenuItem
+                  role='button'
+                  selected={transferType === TransferType.DOMESTIC}
+                  onClick={() => setTransferType(TransferType.DOMESTIC)}
+                  data-e2e='sbDomesticButton'
+                >
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.domestic'
+                    defaultMessage='Domestic'
+                  />
+                </TabMenuItem>
+
+                <TabMenuItem
+                  role='button'
+                  selected={transferType === TransferType.INTERNATIONAL}
+                  onClick={() => setTransferType(TransferType.INTERNATIONAL)}
+                  data-e2e='sbInternationalButton'
+                >
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.international'
+                    defaultMessage='International'
+                  />
+                </TabMenuItem>
+              </TabMenu>
+            </TabsContainer>
+          )}
         </FlyoutWrapper>
         {props.account.currency === 'USD' && (
           <RowCopy>
@@ -150,7 +217,7 @@ const Success: React.FC<Props> = props => {
               <Title>
                 <FormattedMessage
                   id='modals.simplebuy.transferdetails.referenceID'
-                  defaultMessage='Reference ID (Mandatory)'
+                  defaultMessage='Reference ID (Required)'
                 />
               </Title>
               <Value data-e2e='sbReferenceId'>{props.account.address}</Value>
@@ -160,18 +227,60 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
-        {(props.account.currency === 'USD' ||
-          props.account.currency === 'EUR') && (
-          <Row>
+        <RowCopy>
+          <div>
             <Title>
               <FormattedMessage
-                id='modals.simplebuy.transferdetails.bankname'
-                defaultMessage='Bank Name'
+                id='modals.simplebuy.transferdetails.recipient'
+                defaultMessage='Recipient'
               />
             </Title>
-            <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
-          </Row>
+            <Value data-e2e='sbRecipientName'>{recipientName}</Value>
+          </div>
+          <Copy>
+            <CopyClipboardButton address={recipientName} />
+          </Copy>
+        </RowCopy>
+        {(props.account.currency === 'USD' ||
+          props.account.currency === 'EUR') && (
+          <RowCopy>
+            <div>
+              <Title>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.bankname'
+                  defaultMessage='Bank Name'
+                />
+              </Title>
+              <Value data-e2e='sbBankName'>{props.account.agent.name}</Value>
+            </div>
+            <Copy>
+              <CopyClipboardButton address={props.account.agent.name} />
+            </Copy>
+          </RowCopy>
         )}
+
+        {props.account.currency === 'USD' &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.accountType'
+                    defaultMessage='Account Type'
+                  />
+                </Title>
+                <Value data-e2e='sbAccountType'>
+                  {props.account.agent.accountType}
+                </Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton
+                  address={props.account.agent.accountType}
+                />
+              </Copy>
+            </RowCopy>
+          )}
+
         {props.account.currency === 'EUR' && (
           <RowCopy>
             <div>
@@ -188,7 +297,8 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
-        {(props.account.currency === 'USD' ||
+        {((props.account.currency === 'USD' &&
+          transferType === TransferType.DOMESTIC) ||
           props.account.currency === 'GBP') &&
           !!props.account.agent.account && (
             <RowCopy>
@@ -260,17 +370,25 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
-        <Row>
-          <Title>
-            <FormattedMessage
-              id='modals.simplebuy.transferdetails.recipient'
-              defaultMessage='Recipient'
-            />
-          </Title>
-          <Value data-e2e='sbRecipientName'>
-            {props.userData.firstName} {props.userData.lastName}
-          </Value>
-        </Row>
+        {props.account.currency === 'USD' &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.swift.usdInternational'
+                    defaultMessage='SWIFT / BIC Code'
+                  />
+                </Title>
+                <Value data-e2e='sbSwiftCode'>
+                  {props.account.agent.swiftCode}
+                </Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton address={props.account.agent.swiftCode} />
+              </Copy>
+            </RowCopy>
+          )}
         {props.account.currency === 'USD' && (
           <RowCopy>
             <div>
@@ -280,7 +398,7 @@ const Success: React.FC<Props> = props => {
                   defaultMessage='Bank Address'
                 />
               </Title>
-              <Value data-e2e='sbRecipientAddress'>
+              <Value data-e2e='sbBankAddress'>
                 {props.account.agent.address}
               </Value>
             </div>
@@ -289,6 +407,27 @@ const Success: React.FC<Props> = props => {
             </Copy>
           </RowCopy>
         )}
+        {props.account.currency === 'USD' &&
+          transferType === TransferType.INTERNATIONAL && (
+            <RowCopy>
+              <div>
+                <Title>
+                  <FormattedMessage
+                    id='modals.simplebuy.transferdetails.recipientAddress'
+                    defaultMessage='Recipient Address'
+                  />
+                </Title>
+                <Value data-e2e='sbRecipientAddress'>
+                  {props.account.agent.recipientAddress}
+                </Value>
+              </div>
+              <Copy>
+                <CopyClipboardButton
+                  address={props.account.agent.recipientAddress}
+                />
+              </Copy>
+            </RowCopy>
+          )}
       </div>
       <Bottom>
         <BottomInfoContainer>

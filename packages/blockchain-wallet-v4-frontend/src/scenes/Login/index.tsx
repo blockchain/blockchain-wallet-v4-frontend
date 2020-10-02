@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { formValueSelector, getFormMeta } from 'redux-form'
 import { isEmail, isGuid } from '../../services/ValidationHelper'
+import { SupportedWalletCurrenciesType } from 'core/types'
 import Login from './template'
 import React from 'react'
 
@@ -67,7 +68,10 @@ const mapStateToProps = state => ({
   goals: selectors.goals.getGoals(state),
   data: selectors.auth.getLogin(state),
   isGuidValid: isGuid(formValueSelector('login')(state, 'guid')),
-  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid'))
+  isGuidEmailAddress: isEmail(formValueSelector('login')(state, 'guid')),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = dispatch => ({

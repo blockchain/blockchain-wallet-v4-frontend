@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
   firstLogin: false,
+  mobileLoginStarted: false,
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
@@ -32,6 +33,12 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.AUTHENTICATE: {
       return assoc('isAuthenticated', true, state)
+    }
+    case AT.MOBILE_LOGIN_START: {
+      return assoc('mobileLoginStarted', true, state)
+    }
+    case AT.MOBILE_LOGIN_FINISH: {
+      return assoc('mobileLoginStarted', false, state)
     }
     case AT.REGISTER_LOADING: {
       return assoc('registering', Remote.Loading, state)

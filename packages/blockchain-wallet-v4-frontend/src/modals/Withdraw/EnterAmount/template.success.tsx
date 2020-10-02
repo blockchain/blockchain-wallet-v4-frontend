@@ -10,14 +10,16 @@ import React, { ReactChild } from 'react'
 import styled from 'styled-components'
 
 import { AmountFieldContainer, FlyoutWrapper } from 'components/Flyout'
-import { BeneficiaryType } from 'core/types'
+import { BeneficiaryType, NabuMoneyFloatType } from 'core/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { Form, NumberBox } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { formatTextAmount } from 'services/ValidationHelper'
-import { maximumAmount, MIN_AMOUNT, minimumAmount } from './validation'
+import { isEmpty } from 'ramda'
+import { maximumAmount, minimumAmount } from './validation'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import { UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
 import Beneficary from './Beneficiary'
@@ -54,6 +56,12 @@ const CustomErrorCartridge = styled(ErrorCartridge)`
 const TooltipWrapper = styled.div`
   padding-top: 1px;
 `
+const PendingText = styled(Text)`
+  a {
+    color: ${props => props.theme.blue600};
+    text-decoration: none;
+  }
+`
 const BlueRedCartridge = ({
   error,
   children
@@ -81,6 +89,20 @@ const Success: React.FC<InjectedFormProps<
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
+  const userCanWithdraw = Number(props.balance) > Number(props.fees.value)
+  const showFee = Number(props.fees.value) > 0
+
+  const maxAmount = userCanWithdraw
+    ? Number(props.balance) - Number(props.fees.value)
+    : Number(props.balance)
+
+  const isEnteredAmountGreaterThanWithdrawable =
+    props.formValues &&
+    props.formValues.amount &&
+    Number(props.formValues.amount) > maxAmount
+
+  const showPendingTransactions = !isEmpty(props.locks)
+
   return (
     <FlyoutWrapper>
       <Top>
@@ -103,6 +125,7 @@ const Success: React.FC<InjectedFormProps<
         <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />{' '}
         {props.fiatCurrency}
       </Text>
+
       <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
         <Text size='14px' color='grey900' weight={500}>
           <FormattedMessage
@@ -125,6 +148,38 @@ const Success: React.FC<InjectedFormProps<
           </TooltipHost>
         </TooltipWrapper>
       </CoinContainer>
+      {showPendingTransactions && (
+        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+          <PendingText size='14px' color='grey900' weight={500}>
+            <FormattedHTMLMessage
+              id='modals.withdraw.lock_description'
+              defaultMessage="You have {locks} pending transactions. We’ll email you when these funds become available for withdrawal. <a href='https://support.blockchain.com/hc/en-us/articles/360048200392-Why-can-t-I-withdraw-my-crypto-' rel='noopener noreferrer' target='_blank'>Learn more.</a>"
+              values={{
+                locks: props.locks.length
+              }}
+            />
+          </PendingText>
+        </CoinContainer>
+      )}
+      {showFee && (
+        <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
+          <Text size='14px' color='grey900' weight={500}>
+            <FormattedMessage
+              id='modals.withdraw.fee'
+              defaultMessage='Withdraw Fee'
+            />
+          </Text>{' '}
+          <CoinDisplay
+            size='14px'
+            color='grey600'
+            weight={500}
+            coin={props.fees.symbol}
+            style={{ marginLeft: '4px' }}
+          >
+            {props.fees.value}
+          </CoinDisplay>
+        </CoinContainer>
+      )}
       <Form onSubmit={props.handleSubmit}>
         <AmountFieldContainer>
           <Text size='56px' color='grey400' weight={500}>
@@ -151,7 +206,7 @@ const Success: React.FC<InjectedFormProps<
               props.formActions.change(
                 'custodyWithdrawForm',
                 'amount',
-                displayFiatToFiat({ value: MIN_AMOUNT })
+                displayFiatToFiat({ value: props.minAmount.value })
               )
             }
           >
@@ -164,14 +219,14 @@ const Success: React.FC<InjectedFormProps<
                   cursor='pointer'
                   coin={props.fiatCurrency}
                 >
-                  {MIN_AMOUNT}
+                  {props.minAmount.value}
                 </CoinDisplay>
                 &nbsp;
                 <FormattedMessage id='copy.min' defaultMessage='Min' />
               </>
             </BlueRedCartridge>
           </div>
-          {MIN_AMOUNT < Number(props.balance) && (
+          {Number(props.minAmount.value) < Number(props.balance) && (
             <div
               onClick={() =>
                 props.formActions.change(
@@ -190,7 +245,7 @@ const Success: React.FC<InjectedFormProps<
                     cursor='pointer'
                     coin={props.fiatCurrency}
                   >
-                    {props.balance}
+                    {maxAmount}
                   </CoinDisplay>
                   &nbsp;
                   <FormattedMessage id='copy.max' defaultMessage='Max' />
@@ -199,6 +254,26 @@ const Success: React.FC<InjectedFormProps<
             </div>
           )}
         </MinMaxContainer>
+
+        {showFee && isEnteredAmountGreaterThanWithdrawable && (
+          <Text
+            size='14px'
+            weight={500}
+            color='grey600'
+            style={{ marginBottom: '4px' }}
+          >
+            <FormattedMessage
+              id='modals.withdraw.not_enought_founds'
+              defaultMessage='Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
+              values={{
+                balance: props.balance,
+                symbol: props.fiatCurrency,
+                fee: props.fees.value
+              }}
+            />
+          </Text>
+        )}
+
         <ToContainer>
           <Text
             size='14px'
@@ -213,7 +288,7 @@ const Success: React.FC<InjectedFormProps<
         </ToContainer>
         <ActionContainer>
           <Button
-            disabled={props.invalid || !beneficiary}
+            disabled={props.invalid || !beneficiary || !userCanWithdraw}
             data-e2e='withdrawNext'
             type='submit'
             nature='primary'
@@ -235,6 +310,7 @@ export type Props = OwnProps &
       userData: UserDataType,
       beneficiary?: BeneficiaryType
     ) => void
+    minAmount: NabuMoneyFloatType
   }
 
 export default reduxForm<WithdrawCheckoutFormValuesType, Props>({

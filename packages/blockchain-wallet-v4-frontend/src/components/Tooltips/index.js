@@ -345,7 +345,13 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.withdraw.info_tooltip' maxWidth='250px'>
           <FormattedMessage
             id='modals.withdraw.info_tooltip'
-            defaultMessage='The remaining balance will be available to be withdrawn within 7 days.'
+            defaultMessage='The remaining balance will be available to be withdrawn within 3 days.'
+          />
+        </Tooltip>
+        <Tooltip id='copy.on_chain_txs' maxWidth='250px'>
+          <FormattedMessage
+            id='copy.on_chain_txs'
+            defaultMessage='On-chain transactions only'
           />
         </Tooltip>
       </TooltipWrapper>

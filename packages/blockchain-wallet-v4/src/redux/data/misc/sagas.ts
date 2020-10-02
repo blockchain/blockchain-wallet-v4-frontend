@@ -4,7 +4,7 @@ import * as wS from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select } from 'redux-saga/effects'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { FiatTypeEnum } from 'blockchain-wallet-v4/src/types'
+import { FiatTypeEnum, PriceDiffType } from 'blockchain-wallet-v4/src/types'
 import { start } from './model'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
@@ -27,10 +27,29 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const getPercentChange = (newNum: number, oldNum: number): PriceDiffType => {
+    const current = new BigNumber(newNum)
+    const previous = new BigNumber(oldNum)
+    const diff = current.minus(previous)
+    const diffPercent = diff.isZero()
+      ? new BigNumber(0)
+      : new BigNumber(diff.dividedBy(previous)).times(100)
+
+    return {
+      diff: diff.toFixed(2),
+      percentChange: diffPercent.abs().toFixed(2),
+      movement: diffPercent.isEqualTo(0)
+        ? 'none'
+        : diffPercent.isGreaterThan(0)
+        ? 'up'
+        : 'down'
+    }
+  }
+
   const fetchPriceChange = function * (
     action: ReturnType<typeof A.fetchPriceChange>
   ) {
-    const { base, quote, range } = action.payload
+    const { base, quote, range, positionAmt = 0 } = action.payload
     try {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
@@ -50,25 +69,27 @@ export default ({ api }: { api: APIType }) => {
         quote,
         moment()
       )
-      const diff = (current.price - previous.price).toFixed(2)
-      const diffPercent = new BigNumber(
-        (current.price - previous.price) / previous.price
-      ).times(100)
-      const change = diffPercent.abs().toFixed(2)
-      const movement = diffPercent.isEqualTo(0)
-        ? 'none'
-        : diffPercent.isGreaterThan(0)
-        ? 'up'
-        : 'down'
+
+      // Overall coin price movement
+      const overallChange = getPercentChange(current.price, previous.price)
+      // User's position, if given an amount will provide the
+      // change for that amount or else will fallback to 0
+      const currentPosition = new BigNumber(positionAmt)
+        .times(current.price)
+        .toNumber()
+      const previousPosition = new BigNumber(positionAmt)
+        .times(previous.price)
+        .toNumber()
+      const positionChange = getPercentChange(currentPosition, previousPosition)
+
       yield put(
         A.fetchPriceChangeSuccess(
           base,
-          diff,
-          change,
-          movement,
           current.price,
           previous.price,
-          range
+          range,
+          overallChange,
+          positionChange
         )
       )
     } catch (e) {

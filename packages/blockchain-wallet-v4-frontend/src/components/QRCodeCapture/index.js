@@ -146,7 +146,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanEthAddress (data) {
+  handleScanEthAddress (inputAddress) {
+    const data = utils.eth.sanitazeEth(inputAddress)
     if (utils.eth.isValidAddress(data)) {
       this.props.formActions.change(ETH_FORM, 'to', this.createNewValue(data))
     } else {
