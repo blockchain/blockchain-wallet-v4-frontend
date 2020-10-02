@@ -49,6 +49,7 @@ export default ({
       case 'ETH':
       case 'PAX':
       case 'USDT':
+      case 'XLM':
         return account.address
       default:
         return account.index
@@ -71,6 +72,7 @@ export default ({
       yield put(A.fetchInterestBalanceFailure(error))
     }
   }
+
   const fetchInterestEligible = function * () {
     try {
       yield put(A.fetchInterestEligibleLoading())
@@ -184,22 +186,22 @@ export default ({
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
         switch (payment.coin) {
+          case 'BCH':
           case 'BTC':
             payment = yield payment.amount(
               parseInt(convertStandardToBase(coin, value))
             )
             break
-          case 'USDT':
-          case 'PAX':
           case 'ETH':
+          case 'PAX':
+          case 'USDT':
+          case 'XLM':
             payment = yield payment.amount(convertStandardToBase(coin, value))
             break
           default:
             throw new Error(INVALID_COIN_TYPE)
         }
-
         yield put(A.setPaymentSuccess(payment.value()))
-
         break
       case 'interestDepositAccount':
         yield put(A.setPaymentLoading())
@@ -225,14 +227,23 @@ export default ({
     ])
 
     switch (coin) {
+      case 'BCH':
+        const bchAccountsR = yield select(
+          selectors.core.common.bch.getAccountsBalances
+        )
+        const bchDefaultIndex = (yield select(
+          selectors.core.kvStore.bch.getDefaultAccountIndex
+        )).getOrElse(0)
+        defaultAccountR = bchAccountsR.map(nth(bchDefaultIndex))
+        break
       case 'BTC':
         const btcAccountsR = yield select(
           selectors.core.common.btc.getAccountsBalances
         )
-        const defaultIndex = yield select(
+        const btcDefaultIndex = yield select(
           selectors.core.wallet.getDefaultAccountIndex
         )
-        defaultAccountR = btcAccountsR.map(nth(defaultIndex))
+        defaultAccountR = btcAccountsR.map(nth(btcDefaultIndex))
         break
       case 'ETH':
         const ethAccountR = yield select(
@@ -248,10 +259,14 @@ export default ({
         )
         defaultAccountR = erc20AccountR.map(head)
         break
+      case 'XLM':
+        defaultAccountR = (yield select(
+          selectors.core.common.xlm.getAccountBalances
+        )).map(head)
+        break
       default:
         throw new Error('Invalid Coin Type')
     }
-
     const defaultAccount = defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
     const payment: PaymentValue = yield call(createPayment, {
       ...defaultAccount,
@@ -311,7 +326,12 @@ export default ({
       const paymentR = S.getPayment(yield select())
       let payment = paymentGetOrElse(coin, paymentR)
       // build and publish payment to network
-      const depositTx = yield call(buildAndPublishPayment, coin, payment, depositAddress)
+      const depositTx = yield call(
+        buildAndPublishPayment,
+        coin,
+        payment,
+        depositAddress
+      )
       // notify backend of incoming non-custodial deposit
       yield put(
         actions.components.send.notifyNonCustodialToCustodialTransfer(
@@ -351,6 +371,15 @@ export default ({
       const withdrawalAmountBase = convertStandardToBase(coin, withdrawalAmount)
       let receiveAddress
       switch (coin) {
+        case 'BCH':
+          receiveAddress = selectors.core.common.bch
+            .getNextAvailableReceiveAddressFormatted(
+              networks.btc,
+              yield select(selectors.core.kvStore.bch.getDefaultAccountIndex),
+              yield select()
+            )
+            .getOrFail('Failed to get BCH receive address')
+          break
         case 'BTC':
           receiveAddress = selectors.core.common.btc
             .getNextAvailableReceiveAddress(
@@ -366,6 +395,11 @@ export default ({
           receiveAddress = selectors.core.data.eth
             .getDefaultAddress(yield select())
             .getOrFail(`Failed to get ${coin} receive address`)
+          break
+        case 'XLM':
+          receiveAddress = selectors.core.kvStore.xlm
+            .getDefaultAccountId(yield select())
+            .getOrFail(`Failed to get XLM receive address`)
           break
         default:
           throw new Error('Invalid Coin Type')
