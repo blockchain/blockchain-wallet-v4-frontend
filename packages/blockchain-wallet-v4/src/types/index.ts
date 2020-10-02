@@ -19,7 +19,7 @@ import {
   Erc20CurrenciesType,
   FiatCurrenciesType
 } from 'core/exchange/currencies'
-import { stringIsNumber } from 'core/utils'
+import { stringIsNumber } from 'blockchain-wallet-v4/src/utils'
 import serializer from './Serializer'
 
 export {
@@ -121,6 +121,7 @@ export * from '../redux/data/simpleBuy/types'
 export * from '../redux/walletOptions/types'
 export * from '../network/api/eth/types'
 export * from '../network/api/borrow/types'
+export * from '../network/api/coin/types'
 export * from '../network/api/custodial/types'
 export * from '../network/api/interest/types'
 export * from '../network/api/misc/types'

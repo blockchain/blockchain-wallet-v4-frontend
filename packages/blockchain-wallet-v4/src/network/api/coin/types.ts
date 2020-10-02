@@ -10,6 +10,27 @@ type RawBtcAddressType = {
   total_sent: number
 }
 
+export type RawBtcTxType = {
+  balance: number
+  block_height: number
+  block_index: number
+  double_spend: boolean
+  fee: number
+  hash: string
+  inputs: Array<BtcIOType>
+  lock_time: number
+  out: Array<BtcIOType>
+  relayed_by: string
+  result: number
+  size: number
+  time: number
+  tx_index: number
+  ver: number
+  vin_sz: number
+  vout_sz: number
+  weight: number
+}
+
 type BtcIOType = {
   index: number
   prev_out: {
@@ -60,28 +81,7 @@ export type RawBtcTxResponseType = {
     }
   }
   recommend_include_fee: boolean
-  txs: [
-    {
-      balance: number
-      block_height: number
-      block_index: number
-      double_spend: boolean
-      fee: number
-      hash: string
-      inputs: Array<BtcIOType>
-      lock_time: number
-      out: Array<BtcIOType>
-      relayed_by: string
-      result: number
-      size: number
-      time: number
-      tx_index: number
-      ver: number
-      vin_sz: number
-      vout_sz: number
-      weight: number
-    }
-  ]
+  txs: Array<RawBtcTxType>
   wallet: {
     final_balance: number
     n_tx: number

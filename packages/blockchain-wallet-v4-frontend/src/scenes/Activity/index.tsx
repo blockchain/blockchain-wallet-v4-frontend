@@ -27,7 +27,16 @@ class Activity extends PureComponent<Props> {
           Failure: e => <div>something failed: {e}</div>
         })}
         {this.props.data.activity.map(value => {
-          return <div key={value.id}>{JSON.stringify(value)}</div>
+          return (
+            <pre
+              style={{
+                wordBreak: 'break-all'
+              }}
+              key={'id' in value ? value.id : value.hash}
+            >
+              {JSON.stringify(value)}
+            </pre>
+          )
         })}
       </SceneWrapper>
     )

@@ -1,4 +1,5 @@
 import { merge } from 'ramda'
+import { RawBtcTxResponseType } from '../coin/types'
 
 export default ({ rootUrl, get, post }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
@@ -47,9 +48,17 @@ export default ({ rootUrl, get, post }) => {
 
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
-    context,
-    { n = 50, offset = 0, onlyShow = false } = {}
-  ) => {
+    context: Array<string> | string,
+    {
+      n = 50,
+      offset = 0,
+      onlyShow
+    }: {
+      n: number
+      offset?: number
+      onlyShow?: Array<string> | string
+    }
+  ): RawBtcTxResponseType => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',

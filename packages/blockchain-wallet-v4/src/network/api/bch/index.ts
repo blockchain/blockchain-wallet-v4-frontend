@@ -2,8 +2,16 @@ import { merge } from 'ramda'
 
 export default ({ apiUrl, get, post }) => {
   const fetchBchData = (
-    context,
-    { n = 50, offset = 0, onlyShow = false } = {}
+    context: Array<string> | string,
+    {
+      n = 50,
+      offset = 0,
+      onlyShow
+    }: {
+      n: number
+      offset?: number
+      onlyShow?: Array<string> | string
+    }
   ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),

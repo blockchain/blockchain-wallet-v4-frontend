@@ -1,14 +1,16 @@
 import moment from 'moment'
 
 import {
+  ExtractSuccess,
   InterestTransactionType,
   NonCustodialCoins,
+  RawBtcTxType,
   RemoteDataType,
   SBOrderType,
   SBTransactionType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 
-import { liftN } from 'ramda'
+import { lift, liftN } from 'ramda'
 
 import { NabuProducts, NabuTxType, SUCCESS_STATUS } from './types'
 import { RootState } from 'data/rootReducer'
@@ -46,6 +48,19 @@ export const getCustodialActivityStatus = (
   )(...statuses)
 }
 
+export const getNonCustodialActivity = (state: RootState) => {
+  const items: Array<RawBtcTxType> = []
+  for (const value of NonCustodialCoins) {
+    items.push(
+      ...state.dataPath.activity.NON_CUSTODIAL[value].transactions.items
+    )
+  }
+
+  return items.sort(
+    (a, b) => moment(b.time).valueOf() - moment(a.time).valueOf()
+  )
+}
+
 export const getNonCustodialActivityStatus = (
   state: RootState
 ): RemoteDataType<string, typeof SUCCESS_STATUS> => {
@@ -57,4 +72,29 @@ export const getNonCustodialActivityStatus = (
   }
 
   return liftN(NonCustodialCoins.length, (...args) => args)(...statuses)
+}
+
+export const getAllActivity = (state: RootState) => {
+  const custodialActivity = getCustodialActivity(state)
+  const nonCustodialActivity = getNonCustodialActivity(state)
+
+  const items = [...custodialActivity, ...nonCustodialActivity]
+
+  return items.sort(
+    (a, b) =>
+      moment('time' in b ? b.time * 1000 : b.insertedAt).valueOf() -
+      moment('time' in a ? a.time * 1000 : a.insertedAt).valueOf()
+  )
+}
+
+export const getAllActivityStatus = (state: RootState) => {
+  const custodialActivityStatus = getCustodialActivityStatus(state)
+  const nonCustodialActivityStatus = getNonCustodialActivityStatus(state)
+
+  return lift(
+    (
+      a: ExtractSuccess<typeof custodialActivityStatus>,
+      b: ExtractSuccess<typeof nonCustodialActivityStatus>
+    ) => [...a, ...b]
+  )(custodialActivityStatus, nonCustodialActivityStatus)
 }

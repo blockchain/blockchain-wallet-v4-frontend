@@ -4,6 +4,7 @@ import {
   ActivityActionType,
   ActivityStateType,
   CustodialActivityType,
+  NonCustodialActivityType,
   SUCCESS_STATUS
 } from './types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
@@ -49,7 +50,7 @@ export const activityReducer = (
 ): ActivityStateType => {
   switch (action.type) {
     case AT.FETCH_CUSTODIAL_ACTIVITY_FAILURE:
-      const failure: CustodialActivityType = {
+      const failureCustodial: CustodialActivityType = {
         orders: {
           ...state[action.payload.product].orders,
           status: Remote.Failure(action.payload.error)
@@ -61,19 +62,10 @@ export const activityReducer = (
       }
       return {
         ...state,
-        [action.payload.product]: failure as CustodialActivityType
+        [action.payload.product]: failureCustodial
       }
-    // ❓
-    // Open question for discussion: do we even have a loading state?
-    // is the entire tx list in a loading state if one activity feed is loading?
-    // => no.
-    // is there a loading indicator somewhere if one activity feed is loading?
-    // => maybe?
-    // should we keep this on a separate field?
-    // => maybe `status`?
-    // ❓
     case AT.FETCH_CUSTODIAL_ACTIVITY_LOADING:
-      const loading: CustodialActivityType = {
+      const loadingCustodial: CustodialActivityType = {
         orders: {
           ...state[action.payload.product].orders,
           status: Remote.Loading
@@ -85,10 +77,10 @@ export const activityReducer = (
       }
       return {
         ...state,
-        [action.payload.product]: loading
+        [action.payload.product]: loadingCustodial
       }
     case AT.FETCH_CUSTODIAL_ACTIVITY_SUCCESS:
-      const success: CustodialActivityType = {
+      const successCustodial: CustodialActivityType = {
         orders: {
           items: [
             ...action.payload.orders,
@@ -120,7 +112,61 @@ export const activityReducer = (
 
       return {
         ...state,
-        [action.payload.product]: success
+        [action.payload.product]: successCustodial
+      }
+    case AT.FETCH_NON_CUSTODIAL_ACTIVITY_FAILURE:
+      const failure: NonCustodialActivityType = {
+        transactions: {
+          ...state.NON_CUSTODIAL[action.payload.coin].transactions,
+          status: Remote.Failure(action.payload.error)
+        }
+      }
+      return {
+        ...state,
+        NON_CUSTODIAL: {
+          ...state['NON_CUSTODIAL'],
+          [action.payload.coin]: failure
+        }
+      }
+    case AT.FETCH_NON_CUSTODIAL_ACTIVITY_LOADING:
+      const loading: NonCustodialActivityType = {
+        transactions: {
+          ...state.NON_CUSTODIAL[action.payload.coin].transactions,
+          status: Remote.Loading
+        }
+      }
+      return {
+        ...state,
+        NON_CUSTODIAL: {
+          ...state['NON_CUSTODIAL'],
+          [action.payload.coin]: loading
+        }
+      }
+    case AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS:
+      const success: NonCustodialActivityType = {
+        transactions: {
+          ...state.NON_CUSTODIAL[action.payload.coin].transactions,
+          items: [
+            ...action.payload.transactions,
+            ...state.NON_CUSTODIAL[
+              action.payload.coin
+            ].transactions.items.filter(
+              oldItem =>
+                !action.payload.transactions.find(
+                  newItem => newItem.hash === oldItem.hash
+                )
+            )
+          ],
+          status: Remote.Success(SUCCESS_STATUS)
+        }
+      }
+
+      return {
+        ...state,
+        NON_CUSTODIAL: {
+          ...state['NON_CUSTODIAL'],
+          [action.payload.coin]: success
+        }
       }
     default:
       return { ...state }

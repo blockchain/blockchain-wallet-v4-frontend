@@ -62,7 +62,7 @@ export const fetchNonCustodialActivityLoading = (
 })
 export const fetchNonCustodialActivitySuccess = (
   coin: CoinType,
-  transactions: any
+  transactions: Array<any>
 ): ActivityActionType => ({
   type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS,
   payload: {
