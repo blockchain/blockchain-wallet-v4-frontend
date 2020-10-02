@@ -12,6 +12,7 @@ import {
   WalletFiatType
 } from 'core/types'
 import { connect, ConnectedProps } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { getHeaderExplainer } from './template.headerexplainer'
 import { path, toLower } from 'ramda'
@@ -171,7 +172,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           )
                         }}
                       >
-                        Deposit
+                        <FormattedMessage
+                          id='buttons.deposit'
+                          defaultMessage='Deposit'
+                        />
                       </Button>
                     )}
                     {(coinModel as SupportedFiatType).availability
@@ -187,7 +191,10 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           )
                         }}
                       >
-                        Withdraw
+                        <FormattedMessage
+                          id='buttons.withdraw'
+                          defaultMessage='Withdraw'
+                        />
                       </Button>
                     )}
                   </>
