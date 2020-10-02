@@ -195,7 +195,7 @@
           "colorCode": "xlm",
           "config": {
             "network": "public",
-            "sendTimeOutSeconds": 10
+            "sendTimeOutSeconds": 600
           },
           "displayName": "Stellar",
           "exchangeAddresses": [

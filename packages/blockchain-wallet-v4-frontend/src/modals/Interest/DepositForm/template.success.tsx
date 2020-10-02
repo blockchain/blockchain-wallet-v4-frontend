@@ -96,7 +96,6 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     walletCurrency,
     rates
   )
-
   const depositAmountCrypto = amountToCrypto(
     displayCoin,
     depositAmount,
@@ -109,16 +108,15 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const lockupPeriod = interestLimits[coin].lockUpDuration / 86400
   const maxDepositFiat = maxFiat(depositLimits.maxFiat, walletCurrency)
 
-  const amtError =
+  const depositAmountError =
     formErrors.depositAmount &&
     typeof formErrors.depositAmount === 'string' &&
     formErrors.depositAmount
   const isErc20 = coin === 'PAX' || coin === 'USDT'
-  const insufficientEth = !!(
+  const insufficientEth =
     isErc20 &&
     (payment.coin === 'PAX' || payment.coin === 'USDT') &&
     !payment.isSufficientEthForErc20
-  )
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -294,10 +292,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             )}
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
-        {amtError && (
+        {depositAmountError && (
           <AmountError>
             <Text size='14px' weight={500} color='red600'>
-              {amtError === 'ABOVE_MAX' ? (
+              {depositAmountError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.interest.deposit.maxtransfer'
                   defaultMessage='Maximum transfer: {maxFiat}'
@@ -329,7 +327,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               data-e2e='interestBuyMinMaxBtn'
               role='button'
               onClick={() => {
-                amtError === 'ABOVE_MAX'
+                depositAmountError === 'ABOVE_MAX'
                   ? formActions.change(
                       FORM_NAME,
                       'depositAmount',
@@ -346,7 +344,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     )
               }}
             >
-              {amtError === 'ABOVE_MAX' ? (
+              {depositAmountError === 'ABOVE_MAX' ? (
                 <FormattedMessage
                   id='modals.interest.deposit.maxtransfer.button'
                   defaultMessage='Transfer Max'
