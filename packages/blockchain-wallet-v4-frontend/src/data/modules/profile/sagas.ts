@@ -30,8 +30,13 @@ let renewSessionTask = null
 let renewUserTask = null
 export default ({ api, coreSagas, networks }) => {
   const waitForUserData = function * () {
+    const userId = (yield select(
+      selectors.core.kvStore.userCredentials.getUserId
+    )).getOrElse(null)
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
+    // If no user id in kvstore return
+    if (!userId) return
     // If success or failure already return
     if (Remote.Success.is(userData)) return
     if (Remote.Failure.is(userData)) return
