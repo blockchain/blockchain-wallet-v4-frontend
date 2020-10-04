@@ -2,11 +2,22 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
 import { actions } from 'data'
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import { SceneWrapper } from 'components/Layout'
+
+const TEMPHeader = styled(Text)`
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: ${props => props.theme.black};
+`
 
 class Activity extends PureComponent<Props> {
   state = {}
@@ -21,21 +32,35 @@ class Activity extends PureComponent<Props> {
     return (
       <SceneWrapper>
         {this.props.data.status.cata({
-          Success: () => <div>done loading</div>,
-          Loading: () => <div>loading something</div>,
-          NotAsked: () => <div>not asked</div>,
-          Failure: e => <div>something failed: {e}</div>
+          Success: () => (
+            <TEMPHeader>✅&nbsp;Finished Loading Everything</TEMPHeader>
+          ),
+          Loading: () => (
+            <TEMPHeader>
+              <BlockchainLoader height='28px' width='28px' />
+              &nbsp;Loading
+            </TEMPHeader>
+          ),
+          NotAsked: () => (
+            <TEMPHeader>
+              <BlockchainLoader height='28px' width='28px' />
+              &nbsp;Loading
+            </TEMPHeader>
+          ),
+          Failure: e => <TEMPHeader>A Failure Occurred: {e}</TEMPHeader>
         })}
         {this.props.data.activity.map(value => {
           return (
-            <pre
+            <code
               style={{
-                wordBreak: 'break-all'
+                display: 'block',
+                wordBreak: 'break-all',
+                marginBottom: '20px'
               }}
               key={'id' in value ? value.id : value.hash}
             >
               {JSON.stringify(value)}
-            </pre>
+            </code>
           )
         })}
       </SceneWrapper>

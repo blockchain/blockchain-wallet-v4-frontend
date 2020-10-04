@@ -48,9 +48,9 @@ export default ({ apiUrl, get, post }) => {
     })
 
   const getEthTransactionsV2 = (
-    account,
-    page,
-    pageSize
+    account: string,
+    page: number,
+    pageSize: number
   ): {
     page: string
     size: number
@@ -76,7 +76,12 @@ export default ({ apiUrl, get, post }) => {
       data: { page, size: pageSize }
     })
 
-  const getErc20TransactionsV2 = (ethAddr, tokenAddr, page = 0, pageSize) =>
+  const getErc20TransactionsV2 = (
+    ethAddr: string,
+    tokenAddr: string,
+    page: number = 0,
+    pageSize: number
+  ) =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/transfers`,

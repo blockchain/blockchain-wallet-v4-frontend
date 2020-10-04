@@ -2,7 +2,11 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { NonCustodialCoins, RawBtcTxType } from 'blockchain-wallet-v4/src/types'
+import {
+  EthRawTxType,
+  NonCustodialCoins,
+  RawBtcTxType
+} from 'blockchain-wallet-v4/src/types'
 
 import * as A from './actions'
 import * as selectors from '../../selectors'
@@ -47,21 +51,23 @@ export default ({ api }: { api: APIType }) => {
     }
 
     for (const value of NonCustodialCoins) {
-      let transactions: Array<RawBtcTxType> = []
+      const FAILURE = `${value} context failure`
+
+      let transactions: Array<RawBtcTxType | EthRawTxType> = []
       try {
         switch (value) {
-          case 'BTC':
-            const btcContext: Array<string> = selectors.data.btc.getContext(
+          case 'BTC': {
+            const context: Array<string> = selectors.data.btc.getContext(
               yield select()
             )
             try {
               const response: ReturnType<typeof api.fetchBlockchainData> = yield call(
                 api.fetchBlockchainData,
-                btcContext,
+                context,
                 {
                   n: 10,
                   offset: 0,
-                  onlyShow: btcContext
+                  onlyShow: context
                 }
               )
               transactions = response.txs
@@ -70,7 +76,8 @@ export default ({ api }: { api: APIType }) => {
               yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
-          case 'BCH':
+          }
+          case 'BCH': {
             const context: Array<string> = selectors.data.bch.getContext(
               yield select()
             )
@@ -90,6 +97,43 @@ export default ({ api }: { api: APIType }) => {
               yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
+          }
+          case 'PAX':
+          case 'USDT': {
+            const context = (yield select(
+              selectors.kvStore.eth.getContext
+            )).getOrFail(FAILURE)
+            const contractAddress = (yield select(
+              selectors.kvStore.eth.getErc20ContractAddr,
+              value.toLowerCase()
+            )).getOrFail(FAILURE)
+            const response: ReturnType<typeof api.getErc20TransactionsV2> = yield call(
+              api.getErc20TransactionsV2,
+              context,
+              contractAddress,
+              0,
+              20
+            )
+
+            console.log(response)
+
+            break
+          }
+          case 'ETH': {
+            const context = (yield select(
+              selectors.kvStore.eth.getContext
+            )).getOrFail(FAILURE)
+            const response: ReturnType<typeof api.getEthTransactionsV2> = yield call(
+              api.getEthTransactionsV2,
+              context,
+              0,
+              20
+            )
+
+            transactions = response.transactions
+
+            break
+          }
           default:
           // throw new Error(`${value} fetch tx activity not implemented.`)
         }
