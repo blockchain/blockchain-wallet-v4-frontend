@@ -1173,6 +1173,8 @@ type MessagesType = {
   'modals.simplebuy.deposit.bank_transfer': 'Bank Transfer'
   'modals.simplebuy.deposit.bank_transfer_only': 'Bank Transfers Only'
   'modals.simplebuy.deposit.bank_transfer_only_description': 'Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
+  'modals.simplebuy.deposit.important_transfer_only': 'Important Transfer Information'
+  'modals.simplebuy.deposit.important_transfer_only_description': 'Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
   'modals.simplebuy.deposit.processing_time': 'Processing Time'
   'modals.simplebuy.deposit.processing_time.info.eur': 'Funds will be credited to your EUR wallet as soon as we receive them. SEPA transfers usually take around 1 business day to reach us.'
   'modals.simplebuy.deposit.processing_time.info.gbp': 'Funds will be credited to your GBP wallet as soon as we receive them. In the UK Faster Payments Network, this can take a couple of hours.'
