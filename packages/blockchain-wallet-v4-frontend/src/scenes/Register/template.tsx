@@ -336,6 +336,7 @@ const SignupCard = ({
                 defaultMessage='Sign In'
               />
             </SignInText>
+            <Icon size='18px' color='white' name='arrow-right' />
           </SubCard>
         </Link>
       </LinkContainer>
