@@ -71,7 +71,7 @@ export default ({ rootUrl, get, post }) => {
     }
     return post({
       url: rootUrl,
-      endPoint: '/multiadd',
+      endPoint: '/multiaddr',
       data: onlyShow
         ? merge(data, {
             onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(

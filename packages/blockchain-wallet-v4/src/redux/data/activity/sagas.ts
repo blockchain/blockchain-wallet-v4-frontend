@@ -18,10 +18,12 @@ import xlmSagas from '../xlm/sagas'
 import { NabuProducts } from './types'
 
 export default ({ api, networks }: { api: APIType; networks }) => {
-  // just re-using existing code for now but clean this up eventually please
+  // just re-using existing code for now but clean
+  // this up eventually please :)
   const { processTxs: processBtcTxs } = btcSagas({ api })
   const { processTxs: processBchTxs } = bchSagas({ api })
   const { processTxs: processEthTxs, processErc20Txs } = ethSagas({ api })
+  // eslint-disable-next-line
   const { processTxs: processXlmTxs } = xlmSagas({ api, networks })
 
   const fetchCustodialActivity = function * () {
@@ -158,8 +160,31 @@ export default ({ api, networks }: { api: APIType; networks }) => {
 
             break
           }
+          case 'XLM':
+            try {
+              const publicKey = (yield select(
+                selectors.kvStore.xlm.getDefaultAccountId
+              )).getOrFail(FAILURE)
+              const response = yield call(api.getXlmTransactions, {
+                publicKey,
+                limit: 10
+              })
+
+              // eslint-disable-next-line
+              console.log(response)
+            } catch (e) {
+              const error = errorHandler(e)
+              // no xlm account created?
+              if (error === 'Network Error') return
+              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+            }
+
+            break
+          case 'ALGO':
+            // do nothing
+            break
           default:
-          // throw new Error(`${value} fetch tx activity not implemented.`)
+            throw new Error(`${value} fetch tx activity not implemented.`)
         }
 
         yield put(A.fetchNonCustodialActivitySuccess(value, transactions))
