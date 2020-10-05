@@ -28,7 +28,7 @@ const FooterInner = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.blue900};
+  background-color: ${props => props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
