@@ -20,6 +20,7 @@ export type RawBtcTxType = {
   inputs: Array<BtcIOType>
   lock_time: number
   out: Array<BtcIOType>
+  rbf?: boolean
   relayed_by: string
   result: number
   size: number

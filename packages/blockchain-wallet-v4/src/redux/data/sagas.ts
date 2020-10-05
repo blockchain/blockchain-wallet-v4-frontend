@@ -8,7 +8,7 @@ import stx from './stx/sagas'
 import xlm from './xlm/sagas'
 
 export default ({ api, networks }) => ({
-  activity: activity({ api }),
+  activity: activity({ api, networks }),
   algo: algo({ api }),
   bch: bch({ api }),
   btc: btc({ api }),

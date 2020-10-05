@@ -7,7 +7,10 @@ import * as walletSelectors from '../../wallet/selectors'
 import { APIType } from 'core/network/api'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
+import {
+  FetchSBOrdersAndTransactionsReturnType,
+  RawBtcTxType
+} from 'core/types'
 import { flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { getAddressLabels } from '../../kvStore/btc/selectors'
 import { getLockboxBtcAccounts } from '../../kvStore/lockbox/selectors'
@@ -75,7 +78,7 @@ export default ({ api }: { api: APIType }) => {
       })
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
+      const txPage: Array<ProcessedTxType> = yield call(processTxs, data.txs)
       const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
         yield select(),
         'BTC'
@@ -133,7 +136,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function * (txs) {
+  const processTxs = function * (txs: Array<RawBtcTxType>) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -186,6 +189,6 @@ export default ({ api }: { api: APIType }) => {
     fetchTransactionHistory,
     fetchTransactions,
     watchTransactions,
-    __processTxs
+    processTxs
   }
 }

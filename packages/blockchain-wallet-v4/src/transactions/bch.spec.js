@@ -1,4 +1,4 @@
-import { _transformTx } from './bch'
+import { _transformTx } from './bch.ts'
 import { bchTx, createMockWalletState, walletV3 } from '../../data'
 import { Types } from '../../src'
 

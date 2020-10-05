@@ -11,7 +11,7 @@ import xlm from './xlm/sagaRegister'
 
 export default ({ api, networks }) =>
   function * coreDataSaga () {
-    yield fork(activity({ api }))
+    yield fork(activity({ api, networks }))
     yield fork(algo({ api }))
     yield fork(bch({ api }))
     yield fork(btc({ api }))

@@ -1,4 +1,8 @@
-import { EthRawTxType } from './types'
+import {
+  RawErc20TxResponseType,
+  RawEthTxResponseType,
+  RawEthTxType
+} from './types'
 
 export default ({ apiUrl, get, post }) => {
   //
@@ -41,7 +45,7 @@ export default ({ apiUrl, get, post }) => {
   //
   // V2
   //
-  const getEthTransactionV2 = (hash): EthRawTxType =>
+  const getEthTransactionV2 = (hash): RawEthTxType =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/transaction/${hash}`
@@ -51,11 +55,7 @@ export default ({ apiUrl, get, post }) => {
     account: string,
     page: number,
     pageSize: number
-  ): {
-    page: string
-    size: number
-    transactions: Array<EthRawTxType>
-  } =>
+  ): RawEthTxResponseType =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/account/${account}/transactions`,
@@ -81,7 +81,7 @@ export default ({ apiUrl, get, post }) => {
     tokenAddr: string,
     page: number = 0,
     pageSize: number
-  ) =>
+  ): RawErc20TxResponseType =>
     get({
       url: apiUrl,
       endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/transfers`,

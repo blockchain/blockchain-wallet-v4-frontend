@@ -36,8 +36,8 @@ import {
 } from 'core/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { EthProcessedTxType } from 'core/transactions/types'
-import { EthRawTxType } from 'core/network/api/eth/types'
 import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
+import { RawErc20TxType, RawEthTxType } from 'core/network/api/eth/types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import simpleBuySagas from '../simpleBuy/sagas'
@@ -132,7 +132,7 @@ export default ({ api }) => {
       yield put(A.transactionsAtBound(atBounds))
 
       const processedTxPage: Array<EthProcessedTxType> = yield call(
-        __processTxs,
+        processTxs,
         txPage
       )
       const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
@@ -311,7 +311,7 @@ export default ({ api }) => {
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
       const walletPage: Array<EthProcessedTxType> = yield call(
-        __processErc20Txs,
+        processErc20Txs,
         txs,
         token
       )
@@ -341,7 +341,7 @@ export default ({ api }) => {
     const { hash, token } = action.payload
     try {
       yield put(A.fetchErc20TxFeeLoading(hash, token))
-      const txData: EthRawTxType = yield call(api.getEthTransactionV2, hash)
+      const txData: RawEthTxType = yield call(api.getEthTransactionV2, hash)
       const fee = calculateFee(
         txData.gasPrice,
         txData.state === 'CONFIRMED' ? txData.gasUsed : txData.gasLimit,
@@ -411,10 +411,7 @@ export default ({ api }) => {
     }
   }
 
-  //
-  // PRIVATE UTILS
-  //
-  const __processTxs = function * (txs) {
+  const processTxs = function * (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
@@ -425,7 +422,10 @@ export default ({ api }) => {
     const ethAddresses = concat(addresses, lockboxContext)
     return map(transformTx(ethAddresses, erc20Contracts, state), txs)
   }
-  const __processErc20Txs = function * (txs, token) {
+  const processErc20Txs = function * (
+    txs: Array<RawErc20TxType>,
+    token: Erc20CoinType
+  ) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
     const lockboxContextR = yield select(getLockboxEthContext)
@@ -491,7 +491,7 @@ export default ({ api }) => {
     token
   ) {
     // @ts-ignore
-    const fullTxList = yield call(__processErc20Txs, rawTxList)
+    const fullTxList = yield call(processErc20Txs, rawTxList)
     const paxMarketData = (yield select(
       selectors.data.eth.getErc20Rates,
       token
@@ -530,7 +530,7 @@ export default ({ api }) => {
     )
   }
   const __processReportTxs = function * (rawTxList, startDate, endDate) {
-    const fullTxList = yield call(__processTxs, rawTxList)
+    const fullTxList = yield call(processTxs, rawTxList)
     const ethMarketData = (yield select(
       selectors.data.eth.getRates
     )).getOrFail()
@@ -582,7 +582,7 @@ export default ({ api }) => {
     fetchErc20TransactionHistory,
     watchTransactions,
     watchErc20Transactions,
-    __processTxs,
-    __processErc20Txs
+    processTxs,
+    processErc20Txs
   }
 }

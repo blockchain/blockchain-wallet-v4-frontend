@@ -7,7 +7,7 @@ type EthRawConfirmedTxType = {
   gasPrice: string
   gasUsed: string
   hash: string
-  internalTransactions: Array<EthRawTxType>
+  internalTransactions: Array<RawEthTxType>
   nonce: string
   state: 'CONFIRMED'
   success: boolean
@@ -31,7 +31,37 @@ type EthRawPendingTxType = {
   value: string
 }
 
-export type EthRawTxType = EthRawConfirmedTxType | EthRawPendingTxType
+export type RawEthTxType = EthRawConfirmedTxType | EthRawPendingTxType
+
+export type RawEthTxResponseType = {
+  page: string
+  size: number
+  transactions: Array<RawEthTxType>
+}
+
+export type RawErc20TxType = {
+  accountIdxFrom: string
+  accountIdxTo: string
+  blockHash: string
+  blockNumber: string
+  decimals: number
+  from: string
+  idxFrom: string
+  idxTo: string
+  logIndex: string
+  timeStamp?: string
+  timestamp: string
+  to: string
+  tokenHash: string
+  transactionHash: string
+  value: string
+}
+
+export type RawErc20TxResponseType = {
+  page: string
+  size: number
+  transfers: Array<RawErc20TxType>
+}
 
 export enum Erc20ListEnum {
   '0x8e870d67f660d95d5be530380d0ec0bd388289e1' = 'PAX'

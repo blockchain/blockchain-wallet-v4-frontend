@@ -3,17 +3,27 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
-  EthRawTxType,
   NonCustodialCoins,
-  RawBtcTxType
+  ProcessedTxType
 } from 'blockchain-wallet-v4/src/types'
 
 import * as A from './actions'
 import * as selectors from '../../selectors'
 
+import bchSagas from '../bch/sagas'
+import btcSagas from '../btc/sagas'
+import ethSagas from '../eth/sagas'
+import xlmSagas from '../xlm/sagas'
+
 import { NabuProducts } from './types'
 
-export default ({ api }: { api: APIType }) => {
+export default ({ api, networks }: { api: APIType; networks }) => {
+  // just re-using existing code for now but clean this up eventually please
+  const { processTxs: processBtcTxs } = btcSagas({ api })
+  const { processTxs: processBchTxs } = bchSagas({ api })
+  const { processTxs: processEthTxs, processErc20Txs } = ethSagas({ api })
+  const { processTxs: processXlmTxs } = xlmSagas({ api, networks })
+
   const fetchCustodialActivity = function * () {
     for (const value of NabuProducts) {
       yield put(A.fetchCustodialActivityLoading(value))
@@ -53,7 +63,7 @@ export default ({ api }: { api: APIType }) => {
     for (const value of NonCustodialCoins) {
       const FAILURE = `${value} context failure`
 
-      let transactions: Array<RawBtcTxType | EthRawTxType> = []
+      let transactions: Array<ProcessedTxType> = []
       try {
         switch (value) {
           case 'BTC': {
@@ -70,10 +80,10 @@ export default ({ api }: { api: APIType }) => {
                   onlyShow: context
                 }
               )
-              transactions = response.txs
+              transactions = yield call(processBtcTxs, response.txs)
             } catch (e) {
               const error = errorHandler(e)
-              yield put(A.fetchNonCustodialActivityFailure(value, error))
+              return yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
           }
@@ -91,46 +101,60 @@ export default ({ api }: { api: APIType }) => {
                   onlyShow: context
                 }
               )
-              transactions = response.txs
+              transactions = yield call(processBchTxs, response.txs)
             } catch (e) {
               const error = errorHandler(e)
-              yield put(A.fetchNonCustodialActivityFailure(value, error))
+              return yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
           }
           case 'PAX':
           case 'USDT': {
-            const context = (yield select(
-              selectors.kvStore.eth.getContext
-            )).getOrFail(FAILURE)
-            const contractAddress = (yield select(
-              selectors.kvStore.eth.getErc20ContractAddr,
-              value.toLowerCase()
-            )).getOrFail(FAILURE)
-            const response: ReturnType<typeof api.getErc20TransactionsV2> = yield call(
-              api.getErc20TransactionsV2,
-              context,
-              contractAddress,
-              0,
-              20
-            )
+            try {
+              const context = (yield select(
+                selectors.kvStore.eth.getContext
+              )).getOrFail(FAILURE)
+              const contractAddress = (yield select(
+                selectors.kvStore.eth.getErc20ContractAddr,
+                value.toLowerCase()
+              )).getOrFail(FAILURE)
+              const response: ReturnType<typeof api.getErc20TransactionsV2> = yield call(
+                api.getErc20TransactionsV2,
+                context,
+                contractAddress,
+                0,
+                20
+              )
 
-            console.log(response)
+              transactions = yield call(
+                processErc20Txs,
+                response.transfers,
+                value
+              )
+            } catch (e) {
+              const error = errorHandler(e)
+              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+            }
 
             break
           }
           case 'ETH': {
-            const context = (yield select(
-              selectors.kvStore.eth.getContext
-            )).getOrFail(FAILURE)
-            const response: ReturnType<typeof api.getEthTransactionsV2> = yield call(
-              api.getEthTransactionsV2,
-              context,
-              0,
-              20
-            )
+            try {
+              const context = (yield select(
+                selectors.kvStore.eth.getContext
+              )).getOrFail(FAILURE)
+              const response: ReturnType<typeof api.getEthTransactionsV2> = yield call(
+                api.getEthTransactionsV2,
+                context,
+                0,
+                20
+              )
 
-            transactions = response.transactions
+              transactions = yield call(processEthTxs, response.transactions)
+            } catch (e) {
+              const error = errorHandler(e)
+              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+            }
 
             break
           }

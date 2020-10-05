@@ -4,7 +4,7 @@ import {
   CoinType,
   CustodialTxResponseType,
   NabuCustodialProductType,
-  RawBtcTxType,
+  ProcessedTxType,
   RemoteDataType,
   SBOrderType
 } from 'core/types'
@@ -37,7 +37,7 @@ export type CustodialActivityType = {
 
 export type NonCustodialActivityType = {
   transactions: {
-    items: Array<any>
+    items: Array<ProcessedTxType>
     status: ActivityStatusType
   }
 }
@@ -91,7 +91,7 @@ interface FetchNonCustodialActivityLoading {
 interface FetchNonCustodialActivitySuccess {
   payload: {
     coin: CoinType
-    transactions: Array<RawBtcTxType>
+    transactions: Array<ProcessedTxType>
   }
   type: typeof AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS
 }

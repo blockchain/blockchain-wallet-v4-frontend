@@ -9,7 +9,6 @@ import {
 } from '../../../utils/eth'
 import { call, select } from 'redux-saga/effects'
 import { eth } from '../../../signer'
-import { EthRawTxType } from 'core/types'
 import { FETCH_FEES_FAILURE } from '../model'
 import {
   identity,
@@ -22,6 +21,7 @@ import {
 } from 'ramda'
 import { isPositiveInteger, isString } from '../../../utils/checks'
 import { isValidIndex } from './utils'
+import { RawEthTxType } from 'core/types'
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
 import settingsSagaFactory from '../../../redux/settings/sagas'
@@ -109,7 +109,7 @@ export default ({ api }) => {
 
   const calculateUnconfirmed = function * (address: string) {
     const data: {
-      transactions: Array<EthRawTxType>
+      transactions: Array<RawEthTxType>
     } = yield call(api.getEthTransactionsV2, address, 0, 1)
 
     if (

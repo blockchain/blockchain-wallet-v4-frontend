@@ -12,7 +12,7 @@ import {
   toLower
 } from 'ramda'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
-import { EthRawTxType } from 'core/network/api/eth/types'
+import { EthProcessedTxType, TransferType } from './types'
 import {
   getDefaultAddress,
   getDefaultLabel,
@@ -21,6 +21,8 @@ import {
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
 import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
+import { RawErc20TxType, RawEthTxType } from 'core/network/api/eth/types'
+import { RootState } from 'data/rootReducer'
 import moment from 'moment'
 import Remote from '../remote'
 
@@ -86,13 +88,18 @@ export const getLabel = (address, state) => {
 }
 
 export const _transformTx = curry(
-  (addresses, erc20Contracts, state, tx: EthRawTxType) => {
+  (
+    addresses,
+    erc20Contracts,
+    state: RootState,
+    tx: RawEthTxType
+  ): EthProcessedTxType => {
     const fee = calculateFee(
       tx.gasPrice,
       tx.state === 'CONFIRMED' ? tx.gasUsed : tx.gasLimit,
       false
     )
-    const type = toLower(getType(tx, addresses))
+    const type: TransferType = toLower(getType(tx, addresses)) as TransferType
     const amount =
       type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
     // @ts-ignore
@@ -101,8 +108,9 @@ export const _transformTx = curry(
 
     return {
       amount,
+      coin: 'ETH',
       blockHeight: tx.state === 'CONFIRMED' ? tx.blockNumber : undefined,
-      data: isErc20 ? tx.data : null,
+      data: isErc20 ? tx.data : undefined,
       description: getEthTxNote(state, tx.hash).getOrElse(''),
       erc20: isErc20,
       fee: Remote.Success(fee),
@@ -121,7 +129,7 @@ export const _transformTx = curry(
 //
 // ERC20
 //
-export const getErc20Label = (address, token, state) => {
+export const getErc20Label = (address, token, state: RootState) => {
   const erc20AccountsR = getErc20Accounts(state)
   const ethAddressR = getDefaultAddress(state)
   const transform = (ethAddress, erc20Accounts) => {
@@ -134,26 +142,35 @@ export const getErc20Label = (address, token, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformErc20Tx = curry((addresses, state, token, tx) => {
-  const type = toLower(getType(tx, addresses))
-  const time = tx.timestamp || tx.timeStamp
+export const _transformErc20Tx = curry(
+  (
+    addresses,
+    state: RootState,
+    token,
+    tx: RawErc20TxType
+  ): EthProcessedTxType => {
+    const type = toLower(getType(tx, addresses)) as TransferType
+    const time = tx.timestamp || tx.timeStamp
 
-  return {
-    amount: parseInt(tx.value),
-    coin: token,
-    blockHeight: tx.blockNumber,
-    description: getErc20TxNote(state, token, tx.transactionHash).getOrElse(''),
-    fee: Remote.NotAsked,
-    from: getErc20Label(tx.from, token, state),
-    hash: tx.transactionHash,
-    insertedAt: Number(time) * 1000,
-    state: tx.state,
-    time,
-    timeFormatted: getTime(time),
-    to: getErc20Label(tx.to, token, state),
-    type
+    return {
+      amount: parseInt(tx.value),
+      coin: token,
+      blockHeight: tx.blockNumber,
+      description: getErc20TxNote(state, token, tx.transactionHash).getOrElse(
+        ''
+      ),
+      erc20: false,
+      fee: Remote.NotAsked,
+      from: getErc20Label(tx.from, token, state),
+      hash: tx.transactionHash,
+      insertedAt: Number(time) * 1000,
+      time,
+      timeFormatted: getTime(time),
+      to: getErc20Label(tx.to, token, state),
+      type
+    }
   }
-})
+)
 
 export const transformTx = _transformTx
 export const transformErc20Tx = _transformErc20Tx

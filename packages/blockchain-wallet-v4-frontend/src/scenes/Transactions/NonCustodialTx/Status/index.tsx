@@ -2,6 +2,7 @@ import { FormattedMessage } from 'react-intl'
 import React from 'react'
 
 import { Text } from 'blockchain-info-components'
+import { TransferType } from 'core/types'
 
 const Status = (props: Props) => (
   <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
@@ -31,7 +32,7 @@ const Status = (props: Props) => (
 
 type Props = {
   coinTicker: string
-  type: 'sent' | 'received' | 'transferred'
+  type: TransferType
 }
 
 export default Status

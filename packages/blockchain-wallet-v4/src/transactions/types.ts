@@ -1,5 +1,6 @@
 import { Erc20CoinType, RemoteDataType } from 'core/types'
 
+export type TransferType = 'sent' | 'received' | 'transferred' | ''
 export type IOType = {
   accountIndex: number
   address: string
@@ -28,7 +29,7 @@ export type BtcProcessedTxType = {
   to: string
   toAddress: string
   toWatchOnly: boolean
-  type: 'sent' | 'received' | 'transferred'
+  type: TransferType
 }
 export type BtcTxType = BtcProcessedTxType & {
   coin: 'BTC'
@@ -38,26 +39,28 @@ export type BchTxType = BtcProcessedTxType & {
 }
 export type EthProcessedTxType = {
   amount: number
-  blockHeight: string
+  blockHeight?: string
   coin: Erc20CoinType | 'ETH'
+  data?: string
   description: undefined | string
   erc20: boolean
   fee: RemoteDataType<string, number>
   from: string
   hash: string
   insertedAt: number
-  state: 'PENDING' | 'CONFIRMED'
-  time: string
+  state?: 'PENDING' | 'CONFIRMED'
+  time?: string
   timeFormatted: string
   to: string
-  type: 'sent' | 'received' | 'transferred'
+  type: TransferType
 }
 export type XlmTxType = {
   amount: string
-  belongsToWallet: true
+  belongsToWallet: boolean
   blockHeight: number
   coin: 'XLM'
   description: string
+  fee: RemoteDataType<string, number>
   from: string
   hash: string
   insertedAt: number
@@ -66,7 +69,7 @@ export type XlmTxType = {
   pagingToken: string
   time: string
   to: string
-  type: 'sent' | 'received' | 'transferred'
+  type: TransferType
 }
 
 export type ProcessedTxType =

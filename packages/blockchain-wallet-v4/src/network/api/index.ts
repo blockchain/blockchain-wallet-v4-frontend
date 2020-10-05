@@ -48,7 +48,7 @@ const api = ({
       authorizedPost: authorizedHttp.post
     }),
     ...btc({ rootUrl, apiUrl, ...http }),
-    ...coin({ apiUrl, rootUrl, horizonUrl, ...http }),
+    ...coin({ apiUrl, ...http }),
     ...custodial({
       nabuUrl,
       authorizedGet: authorizedHttp.get,

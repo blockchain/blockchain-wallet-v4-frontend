@@ -12,6 +12,7 @@ import {
   prop,
   propEq
 } from 'ramda'
+import { TransferType, XlmTxType } from './types'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import Remote from '../remote'
@@ -44,44 +45,47 @@ export const isLumenOperation = operation =>
 
 export const belongsToCurrentWallet = (accounts, from, to) => {
   const accountIds = map(prop('publicKey'), accounts)
+  // @ts-ignore
   return !isEmpty(intersection([from, to], accountIds))
 }
 
-export const transformTx = curry((accounts, txNotes, tx, operation) => {
-  const addresses = map(prop('publicKey'), accounts)
-  const operationAmount = getAmount(operation)
-  const to = getDestination(operation)
-  const from = prop('source_account', tx)
-  const type = getType({ to, from }, addresses)
-  const fee = prop('fee_charged', tx)
-  const time = moment(prop('created_at', tx)).format('X')
-  const hash = prop('hash', tx)
-  const memo = prop('memo', tx)
-  const memoType = prop('memo_type', tx)
-  const pagingToken = prop('paging_token', tx)
-  const amount =
-    type === 'sent'
-      ? new BigNumber.sum(operationAmount, fee).toString()
-      : operationAmount
+export const transformTx = curry(
+  (accounts, txNotes, tx, operation): XlmTxType => {
+    const addresses = map(prop('publicKey'), accounts)
+    const operationAmount = getAmount(operation)
+    const to = getDestination(operation)
+    const from = prop('source_account', tx)
+    const type = getType({ to, from }, addresses) as TransferType
+    const fee = prop('fee_charged', tx)
+    const time = moment(prop('created_at', tx)).format('X')
+    const hash = prop('hash', tx)
+    const memo = prop('memo', tx)
+    const memoType = prop('memo_type', tx)
+    const pagingToken = prop('paging_token', tx)
+    const amount =
+      type === 'sent'
+        ? new BigNumber(operationAmount).plus(fee).toString()
+        : operationAmount
 
-  return {
-    amount,
-    belongsToWallet: belongsToCurrentWallet(accounts, from, to),
-    blockHeight: -1,
-    coin: 'XLM',
-    description: pathOr('', [hash], txNotes),
-    fee: Remote.Success(fee),
-    from: getLabel(accounts, from),
-    hash,
-    insertedAt: Number(time) * 1000,
-    memo,
-    memoType,
-    pagingToken,
-    time,
-    to: getLabel(accounts, to),
-    type
+    return {
+      amount,
+      belongsToWallet: belongsToCurrentWallet(accounts, from, to),
+      blockHeight: -1,
+      coin: 'XLM',
+      description: pathOr('', [hash], txNotes),
+      fee: Remote.Success(fee),
+      from: getLabel(accounts, from),
+      hash,
+      insertedAt: Number(time) * 1000,
+      memo,
+      memoType,
+      pagingToken,
+      time,
+      to: getLabel(accounts, to),
+      type
+    }
   }
-})
+)
 
 export const decodeOperations = tx =>
   map(
@@ -89,5 +93,6 @@ export const decodeOperations = tx =>
     StellarSdk.xdr.TransactionEnvelope.fromXDR(tx.envelope_xdr, 'base64')
       .value()
       .tx()
+      // @ts-ignore
       .operations()
   )

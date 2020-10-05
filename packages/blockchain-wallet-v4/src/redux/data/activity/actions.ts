@@ -4,6 +4,7 @@ import {
   CoinType,
   CustodialTxResponseType,
   NabuCustodialProductType,
+  ProcessedTxType,
   SBOrderType
 } from 'core/types'
 
@@ -62,7 +63,7 @@ export const fetchNonCustodialActivityLoading = (
 })
 export const fetchNonCustodialActivitySuccess = (
   coin: CoinType,
-  transactions: Array<any>
+  transactions: Array<ProcessedTxType>
 ): ActivityActionType => ({
   type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS,
   payload: {

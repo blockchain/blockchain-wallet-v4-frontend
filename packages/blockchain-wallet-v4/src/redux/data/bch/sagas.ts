@@ -14,7 +14,10 @@ import {
 import { BchTxType } from 'core/transactions/types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
+import {
+  FetchSBOrdersAndTransactionsReturnType,
+  RawBtcTxType
+} from 'core/types'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
@@ -81,7 +84,7 @@ export default ({ api }: { api: APIType }) => {
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
+      const txPage: Array<BchTxType> = yield call(processTxs, filteredTxs)
       const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
         yield select(),
         'BCH'
@@ -103,7 +106,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function * (txs) {
+  const processTxs = function * (txs: Array<RawBtcTxType>) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -173,6 +176,6 @@ export default ({ api }: { api: APIType }) => {
     fetchTransactionHistory,
     fetchTransactions,
     watchTransactions,
-    __processTxs
+    processTxs
   }
 }

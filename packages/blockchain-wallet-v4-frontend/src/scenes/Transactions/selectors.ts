@@ -22,12 +22,13 @@ import {
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
-  SBTransactionType
+  SBTransactionType,
+  TransferType
 } from 'core/types'
 import { model, selectors } from 'data'
 
 import { RootState } from 'data/rootReducer'
-import { TransferType, TxType } from './types'
+import { TxType } from './types'
 
 const { WALLET_TX_SEARCH } = model.form
 

@@ -138,7 +138,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         yield select(),
         'XLM'
       )
-      const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
+      const txPage: Array<XlmTxType> = yield call(processTxs, txs)
       const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
         fetchSBOrdersAndTransactions,
         txPage,
@@ -204,7 +204,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
 
   const __processReportTxs = function * (rawTxList, startDate, endDate) {
     const mapIndexed = addIndex(map)
-    const fullTxList = yield call(__processTxs, rawTxList)
+    const fullTxList = yield call(processTxs, rawTxList)
     const xlmMarketData = (yield select(
       selectors.data.xlm.getRates
     )).getOrFail()
@@ -282,7 +282,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }, prunedTxList)
   }
 
-  const __processTxs = function * (txList) {
+  const processTxs = function * (txList) {
     const walletAccounts = (yield select(getAccounts)).getOrElse([])
     const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
     const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
@@ -308,6 +308,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     fetchRates,
     fetchTransactions,
     fetchTransactionHistory,
-    __processTxs
+    processTxs
   }
 }

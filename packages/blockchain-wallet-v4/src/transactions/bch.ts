@@ -3,16 +3,18 @@ import {
   AddressBook,
   AddressBookEntry,
   AddressMap,
+  BchTxType,
   HDAccount,
   HDAccountList,
   HDWallet,
   HDWalletList,
-  TXNotes,
+  TransferType,
   Wallet
 } from '../types'
 import {
   allPass,
   always,
+  any,
   compose,
   curry,
   equals,
@@ -25,10 +27,12 @@ import {
   mapAccum,
   not,
   over,
+  pathOr,
   prop,
   propEq,
   propOr,
   propSatisfies,
+  reject,
   toLower,
   view
 } from 'ramda'
@@ -42,15 +46,17 @@ const isLegacy = (wallet, coin) =>
     isNil,
     AddressMap.selectAddress(prop('addr', coin)),
     Wallet.selectAddresses
+    // @ts-ignore
   )(wallet)
 const isAccount = coin => !!coin.xpub
 const isAccountChange = x => isAccount(x) && x.xpub.path.split('/')[1] === '1'
 const accountPath = (index, coin) => index + coin.xpub.path.substr(1)
 const receiveIndex = coin => {
   if (!coin || !coin.xpub || !coin.xpub.path) return
-  if (!coin.xpub.path.split('/').length === 3) return
+  if (coin.xpub.path.split('/').length !== 3) return
   return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
+const isDust = propEq('amount', 546)
 const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
 
 const tagCoin = curry((wallet, accountList, coin) => {
@@ -62,7 +68,9 @@ const tagCoin = curry((wallet, accountList, coin) => {
           HDWallet.selectAccounts,
           HDWalletList.selectHDWallet,
           Wallet.selectHdWallets
+          // @ts-ignore
         )(wallet) ||
+        // @ts-ignore
         compose(HDAccountList.selectByXpub(coin.xpub.m))(accountList)
       const index = HDAccount.selectIndex(account)
       return {
@@ -79,6 +87,7 @@ const tagCoin = curry((wallet, accountList, coin) => {
       const address = compose(
         AddressMap.selectAddress(coin.addr),
         Wallet.selectAddresses
+        // @ts-ignore
       )(wallet)
       return {
         address: coin.addr,
@@ -92,6 +101,7 @@ const tagCoin = curry((wallet, accountList, coin) => {
       const bookEntry = compose(
         AddressBook.selectAddressLabel(coin.addr),
         Wallet.selectAddressBook
+        // @ts-ignore
       )(wallet)
       return {
         address: coin.addr,
@@ -123,17 +133,21 @@ const txtype = (result, fee) => {
 const computeAmount = (type, inputData, outputData) => {
   switch (type) {
     case 'Transferred':
+      // @ts-ignore
       return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
     case 'Sent':
       return (
+        // @ts-ignore
         -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
       )
     case 'Received':
       return (
+        // @ts-ignore
         propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
       )
     default:
       return (
+        // @ts-ignore
         propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
       )
   }
@@ -192,10 +206,12 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
     const index = findIndex(propEq('address', address))(outputs)
     if (index < 0) return [outputData, outputs] // no change
     const newOutputs = over(
+      // @ts-ignore
       compose(lensIndex(index), lensProp('change')),
       not,
       outputs
     )
+    // @ts-ignore
     const change = view(compose(lensIndex(index), lensProp('amount')), outputs)
     const newOutputData = over(lensProp('change'), c => c + change, outputData)
     return [newOutputData, newOutputs]
@@ -220,11 +236,6 @@ const CoinBaseData = total => ({
   change: 0
 })
 
-const getDescription = (hash, txNotes, addressLabels, toAddress) => {
-  let txNote = TXNotes.selectNote(hash, txNotes)
-  return txNote || propOr('', [toAddress], addressLabels)
-}
-
 export const getTime = tx => {
   const date = moment.unix(tx.time).local()
   return equals(date.year(), moment().year())
@@ -232,36 +243,34 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (
-  wallet,
-  accountList,
-  txNotes,
-  addressLabels,
-  tx
-) => {
+export const _transformTx = (wallet, accountList, txNotes, tx): BchTxType => {
   const type = txtype(tx.result, tx.fee)
+  // @ts-ignore
   const inputTagger = compose(tagCoin(wallet, accountList), unpackInput)
   const outputTagger = tagCoin(wallet, accountList)
+  // @ts-ignore
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
-  const [inputData, inputs] = ifElse(
+  let [inputData, inputs] = ifElse(
     compose(isCoinBase, prop('inputs')),
+    // @ts-ignore
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
+    // @ts-ignore
     t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
 
-  const [outputData, outputs] = findLegacyChanges(
-    inputs,
-    inputData,
-    outs,
-    oData
-  )
+  let [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
+
+  if (any(isDust, inputs) && any(isDust, outputs)) {
+    inputs = reject(isDust, inputs)
+    outputs = reject(isDust, outputs)
+  }
   const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return {
     amount: computeAmount(type, inputData, outputData),
     blockHeight: tx.block_height,
-    coin: 'BTC',
-    description: getDescription(tx.hash, txNotes, addressLabels, toAddress),
+    coin: 'BCH',
+    description: pathOr('', [tx.hash], txNotes),
     double_spend: tx.double_spend,
     fee: Remote.Success(tx.fee),
     from,
@@ -270,13 +279,12 @@ export const _transformTx = (
     inputs: inputs,
     insertedAt: tx.time * 1000,
     outputs: outputs,
-    rbf: tx.rbf,
     time: tx.time,
     timeFormatted: getTime(tx),
     to,
     toAddress,
     toWatchOnly: outputData.isWatchOnly,
-    type: toLower(type)
+    type: toLower(type) as TransferType
   }
 }
 

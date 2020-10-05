@@ -1,11 +1,10 @@
 import moment from 'moment'
 
 import {
-  EthRawTxType,
   ExtractSuccess,
   InterestTransactionType,
   NonCustodialCoins,
-  RawBtcTxType,
+  ProcessedTxType,
   RemoteDataType,
   SBOrderType,
   SBTransactionType
@@ -48,7 +47,7 @@ export const getCustodialActivityStatus = (
 }
 
 export const getNonCustodialActivity = (state: RootState) => {
-  const items: Array<RawBtcTxType | EthRawTxType> = []
+  const items: Array<ProcessedTxType> = []
   for (const value of NonCustodialCoins) {
     items.push(
       ...state.dataPath.activity.NON_CUSTODIAL[value].transactions.items
@@ -68,8 +67,6 @@ export const getNonCustodialActivityStatus = (
     )
   }
 
-  console.log(statuses)
-
   return liftN(NonCustodialCoins.length, (...args) => args)(...statuses)
 }
 
@@ -79,23 +76,8 @@ export const getAllActivity = (state: RootState) => {
 
   const items = [...custodialActivity, ...nonCustodialActivity]
 
-  // TODO clean this up
   return items.sort(
-    (a, b) =>
-      moment(
-        'time' in b
-          ? b.time * 1000
-          : 'timestamp' in b
-          ? b.timestamp
-          : b.insertedAt
-      ).valueOf() -
-      moment(
-        'time' in a
-          ? a.time * 1000
-          : 'timestamp' in a
-          ? a.timestamp
-          : a.insertedAt
-      ).valueOf()
+    (a, b) => moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
   )
 }
 

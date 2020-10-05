@@ -106,6 +106,7 @@ export const IconTx = ({
     | 'sent'
     | 'received'
     | 'transferred'
+    | ''
 }) => {
   const color = coin ? (coin.toLowerCase() as keyof DefaultTheme) : 'grey600'
 
@@ -162,6 +163,8 @@ export const IconTx = ({
             color={color}
           />
         )
+      case '':
+        return null
     }
   }
 
