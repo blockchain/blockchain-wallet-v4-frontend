@@ -107,11 +107,6 @@ const Success: React.FC<InjectedFormProps<
   const showInfoTooltip =
     Number(props.withdrawableBalance) < Number(props.availableBalance)
 
-  // eslint-disable-next-line
-  console.log('propssss', props)
-  // eslint-disable-next-line
-  console.log('showInfoTooltip', showInfoTooltip)
-
   return (
     <FlyoutWrapper>
       <Top>
