@@ -5,7 +5,7 @@ import {
   DisplayTitle
 } from 'components/SimpleBuy'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 import {
   Icon,
@@ -437,16 +437,30 @@ const Success: React.FC<Props> = props => {
             </DisplayIcon>
             <BottomMultiRowContainer>
               <DisplayTitle>
-                <FormattedMessage
-                  id='modals.simplebuy.deposit.bank_transfer_only'
-                  defaultMessage='Bank Transfers Only'
-                />
+                {props.account.currency === 'USD' ? (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.important_transfer_only'
+                    defaultMessage='Important Transfer Information'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.bank_transfer_only'
+                    defaultMessage='Bank Transfers Only'
+                  />
+                )}
               </DisplayTitle>
               <DisplaySubTitle>
-                <FormattedMessage
-                  id='modals.simplebuy.deposit.bank_transfer_only_description'
-                  defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
-                />
+                {props.account.currency === 'USD' ? (
+                  <FormattedHTMLMessage
+                    id='modals.simplebuy.deposit.important_transfer_only_description'
+                    defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected. <b>Be sure to include your Reference ID.</b>'
+                  />
+                ) : (
+                  <FormattedMessage
+                    id='modals.simplebuy.deposit.bank_transfer_only_description'
+                    defaultMessage='Only send funds from a bank account in your name. If not, your deposit could be delayed or rejected.'
+                  />
+                )}
               </DisplaySubTitle>
             </BottomMultiRowContainer>
           </BottomRow>
