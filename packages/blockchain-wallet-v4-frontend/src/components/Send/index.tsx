@@ -1,16 +1,14 @@
 import { Banner } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import React from 'react'
+
 import { BlueCartridge } from 'components/Cartridge'
 import { CoinType, CustodialFromType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { FormGroup, FormLabel } from 'components/Form'
 import { WITHDRAWAL_LOCK_TIME_DAYS } from 'data/components/simpleBuy/model'
-import BigNumber from 'bignumber.js'
 import media from 'services/ResponsiveService'
-import React from 'react'
 import styled, { css } from 'styled-components'
 
 export const Row = styled.div`
@@ -94,7 +92,6 @@ const CustomBlueCartridge = styled(BlueCartridge)`
 
 export const CustodyToAccountMessage = ({
   account,
-  amount,
   coin
 }: {
   account: CustodialFromType
@@ -105,16 +102,12 @@ export const CustodyToAccountMessage = ({
   }
   coin: CoinType
 }) => {
-  const baseAmt = amount ? convertStandardToBase(coin, amount.coin) : 0
   const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo(
     '0'
   )
   const isWithdrawableNone = new BigNumber(
     account.withdrawable
   ).isLessThanOrEqualTo('0')
-  const isAmtGreaterThanWithdrawable = new BigNumber(baseAmt).isGreaterThan(
-    account.withdrawable
-  )
   const isAvailableEqualToWithdrawable = new BigNumber(
     account.available
   ).isEqualTo(account.withdrawable)
@@ -133,9 +126,7 @@ export const CustodyToAccountMessage = ({
           />
         </CustomBlueCartridge>
       )
-    case isAmtGreaterThanWithdrawable &&
-      !isWithdrawableNone &&
-      !isAvailableEqualToWithdrawable:
+    case !isWithdrawableNone && !isAvailableEqualToWithdrawable:
       return (
         <CustomBlueCartridge>
           <FormattedMessage
