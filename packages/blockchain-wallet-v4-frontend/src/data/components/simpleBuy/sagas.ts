@@ -158,8 +158,8 @@ export default ({
   }: ReturnType<typeof A.cancelSBOrder>) {
     try {
       const { state } = order
-      const fiatCurrency = S.getFiatCurrency(yield select())
-      const cryptoCurrency = S.getCryptoCurrency(yield select())
+      const fiatCurrency = getFiatFromPair(order.pair)
+      const cryptoCurrency = getCoinFromPair(order.pair)
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
@@ -172,7 +172,7 @@ export default ({
             A.setStep({
               step: 'ENTER_AMOUNT',
               cryptoCurrency,
-              orderType: 'BUY',
+              orderType: order.side || 'BUY',
               fiatCurrency,
               pair,
               method
