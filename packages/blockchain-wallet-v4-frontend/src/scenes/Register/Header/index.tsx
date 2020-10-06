@@ -47,7 +47,7 @@ const Header = () => (
       >
         <FormattedMessage
           id='scenes.register.securelybuy'
-          defaultMessage='Securely buy, sell, and store crypto.'
+          defaultMessage='Securely Buy, Sell, and Store Crypto.'
         />
       </HeaderText>
       <SubHeader
@@ -57,7 +57,7 @@ const Header = () => (
       >
         <FormattedMessage
           id='scenes.register.getstarted'
-          defaultMessage='Get started by signing up.'
+          defaultMessage='Get Started by Signing Up Now.'
         />
       </SubHeader>
     </Column>

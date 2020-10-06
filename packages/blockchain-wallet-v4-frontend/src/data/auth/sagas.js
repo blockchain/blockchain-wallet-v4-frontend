@@ -1,6 +1,6 @@
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
@@ -11,6 +11,8 @@ import { assoc, is, prop } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+const { AB_TESTS } = model.analytics
 
 export const logLocation = 'auth/sagas'
 
@@ -124,7 +126,20 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
-      yield put(actions.router.push('/home'))
+
+      const showVerifyEmail = yield select(
+        selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
+      )
+
+      if (
+        Remote.success.is(showVerifyEmail) &&
+        showVerifyEmail.command &&
+        showVerifyEmail.command === 'verify-email'
+      ) {
+        yield put(actions.router.push('/verify-email-test'))
+      } else {
+        yield put(actions.router.push('/home'))
+      }
       yield call(authNabu)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
@@ -360,6 +375,7 @@ export default ({ api, coreSagas }) => {
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)

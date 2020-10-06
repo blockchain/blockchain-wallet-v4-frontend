@@ -15,7 +15,10 @@ export const CUSTOM_VARIABLES = {
 //
 // AB TESTS
 //
-export const AB_TESTS = {}
+export enum AB_TESTS {
+  VERIFY_EMAIL = 'VerifyEmail'
+}
+
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]

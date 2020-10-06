@@ -34,7 +34,7 @@ const Footer = () => (
       </Link>
     </VersionWrapper>
     <LinkContainer to='/help'>
-      <Link size='16px' weight={600} color='grey400' data-e2e='loginGetHelp'>
+      <Link size='16px' weight={500} color='grey400' data-e2e='loginGetHelp'>
         <FormattedMessage
           id='scenes.login.needhelp'
           defaultMessage='Need help?'

@@ -224,7 +224,7 @@ const SignupCard = ({
             <InfoTitle color='grey800' size='18px' weight={600}>
               <FormattedMessage
                 id='scenes.register.walletcard.infotitle'
-                defaultMessage='Be your own bank.'
+                defaultMessage='Be Your Own Bank'
               />
             </InfoTitle>
 
@@ -323,14 +323,14 @@ const SignupCard = ({
       <LinkContainer to='/login'>
         <Link>
           <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
+            <Text size='14px' color='white' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.link'
                 defaultMessage='Already have a wallet?'
               />
             </Text>
             &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
+            <SignInText color='white' size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.signin'
                 defaultMessage='Sign In'
@@ -523,14 +523,6 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </ExchangeButton>
             </Link>
           </Card>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.exchange.subcard'
-                defaultMessage='You will be taken to our trading experience to continue sign up.'
-              />
-            </Text>
-          </SubCard>
         </CardWrapper>
       </CardsWrapper>
     </SignupWrapper>
