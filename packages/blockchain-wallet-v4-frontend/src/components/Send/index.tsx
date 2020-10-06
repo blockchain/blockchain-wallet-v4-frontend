@@ -115,6 +115,9 @@ export const CustodyToAccountMessage = ({
   const isAmtGreaterThanWithdrawable = new BigNumber(baseAmt).isGreaterThan(
     account.withdrawable
   )
+  const isAvailableEqualToWithdrawable = new BigNumber(
+    account.available
+  ).isEqualTo(account.withdrawable)
 
   const lockTime = WITHDRAWAL_LOCK_TIME_DAYS
 
@@ -130,7 +133,9 @@ export const CustodyToAccountMessage = ({
           />
         </CustomBlueCartridge>
       )
-    case isAmtGreaterThanWithdrawable && !isWithdrawableNone:
+    case isAmtGreaterThanWithdrawable &&
+      !isWithdrawableNone &&
+      !isAvailableEqualToWithdrawable:
       return (
         <CustomBlueCartridge>
           <FormattedMessage
