@@ -2,12 +2,19 @@ import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
-import { getWithdrawableFiatBalance } from 'components/Balances/wallet/selectors'
+import {
+  getFiatBalance,
+  getWithdrawableFiatBalance
+} from 'components/Balances/wallet/selectors'
 import { OwnProps } from '.'
 import { selectors } from 'data'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
-  const balanceR = getWithdrawableFiatBalance(ownProps.fiatCurrency, state)
+  const withdrawableBalanceR = getWithdrawableFiatBalance(
+    ownProps.fiatCurrency,
+    state
+  )
+  const availableBalanceR = getFiatBalance(ownProps.fiatCurrency, state)
   const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
     ownProps.fiatCurrency,
     state
@@ -28,14 +35,16 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
 
   return lift(
     (
-      balance: ExtractSuccess<typeof balanceR>,
+      withdrawableBalance: ExtractSuccess<typeof withdrawableBalanceR>,
+      availableBalance: ExtractSuccess<typeof availableBalanceR>,
       defaultBeneficiary: ExtractSuccess<typeof defaultBeneficiaryR>,
       userData: ExtractSuccess<typeof userDataR>,
       minAmount: ExtractSuccess<typeof minAmountR>,
       fees: ExtractSuccess<typeof feesR>,
       locks: ExtractSuccess<typeof lockR>
     ) => ({
-      balance,
+      withdrawableBalance,
+      availableBalance,
       defaultBeneficiary,
       formErrors,
       userData,
@@ -43,5 +52,13 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
       fees,
       locks
     })
-  )(balanceR, defaultBeneficiaryR, userDataR, minAmountR, feesR, lockR)
+  )(
+    withdrawableBalanceR,
+    availableBalanceR,
+    defaultBeneficiaryR,
+    userDataR,
+    minAmountR,
+    feesR,
+    lockR
+  )
 }
