@@ -105,9 +105,30 @@ export default ({
     )
   }
 
+  const getWithdrawalLockCheck = function * () {
+    try {
+      yield put(A.getLockRuleLoading())
+      const withdrawalLockCheckResponse = yield call(
+        api.checkWithdrawalLocks,
+        'PAYMENT_CARD'
+      )
+      yield put(A.getLockRuleSuccess(withdrawalLockCheckResponse))
+    } catch (e) {
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'fetchPaymentsTradingAccount',
+          e
+        )
+      )
+      yield put(A.getLockRuleFailure(e))
+    }
+  }
+
   return {
     fetchPaymentsAccountExchange,
     fetchPaymentsTradingAccount,
-    notifyNonCustodialToCustodialTransfer
+    notifyNonCustodialToCustodialTransfer,
+    getWithdrawalLockCheck
   }
 }

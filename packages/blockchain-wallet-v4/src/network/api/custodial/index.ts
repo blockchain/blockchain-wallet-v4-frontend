@@ -4,11 +4,12 @@ import {
   CustodialProductType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
+  WithdrawalLockCheckResponseType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from './types'
-import { CoinType, WalletFiatType } from 'core/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
 
 export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const getBeneficiaries = (): BeneficiariesType =>
@@ -71,11 +72,24 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       endPoint: `/payments/withdrawals/fees?product=${product}`
     })
 
+  const checkWithdrawalLocks = (
+    paymentMethod: SBPaymentTypes
+  ): WithdrawalLockCheckResponseType =>
+    authorizedPost({
+      url: nabuUrl,
+      endPoint: '/payments/withdrawals/locks/check',
+      contentType: 'application/json',
+      data: {
+        paymentMethod
+      }
+    })
+
   return {
     getBeneficiaries,
     getWithdrawalLocks,
     getWithdrawalFees,
     notifyNonCustodialToCustodialTransfer,
+    checkWithdrawalLocks,
     withdrawFunds
   }
 }
