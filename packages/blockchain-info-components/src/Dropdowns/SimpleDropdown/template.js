@@ -18,7 +18,7 @@ const ButtonContainer = styled.div`
   align-items: center;
   cursor: pointer;
   width: inherit;
-  font-size: 14px;
+  font-size: ${props => props.size};
   font-weight: 600;
 
   & > * {
