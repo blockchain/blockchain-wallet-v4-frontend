@@ -146,7 +146,9 @@ export default ({
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { reset } = payload
     try {
-      const nextPage = yield select(S.getTransactionsNextPage)
+      const nextPage = !reset
+        ? yield select(S.getTransactionsNextPage)
+        : undefined
       // check if invoked from continuous scroll
       if (!reset) {
         const txList = yield select(S.getInterestTransactions)

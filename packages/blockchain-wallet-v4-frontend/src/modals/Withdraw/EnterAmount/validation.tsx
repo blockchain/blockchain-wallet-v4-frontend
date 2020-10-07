@@ -4,11 +4,11 @@ import { selectors } from 'data'
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   if (!value) return true
 
-  const { balance, fees } = restProps
+  const { withdrawableBalance, fees } = restProps
 
-  if (!balance) return true
+  if (!withdrawableBalance) return true
 
-  const maxAmount = Number(balance) - Number(fees.value)
+  const maxAmount = Number(withdrawableBalance) - Number(fees.value)
 
   return Number(value) > maxAmount ? 'ABOVE_MAX' : false
 }
