@@ -22,8 +22,6 @@ const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   margin-right: 1.25rem;
 
   ${media.tablet`
-    height: 2.5rem;
-    width: 2.5rem;
     flex-shrink: 0;
   `}
 `

@@ -101,7 +101,7 @@ class App extends React.PureComponent<Props> {
                       />
                       <PublicLayout path='/wallet' component={Login} />
                       <PublicLayout
-                        path='/verify-email-test'
+                        path='/verify-email-step'
                         component={VerifyEmail}
                       />
                       <WalletLayout path='/airdrops' component={Airdrops} />
