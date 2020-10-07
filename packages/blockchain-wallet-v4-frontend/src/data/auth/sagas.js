@@ -7,7 +7,7 @@ import {
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { assoc, is, prop } from 'ramda'
+import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -159,7 +159,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
       // simple buy tasks
-      yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      // only run the fetch simplebuy if there's no simplebuygoal
+      const goals = selectors.goals.getGoals(yield select())
+      const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+      if (!simpleBuyGoal) {
+        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      }
+
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))

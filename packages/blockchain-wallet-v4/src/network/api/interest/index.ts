@@ -49,12 +49,19 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
   const getInterestTransactions = (
     nextPageUrl?: string
   ): InterestTransactionResponseType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: nextPageUrl
-        ? nextPageUrl + '&'
-        : '/payments/transactions?product=SAVINGS&pending=true&'
-    })
+    nextPageUrl
+      ? authorizedGet({
+          url: nabuUrl,
+          endPoint: nextPageUrl + '&pending=true&'
+        })
+      : authorizedGet({
+          url: nabuUrl,
+          endPoint: '/payments/transactions',
+          data: {
+            product: 'SAVINGS',
+            pending: true
+          }
+        })
 
   const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({

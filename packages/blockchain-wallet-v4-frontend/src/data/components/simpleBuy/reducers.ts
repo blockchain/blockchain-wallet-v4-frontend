@@ -169,7 +169,14 @@ export function simpleBuyReducer (
     case AT.FETCH_SB_PAIRS_SUCCESS:
       return {
         ...state,
-        pairs: Remote.Success(action.payload.pairs)
+        pairs: Remote.Success(action.payload.pairs),
+        pair: action.payload.coin
+          ? action.payload.pairs.find(
+              pair =>
+                getCoinFromPair(pair.pair) === action.payload.coin &&
+                getFiatFromPair(pair.pair) === state.fiatCurrency
+            )
+          : state.pair
       }
     case AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE: {
       return {

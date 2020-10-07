@@ -89,12 +89,13 @@ const Success: React.FC<InjectedFormProps<
   const amtError =
     typeof props.formErrors.amount === 'string' && props.formErrors.amount
 
-  const userCanWithdraw = Number(props.balance) > Number(props.fees.value)
+  const userCanWithdraw =
+    Number(props.withdrawableBalance) > Number(props.fees.value)
   const showFee = Number(props.fees.value) > 0
 
   const maxAmount = userCanWithdraw
-    ? Number(props.balance) - Number(props.fees.value)
-    : Number(props.balance)
+    ? Number(props.withdrawableBalance) - Number(props.fees.value)
+    : Number(props.withdrawableBalance)
 
   const isEnteredAmountGreaterThanWithdrawable =
     props.formValues &&
@@ -102,6 +103,9 @@ const Success: React.FC<InjectedFormProps<
     Number(props.formValues.amount) > maxAmount
 
   const showPendingTransactions = !isEmpty(props.locks)
+
+  const showInfoTooltip =
+    Number(props.withdrawableBalance) < Number(props.availableBalance)
 
   return (
     <FlyoutWrapper>
@@ -140,13 +144,15 @@ const Success: React.FC<InjectedFormProps<
           coin={props.fiatCurrency}
           style={{ marginLeft: '4px' }}
         >
-          {props.balance}
+          {props.withdrawableBalance}
         </CoinDisplay>
-        <TooltipWrapper>
-          <TooltipHost id='modals.withdraw.info_tooltip'>
-            <TooltipIcon name='info' color='grey400' size='14px' />
-          </TooltipHost>
-        </TooltipWrapper>
+        {showInfoTooltip && (
+          <TooltipWrapper>
+            <TooltipHost id='modals.withdraw.info_tooltip'>
+              <TooltipIcon name='info' color='grey400' size='14px' />
+            </TooltipHost>
+          </TooltipWrapper>
+        )}
       </CoinContainer>
       {showPendingTransactions && (
         <CoinContainer style={{ marginTop: '4px', height: '16px' }}>
@@ -226,13 +232,14 @@ const Success: React.FC<InjectedFormProps<
               </>
             </BlueRedCartridge>
           </div>
-          {Number(props.minAmount.value) < Number(props.balance) && (
+          {Number(props.minAmount.value) <
+            Number(props.withdrawableBalance) && (
             <div
               onClick={() =>
                 props.formActions.change(
                   'custodyWithdrawForm',
                   'amount',
-                  displayFiatToFiat({ value: props.balance })
+                  displayFiatToFiat({ value: props.withdrawableBalance })
                 )
               }
             >
@@ -266,7 +273,7 @@ const Success: React.FC<InjectedFormProps<
               id='modals.withdraw.not_enought_founds'
               defaultMessage='Amount is greater than your max withdrawalable balance ({symbol} {balance}) minus the fee ({symbol} {fee}).'
               values={{
-                balance: props.balance,
+                balance: props.withdrawableBalance,
                 symbol: props.fiatCurrency,
                 fee: props.fees.value
               }}

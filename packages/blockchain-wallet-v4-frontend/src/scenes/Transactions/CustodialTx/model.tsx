@@ -34,12 +34,12 @@ export const IconTx = (props: Props) => {
           coin={props.coin as CoinType}
         />
       )
+    case 'CLEARED':
     case 'CREATED':
     case 'FRAUD_REVIEW':
     case 'MANUAL_REVIEW':
     case 'PENDING':
     case 'PENDING_DEPOSIT':
-    case 'CLEARED':
       return <SharedIconTx type='PENDING' />
     case 'FAILED':
     case 'REFUNDED':
@@ -151,9 +151,6 @@ export const Destination = (props: Props) => {
 
 export const Status = (props: Props) => {
   switch (props.tx.state) {
-    case 'PENDING':
-    case 'CLEARED':
-    case 'CREATED':
     case 'COMPLETE':
       if (
         props.tx.amount.symbol in CoinTypeEnum &&
