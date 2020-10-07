@@ -1833,7 +1833,7 @@ type MessagesType = {
   'scenes.register.simplebuy.signup': 'Sign Up to Continue Your Crypto Purchase.'
   'scenes.register.wallet.link': 'Already have a wallet?'
   'scenes.register.wallet.signin': 'Sign In'
-  'scenes.register.walletcard.infotitle': 'Be Your Own Bank'
+  'scenes.register.walletcard.infotitleuppercase': 'Be Your Own Bank'
   'scenes.register.walletcard.item.1.bold': 'Easily buy and sell'
   'scenes.register.walletcard.item.1.regular': 'Bitcoin, Ether, and more.'
   'scenes.register.walletcard.item.2.bold': 'Securely store your'

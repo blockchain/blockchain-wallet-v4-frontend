@@ -29,6 +29,11 @@ export const ADS_EVENTS = {
   CLICK_AD_TAX: ['navigation', 'click_ad_tax']
 }
 
+export const AB_TEST_EVENTS = {
+  DISMISS_VERIFICATION: ['email_ab_test', 'dismiss_verification'],
+  EMAIL_VERIFIED: ['email_ab_test', 'email_verified']
+}
+
 export const PREFERENCE_EVENTS = {
   GENERAL: {
     ENABLE_BTC_LINKS: 'enable_btc_links'

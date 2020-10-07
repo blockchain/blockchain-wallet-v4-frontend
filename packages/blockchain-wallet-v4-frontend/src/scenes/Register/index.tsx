@@ -1,37 +1,33 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, pathOr, propEq, propOr } from 'ramda'
+import { find, propEq, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
 import { ABTestCmdType } from 'blockchain-wallet-v4-frontend/src/data/analytics/types'
 import { actions, model, selectors } from 'data'
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { RemoteDataType, SupportedWalletCurrenciesType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import Register from './template'
 
 const { AB_TESTS } = model.analytics
-type GoalDataType = {
-  amount: string
-  crypto: CoinType
-  displayName: string
-}
+
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   state = {
     showForm: false
   }
   componentDidMount () {
-    window.addEventListener('message', this.receiveMatomoMessage, false)
     if (Remote.Success.is(this.props.abTest)) return
+    window.addEventListener('message', this.receiveMatomoMessage, false)
     this.props.analyticsActions.createABTest(AB_TESTS.VERIFY_EMAIL)
     // Fallback if a/b test can not be created
     setTimeout(() => {
       if (!Remote.Success.is(this.props.abTest)) {
         const rest = {
-          command: 'original',
+          command: 'home',
           from: 'matomo',
           to: 'signup'
         }
@@ -45,9 +41,8 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      const result = pathOr('original', ['data', 'command'], res)
       const rest = {
-        command: result,
+        command: res.data.command,
         from: 'matomo',
         to: 'signup'
       }
@@ -125,7 +120,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  abTest: any
+  abTest: RemoteDataType<string, ABTestCmdType> | undefined
   data: any
   domainsR: any
   email: string

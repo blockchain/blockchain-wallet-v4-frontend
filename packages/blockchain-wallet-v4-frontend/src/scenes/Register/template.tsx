@@ -223,7 +223,7 @@ const SignupCard = ({
           <CardInfo>
             <InfoTitle color='grey800' size='18px' weight={600}>
               <FormattedMessage
-                id='scenes.register.walletcard.infotitle'
+                id='scenes.register.walletcard.infotitleuppercase'
                 defaultMessage='Be Your Own Bank'
               />
             </InfoTitle>

@@ -127,16 +127,17 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
-      const showVerifyEmail = yield select(
+      const showVerifyEmailR = yield select(
         selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
       )
+      const showVerifyEmail = showVerifyEmailR.getOrElse({})
 
       if (
-        Remote.success.is(showVerifyEmail) &&
+        showVerifyEmail &&
         showVerifyEmail.command &&
         showVerifyEmail.command === 'verify-email'
       ) {
-        yield put(actions.router.push('/verify-email-test'))
+        yield put(actions.router.push('/verify-email-step'))
       } else {
         yield put(actions.router.push('/home'))
       }

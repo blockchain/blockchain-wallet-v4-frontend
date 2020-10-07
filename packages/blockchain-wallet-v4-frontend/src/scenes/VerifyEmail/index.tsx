@@ -1,8 +1,10 @@
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { bindActionCreators } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
 import VerifyEmail from './template'
+
+const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
 
 class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
   state = {}
@@ -11,6 +13,7 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
     if (nextProps.isEmailVerified) {
       nextProps.authActions.setRegisterEmail(undefined)
       nextProps.routerActions.push('/home')
+      nextProps.analyticsActions.logEvent(EMAIL_VERIFIED)
     }
     return null
   }
@@ -22,6 +25,7 @@ class VerifyEmailContainer extends React.PureComponent<PropsType, {}> {
 
   skipVerification = () => {
     this.props.authActions.setRegisterEmail(undefined)
+    this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
     this.props.routerActions.push('/home')
   }
 
@@ -51,7 +55,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch
   ),
   routerActions: bindActionCreators(actions.router, dispatch),
-  authActions: bindActionCreators(actions.auth, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
