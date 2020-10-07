@@ -74,3 +74,21 @@ export type WithdrawalMinsAndFeesResponse = {
 }
 
 export type CustodialProductType = 'simplebuy' | 'mercurial'
+
+type CheckAttributes = {
+  tier: number
+}
+
+type WithdrawalLockCheckRule = {
+  attributes: CheckAttributes
+  id: string
+  insertedAt: string
+  isActive: boolean
+  lockTime: number
+  paymenthMethod: 'CARD'
+  updatedAt: string
+}
+
+export type WithdrawalLockCheckResponseType = {
+  rule?: WithdrawalLockCheckRule
+}
