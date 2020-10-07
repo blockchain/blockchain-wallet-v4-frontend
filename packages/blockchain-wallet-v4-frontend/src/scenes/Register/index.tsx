@@ -1,6 +1,6 @@
 import { bindActionCreators, Dispatch } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, pathOr, propEq, propOr } from 'ramda'
+import { find, propEq, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
@@ -27,7 +27,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     setTimeout(() => {
       if (!Remote.Success.is(this.props.abTest)) {
         const rest = {
-          command: 'original',
+          command: 'home',
           from: 'matomo',
           to: 'signup'
         }
@@ -41,9 +41,8 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
   receiveMatomoMessage = res => {
     if (res.data.from === 'matomo') {
-      const result = pathOr('original', ['data', 'command'], res)
       const rest = {
-        command: result,
+        command: res.data.command,
         from: 'matomo',
         to: 'signup'
       }
