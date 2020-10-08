@@ -130,16 +130,14 @@ export default ({ api, coreSagas }) => {
       const showVerifyEmailR = yield select(
         selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
       )
+      const showVerifyEmail = showVerifyEmailR.getOrElse({})
 
-      if (Remote.Success.is(showVerifyEmailR)) {
-        const showVerifyEmail = showVerifyEmailR.getOrElse({})
-        if (
-          showVerifyEmail &&
-          showVerifyEmail.command &&
-          showVerifyEmail.command === 'verify-email'
-        ) {
-          yield put(actions.router.push('/verify-email-step'))
-        }
+      if (
+        showVerifyEmail &&
+        showVerifyEmail.command &&
+        showVerifyEmail.command === 'verify-email'
+      ) {
+        yield put(actions.router.push('/verify-email-step'))
       } else {
         yield put(actions.router.push('/home'))
       }
