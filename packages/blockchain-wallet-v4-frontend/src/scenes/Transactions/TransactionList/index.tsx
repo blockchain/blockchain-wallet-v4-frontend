@@ -11,10 +11,10 @@ import DataError from 'components/DataError'
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import CustodialTxListItem from '../CustodialTx'
+import CustodialTx from '../CustodialTx'
 import Loading from './template.loading'
-import NonCustodialTxListItem from '../NonCustodialTx'
-import SimpleBuyListItem from '../SBOrderTx'
+import NonCustodialTx from '../NonCustodialTx'
+import SBOrderTx from '../SBOrderTx'
 
 // width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
@@ -27,26 +27,29 @@ const TransactionsWrapper = styled.div`
   border: 1px solid ${props => props.theme.grey000};
 `
 
-class TransactionList extends PureComponent<Props> {
+class TransactionList extends PureComponent<Props & { onRefresh: () => void }> {
   render () {
-    const { coin, coinTicker, currency, data } = this.props
+    const { coin, currency, data } = this.props
 
     return data.cata({
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
             return 'hash' in tx ? (
-              <NonCustodialTxListItem
+              <NonCustodialTx
                 key={tx.hash}
                 transaction={tx}
                 coin={coin as CoinType}
-                coinTicker={coinTicker}
                 currency={currency}
               />
             ) : 'pair' in tx ? (
-              <SimpleBuyListItem order={tx} />
+              <SBOrderTx order={tx} />
             ) : (
-              <CustodialTxListItem tx={tx} {...this.props} />
+              <CustodialTx
+                tx={tx}
+                {...this.props}
+                currency={currency as WalletCurrencyType}
+              />
             )
           })}
         </TransactionsWrapper>
@@ -62,15 +65,11 @@ class TransactionList extends PureComponent<Props> {
 
 export type Props = {
   coin: WalletCurrencyType
-  coinTicker: string
   currency: FiatType
   data: RemoteDataType<
     { message: string },
     Array<SBOrderType | ProcessedTxType>
   >
-  onArchive: (address: string) => void
-  onLoadMore: () => void
-  onRefresh: () => void
   sourceType?: string
 }
 

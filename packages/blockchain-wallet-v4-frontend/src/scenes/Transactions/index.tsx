@@ -129,7 +129,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       pages,
       sourceType
     } = this.props
-    const { colorCode, coinTicker, displayName, icons } = coinModel
+    const { colorCode, displayName, icons } = coinModel
 
     return (
       <SceneWrapper>
@@ -232,12 +232,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
             pages.map((value, index) => (
               <TransactionList
                 coin={coin}
-                coinTicker={coinTicker}
                 currency={currency}
                 data={value}
                 key={index}
-                onArchive={this.handleArchive}
-                onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
                 sourceType={sourceType}
               />

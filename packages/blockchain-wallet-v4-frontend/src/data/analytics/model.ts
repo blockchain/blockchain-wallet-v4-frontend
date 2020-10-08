@@ -15,7 +15,10 @@ export const CUSTOM_VARIABLES = {
 //
 // AB TESTS
 //
-export const AB_TESTS = {}
+export enum AB_TESTS {
+  VERIFY_EMAIL = 'VerifyEmail'
+}
+
 //
 // EVENTS
 // format: [event_category, event_action, ?event_name, ?event_value]
@@ -24,6 +27,11 @@ export const AB_TESTS = {}
 export const ADS_EVENTS = {
   CLICK_AD: ['navigation', 'click_ad'],
   CLICK_AD_TAX: ['navigation', 'click_ad_tax']
+}
+
+export const AB_TEST_EVENTS = {
+  DISMISS_VERIFICATION: ['email_ab_test', 'dismiss_verification'],
+  EMAIL_VERIFIED: ['email_ab_test', 'email_verified']
 }
 
 export const PREFERENCE_EVENTS = {

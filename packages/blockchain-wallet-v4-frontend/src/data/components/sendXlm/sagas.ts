@@ -105,10 +105,12 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
-          payment = yield call(setFrom, payment, source, fromType)
           if (fromType === 'CUSTODIAL') {
+            payment = yield call(setFrom, payment, payload, fromType)
             yield put(A.paymentUpdatedSuccess(payment.value()))
             yield put(change(FORM, 'to', null))
+          } else {
+            payment = yield call(setFrom, payment, source, fromType)
           }
           break
         case 'to':
@@ -377,7 +379,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             payment.from,
             fromCustodialT.label,
             type,
-            fromCustodialT.available
+            fromCustodialT.withdrawable
           )
           break
         default:

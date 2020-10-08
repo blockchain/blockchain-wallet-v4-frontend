@@ -103,6 +103,7 @@ export const IconTx = ({
     | 'DEPOSIT'
     | 'WITHDRAWAL'
     | 'PENDING'
+    | 'INTEREST_OUTGOING'
     | 'sent'
     | 'received'
     | 'transferred'
@@ -125,6 +126,10 @@ export const IconTx = ({
             name={type === 'BUY' ? 'plus' : 'minus'}
             color={color}
           />
+        )
+      case 'INTEREST_OUTGOING':
+        return (
+          <Icon size='24px' weight={600} name={'percentage'} color={color} />
         )
       case 'DEPOSIT':
       case 'WITHDRAWAL':

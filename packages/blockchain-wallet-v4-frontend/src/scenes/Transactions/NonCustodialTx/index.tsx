@@ -4,12 +4,17 @@ import { includes } from 'ramda'
 import React from 'react'
 
 import { actions, model, selectors } from 'data'
-import { CoinType, FiatType, ProcessedTxType } from 'core/types'
-import NonCustodialTx from './template'
+import {
+  CoinType,
+  FiatType,
+  ProcessedTxType,
+  SupportedWalletCurrenciesType
+} from 'core/types'
+import NonCustodialTxTemplate from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
-class NonCustodialTxListItem extends React.PureComponent<Props> {
+class NonCustodialTx extends React.PureComponent<Props> {
   state = { isToggled: false }
 
   handleToggle = () => {
@@ -63,9 +68,12 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
   }
 
   render () {
+    const { coinTicker } = this.props.supportedCoins[this.props.coin]
+
     return (
-      <NonCustodialTx
+      <NonCustodialTxTemplate
         {...this.props}
+        coinTicker={coinTicker}
         handleEditDescription={this.handleEditDescription}
         handleRetrySendEth={this.handleRetrySendEth}
         handleToggle={this.handleToggle}
@@ -77,6 +85,9 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = state => ({
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType),
   erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
 })
 
@@ -96,11 +107,10 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType
-  coinTicker: string
   currency: FiatType
   transaction: ProcessedTxType
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(NonCustodialTxListItem)
+export default connector(NonCustodialTx)

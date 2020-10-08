@@ -42,7 +42,7 @@ const LastCol = styled(Col)`
   display: flex;
   justify-content: flex-end;
 `
-class SimpleBuyListItem extends PureComponent<Props, State> {
+class SBOrderTx extends PureComponent<Props, State> {
   state: State = { isToggled: false }
 
   handleToggle = () => {
@@ -230,4 +230,4 @@ type OwnProps = {
 export type Props = OwnProps & ConnectedProps<typeof connector>
 type State = { isToggled: boolean }
 
-export default connector(SimpleBuyListItem)
+export default connector(SBOrderTx)

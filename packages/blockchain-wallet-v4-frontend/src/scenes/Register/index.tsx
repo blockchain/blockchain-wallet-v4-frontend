@@ -4,21 +4,53 @@ import { find, propEq, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import React from 'react'
 
-import { actions, selectors } from 'data'
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
+import { ABTestCmdType } from 'blockchain-wallet-v4-frontend/src/data/analytics/types'
+import { actions, model, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { RemoteDataType, SupportedWalletCurrenciesType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import Register from './template'
 
-type GoalDataType = {
-  amount: string
-  crypto: CoinType
-  displayName: string
-}
+const { AB_TESTS } = model.analytics
+
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   state = {
     showForm: false
+  }
+  componentDidMount () {
+    if (Remote.Success.is(this.props.abTest)) return
+    window.addEventListener('message', this.receiveMatomoMessage, false)
+    this.props.analyticsActions.createABTest(AB_TESTS.VERIFY_EMAIL)
+    // Fallback if a/b test can not be created
+    setTimeout(() => {
+      if (!Remote.Success.is(this.props.abTest)) {
+        const rest = {
+          command: 'home',
+          from: 'matomo',
+          to: 'signup'
+        }
+        this.props.analyticsActions.createABTestSuccess(
+          AB_TESTS.VERIFY_EMAIL,
+          rest as ABTestCmdType
+        )
+      }
+    }, 1000)
+  }
+
+  receiveMatomoMessage = res => {
+    if (res.data.from === 'matomo') {
+      const rest = {
+        command: res.data.command,
+        from: 'matomo',
+        to: 'signup'
+      }
+      this.props.analyticsActions.createABTestSuccess(
+        AB_TESTS.VERIFY_EMAIL,
+        rest as ABTestCmdType
+      )
+    }
   }
 
   onSubmit = () => {
@@ -75,7 +107,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   search: selectors.router.getSearch(state),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+    .getOrElse({} as SupportedWalletCurrenciesType),
+  abTest: selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -87,6 +120,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  abTest: RemoteDataType<string, ABTestCmdType> | undefined
   data: any
   domainsR: any
   email: string

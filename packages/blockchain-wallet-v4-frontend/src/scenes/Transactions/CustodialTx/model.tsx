@@ -25,21 +25,33 @@ export const IconTx = (props: Props) => {
           <Icon
             size='20px'
             color='fiat'
-            name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
+            name={
+              props.tx.type === 'DEPOSIT'
+                ? 'arrow-down'
+                : props.tx.type === 'INTEREST_OUTGOING'
+                ? 'percentage'
+                : 'arrow-up'
+            }
           />
         </IconWrapper>
       ) : (
         <SharedIconTx
-          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
+          type={
+            props.tx.type === 'DEPOSIT'
+              ? 'received'
+              : props.tx.type === 'INTEREST_OUTGOING'
+              ? 'INTEREST_OUTGOING'
+              : 'sent'
+          }
           coin={props.coin as CoinType}
         />
       )
+    case 'CLEARED':
     case 'CREATED':
     case 'FRAUD_REVIEW':
     case 'MANUAL_REVIEW':
     case 'PENDING':
     case 'PENDING_DEPOSIT':
-    case 'CLEARED':
       return <SharedIconTx type='PENDING' />
     case 'FAILED':
     case 'REFUNDED':
@@ -97,15 +109,31 @@ export const DepositOrWithdrawal = (props: Props) => {
       case 'DEPOSIT':
         return (
           <FormattedMessage
-            id='components.form.tabmenutransactionstatus.received'
-            defaultMessage='Received'
+            id='scenes.transactions.bitcoin.content.list.listitem.status.received'
+            defaultMessage='Received {coin}'
+            values={{
+              coin: props.tx.amount.symbol
+            }}
           />
         )
       case 'WITHDRAWAL':
         return (
           <FormattedMessage
-            id='components.form.tabmenutransactionstatus.sent'
-            defaultMessage='Sent'
+            id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
+            defaultMessage='Sent {coin}'
+            values={{
+              coin: props.tx.amount.symbol
+            }}
+          />
+        )
+      case 'INTEREST_OUTGOING':
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.interest_earned'
+            defaultMessage='{coin} Interest Earned'
+            values={{
+              coin: props.tx.amount.symbol
+            }}
           />
         )
     }
@@ -119,6 +147,8 @@ export const DepositOrWithdrawal = (props: Props) => {
         return (
           <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
         )
+      case 'INTEREST_OUTGOING':
+        return null
     }
   }
 }
@@ -133,6 +163,8 @@ export const Origin = (props: Props) => {
       return <>Bank Account</>
     case 'WITHDRAWAL':
       return <>Trading Wallet</>
+    case 'INTEREST_OUTGOING':
+      return <>Blockchain.com</>
   }
 }
 
@@ -146,14 +178,13 @@ export const Destination = (props: Props) => {
       }
 
       return <>Bank Account</>
+    case 'INTEREST_OUTGOING':
+      return <>{props.tx.amount.symbol} Interest Account</>
   }
 }
 
 export const Status = (props: Props) => {
   switch (props.tx.state) {
-    case 'PENDING':
-    case 'CLEARED':
-    case 'CREATED':
     case 'COMPLETE':
       if (
         props.tx.amount.symbol in CoinTypeEnum &&

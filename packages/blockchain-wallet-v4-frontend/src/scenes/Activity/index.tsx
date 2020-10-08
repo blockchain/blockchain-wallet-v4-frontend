@@ -10,6 +10,10 @@ import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import { SceneWrapper } from 'components/Layout'
 
+import CustodialTx from '../Transactions/CustodialTx'
+import NonCustodialTx from '../Transactions/NonCustodialTx'
+import SBOrderTx from '../Transactions/SBOrderTx'
+
 const TEMPHeader = styled(Text)`
   display: flex;
   align-items: center;
@@ -49,18 +53,22 @@ class Activity extends PureComponent<Props> {
           ),
           Failure: e => <TEMPHeader>A Failure Occurred: {e}</TEMPHeader>
         })}
-        {this.props.data.activity.map(value => {
-          return (
-            <code
-              style={{
-                display: 'block',
-                wordBreak: 'break-all',
-                marginBottom: '20px'
-              }}
-              key={'id' in value ? value.id : value.hash}
-            >
-              {JSON.stringify(value)}
-            </code>
+        {this.props.data.activity.map(tx => {
+          return 'hash' in tx ? (
+            <NonCustodialTx
+              key={tx.hash}
+              transaction={tx}
+              coin={tx.coin}
+              currency={this.props.data.currency}
+            />
+          ) : 'pair' in tx ? (
+            <SBOrderTx order={tx} />
+          ) : (
+            <CustodialTx
+              tx={tx}
+              coin={tx.amount.symbol}
+              currency={this.props.data.currency}
+            />
           )
         })}
       </SceneWrapper>

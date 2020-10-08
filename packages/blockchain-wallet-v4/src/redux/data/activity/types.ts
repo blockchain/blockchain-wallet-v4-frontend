@@ -3,6 +3,7 @@ import * as AT from './actionTypes'
 import {
   CoinType,
   CustodialTxResponseType,
+  CustodialTxType,
   NabuCustodialProductType,
   ProcessedTxType,
   RemoteDataType,
@@ -28,7 +29,7 @@ export type CustodialActivityType = {
     status: ActivityStatusType
   }
   transactions: {
-    items: CustodialTxResponseType['items']
+    items: Array<CustodialTxType>
     next: string | null
     prev: string | null
     status: ActivityStatusType

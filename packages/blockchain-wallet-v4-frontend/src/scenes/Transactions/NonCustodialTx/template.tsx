@@ -62,7 +62,7 @@ const IOAddressText = styled(Text)`
   align-items: center;
 `
 
-const NonCustodialTx = ({
+const NonCustodialTxTemplate = ({
   coin,
   coinTicker,
   currency,
@@ -261,6 +261,7 @@ const NonCustodialTx = ({
 )
 
 type ParentClassProps = {
+  coinTicker: string
   handleEditDescription: (value: any) => void
   handleRetrySendEth: (e: any, txHash: string, isErc20: boolean) => void
   handleToggle: () => void
@@ -268,4 +269,4 @@ type ParentClassProps = {
   onViewTxDetails: (value: any) => void
 }
 
-export default NonCustodialTx
+export default NonCustodialTxTemplate

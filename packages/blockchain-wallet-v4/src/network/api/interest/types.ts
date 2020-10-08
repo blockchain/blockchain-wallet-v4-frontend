@@ -50,6 +50,7 @@ export type InterestTransactionType = {
     symbol: CoinType
     value: string
   }
+  amountMinor: string
   extraAttributes: {
     address: string
     confirmations: number

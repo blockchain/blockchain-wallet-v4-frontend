@@ -1,5 +1,11 @@
 import * as AT from './actionTypes'
-import { BeneficiaryType, CoinType, PaymentValue } from 'core/types'
+import {
+  BeneficiaryType,
+  CoinType,
+  PaymentValue,
+  SBPaymentTypes,
+  WithdrawalLockCheckResponseType
+} from 'core/types'
 
 export const fetchPaymentsAccountExchange = currency => ({
   type: AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE,
@@ -47,4 +53,22 @@ export const notifyNonCustodialToCustodialTransfer = (
     payment,
     product
   }
+})
+
+export const getLockRule = (paymentMethod: SBPaymentTypes) => ({
+  type: AT.GET_LOCK_RULE,
+  payload: { paymentMethod }
+})
+export const getLockRuleLoading = () => ({
+  type: AT.GET_LOCK_RULE_LOADING
+})
+export const getLockRuleFailure = e => ({
+  type: AT.GET_LOCK_RULE_FAILURE,
+  payload: { e }
+})
+export const getLockRuleSuccess = (
+  withdrawalLockCheckResponse: WithdrawalLockCheckResponseType
+) => ({
+  type: AT.GET_LOCK_RULE_SUCCESS,
+  payload: { withdrawalLockCheckResponse }
 })

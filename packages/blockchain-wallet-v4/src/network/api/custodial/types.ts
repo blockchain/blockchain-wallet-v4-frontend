@@ -39,6 +39,8 @@ export type CustodialTxResponseType = {
   prev: string | null
 }
 
+export type CustodialTxType = SBTransactionType | InterestTransactionType
+
 export enum NabuCustodialProductEnum {
   SAVINGS,
   SIMPLEBUY,
@@ -97,4 +99,22 @@ export type WithdrawalMinsAndFeesResponse = {
   feeType: 'NETWORK'
   fees: Array<NabuMoneyFloatType>
   minAmounts: Array<NabuMoneyFloatType>
+}
+
+type CheckAttributes = {
+  tier: number
+}
+
+type WithdrawalLockCheckRule = {
+  attributes: CheckAttributes
+  id: string
+  insertedAt: string
+  isActive: boolean
+  lockTime: number
+  paymenthMethod: 'CARD'
+  updatedAt: string
+}
+
+export type WithdrawalLockCheckResponseType = {
+  rule?: WithdrawalLockCheckRule
 }

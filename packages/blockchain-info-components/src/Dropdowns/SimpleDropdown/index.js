@@ -53,7 +53,8 @@ SimpleDropdown.defaultProps = {
   opened: false,
   selectedValue: 0,
   uppercase: true,
-  down: false
+  down: false,
+  size: '14px'
 }
 
 SimpleDropdown.propTypes = {
@@ -67,7 +68,8 @@ SimpleDropdown.propTypes = {
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   uppercase: PropTypes.bool,
-  down: PropTypes.bool
+  down: PropTypes.bool,
+  size: PropTypes.string
 }
 
 export default onClickOutside(SimpleDropdown)

@@ -106,12 +106,14 @@ export default ({ api, coreSagas, networks }) => {
     const amount = params.get('amount')
     const crypto = params.get('crypto')
     const email = params.get('email')
+    const fiatCurrency = params.get('fiatCurrency')
 
     yield put(
       actions.goals.saveGoal('simpleBuy', {
         amount,
         crypto,
-        email
+        email,
+        fiatCurrency
       })
     )
 
@@ -248,13 +250,14 @@ export default ({ api, coreSagas, networks }) => {
 
   const runSimpleBuyGoal = function * (goal) {
     const {
-      data: { amount, crypto }
+      data: { amount, crypto, fiatCurrency }
     } = goal
 
     yield put(
       actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
         amount,
-        crypto
+        crypto,
+        fiatCurrency
       })
     )
   }

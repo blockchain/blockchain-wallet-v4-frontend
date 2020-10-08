@@ -15,7 +15,7 @@ import {
   TxRow,
   TxRowContainer
 } from '../components'
-import { CoinTypeEnum, SBTransactionType } from 'core/types'
+import { CoinTypeEnum, CustodialTxType, WalletCurrencyType } from 'core/types'
 
 import {
   DepositOrWithdrawal,
@@ -26,9 +26,8 @@ import {
   Timestamp
 } from './model'
 import { FormattedMessage } from 'react-intl'
-import { Props as OwnProps } from '../TransactionList'
 
-const CustodialTxListItem: React.FC<Props> = props => {
+const CustodialTx: React.FC<Props> = props => {
   const [isToggled, setIsToggled] = useState(false)
 
   return (
@@ -43,7 +42,7 @@ const CustodialTxListItem: React.FC<Props> = props => {
               weight={600}
               data-e2e='txTypeText'
             >
-              <DepositOrWithdrawal {...props} /> {props.tx.amount.symbol}
+              <DepositOrWithdrawal {...props} />
             </Text>
             <Timestamp {...props} />
           </StatusAndType>
@@ -116,8 +115,10 @@ const CustodialTxListItem: React.FC<Props> = props => {
   )
 }
 
-export type Props = OwnProps & {
-  tx: SBTransactionType
+export type Props = {
+  coin: WalletCurrencyType
+  currency: WalletCurrencyType
+  tx: CustodialTxType
 }
 
-export default CustodialTxListItem
+export default CustodialTx

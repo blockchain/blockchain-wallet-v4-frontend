@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { SendState } from './types'
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: SendState = {
   exchangePaymentsAccount: {
@@ -20,7 +20,8 @@ const INITIAL_STATE: SendState = {
     XLM: Remote.NotAsked,
     USDT: Remote.NotAsked,
     ALGO: Remote.NotAsked
-  }
+  },
+  withdrawLockCheck: Remote.NotAsked
 }
 
 export function sendReducer (state = INITIAL_STATE, action) {
@@ -85,6 +86,26 @@ export function sendReducer (state = INITIAL_STATE, action) {
           ...state.tradingPaymentsAccount,
           [currency]: Remote.Failure(e)
         }
+      }
+    }
+    case AT.GET_LOCK_RULE_LOADING: {
+      return {
+        ...state,
+        withdrawLockCheck: Remote.Loading
+      }
+    }
+    case AT.GET_LOCK_RULE_SUCCESS: {
+      return {
+        ...state,
+        withdrawLockCheck: Remote.Success(
+          action.payload.withdrawalLockCheckResponse
+        )
+      }
+    }
+    case AT.GET_LOCK_RULE_FAILURE: {
+      return {
+        ...state,
+        withdrawLockCheck: Remote.Failure(action.payload.error)
       }
     }
     default:
