@@ -184,10 +184,10 @@ const Success: React.FC<Props> = props => {
               <Text size='16px' weight={500} color='grey600'>
                 <FormattedMessage
                   id='modals.simplebuy.transferdetails.bank_link_info'
-                  defaultMessage='To link your bank, send {simbol}1 or more to your {currency} wallet.'
+                  defaultMessage='To link your bank, send {symbol}1 or more to your {currency} wallet.'
                   values={{
                     currency: props.account.currency,
-                    simbol:
+                    symbol:
                       Currencies[props.account.currency].units[
                         props.account.currency
                       ].symbol
