@@ -84,15 +84,6 @@ export const Status = ({ order }: Props) => {
 }
 
 export const Timestamp = (props: Props) => {
-  const getTimeOrStatus = () => {
-    switch (props.order.state) {
-      case 'FINISHED':
-        return <SharedTimestamp time={props.order.insertedAt} />
-      default:
-        return <Status {...props} />
-    }
-  }
-
   return (
     <Text
       size='14px'
@@ -101,7 +92,7 @@ export const Timestamp = (props: Props) => {
       style={{ marginTop: '4px' }}
       data-e2e='txTimeOrStatus'
     >
-      {getTimeOrStatus()}
+      <SharedTimestamp time={props.order.insertedAt} />
     </Text>
   )
 }

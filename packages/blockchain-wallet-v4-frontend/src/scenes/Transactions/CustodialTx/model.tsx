@@ -1,7 +1,7 @@
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
 import { CoinType, CoinTypeEnum, WalletFiatEnum } from 'core/types'
 import {
@@ -18,6 +18,16 @@ const Icon = styled(BCIcon)`
 `
 
 export const IconTx = (props: Props) => {
+  if (props.tx.type === 'INTEREST_OUTGOING') {
+    return (
+      <BCIcon
+        size='32px'
+        weight={500}
+        name='percentage'
+        color={props.tx.amount.symbol.toLowerCase() as keyof DefaultTheme}
+      />
+    )
+  }
   switch (props.tx.state) {
     case 'COMPLETE':
       return props.coin in WalletFiatEnum ? (
@@ -25,24 +35,12 @@ export const IconTx = (props: Props) => {
           <Icon
             size='20px'
             color='fiat'
-            name={
-              props.tx.type === 'DEPOSIT'
-                ? 'arrow-down'
-                : props.tx.type === 'INTEREST_OUTGOING'
-                ? 'percentage'
-                : 'arrow-up'
-            }
+            name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
       ) : (
         <SharedIconTx
-          type={
-            props.tx.type === 'DEPOSIT'
-              ? 'received'
-              : props.tx.type === 'INTEREST_OUTGOING'
-              ? 'INTEREST_OUTGOING'
-              : 'sent'
-          }
+          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
           coin={props.coin as CoinType}
         />
       )
@@ -81,15 +79,6 @@ export const IconTx = (props: Props) => {
 }
 
 export const Timestamp = (props: Props) => {
-  const getTimeOrStatus = () => {
-    switch (props.tx.state) {
-      case 'COMPLETE':
-        return <SharedTimestamp time={props.tx.insertedAt} />
-      default:
-        return <Status {...props} />
-    }
-  }
-
   return (
     <Text
       size='14px'
@@ -98,7 +87,7 @@ export const Timestamp = (props: Props) => {
       style={{ marginTop: '4px' }}
       data-e2e='txTimeOrStatus'
     >
-      {getTimeOrStatus()}
+      <SharedTimestamp time={props.tx.insertedAt} />
     </Text>
   )
 }
@@ -157,12 +146,12 @@ export const Origin = (props: Props) => {
   switch (props.tx.type) {
     case 'DEPOSIT':
       if (props.tx.amount.symbol in CoinTypeEnum) {
-        return <>Wallet</>
+        return <>{props.tx.amount.symbol} Wallet</>
       }
 
-      return <>Bank Account</>
+      return <>{props.tx.amount.symbol} Bank Account</>
     case 'WITHDRAWAL':
-      return <>Trading Wallet</>
+      return <>{props.tx.amount.symbol} Trading Wallet</>
     case 'INTEREST_OUTGOING':
       return <>Blockchain.com</>
   }
@@ -171,13 +160,13 @@ export const Origin = (props: Props) => {
 export const Destination = (props: Props) => {
   switch (props.tx.type) {
     case 'DEPOSIT':
-      return <>Trading Wallet</>
+      return <>{props.tx.amount.symbol} Trading Wallet</>
     case 'WITHDRAWAL':
       if (props.tx.amount.symbol in CoinTypeEnum) {
-        return <>Wallet</>
+        return <>{props.tx.amount.symbol} Wallet</>
       }
 
-      return <>Bank Account</>
+      return <>{props.tx.amount.symbol} Bank Account</>
     case 'INTEREST_OUTGOING':
       return <>{props.tx.amount.symbol} Interest Account</>
   }

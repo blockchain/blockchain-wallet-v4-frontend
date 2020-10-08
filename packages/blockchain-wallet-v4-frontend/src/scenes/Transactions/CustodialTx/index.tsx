@@ -51,12 +51,12 @@ const CustodialTx: React.FC<Props> = props => {
           <Addresses
             from={
               <>
-                {props.tx.amount.symbol} <Origin {...props} />
+                <Origin {...props} />
               </>
             }
             to={
               <>
-                {props.tx.amount.symbol} <Destination {...props} />
+                <Destination {...props} />
               </>
             }
           />
