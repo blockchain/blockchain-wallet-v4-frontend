@@ -19,7 +19,7 @@ const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  margin-right: 1.25rem;
+  margin-right: 20px;
 
   ${media.tablet`
     flex-shrink: 0;
