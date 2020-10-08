@@ -232,6 +232,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  addBank: selectors.components.simpleBuy.getAddBank(state),
   step: selectors.components.simpleBuy.getStep(state),
   cardId: selectors.components.simpleBuy.getSBCardId(state),
   pair: selectors.components.simpleBuy.getSBPair(state),
@@ -279,6 +280,7 @@ type LinkStatePropsType =
         | 'KYC_REQUIRED'
     }
   | {
+      addBank?: boolean
       displayBack?: boolean
       fiatCurrency: FiatType
       pair: SBPairType
@@ -295,11 +297,11 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
-      goals: Array<{ data: any; id: string; name: GoalsType }>,
-      method?: SBPaymentMethodType,
-      order?: SBOrderType,
-      orderType: SBOrderActionType,
-      pair: SBPairType,
+      goals: Array<{ data: any; id: string; name: GoalsType }>
+      method?: SBPaymentMethodType
+      order?: SBOrderType
+      orderType: SBOrderActionType
+      pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {

@@ -139,7 +139,7 @@ const Success: React.FC<Props> = props => {
           />
           <InfoContainer>
             <TopText color='grey800' size='24px' weight={600}>
-              {props.account.currency === 'USD' ? (
+              {props.account.currency === 'USD' || props.addBank ? (
                 <FormattedMessage
                   id='modals.simplebuy.deposit.title_add'
                   defaultMessage='Add a {currency} Bank'
@@ -179,6 +179,22 @@ const Success: React.FC<Props> = props => {
                 />
               )}
             </TopText>
+
+            {props.addBank && (
+              <Text size='16px' weight={500} color='grey600'>
+                <FormattedMessage
+                  id='modals.simplebuy.transferdetails.bank_link_info'
+                  defaultMessage='To link your bank, send {simbol}1 or more to your {currency} wallet.'
+                  values={{
+                    currency: props.account.currency,
+                    simbol:
+                      Currencies[props.account.currency].units[
+                        props.account.currency
+                      ].symbol
+                  }}
+                />
+              </Text>
+            )}
           </InfoContainer>
 
           {props.account.currency === 'USD' && (

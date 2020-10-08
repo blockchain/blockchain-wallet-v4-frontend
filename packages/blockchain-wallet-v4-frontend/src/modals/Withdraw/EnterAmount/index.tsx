@@ -46,7 +46,8 @@ class EnterAmount extends PureComponent<Props> {
         this.props.simpleBuyActions.setStep({
           step: 'TRANSFER_DETAILS',
           fiatCurrency: this.props.fiatCurrency,
-          displayBack: false
+          displayBack: false,
+          addBank: true
         })
       } else {
         this.props.simpleBuyActions.setStep({

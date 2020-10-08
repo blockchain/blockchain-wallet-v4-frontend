@@ -133,3 +133,5 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   })
 
 export const getStep = (state: RootState) => state.components.simpleBuy.step
+export const getAddBank = (state: RootState) =>
+  state.components.simpleBuy.addBank
