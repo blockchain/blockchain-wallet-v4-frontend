@@ -139,6 +139,8 @@ export default ({ api, coreSagas }) => {
           showVerifyEmail.command === 'verify-email'
         ) {
           yield put(actions.router.push('/verify-email-step'))
+        } else {
+          yield put(actions.router.push('/home'))
         }
       } else {
         yield put(actions.router.push('/home'))
