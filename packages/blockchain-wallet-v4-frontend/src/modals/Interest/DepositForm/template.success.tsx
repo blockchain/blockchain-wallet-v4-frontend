@@ -117,6 +117,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     isErc20 &&
     (payment.coin === 'PAX' || payment.coin === 'USDT') &&
     !payment.isSufficientEthForErc20
+
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />

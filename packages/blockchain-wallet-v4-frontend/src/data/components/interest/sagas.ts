@@ -375,9 +375,11 @@ export default ({
       switch (coin) {
         case 'BCH':
           receiveAddress = selectors.core.common.bch
-            .getNextAvailableReceiveAddressFormatted(
-              networks.btc,
-              yield select(selectors.core.kvStore.bch.getDefaultAccountIndex),
+            .getNextAvailableReceiveAddress(
+              networks.bch,
+              (yield select(
+                selectors.core.kvStore.bch.getDefaultAccountIndex
+              )).getOrFail(),
               yield select()
             )
             .getOrFail('Failed to get BCH receive address')
