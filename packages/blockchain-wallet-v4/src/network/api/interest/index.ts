@@ -48,7 +48,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     })
 
   const getInterestTransactions = (
-    ccy?: CoinType,
+    currency?: CoinType,
     nextPageUrl?: string
   ): InterestTransactionResponseType =>
     nextPageUrl
@@ -60,7 +60,7 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
           url: nabuUrl,
           endPoint: '/payments/transactions',
           data: {
-            ccy,
+            currency,
             product: 'SAVINGS',
             pending: true
           }

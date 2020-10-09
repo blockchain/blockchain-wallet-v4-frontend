@@ -152,6 +152,7 @@ export default ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
     const { reset, coin } = payload
+
     try {
       const nextPage = !reset
         ? yield select(S.getTransactionsNextPage)
@@ -163,10 +164,7 @@ export default ({
         if (Remote.Loading.is(last(txList)) || !nextPage) return
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
-      const response =
-        coin === 'ALL'
-          ? yield call(api.getInterestTransactions, nextPage)
-          : yield call(api.getInterestTransactions, nextPage, coin)
+      const response = yield call(api.getInterestTransactions, coin, nextPage)
       yield put(A.fetchInterestTransactionsSuccess(response.items, reset))
       yield put(A.setTransactionsNextPage(response.next))
     } catch (e) {
@@ -382,9 +380,7 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
-      // fetch transactions and balances to get pending deposit info
-      yield delay(3000)
-      yield put(A.fetchInterestTransactions(true))
+      yield delay(1500)
       yield put(A.fetchInterestBalance())
       yield put(actions.router.push('/interest/history'))
     } catch (e) {
@@ -455,7 +451,6 @@ export default ({
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
       yield put(A.fetchInterestBalance())
-      yield put(A.fetchInterestTransactions(true))
       yield put(actions.router.push('/interest/history'))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)

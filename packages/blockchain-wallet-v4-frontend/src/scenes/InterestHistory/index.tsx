@@ -47,10 +47,11 @@ class InterestHistoryContainer extends Component<Props> {
   }
 
   render () {
+    const { data } = this.props
     return (
       <SceneWrapper>
         <InterestHeader />
-        {this.props.data.cata({
+        {data.cata({
           Success: val => (
             <>
               <MenuRow>
