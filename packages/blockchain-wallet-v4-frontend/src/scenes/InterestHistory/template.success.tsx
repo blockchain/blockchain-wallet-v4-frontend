@@ -1,4 +1,4 @@
-import { flatten, last, map } from 'ramda'
+import { flatten, head, last, map } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import React, { ReactElement } from 'react'
@@ -28,6 +28,8 @@ import {
   ViewTransaction
 } from './model'
 import { Props as OwnProps, SuccessStateType } from '.'
+import Empty from './Empty'
+import Loading from './template.loading'
 
 const LoadingWrapper = styled.div`
   display: flex;
@@ -147,7 +149,7 @@ function TransactionList (props: Props): ReactElement | null {
                       />
                     </IconBackground>
 
-                    <Value data-e2e='depositTx'>{coinTicker} Transfer</Value>
+                    <Value data-e2e='depositTx'>{coinTicker} Deposit</Value>
                     {state === 'REJECTED' || state === 'FAILED' ? (
                       <ErrorTag>
                         <FormattedMessage
@@ -303,7 +305,11 @@ function TransactionList (props: Props): ReactElement | null {
         </LoadingWrapper>
       )}
     </Container>
-  ) : null
+  ) : Remote.Loading.is(head(txPages)) ? (
+    <Loading />
+  ) : (
+    <Empty />
+  )
 }
 
 type Props = OwnProps & SuccessStateType

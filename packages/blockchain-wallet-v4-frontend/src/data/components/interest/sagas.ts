@@ -1,9 +1,16 @@
 import { call, delay, put, select, take } from 'redux-saga/effects'
 import { FormAction, initialize } from 'redux-form'
-import { head, last, nth } from 'ramda'
+import { head, last, nth, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 
-import { AccountTypes, CoinType, PaymentValue, RatesType } from 'core/types'
+import {
+  AccountTypes,
+  CoinType,
+  PaymentValue,
+  RatesType,
+  RemoteDataType,
+  SBBalancesType
+} from 'core/types'
 import { actions, model, selectors } from 'data'
 import { APIType } from 'core/network/api'
 import { convertStandardToBase } from '../exchange/services'
@@ -144,7 +151,8 @@ export default ({
   const fetchInterestTransactions = function * ({
     payload
   }: ReturnType<typeof A.fetchInterestTransactions>) {
-    const { reset } = payload
+    const { reset, coin } = payload
+
     try {
       const nextPage = !reset
         ? yield select(S.getTransactionsNextPage)
@@ -156,9 +164,9 @@ export default ({
         if (Remote.Loading.is(last(txList)) || !nextPage) return
       }
       yield put(A.fetchInterestTransactionsLoading(reset))
-      const resp = yield call(api.getInterestTransactions, nextPage)
-      yield put(A.fetchInterestTransactionsSuccess(resp.items, reset))
-      yield put(A.setTransactionsNextPage(resp.next))
+      const response = yield call(api.getInterestTransactions, coin, nextPage)
+      yield put(A.fetchInterestTransactionsSuccess(response.items, reset))
+      yield put(A.setTransactionsNextPage(response.next))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailure(error))
@@ -167,6 +175,9 @@ export default ({
 
   const formChanged = function * (action: FormAction) {
     const form = action.meta.form
+    const values: InterestDepositFormType = yield select(
+      selectors.form.getFormValues('interestDepositForm')
+    )
     if (form !== 'interestDepositForm') return
 
     const coin = S.getCoinType(yield select())
@@ -176,43 +187,61 @@ export default ({
     )).getOrFail('Failed to get user currency')
     const rates = ratesR.getOrElse({} as RatesType)
     const rate = rates[userCurrency].last
-    const paymentR = S.getPayment(yield select())
-    let payment = paymentGetOrElse(coin, paymentR)
-    const values: InterestDepositFormType = yield select(
-      selectors.form.getFormValues('interestDepositForm')
-    )
     const isDisplayed = S.getCoinDisplay(yield select())
+
     switch (action.meta.field) {
       case 'depositAmount':
         const value = isDisplayed
           ? new BigNumber(action.payload).toNumber()
           : new BigNumber(action.payload).dividedBy(rate).toNumber()
-        switch (payment.coin) {
-          case 'BCH':
-          case 'BTC':
-            payment = yield payment.amount(
-              parseInt(convertStandardToBase(coin, value))
-            )
-            break
-          case 'ETH':
-          case 'PAX':
-          case 'USDT':
-          case 'XLM':
-            payment = yield payment.amount(convertStandardToBase(coin, value))
-            break
-          default:
-            throw new Error(INVALID_COIN_TYPE)
+        const paymentR = S.getPayment(yield select())
+        if (paymentR) {
+          let payment = paymentGetOrElse(coin, paymentR)
+          switch (payment.coin) {
+            case 'BCH':
+            case 'BTC':
+              payment = yield payment.amount(
+                parseInt(convertStandardToBase(coin, value))
+              )
+              break
+            case 'ETH':
+            case 'PAX':
+            case 'USDT':
+            case 'XLM':
+              payment = yield payment.amount(convertStandardToBase(coin, value))
+              break
+            default:
+              throw new Error(INVALID_COIN_TYPE)
+          }
+
+          yield put(A.setPaymentSuccess(payment.value()))
+        } else {
+          break
         }
-        yield put(A.setPaymentSuccess(payment.value()))
+
         break
       case 'interestDepositAccount':
-        yield put(A.setPaymentLoading())
-        const newPayment: PaymentValue = yield call(createPayment, {
-          ...values.interestDepositAccount,
-          address: getAccountIndexOrAccount(coin, values.interestDepositAccount)
-        })
-        yield call(createLimits, newPayment)
-        yield put(A.setPaymentSuccess(newPayment))
+        let newPayment: PaymentValue | undefined
+        // custodial deposit
+        if (prop('type', values.interestDepositAccount) === 'CUSTODIAL') {
+          const custodialBalances: SBBalancesType = (yield select(
+            selectors.components.simpleBuy.getSBBalances
+          )).getOrFail('Failed to get balance')
+          yield call(createLimits, undefined, custodialBalances)
+        } else {
+          // non-custodial deposit
+          yield put(A.setPaymentLoading())
+          newPayment = yield call(createPayment, {
+            ...values.interestDepositAccount,
+            address: getAccountIndexOrAccount(
+              coin,
+              values.interestDepositAccount
+            )
+          })
+
+          yield call(createLimits, newPayment)
+          yield put(A.setPaymentSuccess(newPayment))
+        }
     }
   }
 
@@ -320,13 +349,17 @@ export default ({
 
   const sendDeposit = function * () {
     const FORM = 'interestDepositForm'
+
     try {
       yield put(actions.form.startSubmit(FORM))
       const coin = S.getCoinType(yield select())
       yield call(fetchInterestAccount, coin)
       const depositAddress = yield select(S.getDepositAddress)
       const paymentR = S.getPayment(yield select())
-      let payment = paymentGetOrElse(coin, paymentR)
+      let payment = paymentGetOrElse(
+        coin,
+        paymentR as RemoteDataType<string, any>
+      )
       // build and publish payment to network
       const depositTx = yield call(
         buildAndPublishPayment,
@@ -347,10 +380,9 @@ export default ({
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS)
       )
-      // fetch transactions and balances to get pending deposit info
-      yield delay(3000)
-      yield put(A.fetchInterestTransactions(true))
+      yield delay(1500)
       yield put(A.fetchInterestBalance())
+      yield put(actions.router.push('/interest/history'))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit(FORM, { _error: error }))
@@ -419,7 +451,7 @@ export default ({
       yield put(actions.form.stopSubmit(FORM))
       yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
       yield put(A.fetchInterestBalance())
-      yield put(A.fetchInterestTransactions(true))
+      yield put(actions.router.push('/interest/history'))
       yield put(
         actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS)
       )

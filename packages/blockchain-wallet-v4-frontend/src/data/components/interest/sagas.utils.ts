@@ -7,7 +7,8 @@ import {
   PaymentType,
   PaymentValue,
   RatesType,
-  RemoteDataType
+  RemoteDataType,
+  SBBalancesType
 } from 'core/types'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
@@ -56,12 +57,16 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment.value()
   }
 
-  const createLimits = function * (payment: PaymentValue) {
+  const createLimits = function * (
+    payment?: PaymentValue,
+    balances?: SBBalancesType
+  ) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-      const balance = payment.effectiveBalance
+      const balance = payment && payment.effectiveBalance
+      const custodialBalance = balances && balances[coin]?.available
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({} as RatesType)
       const userCurrency = (yield select(
@@ -69,12 +74,11 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       )).getOrFail('Failed to get user currency')
       const walletCurrencyR = S.getWalletCurrency(yield select())
       const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
-
       let maxFiat
       switch (coin) {
         case 'BCH':
           maxFiat = Exchange.convertBchToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'SAT',
             toCurrency: userCurrency,
             rates
@@ -82,7 +86,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'BTC':
           maxFiat = Exchange.convertBtcToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'SAT',
             toCurrency: userCurrency,
             rates
@@ -90,7 +94,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'ETH':
           maxFiat = Exchange.convertEthToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -98,7 +102,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'PAX':
           maxFiat = Exchange.convertPaxToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -106,7 +110,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'USDT':
           maxFiat = Exchange.convertUsdtToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'WEI',
             toCurrency: userCurrency,
             rates
@@ -114,7 +118,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           break
         case 'XLM':
           maxFiat = Exchange.convertXlmToFiat({
-            value: balance,
+            value: balance || custodialBalance || 0,
             fromUnit: 'STROOP',
             toCurrency: userCurrency,
             rates
@@ -126,7 +130,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const minFiat = limits[coin]?.minDepositAmount || 100
 
       const maxCoin = Exchange.convertCoinToCoin({
-        value: balance,
+        value: balance || custodialBalance || 0,
         coin,
         baseToStandard: true
       }).value
@@ -166,7 +170,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
   const paymentGetOrElse = (
     coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue>
+    paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): PaymentType => {
     switch (coin) {
       case 'BCH':

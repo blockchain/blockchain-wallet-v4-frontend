@@ -17,6 +17,7 @@ import {
 
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { Exchange } from 'core'
+
 import {
   fiatToString,
   formatFiat
@@ -68,6 +69,8 @@ const FORM_NAME = 'interestDepositForm'
 const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const {
     coin,
+    feeCrypto,
+    feeFiat,
     depositLimits,
     displayCoin,
     formActions,
@@ -85,9 +88,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     values
   } = props
   const { coinTicker, displayName } = supportedCoins[coin]
-
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const depositAmount = (values && values.depositAmount) || '0'
+  const isCustodial =
+    values && values.interestDepositAccount.type === 'CUSTODIAL'
 
   const depositAmountFiat = amountToFiat(
     displayCoin,
@@ -114,10 +118,10 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
     formErrors.depositAmount
   const isErc20 = coin === 'PAX' || coin === 'USDT'
   const insufficientEth =
+    payment &&
     isErc20 &&
-    (payment.coin === 'PAX' || payment.coin === 'USDT') &&
-    !payment.isSufficientEthForErc20
-
+      (payment.coin === 'PAX' || payment.coin === 'USDT') &&
+      !payment.isSufficientEthForErc20
   return submitting ? (
     <SendingWrapper>
       <SpinningLoader />
@@ -238,6 +242,7 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         )}
         <CoinBalanceDropdown
           {...props}
+          includeCustodial={true}
           fiatCurrency={walletCurrency}
           name='interestDepositAccount'
         />
@@ -556,18 +561,39 @@ const DepositForm: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         >
           <AgreementContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
-              <FormattedMessage
-                id='modals.interest.deposit.agreement1'
-                defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus network fees from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
-                values={{
-                  lockupPeriod,
-                  depositAmountFiat: `${currencySymbol}${formatFiat(
-                    depositAmountFiat
-                  )}`,
-                  depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
-                  displayName
-                }}
-              />
+              {isCustodial ? (
+                <FormattedMessage
+                  id='modals.interest.deposit.agreement.custodial'
+                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) from your {displayName} Trading Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                  values={{
+                    lockupPeriod,
+                    depositAmountFiat: `${currencySymbol}${formatFiat(
+                      depositAmountFiat
+                    )}`,
+                    depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
+                    displayName
+                  }}
+                />
+              ) : (
+                <FormattedMessage
+                  id='modals.interest.deposit.agreement2'
+                  defaultMessage='By accepting this, you agree to transfer {depositAmountFiat} ({depositAmountCrypto}) plus a network fee of ~{depositFeeFiat} ({depositFeeCrypto}) from your {displayName} Wallet to your Interest Account. An initial hold period of {lockupPeriod} days will be applied to your funds.'
+                  values={{
+                    lockupPeriod,
+                    depositAmountFiat: `${currencySymbol}${formatFiat(
+                      depositAmountFiat
+                    )}`,
+                    depositAmountCrypto: `${depositAmountCrypto} ${coinTicker}`,
+                    depositFeeFiat: `${currencySymbol}${formatFiat(
+                      Number(feeFiat)
+                    )}`,
+                    depositFeeCrypto: isErc20
+                      ? `${feeCrypto} ETH`
+                      : `${feeCrypto} ${coinTicker}`,
+                    displayName
+                  }}
+                />
+              )}
             </Text>
           </AgreementContainer>
         </Field>

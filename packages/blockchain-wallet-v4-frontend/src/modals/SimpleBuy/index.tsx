@@ -295,11 +295,11 @@ type LinkStatePropsType =
       step: 'ADD_CARD'
     }
   | {
-      goals: Array<{ data: any; id: string; name: GoalsType }>,
-      method?: SBPaymentMethodType,
-      order?: SBOrderType,
-      orderType: SBOrderActionType,
-      pair: SBPairType,
+      goals: Array<{ data: any; id: string; name: GoalsType }>
+      method?: SBPaymentMethodType
+      order?: SBOrderType
+      orderType: SBOrderActionType
+      pair: SBPairType
       step: 'ENTER_AMOUNT'
     }
   | {

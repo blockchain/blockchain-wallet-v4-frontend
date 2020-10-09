@@ -47,6 +47,7 @@ const ExchangeProfile = React.lazy(() => import('./ExchangeProfile'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
+const InterestHistory = React.lazy(() => import('./InterestHistory'))
 const Lockbox = React.lazy(() => import('./Lockbox'))
 const Preferences = React.lazy(() => import('./Settings/Preferences'))
 const Profile = React.lazy(() => import('./Settings/Profile'))
@@ -108,7 +109,15 @@ class App extends React.PureComponent<Props> {
                       <WalletLayout path='/borrow' component={Borrow} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
-                      <WalletLayout path='/interest' component={Interest} />
+                      <WalletLayout
+                        path='/interest'
+                        component={Interest}
+                        exact
+                      />
+                      <WalletLayout
+                        path='/interest/history'
+                        component={InterestHistory}
+                      />
                       <WalletLayout path='/lockbox' component={Lockbox} />
                       <WalletLayout
                         path='/security-center'
