@@ -11,29 +11,29 @@ export default ({ apiUrl, get, post }) => {
       n: number
       offset?: number
       onlyShow?: Array<string> | string
-    }
+    },
+    nextUrl?: string | null
   ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
-      format: 'json',
       offset: offset,
-      no_compact: true,
       ct: new Date().getTime(),
-      n: n,
-      language: 'en',
-      no_buttons: true
+      n: n
     }
-    return post({
-      url: apiUrl,
-      endPoint: '/bch/multiaddr',
-      data: onlyShow
-        ? merge(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
-          })
-        : data
-    })
+    return nextUrl
+      ? post({ url: nextUrl })
+      : post({
+          url: apiUrl,
+          endPoint: '/bch/multiaddr',
+          data: onlyShow
+            ? merge(data, {
+                onlyShow: (Array.isArray(onlyShow)
+                  ? onlyShow
+                  : [onlyShow]
+                ).join('|')
+              })
+            : data
+        })
   }
 
   const getBchTicker = () =>

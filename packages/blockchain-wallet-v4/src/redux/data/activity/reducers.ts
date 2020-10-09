@@ -17,7 +17,7 @@ const DEFAULT_CUSTODIAL_ACTIVITY = {
   transactions: {
     items: [],
     prev: null,
-    next: null,
+    next: '',
     status: Remote.NotAsked
   }
 }
@@ -25,7 +25,7 @@ const DEFAULT_CUSTODIAL_ACTIVITY = {
 const DEFAULT_NON_CUSTODIAL_ACTIVITY = {
   transactions: {
     items: [],
-    next: undefined,
+    next: '',
     status: Remote.NotAsked
   }
 }

@@ -4,6 +4,7 @@ import {
   CoinType,
   ExtractSuccess,
   InterestTransactionType,
+  NabuCustodialProductType,
   NonCustodialCoins,
   ProcessedTxType,
   RemoteDataType,
@@ -49,9 +50,9 @@ export const getCustodialActivityStatus = (
 
 export const getNonCustodialActivity = (state: RootState) => {
   const items: Array<ProcessedTxType> = []
-  for (const value of NonCustodialCoins) {
+  for (const coin of NonCustodialCoins) {
     items.push(
-      ...state.dataPath.activity.NON_CUSTODIAL[value].transactions.items
+      ...state.dataPath.activity.NON_CUSTODIAL[coin].transactions.items
     )
   }
 
@@ -98,5 +99,32 @@ export const getNextNonCustodialActivity = (
   coin: CoinType,
   state: RootState
 ) => {
-  return state.dataPath.activity.NON_CUSTODIAL[coin].transactions.next
+  const nextUrl = state.dataPath.activity.NON_CUSTODIAL[coin].transactions.next
+  const offset = nextUrl
+    ? Number(new URLSearchParams(nextUrl).get('offset')) ||
+      Number(new URLSearchParams(nextUrl).get('page'))
+    : 0
+  return {
+    nextUrl,
+    offset
+  }
+}
+
+export const getNextCustodialActivity = (
+  product: NabuCustodialProductType,
+  state: RootState
+) => {
+  return state.dataPath.activity[product].transactions.next
+}
+
+export const getNextActivity = (state: RootState) => {
+  const nexts: Array<string | null | undefined> = []
+  for (const coin of NonCustodialCoins) {
+    nexts.push(getNextNonCustodialActivity(coin, state).nextUrl)
+  }
+  for (const product of NabuProducts) {
+    nexts.push(getNextCustodialActivity(product, state))
+  }
+
+  return nexts.filter(value => !!value)
 }

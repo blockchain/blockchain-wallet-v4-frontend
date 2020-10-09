@@ -52,14 +52,13 @@ export default ({ rootUrl, get, post }) => {
     {
       n = 50,
       offset = 0,
-      onlyShow,
-      next
+      onlyShow
     }: {
       n: number
-      next?: string | null
       offset?: number
       onlyShow?: Array<string> | string
-    }
+    },
+    nextUrl?: string | null
   ): RawBtcTxResponseType => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
@@ -67,8 +66,8 @@ export default ({ rootUrl, get, post }) => {
       ct: new Date().getTime(),
       n
     }
-    return next
-      ? post({ url: next })
+    return nextUrl
+      ? post({ url: nextUrl })
       : post({
           url: rootUrl,
           endPoint: '/multiaddr',

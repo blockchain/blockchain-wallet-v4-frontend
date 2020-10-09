@@ -39,7 +39,7 @@ export type CustodialActivityType = {
 export type NonCustodialActivityType = {
   transactions: {
     items: Array<ProcessedTxType>
-    next?: string | null
+    next: string | null
     status: ActivityStatusType
   }
 }

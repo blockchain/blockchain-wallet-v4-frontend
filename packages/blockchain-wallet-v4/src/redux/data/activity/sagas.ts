@@ -17,6 +17,7 @@ import btcSagas from '../btc/sagas'
 import ethSagas from '../eth/sagas'
 import xlmSagas from '../xlm/sagas'
 
+import { getNextActivityURL, N } from './services'
 import { NabuProducts } from './types'
 
 export default ({
@@ -43,12 +44,19 @@ export default ({
 
     for (const value of NabuProducts) {
       try {
-        let transactions: ReturnType<typeof api.getCustodialTxs>
+        let transactions: ReturnType<typeof api.getCustodialTxs> = {
+          items: [],
+          next: null,
+          prev: null
+        }
         let orders: ReturnType<typeof api.getSBOrders> = []
+        let next: string | null = null
         switch (value) {
           case 'SIMPLEBUY':
-            transactions = yield call(api.getCustodialTxs, value)
+            next = S.getNextCustodialActivity(value, yield select())
             orders = yield call(api.getSBOrders, {})
+            if (next === null) break
+            transactions = yield call(api.getCustodialTxs, value, next)
             break
           // TODO
           case 'SWAP':
@@ -56,7 +64,9 @@ export default ({
             orders = []
             break
           default:
-            transactions = yield call(api.getCustodialTxs, value)
+            next = S.getNextCustodialActivity(value, yield select())
+            if (next === null) break
+            transactions = yield call(api.getCustodialTxs, value, next)
         }
 
         yield put(A.fetchCustodialActivitySuccess(value, transactions, orders))
@@ -74,7 +84,6 @@ export default ({
 
     for (const value of NonCustodialCoins) {
       const FAILURE = `${value} context failure`
-      const N = 20
 
       let transactions: Array<ProcessedTxType> = []
       let next: string | null = null
@@ -84,31 +93,25 @@ export default ({
             const context: Array<string> = selectors.data.btc.getContext(
               yield select()
             )
+            const { nextUrl, offset } = S.getNextNonCustodialActivity(
+              value,
+              yield select()
+            )
+            if (nextUrl === null) break
             try {
-              const nextUrl = S.getNextNonCustodialActivity(
-                value,
-                yield select()
-              )
-              const offset = nextUrl
-                ? Number(new URLSearchParams(nextUrl).get('offset'))
-                : 0
               const response: ReturnType<typeof api.fetchBlockchainData> = yield call(
                 api.fetchBlockchainData,
                 context,
                 {
                   n: N,
                   offset,
-                  onlyShow: context,
-                  next: nextUrl
-                }
+                  onlyShow: context
+                },
+                nextUrl
               )
 
               if (response.txs.length === N) {
-                next = `${
-                  options.domains.root
-                }/multiaddr?active=${context}&onlyShow=${context}&offset=${offset +
-                  // last & is needed
-                  N}&n=${N}&`
+                next = getNextActivityURL(options, offset, context, value)
               }
               transactions = yield call(processBtcTxs, response.txs)
             } catch (e) {
@@ -121,6 +124,11 @@ export default ({
             const context: Array<string> = selectors.data.bch.getContext(
               yield select()
             )
+            const { nextUrl, offset } = S.getNextNonCustodialActivity(
+              value,
+              yield select()
+            )
+            if (nextUrl === null) break
             try {
               const response: ReturnType<typeof api.fetchBlockchainData> = yield call(
                 api.fetchBchData,
@@ -129,8 +137,12 @@ export default ({
                   n: N,
                   offset: 0,
                   onlyShow: context
-                }
+                },
+                nextUrl
               )
+              if (response.txs.length === N) {
+                next = getNextActivityURL(options, offset, context, value)
+              }
               transactions = yield call(processBchTxs, response.txs)
             } catch (e) {
               const error = errorHandler(e)
@@ -141,20 +153,36 @@ export default ({
           case 'PAX':
           case 'USDT': {
             try {
+              const { nextUrl, offset } = S.getNextNonCustodialActivity(
+                value,
+                yield select()
+              )
+              if (nextUrl === null) break
               const context = (yield select(
                 selectors.kvStore.eth.getContext
               )).getOrFail(FAILURE)
-              const contractAddress = (yield select(
+              const token = (yield select(
                 selectors.kvStore.eth.getErc20ContractAddr,
                 value.toLowerCase()
               )).getOrFail(FAILURE)
               const response: ReturnType<typeof api.getErc20TransactionsV2> = yield call(
                 api.getErc20TransactionsV2,
                 context,
-                contractAddress,
-                0,
-                N
+                token,
+                offset,
+                N,
+                nextUrl
               )
+
+              if (response.transfers.length === N) {
+                next = getNextActivityURL(
+                  options,
+                  offset,
+                  context,
+                  value,
+                  token
+                )
+              }
 
               transactions = yield call(
                 processErc20Txs,
@@ -170,15 +198,24 @@ export default ({
           }
           case 'ETH': {
             try {
+              const { nextUrl, offset } = S.getNextNonCustodialActivity(
+                value,
+                yield select()
+              )
+              if (nextUrl === null) break
               const context = (yield select(
                 selectors.kvStore.eth.getContext
               )).getOrFail(FAILURE)
               const response: ReturnType<typeof api.getEthTransactionsV2> = yield call(
                 api.getEthTransactionsV2,
                 context,
-                0,
+                offset,
                 N
               )
+
+              if (response.transactions.length === N) {
+                next = getNextActivityURL(options, offset, context, value)
+              }
 
               transactions = yield call(processEthTxs, response.transactions)
             } catch (e) {

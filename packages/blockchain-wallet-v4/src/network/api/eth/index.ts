@@ -54,13 +54,16 @@ export default ({ apiUrl, get, post }) => {
   const getEthTransactionsV2 = (
     account: string,
     page: number,
-    pageSize: number
+    pageSize: number,
+    nextUrl?: string | null
   ): RawEthTxResponseType =>
-    get({
-      url: apiUrl,
-      endPoint: `/v2/eth/data/account/${account}/transactions`,
-      data: { page, size: pageSize }
-    })
+    nextUrl
+      ? get({ url: nextUrl })
+      : get({
+          url: apiUrl,
+          endPoint: `/v2/eth/data/account/${account}/transactions`,
+          data: { page, size: pageSize }
+        })
 
   const getEthAccountSummaryV2 = (account, page, pageSize) =>
     get({
@@ -80,13 +83,16 @@ export default ({ apiUrl, get, post }) => {
     ethAddr: string,
     tokenAddr: string,
     page: number = 0,
-    pageSize: number
+    pageSize: number,
+    nextUrl?: string | null
   ): RawErc20TxResponseType =>
-    get({
-      url: apiUrl,
-      endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/transfers`,
-      data: { page, size: pageSize }
-    })
+    nextUrl
+      ? get({ url: nextUrl })
+      : get({
+          url: apiUrl,
+          endPoint: `/v2/eth/data/account/${ethAddr}/token/${tokenAddr}/transfers`,
+          data: { page, size: pageSize }
+        })
 
   //
   // LEGACY ETH ENDPOINTS

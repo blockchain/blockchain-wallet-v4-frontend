@@ -5,10 +5,15 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { actions } from 'data'
-import { BlockchainLoader, Text } from 'blockchain-info-components'
+import {
+  BlockchainLoader,
+  Button,
+  HeartbeatLoader,
+  Text
+} from 'blockchain-info-components'
 import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
-import { SceneWrapper } from 'components/Layout'
+import { SceneWrapper, StickyHeader } from 'components/Layout'
 
 import CustodialTx from '../Transactions/CustodialTx'
 import NonCustodialTx from '../Transactions/NonCustodialTx'
@@ -22,6 +27,21 @@ const TEMPHeader = styled(Text)`
   margin-bottom: 20px;
   color: ${props => props.theme.black};
 `
+const StyledSceneWrapper = styled(SceneWrapper)`
+  height: auto;
+  overflow: visible;
+`
+const Top = styled(StickyHeader)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
+const Bottom = styled(StickyHeader)`
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`
 
 class Activity extends PureComponent<Props> {
   state = {}
@@ -33,45 +53,64 @@ class Activity extends PureComponent<Props> {
   }
 
   render () {
+    const { activity, currency, next, status } = this.props.data
+
     return (
-      <SceneWrapper>
-        {this.props.data.status.cata({
-          Success: () => (
-            <TEMPHeader>✅&nbsp;Finished Loading Everything</TEMPHeader>
-          ),
-          Loading: () => (
-            <TEMPHeader>
-              <BlockchainLoader height='28px' width='28px' />
-              &nbsp;Loading
-            </TEMPHeader>
-          ),
-          NotAsked: () => (
-            <TEMPHeader>
-              <BlockchainLoader height='28px' width='28px' />
-              &nbsp;Loading
-            </TEMPHeader>
-          ),
-          Failure: e => <TEMPHeader>A Failure Occurred: {e}</TEMPHeader>
-        })}
-        {this.props.data.activity.map(tx => {
+      <StyledSceneWrapper>
+        <Top>
+          {status.cata({
+            Success: () => (
+              <TEMPHeader>✅&nbsp;Finished Loading Everything</TEMPHeader>
+            ),
+            Loading: () => (
+              <TEMPHeader>
+                <BlockchainLoader height='28px' width='28px' />
+                &nbsp;Loading
+              </TEMPHeader>
+            ),
+            NotAsked: () => (
+              <TEMPHeader>
+                <BlockchainLoader height='28px' width='28px' />
+                &nbsp;Loading
+              </TEMPHeader>
+            ),
+            Failure: e => <TEMPHeader>A Failure Occurred: {e}</TEMPHeader>
+          })}
+        </Top>
+        {activity.map(tx => {
           return 'hash' in tx ? (
             <NonCustodialTx
               key={tx.hash}
               transaction={tx}
               coin={tx.coin}
-              currency={this.props.data.currency}
+              currency={currency}
             />
           ) : 'pair' in tx ? (
             <SBOrderTx order={tx} />
           ) : (
-            <CustodialTx
-              tx={tx}
-              coin={tx.amount.symbol}
-              currency={this.props.data.currency}
-            />
+            <CustodialTx tx={tx} coin={tx.amount.symbol} currency={currency} />
           )
         })}
-      </SceneWrapper>
+        <Bottom>
+          {status.cata({
+            Success: () =>
+              next.length > 0 ? (
+                <Button
+                  nature='primary'
+                  data-e2e='loadMore'
+                  onClick={() => this.props.activityActions.fetchActivity()}
+                >
+                  Next
+                </Button>
+              ) : (
+                <>📭 All loaded!</>
+              ),
+            Loading: () => <HeartbeatLoader />,
+            NotAsked: () => <HeartbeatLoader />,
+            Failure: e => <TEMPHeader>A Failure Occurred: {e}</TEMPHeader>
+          })}
+        </Bottom>
+      </StyledSceneWrapper>
     )
   }
 }
