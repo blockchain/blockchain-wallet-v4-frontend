@@ -262,6 +262,7 @@ const FirstStep = props => {
             placeholder="What's this transaction for? (optional)"
             data-e2e={`${coin}SendDescription`}
             fullwidth
+            maxLength={100}
           />
         </FormItem>
       </FormGroup>

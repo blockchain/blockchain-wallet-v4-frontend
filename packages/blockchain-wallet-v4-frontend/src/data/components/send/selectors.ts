@@ -1,5 +1,5 @@
-import { CoinType } from 'core/types'
-import { curry } from 'ramda'
+import { CoinType, ExtractSuccess } from 'core/types'
+import { curry, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getPaymentsAccountExchange = curry(
@@ -17,3 +17,14 @@ export const getPaymentsTradingAccountAddress = curry(
     )
   }
 )
+
+export const getWithdrawLockCheck = (state: RootState) =>
+  state.components.send.withdrawLockCheck
+
+export const getWithdrawLockCheckRule = (state: RootState) => {
+  const lockCheckR = getWithdrawLockCheck(state)
+
+  return lift((lockCheck: ExtractSuccess<typeof lockCheckR>) => lockCheck.rule)(
+    lockCheckR
+  )
+}

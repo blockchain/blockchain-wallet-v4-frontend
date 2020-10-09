@@ -14,10 +14,11 @@ import {
 import { BchTxType } from 'core/transactions/types'
 import { call, put, select, take } from 'redux-saga/effects'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList, SBOrderType } from '../../../types'
+import { HDAccountList } from '../../../types'
 import moment from 'moment'
 import Remote from '../../../remote'
 import simpleBuySagas from '../simpleBuy/sagas'
@@ -25,7 +26,7 @@ import simpleBuySagas from '../simpleBuy/sagas'
 const transformTx = transactions.bch.transformTx
 
 export default ({ api }: { api: APIType }) => {
-  const { fetchSBOrders } = simpleBuySagas({ api })
+  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
 
   const fetchData = function * () {
     try {
@@ -81,14 +82,19 @@ export default ({ api }: { api: APIType }) => {
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
-      const sbPage: Array<SBOrderType> = yield call(
-        fetchSBOrders,
+      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+        yield select(),
+        'BCH'
+      )
+      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
+        fetchSBOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
-        'BCH'
+        'BCH',
+        reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage]).sort((a, b) => {
+      const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))

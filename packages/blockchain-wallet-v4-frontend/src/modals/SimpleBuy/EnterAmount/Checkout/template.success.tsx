@@ -99,8 +99,16 @@ const BlueRedCartridge = ({
   error: boolean
 }) => {
   if (error)
-    return <CustomErrorCartridge role='button'>{children}</CustomErrorCartridge>
-  return <CustomBlueCartridge role='button'>{children}</CustomBlueCartridge>
+    return (
+      <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMaxError'>
+        {children}
+      </CustomErrorCartridge>
+    )
+  return (
+    <CustomBlueCartridge role='button' data-e2e='sbEnterAmountMax'>
+      {children}
+    </CustomBlueCartridge>
+  )
 }
 
 const normalizeAmount = (
@@ -260,7 +268,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 
         <QuoteRow>
           <div />
-          <Text color='grey600' size='14px' weight={500}>
+          <Text
+            color='grey600'
+            size='14px'
+            weight={500}
+            data-e2e='sbQuoteAmount'
+          >
             {formatQuote(quoteAmt, props.quote, fix)}
           </Text>
           <Icon
@@ -278,6 +291,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             }
             role='button'
             size='24px'
+            data-e2e='sbSwitchIcon'
           />
         </QuoteRow>
 
@@ -285,7 +299,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <Amounts onClick={handleMinMaxClick}>
             <>
               {amtError === 'BELOW_MIN' ? (
-                <CustomErrorCartridge role='button'>
+                <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.belowmin'
                     defaultMessage='{value} Minimum {orderType}'

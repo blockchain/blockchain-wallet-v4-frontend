@@ -1,5 +1,6 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+import { initialPriceChange } from './model'
 import { MiscActionTypes, MiscStateType } from './types'
 import Remote from '../../../remote'
 
@@ -7,17 +8,12 @@ const INITIAL_STATE: MiscStateType = {
   logs: Remote.NotAsked,
   captcha: Remote.NotAsked,
   pairing_code: Remote.NotAsked,
-  price_24h: {
-    BTC: Remote.NotAsked,
-    ETH: Remote.NotAsked,
-    BCH: Remote.NotAsked,
-    XLM: Remote.NotAsked,
-    ALGO: Remote.NotAsked,
-    PAX: Remote.NotAsked,
-    USDT: Remote.NotAsked,
-    EUR: Remote.Success({ change: '0', movement: 'none', price: 1 }),
-    GBP: Remote.Success({ change: '0', movement: 'none', price: 1 }),
-    USD: Remote.Success({ change: '0', movement: 'none', price: 1 })
+  price_change: {
+    all: initialPriceChange,
+    day: initialPriceChange,
+    week: initialPriceChange,
+    month: initialPriceChange,
+    year: initialPriceChange
   },
   price_index_series: Remote.NotAsked,
   verify_email_token: Remote.NotAsked,
@@ -39,30 +35,39 @@ export const miscReducer = (
     case AT.FETCH_CAPTCHA_SUCCESS: {
       return assoc('captcha', Remote.Success(action.payload), state)
     }
-    case AT.FETCH_PRICE_24H_LOADING: {
+    case AT.FETCH_PRICE_CHANGE_LOADING: {
       return {
         ...state,
-        price_24h: {
-          ...state.price_24h,
-          [action.payload.base]: Remote.Loading
+        price_change: {
+          ...state.price_change,
+          [action.payload.range]: {
+            ...state.price_change[action.payload.range],
+            [action.payload.base]: Remote.Loading
+          }
         }
       }
     }
-    case AT.FETCH_PRICE_24H_SUCCESS: {
+    case AT.FETCH_PRICE_CHANGE_SUCCESS: {
       return {
         ...state,
-        price_24h: {
-          ...state.price_24h,
-          [action.payload.base]: Remote.Success(action.payload)
+        price_change: {
+          ...state.price_change,
+          [action.payload.range]: {
+            ...state.price_change[action.payload.range],
+            [action.payload.base]: Remote.Success(action.payload)
+          }
         }
       }
     }
-    case AT.FETCH_PRICE_24H_FAILURE: {
+    case AT.FETCH_PRICE_CHANGE_FAILURE: {
       return {
         ...state,
-        price_24h: {
-          ...state.price_24h,
-          [action.payload.base]: Remote.Failure(action.payload.error)
+        price_change: {
+          ...state.price_change,
+          [action.payload.range]: {
+            ...state.price_change[action.payload.range],
+            [action.payload.base]: Remote.Failure(action.payload.error)
+          }
         }
       }
     }

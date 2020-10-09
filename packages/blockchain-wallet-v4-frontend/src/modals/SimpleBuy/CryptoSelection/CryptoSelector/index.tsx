@@ -64,7 +64,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
       <Form>
         <FlyoutWrapper>
           <Top>
-            <Icon cursor name='cart' size='32px' color='blue600' />
+            <Icon cursor name='cart-filled' size='32px' color='blue600' />
             <Icon
               cursor
               data-e2e='sbCloseModalIcon'
@@ -83,8 +83,8 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> &
           </TopText>
           <SubTitleText color='grey600' weight={500}>
             <FormattedMessage
-              id='modals.simplebuy.selectcrypto'
-              defaultMessage='We’ve made it just as easy to buy and sell Crypto straight from your Wallet.'
+              id='modals.simplebuy.select_crypto'
+              defaultMessage='Easily buy and sell Crypto straight from your Wallet.'
             />
           </SubTitleText>
           {props.invitations.simpleSell && (

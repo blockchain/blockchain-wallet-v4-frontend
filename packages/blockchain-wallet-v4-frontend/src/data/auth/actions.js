@@ -20,6 +20,9 @@ export const mobileLogin = data => ({
   type: AT.MOBILE_LOGIN,
   payload: { data }
 })
+export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
+export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
+
 export const register = (email, password, language) => ({
   type: AT.REGISTER,
   payload: { email, password, language }
@@ -74,3 +77,8 @@ export const setFirstLogin = firstLogin => ({
 })
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
+
+export const setRegisterEmail = email => ({
+  type: AT.SET_REGISTER_EMAIL,
+  payload: { email }
+})

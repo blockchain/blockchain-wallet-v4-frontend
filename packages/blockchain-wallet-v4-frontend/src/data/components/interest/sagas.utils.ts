@@ -1,4 +1,5 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { head, last } from 'ramda'
 
 import {
   AccountTypes,
@@ -9,7 +10,6 @@ import {
   RatesType,
   RemoteDataType
 } from 'core/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -30,11 +30,17 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coin: CoinType,
     payment: PaymentType,
     destination: string
-  ): Generator<PaymentType | CallEffect, boolean, any> {
-    let paymentError
-
+  ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     try {
-      payment = yield payment.to(destination, ADDRESS_TYPES.ADDRESS)
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const addressAndMemo = destination.split(':')
+        payment = yield payment.to(head(addressAndMemo) as string, 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(last(addressAndMemo) as string)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
@@ -44,7 +50,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       throw e
     }
 
-    return !paymentError
+    return payment.value()
   }
 
   const createLimits = function * (payment: PaymentValue) {
@@ -63,6 +69,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
       let maxFiat
       switch (coin) {
+        case 'BCH':
+          maxFiat = Exchange.convertBchToFiat({
+            value: balance,
+            fromUnit: 'SAT',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
         case 'BTC':
           maxFiat = Exchange.convertBtcToFiat({
             value: balance,
@@ -91,6 +105,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
           maxFiat = Exchange.convertUsdtToFiat({
             value: balance,
             fromUnit: 'WEI',
+            toCurrency: userCurrency,
+            rates
+          }).value
+          break
+        case 'XLM':
+          maxFiat = Exchange.convertXlmToFiat({
+            value: balance,
+            fromUnit: 'STROOP',
             toCurrency: userCurrency,
             rates
           }).value
@@ -144,17 +166,26 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     paymentR: RemoteDataType<string | Error, PaymentValue>
   ): PaymentType => {
     switch (coin) {
-      case 'USDT':
-      case 'PAX':
-      case 'ETH':
-        return coreSagas.payment.eth.create({
+      case 'BCH':
+        return coreSagas.payment.bch.create({
           payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.eth
+          network: networks.bch
         })
       case 'BTC':
         return coreSagas.payment.btc.create({
           payment: paymentR.getOrElse(<PaymentValue>{}),
           network: networks.btc
+        })
+      case 'ETH':
+      case 'PAX':
+      case 'USDT':
+        return coreSagas.payment.eth.create({
+          payment: paymentR.getOrElse(<PaymentValue>{}),
+          network: networks.eth
+        })
+      case 'XLM':
+        return coreSagas.payment.xlm.create({
+          payment: paymentR.getOrElse(<PaymentValue>{})
         })
       default:
         throw new Error(INVALID_COIN_TYPE)

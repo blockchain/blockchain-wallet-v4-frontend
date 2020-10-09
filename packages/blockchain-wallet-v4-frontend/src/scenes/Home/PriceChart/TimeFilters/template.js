@@ -1,6 +1,5 @@
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -43,8 +42,8 @@ const TimeFilters = props => {
   return (
     <Wrapper>
       <FilterContainer
-        selected={time === '1day'}
-        onClick={() => handleClick('1day')}
+        selected={time === 'day'}
+        onClick={() => handleClick('day')}
         data-e2e='priceChartDay'
       >
         <FormattedMessage
@@ -53,8 +52,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1week'}
-        onClick={() => handleClick('1week')}
+        selected={time === 'week'}
+        onClick={() => handleClick('week')}
         data-e2e='priceChartWeek'
       >
         <FormattedMessage
@@ -63,8 +62,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1month'}
-        onClick={() => handleClick('1month')}
+        selected={time === 'month'}
+        onClick={() => handleClick('month')}
         data-e2e='priceChartMonth'
       >
         <FormattedMessage
@@ -73,8 +72,8 @@ const TimeFilters = props => {
         />
       </FilterContainer>
       <FilterContainer
-        selected={time === '1year'}
-        onClick={() => handleClick('1year')}
+        selected={time === 'year'}
+        onClick={() => handleClick('year')}
         data-e2e='priceChartYear'
       >
         <FormattedMessage
@@ -94,11 +93,6 @@ const TimeFilters = props => {
       </FilterContainer>
     </Wrapper>
   )
-}
-
-TimeFilters.propTypes = {
-  time: PropTypes.oneOf(['all', '1day', '1week', '1month', '1year']).isRequired,
-  handleClick: PropTypes.func.isRequired
 }
 
 export default TimeFilters

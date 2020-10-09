@@ -1,16 +1,18 @@
 import * as C from 'services/AlertService'
 import * as CC from 'services/ConfirmService'
-import { actions, actionTypes, selectors } from 'data'
+import { actions, actionTypes, model, selectors } from 'data'
 import {
   askSecondPasswordEnhancer,
   confirm,
   forceSyncWallet,
   promptForSecondPassword
 } from 'services/SagaService'
-import { assoc, is, prop } from 'ramda'
+import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+const { AB_TESTS } = model.analytics
 
 export const logLocation = 'auth/sagas'
 
@@ -124,7 +126,25 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.settings.fetchSettings)
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
-      yield put(actions.router.push('/home'))
+
+      const showVerifyEmailR = yield select(
+        selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
+      )
+
+      if (Remote.Success.is(showVerifyEmailR)) {
+        const showVerifyEmail = showVerifyEmailR.getOrElse({})
+        if (
+          showVerifyEmail &&
+          showVerifyEmail.command &&
+          showVerifyEmail.command === 'verify-email'
+        ) {
+          yield put(actions.router.push('/verify-email-step'))
+        } else {
+          yield put(actions.router.push('/home'))
+        }
+      } else {
+        yield put(actions.router.push('/home'))
+      }
       yield call(authNabu)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
@@ -144,7 +164,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modules.settings.updateLanguage(language))
       yield put(actions.analytics.initUserSession())
       // simple buy tasks
-      yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      // only run the fetch simplebuy if there's no simplebuygoal
+      const goals = selectors.goals.getGoals(yield select())
+      const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+      if (!simpleBuyGoal) {
+        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+      }
+
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
@@ -200,6 +226,7 @@ export default ({ api, coreSagas }) => {
       const defaultAccount = accounts.find(
         account => account.index === defaultIndex
       )
+      if (!defaultAccount) return
       yield call(api.checkExchangeUsage, defaultAccount.xpub)
     } catch (e) {
       // eslint-disable-next-line
@@ -330,6 +357,7 @@ export default ({ api, coreSagas }) => {
   }
   const mobileLogin = function * (action) {
     try {
+      yield put(actions.auth.mobileLoginStarted())
       const { guid, sharedKey, password } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
@@ -342,6 +370,7 @@ export default ({ api, coreSagas }) => {
         true
       )
       yield call(login, loginAction)
+      yield put(actions.auth.mobileLoginFinish())
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'mobileLogin', error))
       if (error === 'qr_code_expired') {
@@ -351,11 +380,13 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
+      yield put(actions.auth.mobileLoginFinish())
     }
   }
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
+      yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)

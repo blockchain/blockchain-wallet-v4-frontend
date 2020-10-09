@@ -66,6 +66,7 @@ export type SBShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'SimpleBuyLink'
+  | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
 
@@ -223,6 +224,7 @@ interface FetchSBPairsLoading {
 }
 interface FetchSBPairsSuccess {
   payload: {
+    coin?: CoinType
     pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS
