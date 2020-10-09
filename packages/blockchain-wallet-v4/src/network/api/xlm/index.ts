@@ -43,7 +43,35 @@ export default ({ apiUrl, horizonUrl, get }) => {
     if (pagingToken && !reset) txCallBuilder.cursor(pagingToken)
     if (limit) txCallBuilder.limit(limit)
 
-    return txCallBuilder.call().then(prop('records'))
+    return txCallBuilder.call().then(value => {
+      return value.records
+    })
+  }
+
+  const getXlmTransactionsV2 = ({
+    publicKey,
+    limit,
+    pagingToken,
+    reset = false,
+    order = 'desc'
+  }: {
+    limit?: number
+    order?: 'asc' | 'desc'
+    pagingToken?: string
+    publicKey: string
+    reset?: boolean
+  }) => {
+    const txCallBuilder = server
+      .transactions()
+      .forAccount(publicKey)
+      .order(order)
+
+    if (pagingToken && !reset) txCallBuilder.cursor(pagingToken)
+    if (limit) txCallBuilder.limit(limit)
+
+    return txCallBuilder.call().then(value => {
+      return value
+    })
   }
 
   const getLatestLedgerDetails = () =>
@@ -72,8 +100,9 @@ export default ({ apiUrl, horizonUrl, get }) => {
     getLatestLedgerDetails,
     getXlmAccount,
     getXlmFees,
-    getXlmTransactions,
     getXlmTicker,
+    getXlmTransactions,
+    getXlmTransactionsV2,
     getTimebounds,
     pushXlmTx
   }

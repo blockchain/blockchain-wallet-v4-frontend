@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 
 import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -20,6 +20,12 @@ import xlmSagas from '../xlm/sagas'
 import { getNextActivityURL, N } from './services'
 import { NabuProducts } from './types'
 
+type Await<T> = T extends {
+  then(onfulfilled?: (value: infer U) => unknown): unknown
+}
+  ? U
+  : T
+
 export default ({
   api,
   networks,
@@ -34,7 +40,6 @@ export default ({
   const { processTxs: processBtcTxs } = btcSagas({ api })
   const { processTxs: processBchTxs } = bchSagas({ api })
   const { processTxs: processEthTxs, processErc20Txs } = ethSagas({ api })
-  // eslint-disable-next-line
   const { processTxs: processXlmTxs } = xlmSagas({ api, networks })
 
   const fetchCustodialActivity = function * () {
@@ -210,7 +215,8 @@ export default ({
                 api.getEthTransactionsV2,
                 context,
                 offset,
-                N
+                N,
+                nextUrl
               )
 
               if (response.transactions.length === N) {
@@ -227,16 +233,27 @@ export default ({
           }
           case 'XLM':
             try {
+              const { nextUrl } = S.getNextNonCustodialActivity(
+                value,
+                yield select()
+              )
+              if (nextUrl === null) break
               const publicKey = (yield select(
                 selectors.kvStore.xlm.getDefaultAccountId
               )).getOrFail(FAILURE)
-              const response = yield call(api.getXlmTransactions, {
+              const response: Await<ReturnType<
+                typeof api.getXlmTransactionsV2
+              >> = yield call(api.getXlmTransactionsV2, {
                 publicKey,
-                limit: N
+                limit: N,
+                pagingToken: next || undefined
               })
 
-              // eslint-disable-next-line
-              console.log(response)
+              if (response.records.length === N) {
+                next = response.records[response.records.length].paging_token
+              }
+
+              transactions = yield call(processXlmTxs, response.records)
             } catch (e) {
               const error = errorHandler(e)
               if (error === 'Network Error') {
@@ -265,8 +282,8 @@ export default ({
 
   const fetchActivity = function * () {
     try {
-      yield call(fetchCustodialActivity)
-      yield call(fetchNonCustodialActivity)
+      yield fork(fetchCustodialActivity)
+      yield fork(fetchNonCustodialActivity)
     } catch (e) {
       const error = errorHandler(e)
       // not enough info to do anything
