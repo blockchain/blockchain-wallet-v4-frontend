@@ -246,9 +246,10 @@ export const fetchSBOrdersSuccess = (
   }
 })
 
-export const fetchSBPairs = (currency: FiatType) => ({
+export const fetchSBPairs = (currency: FiatType, coin?: CoinType) => ({
   type: AT.FETCH_SB_PAIRS,
-  currency
+  currency,
+  coin
 })
 
 export const fetchSBPairsFailure = (error: string): SimpleBuyActionTypes => ({
@@ -263,11 +264,13 @@ export const fetchSBPairsLoading = (): SimpleBuyActionTypes => ({
 })
 
 export const fetchSBPairsSuccess = (
-  pairs: Array<SBPairType>
+  pairs: Array<SBPairType>,
+  coin?: CoinType
 ): SimpleBuyActionTypes => ({
   type: AT.FETCH_SB_PAIRS_SUCCESS,
   payload: {
-    pairs
+    pairs,
+    coin
   }
 })
 

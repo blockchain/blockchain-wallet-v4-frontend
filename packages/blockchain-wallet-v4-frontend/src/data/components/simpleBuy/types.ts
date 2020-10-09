@@ -224,6 +224,7 @@ interface FetchSBPairsLoading {
 }
 interface FetchSBPairsSuccess {
   payload: {
+    coin?: CoinType
     pairs: Array<SBPairType>
   }
   type: typeof AT.FETCH_SB_PAIRS_SUCCESS

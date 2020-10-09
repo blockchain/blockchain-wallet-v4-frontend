@@ -2,6 +2,7 @@ import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestAccountBalanceType } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = (
@@ -12,6 +13,7 @@ export const getData = (
     forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -19,6 +21,7 @@ export const getData = (
     excludeLockbox,
     includeExchangeAddress,
     includeCustodial,
+    includeInterest,
     forceCustodialFirst
   } = ownProps
 
@@ -43,6 +46,16 @@ export const getData = (
       })})`
     )
   }
+  const buildInterestDisplay = (x: InterestAccountBalanceType['XLM']) => {
+    return (
+      `XLM Interest Wallet` +
+      ` (${Exchange.displayXlmToXlm({
+        value: x ? x.balance : 0,
+        fromUnit: 'STROOP',
+        toUnit: 'XLM'
+      })})`
+    )
+  }
   // @ts-ignore
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
@@ -55,6 +68,16 @@ export const getData = (
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'XLM Trading Wallet'
+      }
+    }
+  ]
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'XLM Interest Wallet'
       }
     }
   ]
@@ -99,6 +122,13 @@ export const getData = (
           }))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
+      : Remote.of([]),
+    includeInterest
+      ? selectors.components.interest
+          .getInterestAccountBalance(state)
+          .map(x => x.XLM)
+          .map(toInterestDropdown)
+          .map(toGroup('Interest Wallet'))
       : Remote.of([])
   ]).map(([b1, b2, b3, b4]) => {
     const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]

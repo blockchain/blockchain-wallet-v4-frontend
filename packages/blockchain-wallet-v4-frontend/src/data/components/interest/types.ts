@@ -2,6 +2,7 @@ import * as AT from './actionTypes'
 import {
   AccountTypes,
   CoinType,
+  FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestEligibleType,
@@ -197,7 +198,7 @@ interface InitializeDepositModalAction {
   type: typeof AT.INITIALIZE_DEPOSIT_MODAL
 }
 interface InitializeDepositFormAction {
-  payload: { coin: CoinType }
+  payload: { coin: CoinType; currency: FiatType }
   type: typeof AT.INITIALIZE_DEPOSIT_FORM
 }
 interface SetDepositLimitsAction {

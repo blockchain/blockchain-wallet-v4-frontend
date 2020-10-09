@@ -109,10 +109,10 @@ class Interest extends React.PureComponent<Props, StateType> {
                         {...this.props}
                         isGoldTier={isGoldTier}
                         coin={instrument}
+                        key={instrument}
                       />
                     )
                   })}
-
               </ContainerStyled>
               <IneligibilityCard {...val} {...this.props} />
             </>

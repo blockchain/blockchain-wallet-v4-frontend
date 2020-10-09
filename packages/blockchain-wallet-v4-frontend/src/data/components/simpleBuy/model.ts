@@ -23,8 +23,6 @@ export const DEFAULT_SB_METHODS = {
   methods: []
 }
 
-export const WITHDRAWAL_LOCK_TIME_DAYS = '7'
-
 export const NO_CHECKOUT_VALS = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'

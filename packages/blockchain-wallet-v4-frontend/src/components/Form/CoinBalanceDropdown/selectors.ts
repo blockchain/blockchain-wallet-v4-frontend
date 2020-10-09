@@ -1,8 +1,10 @@
+import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import {
   getErc20Data as getErc20AddressData,
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
+import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 import { lift } from 'ramda'
@@ -13,6 +15,15 @@ export const getData = (state, ownProps: OwnProps) => {
   let addressDataR
 
   switch (coin) {
+    case 'BCH':
+      addressDataR = getBchAddressData(state, {
+        excludeLockbox: true,
+        excludeImported: true,
+        includeCustodial: includeCustodial,
+        includeInterest: false,
+        includeAll: false
+      })
+      break
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeLockbox: true,
@@ -43,7 +54,13 @@ export const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
-
+    case 'XLM':
+      addressDataR = getXlmAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial: includeCustodial,
+        includeInterest: false
+      })
+      break
     default:
       addressDataR = Remote.Success({ data: [] })
   }

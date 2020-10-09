@@ -51,15 +51,20 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
     ccy?: CoinType,
     nextPageUrl?: string
   ): InterestTransactionResponseType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: nextPageUrl
-        ? nextPageUrl + '&'
-        : '/payments/transactions?product=SAVINGS&&pending=true&',
-      data: {
-        ccy
-      }
-    })
+    nextPageUrl
+      ? authorizedGet({
+          url: nabuUrl,
+          endPoint: nextPageUrl + '&pending=true&'
+        })
+      : authorizedGet({
+          url: nabuUrl,
+          endPoint: '/payments/transactions',
+          data: {
+            ccy,
+            product: 'SAVINGS',
+            pending: true
+          }
+        })
 
   const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({

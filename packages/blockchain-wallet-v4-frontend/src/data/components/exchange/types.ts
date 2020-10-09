@@ -21,6 +21,7 @@ export type LimitDurationType = {
 }
 
 export type MempoolFeeType = 'regular' | 'priority'
+export type VerifyEmailType = 'home' | 'verify-email'
 
 export type SourceFeeType =
   | {

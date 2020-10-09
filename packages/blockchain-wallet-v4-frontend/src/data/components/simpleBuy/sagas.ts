@@ -34,6 +34,7 @@ import {
   NO_PAYMENT_TYPE
 } from './model'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { find, pathOr, propEq } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import {
@@ -158,8 +159,8 @@ export default ({
   }: ReturnType<typeof A.cancelSBOrder>) {
     try {
       const { state } = order
-      const fiatCurrency = S.getFiatCurrency(yield select())
-      const cryptoCurrency = S.getCryptoCurrency(yield select())
+      const fiatCurrency = getFiatFromPair(order.pair)
+      const cryptoCurrency = getCoinFromPair(order.pair)
       yield put(actions.form.startSubmit('cancelSBOrderForm'))
       yield call(api.cancelSBOrder, order)
       yield put(actions.form.stopSubmit('cancelSBOrderForm'))
@@ -172,7 +173,7 @@ export default ({
             A.setStep({
               step: 'ENTER_AMOUNT',
               cryptoCurrency,
-              orderType: 'BUY',
+              orderType: order.side || 'BUY',
               fiatCurrency,
               pair,
               method
@@ -458,7 +459,8 @@ export default ({
   }
 
   const fetchSBPairs = function * ({
-    currency
+    currency,
+    coin
   }: ReturnType<typeof A.fetchSBPairs>) {
     try {
       yield put(A.fetchSBPairsLoading())
@@ -476,7 +478,7 @@ export default ({
           supportedCoins[getCoinFromPair(pair.pair)].invited
         )
       })
-      yield put(A.fetchSBPairsSuccess(filteredPairs))
+      yield put(A.fetchSBPairsSuccess(filteredPairs, coin))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchSBPairsFailure(error))
@@ -672,9 +674,10 @@ export default ({
 
     // Change wallet/sb fiatCurrency if necessary
     // and fetch new pairs w/ new fiatCurrency
+    // and pass along cryptoCurrency for pair swap
     if (originalFiatCurrency !== fiatCurrency) {
       yield put(actions.modules.settings.updateCurrency(method.currency, true))
-      yield put(A.fetchSBPairs(method.currency))
+      yield put(A.fetchSBPairs(method.currency, cryptoCurrency))
     }
   }
 
@@ -839,7 +842,15 @@ export default ({
     yield put(
       actions.modals.showModal('SIMPLE_BUY_MODAL', { origin, cryptoCurrency })
     )
-    const fiatCurrency = selectors.preferences.getSBFiatCurrency(yield select())
+    const goals = selectors.goals.getGoals(yield select())
+    const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+
+    const fiatCurrency = pathOr(
+      selectors.preferences.getSBFiatCurrency(yield select()),
+      ['data', 'fiatCurrency'],
+      simpleBuyGoal
+    )
+
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     if (!fiatCurrency) {
