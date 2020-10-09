@@ -1996,6 +1996,7 @@
   "scenes.settings.preferences.cryptolinkhandling.enable": "Enable",
   "scenes.settings.preferences.cryptolinkhandling.title": "Crypto Link Handling",
   "scenes.settings.preferences.cryptolinkhandling.unknownstatus": "We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen.",
+  "scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari": "This feature is not supported in Safari <a href=\"https://caniuse.com/?search=registerProtocolHandler\" target=\"_blank\" rel=\"noopener noreferrrer\">more details</a>.",
   "scenes.settings.preferences.localcurrency.error.description": "Select your local currency.",
   "scenes.settings.preferences.localcurrency.error.title": "Local Currency",
   "scenes.settings.preferences.localcurrency.loading.description": "Select your local currency.",
