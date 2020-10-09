@@ -39,6 +39,7 @@ export type CustodialActivityType = {
 export type NonCustodialActivityType = {
   transactions: {
     items: Array<ProcessedTxType>
+    next?: string | null
     status: ActivityStatusType
   }
 }
@@ -92,6 +93,7 @@ interface FetchNonCustodialActivityLoading {
 interface FetchNonCustodialActivitySuccess {
   payload: {
     coin: CoinType
+    next: string | null
     transactions: Array<ProcessedTxType>
   }
   type: typeof AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS

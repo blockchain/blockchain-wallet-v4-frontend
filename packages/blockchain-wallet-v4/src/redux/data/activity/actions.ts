@@ -63,11 +63,13 @@ export const fetchNonCustodialActivityLoading = (
 })
 export const fetchNonCustodialActivitySuccess = (
   coin: CoinType,
-  transactions: Array<ProcessedTxType>
+  transactions: Array<ProcessedTxType>,
+  next: string | null
 ): ActivityActionType => ({
   type: AT.FETCH_NON_CUSTODIAL_ACTIVITY_SUCCESS,
   payload: {
     coin,
-    transactions
+    transactions,
+    next
   }
 })

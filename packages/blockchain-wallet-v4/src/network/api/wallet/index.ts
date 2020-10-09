@@ -52,34 +52,35 @@ export default ({ rootUrl, get, post }) => {
     {
       n = 50,
       offset = 0,
-      onlyShow
+      onlyShow,
+      next
     }: {
       n: number
+      next?: string | null
       offset?: number
       onlyShow?: Array<string> | string
     }
   ): RawBtcTxResponseType => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
-      format: 'json',
       offset: offset,
-      no_compact: true,
       ct: new Date().getTime(),
-      n: n,
-      language: 'en',
-      no_buttons: true
+      n
     }
-    return post({
-      url: rootUrl,
-      endPoint: '/multiaddr',
-      data: onlyShow
-        ? merge(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
-          })
-        : data
-    })
+    return next
+      ? post({ url: next })
+      : post({
+          url: rootUrl,
+          endPoint: '/multiaddr',
+          data: onlyShow
+            ? merge(data, {
+                onlyShow: (Array.isArray(onlyShow)
+                  ? onlyShow
+                  : [onlyShow]
+                ).join('|')
+              })
+            : data
+        })
   }
 
   const obtainSessionToken = () =>

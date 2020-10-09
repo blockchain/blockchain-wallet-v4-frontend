@@ -1,6 +1,7 @@
 import moment from 'moment'
 
 import {
+  CoinType,
   ExtractSuccess,
   InterestTransactionType,
   NonCustodialCoins,
@@ -91,4 +92,11 @@ export const getAllActivityStatus = (state: RootState) => {
       b: ExtractSuccess<typeof nonCustodialActivityStatus>
     ) => [...a, ...b]
   )(custodialActivityStatus, nonCustodialActivityStatus)
+}
+
+export const getNextNonCustodialActivity = (
+  coin: CoinType,
+  state: RootState
+) => {
+  return state.dataPath.activity.NON_CUSTODIAL[coin].transactions.next
 }

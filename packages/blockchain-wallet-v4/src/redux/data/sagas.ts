@@ -7,8 +7,8 @@ import fiat from './fiat/sagas'
 import stx from './stx/sagas'
 import xlm from './xlm/sagas'
 
-export default ({ api, networks }) => ({
-  activity: activity({ api, networks }),
+export default ({ api, networks, options }) => ({
+  activity: activity({ api, networks, options }),
   algo: algo({ api }),
   bch: bch({ api }),
   btc: btc({ api }),

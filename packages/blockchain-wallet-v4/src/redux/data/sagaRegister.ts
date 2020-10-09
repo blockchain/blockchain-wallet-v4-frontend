@@ -9,9 +9,9 @@ import misc from './misc/sagaRegister'
 import stx from './stx/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
-export default ({ api, networks }) =>
+export default ({ api, networks, options }) =>
   function * coreDataSaga () {
-    yield fork(activity({ api, networks }))
+    yield fork(activity({ api, networks, options }))
     yield fork(algo({ api }))
     yield fork(bch({ api }))
     yield fork(btc({ api }))

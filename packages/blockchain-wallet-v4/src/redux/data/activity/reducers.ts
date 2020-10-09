@@ -25,6 +25,7 @@ const DEFAULT_CUSTODIAL_ACTIVITY = {
 const DEFAULT_NON_CUSTODIAL_ACTIVITY = {
   transactions: {
     items: [],
+    next: undefined,
     status: Remote.NotAsked
   }
 }
@@ -157,6 +158,7 @@ export const activityReducer = (
                 )
             )
           ],
+          next: action.payload.next,
           status: Remote.Success(SUCCESS_STATUS)
         }
       }

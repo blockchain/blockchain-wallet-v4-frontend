@@ -127,7 +127,11 @@ export const fiatToString = ({
   unit: FiatType
   value: string | number
 }) => {
-  return `${Currencies[unit].units[unit].symbol}${formatFiat(value, digits)}`
+  try {
+    return `${Currencies[unit].units[unit].symbol}${formatFiat(value, digits)}`
+  } catch (e) {
+    return 'N/A'
+  }
 }
 
 export const coinToString = ({

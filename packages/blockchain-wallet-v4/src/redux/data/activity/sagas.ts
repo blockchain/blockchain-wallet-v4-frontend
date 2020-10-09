@@ -4,10 +4,12 @@ import { APIType } from 'core/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import {
   NonCustodialCoins,
-  ProcessedTxType
+  ProcessedTxType,
+  WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
 
 import * as A from './actions'
+import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 import bchSagas from '../bch/sagas'
@@ -17,7 +19,15 @@ import xlmSagas from '../xlm/sagas'
 
 import { NabuProducts } from './types'
 
-export default ({ api, networks }: { api: APIType; networks }) => {
+export default ({
+  api,
+  networks,
+  options
+}: {
+  api: APIType
+  networks
+  options: WalletOptionsType
+}) => {
   // just re-using existing code for now but clean
   // this up eventually please :)
   const { processTxs: processBtcTxs } = btcSagas({ api })
@@ -64,8 +74,10 @@ export default ({ api, networks }: { api: APIType; networks }) => {
 
     for (const value of NonCustodialCoins) {
       const FAILURE = `${value} context failure`
+      const N = 20
 
       let transactions: Array<ProcessedTxType> = []
+      let next: string | null = null
       try {
         switch (value) {
           case 'BTC': {
@@ -73,19 +85,35 @@ export default ({ api, networks }: { api: APIType; networks }) => {
               yield select()
             )
             try {
+              const nextUrl = S.getNextNonCustodialActivity(
+                value,
+                yield select()
+              )
+              const offset = nextUrl
+                ? Number(new URLSearchParams(nextUrl).get('offset'))
+                : 0
               const response: ReturnType<typeof api.fetchBlockchainData> = yield call(
                 api.fetchBlockchainData,
                 context,
                 {
-                  n: 10,
-                  offset: 0,
-                  onlyShow: context
+                  n: N,
+                  offset,
+                  onlyShow: context,
+                  next: nextUrl
                 }
               )
+
+              if (response.txs.length === N) {
+                next = `${
+                  options.domains.root
+                }/multiaddr?active=${context}&onlyShow=${context}&offset=${offset +
+                  // last & is needed
+                  N}&n=${N}&`
+              }
               transactions = yield call(processBtcTxs, response.txs)
             } catch (e) {
               const error = errorHandler(e)
-              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+              yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
           }
@@ -98,7 +126,7 @@ export default ({ api, networks }: { api: APIType; networks }) => {
                 api.fetchBchData,
                 context,
                 {
-                  n: 10,
+                  n: N,
                   offset: 0,
                   onlyShow: context
                 }
@@ -106,7 +134,7 @@ export default ({ api, networks }: { api: APIType; networks }) => {
               transactions = yield call(processBchTxs, response.txs)
             } catch (e) {
               const error = errorHandler(e)
-              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+              yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
             break
           }
@@ -125,7 +153,7 @@ export default ({ api, networks }: { api: APIType; networks }) => {
                 context,
                 contractAddress,
                 0,
-                20
+                N
               )
 
               transactions = yield call(
@@ -135,7 +163,7 @@ export default ({ api, networks }: { api: APIType; networks }) => {
               )
             } catch (e) {
               const error = errorHandler(e)
-              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+              yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
 
             break
@@ -149,13 +177,13 @@ export default ({ api, networks }: { api: APIType; networks }) => {
                 api.getEthTransactionsV2,
                 context,
                 0,
-                20
+                N
               )
 
               transactions = yield call(processEthTxs, response.transactions)
             } catch (e) {
               const error = errorHandler(e)
-              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+              yield put(A.fetchNonCustodialActivityFailure(value, error))
             }
 
             break
@@ -167,16 +195,19 @@ export default ({ api, networks }: { api: APIType; networks }) => {
               )).getOrFail(FAILURE)
               const response = yield call(api.getXlmTransactions, {
                 publicKey,
-                limit: 10
+                limit: N
               })
 
               // eslint-disable-next-line
               console.log(response)
             } catch (e) {
               const error = errorHandler(e)
-              // no xlm account created?
-              if (error === 'Network Error') return
-              return yield put(A.fetchNonCustodialActivityFailure(value, error))
+              if (error === 'Network Error') {
+                // no xlm account created?
+                transactions = []
+              } else {
+                yield put(A.fetchNonCustodialActivityFailure(value, error))
+              }
             }
 
             break
@@ -187,7 +218,7 @@ export default ({ api, networks }: { api: APIType; networks }) => {
             throw new Error(`${value} fetch tx activity not implemented.`)
         }
 
-        yield put(A.fetchNonCustodialActivitySuccess(value, transactions))
+        yield put(A.fetchNonCustodialActivitySuccess(value, transactions, next))
       } catch (e) {
         const error = errorHandler(e)
         yield put(A.fetchNonCustodialActivityFailure(value, error))
