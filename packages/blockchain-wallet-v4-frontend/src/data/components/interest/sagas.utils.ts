@@ -1,5 +1,4 @@
 import { call, CallEffect, put, select } from 'redux-saga/effects'
-import { head, last } from 'ramda'
 
 import {
   AccountTypes,
@@ -34,10 +33,14 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     try {
       if (coin === 'XLM') {
         // separate out addresses and memo
-        const addressAndMemo = destination.split(':')
-        payment = yield payment.to(head(addressAndMemo) as string, 'CUSTODIAL')
+        const depositAddressMemo = destination.split(':')
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
         // @ts-ignore
-        payment = yield payment.memo(last(addressAndMemo) as string)
+        payment = yield payment.memo(depositAddressMemo[1])
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
       } else {
         payment = yield payment.to(destination, 'CUSTODIAL')
       }
