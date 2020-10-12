@@ -17,6 +17,7 @@ import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as signMessage from './signMessage/selectors'
 import * as simpleBuy from './simpleBuy/selectors'
+import * as swap from './swap/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
@@ -42,6 +43,7 @@ export {
   sendXlm,
   signMessage,
   simpleBuy,
+  swap,
   uploadDocuments,
   utils,
   withdraw,

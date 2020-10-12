@@ -4,6 +4,7 @@ import { SwapActionTypes, SwapState } from './types'
 const INITIAL_STATE: SwapState = {
   baseCurrency: 'BTC',
   counterCurrency: 'ETH',
+  side: 'BASE',
   step: 'ENTER_AMOUNT'
 }
 
@@ -19,13 +20,14 @@ export function swapReducer (
             ...state,
             step: action.payload.step
           }
-        default: {
+        case 'COIN_SELECTION':
           return {
             ...state,
-            step: action.payload.step
+            step: action.payload.step,
+            side: action.payload.options.side
           }
-        }
       }
+      break
     default:
       return state
   }

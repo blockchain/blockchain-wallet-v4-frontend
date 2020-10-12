@@ -3,10 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import { ModalPropsType } from '../types'
+import { SwapStepType } from 'data/components/swap/types'
+import CoinSelection from './CoinSelection'
+import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
@@ -17,6 +20,17 @@ class Swap extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    if (this.props.step === prevProps.step) return
+    if (SwapStepType[this.props.step] > SwapStepType[prevProps.step]) {
+      /* eslint-disable */
+      this.setState({ direction: 'left' })
+    } else {
+      this.setState({ direction: 'right' })
+      /* eslint-enable */
+    }
   }
 
   handleClose = () => {
@@ -34,13 +48,34 @@ class Swap extends PureComponent<Props, State> {
         direction={this.state.direction}
         onClose={this.handleClose}
       >
-        <FlyoutChild>Swap</FlyoutChild>
+        {this.props.step === 'ENTER_AMOUNT' && (
+          <FlyoutChild>
+            <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
+        {this.props.step === 'COIN_SELECTION' && (
+          <FlyoutChild>
+            <CoinSelection {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (
+  state: RootState
+): { data: ReturnType<typeof getData> } & (
+  | {
+      step: 'ENTER_AMOUNT'
+    }
+  | {
+      side: 'BASE' | 'COUNTER'
+      step: 'COIN_SELECTION'
+    }
+) => ({
+  step: selectors.components.swap.getStep(state),
+  side: selectors.components.swap.getSide(state),
   data: getData(state)
 })
 
