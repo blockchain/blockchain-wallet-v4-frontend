@@ -31,6 +31,7 @@ import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as simpleBuy from './simpleBuy/actionTypes'
 import * as stxTransactions from './stxTransactions/actionTypes'
+import * as swap from './swap/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
 import * as withdraw from './withdraw/actionTypes'
@@ -71,6 +72,7 @@ export {
   signMessage,
   simpleBuy,
   stxTransactions,
+  swap,
   uploadDocuments,
   withdraw,
   veriff

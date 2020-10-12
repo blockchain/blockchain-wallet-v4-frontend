@@ -35,6 +35,7 @@ export type ModalNamesType =
   | 'SignMessage'
   | 'SIMPLE_BUY_MODAL'
   | 'SunRiverWelcome'
+  | 'SWAP_MODAL'
   | 'SwapGetStarted'
   | 'SwapUpgrade'
   | 'TRANSACTION_REPORT'

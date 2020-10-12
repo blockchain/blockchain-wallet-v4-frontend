@@ -129,6 +129,7 @@ const Onfido = React.lazy(() => import('./Onfido'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
+const Swap = React.lazy(() => import('./Swap'))
 const WhatsNew = React.lazy(() => import('./WhatsNew'))
 const Withdraw = React.lazy(() => import('./Withdraw'))
 
@@ -137,11 +138,12 @@ const Modals = () => (
     <div>
       <AddBtcWallet />
       <AirdropClaim />
+      <AirdropError />
       <AirdropSuccess />
-      <BitpayInvoiceExpired />
-      <BitpayInformational />
-      <Borrow />
       <AutoDisconnection />
+      <BitpayInformational />
+      <BitpayInvoiceExpired />
+      <Borrow />
       <Confirm />
       <ConfirmDisable2FA />
       <DeleteAddressLabel />
@@ -150,17 +152,17 @@ const Modals = () => (
       <EthAirdrop />
       <ExchangeConfirm />
       <ExchangeResults />
-      <KycDocResubmit />
       <IdentityVerification />
       <ImportBtcAddress />
       <Interest />
+      <KycDocResubmit />
+      <LinkFromExchangeAccount disableOutsideClose />
+      <LinkToExchangeAccount disableOutsideClose />
       <LockboxAppManager disableOutsideClose />
       <LockboxConnectionPrompt disableOutsideClose />
       <LockboxFirmware disableOutsideClose />
       <LockboxSetup disableOutsideClose />
       <LockboxShowXPubs />
-      <LinkFromExchangeAccount disableOutsideClose />
-      <LinkToExchangeAccount disableOutsideClose />
       <MobileNumberChange />
       <MobileNumberVerify />
       <Onfido />
@@ -180,10 +182,12 @@ const Modals = () => (
       <SendXlm />
       <ShowBtcPrivateKey />
       <ShowUsedAddresses />
-      <SignMessage />
       <ShowXPub />
-      <AirdropError />
+      <SignMessage />
+      <SimpleBuy />
+      <SunRiverWelcome disableOutsideClose />
       <Support />
+      <Swap />
       <SwapGetStarted />
       <SwapUpgrade />
       <TransferEth />
@@ -194,14 +198,12 @@ const Modals = () => (
       <UpgradeForAirdrop />
       <UpgradeWallet />
       <UserExists />
-      <XlmCreateAccountLearn />
-      <XlmReserveLearn />
-      <SimpleBuy />
-      <SunRiverWelcome disableOutsideClose />
       <VerifyMessage />
       <Welcome />
-      <Withdraw />
       <WhatsNew />
+      <Withdraw />
+      <XlmCreateAccountLearn />
+      <XlmReserveLearn />
     </div>
   </Suspense>
 )

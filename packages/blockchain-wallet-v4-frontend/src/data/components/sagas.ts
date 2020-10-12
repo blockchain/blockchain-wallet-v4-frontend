@@ -26,6 +26,7 @@ import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import simpleBuy from './simpleBuy/sagas'
+import swap from './swap/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
 import withdraw from './withdraw/sagas'
@@ -61,6 +62,7 @@ export default ({ api, coreSagas, networks }) => ({
   settings: settings({ coreSagas }),
   signMessage: signMessage({ coreSagas }),
   simpleBuy: simpleBuy({ api, coreSagas, networks }),
+  swap: swap(),
   uploadDocument: uploadDocuments({ api }),
   withdraw: withdraw({ api }),
   veriff: veriff({ api, coreSagas })

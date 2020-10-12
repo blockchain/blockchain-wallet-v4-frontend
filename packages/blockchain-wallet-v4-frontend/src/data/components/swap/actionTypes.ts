@@ -1,0 +1,3 @@
+export const SET_STEP = '@EVENT.SET_SWAP_STEP'
+
+export const SHOW_MODAL = '@EVENT.SHOW_SWAP_MODAL'
