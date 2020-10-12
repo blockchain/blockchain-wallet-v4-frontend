@@ -2,9 +2,12 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import { Props as BaseProps } from '..'
+import { coinOrder, getData } from './selectors'
+import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
+import { RootState } from 'data/rootReducer'
 
 const TopText = styled(Text)`
   display: flex;
@@ -41,15 +44,24 @@ class CoinSelection extends PureComponent<Props> {
             {this.props.side === 'BASE' ? 'from' : 'to'}
           </Text>
         </TopText>
+        {coinOrder.map(coin => {
+          return JSON.stringify(this.props.accounts[coin])
+        })}
       </FlyoutWrapper>
     )
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  ...getData(state)
+})
+
+const connector = connect(mapStateToProps)
+
 type OwnProps = BaseProps & {
   handleClose: () => void
   side: 'BASE' | 'COUNTER'
 }
-export type Props = OwnProps
+export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default CoinSelection
+export default connector(CoinSelection)
