@@ -21,6 +21,7 @@ export type WalletFormType =
   | 'custodyWithdrawForm'
   | 'initBorrow'
   | 'interestDepositForm'
+  | 'interestHistoryCoin'
   | 'interestWithdrawalForm'
   | 'linkedBanks'
   | 'linkedCards'

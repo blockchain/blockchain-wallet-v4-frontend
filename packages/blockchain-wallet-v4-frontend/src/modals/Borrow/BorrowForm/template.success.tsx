@@ -142,7 +142,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown
+          includeCustodial={false}
+          {...props}
+          name='collateral'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

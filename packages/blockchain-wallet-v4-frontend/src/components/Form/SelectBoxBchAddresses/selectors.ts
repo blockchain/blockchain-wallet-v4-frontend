@@ -26,6 +26,7 @@ import {
 } from 'ramda'
 import { collapse } from 'utils/helpers'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { InterestAccountBalanceType } from 'core/types'
 import { selectors } from 'data'
 
 const allWallets = {
@@ -51,7 +52,7 @@ const allImportedAddresses = {
 export const getData = (
   state,
   ownProps: {
-    coin: 'BCH'
+    coin?: 'BCH'
     exclude?: Array<string>
     excludeHDWallets?: boolean
     excludeImported?: boolean
@@ -60,6 +61,7 @@ export const getData = (
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -71,6 +73,7 @@ export const getData = (
     includeAll = true,
     includeExchangeAddress,
     includeCustodial,
+    includeInterest,
     forceCustodialFirst
   } = ownProps
 
@@ -92,6 +95,17 @@ export const getData = (
       `BCH Trading Wallet` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
+      })})`
+    )
+  }
+
+  const buildInterestDisplay = (x: InterestAccountBalanceType['BCH']) => {
+    return (
+      `BCH Interest Wallet` +
+      ` (${Exchange.displayBchToBch({
+        value: x ? x.balance : 0,
         fromUnit: 'SAT',
         toUnit: 'BCH'
       })})`
@@ -120,6 +134,17 @@ export const getData = (
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
         label: 'BCH Trading Wallet'
+      }
+    }
+  ]
+
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'BTC Interest Wallet'
       }
     }
   ]
@@ -194,6 +219,13 @@ export const getData = (
             }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map(x => x.BCH)
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Wallet'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])
