@@ -37,6 +37,7 @@ class EnterAmount extends PureComponent<Props> {
               name='close'
               color='grey600'
               role='button'
+              cursor
               onClick={this.props.handleClose}
             />
           </TopText>
@@ -67,7 +68,7 @@ class EnterAmount extends PureComponent<Props> {
               })
             }
           >
-            <div>
+            {<div>
               <Text color='grey600' weight={500} size='14px'>
                 Swap from
               </Text>

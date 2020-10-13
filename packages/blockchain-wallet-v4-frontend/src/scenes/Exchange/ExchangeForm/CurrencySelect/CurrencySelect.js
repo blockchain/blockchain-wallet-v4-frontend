@@ -35,7 +35,6 @@ export class CurrencySelect extends React.Component {
 
   render () {
     const { actions, fromElements, swapDisabled, toElements } = this.props
-    console.log(this.props)
 
     return (
       <CurrencyRow height='32px' spaced>

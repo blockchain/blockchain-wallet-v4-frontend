@@ -1,8 +1,16 @@
 import { RootState } from 'data/rootReducer'
 
 import { selectors } from 'data'
+import { SwapCoinType } from 'data/components/swap/types'
 
-export const coinOrder = ['BTC', 'ETH', 'BCH', 'XLM', 'ALGO', 'PAX', 'USDT']
+export const coinOrder: Array<SwapCoinType> = [
+  'BTC',
+  'ETH',
+  'BCH',
+  'XLM',
+  'PAX',
+  'USDT'
+]
 
 export const getData = (state: RootState) => {
   const accounts = selectors.components.swap.getActiveAccounts(state)

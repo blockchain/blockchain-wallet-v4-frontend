@@ -8,6 +8,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
+import { SwapAccountType } from 'data/types'
 
 const TopText = styled(Text)`
   display: flex;
@@ -25,12 +26,13 @@ class CoinSelection extends PureComponent<Props> {
           <Icon
             role='button'
             name='arrow-left'
+            cursor
             size='24px'
             color='grey600'
             onClick={() =>
               this.props.swapActions.setStep({
                 step: 'ENTER_AMOUNT',
-                options: {}
+                options: null
               })
             }
           />{' '}
@@ -45,7 +47,25 @@ class CoinSelection extends PureComponent<Props> {
           </Text>
         </TopText>
         {coinOrder.map(coin => {
-          return JSON.stringify(this.props.accounts[coin])
+          const accounts = this.props.accounts[coin] as Array<SwapAccountType>
+          return accounts.map(account => {
+            return (
+              <div
+                onClick={() =>
+                  this.props.swapActions.setStep({
+                    step: 'ENTER_AMOUNT',
+                    options: {
+                      side: this.props.side,
+                      account,
+                      coin
+                    }
+                  })
+                }
+              >
+                {JSON.stringify(account)}
+              </div>
+            )
+          })
         })}
       </FlyoutWrapper>
     )

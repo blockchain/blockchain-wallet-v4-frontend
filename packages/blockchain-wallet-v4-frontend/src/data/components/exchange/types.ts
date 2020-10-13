@@ -1,6 +1,5 @@
 import * as AT from './actionTypes'
 import { CoinType, CurrenciesType, RemoteDataType } from 'core/types'
-import { IcoMoonType } from 'blockchain-info-components/src/Icons/Icomoon'
 
 export type SwapFixType = 'baseInFiat' | 'base' | 'counter' | 'counterInFiat'
 
@@ -50,10 +49,8 @@ export type SwapAccountType = {
   archived: boolean
   balance: number
   coin: CoinType
-  icon: keyof IcoMoonType
   index: number
   label: string
-  noAccount: boolean
   type: 'ACCOUNT' | 'CUSTODIAL'
 }
 

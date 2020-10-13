@@ -21,7 +21,14 @@ import {
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
-import { SwapFormValuesType } from '../exchange/types'
+import { SwapAccountType } from '../exchange/types'
+import { SwapCoinType } from './types'
+
+export const getBaseAccount = (state: RootState) =>
+  state.components.swap.BASE.account
+
+export const getCounterAccount = (state: RootState) =>
+  state.components.swap.COUNTER.account
 
 export const getSide = (state: RootState) => state.components.swap.side
 
@@ -233,7 +240,7 @@ export const getActiveAccountsR = state => {
 export const getActiveAccounts = (state: RootState) => {
   const activeAccountsR: RemoteDataType<
     any,
-    { [key in Exclude<CoinType, 'ALGO'>]: Array<SwapFormValuesType['source']> }
+    { [key in SwapCoinType]: Array<SwapAccountType> }
   > = getActiveAccountsR(state)
 
   const activeAccounts = activeAccountsR.getOrElse({
