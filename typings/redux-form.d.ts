@@ -20,6 +20,7 @@ export type WalletFormType =
   | 'confirmRecoveryWords'
   | 'custodyWithdrawForm'
   | 'initBorrow'
+  | 'initSwap'
   | 'interestDepositForm'
   | 'interestHistoryCoin'
   | 'interestWithdrawalForm'
