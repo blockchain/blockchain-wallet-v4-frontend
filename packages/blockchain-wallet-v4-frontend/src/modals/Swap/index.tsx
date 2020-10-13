@@ -8,10 +8,11 @@ import { ExtractSuccess } from 'core/types'
 import { getData } from './selectors'
 import { ModalPropsType } from '../types'
 import { SwapStepType } from 'data/components/swap/types'
-import CoinSelection from './CoinSelection'
-import EnterAmount from './EnterAmount'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
+
+import CoinSelection from './CoinSelection'
+import InitSwapForm from './InitSwapForm'
 
 class Swap extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -48,9 +49,9 @@ class Swap extends PureComponent<Props, State> {
         direction={this.state.direction}
         onClose={this.handleClose}
       >
-        {this.props.step === 'ENTER_AMOUNT' && (
+        {this.props.step === 'INIT_SWAP' && (
           <FlyoutChild>
-            <EnterAmount {...this.props} handleClose={this.handleClose} />
+            <InitSwapForm {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === 'COIN_SELECTION' && (
@@ -67,7 +68,7 @@ const mapStateToProps = (
   state: RootState
 ): { data: ReturnType<typeof getData> } & (
   | {
-      step: 'ENTER_AMOUNT'
+      step: 'INIT_SWAP'
     }
   | {
       side: 'BASE' | 'COUNTER'

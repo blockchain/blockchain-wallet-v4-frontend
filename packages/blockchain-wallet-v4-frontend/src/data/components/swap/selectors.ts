@@ -24,12 +24,6 @@ import { selectors } from 'data'
 import { SwapAccountType } from '../exchange/types'
 import { SwapCoinType } from './types'
 
-export const getBaseAccount = (state: RootState) =>
-  state.components.swap.BASE.account
-
-export const getCounterAccount = (state: RootState) =>
-  state.components.swap.COUNTER.account
-
 export const getSide = (state: RootState) => state.components.swap.side
 
 export const getStep = (state: RootState) => state.components.swap.step

@@ -31,8 +31,7 @@ class CoinSelection extends PureComponent<Props> {
             color='grey600'
             onClick={() =>
               this.props.swapActions.setStep({
-                step: 'ENTER_AMOUNT',
-                options: null
+                step: 'INIT_SWAP'
               })
             }
           />{' '}
@@ -53,12 +52,7 @@ class CoinSelection extends PureComponent<Props> {
               <div
                 onClick={() =>
                   this.props.swapActions.setStep({
-                    step: 'ENTER_AMOUNT',
-                    options: {
-                      side: this.props.side,
-                      account,
-                      coin
-                    }
+                    step: 'INIT_SWAP'
                   })
                 }
               >

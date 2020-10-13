@@ -1,11 +1,10 @@
 import * as AT from './actionTypes'
 import { CoinType } from 'core/types'
-import { SwapAccountType } from '../exchange/types'
 
 export type SwapCoinType = Exclude<CoinType, 'ALGO'>
 
 export enum SwapStepType {
-  'ENTER_AMOUNT',
+  'INIT_SWAP',
   'COIN_SELECTION'
 }
 
@@ -13,14 +12,6 @@ export type SwapSideType = 'BASE' | 'COUNTER'
 
 // state
 export type SwapState = {
-  BASE: {
-    account?: SwapAccountType
-    coin: SwapCoinType
-  }
-  COUNTER: {
-    account?: SwapAccountType
-    coin: SwapCoinType
-  }
   side: SwapSideType
   step: keyof typeof SwapStepType
 }
@@ -33,12 +24,7 @@ interface SetSwapStepActionType {
 
 export type SwapStepPayload =
   | {
-      options: {
-        account: SwapAccountType
-        coin: SwapCoinType
-        side: SwapSideType
-      } | null
-      step: 'ENTER_AMOUNT'
+      step: 'INIT_SWAP'
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
 

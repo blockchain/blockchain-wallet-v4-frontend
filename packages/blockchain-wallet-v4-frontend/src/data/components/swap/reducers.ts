@@ -2,14 +2,8 @@ import * as AT from './actionTypes'
 import { SwapActionTypes, SwapState } from './types'
 
 const INITIAL_STATE: SwapState = {
-  BASE: {
-    coin: 'BTC'
-  },
-  COUNTER: {
-    coin: 'ETH'
-  },
   side: 'BASE',
-  step: 'ENTER_AMOUNT'
+  step: 'INIT_SWAP'
 }
 
 export function swapReducer (
@@ -19,20 +13,11 @@ export function swapReducer (
   switch (action.type) {
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case 'ENTER_AMOUNT':
-          return action.payload.options
-            ? {
-                ...state,
-                step: action.payload.step,
-                [action.payload.options.side]: {
-                  account: action.payload.options.account,
-                  coin: action.payload.options.coin
-                }
-              }
-            : {
-                ...state,
-                step: action.payload.step
-              }
+        case 'INIT_SWAP':
+          return {
+            ...state,
+            step: action.payload.step
+          }
         case 'COIN_SELECTION':
           return {
             ...state,

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
+import { Props as BaseProps } from '..'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { Props as OwnProps } from '..'
 
 const TopText = styled(Text)`
   display: flex;
@@ -24,7 +24,7 @@ const Option = styled.div`
   cursor: pointer;
 `
 
-class EnterAmount extends PureComponent<Props> {
+class InitSwapForm extends PureComponent<Props> {
   state = {}
 
   render () {
@@ -68,21 +68,23 @@ class EnterAmount extends PureComponent<Props> {
               })
             }
           >
-            {<div>
+            <div>
               <Text color='grey600' weight={500} size='14px'>
                 Swap from
               </Text>
-              <Text color='grey900' weight={600} style={{ marginTop: '4px' }}>
-                Select a Wallet
-              </Text>
-              <Text
-                color='grey900'
-                weight={600}
-                size='14px'
-                style={{ marginTop: '4px' }}
-              >
-                This is the crypto you send.
-              </Text>
+              <>
+                <Text color='grey900' weight={600} style={{ marginTop: '4px' }}>
+                  Select a Wallet
+                </Text>
+                <Text
+                  color='grey900'
+                  weight={600}
+                  size='14px'
+                  style={{ marginTop: '4px' }}
+                >
+                  This is the crypto you send.
+                </Text>
+              </>
             </div>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </Option>
@@ -101,17 +103,19 @@ class EnterAmount extends PureComponent<Props> {
               <Text color='grey600' weight={500} size='14px'>
                 Receive to
               </Text>
-              <Text color='grey900' weight={600} style={{ marginTop: '4px' }}>
-                Select a Wallet
-              </Text>
-              <Text
-                color='grey900'
-                weight={600}
-                size='14px'
-                style={{ marginTop: '4px' }}
-              >
-                This is the crypto you get.
-              </Text>
+              <>
+                <Text color='grey900' weight={600} style={{ marginTop: '4px' }}>
+                  Select a Wallet
+                </Text>
+                <Text
+                  color='grey900'
+                  weight={600}
+                  size='14px'
+                  style={{ marginTop: '4px' }}
+                >
+                  This is the crypto you get.
+                </Text>
+              </>
             </div>
             <Icon name='chevron-right' size='20px' color='grey400' />
           </Option>
@@ -121,6 +125,6 @@ class EnterAmount extends PureComponent<Props> {
   }
 }
 
-export type Props = OwnProps & { handleClose: () => void }
+export type Props = BaseProps & { handleClose: () => void }
 
-export default EnterAmount
+export default InitSwapForm
