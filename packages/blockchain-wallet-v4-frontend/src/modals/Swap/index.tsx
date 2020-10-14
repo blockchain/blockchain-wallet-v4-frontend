@@ -12,6 +12,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import CoinSelection from './CoinSelection'
+import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
 
 class Swap extends PureComponent<Props, State> {
@@ -59,6 +60,11 @@ class Swap extends PureComponent<Props, State> {
             <CoinSelection {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'ENTER_AMOUNT' && (
+          <FlyoutChild>
+            <EnterAmount {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -73,6 +79,9 @@ const mapStateToProps = (
   | {
       side: 'BASE' | 'COUNTER'
       step: 'COIN_SELECTION'
+    }
+  | {
+      step: 'ENTER_AMOUNT'
     }
 ) => ({
   step: selectors.components.swap.getStep(state),

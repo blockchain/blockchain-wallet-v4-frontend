@@ -2,10 +2,12 @@ import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
 
-export default () => {
-  const swapSagas = sagas()
+export default ({ api }) => {
+  const swapSagas = sagas({ api })
 
   return function * swapSaga () {
+    yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
+    yield takeLatest(AT.FETCH_QUOTE, swapSagas.fetchQuote)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
   }
 }

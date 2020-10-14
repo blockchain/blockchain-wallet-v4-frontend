@@ -1,41 +1,29 @@
-import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 import { Props as BaseProps } from '..'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { compose } from 'redux'
 import { connect, ConnectedProps } from 'react-redux'
 import { FlyoutWrapper } from 'components/Flyout'
-import { Icon, Text } from 'blockchain-info-components'
+import { InitSwapFormValuesType } from 'data/components/swap/types'
+import { Option, StyledForm, TopText } from '../components'
 import { selectors } from 'data'
-
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`
-const StyledForm = styled(Form)`
-  margin-top: 36px;
-`
-const Option = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
-  padding: 16px 40px;
-  cursor: pointer;
-`
 
 class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.swapActions.setStep({ step: 'ENTER_AMOUNT' })
+  }
 
   render () {
     return (
       <>
         <FlyoutWrapper>
-          <TopText>
+          <TopText spaceBetween>
             <Icon name='arrow-switch-thick' color='blue600' size='24px' />
             <Icon
               name='close'
@@ -60,7 +48,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Text>
         </FlyoutWrapper>
-        <StyledForm>
+        <StyledForm onSubmit={this.handleSubmit}>
           <Field
             name='BASE'
             component={() => (
@@ -75,28 +63,32 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   })
                 }
               >
-                <div>
-                  <Text color='grey600' weight={500} size='14px'>
-                    Swap from
-                  </Text>
-                  <>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
-                    >
-                      Select a Wallet
+                {this.props.values?.BASE ? (
+                  JSON.stringify(this.props.values.BASE)
+                ) : (
+                  <div>
+                    <Text color='grey600' weight={500} size='14px'>
+                      Swap from
                     </Text>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      size='14px'
-                      style={{ marginTop: '4px' }}
-                    >
-                      This is the crypto you send.
-                    </Text>
-                  </>
-                </div>
+                    <>
+                      <Text
+                        color='grey900'
+                        weight={600}
+                        style={{ marginTop: '4px' }}
+                      >
+                        Select a Wallet
+                      </Text>
+                      <Text
+                        color='grey900'
+                        weight={600}
+                        size='14px'
+                        style={{ marginTop: '4px' }}
+                      >
+                        This is the crypto you send.
+                      </Text>
+                    </>
+                  </div>
+                )}
                 <Icon name='chevron-right' size='20px' color='grey400' />
               </Option>
             )}
@@ -115,32 +107,50 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   })
                 }
               >
-                <div>
-                  <Text color='grey600' weight={500} size='14px'>
-                    Receive to
-                  </Text>
-                  <>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      style={{ marginTop: '4px' }}
-                    >
-                      Select a Wallet
+                {this.props.values?.COUNTER ? (
+                  JSON.stringify(this.props.values.COUNTER)
+                ) : (
+                  <div>
+                    <Text color='grey600' weight={500} size='14px'>
+                      Receive to
                     </Text>
-                    <Text
-                      color='grey900'
-                      weight={600}
-                      size='14px'
-                      style={{ marginTop: '4px' }}
-                    >
-                      This is the crypto you get.
-                    </Text>
-                  </>
-                </div>
+                    <>
+                      <Text
+                        color='grey900'
+                        weight={600}
+                        style={{ marginTop: '4px' }}
+                      >
+                        Select a Wallet
+                      </Text>
+                      <Text
+                        color='grey900'
+                        weight={600}
+                        size='14px'
+                        style={{ marginTop: '4px' }}
+                      >
+                        This is the crypto you get.
+                      </Text>
+                    </>
+                  </div>
+                )}
                 <Icon name='chevron-right' size='20px' color='grey400' />
               </Option>
             )}
           />
+          <FlyoutWrapper>
+            <Button
+              nature='primary'
+              data-e2e='continueSwap'
+              type='submit'
+              fullwidth
+              disabled={!this.props.values?.BASE || !this.props.values.COUNTER}
+            >
+              <FormattedMessage
+                id='buttons.continue'
+                defaultMessage='Continue'
+              />
+            </Button>
+          </FlyoutWrapper>
         </StyledForm>
       </>
     )
@@ -148,7 +158,9 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 }
 
 const mapStateToProps = state => ({
-  values: selectors.form.getFormValues('initSwap')(state)
+  values: selectors.form.getFormValues('initSwap')(
+    state
+  ) as InitSwapFormValuesType
 })
 
 const connector = connect(mapStateToProps)

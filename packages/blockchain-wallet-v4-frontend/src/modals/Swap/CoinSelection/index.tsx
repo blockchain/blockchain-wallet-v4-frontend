@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 import { Props as BaseProps } from '..'
 import { coinOrder, getData } from './selectors'
@@ -9,12 +8,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
-
-const TopText = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-`
+import { TopText } from '../components'
 
 class CoinSelection extends PureComponent<Props> {
   state = {}
@@ -22,7 +16,7 @@ class CoinSelection extends PureComponent<Props> {
   render () {
     return (
       <FlyoutWrapper>
-        <TopText>
+        <TopText spaceBetween={false}>
           <Icon
             role='button'
             name='arrow-left'
@@ -51,9 +45,7 @@ class CoinSelection extends PureComponent<Props> {
             return (
               <div
                 onClick={() =>
-                  this.props.swapActions.setStep({
-                    step: 'INIT_SWAP'
-                  })
+                  this.props.swapActions.changePair(this.props.side, account)
                 }
               >
                 {JSON.stringify(account)}

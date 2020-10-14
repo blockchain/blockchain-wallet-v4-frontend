@@ -13,19 +13,19 @@ export function swapReducer (
   switch (action.type) {
     case AT.SET_STEP:
       switch (action.payload.step) {
-        case 'INIT_SWAP':
-          return {
-            ...state,
-            step: action.payload.step
-          }
         case 'COIN_SELECTION':
           return {
             ...state,
             step: action.payload.step,
             side: action.payload.options.side
           }
+        default: {
+          return {
+            ...state,
+            step: action.payload.step
+          }
+        }
       }
-      break
     default:
       return state
   }

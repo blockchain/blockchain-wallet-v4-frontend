@@ -66,7 +66,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(settings({ coreSagas }))
     yield fork(signMessage({ coreSagas }))
     yield fork(simpleBuy({ api, coreSagas, networks }))
-    yield fork(swap())
+    yield fork(swap({ api }))
     yield fork(uploadDocuments({ api }))
     yield fork(withdraw({ api }))
     yield fork(veriff({ api, coreSagas }))
