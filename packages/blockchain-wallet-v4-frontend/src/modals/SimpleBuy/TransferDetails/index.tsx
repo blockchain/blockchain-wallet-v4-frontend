@@ -46,6 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  addBank?: boolean
   cryptoCurrency?: CoinType
   displayBack?: boolean
   fiatCurrency: FiatType
