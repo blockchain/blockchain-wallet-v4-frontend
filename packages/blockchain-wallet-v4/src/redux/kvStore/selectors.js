@@ -8,6 +8,7 @@ import * as root from './root/selectors'
 import * as userCredentials from './userCredentials/selectors'
 import * as whatsNew from './whatsNew/selectors'
 import * as xlm from './xlm/selectors'
+import * as walletCredentials from './walletCredentials/selectors'
 
 export {
   root,
@@ -19,5 +20,6 @@ export {
   btc,
   lockbox,
   userCredentials,
-  xlm
+  xlm,
+  walletCredentials
 }

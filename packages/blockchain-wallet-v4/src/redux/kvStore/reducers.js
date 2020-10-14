@@ -10,6 +10,7 @@ import root from './root/reducers'
 import userCredentials from './userCredentials/reducers'
 import whatsNew from './whatsNew/reducers'
 import xlm from './xlm/reducers'
+import walletCredentials from './walletCredentials/reducers'
 
 const kvStoreReducer = combineReducers({
   [C.ROOT]: root,
@@ -21,7 +22,8 @@ const kvStoreReducer = combineReducers({
   [C.BTC]: btc,
   [C.LOCKBOX]: lockbox,
   [C.USER_CREDENTIALS]: userCredentials,
-  [C.XLM]: xlm
+  [C.XLM]: xlm,
+  [C.WALLET_CREDENTIALS]: walletCredentials
 })
 
 export default kvStoreReducer

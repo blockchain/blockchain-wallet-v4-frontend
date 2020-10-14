@@ -8,6 +8,7 @@ import lockbox from './lockbox/sagaRegister'
 import userCredentials from './userCredentials/sagaRegister'
 import whatsNew from './whatsNew/sagaRegister'
 import xlm from './xlm/sagaRegister'
+import walletCredentials from './walletCredentials/sagaRegister'
 
 export default ({ api, networks }) =>
   function * coreKvStoreSaga () {
@@ -20,4 +21,5 @@ export default ({ api, networks }) =>
     yield fork(contacts({ api, networks }))
     yield fork(lockbox({ api, networks }))
     yield fork(userCredentials({ api, networks }))
+    yield fork(walletCredentials({ api, networks }))
   }
