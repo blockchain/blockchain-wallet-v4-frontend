@@ -17,14 +17,18 @@ import * as KV from '../../../types/KVStoreEntry'
 export default ({ api, networks } = {}) => {
 
   const createWalletCredentials = function * (kv) {
-    const { guid, password, sharedKey } = kv.value
-
     const guidT = yield select(selectors.wallet.getGuid)
     const passwordT = yield select(selectors.wallet.getMainPassword)
     const sharedKeyT = yield select(selectors.wallet.getSharedKey)
-
-    if(guid !== guidT || password !== passwordT || sharedKey !== sharedKeyT) {
-      const newkv = set(KVStoreEntry.value, { guid: guidT, password: passwordT, sharedKey: sharedKeyT }, kv)
+    const newkv = set(KVStoreEntry.value, { guid: guidT, password: passwordT, sharedKey: sharedKeyT }, kv)
+    // Only update the value in metadata if it's out-of-sync with the actual credentials
+    // or when we haven't written it yet
+    if(kv.value) {
+      const { guid, password, sharedKey } = kv.value
+      if(guid !== guidT || password !== passwordT || sharedKey !== sharedKeyT) {
+        yield put(A.createMetadataWalletCredentials(newkv))
+      }
+    } else {
       yield put(A.createMetadataWalletCredentials(newkv))
     }
   }
