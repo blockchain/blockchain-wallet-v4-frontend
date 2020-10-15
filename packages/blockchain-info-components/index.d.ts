@@ -197,6 +197,7 @@ export const SkeletonRectangle: FunctionComponent<{
 export const SpinningLoader: FunctionComponent<{
   width?: string
   height?: string
+  borderWidth?: string
 }>
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{

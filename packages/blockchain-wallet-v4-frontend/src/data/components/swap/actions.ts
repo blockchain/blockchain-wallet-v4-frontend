@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import { CoinType, SwapQuoteType } from 'core/types'
 import { ModalOriginType } from 'data/modals/types'
 import { SwapAccountType } from '../exchange/types'
-import { SwapSideType, SwapStepPayload } from './types'
+import { SwapActionTypes, SwapSideType, SwapStepPayload } from './types'
 
 export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
   type: AT.CHANGE_PAIR,
@@ -16,19 +16,23 @@ export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
 export const fetchQuote = () => ({
   type: AT.FETCH_QUOTE
 })
-export const fetchQuoteFailure = (error: string) => ({
-  type: AT.FETCH_QUOTE_LOADING,
+export const fetchQuoteFailure = (error: string): SwapActionTypes => ({
+  type: AT.FETCH_QUOTE_FAILURE,
   payload: {
     error
   }
 })
-export const fetchQuoteLoading = () => ({
+export const fetchQuoteLoading = (): SwapActionTypes => ({
   type: AT.FETCH_QUOTE_LOADING
 })
-export const fetchQuoteSuccess = (quote: SwapQuoteType) => ({
+export const fetchQuoteSuccess = (
+  quote: SwapQuoteType,
+  rate: number
+): SwapActionTypes => ({
   type: AT.FETCH_QUOTE_SUCCESS,
   payload: {
-    quote
+    quote,
+    rate
   }
 })
 

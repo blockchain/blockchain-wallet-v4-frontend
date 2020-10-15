@@ -309,6 +309,7 @@ type MessagesType = {
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.here': 'here'
+  'copy.oops': 'Oops. Something went wrong.'
   'copy.loading': 'Loading...'
   'copy.pending': 'Pending'
   'copy.pending_txs': 'Pending Transactions'

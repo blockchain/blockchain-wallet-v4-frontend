@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js'
 export const getRate = (
   priceTiers: SwapQuoteType['quote']['priceTiers'],
   amount: BigNumber
-) => {
+): number => {
   try {
     for (var index = 0; index <= priceTiers.length; index++) {
       const priceTier = priceTiers[index]
@@ -14,11 +14,14 @@ export const getRate = (
       const nextVol = new BigNumber(nextTier.volume)
 
       if (thisVol.isLessThan(amount) && amount.isLessThanOrEqualTo(nextVol)) {
-        return interpolatePrice(
+        const price = interpolatePrice(
           [priceTier.volume, nextTier.volume],
           [priceTier.price, nextTier.volume],
           amount
         )
+
+        if (typeof price === 'string') throw price
+        return price
       }
     }
 
@@ -32,7 +35,7 @@ const interpolatePrice = (
   x: [string, string],
   y: [string, string],
   xi: BigNumber
-): string => {
+): number | string => {
   try {
     if (x.length !== y.length) throw new Error('Should be same size')
     if (x.length !== 2) throw new Error('Should contain two points')
@@ -41,12 +44,13 @@ const interpolatePrice = (
     if (xi.isLessThan(x[0]) && xi.isGreaterThan(x[1]))
       throw new Error('Amount should be between x[0] and x[1]')
 
+    debugger
     return xi
       .minus(x[0])
       .times(new BigNumber(y[1]).minus(y[0]))
       .dividedBy(new BigNumber(x[1]).minus(x[0]))
       .plus(y[0])
-      .toString()
+      .toNumber()
   } catch (e) {
     return errorHandler(e)
   }

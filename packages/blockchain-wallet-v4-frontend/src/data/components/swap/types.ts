@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { CoinType } from 'core/types'
+import { CoinType, RemoteDataType, SwapQuoteType } from 'core/types'
 import { SwapAccountType } from '../exchange/types'
 
 export type InitSwapFormValuesType =
@@ -21,11 +21,29 @@ export type SwapSideType = 'BASE' | 'COUNTER'
 
 // state
 export type SwapState = {
+  quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
   side: SwapSideType
   step: keyof typeof SwapStepType
 }
 
 // actions
+interface FetchQuoteFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_QUOTE_FAILURE
+}
+interface FetchQuoteLoadingActionType {
+  type: typeof AT.FETCH_QUOTE_LOADING
+}
+interface FetchQuoteSuccessActionType {
+  payload: {
+    quote: SwapQuoteType
+    rate: number
+  }
+  type: typeof AT.FETCH_QUOTE_SUCCESS
+}
+
 interface SetSwapStepActionType {
   payload: SwapStepPayload
   type: typeof AT.SET_STEP
@@ -42,4 +60,8 @@ export type SwapStepPayload =
     }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
 
-export type SwapActionTypes = SetSwapStepActionType
+export type SwapActionTypes =
+  | FetchQuoteFailureActionType
+  | FetchQuoteLoadingActionType
+  | FetchQuoteSuccessActionType
+  | SetSwapStepActionType

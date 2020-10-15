@@ -28,6 +28,8 @@ export const getSide = (state: RootState) => state.components.swap.side
 
 export const getStep = (state: RootState) => state.components.swap.step
 
+export const getQuote = (state: RootState) => state.components.swap.quote
+
 const getCustodyBalance = curry((coin: CoinType, state) => {
   return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])
 })
@@ -46,7 +48,7 @@ const generateCustodyAccount = (coin: CoinType, sbBalance?: SBBalanceType) => {
 
 const isActive = propEq('archived', false)
 
-export const bchGetActiveAccounts = createDeepEqualSelector(
+const bchGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.bch.getAddresses,
@@ -82,7 +84,7 @@ export const bchGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
-export const btcGetActiveAccounts = createDeepEqualSelector(
+const btcGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.wallet.getHDAccounts,
     coreSelectors.data.btc.getAddresses,
@@ -111,7 +113,7 @@ export const btcGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
-export const ethGetActiveAccounts = createDeepEqualSelector(
+const ethGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getAddresses,
     coreSelectors.kvStore.eth.getAccounts,
@@ -142,7 +144,7 @@ export const ethGetActiveAccounts = createDeepEqualSelector(
   }
 )
 
-export const erc20GetActiveAccounts = createDeepEqualSelector(
+const erc20GetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getDefaultAddress,
     (state, token) => coreSelectors.kvStore.eth.getErc20Account(state, token),
@@ -177,7 +179,7 @@ export const erc20GetActiveAccounts = createDeepEqualSelector(
   }
 )
 
-export const xlmGetActiveAccounts = createDeepEqualSelector(
+const xlmGetActiveAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.xlm.getAccounts,
     coreSelectors.kvStore.xlm.getAccounts,
@@ -215,7 +217,7 @@ export const xlmGetActiveAccounts = createDeepEqualSelector(
 )
 
 // TODO: make dynamic list in future from wallet options getSupportedCoins
-export const getActiveAccountsR = state => {
+const getActiveAccountsR = state => {
   const accounts = {
     BCH: bchGetActiveAccounts(state),
     BTC: btcGetActiveAccounts(state),

@@ -143,6 +143,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               data-e2e='continueSwap'
               type='submit'
               fullwidth
+              jumbo
               disabled={!this.props.values?.BASE || !this.props.values.COUNTER}
             >
               <FormattedMessage
