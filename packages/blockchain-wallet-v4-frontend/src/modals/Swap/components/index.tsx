@@ -2,15 +2,18 @@ import { Form } from 'redux-form'
 import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-export const TopText = styled(Text)<{ spaceBetween: boolean }>`
+export const TopText = styled(Text)<{
+  marginBottom?: boolean
+  spaceBetween: boolean
+}>`
   display: flex;
   align-items: center;
   justify-content: ${props =>
     props.spaceBetween ? 'space-between' : 'initial'};
-  margin-bottom: 16px;
+  margin-bottom: ${props => (props.marginBottom ? '16px' : '0px')};
 `
-export const StyledForm = styled(Form)`
-  margin-top: 36px;
+export const StyledForm = styled(Form)<{ marginTop?: boolean }>`
+  margin-top: ${props => (props.marginTop ? '36px' : '0px')};
 `
 export const Option = styled.div`
   display: flex;

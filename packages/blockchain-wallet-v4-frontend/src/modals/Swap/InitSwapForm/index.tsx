@@ -23,7 +23,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     return (
       <>
         <FlyoutWrapper>
-          <TopText spaceBetween>
+          <TopText spaceBetween marginBottom>
             <Icon name='arrow-switch-thick' color='blue600' size='24px' />
             <Icon
               name='close'
@@ -48,7 +48,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             />
           </Text>
         </FlyoutWrapper>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <StyledForm onSubmit={this.handleSubmit} marginTop>
           <Field
             name='BASE'
             component={() => (

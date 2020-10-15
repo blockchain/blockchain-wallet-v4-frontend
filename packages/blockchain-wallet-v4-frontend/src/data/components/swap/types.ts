@@ -2,6 +2,8 @@ import * as AT from './actionTypes'
 import { CoinType, RemoteDataType, SwapQuoteType } from 'core/types'
 import { SwapAccountType } from '../exchange/types'
 
+export type SwapAmountFormValues = { amount?: string } | undefined
+
 export type InitSwapFormValuesType =
   | {
       BASE?: SwapAccountType

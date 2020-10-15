@@ -16,7 +16,7 @@ class CoinSelection extends PureComponent<Props> {
   render () {
     return (
       <FlyoutWrapper>
-        <TopText spaceBetween={false}>
+        <TopText spaceBetween={false} marginBottom>
           <Icon
             role='button'
             name='arrow-left'
@@ -44,6 +44,7 @@ class CoinSelection extends PureComponent<Props> {
           return accounts.map(account => {
             return (
               <div
+                role='button'
                 onClick={() =>
                   this.props.swapActions.changePair(this.props.side, account)
                 }

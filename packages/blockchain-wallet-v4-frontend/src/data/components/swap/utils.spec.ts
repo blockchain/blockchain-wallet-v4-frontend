@@ -2,16 +2,50 @@ import { interpolatePrice } from './utils'
 import BigNumber from 'bignumber.js'
 
 // https://github.com/blockchain/service-trading-backend/blob/master/client-quote/src/test/kotlin/info/blockchain/albert/client/interpolate/LinearInterpolationTest.kt
-// rate, // thisVol, thisPrice, nextVol, nextPrice, amount
+
 // assertEquals(7.5, interpolator.interpolate(50.0, 5.0, 100.0, 10.0, 75.0), 0.0)
 
 describe('interpolatePrice', () => {
   it('should calculate price correctly', () => {
-    const price1 = interpolatePrice(
-      [new BigNumber(50), new BigNumber(100)],
-      [new BigNumber(5), new BigNumber(10)],
+    const simpleTest = interpolatePrice(
+      new BigNumber(50),
+      new BigNumber(5),
+      new BigNumber(100),
+      new BigNumber(10),
       new BigNumber(75)
     )
-    expect(price1).toEqual(7.5)
+    const sameQty1 = interpolatePrice(
+      new BigNumber(50),
+      new BigNumber(5),
+      new BigNumber(100),
+      new BigNumber(10),
+      new BigNumber(50)
+    )
+    const sameQty2 = interpolatePrice(
+      new BigNumber(50),
+      new BigNumber(5),
+      new BigNumber(100),
+      new BigNumber(10),
+      new BigNumber(100)
+    )
+    const noQty1 = interpolatePrice(
+      new BigNumber(0),
+      new BigNumber(0),
+      new BigNumber(100),
+      new BigNumber(10),
+      new BigNumber(50)
+    )
+    const qtyLess = interpolatePrice(
+      new BigNumber(50),
+      new BigNumber(5),
+      new BigNumber(45),
+      new BigNumber(100),
+      new BigNumber(25)
+    )
+    expect(simpleTest).toEqual(7.5)
+    expect(sameQty1).toEqual(5)
+    expect(sameQty2).toEqual(10)
+    expect(noQty1).toEqual(5)
+    expect(qtyLess).toEqual('Should be sorted')
   })
 })
