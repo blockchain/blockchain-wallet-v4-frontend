@@ -13,7 +13,11 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { CoinType, SupportedWalletCurrenciesType } from 'core/types'
+import {
+  CoinType,
+  SupportedWalletCurrenciesType,
+  WalletFiatType
+} from 'core/types'
 import { GoalsType } from 'data/goals/types'
 import media from 'services/ResponsiveService'
 
@@ -347,7 +351,8 @@ const SignupCard = ({
 export type GoalDataType = {
   amount: string
   crypto: CoinType
-  displayName: string
+  email?: string
+  fiatCurrency: WalletFiatType
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
