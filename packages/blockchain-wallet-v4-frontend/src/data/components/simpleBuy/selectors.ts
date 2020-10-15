@@ -3,7 +3,8 @@ import {
   FiatTypeEnum,
   SBPaymentMethodType
 } from 'blockchain-wallet-v4/src/types'
-import { head, lift } from 'ramda'
+import { FiatType } from 'core/types'
+import { head, isEmpty, lift } from 'ramda'
 import { RootState } from 'data/rootReducer'
 
 export const getOrderType = (state: RootState) =>
@@ -24,16 +25,23 @@ export const getDisplayBack = (state: RootState) =>
 export const getFiatCurrency = (state: RootState) =>
   state.components.simpleBuy.fiatCurrency || state.preferences.sbFiatCurrency
 
+const eligableFiatCurrency = currency =>
+  currency === FiatTypeEnum.USD ||
+  currency === FiatTypeEnum.GBP ||
+  currency === FiatTypeEnum.EUR
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])
   const sbCardsR = getSBCards(state)
   const sbMethodsR = getSBPaymentMethods(state)
   const actionType = getOrderType(state)
+  const sbBalancesR = getSBBalances(state)
 
   const transform = (
     sbCards: ExtractSuccess<typeof sbCardsR>,
-    sbMethods: ExtractSuccess<typeof sbMethodsR>
+    sbMethods: ExtractSuccess<typeof sbMethodsR>,
+    sbBalances: ExtractSuccess<typeof sbBalancesR>
   ): SBPaymentMethodType | undefined => {
     const lastOrder = orders.find(order => {
       if (actionType === 'BUY') {
@@ -45,8 +53,29 @@ export const getDefaultPaymentMethod = (state: RootState) => {
 
     switch (actionType) {
       case 'SELL':
+        let fiatCurrencyToUse = fiatCurrency
+        if (!eligableFiatCurrency(fiatCurrencyToUse)) {
+          const currenciesToUse = [
+            FiatTypeEnum.USD,
+            FiatTypeEnum.GBP,
+            FiatTypeEnum.EUR
+          ]
+          const balancesToUse = Object.keys(sbBalances)
+            .filter(key => currenciesToUse.indexOf(FiatTypeEnum[key]) >= 0)
+            .reduce((acc, key) => {
+              acc[key] = sbBalances[key]
+              return acc
+            }, {})
+          if (!isEmpty(balancesToUse)) {
+            fiatCurrencyToUse = Object.keys(balancesToUse).reduce((a, b) =>
+              balancesToUse[a].available > balancesToUse[b].available ? a : b
+            ) as FiatType
+          }
+        }
+
         return sbMethods.methods.find(
-          method => method.type === 'FUNDS' && method.currency === fiatCurrency
+          method =>
+            method.type === 'FUNDS' && method.currency === fiatCurrencyToUse
         )
       default:
         if (!lastOrder) return undefined
@@ -87,7 +116,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
     }
   }
 
-  return lift(transform)(sbCardsR, sbMethodsR)
+  return lift(transform)(sbCardsR, sbMethodsR, sbBalancesR)
 }
 
 export const getSBBalances = (state: RootState) =>
@@ -133,3 +162,5 @@ export const getSBLatestPendingOrder = (state: RootState) =>
   })
 
 export const getStep = (state: RootState) => state.components.simpleBuy.step
+export const getAddBank = (state: RootState) =>
+  state.components.simpleBuy.addBank

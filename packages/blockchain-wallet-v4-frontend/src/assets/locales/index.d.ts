@@ -1279,6 +1279,7 @@ type MessagesType = {
   'modals.simplebuy.transferdetails.domestic': 'Domestic'
   'modals.simplebuy.transferdetails.international': 'International'
   'modals.simplebuy.transferdetails.wire_transfer': 'Wire Transfer'
+  'modals.simplebuy.transferdetails.bank_link_info': 'To link your bank, send {symbol}1 or more to your {currency} wallet.'
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
   'modals.simplebuy.unsupported-subcontent': "Currently, we don't support buying crypto with"

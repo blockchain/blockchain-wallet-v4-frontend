@@ -73,6 +73,7 @@ export type SBShowModalOriginType =
 // State
 export type SimpleBuyState = {
   account: RemoteDataType<string, SBAccountType>
+  addBank: boolean | undefined
   balances: RemoteDataType<string, SBBalancesType>
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
@@ -305,6 +306,7 @@ export type StepActionsPayload =
       step: 'CRYPTO_SELECTION'
     }
   | {
+      addBank?: boolean
       displayBack: boolean
       fiatCurrency: FiatType
       step: 'TRANSFER_DETAILS'
