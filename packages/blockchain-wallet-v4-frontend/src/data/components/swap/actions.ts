@@ -13,6 +13,10 @@ export const changePair = (side: SwapSideType, account: SwapAccountType) => ({
   }
 })
 
+export const createOrder = () => ({
+  type: AT.CREATE_ORDER
+})
+
 export const fetchQuote = () => ({
   type: AT.FETCH_QUOTE
 })

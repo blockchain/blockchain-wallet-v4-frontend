@@ -16,7 +16,8 @@ export type SwapCoinType = Exclude<CoinType, 'ALGO'>
 export enum SwapStepType {
   'INIT_SWAP',
   'COIN_SELECTION',
-  'ENTER_AMOUNT'
+  'ENTER_AMOUNT',
+  'PREVIEW_SWAP'
 }
 
 export type SwapSideType = 'BASE' | 'COUNTER'
@@ -60,6 +61,7 @@ export type SwapStepPayload =
       options?: never
       step: 'INIT_SWAP'
     }
+  | { options?: never; step: 'PREVIEW_SWAP' }
   | { options: { side: 'BASE' | 'COUNTER' }; step: 'COIN_SELECTION' }
 
 export type SwapActionTypes =

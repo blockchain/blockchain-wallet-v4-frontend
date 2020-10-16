@@ -27,6 +27,7 @@ export type WalletFormType =
   | 'linkedBanks'
   | 'linkedCards'
   | 'login'
+  | 'previewSwap'
   | 'priceChartCoin'
   | 'register'
   | 'reminder'

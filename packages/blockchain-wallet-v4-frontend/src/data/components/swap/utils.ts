@@ -1,6 +1,29 @@
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { SwapQuoteType } from 'core/types'
+import { SwapAccountType } from '../exchange/types'
+import { SwapOrderDirectionType, SwapQuoteType } from 'core/types'
 import BigNumber from 'bignumber.js'
+
+export const getDirection = (
+  BASE: SwapAccountType,
+  COUNTER: SwapAccountType
+): SwapOrderDirectionType => {
+  switch (true) {
+    case BASE.type === 'CUSTODIAL' && COUNTER.type === 'CUSTODIAL':
+      return 'INTERNAL'
+    case BASE.type === 'ACCOUNT' && COUNTER.type === 'ACCOUNT':
+      return 'ON_CHAIN'
+    case BASE.type === 'ACCOUNT' && COUNTER.type === 'CUSTODIAL':
+      return 'FROM_USERKEY'
+    case BASE.type === 'CUSTODIAL' && COUNTER.type === 'ACCOUNT':
+      return 'TO_USERKEY'
+    default:
+      return 'INTERNAL'
+  }
+}
+
+export const getPair = (BASE: SwapAccountType, COUNTER: SwapAccountType) => {
+  return `${BASE.coin}-${COUNTER.coin}`
+}
 
 export const getRate = (
   priceTiers: SwapQuoteType['quote']['priceTiers'],

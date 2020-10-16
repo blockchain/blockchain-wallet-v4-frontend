@@ -14,6 +14,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import CoinSelection from './CoinSelection'
 import EnterAmount from './EnterAmount'
 import InitSwapForm from './InitSwapForm'
+import PreviewSwap from './PreviewSwap'
 
 class Swap extends PureComponent<Props, State> {
   state: State = { show: false, direction: 'left' }
@@ -65,6 +66,11 @@ class Swap extends PureComponent<Props, State> {
             <EnterAmount {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
+        {this.props.step === 'PREVIEW_SWAP' && (
+          <FlyoutChild>
+            <PreviewSwap {...this.props} handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -82,6 +88,9 @@ const mapStateToProps = (
     }
   | {
       step: 'ENTER_AMOUNT'
+    }
+  | {
+      step: 'PREVIEW_SWAP'
     }
 ) => ({
   step: selectors.components.swap.getStep(state),
