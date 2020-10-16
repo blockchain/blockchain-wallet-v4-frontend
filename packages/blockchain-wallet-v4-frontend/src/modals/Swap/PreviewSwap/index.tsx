@@ -6,10 +6,12 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { Props as BaseProps } from '..'
-import { Button } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { ErrorCartridge } from 'components/Cartridge'
+import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { TopText } from '../components'
 
 class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   state = {}
@@ -30,17 +32,110 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     const { BASE, COUNTER } = this.props.initSwapFormValues
 
     return (
-      <FlyoutWrapper>
-        <Form onSubmit={this.handleSubmit}>
-          <Button data-e2e='swapBtn' type='submit'>
+      <>
+        <FlyoutWrapper>
+          <TopText spaceBetween={false} marginBottom>
+            <Icon
+              role='button'
+              name='arrow-left'
+              cursor
+              size='24px'
+              color='grey600'
+              onClick={() =>
+                this.props.swapActions.setStep({
+                  step: 'INIT_SWAP'
+                })
+              }
+            />{' '}
+            <Text
+              size='20px'
+              color='grey900'
+              weight={600}
+              style={{ marginLeft: '24px' }}
+            >
+              <FormattedMessage
+                id='copy.confirm_swap'
+                defaultMessage='Confirm Swap'
+              />
+            </Text>
+          </TopText>
+        </FlyoutWrapper>
+        <Row>
+          <Title>
+            <FormattedMessage id='copy.swap' defaultMessage='Swap' />
+          </Title>
+          <Value>
+            {this.props.swapAmountFormValues?.amount} {BASE.coin}
+          </Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage id='copy.from' defaultMessage='From' />
+          </Title>
+          <Value>{BASE.label}</Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage id='copy.to' defaultMessage='To' />
+          </Title>
+          <Value>{COUNTER.label}</Value>
+        </Row>
+        <Row>
+          <Title>
             <FormattedMessage
-              id='buttons.swap_x_for_y'
-              defaultMessage='Swap {base} for {counter}'
-              values={{ base: BASE.coin, counter: COUNTER.coin }}
+              id='copy.coin_network_fee'
+              defaultMessage='{coin} Network Fee'
+              values={{ coin: BASE.coin }}
             />
-          </Button>
-        </Form>
-      </FlyoutWrapper>
+          </Title>
+          <Value>Outgoing fee</Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage
+              id='copy.coin_network_fee'
+              defaultMessage='{coin} Network Fee'
+              values={{ coin: COUNTER.coin }}
+            />
+          </Title>
+          <Value>Incoming fee</Value>
+        </Row>
+        <FlyoutWrapper>
+          <Form onSubmit={this.handleSubmit}>
+            <Button
+              nature='primary'
+              data-e2e='swapBtn'
+              type='submit'
+              disabled={this.props.submitting}
+              fullwidth
+              jumbo
+            >
+              {this.props.submitting ? (
+                <HeartbeatLoader height='16px' width='16px' color='white' />
+              ) : (
+                <FormattedMessage
+                  id='buttons.swap_x_for_y'
+                  defaultMessage='Swap {base} for {counter}'
+                  values={{ base: BASE.coin, counter: COUNTER.coin }}
+                />
+              )}
+            </Button>
+            {this.props.error && (
+              <ErrorCartridge
+                style={{ marginTop: '16px' }}
+                data-e2e='checkoutError'
+              >
+                <Icon
+                  name='alert-filled'
+                  color='red600'
+                  style={{ marginRight: '4px' }}
+                />
+                Error: {this.props.error}
+              </ErrorCartridge>
+            )}
+          </Form>
+        </FlyoutWrapper>
+      </>
     )
   }
 }
