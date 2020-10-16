@@ -251,3 +251,10 @@ export const TooltipIcon: FunctionComponent<{
   name: keyof IcoMoonType
   size?: string
 }>
+export const CheckBoxInput: FunctionComponent<{
+  name: string
+  checked?: boolean
+  disabled?: boolean
+  onClick?: () => void
+  onChange?: () => void
+}>

@@ -1,4 +1,10 @@
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  CheckBoxInput,
+  HeartbeatLoader,
+  Icon,
+  Text
+} from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { fiatToString } from 'core/exchange/currency'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
@@ -16,7 +22,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import { SupportedWalletCurrenciesType } from 'core/types'
 
 import { displayFiat, getPaymentMethod } from '../model'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const CustomForm = styled(Form)`
@@ -40,6 +46,16 @@ const Info = styled.div`
   display: flex;
   align-items: center;
 `
+const InfoTerms = styled(Text)`
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  a {
+    color: ${props => props.theme.blue600};
+    cursor: pointer;
+    text-decoration: none;
+  }
+`
 const Amount = styled.div`
   margin-top: 40px;
   > div {
@@ -48,11 +64,21 @@ const Amount = styled.div`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+  const [acceptTerms, setAcceptTerms] = useState(false)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order, props.supportedCoins)
+
+  if (
+    !(
+      props.order.paymentType === 'PAYMENT_CARD' ||
+      props.order.paymentType === 'USER_CARD'
+    )
+  ) {
+    setAcceptTerms(true)
+  }
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -171,6 +197,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             )}
           </Text>
         </Info>
+
+        {(props.order.paymentType === 'PAYMENT_CARD' ||
+          props.order.paymentType === 'USER_CARD') && (
+          <Info>
+            <InfoTerms
+              size='12px'
+              weight={500}
+              color='grey900'
+              data-e2e='sbAcceptTerms'
+            >
+              <CheckBoxInput
+                name='sbAcceptTerms'
+                checked={acceptTerms}
+                data-e2e='sbAcceptTermsCheckbox'
+                onChange={() => setAcceptTerms(acceptTerms => !acceptTerms)}
+              >
+                <FormattedHTMLMessage
+                  id='modals.simplebuy.confirm.activity_accept_terms'
+                  defaultMessage="I agree to Blockchain’s <a href='https://www.blockchain.com/legal/terms' rel='noopener noreferrer' target='_blank'>Terms of Service</a> and its return, refund and cancellation policy."
+                />
+              </CheckBoxInput>
+            </InfoTerms>
+          </Info>
+        )}
+
         <Button
           fullwidth
           nature='primary'
@@ -179,7 +230,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           height='48px'
           type='submit'
           style={{ marginTop: '28px' }}
-          disabled={props.submitting}
+          disabled={props.submitting || !acceptTerms}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
