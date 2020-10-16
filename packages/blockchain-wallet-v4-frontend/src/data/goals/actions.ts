@@ -11,7 +11,10 @@ export const saveGoal = (name: GoalsType, data) => ({
   type: AT.SAVE_GOAL,
   payload: { id: generateId(), name, data }
 })
-export const deleteGoal = id => ({ type: AT.DELETE_GOAL, payload: { id } })
+export const deleteGoal = (id: string) => ({
+  type: AT.DELETE_GOAL,
+  payload: { id }
+})
 export const addInitialModal = (
   key: string,
   name: ModalNamesType,

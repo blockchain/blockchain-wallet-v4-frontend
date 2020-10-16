@@ -10,6 +10,7 @@ import {
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 import { checkForVulnerableAddressError } from 'services/ErrorCheckService'
+import { getCurrencyBasedOnCountry } from './helpers'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const { AB_TESTS } = model.analytics
@@ -127,6 +128,13 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
+      const countryCodeR = yield select(selectors.core.settings.getCountryCode)
+      const countryCode = countryCodeR.getOrElse('US')
+      const currency = getCurrencyBasedOnCountry(countryCode)
+      yield put(actions.preferences.setSBFiatCurrency(currency))
+      // TODO - update wallet with currency should be done on BE side
+      yield put(actions.core.settings.setCurrency(currency))
+
       const showVerifyEmailR = yield select(
         selectors.analytics.selectAbTest(AB_TESTS.VERIFY_EMAIL)
       )
@@ -145,6 +153,7 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
+
       yield call(authNabu)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)

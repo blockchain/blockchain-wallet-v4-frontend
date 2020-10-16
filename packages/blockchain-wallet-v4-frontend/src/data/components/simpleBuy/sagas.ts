@@ -853,38 +853,38 @@ export default ({
 
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
-    if (!fiatCurrency) {
-      yield put(A.setStep({ step: 'CURRENCY_SELECTION' }))
-    } else if (latestPendingOrder) {
-      const step =
-        latestPendingOrder.state === 'PENDING_CONFIRMATION'
-          ? 'CHECKOUT_CONFIRM'
-          : 'ORDER_SUMMARY'
-      yield put(
-        A.setStep({
-          step,
-          order: latestPendingOrder
-        })
-      )
-    } else if (cryptoCurrency) {
-      yield put(
-        // 🚨 SPECIAL TS-IGNORE
-        // Usually ENTER_AMOUNT should require a pair but
-        // here we do not require a pair. Instead we have
-        // cryptoCurrency and fiatCurrency and
-        // INITIALIZE_CHECKOUT will set the pair on state.
-        // 🚨 SPECIAL TS-IGNORE
-        // @ts-ignore
-        A.setStep({
-          step: 'ENTER_AMOUNT',
-          cryptoCurrency,
-          fiatCurrency
-        })
-      )
-    } else {
-      yield put(
-        A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
-      )
+    if (fiatCurrency) {
+      if (latestPendingOrder) {
+        const step =
+          latestPendingOrder.state === 'PENDING_CONFIRMATION'
+            ? 'CHECKOUT_CONFIRM'
+            : 'ORDER_SUMMARY'
+        yield put(
+          A.setStep({
+            step,
+            order: latestPendingOrder
+          })
+        )
+      } else if (cryptoCurrency) {
+        yield put(
+          // 🚨 SPECIAL TS-IGNORE
+          // Usually ENTER_AMOUNT should require a pair but
+          // here we do not require a pair. Instead we have
+          // cryptoCurrency and fiatCurrency and
+          // INITIALIZE_CHECKOUT will set the pair on state.
+          // 🚨 SPECIAL TS-IGNORE
+          // @ts-ignore
+          A.setStep({
+            step: 'ENTER_AMOUNT',
+            cryptoCurrency,
+            fiatCurrency
+          })
+        )
+      } else {
+        yield put(
+          A.setStep({ step: 'CRYPTO_SELECTION', cryptoCurrency, fiatCurrency })
+        )
+      }
     }
   }
 
