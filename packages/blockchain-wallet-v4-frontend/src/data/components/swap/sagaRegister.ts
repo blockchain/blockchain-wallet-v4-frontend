@@ -1,6 +1,10 @@
+import { cancel, fork, take, takeLatest } from 'redux-saga/effects'
+import { Task } from 'redux-saga'
+
 import * as AT from './actionTypes'
-import { takeLatest } from 'redux-saga/effects'
 import sagas from './sagas'
+
+let pollTask: Task
 
 export default ({ api }) => {
   const swapSagas = sagas({ api })
@@ -8,7 +12,13 @@ export default ({ api }) => {
   return function * swapSaga () {
     yield takeLatest(AT.CHANGE_PAIR, swapSagas.changePair)
     yield takeLatest(AT.CREATE_ORDER, swapSagas.createOrder)
-    yield takeLatest(AT.FETCH_QUOTE, swapSagas.fetchQuote)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
+
+    while (yield take(AT.START_POLL_QUOTE)) {
+      if (pollTask && pollTask.isRunning) yield cancel(pollTask)
+      pollTask = yield fork(swapSagas.fetchQuote)
+      yield take(AT.STOP_POLL_QUOTE)
+      yield cancel(pollTask)
+    }
   }
 }

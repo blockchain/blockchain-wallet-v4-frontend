@@ -60,3 +60,11 @@ export const showModal = (
     counterCurrency
   }
 })
+
+export const startPollQuote = () => ({
+  type: AT.START_POLL_QUOTE
+})
+
+export const stopPollQuote = () => ({
+  type: AT.STOP_POLL_QUOTE
+})

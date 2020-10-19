@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import * as A from './actions'
 import * as S from './selectors'
@@ -61,32 +61,37 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchQuote = function * () {
     try {
-      yield put(A.fetchQuoteLoading())
-      const initSwapFormValues = selectors.form.getFormValues('initSwap')(
-        yield select()
-      ) as InitSwapFormValuesType
-      if (
-        !initSwapFormValues ||
-        !initSwapFormValues.BASE ||
-        !initSwapFormValues.COUNTER
-      ) {
-        return yield put(A.setStep({ step: 'INIT_SWAP' }))
+      while (true) {
+        yield put(A.fetchQuoteLoading())
+        const initSwapFormValues = selectors.form.getFormValues('initSwap')(
+          yield select()
+        ) as InitSwapFormValuesType
+        if (
+          !initSwapFormValues ||
+          !initSwapFormValues.BASE ||
+          !initSwapFormValues.COUNTER
+        ) {
+          return yield put(A.setStep({ step: 'INIT_SWAP' }))
+        }
+
+        const { BASE, COUNTER } = initSwapFormValues
+
+        const pair = getPair(BASE, COUNTER)
+        const direction = getDirection(BASE, COUNTER)
+        const quote: ReturnType<typeof api.getSwapQuote> = yield call(
+          api.getSwapQuote,
+          pair,
+          direction
+        )
+        const rate = getRate(quote.quote.priceTiers, new BigNumber(1))
+        yield put(A.fetchQuoteSuccess(quote, rate))
+        yield delay(60_000 * 2)
       }
-
-      const { BASE, COUNTER } = initSwapFormValues
-
-      const pair = getPair(BASE, COUNTER)
-      const direction = getDirection(BASE, COUNTER)
-      const quote: ReturnType<typeof api.getSwapQuote> = yield call(
-        api.getSwapQuote,
-        pair,
-        direction
-      )
-      const rate = getRate(quote.quote.priceTiers, new BigNumber(1))
-      yield put(A.fetchQuoteSuccess(quote, rate))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchQuoteFailure(error))
+      yield put(A.startPollQuote())
+    } finally {
     }
   }
 
