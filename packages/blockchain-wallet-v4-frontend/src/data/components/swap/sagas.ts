@@ -10,6 +10,8 @@ import { getDirection, getPair, getRate } from './utils'
 import { InitSwapFormValuesType, SwapAmountFormValues } from './types'
 import BigNumber from 'bignumber.js'
 
+const DELAY = 2_000 * 2
+
 export default ({ api }: { api: APIType }) => {
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
     yield put(actions.form.change('initSwap', payload.side, payload.account))
@@ -60,8 +62,8 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchQuote = function * () {
-    try {
-      while (true) {
+    while (true) {
+      try {
         yield put(A.fetchQuoteLoading())
         const initSwapFormValues = selectors.form.getFormValues('initSwap')(
           yield select()
@@ -85,13 +87,14 @@ export default ({ api }: { api: APIType }) => {
         )
         const rate = getRate(quote.quote.priceTiers, new BigNumber(1))
         yield put(A.fetchQuoteSuccess(quote, rate))
-        yield delay(60_000 * 2)
+        yield delay(DELAY)
+      } catch (e) {
+        const error = errorHandler(e)
+        yield put(A.fetchQuoteFailure(error))
+        yield delay(DELAY)
+        yield put(A.startPollQuote())
+      } finally {
       }
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchQuoteFailure(error))
-      yield put(A.startPollQuote())
-    } finally {
     }
   }
 

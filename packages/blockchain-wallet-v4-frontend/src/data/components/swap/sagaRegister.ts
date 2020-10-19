@@ -14,11 +14,11 @@ export default ({ api }) => {
     yield takeLatest(AT.CREATE_ORDER, swapSagas.createOrder)
     yield takeLatest(AT.SHOW_MODAL, swapSagas.showModal)
 
-    while (yield take(AT.START_POLL_QUOTE)) {
+    yield takeLatest(AT.START_POLL_QUOTE, function * () {
       if (pollTask && pollTask.isRunning) yield cancel(pollTask)
       pollTask = yield fork(swapSagas.fetchQuote)
       yield take(AT.STOP_POLL_QUOTE)
       yield cancel(pollTask)
-    }
+    })
   }
 }

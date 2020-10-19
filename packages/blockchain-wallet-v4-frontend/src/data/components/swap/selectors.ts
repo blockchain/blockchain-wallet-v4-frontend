@@ -20,15 +20,31 @@ import {
 } from 'core/types'
 import { coreSelectors, Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { getRate } from './utils'
 import { selectors } from 'data'
 import { SwapAccountType } from '../exchange/types'
-import { SwapCoinType } from './types'
+import { SwapAmountFormValues, SwapCoinType } from './types'
+import BigNumber from 'bignumber.js'
 
 export const getSide = (state: RootState) => state.components.swap.side
 
 export const getStep = (state: RootState) => state.components.swap.step
 
 export const getQuote = (state: RootState) => state.components.swap.quote
+
+export const getIncomingAmount = (state: RootState) => {
+  const quoteR = getQuote(state)
+  const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
+    state
+  ) as SwapAmountFormValues
+  const amount = swapAmountFormValues?.amount || 1
+
+  return lift(({ quote }: ExtractSuccess<typeof quoteR>) => {
+    return new BigNumber(getRate(quote.quote.priceTiers, new BigNumber(amount)))
+      .times(amount)
+      .toNumber()
+  })(quoteR)
+}
 
 const getCustodyBalance = curry((coin: CoinType, state) => {
   return selectors.components.simpleBuy.getSBBalances(state).map(x => x[coin])

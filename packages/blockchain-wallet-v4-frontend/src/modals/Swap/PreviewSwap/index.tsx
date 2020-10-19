@@ -6,7 +6,14 @@ import React, { PureComponent } from 'react'
 
 import { actions, selectors } from 'data'
 import { Props as BaseProps } from '..'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
+import { coinToString } from 'core/exchange/currency'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -43,7 +50,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               color='grey600'
               onClick={() =>
                 this.props.swapActions.setStep({
-                  step: 'INIT_SWAP'
+                  step: 'ENTER_AMOUNT'
                 })
               }
             />{' '}
@@ -65,7 +72,29 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <FormattedMessage id='copy.swap' defaultMessage='Swap' />
           </Title>
           <Value>
-            {this.props.swapAmountFormValues?.amount} {BASE.coin}
+            {coinToString({
+              value: this.props.swapAmountFormValues?.amount,
+              unit: { symbol: BASE.coin }
+            })}
+          </Value>
+        </Row>
+        <Row>
+          <Title>
+            <FormattedMessage id='buttons.receive' defaultMessage='Receive' />
+          </Title>
+          <Value>
+            {this.props.incomingAmountR.cata({
+              Success: value => (
+                <>{coinToString({ value, unit: { symbol: COUNTER.coin } })}</>
+              ),
+              Failure: e => e,
+              Loading: () => (
+                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
+              ),
+              NotAsked: () => (
+                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
+              )
+            })}
           </Value>
         </Row>
         <Row>
@@ -146,7 +175,8 @@ const mapStateToProps = (state: RootState) => ({
   ) as InitSwapFormValuesType,
   swapAmountFormValues: selectors.form.getFormValues('swapAmount')(
     state
-  ) as SwapAmountFormValues
+  ) as SwapAmountFormValues,
+  incomingAmountR: selectors.components.swap.getIncomingAmount(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -66,10 +66,10 @@ export const interpolatePrice = (
   amount: BigNumber
 ): number | string => {
   try {
-    if (thisPrice.isGreaterThan(nextPrice)) throw new Error('Should be sorted')
-    if (thisVol.isGreaterThan(nextVol)) throw new Error('Should be sorted')
-    if (amount.isLessThan(thisVol) && amount.isGreaterThan(nextVol))
-      throw new Error('Amount should be between x[0] and x[1]')
+    // if (thisPrice.isGreaterThan(nextPrice)) throw new Error('Should be sorted')
+    // if (thisVol.isGreaterThan(nextVol)) throw new Error('Should be sorted')
+    // if (amount.isLessThan(thisVol) && amount.isGreaterThan(nextVol))
+    //   throw new Error('Amount should be between x[0] and x[1]')
 
     return amount
       .minus(thisVol)

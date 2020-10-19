@@ -35,17 +35,9 @@ describe('interpolatePrice', () => {
       new BigNumber(10),
       new BigNumber(50)
     )
-    const qtyLess = interpolatePrice(
-      new BigNumber(50),
-      new BigNumber(5),
-      new BigNumber(45),
-      new BigNumber(100),
-      new BigNumber(25)
-    )
     expect(simpleTest).toEqual(7.5)
     expect(sameQty1).toEqual(5)
     expect(sameQty2).toEqual(10)
     expect(noQty1).toEqual(5)
-    expect(qtyLess).toEqual('Should be sorted')
   })
 })
