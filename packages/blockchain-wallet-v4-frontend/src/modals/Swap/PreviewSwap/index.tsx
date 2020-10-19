@@ -10,10 +10,11 @@ import {
   Button,
   HeartbeatLoader,
   Icon,
-  SpinningLoader,
+  SkeletonRectangle,
   Text
 } from 'blockchain-info-components'
 import { coinToString } from 'core/exchange/currency'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { FormattedMessage } from 'react-intl'
@@ -88,12 +89,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 <>{coinToString({ value, unit: { symbol: COUNTER.coin } })}</>
               ),
               Failure: e => e,
-              Loading: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
-              ),
-              NotAsked: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
-              )
+              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
             })}
           </Value>
         </Row>
@@ -117,7 +114,9 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               values={{ coin: BASE.coin }}
             />
           </Title>
-          <Value>Outgoing fee</Value>
+          <Value>
+            {BASE.type === 'CUSTODIAL' ? <>0 {BASE.coin}</> : <>Outgoing fee</>}
+          </Value>
         </Row>
         <Row>
           <Title>
@@ -127,7 +126,24 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
               values={{ coin: COUNTER.coin }}
             />
           </Title>
-          <Value>Incoming fee</Value>
+          <Value>
+            {this.props.quoteR.cata({
+              Success: value => (
+                <>
+                  {coinToString({
+                    value: convertBaseToStandard(
+                      COUNTER.coin,
+                      value.quote.networkFee
+                    ),
+                    unit: { symbol: COUNTER.coin }
+                  })}
+                </>
+              ),
+              Failure: e => e,
+              Loading: () => <SkeletonRectangle height='18px' width='70px' />,
+              NotAsked: () => <SkeletonRectangle height='18px' width='70px' />
+            })}
+          </Value>
         </Row>
         <FlyoutWrapper>
           <Form onSubmit={this.handleSubmit}>
@@ -149,6 +165,30 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 />
               )}
             </Button>
+            <Button
+              nature='light-red'
+              data-e2e='swapCancelBtn'
+              type='button'
+              disabled={this.props.submitting}
+              fullwidth
+              style={{ marginTop: '16px' }}
+              onClick={() =>
+                this.props.swapActions.setStep({ step: 'ENTER_AMOUNT' })
+              }
+            >
+              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
+            </Button>
+            <Text
+              size='12px'
+              weight={500}
+              color='grey600'
+              style={{ textAlign: 'center', marginTop: '16px' }}
+            >
+              <FormattedMessage
+                id='copy.swap_amount_change_disclaimer'
+                defaultMessage='The amount you receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
+              />
+            </Text>
             {this.props.error && (
               <ErrorCartridge
                 style={{ marginTop: '16px' }}
@@ -176,7 +216,8 @@ const mapStateToProps = (state: RootState) => ({
   swapAmountFormValues: selectors.form.getFormValues('swapAmount')(
     state
   ) as SwapAmountFormValues,
-  incomingAmountR: selectors.components.swap.getIncomingAmount(state)
+  incomingAmountR: selectors.components.swap.getIncomingAmount(state),
+  quoteR: selectors.components.swap.getQuote(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

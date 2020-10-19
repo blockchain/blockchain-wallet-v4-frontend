@@ -328,6 +328,7 @@ type MessagesType = {
   'copy.refunded': 'Refunded'
   'copy.select_swap_wallets': 'Select the Wallet you want to Swap from and the crypto you want to receive.'
   'copy.swap': 'Swap'
+  'copy.swap_amount_change_disclaimer': 'The amount you receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
   'copy.to': 'To'
   'copy.to:': 'To: '
   'copy.transaction_fee': 'Transaction Fee'

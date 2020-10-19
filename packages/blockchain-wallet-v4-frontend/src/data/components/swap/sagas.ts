@@ -10,7 +10,7 @@ import { getDirection, getPair, getRate } from './utils'
 import { InitSwapFormValuesType, SwapAmountFormValues } from './types'
 import BigNumber from 'bignumber.js'
 
-const DELAY = 2_000 * 2
+const DELAY = 60_000 * 2
 
 export default ({ api }: { api: APIType }) => {
   const changePair = function * ({ payload }: ReturnType<typeof A.changePair>) {
